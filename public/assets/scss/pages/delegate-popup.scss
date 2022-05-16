@@ -1,0 +1,204 @@
+.shib-popup{
+    .modal-content{
+        max-width: 685px;
+        margin: 0 auto;
+        border-radius: 18px;
+        -webkit-border-radius: 18px;
+        -o-border-radius: 18px;
+        -ms-border-radius: 18px;
+        -moz-border-radius: 18px;
+        background: $darkbg;
+        border: none;
+    }
+    .modal-header{
+        background: $black;
+        border-radius: 18px 18px 0 0;
+        -webkit-border-radius: 18px 18px 0 0;
+        -o-border-radius: 18px 18px 0 0;
+        -ms-border-radius: 18px 18px 0 0;
+        -moz-border-radius: 18px 18px 0 0;
+        display: inline-block;
+        width: 100%;
+        position: relative;
+        padding: 25px 15px;
+        color:$white;
+        border: 0;
+        @media #{$max-lg} {
+            font-size: 24px;
+            padding: 20px 15px;
+        }
+        @media #{$max-xsm} {
+            padding: 15px;
+            font-size: 20px;
+        }
+        h4{             
+            font-size: 32px;
+            @media #{$max-xxl} {
+                font-size: 30px;
+            }
+            @media #{$max-xl} {
+                font-size: 28px;
+            }
+            @media #{$max-lg} {
+                font-size: 24px;
+
+            }
+        }
+        .btn-close{
+            position: absolute;
+            right: 40px;
+            left: auto;
+            top: 35px;
+            bottom: auto;
+            font-weight: 700;
+            background-image:url('../../images/close.png') !important;
+            background-repeat: no-repeat;
+            opacity: 1;
+            background-size: 21px 22px;
+            @media #{$max-lg} {
+                top: 28px;
+            }
+            @media #{$max-xsm} {
+                top:21px;
+            }
+            
+        }
+    }
+    .modal-body{
+       padding: 49px 60px;
+        @media #{$max-lg} {
+            padding: 34px 40px;
+        }
+        @media #{$max-xsm} {
+            padding: 34px 30px;
+        }
+        
+    }
+}
+.step-blk{
+    background: $white;
+    color: $primary_color;
+    border:1px solid $primary_color;
+    width: 38px;
+    height: 38px;
+    text-align: center;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -o-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -moz-border-radius: 50%;
+    vertical-align: middle;
+    line-height: 43px;
+    display: inline-block;
+    @media #{$max-xsm} {
+        width: 34px;
+        height: 34px;
+        line-height: 36px;
+    }
+}
+.steps{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-bottom: 85px;
+    @media #{$max-lg} {
+        padding-bottom: 75px;
+    }
+   li{
+        font-size: 20px;  
+        @media #{$max-lg} {
+            font-size: 16px;
+        }
+        @media #{$max-xsm} {
+            font-size: 16px;
+        }
+    }
+}
+.step-line{
+    background: $greycolor8;
+    width: 100%;
+    height: 2px;
+    background: #c2c2c2;
+    flex: 1;
+}
+.step{
+    position: relative;
+    z-index: 1;
+    p{
+        position: absolute;
+        top: 55px;
+        transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        left: 50%;
+        bottom: auto;
+        @media #{$max-xsm} {
+            top:45px;
+            font-size: 13px;
+        }
+    }
+}
+.step-line.step-active{
+    background:$primary_color;
+}
+.step-blk.step-active{
+    background: $primary_color;
+    color:$white;
+}
+.info-box{
+    border: 1px solid $primary_color;
+    padding: 20px;
+    border-radius: 3px;
+    background: $primary-50;
+    @media #{$max-xsm} {
+        padding: 10px;
+    }
+}
+.shib-popup{
+    .user-icon{
+        width: 80px;
+        height: 80px;
+        line-height: 118px;
+        @media #{$max-xsm} {
+            width: 50px;
+            height: 50px;
+            line-height: 70px;
+        }
+        &::before{
+            width: 44px;
+            height: 44px;
+            @media #{$max-xsm} {
+                width: 24px;
+            height: 24px;
+            }
+        }
+    }
+}
+.field-modify{
+    .swap-col{
+        border: none;
+        position: initial;
+        max-width: initial;
+        input::placeholder{
+            color:$dark-color;
+        }
+    }
+    .swap-flex{
+        display: inline-block;
+        width: 100%;
+    }
+    .swap-input{
+        padding-right: 52px;
+    }
+}
+.helper-txt{
+    color:$white;
+}
+.swap-flex .swap-input{
+    input::placeholder{
+        color:$white;
+    }
+}

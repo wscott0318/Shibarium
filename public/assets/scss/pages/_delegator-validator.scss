@@ -1,0 +1,104 @@
+.shiba-features {
+    padding-top: 80px;
+    @media #{$max-xl}{
+        padding-top: 70px;
+    }
+    @media #{$max-lg}{
+        padding-top: 50px;
+    }
+    @media #{$max-md}{
+        padding-top:40px;
+    }
+    .shiba-list {
+        .shiba-list-item{
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 25px;
+            &:last-child{
+                margin-bottom: 0;
+            }
+            &::before{
+                content:'\2713';
+                position: absolute;
+                top: 2px;
+                left: 0;
+                color:$primary;
+                font-size: 16px;
+                font-weight: 600;
+            }
+        }
+    }
+    .floating-img {
+        position: absolute;
+        top: 10%;
+        left: 0;
+        max-width: 200px;
+        @media #{$max-xxxl}{
+            top: 20%;
+            max-width: 125px;
+        }
+        @media #{$max-lg}{
+            z-index: -1;
+            top: 40%;
+        }
+    }
+}
+
+.path-section {
+    position: relative;
+    padding-top: 250px;
+    padding-bottom: 190px;
+    overflow: hidden;
+    @media #{$max-lg}{
+        padding-top: 160px;
+        padding-bottom: 150px;
+    }
+    @media #{$max-md}{
+        padding-top: 75px;
+        padding-bottom: 75px;
+    }
+    @media #{$max-sm}{
+        padding-top: 55px;
+        padding-bottom: 55px;
+    }
+    .float-bottom-right {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        transform: rotate(-5deg);
+        max-width: 400px;
+        z-index: -1;
+        @media #{$max-xxxl}{
+            max-width: 250px;   
+        }
+        @media #{$max-lg}{
+            max-width: 200px;
+        }
+        @media #{$max-md}{
+            max-width: 117px;
+        }
+        @media #{$max-xsm}{
+            max-width: 75px;
+        }
+    }
+    .float-bottom-left {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        max-width: 330px;
+        z-index: -1;
+        @media #{$max-xxxl}{
+            max-width: 250px;   
+        }
+        @media #{$max-lg}{
+            max-width: 200px;
+        }
+        @media #{$max-md}{
+            max-width: 117px;
+        }
+        @media #{$max-xsm}{
+            max-width: 75px;
+        }
+    }
+    
+}

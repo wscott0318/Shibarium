@@ -1,0 +1,29 @@
+.bs-card{
+    background-color:$black;
+    height: 100%;
+    padding: 20px;
+    border: 0;
+    @media #{$max-md}{
+        min-height: 120px;
+    }
+}
+
+.baner-card {
+    border-radius: 8px;
+    box-shadow: 2.5px 4.3px 27px 0 rgba(0, 0, 0, 0.21);
+    background-color:$darkbg;
+    padding: 30px 30px 5px;
+    margin-top: -70px;
+    position: relative;
+}
+.card-hr {
+    max-width: 95px;
+    height: 2px;
+    background-color: #2e2d2d;
+    display: inline-block;
+    margin:4px 0 5px;
+}
+
+.bs-col {
+    margin-bottom: 25px;
+}

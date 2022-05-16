@@ -1,0 +1,61 @@
+.validator-steps{
+    .steps{
+        flex-direction: column;
+        padding-bottom: 0;
+        .step{
+            margin-bottom: 25px;
+        }
+        .step{
+            p{
+                top: 10px;
+                left: -70px;
+            }
+        }
+    }
+}
+.file-icons {
+    width: 40px;
+    height: 40px;
+    background: #fea500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    margin-right: 28px;
+}
+.file-wrap {
+    display: flex;
+    align-items: center;
+    .file-icons {
+        width: 40px;
+        height: 40px;
+        background: #fea500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 100%;
+        margin-right: 28px;
+    }
+    .file-input {
+        width: 160px;
+        position: relative;
+        cursor: pointer;
+        max-width: 100%;
+        text-align: center;
+    }
+    .input-file {
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+        z-index: 99;
+    }
+}
+.form-grid {
+    margin-bottom: 30px;
+}

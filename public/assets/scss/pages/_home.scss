@@ -1,0 +1,210 @@
+.ftrs-col{
+    @media #{$mob}{
+        width: 50%;
+    }
+}
+
+.ftrs-icon {
+    max-width: 90px;
+    margin-bottom: 16px;
+    background-image:$dark-gradient;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 5.9px 5.5px 0 0 rgba($black, 0.87);
+    @media #{$max-xxl}{
+        max-width: 70px;
+    }
+    @media #{$max-lg}{
+        max-width: 50px;
+        margin-bottom: 10px;
+    }
+    @media #{$max-lg}{
+        max-width: 60px;
+        margin-bottom: 8px;
+    }
+}
+
+.chain-section{
+    position: relative;
+    padding-top: 80px;
+    padding-bottom: 100px;
+    overflow: hidden;
+    position:relative;
+    @media #{$max-xxxl}{
+        padding-top: 40px;
+    }
+    @media #{$max-md}{
+        padding-top: 60px;
+        padding-bottom: 20px;
+    }
+    @media #{$max-sm}{
+        padding-top: 40px;
+        padding-bottom: 0;
+    }
+    &::before{       
+            content: "";
+            position: absolute;
+            left: -40px;
+            right: 0;
+            top: auto;
+            bottom: -90px;
+            background-repeat: no-repeat;
+            background-position: left bottom;
+            width: 400px;
+            background-size: 90%;
+            height: 500px;
+            background-image: url('../../images/bone2.png');
+        
+        // @media #{$max-xxxl}{
+        //     background-size: 100% 100%;
+        //     background-position: top center;
+        // }
+        // @media #{$min-lg}{
+        //     background-image: url('../../images/chain-bg.png');
+        //     background-size: 100%;
+        //     background-position: bottom;
+        // }
+        // @media #{$max-lg}{
+        //     background-image: url('../../images/chain-bg-sm.jpg');
+        // }
+    }
+    &::after{       
+        content: "";
+        position: absolute;
+        left:auto;
+        right: 0;
+        top: auto;
+        bottom: 0px;
+        background-repeat: no-repeat;
+        background-position: right bottom;
+        width:330px;
+        background-size: 90%;
+        height: 650px;
+        background-image: url('../../images/get-started-bone-bg.png');
+        background-size:100%;
+}
+    .shib-img {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        max-width: 400px;
+        @media #{$min-exl}{
+            max-width: 470px;
+        }
+        @media #{$max-xl}{
+            max-width: 300px;
+        }
+        @media #{$max-lg}{
+            display: none;
+        }
+    }
+    .chain-row{
+        padding-top: 100px;
+        margin-left: -20px;
+        margin-right: -20px;
+        @media #{$min-exl}{
+            padding-top: 220px;
+        }
+        @media #{$max-xl}{
+            padding-top: 90px;
+            margin-left: -10px;
+            margin-right: -10px;
+        }
+        @media #{$max-xl}{
+            padding-top: 60px;
+        }
+        @media #{$max-md}{
+            padding-top: 40px;
+        }
+        @media #{$max-sm}{
+            padding-top: 30px;
+        }
+
+        .chain-col{
+            margin-bottom: 40px;
+            padding-left: 20px;
+            padding-right: 20px;
+            cursor: pointer;
+            @media #{$max-xl}{
+                margin-bottom: 20px;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        }
+    }
+
+    .chain-item {
+        display: flex;
+        align-items: center;
+        padding: 15px 10px;
+        @media #{$max-md}{
+            padding: 10px;
+        }
+
+        .chain-img {
+            max-width: 170px;
+            @media #{$max-xl}{
+                max-width: 115px;
+            }
+            @media #{$max-md}{
+                max-width: 100px;
+            }
+            @media #{$max-xsm}{
+                max-width: 70px;
+            }
+        }
+    }
+}
+
+
+.cus-card {
+    background: $black2;
+    height: 100%;
+    border-radius: 35px;
+    box-shadow: 5.9px 5.5px 0 0 rgba($black, 0.87);
+    @media #{$max-xl}{
+        border-radius: 30px;
+    }
+    @media #{$max-lg}{
+        border-radius: 22px;
+    }
+    @media #{$max-md}{
+        border-radius: 15px;
+    }
+}
+
+.banner-section{
+    position:relative;
+}
+.banner-section{
+    // &::after{
+    //     content: "";
+    //     position: absolute;
+    //     right: 20%;
+    //     left: auto;
+    //     top: 0;
+    //     width: 180px;
+    //     height: 110px;
+    //     background-image: url('../../images/bone1.png');
+    //     background-repeat: no-repeat;
+    // }
+}
+.features-section{
+    position: relative;
+    &::before{
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 260px;
+        height: 450px;
+        background-image: url('../../images/features-sec-bg.png');
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-position: left bottom;
+    }
+}
+.ftrs-row{
+    position: relative;
+    z-index: 999;
+}

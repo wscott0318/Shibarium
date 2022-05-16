@@ -1,0 +1,24 @@
+
+.widget{
+    .bottom-header{
+     display: none;   
+    }
+}
+.wiget-field{
+    span{
+        color:$primary_color;
+        padding-right: 25px;
+    }
+    .arrow.down{
+        right: 8px;
+        top: 6px;
+    }
+    .arrow{
+        border-color:$dark-color;
+    }
+}
+.bridge-sec{
+    .swap-col{
+        cursor: pointer;
+    }
+}

@@ -1,0 +1,310 @@
+
+@import './cus-var';
+
+@import url('https://fonts.googleapis.com/css2?family=Khula:wght@300;400;600;700;800&display=swap');
+
+/*-- Common Style --*/
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  
+html, body {
+    height: 100%;
+    width: 100%;
+}
+body{
+    font-size: 18px;
+    font-family: 'Khula', sans-serif;
+    color: $white;
+    overflow: hidden;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+    min-height: 100%;
+    background-color:$black;
+    @media #{$max-xxl}{
+        font-size: 16px;
+    }
+    @media #{$max-md}{
+        font-size: 14px;
+    }
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+    margin-bottom: 0;
+    font-family: 'Khula', sans-serif;
+    line-height: 1.2;
+}
+h1 {
+    font-size: 48px;
+    font-weight: 700;
+    @media #{$max-xxxl}{
+        font-size: 44px;
+    }
+    @media #{$max-xxl}{
+        font-size: 40px;
+    }
+    @media #{$max-xxl}{
+        font-size: 36px;
+    }
+    @media #{$max-md}{
+        font-size: 34px;
+    }
+    @media #{$max-sm}{
+        font-size: 32px;
+    }
+    @media #{$max-xsm}{
+        font-size: 30px;
+    }
+}
+h2 {
+    font-size: 42px;
+    font-size: 48px;
+    font-weight: 700;
+    @media #{$max-xxxl}{
+        font-size: 38px;
+    }
+    @media #{$max-xxl}{
+        font-size: 34px;
+    }
+    @media #{$max-xl}{
+        font-size: 32px;
+    }
+    @media #{$max-lg}{
+        font-size: 28px;
+    }
+    @media #{$max-md}{
+        font-size: 24px;
+    }
+    @media #{$max-xsm}{
+        font-size: 20px;
+    }
+}
+h3 {
+    font-size: 32px;
+    @media #{$max-xxxl}{
+        font-size: 28px;
+    }
+    @media #{$max-xxl}{
+        font-size: 24px;
+    }
+    @media #{$max-xl}{
+        font-size: 22px;
+    }
+    @media #{$max-lg}{
+        font-size: 18px;
+    }
+    @media #{$max-sm}{
+        font-size: 16px;
+    }
+    @media #{$max-sm}{
+        font-size: 16px;
+    }
+}
+
+h4 {
+    font-size: 28px;
+    @media #{$max-xxxl}{
+        font-size: 24px;
+    }
+    @media #{$max-xxl}{
+        font-size: 22px;
+    }
+    @media #{$max-lg}{
+        font-size: 20px;
+    }
+    @media #{$max-md}{
+        font-size: 18px;
+    }
+    @media #{$max-xsm}{
+        font-size: 16px;
+    }
+}
+h5 {
+    font-size: 24px;
+    @media #{$max-xxl}{
+        font-size: 22px;
+    }
+    @media #{$max-lg}{
+        font-size: 20px;
+    }
+    @media #{$max-md}{
+        font-size: 18px;
+    }
+    @media #{$max-xsm}{
+        font-size: 16px;
+    }
+}
+h6 {
+    font-size: 18px;
+    @media #{$max-xxl}{
+        font-size: 16px;
+    }
+    @media #{$max-lg}{
+        font-size: 14px;
+    }
+    @media #{$max-xsm}{
+        font-size: 12px;
+    }
+}
+p{
+    font-family: 'Khula', sans-serif;
+    color:rgba(14, 14, 14, 0.89);
+    color:rgba($white, 0.89);
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+a, button {
+    color: inherit;
+    line-height: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+a, button, img, input, span {
+    transition: all 0.3s ease 0s;
+}
+a,span{
+    display:inline-block;
+}
+*:focus {
+    outline: none !important;
+}
+a:focus {
+    color: inherit;
+    outline: none;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: none;
+}
+button, input[type="submit"] {
+    cursor: pointer;
+}
+
+ul {
+    list-style: outside none none;
+    margin: 0;
+    padding: 0;
+}
+::placeholder{
+    font-weight: 600;
+    color:$white;
+}
+
+// color styled closed
+
+
+// reset closed
+.fw-500{
+    font-weight: 500;
+}
+.fw-600{
+    font-weight: 600;
+}
+.fw-700{
+    font-weight: 700;
+}
+.fw-800{
+    font-weight: 800;
+}
+.fwb{
+    font-weight: bold;
+}
+.btn{
+    padding: 12px 20px;
+    border:0;
+    border-radius: 30px;
+    font-weight: 800;
+    font-size: 14px;
+    @media #{$max-lg}{
+        padding: 10px 12px;
+        font-weight: 600;
+        border-radius: 15px;
+    }
+    @media #{$max-sm}{
+        padding: 6px 10px;
+    }
+    span{
+        transform: translate(0px, 3px);
+    }
+}
+.btn-gradient{
+    background-color: $primary-gradient;
+}
+
+.light-btn {
+    box-shadow:1px 2px 1px 1px #e1e0e0;
+    background-color: #fff;
+}
+.gradient_btn{
+    background: $primary_grdnt_btn;
+    color:#fff;
+}
+.white-btn {
+    border: solid 1px #c4c2c2;
+    background-color: #fff;
+}
+.primary-badge {
+    background: #F06701;
+    color: #fff;
+}
+.label-btn {
+    padding: 0px 8px;
+    border-radius: 30px;
+}
+
+.badge-md{
+    padding: 0px 10px;
+    border-radius: 60px;
+    font-size: 14px;
+}
+
+// btn style end
+.swap-control {
+    position: relative;
+    background-color:$black;
+    border-radius: 30px;
+    padding: 12px 15px;
+}
+.form-label {
+    font-size: 18px;
+    color:$white;
+    font-weight: 600;
+}
+
+.form-control {
+    background: #f7f7f7;
+    border: 0;
+    border-radius: 30px;
+    padding: 10px 16px;
+}
+
+// form item style end
+.container{
+    @media #{$min-exl}{
+        max-width: 1660px;
+    }
+}
+
+// Dark theme page css
+
+.darkBg{
+    background-color: $darkbg;
+}
+.card{
+    background-color: $black;
+    padding: 25px;
+    border-radius: 10px;
+    @media #{$max-xxxl}{
+        padding: 15px;
+    }
+}

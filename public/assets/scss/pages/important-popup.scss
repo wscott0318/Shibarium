@@ -1,0 +1,32 @@
+.notify-poup{
+    .form-check-input:checked{
+        background-color: $green-color2;
+        border-color: $green-color2;
+    }
+    .form-check-input{
+        background-color: $green-color2;
+        border: 1px solid $green-color2;
+    }
+}
+.lft-strip {
+    border-left: 5px solid $primary;
+}
+.text-hd {
+    padding-left: 10px;
+}
+.block-wrap {
+    margin-bottom: 45px;
+    @media #{$max-md} {
+        margin-bottom: 25px;
+    } 
+}
+.btn-box {
+    width: 50%;
+}
+.mob-btns{
+    .btn-box{
+        @media #{$max-xsm} {
+            width: 100%;
+        }
+    }
+}

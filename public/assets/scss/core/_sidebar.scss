@@ -1,0 +1,169 @@
+.main-content {
+    width: calc(100% - 290px);
+    margin-left: auto;
+    margin-top: 85px;
+    padding: 30px 30px 30px;
+    @media #{$max-xl}{
+        width: 100%;
+        padding: 15px;
+    }
+}
+.sidebar{
+    background-color:$darkbg;
+    width: 290px;
+    min-height: 100vh;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: auto;
+    @media #{$max-xl}{
+        width: 230px;
+        margin-left: -230px;
+        display: none;
+    }
+    .close-icon {
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        width: 16px;
+        height: 16px;
+    }
+    
+    &.active{
+        margin-left: 0;
+        display: block;
+    }
+    .side-logo {
+        padding: 14px 10px 30px;
+        padding-left: 0;
+        margin-left: 30px;
+        max-width: 160px;
+    }
+    .nav-menu {
+        .nav-item{
+            margin-left: 15px;
+            position: relative;
+            @media #{$max-xxl}{
+                margin-left: 12px;
+            }
+            @media #{$max-xl}{
+                margin-left: 6px;
+            }
+            .active-shape {
+                position: absolute;
+                top: -104px;
+                right: -37px;
+                display: none;
+            }
+            &.active{
+                .nav-link{
+                    color:$primary;
+                    background-color:$black;
+                    border-top-left-radius: 30px;
+                    border-bottom-left-radius: 30px;
+                    position: relative;
+                    .dark-ico {
+                        display: inline-block;
+                    }
+                    .light-ico {
+                        display:none;
+                    }
+                    &::before{
+                        content: '';
+                        position: absolute;
+                        transform: rotate(90deg) scale(1.04);
+                        background-size: 100%;
+                        background-image: url('../../images/curve-shape.svg');
+                        top: 0px;
+                        right: 0px;
+                        width: 55px;
+                        height: 44px;
+                        margin-top: -50px;
+                        background-size: 100%;
+                        margin-right: -6px;
+                        @media #{$max-xl}{
+                            width: 30px;
+                            height: 30px;
+                            margin-top: -30px;
+                            background-size: 100%;
+                            margin-right: 0px;
+                        }
+                    }
+                    &::after{
+                        content: '';
+                        position: absolute;
+                        transform: scale(1.04);
+                        background-size: 100%;
+                        background-image: url('../../images/curve-shape.svg');
+                        top: 0px;
+                        right: 0px;
+                        width: 55px;
+                        height: 44px;
+                        margin-top: 56px;
+                        background-size: 100%;
+                        margin-right: 0px;
+                        @media #{$max-xl}{
+                            width: 30px;
+                            height: 30px;
+                            margin-top: 45px;
+                        }
+                    }
+                }
+                .active-shape {
+                    display:none;
+                }
+            }
+        }       
+        .nav-link {
+            padding:12px 10px;
+            font-size: 18px;
+            letter-spacing: 0.72px;
+            color: #fff;
+            padding-left: 12px;
+            position: relative;           
+            @media #{$max-xxl}{
+                font-size: 16px;
+            }
+            @media #{$max-xl}{
+                font-size: 14px;
+                padding: 10px 8px;
+            }
+            .nav-icon {
+                transform: translateY(-3px);
+                margin-right: 16px;
+                @media #{$max-xl}{
+                    margin-right: 6px;
+                    max-width: 25px;
+                    margin-right: 6px;
+                }
+            }
+            .dark-ico {
+                display: none;
+            }
+        }
+    }
+}
+
+
+.nav-menu{
+    &.side-bg {
+        background-color: #16378a;
+        width: calc(100% - 54px);
+        margin: 0 auto;
+        border-radius: 8px;
+        .nav-item{
+            margin-left: 0;
+            .nav-link{
+                padding: 6px 12px;
+                .nav-icon {
+                    transform: translateY(0);
+                }
+            }
+        }
+        
+    }
+}
