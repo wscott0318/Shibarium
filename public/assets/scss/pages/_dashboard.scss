@@ -29,8 +29,13 @@
     overflow: hidden;
     @media #{$max-lg}{
         border-top-left-radius: 0;
-        border-bottom-right-radius:00px;
-        border-bottom-left-radius:00px;
+        border-bottom-right-radius:15px;
+        border-bottom-left-radius:15px;
+        padding: 15px;
+    }
+    @media #{$max-sm}{
+        width: calc(100% - 15px);
+        margin: 0 auto;
     }
     .shape-top-right {
         position: absolute;
@@ -44,8 +49,13 @@
     border-top-right-radius:30px;
     border-bottom-right-radius: 30px;
     @media #{$max-lg}{
-        border-top-left-radius: 00px;
+        border-top-left-radius: 15px;
         border-bottom-right-radius:0;
+    }
+    @media #{$max-sm}{
+        width: calc(100% - 15px);
+        margin: 0 auto;
+        
     }
 }
 .p-30{
@@ -80,6 +90,22 @@
         position: relative;
         padding: 12px 15px;
         border-left: 1px solid #201f23;
+        &.full-col{
+            max-width: 100%;
+            flex: 0 0 100%;
+            border-left: 0;
+            .swap-input {
+                padding-right: 60px;
+            }
+            .over-text {
+                top: 10px;
+                background-color:$primary;
+                color: $white;
+                padding: 4px 10px;
+                border-radius: 40px;
+                font-size: 14px;
+            }
+        }
         @media #{$max-xsm}{
             flex: 0 0 calc(100% - 150px);
             max-width: calc(100% - 150px);
@@ -90,7 +116,7 @@
         }
     }
     .swap-input {
-        width: 100%;
+        width: 85%;
         border: 0;
         background-color: $black;
     }

@@ -177,6 +177,12 @@
             .arrow-icon{
                 transform: translateX(8px);
             }
+            .walet-blk{
+                h5, p{
+                    color:$white; 
+                    opacity: 0.8;
+                }
+            }
         }
         @media #{$max-sm}{
             min-height: 160px;
@@ -203,5 +209,5 @@
 }
 .login-data{
     position: relative;
-    z-index: 9999;
+    z-index: 2;
 }

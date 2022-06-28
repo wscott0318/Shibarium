@@ -7,8 +7,9 @@
     padding: 40px 0;
     flex-direction: column;
     @media #{$max-lg}{
-        padding: 20px 15px;
+        padding: 10px 0px;
     }
+
     .dash-card {
         width: 850px;
         max-width: 100%;

@@ -1,0 +1,43 @@
+.orange-dropdown{
+    .cus-dropdown.show >{
+        .btn-primary.dropdown-toggle{
+            background: $primary;
+            border: none;
+        }
+    }
+}
+.black-dropdown{
+    .btn{
+        border:1px solid #333;
+        min-width: 160px;
+        width: 100%;
+    }
+}
+.chain-sec{
+    .form-group{
+        margin-bottom: 35px;
+        @media #{$max-xxxl}{
+            margin-bottom: 25px;
+        }
+        @media #{$max-md}{
+            margin-bottom: 15px;
+        }
+    }
+}
+.chain-sec {
+    .primary-badge
+    {
+        &:hover{
+            color:$white;
+        }
+    }
+}
+@media #{$max-sm}{
+    .cus-dropdown .btn { 
+        padding: 10px 32px 10px 10px;
+        font-size: 12px;
+    }
+    .me-2 {
+        display: none;
+    }
+}

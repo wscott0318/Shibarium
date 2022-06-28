@@ -1,11 +1,20 @@
 .rewards-section {
     padding: 70px 0;
+    @media #{$max-xl}{
+        padding: 60px 0;
+    }
+    @media #{$max-lg}{
+        padding: 50px 0;
+    }
     ::placeholder{
         transform: translateY(3px);
     }
     .left-space {
         @media #{$max-xxxl}{
-            padding-left: 28px;
+            padding-left: 12px;
+            .ms-2{
+                margin-left: 0 !important;
+            }
         }
     }
     .input-box {
@@ -17,9 +26,10 @@
         }
         .form-control{
             padding-right: 75px;
-            border: solid 1px #e0dfdf;
-            background-color: #f7f7f7;
+            border: solid 1px #414042;
+            background-color: #212027;
             border-radius: 30px;
+            color:#fff;
         }
     }
     .content-card{
@@ -32,15 +42,16 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #fea500;
+        background: #f06700;
         border-radius: 100%;
         color: #fff;
         font-size: 18px;
         font-weight: bold;
     }
     .side-card {
-        background-color: #f7f7f7;
+        background-color:$darkbg;
         border-radius: 10px;
+        border: 1px solid #414042;
         .side-card-lst{
             padding: 0 10px;
         }
@@ -63,12 +74,12 @@
         .card-list-item {
             display: flex;
             align-items: center;
-            background-color: #fff;
+            background-color: #000;
             position: relative;
             overflow: hidden;
             margin-bottom: 15px;
             border-radius: 8px;
-            border: 1px solid #ecebeb;
+            border: 1px solid #000;
             .card-icon {
                 position: absolute;
                 width: 60px;
@@ -86,16 +97,24 @@
                 }
             }
             .card-content {
+                h2{
+                    span{
+                        font-size: 34px;
+                    }
+                }
                 width: calc(100% - 60px);
                 margin-left: auto;
                 padding: 8px 10px;
             }
             .hr{
-                background-color: #ecebeb;
+                background-color: #15141b;
                 height: 1px;
                 width: 100%;
                 margin-top: 5px;
                 margin-bottom: 5px;
+            }
+            span{
+                color:#fff;
             }
         }
     }
@@ -105,7 +124,7 @@
 .icon-dott {
     width: 30px;
     height: 30px;
-    background-color: #fea500;
+    background-color: #f06700;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -119,4 +138,7 @@
 }
 .text-100 {
     font-size: 14px;
+}
+.content-wrap{
+    padding: 0 !important;
 }

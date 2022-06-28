@@ -6,12 +6,14 @@
     @media #{$max-xl}{
         width: 100%;
         padding: 15px;
+        margin-top: 112px;
     }
 }
 .sidebar{
     background-color:$darkbg;
     width: 290px;
-    min-height: 100vh;
+    min-height: calc(100vh - 82px);
+    margin-top: 82px;
     height: 100%;
     overflow: hidden;
     overflow-y: auto;
@@ -24,6 +26,8 @@
         width: 230px;
         margin-left: -230px;
         display: none;
+        min-height: calc(100vh - 64px);
+        margin-top: 64px;
     }
     .close-icon {
         position: absolute;
@@ -31,6 +35,12 @@
         right: 12px;
         width: 16px;
         height: 16px;
+        @media (min-width:1200px){
+            display: none;
+        }
+    }
+    .ps__rail-x {
+        display: none !important;
     }
     
     &.active{
@@ -111,6 +121,9 @@
                             height: 30px;
                             margin-top: 45px;
                         }
+                        @media #{$max-xxxl}{
+                            margin-top: 49px;
+                        }
                     }
                 }
                 .active-shape {
@@ -151,7 +164,7 @@
 
 .nav-menu{
     &.side-bg {
-        background-color: #16378a;
+        background-color: $black;
         width: calc(100% - 54px);
         margin: 0 auto;
         border-radius: 8px;

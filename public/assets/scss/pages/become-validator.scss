@@ -29,7 +29,7 @@
     .file-icons {
         width: 40px;
         height: 40px;
-        background: #fea500;
+        background: $primary;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -58,4 +58,31 @@
 }
 .form-grid {
     margin-bottom: 30px;
+}
+
+.input-wrap {
+    position: relative;
+    .edit-input {
+        position: absolute;
+        top: -3px;
+        left: -4px;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        min-height: 42px;
+        z-index: 1;
+        display: none;
+        &.show{
+            display: block;
+        }
+    }
+}
+.form-value {
+    margin-bottom: 0;
+    color: rgba(255,255,255,0.82);
+}
+.order-sm-6{
+    @media (min-width: 576px){
+        order: 6 !important;
+    }
 }

@@ -37,6 +37,29 @@ body{
         font-size: 14px;
     }
 }
+
+// ::-webkit-scrollbar-track
+// {
+// 	-webkit-box-shadow: inset 0 0 6px #000000;
+// 	border-radius: 10px;
+// 	background-color: #15141b;
+// }
+// ::-webkit-scrollbar
+// {
+// 	width: 10px;
+// 	background-color:#15141b;
+// }
+
+// ::-webkit-scrollbar-thumb
+// {
+// 	border-radius: 10px;
+// 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,1);
+// 	background-color: #555;
+// }
+::ng-deep .ps--active-x > .ps__rail-x {
+    display: none;
+  }
+  
 h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
     margin-bottom: 0;
@@ -225,6 +248,9 @@ ul {
     border-radius: 30px;
     font-weight: 800;
     font-size: 14px;
+    &:focus{
+        box-shadow: none;
+    }
     @media #{$max-lg}{
         padding: 10px 12px;
         font-weight: 600;
@@ -282,10 +308,25 @@ ul {
 }
 
 .form-control {
-    background: #f7f7f7;
-    border: 0;
+    background: #212027;
+    border:1px solid #414042;
     border-radius: 30px;
     padding: 10px 16px;
+    color:#fff;
+    &.form-bg{
+        background-color: $black;
+        border: 0;
+        &:focus{
+            background-color: $black;
+            border: 0;
+            box-shadow: none;
+        }
+    }
+    &:focus{
+        background: #212027;
+        border:1px solid #414042;
+        color:#fff;
+    }
 }
 
 // form item style end
@@ -294,11 +335,87 @@ ul {
         max-width: 1660px;
     }
 }
+/** custum radio code start **/
+
+/* The container */
+.radio-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Hide the browser's default radio button */
+  .radio-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  /* Create a custom radio button */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 21px;
+    width: 21px;
+    background-color: transparent;
+    border: 1px solid $primary;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -o-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -moz-border-radius: 50%;
+  }
+  
+ 
+  
+  /* When the radio button is checked, add a blue background */
+  .radio-container input:checked ~ .checkmark {
+    background-color: $black;
+    border: 1px solid $primary;
+  }
+  
+  /* Create the indicator (the dot/circle - hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the indicator (dot/circle) when checked */
+  .radio-container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the indicator (dot/circle) */
+  .radio-container .checkmark:after {
+    top: 4px;
+    left: 4px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -o-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -moz-border-radius: 50%;
+    background: $primary;
+  }
+
+  /** custum radio code start **/
+
 
 // Dark theme page css
 
 .darkBg{
-    background-color: $darkbg;
+    background-color: $darkbg !important;
 }
 .card{
     background-color: $black;
@@ -306,5 +423,17 @@ ul {
     border-radius: 10px;
     @media #{$max-xxxl}{
         padding: 15px;
+    }
+}
+
+.rad-10{
+    border-radius: 10px;
+}
+
+.btn, .btn-small, .cus-card{
+    &:hover{
+        span, h3{
+            color:rgba(255, 255, 255, 0.8);
+        }  
     }
 }
