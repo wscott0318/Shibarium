@@ -10,7 +10,7 @@ import {UserType} from '../../enums/UserType'
 import { BONE_ID } from '../../config/constant';
 
 export default function Account() {
-  const [availBalance, setAvailBalance] = useState("0");
+  const [availBalance, setAvailBalance] = useState(0);
   const [userType, setUserType] = useState('Anonymous');
   const [boneUSDValue,setBoneUSDValue] = useState(0);
 
@@ -19,7 +19,7 @@ export default function Account() {
     if (library&&account) {
       const web3 = new Web3(library?.provider);
       web3.eth.getBalance(account).then((res) => {
-        setAvailBalance(res);
+        setAvailBalance((res / Math.pow(10, 18)));
       });
     }
   },[library,account]);

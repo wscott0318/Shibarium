@@ -136,9 +136,9 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
 {error&&<ToastNotify toastMassage={errMessage}/>}
       <h2 className="low-font-wt mb-3">Ethereum Wallet Balance</h2>
       <h1 className="fw-700 light-text">
-        {` ${(balance / Math.pow(10, 18)).toFixed(4)} BONE Wallet`}{" "}
+        {` ${(balance.toFixed(8))} BONE Wallet`}{" "}
       </h1>
-      <h2 className="low-font-wt">{boneUSDValue} USD</h2>
+      <h2 className="low-font-wt">{(balance*boneUSDValue).toFixed(4)} USD</h2>
       <div className="d-flex align-items-center justify-content-center mt-4 flex-column flex-sm-row flex-wrap">
         {userType === UserType.Validator && (
           <>
