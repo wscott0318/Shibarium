@@ -2,29 +2,35 @@ import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import  BorderBtn  from "./BorderBtn";
 import  WarningBtn  from "./WarningBtn";
-import { useFormik } from "formik";
+import { useFormik,FormikProps } from "formik";
 import { commission, retake, withdrawReward } from "../../services/apis/validator";
 import  ConfirmPopUp  from "./ConfirmPopUp";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import { TailSpin, Triangle } from "react-loader-spinner";
 import  LoadingSpinner  from "./Loading";
 import  ToastNotify  from "./ToastNotify";
+import {useUserType} from '../../state/user/hooks';
+import { UserType } from "../../enums/UserType";
+import {RetakeFormInterface} from "../../interface/reTakeFormInterface";
+interface WalletBalanceProps{
+  balance:number,
+  boneUSDValue:number
+}
 
-const WalletBalance = ({ balance, isValidator, isDelegator }) => {
-  console.log("isValidator", isValidator, isDelegator);
+const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
 
   const [retakeModal, setRetakeModal] = useState(false);
   const [commiModal, setCommiModal] = useState(false);
   const [withdrawModal, setWithdrawModal] = useState(false);
   const [unboundModal, setUnboundModal] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState(false);
   const [errMessage, setErrMessage] = useState("");
   const [confirm, setConfirm] = useState(false);
   const [tranHashCode, setTranHashCode] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+  const [userType, setUserType] =useUserType();
 
-  const handleModal = (btn) => {
+  const handleModal = (btn:String) => {
     switch (btn) {
       case "Retake":
         setRetakeModal(true);
@@ -43,17 +49,17 @@ const WalletBalance = ({ balance, isValidator, isDelegator }) => {
     }
   };
 
-  const retakeFormik = useFormik({
+
+    const retakeFormik: FormikProps<RetakeFormInterface> = useFormik<RetakeFormInterface>({
     initialValues: {
       validatorAddress: "",
-      amount: "",
-      reward: "",
+      amount:0,
+      reward:0,
     },
-    onSubmit: (values) => {
-      console.log("values", values);
+    onSubmit: (values:RetakeFormInterface) => {
       setLoading(true);
       retake(values)
-        .then((res) => {
+        .then((res:any) => {
           console.log("res", res);
           if (res.status == 200) {
             setLoading(false);
@@ -130,11 +136,11 @@ const WalletBalance = ({ balance, isValidator, isDelegator }) => {
 {error&&<ToastNotify toastMassage={errMessage}/>}
       <h2 className="low-font-wt mb-3">Ethereum Wallet Balance</h2>
       <h1 className="fw-700 light-text">
-        {` ${(balance / Math.pow(10, 18)).toFixed(4)} BONE Wallet`}{" "}
+        {` ${(balance.toFixed(8))} BONE Wallet`}{" "}
       </h1>
-      <h2 className="low-font-wt">$0.00</h2>
+      <h2 className="low-font-wt">{(balance*boneUSDValue).toFixed(4)} USD</h2>
       <div className="d-flex align-items-center justify-content-center mt-4 flex-column flex-sm-row flex-wrap">
-        {isValidator && (
+        {userType === UserType.Validator && (
           <>
             <BorderBtn lable="Retake" handleModal={handleModal} />
             <BorderBtn
@@ -145,16 +151,15 @@ const WalletBalance = ({ balance, isValidator, isDelegator }) => {
             <BorderBtn lable="Unbound" handleModal={handleModal} />
           </>
         )}
-        {isDelegator && (
+        {userType === UserType.Deligator && (
           <>
-            <BorderBtn lable="Become A Validator" />
-            <BorderBtn lable="Retake" />
-            <BorderBtn lable="Withdraw Rewards" />
-            <BorderBtn lable="Unbound" />
+            <BorderBtn lable="Become A Validator" handleModal={()=>{}} />
+            <BorderBtn lable="Retake" handleModal={()=>{}} />
+            <BorderBtn lable="Withdraw Rewards" handleModal={()=>{}}/>
+            <BorderBtn lable="Unbound" handleModal={()=>{}} />
           </>
         )}
-        {/* {console.log("isDelegator", isDelegator, isValidator)} */}
-        {!isDelegator && !isValidator && (
+        {userType !== UserType.NotValidatorNorDeligator && (
           <>
             <BorderBtn lable="Become A Validator" handleModal={handleModal} />
             <WarningBtn lable="Become A Delegator" />
@@ -198,7 +203,7 @@ const WalletBalance = ({ balance, isValidator, isDelegator }) => {
                   Amount
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control form-bg"
                   id="amount"
                   name="amount"
@@ -212,7 +217,7 @@ const WalletBalance = ({ balance, isValidator, isDelegator }) => {
                   Stakereward
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   placeholder="Enter stakereward"
                   className="form-control form-bg"
                   id="reward"
@@ -347,7 +352,7 @@ const WalletBalance = ({ balance, isValidator, isDelegator }) => {
           className="shib-popup"
           show={unboundModal}
           onHide={() => setUnboundModal(false)}
-          size="md"
+          size="sm"
           aria-labelledby="contained-modal-title-vcenter "
           centered
         >

@@ -20,6 +20,8 @@ import Web3Status from "app/components/Web3Status";
 import { RightMenu } from "app/components/Header/Desktop";
 import { NETWORK_LABEL } from "app/config/networks";
 import Web3 from 'web3';
+import { getUserType } from "app/services/apis/user/userApi";
+import { useUserType } from "app/state/user/hooks";
 
 export default function Header() {
   const { chainId, account, active, error, library, activate, deactivate } = useWeb3React()
@@ -29,6 +31,7 @@ export default function Header() {
   const wrapperRef = useRef(null);
   const [isVisible, setIsVisible] = useState(true);
   const [dblock, setDblock] = useState(false);
+  const [userType, setUserType] =useUserType();
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn")
@@ -43,6 +46,17 @@ export default function Header() {
       localStorage.removeItem('isLoggedIn')
   }, [account]);
 
+  const getUsertype = (accountAddress) =>{
+    getUserType(accountAddress.toLowerCase()).then( res =>{
+      if (res.data && res.data.data) {
+        let ut = UserType[res.data.data.userType];
+        setUserType(ut)
+      }
+    }).catch(e=>{
+      console.log(e);
+      setUserType('NotValidatorNorDeligator')
+    })
+  }
   useEffect(() => {
     const { ethereum } = window
     if (ethereum && ethereum.on && !error) {
@@ -60,8 +74,9 @@ export default function Header() {
         if (accounts.length > 0) {
           if (library) {
             sign(accounts[0])
+            getUsertype(accounts[0])
+           }
           }
-        }
         // activate(injected)
       }
       const handleNetworkChanged = (networkId) => {

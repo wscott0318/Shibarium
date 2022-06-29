@@ -1,0 +1,1 @@
+export const BONE_ID = 'bone-shibaswap';

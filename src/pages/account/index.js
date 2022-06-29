@@ -4,34 +4,37 @@ import  WalletBalance  from "../components/WalletBalance";
 import InnerHeader from "../inner-header";
 import { useWeb3React } from "@web3-react/core";
 import Web3 from "web3";
-import { getUserType } from "../../services/apis/user/userApi";
+import { getBoneUSDValue } from "../../services/apis/validator/index";
 import { useActiveWeb3React } from "app/services/web3";
 import {UserType} from '../../enums/UserType'
+import { BONE_ID } from '../../config/constant';
 
 export default function Account() {
-  const [availBalance, setAvailBalance] = useState("0");
+  const [availBalance, setAvailBalance] = useState(0);
   const [userType, setUserType] = useState('Anonymous');
+  const [boneUSDValue,setBoneUSDValue] = useState(0);
 
   const { library, chainId, account } = useActiveWeb3React();
   useEffect(() => {
     if (library&&account) {
       const web3 = new Web3(library?.provider);
       web3.eth.getBalance(account).then((res) => {
-        setAvailBalance(res);
+        setAvailBalance((res / Math.pow(10, 18)));
       });
     }
   },[library,account]);
 
-  console.log("availBalance", availBalance);
-  useEffect(()=>{
-    getUserType(account).then( res =>{
-      console.log(res.data)
-      if (res.data && res.data.data) {
-        let tt = UserType[res.data.data.userType]
-        setUserType(UserType[res.data.data.userType])
-      }
+  useEffect(() => {
+    getBoneUSDValue(BONE_ID).then(res=>{
+      setBoneUSDValue(res.data.data.price);
     })
-  },[account])
+  },[])
+  
+
+  // console.log("availBalance", availBalance);
+  // useEffect(()=>{
+   
+  // },[account])
 
   return (
     <>
@@ -39,10 +42,10 @@ export default function Account() {
       <div className="page-wrapper">
         <main className="delegatorgrid-sec">
           <div className="botom-space-lg">
-            <div className="darkBg  position-relative sec-spc-high">
+            <div className="darkBg position-relative sec-spc-high">
               <div className="container">
                 <div className="row">
-                  <div className="col-sm-8 text-sm-start text-center">
+                  <div className="text-center col-sm-8 text-sm-start">
                     <h1 className="light-text fnt-58 fnt-100">Your Account</h1>
                   </div>
                 </div>
@@ -50,9 +53,10 @@ export default function Account() {
             </div>
           </div>
           <div className="container">
-            <div className="center-sec text-center">
+            <div className="text-center center-sec">
               <WalletBalance
                 balance={availBalance}
+                boneUSDValue={boneUSDValue}
                 isDelegator={userType === UserType.Deligator}
                 isValidator={userType  === UserType.Validator}
                
