@@ -21,13 +21,13 @@ export default function Web3Connect({ color = 'gray', size = 'sm', className = '
       {error instanceof UnsupportedChainIdError ? 'You are on the wrong network' : 'Error'}
     </div>
   ) : (
-    <Button
+    <Button 
       id="connect-wallet"
       onClick={toggleWalletModal}
-      variant="outlined"
-      color={color}
-      className={classNames(className, '!border-none')}
-      size={size}
+      // variant="outlined"
+      // color={color}
+      className={classNames(className, '!border-none btn gradient_btn')}
+      
       {...rest}
     >
       {`Connect using browser wallet`}

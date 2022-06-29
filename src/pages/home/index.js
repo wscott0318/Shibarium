@@ -78,7 +78,7 @@ export default function Home() {
               <div className="col-lg-9">
                 <h1 className="text-white main-title">
                   <span className="mb-1 sub-title d-block mb-md-2 mb-lg-3">
-                    Getting started with{" "}
+                    Getting started with {" "}
                   </span>
                   Shibarium PoS chain
                 </h1>

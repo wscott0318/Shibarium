@@ -49,7 +49,12 @@
         @media #{$max-md}{
             max-width: 120px;
         }
-    
+        @media #{$max-xsm}{
+            max-width: 100px;
+            padding:10px 0;
+            margin-left: 4px;
+            margin-right: 0;
+        }
     }
     .main-header .dropdown-menu .dropdown-item {
         margin-bottom: 8px;
@@ -65,6 +70,9 @@
         // border-top: 0;
         @media #{$max-sm}{
             min-width: 300px;
+        }
+        @media #{$max-xsm}{
+            min-width: 270px;
         }
         .dropdown-item {
             // box-shadow: 0px 1px 0 0 rgb(0 0 0 / 8%);
@@ -156,7 +164,7 @@ border-bottom: 0;
         }
         @media #{$max-xl}{
             margin-right: 0;
-            margin-bottom: 15px;
+            margin-bottom: 0;
             &:last-child{
                 margin-bottom: 0;
             }
@@ -165,11 +173,20 @@ border-bottom: 0;
             padding-left: 15px;
             padding-right: 15px;
         }
+        @media #{$max-xsm}{
+            padding-left: 5px;
+            padding-right: 5px;
+        }
     }
     .btn{
         @media #{$max-xxxl}{
             padding: 8px 14px;
             font-weight: 600;
+        }
+        @media #{$max-sm}{
+            padding: 4px 8px;
+            font-weight: 600;
+            font-size: 11px;
         }
     }
 }
@@ -183,18 +200,18 @@ border-bottom: 0;
         display: flex;
         align-items: center;
     }
-    @media #{$max-xl}{
-            display: none;
-            flex-direction: column;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding-top: 0;
-            background-color: black;
-            margin-top: 64px;
-            padding: 10px 0px;
-    }
+    // @media #{$max-xl}{
+    //         display: none;
+    //         flex-direction: column;
+    //         position: absolute;
+    //         top: 0;
+    //         left: 0;
+    //         right: 0;
+    //         padding-top: 0;
+    //         background-color: black;
+    //         margin-top: 64px;
+    //         padding: 10px 0px;
+    // }
 }
 .navbar-toggler{
     @media #{$max-xl}{

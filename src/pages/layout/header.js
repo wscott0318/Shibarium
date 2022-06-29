@@ -13,7 +13,7 @@ import {
 import Sidebar from "./sidebar";
 import { useRouter } from "next/router";
 import { useWeb3React } from "@web3-react/core";
-import  ProjectContext  from "../../context/ProjectContext";
+import ProjectContext from "../../context/ProjectContext";
 // import { useAccount } from "../../../hooks/web3hooks";
 import { walletConnector } from "../../utils/connectors";
 import Web3Status from "app/components/Web3Status";
@@ -22,8 +22,8 @@ import { NETWORK_LABEL } from "app/config/networks";
 import Web3 from 'web3';
 
 export default function Header() {
-  const { chainId, account, active,error,library,activate,deactivate } = useWeb3React()
-  const {handleAccount}=useContext(ProjectContext)
+  const { chainId, account, active, error, library, activate, deactivate } = useWeb3React()
+  const { handleAccount } = useContext(ProjectContext)
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef(null);
@@ -31,21 +31,21 @@ export default function Header() {
   const [dblock, setDblock] = useState(false);
 
   useEffect(() => {
-   const isLoggedIn =  localStorage.getItem("isLoggedIn")
-    if (account && !isLoggedIn ) {
-     sign(account)
+    const isLoggedIn = localStorage.getItem("isLoggedIn")
+    if (account && !isLoggedIn) {
+      sign(account)
     }
   }, [account])
   useEffect(() => {
-    if(account)
-      localStorage.setItem('isLoggedIn',true)
-     else
-     localStorage.removeItem('isLoggedIn')
-  },[account]);
+    if (account)
+      localStorage.setItem('isLoggedIn', true)
+    else
+      localStorage.removeItem('isLoggedIn')
+  }, [account]);
 
   useEffect(() => {
-    const { ethereum } = window 
-    if (ethereum && ethereum.on  && !error ) {
+    const { ethereum } = window
+    if (ethereum && ethereum.on && !error) {
       const handleConnect = () => {
         console.log("Connected");
         // activate(injected)
@@ -53,16 +53,16 @@ export default function Header() {
       const handleChainChanged = (chainId) => {
         if (library) {
           sign(account)
-         }
+        }
         // activate(injected)
       }
       const handleAccountsChanged = (accounts) => {
         if (accounts.length > 0) {
           if (library) {
             sign(accounts[0])
-           }
           }
-          // activate(injected)
+        }
+        // activate(injected)
       }
       const handleNetworkChanged = (networkId) => {
         // activate(injected)
@@ -126,14 +126,14 @@ export default function Header() {
     deactivate()
     localStorage.removeItem('isLoggedIn')
   };
-  const sign = (publicAddress) =>{
-    let web3 =  new Web3(library?.provider)
-    if ( publicAddress && web3 && web3.eth &&  web3.eth.personal) {
+  const sign = (publicAddress) => {
+    let web3 = new Web3(library?.provider)
+    if (publicAddress && web3 && web3.eth && web3.eth.personal) {
       web3.eth.personal.sign(
-       'Welcome to Shibarium',
-       publicAddress,
-       ()=>{ }
-     )
+        'Welcome to Shibarium',
+        publicAddress,
+        () => { }
+      )
     }
   }
   return (
@@ -141,7 +141,7 @@ export default function Header() {
       <header className="main-header darkBg">
         <nav className="p-0 navbar navbar-expand-xl navbar-light">
           <div className="container-fluid">
-            <div>
+            <div className="d-flex align-items-center">
               <a
                 href="javascript:void(0)"
                 className="burger-menu d-xl-none"
@@ -154,13 +154,13 @@ export default function Header() {
                   width={18}
                 />
               </a>
-              <Link className="navbar-brand " href="/home" passHref={true}>
+              <a className="navbar-brand " href="/home" passHref={true}>
                 <img
                   className="img-fluid"
                   src="../../assets/images/logo.png"
                   alt=""
                 />
-              </Link>
+              </a>
             </div>
             <div ref={wrapperRef} className="active">
               {isOpen ? <Sidebar isOpen={isOpen} /> : null}
@@ -176,17 +176,7 @@ export default function Header() {
             >
               <span className="navbar-toggler-icon"></span>
             </button>
-            <div className="toggle-icon" onClick={handleToggleIcon}>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
+
             <div className="collapse navbar-collapse" id="navbarNavDropdown">
               <ul className="navbar-nav">
                 {/* <li className="nav-item">
@@ -230,6 +220,7 @@ export default function Header() {
                 </NavDropdown.Item>
               </NavDropdown> */}
             </div>
+
             <div
               className={`right-widget ms-auto ${dblock ? "d-block" : ""}`}
               ref={toggleRef}
@@ -311,13 +302,12 @@ export default function Header() {
                               <div className="item-wrap">
                                 <div className="d-flex justify-content-between">
                                   <span className="light-text trs-3">
-                                    {`Account ${
-                                      account &&
+                                    {`Account ${account &&
                                       account.slice(0, 4)
-                                    }`}
+                                      }`}
                                   </span>
                                   <span className="light-text fw-500 trs-3">
-                                 {chainId && NETWORK_LABEL[chainId]}
+                                    {chainId && NETWORK_LABEL[chainId]}
                                   </span>
                                 </div>
                                 <div className="label-btn badge-sm">
@@ -363,12 +353,14 @@ export default function Header() {
                 </>
               ) : (
                 <>
-                 {error ? <Web3Status /> : <form action="" className="inline-form">
-                    <Link href="/login">
-                      <a className="btn gradient_btn">
-                       <span>Connect To A Wallet</span>
-                      </a>
+                  {error ? <Web3Status /> : <form action="" className="inline-form ms-2">
+                    <a href="jvascript:void(0)" className="btn gradient_btn">
+                    <Link href="/login" >
+                      {/* <a className=""> */}
+                        <span>Connect To A Wallet</span>
+                      {/* </a> */}
                     </Link>
+                    </a>
                   </form>}
                 </>
               )}
@@ -441,6 +433,21 @@ export default function Header() {
                 </div>
               </div> */}
             </div>
+            {/* <div className="d-flex align-items-center d-none">
+              <div className="icon-col">
+                <div className="toggle-icon" onClick={handleToggleIcon}>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+            </div> */}
           </div>
         </nav>
       </header>
