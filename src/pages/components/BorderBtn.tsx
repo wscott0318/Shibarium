@@ -10,7 +10,7 @@ const BorderBtn = ({ lable, handleModal, link }: BorderBtnProps) => {
     <>
       <div className="mb-2 me-3" onClick={() => handleModal(lable)}>
         {!link && <a className="btn bordered-btn light-text"><span>{lable}</span></a>}
-        {link && <a href={link} className="btn bordered-btn light-text"><span>{lable}</span></a>}
+        {link && <div className="btn bordered-btn light-text"><Link href={link} ><span>{lable}</span></Link></div>}
       </div>
     </>
   );
