@@ -15,36 +15,34 @@ import {useUserType,useUserOpenMev} from '../../state/user/hooks'
 import { UserType } from "../../enums/UserType";
 
 const BoneStaking = () => {
-  const [isValidator, setIsValidator] = useState(false);
-  // const [isDelegator, setIsDelegator] = useState(false);
-  // const [validators, setValidators] = useState([])
+  const [validators, setValidators] = useState([])
   const [userType, setUserType] =useUserType();
- console.log('UUUU',uu)
-  useEffect(()=>{
-    // setTimeout(() => {
-    //   usss('Deligator')
-    // }, 4000);
-    // let accounts=localStorage.getItem('accounts')
-    // if(accounts=="0x14d76811453183669C4561eF25f57401414DEEfB"){
-    //   setIsDelegator(false)
-    //   setIsValidator(true)
-    // }else if(accounts=="0xa9f576E15106eb5861ed4AC2793C010999ab0e7D"){
-    //   setIsValidator(false)
-    //   setIsDelegator(true)
-    // }else{
-    //   setIsValidator(false)
-    //   setIsDelegator(false)
-    // }
-  })
+  
+  // const [isValidator, setIsValidator] = useState(false);
+  // const [isDelegator, setIsDelegator] = useState(false);
+  // useEffect(()=>{
+  //   setTimeout(() => {
+  //     usss('Deligator')
+  //   }, 4000);
+  //   let accounts=localStorage.getItem('accounts')
+  //   if(accounts=="0x14d76811453183669C4561eF25f57401414DEEfB"){
+  //     setIsDelegator(false)
+  //     setIsValidator(true)
+  //   }else if(accounts=="0xa9f576E15106eb5861ed4AC2793C010999ab0e7D"){
+  //     setIsValidator(false)
+  //     setIsDelegator(true)
+  //   }else{
+  //     setIsValidator(false)
+  //     setIsDelegator(false)
+  //   }
+  // })
 
   useEffect(()=>{
     validatorsList().then(res=>{
       if(res.status==200){
         setValidators(res.data.data.validatorsList)
-        console.log('res', res)
       }
     }).catch(err=>{
-      console.log('err', err)
     })
   },[])
 
