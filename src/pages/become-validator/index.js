@@ -197,7 +197,7 @@ const Rewards = () => {
                     </Container>
                 </Navbar>
             </header> */}
-      <section className="banner-section darkBg py-4 py-md-5">
+      <section className="py-4 banner-section darkBg py-md-5">
         <div className="container">
           <h1 className="text-white trs-6 fw-500">Become a validator</h1>
         </div>
@@ -263,9 +263,9 @@ const Rewards = () => {
             </div>
             <div className="col-lg-8">
               {/* step 1 start*/}
-              <div className="progress-tab d-none">
-                <h5 className="fw-800 mb-2">Setup a node</h5>
-                <p className="fw-700 mb-0">
+              <div className="progress-tab">
+                <h5 className="mb-2 fw-800">Setup a node</h5>
+                <p className="mb-0 fw-700">
                   You can setup your node using any of the options from below
                 </p>
                 <div className="box-alert top-space-lg">
@@ -290,7 +290,7 @@ const Rewards = () => {
                     </div>
                   </div>
                 </div>
-                <div className="box-alert box-active mt-4">
+                <div className="mt-4 box-alert box-active">
                   <div className="d-flex align-items-center">
                     <div>
                       <div className="circle-box lt-white me-3">
@@ -444,7 +444,7 @@ const Rewards = () => {
                       </label>
                       <input
                         type="text"
-                        className="form-control mb-3"
+                        className="mb-3 form-control"
                         placeholder="i.e Dark Knight Ventures"
                       />
                       <label htmlFor="" className="form-label">
@@ -457,7 +457,7 @@ const Rewards = () => {
               {/* step 3 end */}
 
               {/* step 4 start */}
-              <div className="progress-tab">
+              <div className="progress-tab d-none">
                 <div className="mb-4 mb-xl-5">
                   <h5 className="fwb">Check complete detail</h5>
                   <p>Please confirm your details and submit</p>

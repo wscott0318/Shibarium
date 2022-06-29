@@ -13,6 +13,7 @@ import {
   updateUserDeadline,
   updateUserExpertMode,
   updateUserSingleHopOnly,
+  updateUserType,
   updateUserUseOpenMev,
 } from './actions'
 
@@ -47,6 +48,7 @@ export interface UserState {
 
   timestamp: number
   URLWarningVisible: boolean
+  userType: string
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -62,6 +64,7 @@ export const initialState: UserState = {
   timestamp: currentTimestamp(),
   URLWarningVisible: true,
   userUseOpenMev: true,
+  userType: 'NotValidatorNorDeligator'
 }
 
 export default createReducer(initialState, (builder) =>
@@ -121,5 +124,8 @@ export default createReducer(initialState, (builder) =>
     })
     .addCase(updateUserUseOpenMev, (state, action) => {
       state.userUseOpenMev = action.payload.userUseOpenMev
+    })
+    .addCase(updateUserType, (state, action) => {
+      state.userType = action.payload.userType
     })
 )

@@ -11,24 +11,30 @@ import Link from "next/link";
 import  BorderBtn  from "../components/BorderBtn";
 import  WarningBtn  from "../components/WarningBtn";
 import { validatorsList } from "../../services/apis/validator";
+import {useUserType,useUserOpenMev} from '../../state/user/hooks'
+import { UserType } from "../../enums/UserType";
 
 const BoneStaking = () => {
   const [isValidator, setIsValidator] = useState(false);
-  const [isDelegator, setIsDelegator] = useState(false);
-  const [validators, setValidators] = useState([])
- 
+  // const [isDelegator, setIsDelegator] = useState(false);
+  // const [validators, setValidators] = useState([])
+  const [userType, setUserType] =useUserType();
+ console.log('UUUU',uu)
   useEffect(()=>{
-    let accounts=localStorage.getItem('accounts')
-    if(accounts=="0x14d76811453183669C4561eF25f57401414DEEfB"){
-      setIsDelegator(false)
-      setIsValidator(true)
-    }else if(accounts=="0xa9f576E15106eb5861ed4AC2793C010999ab0e7D"){
-      setIsValidator(false)
-      setIsDelegator(true)
-    }else{
-      setIsValidator(false)
-      setIsDelegator(false)
-    }
+    // setTimeout(() => {
+    //   usss('Deligator')
+    // }, 4000);
+    // let accounts=localStorage.getItem('accounts')
+    // if(accounts=="0x14d76811453183669C4561eF25f57401414DEEfB"){
+    //   setIsDelegator(false)
+    //   setIsValidator(true)
+    // }else if(accounts=="0xa9f576E15106eb5861ed4AC2793C010999ab0e7D"){
+    //   setIsValidator(false)
+    //   setIsDelegator(true)
+    // }else{
+    //   setIsValidator(false)
+    //   setIsDelegator(false)
+    // }
   })
 
   useEffect(()=>{
@@ -40,7 +46,7 @@ const BoneStaking = () => {
     }).catch(err=>{
       console.log('err', err)
     })
-  })
+  },[])
 
 
   const [modalShow, setModalShow] = useState(false);
@@ -54,15 +60,15 @@ const BoneStaking = () => {
         <div className="container">
           <div className="row">
             <div className="col-lg-8">
-              <h1 className="title-2 text-white mb-4 mb-lg-5">
-                <span className="sub-title d-block mb-1 mb-md-2 mb-lg-3 trs-6">
+              <h1 className="mb-4 text-white title-2 mb-lg-5">
+                <span className="mb-1 sub-title d-block mb-md-2 mb-lg-3 trs-6">
                   Start Earning Rewards With
                 </span>
-                <div className="d-inline-block bg-white px-2">
+                <div className="px-2 bg-white d-inline-block">
                   <span className="grad-text trs-6">Shibarium Staking</span>
                 </div>
               </h1>
-              {isDelegator && (
+              {userType === UserType.Deligator && (
                 <>
                   <BorderBtn
                     link="./become-validator"
@@ -70,9 +76,9 @@ const BoneStaking = () => {
                   />
                 </>
               )}
-              {!isValidator && !isDelegator && (
+              {userType === UserType.NotValidatorNorDeligator && (
                 <>
-                  <div className="d-flex align-items-centeer flex-wrap">
+                  <div className="flex-wrap d-flex align-items-centeer">
                     <BorderBtn
                       link="./become-validator"
                       lable="Become A Validator"
@@ -100,52 +106,52 @@ const BoneStaking = () => {
         </div>
       </section>
       {/* banner section end */}
-      <section className="buy-sell-section mb-4 mb-lg-5">
+      <section className="mb-4 buy-sell-section mb-lg-5">
         <div className="container">
           <div className="baner-card">
-            <h3 className="mb-0 text-white fwb mb-3">Network Overview</h3>
+            <h3 className="mb-0 mb-3 text-white fwb">Network Overview</h3>
             <div className="row">
-              <div className="col-sm-10 mx-auto mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                   <h3 className="fwb">13</h3>
                   <span className="mb-0 trs-3">Total Validators</span>
                 </div>
               </div>
-              <div className="col-sm-10 mx-auto mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                   <h3 className="fwb">155,554,455 BONE</h3>
-                  <p className="d-block mb-0 fw-600">$12365977.36</p>
+                  <p className="mb-0 d-block fw-600">$12365977.36</p>
                   <div className="card-hr"></div>
                   <span className="mb-0">Total Validators</span>
                 </div>
               </div>
-              <div className="col-sm-10 mx-auto mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                   <h3 className="fwb">569,554,455 BONE</h3>
-                  <p className="d-block mb-0 fw-600">$12365977.36</p>
+                  <p className="mb-0 d-block fw-600">$12365977.36</p>
                   <div className="card-hr"></div>
                   <span className="mb-0">Total Reward Distributed</span>
                 </div>
               </div>
-              <div className="col-sm-10 mx-auto mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                   <h3 className="fwb">25,599,69</h3>
                   <div className="card-hr"></div>
                   <span className="mb-0 trs-3">Bor Block Height</span>
                 </div>
               </div>
-              <div className="col-sm-10 mx-auto mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                   <h3 className="fwb">9,554,455 </h3>
                   <div className="card-hr"></div>
                   <span className="mb-0 trs-3">Heimdall Block Height</span>
                 </div>
               </div>
-              <div className="col-sm-10 mx-auto mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                   <h3 className="fwb d-flex align-items-center">
                     <span>71,582</span>
-                    <span className="ms-2 primary-badge  trsn-3 badge-md fs-12">
+                    <span className="ms-2 primary-badge trsn-3 badge-md fs-12">
                       <span className="trs-2">28 minutes ago</span>
                     </span>
                   </h3>
@@ -153,7 +159,7 @@ const BoneStaking = () => {
                   <span className="mb-0 trs-3">Last Checkpoint</span>
                 </div>
               </div>
-              <div className="col-sm-10 mx-auto mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                   <h3 className="fwb d-flex align-items-center">
                     <span>25 Minutes</span>
@@ -169,11 +175,11 @@ const BoneStaking = () => {
       <section className="mb-4 mb-lg-5">
         <div className="container">
           <div className="mb-4">
-            <h4 className="fw-700 mb-3">All Validators</h4>
+            <h4 className="mb-3 fw-700">All Validators</h4>
           </div>
           <div className="filter-sec topmargin">
             <div className="row align-items-center">
-              <div className="col-lg-5 col-12 mb-sm-4 mb-lg-0 mb-4">
+              <div className="mb-4 col-lg-5 col-12 mb-sm-4 mb-lg-0">
                 <div className="search-box d-inline-block position-relative w-100">
                   <input
                     className="cus-search w-100"
@@ -265,7 +271,7 @@ const BoneStaking = () => {
           </div>
         </div>
         <div className="container">
-          <div className="outer-table mb-4 mb-lg-5">
+          <div className="mb-4 outer-table mb-lg-5">
             <table className="data-table">
               <thead>
                 <tr className="table-header">
@@ -505,7 +511,7 @@ const BoneStaking = () => {
       </section>
       <footer className="main-footer">
         <div className="container">
-          <div className="copyright mt-4 mt-lg-5">
+          <div className="mt-4 copyright mt-lg-5">
             <h3 className="mb-0 text-center fwb">Powered by xFund.</h3>
           </div>
         </div>

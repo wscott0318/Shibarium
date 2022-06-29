@@ -5,7 +5,7 @@ import { useRouter } from "next/dist/client/router";
 import Popup from "../components/PopUp";
 // import { useWeb3React } from '@web3-react/core'
 // import { Web3Provider } from '@ethersproject/providers'
-import  ProjectContext  from "../../context/ProjectContext";
+// import  ProjectContext  from "../../context/ProjectContext";
 // import { useAccount } from "../../../hooks/web3hooks";
 // import { walletConnector } from "../../utils/connectors";
 // import Web3 from "web3";
@@ -20,7 +20,7 @@ import { useActiveWeb3React } from "app/services/web3";
 export default function Login() {
   const router = useRouter()
 
-  const {handleAccount}=useContext(ProjectContext)
+  // const {handleAccount}=useContext(ProjectContext)
   const [showInsModal, setShowInsModal] = useState(false);
  
   const { chainId, activate,account, active,library,error } = useActiveWeb3React()
@@ -52,7 +52,7 @@ export default function Login() {
   // },[])
   useEffect(() => {
     if(account){
-      handleAccount(account)
+      // handleAccount(account)
       router.push('/home')
     }
     },[account]);

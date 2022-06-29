@@ -22,16 +22,10 @@ export default function Account() {
     }
   },[library,account]);
 
-  console.log("availBalance", availBalance);
-  useEffect(()=>{
-    getUserType(account).then( res =>{
-      console.log(res.data)
-      if (res.data && res.data.data) {
-        let tt = UserType[res.data.data.userType]
-        setUserType(UserType[res.data.data.userType])
-      }
-    })
-  },[account])
+  // console.log("availBalance", availBalance);
+  // useEffect(()=>{
+   
+  // },[account])
 
   return (
     <>
@@ -39,10 +33,10 @@ export default function Account() {
       <div className="page-wrapper">
         <main className="delegatorgrid-sec">
           <div className="botom-space-lg">
-            <div className="darkBg  position-relative sec-spc-high">
+            <div className="darkBg position-relative sec-spc-high">
               <div className="container">
                 <div className="row">
-                  <div className="col-sm-8 text-sm-start text-center">
+                  <div className="text-center col-sm-8 text-sm-start">
                     <h1 className="light-text fnt-58 fnt-100">Your Account</h1>
                   </div>
                 </div>
@@ -50,7 +44,7 @@ export default function Account() {
             </div>
           </div>
           <div className="container">
-            <div className="center-sec text-center">
+            <div className="text-center center-sec">
               <WalletBalance
                 balance={availBalance}
                 isDelegator={userType === UserType.Deligator}
