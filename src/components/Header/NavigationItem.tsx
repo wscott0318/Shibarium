@@ -17,7 +17,7 @@ export const NavigationItem: FC<NavigationItem> = ({ node }) => {
   const isDesktop = useDesktopMediaQuery()
   const touchDevice = useTouchDeviceMediaQuery()
 
-  const handleToggle = useCallback((open, type) => {
+  const handleToggle = useCallback((open:any, type:any) => {
     if (!open && type === 'enter') {
       buttonRef?.current?.click()
     } else if (open && type === 'leave') {

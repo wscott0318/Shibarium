@@ -80,7 +80,7 @@ export default function Updater(): null {
   )
 
   const onBlock = useCallback(
-    (number) => {
+    (number:any) => {
       // @ts-ignore TYPE NEEDS FIXING
       return library.getBlock(number).then(blockCallback)
     },
