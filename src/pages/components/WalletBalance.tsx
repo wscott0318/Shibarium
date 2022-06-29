@@ -12,12 +12,8 @@ import {useUserType} from '../../state/user/hooks';
 import { UserType } from "../../enums/UserType";
 import {RetakeFormInterface} from "../../interface/reTakeFormInterface";
 interface WalletBalanceProps{
-  balance:Number,
-  boneUSDValue:Number
-}
-interface FormikInterface{
-  initialValues:RetakeFormInterface,
-  onSubmit:()=>any
+  balance:number,
+  boneUSDValue:number
 }
 
 const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
@@ -54,8 +50,8 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
   };
 
 
-    const retakeFormik: FormikProps<FormikInterface> = useFormik<FormikInterface>({
-    initialValues: RetakeFormInterface = {
+    const retakeFormik: FormikProps<RetakeFormInterface> = useFormik<RetakeFormInterface>({
+    initialValues: {
       validatorAddress: "",
       amount:0,
       reward:0,
@@ -157,10 +153,10 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
         )}
         {userType === UserType.Deligator && (
           <>
-            <BorderBtn lable="Become A Validator" />
-            <BorderBtn lable="Retake" />
-            <BorderBtn lable="Withdraw Rewards" />
-            <BorderBtn lable="Unbound" />
+            <BorderBtn lable="Become A Validator" handleModal={()=>{}} />
+            <BorderBtn lable="Retake" handleModal={()=>{}} />
+            <BorderBtn lable="Withdraw Rewards" handleModal={()=>{}}/>
+            <BorderBtn lable="Unbound" handleModal={()=>{}} />
           </>
         )}
         {userType !== UserType.NotValidatorNorDeligator && (
@@ -356,7 +352,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
           className="shib-popup"
           show={unboundModal}
           onHide={() => setUnboundModal(false)}
-          size="md"
+          size="sm"
           aria-labelledby="contained-modal-title-vcenter "
           centered
         >

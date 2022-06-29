@@ -1,7 +1,10 @@
 import React from "react";
 import Link from "next/link";
-
- const BorderBtn = ({ lable,handleModal }) => {
+interface BorderBtnProps{
+  lable:string,
+  handleModal:(lable:string)=>any
+}
+ const BorderBtn = ({ lable,handleModal }:BorderBtnProps) => {
   return (
     <>
       <div className="mb-2 me-3" onClick={()=>handleModal(lable)}>

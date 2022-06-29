@@ -47,13 +47,13 @@ export default function Header() {
   },[account]);
 
   const getUsertype = (accountAddress) =>{
-    getUserType(accountAddress).then( res =>{
-      console.log(res.data)
+    getUserType(accountAddress.toLowerCase()).then( res =>{
       if (res.data && res.data.data) {
         let ut = UserType[res.data.data.userType];
         setUserType(ut)
       }
     }).catch(e=>{
+      console.log(e);
       setUserType('NotValidatorNorDeligator')
     })
   }
