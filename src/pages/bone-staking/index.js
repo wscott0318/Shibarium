@@ -71,6 +71,7 @@ const BoneStaking = () => {
                   <BorderBtn
                     link="./become-validator"
                     lable="Become A Validator"
+                    handleModal={()=>{}}
                   />
                 </>
               )}
@@ -80,14 +81,17 @@ const BoneStaking = () => {
                     <BorderBtn
                       link="./become-validator"
                       lable="Become A Validator"
+                      handleModal={()=>{}}
                     />
                     <WarningBtn
                       link="all-validator"
                       lable="Become A Delegator"
+                      handleModal={()=>{}}
                     />{" "}
                     <BorderBtn
                       link="./delegator-validator"
                       lable="Choose Your Path"
+                      handleModal={()=>{}}
                     />
                   </div>
                 </>
