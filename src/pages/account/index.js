@@ -4,13 +4,15 @@ import  WalletBalance  from "../components/WalletBalance";
 import InnerHeader from "../inner-header";
 import { useWeb3React } from "@web3-react/core";
 import Web3 from "web3";
-import { getUserType } from "../../services/apis/user/userApi";
+import { getBoneUSDValue } from "../../services/apis/validator/index";
 import { useActiveWeb3React } from "app/services/web3";
 import {UserType} from '../../enums/UserType'
+import { BONE_ID } from '../../config/constant';
 
 export default function Account() {
   const [availBalance, setAvailBalance] = useState("0");
   const [userType, setUserType] = useState('Anonymous');
+  const [boneUSDValue,setBoneUSDValue] = useState(0);
 
   const { library, chainId, account } = useActiveWeb3React();
   useEffect(() => {
@@ -21,6 +23,13 @@ export default function Account() {
       });
     }
   },[library,account]);
+
+  useEffect(() => {
+    getBoneUSDValue(BONE_ID).then(res=>{
+      setBoneUSDValue(res.data.data.price);
+    })
+  },[])
+  
 
   // console.log("availBalance", availBalance);
   // useEffect(()=>{
@@ -47,6 +56,7 @@ export default function Account() {
             <div className="text-center center-sec">
               <WalletBalance
                 balance={availBalance}
+                boneUSDValue={boneUSDValue}
                 isDelegator={userType === UserType.Deligator}
                 isValidator={userType  === UserType.Validator}
                

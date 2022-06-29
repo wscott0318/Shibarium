@@ -1,18 +1,22 @@
 import { http } from "../http";
+import {RetakeFormInterface} from "../../../interface/reTakeFormInterface"
 
 export function validatorsList(){
     return http.get(`validator/getList`)
 }
-export function retake(reqBody){
+export function retake(reqBody:RetakeFormInterface){
     return http.post(`validator/restake`,reqBody)
 }
-export function commission(reqBody){
+export function commission(reqBody:any){
     return http.post(`validator/updateCommission`,reqBody)
 }
 
-export function withdrawReward(reqBody){
+export function withdrawReward(reqBody:any){
     return http.post(`validator/withdrawRewards`,reqBody)
 }
 export function unbound(){
     return http.get(`validator/list`)
+}
+export function getBoneUSDValue(coinId:string){
+    return http.get(`/coins/rate/${coinId}`)
 }
