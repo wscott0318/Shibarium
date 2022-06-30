@@ -1208,7 +1208,9 @@ color:$green-color;
     }
 }
 .circle-box {
-    display: inline-block;
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width: 57px;
     height: 57px;
     border-radius: 50%;
@@ -1217,7 +1219,6 @@ color:$green-color;
     -ms-border-radius: 50%;
     -moz-border-radius: 50%;
     text-align: center;
-    line-height: 57px;
     background:$primary;
 }
 .opacity{
