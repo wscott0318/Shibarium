@@ -370,13 +370,13 @@ export default function Header() {
               ) : (
                 <>
                   {error ? <Web3Status /> : <form action="" className="inline-form ms-2">
-                    <a href="jvascript:void(0)" className="btn gradient_btn">
+                    <div href="jvascript:void(0)" className="btn gradient_btn">
                     <Link href="/login" >
                       {/* <a className=""> */}
                         <span>Connect To A Wallet</span>
                       {/* </a> */}
                     </Link>
-                    </a>
+                    </div>
                   </form>}
                 </>
               )}
