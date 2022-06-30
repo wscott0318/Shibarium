@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 import  BorderBtn  from "./BorderBtn";
 import  WarningBtn  from "./WarningBtn";
 
-import { useFormik,FormikProps } from "formik";
+import { useFormik,FormikProps, ErrorMessage, Field, FormikProvider } from "formik";
 import * as Yup from "yup";
 
 import { commission, retake, withdrawReward } from "../../services/apis/validator";
@@ -71,6 +71,7 @@ const restakeValidation:any = Yup.object({
       reward:'',
     },
     onSubmit: (values:RetakeFormInterface) => {
+      // console.log(values)
       setLoading(true);
       retake(values)
         .then((res:any) => {
@@ -145,7 +146,7 @@ const restakeValidation:any = Yup.object({
       })
     },
   });
-
+  const renderError = (message:string) => <p className="text-danger">{message}</p>;
   return (
     <>
 {error&&<ToastNotify toastMassage={errMessage}/>}
@@ -195,6 +196,8 @@ const restakeValidation:any = Yup.object({
             </Modal.Title>
           </Modal.Header>
           <Modal.Body className="position-relative">
+          <FormikProvider value={retakeFormik}>
+
             <form onSubmit={retakeFormik.handleSubmit} className="modal-form">
               <div className="form-group">
                 <label htmlFor="" className="form-label">
@@ -215,7 +218,7 @@ const restakeValidation:any = Yup.object({
                 <label htmlFor="" className="form-label">
                   Amount
                 </label>
-                <input
+                <Field
                   type="number"
                   className="form-control form-bg"
                   id="amount"
@@ -224,6 +227,13 @@ const restakeValidation:any = Yup.object({
                   onChange={retakeFormik.handleChange}
                   value={retakeFormik.values.amount}
                 />
+                {/* <Field
+                name="amount"
+                type="text"
+                className="form-control form-bg"
+                placeholder="Full name"
+              /> */}
+                <ErrorMessage name="amount" render={renderError} />
               </div>
               <div className="form-group">
                 <label htmlFor="" className="form-label">
@@ -238,6 +248,7 @@ const restakeValidation:any = Yup.object({
                   onChange={retakeFormik.handleChange}
                   value={retakeFormik.values.reward}
                 />
+                 <ErrorMessage name="reward" render={renderError} />
               </div>
               <div className="pt-3 form-group pt-md-4">
                 <button
@@ -248,6 +259,7 @@ const restakeValidation:any = Yup.object({
                 </button>
               </div>
             </form>
+          </FormikProvider>
           </Modal.Body>
         </Modal>
       </div>
