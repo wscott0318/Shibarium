@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { validatorsList } from "../../services/apis/validator";
 import { filter } from "lodash";
+import ValidatorGrid from '../../pages/validator-grid';
 
 
 export default function Allvalidator() {
@@ -137,8 +138,8 @@ export default function Allvalidator() {
                       </Dropdown.Menu>
                     </Dropdown>
                   </div>
-                  <div className="d-inline-block">
-                    <a
+                  <div className="d-inline-flex">
+                    <div
                       href="javascript:void(0);"
                       title=""
                       className="view-blk me-2 view-active"
@@ -157,8 +158,8 @@ export default function Allvalidator() {
                         height={19}
                         alt=""
                       ></img>
-                    </a>
-                    <a href="javascript:void(0);" title="" className="view-blk">
+                    </div>
+                    <div  title="" className="view-blk">
                       <img
                         className="grey-image"
                         src="../../assets/images/list-grey.png"
@@ -173,7 +174,7 @@ export default function Allvalidator() {
                         height={19}
                         alt=""
                       ></img>
-                    </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -675,6 +676,9 @@ export default function Allvalidator() {
                 </tbody>
               </table>
             </div>
+          </div>
+          <div className="grid-view-wrap">
+            <ValidatorGrid />
           </div>
           <footer className="main-footer">
             <div className="container">

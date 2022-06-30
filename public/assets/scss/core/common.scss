@@ -981,6 +981,7 @@ color:$green-color;
             padding: 25px 20px 20px;
             color:$white;
             font-size: 16px;
+            white-space: nowrap;
             &:first-child{
                 border-radius: 10px 0 0 0;
                 }
@@ -992,6 +993,7 @@ color:$green-color;
         padding: 20px 20px 15px;
         font-size: 16px;
         border-bottom:1px solid $black3;
+        white-space: nowrap;
         }
     }
     tbody{
