@@ -57,7 +57,7 @@ export default function Account() {
               <WalletBalance
                 balance={availBalance}
                 boneUSDValue={boneUSDValue}
-                isDelegator={userType === UserType.Deligator}
+                isDelegator={userType === UserType.Delegator}
                 isValidator={userType  === UserType.Validator}
                
 
