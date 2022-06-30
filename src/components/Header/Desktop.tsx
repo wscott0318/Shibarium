@@ -27,10 +27,10 @@ const Desktop: FC = () => {
       <header className="fixed z-20 hidden w-full lg:block" style={{ height: HEADER_HEIGHT }}>
         <nav className={NAV_CLASS}>
           <Container maxWidth="7xl" className="mx-auto">
-            <div className="flex items-center justify-between gap-4 px-6">
+            <div className="">
               <div className="flex gap-4">
                 <div className="flex items-center w-6 mr-4">
-                  <Image src="https://www.shibatoken.com/images/shib-logo.svg" alt="Sushi logo" width="24px" height="24px" />
+                  <Image src="https://www.shibatoken.com/images/shib-logo.svg" alt="Sushi logo" width="24" height="24" />
                 </div>
                 {/* {menu.map((node) => {
                   return <NavigationItem node={node} key={node.key} />
@@ -59,10 +59,10 @@ export const RightMenu = ()=>{
       </div>
     )}
 
-    <div className="flex items-center w-auto text-sm font-bold border-2 rounded shadow cursor-pointer pointer-events-auto select-none border-dark-800 hover:border-dark-700 bg-dark-900 whitespace-nowrap">
+    <div className=" flex items-center w-auto text-sm font-bold border-2 rounded shadow cursor-pointer pointer-events-auto select-none border-dark-800 hover:border-dark-700 bg-dark-900 whitespace-nowra">
       {account && chainId && userEthBalance && (
-        <Link href="#" passHref={true}>
-          <a className="hidden px-3 text-high-emphesis text-bold md:block">
+        <Link  href="#" passHref={true}>
+          <a className="network hidden px-3 text-high-emphesis text-bold md:block">
             {/*@ts-ignore*/}
             {userEthBalance?.toSignificant(4)} {NATIVE[chainId || 1].symbol}
           </a>
