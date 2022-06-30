@@ -1,5 +1,5 @@
 export interface RetakeFormInterface{
     validatorAddress:string,
-    amount:number,
-    reward:number,
+    amount:number|string,
+    reward:number|string,
   }

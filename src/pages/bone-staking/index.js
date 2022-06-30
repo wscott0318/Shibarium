@@ -75,7 +75,7 @@ const BoneStaking = () => {
                   />
                 </>
               )}
-              {userType === UserType.NotValidatorNorDeligator && (
+              {userType === UserType.NA && (
                 <>
                   <div className="flex-wrap d-flex align-items-centeer">
                     <BorderBtn

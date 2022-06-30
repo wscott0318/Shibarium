@@ -11,6 +11,8 @@ import  ToastNotify  from "./ToastNotify";
 import {useUserType} from '../../state/user/hooks';
 import { UserType } from "../../enums/UserType";
 import {RetakeFormInterface} from "../../interface/reTakeFormInterface";
+import { useActiveWeb3React } from '../../services/web3'
+
 interface WalletBalanceProps{
   balance:number,
   boneUSDValue:number
@@ -18,7 +20,7 @@ interface WalletBalanceProps{
 
 const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
 
-  const [retakeModal, setRetakeModal] = useState(false);
+  const [retakeModal, setRestakeModal] = useState(false);
   const [commiModal, setCommiModal] = useState(false);
   const [withdrawModal, setWithdrawModal] = useState(false);
   const [unboundModal, setUnboundModal] = useState(false);
@@ -29,11 +31,12 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
   const [tranHashCode, setTranHashCode] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [userType, setUserType] =useUserType();
+  const {account} = useActiveWeb3React()
 
   const handleModal = (btn:String) => {
     switch (btn) {
-      case "Retake":
-        setRetakeModal(true);
+      case "Restake":
+        setRestakeModal(true);
         break;
       case "Change Commission Rate":
         setCommiModal(true);
@@ -52,9 +55,9 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
 
     const retakeFormik: FormikProps<RetakeFormInterface> = useFormik<RetakeFormInterface>({
     initialValues: {
-      validatorAddress: "",
-      amount:0,
-      reward:0,
+      validatorAddress: account || '',
+      amount:'',
+      reward:'',
     },
     onSubmit: (values:RetakeFormInterface) => {
       setLoading(true);
@@ -66,7 +69,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
             setTranHashCode(res.data.data.transactionHash);
             setSuccessMsg(res.data.message);
             setConfirm(true);
-            setRetakeModal(false);
+            setRestakeModal(false);
           }
         })
         .catch((err) => {
@@ -140,26 +143,23 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
       </h1>
       <h2 className="low-font-wt">{(balance*boneUSDValue).toFixed(4)} USD</h2>
       <div className="d-flex align-items-center justify-content-center mt-4 flex-column flex-sm-row flex-wrap">
-        {userType === UserType.Validator && (
-          <>
-            <BorderBtn lable="Retake" handleModal={handleModal} />
-            <BorderBtn
-              lable="Change Commission Rate"
-              handleModal={handleModal}
-            />
-            <BorderBtn lable="Withdraw Rewards" handleModal={handleModal} />
-            <BorderBtn lable="Unbound" handleModal={handleModal} />
-          </>
-        )}
         {userType === UserType.Deligator && (
           <>
-            <BorderBtn lable="Become A Validator" handleModal={()=>{}} />
-            <BorderBtn lable="Retake" handleModal={()=>{}} />
+            <BorderBtn lable="Become A Validator" handleModal={handleModal} />
+            <BorderBtn lable="Restake" handleModal={()=>{}} />
             <BorderBtn lable="Withdraw Rewards" handleModal={()=>{}}/>
             <BorderBtn lable="Unbound" handleModal={()=>{}} />
           </>
         )}
-        {userType !== UserType.NotValidatorNorDeligator && (
+        {userType === UserType.Validator && (
+          <>
+            <BorderBtn lable="Restake" handleModal={handleModal} />
+            <BorderBtn lable="Change Commission Rate" handleModal={handleModal} />
+            <BorderBtn lable="Withdraw Rewards" handleModal={handleModal}/>
+            <BorderBtn lable="Unbound" handleModal={handleModal} />
+          </>
+        )}
+        {userType === UserType.NA && (
           <>
             <BorderBtn lable="Become A Validator" handleModal={handleModal} />
             <WarningBtn lable="Become A Delegator" />
@@ -171,7 +171,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
         <Modal
           className="shib-popup"
           show={retakeModal}
-          onHide={() => setRetakeModal(false)}
+          onHide={() => setRestakeModal(false)}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
@@ -194,6 +194,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
                   placeholder="Enter Validator address"
                   id="validatorAddress"
                   name="validatorAddress"
+                  readOnly
                   onChange={retakeFormik.handleChange}
                   value={retakeFormik.values.validatorAddress}
                 />
@@ -207,7 +208,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
                   className="form-control form-bg"
                   id="amount"
                   name="amount"
-                  placeholder="Enter amount"
+                  placeholder="0"
                   onChange={retakeFormik.handleChange}
                   value={retakeFormik.values.amount}
                 />
@@ -218,7 +219,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
                 </label>
                 <input
                   type="number"
-                  placeholder="Enter stakereward"
+                  placeholder="0"
                   className="form-control form-bg"
                   id="reward"
                   name="reward"
