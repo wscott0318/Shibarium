@@ -54,9 +54,6 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
         break;
     }
   };
-useEffect(() => {
-  console.log(userType, UserType.Delegator,userType === UserType.Delegator)
-}, [])
 
 const restakeValidation:any = Yup.object({
   validatorAddress: Yup.string().required(),
