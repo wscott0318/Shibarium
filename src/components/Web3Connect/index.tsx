@@ -30,7 +30,7 @@ export default function Web3Connect({ color = 'gray', size = 'sm', className = '
       
       {...rest}
     >
-      {`Connect using browser wallet`}
+      {`Connect to a wallet`}
     </Button>
   )
 }
