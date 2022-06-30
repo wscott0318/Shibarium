@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 import  BorderBtn  from "./BorderBtn";
 import  WarningBtn  from "./WarningBtn";
 import { useFormik,FormikProps } from "formik";
-import { commission, retake, withdrawReward } from "../../services/apis/validator";
+import { commission, restake, withdrawReward } from "../../services/apis/validator";
 import  ConfirmPopUp  from "./ConfirmPopUp";
 import { TailSpin, Triangle } from "react-loader-spinner";
 import  LoadingSpinner  from "./Loading";
@@ -20,7 +20,7 @@ interface WalletBalanceProps{
 
 const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
 
-  const [retakeModal, setRestakeModal] = useState(false);
+  const [restakeModal, setRestakeModal] = useState(false);
   const [commiModal, setCommiModal] = useState(false);
   const [withdrawModal, setWithdrawModal] = useState(false);
   const [unboundModal, setUnboundModal] = useState(false);
@@ -61,7 +61,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
     },
     onSubmit: (values:RetakeFormInterface) => {
       setLoading(true);
-      retake(values)
+      restake(values)
         .then((res:any) => {
           console.log("res", res);
           if (res.status == 200) {
@@ -84,7 +84,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
   });
   const commiFormik = useFormik({
     initialValues: {
-      validatorAddress: "",
+      validatorAddress: account || '',
       newCommission: "",
     },
     onSubmit: (values) => {
@@ -104,6 +104,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
           setErrMessage(err.message);
           setLoading(false);
           setError(true);
+          setCommiModal(false);
           setTimeout(()=>{
             setError(false)
           },1000)
@@ -113,7 +114,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
   });
   const withdrawFormk = useFormik({
     initialValues: {
-      validatorAddress: "",
+      validatorAddress: account||'',
     },
     onSubmit: (values) => {
       setLoading(true);
@@ -170,7 +171,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
       <div className={` modal-wrap`}>
         <Modal
           className="shib-popup"
-          show={retakeModal}
+          show={restakeModal}
           onHide={() => setRestakeModal(false)}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter "
@@ -179,7 +180,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
           {loading && <LoadingSpinner />}
           <Modal.Header closeButton className="text-center">
             <Modal.Title id="example-custom-modal-styling-title">
-              Retake
+              Restake
             </Modal.Title>
           </Modal.Header>
           <Modal.Body className="position-relative">
@@ -204,7 +205,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
                   Amount
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   className="form-control form-bg"
                   id="amount"
                   name="amount"
@@ -218,7 +219,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
                   Stakereward
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   placeholder="0"
                   className="form-control form-bg"
                   id="reward"
@@ -269,6 +270,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
                   id="validatorAddress"
                   name="validatorAddress"
                   onChange={commiFormik.handleChange}
+                  readonly
                   value={commiFormik.values.validatorAddress}
                   placeholder="Enter Validator address"
                 />
