@@ -8,15 +8,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { validatorsList } from "../../services/apis/validator";
 import { filter } from "lodash";
 
+
 export default function Allvalidator() {
+
   const [modalShow, setModalShow] = React.useState(false);
-
-  // const dispatch = useDispatch();
-  // const users = useSelector(state => state.users.users);
-  // console.log('users---------------------', users)
-
   const [activeValidators, setActiveValidators] = useState([])
   const [inactiveValidators, setInactiveValidators] = useState([])
+  
+  const [selectedRow, setSelectedRow] = useState({})
+ 
 
   useEffect(()=>{
     validatorsList().then(res=>{
@@ -34,10 +34,10 @@ export default function Allvalidator() {
     <>
       <div className="page-wrapper">
         <InnerHeader />
-        <DelegatePopup show={modalShow} onHide={() => setModalShow(false)} />
+        <DelegatePopup show={modalShow} onHide={() => setModalShow(false)} data={selectedRow} />
         <main className="delegator-sec">
           <div className="botom-space-lg">
-            <div className="black_clr_box position-relative sec-spc-high position-relative">
+            <div className="black_clr_box position-relative sec-spc-high">
               <div className="char-block">
                 <img
                   width="655"
@@ -49,8 +49,8 @@ export default function Allvalidator() {
               </div>
               <div className="container">
                 <div className="row">
-                  <div className="col-sm-8 text-sm-start text-center">
-                    <h1 className="light-text mb-2 mb-sm-3 fnt-58 fnt-100">
+                  <div className="text-center col-sm-8 text-sm-start">
+                    <h1 className="mb-2 light-text mb-sm-3 fnt-58 fnt-100">
                       All Validators
                     </h1>
                     <div className="">
@@ -88,7 +88,7 @@ export default function Allvalidator() {
             </div>
             <div className="filter-sec">
               <div className="row align-items-center">
-                <div className="col-lg-5 col-12 mb-sm-4 mb-lg-0 mb-4">
+                <div className="mb-4 col-lg-5 col-12 mb-sm-4 mb-lg-0">
                   <div className="search-box d-inline-block position-relative w-100">
                     <input
                       className="cus-search w-100"
@@ -179,13 +179,13 @@ export default function Allvalidator() {
               </div>
             </div>
             <div className="mb-4">
-              <h4 className="fw-700 mb-3">
+              <h4 className="mb-3 fw-700">
                 Here is a list of active Validators
               </h4>
             </div>
           </div>
           <div className="container">
-            <div className="outer-table mb-4 mb-lg-5">
+            <div className="mb-4 outer-table mb-lg-5">
               <table className="data-table">
                 <thead>
                   <tr className="table-header">
@@ -233,7 +233,7 @@ export default function Allvalidator() {
                     <td className="user-action">
                       <a
                         href="javascript:void(0)"
-                        onClick={() => setModalShow(true)}
+                        onClick={() => {setModalShow(true);setSelectedRow(elm)}}
                         title=""
                         className="btn-small uppercase-txt warning-btn"
                       >
@@ -678,7 +678,7 @@ export default function Allvalidator() {
           </div>
           <footer className="main-footer">
             <div className="container">
-              <div className="copyright mt-4 mt-lg-5">
+              <div className="mt-4 copyright mt-lg-5">
                 <h3 className="mb-0 text-center fwb">Powered by xFund.</h3>
               </div>
             </div>

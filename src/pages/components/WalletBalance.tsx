@@ -291,7 +291,7 @@ const restakeValidation:any = Yup.object({
                   id="validatorAddress"
                   name="validatorAddress"
                   onChange={commiFormik.handleChange}
-                  readonly
+                  disabled
                   value={commiFormik.values.validatorAddress}
                   placeholder="Enter Validator address"
                 />
