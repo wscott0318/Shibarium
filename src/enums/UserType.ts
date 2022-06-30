@@ -1,5 +1,5 @@
 export enum UserType {
     Validator = 'Validator',
-    Deligator = 'Deligator',
+    Delegator = 'Delegator',
     NA = 'NA'
 }

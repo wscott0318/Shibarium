@@ -295,7 +295,7 @@ export default function Header() {
               )}
               {account ? (
                 <>
-                  <div className="widg-col d-flex align-items-center">
+                  <div className="widg-col d-flex align-items-center dd-mask">
                     {/* <div className="prof-img me-2">
                       <img
                         className="img-fluid"
@@ -303,8 +303,9 @@ export default function Header() {
                         alt="prof-img"
                       />
                     </div> */}
+                    <RightMenu />
                     <div className="cus-dd">
-                      <RightMenu />
+                      
                       <NavDropdown
                         // title={`Account ${
                         //   account && account.slice(0, 4)

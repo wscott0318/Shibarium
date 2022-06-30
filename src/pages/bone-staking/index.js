@@ -22,7 +22,7 @@ const BoneStaking = () => {
   // const [isDelegator, setIsDelegator] = useState(false);
   // useEffect(()=>{
   //   setTimeout(() => {
-  //     usss('Deligator')
+  //     usss('Delegator')
   //   }, 4000);
   //   let accounts=localStorage.getItem('accounts')
   //   if(accounts=="0x14d76811453183669C4561eF25f57401414DEEfB"){
@@ -66,7 +66,7 @@ const BoneStaking = () => {
                   <span className="grad-text trs-6">Shibarium Staking</span>
                 </div>
               </h1>
-              {userType === UserType.Deligator && (
+              {userType === UserType.Delegator && (
                 <>
                   <BorderBtn
                     link="./become-validator"
