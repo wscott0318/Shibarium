@@ -22,7 +22,7 @@ export default function Sidebar(props) {
   };
 
   const handleActiveTab=(index)=>{
-    sideNavTab.filter(elm=>{
+    SideNavTab.filter(elm=>{
       if(elm.id==index){
         elm.isActive=true
       }else{
@@ -30,7 +30,6 @@ export default function Sidebar(props) {
       }
     })
   }
-console.log('sideNavTab', sideNavTab)
   return (
     <>
       {" "}
@@ -57,7 +56,7 @@ console.log('sideNavTab', sideNavTab)
               alt=""
             />
           </a>
-          <div className="d-xl-none p-2 py-3">
+          <div className="p-2 py-3 d-xl-none">
             <div className="widg-col d-flex align-items-center">
               <div className="prof-img me-2">
                 <img
@@ -66,7 +65,7 @@ console.log('sideNavTab', sideNavTab)
                   alt="prof-img"
                 />
               </div>
-              <h6 className="fw-500 text-white">Account 5d45</h6>
+              <h6 className="text-white fw-500">Account 5d45</h6>
             </div>
           </div>
           {/* <div className="side-logo d-none d-xl-block">
@@ -80,7 +79,7 @@ console.log('sideNavTab', sideNavTab)
           </div> */}
 
           <ul className="nav-menu">
-            {sideNavTab&&sideNavTab.map((tab,index)=>{
+            {SideNavTab&&SideNavTab.map((tab,index)=>{
               return(
                 <NavLink tab={tab} key={index} index={index}handleActiveTab={handleActiveTab}/>
               )
