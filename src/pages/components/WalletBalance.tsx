@@ -6,7 +6,7 @@ import  WarningBtn  from "./WarningBtn";
 import { useFormik,FormikProps, ErrorMessage, Field, FormikProvider } from "formik";
 import * as Yup from "yup";
 
-import { commission, retake, withdrawReward } from "../../services/apis/validator";
+import { commission, restake, withdrawReward } from "../../services/apis/validator";
 import  ConfirmPopUp  from "./ConfirmPopUp";
 import { TailSpin, Triangle } from "react-loader-spinner";
 import  LoadingSpinner  from "./Loading";
@@ -23,7 +23,7 @@ interface WalletBalanceProps{
 
 const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
 
-  const [retakeModal, setRestakeModal] = useState(false);
+  const [restakeModal, setRestakeModal] = useState(false);
   const [commiModal, setCommiModal] = useState(false);
   const [withdrawModal, setWithdrawModal] = useState(false);
   const [unboundModal, setUnboundModal] = useState(false);
@@ -70,7 +70,7 @@ const restakeValidation:any = Yup.object({
     onSubmit: (values:RetakeFormInterface) => {
       // console.log(values)
       setLoading(true);
-      retake(values)
+      restake(values)
         .then((res:any) => {
           console.log("res", res);
           if (res.status == 200) {
@@ -94,7 +94,7 @@ const restakeValidation:any = Yup.object({
   });
   const commiFormik = useFormik({
     initialValues: {
-      validatorAddress: "",
+      validatorAddress: account || '',
       newCommission: "",
     },
     onSubmit: (values) => {
@@ -114,6 +114,7 @@ const restakeValidation:any = Yup.object({
           setErrMessage(err.message);
           setLoading(false);
           setError(true);
+          setCommiModal(false);
           setTimeout(()=>{
             setError(false)
           },1000)
@@ -123,7 +124,7 @@ const restakeValidation:any = Yup.object({
   });
   const withdrawFormk = useFormik({
     initialValues: {
-      validatorAddress: "",
+      validatorAddress: account||'',
     },
     onSubmit: (values) => {
       setLoading(true);
@@ -180,7 +181,7 @@ const restakeValidation:any = Yup.object({
       <div className={` modal-wrap`}>
         <Modal
           className="shib-popup"
-          show={retakeModal}
+          show={restakeModal}
           onHide={() => setRestakeModal(false)}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter "
@@ -215,8 +216,8 @@ const restakeValidation:any = Yup.object({
                 <label htmlFor="" className="form-label">
                   Amount
                 </label>
-                <Field
-                  type="number"
+                <input
+                  type="text"
                   className="form-control form-bg"
                   id="amount"
                   name="amount"
@@ -237,7 +238,7 @@ const restakeValidation:any = Yup.object({
                   Stake Reward
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   placeholder="0"
                   className="form-control form-bg"
                   id="reward"
@@ -290,6 +291,7 @@ const restakeValidation:any = Yup.object({
                   id="validatorAddress"
                   name="validatorAddress"
                   onChange={commiFormik.handleChange}
+                  readonly
                   value={commiFormik.values.validatorAddress}
                   placeholder="Enter Validator address"
                 />
