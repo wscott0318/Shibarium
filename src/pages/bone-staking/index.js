@@ -230,8 +230,8 @@ const BoneStaking = () => {
                     </Dropdown.Menu>
                   </Dropdown>
                 </div>
-                <div className="d-inline-block">
-                  <a
+                <div className="d-inline-flex">
+                  <div
                     href="javascript:void(0);"
                     title=""
                     className="view-blk me-2 view-active"
@@ -250,8 +250,8 @@ const BoneStaking = () => {
                       height={19}
                       alt=""
                     ></img>
-                  </a>
-                  <a href="javascript:void(0);" title="" className="view-blk">
+                  </div>
+                  <div href="javascript:void(0);" title="" className="view-blk">
                     <img
                       className="grey-image"
                       src="../../assets/images/list-grey.png"
@@ -266,7 +266,7 @@ const BoneStaking = () => {
                       height={19}
                       alt=""
                     ></img>
-                  </a>
+                  </div>
                 </div>
               </div>
             </div>
