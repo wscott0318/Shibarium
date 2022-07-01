@@ -57,7 +57,7 @@ export default function delegator() {
                       </Dropdown.Menu>
                     </Dropdown>
                   </div>
-                  <div className='d-inline-block'>
+                  <div className='d-inline-flex'>
                     <a href="javascript:void(0);" title="" className='view-blk me-2 view-active'>
                       <img className="grey-image" src="../../assets/images/grid-grey.png" width={26} height={19} alt=""></img>
                       <img className="white-image" src="../../assets/images/grid-white.png" width={26} height={19} alt=""></img>
