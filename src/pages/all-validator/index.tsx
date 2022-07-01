@@ -4,15 +4,15 @@ import { Dropdown } from "react-bootstrap";
 import InnerHeader from "../inner-header";
 import DelegatePopup from "../delegate-popup";
 import Link from "next/link";
-import  LoadingSpinner  from "../components/Loading";
+import LoadingSpinner from "../components/Loading";
 import { validatorsList } from "../../services/apis/validator";
-import { filter } from "lodash";
+import { filter, orderBy } from "lodash";
 import ListView from "./listView";
 import ValidatorGrid from "./gridView";
 import Pagination from 'app/components/Pagination'
 import { useSearchFilter } from "app/hooks/useSearchFilter";
 
-export const Allvalidator:React.FC=()=> {
+export const Allvalidator: React.FC = () => {
   const pageSize = 2;
 
   const [validatorsByStatus, setValidatorsByStatus] = useState<any[]>([]);
@@ -25,13 +25,12 @@ export const Allvalidator:React.FC=()=> {
   const [searchKey, setSearchKey] = useState<string>('')
   const [sortKey, setSortKey] = useState<string>('Random')
 
-  const searchResult =useSearchFilter(validatorsByStatus,searchKey);
+  const searchResult = useSearchFilter(validatorsByStatus, searchKey);
 
-useEffect(() => {
-  const slicedList = searchResult.slice( 0,  pageSize)
-          // isActiveTab ? setActiveValidators(searchResult): setInactiveValidators(searchResult)
-          setValidators(slicedList)
-}, [searchResult])
+  useEffect(() => {
+    const slicedList = searchResult.slice(0, pageSize)
+    setValidators(slicedList)
+  }, [searchResult])
 
   useEffect(() => {
     setLoading(true)
@@ -44,14 +43,9 @@ useEffect(() => {
             res.data.data.validatorsList,
             (e) => e.status === 1
           );
-          const slicedList = activeList.slice( 0,  pageSize)
+          const slicedList = activeList.slice(0, pageSize)
           setValidators(slicedList)
           setValidatorsByStatus(activeList);
-          // const inactiveList = filter(
-          //   res.data.data.validatorsList,
-          //   (e) => e.status !== 1
-          // );
-          // setInactiveValidators(inactiveList);
         }
       })
       .catch((err) => {
@@ -59,37 +53,33 @@ useEffect(() => {
       });
   }, []);
   useEffect(() => {
-    const activeStatus =1;
-   let filtered =[]
+    const activeStatus = 1;
+    let filtered = []
     if (isActiveTab) {
-    filtered =  allValidators.filter(e=>e.status === activeStatus)
-    }else{
-      filtered =  allValidators.filter(e=>e.status !== activeStatus)
+      filtered = allValidators.filter(e => e.status === activeStatus)
+    } else {
+      filtered = allValidators.filter(e => e.status !== activeStatus)
     }
     setValidatorsByStatus(filtered)
-    // isActiveTab
-    //   ? setValidators(activeValidators)
-    //   : setValidators(inactiveValidators);
   }, [isActiveTab]);
 
-  const pageChangeHandler =(index:number)=>{
+  const pageChangeHandler = (index: number) => {
     console.log(index)
-    // const list = isActiveTab ? activeValidators: inactiveValidators;
-    const slicedList = validatorsByStatus.slice((index-1) * pageSize, (index * pageSize))
+    const slicedList = validatorsByStatus.slice((index - 1) * pageSize, (index * pageSize))
     setValidators(slicedList)
     setCurrentPage(index)
 
   }
-  const onSort =(key:string, column:string)=>{
+  const onSort = (key: string, column: string) => {
     setSortKey(key)
-    const sortedList = validators.sort((a:any,b:any)=> b[column]-a[column])
+    const sortedList = orderBy(validators, column, 'asc');
     setValidators(sortedList)
 
   }
   return (
     <>
       <div className="page-wrapper">
-      {loading && <LoadingSpinner />}
+        {loading && <LoadingSpinner />}
         <InnerHeader />
         <main className="delegator-sec">
           <div className="botom-space-lg">
@@ -126,16 +116,16 @@ useEffect(() => {
               <div className="me-3">
                 <a
                   href="javascript:void(0);"
-                  className={`btn black-btn ${isActiveTab? 'btn-active':''}`}
-                  title="" onClick={()=>{setIsActiveTab(true)}}>
+                  className={`btn black-btn ${isActiveTab ? 'btn-active' : ''}`}
+                  title="" onClick={() => { setIsActiveTab(true) }}>
                   <span>ACTIVE</span>
                 </a>
               </div>
               <div>
                 <a
                   href="javascript:void(0);"
-                  className={`btn black-btn ${!isActiveTab? 'btn-active':''}`}
-                  title="" onClick={()=>{setIsActiveTab(false)}}>
+                  className={`btn black-btn ${!isActiveTab ? 'btn-active' : ''}`}
+                  title="" onClick={() => { setIsActiveTab(false) }}>
                   <span>INACTIVE</span>
                 </a>
               </div>
@@ -149,8 +139,8 @@ useEffect(() => {
                       type="text"
                       placeholder="Search by validator name, Id, owner or signer address"
                       value={searchKey}
-                      onChange={(e)=>setSearchKey(e.target.value)}
-                      ></input>
+                      onChange={(e) => setSearchKey(e.target.value)}
+                    ></input>
                     <img
                       width="15"
                       height="15"
@@ -183,13 +173,13 @@ useEffect(() => {
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu>
-                        <Dropdown.Item onClick={()=> onSort('Random', 'name')}>Random</Dropdown.Item>
-                        <Dropdown.Item onClick={()=> onSort('Commission', 'commissionRate')}>Commission</Dropdown.Item>
-                        <Dropdown.Item onClick={()=> onSort('Voting Power', 'stakeAmount')}>
+                        <Dropdown.Item onClick={() => onSort('Random', 'name')}>Random</Dropdown.Item>
+                        <Dropdown.Item onClick={() => onSort('Commission', 'commissionRate')}>Commission</Dropdown.Item>
+                        <Dropdown.Item onClick={() => onSort('Voting Power', 'stakeAmount')}>
                           Voting Power
                         </Dropdown.Item>
-                        <Dropdown.Item onClick={()=> onSort('Uptime', 'uptime')}>
-                        Uptime
+                        <Dropdown.Item onClick={() => onSort('Uptime', 'uptime')}>
+                          Uptime
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
@@ -197,9 +187,8 @@ useEffect(() => {
                   <div className="d-inline-flex">
                     <div
                       title=""
-                      className={`view-blk me-2 ${
-                        !isListView ? "view-active" : ""
-                      }`}
+                      className={`view-blk me-2 ${!isListView ? "view-active" : ""
+                        }`}
                       onClick={() => setListView(false)}>
                       <img
                         className="grey-image"
@@ -249,7 +238,7 @@ useEffect(() => {
             </div>
           )}
           <div className="container">
-          <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={validatorsByStatus.length} currentPage={currentPage}/>
+            <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={validatorsByStatus.length || 1} currentPage={currentPage} />
           </div>
           <footer className="main-footer">
             <div className="container">

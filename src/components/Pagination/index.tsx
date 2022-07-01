@@ -51,7 +51,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
                                     return <li className="pagination-item dots">&#8230;</li>;
                                 }
                                 return (
-                                    <li className="page-item" onClick={() => onPageChange(pageNumber)}>
+                                    <li className={`page-item ${pageNumber === currentPage ? 'active':''}`} onClick={() => onPageChange(pageNumber)}>
                                         <a className="page-link" href="#">
                                             <span>{pageNumber}</span>
                                         </a>
