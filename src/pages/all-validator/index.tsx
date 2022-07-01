@@ -15,18 +15,18 @@ import { useSearchFilter } from "app/hooks/useSearchFilter";
 export const Allvalidator:React.FC=()=> {
   const pageSize = 2;
 
-  const [activeValidators, setActiveValidators] = useState<any[]>([]);
-  const [inactiveValidators, setInactiveValidators] = useState<any[]>([]);
+  const [validatorsByStatus, setValidatorsByStatus] = useState<any[]>([]);
+  const [allValidators, setAllValidators] = useState<any[]>([]);
   const [validators, setValidators] = useState<any[]>([]);
   const [isListView, setListView] = useState<boolean>(true);
   const [isActiveTab, setIsActiveTab] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1)
-
   const [searchKey, setSearchKey] = useState<string>('')
+  const [sortKey, setSortKey] = useState<string>('Random')
 
-  const searchResult =useSearchFilter(isActiveTab? activeValidators: inactiveValidators,searchKey);
-  console.log(searchResult)
+  const searchResult =useSearchFilter(validatorsByStatus,searchKey);
+
 useEffect(() => {
   const slicedList = searchResult.slice( 0,  pageSize)
           // isActiveTab ? setActiveValidators(searchResult): setInactiveValidators(searchResult)
@@ -39,18 +39,19 @@ useEffect(() => {
       .then((res) => {
         setLoading(false)
         if (res.status == 200) {
+          setAllValidators(res.data.data.validatorsList);
           const activeList = filter(
             res.data.data.validatorsList,
             (e) => e.status === 1
           );
           const slicedList = activeList.slice( 0,  pageSize)
           setValidators(slicedList)
-          setActiveValidators(activeList);
-          const inactiveList = filter(
-            res.data.data.validatorsList,
-            (e) => e.status !== 1
-          );
-          setInactiveValidators(inactiveList);
+          setValidatorsByStatus(activeList);
+          // const inactiveList = filter(
+          //   res.data.data.validatorsList,
+          //   (e) => e.status !== 1
+          // );
+          // setInactiveValidators(inactiveList);
         }
       })
       .catch((err) => {
@@ -58,17 +59,31 @@ useEffect(() => {
       });
   }, []);
   useEffect(() => {
-    isActiveTab
-      ? setValidators(activeValidators)
-      : setValidators(inactiveValidators);
+    const activeStatus =1;
+   let filtered =[]
+    if (isActiveTab) {
+    filtered =  allValidators.filter(e=>e.status === activeStatus)
+    }else{
+      filtered =  allValidators.filter(e=>e.status !== activeStatus)
+    }
+    setValidatorsByStatus(filtered)
+    // isActiveTab
+    //   ? setValidators(activeValidators)
+    //   : setValidators(inactiveValidators);
   }, [isActiveTab]);
 
   const pageChangeHandler =(index:number)=>{
     console.log(index)
-    const list = isActiveTab ? activeValidators: inactiveValidators;
-    const slicedList = list.slice((index-1) * pageSize, (index * pageSize))
+    // const list = isActiveTab ? activeValidators: inactiveValidators;
+    const slicedList = validatorsByStatus.slice((index-1) * pageSize, (index * pageSize))
     setValidators(slicedList)
     setCurrentPage(index)
+
+  }
+  const onSort =(key:string, column:string)=>{
+    setSortKey(key)
+    const sortedList = validators.sort((a:any,b:any)=> b[column]-a[column])
+    setValidators(sortedList)
 
   }
   return (
@@ -164,16 +179,17 @@ useEffect(() => {
                     <Dropdown className="cus-dropdown position-relative d-inline-block">
                       <i className="arrow down"></i>
                       <Dropdown.Toggle id="dropdown-basic">
-                        <span>Random</span>
+                        <span>{sortKey}</span>
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu>
-                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">
-                          Another action
+                        <Dropdown.Item onClick={()=> onSort('Random', 'name')}>Random</Dropdown.Item>
+                        <Dropdown.Item onClick={()=> onSort('Commission', 'commissionRate')}>Commission</Dropdown.Item>
+                        <Dropdown.Item onClick={()=> onSort('Voting Power', 'stakeAmount')}>
+                          Voting Power
                         </Dropdown.Item>
-                        <Dropdown.Item href="#/action-3">
-                          Something else
+                        <Dropdown.Item onClick={()=> onSort('Uptime', 'uptime')}>
+                        Uptime
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
@@ -233,7 +249,7 @@ useEffect(() => {
             </div>
           )}
           <div className="container">
-          <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={isActiveTab? activeValidators.length: inactiveValidators.length} currentPage={currentPage}/>
+          <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={validatorsByStatus.length} currentPage={currentPage}/>
           </div>
           <footer className="main-footer">
             <div className="container">

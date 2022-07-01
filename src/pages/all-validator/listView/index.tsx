@@ -15,8 +15,8 @@ export default function ListView({ validatorsList }: { validatorsList: any }) {
                 <thead>
                   <tr className="table-header">
                     <th className="cell-width-lg">Name</th>
-                    <th className="cell-width">Stake</th>
-                    <th className="cell-width">Checkpoints Signed</th>
+                    {/* <th className="cell-width">Stake</th>
+                    <th className="cell-width">Checkpoints Signed</th> */}
                     <th>Voting Power</th>
                     <th>Self</th>
                     <th>Commission</th>
@@ -34,13 +34,13 @@ export default function ListView({ validatorsList }: { validatorsList: any }) {
                       </span>
                       
                     </td>
-                    <td>
+                    {/* <td>
                       <span className="tb-data align">{parseInt(elm.stakeAmount).toFixed(0)}</span>
                       <span className="tb-data-sm align">SHIBA</span>
                     </td>
                     <td>
                       <span className="tb-data warning-color align">100%</span>
-                    </td>
+                    </td> */}
                     <td>
                       <span className="tb-data align">
                         2,269,410,000 (4.32%)

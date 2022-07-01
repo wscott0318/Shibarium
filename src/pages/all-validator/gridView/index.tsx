@@ -24,7 +24,7 @@ export default function ValidatorGrid({ validatorsList }: { validatorsList: any 
                                                     </div>
                                                     <div className='fw-700'>
                                                         <span className='vertical-align'>{validator.name}</span>
-                                                        <p><span className='ft-16 light-text'>{validator.stakeAmount} BONE Staked</span></p>
+                                                        <p><span className='ft-16 light-text'>{(+validator.stakeAmount).toFixed(8)} BONE Staked</span></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -36,7 +36,7 @@ export default function ValidatorGrid({ validatorsList }: { validatorsList: any 
                                                     </div>
                                                 </div>
                                                 <div className='d-flex align-items-center justify-content-between'>
-                                                    <div className='fw-600 ft-16'>Comission</div>
+                                                    <div className='fw-600 ft-16'>Commission</div>
                                                     <div>
                                                         <span className='warning-color fw-600 ft-14'>{validator.commissionRate}%</span>
                                                     </div>
