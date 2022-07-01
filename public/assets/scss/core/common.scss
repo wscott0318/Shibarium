@@ -473,6 +473,10 @@ color:$green-color;
 .cus-pagination{
     .page-item {
         margin-right: 15px;
+        &.disable {
+            opacity: 0.5;
+            pointer-events: none;
+        }
     }
     .page-item:last-child {
         margin-right: 0;
