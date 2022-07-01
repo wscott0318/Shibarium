@@ -202,3 +202,19 @@
         color:$white;
     }
 }
+
+.step_prog_img{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+.steps_data {
+    text-align: center;
+}
+.steps_data h4{
+    display: block;
+    width: 100%;
+}
+.dis_none{
+    display: none;
+}
