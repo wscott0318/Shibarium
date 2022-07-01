@@ -10,6 +10,7 @@ import { filter } from "lodash";
 import ListView from "./listView";
 import ValidatorGrid from "./gridView";
 import Pagination from 'app/components/Pagination'
+import { useSearchFilter } from "app/hooks/useSearchFilter";
 
 export const Allvalidator:React.FC=()=> {
   const pageSize = 2;
@@ -22,6 +23,16 @@ export const Allvalidator:React.FC=()=> {
   const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1)
 
+  const [searchKey, setSearchKey] = useState<string>('')
+
+  const searchResult =useSearchFilter(isActiveTab? activeValidators: inactiveValidators,searchKey);
+  console.log(searchResult)
+useEffect(() => {
+  const slicedList = searchResult.slice( 0,  pageSize)
+          // isActiveTab ? setActiveValidators(searchResult): setInactiveValidators(searchResult)
+          setValidators(slicedList)
+}, [searchResult])
+
   useEffect(() => {
     setLoading(true)
     validatorsList()
@@ -32,7 +43,8 @@ export const Allvalidator:React.FC=()=> {
             res.data.data.validatorsList,
             (e) => e.status === 1
           );
-          setValidators(activeList)
+          const slicedList = activeList.slice( 0,  pageSize)
+          setValidators(slicedList)
           setActiveValidators(activeList);
           const inactiveList = filter(
             res.data.data.validatorsList,
@@ -52,8 +64,9 @@ export const Allvalidator:React.FC=()=> {
   }, [isActiveTab]);
 
   const pageChangeHandler =(index:number)=>{
+    console.log(index)
     const list = isActiveTab ? activeValidators: inactiveValidators;
-    const slicedList = list.slice((index-1) * pageSize, (index * pageSize)-1)
+    const slicedList = list.slice((index-1) * pageSize, (index * pageSize))
     setValidators(slicedList)
     setCurrentPage(index)
 
@@ -119,7 +132,10 @@ export const Allvalidator:React.FC=()=> {
                     <input
                       className="cus-search w-100"
                       type="text"
-                      placeholder="Search by validator name, Id, owner or signer address"></input>
+                      placeholder="Search by validator name, Id, owner or signer address"
+                      value={searchKey}
+                      onChange={(e)=>setSearchKey(e.target.value)}
+                      ></input>
                     <img
                       width="15"
                       height="15"
@@ -217,7 +233,7 @@ export const Allvalidator:React.FC=()=> {
             </div>
           )}
           <div className="container">
-          <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={validators.length} currentPage={currentPage}/>
+          <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={isActiveTab? activeValidators.length: inactiveValidators.length} currentPage={currentPage}/>
           </div>
           <footer className="main-footer">
             <div className="container">

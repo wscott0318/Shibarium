@@ -21,9 +21,9 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
         pageSize
     });
 
-    if (currentPage === 0 || paginationRange.length < 2) {
-        return null;
-    }
+    // if (currentPage === 0 || paginationRange.length < 2) {
+    //     return null;
+    // }
 
     const onNext = () => {
         onPageChange(currentPage + 1);
@@ -41,7 +41,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
                 <div className="col-lg-7 col-md-12 cus-pagination ms-auto">
                     <div className="d-inline-block">
                         <ul className="pagination">
-                            <li className={`page-item ${lastPage}`} >
+                            <li className={`page-item ${currentPage ===1 ? 'disable':''}`} >
                                 <a  className="page-link" href="#"  onClick={onPrevious}>
                                     <span>Previous</span>
                                 </a>
@@ -59,7 +59,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
                             }
                             )}
 
-                            <li className="page-item" onClick={onNext}>
+                            <li className={`page-item ${currentPage === lastPage ? 'disable':''}`} onClick={onNext}>
                                 <a className="page-link" href="#">
                                     <span>Next</span>
                                 </a>
@@ -68,7 +68,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
                     </div>
                 </div>
                 <div className="col-lg-3 col-md-12 text-center text-lg-end mt-3 mt-lg-0">
-                    <span className="fw-700">Showing 1-8 of 300</span>
+                    <span className="fw-700">Showing {((currentPage-1)*pageSize)+1 }-{((currentPage)*pageSize) } of {totalCount}</span>
                 </div>
             </div>
         </div>
