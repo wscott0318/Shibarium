@@ -70,7 +70,7 @@ export const Allvalidator: React.FC = () => {
     setCurrentPage(index)
 
   }
-  const onSort = (key: string, column: string) => {
+  const onSort = (key: string, column: string,type:string) => {
     setSortKey(key)
     const sortedList = orderBy(validators, column, 'asc');
     setValidators(sortedList)
@@ -137,7 +137,7 @@ export const Allvalidator: React.FC = () => {
                     <input
                       className="cus-search w-100"
                       type="text"
-                      placeholder="Search by validator name, Id, owner or signer address"
+                      placeholder="Search by validator name, owner or signer address"
                       value={searchKey}
                       onChange={(e) => setSearchKey(e.target.value)}
                     ></input>
@@ -173,12 +173,12 @@ export const Allvalidator: React.FC = () => {
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => onSort('Random', 'name')}>Random</Dropdown.Item>
-                        <Dropdown.Item onClick={() => onSort('Commission', 'commissionRate')}>Commission</Dropdown.Item>
-                        <Dropdown.Item onClick={() => onSort('Voting Power', 'stakeAmount')}>
+                        <Dropdown.Item onClick={() => onSort('Random', 'name','string')}>Random</Dropdown.Item>
+                        <Dropdown.Item onClick={() => onSort('Commission', 'commissionRate','number')}>Commission</Dropdown.Item>
+                        <Dropdown.Item onClick={() => onSort('Voting Power', 'stakeAmount','number')}>
                           Voting Power
                         </Dropdown.Item>
-                        <Dropdown.Item onClick={() => onSort('Uptime', 'uptime')}>
+                        <Dropdown.Item onClick={() => onSort('Uptime', 'uptime','number')}>
                           Uptime
                         </Dropdown.Item>
                       </Dropdown.Menu>

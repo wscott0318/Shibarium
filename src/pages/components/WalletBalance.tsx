@@ -71,7 +71,7 @@ const restakeValidation:any = Yup.object({
     onSubmit: (values:RetakeFormInterface) => {
       // console.log(values)
       setLoading(true);
-      restake(userType,values)
+      restake(values)
         .then((res:any) => {
           console.log("res", res);
           if (res.status == 200) {
