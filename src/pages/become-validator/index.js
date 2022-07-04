@@ -286,7 +286,7 @@ const Rewards = () => {
               <StepFour activInput= {activInput} handleEdit= {handleEdit} />
 
               {/* step 4 end */}
-              <div className="btn-wrap col-sm-3">
+              <div className="btn-wrap col-sm-3 mt-4 mt-5">
                 <button type="button" className="btn warning-btn w-100">
                   <span>Save</span>
                 </button>

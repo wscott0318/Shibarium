@@ -213,7 +213,7 @@ const BoneStaking = () => {
                   <label className="head-xsm fw-600" for="Auction">
                     <span className="top-low-spc pe-2 align">Sort by</span>
                   </label>
-                  <Dropdown className="cus-dropdown position-relative d-inline-block">
+                  <Dropdown className="dark-dd cus-dropdown position-relative d-inline-block">
                     <i className="arrow down"></i>
                     <Dropdown.Toggle id="dropdown-basic">
                       <span>Random</span>

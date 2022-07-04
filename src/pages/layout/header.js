@@ -243,7 +243,7 @@ export default function Header() {
             >
               <div className="widg-col cus-dd">
                 <NavDropdown className="light-text" title="App" id="">
-                  <NavDropdown.Item href="#action/3.1">
+                  <NavDropdown.Item href="/balance">
                     <h6 className="fw-600 light-text left-border">
                       Shibarium Wallet
                     </h6>
@@ -251,7 +251,7 @@ export default function Header() {
                       Send and receive crypto assets on Shibarium network
                     </span>
                   </NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">
+                  <NavDropdown.Item href="/dashboard">
                     <h6 className="fw-600 light-text left-border">
                       Shibarium Bridge
                     </h6>
@@ -259,7 +259,7 @@ export default function Header() {
                       Deposit and withdraw between networks
                     </span>
                   </NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">
+                  <NavDropdown.Item href="./bone-staking">
                     <h6 className="fw-600 light-text left-border">Stacking</h6>
                     <span className="light-text">
                       Stake shiba and earn rewards

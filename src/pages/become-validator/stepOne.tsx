@@ -44,10 +44,9 @@ function StepOne() {
               </div>
             </div>
             <div className="trs-3">
-              <h6 className="fw-600">Ansible</h6>
+            <h6 className="fw-600">Binaries</h6>
               <p className="ft-16 fw-600">
-                Your Ansible playbooks for setting up Shiba Validator
-                node
+                Build from Source to setup your validator node.
               </p>
             </div>
           </div>

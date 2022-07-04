@@ -105,7 +105,6 @@ export default function Dashboard() {
                       </Nav.Link>
                     </Nav.Item>
                   </Nav>
-                   
                   {/* Deposit tab start */}
                   {isDeposit && (
                     <div className="tab-content-wrap">
