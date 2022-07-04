@@ -137,7 +137,9 @@
             letter-spacing: 0.72px;
             color: #fff;
             padding-left: 12px;
-            position: relative;           
+            position: relative;   
+            display: flex;
+            align-items: center;        
             @media #{$max-xxl}{
                 font-size: 16px;
             }
