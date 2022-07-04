@@ -5,7 +5,6 @@ import  WarningBtn  from "./WarningBtn";
 
 import { useFormik,FormikProps, ErrorMessage, Field, FormikProvider } from "formik";
 import * as Yup from "yup";
-
 import { commission, restake, withdrawReward } from "../../services/apis/validator";
 import  ConfirmPopUp  from "./ConfirmPopUp";
 import { TailSpin, Triangle } from "react-loader-spinner";
@@ -13,7 +12,7 @@ import  LoadingSpinner  from "./Loading";
 import  ToastNotify  from "./ToastNotify";
 import {useUserType} from '../../state/user/hooks';
 import { UserType } from "../../enums/UserType";
-import {RetakeFormInterface} from "../../interface/reTakeFormInterface";
+import {RetakeFormInterface,CommissionRateInterface,WithdrawInterface} from "../../interface/reTakeFormInterface";
 import { useActiveWeb3React } from '../../services/web3'
 
 interface WalletBalanceProps{
@@ -57,8 +56,9 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
 
 const restakeValidation:any = Yup.object({
   validatorAddress: Yup.string().required(),
-  amount: Yup.string().required(),
-  reward: Yup.string().required(),
+  amount: Yup.number().min(0).max(balance).required(),
+  reward: Yup.number().required(),
+  
 })
 
     const retakeFormik: FormikProps<RetakeFormInterface> = useFormik<RetakeFormInterface>({
@@ -92,12 +92,12 @@ const restakeValidation:any = Yup.object({
     },
     validationSchema: restakeValidation,
   });
-  const commiFormik = useFormik({
+  const commiFormik : FormikProps<CommissionRateInterface> =  useFormik<CommissionRateInterface>({
     initialValues: {
       validatorAddress: account || '',
-      newCommission: "",
+      newCommission:'',
     },
-    onSubmit: (values) => {
+    onSubmit: (values:CommissionRateInterface) => {
       setLoading(true);
       commission(values)
         .then((res) => {
@@ -122,11 +122,11 @@ const restakeValidation:any = Yup.object({
         });
     },
   });
-  const withdrawFormk = useFormik({
+  const withdrawFormk: FormikProps<WithdrawInterface> = useFormik<WithdrawInterface>({
     initialValues: {
       validatorAddress: account||'',
     },
-    onSubmit: (values) => {
+    onSubmit: (values:WithdrawInterface) => {
       setLoading(true);
       withdrawReward(values).then((res) => {
         setTranHashCode(res.data.data.transactionHash);
@@ -201,7 +201,7 @@ const restakeValidation:any = Yup.object({
                 <label htmlFor="" className="form-label">
                   {userType} Address
                 </label>
-                <input
+                <Field
                   type="text"
                   className="form-control form-bg"
                   placeholder="Enter Validator address"
@@ -216,8 +216,8 @@ const restakeValidation:any = Yup.object({
                 <label htmlFor="" className="form-label">
                   Amount
                 </label>
-                <input
-                  type="text"
+                <Field
+                  type="number"
                   className="form-control form-bg"
                   id="amount"
                   name="amount"
@@ -225,20 +225,14 @@ const restakeValidation:any = Yup.object({
                   onChange={retakeFormik.handleChange}
                   value={retakeFormik.values.amount}
                 />
-                {/* <Field
-                name="amount"
-                type="text"
-                className="form-control form-bg"
-                placeholder="Full name"
-              /> */}
                 <ErrorMessage name="amount" render={renderError} />
               </div>
               <div className="form-group">
                 <label htmlFor="" className="form-label">
                   Stake Reward
                 </label>
-                <input
-                  type="text"
+                <Field
+                  type="number"
                   placeholder="0"
                   className="form-control form-bg"
                   id="reward"
@@ -301,7 +295,7 @@ const restakeValidation:any = Yup.object({
                   New Commission
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   placeholder="Enter amount"
                   className="form-control form-bg"
                   id="newCommission"
@@ -347,7 +341,7 @@ const restakeValidation:any = Yup.object({
                 {userType} Address
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control form-bg"
                   id="validatorAddress"
                   name="validatorAddress"

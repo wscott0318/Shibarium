@@ -4,3 +4,12 @@ export interface RetakeFormInterface {
   reward: number | string;
   restakeValidation?: any;
 }
+
+export interface CommissionRateInterface{
+  validatorAddress:string,
+  newCommission:number|string,
+}
+
+export interface WithdrawInterface{
+  validatorAddress:string,
+}
