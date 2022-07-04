@@ -54,6 +54,10 @@
         max-width: 160px;
     }
     .nav-menu {
+        padding-top: 54px;
+        @media #{$max-xl}{
+            padding-top: 0;
+        }
         .nav-item{
             margin-left: 15px;
             position: relative;

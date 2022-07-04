@@ -1,5 +1,8 @@
 .wrapper {
-    padding-top: 82px;
+    padding-top:126px;
+    @media #{$max-xxxl}{
+        padding-top: 82px;
+    }
 }
 
 .primary-bg{
@@ -716,6 +719,9 @@ color:$green-color;
         background: $primary;
         transform: translateY(0px);
     }
+}
+.modal{
+    padding-left: 0 !important;
 }
 
 .cus-dd{

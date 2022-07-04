@@ -80,9 +80,9 @@ export default function DelegatePopup({data,...props}) {
                 <button type="button" className="btn warning-btn w-100"><span>Continue</span></button>
               </div>
 
-              {/* step 2 start */}
+              {/* step 2-a start */}
 
-              <div className='top-space-lg dis_none'>
+              <div className='top-space-lg'>
                 <ul className='steps'>
                   <li className='step'>
                     <div className='step-blk step-active'>
@@ -94,7 +94,7 @@ export default function DelegatePopup({data,...props}) {
                   </li>
                   <li className='step-line step-active'></li>
                   <li className='step'>
-                    <div className='step-blk step-active'>
+                    <div className='step-blk'>
                       <span className='fw-700'>2</span>
                     </div>
                     <p className='light-text fw-700'>
@@ -130,9 +130,104 @@ export default function DelegatePopup({data,...props}) {
                   <button type="button" className="btn warning-btn w-100"><span>Buy Voucher</span></button>
                 </div>
                 </div>
-              {/* step 2 end */}
+              {/* step 2-a end */}
+
+                {/* step 2-b start */}
+
+                <div className='top-space-lg'>
+                <ul className='steps'>
+                  <li className='step'>
+                    <div className='step-blk step-active'>
+                      <span className='fw-700'><img src="../../assets/images/white-tick.png" alt=""/></span>
+                    </div>
+                    <p className='light-text fw-700'>
+                      Approve
+                    </p>
+                  </li>
+                  <li className='step-line step-active'></li>
+                  <li className='step'>
+                    <div className='step-blk step-active'>
+                      <span className='fw-700'><img src="../../assets/images/white-tick.png" alt=""/></span>
+                    </div>
+                    <p className='light-text fw-700'>
+                      Delegate
+                    </p>
+                  </li>
+                  <li className='step-line'></li>
+                  <li className='step'>
+                    <div className='step-blk '>
+                      <span className='fw-700'>3</span>
+                    </div>
+                    <p className='light-text fw-700'>
+                      Completed
+                    </p>
+                  </li>
+                </ul>
+                <div className='step_prog_img'>
+                  <div className="d-flex align-items-center justify-content-start">
+                    <img src="../../assets/images/progrs-img-2.png" alt=""/>
+                  </div>
+                </div>
+                <div className="steps_data my-md-4 my-4">
+                    <div className='d-flex align-items-center justify-content-between helper-txt flex-wrap fw-600 mt-2 ft-14'>
+                      <h4 className='fw-700 top-space-lg'>Transaction in process</h4>
+                      <p className='ft-16 top-space-lg'>Ethereum transactions can take longer time to complete based upon network congestion. Please wait for increase the gas price of the transation</p>
+                    </div> 
+                </div>
+                <div>
+                  <button type="button" className="btn warning-btn w-100"><span>View On Etherscan</span></button>
+                </div>
+                </div>
+              {/* step 2-b end */}
 
 
+              {/* step 3 start */}      
+
+              <div className='top-space-lg'>
+                <ul className='steps'>
+                  <li className='step'>
+                    <div className='step-blk step-active'>
+                      <span className='fw-700'><img src="../../assets/images/white-tick.png" alt=""/></span>
+                    </div>
+                    <p className='light-text fw-700'>
+                      Approve
+                    </p>
+                  </li>
+                  <li className='step-line step-active'></li>
+                  <li className='step'>
+                    <div className='step-blk step-active'>
+                      <span className='fw-700'><img src="../../assets/images/white-tick.png" alt=""/></span>
+                    </div>
+                    <p className='light-text fw-700'>
+                      Delegate
+                    </p>
+                  </li>
+                  <li className='step-line step-active'></li>
+                  <li className='step'>
+                    <div className='step-blk step-active'>
+                      <span className='fw-700'><img src="../../assets/images/white-tick.png" alt=""/></span>
+                    </div>
+                    <p className='light-text fw-700'>
+                      Completed  
+                    </p>    
+                  </li>
+                </ul>
+                <div className='step_prog_img'>
+                  <div className="d-flex align-items-center justify-content-start">
+                    <img src="../../assets/images/cmpete-step.png" alt=""/>
+                  </div>
+                </div>
+                <div className="steps_data my-md-4 my-4">
+                    <div className='d-flex align-items-center justify-content-between helper-txt flex-wrap fw-600 mt-2 ft-14'>
+                      <h4 className='fw-700 top-space-lg'>Delegation Completed</h4>
+                      <p className='ft-16 top-space-lg'>Your SHIBA tokens are staked successfully on validator Tarus Validator. Your delegation will take -1 minute to reflect in your account</p>
+                    </div>
+                </div>
+                <div>
+                  <button type="button" className="btn warning-btn w-100"><span>View On Etherscan</span></button>
+                </div>
+                </div> 
+              {/* step 3 end */}    
 
 
           </Modal.Body>
