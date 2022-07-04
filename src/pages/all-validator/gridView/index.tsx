@@ -44,7 +44,7 @@ export default function ValidatorGrid({ validatorsList }: { validatorsList: any 
                                                             </div>
                                                         </div>
                                                         <div className='mt-3 text-center'>
-                                                            <button type="button" onClick={() => { setModalShow(true); setSelectedRow(validator) }} className='btn warning-btn light-text w-100'><span>Delegate</span></button>
+                                                            <button disabled={validator.upTime === 0} type="button" onClick={() => { setModalShow(true); setSelectedRow(validator) }} className='btn warning-btn light-text w-100'><span>Delegate</span></button>
                                                         </div>
                                                     </div>
                                                 </div>

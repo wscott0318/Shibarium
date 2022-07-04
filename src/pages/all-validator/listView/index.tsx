@@ -43,7 +43,7 @@ export default function ListView({ validatorsList }: { validatorsList: any }) {
                     </td> */}
                     <td>
                       <span className="tb-data align">
-                        2,269,410,000 (4.32%)
+                        {(+elm.stakeAmount).toFixed(8)} (4.32%)
                       </span>
                     </td>
                     <td>
@@ -56,14 +56,13 @@ export default function ListView({ validatorsList }: { validatorsList: any }) {
                       <span className="tb-data align">11.02%</span>
                     </td>
                     <td className="user-action">
-                      <a
-                        href="javascript:void(0)"
+                      <button disabled={elm.upTime === 0}
                         onClick={() => {setModalShow(true);setSelectedRow(elm)}}
                         title=""
                         className="btn-small uppercase-txt warning-btn"
                       >
                         <span>Delegate</span>
-                      </a>
+                      </button>
                     </td>
                   </tr>
                   )

@@ -27,8 +27,8 @@ export const Allvalidator: React.FC = () => {
 
   const searchResult = useSearchFilter(validatorsByStatus, searchKey);
 
-  useEffect(() => {
-    const slicedList = searchResult.slice(0, pageSize)
+  useEffect(() =>{
+    const slicedList = searchResult.slice(0, pageSize).sort((a:any, b:any)=> b.stakeAmount - a.stakeAmount)
     setValidators(slicedList)
   }, [searchResult])
 
@@ -41,7 +41,7 @@ export const Allvalidator: React.FC = () => {
           setAllValidators(res.data.data.validatorsList);
           const activeList = filter(
             res.data.data.validatorsList,
-            (e) => e.status === 1
+            (e) => e.upTime !== 0
           );
           const slicedList = activeList.slice(0, pageSize)
           setValidators(slicedList)
@@ -53,12 +53,11 @@ export const Allvalidator: React.FC = () => {
       });
   }, []);
   useEffect(() => {
-    const activeStatus = 1;
     let filtered = []
     if (isActiveTab) {
-      filtered = allValidators.filter(e => e.status === activeStatus)
+      filtered = allValidators.filter(e => e.upTime !== 0)
     } else {
-      filtered = allValidators.filter(e => e.status !== activeStatus)
+      filtered = allValidators.filter(e => e.upTime === 0)
     }
     setValidatorsByStatus(filtered)
   }, [isActiveTab]);
@@ -72,9 +71,16 @@ export const Allvalidator: React.FC = () => {
   }
   const onSort = (key: string, column: string,type:string) => {
     setSortKey(key)
-    const sortedList = orderBy(validators, column, 'asc');
-    setValidators(sortedList)
+    let sortedList;
+    if (type === 'number') {
+       sortedList = validators.sort((a:any, b:any)=>{
+        return( Number(b[column]) - Number( a[column]))
+      })
+    }else{
+      sortedList = orderBy(validators, column, 'asc');
 
+    }
+    setValidators(sortedList)
   }
   return (
     <>
@@ -238,7 +244,7 @@ export const Allvalidator: React.FC = () => {
             </div>
           )}
           <div className="container">
-            <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={validatorsByStatus.length || 1} currentPage={currentPage} />
+            <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={searchKey ? searchResult.length : validatorsByStatus.length || 1} currentPage={currentPage} />
           </div>
           <footer className="main-footer">
             <div className="container">
