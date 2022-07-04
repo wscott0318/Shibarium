@@ -6,6 +6,7 @@ import  WarningBtn  from "./WarningBtn";
 import { useFormik,FormikProps, ErrorMessage, Field, FormikProvider } from "formik";
 import * as Yup from "yup";
 import { commission, restake, withdrawReward } from "../../services/apis/validator";
+import { withdrawRewardDelegator } from "../../services/apis/delegator";
 import  ConfirmPopUp  from "./ConfirmPopUp";
 import { TailSpin, Triangle } from "react-loader-spinner";
 import  LoadingSpinner  from "./Loading";
@@ -64,13 +65,13 @@ const restakeValidation:any = Yup.object({
     const retakeFormik: FormikProps<RetakeFormInterface> = useFormik<RetakeFormInterface>({
     initialValues: {
       validatorAddress: account || '',
-      amount:'',
-      reward:'',
+      amount:0,
+      reward:0,
     },
     onSubmit: (values:RetakeFormInterface) => {
       // console.log(values)
       setLoading(true);
-      restake(values)
+      restake(userType,values)
         .then((res:any) => {
           console.log("res", res);
           if (res.status == 200) {
@@ -122,26 +123,43 @@ const restakeValidation:any = Yup.object({
         });
     },
   });
-  const withdrawFormk: FormikProps<WithdrawInterface> = useFormik<WithdrawInterface>({
-    initialValues: {
-      validatorAddress: account||'',
-    },
-    onSubmit: (values:WithdrawInterface) => {
-      setLoading(true);
-      withdrawReward(values).then((res) => {
+
+  const successWithdrawMessage = (res:any) =>{
         setTranHashCode(res.data.data.transactionHash);
         setSuccessMsg(res.data.message);
         setConfirm(true);
         setWithdrawModal(false);
         setLoading(false);
-      }).catch(err=>{
-        setErrMessage(err.message);
-        setLoading(false);
-        setError(true);
-        setTimeout(()=>{
-          setError(false)
-        },1000)
-      })
+  }
+
+  const errorWithdrawMessage=(err:any)=>{
+    setErrMessage(err.message);
+    setLoading(false);
+    setError(true);
+    setTimeout(()=>{
+      setError(false)
+    },1000)
+  }
+
+  const withdrawFormk: FormikProps<WithdrawInterface> = useFormik<WithdrawInterface>({
+    initialValues: {
+      validatorAddress: userType === UserType.Validator?account||'':'',
+    },
+    onSubmit: (values:WithdrawInterface) => {
+      setLoading(true);
+      if(userType === UserType.Validator){
+        withdrawReward(values).then((res) => {
+          successWithdrawMessage(res);
+        }).catch(err=>{
+          errorWithdrawMessage(err)
+        })
+      }else if(userType === UserType.Delegator){
+        withdrawRewardDelegator(values.validatorAddress,account).then((res) => {
+          successWithdrawMessage(res);
+        }).catch(err=>{
+          errorWithdrawMessage(err)
+        })
+      }
     },
   });
   const renderError = (message:string) => <p className="text-danger">{message}</p>;
@@ -341,7 +359,7 @@ const restakeValidation:any = Yup.object({
                 {userType} Address
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   className="form-control form-bg"
                   id="validatorAddress"
                   name="validatorAddress"

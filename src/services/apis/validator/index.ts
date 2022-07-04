@@ -4,9 +4,9 @@ import {RetakeFormInterface} from "../../../interface/reTakeFormInterface"
 export function validatorsList(){
     return http.get(`validator/getList`)
 }
-export function restake(reqBody:RetakeFormInterface){
+export function restake(userType:string,reqBody:RetakeFormInterface){
     console.log(reqBody,'asdsa');
-    return http.post(`validator/restake`,reqBody)
+    return http.post(`${userType}/restake`,reqBody)
 }
 export function commission(reqBody:any){
     return http.post(`validator/updateCommission`,reqBody)

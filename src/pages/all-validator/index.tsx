@@ -13,7 +13,7 @@ import Pagination from 'app/components/Pagination'
 import { useSearchFilter } from "app/hooks/useSearchFilter";
 
 export const Allvalidator: React.FC = () => {
-  const pageSize = 2;
+  const pageSize = 4;
 
   const [validatorsByStatus, setValidatorsByStatus] = useState<any[]>([]);
   const [allValidators, setAllValidators] = useState<any[]>([]);
