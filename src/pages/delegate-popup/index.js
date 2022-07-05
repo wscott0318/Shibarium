@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import { useEthBalance } from "../../hooks/useEthBalance";
-import { BONE_ID } from 'app/config/constant';
+import { BONE, BONE_ID, STAKE_MANAGER } from 'app/config/constant';
 import { getBoneUSDValue } from 'app/services/apis/validator';
 import NumberFormat from 'react-number-format';
+import { useActiveWeb3React, useLocalWeb3 } from 'app/services/web3';
+import boneAbi from '../../constants/shibariumABIs/BONE_ABI.json'
+import { ethers } from 'ethers';
+import { buyVoucher } from 'app/services/apis/delegator/delegator';
 
 export default function DelegatePopup({data,onHide,...props}) {
 
@@ -12,6 +16,8 @@ export default function DelegatePopup({data,onHide,...props}) {
   const [amount, setAmount] = useState('');
   const [tnxCompleted, setTnxCompleted] = useState(false)
  const [boneUSDValue, setBoneUSDValue] = useState(0)
+ const {account} = useActiveWeb3React()
+ const web3  = useLocalWeb3()
 
   const walletBalance = useEthBalance();
   useEffect(() => {
@@ -25,6 +31,33 @@ export default function DelegatePopup({data,onHide,...props}) {
   const closeModal =(e)=>{
     setStep(1);
     onHide()
+  }
+  const approveHandler = ()=>{
+    if (web3) {
+     const bone = new web3.eth.Contract(boneAbi,BONE);
+     const val = web3.utils.toBN(amount*Math.pow(10,18))
+ web3.eth.sendTransaction({
+      from: account,
+      to: BONE,
+      data: bone.methods.approve(STAKE_MANAGER, val).encodeABI()
+      }).then(res =>{
+        setStep(2)
+      }).catch(e => console.log)
+     
+    }
+    setStep(2)
+  }
+  const buyVouchers = () =>{
+   const requestBody = {
+      validatorAddress: data.signer,
+      delegatorAddress: account,
+      amount:amount
+      
+    }
+    buyVoucher(requestBody).then(res =>{
+      console.log(res)
+      
+    })
   }
 
     return (
@@ -124,7 +157,7 @@ export default function DelegatePopup({data,onHide,...props}) {
                       value={(walletBalance * boneUSDValue).toFixed(4)}
                       displayType={"text"}
                       thousandSeparator={true}
-                      prefix={"$"}
+                      prefix={"$ "}
                     />                    
                   </div>
                   <div>Avilable Balance: {walletBalance?.toFixed(8)} BONE</div>
@@ -134,7 +167,7 @@ export default function DelegatePopup({data,onHide,...props}) {
                 <button
                   type="button"
                   className="btn warning-btn w-100"
-                  onClick={() => setStep(2)}>
+                  onClick={() => {approveHandler()}}>
                   <span>Continue</span>
                 </button>
               </div>
@@ -164,7 +197,7 @@ export default function DelegatePopup({data,onHide,...props}) {
                   type="button"
                   className="btn warning-btn w-100"
                   onClick={() => {
-                    setStep(3);
+                    setStep(3);buyVouchers()
                   }}>
                   <span>Buy Voucher</span>
                 </button>
@@ -190,8 +223,8 @@ export default function DelegatePopup({data,onHide,...props}) {
                 </div>
               </div>
               <div>
-                <button type="button" className="btn warning-btn w-100">
-                  <span>View On Etherscan</span>
+                <button type="button" className="btn warning-btn w-100" onClick={()=>{setTnxCompleted(true)}}>
+                <span>Waiting...</span>
                 </button>
               </div>
             </>
