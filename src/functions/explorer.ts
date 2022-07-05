@@ -193,8 +193,8 @@ const chains: ChainObject = {
     builder: explorers.telos,
   },
   [SHIBARIUM_CHAINID]: {
-    link: 'https://etherscan.io',
-    builder: explorers.telos,
+    link: 'https://rinkeby.etherscan.io',
+    builder: explorers.etherscan,
   },
 }
 

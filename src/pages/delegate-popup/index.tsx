@@ -7,16 +7,23 @@ import { getBoneUSDValue } from 'app/services/apis/validator';
 import NumberFormat from 'react-number-format';
 import { useActiveWeb3React, useLocalWeb3 } from 'app/services/web3';
 import boneAbi from '../../constants/shibariumABIs/BONE_ABI.json'
-import { ethers } from 'ethers';
+import { useSnackbar } from 'react-simple-snackbar';
+
 import { buyVoucher } from 'app/services/apis/delegator/delegator';
+import { parseUnits } from '@ethersproject/units';
 
-export default function DelegatePopup({data,onHide,...props}) {
+import { getExplorerLink } from 'app/functions';
 
-  const [step, setStep] = useState(1)
-  const [amount, setAmount] = useState('');
+
+const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
+  const [step, setStep] = useState<number>(1)
+  const [amount, setAmount] = useState<number|string>('');
   const [tnxCompleted, setTnxCompleted] = useState(false)
- const [boneUSDValue, setBoneUSDValue] = useState(0)
- const {account} = useActiveWeb3React()
+ const [boneUSDValue, setBoneUSDValue] = useState<number>(0);
+ const [expectedGas, setExpectedGas] = useState<number>(0);
+ const [explorerLink, setExplorerLink] = useState<string>('')
+ const [openSnackbar, closeSnackbar] = useSnackbar()
+ const {account,chainId} = useActiveWeb3React()
  const web3  = useLocalWeb3()
 
   const walletBalance = useEthBalance();
@@ -25,24 +32,41 @@ export default function DelegatePopup({data,onHide,...props}) {
       setBoneUSDValue(res.data.data.price);
     })
   },[])
+
+  useEffect(() => {
+    const url = 'https://ethgasstation.info/api/ethgasAPI.json?api-key=b1a28ddf8de1f32ead44643566e38dba07687ea6e456e3d9a7d1de290466';
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      setExpectedGas((data.fastest * 21000)*Math.pow(10,-9))});
+  }, [])
+
   const useMax = ()=>{
     setAmount(walletBalance)
   }
-  const closeModal =(e)=>{
+  const closeModal =(e:any)=>{
     setStep(1);
+    setAmount('')
+    setTnxCompleted(false)
     onHide()
   }
   const approveHandler = ()=>{
+    if (!amount || !(amount > 0)) {
+      openSnackbar('Amount must be greater than 0')
+      return;
+    }
     if (web3) {
      const bone = new web3.eth.Contract(boneAbi,BONE);
-     const val = web3.utils.toBN(amount*Math.pow(10,18))
+    //  const val = web3.utils.toBN(amount*Math.pow(10,18))
+     const val = parseUnits(amount.toString(),18)
+    
  web3.eth.sendTransaction({
       from: account,
       to: BONE,
       data: bone.methods.approve(STAKE_MANAGER, val).encodeABI()
-      }).then(res =>{
+      }).then((res:any) =>{
         setStep(2)
-      }).catch(e => console.log)
+      }).catch((e:any) => {console.log(e);setStep(1);})
      
     }
     setStep(2)
@@ -54,9 +78,13 @@ export default function DelegatePopup({data,onHide,...props}) {
       amount:amount
       
     }
+    setTnxCompleted(false)
     buyVoucher(requestBody).then(res =>{
       console.log(res)
-      
+      setTnxCompleted(true)
+      const link = getExplorerLink(chainId,'0xf5dbc2b3d2ffad6903b395fa6d392ddbaa7250e255bb9f9259f4385e38a290f8','transaction')
+      debugger;
+      setExplorerLink(link)
     })
   }
 
@@ -203,7 +231,32 @@ export default function DelegatePopup({data,onHide,...props}) {
                 </button>
               </div>
             </div>
-          ) : step === 2 && !tnxCompleted ? (
+          ) :step === 3 && tnxCompleted ? (
+            <>
+              <div className="step_prog_img">
+                <div className="d-flex align-items-center justify-content-start">
+                  <img src="../../assets/images/cmpete-step.png" alt="" />
+                </div>
+              </div>
+              <div className="my-4 steps_data my-md-4">
+                <div className="flex-wrap mt-2 d-flex align-items-center justify-content-between helper-txt fw-600 ft-14">
+                  <h4 className="fw-700 top-space-lg">Delegation Completed</h4>
+                  <p className="ft-16 top-space-lg">
+                    Your SHIBA tokens are staked successfully on validator Tarus
+                    Validator. Your delegation will take 	&asymp;1 minute to reflect in
+                    your account
+                  </p>
+                </div>
+              </div>
+              <div>
+                <button type="button" className="btn warning-btn w-100">
+                  <span>
+                    <a href={explorerLink} target="_blank" > View On Etherscan </a>
+                   </span>
+                </button>
+              </div>
+            </>
+          ): !tnxCompleted && (step === 2 || step === 3) ? (
             <>
               <div className="step_prog_img">
                 <div className="d-flex align-items-center justify-content-start">
@@ -223,38 +276,15 @@ export default function DelegatePopup({data,onHide,...props}) {
                 </div>
               </div>
               <div>
-                <button type="button" className="btn warning-btn w-100" onClick={()=>{setTnxCompleted(true)}}>
-                <span>Waiting...</span>
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="step_prog_img">
-                <div className="d-flex align-items-center justify-content-start">
-                  <img src="../../assets/images/cmpete-step.png" alt="" />
-                </div>
-              </div>
-              <div className="my-4 steps_data my-md-4">
-                <div className="flex-wrap mt-2 d-flex align-items-center justify-content-between helper-txt fw-600 ft-14">
-                  <h4 className="fw-700 top-space-lg">Delegation Completed</h4>
-                  <p className="ft-16 top-space-lg">
-                    Your SHIBA tokens are staked successfully on validator Tarus
-                    Validator. Your delegation will take -1 minute to reflect in
-                    your account
-                  </p>
-                </div>
-              </div>
-              <div>
                 <button type="button" className="btn warning-btn w-100">
-                  <span>View On Etherscan</span>
+                <span>Wait...</span>
                 </button>
               </div>
             </>
-          )}
+          ):null}
         </Modal.Body>
       </Modal>
     );
 }
 
-
+export default DelegatePopup;
