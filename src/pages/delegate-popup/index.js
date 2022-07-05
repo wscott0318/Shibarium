@@ -28,51 +28,6 @@ export default function DelegatePopup({data,onHide,...props}) {
   }
 
     return (
-<<<<<<< HEAD
-        <Modal
-          {...props}
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-          className='shib-popup'
-        >
-          <Modal.Header closeButton className='text-center'>
-            <Modal.Title id="contained-modal-title-vcenter" className='d-inline-block fw-800 trs-3'>
-              Delegate
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <ul className='steps'>
-              <li className='step'>
-                <div className='step-blk step-active'>
-                  <span className='fw-700'>1</span>
-                </div>
-                <p className='light-text fw-700'>
-                  Approve
-                </p>
-              </li>
-              <li className='step-line step-active'></li>  web
-              <li className='step'>
-                <div className='step-blk'>
-                  <span className='fw-700'>2</span>
-                </div>
-                <p className='light-text fw-700'>
-                  Delegate
-                </p>
-              </li>
-              <li className='step-line'></li>
-              <li className='step'>
-                <div className='step-blk'>
-                  <span className='fw-700'>3</span>
-                </div>
-                <p className='light-text fw-700'>
-                  Completed
-                </p>
-              </li>
-            </ul>
-            <div className='info-box'>
-              <div className="d-flex align-items-center justify-content-start">
-=======
       <Modal
         {...props}
         onHide={closeModal}
@@ -132,7 +87,6 @@ export default function DelegatePopup({data,onHide,...props}) {
             <>
               <div className="info-box">
                 <div className="d-flex align-items-center justify-content-start">
->>>>>>> 79e6f9e1a2688cfe46b00425e410463b48102323
                   <div>
                     <span className="user-icon"></span>
                   </div>

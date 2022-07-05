@@ -75,7 +75,7 @@ export default function differentchainbridge() {
                                                                 <Dropdown className='cus-dropdown dark-dd position-relative d-inline-block'>
                                                                         <i className="arrow down"></i>
                                                                         <Dropdown.Toggle id="dropdown-basic" className=' text-start'>
-                                                                            <span><img className='img-fluid me-2' src="../../assets/images/sth.svg" width="18" height="18" alt="" />BSC</span>
+                                                                            <span className='d-flex align-items-center'><img className='img-fluid me-2' src="../../assets/images/sth.svg" width="18" height="18" alt="" />BSC</span>
                                                                         </Dropdown.Toggle>
                                                                         <Dropdown.Menu className='w-100'>
                                                                             <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
@@ -91,7 +91,7 @@ export default function differentchainbridge() {
                                                                 <Dropdown className='cus-dropdown dark-dd position-relative d-inline-block'>
                                                                         <i className="arrow down"></i>
                                                                         <Dropdown.Toggle id="dropdown-basic" className=' text-start'>
-                                                                            <span><img className='img-fluid me-2' src="../../assets/images/bear.png" width="18" height="18" alt="" />Shibarium</span>
+                                                                            <span className='d-flex align-items-center'><img className='img-fluid me-2' src="../../assets/images/bear.png" width="18" height="18" alt="" />Shibarium</span>
                                                                         </Dropdown.Toggle>
                                                                         <Dropdown.Menu className='w-100'>
                                                                             <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
@@ -129,10 +129,25 @@ export default function differentchainbridge() {
                                                             <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
                                                             <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                                                         </Dropdown.Menu>
-                                                        <div className='mt-2 help-txt'>Copy UST token address <a className="primary-badge badge-md ms-2" href="javascript:void(0)"><span className="fw-600 trs-2 "><img width="9" height="11" className='img-fluid' src="../../assets/images/copy-icon.png" alt="" /> Terra</span></a><a className="primary-badge badge-md ms-2" href="javascript:void(0)"><span className="fw-600 trs-2"><img width="9" height="11" className='img-fluid' src="../../assets/images/copy-icon.png" alt="" /> BSC</span></a></div>
+                                                        <div>lorem</div>
+                                                        <div className='mt-2 help-txt'>Copy UST token address
+                                                         <span className="primary-badge badge-md ms-2" href="javascript:void(0)">
+                                                             <span className="fw-600 d-flex align-items-center">
+                                                                 <img width="9" height="11" className='img-fluid' src="../../assets/images/copy-icon.png" alt="" />
+                                                                  <span className='trs-2 ms-1'>Terra</span>
+                                                            </span>
+                                                        </span>
+                                                        <span className="primary-badge badge-md ms-2" href="javascript:void(0)">
+                                                            <span className="fw-600  d-flex align-items-center">
+                                                                <img width="9" height="11" className='img-fluid' src="../../assets/images/copy-icon.png" alt="" />
+                                                                 <span className='trs-2 ms-1'>BSC</span>
+                                                            </span>
+                                                        </span>
+                                                        </div>
                                                     </Dropdown>
                                                 </div>
-                                                <div className='form-group'>
+                                                <div className="row">
+                                                <div className='form-group col-sm-6 mb-4'>
                                                     <label htmlFor="" className="form-label fwb">Amount</label>
                                                     <div className="swap-control swap-flex p-0">
                                                         <div className="swap-col full-col">
@@ -143,7 +158,7 @@ export default function differentchainbridge() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className='form-group mb-4'>
+                                                <div className='form-group mb-4 col-sm-6'>
                                                     <label htmlFor="" className="form-label fwb">Destinaion Address</label>
                                                     <div className="swap-control swap-flex p-0">
                                                         <div className="swap-col full-col">
@@ -152,6 +167,8 @@ export default function differentchainbridge() {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                </div>
+
                                                 <div className='cus-alert d-inline-block w-100 mt-3 mb-4'>
                                                     <div className='d-flex'>
                                                         <div className='pe-2'><img width="23" height="23" className='img-fluid' src="../../assets/images/alert-icon.png" alt="" /></div>
