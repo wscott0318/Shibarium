@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
-import  BorderBtn  from "./BorderBtn";
-import  WarningBtn  from "./WarningBtn";
+import { Modal, OverlayTrigger, renderTooltip, Button, Tooltip } from "react-bootstrap";
+import BorderBtn from "./BorderBtn";
+import WarningBtn from "./WarningBtn";
 
-import { useFormik,FormikProps, ErrorMessage, Field, FormikProvider } from "formik";
+import { useFormik, FormikProps, ErrorMessage, Field, FormikProvider } from "formik";
 import * as Yup from "yup";
 import { commission, restake, withdrawReward } from "../../services/apis/validator";
-import  ConfirmPopUp  from "./ConfirmPopUp";
+import ConfirmPopUp from "./ConfirmPopUp";
 import { TailSpin, Triangle } from "react-loader-spinner";
-import  LoadingSpinner  from "./Loading";
-import  ToastNotify  from "./ToastNotify";
-import {useUserType} from '../../state/user/hooks';
+import LoadingSpinner from "./Loading";
+import ToastNotify from "./ToastNotify";
+import { useUserType } from '../../state/user/hooks';
 import { UserType } from "../../enums/UserType";
-import {RetakeFormInterface,CommissionRateInterface,WithdrawInterface} from "../../interface/reTakeFormInterface";
+import { RetakeFormInterface, CommissionRateInterface, WithdrawInterface } from "../../interface/reTakeFormInterface";
 import { useActiveWeb3React } from '../../services/web3'
 
-interface WalletBalanceProps{
-  balance:number,
-  boneUSDValue:number
+interface WalletBalanceProps {
+  balance: number,
+  boneUSDValue: number
 }
 
-const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
+const WalletBalance = ({ balance, boneUSDValue }: WalletBalanceProps) => {
 
   const [restakeModal, setRestakeModal] = useState(false);
   const [commiModal, setCommiModal] = useState(false);
@@ -32,10 +32,10 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
   const [confirm, setConfirm] = useState(false);
   const [tranHashCode, setTranHashCode] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
-  const [userType, setUserType] =useUserType();
-  const {account} = useActiveWeb3React()
+  const [userType, setUserType] = useUserType();
+  const { account } = useActiveWeb3React()
 
-  const handleModal = (btn:String) => {
+  const handleModal = (btn: String) => {
     switch (btn) {
       case "Restake":
         setRestakeModal(true);
@@ -54,24 +54,24 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
     }
   };
 
-const restakeValidation:any = Yup.object({
-  validatorAddress: Yup.string().required(),
-  amount: Yup.number().min(0).max(balance).required(),
-  reward: Yup.number().required(),
-  
-})
+  const restakeValidation: any = Yup.object({
+    validatorAddress: Yup.string().required(),
+    amount: Yup.number().min(0).max(balance).required(),
+    reward: Yup.number().required(),
 
-    const retakeFormik: FormikProps<RetakeFormInterface> = useFormik<RetakeFormInterface>({
+  })
+
+  const retakeFormik: FormikProps<RetakeFormInterface> = useFormik<RetakeFormInterface>({
     initialValues: {
       validatorAddress: account || '',
-      amount:'',
-      reward:'',
+      amount: '',
+      reward: '',
     },
-    onSubmit: (values:RetakeFormInterface) => {
+    onSubmit: (values: RetakeFormInterface) => {
       // console.log(values)
       setLoading(true);
       restake(values)
-        .then((res:any) => {
+        .then((res: any) => {
           console.log("res", res);
           if (res.status == 200) {
             setLoading(false);
@@ -85,24 +85,24 @@ const restakeValidation:any = Yup.object({
           setErrMessage(err.message);
           setLoading(false);
           setError(true);
-          setTimeout(()=>{
+          setTimeout(() => {
             setError(false)
-          },1000)
+          }, 1000)
         });
     },
     validationSchema: restakeValidation,
   });
-  const commiFormik : FormikProps<CommissionRateInterface> =  useFormik<CommissionRateInterface>({
+  const commiFormik: FormikProps<CommissionRateInterface> = useFormik<CommissionRateInterface>({
     initialValues: {
       validatorAddress: account || '',
-      newCommission:'',
+      newCommission: '',
     },
-    onSubmit: (values:CommissionRateInterface) => {
+    onSubmit: (values: CommissionRateInterface) => {
       setLoading(true);
       commission(values)
         .then((res) => {
           console.log("res", res);
-          if(res.status==200){
+          if (res.status == 200) {
             setLoading(false);
             setTranHashCode(res.data.data.transactionHash);
             setSuccessMsg(res.data.message);
@@ -115,18 +115,18 @@ const restakeValidation:any = Yup.object({
           setLoading(false);
           setError(true);
           setCommiModal(false);
-          setTimeout(()=>{
+          setTimeout(() => {
             setError(false)
-          },1000)
+          }, 1000)
           console.log("err", err);
         });
     },
   });
   const withdrawFormk: FormikProps<WithdrawInterface> = useFormik<WithdrawInterface>({
     initialValues: {
-      validatorAddress: account||'',
+      validatorAddress: account || '',
     },
-    onSubmit: (values:WithdrawInterface) => {
+    onSubmit: (values: WithdrawInterface) => {
       setLoading(true);
       withdrawReward(values).then((res) => {
         setTranHashCode(res.data.data.transactionHash);
@@ -134,31 +134,38 @@ const restakeValidation:any = Yup.object({
         setConfirm(true);
         setWithdrawModal(false);
         setLoading(false);
-      }).catch(err=>{
+      }).catch(err => {
         setErrMessage(err.message);
         setLoading(false);
         setError(true);
-        setTimeout(()=>{
+        setTimeout(() => {
           setError(false)
-        },1000)
+        }, 1000)
       })
     },
   });
-  const renderError = (message:string) => <p className="text-danger">{message}</p>;
+  const renderError = (message: string) => <p className="text-danger">{message}</p>;
+  // const renderTooltip = (props: any) => (
+  //   <Tooltip id="button-tooltip" {...props}>
+  //     Simple tooltip
+  //   </Tooltip>
+  // );
+  
   return (
+
     <>
-{error&&<ToastNotify toastMassage={errMessage}/>}
+      {error && <ToastNotify toastMassage={errMessage} />}
       <h2 className="mb-3 low-font-wt">Ethereum Wallet Balance</h2>
       <h1 className="fw-700 light-text">
         {` ${(balance.toFixed(8))} BONE Wallet`}{" "}
       </h1>
-      <h2 className="low-font-wt">{(balance*boneUSDValue).toFixed(4)} USD</h2>
+      <h2 className="low-font-wt">{(balance * boneUSDValue).toFixed(4)} USD</h2>
       <div className="flex-wrap mt-4 d-flex align-items-center justify-content-center flex-column flex-sm-row">
         {userType === UserType.Delegator && (
           <>
             <BorderBtn lable="Become A Validator" link="/become-validator" handleModal={handleModal} />
             <BorderBtn lable="Restake" handleModal={handleModal} />
-            <BorderBtn lable="Withdraw Rewards" handleModal={handleModal}/>
+            <BorderBtn lable="Withdraw Rewards" handleModal={handleModal} />
             <BorderBtn lable="Unbound" handleModal={handleModal} />
           </>
         )}
@@ -166,7 +173,7 @@ const restakeValidation:any = Yup.object({
           <>
             <BorderBtn lable="Restake" handleModal={handleModal} />
             <BorderBtn lable="Change Commission Rate" handleModal={handleModal} />
-            <BorderBtn lable="Withdraw Rewards" handleModal={handleModal}/>
+            <BorderBtn lable="Withdraw Rewards" handleModal={handleModal} />
             <BorderBtn lable="Unbound" handleModal={handleModal} />
           </>
         )}
@@ -194,64 +201,72 @@ const restakeValidation:any = Yup.object({
             </Modal.Title>
           </Modal.Header>
           <Modal.Body className="position-relative">
-          <FormikProvider value={retakeFormik}>
+            <FormikProvider value={retakeFormik}>
 
-            <form onSubmit={retakeFormik.handleSubmit} className="modal-form">
-              <div className="form-group">
-                <label htmlFor="" className="form-label">
-                  {userType} Address
-                </label>
-                <Field
-                  type="text"
-                  className="form-control form-bg"
-                  placeholder="Enter Validator address"
-                  id="validatorAddress"
-                  name="validatorAddress"
-                  readOnly
-                  onChange={retakeFormik.handleChange}
-                  value={retakeFormik.values.validatorAddress}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="" className="form-label">
-                  Amount
-                </label>
-                <Field
-                  type="number"
-                  className="form-control form-bg"
-                  id="amount"
-                  name="amount"
-                  placeholder="0"
-                  onChange={retakeFormik.handleChange}
-                  value={retakeFormik.values.amount}
-                />
-                <ErrorMessage name="amount" render={renderError} />
-              </div>
-              <div className="form-group">
-                <label htmlFor="" className="form-label">
-                  Stake Reward
-                </label>
-                <Field
-                  type="number"
-                  placeholder="0"
-                  className="form-control form-bg"
-                  id="reward"
-                  name="reward"
-                  onChange={retakeFormik.handleChange}
-                  value={retakeFormik.values.reward}
-                />
-                 <ErrorMessage name="reward" render={renderError} />
-              </div>
-              <div className="pt-3 form-group pt-md-4">
-                <button
-                  type="submit"
-                  className="btn warning-btn border-btn light-text w-100"
-                >
-                  <span>Submit</span>
-                </button>
-              </div>
-            </form>
-          </FormikProvider>
+              <form onSubmit={retakeFormik.handleSubmit} className="modal-form">
+                <div className="form-group">
+                  <label htmlFor="" className="form-label">
+                    {userType} Address
+                  </label>
+                  <Field
+                    type="text"
+                    className="form-control form-bg"
+                    placeholder="Enter Validator address"
+                    id="validatorAddress"
+                    name="validatorAddress"
+                    readOnly
+                    onChange={retakeFormik.handleChange}
+                    value={retakeFormik.values.validatorAddress}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="" className="form-label">
+                    Amount
+                  </label>
+                  <Field
+                    type="number"
+                    className="form-control form-bg"
+                    id="amount"
+                    name="amount"
+                    placeholder="0"
+                    onChange={retakeFormik.handleChange}
+                    value={retakeFormik.values.amount}
+                  />
+                  <ErrorMessage name="amount" render={renderError} />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="" className="form-label">
+                    Stake Reward
+                  </label>
+                  {/* <OverlayTrigger
+                    placement="right"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={renderTooltip}
+                  >
+                    <Button variant="success">Hover me to see</Button>
+                  </OverlayTrigger> */}
+                  <Field
+                    type="number"
+                    placeholder="0"
+                    className="form-control form-bg"
+                    id="reward"
+                    name="reward"
+                    onChange={retakeFormik.handleChange}
+                    value={retakeFormik.values.reward}
+                  />
+                  <ErrorMessage name="reward" render={renderError} />
+
+                </div>
+                <div className="pt-3 form-group pt-md-4">
+                  <button
+                    type="submit"
+                    className="btn warning-btn border-btn light-text w-100"
+                  >
+                    <span>Submit</span>
+                  </button>
+                </div>
+              </form>
+            </FormikProvider>
           </Modal.Body>
         </Modal>
       </div>
@@ -277,7 +292,7 @@ const restakeValidation:any = Yup.object({
             <form onSubmit={commiFormik.handleSubmit} className="modal-form">
               <div className="form-group">
                 <label htmlFor="" className="form-label">
-                {userType} Address
+                  {userType} Address
                 </label>
                 <input
                   type="text"
@@ -338,10 +353,10 @@ const restakeValidation:any = Yup.object({
             <form onSubmit={withdrawFormk.handleSubmit} className="modal-form">
               <div className="form-group">
                 <label htmlFor="" className="form-label">
-                {userType} Address
+                  {userType} Address
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   className="form-control form-bg"
                   id="validatorAddress"
                   name="validatorAddress"
@@ -385,7 +400,7 @@ const restakeValidation:any = Yup.object({
               <span className="trs-3">Are you sure you want to unbound?</span>
             </h3>
             <div className="pt-4 row">
-              <div className="col-sm-6">
+              <div className="col-sm-6 mb-3 mb-sm-0">
                 <a
                   href="javascript:void(0)"
                   className="btn bordered-btn light-text w-100"
@@ -393,7 +408,7 @@ const restakeValidation:any = Yup.object({
                   <span>Cancel</span>
                 </a>
               </div>
-              <div className="col-sm-6">
+              <div className="col-sm-6 mb-3 mb-sm-0">
                 <a
                   href="javascript:void(0)"
                   className="btn warning-btn border-btn light-text w-100"
