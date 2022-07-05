@@ -86,6 +86,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     }
   return (
     <div>
+
         {loading && <LoadingSpinner />}
          {withStatusFilter && <div className="d-flex align-items-center btns-space">
               <div className="me-3">
@@ -141,7 +142,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                     <label className="head-xsm fw-600" htmlFor="Auction">
                       <span className="top-low-spc pe-2 align">Sort by</span>
                     </label>
-                    <Dropdown className="cus-dropdown position-relative d-inline-block">
+                    <Dropdown className="dark-dd cus-dropdown position-relative d-inline-block">
                       <i className="arrow down"></i>
                       <Dropdown.Toggle id="dropdown-basic">
                         <span>{sortKey}</span>
@@ -167,7 +168,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                       onClick={() => setListView(false)}>
                       <img
                         className="grey-image"
-                        src="../../assets/images/grid-grey.png"
+                        src="../../assets/images/grid-white.png"
                         width={26}
                         height={19}
                         alt=""></img>
@@ -199,10 +200,11 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                 </div>
               </div>
             </div>
-            <div className="mb-4">
-              <h4 className="mb-3 fw-700">
+            <div className="mb-3 mt-4">
+              <h4 className="mb-0 fw-700">
                 Here is a list of active Validators
               </h4>
+
             </div>
           {isListView ? (
             <ListView validatorsList={validators} />
@@ -211,7 +213,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
               <ValidatorGrid validatorsList={validators} />
             </div>
           )}
-            <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={searchKey ? searchResult.length : validatorsByStatus.length || 1} currentPage={currentPage} />
+          <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={searchKey ? searchResult.length : validatorsByStatus.length || 1} currentPage={currentPage} />
     </div>
   )
 }
