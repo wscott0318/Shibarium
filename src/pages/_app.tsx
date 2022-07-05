@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { i18n } from '@lingui/core'
 import { I18nProvider } from '@lingui/react'
+import SnackbarProvider from 'react-simple-snackbar'
 
 import "../styles/globals.scss";
 import Header from "./layout/header";
@@ -56,10 +57,12 @@ function MyApp({ Component, pageProps }:any) {
           <Web3ProviderNetwork getLibrary={getLibrary}>
             <Web3ReactManager>
             <ReduxProvider store={store}>
+            <SnackbarProvider>
         <RouteGuard>
           {router.asPath == "/login" ? "" : <Header />}
           <Component {...pageProps} />
         </RouteGuard>
+        </SnackbarProvider>
         </ReduxProvider>
         </Web3ReactManager>
         </Web3ProviderNetwork>
