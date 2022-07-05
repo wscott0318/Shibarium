@@ -76,7 +76,7 @@ export default function faucet() {
                   >
                     <Nav.Item onClick={handleTopdoG}>
                       <Nav.Link href="javascript:void(0)"  className={`${isTopdoG?"active":""}`}>
-                        <span className="trs-2">TopdoG</span>
+                        <span className="trs-2">TOPDOG</span>
                       </Nav.Link>
                     </Nav.Item>
                     <Nav.Item onClick={handlePuppyDog}>
