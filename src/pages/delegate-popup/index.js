@@ -25,7 +25,7 @@ export default function DelegatePopup(props) {
                   Approve
                 </p>
               </li>
-              <li className='step-line step-active'></li>
+              <li className='step-line step-active'></li>  web
               <li className='step'>
                 <div className='step-blk'>
                   <span className='fw-700'>2</span>
