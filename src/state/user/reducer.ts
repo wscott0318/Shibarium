@@ -64,7 +64,7 @@ export const initialState: UserState = {
   timestamp: currentTimestamp(),
   URLWarningVisible: true,
   userUseOpenMev: true,
-  userType: 'NotValidatorNorDeligator'
+  userType: 'NA'
 }
 
 export default createReducer(initialState, (builder) =>

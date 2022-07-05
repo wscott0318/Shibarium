@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import  BorderBtn  from "./BorderBtn";
 import  WarningBtn  from "./WarningBtn";
-import { useFormik,FormikProps } from "formik";
-import { commission, retake, withdrawReward } from "../../services/apis/validator";
+
+import { useFormik,FormikProps, ErrorMessage, Field, FormikProvider } from "formik";
+import * as Yup from "yup";
+import { commission, restake, withdrawReward } from "../../services/apis/validator";
 import  ConfirmPopUp  from "./ConfirmPopUp";
 import { TailSpin, Triangle } from "react-loader-spinner";
 import  LoadingSpinner  from "./Loading";
 import  ToastNotify  from "./ToastNotify";
 import {useUserType} from '../../state/user/hooks';
 import { UserType } from "../../enums/UserType";
-import {RetakeFormInterface} from "../../interface/reTakeFormInterface";
+import {RetakeFormInterface,CommissionRateInterface,WithdrawInterface} from "../../interface/reTakeFormInterface";
+import { useActiveWeb3React } from '../../services/web3'
+
 interface WalletBalanceProps{
   balance:number,
   boneUSDValue:number
@@ -18,7 +22,7 @@ interface WalletBalanceProps{
 
 const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
 
-  const [retakeModal, setRetakeModal] = useState(false);
+  const [restakeModal, setRestakeModal] = useState(false);
   const [commiModal, setCommiModal] = useState(false);
   const [withdrawModal, setWithdrawModal] = useState(false);
   const [unboundModal, setUnboundModal] = useState(false);
@@ -29,11 +33,12 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
   const [tranHashCode, setTranHashCode] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [userType, setUserType] =useUserType();
+  const {account} = useActiveWeb3React()
 
   const handleModal = (btn:String) => {
     switch (btn) {
-      case "Retake":
-        setRetakeModal(true);
+      case "Restake":
+        setRestakeModal(true);
         break;
       case "Change Commission Rate":
         setCommiModal(true);
@@ -49,16 +54,23 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
     }
   };
 
+const restakeValidation:any = Yup.object({
+  validatorAddress: Yup.string().required(),
+  amount: Yup.number().min(0).max(balance).required(),
+  reward: Yup.number().required(),
+  
+})
 
     const retakeFormik: FormikProps<RetakeFormInterface> = useFormik<RetakeFormInterface>({
     initialValues: {
-      validatorAddress: "",
-      amount:0,
-      reward:0,
+      validatorAddress: account || '',
+      amount:'',
+      reward:'',
     },
     onSubmit: (values:RetakeFormInterface) => {
+      // console.log(values)
       setLoading(true);
-      retake(values)
+      restake(values)
         .then((res:any) => {
           console.log("res", res);
           if (res.status == 200) {
@@ -66,7 +78,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
             setTranHashCode(res.data.data.transactionHash);
             setSuccessMsg(res.data.message);
             setConfirm(true);
-            setRetakeModal(false);
+            setRestakeModal(false);
           }
         })
         .catch((err) => {
@@ -78,13 +90,14 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
           },1000)
         });
     },
+    validationSchema: restakeValidation,
   });
-  const commiFormik = useFormik({
+  const commiFormik : FormikProps<CommissionRateInterface> =  useFormik<CommissionRateInterface>({
     initialValues: {
-      validatorAddress: "",
-      newCommission: "",
+      validatorAddress: account || '',
+      newCommission:'',
     },
-    onSubmit: (values) => {
+    onSubmit: (values:CommissionRateInterface) => {
       setLoading(true);
       commission(values)
         .then((res) => {
@@ -101,6 +114,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
           setErrMessage(err.message);
           setLoading(false);
           setError(true);
+          setCommiModal(false);
           setTimeout(()=>{
             setError(false)
           },1000)
@@ -108,11 +122,11 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
         });
     },
   });
-  const withdrawFormk = useFormik({
+  const withdrawFormk: FormikProps<WithdrawInterface> = useFormik<WithdrawInterface>({
     initialValues: {
-      validatorAddress: "",
+      validatorAddress: account||'',
     },
-    onSubmit: (values) => {
+    onSubmit: (values:WithdrawInterface) => {
       setLoading(true);
       withdrawReward(values).then((res) => {
         setTranHashCode(res.data.data.transactionHash);
@@ -130,36 +144,33 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
       })
     },
   });
-
+  const renderError = (message:string) => <p className="text-danger">{message}</p>;
   return (
     <>
 {error&&<ToastNotify toastMassage={errMessage}/>}
-      <h2 className="low-font-wt mb-3">Ethereum Wallet Balance</h2>
+      <h2 className="mb-3 low-font-wt">Ethereum Wallet Balance</h2>
       <h1 className="fw-700 light-text">
         {` ${(balance.toFixed(8))} BONE Wallet`}{" "}
       </h1>
       <h2 className="low-font-wt">{(balance*boneUSDValue).toFixed(4)} USD</h2>
-      <div className="d-flex align-items-center justify-content-center mt-4 flex-column flex-sm-row flex-wrap">
-        {userType === UserType.Validator && (
+      <div className="flex-wrap mt-4 d-flex align-items-center justify-content-center flex-column flex-sm-row">
+        {userType === UserType.Delegator && (
           <>
-            <BorderBtn lable="Retake" handleModal={handleModal} />
-            <BorderBtn
-              lable="Change Commission Rate"
-              handleModal={handleModal}
-            />
-            <BorderBtn lable="Withdraw Rewards" handleModal={handleModal} />
+            <BorderBtn lable="Become A Validator" link="/become-validator" handleModal={handleModal} />
+            <BorderBtn lable="Restake" handleModal={handleModal} />
+            <BorderBtn lable="Withdraw Rewards" handleModal={handleModal}/>
             <BorderBtn lable="Unbound" handleModal={handleModal} />
           </>
         )}
-        {userType === UserType.Deligator && (
+        {userType === UserType.Validator && (
           <>
-            <BorderBtn lable="Become A Validator" handleModal={()=>{}} />
-            <BorderBtn lable="Retake" handleModal={()=>{}} />
-            <BorderBtn lable="Withdraw Rewards" handleModal={()=>{}}/>
-            <BorderBtn lable="Unbound" handleModal={()=>{}} />
+            <BorderBtn lable="Restake" handleModal={handleModal} />
+            <BorderBtn lable="Change Commission Rate" handleModal={handleModal} />
+            <BorderBtn lable="Withdraw Rewards" handleModal={handleModal}/>
+            <BorderBtn lable="Unbound" handleModal={handleModal} />
           </>
         )}
-        {userType !== UserType.NotValidatorNorDeligator && (
+        {userType === UserType.NA && (
           <>
             <BorderBtn lable="Become A Validator" handleModal={handleModal} />
             <WarningBtn lable="Become A Delegator" />
@@ -170,8 +181,8 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
       <div className={` modal-wrap`}>
         <Modal
           className="shib-popup"
-          show={retakeModal}
-          onHide={() => setRetakeModal(false)}
+          show={restakeModal}
+          onHide={() => setRestakeModal(false)}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
@@ -179,21 +190,24 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
           {loading && <LoadingSpinner />}
           <Modal.Header closeButton className="text-center">
             <Modal.Title id="example-custom-modal-styling-title">
-              Retake
+              Restake
             </Modal.Title>
           </Modal.Header>
           <Modal.Body className="position-relative">
+          <FormikProvider value={retakeFormik}>
+
             <form onSubmit={retakeFormik.handleSubmit} className="modal-form">
               <div className="form-group">
                 <label htmlFor="" className="form-label">
-                  Validator address
+                  {userType} Address
                 </label>
-                <input
+                <Field
                   type="text"
                   className="form-control form-bg"
                   placeholder="Enter Validator address"
                   id="validatorAddress"
                   name="validatorAddress"
+                  readOnly
                   onChange={retakeFormik.handleChange}
                   value={retakeFormik.values.validatorAddress}
                 />
@@ -202,31 +216,33 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
                 <label htmlFor="" className="form-label">
                   Amount
                 </label>
-                <input
+                <Field
                   type="number"
                   className="form-control form-bg"
                   id="amount"
                   name="amount"
-                  placeholder="Enter amount"
+                  placeholder="0"
                   onChange={retakeFormik.handleChange}
                   value={retakeFormik.values.amount}
                 />
+                <ErrorMessage name="amount" render={renderError} />
               </div>
               <div className="form-group">
                 <label htmlFor="" className="form-label">
-                  Stakereward
+                  Stake Reward
                 </label>
-                <input
+                <Field
                   type="number"
-                  placeholder="Enter stakereward"
+                  placeholder="0"
                   className="form-control form-bg"
                   id="reward"
                   name="reward"
                   onChange={retakeFormik.handleChange}
                   value={retakeFormik.values.reward}
                 />
+                 <ErrorMessage name="reward" render={renderError} />
               </div>
-              <div className="form-group pt-3 pt-md-4">
+              <div className="pt-3 form-group pt-md-4">
                 <button
                   type="submit"
                   className="btn warning-btn border-btn light-text w-100"
@@ -235,6 +251,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
                 </button>
               </div>
             </form>
+          </FormikProvider>
           </Modal.Body>
         </Modal>
       </div>
@@ -260,7 +277,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
             <form onSubmit={commiFormik.handleSubmit} className="modal-form">
               <div className="form-group">
                 <label htmlFor="" className="form-label">
-                  Validator address
+                {userType} Address
                 </label>
                 <input
                   type="text"
@@ -268,16 +285,17 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
                   id="validatorAddress"
                   name="validatorAddress"
                   onChange={commiFormik.handleChange}
+                  disabled
                   value={commiFormik.values.validatorAddress}
                   placeholder="Enter Validator address"
                 />
               </div>
               <div className="form-group">
                 <label htmlFor="" className="form-label">
-                  new commission
+                  New Commission
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   placeholder="Enter amount"
                   className="form-control form-bg"
                   id="newCommission"
@@ -286,7 +304,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
                   value={commiFormik.values.newCommission}
                 />
               </div>
-              <div className="form-group pt-3 pt-md-4">
+              <div className="pt-3 form-group pt-md-4">
                 <button
                   type="submit"
                   className="btn warning-btn border-btn light-text w-100"
@@ -313,17 +331,17 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
           {loading && <LoadingSpinner />}
           <Modal.Header closeButton className="text-center">
             <h4 className="mb-0">
-              <span className="trs-3">Withdraws rewards</span>
+              <span className="trs-3">Withdraws Rewards</span>
             </h4>
           </Modal.Header>
           <Modal.Body>
             <form onSubmit={withdrawFormk.handleSubmit} className="modal-form">
               <div className="form-group">
                 <label htmlFor="" className="form-label">
-                  Validator address
+                {userType} Address
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control form-bg"
                   id="validatorAddress"
                   name="validatorAddress"
@@ -332,7 +350,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
                   placeholder="Enter Validator address"
                 />
               </div>
-              <div className="form-group pt-3 pt-md-4">
+              <div className="pt-3 form-group pt-md-4">
                 <button
                   type="submit"
                   className="btn warning-btn border-btn light-text w-100"
@@ -352,7 +370,7 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
           className="shib-popup"
           show={unboundModal}
           onHide={() => setUnboundModal(false)}
-          size="sm"
+          size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
         >
@@ -363,10 +381,10 @@ const WalletBalance = ({ balance,boneUSDValue}:WalletBalanceProps) => {
             </h4>
           </Modal.Header>
           <Modal.Body>
-            <h3 className="mb-4 px-4 text-center">
+            <h3 className="px-4 mb-4 text-center">
               <span className="trs-3">Are you sure you want to unbound?</span>
             </h3>
-            <div className="row pt-4">
+            <div className="pt-4 row">
               <div className="col-sm-6">
                 <a
                   href="javascript:void(0)"

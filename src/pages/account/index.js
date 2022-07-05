@@ -8,21 +8,23 @@ import { getBoneUSDValue } from "../../services/apis/validator/index";
 import { useActiveWeb3React } from "app/services/web3";
 import {UserType} from '../../enums/UserType'
 import { BONE_ID } from '../../config/constant';
+import {useEthBalance} from '../../hooks/useEthBalance';
 
 export default function Account() {
-  const [availBalance, setAvailBalance] = useState(0);
+  // const [availBalance, setAvailBalance] = useState(0);
   const [userType, setUserType] = useState('Anonymous');
   const [boneUSDValue,setBoneUSDValue] = useState(0);
 
-  const { library, chainId, account } = useActiveWeb3React();
-  useEffect(() => {
-    if (library&&account) {
-      const web3 = new Web3(library?.provider);
-      web3.eth.getBalance(account).then((res) => {
-        setAvailBalance((res / Math.pow(10, 18)));
-      });
-    }
-  },[library,account]);
+  // const { library, chainId, account } = useActiveWeb3React();
+  const availBalance = useEthBalance()
+  // useEffect(() => {
+  //   if (library&&account) {
+  //     const web3 = new Web3(library?.provider);
+  //     web3.eth.getBalance(account).then((res) => {
+  //       setAvailBalance((res / Math.pow(10, 18)));
+  //     });
+  //   }
+  // },[library,account]);
 
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then(res=>{
@@ -57,7 +59,7 @@ export default function Account() {
               <WalletBalance
                 balance={availBalance}
                 boneUSDValue={boneUSDValue}
-                isDelegator={userType === UserType.Deligator}
+                isDelegator={userType === UserType.Delegator}
                 isValidator={userType  === UserType.Validator}
                
 
