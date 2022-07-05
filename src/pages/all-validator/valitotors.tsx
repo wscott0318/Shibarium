@@ -86,7 +86,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     }
   return (
     <div>
-      
+
         {loading && <LoadingSpinner />}
          {withStatusFilter && <div className="d-flex align-items-center btns-space">
               <div className="me-3">
@@ -168,7 +168,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                       onClick={() => setListView(false)}>
                       <img
                         className="grey-image"
-                        src="../../assets/images/grid-grey.png"
+                        src="../../assets/images/grid-white.png"
                         width={26}
                         height={19}
                         alt=""></img>
