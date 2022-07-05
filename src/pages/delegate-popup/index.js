@@ -172,7 +172,7 @@ export default function DelegatePopup({data,onHide,...props}) {
                 </button>
               </div>
             </>
-          ) : step === 2 ? (
+          ) : step === 2 && tnxCompleted ? (
             <div className="top-space-lg">
               <div className="step_prog_img">
                 <div className="d-flex align-items-center justify-content-start">
@@ -203,7 +203,7 @@ export default function DelegatePopup({data,onHide,...props}) {
                 </button>
               </div>
             </div>
-          ) : step === 3 && !tnxCompleted ? (
+          ) : step === 2 && !tnxCompleted ? (
             <>
               <div className="step_prog_img">
                 <div className="d-flex align-items-center justify-content-start">
