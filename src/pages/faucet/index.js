@@ -64,7 +64,7 @@ export default function faucet() {
                 <div className="cus-tabs nav-wrap tab-50 darkBg p-4 rad-10">
                   <h3 className="fwb">Get Test Tokens</h3>
                   <p>
-                    This faucet transfers TestToken on Matic testnets and parent
+                    This faucet transfers TestToken on BONE testnets and parent
                     chain. Confirm details before submitting.
                   </p>
 

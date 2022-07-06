@@ -338,6 +338,10 @@ ul {
     @media #{$min-exl}{
         max-width: 1660px;
     }
+    @media only screen
+    and (orientation: landscape) {
+        max-width: 100%;
+    } 
 }
 /** custum radio code start **/
 

@@ -21,7 +21,7 @@ const Rewards = () => {
           <div className="row">
             <div className="col-xl-7 col-lg-7 col-md-10 mx-auto me-md-auto order-2 order-lg-1 mb-4 mb-lg-0">
               <h4 className="fwb mb-4">
-                Calculate Your Delegation Rewards With Matic Staking
+                Calculate Your Delegation Rewards With BONE Staking
               </h4>
               <div className="input-wrap mb-4">
                 <p className="mb-2 light-text fw-600">
