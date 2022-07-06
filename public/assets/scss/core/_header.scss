@@ -180,6 +180,10 @@
             padding-left: 5px;
             padding-right: 5px;
         }
+        @media (max-width:328px){
+            padding-left: 3px;
+            padding-right: 3px;
+        }
     }
     .btn{
         @media #{$max-xxxl}{

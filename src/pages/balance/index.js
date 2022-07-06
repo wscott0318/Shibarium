@@ -90,10 +90,11 @@ export default function Balance() {
           </div>
           <div className="filter-sec">
             <div className="row align-items-center">
-              <div className="col-sm-5 col-12">
+              <div className="col-lg-5 col-12 mb-3 mb-md-0">
                 <h4 className="fw-700 trs-1">Balance On Shibarium Testnet</h4>
               </div>
-              <div className="col-sm-7 col-12 text-end">
+              <div className="col-lg-7 col-12 text-md-end">
+                <div className="group-box">
                 <div className="d-inline-block">
                   <div className="form-check cus-chkbox d-inline-block">
                     <input
@@ -126,7 +127,7 @@ export default function Balance() {
                     </label>
                   </div>
                 </div>
-                <div className="search-box d-inline-block position-relative">
+                <div className="search-box d-inline-block position-relative mt-2 mt-sm-0">
                   <input
                     className="cus-search w-100"
                     type="text"
@@ -139,6 +140,7 @@ export default function Balance() {
                     src="../../assets/images/search.png"
                     alt=""
                   />
+                </div>
                 </div>
               </div>
             </div>

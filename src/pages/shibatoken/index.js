@@ -25,16 +25,16 @@ export default function ShibaToken() {
                 <div className='black_clr_box low-radius sec-spc-low position-relative'>
                   <div className='image-section'><img width="189" height="147" className='img-fluid' src="../../assets/images/shadow-img.png" alt="" /></div>
                   <div className='row'>
-                    <div className='col-sm-6 col-12 text-sm-start text-center rt-border'>
+                    <div className='col-sm-6 col-12 text-sm-start  rt-border'>
                       <h3 className='fw-700 light-text mb-2 mb-sm-4 d-flex align-items-center'>
                         <img width="22" height="33" className='img-fluid' src="../../assets/images/burn.png" alt="" />
                         <span className='ms-2 align'>Total Burned</span>
                       </h3>
-                      <h2 className='light-text low-font-wt mb-2 mb-sm-0'><span>101233.33 BONE</span></h2>
+                      <h2 className='light-text low-font-wt my-2 mb-sm-0'><span>101233.33 BONE</span></h2>
                     </div>
-                    <div className='col-sm-6 col-12 text-sm-start text-center left-space'>
+                    <div className='col-sm-6 col-12 text-sm-start left-space'>
                       <h3 className='fw-700 light-text mb-2 mb-sm-4 d-flex align-items-center'><img width="22" height="33" className='img-fluid' src="../../assets/images/burn.png" alt="" /><span className='ms-2 align'>Burn In Progress</span></h3>
-                      <h2 className='light-text low-font-wt mb-2 mb-sm-0'><span>29.33 BONE</span></h2>
+                      <h2 className='light-text low-font-wt my-2 mb-sm-0'><span>29.33 BONE</span></h2>
                     </div>
                   </div>
                 </div>
