@@ -87,7 +87,7 @@ export default function delegator() {
           <tr>
             <td>
               <span className='tb-data align'><i className='user-icon'></i>Anonymous 18</span>
-              {/* <span className='tb-data-sm'>Matic</span> */}
+              {/* <span className='tb-data-sm'>BONE</span> */}
             </td>
             <td>
               <span className='tb-data align'>13,861</span>
@@ -106,7 +106,7 @@ export default function delegator() {
           <tr>
             <td>
               <span className='tb-data align'><i className='user-icon'></i>Anonymous 20</span>
-              {/* <span className='tb-data-sm'>Matic</span> */}
+              {/* <span className='tb-data-sm'>BONE</span> */}
             </td>
             <td>
               <span className='tb-data align'>13,861</span>
@@ -125,7 +125,7 @@ export default function delegator() {
           <tr>
             <td>
               <span className='tb-data align'><i className='user-icon'></i>Shiba-Testnet-1</span>
-              {/* <span className='tb-data-sm'>Matic</span> */}
+              {/* <span className='tb-data-sm'>BONE</span> */}
             </td>
             <td>
               <span className='tb-data align'>13,861</span>
@@ -144,7 +144,7 @@ export default function delegator() {
           <tr>
             <td>
               <span className='tb-data align'><i className='user-icon'></i>Anonymous 20</span>
-              {/* <span className='tb-data-sm'>Matic</span> */}
+              {/* <span className='tb-data-sm'>BONE</span> */}
             </td>
             <td>
               <span className='tb-data align'>13,861</span>
@@ -163,7 +163,7 @@ export default function delegator() {
           <tr>
             <td>
               <span className='tb-data align'><i className='user-icon'></i>Poly Two</span>
-              {/* <span className='tb-data-sm'>Matic</span> */}
+              {/* <span className='tb-data-sm'>BONE</span> */}
             </td>
             <td>
               <span className='tb-data align'>13,861</span>
@@ -182,7 +182,7 @@ export default function delegator() {
           <tr>
             <td>
               <span className='tb-data align'><i className='user-icon'></i>Radar Staking</span>
-              {/* <span className='tb-data-sm'>Matic</span> */}
+              {/* <span className='tb-data-sm'>BONE</span> */}
             </td>
             <td>
               <span className='tb-data align'>13,861</span>
@@ -201,7 +201,7 @@ export default function delegator() {
           <tr>
             <td>
               <span className='tb-data align'><i className='user-icon'></i>Radar Staking</span>
-              {/* <span className='tb-data-sm'>Matic</span> */}
+              {/* <span className='tb-data-sm'>BONE</span> */}
             </td>
             <td>
               <span className='tb-data align'>13,861</span>
@@ -220,7 +220,7 @@ export default function delegator() {
           <tr>
             <td>
               <span className='tb-data align'><i className='user-icon'></i>Poly Two</span>
-              {/* <span className='tb-data-sm'>Matic</span> */}
+              {/* <span className='tb-data-sm'>BONE</span> */}
             </td>
             <td>
               <span className='tb-data align'>13,861</span>
@@ -239,7 +239,7 @@ export default function delegator() {
           <tr>
             <td>
               <span className='tb-data align'><i className='user-icon'></i>Radar Staking</span>
-              {/* <span className='tb-data-sm'>Matic</span> */}
+              {/* <span className='tb-data-sm'>BONE</span> */}
             </td>
             <td>
                <span className='tb-data align'>13,861</span>
@@ -258,7 +258,7 @@ export default function delegator() {
           <tr>
             <td>
               <span className='tb-data align'><i className='user-icon'></i>Radar Staking</span>
-              {/* <span className='tb-data-sm'>Matic</span> */}
+              {/* <span className='tb-data-sm'>BONE</span> */}
             </td>
             <td>
               <span className='tb-data align'>13,861</span>
@@ -277,7 +277,7 @@ export default function delegator() {
           <tr>
             <td>
               <span className='tb-data align'><i className='user-icon'></i>Poly Two</span>
-              {/* <span className='tb-data-sm'>Matic</span> */}
+              {/* <span className='tb-data-sm'>BONE</span> */}
             </td>
             <td>
               <span className='tb-data align'>13,861</span>

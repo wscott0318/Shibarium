@@ -5,19 +5,17 @@ import { Dropdown } from 'react-bootstrap';
 import Sidebar from '../layout/sidebar';
 export default function Gastoken() {
 
-
-
     return (
         <>
             {/* <Header /> */}
         <div className="page-wrapper">
             <Sidebar />
             <div className='main-content'>
-                <div className="wrapper" >
+                <div className="" >
                     <section className='chain-sec'>
                         <div className="container">
                             <div className="row">
-                                <div className="col-lg-10 col-xl-8 mx-auto gas_token">
+                                <div className="col-lg-10 col-xl-9 mx-auto gas_token">
                                     <div className="heading-sec">
                                         <h3 className="fw-700 mb-2">Swap for Gas Token</h3>
                                         <div className="fs-23">BONE is used to pay the transaction fee.</div>
@@ -26,10 +24,10 @@ export default function Gastoken() {
                                        
                                         {/* Deposit tab start */}
                                         <div className="tab-content-wrap">
-                                            <div className="swap-area">
+                                            <div className="swap-area"> 
 
                                             <div className="form-group">
-                                            <label htmlFor="" className="form-label fwb">How many $MATIC do you want to get?</label>
+                                            <label htmlFor="" className="form-label fwb">How many BONE do you want to get?</label>
                                                 <div className="swap-flex p-0 row">
                                                     <div className='cstm_values col-sm-6'>
                                                         <span className='outr_span'><span className="trs-3">1 BONE</span></span>

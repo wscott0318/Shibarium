@@ -1,4 +1,5 @@
 import React from "react";
+
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
 function BalanceTable() {
@@ -23,8 +24,8 @@ function BalanceTable() {
                                     src="../../assets/images/coin.png"
                                     alt=""
                                 />
-                                <span className="tb-data align">Matic .</span>
-                                <span className="tb-data-sm align">Matic</span>
+                                <span className="tb-data align">BONE .</span>
+                                <span className="tb-data-sm align">BONE</span>
                             </td>
                             <td>
                                 <span className="tb-data align">0.0000 .</span>
@@ -189,8 +190,8 @@ function BalanceTable() {
                                     src="../../assets/images/coin.png"
                                     alt=""
                                 />
-                                <span className="tb-data align">Matic .</span>
-                                <span className="tb-data-sm align">Matic</span>
+                                <span className="tb-data align">BONE .</span>
+                                <span className="tb-data-sm align">BONE</span>
                             </td>
                             <td>
                                 <span className="tb-data align">0.0000 .</span>
