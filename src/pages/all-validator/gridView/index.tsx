@@ -10,7 +10,6 @@ export default function ValidatorGrid({ validatorsList }: { validatorsList: any 
             <DelegatePopup show={modalShow} data={selectedRow}
                 onHide={() => setModalShow(false)} />
             <div className='ValidatorGrid-sec'>
-                <div className='container'>
                     <div className='grid-sec'>
                         {validatorsList && validatorsList.length ?
                             <div className='row side-cover'>
@@ -58,7 +57,6 @@ export default function ValidatorGrid({ validatorsList }: { validatorsList: any 
                             <div style={{display:'flex',justifyContent:'center',padding: '3rem'}}>No Records Found.</div>
                         }
                     </div>
-                </div>
             </div>
         </>
     )

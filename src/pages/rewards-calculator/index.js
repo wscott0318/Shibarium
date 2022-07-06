@@ -33,7 +33,7 @@ const Rewards = () => {
                     className="form-control"
                     placeholder="10000"
                   />
-                  <span className="over-text primary-text">BONE</span>
+                  <span className="over-text primary-text trs-3">BONE</span>
                 </div>
               </div>
               <div className="darkbg low-radius sec-spc-low position-relative mb-4">
@@ -145,7 +145,7 @@ const Rewards = () => {
                 </div>
                 <div className="shib-img text-center pt-4">
                   <img
-                    className="img-fluid"
+                    className="img-fluid m-auto"
                     src="../../assets/images/shib-img-2.png"
                     alt="shiba-img"
                     width={200}

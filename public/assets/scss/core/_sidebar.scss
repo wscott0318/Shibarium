@@ -1,8 +1,11 @@
 .main-content {
     width: calc(100% - 290px);
     margin-left: auto;
-    margin-top: 85px;
+    margin-top: 126px;
     padding: 30px 30px 30px;
+    @media #{$max-xxxl}{
+        margin-top: 82px;
+    }
     @media #{$max-xl}{
         width: 100%;
         padding: 15px;
@@ -54,6 +57,10 @@
         max-width: 160px;
     }
     .nav-menu {
+        padding-top: 54px;
+        @media #{$max-xl}{
+            padding-top: 0;
+        }
         .nav-item{
             margin-left: 15px;
             position: relative;

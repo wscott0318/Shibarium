@@ -1,5 +1,8 @@
 .wrapper {
-    padding-top: 82px;
+    padding-top:126px;
+    @media #{$max-xxxl}{
+        padding-top: 82px;
+    }
 }
 
 .primary-bg{
@@ -506,6 +509,12 @@ color:$green-color;
         background: $primary;
         color:$white;
        }
+       &.active .page-link {
+        z-index: 3;
+        color: #fff;
+        background-color: $primary;
+        border-color: $primary;
+    }
     }
 }
 .box-head{
@@ -689,6 +698,9 @@ color:$green-color;
     color: $white5;
 }
 .mob-filter{
+    display: flex;
+    align-items: center;
+    justify-content: end;
     @media #{$max-sm} {
         width: 100%;
         margin-bottom: 20px;
@@ -716,6 +728,9 @@ color:$green-color;
         background: $primary;
         transform: translateY(0px);
     }
+}
+.modal{
+    padding-left: 0 !important;
 }
 
 .cus-dd{
@@ -920,7 +935,9 @@ color:$green-color;
     -ms-border-radius: 9px;
     -moz-border-radius: 9px;
     padding: 5px;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
 .white-image{
     display: none;
@@ -2014,8 +2031,11 @@ input{
 .modal-form{
     .form-group {
         margin-bottom: 30px;
-        @media #{$max-md}{
+        @media #{$max-xxl}{
             margin-bottom: 15px;
+        }
+        @media #{$max-md}{
+            margin-bottom: 12px;
         }
         &:last-child{
             margin-bottom: 0;
@@ -2087,4 +2107,12 @@ input{
 .spinner-outer{
     width: 100%;
     height: 100%
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
 }

@@ -8,16 +8,16 @@ import { useRouter } from "next/router";
 import InnerHeader from "../inner-header";
 import DelegatePopup from "../delegate-popup";
 import Link from "next/link";
-import  BorderBtn  from "../components/BorderBtn";
-import  WarningBtn  from "../components/WarningBtn";
-import { validatorsList } from "../../services/apis/validator";
-import {useUserType,useUserOpenMev} from '../../state/user/hooks'
+import BorderBtn from "../components/BorderBtn";
+import WarningBtn from "../components/WarningBtn";
+import Valitotors from "../all-validator/valitotors";
+import { useUserType, useUserOpenMev } from "../../state/user/hooks";
 import { UserType } from "../../enums/UserType";
 
 const BoneStaking = () => {
-  const [validators, setValidators] = useState([])
-  const [userType, setUserType] =useUserType();
-  
+  // const [validators, setValidators] = useState([]);
+  const [userType, setUserType] = useUserType();
+
   // const [isValidator, setIsValidator] = useState(false);
   // const [isDelegator, setIsDelegator] = useState(false);
   // useEffect(()=>{
@@ -37,15 +37,15 @@ const BoneStaking = () => {
   //   }
   // })
 
-  useEffect(()=>{
-    validatorsList().then(res=>{
-      if(res.status==200){
-        setValidators(res.data.data.validatorsList)
-      }
-    }).catch(err=>{
-    })
-  },[])
-
+  // useEffect(() => {
+  //   validatorsList()
+  //     .then((res) => {
+  //       if (res.status == 200) {
+  //         setValidators(res.data.data.validatorsList);
+  //       }
+  //     })
+  //     .catch((err) => {});
+  // }, []);
 
   const [modalShow, setModalShow] = useState(false);
   const router = useRouter();
@@ -71,7 +71,7 @@ const BoneStaking = () => {
                   <BorderBtn
                     link="./become-validator"
                     lable="Become A Validator"
-                    handleModal={()=>{}}
+                    handleModal={() => {}}
                   />
                 </>
               )}
@@ -81,17 +81,17 @@ const BoneStaking = () => {
                     <BorderBtn
                       link="./become-validator"
                       lable="Become A Validator"
-                      handleModal={()=>{}}
+                      handleModal={() => {}}
                     />
                     <WarningBtn
                       link="all-validator"
                       lable="Become A Delegator"
-                      handleModal={()=>{}}
+                      handleModal={() => {}}
                     />{" "}
                     <BorderBtn
                       link="./delegator-validator"
                       lable="Choose Your Path"
-                      handleModal={()=>{}}
+                      handleModal={() => {}}
                     />
                   </div>
                 </>
@@ -176,339 +176,7 @@ const BoneStaking = () => {
       </section>
       <section className="mb-4 mb-lg-5">
         <div className="container">
-          <div className="mb-4">
-            <h4 className="mb-3 fw-700">All Validators</h4>
-          </div>
-          <div className="filter-sec topmargin">
-            <div className="row align-items-center">
-              <div className="mb-4 col-lg-5 col-12 mb-sm-4 mb-lg-0">
-                <div className="search-box d-inline-block position-relative w-100">
-                  <input
-                    className="cus-search w-100"
-                    type="text"
-                    placeholder="Search by validator name, Id, owner or signer address"
-                  ></input>
-                  <img
-                    width="15"
-                    height="15"
-                    className="img-fluid"
-                    src="../../assets/images/search.png"
-                    alt=""
-                  />
-                </div>
-              </div>
-              <div className="col-lg-7 col-12 text-end mob-filter">
-                <div className="d-inline-block pe-0 pe-sm-4 mob-filter">
-                  <label className="head-xsm fw-600" for="Auction">
-                    <span className="top-low-spc pe-2 align">
-                      Show Auction Only
-                    </span>
-                  </label>
-                  <label className="switch align">
-                    <input type="checkbox" />
-                    <span className="slider round"></span>
-                  </label>
-                </div>
-                <div className="d-inline-block pe-4 pe-sm-4">
-                  <label className="head-xsm fw-600" for="Auction">
-                    <span className="top-low-spc pe-2 align">Sort by</span>
-                  </label>
-                  <Dropdown className="cus-dropdown position-relative d-inline-block">
-                    <i className="arrow down"></i>
-                    <Dropdown.Toggle id="dropdown-basic">
-                      <span>Random</span>
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                      <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                      <Dropdown.Item href="#/action-2">
-                        Another action
-                      </Dropdown.Item>
-                      <Dropdown.Item href="#/action-3">
-                        Something else
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </div>
-                <div className="d-inline-flex">
-                  <div
-                    href="javascript:void(0);"
-                    title=""
-                    className="view-blk me-2 view-active"
-                  >
-                    <img
-                      className="grey-image"
-                      src="../../assets/images/grid-grey.png"
-                      width={26}
-                      height={19}
-                      alt=""
-                    ></img>
-                    <img
-                      className="white-image"
-                      src="../../assets/images/grid-white.png"
-                      width={26}
-                      height={19}
-                      alt=""
-                    ></img>
-                  </div>
-                  <div href="javascript:void(0);" title="" className="view-blk">
-                    <img
-                      className="grey-image"
-                      src="../../assets/images/list-grey.png"
-                      width={26}
-                      height={19}
-                      alt=""
-                    ></img>
-                    <img
-                      className="white-image"
-                      src="../../assets/images/list-white.png"
-                      width={26}
-                      height={19}
-                      alt=""
-                    ></img>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="container">
-          <div className="mb-4 outer-table mb-lg-5">
-            <table className="data-table">
-              <thead>
-                <tr className="table-header">
-                  <th>Name</th>
-                  <th>Stake</th>
-                  <th>Checkpoints Signed</th>
-                  <th>Commission</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {validators&&validators.map(elm=>{
-                  console.log('elm', elm)
-                  return(
-                    <tr>
-                  <td>
-                    <span className="tb-data align">
-                      <i className="user-icon"></i>Anonymous 18
-                    </span>
-                 
-                  </td>
-                  <td>
-                    <span className="tb-data align">{parseInt(elm.stakeAmount).toFixed(0)}</span>
-                    <span className="tb-data-sm align">BONE</span>
-                  </td>
-                  <td>
-                    <span className="tb-data warning-color align">100%</span>
-                  </td>
-                  <td>
-                    <span className="tb-data success-color align">{elm.commissionRate}</span>
-                  </td>
-                  <td className="user-action">
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => setModalShow(true)}
-                      title=""
-                      className="btn-small uppercase-txt warning-btn"
-                    >
-                      <span>Delegate</span>
-                    </a>
-                  </td>
-                </tr>
-                  )
-                })}
-                {/* <tr>
-                  <td>
-                    <span className="tb-data align">
-                      <i className="user-icon"></i>Anonymous 20
-                    </span>
-                 
-                  </td>
-                  <td>
-                    <span className="tb-data align">13,861</span>
-                    <span className="tb-data-sm align">BONE</span>
-                  </td>
-                  <td>
-                    <span className="tb-data warning-color align">0%</span>
-                  </td>
-                  <td>
-                    <span className="tb-data success-color align">10%</span>
-                  </td>
-                  <td className="user-action">
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => setModalShow(true)}
-                      title=""
-                      className="btn-small uppercase-txt warning-btn"
-                    >
-                      <span>Delegate</span>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span className="tb-data align">
-                      <i className="user-icon"></i>Shiba-Testnet-1
-                    </span>
-                 
-                  </td>
-                  <td>
-                    <span className="tb-data align">13,861</span>
-                    <span className="tb-data-sm align">BONE</span>
-                  </td>
-                  <td>
-                    <span className="tb-data warning-color align">100%</span>
-                  </td>
-                  <td>
-                    <span className="tb-data success-color align">10%</span>
-                  </td>
-                  <td className="user-action">
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => setModalShow(true)}
-                      title=""
-                      className="btn-small uppercase-txt warning-btn"
-                    >
-                      <span>Delegate</span>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span className="tb-data align">
-                      <i className="user-icon"></i>Anonymous 20
-                    </span>
-                 
-                  </td>
-                  <td>
-                    <span className="tb-data align">13,861</span>
-                    <span className="tb-data-sm align">BONE</span>
-                  </td>
-                  <td>
-                    <span className="tb-data warning-color align">0%</span>
-                  </td>
-                  <td>
-                    <span className="tb-data success-color align">10%</span>
-                  </td>
-                  <td className="user-action">
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => setModalShow(true)}
-                      title=""
-                      className="btn-small uppercase-txt warning-btn"
-                    >
-                      <span>Delegate</span>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span className="tb-data align">
-                      <i className="user-icon"></i>Poly Two
-                    </span>
-                 
-                  </td>
-                  <td>
-                    <span className="tb-data align">13,861</span>
-                    <span className="tb-data-sm align">BONE</span>
-                  </td>
-                  <td>
-                    <span className="tb-data warning-color align">100%</span>
-                  </td>
-                  <td>
-                    <span className="tb-data success-color align">10%</span>
-                  </td>
-                  <td className="user-action">
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => setModalShow(true)}
-                      title=""
-                      className="btn-small uppercase-txt warning-btn"
-                    >
-                      <span>Delegate</span>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span className="tb-data align">
-                      <i className="user-icon"></i>Radar Staking
-                    </span>
-                 
-                  </td>
-                  <td>
-                    <span className="tb-data align">13,861</span>
-                    <span className="tb-data-sm align">BONE</span>
-                  </td>
-                  <td>
-                    <span className="tb-data warning-color align">0%</span>
-                  </td>
-                  <td>
-                    <span className="tb-data success-color align">10%</span>
-                  </td>
-                  <td>
-                    <span className="warning-color lnht fw-600">
-                      Offline since
-                      <br /> <em className="tbsm-txt ">289633 checkpoints</em>
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span className="tb-data align">
-                      <i className="user-icon"></i>Radar Staking
-                    </span>
-                 
-                  </td>
-                  <td>
-                    <span className="tb-data align">13,861</span>
-                    <span className="tb-data-sm align">BONE</span>
-                  </td>
-                  <td>
-                    <span className="tb-data warning-color align">0%</span>
-                  </td>
-                  <td>
-                    <span className="tb-data success-color align">10%</span>
-                  </td>
-                  <td>
-                    <span className="warning-color lnht fw-600">
-                      Offline since
-                      <br /> <em className="tbsm-txt ">289633 checkpoints</em>
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span className="tb-data align">
-                      <i className="user-icon"></i>Poly Two
-                    </span>
-                 
-                  </td>
-                  <td>
-                    <span className="tb-data align">13,861</span>
-                    <span className="tb-data-sm align">BONE</span>
-                  </td>
-                  <td>
-                    <span className="tb-data warning-color align">100%</span>
-                  </td>
-                  <td>
-                    <span className="tb-data success-color align">10%</span>
-                  </td>
-                  <td className="user-action">
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => setModalShow(true)}
-                      title=""
-                      className="btn-small uppercase-txt warning-btn"
-                    >
-                      <span>Delegate</span>
-                    </a>
-                  </td>
-                </tr> */}
-              </tbody>
-            </table>
-          </div>
+          <Valitotors withStatusFilter={false} />
         </div>
       </section>
       <footer className="main-footer">
