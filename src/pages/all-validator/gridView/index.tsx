@@ -1,10 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
+import { UserType } from 'app/enums/UserType';
+import { useUserType } from 'app/state/user/hooks';
 import React, { useState } from 'react'
 import DelegatePopup from '../../delegate-popup';
 
 export default function ValidatorGrid({ validatorsList }: { validatorsList: any }) {
     const [modalShow, setModalShow] = React.useState(false);
-    const [selectedRow, setSelectedRow] = useState({})
+    const [selectedRow, setSelectedRow] = useState({});
+    const [userType, setUserType] = useUserType()
     return (
         <>
             <DelegatePopup show={modalShow} data={selectedRow}
@@ -43,7 +46,7 @@ export default function ValidatorGrid({ validatorsList }: { validatorsList: any 
                                                             </div>
                                                         </div>
                                                         <div className='mt-3 text-center'>
-                                                            <button disabled={validator.upTime === 0} type="button" onClick={() => { setModalShow(true); setSelectedRow(validator) }} className='btn warning-btn light-text w-100'><span>Delegate</span></button>
+                                                            <button disabled={validator.upTime === 0 || userType === UserType.Validator} type="button" onClick={() => { setModalShow(true); setSelectedRow(validator) }} className='btn warning-btn light-text w-100'><span>Delegate</span></button>
                                                         </div>
                                                     </div>
                                                 </div>
