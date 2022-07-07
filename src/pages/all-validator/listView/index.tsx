@@ -1,10 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
+import { UserType } from 'app/enums/UserType';
+import { useUserType } from 'app/state/user/hooks';
 import DelegatePopup from 'pages/delegate-popup';
 import React, { useState } from 'react';
 
 export default function ListView({ validatorsList }: { validatorsList: any }) {
     const [modalShow, setModalShow] = React.useState(false);
     const [selectedRow, setSelectedRow] = useState({})
+    const [userType, setUserType] = useUserType()
     return (
         <>
             <DelegatePopup show={modalShow} data={selectedRow}
@@ -55,10 +58,11 @@ export default function ListView({ validatorsList }: { validatorsList: any }) {
                       <span className="tb-data align">11.02%</span>
                     </td>
                     <td className="user-action">
-                      <button disabled={elm.upTime === 0}
+                      <button disabled={elm.upTime === 0 || userType === UserType.Validator}
                         onClick={() => {setModalShow(true);setSelectedRow(elm)}}
                         title=""
                         className="btn-small uppercase-txt warning-btn"
+                        
                       >
                         <span>Delegate</span>
                       </button>

@@ -13,6 +13,7 @@ import WarningBtn from "../components/WarningBtn";
 import Valitotors from "../all-validator/valitotors";
 import { useUserType, useUserOpenMev } from "../../state/user/hooks";
 import { UserType } from "../../enums/UserType";
+import NetworkDetails from './NetworkDetails';
 import bannerCard from './bannerCard'
 
 const BoneStaking = () => {
@@ -110,6 +111,7 @@ const BoneStaking = () => {
       </section>
       {/* banner section end */}
       <section className="mb-4 buy-sell-section mb-lg-5">
+        <NetworkDetails />
         <div className="container">
           {/* <bannerCard /> */}
         </div>

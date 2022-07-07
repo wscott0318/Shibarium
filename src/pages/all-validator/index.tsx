@@ -12,9 +12,11 @@ import LoadingSpinner from "../components/Loading";
 // import Pagination from 'app/components/Pagination'
 // import { useSearchFilter } from "app/hooks/useSearchFilter";
 import Valitotors from "./valitotors";
+import { useUserType } from "app/state/user/hooks";
+import { UserType } from "app/enums/UserType";
 
 export const Allvalidator: React.FC = () => {
-  // const [loading, setLoading] = useState<boolean>(true);
+  const [userType, setUserType] = useUserType();
 
   // useEffect(() => {
   //   let filtered = []
@@ -50,13 +52,13 @@ export const Allvalidator: React.FC = () => {
                     <h1 className="mb-2 light-text mb-sm-3 fnt-58 fnt-100">
                       All Validators
                     </h1>
-                    <div className="">
+                 {userType !== UserType.Validator ?   <div className="">
                       <Link href="./become-validator">
                         <a className="btn gradient_btn" title="">
                           <span>Become A Validator</span>
                         </a>
                       </Link>
-                    </div>
+                    </div>:null}
                   </div>
                 </div>
               </div>
