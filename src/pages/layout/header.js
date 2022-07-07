@@ -22,6 +22,7 @@ import { NETWORK_LABEL } from "app/config/networks";
 import Web3 from 'web3';
 import { getUserType } from "app/services/apis/user/userApi";
 import { useUserType } from "app/state/user/hooks";
+import { UserType } from "../../enums/UserType";
 
 export default function Header() {
   const { chainId, account, active, error, library, activate, deactivate } = useWeb3React()
@@ -38,6 +39,9 @@ export default function Header() {
     if (account && !isLoggedIn) {
       sign(account)
     }
+    if(account){
+      getUsertype(account)
+    }
   }, [account])
   useEffect(() => {
     if (account)
@@ -49,12 +53,12 @@ export default function Header() {
   const getUsertype = (accountAddress) =>{
     getUserType(accountAddress.toLowerCase()).then( res =>{
       if (res.data && res.data.data) {
-        let ut = UserType[res.data.data.userType];
+        let ut = res.data.data.userType;
         setUserType(ut)
       }
     }).catch(e=>{
       console.log(e);
-      setUserType('NotValidatorNorDeligator')
+      setUserType('NA')
     })
   }
   useEffect(() => {
@@ -74,7 +78,7 @@ export default function Header() {
         if (accounts.length > 0) {
           if (library) {
             sign(accounts[0])
-            getUsertype(accounts[0])
+            //getUsertype(accounts[0])
            }
           }
         // activate(injected)
@@ -243,7 +247,7 @@ export default function Header() {
             >
               <div className="widg-col cus-dd">
                 <NavDropdown className="light-text" title="App" id="">
-                  <NavDropdown.Item href="#action/3.1">
+                  <NavDropdown.Item href="/balance">
                     <h6 className="fw-600 light-text left-border">
                       Shibarium Wallet
                     </h6>
@@ -251,7 +255,7 @@ export default function Header() {
                       Send and receive crypto assets on Shibarium network
                     </span>
                   </NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">
+                  <NavDropdown.Item href="/dashboard">
                     <h6 className="fw-600 light-text left-border">
                       Shibarium Bridge
                     </h6>
@@ -259,7 +263,7 @@ export default function Header() {
                       Deposit and withdraw between networks
                     </span>
                   </NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">
+                  <NavDropdown.Item href="./bone-staking">
                     <h6 className="fw-600 light-text left-border">Stacking</h6>
                     <span className="light-text">
                       Stake shiba and earn rewards
@@ -291,7 +295,7 @@ export default function Header() {
               )}
               {account ? (
                 <>
-                  <div className="widg-col d-flex align-items-center">
+                  <div className="widg-col d-flex align-items-center dd-mask">
                     {/* <div className="prof-img me-2">
                       <img
                         className="img-fluid"
@@ -299,8 +303,9 @@ export default function Header() {
                         alt="prof-img"
                       />
                     </div> */}
+                    <RightMenu />
                     <div className="cus-dd">
-                      <RightMenu />
+                      
                       <NavDropdown
                         // title={`Account ${
                         //   account && account.slice(0, 4)
@@ -369,13 +374,13 @@ export default function Header() {
               ) : (
                 <>
                   {error ? <Web3Status /> : <form action="" className="inline-form ms-2">
-                    <a href="jvascript:void(0)" className="btn gradient_btn">
+                    <div href="jvascript:void(0)" className="btn gradient_btn">
                     <Link href="/login" >
                       {/* <a className=""> */}
                         <span>Connect To A Wallet</span>
                       {/* </a> */}
                     </Link>
-                    </a>
+                    </div>
                   </form>}
                 </>
               )}

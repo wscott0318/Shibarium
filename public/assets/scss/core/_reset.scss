@@ -245,7 +245,7 @@ ul {
 .btn{
     padding: 12px 20px;
     border:0;
-    border-radius: 30px;
+    border-radius: 30px !important;
     font-weight: 800;
     font-size: 14px;
     &:focus{
@@ -274,6 +274,10 @@ ul {
 .gradient_btn{
     background: $primary_grdnt_btn;
     color:#fff;
+    &:hover{    
+        background: $primary_grdnt_btn;
+        color:#fff;
+    }
 }
 .white-btn {
     border: solid 1px #c4c2c2;
@@ -334,6 +338,10 @@ ul {
     @media #{$min-exl}{
         max-width: 1660px;
     }
+    @media only screen
+    and (orientation: landscape) {
+        max-width: 100%;
+    } 
 }
 /** custum radio code start **/
 
@@ -417,6 +425,7 @@ ul {
 .darkBg{
     background-color: $darkbg !important;
 }
+
 .card{
     background-color: $black;
     padding: 25px;
@@ -436,4 +445,7 @@ ul {
             color:rgba(255, 255, 255, 0.8);
         }  
     }
+}
+.z-50{
+    z-index: 9999 !important;
 }

@@ -185,7 +185,7 @@ export default function Home() {
                     <Link
                       href={`/balance`}
                     >
-                      <a className="cus-card chain-item">
+                      <div className="cus-card chain-item">
                         <div className="chain-img">
                           <img
                             className="img-fluid"
@@ -200,12 +200,12 @@ export default function Home() {
                             Send and receive crypto assets on Shibarium network
                           </p>
                         </div>
-                      </a>
+                      </div>
                     </Link>
                   </div>
                   <div className="col-md-6 chain-col">
                     <Link href="./bone-staking">
-                    <a  className="cus-card chain-item">
+                    <div  className="cus-card chain-item">
                       <div className="chain-img">
                         <img
                           className="img-fluid"
@@ -218,14 +218,14 @@ export default function Home() {
                         <h3 className="mb-2 fwb">Shibarium Staking</h3>
                         <p>Stake BONE to earn rewards</p>
                       </div>
-                    </a>
+                    </div>
                     </Link>
                   </div>
                   <div className="col-md-6 chain-col">
                     <Link
                       href={`/dashboard`}
                     >
-                      <a className="cus-card chain-item">
+                      <div className="cus-card chain-item">
                         <div className="chain-img">
                           <img
                             className="img-fluid"
@@ -238,7 +238,7 @@ export default function Home() {
                           <h3 className="mb-2 fwb">Shibarium Bridge</h3>
                           <p>Deposit and withdraw between networks</p>
                         </div>
-                      </a>
+                      </div>
                     </Link>
                   </div>
                   {/* <div className='col-md-6 chain-col'>

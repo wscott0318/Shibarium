@@ -81,10 +81,12 @@ export default function Account() {
                   <label htmlFor="" className="form-label">Delegator address</label>
                   <input type="text" className="form-control form-bg" placeholder='Enter Delegator address' />
                 </div>
+                
                 <div className='form-group'>
                   <label htmlFor="" className="form-label">Amount</label>
                   <input type="text" className="form-control form-bg" placeholder='Enter amount' />
                 </div>
+
                 <div className='form-group pt-3 pt-md-4'>
                   <button type='buttton' className='btn warning-btn border-btn light-text w-100'><span>Submit</span></button>
                 </div>

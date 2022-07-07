@@ -62,7 +62,7 @@ const AccountDetails: FC<AccountDetailsProps> = ({
           <div className="flex items-center justify-between">
             {connectorName}
             <Button variant="outlined" color="blue" size="xs" onClick={deactivate}>
-              {`Disconnect`}
+              <span className='trs-2'>{`Disconnect`}</span>
             </Button>
           </div>
           <div id="web3-account-identifier-row" className="flex flex-col justify-center gap-4">
@@ -90,14 +90,14 @@ const AccountDetails: FC<AccountDetailsProps> = ({
                   href={chainId && getExplorerLink(chainId, ENSName || account, 'address')}
                 >
                   <Typography variant="xs" weight={700}>
-                    {`View on explorer`}
+                    <span className='trs-3'>{`View on explorer`}</span>
                   </Typography>
                 </ExternalLink>
               )}
               {account && (
                 <Copy toCopy={account}>
                   <Typography variant="xs" weight={700}>
-                    {`Copy Address`}
+                    <span className='trs-3'>{`Copy Address`}</span>
                   </Typography>
                 </Copy>
               )}
@@ -110,7 +110,7 @@ const AccountDetails: FC<AccountDetailsProps> = ({
               {`Recent Transactions`}
             </Typography>
             <Button variant="outlined" color="blue" size="xs" onClick={clearAllTransactionsCallback}>
-              {`Clear all`}
+              <span className='trs-2'>{`Clear all`}</span>
             </Button>
           </div>
           <div className="flex flex-col divide-y divide-dark-800">

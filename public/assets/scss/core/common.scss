@@ -1,5 +1,8 @@
 .wrapper {
-    padding-top: 82px;
+    padding-top:126px;
+    @media #{$max-xxxl}{
+        padding-top: 82px;
+    }
 }
 
 .primary-bg{
@@ -473,6 +476,10 @@ color:$green-color;
 .cus-pagination{
     .page-item {
         margin-right: 15px;
+        &.disable {
+            opacity: 0.5;
+            pointer-events: none;
+        }
     }
     .page-item:last-child {
         margin-right: 0;
@@ -502,6 +509,12 @@ color:$green-color;
         background: $primary;
         color:$white;
        }
+       &.active .page-link {
+        z-index: 3;
+        color: #fff;
+        background-color: $primary;
+        border-color: $primary;
+    }
     }
 }
 .box-head{
@@ -685,6 +698,9 @@ color:$green-color;
     color: $white5;
 }
 .mob-filter{
+    display: flex;
+    align-items: center;
+    justify-content: end;
     @media #{$max-sm} {
         width: 100%;
         margin-bottom: 20px;
@@ -712,6 +728,9 @@ color:$green-color;
         background: $primary;
         transform: translateY(0px);
     }
+}
+.modal{
+    padding-left: 0 !important;
 }
 
 .cus-dd{
@@ -916,7 +935,9 @@ color:$green-color;
     -ms-border-radius: 9px;
     -moz-border-radius: 9px;
     padding: 5px;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
 .white-image{
     display: none;
@@ -981,6 +1002,7 @@ color:$green-color;
             padding: 25px 20px 20px;
             color:$white;
             font-size: 16px;
+            white-space: nowrap;
             &:first-child{
                 border-radius: 10px 0 0 0;
                 }
@@ -992,6 +1014,7 @@ color:$green-color;
         padding: 20px 20px 15px;
         font-size: 16px;
         border-bottom:1px solid $black3;
+        white-space: nowrap;
         }
     }
     tbody{
@@ -1208,7 +1231,9 @@ color:$green-color;
     }
 }
 .circle-box {
-    display: inline-block;
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width: 57px;
     height: 57px;
     border-radius: 50%;
@@ -1217,7 +1242,6 @@ color:$green-color;
     -ms-border-radius: 50%;
     -moz-border-radius: 50%;
     text-align: center;
-    line-height: 57px;
     background:$primary;
 }
 .opacity{
@@ -2007,8 +2031,11 @@ input{
 .modal-form{
     .form-group {
         margin-bottom: 30px;
-        @media #{$max-md}{
+        @media #{$max-xxl}{
             margin-bottom: 15px;
+        }
+        @media #{$max-md}{
+            margin-bottom: 12px;
         }
         &:last-child{
             margin-bottom: 0;
@@ -2080,4 +2107,12 @@ input{
 .spinner-outer{
     width: 100%;
     height: 100%
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
 }

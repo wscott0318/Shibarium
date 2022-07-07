@@ -3,6 +3,11 @@ import React, { useRef, useState } from "react";
 
 import Link from "next/link";
 
+import StepOne from './stepOne';
+import StepTwo from './stepTwo';
+import StepThree from './stepThree';
+import StepFour from './stepFour';
+
 const Rewards = () => {
   const refName = useRef();
   const refWebsite = useRef();
@@ -13,7 +18,7 @@ const Rewards = () => {
     comission: false,
   });
 
- 
+
 
   const handleEdit = (value) => {
     switch (value) {
@@ -262,367 +267,26 @@ const Rewards = () => {
               </ul>
             </div>
             <div className="col-lg-8">
+
               {/* step 1 start*/}
-              <div className="progress-tab">
-                <h5 className="mb-2 fw-800">Setup a node</h5>
-                <p className="mb-0 fw-700">
-                  You can setup your node using any of the options from below
-                </p>
-                <div className="box-alert top-space-lg">
-                  <div className="d-flex align-items-center">
-                    <div>
-                      <div className="circle-box lt-warning me-3">
-                        <img
-                          className="img-fluid"
-                          width="26"
-                          height="30"
-                          src="../../assets/images/ansible.png"
-                          alt=""
-                        />
-                      </div>
-                    </div>
-                    <div className="trs-3">
-                      <h6 className="fw-600">Ansible</h6>
-                      <p className="ft-16 fw-600">
-                        Your Ansible playbooks for setting up Shiba Validator
-                        node
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-4 box-alert box-active">
-                  <div className="d-flex align-items-center">
-                    <div>
-                      <div className="circle-box lt-white me-3">
-                        <img
-                          className="img-fluid"
-                          width="26"
-                          height="30"
-                          src="../../assets/images/binaries.png"
-                          alt=""
-                        />
-                      </div>
-                    </div>
-                    <div className="trs-3">
-                      <h6 className="fw-600">Ansible</h6>
-                      <p className="ft-16 fw-600">
-                        Your Ansible playbooks for setting up Shiba Validator
-                        node
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <p className="ft-16 fw-700 top-btm-spacelg">
-                  Queries? If you face any trouble during installation or
-                  syncing, do share your queries in this{" "}
-                  <a
-                    href="javascript:void(0);"
-                    className="fw-700 link-color"
-                    title=""
-                  >
-                    forum
-                  </a>{" "}
-                  or on our{" "}
-                  <a
-                    href="javascript:void(0);"
-                    className="fw-700 link-color"
-                    title=""
-                  >
-                    Validator Discord channcel.
-                  </a>
-                </p>
-              </div>
+                <StepOne />
               {/* step 1 end */}
 
-              {/* step 2 start start */}
-              <div className="progress-tab d-none">
-                <div className="mb-4 mb-xl-5">
-                  <h5 className="fwb">Add node details</h5>
-                  <p>
-                    Please provide your node details for better recognizability
-                  </p>
-                </div>
-                <div className="row">
-                  <div className="col-sm-6 form-grid">
-                    <div className="form-group">
-                      <label htmlFor="" className="form-label">
-                        Validator logo
-                      </label>
-                      <div className="file-wrap">
-                        <div className="file-icons">
-                          <img
-                            src="../../assets/images/file-icon.png"
-                            alt=""
-                            className="img-fluid"
-                            width={22}
-                          />
-                        </div>
-                        <div className="file-input">
-                          <input type="file" className="input-file" />
-                          <a href="javascript:void(0)" className="form-control">
-                            Upload
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-sm-6 form-grid">
-                    <div className="form-group">
-                      <label htmlFor="" className="form-label">
-                        Validator name
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="i.e Dark Knight Ventures"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-sm-6 form-grid">
-                    <div className="form-group">
-                      <label htmlFor="" className="form-label">
-                        Website
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="https://knightventures.com"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-sm-6 form-grid">
-                    <div className="form-group">
-                      <label htmlFor="" className="form-label">
-                        Signer’s address
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-sm-6 form-grid">
-                    <div className="form-group">
-                      <label htmlFor="" className="form-label">
-                        Signer’s Public key
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-sm-6 form-grid">
-                    <div className="form-group">
-                      <label htmlFor="" className="form-label">
-                        Comission in %
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="10"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {/* step 2  start */}
+                <StepTwo />
               {/* step 2 end */}
 
               {/* step 3 start */}
-              <div className="progress-tab d-none">
-                <div className="mb-4 mb-xl-5">
-                  <h5 className="fwb">Add your stake amount</h5>
-                  <p>Please provide your stake amount detail here</p>
-                </div>
-                <div className="row">
-                  <div className="col-sm-6 form-grid">
-                    <div className="form-group">
-                      <label htmlFor="" className="form-label">
-                        Enter the stake amount
-                      </label>
-                      <input
-                        type="text"
-                        className="mb-3 form-control"
-                        placeholder="i.e Dark Knight Ventures"
-                      />
-                      <label htmlFor="" className="form-label">
-                        Minimum: 1000 BONE
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
+                <StepThree />
+
               {/* step 3 end */}
 
               {/* step 4 start */}
-              <div className="progress-tab d-none">
-                <div className="mb-4 mb-xl-5">
-                  <h5 className="fwb">Check complete detail</h5>
-                  <p>Please confirm your details and submit</p>
-                </div>
-                <div className="row">
-                  
-                  <div className="col-sm-6 form-grid">
-                    <div className="form-group">
-                      <label htmlFor="" className="form-label d-block">
-                        Validator logo
-                      </label>
-                      <div className="icon-wrap">
-                          <img className="img-fluid" src="../../assets/images/logo-icon.png" alt="logo" width={20} />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-sm-6 form-grid">
-                    <div className="form-group">
-                      <label htmlFor="" className="form-label d-block">
-                        Signer’s address
-                      </label>
-                      <label htmlFor="" className="form-value">
-                        01d2tyke2866633dlpwqs3900371
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-sm-6 form-grid">
-                    <div className="form-group">
-                      <div className="d-flex justify-content-between">
-                        <label htmlFor="" className="form-label">
-                          Validator name
-                        </label>
-                        <a
-                          className="primary-text trs-3"
-                          href="javascript:void(0)"
-                          onClick={() => handleEdit("name")}
-                        >
-                          Edit
-                        </a>
-                      </div>
-                      <div className="input-wrap">
-                        <label htmlFor="" className="form-value">
-                          Dark Knight Ventures
-                        </label>
-                        {activInput.name ? (
-                          <input
-                                type="text"
-                            className="form-control edit-input show"
-                            placeholder="i.e Dark Knight Ventures"
-                          />
-                        ) : (
-                          ""
-                        )}
-                        {/* <input
-                          ref={ref}
-                          type="text"
-                          className="form-control edit-input show"
-                          //   className={`form-control edit-input ${
-                          //     activInput.name ? "show" : ""
-                          //   }`}
-                          placeholder="i.e Dark Knight Ventures"
-                        /> */}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-sm-6 form-grid">
-                    <div className="form-group">
-                      <label htmlFor="" className="form-label d-block">
-                        Signer’s public key
-                      </label>
-                      <label htmlFor="" className="form-value">
-                        01d2tyke2866633dlpwqs3900371
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-sm-6 form-grid">
-                    <div className="form-group">
-                      <div className="d-flex justify-content-between">
-                        <label htmlFor="" className="form-label">
-                          Website
-                        </label>
-                        <a
-                          className="primary-text trs-3"
-                          href="javascript:void(0)"
-                          onClick={() => handleEdit("website")}
-                        >
-                          Edit
-                        </a>
-                      </div>
-                      <div className="input-wrap">
-                        <label htmlFor="" className="form-value">
-                          https://knightventures.com
-                        </label>
-                        {activInput.website ? (
-                          <input
-                            type="text"
-                            className="form-control edit-input show"
-                            placeholder="i.e Dark Knight Ventures"
-                          />
-                        ) : (
-                          ""
-                        )}
-                        {/* <input
-                          type="text"
-                          //   className={`form-control edit-input ${
-                          //     activInput.website ? "show" : ""
-                          //   }`}
-                          className="form-control edit-input show"
-                          placeholder="i.e Dark Knight Ventures"
-                        /> */}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-sm-6 form-grid">
-                    <div className="form-group">
-                      <label htmlFor="" className="form-label d-block">
-                        Stake amount
-                      </label>
-                      <label htmlFor="" className="form-value">
-                        1269.36
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-sm-6 form-grid">
-                    <div className="form-group">
-                      <div className="d-flex justify-content-between">
-                        <label htmlFor="" className="form-label">
-                          Comission in %
-                        </label>
-                        <a
-                          className="primary-text trs-3"
-                          href="javascript:void(0)"
-                          onClick={() => handleEdit("comission")}
-                        >
-                          Edit
-                        </a>
-                      </div>
-                      <div className="input-wrap">
-                        <label htmlFor="" className="form-value">
-                          10
-                        </label>
-                        {activInput.comission ? (
-                          <input
-                            type="text"
-                            className="form-control edit-input show"
-                            placeholder="i.e Dark Knight Ventures"
-                          />
-                        ) : (
-                          ""
-                        )}
-                        {/* <input
-                          type="text"
-                          className="form-control edit-input show"
-                        //   className={`form-control edit-input ${
-                        //     activInput.comission ? "show" : ""
-                        //   }`}
-                          placeholder="i.e Dark Knight Ventures"
-                        /> */}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <StepFour activInput= {activInput} handleEdit= {handleEdit} />
+
               {/* step 4 end */}
-              <div className="btn-wrap col-sm-3">
+              <div className="btn-wrap col-sm-3 mt-4 mt-5">
                 <button type="button" className="btn warning-btn w-100">
                   <span>Save</span>
                 </button>
