@@ -6,7 +6,6 @@ const SideNavTab=[
       icon:"../../assets/images/icons/assets.png",
       activeShapeImg:"../../assets/images/radius.png",
       link:"/balance",
-      
     },
     {
       id:1,

@@ -121,7 +121,7 @@ export default function differentchainbridge() {
                                                     <Dropdown className='cus-dropdown dark-dd position-relative'>
                                                         <i className="arrow down"></i>
                                                         <Dropdown.Toggle id="dropdown-basic" className='w-100 text-start'>
-                                                            <div className='d-inline-block'><div className='d-inline-block me-2'><img width="20" height="20" className='img-fluid' src="../../assets/images/ust.png" alt="" /></div> UST</div>
+                                                            <div className='d-flex'><div className='d-inline-block me-2'><img width="20" height="20" className='img-fluid' src="../../assets/images/ust.png" alt="" /></div> UST</div>
                                                         </Dropdown.Toggle>
 
                                                         <Dropdown.Menu className='w-100'>

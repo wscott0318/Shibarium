@@ -23,8 +23,17 @@ const Delegatorvalidator = () => {
                 <div className="container">
                     <div className="row shiba-row mb-lg-5">
                         <div className="col-lg-8 shiba-col order-2 order-lg-1">
-                            <h3 className='mb-4'>Delegator</h3>
-                            <ul className="shiba-list mb-4 mb-lg-5">
+                            <h3 className='mb-4'>Become a Delegator</h3>
+                            <p>
+                                Participate as a delegator to earn rewards and contribute to network security. Delegators are token holders who cannot, or do not want to run a validator node themselves. Instead, they secure the network by delegating their stake to validator nodes and play a critical role in the system, as they are responsible for choosing validators. They run their delegation transaction on the staking contract on the Ethereum mainnet. 
+                            </p>
+                            <p>
+                                Delegation increases the power of the validator. More the power, more probability of the validator to become the block producer and checkpoint proposer and more weight in the consensus.
+                            </p>
+                            <p>
+                                There is no minimum amount requirement for delegation. Any amount, even 1 BONE, will be accepted in the system. Validators might charge a commission in exchange for their node running services. Other than the commission charged, one needs to evaluate the track record of the validator for example, average uptime or if the node was ever compromised.
+                            </p>
+                            <ul className="shiba-list mb-4 mb-lg-5 d-none">
                                 <li className='shiba-list-item'>
                                     <p className="shiba-text mb-0">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -51,9 +60,9 @@ const Delegatorvalidator = () => {
                                     </p>
                                 </li>
                             </ul>
-                            <p className='mb-0'>
+                            {/* <p className='mb-0'>
                                 It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters
-                            </p>
+                            </p> */}
                         </div>
                         <div className="col-lg-4 shiba-col order-1 order-lg-2">
                             <div className="shiba-img">
@@ -68,8 +77,20 @@ const Delegatorvalidator = () => {
                             </div>
                         </div>
                         <div className="col-lg-8 shiba-col">
-                            <h3 className='mb-4'>Validator</h3>
-                            <ul className="shiba-list mb-4 mb-lg-5">
+                            <h3 className='mb-4'>Become a Validator</h3>
+                            <p>
+                                Validator nodes are units on the Shibarium blockchain that participate in consensus group work and commit checkpoints on the Ethereum Mainnet. Validators verify transactions and add new blocks on the blockchain. In return, they earn rewards.
+                            </p>
+                            <p>
+                                Validator Rewards = Staking Rewards + Transaction Fees from Shibarium chain
+                            </p>
+                            <p>
+                                A validator is a participant in the network who locks up BONE tokens in the system and runs Heimdall validator and Bor block producer nodes in order to help run the network. Validators stake their BONE tokens as collateral to work for the security of the network.
+                            </p>
+                            <p>
+                                Rewards are distributed to all stakers proportional to their stake at every checkpoint with the exception being the proposer getting an additional bonus. 
+                            </p>
+                            <ul className="shiba-list mb-4 mb-lg-5 d-none">
                                 <li className='shiba-list-item'>
                                     <p className="shiba-text mb-0">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -96,7 +117,7 @@ const Delegatorvalidator = () => {
                                     </p>
                                 </li>
                             </ul>
-                            <p className='mb-0'>
+                            <p className='mb-0 d-none'>
                                 It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters
                             </p>
                         </div>
@@ -116,9 +137,12 @@ const Delegatorvalidator = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-xl-8 mx-auto text-center">
-                            <h2 className='mb-4'>Do you need help to choose the best path?</h2>
+                            <h2 className='mb-4'>Stake now and earn rewards</h2>
                             <p>
-                                It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &apos;Content here, content here&apos;, making it look like readable English.
+                                Shibarium PoS chain is run on Proof of Stake mechanism. Anyone can become a validator on the mainnet.
+                            </p>
+                            <p>
+                                We allocate 12% of our total supply of tokens to fund the staking rewards. As a validator, you get to set your own commission for accepting delegations to your node. We also provide annual rewards as incentives!
                             </p>
                         </div>
                     </div>
