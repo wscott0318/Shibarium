@@ -85,7 +85,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
         })
         .catch((err) => {
             setToastType('error')
-            setToastMessage(err.message);
+            setToastMessage(err?.response?.data?.message);
           setLoading(false);
         });
     },
@@ -113,7 +113,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
           setLoading(false);
           setCommiModal(false);
           setToastType('error')
-          setToastMessage(err.message);
+          setToastMessage(err?.response?.data?.message);
         });
     },
   });
@@ -129,7 +129,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
   const errorWithdrawMessage=(err:any)=>{
     setLoading(false);
     setToastType('error')
-    setToastMessage(err.message);
+    setToastMessage(err?.response?.data?.message);
   }
 
   const withdrawFormk: FormikProps<WithdrawInterface> = useFormik<WithdrawInterface>({
@@ -222,7 +222,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                   <ErrorMessage name="amount" render={renderError} />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="" className="form-label">
+                  <label htmlFor="reward" className="form-label">
                     Stake Reward
                   </label>
                   {/* <OverlayTrigger
@@ -232,7 +232,11 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                   >
                     <Button variant="success">Hover me to see</Button>
                   </OverlayTrigger> */}
-                  <Field
+                  <select name="reward" id="reward"  className="form-control form-bg" onChange={retakeFormik.handleChange} placeholder='Wants to restake rewards as well'>
+                    <option selected={retakeFormik.values.reward === 1} value={1}>Yes</option>
+                    <option selected={retakeFormik.values.reward === 0} value={0}>No</option>
+                  </select>
+                  {/* <Field
                     type="number"
                     placeholder="0"
                     className="form-control form-bg"
@@ -240,7 +244,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                     name="reward"
                     onChange={retakeFormik.handleChange}
                     value={retakeFormik.values.reward}
-                  />
+                  /> */}
                   <ErrorMessage name="reward" render={renderError} />
 
                 </div>
@@ -320,7 +324,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
       </div>
       {/* retake modal end */}
 
-      {/* Commision start */}
+      {/* withdrawModal start */}
       <div className="modal-wrap">
         <Modal
           className="shib-popup"
