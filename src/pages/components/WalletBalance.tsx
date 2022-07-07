@@ -15,7 +15,7 @@ import { useUserType } from '../../state/user/hooks';
 import { UserType } from "../../enums/UserType";
 import { RetakeFormInterface, CommissionRateInterface, WithdrawInterface } from "../../interface/reTakeFormInterface";
 import { useActiveWeb3React } from '../../services/web3'
-import DelegatorAccount from "pages/account/delegator";
+import DelegatorAccount from "pages/account/Delegator";
 import ValidatorAccount from "pages/account/Validator";
 
 interface WalletBalanceProps {

@@ -7,6 +7,7 @@ import { getBoneUSDValue } from 'app/services/apis/validator';
 import NumberFormat from 'react-number-format';
 import { useActiveWeb3React, useLocalWeb3 } from 'app/services/web3';
 import boneAbi from '../../constants/shibariumABIs/BONE_ABI.json'
+// @ts-ignore
 import { useSnackbar } from 'react-simple-snackbar';
 
 import { buyVoucher } from 'app/services/apis/delegator/delegator';
