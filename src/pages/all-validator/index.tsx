@@ -52,13 +52,13 @@ export const Allvalidator: React.FC = () => {
                     <h1 className="mb-2 light-text mb-sm-3 fnt-58 fnt-100">
                       All Validators
                     </h1>
-                 {userType !== UserType.Validator ?   <div className="">
+                    {userType !== UserType.Validator ? <div className="">
                       <Link href="./become-validator">
                         <a className="btn gradient_btn" title="">
                           <span>Become A Validator</span>
                         </a>
                       </Link>
-                    </div>:null}
+                    </div> : null}
                   </div>
                 </div>
               </div>
