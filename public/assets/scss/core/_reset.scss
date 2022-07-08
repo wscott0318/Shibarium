@@ -259,9 +259,9 @@ ul {
     @media #{$max-sm}{
         padding: 6px 10px;
     }
-    span{
-        transform: translate(0px, 3px);
-    }
+    // span{
+    //     transform: translate(0px, 3px);
+    // }
 }
 .btn-gradient{
     background-color: $primary-gradient;
@@ -338,8 +338,8 @@ ul {
     @media #{$min-exl}{
         max-width: 1660px;
     }
-    @media only screen
-    and (orientation: landscape) {
+    @media only screen and (min-device-width: 480px) 
+                   and (max-device-width: 640px) and (orientation: landscape) {
         max-width: 100%;
     } 
 }

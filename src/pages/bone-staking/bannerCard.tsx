@@ -1,4 +1,4 @@
-function bannerCard() {
+function BannerCard() {
     return (
         <>
             <div className="baner-card">
@@ -45,7 +45,7 @@ function bannerCard() {
                             <h3 className="fwb d-flex align-items-center">
                                 <span>71,582</span>
                                 <span className="ms-2 primary-badge trsn-3 badge-md fs-12">
-                                    <span className="trs-2">28 minutes ago</span>
+                                    <span className="">28 minutes ago</span>
                                 </span>
                             </h3>
                             <div className="card-hr"></div>
@@ -66,4 +66,4 @@ function bannerCard() {
         </>
     )
 }
-export default bannerCard
+export default BannerCard

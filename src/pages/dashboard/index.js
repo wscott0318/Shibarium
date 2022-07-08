@@ -44,7 +44,7 @@ export default function Dashboard() {
                       distracted by the readable content.
                     </p>
                   </div>
-                  <div className="page-nav d-xl-none">
+                  <div className="page-nav d-none">
                     <ul className="navbar-nav">
                       <li className="nav-item">
                         <a

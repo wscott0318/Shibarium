@@ -34,7 +34,7 @@ export default function Sidebar(props) {
     <>
       {" "}
       {isVisible ? (
-        <PerfectScrollbar
+        <div
           className={
             isVisible
               ? props.isOpen
@@ -56,7 +56,7 @@ export default function Sidebar(props) {
               alt=""
             />
           </a>
-          <div className="p-2 py-3 d-xl-none">
+          <div className="p-2 py-3 d-none">
             <div className="widg-col d-flex align-items-center">
               <div className="prof-img me-2">
                 <img
@@ -318,7 +318,7 @@ export default function Sidebar(props) {
               </a>
             </li> */}
           </ul>
-        </PerfectScrollbar>
+        </div>
       ) : !props.isOpen ? (
         <button onClick={handlClick}>open</button>
       ) : null}

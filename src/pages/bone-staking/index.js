@@ -14,7 +14,7 @@ import Valitotors from "../all-validator/valitotors";
 import { useUserType, useUserOpenMev } from "../../state/user/hooks";
 import { UserType } from "../../enums/UserType";
 import NetworkDetails from './NetworkDetails';
-import bannerCard from './bannerCard'
+import BannerCard from './bannerCard'
 
 const BoneStaking = () => {
   // const [validators, setValidators] = useState([]);
@@ -61,7 +61,7 @@ const BoneStaking = () => {
           <div className="row">
             <div className="col-lg-8">
               <h1 className="mb-4 text-white title-2 mb-lg-5">
-                <span className="mb-1 sub-title d-block mb-md-2 mb-lg-3 trs-6">
+                <span className="mb-2 sub-title d-block mb-md-3 mb-lg-3 trs-6">
                   Start Earning Rewards With
                 </span>
                 <div className="px-2 bg-white d-inline-block">
@@ -113,7 +113,7 @@ const BoneStaking = () => {
       <section className="mb-4 buy-sell-section mb-lg-5">
         <NetworkDetails />
         <div className="container">
-          {/* <bannerCard /> */}
+          <bannerCard />
         </div>
       </section>
       <section className="mb-4 mb-lg-5">
