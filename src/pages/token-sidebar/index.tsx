@@ -13,10 +13,10 @@ function ShibaSidebar() {
                     <img className="img-fluid" src="../../assets/images/logo-white.png" alt="logo" />
                 </a>
             </div>
-            <ul className='nav-menu side-bg mt-3'>
+            <ul className='mt-3 nav-menu side-bg'>
                 <li className="nav-item">
                     <div className="nav-link">
-                        <p className='mb-0 fwb text-white'>
+                        <p className='mb-0 text-white fwb'>
                             Burn Contracts
                         </p>
                     </div>
@@ -52,11 +52,7 @@ function ShibaSidebar() {
                     <div className="active-shape">
                         <img className='img-fluid' src="../../assets/images/radius.png" alt="" />
                     </div>
-<<<<<<< HEAD
-                    <a href="./transactions" className="nav-link">
-=======
                     <a href="javascript:void(0)" className="nav-link">
->>>>>>> 5950c253af96671849793b05619cb21f0ef7bb83
                         <span className='nav-icon'>
                             <img className='img-fluid dark-ico' src="../../assets/images/icons/support-dark.png" alt="side-ico" />
                             <img className='img-fluid light-ico' src="../../assets/images/icons/support.png" alt="side-ico" />

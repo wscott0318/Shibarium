@@ -12,17 +12,11 @@ import LoadingSpinner from "../components/Loading";
 // import Pagination from 'app/components/Pagination'
 // import { useSearchFilter } from "app/hooks/useSearchFilter";
 import Valitotors from "./valitotors";
-<<<<<<< HEAD
-
-export const Allvalidator: React.FC = () => {
-  // const [loading, setLoading] = useState<boolean>(true);
-=======
 import { useUserType } from "app/state/user/hooks";
 import { UserType } from "app/enums/UserType";
 
 export const Allvalidator: React.FC = () => {
   const [userType, setUserType] = useUserType();
->>>>>>> 5950c253af96671849793b05619cb21f0ef7bb83
 
   // useEffect(() => {
   //   let filtered = []
@@ -58,21 +52,13 @@ export const Allvalidator: React.FC = () => {
                     <h1 className="mb-2 light-text mb-sm-3 fnt-58 fnt-100">
                       All Validators
                     </h1>
-<<<<<<< HEAD
-                    <div className="">
-=======
                     {userType !== UserType.Validator ? <div className="">
->>>>>>> 5950c253af96671849793b05619cb21f0ef7bb83
                       <Link href="./become-validator">
                         <a className="btn gradient_btn" title="">
                           <span>Become A Validator</span>
                         </a>
                       </Link>
-<<<<<<< HEAD
-                    </div>
-=======
                     </div> : null}
->>>>>>> 5950c253af96671849793b05619cb21f0ef7bb83
                   </div>
                 </div>
               </div>
