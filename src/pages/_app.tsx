@@ -6,7 +6,7 @@ import SnackbarProvider from 'react-simple-snackbar'
 
 import "../styles/globals.scss";
 import Header from "./layout/header";
-import Sidebar from "./layout/sidebar";
+// import Sidebar from "./layout/sidebar";
 // import { Provider } from "react-redux";
 // import RStore from "./redux/store";
 import store, { persistor } from '../state'
