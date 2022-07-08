@@ -26,7 +26,9 @@
 .darkbg-2{
     background-color: $black !important;
 }
-
+.darkbg-3{
+    background-color: $black3 !important;
+}
 .success-bg{
     background-color: $sucsses !important;
 }
@@ -1210,6 +1212,7 @@ color:$green-color;
         }
     }
 }
+
 .box-alert{
     border-radius:7px;
     -webkit-border-radius:7px;
@@ -2142,4 +2145,23 @@ input[type=number]::-webkit-outer-spin-button {
     -moz-appearance: none;
     appearance: none;
     margin: 0; 
+}
+
+.progress-line{
+    .progress-bar {
+        background-color: #f06700;
+    }
+    .progress {
+        height: 10px;
+        font-size: 0.75rem;
+        background-color: #000000;
+    }
+}
+.MuiSvgIcon-root{
+    fill:$sucsses_color2;
+    width: 20px;
+    margin-right: 5px;
+}
+.break-word{
+    word-break: break-all;
 }
