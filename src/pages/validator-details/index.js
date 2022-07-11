@@ -4,6 +4,7 @@ import Header from '../layout/header'
 import { Container, Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import InnerHeader from '../inner-header';
 import ProgressBar from 'react-bootstrap/ProgressBar';
+import Link from 'next/link';
 
 export default function validatorDetails() {
     return (
@@ -18,15 +19,17 @@ export default function validatorDetails() {
                                     <div className='image-wrap'>
                                         <img className='img-fluid' src="../../assets/images/fundbaron.png" alt="fundborn-img" width={120} />
                                     </div>
-                                    <h4 className='py-2 mt-2'><span className='trs-3 primary-text'>FUNDBaron</span></h4>
+                                    <h4 className='py-2 mt-2'><span className='trs-3'>FUNDBaron</span></h4>
+                                    <Link href="https://linktr.ee/DeFiMatic">
+                                        <a className='primary-text'>
+                                        https://linktr.ee/DeFiMatic
+                                        </a>
+                                    </Link>
                                     <p className='d-flex align-items-center justify-content-center'>
-                                        <span className='me-2 trs-3'>49962E94F099AFA4 </span>
+                                        {/* <span className='me-2 trs-3'>49962E94F099AFA4 </span>
                                         <span className="tick-round">
                                             <img className='img-fluid' src="../../assets/images/light-tick.png" alt="tick-ico" width={10} />
-                                        </span>
-                                    </p>
-                                    <p className='mb-0'>
-                                        100% FUND reward and 100% xFUND reward for all delegators.
+                                        </span> */}
                                     </p>
                                 </div>
                             </div>
@@ -70,6 +73,13 @@ export default function validatorDetails() {
                                                     0.00% (Updated a year ago)
                                                 </p>
                                             </li>
+                                            <li className='info-data-lst'>
+                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Condition</h6>
+                                                <p className='mb-0 trs-3'>
+                                                    <span className='up-text fw-600'>Good</span>
+                                                </p>
+                                            </li>
+                                            
                                             {/* <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Max Rate</h6>
                                                 <p className='mb-0 trs-3'>
@@ -89,8 +99,8 @@ export default function validatorDetails() {
                         </div>
                     </div>
                 </section>
-                <section className='py-4 py-md-5'>
-                    <div className="container">
+                <section className='py-4 py-md-5 d-none'>
+                    <div className="container"> 
                         <div className="tabl-row cus-panel darkBg">
                             <div className="tabl-head darkbg-3">
                                 <div className="row mx-0">
@@ -145,7 +155,7 @@ export default function validatorDetails() {
                         </div>
                     </div>
                 </section>
-                <section className="darkbg-2 pb-4 pb-lg-5">
+                <section className="darkbg-2 py-4 py-lg-5">
                     <div className="container">
                         <div className="row">
                             {/* hide col start */}
@@ -625,7 +635,7 @@ export default function validatorDetails() {
                                         <div className="btn-nav">
                                             <Nav variant="pills" defaultActiveKey="/firts-tab">
                                                 <Nav.Item>
-                                                    <Nav.Link className='active'><span className='trs-2'>Polygon</span></Nav.Link>
+                                                    <Nav.Link className='active'><span className='trs-2'>Delegator</span></Nav.Link>
                                                 </Nav.Item>
                                                 {/* <Nav.Item>
                                                     <Nav.Link eventKey="link-1"><span className='trs-2'>Polygon</span></Nav.Link>
@@ -637,7 +647,7 @@ export default function validatorDetails() {
                                                 <thead>
                                                     <tr className="table-header">
                                                         <th>Accounts</th>
-                                                        <th>Matic Staked</th>
+                                                        <th>Bone Staked</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -657,8 +667,7 @@ export default function validatorDetails() {
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <span className="tb-data align">0.0000 .</span>
-                                                            <span className="tb-data-sm align">$0.00</span>
+                                                            <span className="tb-data align">101020 BONE</span>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -696,7 +705,83 @@ export default function validatorDetails() {
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <span className="tb-data-sm align fw-600">101020 BONE</span>
+                                                            <span className="tb-data align fw-600">101020 BONE</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div className="d-flex">
+                                                                <div className="coin-wrap">
+                                                                    <img
+                                                                        width="30"
+                                                                        height="30"
+                                                                        className="img-fluid me-3"
+                                                                        src="../../assets/images/bear.png"
+                                                                        alt=""
+                                                                    />
+                                                                </div>
+                                                                <span className="tb-data align">0xbf1b1d2c0105323c301294a0038438f23a15b1c5</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align fs-16 fw-600">101020 BONE</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div className="d-flex">
+                                                                <div className="coin-wrap">
+                                                                    <img
+                                                                        width="30"
+                                                                        height="30"
+                                                                        className="img-fluid me-3"
+                                                                        src="../../assets/images/bear.png"
+                                                                        alt=""
+                                                                    />
+                                                                </div>
+                                                                <span className="tb-data align">0xbf1b1d2c0105323c301294a0038438f23a15b1c5</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">101020 BONE</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div className="d-flex">
+                                                                <div className="coin-wrap">
+                                                                    <img
+                                                                        width="30"
+                                                                        height="30"
+                                                                        className="img-fluid me-3"
+                                                                        src="../../assets/images/bear.png"
+                                                                        alt=""
+                                                                    />
+                                                                </div>
+                                                                <span className="tb-data align">0xbf1b1d2c0105323c301294a0038438f23a15b1c5</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align ">101020 BONE</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div className="d-flex">
+                                                                <div className="coin-wrap">
+                                                                    <img
+                                                                        width="30"
+                                                                        height="30"
+                                                                        className="img-fluid me-3"
+                                                                        src="../../assets/images/bear.png"
+                                                                        alt=""
+                                                                    />
+                                                                </div>
+                                                                <span className="tb-data align">0xbf1b1d2c0105323c301294a0038438f23a15b1c5</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align fw-600">101020 BONE</span>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -767,6 +852,144 @@ export default function validatorDetails() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            443,032
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">3020</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">3020</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align d-flex align-items-center">
+                                                                <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" color="#999999" aria-hidden="true">
+                                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z">
+                                                                    </path>
+                                                                </svg>
+                                                                <span>Success</span>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">8hr ago</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span className="tb-data align">234,332</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">3020</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">3020</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align d-flex align-items-center">
+                                                                <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" color="#999999" aria-hidden="true">
+                                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z">
+                                                                    </path>
+                                                                </svg>
+                                                                <span>Success</span>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">8hr ago</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            443,032
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">3020</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">3020</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align d-flex align-items-center">
+                                                                <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" color="#999999" aria-hidden="true">
+                                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z">
+                                                                    </path>
+                                                                </svg>
+                                                                <span>Success</span>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">8hr ago</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span className="tb-data align">234,332</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">3020</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">3020</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align d-flex align-items-center">
+                                                                <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" color="#999999" aria-hidden="true">
+                                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z">
+                                                                    </path>
+                                                                </svg>
+                                                                <span>Success</span>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">8hr ago</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            443,032
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">3020</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">3020</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align d-flex align-items-center">
+                                                                <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" color="#999999" aria-hidden="true">
+                                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z">
+                                                                    </path>
+                                                                </svg>
+                                                                <span>Success</span>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">8hr ago</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span className="tb-data align">234,332</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">3020</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">3020</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align d-flex align-items-center">
+                                                                <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" color="#999999" aria-hidden="true">
+                                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z">
+                                                                    </path>
+                                                                </svg>
+                                                                <span>Success</span>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">8hr ago</span>
+                                                        </td>
+                                                    </tr>
                                                     <tr>
                                                         <td>
                                                             443,032

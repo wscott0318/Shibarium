@@ -82,6 +82,10 @@
 }
 
 .shib-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     .image-wrap {
         max-width: 100px;
         margin: 0 auto;

@@ -81,7 +81,7 @@ export default function Sidebar(props) {
           <ul className="nav-menu">
             {SideNavTab&&SideNavTab.map((tab,index)=>{
               return(
-                <NavLink tab={tab} key={index} index={index}handleActiveTab={handleActiveTab}/>
+              <NavLink tab={tab} key={index} index={index}handleActiveTab={handleActiveTab}/>
               )
             })}
             {/* <li className="nav-item " >
