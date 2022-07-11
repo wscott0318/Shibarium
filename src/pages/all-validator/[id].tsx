@@ -1,19 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react'
 import Header from '../layout/header'
-import { Nav, } from 'react-bootstrap';
+import { Nav, Pagination, } from 'react-bootstrap';
 import InnerHeader from '../inner-header';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import { useRouter } from 'next/router';
-import { getValidatorsDetail } from 'app/services/apis/validator';
+import { getBoneUSDValue, getValidatorsDetail } from 'app/services/apis/validator';
 import NumberFormat from 'react-number-format';
 import CopyHelper from 'app/components/AccountDetails/Copy';
+import Delegators from './validator-details/Delegators';
+import { BONE_ID } from 'app/config/constant';
 
 export default function ValidatorDetails() {
     const pageSize = 4; 
     const [validatorInfo, setValidatorInfo] = useState<any>();
-    const [allDelegators, setAllDelegators] = useState([])
-    const [delegators, setDelegators] = useState([])
+    const [allDelegators, setAllDelegators] = useState([]);
+    const [boneUsdValue, setBoneUsdValue] = useState(0)
+   
 
     const router = useRouter()
     useEffect(() => {
@@ -29,10 +32,10 @@ export default function ValidatorDetails() {
         }
     }, [])
     useEffect(() => {
-      if (allDelegators) {
-        allDelegators.slice()
-      }
-    }, [allDelegators])
+        getBoneUSDValue(BONE_ID).then(res=>{
+            setBoneUsdValue(res.data.data.price);
+        })
+      },[])
     
     
     return (
@@ -655,72 +658,7 @@ export default function ValidatorDetails() {
                                 </div>
 
                                 {/* Delegation tabs start */}
-                                <div className="h-auto p-4 mb-4 cus-card mb-lg-5">
-                                    <div className="table-data-tab">
-                                        <div className="btn-nav">
-                                            <Nav variant="pills" defaultActiveKey="/firts-tab">
-                                                <Nav.Item>
-                                                    <Nav.Link className='active'><span className='trs-2'>Polygon</span></Nav.Link>
-                                                </Nav.Item>
-                                                {/* <Nav.Item>
-                                                    <Nav.Link eventKey="link-1"><span className='trs-2'>Polygon</span></Nav.Link>
-                                                </Nav.Item> */}
-                                            </Nav>
-                                        </div>
-                                        <div className="mb-4 border-table outer-table mb-lg-5">
-                                            <table className="data-table">
-                                                <thead>
-                                                    <tr className="table-header">
-                                                        <th>Accounts</th>
-                                                        <th>Matic Staked</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                   {delegators.map((item:any)=>(
-                                                     <tr>
-                                                     <td>
-                                                         <div className="d-flex">
-                                                             <div className="coin-wrap">
-                                                                 <img
-                                                                     width="30"
-                                                                     height="30"
-                                                                     className="img-fluid me-3"
-                                                                     src="../../assets/images/bear.png"
-                                                                     alt=""
-                                                                 />
-                                                             </div>
-                                                             <span className="tb-data align">0xbf1b1d2c0105323c301294a0038438f23a15b1c5</span>
-                                                         </div>
-                                                     </td>
-                                                     <td>
-                                                         <span className="tb-data align">0.0000 .</span>
-                                                         <span className="tb-data-sm align">$0.00</span>
-                                                     </td>
-                                                 </tr>
-                                                   )) 
-                                                  }
-                                                    
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-4 d-flex align-items-center">
-                                                <span className="fw-700">Showing 1-8 of 300</span>
-                                            </div>
-                                            <div className="col-md-8">
-                                                <div className="cus-pagination">
-                                                    <ul className="pagination justify-content-end">
-                                                        <li className="page-item"><a className="page-link" href="#"><span>Previous</span></a></li>
-                                                        <li className="page-item"><a className="page-link" href="#"><span>1</span></a></li>
-                                                        <li className="page-item"><a className="page-link" href="#"><span>2</span></a></li>
-                                                        <li className="page-item"><a className="page-link" href="#"><span>3</span></a></li>
-                                                        <li className="page-item"><a className="page-link" href="#"><span>Next</span></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <Delegators allDelegators={allDelegators} boneUsdValue={boneUsdValue}/>
                                 {/* deligation tab  end */}
 
                                 {/* transactions tabs start */}
