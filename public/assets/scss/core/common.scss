@@ -703,6 +703,10 @@ color:$green-color;
     display: flex;
     align-items: center;
     justify-content: end;
+    flex-wrap: wrap;
+    @media #{$max-lg}{
+        justify-content: flex-start;
+    }
     @media #{$max-sm} {
         width: 100%;
         margin-bottom: 20px;
@@ -1341,6 +1345,9 @@ color:$green-color;
             top: 50%;
             right: 0;
             transform: translateY(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
             @media #{$max-lg}{
                 top: auto;
                 left: 50%;

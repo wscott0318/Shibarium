@@ -41,3 +41,16 @@
     //     display: none;
     // }
 }
+@media #{$max-xsm}{
+    .cus-dropdown .btn { 
+        padding:6px 28px 6px 6px;
+    }
+    .arrow.down {
+        position: absolute;
+        right: 10px;
+        left: auto;
+        bottom: auto;
+        top: 8px;
+        pointer-events: none;
+    }
+}

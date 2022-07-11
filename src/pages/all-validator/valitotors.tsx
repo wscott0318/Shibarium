@@ -126,7 +126,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                     />
                   </div>
                 </div>
-                <div className="col-lg-7 col-12 text-end mob-filter">
+                <div className="col-lg-7 col-12 text-lg-end mob-filter">
                   <div className="d-inline-block pe-0 pe-sm-4 mob-filter">
                     <label className="head-xsm fw-600" htmlFor="Auction">
                       <span className="top-low-spc pe-2 align">
