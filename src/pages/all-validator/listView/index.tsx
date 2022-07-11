@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { UserType } from 'app/enums/UserType';
 import { useUserType } from 'app/state/user/hooks';
+import Link from 'next/link';
 import DelegatePopup from 'pages/delegate-popup';
 import React, { useState } from 'react';
 
@@ -31,8 +32,12 @@ export default function ListView({ validatorsList }: { validatorsList: any }) {
                   return(
                     <tr key={'q4n432+'+i}>
                     <td>
-                      <span className="tb-data align">
-                        <i className="user-icon"></i>{elm.name}
+                      <span className="tb-data align" >
+                      {/* <Link href="./become-validator"> */}
+                        <i className="user-icon"></i>
+                      <Link href={`/all-validator/${elm.signer}`}>
+                        {elm.name}
+                        </Link>
                       </span>
                       
                     </td>

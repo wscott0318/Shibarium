@@ -1,20 +1,36 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../layout/header'
-import { Container, Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import { Nav, } from 'react-bootstrap';
 import InnerHeader from '../inner-header';
 import ProgressBar from 'react-bootstrap/ProgressBar';
+import { useRouter } from 'next/router';
+import { getValidatorsDetail } from 'app/services/apis/validator';
+import NumberFormat from 'react-number-format';
+import CopyHelper from 'app/components/AccountDetails/Copy';
 
-export default function validatorDetails() {
+export default function ValidatorDetails() {
+    const [validatorInfo, setValidatorInfo] = useState<any>()
+    const router = useRouter()
+    useEffect(() => {
+        const { id } = router.query;
+        if (id ) {
+            getValidatorsDetail(id.toString()).then((res)=>{
+                setValidatorInfo(res?.data?.data?.validatorInfo)
+                console.log(res?.data?.data?.validatorInfo)
+            })
+        }
+    }, [])
+    
     return (
         <>
             <div className='page-content'>
                 <InnerHeader />
-                <section className='banner-section darkBg py-4 py-lg-5'>
+                <section className='py-4 banner-section darkBg py-lg-5'>
                     <div className="container">
                         <div className="row">
-                            <div className="col-sm-5 col-lg-5 col-xl-4 mb-4 mb-sm-0">
-                                <div className="shib-card card text-center h-100">
+                            <div className="mb-4 col-sm-5 col-lg-5 col-xl-4 mb-sm-0">
+                                <div className="text-center shib-card card h-100">
                                     <div className='image-wrap'>
                                         <img className='img-fluid' src="../../assets/images/fundbaron.png" alt="fundborn-img" width={120} />
                                     </div>
@@ -31,19 +47,19 @@ export default function validatorDetails() {
                                 </div>
                             </div>
                             <div className='col-sm-7 col-lg-7 col-xl-8'>
-                                <div className="cus-panel h-100 mb-4">
+                                <div className="mb-4 cus-panel h-100">
                                     <div className="panel-header">
                                         <h4 className='mb-0 fwb trs-3'>Validator Info</h4>
                                         <div className='badge-md success-bg'>
                                             <span className='trs-1'>active</span>
                                         </div>
                                     </div>
-                                    <div className="panel-body pb-0">
-                                        <ul className='info-list list-unstyled mb-0'>
+                                    <div className="pb-0 panel-body">
+                                        <ul className='mb-0 info-list list-unstyled'>
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Supply</h6>
                                                 <p className='mb-0 trs-3'>
-                                                    124,143,682.17 FUND
+                                                   <NumberFormat displayType='text' thousandSeparator value={validatorInfo?.totalStaked} /> FUND
                                                 </p>
                                             </li>
                                             <li className='info-data-lst'>
@@ -55,19 +71,19 @@ export default function validatorDetails() {
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Owner address</h6>
                                                 <p className='mb-0 trs-3'>
-                                                    undvaloper1yj09s0tngccqc6sf0v92nmcemr7zjhvpn9702p
+                                                    {validatorInfo?.owner}
                                                 </p>
                                             </li>
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Signer address</h6>
                                                 <p className='mb-0 trs-3 primary-text'>
-                                                    undvaloper1yj09s0tngccqc6sf0v92nmcemr7zjhvpn9702p
+                                                    {validatorInfo?.signer}
                                                 </p>
                                             </li>
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Commission Rate</h6>
                                                 <p className='mb-0 trs-3'>
-                                                    0.00% (Updated a year ago)
+                                                   {validatorInfo?.commissionPercent}% (Updated a year ago)
                                                 </p>
                                             </li>
                                             {/* <li className='info-data-lst'>
@@ -93,22 +109,26 @@ export default function validatorDetails() {
                     <div className="container">
                         <div className="tabl-row cus-panel darkBg">
                             <div className="tabl-head darkbg-3">
-                                <div className="row mx-0">
-                                    <div className="col-md-6 px-0">
-                                        <div className="tbl-item p-2 p-sm-3">
+                                <div className="mx-0 row">
+                                    <div className="px-0 col-md-6">
+                                        <div className="p-2 tbl-item p-sm-3">
                                             <h4>Owner address</h4>
-                                            <p className='d-inline-flex txt-light fw-600 align-items-center flex-wrap'>
-                                                <span className='me-2 primary-text break-word'>undvaloper1yj09s0tngccqc6sf0v92nmcemr7zjhvpn9702p</span>
+                                            <p className='flex-wrap d-inline-flex txt-light fw-600 align-items-center'>
+                                                <span className='me-2 primary-text break-word'>{validatorInfo?.owner}</span>
+                                                <CopyHelper toCopy={validatorInfo?.owner}>
                                                     <img className='img-fluid' src="../../assets/images/copy-wht-icon.png" alt="copy-img" width={14} />    
+                                                    </CopyHelper>
                                             </p>
                                         </div>
                                     </div>
-                                    <div className="col-md-6 tbl-item px-0">
+                                    <div className="px-0 col-md-6 tbl-item">
                                         <div className='p-2 p-sm-3'>
                                             <h4>Signer address</h4>
-                                            <p className='d-inline-flex txt-light fw-600 align-items-center flex-wrap'>
-                                                <span className='me-2 primary-text break-word'>undvaloper1yj09s0tngccqc6sf0v92nmcemr7zjhvpn9702p</span>
+                                            <p className='flex-wrap d-inline-flex txt-light fw-600 align-items-center'>
+                                                <span className='me-2 primary-text break-word'>{validatorInfo?.signer}</span>
+                                                <CopyHelper toCopy={validatorInfo?.signer}>
                                                     <img className='img-fluid' src="../../assets/images/copy-wht-icon.png" alt="copy-img" width={14} />    
+                                                </CopyHelper>
                                             </p>
                                         </div>
                                     </div>
@@ -120,16 +140,16 @@ export default function validatorDetails() {
                                         <div className='mute-text-2 fs-16 fw-600'>
                                             Status
                                         </div>
-                                        <div class="badge-md success-bg d-inline-block">
-                                            <span class="trs-1">active</span>
+                                        <div className="badge-md success-bg d-inline-block">
+                                            <span className="trs-1">active</span>
                                         </div>
                                     </div>
                                     <div className="col-md-4">
                                         <div className='mute-text-2 fs-16 fw-600'>
                                             Commission
                                         </div>
-                                        <div class="badg mute-text-2 fw-600">
-                                            0.00%
+                                        <div className="badg mute-text-2 fw-600">
+                                            {validatorInfo?.commissionPercent}%
                                         </div>
                                     </div>
                                     <div className="col-md-4">
@@ -145,11 +165,11 @@ export default function validatorDetails() {
                         </div>
                     </div>
                 </section>
-                <section className="darkbg-2 pb-4 pb-lg-5">
+                <section className="pb-4 darkbg-2 pb-lg-5">
                     <div className="container">
                         <div className="row">
                             {/* hide col start */}
-                            <div className="col-lg-4 mb-4 mb-lg-0 d-none">
+                            <div className="mb-4 col-lg-4 mb-lg-0 d-none">
                                 <div className="cus-panel darkBg">
                                     <div className="panel-header">
                                         <p className='mb-0'>Uptime</p>
@@ -158,9 +178,9 @@ export default function validatorDetails() {
                                         </a>
                                     </div>
                                     <div className="panel-body">
-                                        <div className="d-flex flex-wrap justify-content-between">
-                                            <p className='mb-0 me-2  mb-3'>Last 250 blocks</p>
-                                            <p className='mb-0 trs-3 mb-3'>
+                                        <div className="flex-wrap d-flex justify-content-between">
+                                            <p className='mb-0 mb-3 me-2'>Last 250 blocks</p>
+                                            <p className='mb-0 mb-3 trs-3'>
                                                 100%
                                             </p>
                                         </div>
@@ -580,23 +600,25 @@ export default function validatorDetails() {
                             {/* hide col end */}
 
                             <div className="col-lg-12">
-                                <div className="cus-panel darkBg mb-4 mb-lg-5">
+                                <div className="mb-4 cus-panel darkBg mb-lg-5">
                                     <div className="panel-header">
                                         <h4 className='fwb trs-3'>Voting Power</h4>
                                     </div>
                                     <div className="panel-body">
-                                        <div className='d-flex align-items-center mb-4 flex-wrap'>
+                                        <div className='flex-wrap mb-4 d-flex align-items-center'>
                                             <div className='data-btn me-3'>
-                                                <span className='trs-6'>6,928,509,556</span>
+                                                <span className='trs-6'>
+                                                <NumberFormat displayType='text' thousandSeparator value={validatorInfo?.selfStake} />    
+                                                </span>
                                             </div>
                                             <div className='text'>
-                                                <span>(~13.17%)</span>
+                                                <span>(~{(validatorInfo?.selfStake /validatorInfo?.totalStaked)*100}%)</span>
                                             </div>
                                         </div>
-                                        <div className="progress-line mb-3">
-                                            <ProgressBar now={60} />
+                                        <div className="mb-3 progress-line">
+                                            <ProgressBar now={(validatorInfo?.selfStake /validatorInfo?.totalStaked)*100 || 0} />
                                         </div>
-                                        <ul className='info-list list-unstyled mb-0'>
+                                        <ul className='mb-0 info-list list-unstyled'>
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Check point</h6>
                                                 <p className='mb-0 trs-3'>
@@ -620,7 +642,7 @@ export default function validatorDetails() {
                                 </div>
 
                                 {/* Delegation tabs start */}
-                                <div className="cus-card p-4 h-auto mb-4 mb-lg-5">
+                                <div className="h-auto p-4 mb-4 cus-card mb-lg-5">
                                     <div className="table-data-tab">
                                         <div className="btn-nav">
                                             <Nav variant="pills" defaultActiveKey="/firts-tab">
@@ -632,7 +654,7 @@ export default function validatorDetails() {
                                                 </Nav.Item> */}
                                             </Nav>
                                         </div>
-                                        <div className="border-table outer-table mb-4 mb-lg-5">
+                                        <div className="mb-4 border-table outer-table mb-lg-5">
                                             <table className="data-table">
                                                 <thead>
                                                     <tr className="table-header">
@@ -723,16 +745,16 @@ export default function validatorDetails() {
                                         </div>
                                         <div className="row">
                                             <div className="col-md-4 d-flex align-items-center">
-                                                <span class="fw-700">Showing 1-8 of 300</span>
+                                                <span className="fw-700">Showing 1-8 of 300</span>
                                             </div>
                                             <div className="col-md-8">
-                                                <div class="cus-pagination">
-                                                    <ul class="pagination justify-content-end">
-                                                        <li class="page-item"><a class="page-link" href="#"><span>Previous</span></a></li>
-                                                        <li class="page-item"><a class="page-link" href="#"><span>1</span></a></li>
-                                                        <li class="page-item"><a class="page-link" href="#"><span>2</span></a></li>
-                                                        <li class="page-item"><a class="page-link" href="#"><span>3</span></a></li>
-                                                        <li class="page-item"><a class="page-link" href="#"><span>Next</span></a></li>
+                                                <div className="cus-pagination">
+                                                    <ul className="pagination justify-content-end">
+                                                        <li className="page-item"><a className="page-link" href="#"><span>Previous</span></a></li>
+                                                        <li className="page-item"><a className="page-link" href="#"><span>1</span></a></li>
+                                                        <li className="page-item"><a className="page-link" href="#"><span>2</span></a></li>
+                                                        <li className="page-item"><a className="page-link" href="#"><span>3</span></a></li>
+                                                        <li className="page-item"><a className="page-link" href="#"><span>Next</span></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -742,7 +764,7 @@ export default function validatorDetails() {
                                 {/* deligation tab  end */}
 
                                 {/* transactions tabs start */}
-                                <div className="cus-card p-4 h-auto">
+                                <div className="h-auto p-4 cus-card">
                                     <div className="table-data-tab">
                                         <h3 className='mb-3 mb-lg-4'>Transactions</h3>
                                         <div className="btn-nav">
@@ -755,7 +777,7 @@ export default function validatorDetails() {
                                                 </Nav.Item>
                                             </Nav>
                                         </div>
-                                        <div className="border-table outer-table mb-4 mb-lg-5">
+                                        <div className="mb-4 border-table outer-table mb-lg-5">
                                             <table className="data-table">
                                                 <thead>
                                                     <tr className="table-header">
@@ -779,7 +801,7 @@ export default function validatorDetails() {
                                                         </td>
                                                         <td>
                                                             <span className="tb-data align d-flex align-items-center">
-                                                                <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" color="#999999" aria-hidden="true">
+                                                                <svg className="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" color="#999999" aria-hidden="true">
                                                                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z">
                                                                     </path>
                                                                 </svg>
@@ -802,7 +824,7 @@ export default function validatorDetails() {
                                                         </td>
                                                         <td>
                                                             <span className="tb-data align d-flex align-items-center">
-                                                                <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" color="#999999" aria-hidden="true">
+                                                                <svg className="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" color="#999999" aria-hidden="true">
                                                                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z">
                                                                     </path>
                                                                 </svg>
@@ -818,16 +840,16 @@ export default function validatorDetails() {
                                         </div>
                                         <div className="row">
                                             <div className="col-md-4 d-flex align-items-center">
-                                                <span class="fw-700">Showing 1-8 of 300</span>
+                                                <span className="fw-700">Showing 1-8 of 300</span>
                                             </div>
                                             <div className="col-md-8">
-                                                <div class="cus-pagination">
-                                                    <ul class="pagination justify-content-end">
-                                                        <li class="page-item"><a class="page-link" href="#"><span>Previous</span></a></li>
-                                                        <li class="page-item"><a class="page-link" href="#"><span>1</span></a></li>
-                                                        <li class="page-item"><a class="page-link" href="#"><span>2</span></a></li>
-                                                        <li class="page-item"><a class="page-link" href="#"><span>3</span></a></li>
-                                                        <li class="page-item"><a class="page-link" href="#"><span>Next</span></a></li>
+                                                <div className="cus-pagination">
+                                                    <ul className="pagination justify-content-end">
+                                                        <li className="page-item"><a className="page-link" href="#"><span>Previous</span></a></li>
+                                                        <li className="page-item"><a className="page-link" href="#"><span>1</span></a></li>
+                                                        <li className="page-item"><a className="page-link" href="#"><span>2</span></a></li>
+                                                        <li className="page-item"><a className="page-link" href="#"><span>3</span></a></li>
+                                                        <li className="page-item"><a className="page-link" href="#"><span>Next</span></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -837,7 +859,7 @@ export default function validatorDetails() {
                                 {/* transactions tab  end */}
 
                                 {/* voting tabs start , currently hide */}
-                                <div className="table-data-tab mb-4 mb-lg-5 d-none">
+                                <div className="mb-4 table-data-tab mb-lg-5 d-none">
                                     <div className="btn-nav">
                                         <Nav variant="pills" defaultActiveKey="/firts-tab">
                                             <Nav.Item>
@@ -856,7 +878,7 @@ export default function validatorDetails() {
                                 </div>
                                 {/* votign tabs end */}
 
-                                <div className='table-data darkBg rad-10 py-3 d-none'>
+                                <div className='py-3 table-data darkBg rad-10 d-none'>
                                     <div className="table-responsive">
                                         <table className="table mb-0">
                                             <tbody>

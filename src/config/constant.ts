@@ -5,7 +5,7 @@ export const API_BASE_URL = 'http://18.219.186.181:5020/'
 /**
  * Staking APi BASE URL
  */
-export const STAKING_API_BASE_URL = 'http://3.17.75.111:3000/'
+export const STAKING_API_BASE_URL = 'http://3.17.75.111:3000/api/v1/'
 
 /**
  *Using for Transaction via Metamask

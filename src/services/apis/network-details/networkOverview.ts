@@ -5,14 +5,14 @@ export function getUserType(address:string){
     return http.get(`/user/getType/${address}`)
 }
 export function getValidatorCount(){
-    return STAKING_API.get(`api/v1/validators/metadata/stakedCount`)
+    return STAKING_API.get(`validators/metadata/stakedCount`)
 }
 export function getTotalStake(){
-    return STAKING_API.get(`api/v1/validators/metadata/totalStake`)
+    return STAKING_API.get(`validators/metadata/totalStake`)
 }
 export function getTotalRewardDistributed(){
-    return STAKING_API.get(`api/v1/rewards/summary`)
+    return STAKING_API.get(`rewards/summary`)
 }
 export function getLastCheckpoint(){
-    return STAKING_API.get(`api/v1/checkpoints/latest`)
+    return STAKING_API.get(`checkpoints/latest`)
 }
