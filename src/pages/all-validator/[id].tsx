@@ -10,17 +10,30 @@ import NumberFormat from 'react-number-format';
 import CopyHelper from 'app/components/AccountDetails/Copy';
 
 export default function ValidatorDetails() {
-    const [validatorInfo, setValidatorInfo] = useState<any>()
+    const pageSize = 4; 
+    const [validatorInfo, setValidatorInfo] = useState<any>();
+    const [allDelegators, setAllDelegators] = useState([])
+    const [delegators, setDelegators] = useState([])
+
     const router = useRouter()
     useEffect(() => {
         const { id } = router.query;
         if (id ) {
             getValidatorsDetail(id.toString()).then((res)=>{
                 setValidatorInfo(res?.data?.data?.validatorInfo)
+                setAllDelegators(res?.data?.data?.validatorInfo?.delegators || []);
+
                 console.log(res?.data?.data?.validatorInfo)
+
             })
         }
     }, [])
+    useEffect(() => {
+      if (allDelegators) {
+        allDelegators.slice()
+      }
+    }, [allDelegators])
+    
     
     return (
         <>
@@ -612,7 +625,7 @@ export default function ValidatorDetails() {
                                                 </span>
                                             </div>
                                             <div className='text'>
-                                                <span>(~{(validatorInfo?.selfStake /validatorInfo?.totalStaked)*100}%)</span>
+                                                <span>(~{(validatorInfo?.selfStake /validatorInfo?.totalStaked)*100 || 0 }%)</span>
                                             </div>
                                         </div>
                                         <div className="mb-3 progress-line">
@@ -628,13 +641,13 @@ export default function ValidatorDetails() {
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Voting Power</h6>
                                                 <p className='mb-0 trs-3'>
-                                                    4,257,652,654
+                                                <NumberFormat displayType='text' thousandSeparator value={validatorInfo?.selfStake} />
                                                 </p>
                                             </li>
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Voting Power %</h6>
                                                 <p className='mb-0 trs-3 primary-text'>
-                                                    10.84%
+                                                   {(validatorInfo?.selfStake /validatorInfo?.totalStaked)*100 || 0}%
                                                 </p>
                                             </li>
                                         </ul>
@@ -663,83 +676,30 @@ export default function ValidatorDetails() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <div className="d-flex">
-                                                                <div className="coin-wrap">
-                                                                    <img
-                                                                        width="30"
-                                                                        height="30"
-                                                                        className="img-fluid me-3"
-                                                                        src="../../assets/images/bear.png"
-                                                                        alt=""
-                                                                    />
-                                                                </div>
-                                                                <span className="tb-data align">0xbf1b1d2c0105323c301294a0038438f23a15b1c5</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <span className="tb-data align">0.0000 .</span>
-                                                            <span className="tb-data-sm align">$0.00</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className="d-flex">
-                                                                <div className="coin-wrap">
-                                                                    <img
-                                                                        width="30"
-                                                                        height="30"
-                                                                        className="img-fluid me-3"
-                                                                        src="../../assets/images/bear.png"
-                                                                        alt=""
-                                                                    />
-                                                                </div>
-                                                                <span className="tb-data align">0xbf1b1d2c0105323c301294a0038438f23a15b1c5</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <span className="tb-data align ">101020 BONE</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className="d-flex">
-                                                                <div className="coin-wrap">
-                                                                    <img
-                                                                        width="30"
-                                                                        height="30"
-                                                                        className="img-fluid me-3"
-                                                                        src="../../assets/images/bear.png"
-                                                                        alt=""
-                                                                    />
-                                                                </div>
-                                                                <span className="tb-data align">0xbf1b1d2c0105323c301294a0038438f23a15b1c5</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <span className="tb-data-sm align fw-600">101020 BONE</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className="d-flex">
-                                                                <div className="coin-wrap">
-                                                                    <img
-                                                                        width="30"
-                                                                        height="30"
-                                                                        className="img-fluid me-3"
-                                                                        src="../../assets/images/bear.png"
-                                                                        alt=""
-                                                                    />
-                                                                </div>
-                                                                <span className="tb-data align">0xbf1b1d2c0105323c301294a0038438f23a15b1c5</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <span className="tb-data align fs-16 fw-600">101020 BONE</span>
-                                                        </td>
-                                                    </tr>
+                                                   {delegators.map((item:any)=>(
+                                                     <tr>
+                                                     <td>
+                                                         <div className="d-flex">
+                                                             <div className="coin-wrap">
+                                                                 <img
+                                                                     width="30"
+                                                                     height="30"
+                                                                     className="img-fluid me-3"
+                                                                     src="../../assets/images/bear.png"
+                                                                     alt=""
+                                                                 />
+                                                             </div>
+                                                             <span className="tb-data align">0xbf1b1d2c0105323c301294a0038438f23a15b1c5</span>
+                                                         </div>
+                                                     </td>
+                                                     <td>
+                                                         <span className="tb-data align">0.0000 .</span>
+                                                         <span className="tb-data-sm align">$0.00</span>
+                                                     </td>
+                                                 </tr>
+                                                   )) 
+                                                  }
+                                                    
                                                 </tbody>
                                             </table>
                                         </div>
