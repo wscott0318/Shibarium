@@ -3,6 +3,7 @@ import React from 'react'
 import Header from '../layout/header'
 import { Container, Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import InnerHeader from '../inner-header';
+import ProgressBar from 'react-bootstrap/ProgressBar';
 
 export default function validatorDetails() {
     return (
@@ -37,16 +38,28 @@ export default function validatorDetails() {
                                             <span className='trs-1'>active</span>
                                         </div>
                                     </div>
-                                    <div className="panel-body">
+                                    <div className="panel-body pb-0">
                                         <ul className='info-list list-unstyled mb-0'>
                                             <li className='info-data-lst'>
-                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Operator Address</h6>
+                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Supply</h6>
+                                                <p className='mb-0 trs-3'>
+                                                    124,143,682.17 FUND
+                                                </p>
+                                            </li>
+                                            <li className='info-data-lst'>
+                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Community Pool</h6>
+                                                <p className='mb-0 trs-3'>
+                                                    83,248.37 FUND
+                                                </p>
+                                            </li>
+                                            <li className='info-data-lst'>
+                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Owner address</h6>
                                                 <p className='mb-0 trs-3'>
                                                     undvaloper1yj09s0tngccqc6sf0v92nmcemr7zjhvpn9702p
                                                 </p>
                                             </li>
                                             <li className='info-data-lst'>
-                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Self-Delegate Address</h6>
+                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Signer address</h6>
                                                 <p className='mb-0 trs-3 primary-text'>
                                                     undvaloper1yj09s0tngccqc6sf0v92nmcemr7zjhvpn9702p
                                                 </p>
@@ -57,7 +70,7 @@ export default function validatorDetails() {
                                                     0.00% (Updated a year ago)
                                                 </p>
                                             </li>
-                                            <li className='info-data-lst'>
+                                            {/* <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Max Rate</h6>
                                                 <p className='mb-0 trs-3'>
                                                     40.00%
@@ -68,7 +81,7 @@ export default function validatorDetails() {
                                                 <p className='mb-0 trs-3'>
                                                     3.00%
                                                 </p>
-                                            </li>
+                                            </li> */}
                                         </ul>
                                     </div>
                                 </div>
@@ -76,10 +89,67 @@ export default function validatorDetails() {
                         </div>
                     </div>
                 </section>
-                <section className="darkbg-2 py-4 py-lg-5">
+                <section className='py-4 py-md-5'>
+                    <div className="container">
+                        <div className="tabl-row cus-panel darkBg">
+                            <div className="tabl-head darkbg-3">
+                                <div className="row mx-0">
+                                    <div className="col-md-6 px-0">
+                                        <div className="tbl-item p-2 p-sm-3">
+                                            <h4>Owner address</h4>
+                                            <p className='d-inline-flex txt-light fw-600 align-items-center flex-wrap'>
+                                                <span className='me-2 primary-text break-word'>undvaloper1yj09s0tngccqc6sf0v92nmcemr7zjhvpn9702p</span>
+                                                    <img className='img-fluid' src="../../assets/images/copy-wht-icon.png" alt="copy-img" width={14} />    
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6 tbl-item px-0">
+                                        <div className='p-2 p-sm-3'>
+                                            <h4>Signer address</h4>
+                                            <p className='d-inline-flex txt-light fw-600 align-items-center flex-wrap'>
+                                                <span className='me-2 primary-text break-word'>undvaloper1yj09s0tngccqc6sf0v92nmcemr7zjhvpn9702p</span>
+                                                    <img className='img-fluid' src="../../assets/images/copy-wht-icon.png" alt="copy-img" width={14} />    
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="tabl panel-body">
+                                <div className="row">
+                                    <div className="col-md-4">
+                                        <div className='mute-text-2 fs-16 fw-600'>
+                                            Status
+                                        </div>
+                                        <div class="badge-md success-bg d-inline-block">
+                                            <span class="trs-1">active</span>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4">
+                                        <div className='mute-text-2 fs-16 fw-600'>
+                                            Commission
+                                        </div>
+                                        <div class="badg mute-text-2 fw-600">
+                                            0.00%
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4">
+                                        <div className='mute-text-2 fs-16 fw-600'>
+                                            Condition
+                                        </div>
+                                        <div className='up-text fw-600'>
+                                            Good
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section className="darkbg-2 pb-4 pb-lg-5">
                     <div className="container">
                         <div className="row">
-                            <div className="col-lg-4 mb-4 mb-lg-0">
+                            {/* hide col start */}
+                            <div className="col-lg-4 mb-4 mb-lg-0 d-none">
                                 <div className="cus-panel darkBg">
                                     <div className="panel-header">
                                         <p className='mb-0'>Uptime</p>
@@ -507,7 +577,9 @@ export default function validatorDetails() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-lg-8">
+                            {/* hide col end */}
+
+                            <div className="col-lg-12">
                                 <div className="cus-panel darkBg mb-4 mb-lg-5">
                                     <div className="panel-header">
                                         <h4 className='fwb trs-3'>Voting Power</h4>
@@ -521,49 +593,258 @@ export default function validatorDetails() {
                                                 <span>(~13.17%)</span>
                                             </div>
                                         </div>
+                                        <div className="progress-line mb-3">
+                                            <ProgressBar now={60} />
+                                        </div>
                                         <ul className='info-list list-unstyled mb-0'>
                                             <li className='info-data-lst'>
-                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Self Delegation Ratio</h6>
+                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Check point</h6>
                                                 <p className='mb-0 trs-3'>
-                                                    2.81% (~194,924.659 FUND)
+                                                    446,608
                                                 </p>
                                             </li>
                                             <li className='info-data-lst'>
-                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Proposer Priority</h6>
+                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Voting Power</h6>
+                                                <p className='mb-0 trs-3'>
+                                                    4,257,652,654
+                                                </p>
+                                            </li>
+                                            <li className='info-data-lst'>
+                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Voting Power %</h6>
                                                 <p className='mb-0 trs-3 primary-text'>
-                                                    651,677,567
-                                                </p>
-                                            </li>
-                                            <li className='info-data-lst'>
-                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Delegator Shares</h6>
-                                                <p className='mb-0 trs-3'>
-                                                    6,929,895,466,312,268.00
-                                                </p>
-                                            </li>
-                                            <li className='info-data-lst'>
-                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Tokens</h6>
-                                                <p className='mb-0 trs-3'>
-                                                    6,928,509,556,518,179.00
-                                                </p>
-                                            </li>
-                                            <li className='info-data-lst'>
-                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Max Change Rate</h6>
-                                                <p className='mb-0 trs-3'>
-                                                    3.00%\
+                                                    10.84%
                                                 </p>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
-                                {/* voting tabs start */}
-                                <div className="table-data-tab mb-4 mb-lg-5">
+
+                                {/* Delegation tabs start */}
+                                <div className="cus-card p-4 h-auto mb-4 mb-lg-5">
+                                    <div className="table-data-tab">
+                                        <div className="btn-nav">
+                                            <Nav variant="pills" defaultActiveKey="/firts-tab">
+                                                <Nav.Item>
+                                                    <Nav.Link className='active'><span className='trs-2'>Polygon</span></Nav.Link>
+                                                </Nav.Item>
+                                                {/* <Nav.Item>
+                                                    <Nav.Link eventKey="link-1"><span className='trs-2'>Polygon</span></Nav.Link>
+                                                </Nav.Item> */}
+                                            </Nav>
+                                        </div>
+                                        <div className="border-table outer-table mb-4 mb-lg-5">
+                                            <table className="data-table">
+                                                <thead>
+                                                    <tr className="table-header">
+                                                        <th>Accounts</th>
+                                                        <th>Matic Staked</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <div className="d-flex">
+                                                                <div className="coin-wrap">
+                                                                    <img
+                                                                        width="30"
+                                                                        height="30"
+                                                                        className="img-fluid me-3"
+                                                                        src="../../assets/images/bear.png"
+                                                                        alt=""
+                                                                    />
+                                                                </div>
+                                                                <span className="tb-data align">0xbf1b1d2c0105323c301294a0038438f23a15b1c5</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">0.0000 .</span>
+                                                            <span className="tb-data-sm align">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div className="d-flex">
+                                                                <div className="coin-wrap">
+                                                                    <img
+                                                                        width="30"
+                                                                        height="30"
+                                                                        className="img-fluid me-3"
+                                                                        src="../../assets/images/bear.png"
+                                                                        alt=""
+                                                                    />
+                                                                </div>
+                                                                <span className="tb-data align">0xbf1b1d2c0105323c301294a0038438f23a15b1c5</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align ">101020 BONE</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div className="d-flex">
+                                                                <div className="coin-wrap">
+                                                                    <img
+                                                                        width="30"
+                                                                        height="30"
+                                                                        className="img-fluid me-3"
+                                                                        src="../../assets/images/bear.png"
+                                                                        alt=""
+                                                                    />
+                                                                </div>
+                                                                <span className="tb-data align">0xbf1b1d2c0105323c301294a0038438f23a15b1c5</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data-sm align fw-600">101020 BONE</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div className="d-flex">
+                                                                <div className="coin-wrap">
+                                                                    <img
+                                                                        width="30"
+                                                                        height="30"
+                                                                        className="img-fluid me-3"
+                                                                        src="../../assets/images/bear.png"
+                                                                        alt=""
+                                                                    />
+                                                                </div>
+                                                                <span className="tb-data align">0xbf1b1d2c0105323c301294a0038438f23a15b1c5</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align fs-16 fw-600">101020 BONE</span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-4 d-flex align-items-center">
+                                                <span class="fw-700">Showing 1-8 of 300</span>
+                                            </div>
+                                            <div className="col-md-8">
+                                                <div class="cus-pagination">
+                                                    <ul class="pagination justify-content-end">
+                                                        <li class="page-item"><a class="page-link" href="#"><span>Previous</span></a></li>
+                                                        <li class="page-item"><a class="page-link" href="#"><span>1</span></a></li>
+                                                        <li class="page-item"><a class="page-link" href="#"><span>2</span></a></li>
+                                                        <li class="page-item"><a class="page-link" href="#"><span>3</span></a></li>
+                                                        <li class="page-item"><a class="page-link" href="#"><span>Next</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* deligation tab  end */}
+
+                                {/* transactions tabs start */}
+                                <div className="cus-card p-4 h-auto">
+                                    <div className="table-data-tab">
+                                        <h3 className='mb-3 mb-lg-4'>Transactions</h3>
+                                        <div className="btn-nav">
+                                            <Nav variant="pills" defaultActiveKey="/firts-tab">
+                                                <Nav.Item>
+                                                    <Nav.Link className='active'><span className='trs-2'>Transactions L1</span></Nav.Link>
+                                                </Nav.Item>
+                                                <Nav.Item>
+                                                    <Nav.Link eventKey="link-1"><span className='trs-2'>Transactions L2</span></Nav.Link>
+                                                </Nav.Item>
+                                            </Nav>
+                                        </div>
+                                        <div className="border-table outer-table mb-4 mb-lg-5">
+                                            <table className="data-table">
+                                                <thead>
+                                                    <tr className="table-header">
+                                                        <th>Checkoint</th>
+                                                        <th>Start block number</th>
+                                                        <th>End block number</th>
+                                                        <th>Result</th>
+                                                        <th>Time</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            443,032
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">3020</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">3020</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align d-flex align-items-center">
+                                                                <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" color="#999999" aria-hidden="true">
+                                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z">
+                                                                    </path>
+                                                                </svg>
+                                                                <span>Success</span>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">8hr ago</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span className="tb-data align">234,332</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">3020</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">3020</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align d-flex align-items-center">
+                                                                <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" color="#999999" aria-hidden="true">
+                                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z">
+                                                                    </path>
+                                                                </svg>
+                                                                <span>Success</span>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="tb-data align">8hr ago</span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-4 d-flex align-items-center">
+                                                <span class="fw-700">Showing 1-8 of 300</span>
+                                            </div>
+                                            <div className="col-md-8">
+                                                <div class="cus-pagination">
+                                                    <ul class="pagination justify-content-end">
+                                                        <li class="page-item"><a class="page-link" href="#"><span>Previous</span></a></li>
+                                                        <li class="page-item"><a class="page-link" href="#"><span>1</span></a></li>
+                                                        <li class="page-item"><a class="page-link" href="#"><span>2</span></a></li>
+                                                        <li class="page-item"><a class="page-link" href="#"><span>3</span></a></li>
+                                                        <li class="page-item"><a class="page-link" href="#"><span>Next</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* transactions tab  end */}
+
+                                {/* voting tabs start , currently hide */}
+                                <div className="table-data-tab mb-4 mb-lg-5 d-none">
                                     <div className="btn-nav">
                                         <Nav variant="pills" defaultActiveKey="/firts-tab">
                                             <Nav.Item>
                                                 <Nav.Link className='active'><span className='trs-2'>Power Change</span></Nav.Link>
                                             </Nav.Item>
                                             <Nav.Item>
-                                                <Nav.Link eventKey="link-1"><span className='trs-2'>Delegations</span></Nav.Link>
+                                                <Nav.Link eventKey="link-1"><span className='trs-2'>Polygon</span></Nav.Link>
                                             </Nav.Item>
                                             <Nav.Item>
                                                 <Nav.Link eventKey="disabled">
@@ -574,7 +855,8 @@ export default function validatorDetails() {
                                     </div>
                                 </div>
                                 {/* votign tabs end */}
-                                <div className='table-data darkBg rad-10 py-3'>
+
+                                <div className='table-data darkBg rad-10 py-3 d-none'>
                                     <div className="table-responsive">
                                         <table className="table mb-0">
                                             <tbody>

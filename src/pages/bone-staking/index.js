@@ -123,7 +123,7 @@ const BoneStaking = () => {
       </section>
       <footer className="main-footer">
         <div className="container">
-          <div className="mt-4 copyright mt-lg-5">
+          <div className="my-3 copyright my-lg-4">
             <h3 className="mb-0 text-center fwb">Powered by xFund.</h3>
           </div>
         </div>

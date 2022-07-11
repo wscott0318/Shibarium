@@ -26,7 +26,9 @@
 .darkbg-2{
     background-color: $black !important;
 }
-
+.darkbg-3{
+    background-color: $black3 !important;
+}
 .success-bg{
     background-color: $sucsses !important;
 }
@@ -701,6 +703,10 @@ color:$green-color;
     display: flex;
     align-items: center;
     justify-content: end;
+    flex-wrap: wrap;
+    @media #{$max-lg}{
+        justify-content: flex-start;
+    }
     @media #{$max-sm} {
         width: 100%;
         margin-bottom: 20px;
@@ -1210,6 +1216,7 @@ color:$green-color;
         }
     }
 }
+
 .box-alert{
     border-radius:7px;
     -webkit-border-radius:7px;
@@ -1338,6 +1345,9 @@ color:$green-color;
             top: 50%;
             right: 0;
             transform: translateY(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
             @media #{$max-lg}{
                 top: auto;
                 left: 50%;
@@ -2142,4 +2152,23 @@ input[type=number]::-webkit-outer-spin-button {
     -moz-appearance: none;
     appearance: none;
     margin: 0; 
+}
+
+.progress-line{
+    .progress-bar {
+        background-color: #f06700;
+    }
+    .progress {
+        height: 10px;
+        font-size: 0.75rem;
+        background-color: #000000;
+    }
+}
+.MuiSvgIcon-root{
+    fill:$sucsses_color2;
+    width: 20px;
+    margin-right: 5px;
+}
+.break-word{
+    word-break: break-all;
 }
