@@ -45,7 +45,7 @@ const SideNavTab=[
         title:"Swap for gas token",
         icon:"../../assets/images/icons/gastoken.png",
         activeShapeImg:"../../assets/images/radius.png",
-        link:"./gas-token"
+        link:"/gas-token"
       },
       {
         id:6,
