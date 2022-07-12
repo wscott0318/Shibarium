@@ -1832,6 +1832,9 @@ input{
         }
     }
     .coin-wrap {
+        width: 30px;
+        margin: 0 auto;
+        max-width: 100%;
         @media (max-width:479.98px){
             max-width: 25px;
             margin: 0 auto;
