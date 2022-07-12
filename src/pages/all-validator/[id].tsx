@@ -13,6 +13,7 @@ import { BONE_ID } from 'app/config/constant';
 import Checkpoints from './validator-details/Checkpoints';
 import PowerChange from './validator-details/PowerChange';
 import AddressDetails from './validator-details/AddressDetails';
+import Link from "next/link";
 
 export default function ValidatorDetails() {
     const pageSize = 4; 
@@ -54,16 +55,13 @@ export default function ValidatorDetails() {
                                     <div className='image-wrap'>
                                         <img className='img-fluid' src="../../assets/images/fundbaron.png" alt="fundborn-img" width={120} />
                                     </div>
-                                    <h4 className='py-2 mt-2'><span className='trs-3 primary-text'>FUNDBaron</span></h4>
-                                    <p className='d-flex align-items-center justify-content-center'>
-                                        <span className='me-2 trs-3'>49962E94F099AFA4 </span>
-                                        <span className="tick-round">
-                                            <img className='img-fluid' src="../../assets/images/light-tick.png" alt="tick-ico" width={10} />
-                                        </span>
-                                    </p>
-                                    <p className='mb-0'>
-                                        100% FUND reward and 100% xFUND reward for all delegators.
-                                    </p>
+                                    <h4 className='py-2 mt-2'>
+                                        <span className='trs-3 text-white'>FUNDBaron</span></h4>
+                                    <Link href="javascript:void(0)">
+                                        <a className='primary-text'>
+                                          https://linktr.ee/DeFiMatic
+                                        </a>
+                                    </Link>
                                 </div>
                             </div>
                             <div className='col-sm-7 col-lg-7 col-xl-8'>
@@ -106,18 +104,12 @@ export default function ValidatorDetails() {
                                                    {validatorInfo?.commissionPercent}% (Updated a year ago)
                                                 </p>
                                             </li>
-                                            {/* <li className='info-data-lst'>
-                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Max Rate</h6>
-                                                <p className='mb-0 trs-3'>
-                                                    40.00%
+                                            <li className='info-data-lst'>
+                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Condition</h6>
+                                                <p className='mb-0 trs-3 up-text fw-600'>
+                                                    Good
                                                 </p>
                                             </li>
-                                            <li className='info-data-lst'>
-                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Max Change Rate</h6>
-                                                <p className='mb-0 trs-3'>
-                                                    3.00%
-                                                </p>
-                                            </li> */}
                                         </ul>
                                     </div>
                                 </div>
@@ -126,441 +118,10 @@ export default function ValidatorDetails() {
                     </div>
                 </section>
                 <AddressDetails validatorInfo={validatorInfo} />
-                <section className="pb-4 darkbg-2 pb-lg-5">
+                <section className="pb-4 darkbg-2 pb-lg-5 pt-5">
                     <div className="container">
                         <div className="row">
-                            {/* hide col start */}
-                            <div className="mb-4 col-lg-3 mb-lg-0">
-                                <div className="cus-panel darkBg">
-                                    <div className="panel-header">
-                                        <p className='mb-0'>Uptime</p>
-                                        <a href="javascript:void(0)" className='primary-text '>
-                                            More...
-                                        </a>
-                                    </div>
-                                    <div className="panel-body">
-                                        <div className="flex-wrap d-flex justify-content-between">
-                                            <p className='mb-0 mb-3 me-2'>Last 250 blocks</p>
-                                            <p className='mb-0 mb-3 trs-3'>
-                                                100%
-                                            </p>
-                                        </div>
-                                        <ul className='blocks'>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                            <li className="blocks-list">
-                                                <div className="block-sq"></div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* hide col end */}
-
-                            <div className="col-lg-9">
+                            <div className="col-lg-12">
                                 <div className="mb-4 cus-panel darkBg mb-lg-5">
                                     <div className="panel-header">
                                         <h4 className='fwb trs-3'>Voting Power</h4>
@@ -610,7 +171,7 @@ export default function ValidatorDetails() {
                               <Checkpoints allCheckpoints={allCheckpoints} boneUsdValue={boneUsdValue}/>
                                 {/* transactions tab  end */}
 
-                               <PowerChange />
+                               {/* <PowerChange /> */}
                             </div>
                         </div>
                     </div>

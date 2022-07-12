@@ -27,7 +27,7 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
                 <div className="btn-nav">
                     <Nav variant="pills" defaultActiveKey="/firts-tab">
                         <Nav.Item>
-                            <Nav.Link className='active'><span className='trs-2'>Polygon</span></Nav.Link>
+                            <Nav.Link className='active'><span className='trs-2'>Delegator</span></Nav.Link>
                         </Nav.Item>
                         {/* <Nav.Item>
                                                     <Nav.Link eventKey="link-1"><span className='trs-2'>Polygon</span></Nav.Link>
@@ -39,7 +39,7 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
                         <thead>
                             <tr className="table-header">
                                 <th>Accounts</th>
-                                <th>Matic Staked</th>
+                                <th>Bone Staked</th>
                             </tr>
                         </thead>
                         <tbody>

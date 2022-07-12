@@ -42,16 +42,21 @@
             top: 40%;
         }
     }
+    p{
+        @media #{$max-md}{
+            font-size: 16px;
+        }
+    }
 }
 
 .path-section {
     position: relative;
-    padding-top: 250px;
-    padding-bottom: 190px;
+    padding-top: 120px;
+    padding-bottom: 130px;
     overflow: hidden;
     @media #{$max-lg}{
-        padding-top: 160px;
-        padding-bottom: 150px;
+        padding-top: 100px;
+        padding-bottom: 110px;
     }
     @media #{$max-md}{
         padding-top: 75px;

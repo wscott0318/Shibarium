@@ -174,7 +174,7 @@ export default function differentchainbridge() {
                                                         <div className='pe-2'><img width="23" height="23" className='img-fluid' src="../../assets/images/alert-icon.png" alt="" /></div>
                                                         <div><span className='fw-800 align'>Important Note:</span></div>
                                                     </div>
-                                                    <div className='w-100 mt-3'>Do not use exchange addresses for cross chain transfers. Make shure that the token type is correct before making transfer to the exchange.</div>
+                                                    <div className='w-100 mt-3'>Do not use exchange addresses for cross chain transfers. Make sure that the token type is correct before making transfer to the exchange.</div>
                                                 </div>
                                             </div>
                                         </div>

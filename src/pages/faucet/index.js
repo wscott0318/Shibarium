@@ -126,7 +126,7 @@ export default function faucet() {
                                 placeholder="0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
                               />
                               <span className="primary-text over-text fw-600">
-                                <span className="trs-2">Paste</span>
+                                <span className="trs-2">Copy</span>
                               </span>
                             </div>
                           </div>

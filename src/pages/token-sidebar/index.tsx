@@ -30,7 +30,7 @@ function ShibaSidebar(props:any) {
                     <img className="img-fluid" src="../../assets/images/logo-white.png" alt="logo" />
                 </a>
             </div>
-            <ul className='mt-3 nav-menu side-bg'>
+            <ul className='mt-3 nav-menu side-bg pt-0'>
                 <li className="nav-item">
                     <div className="nav-link">
                         <p className='mb-0 text-white fwb'>

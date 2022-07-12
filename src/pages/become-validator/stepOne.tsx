@@ -67,7 +67,7 @@ function StepOne() {
             className="fw-700 link-color"
             title=""
           >
-            Validator Discord channcel.
+            Validator Discord channel.
           </a>
         </p>
       </div>
