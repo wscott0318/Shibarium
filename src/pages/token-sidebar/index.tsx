@@ -1,11 +1,28 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { Container, Navbar, Nav, NavItem, NavDropdown, } from 'react-bootstrap';
 import Sidebar from '../layout/sidebar';
-function ShibaSidebar() {
+function ShibaSidebar(props:any) {
+    const wrapperRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(true);
+
+  const handlClick = () => {
+    setIsVisible((prev) => !prev);
+  };
+
     return (
         <>
-        <aside className='sidebar'>
-            <a href="javascript:void(0)" className="close-icon">
+        {isVisible ? (
+        <aside
+          className={
+            isVisible
+              ? props.isOpen
+                ? "sidebar active "
+                : "sidebar"
+              : "sidebar d-none"
+          }
+          ref={wrapperRef}
+        >
+            <a href="javascript:void(0)" className="close-icon" onClick={handlClick}>
                 <img className="img-fluid" src="../../assets/images/download.svg" alt="" />
             </a>
             <div className="side-logo d-none">
@@ -70,7 +87,7 @@ function ShibaSidebar() {
                     </a>
                 </li>
             </ul>
-        </aside>
+        </aside>):null}
         </>
     )
 }
