@@ -36,7 +36,42 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
     let lastPage = paginationRange[paginationRange.length - 1]
 
     return (
-        <div className="text-center pagination-sec">
+       <>
+        <div className="row">
+        <div className="col-md-4 d-flex align-items-center">
+        <span className="fw-700">Showing {((currentPage-1)*pageSize)+1 }-{((currentPage)*pageSize) } of {totalCount}</span>
+    </div>
+    <div className="col-md-8">
+        <div className="cus-pagination">
+            <ul className="pagination justify-content-end">
+            <li className={`page-item ${currentPage ===1 ? 'disable':''}`} >
+                                <a  className="page-link" href="#"  onClick={onPrevious}>
+                                    <span>Previous</span>
+                                </a>
+                            </li>
+                            {paginationRange.map((pageNumber: any) => {
+                                if (pageNumber === DOTS) {
+                                    return <li className="pagination-item dots">&#8230;</li>;
+                                }
+                                return (
+                                    <li className={`page-item ${pageNumber === currentPage ? 'active':''}`} onClick={() => onPageChange(pageNumber)}>
+                                        <a className="page-link" href="#">
+                                            <span>{pageNumber}</span>
+                                        </a>
+                                    </li>)
+                            }
+                            )}
+
+                            <li className={`page-item ${currentPage === lastPage ? 'disable':''}`} onClick={onNext}>
+                                <a className="page-link" href="#">
+                                    <span>Next</span>
+                                </a>
+                            </li>
+            </ul>
+        </div>
+    </div>
+</div>
+        {/* <div className="text-center pagination-sec">
             <div className="row align-items-center">
                 <div className="col-lg-7 col-md-12 cus-pagination ms-auto">
                     <div className="d-inline-block">
@@ -67,11 +102,12 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
                         </ul>
                     </div>
                 </div>
-                <div className="col-lg-3 col-md-12 text-center text-lg-end mt-3 mt-lg-0">
+                <div className="mt-3 text-center col-lg-3 col-md-12 text-lg-end mt-lg-0">
                     <span className="fw-700">Showing {((currentPage-1)*pageSize)+1 }-{((currentPage)*pageSize) } of {totalCount}</span>
                 </div>
             </div>
-        </div>
+        </div> */}
+       </>
     )
 }
 export const DOTS = '...';

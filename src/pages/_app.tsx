@@ -51,6 +51,7 @@ function MyApp({ Component, pageProps }:any) {
   const [isSideNav, setIsSideNav] = useState(false);
 
   console.log("component", pageProps);
+  const routeWithoutHeader = ['/login']
   return (
       <ProjectContext>
         <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>

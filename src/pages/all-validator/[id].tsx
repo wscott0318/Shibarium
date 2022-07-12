@@ -10,11 +10,15 @@ import NumberFormat from 'react-number-format';
 import CopyHelper from 'app/components/AccountDetails/Copy';
 import Delegators from './validator-details/Delegators';
 import { BONE_ID } from 'app/config/constant';
+import Checkpoints from './validator-details/Checkpoints';
+import PowerChange from './validator-details/PowerChange';
+import AddressDetails from './validator-details/AddressDetails';
 
 export default function ValidatorDetails() {
     const pageSize = 4; 
     const [validatorInfo, setValidatorInfo] = useState<any>();
     const [allDelegators, setAllDelegators] = useState([]);
+    const [allCheckpoints, setAllCheckpoints] = useState([]);
     const [boneUsdValue, setBoneUsdValue] = useState(0)
    
 
@@ -25,7 +29,7 @@ export default function ValidatorDetails() {
             getValidatorsDetail(id.toString()).then((res)=>{
                 setValidatorInfo(res?.data?.data?.validatorInfo)
                 setAllDelegators(res?.data?.data?.validatorInfo?.delegators || []);
-
+                setAllCheckpoints(res?.data?.data?.validatorInfo?.checkpoints || [])
                 console.log(res?.data?.data?.validatorInfo)
 
             })
@@ -121,71 +125,12 @@ export default function ValidatorDetails() {
                         </div>
                     </div>
                 </section>
-                <section className='py-4 py-md-5'>
-                    <div className="container">
-                        <div className="tabl-row cus-panel darkBg">
-                            <div className="tabl-head darkbg-3">
-                                <div className="mx-0 row">
-                                    <div className="px-0 col-md-6">
-                                        <div className="p-2 tbl-item p-sm-3">
-                                            <h4>Owner address</h4>
-                                            <p className='flex-wrap d-inline-flex txt-light fw-600 align-items-center'>
-                                                <span className='me-2 primary-text break-word'>{validatorInfo?.owner}</span>
-                                                <CopyHelper toCopy={validatorInfo?.owner}>
-                                                    <img className='img-fluid' src="../../assets/images/copy-wht-icon.png" alt="copy-img" width={14} />    
-                                                    </CopyHelper>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="px-0 col-md-6 tbl-item">
-                                        <div className='p-2 p-sm-3'>
-                                            <h4>Signer address</h4>
-                                            <p className='flex-wrap d-inline-flex txt-light fw-600 align-items-center'>
-                                                <span className='me-2 primary-text break-word'>{validatorInfo?.signer}</span>
-                                                <CopyHelper toCopy={validatorInfo?.signer}>
-                                                    <img className='img-fluid' src="../../assets/images/copy-wht-icon.png" alt="copy-img" width={14} />    
-                                                </CopyHelper>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="tabl panel-body">
-                                <div className="row">
-                                    <div className="col-md-4">
-                                        <div className='mute-text-2 fs-16 fw-600'>
-                                            Status
-                                        </div>
-                                        <div className="badge-md success-bg d-inline-block">
-                                            <span className="trs-1">active</span>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-4">
-                                        <div className='mute-text-2 fs-16 fw-600'>
-                                            Commission
-                                        </div>
-                                        <div className="badg mute-text-2 fw-600">
-                                            {validatorInfo?.commissionPercent}%
-                                        </div>
-                                    </div>
-                                    <div className="col-md-4">
-                                        <div className='mute-text-2 fs-16 fw-600'>
-                                            Condition
-                                        </div>
-                                        <div className='up-text fw-600'>
-                                            Good
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <AddressDetails validatorInfo={validatorInfo} />
                 <section className="pb-4 darkbg-2 pb-lg-5">
                     <div className="container">
                         <div className="row">
                             {/* hide col start */}
-                            <div className="mb-4 col-lg-4 mb-lg-0 d-none">
+                            <div className="mb-4 col-lg-3 mb-lg-0">
                                 <div className="cus-panel darkBg">
                                     <div className="panel-header">
                                         <p className='mb-0'>Uptime</p>
@@ -615,7 +560,7 @@ export default function ValidatorDetails() {
                             </div>
                             {/* hide col end */}
 
-                            <div className="col-lg-12">
+                            <div className="col-lg-9">
                                 <div className="mb-4 cus-panel darkBg mb-lg-5">
                                     <div className="panel-header">
                                         <h4 className='fwb trs-3'>Voting Power</h4>
@@ -662,302 +607,10 @@ export default function ValidatorDetails() {
                                 {/* deligation tab  end */}
 
                                 {/* transactions tabs start */}
-                                <div className="h-auto p-4 cus-card">
-                                    <div className="table-data-tab">
-                                        <h3 className='mb-3 mb-lg-4'>Transactions</h3>
-                                        <div className="btn-nav">
-                                            <Nav variant="pills" defaultActiveKey="/firts-tab">
-                                                <Nav.Item>
-                                                    <Nav.Link className='active'><span className='trs-2'>Transactions L1</span></Nav.Link>
-                                                </Nav.Item>
-                                                <Nav.Item>
-                                                    <Nav.Link eventKey="link-1"><span className='trs-2'>Transactions L2</span></Nav.Link>
-                                                </Nav.Item>
-                                            </Nav>
-                                        </div>
-                                        <div className="mb-4 border-table outer-table mb-lg-5">
-                                            <table className="data-table">
-                                                <thead>
-                                                    <tr className="table-header">
-                                                        <th>Checkoint</th>
-                                                        <th>Start block number</th>
-                                                        <th>End block number</th>
-                                                        <th>Result</th>
-                                                        <th>Time</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            443,032
-                                                        </td>
-                                                        <td>
-                                                            <span className="tb-data align">3020</span>
-                                                        </td>
-                                                        <td>
-                                                            <span className="tb-data align">3020</span>
-                                                        </td>
-                                                        <td>
-                                                            <span className="tb-data align d-flex align-items-center">
-                                                                <svg className="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" color="#999999" aria-hidden="true">
-                                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z">
-                                                                    </path>
-                                                                </svg>
-                                                                <span>Success</span>
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            <span className="tb-data align">8hr ago</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <span className="tb-data align">234,332</span>
-                                                        </td>
-                                                        <td>
-                                                            <span className="tb-data align">3020</span>
-                                                        </td>
-                                                        <td>
-                                                            <span className="tb-data align">3020</span>
-                                                        </td>
-                                                        <td>
-                                                            <span className="tb-data align d-flex align-items-center">
-                                                                <svg className="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" color="#999999" aria-hidden="true">
-                                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z">
-                                                                    </path>
-                                                                </svg>
-                                                                <span>Success</span>
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            <span className="tb-data align">8hr ago</span>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-4 d-flex align-items-center">
-                                                <span className="fw-700">Showing 1-8 of 300</span>
-                                            </div>
-                                            <div className="col-md-8">
-                                                <div className="cus-pagination">
-                                                    <ul className="pagination justify-content-end">
-                                                        <li className="page-item"><a className="page-link" href="#"><span>Previous</span></a></li>
-                                                        <li className="page-item"><a className="page-link" href="#"><span>1</span></a></li>
-                                                        <li className="page-item"><a className="page-link" href="#"><span>2</span></a></li>
-                                                        <li className="page-item"><a className="page-link" href="#"><span>3</span></a></li>
-                                                        <li className="page-item"><a className="page-link" href="#"><span>Next</span></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                              <Checkpoints allCheckpoints={allCheckpoints} boneUsdValue={boneUsdValue}/>
                                 {/* transactions tab  end */}
 
-                                {/* voting tabs start , currently hide */}
-                                <div className="mb-4 table-data-tab mb-lg-5 d-none">
-                                    <div className="btn-nav">
-                                        <Nav variant="pills" defaultActiveKey="/firts-tab">
-                                            <Nav.Item>
-                                                <Nav.Link className='active'><span className='trs-2'>Power Change</span></Nav.Link>
-                                            </Nav.Item>
-                                            <Nav.Item>
-                                                <Nav.Link eventKey="link-1"><span className='trs-2'>Polygon</span></Nav.Link>
-                                            </Nav.Item>
-                                            <Nav.Item>
-                                                <Nav.Link eventKey="disabled">
-                                                    <span className='trs-2'>Transactions</span>
-                                                </Nav.Link>
-                                            </Nav.Item>
-                                        </Nav>
-                                    </div>
-                                </div>
-                                {/* votign tabs end */}
-
-                                <div className='py-3 table-data darkBg rad-10 d-none'>
-                                    <div className="table-responsive">
-                                        <table className="table mb-0">
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <div className='arrow-round up'>
-                                                            <img className='img-fluid' src="../../assets/images/left-icon.png" alt="arrow-ico" width={10} />
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className='d-flex'>
-                                                            <div className='td-data'>
-                                                                6,928,499,556
-                                                            </div>
-                                                            <div className='td-arrow'>
-                                                                <img className='img-fluid' src="../../assets/images/arrow-down.png" alt="arrow-img" />
-                                                            </div>
-                                                            <div className='td-data'>
-                                                                6,928,499,556
-                                                            </div>
-                                                        </div>
-                                                        <div className="data-desc up-text">(+10,000)</div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="data-item">10,441,046</div>
-                                                        <span className="no-break">29 Apr 2022, 5:18:22pm UTC</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div className='arrow-round down'>
-                                                            <img className='img-fluid' src="../../assets/images/left-icon.png" alt="arrow-ico" width={10} />
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className='d-flex'>
-                                                            <div className='td-data'>
-                                                                6,928,499,556
-                                                            </div>
-                                                            <div className='td-arrow'>
-                                                                <img className='img-fluid' src="../../assets/images/arrow-down.png" alt="arrow-img" />
-                                                            </div>
-                                                            <div className='td-data'>
-                                                                6,928,499,556
-                                                            </div>
-                                                        </div>
-                                                        <div className="data-desc down-text">(+10,000)</div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="data-item">10,441,046</div>
-                                                        <span className="no-break">29 Apr 2022, 5:18:22pm UTC</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div className='arrow-round up'>
-                                                            <img className='img-fluid' src="../../assets/images/left-icon.png" alt="arrow-ico" width={10} />
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className='d-flex'>
-                                                            <div className='td-data'>
-                                                                6,928,499,556
-                                                            </div>
-                                                            <div className='td-arrow'>
-                                                                <img className='img-fluid' src="../../assets/images/arrow-down.png" alt="arrow-img" />
-                                                            </div>
-                                                            <div className='td-data'>
-                                                                6,928,499,556
-                                                            </div>
-                                                        </div>
-                                                        <div className="data-desc up-text">(+10,000)</div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="data-item">10,441,046</div>
-                                                        <span className="no-break">29 Apr 2022, 5:18:22pm UTC</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div className='arrow-round up'>
-                                                            <img className='img-fluid' src="../../assets/images/left-icon.png" alt="arrow-ico" width={10} />
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className='d-flex'>
-                                                            <div className='td-data'>
-                                                                6,928,499,556
-                                                            </div>
-                                                            <div className='td-arrow'>
-                                                                <img className='img-fluid' src="../../assets/images/arrow-down.png" alt="arrow-img" />
-                                                            </div>
-                                                            <div className='td-data'>
-                                                                6,928,499,556
-                                                            </div>
-                                                        </div>
-                                                        <div className="data-desc up-text">(+10,000)</div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="data-item">10,441,046</div>
-                                                        <span className="no-break">29 Apr 2022, 5:18:22pm UTC</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div className='arrow-round up'>
-                                                            <img className='img-fluid' src="../../assets/images/left-icon.png" alt="arrow-ico" width={10} />
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className='d-flex'>
-                                                            <div className='td-data'>
-                                                                6,928,499,556
-                                                            </div>
-                                                            <div className='td-arrow'>
-                                                                <img className='img-fluid' src="../../assets/images/arrow-down.png" alt="arrow-img" />
-                                                            </div>
-                                                            <div className='td-data'>
-                                                                6,928,499,556
-                                                            </div>
-                                                        </div>
-                                                        <div className="data-desc up-text">(+10,000)</div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="data-item">10,441,046</div>
-                                                        <span className="no-break">29 Apr 2022, 5:18:22pm UTC</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div className='arrow-round up'>
-                                                            <img className='img-fluid' src="../../assets/images/left-icon.png" alt="arrow-ico" width={10} />
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className='d-flex'>
-                                                            <div className='td-data'>
-                                                                6,928,499,556
-                                                            </div>
-                                                            <div className='td-arrow'>
-                                                                <img className='img-fluid' src="../../assets/images/arrow-down.png" alt="arrow-img" />
-                                                            </div>
-                                                            <div className='td-data'>
-                                                                6,928,499,556
-                                                            </div>
-                                                        </div>
-                                                        <div className="data-desc up-text">(+10,000)</div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="data-item">10,441,046</div>
-                                                        <span className="no-break">29 Apr 2022, 5:18:22pm UTC</span>
-                                                    </td>
-                                                </tr>                                                <tr>
-                                                    <td>
-                                                        <div className='arrow-round down'>
-                                                            <img className='img-fluid' src="../../assets/images/left-icon.png" alt="arrow-ico" width={10} />
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className='d-flex'>
-                                                            <div className='td-data'>
-                                                                6,928,499,556
-                                                            </div>
-                                                            <div className='td-arrow'>
-                                                                <img className='img-fluid' src="../../assets/images/arrow-down.png" alt="arrow-img" />
-                                                            </div>
-                                                            <div className='td-data'>
-                                                                6,928,499,556
-                                                            </div>
-                                                        </div>
-                                                        <div className="data-desc down-text">(+10,000)</div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="data-item">10,441,046</div>
-                                                        <span className="no-break">29 Apr 2022, 5:18:22pm UTC</span>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                               <PowerChange />
                             </div>
                         </div>
                     </div>
