@@ -156,7 +156,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
                     <span className="vertical-align ft-22">{data?.name}</span>
                     <p>
                       <span className="light-text">
-                        100% Performace - {data?.commissionRate}% Commission
+                        100% Performance - {data?.commissionRate}% Commission
                       </span>
                     </p>
                   </div>

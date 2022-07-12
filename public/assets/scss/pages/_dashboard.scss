@@ -83,9 +83,11 @@
         padding: 12px 15px;
         @media #{$max-xsm}{
             flex: 0 0 150px;
+            padding: 8px 15px;
         }
         @media #{$max-xxsm}{
             flex: 0 0 135px;
+            padding: 6px 15px;
         }
     }
     .swap-col {
@@ -113,10 +115,12 @@
         @media #{$max-xsm}{
             flex: 0 0 calc(100% - 150px);
             max-width: calc(100% - 150px);
+            padding: 8px 15px;
         }
         @media #{$max-xxsm}{
             flex: 0 0 calc(100% - 135px);
             max-width: calc(100% - 135px);
+            padding: 6px 8px;
         }
     }
     .swap-input {

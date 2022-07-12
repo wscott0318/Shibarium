@@ -1986,6 +1986,15 @@ input{
             padding: 13px 11px; 
         }
     } 
+    .cstm_values span.outr_span {           
+        @media #{$max-sm}{
+            padding: 10px 8px;
+        }
+        @media #{$max-xsm}{
+            padding: 6px 8px;
+        }
+    }
+
 }
 .cstm_values span.outr_span{
     background: #000;
@@ -2093,6 +2102,23 @@ input{
         color: rgba($white,0.85);
         &:hover{
             background-color:$darkbg;
+        }
+    }
+}
+.cus-dropdown{
+    &.dd-token{
+        &.show > .btn-primary.dropdown-toggle {
+            border: 1px solid transparent;
+            background: transparent;
+        }
+        .btn{
+            background-color: transparent;
+            border-color: transparent;
+            padding: 0;
+        }
+        .arrow.down {
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
         }
     }
 }

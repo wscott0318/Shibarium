@@ -304,6 +304,12 @@ ul {
     background-color:$black;
     border-radius: 30px;
     padding: 12px 15px;
+    @media #{$max-sm}{
+        padding: 10px 15px;
+    }
+    @media #{$max-xsm}{
+        padding: 8px 15px;
+    }
 }
 .form-label {
     font-size: 18px;
