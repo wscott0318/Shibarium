@@ -1815,7 +1815,7 @@ input{
 .coinimage-sec {
     position: absolute;
     top: 50%;
-    left: 50%;
+    left:calc(50% + 6px);
     transform: translate(-50% , -50%);
     z-index: 1;
     width: 100%;
@@ -1823,6 +1823,9 @@ input{
     display: flex;
     align-items: center;
     justify-content: center;
+    @media #{$max-xsm}{
+        left:calc(50% + 1px);
+    }
     span {
         display: block;
         margin-top: 8px;
@@ -2198,6 +2201,7 @@ input[type=number]::-webkit-outer-spin-button {
     width: 20px;
     margin-right: 5px;
 }
+
 .break-word{
     word-break: break-all;
 }

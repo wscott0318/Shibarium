@@ -70,7 +70,7 @@ const Delegatorvalidator = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="row shiba-row">
+                    <div className="row shiba-row pt-4 pt-md-5">
                         <div className="col-lg-4 shiba-col">
                             <div className="shiba-img">
                                 <img className='img-fluid' src="../../assets/images/shiba-col-2.png" alt="cus-image" />
