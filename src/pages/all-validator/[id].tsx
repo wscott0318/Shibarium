@@ -32,6 +32,8 @@ export default function ValidatorDetails() {
                 setAllCheckpoints(res?.data?.data?.validatorInfo?.checkpoints || [])
                 console.log(res?.data?.data?.validatorInfo)
 
+            }).catch((error:any)=> {
+                console.log(error)
             })
         }
     }, [])
