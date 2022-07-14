@@ -45,6 +45,8 @@
     p{
         @media #{$max-md}{
             font-size: 16px;
+            text-align: justify;
+            line-height:1.5;
         }
     }
 }

@@ -27,7 +27,7 @@ function Burn() {
                             </div>
                         </div>
                     </div>
-                    <div className='col-sm-12 col-md-6 '>
+                    <div className='col-sm-12 col-md-6'>
                         <h4 className='fw-700 mb-4 pt-sm-5 pt-md-0 pt-4'>Complete Burn On Ethereum</h4>
                         <div className='card-box'>
                             <div className='stats-blk'>
