@@ -57,7 +57,7 @@ export default function ValidatorDetails() {
                                     </div>
                                     <h4 className='py-2 mt-2'>
                                         <span className='trs-3 text-white'>FUNDBaron</span></h4>
-                                    <Link href="javascript:void(0)">
+                                    <Link href="https://linktr.ee/DeFiMatic">
                                         <a className='primary-text'>
                                           https://linktr.ee/DeFiMatic
                                         </a>
