@@ -3,6 +3,8 @@ import Header from '../layout/header'
 import { Container, Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { Dropdown } from 'react-bootstrap';
 import Sidebar from '../layout/sidebar';
+import GasToken from './bone';
+import Swaptoken from './swap';
 
 export default function Gastoken() {
 
@@ -25,54 +27,8 @@ export default function Gastoken() {
                                             {/* Deposit tab start */}
                                             <div className="tab-content-wrap">
                                                 <div className="swap-area">
-
-                                                    <div className="form-group">
-                                                        <label htmlFor="" className="form-label fwb">How many BONE do you want to get?</label>
-                                                        <div className="swap-flex p-0 row">
-                                                            <div className='cstm_values col-sm-6'>
-                                                                <span className='outr_span'><span className="trs-3">1 BONE</span></span>
-                                                                <span className='outr_span'><span className="trs-3">5 BONE</span></span>
-                                                                <span className='outr_span'><span className="trs-3">10 BONE</span></span>
-                                                            </div>
-                                                            <div className=" swap-control col-sm-6">
-                                                                <input type="text" className='swap-input' placeholder='Custom' />
-                                                                <span className='primary-text over-text fw-600'>BONE</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="form-group">
-                                                        <label htmlFor="" className="form-label fwb">Swap From</label>
-                                                        <div className="swap-control swap-flex p-0">
-                                                            <div className='swap-modal'>
-                                                                {/* <span className='fw-600 trs-2'>
-                                                                    
-                                                                </span> */}
-                                                                <Dropdown className="cus-dropdown dd-token position-relative dark-dd">
-                                                                    <i className="arrow down"></i>
-                                                                    <Dropdown.Toggle
-                                                                        id="dropdown-basic"
-                                                                        className="w-100 text-start"
-                                                                    >
-                                                                        <span>Select Token</span>
-                                                                    </Dropdown.Toggle>
-                                                                    <Dropdown.Menu className="w-100">
-                                                                        <Dropdown.Item href="#/action-1">
-                                                                            Token
-                                                                        </Dropdown.Item>
-                                                                        <Dropdown.Item href="#/action-2">
-                                                                            Token
-                                                                        </Dropdown.Item>
-                                                                        <Dropdown.Item href="#/action-3">
-                                                                            Token                                                                        </Dropdown.Item>
-                                                                    </Dropdown.Menu>
-                                                                </Dropdown>
-                                                            </div>
-                                                            <div className="swap-col">
-                                                                <input type="text" className='swap-input' placeholder='0.00' />                                                    </div>
-                                                        </div>
-                                                    </div>
-
+                                                    <GasToken />
+                                                    <Swaptoken />
                                                 </div>
                                             </div>
                                             {/* Deposit tab end */}
