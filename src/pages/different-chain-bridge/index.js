@@ -10,8 +10,6 @@ import Amount from './amount';
 
 export default function differentchainbridge() {
 
-
-
     return (
         <>
             {/* <Header /> */}

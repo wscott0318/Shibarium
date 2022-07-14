@@ -39,7 +39,7 @@ const Checkpoints:React.FC<Props> = ({ allCheckpoints,boneUsdValue }) => {
                 <table className="data-table">
                     <thead>
                         <tr className="table-header">
-                            <th>Checkoint</th>
+                            <th>Checkpoint</th>
                             <th>Start block number</th>
                             <th>End block number</th>
                             <th>Result</th>

@@ -34,8 +34,18 @@
     @media #{$max-sm}{
         margin-bottom: 8px;
     }
+    @media #{$max-xsmm}{
+        flex-direction: column;
+        align-items: flex-start;
+    }
     .fix-wid{
         flex: 0 0 230px;
+        @media #{$max-sm}{
+            flex: 0 0 145px;
+        }
+        @media #{$max-xsmm}{
+            flex: auto;
+        }
     }
     p{
         word-break: break-all;
