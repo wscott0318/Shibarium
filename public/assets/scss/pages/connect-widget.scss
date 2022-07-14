@@ -22,3 +22,16 @@
         cursor: pointer;
     }
 }
+.bottom-header{
+    .navbar-light .navbar-toggler-icon{
+    background-image: url('../../images/menu-icon.png') !important;
+    background-size:30px;
+    background-repeat: no-repeat;   
+    background-position: center;
+   }
+    .nav-toggle {
+        padding: 0;
+        margin-bottom: 15px;
+        box-shadow: none;
+    }
+}

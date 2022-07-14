@@ -19,7 +19,7 @@ export default function delegator() {
                 <div className='row'>
                   <div className='col-sm-8 text-sm-start text-center'>
                     <h1 className='light-text mb-2 mb-sm-3 fnt-58 fnt-100'>All Validators</h1>
-                    <div className=''><a href='./become-validator' type="button" className='btn warning-btn border-btn light-text'><span>Become A Validator</span></a></div>
+                    <div className=''><a href='./account' type="button" className='btn warning-btn border-btn light-text'><span>Become A Validator</span></a></div>
                   </div>
                 </div>
               </div>
