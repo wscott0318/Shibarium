@@ -24,6 +24,8 @@ import { getUserType } from "app/services/apis/user/userApi";
 import { useUserType } from "app/state/user/hooks";
 import { UserType } from "../../enums/UserType";
 import ShibaSidebar from "pages/token-sidebar";
+import { useMoralis } from "react-moralis";
+import { login } from "app/functions/login";
 
 export default function Header() {
   const { chainId, account, active, error, library, activate, deactivate } = useWeb3React()
@@ -35,16 +37,31 @@ export default function Header() {
   const [dblock, setDblock] = useState(false);
   const [userType, setUserType] =useUserType();
 
+  const { authenticate, isAuthenticated, user,logout ,...restMoralisObj} = useMoralis();
+  useEffect(() => {
+    if(!account)logout().then();
+    localStorage.setItem("ShibariumUser",JSON.stringify(user || []))
+  }, [user,account]);
+  
+
+// useEffect(() => {
+//   if(restMoralisObj.account)authenticate()
+// }, [restMoralisObj.account]);
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn")
-    if (account && !isLoggedIn) {
-      sign(account)
+    // if (account && !isLoggedIn) {
+    //   sign(account)
+    // }
+    // console.log(user.get("sessionToken"),user)
+    if(!isAuthenticated){
+      // authenticate()
     }
-    if(account){
+    if(account && user){
+      
       getUsertype(account)
     }
-  }, [account])
+  }, [account,user])
   useEffect(() => {
     if (account)
       localStorage.setItem('isLoggedIn', true)
@@ -71,17 +88,15 @@ export default function Header() {
         // activate(injected)
       }
       const handleChainChanged = (chainId) => {
-        if (library) {
-          sign(account)
-        }
+        // if (library) {
+        //   sign(account)
+        // }
         // activate(injected)
       }
       const handleAccountsChanged = (accounts) => {
         if (accounts.length > 0) {
-          if (library) {
-            sign(accounts[0])
-            //getUsertype(accounts[0])
-           }
+          // if (library) {
+            login(authenticate,isAuthenticated)
           }
         // activate(injected)
       }
@@ -141,22 +156,23 @@ export default function Header() {
     setDblock(!dblock);
   };
 
-  const LogoutMetamask = () => {
+  const LogoutMetamask = async() => {
+   await logout()
     router.push("/home");
     handleAccount("")
     deactivate()
-    localStorage.removeItem('isLoggedIn')
+    // localStorage.removeItem('isLoggedIn')
   };
-  const sign = (publicAddress) => {
-    let web3 = new Web3(library?.provider)
-    if (publicAddress && web3 && web3.eth && web3.eth.personal) {
-      web3.eth.personal.sign(
-        'Welcome to Shibarium',
-        publicAddress,
-        () => { }
-      )
-    }
-  }
+  // const sign = (publicAddress) => {
+  //   let web3 = new Web3(library?.provider)
+  //   if (publicAddress && web3 && web3.eth && web3.eth.personal) {
+  //     web3.eth.personal.sign(
+  //       'Welcome to Shibarium',
+  //       publicAddress,
+  //       () => { }
+  //     )
+  //   }
+  // }
   return (
     <>
       <header className="main-header darkBg">

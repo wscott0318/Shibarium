@@ -28,10 +28,10 @@ export default function ValidatorDetails() {
         const { id } = router.query;
         if (id ) {
             getValidatorsDetail(id.toString()).then((res)=>{
-                setValidatorInfo(res?.data?.data?.validatorInfo)
-                setAllDelegators(res?.data?.data?.validatorInfo?.delegators || []);
-                setAllCheckpoints(res?.data?.data?.validatorInfo?.checkpoints || [])
-                console.log(res?.data?.data?.validatorInfo)
+                setValidatorInfo(res?.data?.data?.validatorSet)
+                setAllDelegators(res?.data?.data?.validatorSet?.delegators || []);
+                setAllCheckpoints(res?.data?.data?.checkpoints || [])
+                console.log(res?.data?.data?.validatorSet)
 
             }).catch((error:any)=> {
                 console.log(error)
@@ -58,7 +58,7 @@ export default function ValidatorDetails() {
                                         <img className='img-fluid' src="../../assets/images/fundbaron.png" alt="fundborn-img" width={120} />
                                     </div>
                                     <h4 className='py-2 mt-2'>
-                                        <span className='trs-3 text-white'>FUNDBaron</span></h4>
+                                        <span className='text-white trs-3'>FUNDBaron</span></h4>
                                     <Link href="https://linktr.ee/DeFiMatic">
                                         <a className='primary-text'>
                                           https://linktr.ee/DeFiMatic
@@ -79,7 +79,7 @@ export default function ValidatorDetails() {
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Supply</h6>
                                                 <p className='mb-0 trs-3'>
-                                                   <NumberFormat displayType='text' thousandSeparator value={validatorInfo?.totalStaked} /> FUND
+                                                   <NumberFormat displayType='text' thousandSeparator value={(validatorInfo?.totalStaked/Math.pow(10,18).toFixed(8))} /> FUND
                                                 </p>
                                             </li>
                                             <li className='info-data-lst'>
@@ -120,7 +120,7 @@ export default function ValidatorDetails() {
                     </div>
                 </section>
                 <AddressDetails validatorInfo={validatorInfo} />
-                <section className="pb-4 darkbg-2 pb-lg-5 pt-5">
+                <section className="pt-5 pb-4 darkbg-2 pb-lg-5">
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-12">
@@ -132,11 +132,11 @@ export default function ValidatorDetails() {
                                         <div className='flex-wrap mb-4 d-flex align-items-center'>
                                             <div className='data-btn me-3'>
                                                 <span className='trs-6'>
-                                                <NumberFormat displayType='text' thousandSeparator value={validatorInfo?.selfStake} />    
+                                                <NumberFormat displayType='text' thousandSeparator value={(validatorInfo?.selfStake/Math.pow(10,18)).toFixed(8)} />    
                                                 </span>
                                             </div>
                                             <div className='text'>
-                                                <span>(~{(validatorInfo?.selfStake /validatorInfo?.totalStaked)*100 || 0 }%)</span>
+                                                <span>(~{((validatorInfo?.selfStake /validatorInfo?.totalStaked)*100).toFixed(2) || 0 }%)</span>
                                             </div>
                                         </div>
                                         <div className="mb-3 progress-line">
@@ -152,13 +152,13 @@ export default function ValidatorDetails() {
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Voting Power</h6>
                                                 <p className='mb-0 trs-3'>
-                                                <NumberFormat displayType='text' thousandSeparator value={validatorInfo?.selfStake} />
+                                                <NumberFormat displayType='text' thousandSeparator value={(validatorInfo?.selfStake/Math.pow(10,18)).toFixed(8)} />
                                                 </p>
                                             </li>
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Voting Power %</h6>
                                                 <p className='mb-0 trs-3 primary-text'>
-                                                   {(validatorInfo?.selfStake /validatorInfo?.totalStaked)*100 || 0}%
+                                                   {((validatorInfo?.selfStake /validatorInfo?.totalStaked)*100).toFixed(2) || 0}%
                                                 </p>
                                             </li>
                                         </ul>

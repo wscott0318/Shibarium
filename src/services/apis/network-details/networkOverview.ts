@@ -1,18 +1,23 @@
 import { http } from "../http";
-import { STAKING_API } from "../http";
 
 export function getUserType(address:string){
     return http.get(`/user/getType/${address}`)
 }
 export function getValidatorCount(){
-    return STAKING_API.get(`validators/metadata/stakedCount`)
+    return http.get(`networkDetail/totalValidators`)
 }
 export function getTotalStake(){
-    return STAKING_API.get(`validators/metadata/totalStake`)
+    return http.get(`networkDetail/totalStake`)
 }
 export function getTotalRewardDistributed(){
-    return STAKING_API.get(`rewards/summary`)
+    return http.get(`networkDetail/totalReward`)
+}
+export function getHeimdallHeight(){
+    return http.get(`networkDetail/heimdallHeight`)
 }
 export function getLastCheckpoint(){
-    return STAKING_API.get(`checkpoints/latest`)
+    return http.get(`networkDetail/lastCheckpoint`)
+}
+export function getCheckpointInterval(){
+    return http.get(`networkDetail/checkpointInterval`)
 }

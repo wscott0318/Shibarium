@@ -1,4 +1,4 @@
-import { http, STAKING_API } from "../http";
+import { http } from "../http";
 import {RetakeFormInterface} from "../../../interface/reTakeFormInterface"
 
 export function validatorsList(){
@@ -21,4 +21,4 @@ export function unbound(){
 export function getBoneUSDValue(coinId:string){
     return http.get(`/coins/rate/${coinId}`)
 }
-export const getValidatorsDetail = (id:string) =>  STAKING_API.get(`validators/address/overview/${id}`)
+export const getValidatorsDetail = (id:string) =>  http.get(`validator/overview/${id}`)

@@ -3,12 +3,23 @@ import axios from "axios";
 
 export const http = axios.create({
   baseURL: API_BASE_URL,
-//   headers:{
-//       Authorization:`Bearer ${accessToken}`,
-//       accept: 'text/plain',
-//       // "Content-Type": "multipart/form-data"
-//   }
+  headers:{
+      accept: 'text/plain',
+      // "Content-Type": "multipart/form-data"
+    //   "X-user": "wXIMeKVEFFF1hV3GiFWit8uw",
+    //  "X-sessiontoken":'r:8e677125ab6861ac1c927f29e7fba7fb'
+  }
 });
-export const STAKING_API = axios.create({
-  baseURL: STAKING_API_BASE_URL,
+// export const STAKING_API = axios.create({
+//   baseURL: STAKING_API_BASE_URL,
+// });
+
+http.interceptors.request.use((config) => {
+  const userString = localStorage.getItem('ShibariumUser');
+  const user = userString ? JSON.parse(userString): null;
+  config.headers["X-user"] = user?.objectId;
+  config.headers["X-sessiontoken"] = user?.sessionToken;
+  return config;
+}, (error) => {
+  return Promise.reject(error);
 });

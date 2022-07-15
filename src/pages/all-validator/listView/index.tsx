@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { UserType } from 'app/enums/UserType';
+import { enableList } from 'app/state/lists/actions';
 import { useUserType } from 'app/state/user/hooks';
 import Link from 'next/link';
 import DelegatePopup from 'pages/delegate-popup';
@@ -32,9 +33,11 @@ export default function ListView({ validatorsList }: { validatorsList: any }) {
                   return(
                     <tr key={'q4n432+'+i}>
                     <td>
-                      <span className="tb-data align" >
+                      <span className="tb-data align d-flex" >
                       {/* <Link href="./become-validator"> */}
-                        <i className="user-icon"></i>
+                        <i>
+                          <img  height={20} src={elm.logoUrl} alt="logo" className='me-3'/>
+                        </i>
                       <Link href={`/all-validator/${elm.signer}`}>
                         {elm.name}
                         </Link>
@@ -50,20 +53,20 @@ export default function ListView({ validatorsList }: { validatorsList: any }) {
                     </td> */}
                     <td>
                       <span className="tb-data align">
-                        {(+elm.stakeAmount).toFixed(8)} (4.32%)
+                        {(elm.totalStaked/Math.pow(10,18)).toFixed(8)} ({(+elm.votingPowerPercent || 0).toFixed(2)}%)
                       </span>
                     </td>
                     <td>
-                      <span className="tb-data align">11.02%</span>
+                      <span className="tb-data align">{+elm.selfPercent.toFixed(2)}%</span>
                     </td>
                     <td>
-                      <span className="tb-data success-color align">{elm.commissionRate}%</span>
+                      <span className="tb-data success-color align">{elm.commissionPercent}%</span>
                     </td>
                     <td>
-                      <span className="tb-data align">11.02%</span>
+                      <span className="tb-data align">{elm.uptimePercent}%</span>
                     </td>
                     <td className="user-action">
-                      <button disabled={elm.upTime === 0 || userType === UserType.Validator}
+                      <button disabled={elm.uptimePercent === 0 || userType === UserType.Validator}
                         onClick={() => {setModalShow(true);setSelectedRow(elm)}}
                         title=""
                         className="btn-small uppercase-txt warning-btn"

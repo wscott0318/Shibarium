@@ -17,6 +17,8 @@ import ReactGA from 'react-ga'
 
 import Option from './Option'
 import PendingView from './PendingView'
+import { useMoralis } from 'react-moralis'
+import { login } from 'app/functions/login'
 
 enum WALLET_VIEWS {
   OPTIONS,
@@ -41,6 +43,22 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
   const activePrevious = usePrevious(active)
   const connectorPrevious = usePrevious(connector)
 
+  const { authenticate, isAuthenticated, user,logout } = useMoralis();
+
+    // const login = async () => {
+    //   if (!isAuthenticated) {
+
+    //     await authenticate({signingMessage: "Log in to Shibarium" })
+    //       .then(function (user) {
+    //         console.log("logged in user:", user);
+    //         console.log(user!.get("ethAddress"));
+    //       })
+    //       .catch(function (error) {
+    //         console.log(error);
+    //       });
+    //   }
+    // }
+  
   // close on connection, when logged out before
   useEffect(() => {
     if (account && !previousAccount && walletModalOpen) toggleWalletModal()
@@ -74,7 +92,8 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
     setWalletView(WALLET_VIEWS.ACCOUNT)
   }, [])
 
-  const handleDeactivate = useCallback(() => {
+  const handleDeactivate = useCallback(async() => {
+await logout()
     deactivate()
     setWalletView(WALLET_VIEWS.ACCOUNT)
   }, [deactivate])
@@ -105,14 +124,14 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
       }
 
       conn &&
-        activate(conn, undefined, true).catch((error) => {
+        activate(conn, undefined, true).catch(async(error) => {
           if (error instanceof UnsupportedChainIdError) {
             // @ts-ignore TYPE NEEDS FIXING
-            activate(conn) // a little janky...can't use setError because the connector isn't set
+           await activate(conn)// a little janky...can't use setError because the connector isn't set
           } else {
             setPendingError(true)
           }
-        })
+        }).then(()=>login(authenticate,isAuthenticated)) 
     },
     [activate]
   )

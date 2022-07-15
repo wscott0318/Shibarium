@@ -17,18 +17,24 @@ import {
 import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
 
+import { useMoralis } from "react-moralis";
+
 export default function Login() {
   const router = useRouter()
+  // const { authenticate, isAuthenticated, user,} = useMoralis();
 
   // const {handleAccount}=useContext(ProjectContext)
   const [showInsModal, setShowInsModal] = useState(false);
  
-  const { chainId, activate,account, active,library,error } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   // const account = useAccount()
    
   const connectToMetamask=()=>{
+    // authenticate()
     // activate(walletConnector)
   }
+
+  
   // useEffect(() => {
   //   if (library) {
   //    let web3 =  new Web3(library?.provider)

@@ -8,17 +8,17 @@ interface Props{
 }
 const Checkpoints:React.FC<Props> = ({ allCheckpoints,boneUsdValue }) => {
     const pageSize = 4;
-    const [delegators, setDelegators] = useState<any[]>([]);
+    const [checkpoints, setCheckpoints] = useState<any[]>([]);
     const [pageIndex, setPageIndex] = useState(1)
     useEffect(() => {
         if (allCheckpoints) {
-            allCheckpoints.slice()
+            setCheckpoints(allCheckpoints.slice(0, pageSize))
         }
     }, [allCheckpoints])
 
     const pageChangeHandler = (index: number) => {
         const slicedList = allCheckpoints.slice((index - 1) * pageSize, (index * pageSize))
-        setDelegators(slicedList)
+        setCheckpoints(slicedList)
         setPageIndex(index)
     }
     return (
@@ -48,7 +48,7 @@ const Checkpoints:React.FC<Props> = ({ allCheckpoints,boneUsdValue }) => {
                     </thead>
                         <tbody>
                             {
-                                allCheckpoints.map((checkpoint: any) => {
+                                checkpoints.map((checkpoint: any) => {
                                     return (
                                         <tr>
                                             <td>

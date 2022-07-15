@@ -1,7 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import { UserType } from 'app/enums/UserType';
 import { useUserType } from 'app/state/user/hooks';
+import Link from 'next/link';
 import React, { useState } from 'react'
+import NumberFormat from 'react-number-format';
 import DelegatePopup from '../../delegate-popup';
 
 export default function ValidatorGrid({ validatorsList }: { validatorsList: any }) {
@@ -24,11 +26,15 @@ export default function ValidatorGrid({ validatorsList }: { validatorsList: any 
                                                     <div className='box-head'>
                                                         <div className='d-flex align-items-center justify-content-start'>
                                                             <div>
-                                                                <span className='user-icon'></span>
+                                                                <span > <img  height={20} src={validator.logoUrl} alt="logo" className='me-3'/></span>
                                                             </div>
                                                             <div className='fw-700'>
-                                                                <span className='vertical-align'>{validator.name}</span>
-                                                                <p><span className='ft-16 light-text'>{(+validator.stakeAmount).toFixed(8)} BONE Staked</span></p>
+                                                                <span className='vertical-align'>
+                                                                    <Link href={`/all-validator/${validator.signer}`}>
+                                                                        {validator.name}
+                                                                    </Link>
+                                                                </span>
+                                                                <p><span className='ft-16 light-text'><NumberFormat displayType='text'  thousandSeparator value={(validator.totalStaked/Math.pow(10,18)).toFixed(8)} /> BONE Staked</span></p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -36,17 +42,17 @@ export default function ValidatorGrid({ validatorsList }: { validatorsList: any 
                                                         <div className='d-flex align-items-center justify-content-between'>
                                                             <div className='fw-600 ft-16'>Performance</div>
                                                             <div>
-                                                                <span className='warning-color fw-600 ft-14'>100%</span>
+                                                                <span className='warning-color fw-600 ft-14'>{validator.uptimePercent}%</span>
                                                             </div>
                                                         </div>
                                                         <div className='d-flex align-items-center justify-content-between'>
                                                             <div className='fw-600 ft-16'>Commission</div>
                                                             <div>
-                                                                <span className='warning-color fw-600 ft-14'>{validator.commissionRate}%</span>
+                                                                <span className='warning-color fw-600 ft-14'>{validator.commissionPercent}%</span>
                                                             </div>
                                                         </div>
                                                         <div className='mt-3 text-center'>
-                                                            <button disabled={validator.upTime === 0 || userType === UserType.Validator} type="button" onClick={() => { setModalShow(true); setSelectedRow(validator) }} className='btn warning-btn light-text w-100'><span>Delegate</span></button>
+                                                            <button disabled={validator.uptimePercent === 0 || userType === UserType.Validator} type="button" onClick={() => { setModalShow(true); setSelectedRow(validator) }} className='btn warning-btn light-text w-100'><span>Delegate</span></button>
                                                         </div>
                                                     </div>
                                                 </div>

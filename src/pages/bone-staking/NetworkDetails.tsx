@@ -1,5 +1,5 @@
 import { BONE_ID } from 'app/config/constant'
-import { getLastCheckpoint, getTotalRewardDistributed, getTotalStake, getValidatorCount } from 'app/services/apis/network-details/networkOverview'
+import { getCheckpointInterval, getHeimdallHeight, getLastCheckpoint, getTotalRewardDistributed, getTotalStake, getValidatorCount } from 'app/services/apis/network-details/networkOverview'
 import { getBoneUSDValue } from 'app/services/apis/validator'
 import { useLocalWeb3 } from 'app/services/web3'
 import React, { useEffect, useState } from 'react'
@@ -9,9 +9,12 @@ function NetworkDetails() {
     const [totalValidators, setTotalValidators] = useState<number>(0)
     const [totalStake, setTotalStake] = useState<number>(0)
     const [totalRewardDistributed, setTotalRewardDistributed] = useState<number>(0)
-    const [lastCheckpoint, setLastCheckpoint] = useState<number>(0);
+    const [lastCheckpoint, setLastCheckpoint] = useState<any>({});
+    const [heimdallHeight, setHeimdallHeight] = useState<number>(0);
+    // const [heimdallHeight, setHeimdallHeight] = useState<number>(0);
     const [boneUSDValue, setBoneUSDValue] = useState<number>(0);
     const [latestBlock, setLatestBlock] = useState<number>(0)
+  const [checkpointInterval, setCheckpointInterval] = useState<string>('')
 
     const web3 = useLocalWeb3();
     useEffect(() => {
@@ -22,33 +25,48 @@ function NetworkDetails() {
             setBoneUSDValue(res.data.data.price);
           })
         getValidatorCount().then((res:any)=>{
-            if(res &&  res.data && res.data.result){
-                setTotalValidators(res.data.result.stakedCount);
+            if(res &&  res.data && res.data.data){
+                setTotalValidators(res.data.data.validatorCount);
             }
         }).catch((error:any)=>{
             console.log(error)
         })
         getTotalStake().then((res:any)=>{
-            if(res &&  res.data && res.data.result){
-                setTotalStake(res.data.result.totalStake);
+            if(res &&  res.data && res.data.data){
+                setTotalStake(res.data.data.totalStake);
             }
         }).catch((error:any)=>{
             console.log(error)
         })
         getTotalRewardDistributed().then((res:any)=>{
-            if(res &&  res.data && res.data.result){
-                setTotalRewardDistributed(res.data.result.totalReward);
+            if(res &&  res.data && res.data.data){
+                setTotalRewardDistributed(res.data.data.totalReward);
             }
         }).catch((error:any)=>{
             console.log(error)
         })
-        getLastCheckpoint().then((res:any)=>{
-            if(res &&  res.data && res.data.result){
-                setLastCheckpoint(res.data.result.totalStake);
-            }
-        }).catch((error:any)=>{
-            console.log(error)
-        })
+ 
+        getHeimdallHeight().then((res:any)=>{
+          if(res &&  res.data && res.data.data){
+            setHeimdallHeight(res.data.data.height);
+          }
+      }).catch((error:any)=>{
+          console.log(error)
+      })
+      getLastCheckpoint().then((res:any)=>{
+        if(res &&  res.data && res.data.data){
+          setLastCheckpoint(res.data.data);
+        }
+    }).catch((error:any)=>{
+        console.log(error)
+    })
+    getCheckpointInterval().then((res:any)=>{
+      if(res &&  res.data && res.data.data){
+          setCheckpointInterval(res.data.data.interval);
+      }
+  }).catch((error:any)=>{
+      console.log(error)
+  })
         web3?.eth?.getBlockNumber().then((lastBlock:number)=>{
             setLatestBlock(lastBlock)
         })
@@ -93,7 +111,7 @@ function NetworkDetails() {
               </div>
               <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
-                  <h3 className="fwb">9,554,455 </h3>
+                  <h3 className="fwb"><NumberFormat thousandSeparator displayType={"text"} value={heimdallHeight}/> </h3>
                   <div className="card-hr"></div>
                   <span className="mb-0 trs-3">Heimdall Block Height</span>
                 </div>
@@ -101,9 +119,11 @@ function NetworkDetails() {
               <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                   <h3 className="fwb d-flex align-items-center">
-                    <span>71,582</span>
+                    <span>
+                    <NumberFormat thousandSeparator displayType={"text"} value={lastCheckpoint?.checkpointId || 0}/>
+                    </span>
                     <span className="ms-2 primary-badge trsn-3 badge-md fs-12">
-                      <span className="trs-2">28 minutes ago</span>
+                      <span className="trs-2">{lastCheckpoint?.interval || '0'} ago</span>
                     </span>
                   </h3>
                   <div className="card-hr"></div>
@@ -113,7 +133,7 @@ function NetworkDetails() {
               <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                   <h3 className="fwb d-flex align-items-center">
-                    <span>{lastCheckpoint} Minutes</span>
+                    <span>{checkpointInterval}</span>
                   </h3>
                   <div className="card-hr"></div>
                   <span className="mb-0 trs-3">Checkpoint Interval</span>

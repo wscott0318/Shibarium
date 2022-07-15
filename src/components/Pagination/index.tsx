@@ -39,7 +39,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
        <>
         <div className="row">
         <div className="col-md-4 d-flex align-items-center">
-        <span className="fw-700">Showing {((currentPage-1)*pageSize)+1 }-{((currentPage)*pageSize) } of {totalCount}</span>
+        {totalCount > 1 && <span className="fw-700">Showing {((currentPage-1)*pageSize)+1 }-{totalCount>pageSize ? ((currentPage)*pageSize): totalCount } of {totalCount}</span>}
     </div>
     <div className="col-md-8">
         <div className="cus-pagination">
