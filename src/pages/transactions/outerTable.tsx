@@ -1,8 +1,8 @@
 function OuterTable() {
     return (
         <>
-            <div className='outer-table mb-4 mb-lg-5'>
-                <table className='data-table'>
+            <div className='table-wrap table-responsive mb-4 mb-lg-5'>
+                <table className='table mb-0'>
                     <thead>
                         <tr className='table-header'>
                             <th>Burn</th>
@@ -15,8 +15,8 @@ function OuterTable() {
                         <tr>
                             <td colSpan={4}>
                                 <div className='text-center'>
-                                    <img width="48" height="58" className='img-fluid' src="../../assets/images/bear.png" alt="" />
-                                    <div className='fw-600'>No Transactions</div>
+                                    <img width="48" height="58" className='img-fluid mx-auto' src="../../assets/images/bear.png" alt="" />
+                                    <div className='fw-600 text-white mt-2'>No Transactions</div>
                                 </div>
                             </td>
                         </tr>

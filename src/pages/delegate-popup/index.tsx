@@ -189,7 +189,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
                       prefix={"$ "}
                     />                    
                   </div>
-                  <div>Avilable Balance: {walletBalance?.toFixed(8)} BONE</div>
+                  <div>Available Balance: {walletBalance?.toFixed(8)} BONE</div>
                 </div>
               </div>
               <div>

@@ -47,7 +47,7 @@ export default function SendPopup(props) {
                 </div>
                 <div className='d-flex align-items-center justify-content-between helper-txt flex-wrap fw-600 mt-2 ft-14'>
                     <div>$0</div>
-                    <div>Avilable Balance: 0.000  SHIBA</div>
+                    <div>Available Balance: 0.000  SHIBA</div>
                   </div>
               </div>
               <div>

@@ -32,10 +32,13 @@
         position: absolute;
         top: 10%;
         left: 0;
-        max-width: 200px;
+        max-width: 130px;
         @media #{$max-xxxl}{
             top: 20%;
-            max-width: 125px;
+            max-width: 100px;
+        }
+        @media #{$max-xxl}{
+            max-width: 70px;
         }
         @media #{$max-lg}{
             z-index: -1;
