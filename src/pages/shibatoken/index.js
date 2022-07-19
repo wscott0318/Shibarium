@@ -46,7 +46,7 @@ export default function ShibaToken() {
           
           <div className='filter-sec'>
             <div className='row align-items-center'>
-              <div className='col-sm-6 col-12'>
+              <div className='col-sm-6 col-12 mb-3'>
                 <h4 className='fw-800'>Completed Burns</h4>
               </div>
               <div className='col-sm-6 col-12 text-end'>

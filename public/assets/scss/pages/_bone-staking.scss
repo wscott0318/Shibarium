@@ -6,6 +6,9 @@
     @media #{$max-md}{
         min-height: 120px;
     }
+    span{
+        display: inline;
+    }
 }
 
 .baner-card {

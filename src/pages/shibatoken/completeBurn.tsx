@@ -20,7 +20,7 @@ function CompleteBurn() {
                 <tr>
                   <td colSpan={4}>
                     <div className='text-center'>
-                      <img width="48" height="58" className='img-fluid' src="../../assets/images/bear.png" alt="" />
+                      <img width="48" height="58" className='img-fluid mx-auto mb-3' src="../../assets/images/bear.png" alt="" />
                       <div className='fw-600'>No Ongoing Transactions</div>
                     </div>
                   </td>
