@@ -14,27 +14,32 @@ import Checkpoints from './validator-details/Checkpoints';
 import PowerChange from './validator-details/PowerChange';
 import AddressDetails from './validator-details/AddressDetails';
 import Link from "next/link";
+import LoadingSpinner from 'pages/components/Loading';
 
 export default function ValidatorDetails() {
     const pageSize = 4; 
     const [validatorInfo, setValidatorInfo] = useState<any>();
     const [allDelegators, setAllDelegators] = useState([]);
-    const [allCheckpoints, setAllCheckpoints] = useState([]);
+    const [allCheckpoints, setAllCheckpoints] = useState<any>([]);
     const [boneUsdValue, setBoneUsdValue] = useState(0)
+    const [loading, setLoading] = useState<boolean>(false)
    
 
     const router = useRouter()
     useEffect(() => {
         const { id } = router.query;
         if (id ) {
+            setLoading(true);
+
             getValidatorsDetail(id.toString()).then((res)=>{
                 setValidatorInfo(res?.data?.data?.validatorSet)
                 setAllDelegators(res?.data?.data?.validatorSet?.delegators || []);
                 setAllCheckpoints(res?.data?.data?.checkpoints || [])
                 console.log(res?.data?.data?.validatorSet)
-
+                setLoading(false);
             }).catch((error:any)=> {
-                console.log(error)
+                console.log(error);
+                setLoading(true);
             })
         }
     }, [])
@@ -49,6 +54,7 @@ export default function ValidatorDetails() {
         <>
             <div className='page-content'>
                 <InnerHeader />
+                {loading && <LoadingSpinner />}
                 <section className='py-4 banner-section darkBg py-lg-5'>
                     <div className="container">
                         <div className="row">
@@ -70,22 +76,26 @@ export default function ValidatorDetails() {
                                 <div className="mb-4 cus-panel h-100">
                                     <div className="panel-header">
                                         <h4 className='mb-0 fwb trs-3'>Validator Info</h4>
-                                        <div className='badge-md success-bg'>
-                                            <span className='trs-1'>active</span>
+                                       {!validatorInfo?.status ? <div className='badge-md primary-bg'>
+                                            <span className='trs-1'>Inactive</span>
                                         </div>
+                                        : 
+                                        <div className='badge-md success-bg'>
+                                            <span className='trs-1'>Active</span>
+                                        </div>}
                                     </div>
                                     <div className="pb-0 panel-body">
                                         <ul className='mb-0 info-list list-unstyled'>
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Supply</h6>
                                                 <p className='mb-0 trs-3'>
-                                                   <NumberFormat displayType='text' thousandSeparator value={(validatorInfo?.totalStaked/Math.pow(10,18).toFixed(8))} /> FUND
+                                                   <NumberFormat displayType='text' thousandSeparator value={((validatorInfo?.totalStaked/Math.pow(10,18)).toFixed(8))} /> FUND
                                                 </p>
                                             </li>
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Community Pool</h6>
                                                 <p className='mb-0 trs-3'>
-                                                    83,248.37 FUND
+                                                    ... FUND
                                                 </p>
                                             </li>
                                             <li className='info-data-lst'>
@@ -103,13 +113,13 @@ export default function ValidatorDetails() {
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Commission Rate</h6>
                                                 <p className='mb-0 trs-3'>
-                                                   {validatorInfo?.commissionPercent}% (Updated a year ago)
+                                                   {validatorInfo?.commissionPercent}% 
                                                 </p>
                                             </li>
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Condition</h6>
-                                                <p className='mb-0 trs-3 up-text fw-600'>
-                                                    Good
+                                                <p className={`mb-0 trs-3 ${validatorInfo?.uptimePercent >=90 ?'up-text' :validatorInfo?.uptimePercent <90 && validatorInfo?.uptimePercent >=70 ? 'text-warning': 'text-danger'} fw-600`}>
+                                                  {validatorInfo?.uptimePercent >=90 ? `Good` : validatorInfo?.uptimePercent <90 && validatorInfo?.uptimePercent >=70 ?`Okay`:'Bad'}
                                                 </p>
                                             </li>
                                         </ul>
@@ -146,7 +156,7 @@ export default function ValidatorDetails() {
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Check point</h6>
                                                 <p className='mb-0 trs-3'>
-                                                    446,608
+                                                  {allCheckpoints.length ? allCheckpoints[0].checkpointNumber:''}
                                                 </p>
                                             </li>
                                             <li className='info-data-lst'>

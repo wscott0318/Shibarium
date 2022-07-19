@@ -1,13 +1,14 @@
 import { ChainId } from '@sushiswap/core-sdk'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { InjectedConnector } from '@web3-react/injected-connector'
+import { SHIBARIUM_CHAINID } from 'app/constants'
 // import { SHIBARIUM_CHAINID } from 'app/constants'
 // import { ChainId } from 'app/enums'
 import { NetworkConnector } from '../entities/connectors'
 
 import RPC from './rpc'
 
-const supportedChainIds = [...Object.values(ChainId) as number[],6924]
+const supportedChainIds = [...Object.values(ChainId) as number[],SHIBARIUM_CHAINID]
 
 export const network = new NetworkConnector({
   defaultChainId: 1,

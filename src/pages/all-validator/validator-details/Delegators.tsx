@@ -56,15 +56,15 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
                                                     alt=""
                                                 />
                                             </div>
-                                            <span className="tb-data align">{item.account}</span>
+                                            <span className="tb-data align">{item.address}</span>
                                         </div>
                                     </td>
                                     <td>
                                         <span className="tb-data align">
-                                            <NumberFormat displayType='text' thousandSeparator value={item.stake} />
+                                            <NumberFormat displayType='text' thousandSeparator value={(+item.delegatedAmount).toFixed(8)} />
                                         </span>
                                         <span className="tb-data-sm align">
-                                        <NumberFormat displayType='text' prefix='$ ' thousandSeparator value={item.stake * boneUsdValue} />
+                                        <NumberFormat displayType='text' prefix='$ ' thousandSeparator value={(item.delegatedAmount * boneUsdValue).toFixed(2)} />
                                         </span>
                                     </td>
                                 </tr>

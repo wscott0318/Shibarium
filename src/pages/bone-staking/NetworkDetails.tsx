@@ -1,7 +1,7 @@
 import { BONE_ID } from 'app/config/constant'
 import { getCheckpointInterval, getHeimdallHeight, getLastCheckpoint, getTotalRewardDistributed, getTotalStake, getValidatorCount } from 'app/services/apis/network-details/networkOverview'
 import { getBoneUSDValue } from 'app/services/apis/validator'
-import { useLocalWeb3 } from 'app/services/web3'
+import { useActiveWeb3React, useLocalWeb3 } from 'app/services/web3'
 import React, { useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format'
 
@@ -15,7 +15,7 @@ function NetworkDetails() {
     const [boneUSDValue, setBoneUSDValue] = useState<number>(0);
     const [latestBlock, setLatestBlock] = useState<number>(0)
   const [checkpointInterval, setCheckpointInterval] = useState<string>('')
-
+const {account}=useActiveWeb3React()
     const web3 = useLocalWeb3();
     useEffect(() => {
         try {
@@ -33,7 +33,7 @@ function NetworkDetails() {
         })
         getTotalStake().then((res:any)=>{
             if(res &&  res.data && res.data.data){
-                setTotalStake(res.data.data.totalStake);
+                setTotalStake(res.data.data.totalStakeFormatted);
             }
         }).catch((error:any)=>{
             console.log(error)
@@ -73,7 +73,7 @@ function NetworkDetails() {
     } catch (error) {
             console.log(error)
     }
-    }, [])
+    }, [account])
     
   return (
     <div className="container">
@@ -88,16 +88,16 @@ function NetworkDetails() {
               </div>
               <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
-                  <h3 className="fwb"><NumberFormat thousandSeparator displayType={"text"} value={totalStake}/> BONE</h3>
-                  <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={(totalStake * boneUSDValue).toFixed(4)}/></p>
+                  <h3 className="fwb"><NumberFormat thousandSeparator displayType={"text"} value={(+totalStake).toFixed(8)}/> BONE</h3>
+                  <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ '  value={+((totalStake * boneUSDValue).toFixed(2))}/></p>
                   <div className="card-hr"></div>
                   <span className="mb-0">Total Stake</span>
                 </div>
               </div>
               <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
-                  <h3 className="fwb"><NumberFormat thousandSeparator displayType={"text"} value={totalRewardDistributed}/> BONE</h3>
-                  <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={(totalRewardDistributed * boneUSDValue).toFixed(4)}/></p>
+                  <h3 className="fwb"><NumberFormat thousandSeparator displayType={"text"} value={(+totalRewardDistributed).toFixed(8)}/> BONE</h3>
+                  <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={(totalRewardDistributed * boneUSDValue).toFixed(2)}/></p>
                   <div className="card-hr"></div>
                   <span className="mb-0">Total Reward Distributed</span>
                 </div>

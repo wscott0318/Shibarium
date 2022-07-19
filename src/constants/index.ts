@@ -1,7 +1,7 @@
 import { ChainId, JSBI, Percent } from '@sushiswap/core-sdk'
 
 // TODO: Move some of this to config level...
-export const SHIBARIUM_CHAINID= 6924;
+
 // TODO: update weekly with new constant
 export const WEEKLY_MERKLE_ROOT =
   //'https://raw.githubusercontent.com/sushiswap/sushi-vesting/master/merkle/week-13/merkle-10959148-11550728.json'
@@ -79,4 +79,11 @@ export const EIP_1559_ACTIVATION_BLOCK: { [chainId in ChainId]?: number } = {
   [ChainId.ROPSTEN]: 10499401,
   [ChainId.GÖRLI]: 5062605,
   [ChainId.RINKEBY]: 8897988,
+}
+export const SHIBARIUM_CHAINID= 7352;
+
+export const SHIBARIUM_CONFIGS={
+  [SHIBARIUM_CHAINID]:{
+    RPC:'' 
+  }
 }
