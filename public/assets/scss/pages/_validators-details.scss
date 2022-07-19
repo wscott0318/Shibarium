@@ -32,7 +32,7 @@
     margin-bottom: 15px;
     flex-wrap: wrap;
     @media #{$max-sm}{
-        margin-bottom: 8px;
+        margin-bottom: 10px;
     }
     @media #{$max-xsmm}{
         flex-direction: column;
@@ -45,6 +45,7 @@
         }
         @media #{$max-xsmm}{
             flex: auto;
+            margin-bottom: 4px !important;
         }
     }
     p{

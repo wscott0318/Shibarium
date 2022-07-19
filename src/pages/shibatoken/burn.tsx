@@ -11,7 +11,7 @@ function Burn() {
                         <div className='card-box'>
                             <div className='stats-blk'>
                                 <div className='burn-image'>
-                                    <img width="36" height="63" className='img-fluid' src="../../assets/images/burn-lg.png" alt="" />
+                                    <img width="36" height="63" className='img-fluid mx-auto' src="../../assets/images/burn-lg.png" alt="" />
                                 </div>
                                 <div>
                                     <h6 className='mb-2'>Amount of BONE waiting to be burned</h6>
