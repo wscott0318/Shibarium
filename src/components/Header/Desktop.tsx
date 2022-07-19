@@ -59,10 +59,10 @@ export const RightMenu = ()=>{
       </div>
     )}
 
-    <div className=" flex items-center w-auto text-sm font-bold border-2 rounded shadow cursor-pointer pointer-events-auto select-none border-dark-800 hover:border-dark-700 bg-dark-900 whitespace-nowra">
+    <div className="flex items-center w-auto text-sm font-bold border-2 rounded shadow cursor-pointer pointer-events-auto select-none border-dark-800 hover:border-dark-700 bg-dark-900 whitespace-nowra">
       {account && chainId && userEthBalance && (
         <Link  href="#" passHref={true}>
-          <a className="network hidden px-3 text-high-emphesis text-bold md:block">
+          <a className="hidden px-3 network text-high-emphesis text-bold md:block">
             {/*@ts-ignore*/}
             {userEthBalance?.toSignificant(4)} {NATIVE[chainId || 1].symbol}
           </a>
