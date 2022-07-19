@@ -5,13 +5,15 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 function BalanceTable() {
     return (
         <>
-            <PerfectScrollbar className="outer-table mb-4 mb-lg-5">
-                <table className="data-table">
+            <div className="table-wrap table-responsive mb-4 mb-lg-5 mt-3">
+                <table className="table">
                     <thead>
                         <tr className="table-header">
                             <th>Name</th>
                             <th>Balance</th>
-                            <th>Actions</th>
+                            <th className="text-center">
+                                <span className="center-head">Action</span>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -349,7 +351,7 @@ function BalanceTable() {
                         </tr>
                     </tbody>
                 </table>
-            </PerfectScrollbar>
+            </div>
         </>
     )
 }
