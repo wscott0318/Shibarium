@@ -1,5 +1,5 @@
 
-import { ChainId } from '@sushiswap/core-sdk'
+import { ChainId } from '@shibarium/core-sdk'
 import HeadlessUiModal from '../../components/Modal/HeadlessUIModal'
 import Typography from '../../components/Typography'
 import { NETWORK_ICON, NETWORK_LABEL } from '../../config/networks'

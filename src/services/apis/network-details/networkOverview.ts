@@ -21,3 +21,6 @@ export function getLastCheckpoint(){
 export function getCheckpointInterval(){
     return http.get(`networkDetail/checkpointInterval`)
 }
+export function getNetworkOverviewData(){
+    return http.get(`networkDetail/info `)
+}

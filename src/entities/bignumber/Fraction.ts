@@ -1,6 +1,6 @@
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber'
 import { One, Zero } from '@ethersproject/constants'
-import { Fraction as SDKFraction } from '@sushiswap/core-sdk'
+import { Fraction as SDKFraction } from '@shibarium/core-sdk'
 import { formatBalance } from '../../functions/format'
 import { parseBalance } from '../../functions/parse'
 import { isEmptyValue } from '../../functions/validate'

@@ -1,5 +1,5 @@
 import { Contract } from '@ethersproject/contracts'
-import { ChainId } from '@sushiswap/core-sdk'
+import { ChainId } from '@shibarium/core-sdk'
 import stringify from 'fast-json-stable-stringify'
 import useSWR from 'swr'
 

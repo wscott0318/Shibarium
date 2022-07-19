@@ -1,4 +1,4 @@
-import { Token } from '@sushiswap/core-sdk'
+import { Token } from '@shibarium/core-sdk'
 import { TokenInfo } from '@uniswap/token-lists'
 import { useMemo } from 'react'
 
