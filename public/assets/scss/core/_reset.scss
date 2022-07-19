@@ -195,9 +195,11 @@ a, button {
 a, button, img, input, span {
     transition: all 0.3s ease 0s;
 }
-a,span{
-    display:inline-block;
-}
+
+// a,span{
+//     display:inline-block;
+// }
+
 *:focus {
     outline: none !important;
 }
