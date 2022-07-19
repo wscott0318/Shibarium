@@ -1,5 +1,5 @@
 import { ChainId } from '@shibarium/core-sdk'
-import { SHIBARIUM_CHAINID } from 'app/constants'
+// import { SHIBARIUM_CHAINID } from 'app/constants'
 
 const Arbitrum = 'https://raw.githubusercontent.com/sushiswap/icons/master/network/arbitrum.jpg'
 const Avalanche = 'https://raw.githubusercontent.com/sushiswap/icons/master/network/avalanche.jpg'
@@ -53,14 +53,14 @@ export const NETWORK_ICON = {
   [ChainId.MOONRIVER]: Moonriver,
   [ChainId.FUSE]: Fuse,
   [ChainId.TELOS]: Telos,
-  [SHIBARIUM_CHAINID]: Shibarium,
+  [ChainId.SHIBARIUM]: Shibarium,
 }
-enum SHIBARIUM{
-  SHIBARIUM = SHIBARIUM_CHAINID
-}
-type Chain_id= ChainId | SHIBARIUM
+// enum SHIBARIUM{
+//   SHIBARIUM = SHIBARIUM_CHAINID
+// }
+// type Chain_id= ChainId | SHIBARIUM
 
-export const NETWORK_LABEL: { [chainId in Chain_id]?: string } = {
+export const NETWORK_LABEL: { [chainId in ChainId]?: string } = {
   [ChainId.ETHEREUM]: 'Ethereum',
   [ChainId.RINKEBY]: 'Rinkeby',
   [ChainId.ROPSTEN]: 'Ropsten',
@@ -89,5 +89,5 @@ export const NETWORK_LABEL: { [chainId in Chain_id]?: string } = {
   [ChainId.MOONRIVER]: 'Moonriver',
   [ChainId.FUSE]: 'Fuse',
   [ChainId.TELOS]: 'Telos EVM',
-  [SHIBARIUM_CHAINID]: "Shibarium",
+  [ChainId.SHIBARIUM]: "Shibarium",
 }
