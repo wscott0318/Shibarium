@@ -26,6 +26,7 @@ import { UserType } from "../../enums/UserType";
 import ShibaSidebar from "pages/token-sidebar";
 import { useMoralis } from "react-moralis";
 import { login } from "app/functions/login";
+import { injected } from "app/config/wallets";
 
 export default function Header() {
   const { chainId, account, active, error, library, activate, deactivate } = useWeb3React()
@@ -37,7 +38,7 @@ export default function Header() {
   const [dblock, setDblock] = useState(false);
   const [userType, setUserType] =useUserType();
 
-  const { authenticate, isAuthenticated, user,logout ,...restMoralisObj} = useMoralis();
+  const { authenticate, isAuthenticated, user,logout,Moralis ,...restMoralisObj} = useMoralis();
   useEffect(() => {
     if(!account)logout().then();
     localStorage.setItem("ShibariumUser",JSON.stringify(user || []))
@@ -45,8 +46,14 @@ export default function Header() {
   
 
 // useEffect(() => {
-//   if(restMoralisObj.account)authenticate()
-// }, [restMoralisObj.account]);
+//   window.ethereum.on('accountsChanged'(async(accounts)=>{
+//     const confirmed = confirm("Link this address to your account?");
+//     if (confirmed) {
+//       await Moralis.link(account);
+//       alert("Address added!");
+//     }
+// }))
+// }, [account]);
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn")
@@ -70,6 +77,7 @@ export default function Header() {
   }, [account]);
 
   const getUsertype = (accountAddress) =>{
+   try {
     getUserType(accountAddress.toLowerCase()).then( res =>{
       if (res.data && res.data.data) {
         let ut = res.data.data.userType;
@@ -79,6 +87,9 @@ export default function Header() {
       console.log(e);
       setUserType('NA')
     })
+   } catch (error) {
+    
+   }
   }
   useEffect(() => {
     const { ethereum } = window
@@ -93,15 +104,16 @@ export default function Header() {
         // }
         // activate(injected)
       }
-      const handleAccountsChanged = (accounts) => {
+      const handleAccountsChanged = async(accounts) => {
         if (accounts.length > 0) {
           // if (library) {
-            login(authenticate,isAuthenticated)
+            authenticate()
           }
         // activate(injected)
       }
       const handleNetworkChanged = (networkId) => {
         // activate(injected)
+        login(authenticate,isAuthenticated)
       }
 
       ethereum.on('connect', handleConnect)

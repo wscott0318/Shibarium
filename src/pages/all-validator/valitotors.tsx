@@ -17,9 +17,9 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     const [validators, setValidators] = useState<any[]>([]);
     const [isListView, setListView] = useState<boolean>(true);
     const [isActiveTab, setIsActiveTab] = useState<boolean>(true);
-    const [currentPage, setCurrentPage] = useState<number>(1)
-    const [searchKey, setSearchKey] = useState<string>('')
-    const [sortKey, setSortKey] = useState<string>('Random')
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [searchKey, setSearchKey] = useState<string>('');
+    const [sortKey, setSortKey] = useState<string>('Random');
   
     const searchResult = useSearchFilter(validatorsByStatus, searchKey);
   
@@ -150,11 +150,11 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
 
                       <Dropdown.Menu>
                         <Dropdown.Item onClick={() => onSort('Random', 'name','string')}>Random</Dropdown.Item>
-                        <Dropdown.Item onClick={() => onSort('Commission', 'commissionRate','number')}>Commission</Dropdown.Item>
-                        <Dropdown.Item onClick={() => onSort('Voting Power', 'stakeAmount','number')}>
+                        <Dropdown.Item onClick={() => onSort('Commission', 'commissionPercent','number')}>Commission</Dropdown.Item>
+                        <Dropdown.Item onClick={() => onSort('Voting Power', 'totalStaked','number')}>
                           Voting Power
                         </Dropdown.Item>
-                        <Dropdown.Item onClick={() => onSort('Uptime', 'uptime','number')}>
+                        <Dropdown.Item onClick={() => onSort('Uptime', 'uptimePercent','number')}>
                           Uptime
                         </Dropdown.Item>
                       </Dropdown.Menu>
@@ -200,7 +200,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                 </div>
               </div>
             </div>
-            <div className="mb-3 mt-4">
+            <div className="mt-4 mb-3">
               <h4 className="mb-0 fw-700">
                 Here is a list of active Validators
               </h4>
