@@ -1,5 +1,5 @@
 import { BONE_ID } from 'app/config/constant'
-import { getCheckpointInterval, getHeimdallHeight, getLastCheckpoint, getTotalRewardDistributed, getTotalStake, getValidatorCount } from 'app/services/apis/network-details/networkOverview'
+import { getCheckpointInterval, getHeimdallHeight, getLastCheckpoint, getNetworkOverviewData, getTotalRewardDistributed, getTotalStake, getValidatorCount } from 'app/services/apis/network-details/networkOverview'
 import { getBoneUSDValue } from 'app/services/apis/validator'
 import { useActiveWeb3React, useLocalWeb3 } from 'app/services/web3'
 import React, { useEffect, useState } from 'react'
@@ -19,54 +19,56 @@ const {account}=useActiveWeb3React()
     const web3 = useLocalWeb3();
     useEffect(() => {
         try {
-            
+          getNetworkOverviewData().then((res:any)=>{
+            console.log(res.data)
+          })
       
         getBoneUSDValue(BONE_ID).then((res:any)=>{
             setBoneUSDValue(res.data.data.price);
           })
-        getValidatorCount().then((res:any)=>{
-            if(res &&  res.data && res.data.data){
-                setTotalValidators(res.data.data.validatorCount);
-            }
-        }).catch((error:any)=>{
-            console.log(error)
-        })
-        getTotalStake().then((res:any)=>{
-            if(res &&  res.data && res.data.data){
-                setTotalStake(res.data.data.totalStakeFormatted);
-            }
-        }).catch((error:any)=>{
-            console.log(error)
-        })
-        getTotalRewardDistributed().then((res:any)=>{
-            if(res &&  res.data && res.data.data){
-                setTotalRewardDistributed(res.data.data.totalReward);
-            }
-        }).catch((error:any)=>{
-            console.log(error)
-        })
+  //       getValidatorCount().then((res:any)=>{
+  //           if(res &&  res.data && res.data.data){
+  //               setTotalValidators(res.data.data.validatorCount);
+  //           }
+  //       }).catch((error:any)=>{
+  //           console.log(error)
+  //       })
+  //       getTotalStake().then((res:any)=>{
+  //           if(res &&  res.data && res.data.data){
+  //               setTotalStake(res.data.data.totalStakeFormatted);
+  //           }
+  //       }).catch((error:any)=>{
+  //           console.log(error)
+  //       })
+  //       getTotalRewardDistributed().then((res:any)=>{
+  //           if(res &&  res.data && res.data.data){
+  //               setTotalRewardDistributed(res.data.data.totalReward);
+  //           }
+  //       }).catch((error:any)=>{
+  //           console.log(error)
+  //       })
  
-        getHeimdallHeight().then((res:any)=>{
-          if(res &&  res.data && res.data.data){
-            setHeimdallHeight(res.data.data.height);
-          }
-      }).catch((error:any)=>{
-          console.log(error)
-      })
-      getLastCheckpoint().then((res:any)=>{
-        if(res &&  res.data && res.data.data){
-          setLastCheckpoint(res.data.data);
-        }
-    }).catch((error:any)=>{
-        console.log(error)
-    })
-    getCheckpointInterval().then((res:any)=>{
-      if(res &&  res.data && res.data.data){
-          setCheckpointInterval(res.data.data.interval);
-      }
-  }).catch((error:any)=>{
-      console.log(error)
-  })
+  //       getHeimdallHeight().then((res:any)=>{
+  //         if(res &&  res.data && res.data.data){
+  //           setHeimdallHeight(res.data.data.height);
+  //         }
+  //     }).catch((error:any)=>{
+  //         console.log(error)
+  //     })
+  //     getLastCheckpoint().then((res:any)=>{
+  //       if(res &&  res.data && res.data.data){
+  //         setLastCheckpoint(res.data.data);
+  //       }
+  //   }).catch((error:any)=>{
+  //       console.log(error)
+  //   })
+  //   getCheckpointInterval().then((res:any)=>{
+  //     if(res &&  res.data && res.data.data){
+  //         setCheckpointInterval(res.data.data.interval);
+  //     }
+  // }).catch((error:any)=>{
+  //     console.log(error)
+  // })
         web3?.eth?.getBlockNumber().then((lastBlock:number)=>{
             setLatestBlock(lastBlock)
         })

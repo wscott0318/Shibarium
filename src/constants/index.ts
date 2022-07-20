@@ -1,4 +1,4 @@
-import { ChainId, JSBI, Percent } from '@sushiswap/core-sdk'
+import { ChainId, JSBI, Percent } from '@shibarium/core-sdk'
 
 // TODO: Move some of this to config level...
 
@@ -80,10 +80,10 @@ export const EIP_1559_ACTIVATION_BLOCK: { [chainId in ChainId]?: number } = {
   [ChainId.GÖRLI]: 5062605,
   [ChainId.RINKEBY]: 8897988,
 }
-export const SHIBARIUM_CHAINID= 7352;
+// export const SHIBARIUM_CHAINID= 7352;
 
 export const SHIBARIUM_CONFIGS={
-  [SHIBARIUM_CHAINID]:{
+  [ChainId.SHIBARIUM]:{
     RPC:'' 
   }
 }

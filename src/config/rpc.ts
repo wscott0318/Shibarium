@@ -1,5 +1,5 @@
-import { ChainId } from '@sushiswap/core-sdk'
-import { SHIBARIUM_CHAINID } from 'app/constants'
+import { ChainId } from '@shibarium/core-sdk'
+// import { SHIBARIUM_CHAINID } from 'app/constants'
 
 const RPC = {
   [ChainId.ETHEREUM]: 'https://api.sushirelay.com/v1',
@@ -31,7 +31,7 @@ const RPC = {
   [ChainId.CELO]: 'https://forno.celo.org',
   [ChainId.MOONRIVER]: 'https://rpc.moonriver.moonbeam.network',
   [ChainId.TELOS]: 'https://mainnet.telos.net/evm',
-  [SHIBARIUM_CHAINID]: 'https://mainnet.telos.net/evm',
+  [ChainId.SHIBARIUM]: 'https://3.145.115.238:8545',
 }
 
 export default RPC

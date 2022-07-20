@@ -1,4 +1,4 @@
-import { Currency, Token } from '@sushiswap/core-sdk'
+import { Currency, Token } from '@shibarium/core-sdk'
 import { Tags, TokenInfo } from '@uniswap/token-lists'
 import { TokenList } from '@uniswap/token-lists/dist/types'
 

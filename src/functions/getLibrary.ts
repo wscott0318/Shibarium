@@ -1,5 +1,5 @@
 import { Web3Provider } from '@ethersproject/providers'
-import { ChainId } from '@sushiswap/core-sdk'
+import { ChainId } from '@shibarium/core-sdk'
 
 const NETWORK_POLLING_INTERVALS: { [chainId: number]: number } = {
   [ChainId.ARBITRUM]: 1_000,

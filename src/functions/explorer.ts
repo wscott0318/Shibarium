@@ -1,5 +1,5 @@
-import { ChainId } from '@sushiswap/core-sdk'
-import { SHIBARIUM_CHAINID } from 'app/constants'
+import { ChainId } from '@shibarium/core-sdk'
+// import { SHIBARIUM_CHAINID } from 'app/constants'
 
 const explorers = {
   etherscan: (link: string, data: string, type: 'transaction' | 'token' | 'address' | 'block') => {
@@ -192,8 +192,8 @@ const chains: ChainObject = {
     link: 'https://rpc1.us.telos.net/v2/explore/evm',
     builder: explorers.telos,
   },
-  [SHIBARIUM_CHAINID]: {
-    link: 'https://rinkeby.etherscan.io',
+  [ChainId.SHIBARIUM]: {
+    link: 'https://goerli.etherscan.io',
     builder: explorers.etherscan,
   },
 }

@@ -1,5 +1,5 @@
 
-import { ChainId } from '@sushiswap/core-sdk'
+import { ChainId } from '@shibarium/core-sdk'
 import HeadlessUiModal from '../../components/Modal/HeadlessUIModal'
 import Typography from '../../components/Typography'
 import { NETWORK_ICON, NETWORK_LABEL } from '../../config/networks'
@@ -11,7 +11,7 @@ import { useModalOpen, useNetworkModalToggle } from '../../state/application/hoo
 import cookie from 'cookie-cutter'
 import Image from 'next/image'
 import React, { FC } from 'react'
-import { SHIBARIUM_CHAINID } from 'app/constants'
+// import { SHIBARIUM_CHAINID } from 'app/constants'
 
 export const SUPPORTED_NETWORKS: {
   [chainId in ChainId]?: {
@@ -207,11 +207,12 @@ const NetworkModal: FC = () => {
 
   return (
     <HeadlessUiModal.Controlled isOpen={networkModalOpen} onDismiss={toggleNetworkModal}>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4" style={{maxHeight:'90vh', overflow: 'auto'}}>
         <HeadlessUiModal.Header header={`Select a network`} onClose={toggleNetworkModal} />
         <div className="grid grid-flow-row-dense grid-cols-1 gap-4 overflow-y-auto md:grid-cols-2">
           {[
-            SHIBARIUM_CHAINID,
+            ChainId.SHIBARIUM,
+            ChainId.GÖRLI,
             ChainId.ETHEREUM,
             ChainId.MATIC,
             ChainId.BSC,
