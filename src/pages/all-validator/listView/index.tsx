@@ -67,7 +67,7 @@ export default function ListView({ validatorsList }: { validatorsList: any }) {
                     </td>
                     <td className="user-action">
                         <button
-                          // disabled={elm.uptimePercent === 0 || userType === UserType.Validator}
+                          disabled={elm.uptimePercent === 0 || userType === UserType.Validator}
                           onClick={() => { setModalShow(true); setSelectedRow(elm) }}
                           title=""
                           className="btn-small uppercase-txt warning-btn"
