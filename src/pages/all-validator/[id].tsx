@@ -30,7 +30,6 @@ export default function ValidatorDetails() {
         const { id } = router.query;
         if (id ) {
             setLoading(true);
-
             getValidatorsDetail(id.toString()).then((res)=>{
                 setValidatorInfo(res?.data?.data?.validatorSet)
                 setAllDelegators(res?.data?.data?.validatorSet?.delegators || []);
@@ -39,7 +38,7 @@ export default function ValidatorDetails() {
                 setLoading(false);
             }).catch((error:any)=> {
                 console.log(error);
-                setLoading(true);
+                setLoading(false);
             })
         }
     }, [])
@@ -64,7 +63,8 @@ export default function ValidatorDetails() {
                                         <img className='img-fluid' src="../../assets/images/fundbaron.png" alt="fundborn-img" width={120} />
                                     </div>
                                     <h4 className='py-2 mt-2'>
-                                        <span className='text-white trs-3'>FUNDBaron</span></h4>
+                                        <span className='text-white trs-3'>FUNDBaron</span>
+                                    </h4>
                                     <Link href="https://linktr.ee/DeFiMatic">
                                         <a className='primary-text'>
                                           https://linktr.ee/DeFiMatic

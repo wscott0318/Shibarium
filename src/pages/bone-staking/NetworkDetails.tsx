@@ -6,21 +6,25 @@ import React, { useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format'
 
 function NetworkDetails() {
-    const [totalValidators, setTotalValidators] = useState<number>(0)
-    const [totalStake, setTotalStake] = useState<number>(0)
-    const [totalRewardDistributed, setTotalRewardDistributed] = useState<number>(0)
-    const [lastCheckpoint, setLastCheckpoint] = useState<any>({});
-    const [heimdallHeight, setHeimdallHeight] = useState<number>(0);
+    // const [totalValidators, setTotalValidators] = useState<number>(0)
+    // const [totalStake, setTotalStake] = useState<number>(0)
+    // const [totalRewardDistributed, setTotalRewardDistributed] = useState<number>(0)
+    // const [lastCheckpoint, setLastCheckpoint] = useState<any>({});
+    // const [heimdallHeight, setHeimdallHeight] = useState<number>(0);
     // const [heimdallHeight, setHeimdallHeight] = useState<number>(0);
     const [boneUSDValue, setBoneUSDValue] = useState<number>(0);
     const [latestBlock, setLatestBlock] = useState<number>(0)
-  const [checkpointInterval, setCheckpointInterval] = useState<string>('')
+  // const [checkpointInterval, setCheckpointInterval] = useState<string>('')
+  const [networkDetails, setNetworkDetails] = useState<any>({})
 const {account}=useActiveWeb3React()
     const web3 = useLocalWeb3();
     useEffect(() => {
         try {
           getNetworkOverviewData().then((res:any)=>{
-            console.log(res.data)
+            
+            setNetworkDetails(res.data && res.data.data && res.data.data.networkDetail ? res.data.data.networkDetail :{})
+          }).catch((e)=>{
+            
           })
       
         getBoneUSDValue(BONE_ID).then((res:any)=>{
@@ -84,22 +88,22 @@ const {account}=useActiveWeb3React()
             <div className="row">
               <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
-                  <h3 className="fwb">{totalValidators}</h3>
+                  <h3 className="fwb">{networkDetails?.validatorCount}</h3>
                   <span className="mb-0 trs-3">Total Validators</span>
                 </div>
               </div>
               <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
-                  <h3 className="fwb"><NumberFormat thousandSeparator displayType={"text"} value={(+totalStake).toFixed(8)}/> BONE</h3>
-                  <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ '  value={+((totalStake * boneUSDValue).toFixed(2))}/></p>
+                  <h3 className="fwb"><NumberFormat thousandSeparator displayType={"text"} value={(+networkDetails?.totalStakeFormatted || 0).toFixed(8)}/> BONE</h3>
+                  <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ '  value={+(((+networkDetails?.totalStakeFormatted )* boneUSDValue).toFixed(2))}/></p>
                   <div className="card-hr"></div>
                   <span className="mb-0">Total Stake</span>
                 </div>
               </div>
               <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
-                  <h3 className="fwb"><NumberFormat thousandSeparator displayType={"text"} value={(+totalRewardDistributed).toFixed(8)}/> BONE</h3>
-                  <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={(totalRewardDistributed * boneUSDValue).toFixed(2)}/></p>
+                  <h3 className="fwb"><NumberFormat thousandSeparator displayType={"text"} value={(+networkDetails?.totalReward || 0).toFixed(8)}/> BONE</h3>
+                  <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((networkDetails?.totalReward || 0) * boneUSDValue).toFixed(2)}/></p>
                   <div className="card-hr"></div>
                   <span className="mb-0">Total Reward Distributed</span>
                 </div>
@@ -113,7 +117,7 @@ const {account}=useActiveWeb3React()
               </div>
               <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
-                  <h3 className="fwb"><NumberFormat thousandSeparator displayType={"text"} value={heimdallHeight}/> </h3>
+                  <h3 className="fwb"><NumberFormat thousandSeparator displayType={"text"} value={networkDetails?.heimdallHeight}/> </h3>
                   <div className="card-hr"></div>
                   <span className="mb-0 trs-3">Heimdall Block Height</span>
                 </div>
@@ -122,10 +126,10 @@ const {account}=useActiveWeb3React()
                 <div className="bs-card card">
                   <h3 className="fwb d-flex align-items-center">
                     <span>
-                    <NumberFormat thousandSeparator displayType={"text"} value={lastCheckpoint?.checkpointId || 0}/>
+                    <NumberFormat thousandSeparator displayType={"text"} value={networkDetails?.heimdallHeight || 0}/>
                     </span>
                     <span className="ms-2 primary-badge trsn-3 badge-md fs-12">
-                      <span className="trs-2">{lastCheckpoint?.interval || '0'} ago</span>
+                      <span className="trs-2">{networkDetails?.averageInterval || '0'} ago</span>
                     </span>
                   </h3>
                   <div className="card-hr"></div>
@@ -135,7 +139,7 @@ const {account}=useActiveWeb3React()
               <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                   <h3 className="fwb d-flex align-items-center">
-                    <span>{checkpointInterval}</span>
+                    <span>{networkDetails?.lastCheckpointInterval}</span>
                   </h3>
                   <div className="card-hr"></div>
                   <span className="mb-0 trs-3">Checkpoint Interval</span>

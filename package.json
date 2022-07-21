@@ -211,8 +211,7 @@
     "not op_mini all"
   ],
   "dependencies": {
-    "@shibarium/core-sdk": "^1.0.0",
-    "@shibarium/sdk": "^1.0.2",
+    "@shibarium/core-sdk": "^1.0.5",
     "bootstrap": "^5.1.3",
     "cids": "^1.1.9",
     "formik": "^2.2.9",

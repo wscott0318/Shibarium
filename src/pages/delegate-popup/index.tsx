@@ -56,6 +56,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
       openSnackbar('Amount must be greater than 0')
       return;
     }
+    setTnxCompleted(false)
     if (web3) {
      const bone = new web3.eth.Contract(boneAbi,BONE);
     //  const val = web3.utils.toBN(amount*Math.pow(10,18))
@@ -66,7 +67,8 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
       to: BONE,
       data: bone.methods.approve(STAKE_MANAGER, val).encodeABI()
       }).then((res:any) =>{
-        setStep(2)
+        // setStep(2)
+        setTnxCompleted(true)
       }).catch((e:any) => {console.log(e);setStep(1);})
      
     }
@@ -84,9 +86,9 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
       console.log(res)
       setTnxCompleted(true)
       const link = getExplorerLink(chainId,'0xf5dbc2b3d2ffad6903b395fa6d392ddbaa7250e255bb9f9259f4385e38a290f8','transaction')
-      debugger;
+      // debugger;
       setExplorerLink(link)
-    })
+    }).catch((e)=>setTnxCompleted(true))
   }
 
     return (
@@ -218,7 +220,9 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
                 </div>
                 <div className="flex-wrap d-flex align-items-center justify-content-between helper-txt fw-600 ft-14 top-space-lg">
                   <div>Estimated Transaction Fee</div>
-                  <div className="warning-color fw-700 ">$26.66</div>
+                  <div className="warning-color fw-700 ">
+                    <NumberFormat thousandSeparator prefix='$ ' value={expectedGas * boneUSDValue} />
+                  </div>
                 </div>
               </div>
               <div>
