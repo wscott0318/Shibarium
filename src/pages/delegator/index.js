@@ -72,8 +72,8 @@ export default function delegator() {
             </div>
           </div>
           <div className='container'>
-      <div className='outer-table mb-4 mb-lg-5'>
-        <table className='data-table'>
+      <div className='table-wrap table-responsive mb-4 mb-lg-5'>
+        <table className='table'>
           <thead>
           <tr className='table-header'>
             <th>Name</th>

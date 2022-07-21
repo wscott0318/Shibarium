@@ -14,8 +14,8 @@ export default function ListView({ validatorsList }: { validatorsList: any }) {
         <>
             <DelegatePopup show={modalShow} data={selectedRow}
                 onHide={() => setModalShow(false)} />
-            <div className="mb-4 outer-table mb-lg-5">
-              <table className="data-table">
+            <div className="mb-4 table-wrap table-responsive mb-lg-5">
+              <table className="table">
                 <thead>
                   <tr className="table-header">
                     <th className="cell-width-lg">Name</th>

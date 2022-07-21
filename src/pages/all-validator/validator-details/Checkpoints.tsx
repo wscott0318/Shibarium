@@ -37,8 +37,8 @@ const Checkpoints:React.FC<Props> = ({ allCheckpoints,boneUsdValue }) => {
                     </Nav.Item>
                 </Nav>
             </div>
-            <div className="mb-4 border-table outer-table mb-lg-5">
-                <table className="data-table">
+            <div className="mb-4 table-wrap table-responsive mb-lg-5">
+                <table className="table">
                     <thead>
                         <tr className="table-header">
                             <th>Checkpoint</th>
