@@ -276,7 +276,7 @@ export default function Header() {
               onClick={(e) => removeDblockClass(e)}
             >
               <div className="widg-col cus-dd">
-                <NavDropdown className="light-text" title="App" id="">
+                <NavDropdown className="light-text dd-ico" title="App" id="">
                   <NavDropdown.Item href="/balance">
                     <h6 className="fw-600 light-text left-border">
                       Shibarium Wallet
