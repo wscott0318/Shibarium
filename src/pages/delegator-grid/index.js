@@ -57,15 +57,15 @@ export default function DelegatorGrid() {
                                 </Dropdown.Menu>
                             </Dropdown>
                         </div>
-                        <div className='d-inline-block'>
-                            <a href="javascript:void(0);" title="" className='view-blk me-2 view-active'>
+                        <div className='d-inline-flex'>
+                            <div className='view-blk me-2 view-active'>
                                 <img className="grey-image" src="../../assets/images/grid-grey.png" width={26} height={19} alt=""></img>
                                 <img className="white-image" src="../../assets/images/grid-white.png" width={26} height={19} alt=""></img>
-                            </a>
-                            <a href="javascript:void(0);" title="" className='view-blk'>
+                            </div>
+                            <div className='view-blk'>
                                 <img className="grey-image" src="../../assets/images/list-grey.png" width={26} height={19} alt=""></img>
                                 <img className="white-image" src="../../assets/images/list-white.png" width={26} height={19} alt=""></img>
-                            </a>
+                            </div>
                         </div>
                     </div>
                 </div>

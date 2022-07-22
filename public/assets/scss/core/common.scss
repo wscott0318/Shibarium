@@ -566,6 +566,7 @@ color:$green-color;
     vertical-align: middle;
     line-height: 49px;
     margin-right: 20px;
+    overflow: hidden;
 }
 .warning-color{
     color:$primary;
@@ -2267,4 +2268,9 @@ input[type=number]::-webkit-outer-spin-button {
 
 .break-word{
     word-break: break-all;
+}
+.round-blk, .circle-blk{
+    img{
+        display: inline-block;
+    }
 }
