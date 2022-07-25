@@ -132,9 +132,9 @@ const BoneStaking = () => {
       </section>
       {/* banner section end */}
       <section className="mb-4 buy-sell-section mb-lg-5">
-        <NetworkDetails />
         <div className="container">
-          <bannerCard />
+        <NetworkDetails />
+          {/* <BannerCard /> */}
         </div>
       </section>
       <section className="mb-4 mb-lg-5">

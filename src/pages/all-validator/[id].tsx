@@ -82,7 +82,7 @@ export default function ValidatorDetails() {
                                 <div className="mb-4 cus-panel h-100">
                                     <div className="panel-header">
                                         <h4 className='mb-0 fwb trs-3'>Validator Info</h4>
-                                       {!validatorInfo?.status ? <div className='badge-md primary-bg'>
+                                       {validatorInfo?.uptimePercent === 0 ? <div className='badge-md primary-bg'>
                                             <span className='trs-1'>Inactive</span>
                                         </div>
                                         : 
