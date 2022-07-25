@@ -15,8 +15,8 @@ export function commission(reqBody:any){
 export function withdrawReward(reqBody:any){
     return http.post(`validator/withdrawRewards`,reqBody)
 }
-export function unbound(){
-    return http.get(`validator/list`)
+export function unbound(body:any){
+    return http.post(`unbond`,body)
 }
 export function getBoneUSDValue(coinId:string){
     return http.get(`/coins/rate/${coinId}`)

@@ -12,7 +12,7 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
     const [pageIndex, setPageIndex] = useState(1)
     useEffect(() => {
         if (allDelegators) {
-            allDelegators.slice()
+            setDelegators(allDelegators.slice(0,pageSize))
         }
     }, [allDelegators])
 
@@ -61,10 +61,10 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
                                     </td>
                                     <td>
                                         <span className="tb-data align">
-                                            <NumberFormat displayType='text' thousandSeparator value={(+item.delegatedAmount).toFixed(8)} />
+                                            <NumberFormat displayType='text' thousandSeparator value={(item.stake/Math.pow(10,18))} />
                                         </span>
                                         <span className="tb-data-sm align">
-                                        <NumberFormat displayType='text' prefix='$ ' thousandSeparator value={(item.delegatedAmount * boneUsdValue).toFixed(2)} />
+                                        <NumberFormat displayType='text' prefix='$ ' thousandSeparator value={(item.stake/Math.pow(10,18) * boneUsdValue).toFixed(2)} />
                                         </span>
                                     </td>
                                 </tr>

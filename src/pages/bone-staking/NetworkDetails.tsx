@@ -126,10 +126,10 @@ const {account}=useActiveWeb3React()
                 <div className="bs-card card">
                   <h3 className="fwb d-flex align-items-center">
                     <span>
-                    <NumberFormat thousandSeparator displayType={"text"} value={networkDetails?.heimdallHeight || 0}/>
+                    <NumberFormat thousandSeparator displayType={"text"} value={networkDetails?.lastCheckpointId || 0}/>
                     </span>
                     <span className="ms-2 primary-badge trsn-3 badge-md fs-12">
-                      <span className="trs-2">{networkDetails?.averageInterval || '0'} ago</span>
+                      <span className="trs-2">{networkDetails?.lastCheckpointInterval || '0'} ago</span>
                     </span>
                   </h3>
                   <div className="card-hr"></div>
@@ -139,7 +139,7 @@ const {account}=useActiveWeb3React()
               <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                   <h3 className="fwb d-flex align-items-center">
-                    <span>{networkDetails?.lastCheckpointInterval}</span>
+                    <span>{networkDetails?.averageInterval}</span>
                   </h3>
                   <div className="card-hr"></div>
                   <span className="mb-0 trs-3">Checkpoint Interval</span>

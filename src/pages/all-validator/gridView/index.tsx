@@ -26,7 +26,7 @@ export default function ValidatorGrid({ validatorsList }: { validatorsList: any 
                                                     <div className='box-head'>
                                                         <div className='d-flex align-items-center justify-content-start'>
                                                             <div>
-                                                                <span > <img  height={20} src={validator.logoUrl} alt="logo" className='me-3'/></span>
+                                                                <span > <img  style={{height:50, width:50}} src={!validator.logoUrl? "../../assets/images/fundbaron.png":validator.logoUrl} alt="logo" className='me-3'/></span>
                                                             </div>
                                                             <div className='fw-700'>
                                                                 <span className='vertical-align'>

@@ -8,6 +8,6 @@ export function restake(reqBody:DelegatorReStakeFormInterface){
     return http.post(`delegator/restakeRewards`,reqBody)
 }
 
-export function unbound(bridgeType:string){
-    return http.get(`unbond/${bridgeType}`)
+export function unbound(body:any){
+    return http.post(`unbond`,body)
 }

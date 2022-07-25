@@ -3,7 +3,7 @@ import { Modal, OverlayTrigger, Button, Tooltip } from "react-bootstrap";
 
 import { useFormik, FormikProps, ErrorMessage, Field, FormikProvider } from "formik";
 import * as Yup from "yup";
-import { restake, withdrawRewardDelegator } from "../../services/apis/delegator";
+import { restake, unbound, withdrawRewardDelegator } from "../../services/apis/delegator";
 
 import { UserType } from "../../enums/UserType";
 import { CommissionRateInterface, WithdrawInterface } from "../../interface/reTakeFormInterface";
@@ -316,6 +316,17 @@ const DelegatorAccount = ({ balance, boneUSDValue,userType }: WalletBalanceProps
               </div>
               <div className="mb-3 col-sm-6 mb-sm-0">
                 <a
+                onClick={()=>{
+                  unbound({address: account}).then((res:any) =>{
+                    setLoading(false);
+                    setToastType('success')
+                    setToastMessage(res.data.message);
+                  }).catch((e)=>{
+                    setLoading(false);
+                    setToastType('error')
+                    setToastMessage(e?.response?.data?.message);
+                  })
+                }}
                   href="javascript:void(0)"
                   className="btn warning-btn border-btn light-text w-100"
                 >

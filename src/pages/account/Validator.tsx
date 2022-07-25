@@ -3,7 +3,7 @@ import { Modal, OverlayTrigger, Button, Tooltip } from "react-bootstrap";
 
 import { useFormik, FormikProps, ErrorMessage, Field, FormikProvider } from "formik";
 import * as Yup from "yup";
-import { commission, restake, withdrawReward } from "../../services/apis/validator";
+import { commission, restake, unbound, withdrawReward } from "../../services/apis/validator";
 import { withdrawRewardDelegator } from "../../services/apis/delegator";
 
 import { useUserType } from '../../state/user/hooks';
@@ -201,7 +201,6 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                     placeholder="Enter Validator address"
                     id="validatorAddress"
                     name="validatorAddress"
-                    readOnly
                     onChange={retakeFormik.handleChange}
                     value={retakeFormik.values.validatorAddress}
                   />
@@ -291,7 +290,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                   id="validatorAddress"
                   name="validatorAddress"
                   onChange={commiFormik.handleChange}
-                  disabled
+                  
                   value={commiFormik.values.validatorAddress}
                   placeholder="Enter Validator address"
                 />
@@ -401,6 +400,17 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
               </div>
               <div className="mb-3 col-sm-6 mb-sm-0">
                 <a
+                onClick={()=>{
+                  unbound({address: account}).then((res:any) =>{
+                    setLoading(false);
+                    setToastType('success')
+                    setToastMessage(res.data.message);
+                  }).catch((e)=>{
+                    setLoading(false);
+                    setToastType('error')
+                    setToastMessage(e?.response?.data?.message);
+                  })
+                }}
                   href="javascript:void(0)"
                   className="btn warning-btn border-btn light-text w-100"
                 >

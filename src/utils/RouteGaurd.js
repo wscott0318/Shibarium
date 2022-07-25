@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useMoralis } from 'react-moralis';
 
 export { RouteGuard };
 
 function RouteGuard({ children }) {
+   const {user} = useMoralis();
     const router = useRouter();
     const [authorized, setAuthorized] = useState(false);
     useEffect(() => {
@@ -27,10 +29,10 @@ function RouteGuard({ children }) {
     }, []);
       
     function authCheck(url) {
-        var isLoggedIn=localStorage.getItem('isLoggedIn')
-
+        var isLoggedIn= user?.get("ethAddress")
+// console.log(user)
         // redirect to login page if accessing a private page and not logged in 
-        const publicPaths = ['/dashboard','/balance'];
+        const publicPaths = ['/dashboard','/balance','/account'];
         const path = url.split('?')[0];
         // console.log(path)
         if (!isLoggedIn && publicPaths.includes(path)) {
