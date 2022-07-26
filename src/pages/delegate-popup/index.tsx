@@ -15,6 +15,7 @@ import { parseUnits } from '@ethersproject/units';
 
 import { getExplorerLink } from 'app/functions';
 import { ChainId } from '@shibarium/core-sdk';
+import ToastNotify from 'pages/components/ToastNotify';
 
 
 const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
@@ -24,7 +25,8 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
  const [boneUSDValue, setBoneUSDValue] = useState<number>(0);
  const [expectedGas, setExpectedGas] = useState<number>(0);
  const [explorerLink, setExplorerLink] = useState<string>('')
- const [openSnackbar, closeSnackbar] = useSnackbar()
+ const [msgType, setMsgType] = useState<'error'|'success'|undefined>()
+ const [toastMassage, setToastMassage] = useState('')
  const {account,chainId} = useActiveWeb3React()
  const web3  = useLocalWeb3()
 
@@ -54,45 +56,58 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
   }
   const approveHandler = ()=>{
     if (!amount || !(amount > 0)) {
-      openSnackbar('Amount must be greater than 0')
+      setToastMassage('Amount must be greater than 0');
+      setMsgType('error')
+      return;
+    }
+    if ((amount > walletBalance)) {
+      setToastMassage(`Enter smaller amount, max allowed: ${walletBalance.toFixed(4)} BONE`);
+      setMsgType('error')
       return;
     }
     setTnxCompleted(false)
-    if (web3) {
-      const currentChain:ChainId = chainId || ChainId.SHIBARIUM;
-     const bone = new web3.eth.Contract(boneAbi,ENV_CONFIGS[currentChain].BONE);
-    //  const val = web3.utils.toBN(amount*Math.pow(10,18))
-     const val = parseUnits(amount.toString(),18)
- web3.eth.sendTransaction({
-      from: account,
-      to: ENV_CONFIGS[currentChain].BONE,
-      data: bone.methods.approve(ENV_CONFIGS[currentChain].STAKE_MANAGER, val).encodeABI()
-      }).then((res:any) =>{
-        // setStep(2)
-        setTnxCompleted(true)
-      }).catch((e:any) => {console.log(e);setStep(1);})
-     
-    }
+    // if (web3) {
+    //   const currentChain: ChainId = chainId || ChainId.SHIBARIUM;
+    //   const bone = new web3.eth.Contract(boneAbi, ENV_CONFIGS[currentChain].BONE);
+    //   //  const val = web3.utils.toBN(amount*Math.pow(10,18))
+    //   const val = parseUnits(amount.toString(), 18)
+    //   web3.eth.sendTransaction({
+    //     from: account,
+    //     to: ENV_CONFIGS[currentChain].BONE,
+    //     data: bone.methods.approve(ENV_CONFIGS[currentChain].STAKE_MANAGER, val).encodeABI()
+    //   }).then((res: any) => {
+    //     // setStep(2)
+    //     setTnxCompleted(true)
+    //   }).catch((e: any) => { console.log(e); setStep(1); })
+    // }
+    setTimeout(() => {
+      setTnxCompleted(true)
+    }, 1000);
     setStep(2)
   }
   const buyVouchers = () =>{
    const requestBody = {
-      validatorAddress: data.signer,
+      validatorAddress: data.owner,
       delegatorAddress: account,
       amount:amount
       
     }
     setTnxCompleted(false)
     buyVoucher(requestBody).then(res =>{
-      console.log(res)
       setTnxCompleted(true)
-      const link = getExplorerLink(chainId,'0xf5dbc2b3d2ffad6903b395fa6d392ddbaa7250e255bb9f9259f4385e38a290f8','transaction')
-      // debugger;
+      setToastMassage(res?.data?.message);
+      setMsgType('success')
+      const link = getExplorerLink(chainId,res?.data?.data?.transactionHash,'transaction')
       setExplorerLink(link)
-    }).catch((e)=>setTnxCompleted(true))
+    }).catch((e)=>{
+      setToastMassage(e?.response?.data?.message);
+      setMsgType('error')
+      setTnxCompleted(true);setStep(2)})
   }
 
     return (
+      <>
+      <ToastNotify toastMassage={toastMassage} type={msgType} />
       <Modal
         {...props}
         onHide={closeModal}
@@ -222,7 +237,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
                 <div className="flex-wrap d-flex align-items-center justify-content-between helper-txt fw-600 ft-14 top-space-lg">
                   <div>Estimated Transaction Fee</div>
                   <div className="warning-color fw-700 ">
-                    <NumberFormat thousandSeparator prefix='$ ' value={expectedGas * boneUSDValue} />
+                    <NumberFormat thousandSeparator prefix='$ ' displayType='text' value={(expectedGas * boneUSDValue).toFixed(4)} />
                   </div>
                 </div>
               </div>
@@ -290,6 +305,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
           ):null}
         </Modal.Body>
       </Modal>
+      </>
     );
 }
 
