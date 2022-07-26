@@ -1,16 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useRef, useState, useEffect } from "react";
-import Header from "../layout/header";
-import {
-  Container,
-  Navbar,
-  Nav,
-  NavItem,
-  NavDropdown,
-  MenuItem,
-} from "react-bootstrap";
-import { Dropdown } from "react-bootstrap";
+import React, { useState } from "react";
+import { Nav} from "react-bootstrap";
 import DogTab from './dogTabfirst';
 import DogTabfirst from './dogTabsecond';
 
@@ -64,17 +55,17 @@ export default function faucet() {
           </div>
           <div className="container">
             <div className="row">
-              <div className="col-lg-8 col-xl-6 mx-auto">
-                <div className="cus-tabs nav-wrap tab-50 darkBg p-4 rad-10">
+              <div className="mx-auto col-lg-8 col-xl-6">
+                <div className="p-4 cus-tabs nav-wrap tab-50 darkBg rad-10">
                   <h3 className="fwb">Get Test Tokens</h3>
                   <p>
                     This faucet transfers TestToken on BONE testnets and parent
                     chain. Confirm details before submitting.
                   </p>
 
-                  <h6 className="fwb mb-2">Network</h6>
+                  <h6 className="mb-2 fwb">Network</h6>
                   <Nav
-                    className=" mb-4 mb-lg-5"
+                    className="mb-4 mb-lg-5"
                     variant="pills"
                     defaultActiveKey="/tab-1"
                   >
@@ -103,7 +94,7 @@ export default function faucet() {
 
                   {/* Withdraw tab start */}
                   <div className="tab-content-wrap">
-                    <div className="btn-wrap pt-3">
+                    <div className="pt-3 btn-wrap">
                       <button type="button" className="btn gradient_btn w-100">
                         <span>SUBMIT</span>
                       </button>
@@ -118,7 +109,7 @@ export default function faucet() {
       </div>
       <footer className="main-footer">
         <div className="container">
-          <div className="copyright mt-4 mt-lg-5">
+          <div className="mt-4 copyright mt-lg-5">
             <h3 className="mb-0 text-center fwb">Powered by xFund.</h3>
           </div>
         </div>
