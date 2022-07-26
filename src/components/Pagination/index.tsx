@@ -51,10 +51,10 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
                             </li>
                             {paginationRange.map((pageNumber: any) => {
                                 if (pageNumber === DOTS) {
-                                    return <li className="pagination-item dots">&#8230;</li>;
+                                    return <li key={pageNumber} className="pagination-item dots">&#8230;</li>;
                                 }
                                 return (
-                                    <li className={`page-item ${pageNumber === currentPage ? 'active':''}`} onClick={() => onPageChange(pageNumber)}>
+                                    <li key={pageNumber} className={`page-item ${pageNumber === currentPage ? 'active':''}`} onClick={() => onPageChange(pageNumber)}>
                                         <a className="page-link" href="#">
                                             <span>{pageNumber}</span>
                                         </a>
