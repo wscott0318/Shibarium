@@ -16,7 +16,7 @@ export default function widgetDashboard() {
                             </div>
                             <div className="right-widget">
                                 <form action="" className='inline-form'>
-                                    <a href="javascript:void(0)" className='btn warning-btn'>
+                                    <a href="#!" className='btn warning-btn'>
                                         <span>Connect To A Wallet</span>
                                     </a>
                                 </form>
@@ -29,7 +29,7 @@ export default function widgetDashboard() {
                         <div className="row">
                             <div className="col-md-6 mb-4 mb-md-0">
                                 <h6 className='fwb mb-4'>Your Widget</h6>
-                                <a href="javascript:void(0)" className='file-control w-100 text-center'>
+                                <a href="#!" className='file-control w-100 text-center'>
                                     <img src="../../assets/images/plus-btn.png" alt="add-img" className="img-fluid" width={13}/>
                                     <span>New</span>
                                 </a>

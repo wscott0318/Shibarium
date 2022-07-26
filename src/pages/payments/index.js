@@ -34,7 +34,7 @@ export default function login() {
                 <div className='col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 side-space'>
                     <div className='box'>
                         <div className='box-head'>
-                            <a  href="javascript:void(0);" onClick={() => setModalShow(true)} title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
+                            <a  href="#!;" onClick={() => setModalShow(true)} title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
                             <div className='d-flex align-items-center justify-content-start'>
                                 <div className='round-blk'>
                                     <img src="../../assets/images/wyre.png" width={30} height={30} alt=""></img>
@@ -49,7 +49,7 @@ export default function login() {
                 <div className='col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 side-space'>
                 <div className='box'>
                         <div className='box-head'>
-                             <a  href="javascript:void(0);" onClick={() => setModalSend(true)} title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
+                             <a  href="#!;" onClick={() => setModalSend(true)} title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
                             <div className='d-flex align-items-center justify-content-start'>
                                 <div className='round-blk'>
                                     <img src="../../assets/images/onpay.png" width={30} height={30} alt=""></img>
@@ -64,7 +64,7 @@ export default function login() {
                 <div className='col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 side-space'>
                 <div className='box'>
                         <div className='box-head'>
-                            <a  href="javascript:void(0);" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
+                            <a  href="#!;" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
                             <div className='d-flex align-items-center justify-content-start'>
                                 <div className='round-blk'>
                                     <img src="../../assets/images/simplex.png" width={36} height={36} alt=""></img>
@@ -79,7 +79,7 @@ export default function login() {
                 <div className='col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 side-space'>
                 <div className='box'>
                         <div className='box-head'>
-                            <a  href="javascript:void(0);" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
+                            <a  href="#!;" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
                             <div className='d-flex align-items-center justify-content-start'>
                                 <div className='round-blk'>
                                     <img src="../../assets/images/banxa.png" width={30} height={30} alt=""></img>
@@ -94,7 +94,7 @@ export default function login() {
                 <div className='col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 side-space'>
                 <div className='box'>
                         <div className='box-head'>
-                            <a  href="javascript:void(0);" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
+                            <a  href="#!;" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
                             <div className='d-flex align-items-center justify-content-start'>
                                 <div className='round-blk'>
                                     <img src="../../assets/images/dharma.png" width={30} height={30} alt=""></img>
@@ -109,7 +109,7 @@ export default function login() {
                 <div className='col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 side-space'>
                 <div className='box'>
                         <div className='box-head'>
-                            <a  href="javascript:void(0);" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
+                            <a  href="#!;" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
                             <div className='d-flex align-items-center justify-content-start'>
                                 <div className='round-blk'>
                                     <img src="../../assets/images/transak.png" width={30} height={30} alt=""></img>
@@ -124,7 +124,7 @@ export default function login() {
                 <div className='col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 side-space'>
                 <div className='box'>
                         <div className='box-head'>
-                            <a  href="javascript:void(0);" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
+                            <a  href="#!;" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
                             <div className='d-flex align-items-center justify-content-start'>
                                 <div className='round-blk'>
                                     <img src="../../assets/images/mew.png" width={30} height={30} alt=""></img>
@@ -139,7 +139,7 @@ export default function login() {
                 <div className='col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 side-space'>
                 <div className='box'>
                         <div className='box-head'>
-                            <a  href="javascript:void(0);" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
+                            <a  href="#!;" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
                             <div className='d-flex align-items-center justify-content-start'>
                                 <div className='round-blk'>
                                     <img src="../../assets/images/pillar.png" width={30} height={30} alt=""></img>
@@ -154,7 +154,7 @@ export default function login() {
                 <div className='col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 side-space'>
                     <div className='box'>
                         <div className='box-head'>
-                            <a  href="javascript:void(0);" onClick={() => setModalShow(true)} title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
+                            <a  href="#!;" onClick={() => setModalShow(true)} title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
                             <div className='d-flex align-items-center justify-content-start'>
                                 <div className='round-blk'>
                                     <img src="../../assets/images/wyre.png" width={30} height={30} alt=""></img>
@@ -169,7 +169,7 @@ export default function login() {
                 <div className='col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 side-space'>
                 <div className='box'>
                         <div className='box-head'>
-                             <a  href="javascript:void(0);" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
+                             <a  href="#!;" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
                             <div className='d-flex align-items-center justify-content-start'>
                                 <div className='round-blk'>
                                     <img src="../../assets/images/onpay.png" width={30} height={30} alt=""></img>
@@ -184,7 +184,7 @@ export default function login() {
                 <div className='col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 side-space'>
                 <div className='box'>
                         <div className='box-head'>
-                            <a  href="javascript:void(0);" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
+                            <a  href="#!;" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
                             <div className='d-flex align-items-center justify-content-start'>
                                 <div className='round-blk'>
                                     <img src="../../assets/images/simplex.png" width={36} height={36} alt=""></img>
@@ -199,7 +199,7 @@ export default function login() {
                 <div className='col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 side-space'>
                 <div className='box'>
                         <div className='box-head'>
-                            <a  href="javascript:void(0);" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
+                            <a  href="#!;" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
                             <div className='d-flex align-items-center justify-content-start'>
                                 <div className='round-blk'>
                                     <img src="../../assets/images/banxa.png" width={30} height={30} alt=""></img>
@@ -214,7 +214,7 @@ export default function login() {
                 <div className='col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 side-space'>
                 <div className='box'>
                         <div className='box-head'>
-                            <a  href="javascript:void(0);" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
+                            <a  href="#!;" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
                             <div className='d-flex align-items-center justify-content-start'>
                                 <div className='round-blk'>
                                     <img src="../../assets/images/dharma.png" width={30} height={30} alt=""></img>
@@ -229,7 +229,7 @@ export default function login() {
                 <div className='col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 side-space'>
                 <div className='box'>
                         <div className='box-head'>
-                            <a  href="javascript:void(0);" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
+                            <a  href="#!;" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
                             <div className='d-flex align-items-center justify-content-start'>
                                 <div className='round-blk'>
                                     <img src="../../assets/images/transak.png" width={30} height={30} alt=""></img>
@@ -244,7 +244,7 @@ export default function login() {
                 <div className='col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 side-space'>
                 <div className='box'>
                         <div className='box-head'>
-                            <a  href="javascript:void(0);" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
+                            <a  href="#!;" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
                             <div className='d-flex align-items-center justify-content-start'>
                                 <div className='round-blk'>
                                     <img src="../../assets/images/mew.png" width={30} height={30} alt=""></img>
@@ -259,7 +259,7 @@ export default function login() {
                 <div className='col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 side-space'>
                 <div className='box'>
                         <div className='box-head'>
-                            <a  href="javascript:void(0);" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
+                            <a  href="#!;" title="" className='circle-blk'><img src="../../assets/images/white-arrow.png" width={12} height={9} alt="white-arrow"></img></a>
                             <div className='d-flex align-items-center justify-content-start'>
                                 <div className='round-blk'>
                                     <img src="../../assets/images/pillar.png" width={30} height={30} alt=""></img>

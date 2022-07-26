@@ -79,7 +79,7 @@ export default function faucet() {
                     defaultActiveKey="/tab-1"
                   >
                     <Nav.Item onClick={handleTopdoG}>
-                      <Nav.Link href="javascript:void(0)"  className={`${isTopdoG?"active":""}`}>
+                      <Nav.Link href="#!"  className={`${isTopdoG?"active":""}`}>
                         <span className="trs-2">TOPDOG</span>
                       </Nav.Link>
                     </Nav.Item>

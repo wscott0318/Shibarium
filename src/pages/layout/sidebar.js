@@ -46,7 +46,7 @@ export default function Sidebar(props) {
         >
           {/* <button className='d-xl-none' >close</button> */}
           <a
-            href="javascript:void(0)"
+            href="#!"
             onClick={handlClick}
             className="d-xl-none close-icon"
           >
@@ -216,7 +216,7 @@ export default function Sidebar(props) {
               </Link>
             </li>
             <li className="nav-item">
-              <a href="javascript:void(0)" className="nav-link">
+              <a href="#!" className="nav-link">
                 <span className="nav-icon">
                   <img
                     className="img-fluid dark-ico"
@@ -233,7 +233,7 @@ export default function Sidebar(props) {
               </a>
             </li>
             <li className="nav-item">
-              <a href="javascript:void(0)" className="nav-link">
+              <a href="#!" className="nav-link">
                 <span className="nav-icon">
                   <img
                     className="img-fluid dark-ico"
@@ -250,7 +250,7 @@ export default function Sidebar(props) {
               </a>
             </li>
             <li className="nav-item">
-              <a href="javascript:void(0)" className="nav-link">
+              <a href="#!" className="nav-link">
                 <span className="nav-icon">
                   <img
                     className="img-fluid dark-ico"
@@ -267,7 +267,7 @@ export default function Sidebar(props) {
               </a>
             </li>
             <li className="nav-item">
-              <a href="javascript:void(0)" className="nav-link">
+              <a href="#!" className="nav-link">
                 <span className="nav-icon">
                   <img
                     className="img-fluid dark-ico"
@@ -284,7 +284,7 @@ export default function Sidebar(props) {
               </a>
             </li>
             <li className="nav-item">
-              <a href="javascript:void(0)" className="nav-link">
+              <a href="#!" className="nav-link">
                 <span className="nav-icon">
                   <img
                     className="img-fluid dark-ico"
@@ -301,7 +301,7 @@ export default function Sidebar(props) {
               </a>
             </li>
             <li className="nav-item">
-              <a href="javascript:void(0)" className="nav-link">
+              <a href="#!" className="nav-link">
                 <span className="nav-icon">
                   <img
                     className="img-fluid dark-ico"

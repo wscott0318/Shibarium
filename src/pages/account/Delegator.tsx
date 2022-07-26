@@ -308,7 +308,7 @@ const DelegatorAccount = ({ balance, boneUSDValue,userType }: WalletBalanceProps
             <div className="pt-4 row">
               <div className="mb-3 col-sm-6 mb-sm-0">
                 <a
-                  href="javascript:void(0)"
+                  href="#!"
                   className="btn bordered-btn light-text w-100"
                 >
                   <span>Cancel</span>
@@ -327,7 +327,7 @@ const DelegatorAccount = ({ balance, boneUSDValue,userType }: WalletBalanceProps
                     setToastMessage(e?.response?.data?.message);
                   })
                 }}
-                  href="javascript:void(0)"
+                  href="#!"
                   className="btn warning-btn border-btn light-text w-100"
                 >
                   <span>Confirm</span>

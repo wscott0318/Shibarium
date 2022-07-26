@@ -39,7 +39,7 @@ function StepFour({activInput,handleEdit}:any) {
                                 </label>
                                 <a
                                     className="primary-text trs-3"
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     onClick={() => handleEdit("name")}
                                 >
                                     Edit
@@ -88,7 +88,7 @@ function StepFour({activInput,handleEdit}:any) {
                                 </label>
                                 <a
                                     className="primary-text trs-3"
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     onClick={() => handleEdit("website")}
                                 >
                                     Edit
@@ -136,7 +136,7 @@ function StepFour({activInput,handleEdit}:any) {
                                 </label>
                                 <a
                                     className="primary-text trs-3"
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     onClick={() => handleEdit("comission")}
                                 >
                                     Edit

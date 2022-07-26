@@ -32,22 +32,22 @@ export default function Account() {
             </div>
             <div className="btn-group-row pt-3 pt-sm-4 pb-4 pb-lg-5">
               <div className="btn-col">
-                <a href="javascript:void(0)" onClick={() => setShow(true)} className='btn warning-btn border-btn light-text w-100'>
+                <a href="#!" onClick={() => setShow(true)} className='btn warning-btn border-btn light-text w-100'>
                   <span>Retake</span>
                 </a>
               </div>
               <div className='btn-col'>
-                <a href="javascript:void(0)" onClick={() => showModal(true)} className='btn bordered-btn light-text w-100'>
+                <a href="#!" onClick={() => showModal(true)} className='btn bordered-btn light-text w-100'>
                   <span>Change Commission Rate</span>
                 </a>
               </div>
               <div className='btn-col'>
-                <a href="javascript:void(0)" onClick={() => comShow(true)} className='btn bordered-btn light-text w-100'>
+                <a href="#!" onClick={() => comShow(true)} className='btn bordered-btn light-text w-100'>
                   <span>Withdraw Rewards</span>
                 </a>
               </div>
               <div className='btn-col'>
-                <a href="javascript:void(0)" onClick={() => bondShow(true)} className='btn bordered-btn light-text w-100'>
+                <a href="#!" onClick={() => bondShow(true)} className='btn bordered-btn light-text w-100'>
                   <span>Unbound</span>
                 </a>
               </div>
@@ -164,10 +164,10 @@ export default function Account() {
                 <h3 className='mb-4 px-4 text-center'><span className='trs-3'>Are you sure you want to unbound?</span></h3>
                 <div className="row pt-4">
                   <div className="col-sm-6">
-                    <a href="javascript:void(0)" className="btn bordered-btn light-text w-100"><span>Cancel</span></a>
+                    <a href="#!" className="btn bordered-btn light-text w-100"><span>Cancel</span></a>
                   </div>
                   <div className="col-sm-6">
-                    <a href="javascript:void(0)" className="btn warning-btn border-btn light-text w-100"><span>Confirm</span></a>
+                    <a href="#!" className="btn warning-btn border-btn light-text w-100"><span>Confirm</span></a>
                   </div>
                 </div>
             </Modal.Body>

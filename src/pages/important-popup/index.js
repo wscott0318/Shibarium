@@ -28,7 +28,7 @@ export default function ImportantPopup(props) {
         className="text-center position-relative d-none"
       >
         <div className="back-blk">
-          <a href="javascript:void(0);" title="">
+          <a href="#!;" title="">
             <img
               clasName="img-fluid"
               src="../../assets/images/left-icon.png"
@@ -90,7 +90,7 @@ export default function ImportantPopup(props) {
                 <p className="fw-600">
                   Please click{" "}
                   <b>
-                    <a href="javascript:void(0);" title="">
+                    <a href="#!;" title="">
                       here
                     </a>
                   </b>{" "}

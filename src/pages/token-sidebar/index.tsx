@@ -22,7 +22,7 @@ function ShibaSidebar(props:any) {
           }
           ref={wrapperRef}
         >
-            <a href="javascript:void(0)" className="close-icon" onClick={handlClick}>
+            <a href="#!" className="close-icon" onClick={handlClick}>
                 <img className="img-fluid" src="../../assets/images/download.svg" alt="" />
             </a>
             <div className="side-logo d-none">
@@ -69,7 +69,7 @@ function ShibaSidebar(props:any) {
                     <div className="active-shape">
                         <img className='img-fluid' src="../../assets/images/radius.png" alt="" />
                     </div>
-                    <a href="javascript:void(0)" className="nav-link">
+                    <a href="#!" className="nav-link">
                         <span className='nav-icon'>
                             <img className='img-fluid dark-ico' src="../../assets/images/icons/support-dark.png" alt="side-ico" />
                             <img className='img-fluid light-ico' src="../../assets/images/icons/support.png" alt="side-ico" />

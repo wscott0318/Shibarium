@@ -91,7 +91,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
          {withStatusFilter && <div className="d-flex align-items-center btns-space">
               <div className="me-3">
                 <a
-                  href="javascript:void(0);"
+                  href="#!;"
                   className={`btn black-btn ${isActiveTab ? 'btn-active' : ''}`}
                   title="" onClick={() => { setIsActiveTab(true) }}>
                   <span>ACTIVE</span>
@@ -99,7 +99,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
               </div>
               <div>
                 <a
-                  href="javascript:void(0);"
+                  href="#!;"
                   className={`btn black-btn ${!isActiveTab ? 'btn-active' : ''}`}
                   title="" onClick={() => { setIsActiveTab(false) }}>
                   <span>INACTIVE</span>

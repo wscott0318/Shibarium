@@ -13,7 +13,7 @@ export default function SendPopup(props) {
         >
           <Modal.Header closeButton className='text-center position-relative'>
               <div className='back-blk'>
-                  <a href="javascript:void(0);" title=''><img clasName="img-fluid" src="../../assets/images/left-icon.png" width="45" height="78" alt=""></img></a>
+                  <a href="#!;" title=''><img clasName="img-fluid" src="../../assets/images/left-icon.png" width="45" height="78" alt=""></img></a>
               </div>
             <Modal.Title id="contained-modal-title-vcenter" className='d-inline-block fw-800 trs-3 '>
               Send

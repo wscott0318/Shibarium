@@ -55,7 +55,7 @@ function StepOne() {
           Queries? If you face any trouble during installation or
           syncing, do share your queries in this{" "}
           <a
-            href="javascript:void(0);"
+            href="#!;"
             className="fw-700 link-color"
             title=""
           >
@@ -63,7 +63,7 @@ function StepOne() {
           </a>{" "}
           or on our{" "}
           <a
-            href="javascript:void(0);"
+            href="#!;"
             className="fw-700 link-color"
             title=""
           >
