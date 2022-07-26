@@ -15,6 +15,7 @@ import PowerChange from './validator-details/PowerChange';
 import AddressDetails from './validator-details/AddressDetails';
 import Link from "next/link";
 import LoadingSpinner from 'pages/components/Loading';
+import ToastNotify from 'pages/components/ToastNotify';
 
 export default function ValidatorDetails() {
     const pageSize = 4; 
@@ -23,6 +24,8 @@ export default function ValidatorDetails() {
     const [allCheckpoints, setAllCheckpoints] = useState<any>([]);
     const [boneUsdValue, setBoneUsdValue] = useState(0);
     const [loading, setLoading] = useState<boolean>(false);
+    const [msgType, setMsgType] = useState<'error'|'success'|undefined>()
+    const [toastMassage, setToastMassage] = useState('')
 
     const [lastBlock, setLastBlock] = useState<any>();
     const [totalSupply, setTotalSupply] = useState<number>(0)
@@ -43,7 +46,8 @@ export default function ValidatorDetails() {
                 // console.log(res?.data?.data?.validatorSet)
                 setLoading(false);
             }).catch((error:any)=> {
-                console.log(error);
+                setToastMassage(error?.response?.data?.message);
+                setMsgType('error')
                 setLoading(false);
             })
         }
@@ -60,6 +64,7 @@ export default function ValidatorDetails() {
             <div className='page-content'>
                 <InnerHeader />
                 {loading && <LoadingSpinner />}
+                <ToastNotify toastMassage={toastMassage} type={msgType} />
                 <section className='py-4 banner-section darkBg py-lg-5'>
                     <div className="container">
                         <div className="row">

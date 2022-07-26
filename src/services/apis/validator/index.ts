@@ -5,7 +5,7 @@ export function validatorsList(){
     return http.get(`validator/getList`)
 }
 export function restake(reqBody:RetakeFormInterface){
-    console.log(reqBody,'asdsa');
+    // console.log(reqBody,'asdsa');
     return http.post(`validator/restake`,reqBody)
 }
 export function commission(reqBody:any){

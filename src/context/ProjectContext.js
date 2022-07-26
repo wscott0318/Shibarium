@@ -11,7 +11,6 @@ export class ProjectContext extends Component {
   };
 
   setAccount=(account)=>{
-      console.log('account-------------------------', account)
       localStorage.removeItem('accounts')
       localStorage.setItem('accounts_context',account)
     this.setState({account})
@@ -23,7 +22,7 @@ export class ProjectContext extends Component {
     this.setState({walletBalance})
   }
   setValidators=(validatorList)=>{
-    console.log('validatorList-------------------------', validatorList)
+    // console.log('validatorList-------------------------', validatorList)
   this.setState({validatorList})
 }
   render() {

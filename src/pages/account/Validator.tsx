@@ -74,7 +74,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
       setLoading(true);
       restake(values)
         .then((res: any) => {
-          console.log("res", res);
+          // console.log("res", res);
           if (res.status == 200) {
             setLoading(false);
             setTranHashCode(res.data.data.transactionHash);
@@ -100,7 +100,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
       setLoading(true);
       commission(values)
         .then((res) => {
-          console.log("res", res);
+          // console.log("res", res);
           if (res.status == 200) {
             setLoading(false);
             setTranHashCode(res.data.data.transactionHash);

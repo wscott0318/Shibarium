@@ -20,18 +20,18 @@ export default function faucet() {
   const [isPuppyDog, setIsPuppyDog] = useState(false);
 
   const handleTopdoG = () => {
-      console.log("handleTopdoG");
+      // console.log("handleTopdoG");
     setIsTopdoG(true);
     setIsPuppyDog(false);
   };
   const handlePuppyDog = () => {
-      console.log("handlePuppyDog");
+      // console.log("handlePuppyDog");
     setIsTopdoG(false);
     setIsPuppyDog(true);
   };
 
-  console.log("isTopdoG",isTopdoG);
-  console.log("isPuppyDog",isPuppyDog);
+  // console.log("isTopdoG",isTopdoG);
+  // console.log("isPuppyDog",isPuppyDog);
   return (
     <>
       {/* <header className='main-header darkBg'>

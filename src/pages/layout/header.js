@@ -84,7 +84,7 @@ export default function Header() {
         setUserType(ut)
       }
     }).catch(e=>{
-      console.log(e);
+      // console.log(e);
       setUserType('NA')
     })
    } catch (error) {
@@ -95,7 +95,7 @@ export default function Header() {
     const { ethereum } = window
     if (ethereum && ethereum.on && !error) {
       const handleConnect = () => {
-        console.log("Connected");
+        // console.log("Connected");
         // activate(injected)
       }
       const handleChainChanged = (chainId) => {
