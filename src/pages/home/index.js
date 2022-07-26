@@ -6,9 +6,9 @@ import { useWeb3React } from "@web3-react/core";
 import  ProjectContext  from "../../context/ProjectContext";
 
 export default function Home() {
-  const {account}=useContext(ProjectContext)
+  // const {account}=useContext(ProjectContext)
   
-  // const { chainId, activate, active,library } = useWeb3React()
+  const { active,deactivate } = useWeb3React()
   // const [accountsAddress, setAccountsAddress] = useState("");
   // useEffect(() => {
   //   setAccountsAddress(localStorage.getItem("accounts"));
@@ -16,11 +16,16 @@ export default function Home() {
   //   console.log('account-home',account)
   // },[account]);
 
-  // useEffect(()=>{
-  //   validators().then(res=>{
-  //     console.log('res', res.data.data.validatorsList)
-  //   })
-  // },[])
+  /**
+   * 
+    useEffect(()=>{
+      let userDetails = localStorage.getItem('ShibariumUser');
+      userDetails = userDetails ? JSON.parse(userDetails)?.objectId: ''
+      if (!userDetails && active) {
+        deactivate()
+      }
+    },[active])
+  */
 
 //  console.log('account---------------', account)
   return (
@@ -265,7 +270,7 @@ export default function Home() {
       {/* main header closed */}
       <footer className="main-footer">
         <div className="container">
-          <div className="my-3 copyright my-4">
+          <div className="my-3 my-4 copyright">
             <h3 className="mb-0 text-center fwb">Powered by xFund.</h3>
           </div>
         </div>
