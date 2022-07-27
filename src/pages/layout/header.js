@@ -102,7 +102,7 @@ export default function Header() {
         // if (library) {
         //   sign(account)
         // }
-        // activate(injected)
+        authenticate()
       }
       const handleAccountsChanged = async(accounts) => {
         if (accounts.length > 0) {
@@ -203,13 +203,13 @@ export default function Header() {
                   width={18}
                 />
               </a>
-              <a className="navbar-brand " href="/home">
+              <Link className="navbar-brand " href="/home">
                 <img
                   className="img-fluid"
                   src="../../assets/images/logo.png"
                   alt=""
                 />
-              </a>
+              </Link>
             </div>
             <div ref={wrapperRef} className="active">
               {isOpen ? router.asPath === '/shibatoken' ? < ShibaSidebar isOpen={isOpen}/>: <Sidebar isOpen={isOpen} /> : null}

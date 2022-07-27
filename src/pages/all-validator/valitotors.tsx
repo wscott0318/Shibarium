@@ -151,6 +151,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                       <Dropdown.Menu>
                         <Dropdown.Item onClick={() => onSort('Random', 'name','string')}>Random</Dropdown.Item>
                         <Dropdown.Item onClick={() => onSort('Commission', 'commissionPercent','number')}>Commission</Dropdown.Item>
+                        <Dropdown.Item onClick={() => onSort('Self', 'selfPercent','number')}>Self</Dropdown.Item>
                         <Dropdown.Item onClick={() => onSort('Voting Power', 'totalStaked','number')}>
                           Voting Power
                         </Dropdown.Item>

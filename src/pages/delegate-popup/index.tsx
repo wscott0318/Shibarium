@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
 import { useEthBalance } from "../../hooks/useEthBalance";
 import { BONE_ID, ENV_CONFIGS } from 'app/config/constant';
 import { getBoneUSDValue } from 'app/services/apis/validator';
@@ -16,6 +15,7 @@ import { parseUnits } from '@ethersproject/units';
 import { getExplorerLink } from 'app/functions';
 import { ChainId } from '@shibarium/core-sdk';
 import ToastNotify from 'pages/components/ToastNotify';
+import { useTokenBalance } from 'app/hooks/useTokenBalance';
 
 
 const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
@@ -27,10 +27,11 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
  const [explorerLink, setExplorerLink] = useState<string>('')
  const [msgType, setMsgType] = useState<'error'|'success'|undefined>()
  const [toastMassage, setToastMassage] = useState('')
- const {account,chainId} = useActiveWeb3React()
+ const {account,chainId=1} = useActiveWeb3React()
  const web3  = useLocalWeb3()
 
-  const walletBalance = useEthBalance();
+  const walletBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(ENV_CONFIGS[chainId].BONE);
+  
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then(res=>{
       setBoneUSDValue(res.data.data.price);
@@ -60,11 +61,11 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
       setMsgType('error')
       return;
     }
-    if ((amount > walletBalance)) {
-      setToastMassage(`Enter smaller amount, max allowed: ${walletBalance.toFixed(4)} BONE`);
-      setMsgType('error')
-      return;
-    }
+    // if ((amount > walletBalance)) {
+    //   setToastMassage(`Enter smaller amount, max allowed: ${walletBalance.toFixed(4)} BONE`);
+    //   setMsgType('error')
+    //   return;
+    // }
     setTnxCompleted(false)
     // if (web3) {
     //   const currentChain: ChainId = chainId || ChainId.SHIBARIUM;
