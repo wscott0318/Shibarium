@@ -1,6 +1,5 @@
 import { useActiveWeb3React } from "app/services/web3"
 import { useEffect, useState } from "react"
-import  boneTokenABI  from "../constants/abis/BoneToken.json";
 import Web3 from 'web3';
 import { ERC20_ABI } from "app/constants/abis/erc20";
 

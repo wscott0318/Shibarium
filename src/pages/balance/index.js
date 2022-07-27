@@ -13,11 +13,15 @@ import {
 import Sidebar from "../layout/sidebar";
 import ImportantPopup from "../important-popup";
 import SendPopup from "../send-popup";
-import BalanceTable from "./balance-table"
+import BalanceTable from "./balance-table";
+import {useBoneBalance} from '../../hooks/useBoneBalance';
+
 export default function Balance() {
   const [modalShow, setModalShow] = React.useState(false);
   const [modalSend, setModalSend] = React.useState(false);
-  const [availBalance, setAvailBalance] = useState("0")
+  // const [availBalance, setAvailBalance] = useState("0")
+  const boneBal = useBoneBalance();
+
 
   const handleOnHide = () => {
     setModalShow(false);
@@ -26,9 +30,9 @@ export default function Balance() {
   const handleContinueToSend = () => {
     setModalSend(true);
   };
-  useEffect(()=>{
-    setAvailBalance(localStorage.getItem('balance'))
-  })
+  // useEffect(()=>{
+  //   setAvailBalance(localStorage.getItem('balance'))
+  // })
   return (
     <>
       <ImportantPopup
@@ -56,12 +60,12 @@ export default function Balance() {
                     />
                   </div>
                   <div className="row">
-                    <div className="col-sm-8 text-sm-start text-center">
-                      <h3 className="fw-700 light-text mb-2 mb-sm-4">
+                    <div className="text-center col-sm-8 text-sm-start">
+                      <h3 className="mb-2 fw-700 light-text mb-sm-4">
                         Shibarium Testnet
                       </h3>
-                      <h2 className="light-text low-font-wt mb-2 mb-sm-0">
-                        <span>{` ${(availBalance/Math.pow(10,18)).toFixed(4)}`}</span>
+                      <h2 className="mb-2 light-text low-font-wt mb-sm-0">
+                        <span>{` ${(boneBal).toFixed(4)} BONE`}</span>
                       </h2>
                     </div>
                     <div className="col-sm-4 balance-btns">
@@ -90,7 +94,7 @@ export default function Balance() {
           </div>
           <div className="filter-sec">
             <div className="row align-items-center">
-              <div className="col-lg-5 col-12 mb-3 mb-md-0">
+              <div className="mb-3 col-lg-5 col-12 mb-md-0">
                 <h4 className="fw-700 trs-1">Balance On Shibarium Testnet</h4>
               </div>
               <div className="col-lg-7 col-12 text-md-end">
@@ -127,7 +131,7 @@ export default function Balance() {
                     </label>
                   </div>
                 </div>
-                <div className="search-box d-inline-block position-relative mt-2 mt-sm-0">
+                <div className="mt-2 search-box d-inline-block position-relative mt-sm-0">
                   <input
                     className="cus-search w-100"
                     type="text"
@@ -179,14 +183,14 @@ export default function Balance() {
                   </ul>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-12 text-center text-lg-end mt-3 mt-lg-0">
+              <div className="mt-3 text-center col-lg-3 col-md-12 text-lg-end mt-lg-0">
                 <span className="fw-700">Showing 1-8 of 300</span>
               </div>
             </div>
           </div>
           <footer className="main-footer">
             <div className="container">
-              <div className="copyright mt-4 mt-lg-5">
+              <div className="mt-4 copyright mt-lg-5">
                 <h3 className="mb-0 text-center fwb">Powered by xFund.</h3>
               </div>
             </div>
