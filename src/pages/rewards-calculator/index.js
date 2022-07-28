@@ -123,7 +123,7 @@ const Rewards = () => {
                     decreasing as the locked supply % goes up. This change in
                     locked supply is captured at every checkpoint, and rewards
                     are calculated based on this. The presented results are
-                    based on prediction formulae and we cannot gurantee any kind
+                    based on prediction formulae and we cannot guarantee any kind
                     of accuracy.
                   </p>
                 </div>

@@ -1,0 +1,45 @@
+import CopyHelper from 'app/components/AccountDetails/Copy';
+import React from 'react'
+import { Modal } from 'react-bootstrap'
+
+
+interface props{
+    show:boolean;
+    setShow: React.Dispatch<React.SetStateAction<boolean>>
+    title:string;
+    children:React.ReactNode;
+}
+
+const CommonModal:React.FC<props> = ({show,setShow, title,children})=> {
+  const abc = {show,setShow, title,children};
+  return (
+    <Modal
+    {...abc}
+    centered
+    show={show}
+    onHide={() => setShow(false)}
+    backdrop="static"
+    keyboard={false}
+    className="shib-popup"
+  >
+    <Modal.Header closeButton className="text-center modal-header">
+      <Modal.Title
+        id="contained-modal-title-vcenter"
+        className="d-inline-block fw-800 trs-3"
+      >
+        <span style={{ color: "white" }}>{title}</span>
+      </Modal.Title>
+    </Modal.Header>
+
+    <Modal.Body>
+       {children}
+    </Modal.Body>
+    <Modal.Footer className='text-center d-block'>
+        {/* <button >
+          <CopyHelper toCopy={address}> Copy address </CopyHelper>
+        </button> */}
+    </Modal.Footer>
+  </Modal>
+  )
+}
+export default CommonModal;

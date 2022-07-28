@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useRef, useState, useEffect } from "react";
 import Header from "../layout/header";
+import CommonModal from "../../pages/components/CommonModel";
 import {
   Container,
   Navbar,
@@ -14,7 +15,7 @@ import Sidebar from "../layout/sidebar";
 export default function Dashboard() {
   const [isDeposit, setIsDeposit] = useState(true);
   const [isWithdrw, setIsWithdrw] = useState(false);
-
+  const [showQrModal, setShowQrModal] = useState(false);
   // below is the same as componentDidMount and componentDidUnmount
 
   const handleDeposit = () => {
@@ -206,7 +207,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="btn-wrap pt-3">
-                        <button type="button" className="btn warning-btn w-100">
+                        <button type="button" onClick={() => setShowQrModal(true)} className="btn warning-btn w-100">
                           <span>Transfer</span>
                         </button>
                       </div>
@@ -392,6 +393,13 @@ export default function Dashboard() {
             </div>
           </div>
         </main>
+        <CommonModal
+        title={"My QR Code"}
+        show={showQrModal}
+        setShow={setShowQrModal} 
+         >
+          fsd
+        </CommonModal>
       </div>
     </>
   );
