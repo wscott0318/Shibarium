@@ -15,7 +15,7 @@ import Sidebar from "../layout/sidebar";
 export default function Dashboard() {
   const [isDeposit, setIsDeposit] = useState(true);
   const [isWithdrw, setIsWithdrw] = useState(false);
-  const [showQrModal, setShowQrModal] = useState(false);
+  const [showImportantModal, setImportantModal] = useState(false);
   // below is the same as componentDidMount and componentDidUnmount
 
   const handleDeposit = () => {
@@ -207,7 +207,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="btn-wrap pt-3">
-                        <button type="button" onClick={() => setShowQrModal(true)} className="btn warning-btn w-100">
+                        <button type="button" onClick={() => setImportantModal(true)} className="btn warning-btn w-100">
                           <span>Transfer</span>
                         </button>
                       </div>
@@ -394,11 +394,48 @@ export default function Dashboard() {
           </div>
         </main>
         <CommonModal
-        title={"My QR Code"}
-        show={showQrModal}
-        setShow={setShowQrModal} 
+        title={"Important"}
+        show={showImportantModal}
+        setShow={setImportantModal} 
          >
-          fsd
+          <div className="pop-row">
+            <h3 className="bold-hd">What's supported</h3>
+            <div className="box-wrap">
+              <div class="image-box">
+                <div><img src="../../assets/images/green-tick2.png" alt="" className="img-fluid" width={28} height={28}  /></div>
+              </div>
+              <div>
+                <h4 className="head-sm">Moving funds from Ethereum to Polygon</h4>
+                <p className="sm-txt">Deposits of funds taks place ~ 7-8 minutes</p>
+              </div>
+            </div>
+            
+          </div>
+          <div className="pop-row">
+            <h3 className="bold-hd">What's not supported</h3>
+            <div className="box-wrap">
+              <div class="image-box">
+                <div><img src="../../assets/images/red-cross.png" alt="" className="img-fluid" width={28} height={28}  /></div>
+              </div>
+              <div>
+                <h4 className="head-sm">Delegation to validators</h4>
+                <p className="sm-txt">Delegation/Staking takes place on Ethereum. Do not deposit funds to Polygon for this purpose. To delegate or stake please visit staking ui.</p>
+              </div>
+            </div>
+            
+          </div>
+          <div className="mt-4 d-flex align-items-center justify-content-center flex-column flex-sm-row mob-btns">
+              <div className="mb-3 me-0 me-sm-5 mb-sm-0 btn-box">
+                <button type="button" className="btn bordered-btn light-text w-100">
+                  <span>CANCEL</span>
+                </button>
+              </div>
+              <div className="btn-box">
+                <button type="button" className="btn gradient_btn light-text w-100">
+                  <span>CONTINUE</span>
+                </button>
+              </div>
+            </div>
         </CommonModal>
       </div>
     </>

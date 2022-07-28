@@ -2275,3 +2275,40 @@ input[type=number]::-webkit-outer-spin-button {
         display: inline-block;
     }
 }
+
+/** Popup css start **/
+.box-wrap {
+    display: flex;
+    justify-content: flex-start;
+    margin: 15px 0 0;
+}
+.image-box{
+    margin-right:10px;
+    flex: 0 0 30px;
+    @media #{$max-xsm}{
+        flex: 0 0 20px;
+    }
+}
+.bold-hd {
+    font-size: 24px;
+    font-weight: 700;
+    @media #{$max-xsm}{
+        margin-bottom: 22px;
+    }
+}
+.head-sm {
+    font-size: 18px;
+}
+.sm-txt {
+    font-size: 14px;
+    margin-top: 5px;
+}
+.pop-row {
+    margin-bottom: 30px;
+}
+.pop-row {
+    &:last-child{
+        margin-bottom: 0;
+    }
+}
+/** Popup css end **/

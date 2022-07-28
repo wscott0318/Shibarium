@@ -31,14 +31,14 @@ const CommonModal:React.FC<props> = ({show,setShow, title,children})=> {
       </Modal.Title>
     </Modal.Header>
 
-    <Modal.Body>
+    <Modal.Body className='low-sidespace'>
        {children}
     </Modal.Body>
-    <Modal.Footer className='text-center d-block'>
-        {/* <button >
+    {/* <Modal.Footer className='text-center d-block'>
+        <button >
           <CopyHelper toCopy={address}> Copy address </CopyHelper>
-        </button> */}
-    </Modal.Footer>
+        </button>
+    </Modal.Footer> */}
   </Modal>
   )
 }
