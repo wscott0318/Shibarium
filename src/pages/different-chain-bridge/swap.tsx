@@ -17,7 +17,7 @@ function Swap() {
                         <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
                         <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                     </Dropdown.Menu>
-                    <div>lorem</div>
+                    {/* <div>lorem</div> */}
                     <div className='mt-2 help-txt'>Copy UST token address
                         <span className="primary-badge badge-md ms-2">
                             <span className="fw-600 d-flex align-items-center">

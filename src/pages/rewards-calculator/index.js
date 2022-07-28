@@ -50,7 +50,7 @@ const Rewards = () => {
                   <div className="col-sm-6 col-12 text-sm-start text-center rt-border">
                     <h6 className="fw-700 light-text mb-2 mb-sm-4">
                       <span className="ms-2 align">
-                        Currenct Shiba Tokens Staked %
+                        Current Shiba Tokens Staked %
                       </span>
                     </h6>
                     <h2 className="light-text low-font-wt mb-2 mb-sm-0">

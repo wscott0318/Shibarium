@@ -272,7 +272,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
                   <p className="ft-16 top-space-lg">
                     Ethereum transactions can take longer time to complete based
                     upon network congestion. Please wait for increase the gas
-                    price of the transation
+                    price of the transaction
                   </p>
                 </div>
               </div>
