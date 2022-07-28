@@ -84,7 +84,7 @@ export default function Header() {
         setUserType(ut)
       }
     }).catch(e=>{
-      console.log(e);
+      // console.log(e);
       setUserType('NA')
     })
    } catch (error) {
@@ -95,14 +95,14 @@ export default function Header() {
     const { ethereum } = window
     if (ethereum && ethereum.on && !error) {
       const handleConnect = () => {
-        console.log("Connected");
+        // console.log("Connected");
         // activate(injected)
       }
       const handleChainChanged = (chainId) => {
         // if (library) {
         //   sign(account)
         // }
-        // activate(injected)
+        authenticate()
       }
       const handleAccountsChanged = async(accounts) => {
         if (accounts.length > 0) {
@@ -192,7 +192,7 @@ export default function Header() {
           <div className="container-fluid">
             <div className="d-flex align-items-center">
               <a
-                href="javascript:void(0)"
+                href="#!"
                 className="burger-menu d-xl-none"
                 onClick={handlClick}
               >
@@ -203,13 +203,13 @@ export default function Header() {
                   width={18}
                 />
               </a>
-              <a className="navbar-brand " href="/home" passHref={true}>
+              <Link className="navbar-brand " href="/home">
                 <img
                   className="img-fluid"
                   src="../../assets/images/logo.png"
                   alt=""
                 />
-              </a>
+              </Link>
             </div>
             <div ref={wrapperRef} className="active">
               {isOpen ? router.asPath === '/shibatoken' ? < ShibaSidebar isOpen={isOpen}/>: <Sidebar isOpen={isOpen} /> : null}
@@ -235,15 +235,15 @@ export default function Header() {
                   <a className="nav-link" href="./payments">On Ramp Transfers</a>
                 </li> */}
                 {/* <li className="nav-item">
-                  <a className="nav-link" href="javascript:void(0)">How it Works?</a>
+                  <a className="nav-link" href="#!">How it Works?</a>
                 </li>
                 <li className="nav-item">
-                  <a href="javascript:void(0)" className="nav-link">
+                  <a href="#!" className="nav-link">
                     FAQ
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className='nav-link' href="javascript:void(0)">
+                  <a className='nav-link' href="#!">
                     User Guide
                   </a>
                 </li> */}
@@ -311,14 +311,14 @@ export default function Header() {
               </div>
               {router.pathname == "/dashboard" && (
                 <div className="widg-col">
-                  {/* <a className="btn gradient_btn" href="javascript:void(0)">
+                  {/* <a className="btn gradient_btn" href="#!">
                     <span>Switch to Shibarium</span>
                   </a> */}
                 </div>
               )}
               {router.pathname == "/balance" && (
                 <div className="widg-col ">
-                  {/* <a className="btn gradient_btn" href="javascript:void(0)">
+                  {/* <a className="btn gradient_btn" href="#!">
                     <span>Switch to Shibarium</span>
                   </a> */}
                 </div>

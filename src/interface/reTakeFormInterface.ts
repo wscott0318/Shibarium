@@ -1,6 +1,6 @@
 export interface RetakeFormInterface {
   validatorAddress: string,
-  amount: number;
+  amount: number|'';
   reward: number;
   restakeValidation?: any;
 }

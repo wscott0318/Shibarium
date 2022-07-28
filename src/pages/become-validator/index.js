@@ -189,13 +189,13 @@ const Rewards = () => {
                             <GlobleHeader tab={leftheaderTab}  handleActiveTab={handleActiveTab}/>
                             <ul className="ms-auto navbar-nav header-row">
                                 <li className="nav-item">
-                                    <Nav.Link href="javascript:void(0)">Reward Calculator</Nav.Link>
+                                    <Nav.Link href="#!">Reward Calculator</Nav.Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Nav.Link href="javascript:void(0)">Shiba Explorer</Nav.Link>
+                                    <Nav.Link href="#!">Shiba Explorer</Nav.Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Nav.Link href="javascript:void(0)">FAQ</Nav.Link>
+                                    <Nav.Link href="#!">FAQ</Nav.Link>
                                 </li>
                             </ul>
                         </Navbar.Collapse>

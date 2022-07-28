@@ -21,7 +21,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     const [searchKey, setSearchKey] = useState<string>('');
     const [sortKey, setSortKey] = useState<string>('Random');
   
-    const searchResult = useSearchFilter(validatorsByStatus, searchKey);
+    const searchResult = useSearchFilter(validatorsByStatus, searchKey.trim());
   
     useEffect(() =>{
       const slicedList = searchResult.slice(0, pageSize).sort((a:any, b:any)=> b.stakeAmount - a.stakeAmount)
@@ -91,7 +91,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
          {withStatusFilter && <div className="d-flex align-items-center btns-space">
               <div className="me-3">
                 <a
-                  href="javascript:void(0);"
+                  href="#!;"
                   className={`btn black-btn ${isActiveTab ? 'btn-active' : ''}`}
                   title="" onClick={() => { setIsActiveTab(true) }}>
                   <span>ACTIVE</span>
@@ -99,7 +99,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
               </div>
               <div>
                 <a
-                  href="javascript:void(0);"
+                  href="#!;"
                   className={`btn black-btn ${!isActiveTab ? 'btn-active' : ''}`}
                   title="" onClick={() => { setIsActiveTab(false) }}>
                   <span>INACTIVE</span>
@@ -151,6 +151,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                       <Dropdown.Menu>
                         <Dropdown.Item onClick={() => onSort('Random', 'name','string')}>Random</Dropdown.Item>
                         <Dropdown.Item onClick={() => onSort('Commission', 'commissionPercent','number')}>Commission</Dropdown.Item>
+                        <Dropdown.Item onClick={() => onSort('Self', 'selfPercent','number')}>Self</Dropdown.Item>
                         <Dropdown.Item onClick={() => onSort('Voting Power', 'totalStaked','number')}>
                           Voting Power
                         </Dropdown.Item>

@@ -36,7 +36,7 @@ export default function ListView({ validatorsList }: { validatorsList: any }) {
                       <span className="tb-data align d-flex" >
                       {/* <Link href="./become-validator"> */}
                         <i>
-                          <img  height={20} src={elm.logoUrl} alt="logo" className='me-3'/>
+                          <img style={{height:24}} src={!elm.logoUrl || elm.logoUrl === 'PLACEHOLDER'? "../../assets/images/fundbaron.png":elm.logoUrl} alt="logo" className='me-3'/>
                         </i>
                       <Link href={`/all-validator/${elm.signer}`}>
                         {elm.name}
@@ -67,7 +67,7 @@ export default function ListView({ validatorsList }: { validatorsList: any }) {
                     </td>
                     <td className="user-action">
                         <button
-                          // disabled={elm.uptimePercent === 0 || userType === UserType.Validator}
+                          disabled={elm.uptimePercent === 0 || userType === UserType.Validator}
                           onClick={() => { setModalShow(true); setSelectedRow(elm) }}
                           title=""
                           className="btn-small uppercase-txt warning-btn"

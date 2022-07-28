@@ -69,7 +69,7 @@ export default function ShibaToken() {
                   <td className='fw-600'><img width="13" height="43" className='img-fluid' src="../../assets/images/diamond.png" alt="" /><span className='align ps-2'>0xbe...4af0</span></td>
                   <td className='fw-600'>10 Mar 2022, 3:14 am</td>
                   <td className='user-action'>
-                    <a href="javascript:void(0)" title='' className='btn-small uppercase-txt success-btn'><span>Burn Completed</span></a>
+                    <a href="#!" title='' className='btn-small uppercase-txt success-btn'><span>Burn Completed</span></a>
                   </td>
                 </tr>
                 <tr>
@@ -77,7 +77,7 @@ export default function ShibaToken() {
                   <td className='fw-600'><img width="13" height="43" className='img-fluid' src="../../assets/images/diamond.png" alt="" /><span className='align ps-2'>0xbe...4af0</span></td>
                   <td className='fw-600'>1 Mar 2022, 12:00 pm</td>
                   <td className='user-action'>
-                    <a href="javascript:void(0)" title='' className='btn-small uppercase-txt success-btn'><span>Burn Completed</span></a>
+                    <a href="#!" title='' className='btn-small uppercase-txt success-btn'><span>Burn Completed</span></a>
                   </td>
                 </tr>
                 <tr>
@@ -85,7 +85,7 @@ export default function ShibaToken() {
                   <td className='fw-600'><img width="13" height="43" className='img-fluid' src="../../assets/images/diamond.png" alt="" /><span className='align ps-2'>0xbe...4af0</span></td>
                   <td className='fw-600'>10 Mar 2022, 3:14 am</td>
                   <td className='user-action'>
-                    <a href="javascript:void(0)" title='' className='btn-small uppercase-txt success-btn'><span>Burn Completed</span></a>
+                    <a href="#!" title='' className='btn-small uppercase-txt success-btn'><span>Burn Completed</span></a>
                   </td>
                 </tr>
                 <tr>
@@ -93,7 +93,7 @@ export default function ShibaToken() {
                   <td className='fw-600'><img width="13" height="43" className='img-fluid' src="../../assets/images/diamond.png" alt="" /><span className='align ps-2'>0xbe...4af0</span></td>
                   <td className='fw-600'>1 Mar 2022, 12:00 pm</td>
                   <td className='user-action'>
-                    <a href="javascript:void(0)" title='' className='btn-small uppercase-txt success-btn'><span>Burn Completed</span></a>
+                    <a href="#!" title='' className='btn-small uppercase-txt success-btn'><span>Burn Completed</span></a>
                   </td>
                 </tr>
                 <tr>
@@ -101,7 +101,7 @@ export default function ShibaToken() {
                   <td className='fw-600'><img width="13" height="43" className='img-fluid' src="../../assets/images/diamond.png" alt="" /><span className='align ps-2'>0xbe...4af0</span></td>
                   <td className='fw-600'>1 Mar 2022, 12:00 pm</td>
                   <td className='user-action'>
-                    <a href="javascript:void(0)" title='' className='btn-small uppercase-txt success-btn'><span>Burn Completed</span></a>
+                    <a href="#!" title='' className='btn-small uppercase-txt success-btn'><span>Burn Completed</span></a>
                   </td>
                 </tr>
               </tbody>

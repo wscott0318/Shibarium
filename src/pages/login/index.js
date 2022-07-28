@@ -126,7 +126,7 @@ export default function Login() {
                 <div className="col-sm-6 login-col" onClick={connectToMetamask}>
                   <a
                     className="text-center card-100 card-link"
-                    href="javascript:void(0)"
+                    href="#!"
                   >
                     <div className="arrow-icon">
                       <img
@@ -149,7 +149,7 @@ export default function Login() {
                   </a>
                 </div>
                 {/* <div className="col-sm-6 login-col">
-                      <a className='text-center card-100 card-link' href="javascript:void(0)">
+                      <a className='text-center card-100 card-link' href="#!">
                         <div className='arrow-icon'>
                           <img className='img-fluid' src="../../assets/images/arrow-right.png" alt="arrow-icons" />
                         </div>
@@ -163,7 +163,7 @@ export default function Login() {
                       </a>
                   </div>
                   <div className="col-sm-6 login-col">
-                      <a className='text-center card-100 card-link' href="javascript:void(0)">
+                      <a className='text-center card-100 card-link' href="#!">
                         <div className='arrow-icon'>
                           <img className='img-fluid' src="../../assets/images/arrow-right.png" alt="arrow-icons" />
                         </div>
@@ -177,7 +177,7 @@ export default function Login() {
                       </a>
                   </div>
                   <div className="col-sm-6 login-col">
-                      <a className='text-center card-100 card-link' href="javascript:void(0)">
+                      <a className='text-center card-100 card-link' href="#!">
                         <div className='arrow-icon'>
                           <img className='img-fluid' src="../../assets/images/arrow-right.png" alt="arrow-icons" />
                         </div>
@@ -191,7 +191,7 @@ export default function Login() {
                       </a>
                   </div>
                   <div className="col-sm-6 login-col">
-                      <a className='text-center card-100 card-link' href="javascript:void(0)">
+                      <a className='text-center card-100 card-link' href="#!">
                         <div className='arrow-icon'>
                           <img className='img-fluid' src="../../assets/images/arrow-right.png" alt="arrow-icons" />
                         </div>
@@ -207,7 +207,7 @@ export default function Login() {
                 <div className="col-sm-6 login-col dwnld_optn">
                   <a
                     className="text-center card-100 card-link d-flex justify-content-center align-items-center"
-                    href="javascript:void(0)"
+                    href="#!"
                   >
                     <div className="arrow-icon">
                       <img

@@ -14,7 +14,7 @@ export default function Connectwidget() {
                         <div className='header-secondary'>
                             <div className='bar-inner'>
                                 <div>
-                                    <a href="javascript:void(0);" title=''>
+                                    <a href="#!;" title=''>
                                         <img src="../../assets/images/back-icon.png" width='17' height='14'></img>
                                     </a>
                                 </div>
@@ -22,7 +22,7 @@ export default function Connectwidget() {
                                     <div className='d-flex align-items-center justify-content-end'>
                                         <div className='me-4'><button type="button" className="btn  bordered-btn light-text"><span>Preview Widget</span></button></div>
                                         <div className='me-4'><button type="button" className="btn warning-btn border-btn light-text"><span>Get Code Snippet</span></button></div>
-                                        <a href="javascript:void(0);" title="" className='white-box'>
+                                        <a href="#!;" title="" className='white-box'>
                                             <img src="../../assets/images/delete.png" width='17' height='22'></img>
                                         </a>
                                     </div>
@@ -64,7 +64,7 @@ export default function Connectwidget() {
                                 </p>
                             </div>
                             <div className="px-4 py-2">
-                                <a href="javascript:void(0)" className='btn black-btn'>
+                                <a href="#!" className='btn black-btn'>
                                     <span className='trs-2'>Add Collaborators</span>
                                 </a>
                             </div>
@@ -129,16 +129,16 @@ export default function Connectwidget() {
                                     <label htmlFor="">Widget Position</label>
                                 </div>
                                 <div className='d-flex'>
-                                    <a href="javascript:void(0);" className='position-blk left-position me-3 brick-active'>
+                                    <a href="#!;" className='position-blk left-position me-3 brick-active'>
                                         <span className='position-brick'></span>
                                     </a>
-                                    <a href="javascript:void(0);" className='position-blk botom-position me-3'>
+                                    <a href="#!;" className='position-blk botom-position me-3'>
                                         <span className='position-brick'></span>
                                     </a>
-                                    <a href="javascript:void(0);" className='position-blk center-position me-3'>
+                                    <a href="#!;" className='position-blk center-position me-3'>
                                         <span className='position-brick'></span>
                                     </a>
-                                    <a href="javascript:void(0);" className='position-blk right-botom-position'>
+                                    <a href="#!;" className='position-blk right-botom-position'>
                                         <span className='position-brick'></span>
                                     </a>
                                 </div>

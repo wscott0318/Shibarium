@@ -32,7 +32,7 @@ const GlobleHeader = ({tab}) => {
               <Link href={`${t.link}`}>
                 <Nav.Link
                   href={`${t.link}`}
-                  className={`${t.link == router.pathname ? "active" : ""}`}
+                  className={`${router.pathname.startsWith(t.link) ? "active" : ""}`}
                 >
                   {t.title}
                 </Nav.Link>

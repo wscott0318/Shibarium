@@ -27,7 +27,7 @@ function StepTwo() {
                 </div>
                 <div className="file-input">
                   <input type="file" className="input-file" />
-                  <a href="javascript:void(0)" className="form-control">
+                  <a href="#!" className="form-control">
                     Upload
                   </a>
                 </div>

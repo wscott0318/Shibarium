@@ -18,7 +18,7 @@ export function useETHBalances(uncheckedAddresses?: (string | undefined)[]): {
 } {
   const { chainId } = useActiveWeb3React()
   const multicallContract = useMulticallContract()
-console.log('dsafdsfdsfdsf sdfdsf')
+// console.log('dsafdsfdsfdsf sdfdsf')
   const addresses: string[] = useMemo(
     () =>
       uncheckedAddresses

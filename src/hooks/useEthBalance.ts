@@ -8,10 +8,14 @@ export const useEthBalance = ()=>{
     const [balance, setBalance] = useState(0)
     useEffect(() => {
      if (library && account) {
+    try {
         const web3 = new Web3(library?.provider);
         web3.eth.getBalance(account).then((res) => {
             setBalance((+res / Math.pow(10, 18)));
           });
+    } catch (error) {
+        
+    }
      }
     }, [library,account])
     return balance

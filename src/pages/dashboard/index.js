@@ -50,28 +50,28 @@ export default function Dashboard() {
                         <a
                           className="nav-link active"
                           aria-current="page"
-                          href="javascript:void(0)"
+                          href="#!"
                         >
                           Fast Withdraw / Deposits
                         </a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="javascript:void(0)">
+                        <a className="nav-link" href="#!">
                           On Ramp Transfers
                         </a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="javascript:void(0)">
+                        <a className="nav-link" href="#!">
                           How it Works?
                         </a>
                       </li>
                       <li className="nav-item">
-                        <a href="javascript:void(0)" className="nav-link">
+                        <a href="#!" className="nav-link">
                           FAQ
                         </a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="javascript:void(0)">
+                        <a className="nav-link" href="#!">
                           User Guide
                         </a>
                       </li>
@@ -95,7 +95,7 @@ export default function Dashboard() {
                     defaultActiveKey="/tab-1"
                   >
                     <Nav.Item onClick={handleDeposit}>
-                      <Nav.Link href="javascript:void(0)" className={`${isDeposit?"active":""}`}>
+                      <Nav.Link href="#!" className={`${isDeposit?"active":""}`}>
                         <span className="trs-2">Deposit</span>
                       </Nav.Link>
                     </Nav.Item>
@@ -132,7 +132,7 @@ export default function Dashboard() {
                               </span>
                               <a
                                 className="primary-badge badge-md"
-                                href="javascript:void(0)"
+                                href="#!"
                               >
                                 <span className="trs-2">0 PUSH</span>
                               </a>
@@ -197,7 +197,7 @@ export default function Dashboard() {
                               </span>
                               <a
                                 className="primary-badge badge-md"
-                                href="javascript:void(0)"
+                                href="#!"
                               >
                                 <span className="fw-600 trs-2">0 PUSH</span>
                               </a>
@@ -241,7 +241,7 @@ export default function Dashboard() {
                               </span>
                               <a
                                 className="primary-badge badge-md"
-                                href="javascript:void(0)"
+                                href="#!"
                               >
                                 <span className="trs-2">0 ETH</span>
                               </a>
@@ -306,7 +306,7 @@ export default function Dashboard() {
                               </span>
                               <a
                                 className="primary-badge badge-md"
-                                href="javascript:void(0)"
+                                href="#!"
                               >
                                 <span className="fw-600 trs-2">0 ETH</span>
                               </a>

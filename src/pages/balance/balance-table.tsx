@@ -35,21 +35,21 @@ function BalanceTable() {
                             </td>
                             <td className="user-action">
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt gradient_btn"
                                 >
                                     <span>Deposit</span>
                                 </a>
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt primary-btn"
                                 >
                                     <span>Withdraw</span>
                                 </a>
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt success-btn"
                                 >
@@ -78,21 +78,21 @@ function BalanceTable() {
                             </td>
                             <td className="user-action">
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt gradient_btn"
                                 >
                                     <span>Deposit</span>
                                 </a>
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt primary-btn"
                                 >
                                     <span>Withdraw</span>
                                 </a>
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt success-btn"
                                 >
@@ -118,21 +118,21 @@ function BalanceTable() {
                             </td>
                             <td className="user-action">
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt gradient_btn"
                                 >
                                     <span>Deposit</span>
                                 </a>
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt primary-btn"
                                 >
                                     <span>Withdraw</span>
                                 </a>
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt success-btn"
                                 >
@@ -161,21 +161,21 @@ function BalanceTable() {
                             </td>
                             <td className="user-action">
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt gradient_btn"
                                 >
                                     <span>Deposit</span>
                                 </a>
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt primary-btn"
                                 >
                                     <span>Withdraw</span>
                                 </a>
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt success-btn"
                                 >
@@ -201,21 +201,21 @@ function BalanceTable() {
                             </td>
                             <td className="user-action">
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt gradient_btn"
                                 >
                                     <span>Deposit</span>
                                 </a>
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt primary-btn"
                                 >
                                     <span>Withdraw</span>
                                 </a>
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt success-btn"
                                 >
@@ -244,21 +244,21 @@ function BalanceTable() {
                             </td>
                             <td className="user-action">
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt gradient_btn"
                                 >
                                     <span>Deposit</span>
                                 </a>
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt primary-btn"
                                 >
                                     <span>Withdraw</span>
                                 </a>
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt success-btn"
                                 >
@@ -284,21 +284,21 @@ function BalanceTable() {
                             </td>
                             <td className="user-action">
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt gradient_btn"
                                 >
                                     <span>Deposit</span>
                                 </a>
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt primary-btn"
                                 >
                                     <span>Withdraw</span>
                                 </a>
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt success-btn"
                                 >
@@ -327,21 +327,21 @@ function BalanceTable() {
                             </td>
                             <td className="user-action">
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt gradient_btn"
                                 >
                                     <span>Deposit</span>
                                 </a>
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt primary-btn"
                                 >
                                     <span>Withdraw</span>
                                 </a>
                                 <a
-                                    href="javascript:void(0)"
+                                    href="#!"
                                     title=""
                                     className="btn-small uppercase-txt success-btn"
                                 >

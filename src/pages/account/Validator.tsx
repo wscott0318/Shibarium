@@ -3,7 +3,7 @@ import { Modal, OverlayTrigger, Button, Tooltip } from "react-bootstrap";
 
 import { useFormik, FormikProps, ErrorMessage, Field, FormikProvider } from "formik";
 import * as Yup from "yup";
-import { commission, restake, withdrawReward } from "../../services/apis/validator";
+import { commission, restake, unbound, withdrawReward } from "../../services/apis/validator";
 import { withdrawRewardDelegator } from "../../services/apis/delegator";
 
 import { useUserType } from '../../state/user/hooks';
@@ -66,7 +66,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
   const retakeFormik: FormikProps<RetakeFormInterface> = useFormik<RetakeFormInterface>({
     initialValues: {
       validatorAddress: account || '',
-      amount:0,
+      amount: '',
       reward:0,
     },
     onSubmit: (values: RetakeFormInterface) => {
@@ -74,7 +74,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
       setLoading(true);
       restake(values)
         .then((res: any) => {
-          console.log("res", res);
+          // console.log("res", res);
           if (res.status == 200) {
             setLoading(false);
             setTranHashCode(res.data.data.transactionHash);
@@ -100,7 +100,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
       setLoading(true);
       commission(values)
         .then((res) => {
-          console.log("res", res);
+          // console.log("res", res);
           if (res.status == 200) {
             setLoading(false);
             setTranHashCode(res.data.data.transactionHash);
@@ -201,7 +201,6 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                     placeholder="Enter Validator address"
                     id="validatorAddress"
                     name="validatorAddress"
-                    readOnly
                     onChange={retakeFormik.handleChange}
                     value={retakeFormik.values.validatorAddress}
                   />
@@ -291,7 +290,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                   id="validatorAddress"
                   name="validatorAddress"
                   onChange={commiFormik.handleChange}
-                  disabled
+                  
                   value={commiFormik.values.validatorAddress}
                   placeholder="Enter Validator address"
                 />
@@ -393,7 +392,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
             <div className="pt-4 row">
               <div className="mb-3 col-sm-6 mb-sm-0">
                 <a
-                  href="javascript:void(0)"
+                  href="#!"
                   className="btn bordered-btn light-text w-100"
                 >
                   <span>Cancel</span>
@@ -401,7 +400,18 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
               </div>
               <div className="mb-3 col-sm-6 mb-sm-0">
                 <a
-                  href="javascript:void(0)"
+                onClick={()=>{
+                  unbound({address: account}).then((res:any) =>{
+                    setLoading(false);
+                    setToastType('success')
+                    setToastMessage(res.data.message);
+                  }).catch((e)=>{
+                    setLoading(false);
+                    setToastType('error')
+                    setToastMessage(e?.response?.data?.message);
+                  })
+                }}
+                  href="#!"
                   className="btn warning-btn border-btn light-text w-100"
                 >
                   <span>Confirm</span>

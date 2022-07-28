@@ -14,7 +14,8 @@ import Valitotors from "../all-validator/valitotors";
 import { useUserType, useUserOpenMev } from "../../state/user/hooks";
 import { UserType } from "../../enums/UserType";
 import NetworkDetails from './NetworkDetails';
-import BannerCard from './bannerCard'
+// import { useMoralis } from "react-moralis";
+// import BannerCard from './bannerCard'
 
 const BoneStaking = () => {
   // const [validators, setValidators] = useState([]);
@@ -51,6 +52,8 @@ const BoneStaking = () => {
 
   const [modalShow, setModalShow] = useState(false);
   const router = useRouter();
+  // const {user} = useMoralis();
+  // console.log(user)
   const [show, setShow] = React.useState();
   return (
     <div>
@@ -70,11 +73,34 @@ const BoneStaking = () => {
               </h1>
               {userType === UserType.Delegator && (
                 <>
+                <div className="flex-wrap d-flex align-items-centeer">
                   <BorderBtn
                     link="./become-validator"
                     lable="Become A Validator"
                     handleModal={() => {}}
                   />
+                    <BorderBtn
+                      link="./delegator-validator"
+                      lable="Choose Your Path"
+                      handleModal={() => {}}
+                    />
+                  </div>
+                </>
+              )}
+               {userType === UserType.Validator && (
+                <>
+                  <div className="flex-wrap d-flex align-items-centeer">
+                 <WarningBtn
+                      link="all-validator"
+                      lable="Become A Delegator"
+                      handleModal={() => {}}
+                    />{" "}
+                    <BorderBtn
+                      link="./delegator-validator"
+                      lable="Choose Your Path"
+                      handleModal={() => {}}
+                    />
+                </div>
                 </>
               )}
               {userType === UserType.NA && (
@@ -111,9 +137,9 @@ const BoneStaking = () => {
       </section>
       {/* banner section end */}
       <section className="mb-4 buy-sell-section mb-lg-5">
-        <NetworkDetails />
         <div className="container">
-          <bannerCard />
+        <NetworkDetails />
+          {/* <BannerCard /> */}
         </div>
       </section>
       <section className="mb-4 mb-lg-5">

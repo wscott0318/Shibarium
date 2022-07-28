@@ -3,7 +3,7 @@ import { Modal, OverlayTrigger, Button, Tooltip } from "react-bootstrap";
 
 import { useFormik, FormikProps, ErrorMessage, Field, FormikProvider } from "formik";
 import * as Yup from "yup";
-import { restake, withdrawRewardDelegator } from "../../services/apis/delegator";
+import { restake, unbound, withdrawRewardDelegator } from "../../services/apis/delegator";
 
 import { UserType } from "../../enums/UserType";
 import { CommissionRateInterface, WithdrawInterface } from "../../interface/reTakeFormInterface";
@@ -71,17 +71,21 @@ const DelegatorAccount = ({ balance, boneUSDValue,userType }: WalletBalanceProps
       restake(values)
         .then((res: any) => {
           console.log("res", res);
-          if (res.status == 200) {
+          if (res.data.status === 'success') {
             setLoading(false);
             setTranHashCode(res.data.data.transactionHash);
             setSuccessMsg(res.data.message);
             setConfirm(true);
             setRestakePopup(false);
+          }else{
+            setToastType('error')
+            setToastMessage(res.data.message);
+            setLoading(false);
           }
         })
         .catch((err) => {
-            setToastType('error')
-          setToastMessage(err.message);
+          //   setToastType('error')
+          // setToastMessage(err.message);
           setLoading(false);
         });
     },
@@ -99,18 +103,21 @@ const DelegatorAccount = ({ balance, boneUSDValue,userType }: WalletBalanceProps
   const errorWithdrawMessage=(err:any)=>{
       setLoading(false);
       setToastType('error')
-      setToastMessage(err.message);
+      setToastMessage(err?.response?.message);
   }
 
   const withdrawFormk: FormikProps<WithdrawInterface> = useFormik<WithdrawInterface>({
     initialValues: {
-      validatorAddress: account || ''
+      validatorAddress: ''
     },
     onSubmit: (values:WithdrawInterface) => {
       setLoading(true);
-      debugger;
         withdrawRewardDelegator(values.validatorAddress,account).then((res) => {
-          successWithdrawMessage(res);
+          if (res.data.status === 'success') {
+            successWithdrawMessage(res);
+          }else{
+            errorWithdrawMessage(res)
+          }
         }).catch(err=>{
           errorWithdrawMessage(err)
         })
@@ -259,7 +266,7 @@ const DelegatorAccount = ({ balance, boneUSDValue,userType }: WalletBalanceProps
             <form onSubmit={withdrawFormk.handleSubmit} className="modal-form">
               <div className="form-group">
                 <label htmlFor="" className="form-label">
-                  {userType} Address
+                  Validator Address
                 </label>
                 <input
                   type="text"
@@ -308,7 +315,7 @@ const DelegatorAccount = ({ balance, boneUSDValue,userType }: WalletBalanceProps
             <div className="pt-4 row">
               <div className="mb-3 col-sm-6 mb-sm-0">
                 <a
-                  href="javascript:void(0)"
+                  href="#!"
                   className="btn bordered-btn light-text w-100"
                 >
                   <span>Cancel</span>
@@ -316,7 +323,18 @@ const DelegatorAccount = ({ balance, boneUSDValue,userType }: WalletBalanceProps
               </div>
               <div className="mb-3 col-sm-6 mb-sm-0">
                 <a
-                  href="javascript:void(0)"
+                onClick={()=>{
+                  unbound({address: account}).then((res:any) =>{
+                    setLoading(false);
+                    setToastType('success')
+                    setToastMessage(res.data.message);
+                  }).catch((e)=>{
+                    setLoading(false);
+                    setToastType('error')
+                    setToastMessage(e?.response?.data?.message);
+                  })
+                }}
+                  href="#!"
                   className="btn warning-btn border-btn light-text w-100"
                 >
                   <span>Confirm</span>

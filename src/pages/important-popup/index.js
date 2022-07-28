@@ -1,55 +1,107 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-export default function ImportantPopup(props) {
-  const {modalSend,handleContinueToSend}=props
-  const [modaltitle, setModaltitle] = useState("Important");
+import { ENV_CONFIGS, SHIBARIUM_CHAIN_ID } from "app/config/constant";
+import { useActiveWeb3React } from "app/services/web3";
+import { useTokenBalance } from "app/hooks/useTokenBalance";
+// import { useTokenPrice } from "app/hooks/useTokenPrice";
+import { ERC20_ABI } from "app/constants/abis/erc20";
+import Web3 from 'web3'
+import LoadingSpinner from "pages/components/Loading";
+import ConfirmPopUp from "pages/components/ConfirmPopUp";
 
-  
+
+export default function ImportantPopup(props) {
+
+  const {modalSend,handleContinueToSend,onHide}=props
+ const {chainId = SHIBARIUM_CHAIN_ID, account,library} = useActiveWeb3React()
+  // const [modaltitle, setModaltitle] = useState("Important");
+
+  const [loading, setLoading] = useState(false)
+  const [recieverAddress, setRecieverAddress] = useState('');
+  const [tokenAddress, setTokenAddress] = useState(ENV_CONFIGS[chainId].BONE);
+  const [amount, setAmount] = useState();
+  const [confirm, setConfirm] = useState(false)
+const [tranHashCode, setTranHashCode] = useState('')
+ const tokenBal =  useTokenBalance(tokenAddress)
+//  const price = useTokenPrice(tokenAddress);
+//  console.log(price)
+
+
+const transferToken = () => {
+  try {
+    setLoading(true)
+    const web3 = new Web3(library?.provider);
+    const contract = new web3.eth.Contract(ERC20_ABI, tokenAddress);
+    const amt = web3.utils.toBN((+amount).toFixed(10) * Math.pow(10, 18));
+    const txData = {
+      from: account,
+      to: tokenAddress,
+      data: contract.methods.transfer(recieverAddress,amt).encodeABI(),
+    };
+    web3.eth
+      .sendTransaction(txData)
+      .on("transactionHash", (res) => {
+        setLoading(false);
+        setConfirm(true)
+        setTranHashCode(res)
+        onHide()
+      })
+      .on("receipt", async (res) => {})
+      .on("error", (err) => {setLoading(false)});
+  } catch (error) {setLoading(false)}
+};
   return (
+    <>
+    <ConfirmPopUp
+          show={confirm}
+          setShow={setConfirm}
+          text={tranHashCode}
+          message={'Transaction done!'}
+        />
     <Modal
       {...props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
       className="shib-popup"
-    >
+      >
       <Modal.Header closeButton  className="text-center">
         <Modal.Title
           id="contained-modal-title-vcenter"
           className="d-inline-block fw-800 trs-3"
-        >
+          >
           {modalSend?"Send":"Important"}
         </Modal.Title>
       </Modal.Header>
       {/* <Modal.Header
         closeButton
         className="text-center position-relative d-none"
-      >
+        >
         <div className="back-blk">
-          <a href="javascript:void(0);" title="">
-            <img
-              clasName="img-fluid"
-              src="../../assets/images/left-icon.png"
-              width="45"
-              height="78"
-              alt=""
-            ></img>
-          </a>
+        <a href="#!;" title="">
+        <img
+        clasName="img-fluid"
+        src="../../assets/images/left-icon.png"
+        width="45"
+        height="78"
+        alt=""
+        ></img>
+        </a>
         </div>
         <Modal.Title
-          id="contained-modal-title-vcenter"
-          className="d-inline-block fw-800 trs-3 "
+        id="contained-modal-title-vcenter"
+        className="d-inline-block fw-800 trs-3 "
         >
-          Send
+        Send
         </Modal.Title>
       </Modal.Header> */}
       <Modal.Body>
+        {loading && <LoadingSpinner />}
         {!modalSend ? (
           <div className="notify-poup">
             <div className="block-wrap">
-              <h1 className="ft-20 lft-strip mb-3 mb-sm-4">
+              <h1 className="mb-3 ft-20 lft-strip mb-sm-4">
                 <span className="align text-hd">What’s supported</span>
               </h1>
               <div className="form-check cus-chkbox d-inline-block me-0">
@@ -66,13 +118,13 @@ export default function ImportantPopup(props) {
                   </span>
                 </label>
               </div>
-              <div className="cus-alert d-inline-block w-100 mt-0 mt-2">
+              <div className="mt-0 mt-2 cus-alert d-inline-block w-100">
                 If you want to move your funds from Shibarium mainnet to
                 Ethereum mainnet, Please visit <b>Shibarium Bridge.</b>
               </div>
             </div>
             <div className="block-wrap">
-              <h1 className="ft-20 lft-strip mb-3 mb-sm-4">
+              <h1 className="mb-3 ft-20 lft-strip mb-sm-4">
                 <span className="align text-hd">
                   Sending funds to exchanges
                 </span>
@@ -90,20 +142,20 @@ export default function ImportantPopup(props) {
                 <p className="fw-600">
                   Please click{" "}
                   <b>
-                    <a href="javascript:void(0);" title="">
+                    <a href="#!;" title="">
                       here
                     </a>
                   </b>{" "}
                   to see all the exchanges that support Shibarium Network
                 </p>
               </div>
-              <div className="cus-alert d-inline-block w-100 mt-0 mt-2">
+              <div className="mt-0 mt-2 cus-alert d-inline-block w-100">
                 Sending funds to any unsupported exchanges will lead to
                 permanent loss of funds.
               </div>
             </div>
-            <div className="d-flex align-items-center justify-content-center mt-4 flex-column flex-sm-row mob-btns">
-              <div className="me-0 me-sm-5 mb-3 mb-sm-0 btn-box">
+            <div className="mt-4 d-flex align-items-center justify-content-center flex-column flex-sm-row mob-btns">
+              <div className="mb-3 me-0 me-sm-5 mb-sm-0 btn-box">
                 <button
                   type="button"
                   className="btn bordered-btn light-text w-100"
@@ -128,27 +180,29 @@ export default function ImportantPopup(props) {
                 <label htmlFor="" className="form-label fwb">
                   From
                 </label>
-                <div className="form-group field-modify mb-4">
-                  <div className="swap-control swap-flex p-0">
+                <div className="mb-4 form-group field-modify">
+                  <div className="p-0 swap-control swap-flex">
                     <div className="swap-col">
                       <input
                         className="pe-0 swap-input"
                         type="text"
                         placeholder="Enter receiver address"
+                        value={recieverAddress}
+                        onChange={(e)=>{setRecieverAddress(e.target.value)}}
                       />
                     </div>
                   </div>
-                  <div className="helper-txt flex-wrap fw-600 mt-2 ft-14">
+                  <div className="flex-wrap mt-2 helper-txt fw-600 ft-14">
                     <div>
                       Enter vaild address existing on the Shibarium Network.
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="form-group drop-field mt-2 mb-4">
-                <div className="swap-control swap-flex p-0">
+              <div className="mt-2 mb-4 form-group drop-field">
+                <div className="p-0 swap-control swap-flex">
                   <div className="swap-col">
-                    <input type="text" className="swap-input" placeholder="0.00" />
+                    <input type="number" className="swap-input" placeholder="0.00" value={amount} onChange={(e)=>setAmount(e.target.value)} />
                     <span className="primary-text over-text fw-600">MAX</span>
                   </div>
                   <div className="coin-btn position-relative">
@@ -170,13 +224,13 @@ export default function ImportantPopup(props) {
                     </button>
                   </div>
                 </div>
-                <div className="d-flex align-items-center justify-content-between helper-txt flex-wrap fw-600 mt-2 ft-14">
+                <div className="flex-wrap mt-2 d-flex align-items-center justify-content-between helper-txt fw-600 ft-14">
                   <div>$0</div>
-                  <div>Available Balance: 0.000 SHIBA</div>
+                  <div>Available Balance: {tokenBal} SHIBA</div>
                 </div>
               </div>
               <div>
-                <button type="button" className="btn gradient_btn w-100">
+                <button type="button" className="btn gradient_btn w-100" onClick={()=>transferToken()}>
                   <span>SEND</span>
                 </button>
               </div>
@@ -185,5 +239,6 @@ export default function ImportantPopup(props) {
         )}
       </Modal.Body>
     </Modal>
+    </>
   );
 }

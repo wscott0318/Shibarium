@@ -81,7 +81,7 @@ const nextConfig = {
   },
   network: {
     chainIds: [ChainId.ETHEREUM, ChainId.ARBITRUM],
-    defaultChainId: 7352,
+    defaultChainId: ChainId.SHIBARIUM,
     domains: [
       {
         domain: 'sushi.com',

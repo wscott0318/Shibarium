@@ -1,11 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useMoralis } from 'react-moralis';
+import { useActiveWeb3React } from 'app/services/web3';
 
 export { RouteGuard };
 
-function RouteGuard({ children }) {
+function RouteGuard({ children,user }) {
+   
     const router = useRouter();
     const [authorized, setAuthorized] = useState(false);
+    // const {logout} = useMoralis();
+    // const {deactivate} = useActiveWeb3React()
     useEffect(() => {
       
         authCheck(router.asPath);
@@ -26,20 +31,21 @@ function RouteGuard({ children }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
       
-    function authCheck(url) {
-        var isLoggedIn=localStorage.getItem('isLoggedIn')
-
+  async  function authCheck(url) {
+        let isLoggedIn = localStorage.getItem('ShibariumUser');
+        isLoggedIn = isLoggedIn ? JSON.parse(isLoggedIn)?.objectId: ''
+        console.log("isLoggedIn", isLoggedIn);
         // redirect to login page if accessing a private page and not logged in 
-        const publicPaths = ['/dashboard','/balance'];
+        const publicPaths = ['/dashboard','/balance','/account'];
         const path = url.split('?')[0];
         // console.log(path)
         if (!isLoggedIn && publicPaths.includes(path)) {
-            if(!path.startsWith('/user-area/dashboard/user-trade/')){
+            
                 setAuthorized(false);
+
                 router.push({
-                    pathname: '/login'
+                    pathname: '/home'
                 });
-            }
             
         } else {
             setAuthorized(true);

@@ -9,7 +9,7 @@ interface Props{
     boneUsdValue:number;
 }
 const Checkpoints:React.FC<Props> = ({ allCheckpoints,boneUsdValue }) => {
-    const pageSize = 4;
+    const pageSize = 20;
     const [checkpoints, setCheckpoints] = useState<any[]>([]);
     const [pageIndex, setPageIndex] = useState(1)
     useEffect(() => {
@@ -26,8 +26,8 @@ const Checkpoints:React.FC<Props> = ({ allCheckpoints,boneUsdValue }) => {
     return (
         <div className="h-auto p-4 cus-card">
         <div className="table-data-tab">
-            <h3 className='mb-3 mb-lg-4'>Transactions</h3>
-            <div className="btn-nav">
+            <h3 className='mb-3 mb-lg-4'>Checkpoints</h3>
+            {/* <div className="btn-nav">
                 <Nav variant="pills" defaultActiveKey="/firts-tab">
                     <Nav.Item>
                         <Nav.Link className='active'><span className='trs-2'>Transactions L1</span></Nav.Link>
@@ -36,7 +36,7 @@ const Checkpoints:React.FC<Props> = ({ allCheckpoints,boneUsdValue }) => {
                         <Nav.Link eventKey="link-1"><span className='trs-2'>Transactions L2</span></Nav.Link>
                     </Nav.Item>
                 </Nav>
-            </div>
+            </div> */}
             <div className="mb-4 table-wrap table-responsive mb-lg-5">
                 <table className="table">
                     <thead>

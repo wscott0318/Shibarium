@@ -720,7 +720,7 @@ color:$green-color;
 .mob-filter{
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: flex-end;
     flex-wrap: wrap;
     @media #{$max-lg}{
         justify-content: flex-start;
@@ -2239,7 +2239,8 @@ input{
 }
 .spinner-outer{
     width: 100%;
-    height: 100%
+    height: 100%;
+    z-index: 9999999;
 }
 
 input[type=number]::-webkit-inner-spin-button, 

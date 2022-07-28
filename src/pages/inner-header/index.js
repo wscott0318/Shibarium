@@ -172,10 +172,10 @@ const InnerHeader = () => {
                   </Nav.Link>
                 </li>
                 <li className="nav-item">
-                  <Nav.Link href="javascript:void(0)">Shiba Explorer</Nav.Link>
+                  <Nav.Link href="#!">Shiba Explorer</Nav.Link>
                 </li>
                 <li className="nav-item">
-                  <Nav.Link href="javascript:void(0)">FAQ</Nav.Link>
+                  <Nav.Link href="#!">FAQ</Nav.Link>
                 </li>
               </ul>
             </Navbar.Collapse>

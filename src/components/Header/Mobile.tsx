@@ -28,7 +28,7 @@ const Mobile: FC = () => {
             <MenuIcon width={28} className="hover:text-white text-white cursor-pointer" onClick={() => setOpen(true)} />
           </div>
           <div className="flex w-6 mr-1 items-center">
-            <Link href="/swap" passHref={true}>
+            <Link href="/swap" passHref>
               <Image src="https://www.shibatoken.com/images/shib-logo.svg" alt="Sushi logo" width="24px" height="24px" />
             </Link>
           </div>
@@ -76,7 +76,7 @@ const Mobile: FC = () => {
                         <div className="flex items-center justify-start gap-2">
                           <div className="flex items-center w-auto text-sm font-bold border-2 rounded shadow cursor-pointer pointer-events-auto select-none border-dark-800 hover:border-dark-700 bg-dark-900 whitespace-nowrap">
                             {account && chainId && userEthBalance && (
-                              <Link href="/portfolio" passHref={true}>
+                              <Link href="/portfolio" passHref>
                                 <a className="hidden px-3 text-high-emphesis text-bold md:block">
                                   {/*@ts-ignore*/}
                                   {userEthBalance?.toSignificant(4)} {NATIVE[chainId || 1].symbol}

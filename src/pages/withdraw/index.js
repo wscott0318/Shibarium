@@ -37,16 +37,16 @@ export default function Withdraw() {
                             <div className='d-flex align-items-center justify-content-between'>
                                 <div className='fw-800 ft-16'>Coins</div>
                                 <div>
-                                    <a className='warning-color fw-600 ft-14' href="javascript:void(0);">visit now</a>
+                                    <a className='warning-color fw-600 ft-14' href="#!;">visit now</a>
                                 </div>
                             </div>
                             <ul className='list-sec'>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-1.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-3.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-5.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-4.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-1.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-3.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-5.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-4.jpg" width={25} height={24} alt=""></img></a></li>
                             </ul>
                         </div>
                     </div>
@@ -67,15 +67,15 @@ export default function Withdraw() {
                             <div className='d-flex align-items-center justify-content-between'>
                                 <div className='fw-800 ft-16'>Coins</div>
                                 <div>
-                                    <a className='warning-color fw-600 ft-14' href="javascript:void(0);">visit now</a>
+                                    <a className='warning-color fw-600 ft-14' href="#!;">visit now</a>
                                 </div>
                             </div>
                             <ul className='list-sec'>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-1.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-3.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-5.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-1.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-3.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-5.jpg" width={25} height={24} alt=""></img></a></li>
                             </ul>
                         </div>
                     </div>
@@ -96,12 +96,12 @@ export default function Withdraw() {
                             <div className='d-flex align-items-center justify-content-between'>
                                 <div className='fw-800 ft-16'>Coins</div>
                                 <div>
-                                    <a className='warning-color fw-600 ft-14' href="javascript:void(0);">visit now</a>
+                                    <a className='warning-color fw-600 ft-14' href="#!;">visit now</a>
                                 </div>
                             </div>
                             <ul className='list-sec'>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
                             </ul>
                         </div>
                     </div>
@@ -122,14 +122,14 @@ export default function Withdraw() {
                             <div className='d-flex align-items-center justify-content-between'>
                                 <div className='fw-800 ft-16'>Coins</div>
                                 <div>
-                                    <a className='warning-color fw-600 ft-14' href="javascript:void(0);">visit now</a>
+                                    <a className='warning-color fw-600 ft-14' href="#!;">visit now</a>
                                 </div>
                             </div>
                             <ul className='list-sec'>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-3.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin.png" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-3.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin.png" width={25} height={24} alt=""></img></a></li>
                             </ul>
                         </div>
                     </div>
@@ -150,14 +150,14 @@ export default function Withdraw() {
                             <div className='d-flex align-items-center justify-content-between'>
                                 <div className='fw-800 ft-16'>Coins</div>
                                 <div>
-                                    <a className='warning-color fw-600 ft-14' href="javascript:void(0);">visit now</a>
+                                    <a className='warning-color fw-600 ft-14' href="#!;">visit now</a>
                                 </div>
                             </div>
                             <ul className='list-sec'>
-                               <li><a href="javascript:void(0);" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-1.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin.png" width={25} height={24} alt=""></img></a></li>
+                               <li><a href="#!;" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-1.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin.png" width={25} height={24} alt=""></img></a></li>
                             </ul>
                         </div>
                     </div>
@@ -178,12 +178,12 @@ export default function Withdraw() {
                             <div className='d-flex align-items-center justify-content-between'>
                                 <div className='fw-800 ft-16'>Coins</div>
                                 <div>
-                                    <a className='warning-color fw-600 ft-14' href="javascript:void(0);">visit now</a>
+                                    <a className='warning-color fw-600 ft-14' href="#!;">visit now</a>
                                 </div>
                             </div>
                             <ul className='list-sec'>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
                             </ul>
                         </div>
                     </div>
@@ -204,15 +204,15 @@ export default function Withdraw() {
                             <div className='d-flex align-items-center justify-content-between'>
                                 <div className='fw-800 ft-16'>Coins</div>
                                 <div>
-                                    <a className='warning-color fw-600 ft-14' href="javascript:void(0);">visit now</a>
+                                    <a className='warning-color fw-600 ft-14' href="#!;">visit now</a>
                                 </div>
                             </div>
                             <ul className='list-sec'>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-1.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-3.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-5.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-1.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-3.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-5.jpg" width={25} height={24} alt=""></img></a></li>
                             </ul>
                         </div>
                     </div>
@@ -233,16 +233,16 @@ export default function Withdraw() {
                             <div className='d-flex align-items-center justify-content-between'>
                                 <div className='fw-800 ft-16'>Coins</div>
                                 <div>
-                                    <a className='warning-color fw-600 ft-14' href="javascript:void(0);">visit now</a>
+                                    <a className='warning-color fw-600 ft-14' href="#!;">visit now</a>
                                 </div>
                             </div>
                             <ul className='list-sec'>
-                            <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-1.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-3.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-5.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-4.jpg" width={25} height={24} alt=""></img></a></li>
+                            <li><a href="#!;" title=""><img src="../../assets/images/coin-1.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-3.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-5.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-4.jpg" width={25} height={24} alt=""></img></a></li>
                             </ul>
                         </div>
                     </div>
@@ -263,16 +263,16 @@ export default function Withdraw() {
                             <div className='d-flex align-items-center justify-content-between'>
                                 <div className='fw-800 ft-16'>Coins</div>
                                 <div>
-                                    <a className='warning-color fw-600 ft-14' href="javascript:void(0);">visit now</a>
+                                    <a className='warning-color fw-600 ft-14' href="#!;">visit now</a>
                                 </div>
                             </div>
                             <ul className='list-sec'>
-                            <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-1.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-3.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-5.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-4.jpg" width={25} height={24} alt=""></img></a></li>
+                            <li><a href="#!;" title=""><img src="../../assets/images/coin-1.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-3.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-5.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-4.jpg" width={25} height={24} alt=""></img></a></li>
                             </ul>
                         </div>
                     </div>
@@ -293,15 +293,15 @@ export default function Withdraw() {
                             <div className='d-flex align-items-center justify-content-between'>
                                 <div className='fw-800 ft-16'>Coins</div>
                                 <div>
-                                    <a className='warning-color fw-600 ft-14' href="javascript:void(0);">visit now</a>
+                                    <a className='warning-color fw-600 ft-14' href="#!;">visit now</a>
                                 </div>
                             </div>
                             <ul className='list-sec'>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-1.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-3.jpg" width={25} height={24} alt=""></img></a></li>
-                                <li><a href="javascript:void(0);" title=""><img src="../../assets/images/coin-5.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-1.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/swap-coin.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-2.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-3.jpg" width={25} height={24} alt=""></img></a></li>
+                                <li><a href="#!;" title=""><img src="../../assets/images/coin-5.jpg" width={25} height={24} alt=""></img></a></li>
                             </ul>
                         </div>
                     </div>

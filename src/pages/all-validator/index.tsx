@@ -52,6 +52,7 @@ export const Allvalidator: React.FC = () => {
                     <h1 className="mb-2 light-text mb-sm-3 fnt-58 fnt-100">
                       All Validators
                     </h1>
+                    <div className="flex-wrap d-flex align-items-centeer">
                     {userType !== UserType.Validator ? <div className="">
                       <Link href="./become-validator">
                         <a className="btn gradient_btn" title="">
@@ -59,6 +60,13 @@ export const Allvalidator: React.FC = () => {
                         </a>
                       </Link>
                     </div> : null}
+                    <Link href="/delegator-validator">
+                        <a className="ms-2 btn bordered-btn light-text" title="">
+                          <span>Choose Your Path</span>
+                        </a>
+                      </Link>
+                    </div>
+                    
                   </div>
                 </div>
               </div>

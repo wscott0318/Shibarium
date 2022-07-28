@@ -58,11 +58,11 @@ export default function delegator() {
                     </Dropdown>
                   </div>
                   <div className='d-inline-flex'>
-                    <a href="javascript:void(0);" title="" className='view-blk me-2 view-active'>
+                    <a href="#!;" title="" className='view-blk me-2 view-active'>
                       <img className="grey-image" src="../../assets/images/grid-grey.png" width={26} height={19} alt=""></img>
                       <img className="white-image" src="../../assets/images/grid-white.png" width={26} height={19} alt=""></img>
                     </a>
-                    <a href="javascript:void(0);" title="" className='view-blk'>
+                    <a href="#!;" title="" className='view-blk'>
                       <img className="grey-image" src="../../assets/images/list-grey.png" width={26} height={19} alt=""></img>
                       <img className="white-image" src="../../assets/images/list-white.png" width={26} height={19} alt=""></img>
                     </a>
@@ -100,7 +100,7 @@ export default function delegator() {
               <span className='tb-data success-color align'>10%</span>
             </td>
             <td className='user-action'>
-              <a href="javascript:void(0)" onClick={() => setModalShow(true)} title='' className='btn-small uppercase-txt warning-btn'><span>Delegate</span></a>
+              <a href="#!" onClick={() => setModalShow(true)} title='' className='btn-small uppercase-txt warning-btn'><span>Delegate</span></a>
             </td>
           </tr>
           <tr>
@@ -119,7 +119,7 @@ export default function delegator() {
               <span className='tb-data success-color align'>10%</span>
             </td>
             <td className='user-action'>
-              <a href="javascript:void(0)" onClick={() => setModalShow(true)} title='' className='btn-small uppercase-txt warning-btn'><span>Delegate</span></a>
+              <a href="#!" onClick={() => setModalShow(true)} title='' className='btn-small uppercase-txt warning-btn'><span>Delegate</span></a>
             </td>
           </tr>
           <tr>
@@ -138,7 +138,7 @@ export default function delegator() {
               <span className='tb-data success-color align'>10%</span>
             </td>
             <td className='user-action'>
-              <a href="javascript:void(0)" onClick={() => setModalShow(true)} title='' className='btn-small uppercase-txt warning-btn'><span>Delegate</span></a>
+              <a href="#!" onClick={() => setModalShow(true)} title='' className='btn-small uppercase-txt warning-btn'><span>Delegate</span></a>
             </td>
           </tr>
           <tr>
@@ -157,7 +157,7 @@ export default function delegator() {
               <span className='tb-data success-color align'>10%</span>
             </td>
             <td className='user-action'>
-              <a href="javascript:void(0)" onClick={() => setModalShow(true)} title='' className='btn-small uppercase-txt warning-btn'><span>Delegate</span></a>
+              <a href="#!" onClick={() => setModalShow(true)} title='' className='btn-small uppercase-txt warning-btn'><span>Delegate</span></a>
             </td>
           </tr>
           <tr>
@@ -176,7 +176,7 @@ export default function delegator() {
               <span className='tb-data success-color align'>10%</span>
             </td>
             <td className='user-action'>
-              <a href="javascript:void(0)" onClick={() => setModalShow(true)} title='' className='btn-small uppercase-txt warning-btn'><span>Delegate</span></a>
+              <a href="#!" onClick={() => setModalShow(true)} title='' className='btn-small uppercase-txt warning-btn'><span>Delegate</span></a>
             </td>
           </tr>
           <tr>
@@ -233,7 +233,7 @@ export default function delegator() {
               <span className='tb-data success-color align'>10%</span>
             </td>
             <td className='user-action'>
-              <a href="javascript:void(0)" onClick={() => setModalShow(true)} title='' className='btn-small uppercase-txt warning-btn'><span>Delegate</span></a>
+              <a href="#!" onClick={() => setModalShow(true)} title='' className='btn-small uppercase-txt warning-btn'><span>Delegate</span></a>
             </td>
           </tr>
           <tr>
@@ -290,7 +290,7 @@ export default function delegator() {
               <span className='tb-data success-color align'>10%</span>
             </td>
             <td className='user-action'>
-              <a href="javascript:void(0)" onClick={() => setModalShow(true)} title='' className='btn-small uppercase-txt warning-btn'><span>Delegate</span></a>
+              <a href="#!" onClick={() => setModalShow(true)} title='' className='btn-small uppercase-txt warning-btn'><span>Delegate</span></a>
             </td>
           </tr>
          </tbody>

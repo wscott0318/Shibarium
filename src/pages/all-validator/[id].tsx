@@ -15,14 +15,20 @@ import PowerChange from './validator-details/PowerChange';
 import AddressDetails from './validator-details/AddressDetails';
 import Link from "next/link";
 import LoadingSpinner from 'pages/components/Loading';
+import ToastNotify from 'pages/components/ToastNotify';
 
 export default function ValidatorDetails() {
     const pageSize = 4; 
     const [validatorInfo, setValidatorInfo] = useState<any>();
     const [allDelegators, setAllDelegators] = useState([]);
     const [allCheckpoints, setAllCheckpoints] = useState<any>([]);
-    const [boneUsdValue, setBoneUsdValue] = useState(0)
-    const [loading, setLoading] = useState<boolean>(false)
+    const [boneUsdValue, setBoneUsdValue] = useState(0);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [msgType, setMsgType] = useState<'error'|'success'|undefined>()
+    const [toastMassage, setToastMassage] = useState('')
+
+    const [lastBlock, setLastBlock] = useState<any>();
+    const [totalSupply, setTotalSupply] = useState<number>(0)
    
 
     const router = useRouter()
@@ -30,16 +36,19 @@ export default function ValidatorDetails() {
         const { id } = router.query;
         if (id ) {
             setLoading(true);
-
             getValidatorsDetail(id.toString()).then((res)=>{
-                setValidatorInfo(res?.data?.data?.validatorSet)
+                setValidatorInfo(res?.data?.data?.validatorSet.validatorInfo)
                 setAllDelegators(res?.data?.data?.validatorSet?.delegators || []);
-                setAllCheckpoints(res?.data?.data?.checkpoints || [])
-                console.log(res?.data?.data?.validatorSet)
+                setAllCheckpoints(res?.data?.data?.validatorSet?.checkpoints || [])
+                setLastBlock(res?.data?.data?.validatorSet?.lastBlock );
+                setTotalSupply(+res?.data?.data?.validatorSet?.totalSupply );
+
+                // console.log(res?.data?.data?.validatorSet)
                 setLoading(false);
             }).catch((error:any)=> {
-                console.log(error);
-                setLoading(true);
+                setToastMassage(error?.response?.data?.message);
+                setMsgType('error')
+                setLoading(false);
             })
         }
     }, [])
@@ -55,16 +64,18 @@ export default function ValidatorDetails() {
             <div className='page-content'>
                 <InnerHeader />
                 {loading && <LoadingSpinner />}
+                <ToastNotify toastMassage={toastMassage} type={msgType} />
                 <section className='py-4 banner-section darkBg py-lg-5'>
                     <div className="container">
                         <div className="row">
                             <div className="mb-4 col-sm-5 col-lg-5 col-xl-4 mb-sm-0">
                                 <div className="text-center shib-card card h-100">
                                     <div className='image-wrap'>
-                                        <img className='img-fluid' src="../../assets/images/fundbaron.png" alt="fundborn-img" width={120} />
+                                        <img className='img-fluid' src={validatorInfo?.logoUrl === 'PLACEHOLDER'? "../../assets/images/fundbaron.png":validatorInfo?.logoUrl} alt="fundborn-img" width={120} />
                                     </div>
                                     <h4 className='py-2 mt-2'>
-                                        <span className='text-white trs-3'>FUNDBaron</span></h4>
+                                        <span className='text-white trs-3'>{validatorInfo?.name}</span>
+                                    </h4>
                                     <Link href="https://linktr.ee/DeFiMatic">
                                         <a className='primary-text'>
                                           https://linktr.ee/DeFiMatic
@@ -76,7 +87,7 @@ export default function ValidatorDetails() {
                                 <div className="mb-4 cus-panel h-100">
                                     <div className="panel-header">
                                         <h4 className='mb-0 fwb trs-3'>Validator Info</h4>
-                                       {!validatorInfo?.status ? <div className='badge-md primary-bg'>
+                                       {validatorInfo?.uptimePercent === 0 ? <div className='badge-md primary-bg'>
                                             <span className='trs-1'>Inactive</span>
                                         </div>
                                         : 
@@ -89,15 +100,15 @@ export default function ValidatorDetails() {
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Supply</h6>
                                                 <p className='mb-0 trs-3'>
-                                                   <NumberFormat displayType='text' thousandSeparator value={((validatorInfo?.totalStaked/Math.pow(10,18)).toFixed(8))} /> FUND
+                                                   <NumberFormat displayType='text' thousandSeparator value={totalSupply.toFixed(8)} /> BONE
                                                 </p>
                                             </li>
-                                            <li className='info-data-lst'>
+                                            {/* <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Community Pool</h6>
                                                 <p className='mb-0 trs-3'>
-                                                    ... FUND
+                                                    ... BONE
                                                 </p>
-                                            </li>
+                                            </li> */}
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Owner address</h6>
                                                 <p className='mb-0 trs-3'>
@@ -142,21 +153,21 @@ export default function ValidatorDetails() {
                                         <div className='flex-wrap mb-4 d-flex align-items-center'>
                                             <div className='data-btn me-3'>
                                                 <span className='trs-6'>
-                                                <NumberFormat displayType='text' thousandSeparator value={(validatorInfo?.selfStake/Math.pow(10,18)).toFixed(8)} />    
+                                                <NumberFormat displayType='text' thousandSeparator value={(validatorInfo?.selfStake/Math.pow(10,18)).toFixed(4)} />    
                                                 </span>
                                             </div>
                                             <div className='text'>
-                                                <span>(~{((validatorInfo?.selfStake /validatorInfo?.totalStaked)*100).toFixed(2) || 0 }%)</span>
+                                                <span>(~{(+validatorInfo?.votingPower).toFixed(2) || 0}%)</span>
                                             </div>
                                         </div>
                                         <div className="mb-3 progress-line">
-                                            <ProgressBar now={(validatorInfo?.selfStake /validatorInfo?.totalStaked)*100 || 0} />
+                                            <ProgressBar now={+(+validatorInfo?.votingPower).toFixed(2) || 0}/>
                                         </div>
                                         <ul className='mb-0 info-list list-unstyled'>
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Check point</h6>
                                                 <p className='mb-0 trs-3'>
-                                                  {allCheckpoints.length ? allCheckpoints[0].checkpointNumber:''}
+                                                  {lastBlock?.checkpointNumber}
                                                 </p>
                                             </li>
                                             <li className='info-data-lst'>
@@ -168,7 +179,7 @@ export default function ValidatorDetails() {
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Voting Power %</h6>
                                                 <p className='mb-0 trs-3 primary-text'>
-                                                   {((validatorInfo?.selfStake /validatorInfo?.totalStaked)*100).toFixed(2) || 0}%
+                                                   {(+validatorInfo?.votingPower).toFixed(2) || 0}%
                                                 </p>
                                             </li>
                                         </ul>

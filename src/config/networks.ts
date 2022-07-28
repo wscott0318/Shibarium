@@ -64,7 +64,7 @@ export const NETWORK_LABEL: { [chainId in ChainId]?: string } = {
   [ChainId.ETHEREUM]: 'Ethereum',
   [ChainId.RINKEBY]: 'Rinkeby',
   [ChainId.ROPSTEN]: 'Ropsten',
-  [ChainId.GÖRLI]: 'Görli',
+  [ChainId.GÖRLI]: 'Göerli',
   [ChainId.KOVAN]: 'Kovan',
   [ChainId.FANTOM]: 'Fantom',
   [ChainId.FANTOM_TESTNET]: 'Fantom Testnet',

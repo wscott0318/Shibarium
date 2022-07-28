@@ -61,7 +61,7 @@ const SideNavTab=[
         title:"What’s New?",
         icon:"../../assets/images/icons/new.png",
         activeShapeImg:"../../assets/images/radius.png",
-        link:"javascript:void(0)"
+        link:"#!"
       },
       {
         id:8,
@@ -69,7 +69,7 @@ const SideNavTab=[
         title:"Mainnet Wallet",
         icon:"../../assets/images/icons/wallet.png",
         activeShapeImg:"../../assets/images/radius.png",
-        link:"javascript:void(0)"
+        link:"#!"
       },
       {
         id:9,
@@ -77,7 +77,7 @@ const SideNavTab=[
         title:"Support",
         icon:"../../assets/images/icons/support.png",
         activeShapeImg:"../../assets/images/radius.png",
-        link:"javascript:void(0)"
+        link:"#!"
       },
       {
         id:10,
@@ -85,7 +85,7 @@ const SideNavTab=[
         title:"How it Works?",
         icon:"../../assets/images/icons/work.png",
         activeShapeImg:"../../assets/images/radius.png",
-        link:"javascript:void(0)"
+        link:"#!"
       },    
 
       {
@@ -94,7 +94,7 @@ const SideNavTab=[
         title:"FAQ",
         icon:"../../assets/images/icons/faq.png",
         activeShapeImg:"../../assets/images/radius.png",
-        link:"javascript:void(0)"
+        link:"#!"
       },
       {
         id:12,
@@ -102,7 +102,7 @@ const SideNavTab=[
         title:"User Guide",
         icon:"../../assets/images/icons/userguide.png",
         activeShapeImg:"../../assets/images/radius.png",
-        link:"javascript:void(0)"
+        link:"#!"
       }
   ]
 
