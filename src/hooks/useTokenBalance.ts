@@ -8,7 +8,7 @@ export const useTokenBalance = (address:string)=>{
 
     const [balance, setBalance] = useState(0)
     useEffect(() => {
-     if (library && account) {
+     if (library && account && address) {
         try {      
             const web3:any = new Web3(library?.provider);
             const contract = new web3.eth.Contract(ERC20_ABI,address);
@@ -22,6 +22,6 @@ export const useTokenBalance = (address:string)=>{
             
         }
      }
-    }, [library,account])
+    }, [library,account,address])
     return balance
 }

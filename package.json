@@ -222,6 +222,7 @@
     "react-moralis": "^1.4.0",
     "react-number-format": "^4.9.3",
     "react-perfect-scrollbar": "^1.5.8",
+    "react-qr-code": "^2.0.7",
     "react-router-dom": "^6.3.0",
     "react-simple-snackbar": "^1.1.11",
     "react-toastify": "^9.0.5",

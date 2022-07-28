@@ -21,7 +21,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     const [searchKey, setSearchKey] = useState<string>('');
     const [sortKey, setSortKey] = useState<string>('Random');
   
-    const searchResult = useSearchFilter(validatorsByStatus, searchKey);
+    const searchResult = useSearchFilter(validatorsByStatus, searchKey.trim());
   
     useEffect(() =>{
       const slicedList = searchResult.slice(0, pageSize).sort((a:any, b:any)=> b.stakeAmount - a.stakeAmount)

@@ -1,26 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect,useState } from "react";
-import Header from "../layout/header";
-import {
-  Container,
-  Navbar,
-  Nav,
-  NavItem,
-  NavDropdown,
-  MenuItem,
-} from "react-bootstrap";
 import Sidebar from "../layout/sidebar";
 import ImportantPopup from "../important-popup";
 import SendPopup from "../send-popup";
 import BalanceTable from "./balance-table";
 import {useBoneBalance} from '../../hooks/useBoneBalance';
+import QrModal from "pages/components/QrModal";
+import { useActiveWeb3React } from "app/services/web3";
+// import QrModal from '../QrModal';
+
 
 export default function Balance() {
   const [modalShow, setModalShow] = React.useState(false);
   const [modalSend, setModalSend] = React.useState(false);
-  // const [availBalance, setAvailBalance] = useState("0")
+  const [showQrModal, setShowQrModal] = useState(false);
   const boneBal = useBoneBalance();
+  const {account} = useActiveWeb3React();
 
 
   const handleOnHide = () => {
@@ -41,6 +37,12 @@ export default function Balance() {
         modalSend={modalSend}
         handleContinueToSend={handleContinueToSend}
       />
+      {account && <QrModal
+        title={"My QR Code"}
+        show={showQrModal}
+        setShow={setShowQrModal} 
+        address={account} />}
+        
       {/* <SendPopup show={modalSend} onHide={() => setModalSend(false)} /> */}
       {/* <Header /> */}
       <div className="page-wrapper">
@@ -65,15 +67,15 @@ export default function Balance() {
                         Shibarium Testnet
                       </h3>
                       <h2 className="mb-2 light-text low-font-wt mb-sm-0">
-                        <span>{` ${(boneBal).toFixed(4)} BONE`}</span>
+                        <span>{` ${boneBal.toFixed(4)} BONE`}</span>
                       </h2>
                     </div>
                     <div className="col-sm-4 balance-btns">
                       <div className="mb-3">
                         <button
+                        onClick={()=>setShowQrModal(true)}
                           type="button"
-                          className="btn gradient_btn border-btn light-text uppercase-txt w-100"
-                        >
+                          className="btn gradient_btn border-btn light-text uppercase-txt w-100">
                           <span>Recive</span>
                         </button>
                       </div>
@@ -81,8 +83,7 @@ export default function Balance() {
                         <button
                           onClick={() => setModalShow(true)}
                           type="button"
-                          className="btn bordered-btn light-text w-100"
-                        >
+                          className="btn bordered-btn light-text w-100">
                           <span>Send</span>
                         </button>
                       </div>
@@ -99,52 +100,49 @@ export default function Balance() {
               </div>
               <div className="col-lg-7 col-12 text-md-end">
                 <div className="group-box">
-                <div className="d-inline-block">
-                  <div className="form-check cus-chkbox d-inline-block">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="check2"
-                      name="option2"
-                      value="something"
-                    />
-                    <label
-                      className="form-check-label head-xsm fw-600"
-                      htmlFor="check2"
-                    >
-                      <span className="top-low-spc">Hide Zero Balances</span>
-                    </label>
+                  <div className="d-inline-block">
+                    <div className="form-check cus-chkbox d-inline-block">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id="check2"
+                        name="option2"
+                        value="something"
+                      />
+                      <label
+                        className="form-check-label head-xsm fw-600"
+                        htmlFor="check2">
+                        <span className="top-low-spc">Hide Zero Balances</span>
+                      </label>
+                    </div>
+                    <div className="form-check cus-chkbox d-inline-block">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id="check2"
+                        name="option2"
+                        value="something"
+                      />
+                      <label
+                        className="form-check-label head-xsm fw-600"
+                        htmlFor="check2">
+                        <span className="top-low-spc">Plasma Only</span>
+                      </label>
+                    </div>
                   </div>
-                  <div className="form-check cus-chkbox d-inline-block">
+                  <div className="mt-2 search-box d-inline-block position-relative mt-sm-0">
                     <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="check2"
-                      name="option2"
-                      value="something"
+                      className="cus-search w-100"
+                      type="text"
+                      placeholder="Search"></input>
+                    <img
+                      width="15"
+                      height="15"
+                      className="img-fluid"
+                      src="../../assets/images/search.png"
+                      alt=""
                     />
-                    <label
-                      className="form-check-label head-xsm fw-600"
-                      htmlFclsor="check2"
-                    >
-                      <span className="top-low-spc">Plasma Only</span>
-                    </label>
                   </div>
-                </div>
-                <div className="mt-2 search-box d-inline-block position-relative mt-sm-0">
-                  <input
-                    className="cus-search w-100"
-                    type="text"
-                    placeholder="Search"
-                  ></input>
-                  <img
-                    width="15"
-                    height="15"
-                    className="img-fluid"
-                    src="../../assets/images/search.png"
-                    alt=""
-                  />
-                </div>
                 </div>
               </div>
             </div>

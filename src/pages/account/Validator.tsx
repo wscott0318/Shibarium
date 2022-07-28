@@ -66,7 +66,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
   const retakeFormik: FormikProps<RetakeFormInterface> = useFormik<RetakeFormInterface>({
     initialValues: {
       validatorAddress: account || '',
-      amount:0,
+      amount: '',
       reward:0,
     },
     onSubmit: (values: RetakeFormInterface) => {

@@ -36,7 +36,7 @@ export default function ListView({ validatorsList }: { validatorsList: any }) {
                       <span className="tb-data align d-flex" >
                       {/* <Link href="./become-validator"> */}
                         <i>
-                          <img style={{height:24}} src={!elm.logoUrl? "../../assets/images/fundbaron.png":elm.logoUrl} alt="logo" className='me-3'/>
+                          <img style={{height:24}} src={!elm.logoUrl || elm.logoUrl === 'PLACEHOLDER'? "../../assets/images/fundbaron.png":elm.logoUrl} alt="logo" className='me-3'/>
                         </i>
                       <Link href={`/all-validator/${elm.signer}`}>
                         {elm.name}

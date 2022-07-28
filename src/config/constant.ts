@@ -15,11 +15,12 @@ export const STAKING_API_BASE_URL = 'http://3.17.75.111:3000/api/v1/'
 export const MORALIS_SERVER_URL="https://7q5upqnuqufz.usemoralis.com:2053/server";
 export const MORALIS_APP_ID="IjZ7Ik5VKdXUOkKOpOZT3OowA5FqXLBu0zemJwbB";
 
+export const SHIBARIUM_CHAIN_ID = ChainId.SHIBARIUM; 
 export const ENV_CONFIGS ={
     [ChainId.SHIBARIUM]:{
         STAKE_MANAGER: '0x92f1fe54C01eE8af31f55D400f0e48B7f990F8a2',
         BONE : '0x809bbf767883277f6fdB8f378489B259A02fD7a7',
-        
+
     },
     [ChainId.GÖRLI]:{
         STAKE_MANAGER: '0x92f1fe54C01eE8af31f55D400f0e48B7f990F8a2',
