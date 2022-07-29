@@ -23,6 +23,11 @@ const CommonModal:React.FC<props> = ({show,setShow, title,children})=> {
     className="shib-popup"
   >
     <Modal.Header closeButton className="text-center modal-header">
+    {/* <div className="back-blk">
+        <a href="#!;" title="">
+        <img className="img-fluid" src="../../assets/images/left-icon.png"width="45" height="78" alt=""></img>
+        </a>
+    </div> */}
       <Modal.Title
         id="contained-modal-title-vcenter"
         className="d-inline-block fw-800 trs-3"
@@ -31,7 +36,7 @@ const CommonModal:React.FC<props> = ({show,setShow, title,children})=> {
       </Modal.Title>
     </Modal.Header>
 
-    <Modal.Body className='low-sidespace'>
+    <Modal.Body className='low-sidespace body-font-sm'>
        {children}
     </Modal.Body>
     {/* <Modal.Footer className='text-center d-block'>
@@ -42,4 +47,5 @@ const CommonModal:React.FC<props> = ({show,setShow, title,children})=> {
   </Modal>
   )
 }
+
 export default CommonModal;

@@ -2275,7 +2275,15 @@ input[type=number]::-webkit-outer-spin-button {
         display: inline-block;
     }
 }
-
+.mobile-image {
+    margin-right: 40px !important;
+    @media #{$max-lg}{
+        margin-right: 40px !important;
+    }
+}
+.burger-menu {
+    margin-right: 8px;
+}
 /** Popup css start **/
 .box-wrap {
     display: flex;
@@ -2298,11 +2306,12 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .head-sm {
     font-size: 18px;
+    margin-bottom: 5px;
 }
-.sm-txt {
-    font-size: 14px;
-    margin-top: 5px;
-}
+// .sm-txt {
+//     font-size: 14px;
+    
+// }
 .pop-row {
     margin-bottom: 30px;
 }
@@ -2310,5 +2319,90 @@ input[type=number]::-webkit-outer-spin-button {
     &:last-child{
         margin-bottom: 0;
     }
+}
+.center-align {
+    text-align: center;
+}
+.body-font-sm{
+    font-size: 14px;
+}
+.coin-box {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 15px;
+}
+.middle-blk {
+    flex: 0 0 305px;
+    @media #{$max-xsm}{
+        flex: 0 0 71%;
+        margin-right: 5px;
+    }
+}
+.coin-img {
+    flex: 0 0 25px;
+}
+.scroll-blk {
+    height: 130px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.amt-name {
+    text-transform: uppercase;
+    font-size: 20px;
+    margin-bottom: 0;
+}
+.amt-value {
+    font-size: 16px;
+}
+.block-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+}
+.shib-popup{
+    .modal-body.low-sidespace{
+        padding: 49px 35px
+    }
+}
+.arrow-box {
+    flex: 0 0 10px;
+}
+.txt-block {
+    padding: 30px 0 0;
+}
+.block-box.mob-box{
+    @media #{$max-sm}{
+        flex-direction: column;
+    }
+    .arrow-box{
+        @media #{$max-md}{
+            display: none;
+        } 
+    }
+}
+.small-step{
+    .step-blk{
+        width: 34px;
+        height: 34px;
+        line-height: 36px;
+    }
+    .steps{
+        li{
+            font-size: 14px;
+        }
+    }
+    .step{
+        p{
+            top: 45px;
+        }
+    }
+}
+.spiner-blk {
+    margin: 40px 0 130px;
+}
+.fs-18{
+    font-size: 18px;
 }
 /** Popup css end **/
