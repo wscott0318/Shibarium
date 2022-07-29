@@ -16,8 +16,8 @@ export const useTokenBalance = (address:string)=>{
             contract.methods.balanceOf(account).call().then((res:any) => {
                 contract.methods.decimals().call().then((d:number)=>{
                     setBalance((+res / Math.pow(10, d)));
-                })
-              });
+                }).catch((e:any) =>{});
+              }).catch((e:any) =>{});
         } catch (error) {
             
         }
