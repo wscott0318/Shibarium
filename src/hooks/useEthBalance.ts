@@ -12,7 +12,7 @@ export const useEthBalance = ()=>{
         const web3 = new Web3(library?.provider);
         web3.eth.getBalance(account).then((res) => {
             setBalance((+res / Math.pow(10, 18)));
-          });
+          }).catch((e:any) =>{console.log(e)});;
     } catch (error) {
         
     }

@@ -264,9 +264,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
                 <div className="flex-wrap mt-2 d-flex align-items-center justify-content-between helper-txt fw-600 ft-14">
                   <h4 className="fw-700 top-space-lg">Delegation Completed</h4>
                   <p className="ft-16 top-space-lg">
-                    Your SHIBA tokens are staked successfully on validator Tarus
-                    Validator. Your delegation will take 	&asymp;1 minute to reflect in
-                    your account
+                    Your BONE tokens are staked successfully. Your delegation will take 1 minute to reflect in your account
                   </p>
                 </div>
               </div>
