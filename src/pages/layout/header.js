@@ -19,14 +19,14 @@ import { walletConnector } from "../../utils/connectors";
 import Web3Status from "app/components/Web3Status";
 import { RightMenu } from "app/components/Header/Desktop";
 import { NETWORK_LABEL } from "app/config/networks";
-import Web3 from 'web3';
+// import Web3 from 'web3';
 import { getUserType } from "app/services/apis/user/userApi";
 import { useUserType } from "app/state/user/hooks";
-import { UserType } from "../../enums/UserType";
+// import { UserType } from "../../enums/UserType";
 import ShibaSidebar from "pages/token-sidebar";
 import { useMoralis } from "react-moralis";
 import { login } from "app/functions/login";
-import { injected } from "app/config/wallets";
+// import { injected } from "app/config/wallets";
 
 export default function Header() {
   const { chainId, account, active, error, library, activate, deactivate } = useWeb3React()
