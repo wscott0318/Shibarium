@@ -25,21 +25,22 @@
     left: 0;
     bottom: 0;
     right: auto;
+    z-index: 2;
     @media #{$max-xl}{
         width: 230px;
         margin-left: -230px;
         display: none;
-        min-height: calc(100vh - 64px);
-        margin-top: 64px;
+        min-height: calc(100vh - 78px);
+        margin-top: 78px;
     }
     @media #{$max-xsm}{
-        min-height: calc(100vh - 59px);
-        margin-top: 59px;
+        min-height: calc(100vh - 82px);
+        margin-top: 82px;
     }
-    @media (max-width:360.98px){
-        min-height: calc(100vh - 49px);
-        margin-top: 49px;
-    }
+    // @media (max-width:360.98px){
+    //     min-height: calc(100vh - 49px);
+    //     margin-top: 49px;
+    // }
     .close-icon {
         position: absolute;
         top: 10px;

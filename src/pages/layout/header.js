@@ -294,7 +294,7 @@ export default function Header() {
                     </span>
                   </NavDropdown.Item>
                   <NavDropdown.Item href="./bone-staking">
-                    <h6 className="fw-600 light-text left-border">Stacking</h6>
+                    <h6 className="fw-600 light-text left-border">Staking</h6>
                     <span className="light-text">
                       Stake shiba and earn rewards
                     </span>
