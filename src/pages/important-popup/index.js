@@ -157,6 +157,7 @@ const transferToken = () => {
             <div className="mt-4 d-flex align-items-center justify-content-center flex-column flex-sm-row mob-btns">
               <div className="mb-3 me-0 me-sm-5 mb-sm-0 btn-box">
                 <button
+                onClick={onHide}
                   type="button"
                   className="btn bordered-btn light-text w-100"
                 >

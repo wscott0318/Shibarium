@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useMoralis } from 'react-moralis';
-import { useActiveWeb3React } from 'app/services/web3';
+// import { useMoralis } from 'react-moralis';
+// import { useActiveWeb3React } from 'app/services/web3';
 
 export { RouteGuard };
 
