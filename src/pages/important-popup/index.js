@@ -178,7 +178,7 @@ const transferToken = () => {
             <div className="send-block">
               <div>
                 <label htmlFor="" className="form-label fwb">
-                  From
+                  To
                 </label>
                 <div className="mb-4 form-group field-modify">
                   <div className="p-0 swap-control swap-flex">

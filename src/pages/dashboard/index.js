@@ -21,6 +21,16 @@ export default function Dashboard() {
   const [showProgressModal, setProgressModal] = useState(false);
   const [showProgressTwoModal, setProgressTwoModal] = useState(false);
   const [showProgressFourStepsModal, setProgressFourStepsModal] = useState(false);
+  const [showProgressFourStepsModalTwo, setProgressFourStepsModalTwo] = useState(false);
+  const [showProgressFourStepsModalThree, setProgressFourStepsModalThree] = useState(false);
+  const [showProgressFourStepsModalFour, setProgressFourStepsModalFour] = useState(false);
+  const [showProgressFourStepsModalFive, setProgressFourStepsModalFive] = useState(false);
+  const [showProgressFourStepsModalSix, setProgressFourStepsModalSix] = useState(false);
+  const [showProgressFourStepsModalSeven, setProgressFourStepsModalSeven] = useState(false);
+
+
+
+
   // below is the same as componentDidMount and componentDidUnmount
 
   const handleDeposit = () => {
@@ -212,7 +222,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="btn-wrap pt-3">
-                        <button type="button" onClick={() => setProgressFourStepsModal(true)} className="btn warning-btn w-100">
+                        <button type="button" onClick={() => setProgressFourStepsModalSeven(true)} className="btn warning-btn w-100">
                           <span>Transfer</span>
                         </button>
                       </div>
@@ -666,26 +676,26 @@ export default function Dashboard() {
             <ul className="steps">
               <li className="step">
                 <div className="step-blk step-active">
-                  <span className="fw-700">1</span>
-                  {/* <span className="fw-700">
+                  {/* <span className="fw-700">1</span> */}
+                  <span className="fw-700">
                       <img src="../../assets/images/white-tick.png" alt="" />
-                    </span> */}
+                    </span>
                 </div>
                 <p className="light-text fw-700">Initialized</p>
               </li>
-              <li className="step-line"></li>
+              <li className="step-line step-active"></li>
               <li className="step">
                 <div className="step-blk step-active">
-                  <span className="fw-700">2</span>
-                  {/* <span className="fw-700">
+                  {/* <span className="fw-700">2</span> */}
+                  <span className="fw-700">
                       <img src="../../assets/images/white-tick.png" alt="" />
-                    </span> */}
+                    </span>
                 </div>
                 <p className="light-text fw-700">Checkpoint</p>
               </li>
-              <li className="step-line"></li>
+              <li className="step-line step-active"></li>
               <li className="step">
-                <div className="step-blk step-active">
+                <div className="step-blk">
                   <span className="fw-700">3</span>
                 </div>
                 <p className="light-text fw-700">Challange Period</p>
@@ -695,20 +705,454 @@ export default function Dashboard() {
                 <div className="step-blk">
                   <span className="fw-700">4</span>
                 </div>
-                <p className="light-text fw-700">Completed</p>
+                <p className="light-text fw-700">Completed</p>   
               </li>
             </ul>
           </div>
           <div className="center-align">
-            <span className="mb-3"><img src="../../assets/images/like.png" alt="" className="img-fluid" width={60} height={60}  /></span>
+            <span className="mb-3"><img src="../../assets/images/big-like.jpg" alt="" className="img-fluid"  /></span>
           </div>
           <div className="center-align">
                 <p className="fw-bold fs-18">Challange period completed.</p>
                 <p>Your token is ready to move from Polygon to Ethereum Network. Complete the last transaction and you're done. In case of any issue, please reach out to support</p>
+                <a href="javascript:void(0);" title="">View on Polygon Explorer</a>
+            </div>
+            <div class="flex-wrap d-flex align-items-center justify-content-between helper-txt fw-600 ft-14 top-space-lg">
+              <div>Estimated Transaction Fee</div>
+                <div class="warning-color fw-700 ">
+                  <span>-$4.69</span>
+                  </div>
+                </div>
+            <div>
+              <button type="button" class="btn warning-btn w-100 top-space-lg">
+                <span>Continue</span>
+              </button>
+            </div>
+          </div>
+        </CommonModal>
+
+        <CommonModal
+        title={"Transfer in Progress"}
+        show={showProgressFourStepsModalTwo}
+        setShow={setProgressFourStepsModalTwo} 
+         >
+          <div>
+            <div className="block-box">
+                <div>
+                  <span >Transfer Amount</span>
+                </div>
+                <div>
+                  <span className="fw-bold">5 MATIC</span>
+                </div>
+              </div>  
+          </div>
+          <div>
+          <div className="small-step">
+            <ul className="steps">
+              <li className="step">
+                <div className="step-blk step-active">
+                  {/* <span className="fw-700">1</span> */}
+                  <span className="fw-700">
+                      <img src="../../assets/images/white-tick.png" alt="" />
+                    </span>
+                </div>
+                <p className="light-text fw-700">Initialized</p>
+              </li>
+              <li className="step-line step-active"></li>
+              <li className="step">
+                <div className="step-blk step-active">
+                  {/* <span className="fw-700">2</span> */}
+                  <span className="fw-700">
+                      <img src="../../assets/images/white-tick.png" alt="" />
+                    </span>
+                </div>
+                <p className="light-text fw-700">Checkpoint</p>
+              </li>
+              <li className="step-line step-active"></li>
+              <li className="step">
+                <div className="step-blk">
+                  <span className="fw-700">3</span>
+                </div>
+                <p className="light-text fw-700">Challange Period</p>
+              </li> 
+              <li className="step-line"></li>
+              <li className="step">
+                <div className="step-blk">
+                  <span className="fw-700">4</span>  
+                </div>
+                <p className="light-text fw-700">Completed</p>   
+              </li>
+            </ul>
+          </div>
+          <div className="center-align">
+            <span className="mb-3"><img src="../../assets/images/progrs-img-2.png" alt="" className="img-fluid"  /></span>
+          </div>
+          <div className="center-align">
+                <p className="fw-bold fs-18">Transaction in process</p>
+                <p>Ethereum transactions can take longer time to complete based upon network congestion. Please wait or increase the gas price of the transaction. In case of any issue, please reach out to support.</p>
                 <a href="javascript:void(0);" title="">View on Etherscan</a>
             </div>
           </div>
         </CommonModal>
+
+        <CommonModal
+        title={"Transfer in Progress"}
+        show={showProgressFourStepsModalThree}
+        setShow={setProgressFourStepsModalThree} 
+         >
+          <div>
+            <div className="block-box">
+                <div>
+                  <span >Transfer Amount</span>
+                </div>
+                <div>
+                  <span className="fw-bold">5 MATIC</span>
+                </div>
+              </div>  
+          </div>
+          <div>
+          <div className="small-step">
+            <ul className="steps">
+              <li className="step">
+                <div className="step-blk step-active">
+                  {/* <span className="fw-700">1</span> */}
+                  <span className="fw-700">
+                      <img src="../../assets/images/white-tick.png" alt="" />
+                    </span>
+                </div>
+                <p className="light-text fw-700">Initialized</p>
+              </li>
+              <li className="step-line step-active"></li>
+              <li className="step">
+                <div className="step-blk step-active">
+                  {/* <span className="fw-700">2</span> */}
+                  <span className="fw-700">
+                      <img src="../../assets/images/white-tick.png" alt="" />
+                  </span>
+                </div>
+                <p className="light-text fw-700">Checkpoint</p>
+              </li>
+              <li className="step-line step-active"></li>
+              <li className="step">
+                <div className="step-blk step-active">
+                  {/* <span className="fw-700">3</span> */}
+                  <span className="fw-700">
+                      <img src="../../assets/images/white-tick.png" alt="" />
+                  </span>
+                </div>
+                <p className="light-text fw-700">Challange Period</p>
+              </li> 
+              <li className="step-line"></li>
+              <li className="step">
+                <div className="step-blk">
+                  <span className="fw-700">4</span>  
+                </div>
+                <p className="light-text fw-700">Completed</p>   
+              </li>
+            </ul>
+          </div>
+          <div className="center-align">
+              <span className="mb-3"><img src="../../assets/images/big-like.jpg" alt="" className="img-fluid"  /></span>
+          </div>
+          <div className="center-align">
+                <p className="fw-bold fs-18">Challange period completed</p>
+                <p>Your token is ready to move from Polygon to Ethereum Network. Complete the last transaction and you're done. In case of any issue, please reach out th support.</p>                
+            </div>
+            <div class="flex-wrap d-flex align-items-center justify-content-between helper-txt fw-600 ft-14 top-space-lg">
+              <div>Estimated Transaction Fee</div>
+                  <div class="warning-color fw-700 ">
+                    <span>-$8.19</span>
+              </div>
+            </div>
+            <div><button type="button" class="btn warning-btn w-100 top-space-lg"><span>Continue</span></button></div>
+          </div>
+        </CommonModal>
+
+        <CommonModal
+        title={"Transfer in Progress"}
+        show={showProgressFourStepsModalFour}
+        setShow={setProgressFourStepsModalFour} 
+         >
+          <div>
+            <div className="block-box">
+                <div>
+                  <span >Transfer Amount</span>
+                </div>
+                <div>
+                  <span className="fw-bold">5 MATIC</span>
+                </div>
+              </div>  
+          </div>
+          <div>
+          <div className="small-step">
+            <ul className="steps">
+              <li className="step">
+                <div className="step-blk step-active">
+                  {/* <span className="fw-700">1</span> */}
+                  <span className="fw-700">
+                      <img src="../../assets/images/white-tick.png" alt="" />
+                    </span>
+                </div>
+                <p className="light-text fw-700">Initialized</p>
+              </li>
+              <li className="step-line step-active"></li>
+              <li className="step">
+                <div className="step-blk step-active">
+                  {/* <span className="fw-700">2</span> */}
+                  <span className="fw-700">
+                      <img src="../../assets/images/white-tick.png" alt="" />
+                    </span>
+                </div>
+                <p className="light-text fw-700">Checkpoint</p>
+              </li>
+              <li className="step-line step-active"></li>
+              <li className="step">
+                <div className="step-blk step-active">
+                  {/* <span className="fw-700">3</span> */}
+                  <span className="fw-700">
+                      <img src="../../assets/images/white-tick.png" alt="" />
+                    </span>
+                </div>
+                <p className="light-text fw-700">Challange Period</p>
+              </li> 
+              <li className="step-line step-active"></li>
+              <li className="step">
+                <div className="step-blk">
+                  <span className="fw-700">4</span>  
+                </div>
+                <p className="light-text fw-700">Completed</p>   
+              </li>
+            </ul>
+          </div>
+          <div className="center-align">
+            <span className="mb-3"><img src="../../assets/images/progrs-img-2.png" alt="" className="img-fluid"  /></span>
+          </div>
+          <div className="center-align">
+          <p className="fw-bold fs-18">Transaction in process</p>
+                <p>Ethereum transactions can take longer time to complete based upon network congestion. Please wait or increase the gas price of the transaction. In case of any issue, please reach out to support.</p>
+                <a href="javascript:void(0);" title="">View on Etherscan</a>
+            </div>
+          </div>
+        </CommonModal>
+
+        <CommonModal
+        title={"Transfer in Progress"}
+        show={showProgressFourStepsModalFive}
+        setShow={setProgressFourStepsModalFive} 
+         >
+          <div>
+            <div className="block-box">
+                <div>
+                  <span >Transfer Amount</span>
+                </div>
+                <div>
+                  <span className="fw-bold">5 MATIC</span>
+                </div>
+              </div>  
+          </div>
+          <div>
+          <div className="small-step">
+            <ul className="steps">
+              <li className="step">
+                <div className="step-blk step-active">
+                  <span className="fw-700">1</span>
+                  {/* <span className="fw-700">
+                      <img src="../../assets/images/white-tick.png" alt="" />
+                    </span> */}
+                </div>
+                <p className="light-text fw-700">Initialized</p>
+              </li>
+              <li className="step-line"></li>
+              <li className="step">
+                <div className="step-blk">
+                  <span className="fw-700">2</span>
+                  {/* <span className="fw-700">
+                      <img src="../../assets/images/white-tick.png" alt="" />
+                    </span> */}
+                </div>
+                <p className="light-text fw-700">Checkpoint</p>
+              </li>
+              <li className="step-line"></li>
+              <li className="step">
+                <div className="step-blk ">
+                  <span className="fw-700">3</span>
+                  {/* <span className="fw-700">
+                      <img src="../../assets/images/white-tick.png" alt="" />
+                    </span> */}
+                </div>
+                <p className="light-text fw-700">Challange Period</p>
+              </li> 
+              <li className="step-line"></li>
+              <li className="step">
+                <div className="step-blk">
+                  <span className="fw-700">4</span>  
+                </div>
+                <p className="light-text fw-700">Completed</p>   
+              </li>
+            </ul>
+          </div>
+          <div className="center-align">
+            <span className="mb-3"><img src="../../assets/images/progrs-img-2.png" alt="" className="img-fluid"  /></span>
+          </div>              
+          <div className="center-align">
+          <p className="fw-bold fs-18">Transaction in process</p>
+                <p>Your transaction will be confirmed in a few seconds. If you think that your transaction is taking too long then please visit thins link to complete your withdraw process.</p>
+                <a href="javascript:void(0);" title="">View on Polygon Explorer</a>
+            </div>
+          </div>
+        </CommonModal>  
+
+        <CommonModal
+        title={"Transfer in Progress"}
+        show={showProgressFourStepsModalFive}
+        setShow={setProgressFourStepsModalFive} 
+         >
+          <div>
+            <div className="block-box">
+                <div>
+                  <span >Transfer Amount</span>
+                </div>
+                <div>
+                  <span className="fw-bold">5 MATIC</span>
+                </div>
+              </div>  
+          </div>
+          <div>
+          <div className="small-step">
+            <ul className="steps">
+              <li className="step">
+                <div className="step-blk step-active">
+                  <span className="fw-700">1</span>
+                  {/* <span className="fw-700">
+                      <img src="../../assets/images/white-tick.png" alt="" />
+                    </span> */}
+                </div>
+                <p className="light-text fw-700">Initialized</p>
+              </li>
+              <li className="step-line"></li>
+              <li className="step">
+                <div className="step-blk">
+                  <span className="fw-700">2</span>
+                  {/* <span className="fw-700">
+                      <img src="../../assets/images/white-tick.png" alt="" />
+                    </span> */}
+                </div>            
+                <p className="light-text fw-700">Checkpoint</p>
+              </li>
+              <li className="step-line"></li>
+              <li className="step">
+                <div className="step-blk ">
+                  <span className="fw-700">3</span>
+                  {/* <span className="fw-700">
+                      <img src="../../assets/images/white-tick.png" alt="" />
+                    </span> */}
+                </div>
+                <p className="light-text fw-700">Challange Period</p>
+              </li> 
+              <li className="step-line"></li>
+              <li className="step">
+                <div className="step-blk">
+                  <span className="fw-700">4</span>  
+                </div>
+                <p className="light-text fw-700">Completed</p>   
+              </li>
+            </ul>
+          </div>
+          <div className="center-align">
+            <span className="mb-3"><img src="../../assets/images/progrs-img-2.png" alt="" className="img-fluid"  /></span>
+          </div>              
+          <div className="center-align">
+          <p className="fw-bold fs-18">Transaction in process</p>
+                <p>Your transaction will be confirmed in a few seconds. If you think that your transaction is taking too long then please visit thins link to complete your withdraw process.</p>
+                <a href="javascript:void(0);" title="">View on Polygon Explorer</a>
+            </div>
+          </div>
+        </CommonModal>  
+
+        <CommonModal
+        title={"Transfer in Progress"}
+        show={showProgressFourStepsModalSix}
+        setShow={setProgressFourStepsModalSix} 
+         >
+          <div>
+            <div className="block-box">
+                <div>
+                  <span >Transfer Amount</span>
+                </div>
+                <div>
+                  <span className="fw-bold">5 MATIC</span>
+                </div>
+              </div>  
+          </div>
+          <div>
+          <div className="small-step">
+            <ul className="steps">
+              <li className="step">
+                <div className="step-blk step-active">
+                  {/* <span className="fw-700">1</span> */}
+                  <span className="fw-700">
+                      <img src="../../assets/images/white-tick.png" alt="" />
+                    </span>
+                </div>
+                <p className="light-text fw-700">Initialized</p>
+              </li>
+              <li className="step-line step-active"></li>
+              <li className="step">
+                <div className="step-blk">
+                  <span className="fw-700">2</span>
+                  {/* <span className="fw-700">
+                      <img src="../../assets/images/white-tick.png" alt="" />
+                    </span> */}
+                </div>            
+                <p className="light-text fw-700">Checkpoint</p>
+              </li>
+              <li className="step-line"></li>
+              <li className="step">
+                <div className="step-blk ">
+                  <span className="fw-700">3</span>
+                  {/* <span className="fw-700">
+                      <img src="../../assets/images/white-tick.png" alt="" />
+                    </span> */}
+                </div>
+                <p className="light-text fw-700">Challange Period</p>
+              </li> 
+              <li className="step-line"></li>
+              <li className="step">
+                <div className="step-blk">
+                  <span className="fw-700">4</span>  
+                </div>
+                <p className="light-text fw-700">Completed</p>   
+              </li>
+            </ul>
+          </div>
+          {/* <div className="center-align">
+            <span className="mb-3"><img src="../../assets/images/progrs-img-2.png" alt="" className="img-fluid"  /></span>
+          </div>               */}
+          <div className="center-align">
+          <p className="fw-bold fs-18">Waiting for Checkpoint</p>
+                <p>Please wait until the Polygon PoS checkpoint arrives that includes your withdraw transaction. Checkpoints takes -45 mins to 3 hours. In case of any issue, please reach out to support.</p>
+                <a href="javascript:void(0);" title="">View on Polygon Explorer</a>
+            </div>
+          </div>
+        </CommonModal>  
+
+        <CommonModal
+        title={"Transfer Overview"}
+        show={showProgressFourStepsModalSeven}
+        setShow={setProgressFourStepsModalSeven} 
+         > 
+          <div className="center-align">
+            <span className="mb-3"><img src="../../assets/images/big-like.jpg" alt="" className="img-fluid"  /></span>
+          </div>
+          <div>
+          <div className="center-align">
+          <p className="fw-bold fs-18">Waiting for Checkpoint</p>
+                <p>Please wait until the Polygon PoS checkpoint arrives that includes your withdraw transaction. Checkpoints takes -45 mins to 3 hours. In case of any issue, please reach out to support.</p>
+                <a href="javascript:void(0);" title="">View on Polygon Explorer</a>
+            </div>
+          </div>
+        </CommonModal>  
+
       </div>
     </>
   );
