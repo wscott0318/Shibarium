@@ -144,7 +144,7 @@ const transferToken = () => {
                   <b>
                     <a href="#!;" title="">
                       here
-                    </a>
+                    </a> 
                   </b>{" "}
                   to see all the exchanges that support Shibarium Network
                 </p>

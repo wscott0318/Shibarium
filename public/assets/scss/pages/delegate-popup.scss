@@ -148,6 +148,7 @@
         -moz-transform: translateX(-50%);
         left: 50%;
         bottom: auto;
+        text-align: center;
         @media #{$max-xsm} {
             top:45px;
             font-size: 13px;
