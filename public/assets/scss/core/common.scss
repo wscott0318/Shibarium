@@ -427,6 +427,14 @@
     font-weight: 700;
     font-size: 11px;
 }
+.btn-primary-outline {
+    border: 1px solid $primary;
+    color: $primary;
+    &:hover{
+        background-color: $primary;
+        color: rgba($white,0.85);
+    }
+}
 .success-btn{
     background: $green-color;
 }
@@ -2406,3 +2414,54 @@ input[type=number]::-webkit-outer-spin-button {
     font-size: 18px;
 }
 /** Popup css end **/
+
+.content-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    .content-col {
+        margin-bottom: 8px;
+    }
+    .icon {
+        background-color: #fff;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 100%;
+    }
+}
+
+.swap-wrap{
+    .icon {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fff;
+        border-radius: 100%;
+    }
+    .swap-group{
+        display: flex;
+        align-items: center;
+        .swap-coin {
+            flex: 1;
+        }
+        .exch-coins {
+            border: 1px solid rgba(255,255,255, 0.9);
+            border-radius: 30px;
+            padding: 8px 12px;
+        }
+        .exch-icon {
+            width: 60px;
+            text-align: center;
+            margin: 0 auto;
+            img{
+                margin: 0 auto;
+            }
+        }
+    }
+}
