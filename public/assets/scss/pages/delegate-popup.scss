@@ -58,6 +58,7 @@
             background-repeat: no-repeat;
             opacity: 1;
             background-size: 21px 22px;
+            box-shadow: none;
             @media #{$max-xxl}{
                 top: 22px;
                 right: 15px;

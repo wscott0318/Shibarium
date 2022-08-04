@@ -2371,7 +2371,16 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .shib-popup{
     .modal-body.low-sidespace{
-        padding: 49px 35px
+        padding: 49px 35px;
+        @media #{$max-lg}{
+            padding: 30px;
+        }
+        @media #{$max-md}{
+            padding: 25px;
+        }
+        @media #{$max-sm}{
+            padding: 20px;
+        }
     }
 }
 .arrow-box {
@@ -2447,8 +2456,16 @@ input[type=number]::-webkit-outer-spin-button {
     .swap-group{
         display: flex;
         align-items: center;
+        @media #{$max-sm}{
+            flex-direction: column;
+            justify-content: center;
+        }
         .swap-coin {
             flex: 1;
+            @media #{$max-sm}{
+                flex: 0 0 auto;
+                width: 100%;
+            }
         }
         .exch-coins {
             border: 1px solid rgba(255,255,255, 0.9);
@@ -2459,8 +2476,12 @@ input[type=number]::-webkit-outer-spin-button {
             width: 60px;
             text-align: center;
             margin: 0 auto;
+            @media #{$max-sm}{
+                margin: 18px auto;
+            }
             img{
                 margin: 0 auto;
+                transform: rotate(90deg);
             }
         }
     }
