@@ -2481,7 +2481,9 @@ input[type=number]::-webkit-outer-spin-button {
             }
             img{
                 margin: 0 auto;
-                transform: rotate(90deg);
+                @media #{$max-sm}{
+                    transform: rotate(90deg);
+                }
             }
         }
     }
