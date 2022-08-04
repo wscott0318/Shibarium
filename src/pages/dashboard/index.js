@@ -1250,7 +1250,7 @@ export default function Dashboard() {
         </CommonModal>
         <CommonModal
           show={showProgressFourStepsModalTen}
-          setShow={setProgressFourStepsModalNine}
+          setShow={setProgressFourStepsModalTen}
         >
           <div className="">
               <div className="timer text-center fw-600 primary-text mb-3">
