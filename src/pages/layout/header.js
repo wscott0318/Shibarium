@@ -203,12 +203,14 @@ export default function Header() {
                   width={18}
                 />
               </a>
-              <Link className="navbar-brand " href="/home">
+              <Link className=" " href="/home">
+                <span className="navbar-brand">
                 <img
                   className="img-fluid"
                   src="../../assets/images/logo.png"
                   alt=""
                 />
+                </span>
               </Link>
             </div>
             <div ref={wrapperRef} className="active">
