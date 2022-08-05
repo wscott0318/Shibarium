@@ -227,7 +227,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="btn-wrap pt-3">
-                        <button type="button" onClick={() => setProgressFourStepsModalTen(true)} className="btn warning-btn w-100">
+                        <button type="button" onClick={() => setTransferOverviewModal(true)} className="btn warning-btn w-100">
                           <span>Transfer</span>
                         </button>
                       </div>
@@ -789,8 +789,13 @@ export default function Dashboard() {
                 </li>
               </ul>
             </div>
-            <div className="center-align">
+            {/* <div className="center-align">
               <span className="mb-3"><img src="../../assets/images/progrs-img-2.png" alt="" className="img-fluid" /></span>
+            </div> */}
+            <div className="spinner-outer position-relative spiner-blk">
+              <div className="loading-spinner">
+                <TailSpin color="#f06500" height={80} width={80} />
+              </div>
             </div>
             <div className="center-align">
               <p className="fw-bold fs-18">Transaction in process</p>
@@ -929,8 +934,13 @@ export default function Dashboard() {
                 </li>
               </ul>
             </div>
-            <div className="center-align">
+            {/* <div className="center-align">
               <span className="mb-3"><img src="../../assets/images/progrs-img-2.png" alt="" className="img-fluid" /></span>
+            </div> */}
+            <div className="spinner-outer position-relative spiner-blk">
+              <div className="loading-spinner">
+                <TailSpin color="#f06500" height={80} width={80} />
+              </div>
             </div>
             <div className="center-align">
               <p className="fw-bold fs-18">Transaction in process</p>
@@ -996,8 +1006,13 @@ export default function Dashboard() {
                 </li>
               </ul>
             </div>
-            <div className="center-align">
+            {/* <div className="center-align">
               <span className="mb-3"><img src="../../assets/images/progrs-img-2.png" alt="" className="img-fluid" /></span>
+            </div> */}
+            <div className="spinner-outer position-relative spiner-blk">
+              <div className="loading-spinner">
+                <TailSpin color="#f06500" height={80} width={80} />
+              </div>
             </div>
             <div className="center-align">
               <p className="fw-bold fs-18">Transaction in process</p>
@@ -1063,8 +1078,13 @@ export default function Dashboard() {
                 </li>
               </ul>
             </div>
-            <div className="center-align">
+            {/* <div className="center-align">
               <span className="mb-3"><img src="../../assets/images/progrs-img-2.png" alt="" className="img-fluid" /></span>
+            </div> */}
+            <div className="spinner-outer position-relative spiner-blk">
+              <div className="loading-spinner">
+                <TailSpin color="#f06500" height={80} width={80} />
+              </div>
             </div>
             <div className="center-align">
               <p className="fw-bold fs-18">Transaction in process</p>
@@ -1219,10 +1239,15 @@ export default function Dashboard() {
           show={showProgressFourStepsModalEight}
           setShow={setProgressFourStepsModalEight}
         >
-          <div className="center-align">
+          {/* <div className="center-align">
             <span className="mb-3">
               <img src="../../assets/images/progrs-img-2.png" alt="" className="img-fluid" width={170} />
             </span>
+          </div> */}
+          <div className="spinner-outer position-relative spiner-blk">
+            <div className="loading-spinner">
+              <TailSpin color="#f06500" height={80} width={80} />
+            </div>
           </div>
           <div>
             <div className="center-align">
