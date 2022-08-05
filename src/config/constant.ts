@@ -2,7 +2,7 @@ import { ChainId } from "@shibarium/core-sdk";
 
 export const BONE_ID = 'bone-shibaswap';
 
-export const API_BASE_URL = 'http://18.219.186.181:5020/'
+export const API_BASE_URL = 'http://18.218.177.200:3000/api/v1/'
 /**
  * Staking APi BASE URL
  */

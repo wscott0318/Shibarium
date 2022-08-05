@@ -102,7 +102,7 @@ const transferToken = () => {
           <div className="notify-poup">
             <div className="block-wrap">
               <h1 className="mb-3 ft-20 lft-strip mb-sm-4">
-                <span className="align text-hd">What’s supported</span>
+                <span className="align text-hd">What&apos;s supported</span>
               </h1>
               <div className="form-check cus-chkbox d-inline-block me-0">
                 <input
