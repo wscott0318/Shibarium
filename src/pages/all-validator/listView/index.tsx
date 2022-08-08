@@ -39,7 +39,9 @@ export default function ListView({ validatorsList }: { validatorsList: any }) {
                           <img style={{height:24}} src={!elm.logoUrl || elm.logoUrl === 'PLACEHOLDER'? "../../assets/images/fundbaron.png":elm.logoUrl} alt="logo" className='me-3 mobile-image'/>
                         </i>
                       <Link href={`/all-validator/${elm.signer}`}>
+                        <a >
                         {elm.name}
+                        </a>
                         </Link>
                       </span>
                       
@@ -81,7 +83,7 @@ export default function ListView({ validatorsList }: { validatorsList: any }) {
                 })}
                   {!validatorsList || validatorsList.length ===0 ? 
                   <tr>
-                    <td colSpan={10}><div style={{display:'flex',justifyContent:'center',padding: '3rem'}}>No Records Found.</div></td>
+                    <td colSpan={10}><div style={{display:'flex',justifyContent:'center',padding: '3rem'}}>No Record Found.</div></td>
                   </tr>
                   :null}
                 </tbody>

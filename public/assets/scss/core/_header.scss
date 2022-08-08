@@ -45,6 +45,7 @@
     .navbar-brand {
         padding: 24px 0;
         display: inline-block;
+        cursor: pointer;
         @media #{$max-xxxl}{
             max-width: 150px;
             padding: 20px;

@@ -427,6 +427,14 @@
     font-weight: 700;
     font-size: 11px;
 }
+.btn-primary-outline {
+    border: 1px solid $primary;
+    color: $primary;
+    &:hover{
+        background-color: $primary;
+        color: rgba($white,0.85);
+    }
+}
 .success-btn{
     background: $green-color;
 }
@@ -1193,7 +1201,7 @@ color:$green-color;
     }
 }
 .center-sec{
-    max-width: 700px;
+    max-width: 100%;
     margin: 0 auto;
     color:$white;
 }
@@ -2363,7 +2371,16 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .shib-popup{
     .modal-body.low-sidespace{
-        padding: 49px 35px
+        padding: 49px 35px;
+        @media #{$max-lg}{
+            padding: 30px;
+        }
+        @media #{$max-md}{
+            padding: 25px;
+        }
+        @media #{$max-sm}{
+            padding: 20px;
+        }
     }
 }
 .arrow-box {
@@ -2406,3 +2423,82 @@ input[type=number]::-webkit-outer-spin-button {
     font-size: 18px;
 }
 /** Popup css end **/
+
+.content-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    .content-col {
+        margin-bottom: 8px;
+    }
+    .icon {
+        background-color: #fff;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 100%;
+    }
+}
+
+.swap-wrap{
+    .icon {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fff;
+        border-radius: 100%;
+    }
+    .swap-group{
+        display: flex;
+        align-items: center;
+        @media #{$max-sm}{
+            flex-direction: column;
+            justify-content: center;
+        }
+        .swap-coin {
+            flex: 1;
+            @media #{$max-sm}{
+                flex: 0 0 auto;
+                width: 100%;
+            }
+        }
+        .exch-coins {
+            border: 1px solid rgba(255,255,255, 0.9);
+            border-radius: 30px;
+            padding: 8px 12px;
+        }
+        .exch-icon {
+            width: 60px;
+            text-align: center;
+            margin: 0 auto;
+            @media #{$max-sm}{
+                margin: 18px auto;
+            }
+            img{
+                margin: 0 auto;
+                @media #{$max-sm}{
+                    transform: rotate(90deg);
+                }
+            }
+        }
+    }
+}
+.qr-code{
+    padding: 0 0 40px;
+    display: flex;
+    justify-content: center;
+    @media #{$max-sm}{
+        padding: 0 0 30px;
+    }
+    @media #{$max-xxsm}{
+        margin: 0 -10px;
+    }
+}
+.word-wrap{
+    word-break: break-all   ;
+}

@@ -2,23 +2,23 @@ import { http } from "../http";
 import {RetakeFormInterface} from "../../../interface/reTakeFormInterface"
 
 export function validatorsList(){
-    return http.get(`validator/getList`)
+    return http.get(`validators/getList`)
 }
 export function restake(reqBody:RetakeFormInterface){
     // console.log(reqBody,'asdsa');
-    return http.post(`validator/restake`,reqBody)
+    return http.post(`validators/restake`,reqBody)
 }
 export function commission(reqBody:any){
-    return http.post(`validator/updateCommission`,reqBody)
+    return http.post(`validators/updateCommission`,reqBody)
 }
 
 export function withdrawReward(reqBody:any){
-    return http.post(`validator/withdrawRewards`,reqBody)
+    return http.post(`validators/withdrawRewards`,reqBody)
 }
 export function unbound(body:any){
     return http.post(`unbond`,body)
 }
 export function getBoneUSDValue(coinId:string){
-    return http.get(`/coins/rate/${coinId}`)
+    return http.get(`coins/rate/${coinId}`)
 }
-export const getValidatorsDetail = (id:string) =>  http.get(`validator/overview/${id}`)
+export const getValidatorsDetail = (id:string) =>  http.get(`validators/overvie/${id}`)
