@@ -63,7 +63,7 @@ export default function ValidatorGrid({ validatorsList }: { validatorsList: any 
 
                             </div>
                             :
-                            <div style={{display:'flex',justifyContent:'center',padding: '3rem'}}>No Records Found.</div>
+                            <div style={{display:'flex',justifyContent:'center',padding: '3rem'}}>No Record Found.</div>
                         }
                     </div>
             </div>
