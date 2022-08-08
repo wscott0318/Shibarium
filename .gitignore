@@ -27,3 +27,4 @@ public/workbox*.js.map
 coverage
 yarn.lock
 package-lock.json
+*.zip
