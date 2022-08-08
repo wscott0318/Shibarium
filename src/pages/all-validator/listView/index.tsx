@@ -39,7 +39,9 @@ export default function ListView({ validatorsList }: { validatorsList: any }) {
                           <img style={{height:24}} src={!elm.logoUrl || elm.logoUrl === 'PLACEHOLDER'? "../../assets/images/fundbaron.png":elm.logoUrl} alt="logo" className='me-3 mobile-image'/>
                         </i>
                       <Link href={`/all-validator/${elm.signer}`}>
+                        <a >
                         {elm.name}
+                        </a>
                         </Link>
                       </span>
                       

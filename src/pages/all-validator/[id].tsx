@@ -76,11 +76,11 @@ export default function ValidatorDetails() {
                                     <h4 className='py-2 mt-2'>
                                         <span className='text-white trs-3'>{validatorInfo?.name}</span>
                                     </h4>
-                                    <Link href="https://linktr.ee/DeFiMatic">
+                                    {/* <Link href="https://linktr.ee/DeFiMatic"> */}
                                         <a className='primary-text'>
                                           https://linktr.ee/DeFiMatic
                                         </a>
-                                    </Link>
+                                    {/* </Link> */}
                                 </div>
                             </div>
                             <div className='col-sm-7 col-lg-7 col-xl-8'>
