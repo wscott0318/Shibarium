@@ -33,14 +33,14 @@ const QrModal:React.FC<props> = ({show,setShow, title,address})=> {
 
     <Modal.Body>
         <div
-          className="d-flex justify-content-center"
-          style={{ padding: "70px" }}
+          className="qr-code"
+          
         >
           <QRCode value={address} bgColor='#15141b' fgColor='#fff' title={address} />
         </div>
         <div>
           <div className='mt-4 text-center'>Wallet address </div>
-          <div  className='text-center'>{address}</div>
+          <div  className='text-center word-wrap'>{address}</div>
         </div>
     </Modal.Body>
     <Modal.Footer className='text-center d-block'>

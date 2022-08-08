@@ -1201,7 +1201,7 @@ color:$green-color;
     }
 }
 .center-sec{
-    max-width: 700px;
+    max-width: 100%;
     margin: 0 auto;
     color:$white;
 }
@@ -2487,4 +2487,18 @@ input[type=number]::-webkit-outer-spin-button {
             }
         }
     }
+}
+.qr-code{
+    padding: 0 0 40px;
+    display: flex;
+    justify-content: center;
+    @media #{$max-sm}{
+        padding: 0 0 30px;
+    }
+    @media #{$max-xxsm}{
+        margin: 0 -10px;
+    }
+}
+.word-wrap{
+    word-break: break-all   ;
 }
