@@ -91,6 +91,12 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
     },
     validationSchema: restakeValidation,
   });
+
+  const CommiModal: any = Yup.object({
+    validatorAddress: Yup.string().required(),
+    newCommission: Yup.number().min(0).max(100).required(),
+  })
+
   const commiFormik: FormikProps<CommissionRateInterface> = useFormik<CommissionRateInterface>({
     initialValues: {
       validatorAddress: account || '',
@@ -116,6 +122,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
           setToastMessage(err?.response?.data?.message);
         });
     },
+    validationSchema: CommiModal,
   });
 
   const successWithdrawMessage = (res:any) =>{
@@ -154,6 +161,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
     },
   });
   const renderError = (message: string) => <p className="text-danger">{message}</p>;
+  const CustomRenderError = () => <p className="text-danger">range should be 0-100 %</p>;
   // const renderTooltip = (props: any) => (
   //   <Tooltip id="button-tooltip" {...props}>
   //     Simple tooltip
@@ -193,7 +201,12 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
               <form onSubmit={retakeFormik.handleSubmit} className="modal-form">
                 <div className="form-group">
                   <label htmlFor="" className="form-label">
-                    {userType} Address
+                    {userType} Address 
+                    <span className="address_tooltip">?
+                    <span className="dummypopup"> Use Validators Staking Address</span>
+                    </span>
+
+                   
                   </label>
                   <Field
                     type="text"
@@ -278,11 +291,16 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
               <span>Commission</span>
             </h4>
           </Modal.Header>
+          
           <Modal.Body>
+          <FormikProvider value={commiFormik}>
             <form onSubmit={commiFormik.handleSubmit} className="modal-form">
               <div className="form-group">
                 <label htmlFor="" className="form-label">
                   {userType} Address
+                  <span className="address_tooltip">?
+                    <span className="dummypopup">Validators Address</span>
+                    </span>
                 </label>
                 <input
                   type="text"
@@ -299,7 +317,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                 <label htmlFor="" className="form-label">
                   New Commission
                 </label>
-                <input
+                <Field
                   type="number"
                   placeholder="Enter amount"
                   className="form-control form-bg"
@@ -308,6 +326,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                   onChange={commiFormik.handleChange}
                   value={commiFormik.values.newCommission}
                 />
+                <ErrorMessage name="newCommission" render={CustomRenderError}/>
               </div>
               <div className="pt-3 form-group pt-md-4">
                 <button
@@ -318,7 +337,9 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                 </button>
               </div>
             </form>
+            </FormikProvider>
           </Modal.Body>
+         
         </Modal>
       </div>
       {/* retake modal end */}
@@ -344,6 +365,9 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
               <div className="form-group">
                 <label htmlFor="" className="form-label">
                   {userType} Address
+                  <span className="address_tooltip">?
+                    <span className="dummypopup">Validators Address</span>
+                    </span>
                 </label>
                 <input
                   type="text"

@@ -2502,3 +2502,36 @@ input[type=number]::-webkit-outer-spin-button {
 .word-wrap{
     word-break: break-all   ;
 }
+.address_tooltip{
+    position: relative;
+    width: 18px;
+    border: 1px solid;
+    height: 19px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 15px;
+    margin-left: 5px;
+
+    &:hover{ 
+        .dummypopup {
+            opacity: 1;
+            z-index: 9999; 
+        }
+    }
+}
+
+.dummypopup{
+    position: absolute;
+    top: -50px;
+    left: 0px;
+    background-color: #fff;
+    font-size: 14px;
+    padding: 12px 10px;
+    display: inline-block;
+    width: 150px;
+    text-align: center;
+    color: #000;
+     opacity: 0;
+    transition: 0.3s;
+    z-index: 9999;
+}

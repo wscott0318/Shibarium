@@ -21,4 +21,4 @@ export function unbound(body:any){
 export function getBoneUSDValue(coinId:string){
     return http.get(`coins/rate/${coinId}`)
 }
-export const getValidatorsDetail = (id:string) =>  http.get(`validators/overvie/${id}`)
+export const getValidatorsDetail = (id:string) =>  http.get(`validators/overview/${id}`)

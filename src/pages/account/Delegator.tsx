@@ -163,7 +163,9 @@ const DelegatorAccount = ({ balance, boneUSDValue,userType }: WalletBalanceProps
               <form onSubmit={retakeFormik.handleSubmit} className="modal-form">
                 <div className="form-group">
                   <label htmlFor="" className="form-label">
-                    {'Validator'} Address
+                    {'Validator'} Address  <span className="address_tooltip">?
+                    <span className="dummypopup"> Use Validators Staking Address</span>
+                    </span>
                   </label>
                   <Field
                     type="text"
