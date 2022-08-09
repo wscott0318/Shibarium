@@ -5,7 +5,9 @@ import { useMoralis } from 'react-moralis';
 import { RouteGuard } from 'utils/RouteGaurd'
 import Header from './layout/header';
 import { isDesktop, isMobile } from 'react-device-detect';
-import PortraitWarning from './components/portraitWarning';
+import PortraitWarning from './components/PortraitWarning';
+
+
 
 const ComponentRouters=({Component, pageProps}:any)=> {
     const {user} = useMoralis();
