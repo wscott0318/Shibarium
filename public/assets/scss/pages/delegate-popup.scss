@@ -77,9 +77,9 @@
     }
     .modal-body{
        padding: 49px 60px;
-       @media #{$max-xxl}{
-           padding:30px;
-       }
+    //    @media #{$max-xxl}{
+    //        padding:30px;
+    //    }
         @media #{$max-lg} {
             padding: 34px 40px;
         }
