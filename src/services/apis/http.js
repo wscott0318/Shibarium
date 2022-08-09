@@ -4,8 +4,8 @@ import axios from "axios";
 export const http = axios.create({
   baseURL: API_BASE_URL,
   headers:{
-      accept: 'text/plain',
-      // "Content-Type": "multipart/form-data"
+      accept: 'application/json',
+      "Access-Control-Allow-Origin": "*"
     //   "X-user": "wXIMeKVEFFF1hV3GiFWit8uw",
     //  "X-sessiontoken":'r:8e677125ab6861ac1c927f29e7fba7fb'
   }
