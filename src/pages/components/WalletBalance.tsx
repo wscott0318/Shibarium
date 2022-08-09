@@ -173,11 +173,11 @@ const WalletBalance = ({ balance, boneUSDValue }: WalletBalanceProps) => {
 
   return (
     <>
-      <h2 className="mb-3 low-font-wt">Ethereum Wallet Balance</h2>
+      {/* <h2 className="mb-3 low-font-wt">Ethereum Wallet Balance</h2>
       <h1 className="fw-700 light-text">
         {` ${(balance.toFixed(8))} BONE Wallet`}{" "}
       </h1>
-      <h2 className="low-font-wt">{(balance * boneUSDValue).toFixed(4)} USD</h2>
+      <h2 className="low-font-wt">{(balance * boneUSDValue).toFixed(4)} USD</h2> */}
       <div className="flex-wrap mt-4 d-flex align-items-center justify-content-center flex-column flex-sm-row">
 
         {
