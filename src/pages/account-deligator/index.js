@@ -135,7 +135,7 @@ export default function Account() {
             aria-labelledby="contained-modal-title-vcenter "
             centered>
             <Modal.Header closeButton className='text-center'>
-              <h4 className='mb-0'><span className='trs-3'>Withdraws rewards</span></h4>
+              <h4 className='mb-0'><span className='trs-3'>Withdraw Rewards</span></h4>
             </Modal.Header>
             <Modal.Body>
               <form action="" className="modal-form">

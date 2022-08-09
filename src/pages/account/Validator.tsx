@@ -336,7 +336,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
           {loading && <LoadingSpinner />}
           <Modal.Header closeButton className="text-center">
             <h4 className="mb-0">
-              <span className="trs-3">Withdraws Rewards</span>
+              <span className="trs-3">Withdraw Rewards</span>
             </h4>
           </Modal.Header>
           <Modal.Body>
