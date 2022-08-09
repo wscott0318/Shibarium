@@ -52,8 +52,103 @@ export default function Account() {
               </div>
             </div>
           </div>
-          <div className="container">
-            <div className="text-center center-sec">
+          <div className="container acct-sec">
+            
+            {/* overview section start */}
+            <div className="baner-card top-margin">
+            <h3 className="mb-0 mb-3 text-white fwb">Staking Overview</h3>
+            <div className="row">
+              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+                <div className="bs-card card">
+                  <div className="data-box">
+                    <div>
+                      <h3 className="fwb upertxt">ETHEREUM WALLET BALANCE</h3>
+                      <p className="mb-0 d-block fw-600 upertxt">185 MATIC</p>
+                      
+                    </div>
+                    <div>
+                      <div className="card-hr"></div>
+                      <span className="mb-0 mt-2">$null</span>
+                    </div>
+                  </div>
+                  
+                  
+                </div>
+              </div>
+              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+                <div className="bs-card card">
+                <div className="data-box">
+                    <div>
+                      <h3 className="fwb upertxt">Your Stake</h3>
+                      <p className="mb-0 d-block fw-600 upertxt">10 MATIC</p>
+                      
+                    </div>
+                    <div>
+                      <div className="card-hr"></div>
+                      <span className="mb-0 mt-2">$null</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+                <div className="bs-card card">
+                <div className="data-box">
+                    <div>
+                      <h3 className="fwb upertxt">Delegation</h3>
+                      <p className="mb-0 d-block fw-600 upertxt">1 Validator</p>
+                      
+                    </div>
+                    <div>
+                      <div className="card-hr"></div>
+                      <span className="mb-0 mt-2">$null</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+                <div className="bs-card card">
+                <div className="data-box">
+                    <div>
+                      <h3 className="fwb upertxt">Unclaimed Rewards</h3>
+                      <p className="mb-0 d-block fw-600 upertxt">0.04 MATIC</p>
+                      
+                    </div>
+                    <div>
+                      <div className="card-hr"></div>
+                      <span className="mb-0 mt-2">$null</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/*<div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+                <div className="bs-card card">
+                  <h3 className="fwb upertxt">Your stake</h3>
+                  <p className="mb-0 d-block fw-600">10 Matic</p>
+                  <div className="card-hr"></div>
+                  <span className="mb-0">$null</span>
+                </div>
+              </div>
+               <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+                <div className="bs-card card">
+                  <h3 className="fwb upertxt">Your stake</h3>
+                  <p className="mb-0 d-block fw-600">10 Matic</p>
+                  <div className="card-hr"></div>
+                  <span className="mb-0">$null</span>
+                </div>
+              </div>
+              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+                <div className="bs-card card">
+                  <h3 className="fwb upertxt">Your stake</h3>
+                  <p className="mb-0 d-block fw-600">10 Matic</p>
+                  <div className="card-hr"></div>
+                  <span className="mb-0">$null</span>
+                </div>
+              </div> */}
+            </div>
+            </div>
+            {/* overview section end */}
+            {/* btns section start */}
+            <div className="text-center center-sec button-block">
               <WalletBalance
                 balance={ availBalance}
                 boneUSDValue={boneUSDValue}
@@ -63,6 +158,68 @@ export default function Account() {
 
               />
             </div>
+            {/* btns section end */}
+            {/* Delegations section start */}
+            <div className="baner-card mt-0">
+              <h3 class="mb-0 mb-3 text-white fwb">Your Delegations</h3>
+              <div className="row">
+                <div className="col-lg-6 col-md-6 col-12 mx-auto bs-col">
+                    <div className="border-sec">
+                      <div className="top-sec">
+                        <div className="info-block">
+                          <div className="image-blk">
+                            <div>
+                              <img className="img-fluid" src="../../assets/images/coin-matic.png" width="69" height="70" alt="coin-icon"/>
+                            </div>
+                          </div>
+                          <div className="grid-info">
+                            <div className="fw-bold">DefiMatic</div>
+                            <div className="info-row">
+                              <span><span className="fw-bold">100%</span> Checkpoints Signed</span>
+                            </div>
+                            <div className="info-row">
+                              <span><span className="fw-bold">1%</span> Commission</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="mid-sec bs-card h-auto">
+                        <div className="block-container">
+                          <div className="cus-width"> 
+                            <div className="text-center">
+                              <div>Your Stake</div>
+                              <div className="fw-bold">10 Matic</div>
+                              <div>$0</div>
+                            </div>
+                          </div>
+                          <div className="cus-width">
+                            <div className="text-center">
+                              <div>Reward</div>
+                              <div className="fw-bold orange-color">0.04 Matic</div>
+                              <div>$0</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+               <div className="col-lg-6 col-md-6 col-12 mx-auto bs-col">
+                <div className="border-sec">
+                  <div className="add-sec">
+                    <div className="text-center">
+                      <div className="text-center">
+                        <a href="javascript:void(0);"><img className="img-fluid d-inline-block" src="../../assets/images/white-plus.png" width="27" height="28" alt="coin-icon"/></a>
+                      </div>
+                      <div>
+                        <span>Stake to more validators</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+            {/* Delegations section end */}
           </div>
         </main>
 
