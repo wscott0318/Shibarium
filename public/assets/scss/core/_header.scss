@@ -1,4 +1,6 @@
 .nav-toggle{
+
+    
     padding: 10px 10px;
     margin-bottom: 15px;
     box-shadow: none;
@@ -27,6 +29,7 @@
     .navbar-collapse{
         flex-grow: unset;
     }
+    
     .nav-link{
         font-size: 18px;
         color:$white;
