@@ -63,7 +63,7 @@ export default function Account() {
                   <div className="data-box">
                     <div>
                       <h3 className="fwb upertxt">ETHEREUM WALLET BALANCE</h3>
-                      <p className="mb-0 d-block fw-600 upertxt">185 MATIC</p>
+                      <p className="mb-0 d-block fw-600 upertxt">185</p>
                       
                     </div>
                     <div>
@@ -80,7 +80,7 @@ export default function Account() {
                 <div className="data-box">
                     <div>
                       <h3 className="fwb upertxt">Your Stake</h3>
-                      <p className="mb-0 d-block fw-600 upertxt">10 MATIC</p>
+                      <p className="mb-0 d-block fw-600 upertxt">10</p>
                       
                     </div>
                     <div>
@@ -110,7 +110,7 @@ export default function Account() {
                 <div className="data-box">
                     <div>
                       <h3 className="fwb upertxt">Unclaimed Rewards</h3>
-                      <p className="mb-0 d-block fw-600 upertxt">0.04 MATIC</p>
+                      <p className="mb-0 d-block fw-600 upertxt">0.04</p>
                       
                     </div>
                     <div>
@@ -188,14 +188,14 @@ export default function Account() {
                           <div className="cus-width"> 
                             <div className="text-center">
                               <div>Your Stake</div>
-                              <div className="fw-bold">10 Matic</div>
+                              <div className="fw-bold">10</div>
                               <div>$0</div>
                             </div>
                           </div>
                           <div className="cus-width">
                             <div className="text-center">
                               <div>Reward</div>
-                              <div className="fw-bold orange-color">0.04 Matic</div>
+                              <div className="fw-bold orange-color">0.04</div>
                               <div>$0</div>
                             </div>
                           </div>
