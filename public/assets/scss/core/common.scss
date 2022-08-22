@@ -2580,3 +2580,14 @@ input[type=number]::-webkit-outer-spin-button {
         font-size: 15px;
     }
 }
+.cus-dropdown{
+    button{
+        min-width: 165px;
+        @media #{$max-xsm}{
+            min-width: 125px;
+        }
+    }
+}
+.font-xs{
+    font-size: 20px;
+}

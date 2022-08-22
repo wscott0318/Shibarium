@@ -62,7 +62,7 @@ export default function Account() {
                 <div className="bs-card card">
                   <div className="data-box">
                     <div>
-                      <h3 className="fwb upertxt">ETHEREUM WALLET BALANCE</h3>
+                      <h3 className="fwb upertxt font-xs">ETHEREUM WALLET BALANCE</h3>
                       <p className="mb-0 d-block fw-600 upertxt">185</p>
                       
                     </div>
@@ -79,7 +79,7 @@ export default function Account() {
                 <div className="bs-card card">
                 <div className="data-box">
                     <div>
-                      <h3 className="fwb upertxt">Your Stake</h3>
+                      <h3 className="fwb upertxt font-xs">Your Stake</h3>
                       <p className="mb-0 d-block fw-600 upertxt">10</p>
                       
                     </div>
@@ -94,7 +94,7 @@ export default function Account() {
                 <div className="bs-card card">
                 <div className="data-box">
                     <div>
-                      <h3 className="fwb upertxt">Delegation</h3>
+                      <h3 className="fwb upertxt font-xs">Delegation</h3>
                       <p className="mb-0 d-block fw-600 upertxt">1 Validator</p>
                       
                     </div>
@@ -109,7 +109,7 @@ export default function Account() {
                 <div className="bs-card card">
                 <div className="data-box">
                     <div>
-                      <h3 className="fwb upertxt">Unclaimed Rewards</h3>
+                      <h3 className="fwb upertxt font-xs">Unclaimed Rewards</h3>
                       <p className="mb-0 d-block fw-600 upertxt">0.04</p>
                       
                     </div>

@@ -138,7 +138,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                       <span className="slider round"></span>
                     </label>
                   </div>
-                  <div className="d-inline-block pe-4 pe-sm-4">
+                  <div className="d-inline-block pe-4 pe-sm-4 ">
                     <label className="head-xsm fw-600" htmlFor="Auction">
                       <span className="top-low-spc pe-2 align">Sort by</span>
                     </label>
@@ -161,7 +161,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                       </Dropdown.Menu>
                     </Dropdown>
                   </div>
-                  <div className="d-inline-flex">
+                  <div className="d-inline-flex filter-select">
                     <div
                       title=""
                       className={`view-blk me-2 ${!isListView ? "view-active" : ""
