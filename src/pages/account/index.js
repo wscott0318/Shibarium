@@ -12,7 +12,6 @@ import {useEthBalance} from '../../hooks/useEthBalance';
 import {useTokenBalance} from '../../hooks/useTokenBalance';
 import { useERC20Balances } from "react-moralis";
 import { ChainId } from "@shibarium/core-sdk";
-
 export default function Account() {
   // const [availBalance, setAvailBalance] = useState(0);
   const [userType, setUserType] = useState('Anonymous');
@@ -216,6 +215,11 @@ export default function Account() {
                             </li>
                             <li className="btn-grp-lst">
                               <a href="javascript(0)" className="btn btn-primary-outline btn-small">Stake More</a>
+                            </li>
+                            <li className="btn-grp-lst">
+                              <a href="javascript(0)" className="btn btn-primary-outline btn-small elipse-btn">
+                                <img className="img-fluid" src="../../assets/images/elipse.png" alt="" />
+                              </a>
                             </li>
                         </ul>
                       </div>
