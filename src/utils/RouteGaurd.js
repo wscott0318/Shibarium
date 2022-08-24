@@ -40,13 +40,10 @@ function RouteGuard({ children,user }) {
         const path = url.split('?')[0];
         // console.log(path)
         if (!isLoggedIn && publicPaths.includes(path)) {
-            
                 setAuthorized(false);
-
                 router.push({
                     pathname: '/home'
                 });
-            
         } else {
             setAuthorized(true);
         }
