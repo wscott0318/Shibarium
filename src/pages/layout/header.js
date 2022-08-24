@@ -40,36 +40,13 @@ export default function Header() {
   const [userType, setUserType] =useUserType();
 
   const { authenticate, isAuthenticated,User, user,logout,Moralis ,...restMoralisObj} = useMoralis();
-  console.log({authenticate, isAuthenticated,User, user,logout,Moralis})
+  // console.log({authenticate, isAuthenticated,User, user,logout,Moralis})
   
   useEffect(() => {
     if(!account)logout().then();
     localStorage.setItem("ShibariumUser",JSON.stringify(user || []))
   }, [user,account]);
-  
 
-// useEffect(() => {
-//   window.ethereum.on('accountsChanged'(async(accounts)=>{
-//     const confirmed = confirm("Link this address to your account?");
-//     if (confirmed) {
-//       await Moralis.link(account);
-//       alert("Address added!");
-//     }
-// }))
-// }, [account]);
-
-// const login = async () => {
-//   if (!isAuthenticated) {
-
-//     await authenticate()
-//       .then(function (user) {
-//         console.log(user);
-//       })
-//       .catch(function (error) {
-//         console.log(error);
-//       });
-//   }
-// }
 
 async function loginNew() {
     if (!isAuthenticated) {
@@ -91,12 +68,7 @@ async function logOut() {
 }
 
   useEffect(() => {
-    // loginNew()
     const isLoggedIn = localStorage.getItem("isLoggedIn")
-    // if (account && !isLoggedIn) {
-    //   sign(account)
-    // }
-    // console.log(user.get("sessionToken"),user)
     if(!isAuthenticated){
       // authenticate()
     }
@@ -117,6 +89,7 @@ async function logOut() {
     getUserType(accountAddress.toLowerCase()).then( res =>{
       if (res.data && res.data.data) {
         let ut = res.data.data.userType;
+        console.log(ut)
         setUserType(ut)
       }
     }).catch(e=>{

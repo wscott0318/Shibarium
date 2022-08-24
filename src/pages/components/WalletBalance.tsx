@@ -183,7 +183,7 @@ const WalletBalance = ({ balance, boneUSDValue }: WalletBalanceProps) => {
         {
 
           userType === UserType.Delegator
-            ? <DelegatorAccount balance={balance} boneUSDValue={boneUSDValue} userType={userType} />
+            ? null
             : userType === UserType.Validator ? <ValidatorAccount balance={balance} boneUSDValue={boneUSDValue} userType={userType} /> :
               <>
                 <BorderBtn lable="Become A Validator" handleModal={() => { }} />

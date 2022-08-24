@@ -63,6 +63,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
 
   })
 
+  console.log(userType)
+
   const retakeFormik: FormikProps<RetakeFormInterface> = useFormik<RetakeFormInterface>({
     initialValues: {
       validatorAddress: account || '',
@@ -172,6 +174,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
 
     <>
        <ToastNotify toastMassage={toastMsg} type={toastType}/>
+        
           <>
             <BorderBtn lable="Restake" handleModal={handleModal} />
             <BorderBtn lable="Change Commission Rate" handleModal={handleModal} />
