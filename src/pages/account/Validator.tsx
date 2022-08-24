@@ -7,7 +7,7 @@ import { commission, restake, unbound, withdrawReward } from "../../services/api
 import { withdrawRewardDelegator } from "../../services/apis/delegator";
 
 import { useUserType } from '../../state/user/hooks';
-import { UserType } from "../../enums/UserType";
+import { UserType } from "../../enums/UserType"; 
 import { RetakeFormInterface, CommissionRateInterface, WithdrawInterface } from "../../interface/reTakeFormInterface";
 import { useActiveWeb3React } from '../../services/web3'
 

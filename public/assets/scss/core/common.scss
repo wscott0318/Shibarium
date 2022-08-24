@@ -2573,9 +2573,52 @@ input[type=number]::-webkit-outer-spin-button {
     border: 1px solid #fff;
     height: 100%;
 }
+
 .info-row {
     font-size: 17px;
     @media #{$max-lg}{
         font-size: 15px;
+    }
+}
+.cus-dropdown{
+    button{
+        min-width: 165px;
+        @media #{$max-xsm}{
+            min-width: 125px;
+        }
+    }
+}
+.font-xs{
+    font-size: 20px;
+}
+// account page css
+.btn-grp {
+    display: grid;
+    grid-template-columns: auto auto;
+    margin-left: -5px;
+    margin-right: -5px;
+    .btn-grp-lst{
+        margin-top: 12px;
+        padding-left: 5px;  
+        padding-right: 5px;
+        .btn-small{
+            margin-right: 0;
+            width: 100%;
+        }
+        
+        .elipse-btn {
+            max-width: 60px;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
     }
 }

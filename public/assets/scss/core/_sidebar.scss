@@ -12,6 +12,7 @@
         margin-top: 112px;
     }
 }
+
 .sidebar{
     background-color:$darkbg;
     width: 290px;
@@ -32,6 +33,9 @@
         display: none;
         min-height: calc(100vh - 78px);
         margin-top: 78px;
+    }
+    @media #{$max-md}{
+        margin-top: 64px;
     }
     @media #{$max-xsm}{
         min-height: calc(100vh - 82px);

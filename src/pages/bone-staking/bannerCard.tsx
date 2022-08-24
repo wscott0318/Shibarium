@@ -6,13 +6,13 @@ function BannerCard() {
                 <div className="row">
                     <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                         <div className="bs-card card">
-                            <h3 className="fwb">13</h3>
+                            <h4 className="fwb">13</h4>
                             <span className="mb-0 trs-3">Total Validators</span>
                         </div>
                     </div>
                     <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                         <div className="bs-card card">
-                            <h3 className="fwb">155,554,455 BONE</h3>
+                            <h4 className="fwb">155,554,455 BONE</h4>
                             <p className="mb-0 d-block fw-600">$12365977.36</p>
                             <div className="card-hr"></div>
                             <span className="mb-0">Total Validators</span>
@@ -20,7 +20,7 @@ function BannerCard() {
                     </div>
                     <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                         <div className="bs-card card">
-                            <h3 className="fwb">569,554,455 BONE</h3>
+                            <h4 className="fwb">569,554,455 BONE</h4>
                             <p className="mb-0 d-block fw-600">$12365977.36</p>
                             <div className="card-hr"></div>
                             <span className="mb-0">Total Reward Distributed</span>
@@ -28,14 +28,14 @@ function BannerCard() {
                     </div>
                     <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                         <div className="bs-card card">
-                            <h3 className="fwb">25,599,69</h3>
+                            <h4 className="fwb">25,599,69</h4>
                             <div className="card-hr"></div>
                             <span className="mb-0 trs-3">Bor Block Height</span>
                         </div>
                     </div>
                     <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                         <div className="bs-card card">
-                            <h3 className="fwb">9,554,455 </h3>
+                            <h4 className="fwb">9,554,455 </h4>
                             <div className="card-hr"></div>
                             <span className="mb-0 trs-3">Heimdall Block Height</span>
                         </div>
@@ -54,9 +54,9 @@ function BannerCard() {
                     </div>
                     <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                         <div className="bs-card card">
-                            <h3 className="fwb d-flex align-items-center">
+                            <h4 className="fwb d-flex align-items-center">
                                 <span>25 Minutes</span>
-                            </h3>
+                            </h4>
                             <div className="card-hr"></div>
                             <span className="mb-0 trs-3">Checkpoint Interval</span>
                         </div>
