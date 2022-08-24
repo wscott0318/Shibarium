@@ -41,8 +41,9 @@ export default function Header() {
 
   const { authenticate, isAuthenticated,User, user,logout,Moralis ,...restMoralisObj} = useMoralis();
   console.log({authenticate, isAuthenticated,User, user,logout,Moralis})
+  
   useEffect(() => {
-    // if(!account)logout().then();
+    if(!account)logout().then();
     localStorage.setItem("ShibariumUser",JSON.stringify(user || []))
   }, [user,account]);
   
