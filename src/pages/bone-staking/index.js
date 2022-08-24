@@ -74,45 +74,24 @@ const BoneStaking = () => {
               {userType === UserType.Delegator && (
                 <>
                 <div className="flex-wrap d-flex align-items-centeer">
-                  <BorderBtn
-                    link="./become-validator"
-                    lable="Become A Validator"
+                  <WarningBtn
+                    link="delegator"
+                    lable="Become A Delegator"
                     handleModal={() => {}}
                   />
-                    <BorderBtn
-                      link="./delegator-validator"
-                      lable="Choose Your Path"
-                      handleModal={() => {}}
-                    />
                   </div>
-                </>
-              )}
-               {userType === UserType.Validator && (
-                <>
-                  <div className="flex-wrap d-flex align-items-centeer">
-                 <WarningBtn
-                      link="all-validator"
-                      lable="Become A Delegator"
-                      handleModal={() => {}}
-                    />{" "}
-                    <BorderBtn
-                      link="./delegator-validator"
-                      lable="Choose Your Path"
-                      handleModal={() => {}}
-                    />
-                </div>
                 </>
               )}
               {userType === UserType.NA && (
                 <>
                   <div className="flex-wrap d-flex align-items-centeer">
-                    <BorderBtn
+                    <WarningBtn
                       link="./become-validator"
                       lable="Become A Validator"
                       handleModal={() => {}}
                     />
                     <WarningBtn
-                      link="all-validator"
+                      link="delegator"
                       lable="Become A Delegator"
                       handleModal={() => {}}
                     />{" "}
