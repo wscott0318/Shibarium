@@ -6,7 +6,7 @@ export const login = async (authenticate:(options?: AuthenticateOptions | undefi
 
       await authenticate({signingMessage: "Log in to Shibarium" })
         .then(function (user:any) {
-          // console.log("logged in user:", user);
+           console.log("logged in user:", user);
           localStorage.setItem('isLoggedIn', 'true')
           // console.log(user!.get("ethAddress"));
         })

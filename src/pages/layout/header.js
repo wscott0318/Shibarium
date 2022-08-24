@@ -25,6 +25,7 @@ import { useUserType } from "app/state/user/hooks";
 // import { UserType } from "../../enums/UserType";
 import ShibaSidebar from "pages/token-sidebar";
 import { useMoralis } from "react-moralis";
+import { MORALIS_APP_ID, MORALIS_SERVER_URL } from "../../config/constant"
 import { login } from "app/functions/login";
 // import { injected } from "app/config/wallets";
 
@@ -38,9 +39,10 @@ export default function Header() {
   const [dblock, setDblock] = useState(false);
   const [userType, setUserType] =useUserType();
 
-  const { authenticate, isAuthenticated, user,logout,Moralis ,...restMoralisObj} = useMoralis();
+  const { authenticate, isAuthenticated,User, user,logout,Moralis ,...restMoralisObj} = useMoralis();
+  console.log({authenticate, isAuthenticated,User, user,logout,Moralis})
   useEffect(() => {
-    if(!account)logout().then();
+    // if(!account)logout().then();
     localStorage.setItem("ShibariumUser",JSON.stringify(user || []))
   }, [user,account]);
   
@@ -55,7 +57,40 @@ export default function Header() {
 // }))
 // }, [account]);
 
+// const login = async () => {
+//   if (!isAuthenticated) {
+
+//     await authenticate()
+//       .then(function (user) {
+//         console.log(user);
+//       })
+//       .catch(function (error) {
+//         console.log(error);
+//       });
+//   }
+// }
+
+async function loginNew() {
+    if (!isAuthenticated) {
+
+      await authenticate({signingMessage: "Log in using Moralis" })
+        .then(function (user) {
+          console.log("logged in user:", user);
+          console.log(user.get("ethAddress"));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+}
+
+async function logOut() {
+  await Moralis.User.logOut()
+  console.log('logged out')
+}
+
   useEffect(() => {
+    // loginNew()
     const isLoggedIn = localStorage.getItem("isLoggedIn")
     // if (account && !isLoggedIn) {
     //   sign(account)
@@ -94,6 +129,7 @@ export default function Header() {
   useEffect(() => {
     const { ethereum } = window
     if (ethereum && ethereum.on && !error) {
+      console.log({eth: ethereum.on})
       const handleConnect = () => {
         // console.log("Connected");
         // activate(injected)
@@ -113,7 +149,7 @@ export default function Header() {
       }
       const handleNetworkChanged = (networkId) => {
         // activate(injected)
-        login(authenticate,isAuthenticated)
+        // login(authenticate,isAuthenticated)
       }
 
       ethereum.on('connect', handleConnect)

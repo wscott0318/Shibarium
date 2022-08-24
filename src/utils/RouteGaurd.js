@@ -41,11 +41,11 @@ function RouteGuard({ children,user }) {
         // console.log(path)
         if (!isLoggedIn && publicPaths.includes(path)) {
             
-                setAuthorized(false);
+                setAuthorized(true);
 
-                router.push({
-                    pathname: '/home'
-                });
+                // router.push({
+                //     pathname: '/home'
+                // });
             
         } else {
             setAuthorized(true);
