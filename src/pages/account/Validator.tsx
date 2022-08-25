@@ -32,9 +32,18 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
     value: false,
     address: ''
   });
-  const [commiModal, setCommiModal] = useState(false);
-  const [withdrawModal, setWithdrawModal] = useState(false);
-  const [unboundModal, setUnboundModal] = useState(false);
+  const [commiModal, setCommiModal] = useState({
+    value: false,
+    address: ''
+  });
+  const [withdrawModal, setWithdrawModal] = useState({
+    value: false,
+    address: ''
+  });
+  const [unboundModal, setUnboundModal] = useState({
+    value: false,
+    address: ''
+  });
   const [loading, setLoading] = useState<boolean>(false);
   const [toastType, setToastType] = useState<'success'|'error'|undefined>();
   const [toastMsg, setToastMessage] = useState("");
@@ -44,8 +53,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
   const { account } = useActiveWeb3React();
   const [delegationsList, setDelegationsList] = useState([]);
 
-  const handleModal = (btn: String, valAddress: string) => {
-    console.log(btn)
+  const handleModal = (btn: String, valAddress: any) => {
     switch (btn) {
       case "Restake":
         setRestakeModal({
@@ -54,13 +62,22 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
         });
         break;
       case "Change Commission Rate":
-        setCommiModal(true);
+        setCommiModal({
+          value: true,
+          address: valAddress
+        });
         break;
       case "Withdraw Rewards":
-        setWithdrawModal(true);
+        setWithdrawModal({
+          value: true,
+          address: valAddress
+        });
         break;
       case "Unbound":
-        setUnboundModal(true);
+        setUnboundModal({
+          value: true,
+          address: valAddress
+        });
         break;
       default:
         break;
@@ -119,7 +136,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
             setTranHashCode(res.data.data.transactionHash);
             setSuccessMsg(res.data.message);
             setConfirm(true);
-            setRestakeModal(false);
+            setRestakeModal({value:false,address:''});
           }
         })
         .catch((err) => {
@@ -146,17 +163,17 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
       commission(values)
         .then((res) => {
           // console.log("res", res);
-          if (res.status == 200) {
+          if (res.status == 200) {  
             setLoading(false);
             setTranHashCode(res.data.data.transactionHash);
             setSuccessMsg(res.data.message);
             setConfirm(true);
-            setCommiModal(false);
+            setCommiModal({value:false,address:''});
           }
         })
         .catch((err) => {
           setLoading(false);
-          setCommiModal(false);
+          setCommiModal({value:false,address:''});
           setToastType('error')
           setToastMessage(err?.response?.data?.message);
         });
@@ -168,7 +185,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
         setTranHashCode(res.data.data.transactionHash);
         setSuccessMsg(res.data.message);
         setConfirm(true);
-        setWithdrawModal(false);
+        setWithdrawModal({value:false,address:''});
         setLoading(false);
   }
 
@@ -214,9 +231,9 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
         
          { userType === 'Validator' ? <>
             <BorderBtn lable="Restake" handleModal={() => handleModal("Restake", account)} />
-            <BorderBtn lable="Change Commission Rate" handleModal={handleModal} />
-            <BorderBtn lable="Withdraw Rewards" handleModal={handleModal} />
-            <BorderBtn lable="Unbound" handleModal={handleModal} />
+            <BorderBtn lable="Change Commission Rate" handleModal={()=>handleModal("Change Commission Rate", account)} />
+            <BorderBtn lable="Withdraw Rewards" handleModal={()=>handleModal("Withdraw Rewards", account)} />
+            <BorderBtn lable="Unbound" handleModal={()=>handleModal("Unbound", account)} />
           </> :
           <>
             {/* Delegations section start */}
@@ -272,13 +289,10 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                               <p onClick={() => handleModal('Restake', item.validatorAddress)} className="btn white-btn mute-text btn-small">Restake</p>
                             </li>
                             <li className="btn-grp-lst">
-                              <p onClick={() => handleModal('Change Commission Rate')} className="btn white-btn mute-text btn-small">Change Commission Rate</p>
+                              <p onClick={() => handleModal('Withdraw Rewards', item.validatorAddress)} className="btn btn-primary-outline btn-small">Withdraw Rewards</p>
                             </li>
                             <li className="btn-grp-lst">
-                              <p onClick={() => handleModal('Withdraw Rewards')} className="btn btn-primary-outline btn-small">Withdraw Rewards</p>
-                            </li>
-                            <li className="btn-grp-lst">
-                              <p onClick={() => handleModal('Unbound')} className="btn btn-primary-outline btn-small">Unbound</p>
+                              <p onClick={() => handleModal('Unbound', item.validatorAddress)} className="btn btn-primary-outline btn-small">Unbound</p>
                             </li>
                         </ul>
                       </div>
@@ -413,8 +427,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
       <div className="modal-wrap">
         <Modal
           className="shib-popup"
-          show={commiModal}
-          onHide={() => setCommiModal(false)}
+          show={commiModal.value}
+          onHide={() => setCommiModal({value: false, address: ''})}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
@@ -443,7 +457,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                   name="validatorAddress"
                   onChange={commiFormik.handleChange}
                   
-                  value={commiFormik.values.validatorAddress}
+                  value={commiModal.address}
                   placeholder="Enter Validator address"
                 />
               </div>
@@ -482,8 +496,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
       <div className="modal-wrap">
         <Modal
           className="shib-popup"
-          show={withdrawModal}
-          onHide={() => setWithdrawModal(false)}
+          show={withdrawModal.value}
+          onHide={() => setWithdrawModal({value:false,address:''})}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
@@ -509,7 +523,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                   id="validatorAddress"
                   name="validatorAddress"
                   onChange={withdrawFormk.handleChange}
-                  value={withdrawFormk.values.validatorAddress}
+                  value={withdrawModal.address}
                   placeholder="Enter Validator address"
                 />
               </div>
@@ -531,8 +545,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
       <div className="modal-wrap">
         <Modal
           className="shib-popup"
-          show={unboundModal}
-          onHide={() => setUnboundModal(false)}
+          show={unboundModal.value}
+          onHide={() => setUnboundModal({value:false,address:''})}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
