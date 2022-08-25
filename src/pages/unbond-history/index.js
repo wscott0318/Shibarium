@@ -52,6 +52,114 @@ export default function Unbond() {
                                                 <p className="mb-0 fs-12 ">claimed</p>
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td>
+                                                <div className="d-flex align-items-center">
+                                                    <div className="coin-img me-2">
+                                                        <img className="img-fluid" src="../../assets/images/bear.png" alt="coin" width={50} height={50} />
+                                                    </div>
+                                                    <span className="tb-data align">DeFIMatic</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span className="tb-data align">10 Bone</span>
+                                                <p className="mb-0 fs-12 mute-text">$8.2</p>
+                                            </td>
+                                            <td>
+                                                <span className="tb-data align up-text">Success</span>
+                                                <p className="mb-0 fs-12 ">claimed</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div className="d-flex align-items-center">
+                                                    <div className="coin-img me-2">
+                                                        <img className="img-fluid" src="../../assets/images/bear.png" alt="coin" width={50} height={50} />
+                                                    </div>
+                                                    <span className="tb-data align">DeFIMatic</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span className="tb-data align">10 Bone</span>
+                                                <p className="mb-0 fs-12 mute-text">$8.2</p>
+                                            </td>
+                                            <td>
+                                                <span className="tb-data align up-text">Success</span>
+                                                <p className="mb-0 fs-12 ">claimed</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div className="d-flex align-items-center">
+                                                    <div className="coin-img me-2">
+                                                        <img className="img-fluid" src="../../assets/images/bear.png" alt="coin" width={50} height={50} />
+                                                    </div>
+                                                    <span className="tb-data align">DeFIMatic</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span className="tb-data align">10 Bone</span>
+                                                <p className="mb-0 fs-12 mute-text">$8.2</p>
+                                            </td>
+                                            <td>
+                                                <span className="tb-data align up-text">Success</span>
+                                                <p className="mb-0 fs-12 ">claimed</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div className="d-flex align-items-center">
+                                                    <div className="coin-img me-2">
+                                                        <img className="img-fluid" src="../../assets/images/bear.png" alt="coin" width={50} height={50} />
+                                                    </div>
+                                                    <span className="tb-data align">DeFIMatic</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span className="tb-data align">10 Bone</span>
+                                                <p className="mb-0 fs-12 mute-text">$8.2</p>
+                                            </td>
+                                            <td>
+                                                <span className="tb-data align up-text">Success</span>
+                                                <p className="mb-0 fs-12 ">claimed</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div className="d-flex align-items-center">
+                                                    <div className="coin-img me-2">
+                                                        <img className="img-fluid" src="../../assets/images/bear.png" alt="coin" width={50} height={50} />
+                                                    </div>
+                                                    <span className="tb-data align">DeFIMatic</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span className="tb-data align">10 Bone</span>
+                                                <p className="mb-0 fs-12 mute-text">$8.2</p>
+                                            </td>
+                                            <td>
+                                                <span className="tb-data align up-text">Success</span>
+                                                <p className="mb-0 fs-12 ">claimed</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div className="d-flex align-items-center">
+                                                    <div className="coin-img me-2">
+                                                        <img className="img-fluid" src="../../assets/images/bear.png" alt="coin" width={50} height={50} />
+                                                    </div>
+                                                    <span className="tb-data align">DeFIMatic</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span className="tb-data align">10 Bone</span>
+                                                <p className="mb-0 fs-12 mute-text">$8.2</p>
+                                            </td>
+                                            <td>
+                                                <span className="tb-data align up-text">Success</span>
+                                                <p className="mb-0 fs-12 ">claimed</p>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
