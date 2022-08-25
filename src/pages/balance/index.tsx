@@ -182,7 +182,7 @@ export default function Balance() {
                 </div>
               </div>
               <div className="mt-3 text-center col-lg-3 col-md-12 text-lg-end mt-lg-0">
-                <span className="fw-700">Showing 1-8 of 300</span>
+                <span className="fw-700">Showing 1-3 of 300</span>
               </div>
             </div>
           </div>
