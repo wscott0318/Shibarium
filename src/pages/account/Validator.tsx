@@ -3,7 +3,7 @@ import { Modal, OverlayTrigger, Button, Tooltip } from "react-bootstrap";
 
 import { useFormik, FormikProps, ErrorMessage, Field, FormikProvider } from "formik";
 import * as Yup from "yup";
-import { commission, restake, unbound, withdrawReward } from "../../services/apis/validator";
+import { commission, restake, unbound, validatorsList, withdrawReward } from "../../services/apis/validator";
 import { withdrawRewardDelegator } from "../../services/apis/delegator";
 
 import { useUserType } from '../../state/user/hooks';
@@ -16,6 +16,9 @@ import ToastNotify from "pages/components/ToastNotify";
 import BorderBtn from "pages/components/BorderBtn";
 import LoadingSpinner from "pages/components/Loading";
 import WarningBtn from "pages/components/WarningBtn";
+import { getDelegatorData } from "app/services/apis/user/userApi";
+import { ConsoleView } from "react-device-detect";
+
 
 interface WalletBalanceProps {
   balance: number;
@@ -35,9 +38,11 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
   const [confirm, setConfirm] = useState(false);
   const [tranHashCode, setTranHashCode] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
-  const { account } = useActiveWeb3React()
+  const { account } = useActiveWeb3React();
+  const [delegationsList, setDelegationsList] = useState([]);
 
   const handleModal = (btn: String) => {
+    console.log(btn)
     switch (btn) {
       case "Restake":
         setRestakeModal(true);
@@ -55,6 +60,32 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
         break;
     }
   };
+  
+
+  const getDelegatorCardData = (accountAddress :any) =>{
+    try {
+      getDelegatorData(accountAddress.toLowerCase()).then( (res :any) =>{
+       if (res.data ) {
+        console.log(res.data)
+        setDelegationsList(res.data.data.validators)
+       }
+     }).catch((e :any)=>{
+       console.log(e);
+      //  setUserType('NA')
+     })
+    } catch (error) {
+     console.log(error)
+    }
+   }
+
+   console.log(delegationsList)
+
+   useEffect(() => {
+    if(account){
+      getDelegatorCardData(account)
+    }
+   },[account])
+
 
   const restakeValidation: any = Yup.object({
     validatorAddress: Yup.string().required(),
@@ -175,12 +206,106 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
     <>
        <ToastNotify toastMassage={toastMsg} type={toastType}/>
         
-          <>
+         { userType === 'Validator' ? <>
             <BorderBtn lable="Restake" handleModal={handleModal} />
             <BorderBtn lable="Change Commission Rate" handleModal={handleModal} />
             <BorderBtn lable="Withdraw Rewards" handleModal={handleModal} />
             <BorderBtn lable="Unbound" handleModal={handleModal} />
+          </> :
+          <>
+            {/* Delegations section start */}
+            <div className="baner-card mt-0">
+              <h3 className="mb-0 mb-3 text-white fwb">Your Delegations</h3>
+          
+                <div className="row">
+                  {
+                    delegationsList.length ? 
+                   <>
+                   {
+                    delegationsList.map((item: any) => 
+                    <div className="col-lg-4 col-md-6 col-12 mx-auto bs-col">
+                    <div className="border-sec">
+                      <div className="top-sec">
+                        <div className="info-block">
+                          <div className="image-blk">
+                            <div>
+                              <img className="img-fluid" src="../../assets/images/coin-matic.png" width="69" height="70" alt="coin-icon"/>
+                            </div>
+                          </div>
+                          <div className="grid-info">
+                            <div className="fw-bold">DefiMatic</div>
+                            <div className="info-row">
+                              <span><span className="fw-bold">{item.checkpointSignedPercent}%</span> Checkpoints Signed</span>
+                            </div>
+                            <div className="info-row">
+                              <span><span className="fw-bold">{item.commission}%</span> Commission</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="mid-sec bs-card h-auto">
+                        <div className="block-container">
+                          <div className="cus-width"> 
+                            <div className="text-center">
+                              <div>Your Stake</div>
+                              <div className="fw-bold">{(parseInt(item.stake) / 10 ** 18).toFixed(4)}</div>
+                              {/* <div>$0</div> */}
+                            </div>
+                          </div>
+                          <div className="cus-width">
+                            <div className="text-center">
+                              <div>Reward</div>
+                              <div className="fw-bold orange-color">{(parseInt(item.reward) / 10 ** 18).toFixed(4)}</div>
+                              {/* <div>$0</div> */}
+                            </div>
+                          </div>
+                        </div>
+                 
+                        <ul className="btn-grp">
+                            <li className="btn-grp-lst">
+                              <p onClick={() => handleModal('Restake')} className="btn white-btn mute-text btn-small">Restake</p>
+                            </li>
+                            <li className="btn-grp-lst">
+                              <p onClick={() => handleModal('Change Commission Rate')} className="btn white-btn mute-text btn-small">Change Commission Rate</p>
+                            </li>
+                            <li className="btn-grp-lst">
+                              <p onClick={() => handleModal('Withdraw Rewards')} className="btn btn-primary-outline btn-small">Withdraw Rewards</p>
+                            </li>
+                            <li className="btn-grp-lst">
+                              <p onClick={() => handleModal('Unbound')} className="btn btn-primary-outline btn-small">Unbound</p>
+                            </li>
+                        </ul>
+                      </div>
+                    </div>
+                </div>
+                    )
+                   }
+                   </> :
+                <span> No Validators Found</span>
+                  }
+               <div className="col-lg-4 col-md-6 col-12 mx-auto bs-col">
+                <div className="border-sec">
+                  <div className="add-sec">
+                    <div className="text-center">
+                      <div className="text-center">
+                        <a href="javascript:void(0);"><img className="img-fluid d-inline-block" src="../../assets/images/white-plus.png" width="27" height="28" alt="coin-icon"/></a>
+                      </div>
+                      <div>
+                        <span>Stake to more validators</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+              </div> 
+              
+          
+            </div>
+            {/* Delegations section end */}
           </>
+          }
+
+          
 
       {/* Retake modal start */}
       <div className={` modal-wrap`}>
