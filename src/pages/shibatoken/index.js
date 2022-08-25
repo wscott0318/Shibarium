@@ -122,7 +122,7 @@ export default function ShibaToken() {
               </div>
               <div className='col-lg-3 col-md-12 text-center text-lg-end mt-3 mt-lg-0'>
                 <span className='fw-700'>
-                  Showing 1-8 of 300
+                  Showing 1-3 of 300
                 </span>
               </div>
             </div>

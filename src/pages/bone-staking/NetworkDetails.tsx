@@ -88,13 +88,13 @@ function NetworkDetails() {
         <div className="row">
           <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
             <div className="bs-card card">
-              <h3 className="fwb font-xs">{networkDetails?.validatorCount}</h3>
+              <h3 className="fwb font-xs height-fx">{networkDetails?.validatorCount}</h3>
               <span className="mb-0 trs-3">Total Validators</span>
             </div>
           </div>
           <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
             <div className="bs-card card">
-              <h5 className="fwb font-xs"><NumberFormat thousandSeparator displayType={"text"} value={(+networkDetails?.totalStakeFormatted || 0).toFixed(8)} /> BONE
+              <h5 className="fwb font-xs height-fx"><NumberFormat thousandSeparator displayType={"text"} value={(+networkDetails?.totalStakeFormatted || 0).toFixed(8)} /> BONE
               </h5>
               <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={+(((+networkDetails?.totalStakeFormatted) * boneUSDValue).toFixed(2))} /></p>
               <div className="card-hr"></div>
@@ -103,7 +103,7 @@ function NetworkDetails() {
           </div>
           <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
             <div className="bs-card card">
-              <h5 className="fwb font-xs"><NumberFormat thousandSeparator displayType={"text"}
+              <h5 className="fwb font-xs height-fx"><NumberFormat thousandSeparator displayType={"text"}
                 value={(+networkDetails?.totalReward || 0).toFixed(8)} /> BONE</h5>
               <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((networkDetails?.totalReward || 0) * boneUSDValue).toFixed(2)} /></p>
               <div className="card-hr"></div>
@@ -112,21 +112,21 @@ function NetworkDetails() {
           </div>
           <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
             <div className="bs-card card">
-              <h5 className="fwb font-xs"><NumberFormat thousandSeparator displayType={"text"} value={latestBlock} /></h5>
+              <h5 className="fwb font-xs height-fx"><NumberFormat thousandSeparator displayType={"text"} value={latestBlock} /></h5>
               <div className="card-hr"></div>
               <span className="mb-0 trs-3">Bor Block Height</span>
             </div>
           </div>
           <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
             <div className="bs-card card">
-              <h5 className="fwb font-xs"><NumberFormat thousandSeparator displayType={"text"} value={networkDetails?.heimdallHeight} /> </h5>
+              <h5 className="fwb font-xs height-fx"><NumberFormat thousandSeparator displayType={"text"} value={networkDetails?.heimdallHeight} /> </h5>
               <div className="card-hr"></div>
               <span className="mb-0 trs-3">Heimdall Block Height</span>
             </div>
           </div>
           <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
             <div className="bs-card card">
-              <h5 className="fwb d-flex align-items-center font-xs">
+              <h5 className="fwb d-flex align-items-center font-xs height-fx">
                 <span>
                   <NumberFormat thousandSeparator displayType={"text"} value={networkDetails?.lastCheckpointId || 0} />
                 </span>
@@ -140,7 +140,7 @@ function NetworkDetails() {
           </div>
           <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
             <div className="bs-card card">
-              <h5 className="fwb d-flex align-items-center font-xs">
+              <h5 className="fwb d-flex align-items-center font-xs height-fx">
                 <span>{networkDetails?.averageInterval}</span>
               </h5>
               <div className="card-hr"></div>

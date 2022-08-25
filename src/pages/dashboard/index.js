@@ -19,6 +19,9 @@ export default function Dashboard() {
   const [showImportantModal, setImportantModal] = useState(false);
   const [showtransferOverviewModal, setTransferOverviewModal] = useState(false);
   const [showProgressModal, setProgressModal] = useState(false);
+  const [showUnbondModal, setUnbondModal] = useState(false);
+  const [showTransferModal, setTransferModal] = useState(false);
+  const [showClaimstakeModal, setClaimstakeModal] = useState(false);
   const [showProgressTwoModal, setProgressTwoModal] = useState(false);
   const [showProgressFourStepsModal, setProgressFourStepsModal] = useState(false);
   const [showProgressFourStepsModalTwo, setProgressFourStepsModalTwo] = useState(false);
@@ -227,7 +230,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="btn-wrap pt-3">
-                        <button type="button" onClick={() => setTransferOverviewModal(true)} className="btn warning-btn w-100">
+                        <button type="button" onClick={() => setTransferModal(true)} className="btn warning-btn w-100">
                           <span>Transfer</span>
                         </button>
                       </div>
@@ -599,6 +602,54 @@ export default function Dashboard() {
             <div className="center-align">
               <p className="fw-bold fs-18">Transaaction in process</p>
               <p>Ethereum transactions can take longer time to complete based upon network congestion. Please wait or increase the gas price of the transaction</p>
+              <a href="javascript:void(0);" title="">View on Etherscan</a>
+            </div>
+          </div>
+        </CommonModal>
+        <CommonModal
+          title={"Unbond"}
+          show={showUnbondModal}
+          setShow={setUnbondModal}
+        >
+          <div>
+            <div className="center-align">
+              <span className="mb-3"><img src="../../assets/images/like.png" alt="" className="img-fluid" width={60} height={60} /></span>
+            </div>
+            <div className="center-align">
+              <p className="fw-bold fs-18">Unbond Initiated</p>
+              <p>The inbonding process has been initiated. Please come back after checkpoints and click on "Claim Stake".</p>
+              <a href="javascript:void(0);" title="">View on Etherscan</a>
+            </div>
+          </div>
+        </CommonModal>
+        <CommonModal
+          title={"Unbond"}
+          show={showTransferModal}
+          setShow={setTransferModal}
+        >
+          <div>
+            <div className="spin-outer position-relative">
+              <div className="loading-spinner">
+                <TailSpin color="#f06500" height={80} width={80} />
+              </div>
+            </div>
+            <div className="center-align mt-4">
+              <p className="fw-bold fs-18">Transaction in progress</p>
+              <p>Etehereum Transaction can take upto 5 minute to complete. Please wait or increase the gas in metamask.</p>
+              <a href="javascript:void(0);" title="">View on Etherscan</a>
+            </div>
+          </div>
+        </CommonModal>
+        <CommonModal
+          title={"Claim Stake"}
+          show={showClaimstakeModal}
+          setShow={setClaimstakeModal}
+        >
+          <div>
+            
+            <div className="center-align ">
+              <p className="fw-bold fs-18">Stake Claimed</p>
+              <p>Your Claim stake Transaction is successful. The transaction might take 1-2 minutes to be updated in your account.</p>
               <a href="javascript:void(0);" title="">View on Etherscan</a>
             </div>
           </div>
