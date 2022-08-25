@@ -28,7 +28,10 @@ interface WalletBalanceProps {
 
 const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProps) => {
 
-  const [restakeModal, setRestakeModal] = useState(false);
+  const [restakeModal, setRestakeModal] = useState({
+    value: false,
+    address: ''
+  });
   const [commiModal, setCommiModal] = useState(false);
   const [withdrawModal, setWithdrawModal] = useState(false);
   const [unboundModal, setUnboundModal] = useState(false);
@@ -41,11 +44,14 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
   const { account } = useActiveWeb3React();
   const [delegationsList, setDelegationsList] = useState([]);
 
-  const handleModal = (btn: String) => {
+  const handleModal = (btn: String, valAddress: string) => {
     console.log(btn)
     switch (btn) {
       case "Restake":
-        setRestakeModal(true);
+        setRestakeModal({
+          value: true,
+          address: valAddress
+        });
         break;
       case "Change Commission Rate":
         setCommiModal(true);
@@ -207,7 +213,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
        <ToastNotify toastMassage={toastMsg} type={toastType}/>
         
          { userType === 'Validator' ? <>
-            <BorderBtn lable="Restake" handleModal={handleModal} />
+            <BorderBtn lable="Restake" handleModal={() => handleModal("Restake", account)} />
             <BorderBtn lable="Change Commission Rate" handleModal={handleModal} />
             <BorderBtn lable="Withdraw Rewards" handleModal={handleModal} />
             <BorderBtn lable="Unbound" handleModal={handleModal} />
@@ -263,7 +269,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                  
                         <ul className="btn-grp">
                             <li className="btn-grp-lst">
-                              <p onClick={() => handleModal('Restake')} className="btn white-btn mute-text btn-small">Restake</p>
+                              <p onClick={() => handleModal('Restake', item.validatorAddress)} className="btn white-btn mute-text btn-small">Restake</p>
                             </li>
                             <li className="btn-grp-lst">
                               <p onClick={() => handleModal('Change Commission Rate')} className="btn white-btn mute-text btn-small">Change Commission Rate</p>
@@ -311,8 +317,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
       <div className={` modal-wrap`}>
         <Modal
           className="shib-popup"
-          show={restakeModal}
-          onHide={() => setRestakeModal(false)}
+          show={restakeModal.value}
+          onHide={() => setRestakeModal({value: false, address: ''})}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
@@ -343,7 +349,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                     id="validatorAddress"
                     name="validatorAddress"
                     onChange={retakeFormik.handleChange}
-                    value={retakeFormik.values.validatorAddress}
+                    value={restakeModal.address}
                   />
                 </div>
                 <div className="form-group">
