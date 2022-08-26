@@ -4,11 +4,11 @@ import { Modal, OverlayTrigger, Button, Tooltip } from "react-bootstrap";
 import { useFormik, FormikProps, ErrorMessage, Field, FormikProvider } from "formik";
 import * as Yup from "yup";
 import { commission, restake, unbound, validatorsList, withdrawReward } from "../../services/apis/validator";
-import { withdrawRewardDelegator } from "../../services/apis/delegator";
+import { withdrawRewardDelegator, restakeDeligator } from "../../services/apis/delegator";
 
 import { useUserType } from '../../state/user/hooks';
 import { UserType } from "../../enums/UserType"; 
-import { RetakeFormInterface, CommissionRateInterface, WithdrawInterface } from "../../interface/reTakeFormInterface";
+import { RetakeFormInterface,RetakeFormInterfaceDelegator, CommissionRateInterface, WithdrawInterface } from "../../interface/reTakeFormInterface";
 import { useActiveWeb3React } from '../../services/web3'
 
 import ConfirmPopUp from "pages/components/ConfirmPopUp";
@@ -30,7 +30,8 @@ interface WalletBalanceProps {
 const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: WalletBalanceProps) => {
 
   const [restakeModal, setRestakeModal] = useState({
-    value: false,
+    value1: false,
+    value2: false,
     address: ''
   });
   const [commiModal, setCommiModal] = useState({
@@ -57,10 +58,19 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   const handleModal = (btn: String, valAddress: any) => {
     switch (btn) {
       case "Restake":
-        setRestakeModal({
-          value: true,
-          address: valAddress
-        });
+        if(userType === 'Validator'){
+          setRestakeModal({
+            value1: true,
+            value2: false,
+            address: valAddress
+          });
+        } else{
+          setRestakeModal({
+            value2: true,
+            value1:  false,
+            address: valAddress
+          });
+        }
         break;
       case "Change Commission Rate":
         setCommiModal({
@@ -118,6 +128,9 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
     reward: Yup.number().required(),
 
   })
+  const restakeValidationDelegator: any = Yup.object({
+    validatorAddress: Yup.string().required(),
+  })
 
   console.log(userType)
 
@@ -138,7 +151,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
             setTranHashCode(res.data.data.transactionHash);
             setSuccessMsg(res.data.message);
             setConfirm(true);
-            setRestakeModal({value:false,address:''});
+            setRestakeModal({value1:false, value2: false, address:''});
           }
         })
         .catch((err) => {
@@ -148,6 +161,39 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
         });
     },
     validationSchema: restakeValidation,
+  });
+
+
+  const retakeFormikDelegator = useFormik({
+    initialValues: {
+      validatorAddress: restakeModal?.address || 'test',
+      delegatorAddress: account ? account : ''
+    },
+    onSubmit: (values) => {
+     console.log(values)
+      setLoading(true);
+      let dataToSend = {
+        validatorAddress: restakeModal?.address || 'test',
+      delegatorAddress: account ? account : ''
+      }
+      restakeDeligator(dataToSend)
+        .then((res: any) => {
+          // console.log("res", res);
+          if (res.status == 200) {
+            setLoading(false);
+            setTranHashCode(res.data.data.transactionHash);
+            setSuccessMsg(res.data.message);
+            setConfirm(true);
+            setRestakeModal({value1:false, value2: false, address:''});
+          }
+        })
+        .catch((err) => {
+            setToastType('error')
+            setToastMessage(err?.response?.data?.message);
+          setLoading(false);
+        });
+    },
+    // validationSchema: restakeValidationDelegator,
   });
 
   const CommiModal: any = Yup.object({
@@ -333,8 +379,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       <div className={` modal-wrap`}>
         <Modal
           className="shib-popup"
-          show={restakeModal.value}
-          onHide={() => setRestakeModal({value: false, address: ''})}
+          show={restakeModal.value1}
+          onHide={() => setRestakeModal({value1: false,value2: false, address: ''})}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
@@ -424,6 +470,61 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
         </Modal>
       </div>
       {/* retake modal end */}
+
+
+      {/* Retake modal for deligator start */}
+      <div className={` modal-wrap`}>
+        <Modal
+          className="shib-popup"
+          show={restakeModal.value2}
+          onHide={() => setRestakeModal({value2: false,value1: false, address: ''})}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter "
+          centered
+        >
+          {loading && <LoadingSpinner />}
+          <Modal.Header closeButton className="text-center">
+            <Modal.Title id="example-custom-modal-styling-title">
+              Restake
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="position-relative">
+            <FormikProvider value={retakeFormikDelegator}>
+
+              <form onSubmit={retakeFormikDelegator.handleSubmit} className="modal-form">
+                <div className="form-group">
+                  <label htmlFor="" className="form-label">
+                  Validator Address 
+                    <span className="address_tooltip">?
+                    <span className="dummypopup"> Use Validators Staking Address</span>
+                    </span>
+
+                   
+                  </label>
+                  <Field
+                    type="text"
+                    className="form-control form-bg"
+                    placeholder="Enter Validator address"
+                    id="validatorAddress"
+                    name="validatorAddress"
+                    onChange={retakeFormikDelegator.handleChange}
+                    value={restakeModal.address}
+                  />
+                </div>
+                <div className="pt-3 form-group pt-md-4">
+                  <button
+                    type="submit"
+                    className="btn warning-btn border-btn light-text w-100"
+                  >
+                    <span>Submit</span>
+                  </button>
+                </div>
+              </form>
+            </FormikProvider>
+          </Modal.Body>
+        </Modal>
+      </div>
+      {/* retake modal deligator end */}
 
       {/* Commision start */}
       <div className="modal-wrap">

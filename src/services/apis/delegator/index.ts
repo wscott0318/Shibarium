@@ -4,7 +4,7 @@ import { http } from "../http";
 export function withdrawRewardDelegator(validatorAddress:string,delegatorAddress:string|undefined|null){
     return http.post(`delegators/withdraw`,{validatorAddress,delegatorAddress});
 }
-export function restake(reqBody:DelegatorReStakeFormInterface){
+export function restakeDeligator(reqBody:DelegatorReStakeFormInterface){
     return http.post(`delegators/restake`,reqBody)
 }
 

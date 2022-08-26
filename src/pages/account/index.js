@@ -71,9 +71,7 @@ console.log(availBalance, chainId)
             </div>
           </div>
           <div className="container acct-sec">
-          {/* numOfValidators: 0
-totalStake: 0
-unclaimedRewards: 0 */}
+
             
             {/* overview section start */}
             <div className="baner-card top-margin">
