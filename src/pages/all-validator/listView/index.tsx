@@ -65,7 +65,7 @@ export default function ListView({ validatorsList }: { validatorsList: any }) {
                       <span className="tb-data success-color align">{elm.commissionPercent}%</span>
                     </td>
                     <td>
-                      <span className="tb-data align">{elm.uptimePercent}%</span>
+                      <span className="tb-data align">{(elm.uptimePercent).toFixed(2)}%</span>
                     </td>
                     <td className="user-action">
                         <button

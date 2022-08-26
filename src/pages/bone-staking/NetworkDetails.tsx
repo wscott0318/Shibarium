@@ -2,6 +2,7 @@ import { BONE_ID } from 'app/config/constant'
 import { getCheckpointInterval, getHeimdallHeight, getLastCheckpoint, getNetworkOverviewData, getTotalRewardDistributed, getTotalStake, getValidatorCount } from 'app/services/apis/network-details/networkOverview'
 import { getBoneUSDValue } from 'app/services/apis/validator'
 import { useActiveWeb3React, useLocalWeb3 } from 'app/services/web3'
+import { L1Block } from 'app/hooks/L1Block';
 import React, { useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format'
 
@@ -17,7 +18,8 @@ function NetworkDetails() {
   // const [checkpointInterval, setCheckpointInterval] = useState<string>('')
   const [networkDetails, setNetworkDetails] = useState<any>({})
   const { account } = useActiveWeb3React()
-  const web3 = useLocalWeb3();
+  //const web3 = useLocalWeb3();
+  const web3 = L1Block();
   useEffect(() => {
     try {
       getNetworkOverviewData().then((res: any) => {

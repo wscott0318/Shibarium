@@ -18,6 +18,7 @@ import LoadingSpinner from "pages/components/Loading";
 import WarningBtn from "pages/components/WarningBtn";
 import { getDelegatorData } from "app/services/apis/user/userApi";
 import { ConsoleView } from "react-device-detect";
+import Link from 'next/link'
 
 
 interface WalletBalanceProps {
@@ -309,12 +310,16 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                 <div className="border-sec">
                   <div className="add-sec">
                     <div className="text-center">
-                      <div className="text-center">
-                        <a href="javascript:void(0);"><img className="img-fluid d-inline-block" src="../../assets/images/white-plus.png" width="27" height="28" alt="coin-icon"/></a>
-                      </div>
-                      <div>
-                        <span>Stake to more validators</span>
-                      </div>
+                    <Link href="./all-validator">
+                      <a>
+                        <div className="text-center">
+                        <img className="img-fluid d-inline-block" src="../../assets/images/white-plus.png" width="27" height="28" alt="coin-icon"/>
+                        </div>
+                        <div>
+                          <span>Stake to more validators</span>
+                        </div>
+                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
