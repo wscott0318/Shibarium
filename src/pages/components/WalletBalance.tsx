@@ -20,10 +20,11 @@ import ValidatorAccount from "pages/account/Validator";
 
 interface WalletBalanceProps {
   balance: number,
-  boneUSDValue: number
+  boneUSDValue: number,
+  getCardsData: Function
 }
 
-const WalletBalance = ({ balance, boneUSDValue }: WalletBalanceProps) => {
+const WalletBalance = ({ balance, boneUSDValue , getCardsData}: WalletBalanceProps) => {
 
   // const [restakeModal, setRestakeModal] = useState(false);
   // const [commiModal, setCommiModal] = useState(false);
@@ -187,7 +188,7 @@ const WalletBalance = ({ balance, boneUSDValue }: WalletBalanceProps) => {
             <BorderBtn lable="Become A Validator" handleModal={() => { }} />
             <WarningBtn link="/account" handleModal={undefined} lable="Become A Delegator" />
           </>
-            : <ValidatorAccount balance={balance} boneUSDValue={boneUSDValue} userType={userType} /> 
+            : <ValidatorAccount getCardsData={getCardsData} balance={balance} boneUSDValue={boneUSDValue} userType={userType} /> 
              
         }
 

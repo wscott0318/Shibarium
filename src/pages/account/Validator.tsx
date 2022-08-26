@@ -23,10 +23,11 @@ import { ConsoleView } from "react-device-detect";
 interface WalletBalanceProps {
   balance: number;
   boneUSDValue: number;
-  userType: string
+  userType: string;
+  getCardsData: Function
 }
 
-const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProps) => {
+const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: WalletBalanceProps) => {
 
   const [restakeModal, setRestakeModal] = useState({
     value: false,
@@ -91,6 +92,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
        if (res.data ) {
         console.log(res.data)
         setDelegationsList(res.data.data.validators)
+        getCardsData(res.data.data)
        }
      }).catch((e :any)=>{
        console.log(e);

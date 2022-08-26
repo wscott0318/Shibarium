@@ -18,7 +18,7 @@ export default function Account() {
   // const [availBalance, setAvailBalance] = useState(0);
   const [userType, setUserType] = useState('Anonymous');
   const [boneUSDValue,setBoneUSDValue] = useState(0);
-
+  const [cardsData, setCardsData] = useState({});
   const { chainId , account} = useActiveWeb3React();
   const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(ENV_CONFIGS[chainId].BONE);
   // const boneBalance = useTokenBalance(ENV_CONFIGS[chainId].BONE);
@@ -33,7 +33,14 @@ export default function Account() {
   // },[library,account]);
   // const { chainId, account, active, error, library, activate, deactivate } = useWeb3React()
 
+console.log(availBalance, chainId)
 
+  const getCardsData = (data) => {
+    if(Object.keys(data).length) {
+      // console.log(Object.keys(data).length)
+      setCardsData(data)
+    }
+  } 
 
 
   useEffect(() => {
@@ -64,6 +71,9 @@ export default function Account() {
             </div>
           </div>
           <div className="container acct-sec">
+          {/* numOfValidators: 0
+totalStake: 0
+unclaimedRewards: 0 */}
             
             {/* overview section start */}
             <div className="baner-card top-margin">
@@ -73,9 +83,8 @@ export default function Account() {
                 <div className="bs-card card">
                   <div className="data-box">
                     <div>
-                      <h3 className="fwb upertxt font-xs">ETHEREUM WALLET BALANCE</h3>
-                      <p className="mb-0 d-block fw-600 upertxt">185</p>
-                      
+                      <h3 className="fwb upertxt font-xs">{chainId == 7352 ? "BONE" : "ETHEREUM"} WALLET BALANCE</h3>
+                      <p className="mb-0 d-block fw-600 upertxt">{availBalance.toFixed(4)}</p>
                     </div>
                     <div>
                       <div className="card-hr"></div>
@@ -91,7 +100,7 @@ export default function Account() {
                 <div className="data-box">
                     <div>
                       <h3 className="fwb upertxt font-xs">Your Stake</h3>
-                      <p className="mb-0 d-block fw-600 upertxt">10</p>
+                      <p className="mb-0 d-block fw-600 upertxt">{cardsData?.totalStake}</p>
                       
                     </div>
                     <div>
@@ -106,7 +115,7 @@ export default function Account() {
                 <div className="data-box">
                     <div>
                       <h3 className="fwb upertxt font-xs">Delegation</h3>
-                      <p className="mb-0 d-block fw-600 upertxt">1 Validator</p>
+                      <p className="mb-0 d-block fw-600 upertxt">{cardsData?.numOfValidators} Validator</p>
                       
                     </div>
                     <div>
@@ -121,7 +130,7 @@ export default function Account() {
                 <div className="data-box">
                     <div>
                       <h3 className="fwb upertxt font-xs">Unclaimed Rewards</h3>
-                      <p className="mb-0 d-block fw-600 upertxt">0.04</p>
+                      <p className="mb-0 d-block fw-600 upertxt">{cardsData?.unclaimedRewards}</p>
                       
                     </div>
                     <div>
@@ -165,7 +174,7 @@ export default function Account() {
                 boneUSDValue={boneUSDValue}
                 isDelegator={userType === UserType.Delegator}
                 isValidator={userType  === UserType.Validator}
-               
+                getCardsData={getCardsData}
 
               />
             </div>
