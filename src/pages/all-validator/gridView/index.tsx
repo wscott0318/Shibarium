@@ -42,7 +42,7 @@ export default function ValidatorGrid({ validatorsList }: { validatorsList: any 
                                                         <div className='d-flex align-items-center justify-content-between'>
                                                             <div className='fw-600 ft-16'>Performance</div>
                                                             <div>
-                                                                <span className='warning-color fw-600 ft-14'>{validator.uptimePercent}%</span>
+                                                                <span className='warning-color fw-600 ft-14'>{(validator.uptimePercent).toFixed(2)}%</span>
                                                             </div>
                                                         </div>
                                                         <div className='d-flex align-items-center justify-content-between'>

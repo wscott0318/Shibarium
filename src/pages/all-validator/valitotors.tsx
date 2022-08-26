@@ -19,12 +19,12 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     const [isActiveTab, setIsActiveTab] = useState<boolean>(true);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [searchKey, setSearchKey] = useState<string>('');
-    const [sortKey, setSortKey] = useState<string>('Random');
+    const [sortKey, setSortKey] = useState<string>('Uptime');
   
     const searchResult = useSearchFilter(validatorsByStatus, searchKey.trim());
   
     useEffect(() =>{
-      const slicedList = searchResult.slice(0, pageSize).sort((a:any, b:any)=> b.stakeAmount - a.stakeAmount)
+      const slicedList = searchResult.slice(0, pageSize).sort((a:any, b:any)=> b.uptimePercent - a.uptimePercent)
       setValidators(slicedList)
     }, [searchResult])
   
@@ -127,7 +127,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                   </div>
                 </div>
                 <div className="col-lg-7 col-12 text-lg-end mob-filter">
-                  <div className="d-inline-block pe-0 pe-sm-4 mob-filter">
+                  {/* <div className="d-inline-block pe-0 pe-sm-4 mob-filter">
                     <label className="head-xsm fw-600" htmlFor="Auction">
                       <span className="top-low-spc pe-2 align">
                         Show Auction Only
@@ -137,7 +137,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                       <input type="checkbox" />
                       <span className="slider round"></span>
                     </label>
-                  </div>
+                  </div> */}
                   <div className="d-inline-block pe-4 pe-sm-4 ">
                     <label className="head-xsm fw-600" htmlFor="Auction">
                       <span className="top-low-spc pe-2 align">Sort by</span>
