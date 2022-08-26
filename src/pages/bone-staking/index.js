@@ -14,6 +14,7 @@ import Valitotors from "../all-validator/valitotors";
 import { useUserType, useUserOpenMev } from "../../state/user/hooks";
 import { UserType } from "../../enums/UserType";
 import NetworkDetails from './NetworkDetails';
+import Footer from "../../pages/footer/index";
 // import { useMoralis } from "react-moralis";
 // import BannerCard from './bannerCard'
 
@@ -147,13 +148,7 @@ const BoneStaking = () => {
           <Valitotors withStatusFilter={false} />
         </div>
       </section>
-      <footer className="main-footer">
-        <div className="container">
-          <div className="my-3 copyright my-lg-4">
-            <h3 className="mb-0 text-center fwb">Powered by xFund.</h3>
-          </div>
-        </div>
-      </footer>
+      <Footer/>
     </div>
   );
 };

@@ -8,6 +8,7 @@ import BalanceTable from "./balance-table";
 import {useBoneBalance} from '../../hooks/useBoneBalance';
 import QrModal from "pages/components/QrModal";
 import { useActiveWeb3React } from "app/services/web3";
+import Footer  from "../../pages/footer/index";
 // import QrModal from '../QrModal';
 
 
@@ -186,13 +187,7 @@ export default function Balance() {
               </div>
             </div>
           </div>
-          <footer className="main-footer">
-            <div className="container">
-              <div className="mt-4 copyright mt-lg-5">
-                <h3 className="mb-0 text-center fwb">Powered by xFund.</h3>
-              </div>
-            </div>
-          </footer>
+          <Footer/>
         </main>
       </div>
     </>

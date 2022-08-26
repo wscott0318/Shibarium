@@ -19,7 +19,10 @@ export default function Dashboard() {
   const [showImportantModal, setImportantModal] = useState(false);
   const [showtransferOverviewModal, setTransferOverviewModal] = useState(false);
   const [showProgressModal, setProgressModal] = useState(false);
+  const [showconfirmunbondModal, setconfirmunbondModal] = useState(false);
   const [showUnbondModal, setUnbondModal] = useState(false);
+  const [showUnbondprogModal, setUnbondprogModal] = useState(false);
+  const [showWithdrawModal, setWithdrawModal] = useState(false);
   const [showTransferModal, setTransferModal] = useState(false);
   const [showClaimstakeModal, setClaimstakeModal] = useState(false);
   const [showProgressTwoModal, setProgressTwoModal] = useState(false);
@@ -230,7 +233,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="btn-wrap pt-3">
-                        <button type="button" onClick={() => setTransferModal(true)} className="btn warning-btn w-100">
+                        <button type="button" onClick={() => setconfirmunbondModal(true)} className="btn warning-btn w-100">
                           <span>Transfer</span>
                         </button>
                       </div>
@@ -620,6 +623,103 @@ export default function Dashboard() {
               <p>The inbonding process has been initiated. Please come back after checkpoints and click on "Claim Stake".</p>
               <a href="javascript:void(0);" title="">View on Etherscan</a>
             </div>
+          </div>
+        </CommonModal>
+        {/* unbond progress show modal */}
+        <CommonModal
+          title={"Unbond"}
+          show={showUnbondprogModal}
+          setShow={setUnbondprogModal}
+        >
+          <div className="spinner-outer position-relative spiner-blk">
+              <div className="loading-spinner">
+                <TailSpin color="#f06500" height={80} width={80} />
+              </div>
+            </div>
+          <div>
+            <div className="center-align">
+              <p className="fw-bold fs-18">Transaction in progress</p>
+              <p>
+                Ethereum transaction can take upto 5 minute to complete.
+                Please wait or Increase the gas in metamask.
+              </p>
+              <a href="javascript:void(0);" title="" className="primary-text">View on Etherscan</a>
+            </div>
+          </div>
+        </CommonModal>
+        {/* claim stake modal */}
+        <CommonModal
+          title={"Unbond"}
+          show={showWithdrawModal}
+          setShow={setWithdrawModal}
+        >
+          <div>
+            <div className="center-align">
+              <p className="fw-bold fs-18">Your unbonding period is complete. You can claim your stake now.</p>
+              <p className="mute-text fs-12 fw-600 mb-3"> Your stake willbe transferred to
+              0x8048790779e50D0822dF9b287287eeD35A3CCEC2</p>
+            </div>
+            <div className="card">
+              <div className="text-center">
+                <h6 className="mute-text mb-2">Stake to claim</h6>
+                <h3>10 Bone</h3>
+                <h6 className="mute-text">$8.17</h6>
+              </div>
+            </div>
+            <div className="d-flex justify-content-between align-items-center">
+              <div className="mt-2">
+                $3.359 Gas Fee
+              </div>
+              <div className="mt-2 text-end">
+                <img className="img-fluid" src="../../assets/images/arrow-right-white.png" alt="img-fluid" width={6} />
+              </div>
+            </div>
+            <button type="button" className="btn warning-btn mt-3 mt-sm-4 w-100">Withdraw to Wallet</button>
+          </div>
+        </CommonModal>
+        <CommonModal
+          title={"Unbond"}
+          show={showconfirmunbondModal}
+          setShow={setconfirmunbondModal}
+        >
+          <div>
+            <div className="center-align mb-4">
+              <h3>Are you sure you want to unbond?</h3>
+            </div>
+            <div className="card">
+              <div className="row bdr-bottom">
+                  <div className="col-sm-8 mb-3">
+                    <h6>Rewards</h6>
+                    <p>You'll receive reward immediately.</p>
+                  </div>
+                  <div className="col-sm-4 text-end mb-3">
+                    <h6>0.04 Bone</h6>
+                  </div>
+              </div>
+              <div className="row">
+                  <div className="col-sm-6 mb-1">
+                    <h6 className="mb-0">Withdraw Stake</h6>
+                  </div>
+                  <div className="col-sm-6 text-end mb-1">
+                    <h6 className="mb-0">10 Bone</h6>
+                  </div>
+              </div>
+              <div className="form-group">
+                <input type="text" className="form-control" placeholder="10" />
+              </div>
+              <div className="card-primary dark-text p-2">
+                  Your Funds will be locked for <a href="checkpoints" className="primary-text">checkpoints</a>
+              </div>
+            </div>
+            <div className="d-flex justify-content-between align-items-center">
+              <div className="mt-2">
+                $3.359 Gas Fee
+              </div>
+              <div className="mt-2 text-end">
+                <img className="img-fluid" src="../../assets/images/arrow-right-white.png" alt="img-fluid" width={6} />
+              </div>
+            </div>
+            <button type="button" className="btn warning-btn mt-3 mt-sm-4 w-100">Confirm Unbond</button>
           </div>
         </CommonModal>
         <CommonModal

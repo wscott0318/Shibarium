@@ -14,7 +14,7 @@ import LoadingSpinner from "../components/Loading";
 import Valitotors from "./valitotors";
 import { useUserType } from "app/state/user/hooks";
 import { UserType } from "app/enums/UserType";
-
+  import Footer from "../../pages/footer/index";
 export const Allvalidator: React.FC = () => {
   const [userType, setUserType] = useUserType();
 
@@ -75,13 +75,7 @@ export const Allvalidator: React.FC = () => {
           <div className="container">
            <Valitotors withStatusFilter={true} />
           </div>
-          <footer className="main-footer">
-            <div className="container">
-              <div className="mt-4 copyright mt-lg-5">
-                <h3 className="mb-0 text-center fwb">Powered by xFund.</h3>
-              </div>
-            </div>
-          </footer>
+          <Footer/>
         </main>
       </div>
     </>

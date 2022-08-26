@@ -7,7 +7,7 @@ import Sidebar from '../layout/sidebar';
 import Selection from './selection';
 import Swap from './swap';
 import Amount from './amount';
-
+import Footer from '../../pages/footer/index';
 export default function differentchainbridge() {
 
     return (
@@ -125,13 +125,7 @@ export default function differentchainbridge() {
                             </div>
                         </section>
                     </div>
-                    <footer className='main-footer'>
-                        <div className="container">
-                            <div className="copyright mt-4 mt-lg-5">
-                                <h3 className='mb-0 text-center fwb'>Powered by xFund.</h3>
-                            </div>
-                        </div>
-                    </footer>
+                    <Footer/>
                 </div>
             </div>
         </>

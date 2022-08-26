@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import InnerHeader from "../inner-header";
 import { useWeb3React } from "@web3-react/core";
 import Web3 from "web3";
+
 export default function Unbond() {
 
     return (
@@ -15,7 +16,7 @@ export default function Unbond() {
                             <div className="container">
                                 <div className="row">
                                     <div className="text-center col-sm-8 text-sm-start">
-                                        <h1 className="light-text fnt-58 fnt-100">Your Unbond History</h1>
+                                        <h1 className="light-text fnt-58 fnt-100">Your Reward History</h1>
                                     </div>
                                 </div>
                             </div>
@@ -191,6 +192,7 @@ export default function Unbond() {
 
 
             </div>
+            
         </>
     );
 }
