@@ -1,10 +1,10 @@
 import { http } from "../http";
-import {RetakeFormInterfaceDelegator} from "../../../interface/reTakeFormInterface"
+import {RetakeFormInterface} from "../../../interface/reTakeFormInterface"
 
 export function validatorsList(){
     return http.get(`validators/getList`)
 }
-export function restake(reqBody:RetakeFormInterfaceDelegator){
+export function restake(reqBody:RetakeFormInterface){
     // console.log(reqBody,'asdsa');
     return http.post(`validators/restake`,reqBody)
 }

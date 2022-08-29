@@ -4,7 +4,7 @@ import { Modal, OverlayTrigger, Button, Tooltip } from "react-bootstrap";
 import { useFormik, FormikProps, ErrorMessage, Field, FormikProvider } from "formik";
 import * as Yup from "yup";
 import { unbound, withdrawRewardDelegator } from "../../services/apis/delegator";
-import { restake } from "../../services/apis/validator"
+import { restakeDeligator } from "../../services/apis/delegator"
 import { UserType } from "../../enums/UserType";
 import { CommissionRateInterface, WithdrawInterface } from "../../interface/reTakeFormInterface";
 import { useActiveWeb3React } from '../../services/web3'
@@ -68,7 +68,7 @@ const DelegatorAccount = ({ balance, boneUSDValue,userType }: WalletBalanceProps
     onSubmit: (values: DelegatorReStakeFormInterface) => {
       // console.log(values)
       setLoading(true);
-      restake(values)
+      restakeDeligator(values)
         .then((res: any) => {
           console.log("res", res);
           if (res.data.status === 'success') {
