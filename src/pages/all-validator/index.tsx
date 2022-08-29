@@ -60,7 +60,7 @@ export const Allvalidator: React.FC = () => {
                         </a>
                       </Link>
                     </div> : null}
-                    <Link href="/delegator-validator">
+                      <Link href="/delegator-validator">
                         <a className="ms-2 btn bordered-btn light-text" title="">
                           <span>Choose Your Path</span>
                         </a>

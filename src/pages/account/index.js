@@ -153,8 +153,6 @@ export default function Account() {
                 boneUSDValue={boneUSDValue}
                 isDelegator={userType === UserType.Delegator}
                 isValidator={userType  === UserType.Validator}
-               
-
               />
             </div>
             {/* btns section end */}

@@ -3,7 +3,7 @@ import React from "react";
 const WarningBtn = ({lable}) => {
   return (
     <>
-      <div className="mb-2 me-3">
+      <div className="btn-group">
         <a
           href="./delegator"
           className="btn warning-btn light-text"
