@@ -14,6 +14,8 @@ import { useERC20Balances } from "react-moralis";
 import { ChainId } from "@shibarium/core-sdk";
 import { getDelegatorData } from "../../services/apis/user/userApi";
 import fromExponential from 'from-exponential';
+// @ts-ignore
+import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 
 export default function Account() {
   // const [availBalance, setAvailBalance] = useState(0);
@@ -54,6 +56,12 @@ console.log(availBalance, chainId)
   },[account])
 
 
+  const cardShimmerEffects = (lines, gaps) => {
+    return (
+      <ShimmerTitle line={lines} gap={gaps} variant="primary" />
+    )
+  }
+
 
   return (
     <>
@@ -77,6 +85,9 @@ console.log(availBalance, chainId)
             {/* overview section start */}
             <div className="baner-card top-margin">
             <h3 className="mb-0 mb-3 text-white fwb">Staking Overview</h3>
+           {
+            Object.keys(cardsData).length ? 
+           
             <div className="row">
               <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
@@ -163,7 +174,24 @@ console.log(availBalance, chainId)
                   <span className="mb-0">$null</span>
                 </div>
               </div> */}
+            </div> :
+            <div className="row">
+            {
+              [...Array(4)].map(x => 
+              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+                <div className="bs-card card">
+                  <div className="data-box">
+                  {cardShimmerEffects(2, 10)}
+                    <div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              )
+            }
+              
             </div>
+           }
             </div>
             {/* overview section end */}
             {/* btns section start */}

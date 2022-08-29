@@ -7,6 +7,8 @@ import ListView from './listView';
 import ValidatorGrid from './gridView';
 import Pagination from 'app/components/Pagination';
 import LoadingSpinner from 'pages/components/Loading';
+// @ts-ignore
+import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 
 const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) => {
     const pageSize = 4;
@@ -84,6 +86,8 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
       }
       setValidators(sortedList)
     }
+
+
   return (
     <div>
 
@@ -207,6 +211,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
               </h4>
 
             </div>
+            
           {isListView ? (
             <ListView validatorsList={validators} />
           ) : (

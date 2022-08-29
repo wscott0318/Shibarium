@@ -137,7 +137,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
 
   const retakeFormik: FormikProps<RetakeFormInterface> = useFormik<RetakeFormInterface>({
     initialValues: {
-      validatorAddress: account || '',
+      validatorAddress: restakeModal.address || '',
       amount: '',
       reward:0,
     },
@@ -246,7 +246,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
 
   const withdrawFormk: FormikProps<WithdrawInterface> = useFormik<WithdrawInterface>({
     initialValues: {
-      validatorAddress: userType === UserType.Validator?account||'':'',
+      validatorAddress: userType === UserType.Validator ? account||'':'',
     },
     onSubmit: (values:WithdrawInterface) => {
       setLoading(true);
@@ -257,7 +257,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           errorWithdrawMessage(err)
         })
       }else if(userType === UserType.Delegator){
-        withdrawRewardDelegator(values.validatorAddress,account).then((res) => {
+        withdrawRewardDelegator(withdrawModal.address,account ? account : '').then((res) => {
           successWithdrawMessage(res);
         }).catch(err=>{
           errorWithdrawMessage(err)
