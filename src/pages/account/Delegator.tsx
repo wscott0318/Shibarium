@@ -3,8 +3,8 @@ import { Modal, OverlayTrigger, Button, Tooltip } from "react-bootstrap";
 
 import { useFormik, FormikProps, ErrorMessage, Field, FormikProvider } from "formik";
 import * as Yup from "yup";
-import { restake, unbound, withdrawRewardDelegator } from "../../services/apis/delegator";
-
+import { unbound, withdrawRewardDelegator } from "../../services/apis/delegator";
+import { restake } from "../../services/apis/validator"
 import { UserType } from "../../enums/UserType";
 import { CommissionRateInterface, WithdrawInterface } from "../../interface/reTakeFormInterface";
 import { useActiveWeb3React } from '../../services/web3'
