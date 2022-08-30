@@ -3,8 +3,8 @@ import { Modal, OverlayTrigger, Button, Tooltip } from "react-bootstrap";
 
 import { useFormik, FormikProps, ErrorMessage, Field, FormikProvider } from "formik";
 import * as Yup from "yup";
-import { restake, unbound, withdrawRewardDelegator } from "../../services/apis/delegator";
-
+import { unbound, withdrawRewardDelegator } from "../../services/apis/delegator";
+import { restakeDeligator } from "../../services/apis/delegator"
 import { UserType } from "../../enums/UserType";
 import { CommissionRateInterface, WithdrawInterface } from "../../interface/reTakeFormInterface";
 import { useActiveWeb3React } from '../../services/web3'
@@ -68,7 +68,7 @@ const DelegatorAccount = ({ balance, boneUSDValue,userType }: WalletBalanceProps
     onSubmit: (values: DelegatorReStakeFormInterface) => {
       // console.log(values)
       setLoading(true);
-      restake(values)
+      restakeDeligator(values)
         .then((res: any) => {
           console.log("res", res);
           if (res.data.status === 'success') {
@@ -163,7 +163,9 @@ const DelegatorAccount = ({ balance, boneUSDValue,userType }: WalletBalanceProps
               <form onSubmit={retakeFormik.handleSubmit} className="modal-form">
                 <div className="form-group">
                   <label htmlFor="" className="form-label">
-                    {'Validator'} Address
+                    {'Validator'} Address  <span className="address_tooltip">?
+                    <span className="dummypopup"> Use Validators Staking Address</span>
+                    </span>
                   </label>
                   <Field
                     type="text"

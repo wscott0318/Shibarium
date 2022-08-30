@@ -14,7 +14,10 @@ import LoadingSpinner from "../components/Loading";
 import Valitotors from "./valitotors";
 import { useUserType } from "app/state/user/hooks";
 import { UserType } from "app/enums/UserType";
-  import Footer from "../../pages/footer/index";
+import BorderBtn from "../components/BorderBtn";
+import WarningBtn from "../components/WarningBtn";
+import Footer from "../../pages/footer/index";
+
 export const Allvalidator: React.FC = () => {
   const [userType, setUserType] = useUserType();
 
@@ -53,20 +56,39 @@ export const Allvalidator: React.FC = () => {
                       All Validators
                     </h1>
                     <div className="flex-wrap d-flex align-items-centeer">
-                    {userType !== UserType.Validator ? <div className="">
-                      <Link href="./become-validator">
-                        <a className="btn gradient_btn" title="">
-                          <span>Become A Validator</span>
-                        </a>
-                      </Link>
-                    </div> : null}
-                      <Link href="/delegator-validator">
-                        <a className="ms-2 btn bordered-btn light-text" title="">
-                          <span>Choose Your Path</span>
-                        </a>
-                      </Link>
+                    {userType === UserType.Delegator && (
+                      <>
+                      <div className="flex-wrap d-flex align-items-centeer">
+                        <WarningBtn
+                          link='./delegator'
+                          lable="Become A Delegator"
+                          handleModal={() => {}}
+                        />
+                        </div>
+                      </>
+                    )}
+                    {userType === UserType.NA && (
+                      <>
+                        <div className="flex-wrap d-flex align-items-centeer">
+                          <WarningBtn
+                            link='./become-validator'
+                            lable="Become A Validator"
+                            handleModal={() => {}}
+                          />
+                          <WarningBtn
+                            link='./delegator'
+                            lable="Become A Delegator"
+                            handleModal={() => {}}
+                          />
+                         <BorderBtn
+                            link='./become-validator'
+                            lable="Choose Your Path"
+                            handleModal={() => {}}
+                          />
+                        </div>
+                      </>
+                    )}
                     </div>
-                    
                   </div>
                 </div>
               </div>

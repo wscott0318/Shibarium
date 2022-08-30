@@ -2,8 +2,11 @@ import { BONE_ID } from 'app/config/constant'
 import { getCheckpointInterval, getHeimdallHeight, getLastCheckpoint, getNetworkOverviewData, getTotalRewardDistributed, getTotalStake, getValidatorCount } from 'app/services/apis/network-details/networkOverview'
 import { getBoneUSDValue } from 'app/services/apis/validator'
 import { useActiveWeb3React, useLocalWeb3 } from 'app/services/web3'
+import { L1Block } from 'app/hooks/L1Block';
 import React, { useEffect, useState } from 'react'
-import NumberFormat from 'react-number-format'
+import NumberFormat from 'react-number-format';
+// @ts-ignore
+import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 
 function NetworkDetails() {
   // const [totalValidators, setTotalValidators] = useState<number>(0)
@@ -17,7 +20,8 @@ function NetworkDetails() {
   // const [checkpointInterval, setCheckpointInterval] = useState<string>('')
   const [networkDetails, setNetworkDetails] = useState<any>({})
   const { account } = useActiveWeb3React()
-  const web3 = useLocalWeb3();
+  //const web3 = useLocalWeb3();
+  const web3 = L1Block();
   useEffect(() => {
     try {
       getNetworkOverviewData().then((res: any) => {
@@ -81,10 +85,18 @@ function NetworkDetails() {
     }
   }, [account])
 
+  const cardShimmerEffects = () => {
+    return (
+      <ShimmerTitle line={3} gap={10} variant="primary" />
+    )
+  }
+
   return (
     <div className="container">
       <div className="baner-card">
         <h3 className="mb-0 mb-3 text-white fwb">Network Overview</h3>
+        {
+          Object.keys(networkDetails).length ? 
         <div className="row">
           <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
             <div className="bs-card card">
@@ -148,6 +160,20 @@ function NetworkDetails() {
             </div>
           </div>
         </div>
+        :
+        <div className="row">
+          {
+            [...Array(7)].map((x :any) => 
+            <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+            <div className="bs-card card">
+              {cardShimmerEffects()}
+            </div>
+          </div>        
+            )
+          }
+    
+        </div>
+        }
       </div>
     </div>
   )

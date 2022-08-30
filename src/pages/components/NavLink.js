@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 
 const NavLink = ({ tab, index, handleActiveTab }) => {
-  console.log('tab.link', tab.link)
+  // console.log('tab.link', tab.link)
 
   const router = useRouter();
 

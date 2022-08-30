@@ -20,10 +20,11 @@ import ValidatorAccount from "pages/account/Validator";
 
 interface WalletBalanceProps {
   balance: number,
-  boneUSDValue: number
+  boneUSDValue: number,
+  getCardsData: Function
 }
 
-const WalletBalance = ({ balance, boneUSDValue }: WalletBalanceProps) => {
+const WalletBalance = ({ balance, boneUSDValue , getCardsData}: WalletBalanceProps) => {
 
   // const [restakeModal, setRestakeModal] = useState(false);
   // const [commiModal, setCommiModal] = useState(false);
@@ -182,13 +183,13 @@ const WalletBalance = ({ balance, boneUSDValue }: WalletBalanceProps) => {
 
         {
 
-          userType === UserType.Delegator
-            ? <DelegatorAccount balance={balance} boneUSDValue={boneUSDValue} userType={userType} />
-            : userType === UserType.Validator ? <ValidatorAccount balance={balance} boneUSDValue={boneUSDValue} userType={userType} /> :
-              <>
-                <BorderBtn lable="Become A Validator" handleModal={() => { }} />
-                <WarningBtn lable="Become A Delegator" />
-              </>
+          userType === UserType.NA
+            ?  <>
+            <BorderBtn lable="Become A Validator" handleModal={() => { }} />
+            <WarningBtn link="/account" handleModal={undefined} lable="Become A Delegator" />
+          </>
+            : <ValidatorAccount getCardsData={getCardsData} balance={balance} boneUSDValue={boneUSDValue} userType={userType} /> 
+             
         }
         <div className="btn-group">
           <a href="javacript:void(0)" className="btn btn bordered-btn light-text">Restake</a>
