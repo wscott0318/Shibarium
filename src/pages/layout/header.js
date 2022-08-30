@@ -19,14 +19,15 @@ import { walletConnector } from "../../utils/connectors";
 import Web3Status from "app/components/Web3Status";
 import { RightMenu } from "app/components/Header/Desktop";
 import { NETWORK_LABEL } from "app/config/networks";
-import Web3 from 'web3';
+// import Web3 from 'web3';
 import { getUserType } from "app/services/apis/user/userApi";
 import { useUserType } from "app/state/user/hooks";
-import { UserType } from "../../enums/UserType";
+// import { UserType } from "../../enums/UserType";
 import ShibaSidebar from "pages/token-sidebar";
 import { useMoralis } from "react-moralis";
+import { MORALIS_APP_ID, MORALIS_SERVER_URL } from "../../config/constant"
 import { login } from "app/functions/login";
-import { injected } from "app/config/wallets";
+// import { injected } from "app/config/wallets";
 
 export default function Header() {
   const { chainId, account, active, error, library, activate, deactivate } = useWeb3React()
@@ -38,29 +39,36 @@ export default function Header() {
   const [dblock, setDblock] = useState(false);
   const [userType, setUserType] =useUserType();
 
-  const { authenticate, isAuthenticated, user,logout,Moralis ,...restMoralisObj} = useMoralis();
+  const { authenticate, isAuthenticated,User, user,logout,Moralis ,...restMoralisObj} = useMoralis();
+  // console.log({authenticate, isAuthenticated,User, user,logout,Moralis})
+  
   useEffect(() => {
     if(!account)logout().then();
     localStorage.setItem("ShibariumUser",JSON.stringify(user || []))
   }, [user,account]);
-  
 
-// useEffect(() => {
-//   window.ethereum.on('accountsChanged'(async(accounts)=>{
-//     const confirmed = confirm("Link this address to your account?");
-//     if (confirmed) {
-//       await Moralis.link(account);
-//       alert("Address added!");
-//     }
-// }))
-// }, [account]);
+
+async function loginNew() {
+    if (!isAuthenticated) {
+
+      await authenticate({signingMessage: "Log in using Moralis" })
+        .then(function (user) {
+          console.log("logged in user:", user);
+          console.log(user.get("ethAddress"));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+}
+
+async function logOut() {
+  await Moralis.User.logOut()
+  console.log('logged out')
+}
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn")
-    // if (account && !isLoggedIn) {
-    //   sign(account)
-    // }
-    // console.log(user.get("sessionToken"),user)
     if(!isAuthenticated){
       // authenticate()
     }
@@ -81,6 +89,7 @@ export default function Header() {
     getUserType(accountAddress.toLowerCase()).then( res =>{
       if (res.data && res.data.data) {
         let ut = res.data.data.userType;
+        console.log(ut)
         setUserType(ut)
       }
     }).catch(e=>{
@@ -94,6 +103,7 @@ export default function Header() {
   useEffect(() => {
     const { ethereum } = window
     if (ethereum && ethereum.on && !error) {
+      console.log({eth: ethereum.on})
       const handleConnect = () => {
         // console.log("Connected");
         // activate(injected)
@@ -113,7 +123,7 @@ export default function Header() {
       }
       const handleNetworkChanged = (networkId) => {
         // activate(injected)
-        login(authenticate,isAuthenticated)
+        // login(authenticate,isAuthenticated)
       }
 
       ethereum.on('connect', handleConnect)

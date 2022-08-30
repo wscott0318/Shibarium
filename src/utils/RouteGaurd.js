@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useMoralis } from 'react-moralis';
-import { useActiveWeb3React } from 'app/services/web3';
+// import { useMoralis } from 'react-moralis';
+// import { useActiveWeb3React } from 'app/services/web3';
 
 export { RouteGuard };
 
@@ -40,13 +40,10 @@ function RouteGuard({ children,user }) {
         const path = url.split('?')[0];
         // console.log(path)
         if (!isLoggedIn && publicPaths.includes(path)) {
-            
                 setAuthorized(false);
-
                 router.push({
                     pathname: '/home'
                 });
-            
         } else {
             setAuthorized(true);
         }

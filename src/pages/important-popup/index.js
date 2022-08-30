@@ -102,7 +102,7 @@ const transferToken = () => {
           <div className="notify-poup">
             <div className="block-wrap">
               <h1 className="mb-3 ft-20 lft-strip mb-sm-4">
-                <span className="align text-hd">What’s supported</span>
+                <span className="align text-hd">What&apos;s supported</span>
               </h1>
               <div className="form-check cus-chkbox d-inline-block me-0">
                 <input
@@ -157,6 +157,7 @@ const transferToken = () => {
             <div className="mt-4 d-flex align-items-center justify-content-center flex-column flex-sm-row mob-btns">
               <div className="mb-3 me-0 me-sm-5 mb-sm-0 btn-box">
                 <button
+                onClick={onHide}
                   type="button"
                   className="btn bordered-btn light-text w-100"
                 >

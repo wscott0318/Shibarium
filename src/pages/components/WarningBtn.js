@@ -1,6 +1,7 @@
+import Link from "next/link";
 import React from "react";
 
-const WarningBtn = ({lable}) => {
+const WarningBtn = ({lable,link,handleModal}) => {
   return (
     <>
       <div className="btn-group">
@@ -9,7 +10,7 @@ const WarningBtn = ({lable}) => {
           className="btn warning-btn light-text"
           title=""
         >
-          <span>{lable}</span>
+          <a className="btn warning-btn light-text">{lable}</a>
         </a>
       </div>
     </>

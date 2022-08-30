@@ -12,12 +12,18 @@ import {useEthBalance} from '../../hooks/useEthBalance';
 import {useTokenBalance} from '../../hooks/useTokenBalance';
 import { useERC20Balances } from "react-moralis";
 import { ChainId } from "@shibarium/core-sdk";
+import { getDelegatorData } from "../../services/apis/user/userApi";
+import fromExponential from 'from-exponential';
+// @ts-ignore
+import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
+import NumberFormat from 'react-number-format';
+
 export default function Account() {
   // const [availBalance, setAvailBalance] = useState(0);
   const [userType, setUserType] = useState('Anonymous');
   const [boneUSDValue,setBoneUSDValue] = useState(0);
-
-  const { chainId } = useActiveWeb3React();
+  const [cardsData, setCardsData] = useState({});
+  const { chainId , account} = useActiveWeb3React();
   const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(ENV_CONFIGS[chainId].BONE);
   // const boneBalance = useTokenBalance(ENV_CONFIGS[chainId].BONE);
 
@@ -29,12 +35,35 @@ export default function Account() {
   //     });
   //   }
   // },[library,account]);
+  // const { chainId, account, active, error, library, activate, deactivate } = useWeb3React()
+
+console.log(availBalance, chainId)
+
+  const getCardsData = (data) => {
+    if(Object.keys(data).length) {
+      // console.log(Object.keys(data).length)
+      setCardsData(data)
+    }
+  } 
+
 
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then(res=>{
       setBoneUSDValue(res.data.data.price);
     })
-  },[])
+    if(account){
+      // getDelegatorCardData(account)
+    }
+  },[account])
+
+
+  const cardShimmerEffects = (lines, gaps) => {
+    return (
+      <ShimmerTitle line={lines} gap={gaps} variant="primary" />
+    )
+  }
+
+
   return (
     <>
       <InnerHeader />
@@ -52,22 +81,25 @@ export default function Account() {
             </div>
           </div>
           <div className="container acct-sec">
+
             
             {/* overview section start */}
             <div className="baner-card top-margin">
             <h3 className="mb-0 mb-3 text-white fwb">Staking Overview</h3>
+           {
+            Object.keys(cardsData).length ? 
+           
             <div className="row">
               <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                   <div className="data-box">
                     <div>
-                      <h3 className="fwb upertxt font-xs">ETHEREUM WALLET BALANCE</h3>
-                      <p className="mb-0 d-block fw-600 upertxt">185</p>
-                      
+                      <h3 className="fwb upertxt font-xs">{chainId == 7352 ? "BONE" : "ETHEREUM"} WALLET BALANCE</h3>
+                      <p className="mb-0 d-block fw-600 upertxt">{availBalance.toFixed(4)}</p>
                     </div>
                     <div>
                       <div className="card-hr"></div>
-                      <span className="mb-0 mt-2">$null</span>
+                      <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></p>
                     </div>
                   </div>
                   
@@ -79,12 +111,11 @@ export default function Account() {
                 <div className="data-box">
                     <div>
                       <h3 className="fwb upertxt font-xs">Your Stake</h3>
-                      <p className="mb-0 d-block fw-600 upertxt">10</p>
-                      
+                      <p className="mb-0 d-block fw-600 upertxt">{(fromExponential(cardsData?.totalStake)/Math.pow(10,18)).toFixed(8)}</p>
                     </div>
                     <div>
                       <div className="card-hr"></div>
-                      <span className="mb-0 mt-2">$null</span>
+                      <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={(((cardsData?.totalStake)/Math.pow(10,18) || 0) * boneUSDValue).toFixed(2)} /></p>
                     </div>
                   </div>
                 </div>
@@ -94,12 +125,10 @@ export default function Account() {
                 <div className="data-box">
                     <div>
                       <h3 className="fwb upertxt font-xs">Delegation</h3>
-                      <p className="mb-0 d-block fw-600 upertxt">1 Validator</p>
-                      
+                      <p className="mb-0 d-block fw-600 upertxt">{cardsData?.numOfValidators} Validator</p>
                     </div>
                     <div>
                       <div className="card-hr"></div>
-                      <span className="mb-0 mt-2">$null</span>
                     </div>
                   </div>
                 </div>
@@ -109,12 +138,13 @@ export default function Account() {
                 <div className="data-box">
                     <div>
                       <h3 className="fwb upertxt font-xs">Unclaimed Rewards</h3>
-                      <p className="mb-0 d-block fw-600 upertxt">0.04</p>
+                      <p className="mb-0 d-block fw-600 upertxt">{(fromExponential(cardsData?.unclaimedRewards)/Math.pow(10,18)).toFixed(8)}</p>
                       
                     </div>
                     <div>
                       <div className="card-hr"></div>
-                      <span className="mb-0 mt-2">$null</span>
+                      <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={(((cardsData?.unclaimedRewards)/Math.pow(10,18) || 0) * boneUSDValue).toFixed(2)} /></p>
+                      {/* <span className="mb-0 mt-2">$null</span> */}
                     </div>
                   </div>
                 </div>
@@ -143,7 +173,24 @@ export default function Account() {
                   <span className="mb-0">$null</span>
                 </div>
               </div> */}
+            </div> :
+            <div className="row">
+            {
+              [...Array(4)].map(x => 
+              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+                <div className="bs-card card">
+                  <div className="data-box">
+                  {cardShimmerEffects(2, 10)}
+                    <div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              )
+            }
+              
             </div>
+           }
             </div>
             {/* overview section end */}
             {/* btns section start */}
@@ -153,151 +200,12 @@ export default function Account() {
                 boneUSDValue={boneUSDValue}
                 isDelegator={userType === UserType.Delegator}
                 isValidator={userType  === UserType.Validator}
+                getCardsData={getCardsData}
+
               />
             </div>
             {/* btns section end */}
-            {/* Delegations section start */}
-            <div className="baner-card mt-0">
-              <h3 class="mb-0 mb-3 text-white fwb">Your Delegations</h3>
-              <div className="row">
-                <div className="col-lg-4 col-md-6 col-12 mx-auto bs-col">
-                    <div className="border-sec">
-                      <div className="top-sec">
-                        <div className="info-block">
-                          <div className="image-blk">
-                            <div>
-                              <img className="img-fluid" src="../../assets/images/coin-matic.png" width="69" height="70" alt="coin-icon"/>
-                            </div>
-                          </div>
-                          <div className="grid-info">
-                            <div className="fw-bold">DefiMatic</div>
-                            <div className="info-row">
-                              <span><span className="fw-bold">100%</span> Checkpoints Signed</span>
-                            </div>
-                            <div className="info-row">
-                              <span><span className="fw-bold">1%</span> Commission</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mid-sec bs-card h-auto">
-                        <div className="block-container">
-                          <div className="cus-width"> 
-                            <div className="text-center">
-                              <div>Your Stake</div>
-                              <div className="fw-bold">10</div>
-                              <div>$0</div>
-                            </div>
-                          </div>
-                          <div className="cus-width">
-                            <div className="text-center">
-                              <div>Reward</div>
-                              <div className="fw-bold orange-color">0.04</div>
-                              <div>$0</div>
-                            </div>
-                          </div>
-                        </div>
-                        <span className="btn card-green text-center d-block btn-small mute-text mt-3">O BONE is in Unbond Period</span>
-                        <ul className="btn-grp">
-                            <li className="btn-grp-lst">
-                              <a href="javascript(0)" className="btn white-btn mute-text btn-small">Restake Reward</a>
-                            </li>
-                            <li className="btn-grp-lst">
-                              <a href="javascript(0)" className="btn white-btn mute-text btn-small">Move Stake</a>
-                            </li>
-                            <li className="btn-grp-lst">
-                              <a href="javascript(0)" className="btn btn-primary-outline btn-small">Unbound</a>
-                            </li>
-                            <li className="btn-grp-lst">
-                              <a href="javascript(0)" className="btn btn-primary-outline btn-small">Withdraw Reward</a>
-                            </li>
-                            <li className="btn-grp-lst">
-                              <a href="javascript(0)" className="btn btn-primary-outline btn-small">Stake More</a>
-                            </li>
-                            <li className="btn-grp-lst">
-                              <a href="javascript(0)" className="btn btn-primary-outline btn-small elipse-btn">
-                                <img className="img-fluid" src="../../assets/images/elipse.png" alt="" />
-                              </a>
-                            </li>
-                        </ul>
-                      </div>
-                    </div>
-                </div>
-                <div className="col-lg-4 col-md-6 col-12 mx-auto bs-col">
-                    <div className="border-sec">
-                      <div className="top-sec">
-                        <div className="info-block">
-                          <div className="image-blk">
-                            <div>
-                              <img className="img-fluid" src="../../assets/images/coin-matic.png" width="69" height="70" alt="coin-icon"/>
-                            </div>
-                          </div>
-                          <div className="grid-info">
-                            <div className="fw-bold">DefiMatic</div>
-                            <div className="info-row">
-                              <span><span className="fw-bold">100%</span> Checkpoints Signed</span>
-                            </div>
-                            <div className="info-row">
-                              <span><span className="fw-bold">1%</span> Commission</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mid-sec bs-card h-auto">
-                        <div className="block-container">
-                          <div className="cus-width"> 
-                            <div className="text-center">
-                              <div>Your Stake</div>
-                              <div className="fw-bold">10</div>
-                              <div>$0</div>
-                            </div>
-                          </div>
-                          <div className="cus-width">
-                            <div className="text-center">
-                              <div>Reward</div>
-                              <div className="fw-bold orange-color">0.04</div>
-                              <div>$0</div>
-                            </div>
-                          </div>
-                        </div>
-                        <span className="btn card-green text-center d-block btn-small mute-text mt-3">O BONE is in Unbond Period</span>
-                        <ul className="btn-grp">
-                            <li className="btn-grp-lst">
-                              <a href="javascript(0)" className="btn white-btn mute-text btn-small">Restake Reward</a>
-                            </li>
-                            <li className="btn-grp-lst">
-                              <a href="javascript(0)" className="btn white-btn mute-text btn-small">Move Stake</a>
-                            </li>
-                            <li className="btn-grp-lst">
-                              <a href="javascript(0)" className="btn btn-primary-outline btn-small">Unbound</a>
-                            </li>
-                            <li className="btn-grp-lst">
-                              <a href="javascript(0)" className="btn btn-primary-outline btn-small">Withdraw Reward</a>
-                            </li>
-                            <li className="btn-grp-lst">
-                              <a href="javascript(0)" className="btn btn-primary-outline btn-small">Stake More</a>
-                            </li>
-                        </ul>
-                      </div>
-                    </div>
-                </div>
-               <div className="col-lg-4 col-md-6 col-12 mx-auto bs-col">
-                <div className="border-sec">
-                  <div className="add-sec">
-                    <div className="text-center">
-                      <div className="text-center">
-                        <a href="javascript:void(0);"><img className="img-fluid d-inline-block" src="../../assets/images/white-plus.png" width="27" height="28" alt="coin-icon"/></a>
-                      </div>
-                      <div>
-                        <span>Stake to more validators</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                </div>
-              </div>
-            </div>
-            {/* Delegations section end */}
+          
           </div>
         </main>
 

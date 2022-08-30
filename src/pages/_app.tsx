@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { i18n } from '@lingui/core'
 import { I18nProvider } from '@lingui/react';
 // @ts-ignore
@@ -56,6 +56,12 @@ function MyApp({ Component, pageProps }:any) {
   // const {user} = useMoralis();
   // console.log("component", pageProps);
   const routeWithoutHeader = ['/login']
+
+  // useEffect(() => {
+  //  console.log(screen.orientation );
+ 
+  // })
+  
   return (
     <ProjectContext>
       <MoralisProvider appId={MORALIS_APP_ID} serverUrl={MORALIS_SERVER_URL}>

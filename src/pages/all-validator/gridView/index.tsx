@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 import NumberFormat from 'react-number-format';
 import DelegatePopup from '../../delegate-popup';
 
-export default function ValidatorGrid({ validatorsList }: { validatorsList: any }) {
+export default function ValidatorGrid({ validatorsList, searchKey }: { validatorsList: any, searchKey: any }) {
     const [modalShow, setModalShow] = React.useState(false);
     const [selectedRow, setSelectedRow] = useState({});
     const [userType, setUserType] = useUserType()
@@ -42,7 +42,7 @@ export default function ValidatorGrid({ validatorsList }: { validatorsList: any 
                                                         <div className='d-flex align-items-center justify-content-between'>
                                                             <div className='fw-600 ft-16'>Performance</div>
                                                             <div>
-                                                                <span className='warning-color fw-600 ft-14'>{validator.uptimePercent}%</span>
+                                                                <span className='warning-color fw-600 ft-14'>{(validator.uptimePercent).toFixed(2)}%</span>
                                                             </div>
                                                         </div>
                                                         <div className='d-flex align-items-center justify-content-between'>
@@ -52,7 +52,7 @@ export default function ValidatorGrid({ validatorsList }: { validatorsList: any 
                                                             </div>
                                                         </div>
                                                         <div className='mt-3 text-center'>
-                                                            <button disabled={validator.uptimePercent === 0 || userType === UserType.Validator} type="button" onClick={() => { setModalShow(true); setSelectedRow(validator) }} className='btn warning-btn light-text w-100'><span>Delegate</span></button>
+                                                            <button disabled={validator.uptimePercent <= 10 || userType === UserType.Validator} type="button" onClick={() => { setModalShow(true); setSelectedRow(validator) }} className='btn warning-btn light-text w-100'><span>Delegate</span></button>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -3,12 +3,12 @@ import { Modal, OverlayTrigger, Button, Tooltip } from "react-bootstrap";
 
 import { useFormik, FormikProps, ErrorMessage, Field, FormikProvider } from "formik";
 import * as Yup from "yup";
-import { commission, restake, unbound, withdrawReward } from "../../services/apis/validator";
-import { withdrawRewardDelegator } from "../../services/apis/delegator";
+import { commission, restake, unbound, validatorsList, withdrawReward } from "../../services/apis/validator";
+import { withdrawRewardDelegator, restakeDeligator } from "../../services/apis/delegator";
 
 import { useUserType } from '../../state/user/hooks';
 import { UserType } from "../../enums/UserType"; 
-import { RetakeFormInterface, CommissionRateInterface, WithdrawInterface } from "../../interface/reTakeFormInterface";
+import { RetakeFormInterface,RetakeFormInterfaceDelegator, CommissionRateInterface, WithdrawInterface } from "../../interface/reTakeFormInterface";
 import { useActiveWeb3React } from '../../services/web3'
 
 import ConfirmPopUp from "pages/components/ConfirmPopUp";
@@ -16,45 +16,112 @@ import ToastNotify from "pages/components/ToastNotify";
 import BorderBtn from "pages/components/BorderBtn";
 import LoadingSpinner from "pages/components/Loading";
 import WarningBtn from "pages/components/WarningBtn";
+import { getDelegatorData } from "app/services/apis/user/userApi";
+import { ConsoleView } from "react-device-detect";
+import Link from 'next/link'
+
 
 interface WalletBalanceProps {
   balance: number;
   boneUSDValue: number;
-  userType: string
+  userType: string;
+  getCardsData: Function
 }
 
-const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProps) => {
+const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: WalletBalanceProps) => {
 
-  const [restakeModal, setRestakeModal] = useState(false);
-  const [commiModal, setCommiModal] = useState(false);
-  const [withdrawModal, setWithdrawModal] = useState(false);
-  const [unboundModal, setUnboundModal] = useState(false);
+  const [restakeModal, setRestakeModal] = useState({
+    value1: false,
+    value2: false,
+    address: ''
+  });
+  const [commiModal, setCommiModal] = useState({
+    value: false,
+    address: ''
+  });
+  const [withdrawModal, setWithdrawModal] = useState({
+    value: false,
+    address: ''
+  });
+  const [unboundModal, setUnboundModal] = useState({
+    value: false,
+    address: ''
+  });
   const [loading, setLoading] = useState<boolean>(false);
   const [toastType, setToastType] = useState<'success'|'error'|undefined>();
   const [toastMsg, setToastMessage] = useState("");
   const [confirm, setConfirm] = useState(false);
   const [tranHashCode, setTranHashCode] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
-  const { account } = useActiveWeb3React()
+  const { account } = useActiveWeb3React();
+  const [delegationsList, setDelegationsList] = useState([]);
 
-  const handleModal = (btn: String) => {
+  const handleModal = (btn: String, valAddress: any) => {
     switch (btn) {
       case "Restake":
-        setRestakeModal(true);
+        if(userType === 'Validator'){
+          setRestakeModal({
+            value1: true,
+            value2: false,
+            address: valAddress
+          });
+        } else{
+          setRestakeModal({
+            value2: true,
+            value1:  false,
+            address: valAddress
+          });
+        }
         break;
       case "Change Commission Rate":
-        setCommiModal(true);
+        setCommiModal({
+          value: true,
+          address: valAddress
+        });
         break;
       case "Withdraw Rewards":
-        setWithdrawModal(true);
+        setWithdrawModal({
+          value: true,
+          address: valAddress
+        });
         break;
       case "Unbound":
-        setUnboundModal(true);
+        setUnboundModal({
+          value: true,
+          address: valAddress
+        });
         break;
       default:
         break;
     }
   };
+  
+
+  const getDelegatorCardData = (accountAddress :any) =>{
+    try {
+      getDelegatorData(accountAddress.toLowerCase()).then( (res :any) =>{
+       if (res.data ) {
+        console.log(res.data)
+        setDelegationsList(res.data.data.validators)
+        getCardsData(res.data.data)
+       }
+     }).catch((e :any)=>{
+       console.log(e);
+      //  setUserType('NA')
+     })
+    } catch (error) {
+     console.log(error)
+    }
+   }
+
+   console.log(delegationsList)
+
+   useEffect(() => {
+    if(account){
+      getDelegatorCardData(account)
+    }
+   },[account])
+
 
   const restakeValidation: any = Yup.object({
     validatorAddress: Yup.string().required(),
@@ -62,17 +129,27 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
     reward: Yup.number().required(),
 
   })
+  const restakeValidationDelegator: any = Yup.object({
+    validatorAddress: Yup.string().required(),
+  })
+
+  console.log(userType)
 
   const retakeFormik: FormikProps<RetakeFormInterface> = useFormik<RetakeFormInterface>({
     initialValues: {
-      validatorAddress: account || '',
+      validatorAddress: restakeModal?.address ? restakeModal?.address : '',
       amount: '',
       reward:0,
     },
     onSubmit: (values: RetakeFormInterface) => {
       // console.log(values)
       setLoading(true);
-      restake(values)
+      let data = {
+        validatorAddress: restakeModal?.address ? restakeModal?.address : '',
+        amount: values.amount,
+        reward: values.reward,
+      }
+      restake(data)
         .then((res: any) => {
           // console.log("res", res);
           if (res.status == 200) {
@@ -80,7 +157,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
             setTranHashCode(res.data.data.transactionHash);
             setSuccessMsg(res.data.message);
             setConfirm(true);
-            setRestakeModal(false);
+            setRestakeModal({value1:false, value2: false, address:''});
           }
         })
         .catch((err) => {
@@ -89,8 +166,47 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
           setLoading(false);
         });
     },
-    validationSchema: restakeValidation,
+    // validationSchema: restakeValidation,
   });
+
+
+  const retakeFormikDelegator = useFormik({
+    initialValues: {
+      validatorAddress: restakeModal?.address || 'test',
+      delegatorAddress: account ? account : ''
+    },
+    onSubmit: (values) => {
+     console.log(values)
+      setLoading(true);
+      let dataToSend = {
+        validatorAddress: restakeModal?.address || 'test',
+      delegatorAddress: account ? account : ''
+      }
+      restakeDeligator(dataToSend)
+        .then((res: any) => {
+          // console.log("res", res);
+          if (res.status == 200) {
+            setLoading(false);
+            setTranHashCode(res.data.data.transactionHash);
+            setSuccessMsg(res.data.message);
+            setConfirm(true);
+            setRestakeModal({value1:false, value2: false, address:''});
+          }
+        })
+        .catch((err) => {
+            setToastType('error')
+            setToastMessage(err?.response?.data?.message);
+          setLoading(false);
+        });
+    },
+    // validationSchema: restakeValidationDelegator,
+  });
+
+  const CommiModal: any = Yup.object({
+    validatorAddress: Yup.string().required(),
+    newCommission: Yup.number().min(0).max(100).required(),
+  })
+
   const commiFormik: FormikProps<CommissionRateInterface> = useFormik<CommissionRateInterface>({
     initialValues: {
       validatorAddress: account || '',
@@ -101,28 +217,29 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
       commission(values)
         .then((res) => {
           // console.log("res", res);
-          if (res.status == 200) {
+          if (res.status == 200) {  
             setLoading(false);
             setTranHashCode(res.data.data.transactionHash);
             setSuccessMsg(res.data.message);
             setConfirm(true);
-            setCommiModal(false);
+            setCommiModal({value:false,address:''});
           }
         })
         .catch((err) => {
           setLoading(false);
-          setCommiModal(false);
+          setCommiModal({value:false,address:''});
           setToastType('error')
           setToastMessage(err?.response?.data?.message);
         });
     },
+    validationSchema: CommiModal,
   });
 
   const successWithdrawMessage = (res:any) =>{
         setTranHashCode(res.data.data.transactionHash);
         setSuccessMsg(res.data.message);
         setConfirm(true);
-        setWithdrawModal(false);
+        setWithdrawModal({value:false,address:''});
         setLoading(false);
   }
 
@@ -134,7 +251,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
 
   const withdrawFormk: FormikProps<WithdrawInterface> = useFormik<WithdrawInterface>({
     initialValues: {
-      validatorAddress: userType === UserType.Validator?account||'':'',
+      validatorAddress: userType === UserType.Validator ? account||'':'',
     },
     onSubmit: (values:WithdrawInterface) => {
       setLoading(true);
@@ -145,7 +262,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
           errorWithdrawMessage(err)
         })
       }else if(userType === UserType.Delegator){
-        withdrawRewardDelegator(values.validatorAddress,account).then((res) => {
+        withdrawRewardDelegator(withdrawModal.address,account ? account : '').then((res) => {
           successWithdrawMessage(res);
         }).catch(err=>{
           errorWithdrawMessage(err)
@@ -154,6 +271,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
     },
   });
   const renderError = (message: string) => <p className="text-danger">{message}</p>;
+  const CustomRenderError = () => <p className="text-danger">range should be 0-100 %</p>;
   // const renderTooltip = (props: any) => (
   //   <Tooltip id="button-tooltip" {...props}>
   //     Simple tooltip
@@ -164,19 +282,115 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
 
     <>
        <ToastNotify toastMassage={toastMsg} type={toastType}/>
+        
+         { userType === 'Validator' ? <>
+            <BorderBtn lable="Restake" handleModal={() => handleModal("Restake", account)} />
+            <BorderBtn lable="Change Commission Rate" handleModal={()=>handleModal("Change Commission Rate", account)} />
+            <BorderBtn lable="Withdraw Rewards" handleModal={()=>handleModal("Withdraw Rewards", account)} />
+            <BorderBtn lable="Unbound" handleModal={()=>handleModal("Unbound", account)} />
+          </> :
           <>
-            <BorderBtn lable="Restake" handleModal={handleModal} />
-            <BorderBtn lable="Change Commission Rate" handleModal={handleModal} />
-            <BorderBtn lable="Withdraw Rewards" handleModal={handleModal} />
-            <BorderBtn lable="Unbound" handleModal={handleModal} />
+            {/* Delegations section start */}
+            <div className="baner-card mt-0">
+              <h3 className="mb-0 mb-3 text-white fwb">Your Delegations</h3>
+          
+                <div className="row">
+                  {
+                    delegationsList.length ? 
+                   <>
+                   {
+                    delegationsList.map((item: any) => 
+                    <div className="col-lg-4 col-md-6 col-12 mx-auto bs-col">
+                    <div className="border-sec">
+                      <div className="top-sec">
+                        <div className="info-block">
+                          <div className="image-blk">
+                            <div>
+                              <img className="img-fluid" src="../../assets/images/shiba-bg.png" width="69" height="70" alt="coin-icon"/>
+                            </div>
+                          </div>
+                          <div className="grid-info">
+                            <div className="fw-bold">{item.name}</div>
+                            <div className="info-row">
+                              <span><span className="fw-bold">{item.checkpointSignedPercent}%</span> Checkpoints Signed</span>
+                            </div>
+                            <div className="info-row">
+                              <span><span className="fw-bold">{item.commission}%</span> Commission</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="mid-sec bs-card h-auto">
+                        <div className="block-container">
+                          <div className="cus-width"> 
+                            <div className="text-center">
+                              <div>Your Stake</div>
+                              <div className="fw-bold">{(parseInt(item.stake) / 10 ** 18).toFixed(4)}</div>
+                              {/* <div>$0</div> */}
+                            </div>
+                          </div>
+                          <div className="cus-width">
+                            <div className="text-center">
+                              <div>Reward</div>
+                              <div className="fw-bold orange-color">{(parseInt(item.reward) / 10 ** 18).toFixed(4)}</div>
+                              {/* <div>$0</div> */}
+                            </div>
+                          </div>
+                        </div>
+                 
+                        <ul className="btn-grp">
+                            <li className="btn-grp-lst">
+                              <p onClick={() => handleModal('Restake', item.validatorAddress)} className="btn white-btn mute-text btn-small">Restake</p>
+                            </li>
+                            <li className="btn-grp-lst">
+                              <p onClick={() => handleModal('Withdraw Rewards', item.validatorAddress)} className="btn btn-primary-outline btn-small">Withdraw Rewards</p>
+                            </li>
+                            <li className="btn-grp-lst">
+                              <p onClick={() => handleModal('Unbound', item.validatorAddress)} className="btn btn-primary-outline btn-small">Unbound</p>
+                            </li>
+                        </ul>
+                      </div>
+                    </div>
+                </div>
+                    )
+                   }
+                   </> :
+                <span> No Validators Found</span>
+                  }
+               <div className="col-lg-4 col-md-6 col-12 mx-auto bs-col">
+                <div className="border-sec">
+                  <div className="add-sec">
+                    <div className="text-center">
+                    <Link href="./all-validator">
+                      <a>
+                        <div className="text-center">
+                        <img className="img-fluid d-inline-block" src="../../assets/images/white-plus.png" width="27" height="28" alt="coin-icon"/>
+                        </div>
+                        <div>
+                          <span>Stake to more validators</span>
+                        </div>
+                      </a>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+                </div>
+              </div> 
+              
+          
+            </div>
+            {/* Delegations section end */}
           </>
+          }
+
+          
 
       {/* Retake modal start */}
       <div className={` modal-wrap`}>
         <Modal
           className="shib-popup"
-          show={restakeModal}
-          onHide={() => setRestakeModal(false)}
+          show={restakeModal.value1}
+          onHide={() => setRestakeModal({value1: false,value2: false, address: ''})}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
@@ -193,7 +407,12 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
               <form onSubmit={retakeFormik.handleSubmit} className="modal-form">
                 <div className="form-group">
                   <label htmlFor="" className="form-label">
-                    {userType} Address
+                    {userType} Address 
+                    <span className="address_tooltip">?
+                    <span className="dummypopup"> Use Validators Staking Address</span>
+                    </span>
+
+                   
                   </label>
                   <Field
                     type="text"
@@ -202,7 +421,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                     id="validatorAddress"
                     name="validatorAddress"
                     onChange={retakeFormik.handleChange}
-                    value={retakeFormik.values.validatorAddress}
+                    value={restakeModal.address}
                   />
                 </div>
                 <div className="form-group">
@@ -262,12 +481,67 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
       </div>
       {/* retake modal end */}
 
+
+      {/* Retake modal for deligator start */}
+      <div className={` modal-wrap`}>
+        <Modal
+          className="shib-popup"
+          show={restakeModal.value2}
+          onHide={() => setRestakeModal({value2: false,value1: false, address: ''})}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter "
+          centered
+        >
+          {loading && <LoadingSpinner />}
+          <Modal.Header closeButton className="text-center">
+            <Modal.Title id="example-custom-modal-styling-title">
+              Restake
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="position-relative">
+            <FormikProvider value={retakeFormikDelegator}>
+
+              <form onSubmit={retakeFormikDelegator.handleSubmit} className="modal-form">
+                <div className="form-group">
+                  <label htmlFor="" className="form-label">
+                  Validator Address 
+                    <span className="address_tooltip">?
+                    <span className="dummypopup"> Use Validators Staking Address</span>
+                    </span>
+
+                   
+                  </label>
+                  <Field
+                    type="text"
+                    className="form-control form-bg"
+                    placeholder="Enter Validator address"
+                    id="validatorAddress"
+                    name="validatorAddress"
+                    onChange={retakeFormikDelegator.handleChange}
+                    value={restakeModal.address}
+                  />
+                </div>
+                <div className="pt-3 form-group pt-md-4">
+                  <button
+                    type="submit"
+                    className="btn warning-btn border-btn light-text w-100"
+                  >
+                    <span>Submit</span>
+                  </button>
+                </div>
+              </form>
+            </FormikProvider>
+          </Modal.Body>
+        </Modal>
+      </div>
+      {/* retake modal deligator end */}
+
       {/* Commision start */}
       <div className="modal-wrap">
         <Modal
           className="shib-popup"
-          show={commiModal}
-          onHide={() => setCommiModal(false)}
+          show={commiModal.value}
+          onHide={() => setCommiModal({value: false, address: ''})}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
@@ -278,11 +552,16 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
               <span>Commission</span>
             </h4>
           </Modal.Header>
+          
           <Modal.Body>
+          <FormikProvider value={commiFormik}>
             <form onSubmit={commiFormik.handleSubmit} className="modal-form">
               <div className="form-group">
                 <label htmlFor="" className="form-label">
                   {userType} Address
+                  <span className="address_tooltip">?
+                    <span className="dummypopup">Validators Address</span>
+                    </span>
                 </label>
                 <input
                   type="text"
@@ -291,7 +570,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                   name="validatorAddress"
                   onChange={commiFormik.handleChange}
                   
-                  value={commiFormik.values.validatorAddress}
+                  value={commiModal.address}
                   placeholder="Enter Validator address"
                 />
               </div>
@@ -299,7 +578,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                 <label htmlFor="" className="form-label">
                   New Commission
                 </label>
-                <input
+                <Field
                   type="number"
                   placeholder="Enter amount"
                   className="form-control form-bg"
@@ -308,6 +587,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                   onChange={commiFormik.handleChange}
                   value={commiFormik.values.newCommission}
                 />
+                <ErrorMessage name="newCommission" render={CustomRenderError}/>
               </div>
               <div className="pt-3 form-group pt-md-4">
                 <button
@@ -318,7 +598,9 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                 </button>
               </div>
             </form>
+            </FormikProvider>
           </Modal.Body>
+         
         </Modal>
       </div>
       {/* retake modal end */}
@@ -327,8 +609,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
       <div className="modal-wrap">
         <Modal
           className="shib-popup"
-          show={withdrawModal}
-          onHide={() => setWithdrawModal(false)}
+          show={withdrawModal.value}
+          onHide={() => setWithdrawModal({value:false,address:''})}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
@@ -344,6 +626,9 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
               <div className="form-group">
                 <label htmlFor="" className="form-label">
                   {userType} Address
+                  <span className="address_tooltip">?
+                    <span className="dummypopup">Validators Address</span>
+                    </span>
                 </label>
                 <input
                   type="text"
@@ -351,7 +636,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
                   id="validatorAddress"
                   name="validatorAddress"
                   onChange={withdrawFormk.handleChange}
-                  value={withdrawFormk.values.validatorAddress}
+                  value={withdrawModal.address}
                   placeholder="Enter Validator address"
                 />
               </div>
@@ -373,8 +658,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType }: WalletBalanceProp
       <div className="modal-wrap">
         <Modal
           className="shib-popup"
-          show={unboundModal}
-          onHide={() => setUnboundModal(false)}
+          show={unboundModal.value}
+          onHide={() => setUnboundModal({value:false,address:''})}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
