@@ -137,14 +137,19 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
 
   const retakeFormik: FormikProps<RetakeFormInterface> = useFormik<RetakeFormInterface>({
     initialValues: {
-      validatorAddress: restakeModal.address || '',
+      validatorAddress: restakeModal?.address ? restakeModal?.address : '',
       amount: '',
       reward:0,
     },
     onSubmit: (values: RetakeFormInterface) => {
       // console.log(values)
       setLoading(true);
-      restake(values)
+      let data = {
+        validatorAddress: restakeModal?.address ? restakeModal?.address : '',
+        amount: values.amount,
+        reward: values.reward,
+      }
+      restake(data)
         .then((res: any) => {
           // console.log("res", res);
           if (res.status == 200) {
@@ -161,7 +166,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           setLoading(false);
         });
     },
-    validationSchema: restakeValidation,
+    // validationSchema: restakeValidation,
   });
 
 
