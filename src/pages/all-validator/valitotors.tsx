@@ -37,17 +37,18 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
           setLoading(false)
           if (res.status == 200) {
             setAllValidators(res.data.data.validatorsList);
+            console.log(res.data.data.validatorsList);
+            var activeList = filter(
+              res.data.data.validatorsList,
+              (e) => e.uptimePercent !== 0
+            );
             if (withStatusFilter ) {
-                const activeList = filter(
-                  res.data.data.validatorsList,
-                  (e) => e.upTime !== 0
-                );
                 setValidatorsByStatus(activeList);
                 const slicedList = activeList.slice(0, pageSize)
                 setValidators(slicedList)
             }else{
-                setValidatorsByStatus(res.data.data.validatorsList);
-                const slicedList = res.data.data.validatorsList.slice(0, pageSize)
+                setValidatorsByStatus(activeList);
+                const slicedList = activeList.slice(0, pageSize)
                 setValidators(slicedList)
             }
           }

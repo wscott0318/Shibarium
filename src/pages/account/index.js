@@ -16,6 +16,7 @@ import { getDelegatorData } from "../../services/apis/user/userApi";
 import fromExponential from 'from-exponential';
 // @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
+import NumberFormat from 'react-number-format';
 
 export default function Account() {
   // const [availBalance, setAvailBalance] = useState(0);
@@ -98,7 +99,7 @@ console.log(availBalance, chainId)
                     </div>
                     <div>
                       <div className="card-hr"></div>
-                      {/* <span className="mb-0 mt-2">$null</span> */}
+                      <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></p>
                     </div>
                   </div>
                   
@@ -111,11 +112,10 @@ console.log(availBalance, chainId)
                     <div>
                       <h3 className="fwb upertxt font-xs">Your Stake</h3>
                       <p className="mb-0 d-block fw-600 upertxt">{(fromExponential(cardsData?.totalStake)/Math.pow(10,18)).toFixed(8)}</p>
-                      
                     </div>
                     <div>
                       <div className="card-hr"></div>
-                      {/* <span className="mb-0 mt-2">$null</span> */}
+                      <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={(((cardsData?.totalStake)/Math.pow(10,18) || 0) * boneUSDValue).toFixed(2)} /></p>
                     </div>
                   </div>
                 </div>
@@ -126,11 +126,9 @@ console.log(availBalance, chainId)
                     <div>
                       <h3 className="fwb upertxt font-xs">Delegation</h3>
                       <p className="mb-0 d-block fw-600 upertxt">{cardsData?.numOfValidators} Validator</p>
-                      
                     </div>
                     <div>
                       <div className="card-hr"></div>
-                      {/* <span className="mb-0 mt-2">$null</span> */}
                     </div>
                   </div>
                 </div>
@@ -145,6 +143,7 @@ console.log(availBalance, chainId)
                     </div>
                     <div>
                       <div className="card-hr"></div>
+                      <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={(((cardsData?.unclaimedRewards)/Math.pow(10,18) || 0) * boneUSDValue).toFixed(2)} /></p>
                       {/* <span className="mb-0 mt-2">$null</span> */}
                     </div>
                   </div>

@@ -306,11 +306,11 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                         <div className="info-block">
                           <div className="image-blk">
                             <div>
-                              <img className="img-fluid" src="../../assets/images/coin-matic.png" width="69" height="70" alt="coin-icon"/>
+                              <img className="img-fluid" src="../../assets/images/shiba-bg.png" width="69" height="70" alt="coin-icon"/>
                             </div>
                           </div>
                           <div className="grid-info">
-                            <div className="fw-bold">DefiMatic</div>
+                            <div className="fw-bold">{item.name}</div>
                             <div className="info-row">
                               <span><span className="fw-bold">{item.checkpointSignedPercent}%</span> Checkpoints Signed</span>
                             </div>

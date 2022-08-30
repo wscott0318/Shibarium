@@ -16,6 +16,7 @@ import { useUserType } from "app/state/user/hooks";
 import { UserType } from "app/enums/UserType";
 import BorderBtn from "../components/BorderBtn";
 import WarningBtn from "../components/WarningBtn";
+import Footer from "pages/footer";
 
 export const Allvalidator: React.FC = () => {
   const [userType, setUserType] = useUserType();
