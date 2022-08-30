@@ -19,6 +19,7 @@ import WarningBtn from "pages/components/WarningBtn";
 import { getDelegatorData } from "app/services/apis/user/userApi";
 import { ConsoleView } from "react-device-detect";
 import Link from 'next/link'
+import DelegatePopup from "pages/delegate-popup";
 
 
 interface WalletBalanceProps {
@@ -47,6 +48,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
     value: false,
     address: ''
   });
+  const [stakeMore, setStakeMoreModal] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [toastType, setToastType] = useState<'success'|'error'|undefined>();
   const [toastMsg, setToastMessage] = useState("");
@@ -55,6 +57,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   const [successMsg, setSuccessMsg] = useState("");
   const { account } = useActiveWeb3React();
   const [delegationsList, setDelegationsList] = useState([]);
+  const [selectedRow, setSelectedRow] = useState<any>({});
 
   const handleModal = (btn: String, valAddress: any) => {
     switch (btn) {
@@ -281,6 +284,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   return (
 
     <>
+      <DelegatePopup show={stakeMore} data={selectedRow}
+                onHide={() => setStakeMoreModal(false)} />
        <ToastNotify toastMassage={toastMsg} type={toastType}/>
         
          { userType === 'Validator' ? <>
@@ -348,6 +353,10 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                             <li className="btn-grp-lst">
                               <p onClick={() => handleModal('Unbound', item.validatorAddress)} className="btn btn-primary-outline btn-small">Unbound</p>
                             </li>
+                            <li className="btn-grp-lst">
+                              <p onClick={() => { setStakeMoreModal(true); setSelectedRow({owner:item.validatorAddress}) }}  className="btn btn-primary-outline btn-small">Stake More</p>
+                            </li>
+
                         </ul>
                       </div>
                     </div>
