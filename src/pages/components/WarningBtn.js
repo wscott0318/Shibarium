@@ -11,7 +11,7 @@ const WarningBtn = ({lable,link,handleModal}) => {
           title=""
         >
           <a className="btn warning-btn light-text">{lable}</a>
-        </Link>
+        </a>
       </div>
     </>
   );

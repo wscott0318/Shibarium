@@ -201,7 +201,7 @@ console.log(availBalance, chainId)
                 boneUSDValue={boneUSDValue}
                 isDelegator={userType === UserType.Delegator}
                 isValidator={userType  === UserType.Validator}
-               
+                getCardsData={getCardsData}
 
               />
             </div>
