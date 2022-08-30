@@ -32,6 +32,19 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
   
     console.log(validators)
 
+    // useEffect(() => {
+    //   if(isActiveTab){
+    //     let newData = allValidators.filter((x:any) => x.uptimePercent > 0)
+    //     console.log(newData)
+    //     setValidators(newData)
+    //   } else {
+    //     let newData = allValidators.filter((x:any) => x.uptimePercent <= 0)
+    //     console.log(newData)
+    //     setValidators(newData)
+    //   }
+   
+    // },[isActiveTab])
+
     useEffect(() => {
       setLoading(true)
       validatorsList()
@@ -44,7 +57,8 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
               res.data.data.validatorsList,
               (e) => e.uptimePercent !== 0
             );
-            if (withStatusFilter ) {
+            console.log(activeList)
+            if (withStatusFilter) {
                 setValidatorsByStatus(activeList);
                 const slicedList = activeList.slice(0, pageSize)
                 setValidators(slicedList)
@@ -62,9 +76,9 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     useEffect(() => {
       let filtered = []
       if (isActiveTab) {
-        filtered = allValidators.filter(e => e.upTime !== 0)
+        filtered = allValidators.filter(e => e.uptimePercent !== 0)
       } else {
-        filtered = allValidators.filter(e => e.upTime === 0)
+        filtered = allValidators.filter(e => e.uptimePercent === 0)
       }
       setValidatorsByStatus(filtered)
     }, [isActiveTab]);
@@ -214,10 +228,10 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
             </div>
             
           {isListView ? (
-            <ListView searchKey={searchKey} validatorsList={validators} />
+            <ListView  searchKey={searchKey} validatorsList={validators} />
           ) : (
             <div className="grid-view-wrap">
-              <ValidatorGrid searchKey validatorsList={validators} />
+              <ValidatorGrid searchKey={searchKey} validatorsList={validators} />
             </div>
           )}
           <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={searchKey ? searchResult.length : validatorsByStatus.length || 1} currentPage={currentPage} />

@@ -44,25 +44,26 @@ const GlobleHeader = ({tab}) => {
             </li>
           );
         })}
-        <div className="cus-dd">
+        <li className="dark-dd">
           <NavDropdown
-            title=''
+            title='History'
             id=""
           >
             <NavDropdown.Item
               className="px-2"
-              href="#action/3.2"
             >
+            <Link href="/unbond-history">
                 <span className="light-text">Unbound</span>
+                </Link>
             </NavDropdown.Item>
             <NavDropdown.Item
               className="px-2"
-              href="#action/3.2"
-            >
+            ><Link href="/reward-history">
                 <span className="light-text">Withdrawal</span>
+                </Link>
             </NavDropdown.Item>
           </NavDropdown>
-        </div>
+        </li>
       </ul>
     </>
   );

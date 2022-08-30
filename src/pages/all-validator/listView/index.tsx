@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 // @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 
-export default function ListView({ validatorsList, searchKey }: { validatorsList: any , searchKey: string}) {
+export default function ListView({ validatorsList, searchKey }: { validatorsList: any , searchKey: string }) {
     const [modalShow, setModalShow] = React.useState(false);
     const [selectedRow, setSelectedRow] = useState({})
     const [userType, setUserType] = useUserType()

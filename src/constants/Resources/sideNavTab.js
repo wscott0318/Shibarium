@@ -124,13 +124,7 @@ const SideNavTab=[
       title:"My Account",
       link:"/account",
       isActive:false
-    },
-    {
-      id:3,
-      title:"History",
-      link:"/history",
-      isActive:false
-    },
+    }
   ]
   
   export const leftheaderTab=[
