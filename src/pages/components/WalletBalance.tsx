@@ -179,7 +179,7 @@ const WalletBalance = ({ balance, boneUSDValue , getCardsData}: WalletBalancePro
         {` ${(balance.toFixed(8))} BONE Wallet`}{" "}
       </h1>
       <h2 className="low-font-wt">{(balance * boneUSDValue).toFixed(4)} USD</h2> */}
-      <div className="flex-wrap mt-4 d-flex align-items-center justify-content-center flex-column flex-sm-row">
+      <div className="wallet-btn flex-wrap mt-4 d-flex align-items-center justify-content-center flex-column flex-sm-row">
 
         {
 
@@ -191,7 +191,15 @@ const WalletBalance = ({ balance, boneUSDValue , getCardsData}: WalletBalancePro
             : <ValidatorAccount getCardsData={getCardsData} balance={balance} boneUSDValue={boneUSDValue} userType={userType} /> 
              
         }
-
+        <div className="btn-group">
+          <a href="javacript:void(0)" className="btn btn bordered-btn light-text">Restake</a>
+        </div>
+        <div className="btn-group">
+          <a href="javacript:void(0)" className="btn btn bordered-btn light-text">Withdraw Rewards</a>
+        </div>
+        <div className="btn-group">
+          <a href="javacript:void(0)" className="btn btn bordered-btn light-text">Unbond</a>
+        </div>
       </div>
 
     </>

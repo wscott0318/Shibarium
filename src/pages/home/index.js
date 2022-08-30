@@ -4,7 +4,7 @@ import React, { useState, useEffect, useContext } from "react";
 // import { validators, validatorsList } from "../service/validator";
 import { useWeb3React } from "@web3-react/core";
 import  ProjectContext  from "../../context/ProjectContext";
-
+import Footer from "../../pages/footer/index"
 export default function Home() {
   // const {account}=useContext(ProjectContext)
   
@@ -268,13 +268,7 @@ export default function Home() {
         </div>
       </main>
       {/* main header closed */}
-      <footer className="main-footer">
-        <div className="container">
-          <div className="my-3 my-4 copyright">
-            <h3 className="mb-0 text-center fwb">Powered by xFund.</h3>
-          </div>
-        </div>
-      </footer>
+      <Footer/>
     </>
   );
 }

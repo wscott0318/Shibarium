@@ -5,7 +5,7 @@ import { Dropdown } from 'react-bootstrap';
 import Sidebar from '../layout/sidebar';
 import GasToken from './bone';
 import Swaptoken from './swap';
-
+import Footer from '../../pages/footer/index'
 export default function Gastoken() {
 
     return (
@@ -47,13 +47,7 @@ export default function Gastoken() {
                             </div>
                         </section>
                     </div>
-                    <footer className='main-footer'>
-                        <div className="container">
-                            <div className="copyright mt-4 mt-lg-5">
-                                <h3 className='mb-0 text-center fwb'>Powered by xFund.</h3>
-                            </div>
-                        </div>
-                    </footer>
+                    <Footer/>
                 </div>
             </div>
         </>

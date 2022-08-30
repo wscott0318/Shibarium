@@ -4,9 +4,10 @@ import React from "react";
 const WarningBtn = ({lable,link,handleModal}) => {
   return (
     <>
-      <div className="mb-2 me-3">
-        <Link 
-          href={link}
+      <div className="btn-group">
+        <a
+          href="./delegator"
+          className="btn warning-btn light-text"
           title=""
         >
           <a className="btn warning-btn light-text">{lable}</a>

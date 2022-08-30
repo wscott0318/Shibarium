@@ -2622,32 +2622,3 @@ input[type=number]::-webkit-outer-spin-button {
         }
     }
 }
-
-@keyframes newShimmer {
-    
-}
-
-
-
-// .shimmerNew {
-//     background: linear-gradient(to right, #f6f6f6 8%, red 18%, #f6f6f6 33%) !important;
-//     background-size: 1000px 100% !important;
-//     animation: shimmer 2.2s linear infinite forwards !important;
-// }
-
-
-// .shimmer {
-//     background: linear-gradient(to right, #f6f6f6 8%, red 18%, #f6f6f6 33%) !important;
-//     background-size: 1000px 100%;
-//     animation: shimmer 2.2s linear infinite forwards;
-// }
-
-
-// @keyframes shimmer {
-//     0% {
-//       background-position: -50% 0;
-//     }
-//     100% {
-//       background-position: 50% 0;
-//     }
-//   }
