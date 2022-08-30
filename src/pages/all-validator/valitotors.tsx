@@ -30,6 +30,8 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
       setValidators(slicedList)
     }, [searchResult])
   
+    console.log(validators)
+
     useEffect(() => {
       setLoading(true)
       validatorsList()
@@ -37,7 +39,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
           setLoading(false)
           if (res.status == 200) {
             setAllValidators(res.data.data.validatorsList);
-            console.log(res.data.data.validatorsList);
+            // console.log(res.data.data.validatorsList);
             var activeList = filter(
               res.data.data.validatorsList,
               (e) => e.uptimePercent !== 0
@@ -95,20 +97,18 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
         {loading && <LoadingSpinner />}
          {withStatusFilter && <div className="d-flex align-items-center btns-space">
               <div className="me-3">
-                <a
-                  href="#!;"
+                <p
                   className={`btn black-btn ${isActiveTab ? 'btn-active' : ''}`}
                   title="" onClick={() => { setIsActiveTab(true) }}>
                   <span>ACTIVE</span>
-                </a>
+                </p>
               </div>
               <div>
-                <a
-                  href="#!;"
+                <p
                   className={`btn black-btn ${!isActiveTab ? 'btn-active' : ''}`}
                   title="" onClick={() => { setIsActiveTab(false) }}>
                   <span>INACTIVE</span>
-                </a>
+                </p>
               </div>
             </div>}
             <div className="filter-sec">
@@ -214,10 +214,10 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
             </div>
             
           {isListView ? (
-            <ListView validatorsList={validators} />
+            <ListView searchKey={searchKey} validatorsList={validators} />
           ) : (
             <div className="grid-view-wrap">
-              <ValidatorGrid validatorsList={validators} />
+              <ValidatorGrid searchKey validatorsList={validators} />
             </div>
           )}
           <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={searchKey ? searchResult.length : validatorsByStatus.length || 1} currentPage={currentPage} />

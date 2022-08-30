@@ -4,7 +4,12 @@ export const useSearchFilter = (data: any[], keyword:string)=>{
 
     const [result, setResult] = useState<any[]>([]);
     useEffect(() => {
-        const filtered = data.filter(entry => Object.values(entry).some(val => typeof val === "string" && val.startsWith(keyword)));
+        const filtered = data.filter((name: any) => {
+            return Object.values(name)
+                  .join(" ")
+                  .toLowerCase()
+                  .includes(keyword.toLowerCase());
+            });
         setResult(filtered);
     }, [data,keyword])
 
