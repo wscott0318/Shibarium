@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/link-passhref */
 import React from "react";
 import Link from "next/link";
-import { Nav } from "react-bootstrap";
+import { Nav, NavDropdown } from "react-bootstrap";
 import { useRouter } from "next/router";
 
 const GlobleHeader = ({tab}) => {
@@ -10,6 +10,9 @@ const GlobleHeader = ({tab}) => {
 
   
     const handleActiveTab = (index) => {
+      if(index === 3) {
+        console.log(index)
+      } else {
         tab.filter((elm) => {
           if (elm.id == index) {
             elm.isActive = true;
@@ -17,6 +20,7 @@ const GlobleHeader = ({tab}) => {
             elm.isActive = false;
           }
         });
+      }
       };
 
   return (
@@ -40,6 +44,25 @@ const GlobleHeader = ({tab}) => {
             </li>
           );
         })}
+        <div className="cus-dd">
+          <NavDropdown
+            title=''
+            id=""
+          >
+            <NavDropdown.Item
+              className="px-2"
+              href="#action/3.2"
+            >
+                <span className="light-text">Unbound</span>
+            </NavDropdown.Item>
+            <NavDropdown.Item
+              className="px-2"
+              href="#action/3.2"
+            >
+                <span className="light-text">Withdrawal</span>
+            </NavDropdown.Item>
+          </NavDropdown>
+        </div>
       </ul>
     </>
   );

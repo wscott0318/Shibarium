@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 import NumberFormat from 'react-number-format';
 import DelegatePopup from '../../delegate-popup';
 
-export default function ValidatorGrid({ validatorsList }: { validatorsList: any }) {
+export default function ValidatorGrid({ validatorsList, searchKey }: { validatorsList: any, searchKey: any }) {
     const [modalShow, setModalShow] = React.useState(false);
     const [selectedRow, setSelectedRow] = useState({});
     const [userType, setUserType] = useUserType()
