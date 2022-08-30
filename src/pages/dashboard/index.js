@@ -18,6 +18,8 @@ export default function Dashboard() {
   const [isWithdrw, setIsWithdrw] = useState(false);
   const [showImportantModal, setImportantModal] = useState(false);
   const [showtransferOverviewModal, setTransferOverviewModal] = useState(false);
+  
+  //
   const [showProgressModal, setProgressModal] = useState(false);
   const [showconfirmunbondModal, setconfirmunbondModal] = useState(false);
   const [showUnbondModal, setUnbondModal] = useState(false);
@@ -26,6 +28,8 @@ export default function Dashboard() {
   const [showTransferModal, setTransferModal] = useState(false);
   const [showClaimstakeModal, setClaimstakeModal] = useState(false);
   const [showProgressTwoModal, setProgressTwoModal] = useState(false);
+  //
+
   const [showProgressFourStepsModal, setProgressFourStepsModal] = useState(false);
   const [showProgressFourStepsModalTwo, setProgressFourStepsModalTwo] = useState(false);
   const [showProgressFourStepsModalThree, setProgressFourStepsModalThree] = useState(false);
