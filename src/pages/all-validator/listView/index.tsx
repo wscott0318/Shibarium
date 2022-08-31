@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 // @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 
-export default function ListView({ validatorsList, searchKey }: { validatorsList: any , searchKey: string}) {
+export default function ListView({ validatorsList, searchKey }: { validatorsList: any , searchKey: string }) {
     const [modalShow, setModalShow] = React.useState(false);
     const [selectedRow, setSelectedRow] = useState({})
     const [userType, setUserType] = useUserType()
@@ -104,7 +104,7 @@ export default function ListView({ validatorsList, searchKey }: { validatorsList
                   </td>
                   <td className="user-action">
                       <button
-                        disabled={elm.uptimePercent === 0 || userType === UserType.Validator}
+                        disabled={elm.uptimePercent <= 10 || userType === UserType.Validator}
                         onClick={() => { setModalShow(true); setSelectedRow(elm) }}
                         title=""
                         className="btn-small uppercase-txt warning-btn"

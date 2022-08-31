@@ -15,7 +15,7 @@ export default function Unbond() {
                             <div className="container">
                                 <div className="row">
                                     <div className="text-center col-sm-8 text-sm-start">
-                                        <h1 className="light-text fnt-58 fnt-100">Your Unbond History</h1>
+                                        <h1 className="light-text fnt-58 fnt-100">Your Unbound History</h1>
                                     </div>
                                 </div>
                             </div>
