@@ -5,13 +5,12 @@ const WarningBtn = ({lable,link,handleModal}) => {
   return (
     <>
       <div className="btn-group">
-        <a
-          href="./delegator"
-          className="btn warning-btn light-text"
+        <Link 
+          href={link}
           title=""
         >
           <a className="btn warning-btn light-text">{lable}</a>
-        </a>
+        </Link>
       </div>
     </>
   );

@@ -1985,15 +1985,15 @@ input{
     }
 }
 // .coinimage-sec{
-    // img{
-        // @media #{$max-sm}{
-        //     max-width: 35px;
-        // } 
-        // @media (max-width){
-        //     max-width: 2;
-        // }
- //   }
-//}
+//     img{
+//         // @media #{$max-sm}{
+//         //     max-width: 35px;
+//         // } 
+//         // @media (max-width){
+//         //     max-width: 2;
+//         // }
+//     }
+// }
 .chain-sec{
     .cus-alert{
         margin: 75px 0 40px;
@@ -2628,6 +2628,9 @@ input[type=number]::-webkit-outer-spin-button {
 .spin-outer {
     height: 90px;
 }
+// .wallet-btn{
+    
+// }
 .btn-group{
     margin-right: 12px;
     margin-bottom: 12px;
