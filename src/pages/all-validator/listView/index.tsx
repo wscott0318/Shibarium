@@ -57,7 +57,7 @@ export default function ListView({ validatorsList, searchKey }: { validatorsList
                   <th className="cell-width">Checkpoints Signed</th> */}
                   <th>Voting Power</th>
                   <th>Self</th>
-                  <th>Commission</th>
+                  <th className='text-center'>Commission</th>
                   <th>Uptime</th>
                   <th></th>
                 </tr>
@@ -96,7 +96,7 @@ export default function ListView({ validatorsList, searchKey }: { validatorsList
                   <td>
                     <span className="tb-data align">{+elm.selfPercent.toFixed(2)}%</span>
                   </td>
-                  <td>
+                  <td className='text-center'>
                     <span className="tb-data success-color align">{elm.commissionPercent}%</span>
                   </td>
                   <td>
