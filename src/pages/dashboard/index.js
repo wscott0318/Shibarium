@@ -21,9 +21,9 @@ export default function Dashboard() {
   
   //
   const [showProgressModal, setProgressModal] = useState(false);
-  const [showconfirmunbondModal, setconfirmunbondModal] = useState(false);
-  const [showUnbondModal, setUnbondModal] = useState(false);
-  const [showUnbondprogModal, setUnbondprogModal] = useState(false);
+  const [showconfirmunboundModal, setconfirmunboundModal] = useState(false);
+  const [showUnboundModal, setUnboundModal] = useState(true) // 3rd;
+  const [showUnboundprogModal, setUnboundprogModal] = useState(false); // 2nd
   const [showWithdrawModal, setWithdrawModal] = useState(false);
   const [showTransferModal, setTransferModal] = useState(false);
   const [showClaimstakeModal, setClaimstakeModal] = useState(false);
@@ -237,7 +237,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="btn-wrap pt-3">
-                        <button type="button" onClick={() => setconfirmunbondModal(true)} className="btn warning-btn w-100">
+                        <button type="button" onClick={() => setconfirmunboundModal(true)} className="btn warning-btn w-100">
                           <span>Transfer</span>
                         </button>
                       </div>
@@ -614,26 +614,26 @@ export default function Dashboard() {
           </div>
         </CommonModal>
         <CommonModal
-          title={"Unbond"}
-          show={showUnbondModal}
-          setShow={setUnbondModal}
+          title={"Unbound"}
+          show={showUnboundModal}
+          setShow={setUnboundModal}
         >
           <div>
             <div className="center-align">
               <span className="mb-3"><img src="../../assets/images/like.png" alt="" className="img-fluid" width={60} height={60} /></span>
             </div>
             <div className="center-align">
-              <p className="fw-bold fs-18">Unbond Initiated</p>
+              <p className="fw-bold fs-18">Unbound Initiated</p>
               <p>The inbonding process has been initiated. Please come back after checkpoints and click on "Claim Stake".</p>
               <a href="javascript:void(0);" title="">View on Etherscan</a>
             </div>
           </div>
         </CommonModal>
-        {/* unbond progress show modal */}
+        {/* unbound progress show modal */}
         <CommonModal
-          title={"Unbond"}
-          show={showUnbondprogModal}
-          setShow={setUnbondprogModal}
+          title={"Unbound"}
+          show={showUnboundprogModal}
+          setShow={setUnboundprogModal}
         >
           <div className="spinner-outer position-relative spiner-blk">
               <div className="loading-spinner">
@@ -653,13 +653,13 @@ export default function Dashboard() {
         </CommonModal>
         {/* claim stake modal */}
         <CommonModal
-          title={"Unbond"}
+          title={"Unbound"}
           show={showWithdrawModal}
           setShow={setWithdrawModal}
         >
           <div>
             <div className="center-align">
-              <p className="fw-bold fs-18">Your unbonding period is complete. You can claim your stake now.</p>
+              <p className="fw-bold fs-18">Your unbounding period is complete. You can claim your stake now.</p>
               <p className="mute-text fs-12 fw-600 mb-3"> Your stake willbe transferred to
               0x8048790779e50D0822dF9b287287eeD35A3CCEC2</p>
             </div>
@@ -682,13 +682,13 @@ export default function Dashboard() {
           </div>
         </CommonModal>
         <CommonModal
-          title={"Unbond"}
-          show={showconfirmunbondModal}
-          setShow={setconfirmunbondModal}
+          title={"Unbound"}
+          show={showconfirmunboundModal}
+          setShow={setconfirmunboundModal}
         >
           <div>
             <div className="center-align mb-4">
-              <h3>Are you sure you want to unbond?</h3>
+              <h3>Are you sure you want to unbound?</h3>
             </div>
             <div className="card">
               <div className="row bdr-bottom">
@@ -723,11 +723,11 @@ export default function Dashboard() {
                 <img className="img-fluid" src="../../assets/images/arrow-right-white.png" alt="img-fluid" width={6} />
               </div>
             </div>
-            <button type="button" className="btn warning-btn mt-3 mt-sm-4 w-100">Confirm Unbond</button>
+            <button type="button" className="btn warning-btn mt-3 mt-sm-4 w-100">Confirm Unbound</button>
           </div>
         </CommonModal>
         <CommonModal
-          title={"Unbond"}
+          title={"Unbound"}
           show={showTransferModal}
           setShow={setTransferModal}
         >
