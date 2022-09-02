@@ -17,9 +17,17 @@ export function unboundNew(body:any){
     return http.post('delegators/unbonds/sellVoucher', body)
 }
 
+export function unbondsHistory(param:any) {
+    return http.get(`delegators/unbonds/history/${param}`)
+}
+
+export function unboundClaim(body :any) {
+    return http.post(`delegators/unbonds/unstakeClaim`)
+}
+
 // delegators/unbonds/sellVoucher' 
 
-// {
+// { /delegators/unbonds/history/0x993E8794Ca03F520c4A8A30F7C0f44f6B57C1D93
 //     "delegatorAddress" : "0xc3E9adc34bFD50bB99E8D0fD4846360D2557c0cb",
 //     "validatorId" : 2,
 //     "amount" : 5
