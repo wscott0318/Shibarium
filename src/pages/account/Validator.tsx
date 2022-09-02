@@ -22,6 +22,7 @@ import Link from 'next/link'
 import DelegatePopup from "pages/delegate-popup";
 import { CommonModalNew } from "../components/CommonModel";
 import { TailSpin } from "react-loader-spinner";
+import { unboundNew } from "../../services/apis/delegator/index"
 
 
 interface WalletBalanceProps {
@@ -52,7 +53,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
     startValue: false,
     progressValue: false,
     comfirmValue: false,
-    address: ''
+    address: '',
+    id: ''
   });
   const [stakeMore, setStakeMoreModal] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -64,9 +66,10 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   const { account } = useActiveWeb3React();
   const [delegationsList, setDelegationsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState<any>({});
+  const [unboundInput, setUnboundInput] = useState<any>('')
 
 
-  const handleModal = (btn: String, valAddress: any) => {
+  const handleModal = (btn: String, valAddress: any, id: any = null) => {
     switch (btn) {
       case "Restake":
         if(userType === 'Validator'){
@@ -96,7 +99,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
         });
         break;
       case "Unbound":
-        setUnboundModal((preVal: any) => ({...preVal,  startValue: true, address: valAddress}));
+        setUnboundModal((preVal: any) => ({...preVal,  startValue: true, address: valAddress, id: id}));
         break;
       default:
         break;
@@ -108,7 +111,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       startValue: false,
       progressValue: false,
       comfirmValue: false,
-      address: ''
+      address: '',
+      id: ''
     })
   }
 
@@ -293,6 +297,28 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   //   </Tooltip>
   // );
   
+
+  const unboundNewAPICall = () => {
+    setUnboundModal((preVal:any) => ({...preVal, startValue:false, progressValue: true}))
+    console.log("called ===>")
+    let data = {
+      delegatorAddress: account,
+      validatorId: unboundModal.id,
+      amount: unboundInput
+    }
+    unboundNew(data).then((res:any) => {
+      if(res.status == 200){
+        console.log(res.data)
+        setUnboundModal((preVal:any) => ({...preVal,progressValue: false, comfirmValue: true}))
+        setUnboundInput('')
+      }
+    }).catch((err: any) => {
+      console.log(err)
+      setUnboundModal((preVal:any) => ({...preVal,progressValue: false, comfirmValue: true}))
+      setUnboundInput('')
+    })
+  }
+
   return (
 
     <>
@@ -363,7 +389,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                               <p onClick={() => handleModal('Withdraw Rewards', item.validatorAddress)} className="btn btn-primary-outline btn-small">Withdraw Rewards</p>
                             </li>
                             <li className="btn-grp-lst">
-                              <p onClick={() => handleModal('Unbound', item.validatorAddress)} className="btn btn-primary-outline btn-small">Unbound</p>
+                              <p onClick={() => handleModal('Unbound', item.validatorAddress, item.id)} className="btn btn-primary-outline btn-small">Unbound</p>
                             </li>
                             <li className="btn-grp-lst">
                               <p onClick={() => { setStakeMoreModal(true); setSelectedRow({owner:item.validatorAddress}) }}  className="btn btn-primary-outline btn-small">Stake More</p>
@@ -769,7 +795,10 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                   </div>
               </div>
               <div className="form-group">
-                <input type="text" className="form-control" placeholder="10" />
+                <input
+                value={unboundInput}
+                onChange={(e) => setUnboundInput(e.target.value)}
+                type="text" className="form-control" placeholder="10" />
               </div>
               <div className="card-primary dark-text p-2">
                   Your Funds will be locked for <a href="checkpoints" className="primary-text">checkpoints</a>
@@ -784,7 +813,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
               </div>
             </div>
             <button
-            onClick={() => setUnboundModal((preVal:any) => ({...preVal, startValue:false, progressValue: true}))}
+            onClick={() => unboundNewAPICall()}
             type="button" className="btn warning-btn mt-3 mt-sm-4 w-100">Confirm Unbound</button>
           </div>
         </CommonModalNew>
@@ -793,7 +822,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
          <CommonModalNew
           title={"Unbound"}
           show={unboundModal.progressValue}
-          setShow={handleModalClosing}
+          setShow={undefined}
         >
           <div className="spinner-outer position-relative spiner-blk">
               <div className="loading-spinner">
@@ -812,6 +841,24 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           </div>
         </CommonModalNew>
         {/* claim stake modal */}
+
+        {/* unbound modal confirm value */}
+        <CommonModalNew
+          title={"Unbound"}
+          show={unboundModal.comfirmValue}
+          setShow={handleModalClosing}
+        >
+          <div>
+            <div className="center-align">
+              <span className="mb-3"><img src="../../assets/images/like.png" alt="" className="img-fluid" width={60} height={60} /></span>
+            </div>
+            <div className="center-align">
+              <p className="fw-bold fs-18">Unbound Initiated</p>
+              <p>The inbonding process has been initiated. Please come back after checkpoints and click on "Claim Stake".</p>
+              <a href="javascript:void(0);" title="">View on Etherscan</a>
+            </div>
+          </div>
+        </CommonModalNew>
     </>
   );
 };

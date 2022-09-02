@@ -12,3 +12,17 @@ export function restakeDeligator(reqBody:DelegatorReStakeFormInterface){
 export function unbound(body:any){
     return http.post(`unbond`,body)
 }
+
+export function unboundNew(body:any){
+    return http.post('delegators/unbonds/sellVoucher', body)
+}
+
+// delegators/unbonds/sellVoucher' 
+
+// {
+//     "delegatorAddress" : "0xc3E9adc34bFD50bB99E8D0fD4846360D2557c0cb",
+//     "validatorId" : 2,
+//     "amount" : 5
+// }
+
+

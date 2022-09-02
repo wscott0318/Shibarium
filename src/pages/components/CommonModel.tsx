@@ -54,7 +54,7 @@ const CommonModal:React.FC<props> = ({show,setShow, title,children})=> {
   )
 }
 
-export const CommonModalNew:React.FC<propsNew> = ({show,setShow, title,children})=> {
+export const CommonModalNew:React.FC<propsNew> = ({show,setShow = null, title,children})=> {
   const abc = {show,setShow, title,children};
   return (
     <Modal
