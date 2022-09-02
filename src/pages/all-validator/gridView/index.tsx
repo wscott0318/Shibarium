@@ -60,10 +60,8 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                                         </>
                                     )
                                 })}
-
                             </div>
-                            :
-                            <div style={{display:'flex',justifyContent:'center',padding: '3rem'}}>No Record Found.</div>
+                            : <div style={{display:'flex',justifyContent:'center',padding: '3rem'}}>No Record Found.</div>
                         }
                     </div>
             </div>

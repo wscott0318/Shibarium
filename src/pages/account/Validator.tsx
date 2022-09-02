@@ -20,6 +20,8 @@ import { getDelegatorData } from "app/services/apis/user/userApi";
 import { ConsoleView } from "react-device-detect";
 import Link from 'next/link'
 import DelegatePopup from "pages/delegate-popup";
+import { CommonModalNew } from "../components/CommonModel";
+import { TailSpin } from "react-loader-spinner";
 
 
 interface WalletBalanceProps {
@@ -44,8 +46,12 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
     value: false,
     address: ''
   });
+
+
   const [unboundModal, setUnboundModal] = useState({
-    value: false,
+    startValue: false,
+    progressValue: false,
+    comfirmValue: false,
     address: ''
   });
   const [stakeMore, setStakeMoreModal] = useState(false);
@@ -58,6 +64,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   const { account } = useActiveWeb3React();
   const [delegationsList, setDelegationsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState<any>({});
+
 
   const handleModal = (btn: String, valAddress: any) => {
     switch (btn) {
@@ -89,16 +96,21 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
         });
         break;
       case "Unbound":
-        setUnboundModal({
-          value: true,
-          address: valAddress
-        });
+        setUnboundModal((preVal: any) => ({...preVal,  startValue: true, address: valAddress}));
         break;
       default:
         break;
     }
   };
   
+  const handleModalClosing = () => {
+    setUnboundModal({
+      startValue: false,
+      progressValue: false,
+      comfirmValue: false,
+      address: ''
+    })
+  }
 
   const getDelegatorCardData = (accountAddress :any) =>{
     try {
@@ -667,8 +679,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       <div className="modal-wrap">
         <Modal
           className="shib-popup"
-          show={unboundModal.value}
-          onHide={() => setUnboundModal({value:false,address:''})}
+          // show={unboundModal.value}
+          // onHide={() => setUnboundModal({value:false,address:''})}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
@@ -723,6 +735,83 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       </div>
 
 
+
+
+
+   {/*====================================== New modals for unbound =================================*/}
+
+      {/* 1st screen */}
+      <CommonModalNew
+          title={"Unbound"}
+          show={unboundModal.startValue}
+          setShow={handleModalClosing}
+        >
+          <div>
+            <div className="center-align mb-4">
+              <h3>Are you sure you want to unbound?</h3>
+            </div>
+            <div className="card">
+              <div className="row bdr-bottom">
+                  <div className="col-sm-8 mb-3">
+                    <h6>Rewards</h6>
+                    <p>You'll receive reward immediately.</p>
+                  </div>
+                  <div className="col-sm-4 text-end mb-3">
+                    <h6>0.04 Bone</h6>
+                  </div>
+              </div>
+              <div className="row">
+                  <div className="col-sm-6 mb-1">
+                    <h6 className="mb-0">Withdraw Stake</h6>
+                  </div>
+                  <div className="col-sm-6 text-end mb-1">
+                    <h6 className="mb-0">10 Bone</h6>
+                  </div>
+              </div>
+              <div className="form-group">
+                <input type="text" className="form-control" placeholder="10" />
+              </div>
+              <div className="card-primary dark-text p-2">
+                  Your Funds will be locked for <a href="checkpoints" className="primary-text">checkpoints</a>
+              </div>
+            </div>
+            <div className="d-flex justify-content-between align-items-center">
+              <div className="mt-2">
+                $3.359 Gas Fee
+              </div>
+              <div className="mt-2 text-end">
+                <img className="img-fluid" src="../../assets/images/arrow-right-white.png" alt="img-fluid" width={6} />
+              </div>
+            </div>
+            <button
+            onClick={() => setUnboundModal((preVal:any) => ({...preVal, startValue:false, progressValue: true}))}
+            type="button" className="btn warning-btn mt-3 mt-sm-4 w-100">Confirm Unbound</button>
+          </div>
+        </CommonModalNew>
+
+         {/* unbound progress show modal */}
+         <CommonModalNew
+          title={"Unbound"}
+          show={unboundModal.progressValue}
+          setShow={handleModalClosing}
+        >
+          <div className="spinner-outer position-relative spiner-blk">
+              <div className="loading-spinner">
+                <TailSpin color="#f06500" height={80} width={80} />
+              </div>
+            </div>
+          <div>
+            <div className="center-align">
+              <p className="fw-bold fs-18">Transaction in progress</p>
+              <p>
+                Ethereum transaction can take upto 5 minute to complete.
+                Please wait or Increase the gas in metamask.
+              </p>
+              <a href="javascript:void(0);" title="" className="primary-text">View on Etherscan</a>
+            </div>
+          </div>
+        </CommonModalNew>
+        {/* claim stake modal */}
     </>
   );
 };
