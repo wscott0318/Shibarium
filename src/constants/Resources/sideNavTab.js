@@ -63,30 +63,30 @@ const SideNavTab=[
         activeShapeImg:"../../assets/images/radius.png",
         link:"#!"
       },
-      {
-        id:8,
-      isActive:false,
-        title:"Mainnet Wallet",
-        icon:"../../assets/images/icons/wallet.png",
-        activeShapeImg:"../../assets/images/radius.png",
-        link:"#!"
-      },
-      {
-        id:9,
-      isActive:false,
-        title:"Support",
-        icon:"../../assets/images/icons/support.png",
-        activeShapeImg:"../../assets/images/radius.png",
-        link:"#!"
-      },
-      {
-        id:10,
-      isActive:false,
-        title:"How it Works?",
-        icon:"../../assets/images/icons/work.png",
-        activeShapeImg:"../../assets/images/radius.png",
-        link:"#!"
-      },    
+      // {
+      //   id:8,
+      // isActive:false,
+      //   title:"Mainnet Wallet",
+      //   icon:"../../assets/images/icons/wallet.png",
+      //   activeShapeImg:"../../assets/images/radius.png",
+      //   link:"#!"
+      // },
+      // {
+      //   id:9,
+      // isActive:false,
+      //   title:"Support",
+      //   icon:"../../assets/images/icons/support.png",
+      //   activeShapeImg:"../../assets/images/radius.png",
+      //   link:"#!"
+      // },
+      // {
+      //   id:10,
+      // isActive:false,
+      //   title:"How it Works?",
+      //   icon:"../../assets/images/icons/work.png",
+      //   activeShapeImg:"../../assets/images/radius.png",
+      //   link:"#!"
+      // },    
 
       {
         id:11,
