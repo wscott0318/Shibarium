@@ -2225,10 +2225,14 @@ input{
     cursor: pointer;
     background-size: contain;
     background-position: center;
-    background-repeat: no-repeat;
-    width: 30px;
-    height: 30px;
+    width: 22px;
+    height: auto;
+    &.bg-copy{
+        height: 22px;
+        padding-left: 32px;
+    }
 }
+
 .fade-bg{
     position: absolute;
     top: 0;

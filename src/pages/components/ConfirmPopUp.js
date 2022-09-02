@@ -34,10 +34,10 @@ import CopyToClipboard from "react-copy-to-clipboard";
                 <div className="text-center">
                 {
                   isCopied ? 
-                  <span className=" copy-icon">
+                  <span className=" copy-icon bg-copy">
                   Copied!
                 </span>:
-                <span className=" copy-icon">"i"</span>
+                <span className=" copy-icon bg-copy">"i"</span>
                 }  
                
                 </div>
