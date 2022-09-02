@@ -32,10 +32,14 @@ import CopyToClipboard from "react-copy-to-clipboard";
               <div className="key-txt text-center">{props.text}</div>
               <CopyToClipboard text={props.text} onCopy={onCopyHashCode}>
                 <div className="text-center">
-                  
-                <span className=" copy-icon">
-                  {isCopied ?"Copied!":"i"}
-                </span>
+                {
+                  isCopied ? 
+                  <span className=" copy-icon">
+                  Copied!
+                </span>:
+                <span className=" copy-icon">"i"</span>
+                }  
+               
                 </div>
               </CopyToClipboard>
             </div>

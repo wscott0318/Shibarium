@@ -22,7 +22,7 @@ export default function Dashboard() {
   //
   const [showProgressModal, setProgressModal] = useState(false);
   const [showconfirmunboundModal, setconfirmunboundModal] = useState(false);
-  const [showUnboundModal, setUnboundModal] = useState(true) // 3rd;
+  const [showUnboundModal, setUnboundModal] = useState(false) // 3rd;
   const [showUnboundprogModal, setUnboundprogModal] = useState(false); // 2nd
   const [showWithdrawModal, setWithdrawModal] = useState(false);
   const [showTransferModal, setTransferModal] = useState(false);

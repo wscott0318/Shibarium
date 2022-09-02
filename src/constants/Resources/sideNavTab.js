@@ -61,7 +61,7 @@ const SideNavTab=[
         title:"What’s New?",
         icon:"../../assets/images/icons/new.png",
         activeShapeImg:"../../assets/images/radius.png",
-        link:"#!"
+        link:"/whats-new"
       },
       {
         id:8,

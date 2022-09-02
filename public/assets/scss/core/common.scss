@@ -2224,8 +2224,10 @@ input{
     background:url('../../images/copy-wht-icon.png') no-repeat;
     cursor: pointer;
     background-size: contain;
-    width: 22px;
-    height: auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 30px;
+    height: 30px;
 }
 .fade-bg{
     position: absolute;
