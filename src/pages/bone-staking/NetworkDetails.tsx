@@ -97,66 +97,95 @@ function NetworkDetails() {
         <h3 className="mb-0 mb-3 text-white fwb">Network Overview</h3>
         {
           Object.keys(networkDetails).length ? 
-        <div className="row">
-          <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+        <div className="row networkCard">
+          <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-4 bs-col">
             <div className="bs-card card">
-              <h3 className="fwb font-xs height-fx">{networkDetails?.validatorCount}</h3>
-              <span className="mb-0 trs-3">Total Validators</span>
+              <div className='bs-data-col'>
+                <h3 className="fwb font-xs height-fx">{networkDetails?.validatorCount}</h3>
+              </div>
+              <div className='bs-data-col'>
+                <span className="mb-0 trs-3">Total Validators</span>
+              </div>
             </div>
           </div>
-          <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+          <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-4 bs-col">
             <div className="bs-card card">
-              <h5 className="fwb font-xs height-fx"><NumberFormat thousandSeparator displayType={"text"} value={(+networkDetails?.totalStakeFormatted || 0).toFixed(8)} /> BONE
-              </h5>
-              <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={+(((+networkDetails?.totalStakeFormatted) * boneUSDValue).toFixed(2))} /></p>
-              <div className="card-hr"></div>
-              <span className="mb-0">Total Stake</span>
+              <div className="bs-data-col">
+                <h5 className="fwb font-xs height-fx">
+                  <NumberFormat thousandSeparator displayType={"text"} value={(+networkDetails?.totalStakeFormatted || 0).toFixed(8)} /> BONE
+                </h5>
+                <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={+(((+networkDetails?.totalStakeFormatted) * boneUSDValue).toFixed(2))} /></p>
+                <div className="card-hr"></div>
+              </div>
+              <div className="bs-data-col">
+                <span className="mb-0">Total Stake</span>
+              </div>
             </div>
           </div>
-          <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+          <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-4 bs-col">
             <div className="bs-card card">
-              <h5 className="fwb font-xs height-fx"><NumberFormat thousandSeparator displayType={"text"}
-                value={(+networkDetails?.totalReward || 0).toFixed(8)} /> BONE</h5>
-              <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((networkDetails?.totalReward || 0) * boneUSDValue).toFixed(2)} /></p>
-              <div className="card-hr"></div>
-              <span className="mb-0">Total Reward Distributed</span>
+              <div className="bs-data-col">
+                <h5 className="fwb font-xs height-fx"><NumberFormat thousandSeparator displayType={"text"}
+                  value={(+networkDetails?.totalReward || 0).toFixed(8)} /> BONE</h5>
+                <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((networkDetails?.totalReward || 0) * boneUSDValue).toFixed(2)} /></p>
+                <div className="card-hr"></div>
+              </div>
+              <div className="bs-data-col">
+                <span className="mb-0">Total Reward Distributed</span>
+              </div>
             </div>
           </div>
-          <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+          <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-4 bs-col">
             <div className="bs-card card">
-              <h5 className="fwb font-xs height-fx"><NumberFormat thousandSeparator displayType={"text"} value={latestBlock} /></h5>
-              <div className="card-hr"></div>
-              <span className="mb-0 trs-3">Bor Block Height</span>
+              <div className="bs-data-col">
+                <h5 className="fwb font-xs height-fx"><NumberFormat thousandSeparator displayType={"text"} value={latestBlock} /></h5>
+                <div className="card-hr"></div>
+              </div>
+              <div className="bs-data-col">
+                <span className="mb-0 trs-3">Bor Block Height</span>
+              </div>
             </div>
           </div>
-          <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+          <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-4 bs-col">
             <div className="bs-card card">
-              <h5 className="fwb font-xs height-fx"><NumberFormat thousandSeparator displayType={"text"} value={networkDetails?.heimdallHeight} /> </h5>
-              <div className="card-hr"></div>
-              <span className="mb-0 trs-3">Heimdall Block Height</span>
+              <div className="bs-data-col">
+                <h5 className="fwb font-xs height-fx"><NumberFormat thousandSeparator displayType={"text"} value={networkDetails?.heimdallHeight} /> </h5>
+                <div className="card-hr"></div>
+              </div>
+              <div className="bs-data-col">
+                <span className="mb-0 trs-3">Heimdall Block Height</span>
+              </div>
             </div>
           </div>
-          <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+          <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-4 bs-col">
             <div className="bs-card card">
-              <h5 className="fwb d-flex align-items-center font-xs height-fx">
-                <span>
-                  <NumberFormat thousandSeparator displayType={"text"} value={networkDetails?.lastCheckpointId || 0} />
-                </span>
-                <span className="ms-2 primary-badge trsn-3 badge-md fs-12">
-                  <span className="trs-2">{networkDetails?.lastCheckpointInterval || '0'} ago</span>
-                </span>
-              </h5>
-              <div className="card-hr"></div>
-              <span className="mb-0 trs-3">Last Checkpoint</span>
+              <div className="bs-data-col">
+                <h5 className="fwb d-flex align-items-center font-xs height-fx">
+                  <span>
+                    <NumberFormat thousandSeparator displayType={"text"} value={networkDetails?.lastCheckpointId || 0} />
+                  </span>
+                  <span className="ms-2 primary-badge trsn-3 badge-md fs-12">
+                    <span className="trs-2">{networkDetails?.lastCheckpointInterval || '0'} ago</span>
+                  </span>
+                </h5>
+                <div className="card-hr"></div>
+              </div>
+              <div className="bs-data-col">
+                <span className="mb-0 trs-3">Last Checkpoint</span>
+              </div>
             </div>
           </div>
-          <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+          <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-4 bs-col">
             <div className="bs-card card">
-              <h5 className="fwb d-flex align-items-center font-xs height-fx">
-                <span>{networkDetails?.averageInterval}</span>
-              </h5>
-              <div className="card-hr"></div>
-              <span className="mb-0 trs-3">Checkpoint Interval</span>
+              <div className="bs-data-col">
+                <h5 className="fwb d-flex align-items-center font-xs height-fx">
+                  <span>{networkDetails?.averageInterval}</span>
+                </h5>
+                <div className="card-hr"></div>
+              </div>
+              <div className="bs-data-col">
+                 <span className="mb-0 trs-3">Checkpoint Interval</span>
+              </div>
             </div>
           </div>
         </div>
