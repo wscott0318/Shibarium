@@ -237,7 +237,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="btn-wrap pt-3">
-                        <button type="button" onClick={() => setconfirmunboundModal(true)} className="btn warning-btn w-100">
+                        <button type="button" onClick={() => setIsDeposit(true)} className="btn warning-btn w-100">
                           <span>Transfer</span>
                         </button>
                       </div>

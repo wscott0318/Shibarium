@@ -245,7 +245,7 @@ ul {
     font-weight: bold;
 }
 .btn{
-    padding: 12px 20px;
+    padding: 8px 16px;
     border:0;
     border-radius: 30px !important;
     font-weight: 800;
@@ -254,12 +254,12 @@ ul {
         box-shadow: none;
     }
     @media #{$max-lg}{
-        padding: 10px 12px;
+        padding: 6px 12px;
         font-weight: 600;
         border-radius: 15px;
     }
     @media #{$max-sm}{
-        padding: 6px 10px;
+        padding: 5px 10px;
     }
     // span{
     //     transform: translate(0px, 3px);
