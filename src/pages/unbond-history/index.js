@@ -80,7 +80,7 @@ export default function Unbond() {
                                     {
                                         list.length ? 
                                         list.map(value => 
-                                            <tr>
+                                            <tr key={value.unbondStartedTxHash}>
                                             <td>
                                                 <div className="d-flex align-items-center">
                                                     <div className="coin-img me-2">
@@ -109,7 +109,7 @@ export default function Unbond() {
                                                 <>
                                                 <span className="tb-data align up-text">unbound period completed</span>
                                                 <button
-                                                type="submit"
+                                                // type="submit"
                                                 onChange={() => unboundClaimAPI(value)}
                                                 //  className="mb-0 fs-12 "
                                                  >

@@ -2207,6 +2207,42 @@ input{
         cursor: pointer;
     }
 }
+.address_tooltip{
+    position: relative;
+    width: 18px;
+    border: 1px solid;
+    height: 19px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 15px;
+    margin-left: 5px;
+
+    &:hover{ 
+        .dummypopup {
+            opacity: 1;
+            z-index: 9999; 
+        }
+    }
+}
+
+.dummypopup{
+    position: absolute;
+    top: -50px;
+    left: 0px;
+    background-color: #000;
+    font-size: 14px;
+    padding: 12px 12px;
+    white-space: nowrap;
+    display: inline-block;
+    // width: 300px;
+    // padding: '';
+    text-align: center;
+    color: #fff;
+     opacity: 0;
+    transition: 0.3s;
+    z-index: 9999;
+}
+
 .cross-blk{
     position: absolute;
     right: 20px;
