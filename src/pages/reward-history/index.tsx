@@ -50,8 +50,10 @@ export default function Unbond() {
                                                 <p className="mb-0 fs-12 mute-text">$8.2</p>
                                             </td>
                                             <td>
+                                                <div className="d-flex align-items-center">
                                                 <span className="tb-data align up-text">Success</span>
-                                                <p className="mb-0 fs-12 ">claimed</p>
+                                                <p className="mb-0 fs-12 mt-1 primary-text">claimed</p>
+                                                </div>
                                             </td>
                                             <td>
                                                 <span className="tb-data align">22/08/2022 ,<span>15:28:37</span></span>
@@ -71,8 +73,10 @@ export default function Unbond() {
                                                 <p className="mb-0 fs-12 mute-text">$8.2</p>
                                             </td>
                                             <td>
-                                                <span className="tb-data align up-text">Success</span>
-                                                <p className="mb-0 fs-12 ">claimed</p>
+                                                <div className="d-flex  align-items-center">
+                                                    <span className="tb-data align up-text">Success</span>
+                                                    <p className="mb-0 fs-12 primary-text mt-1">claimed</p>
+                                                </div>
                                             </td>
                                             <td>
                                                 <span className="tb-data align">22/08/2022 ,<span>15:28:37</span></span>
@@ -92,8 +96,60 @@ export default function Unbond() {
                                                 <p className="mb-0 fs-12 mute-text">$8.2</p>
                                             </td>
                                             <td>
-                                                <span className="tb-data align up-text">Success</span>
-                                                <p className="mb-0 fs-12 ">claimed</p>
+                                                <div className="d-flex align-items-center">
+                                                    <span className="tb-data align up-text">Success</span>
+                                                    <p className="mb-0 fs-12 primary-text mt-1">claimed</p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span className="tb-data align">22/08/2022 ,<span>15:28:37</span></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div className="d-flex align-items-center">
+                                                    <div className="coin-img me-2">
+                                                        <img className="img-fluid" src="../../assets/images/bear.png" alt="coin" width={50} height={50} />
+                                                    </div>
+                                                    <span className="tb-data align">DeFIMatic</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="d-flex align-items-center">
+                                                    <span className="tb-data align">10 Bone</span>
+                                                    <p className="mb-0 fs-12 mute-text">$8.2</p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="d-flex align-items-center">
+                                                    <span className="tb-data align up-text">Success</span>
+                                                    <p className="mb-0 fs-12 primary-text mt-1">claimed</p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span className="tb-data align">22/08/2022 ,<span>15:28:37</span></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div className="d-flex align-items-center">
+                                                    <div className="coin-img me-2">
+                                                        <img className="img-fluid" src="../../assets/images/bear.png" alt="coin" width={50} height={50} />
+                                                    </div>
+                                                    <span className="tb-data align">DeFIMatic</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="d-flex align-items-center">
+                                                    <span className="tb-data align">10 Bone</span>
+                                                    <p className="mb-0 fs-12 mute-text">$8.2</p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="d-flex align-items-center">
+                                                    <span className="tb-data align up-text">Success</span>
+                                                    <p className="mb-0 fs-12 primary-text mt-1">claimed</p>
+                                                </div>
                                             </td>
                                             <td>
                                                 <span className="tb-data align">22/08/2022 ,<span>15:28:37</span></span>
@@ -113,8 +169,10 @@ export default function Unbond() {
                                                 <p className="mb-0 fs-12 mute-text">$8.2</p>
                                             </td>
                                             <td>
-                                                <span className="tb-data align up-text">Success</span>
-                                                <p className="mb-0 fs-12 ">claimed</p>
+                                                <div className="d-flex align-items-center">
+                                                    <span className="tb-data align up-text">Success</span>
+                                                    <p className="mb-0 fs-12 primary-text mt-1">claimed</p>
+                                                </div>
                                             </td>
                                             <td>
                                                 <span className="tb-data align">22/08/2022 ,<span>15:28:37</span></span>
@@ -134,50 +192,10 @@ export default function Unbond() {
                                                 <p className="mb-0 fs-12 mute-text">$8.2</p>
                                             </td>
                                             <td>
-                                                <span className="tb-data align up-text">Success</span>
-                                                <p className="mb-0 fs-12 ">claimed</p>
-                                            </td>
-                                            <td>
-                                                <span className="tb-data align">22/08/2022 ,<span>15:28:37</span></span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
                                                 <div className="d-flex align-items-center">
-                                                    <div className="coin-img me-2">
-                                                        <img className="img-fluid" src="../../assets/images/bear.png" alt="coin" width={50} height={50} />
-                                                    </div>
-                                                    <span className="tb-data align">DeFIMatic</span>
+                                                    <span className="tb-data align up-text">Success</span>
+                                                    <p className="mb-0 fs-12 primary-text mt-1">claimed</p>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <span className="tb-data align">10 Bone</span>
-                                                <p className="mb-0 fs-12 mute-text">$8.2</p>
-                                            </td>
-                                            <td>
-                                                <span className="tb-data align up-text">Success</span>
-                                                <p className="mb-0 fs-12 ">claimed</p>
-                                            </td>
-                                            <td>
-                                                <span className="tb-data align">22/08/2022 ,<span>15:28:37</span></span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div className="d-flex align-items-center">
-                                                    <div className="coin-img me-2">
-                                                        <img className="img-fluid" src="../../assets/images/bear.png" alt="coin" width={50} height={50} />
-                                                    </div>
-                                                    <span className="tb-data align">DeFIMatic</span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <span className="tb-data align">10 Bone</span>
-                                                <p className="mb-0 fs-12 mute-text">$8.2</p>
-                                            </td>
-                                            <td>
-                                                <span className="tb-data align up-text">Success</span>
-                                                <p className="mb-0 fs-12 ">claimed</p>
                                             </td>
                                             <td>
                                                 <span className="tb-data align">22/08/2022 ,<span>15:28:37</span></span>
