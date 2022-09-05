@@ -60,7 +60,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   const [loading, setLoading] = useState<boolean>(false);
   const [toastType, setToastType] = useState<'success'|'error'|undefined>();
   const [toastMsg, setToastMessage] = useState("");
-  const [confirm, setConfirm] = useState(true); // make false 
+  const [confirm, setConfirm] = useState(false); 
   const [tranHashCode, setTranHashCode] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const { account } = useActiveWeb3React();
@@ -383,16 +383,16 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                  
                         <ul className="btn-grp">
                             <li className="btn-grp-lst">
-                              <p onClick={() => handleModal('Restake', item.validatorAddress)} className="btn white-btn mute-text btn-small">Restake</p>
+                              <button disabled={parseInt(item.commission) == 0}  onClick={() => handleModal('Restake', item.validatorAddress)} className="btn white-btn mute-text btn-small">Restake</button>
                             </li>
                             <li className="btn-grp-lst">
-                              <p onClick={() => handleModal('Withdraw Rewards', item.validatorAddress)} className="btn btn-primary-outline btn-small">Withdraw Rewards</p>
+                              <button onClick={() => handleModal('Withdraw Rewards', item.validatorAddress)} className="btn btn-primary-outline btn-small">Withdraw Rewards</button>
                             </li>
                             <li className="btn-grp-lst">
-                              <p onClick={() => handleModal('Unbound', item.validatorAddress, item.id)} className="btn btn-primary-outline btn-small">Unbound</p>
+                              <button onClick={() => handleModal('Unbound', item.validatorAddress, item.id)} className="btn btn-primary-outline btn-small">Unbound</button>
                             </li>
                             <li className="btn-grp-lst">
-                              <p onClick={() => { setStakeMoreModal(true); setSelectedRow({owner:item.validatorAddress}) }}  className="btn btn-primary-outline btn-small">Stake More</p>
+                              <button disabled={parseInt(item.commission) == 0}  onClick={() => { setSelectedRow({owner:item.validatorAddress, commissionPercent: item.commission}); setStakeMoreModal(true);    }}  className="btn btn-primary-outline btn-small">Stake More</button>
                             </li>
 
                         </ul>

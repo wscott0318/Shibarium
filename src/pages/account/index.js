@@ -63,7 +63,6 @@ console.log(availBalance, chainId)
     )
   }
 
-
   return (
     <>
       <InnerHeader />
@@ -125,7 +124,7 @@ console.log(availBalance, chainId)
                 <div className="data-box">
                     <div>
                       <h3 className="fwb upertxt font-xs">Delegation</h3>
-                      <p className="mb-0 d-block fw-600 upertxt">{cardsData?.numOfValidators} Validator</p>
+                      <p className="mb-0 d-block fw-600 upertxt">{cardsData?.validators.filter(x => x !== '0').length} Validator</p>
                     </div>
                     <div>
                       <div className="card-hr"></div>

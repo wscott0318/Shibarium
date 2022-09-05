@@ -37,7 +37,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
                   <span className=" copy-icon bg-copy">
                   Copied!
                 </span>:
-                <span className=" copy-icon bg-copy">"i"</span>
+                null
                 }  
                
                 </div>

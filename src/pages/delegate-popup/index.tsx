@@ -16,6 +16,7 @@ import { getExplorerLink } from 'app/functions';
 import { ChainId } from '@shibarium/core-sdk';
 import ToastNotify from 'pages/components/ToastNotify';
 import { useTokenBalance } from 'app/hooks/useTokenBalance';
+import {L1Block} from "app/hooks/L1Block";
 
 
 const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
@@ -32,11 +33,21 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
 
   const walletBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(ENV_CONFIGS[chainId].BONE);
   
+
+  const getBalanceG = () => {
+    web3?.eth?.getBalance().then((lastBlock: number) => {
+      console.log(lastBlock)
+    })
+  }
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then(res=>{
       setBoneUSDValue(res.data.data.price);
     })
-  },[])
+    if(account){
+      // getBalanceG()
+    }
+
+  },[account])
 
   useEffect(() => {
     const url = 'https://ethgasstation.info/api/ethgasAPI.json?api-key=b1a28ddf8de1f32ead44643566e38dba07687ea6e456e3d9a7d1de290466';
@@ -105,6 +116,8 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
       setMsgType('error')
       setTnxCompleted(true);setStep(2)})
   }
+
+  console.log(data)
 
     return (
       <>
