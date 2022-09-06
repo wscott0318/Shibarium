@@ -24,10 +24,10 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
     return (
         <div className="h-auto p-4 mb-4 cus-card mb-lg-5">
             <div className="table-data-tab">
-                <div className="btn-nav">
+                <div className="btn-nav mb-4">
                     <Nav variant="pills" defaultActiveKey="/firts-tab">
                         <Nav.Item>
-                            <Nav.Link className='active'><span className='trs-2'>Delegator</span></Nav.Link>
+                            <h4 className='active fwb'><span className='trs-2'>Delegator</span></h4>
                         </Nav.Item>
                         {/* <Nav.Item>
                                                     <Nav.Link eventKey="link-1"><span className='trs-2'>Polygon</span></Nav.Link>

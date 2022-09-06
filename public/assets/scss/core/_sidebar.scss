@@ -1,15 +1,15 @@
 .main-content {
     width: calc(100% - 290px);
     margin-left: auto;
-    margin-top: 126px;
+    // margin-top: 126px;
     padding: 30px 30px 30px;
     @media #{$max-xxxl}{
-        margin-top: 82px;
+        // margin-top: 82px;
     }
     @media #{$max-xl}{
         width: 100%;
         padding: 15px;
-        margin-top: 112px;
+        // margin-top: 112px;
     }
 }
 

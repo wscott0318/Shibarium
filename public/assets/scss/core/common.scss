@@ -1,9 +1,9 @@
-.wrapper {
-    padding-top:126px;
-    @media #{$max-xxxl}{
-        padding-top: 82px;
-    }
-}
+// .wrapper {
+//     padding-top:126px;
+//     @media #{$max-xxxl}{
+//         padding-top: 82px;
+//     }
+// }
 
 .primary-bg{
     background-color: $primary_color !important;
@@ -123,26 +123,26 @@
 }
 
 .banner-pad {
-    padding-top: 200px;
+    padding-top: 120px;
     padding-bottom: 180px;
     @media #{$max-xxxl}{
-        padding-top: 180px;
+        padding-top: 100px;
         padding-bottom: 210px;
     }
     @media #{$max-xl}{
-        padding-top: 170px;
+        padding-top: 90px;
         padding-bottom: 140px;
     }
     @media #{$max-lg}{
-        padding-top: 160px;
+        padding-top: 80px;
         padding-bottom: 50%;
     }
     @media #{$max-md}{
-        padding-top: 140px;
+        padding-top: 80px;
         padding-bottom: 50%;
     }
     @media #{$max-sm}{
-        padding-top: 120px;
+        padding-top: 70px;
         padding-bottom: 50%;
     }
     @media #{$max-sm}{
@@ -1084,6 +1084,7 @@ color:$green-color;
         font-size: 16px;
         border-bottom:1px solid $black3;
         white-space: nowrap;
+        color: #fff;
         &:last-child{
             text-align: right;
         }
@@ -2637,6 +2638,7 @@ input[type=number]::-webkit-outer-spin-button {
 // .wallet-btn{
     
 // }
+
 .btn-group{
     margin-right: 12px;
     margin-bottom: 12px;
