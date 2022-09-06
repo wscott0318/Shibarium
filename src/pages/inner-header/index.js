@@ -165,7 +165,7 @@ const InnerHeader = () => {
             />
             <Navbar.Collapse id="basic-navbar-nav header-row">
               <GlobleHeader tab={innerNavTab} />
-              <ul className="ms-auto navbar-nav header-row">
+              <ul className="ms-auto navbar-nav header-row d-none">
                 <li className="nav-item">
                   <Nav.Link href="./rewards-calculator">
                     Reward Calculator
