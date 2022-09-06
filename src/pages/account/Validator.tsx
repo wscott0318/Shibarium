@@ -23,7 +23,8 @@ import DelegatePopup from "pages/delegate-popup";
 import { CommonModalNew } from "../components/CommonModel";
 import { TailSpin } from "react-loader-spinner";
 import { unboundNew } from "../../services/apis/delegator/index"
-
+import { getExplorerLink } from 'app/functions';
+import { ChainId } from '@shibarium/core-sdk';
 
 interface WalletBalanceProps {
   balance: number;
@@ -63,10 +64,13 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   const [confirm, setConfirm] = useState(false); 
   const [tranHashCode, setTranHashCode] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
-  const { account } = useActiveWeb3React();
   const [delegationsList, setDelegationsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState<any>({});
-  const [unboundInput, setUnboundInput] = useState<any>('')
+  const [unboundInput, setUnboundInput] = useState<any>('');
+
+  const [transactionLink, setTransactionLink] = useState('');
+
+  const {account,chainId=1} = useActiveWeb3React()
 
 
   const handleModal = (btn: String, valAddress: any, id: any = null) => {
@@ -173,6 +177,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           // console.log("res", res);
           if (res.status == 200) {
             setLoading(false);
+            const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
+            setTransactionLink(link)
             setTranHashCode(res.data.data.transactionHash);
             setSuccessMsg(res.data.message);
             setConfirm(true);
@@ -206,6 +212,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           // console.log("res", res);
           if (res.status == 200) {
             setLoading(false);
+            const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
+            setTransactionLink(link)
             setTranHashCode(res.data.data.transactionHash);
             setSuccessMsg(res.data.message);
             setConfirm(true);
@@ -239,6 +247,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           if (res.status == 200) {  
             setLoading(false);
             setTranHashCode(res.data.data.transactionHash);
+            const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
+            setTransactionLink(link)
             setSuccessMsg(res.data.message);
             setConfirm(true);
             setCommiModal({value:false,address:''});
@@ -257,6 +267,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   const successWithdrawMessage = (res:any) =>{
         setTranHashCode(res.data.data.transactionHash);
         setSuccessMsg(res.data.message);
+        const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
+        setTransactionLink(link)
         setConfirm(true);
         setWithdrawModal({value:false,address:''});
         setLoading(false);
@@ -308,7 +320,10 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
     }
     unboundNew(data).then((res:any) => {
       if(res.status == 200){
-        console.log(res.data)
+        console.log(res.data.data.transactionHash)
+        const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
+        console.log(link)
+        setTransactionLink(link)
         setUnboundModal((preVal:any) => ({...preVal,progressValue: false, comfirmValue: true}))
         setUnboundInput('')
       }
@@ -392,7 +407,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                               <button onClick={() => handleModal('Unbound', item.validatorAddress, item.id)} className="btn btn-primary-outline btn-small">Unbound</button>
                             </li>
                             <li className="btn-grp-lst">
-                              <button disabled={parseInt(item.commission) == 0}  onClick={() => { setSelectedRow({owner:item.validatorAddress, commissionPercent: item.commission}); setStakeMoreModal(true);    }}  className="btn btn-primary-outline btn-small">Stake More</button>
+                              <button disabled={parseInt(item.commission) == 0}  onClick={() => { setSelectedRow({owner:item.validatorAddress, commissionPercent: item.commission, name: item.name}); setStakeMoreModal(true);    }}  className="btn btn-primary-outline btn-small">Stake More</button>
                             </li>
 
                         </ul>
@@ -757,6 +772,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           setShow={setConfirm}
           text={tranHashCode}
           message={successMsg}
+          link={transactionLink}
         />
       </div>
 
@@ -822,7 +838,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
          <CommonModalNew
           title={"Unbound"}
           show={unboundModal.progressValue}
-          setShow={undefined}
+          setShow={handleModalClosing}
         >
           <div className="spinner-outer position-relative spiner-blk">
               <div className="loading-spinner">
@@ -836,7 +852,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                 Ethereum transaction can take upto 5 minute to complete.
                 Please wait or Increase the gas in metamask.
               </p>
-              <a href="javascript:void(0);" title="" className="primary-text">View on Etherscan</a>
+              {/* <a href="javascript:void(0);" title="" className="primary-text">View on Etherscan</a> */}
             </div>
           </div>
         </CommonModalNew>
@@ -855,7 +871,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
             <div className="center-align">
               <p className="fw-bold fs-18">Unbound Initiated</p>
               <p>The inbonding process has been initiated. Please come back after checkpoints and click on "Claim Stake".</p>
-              <a href="javascript:void(0);" title="">View on Etherscan</a>
+              <a href={transactionLink} target='_blank' title="">View on Etherscan</a>
             </div>
           </div>
         </CommonModalNew>

@@ -30,18 +30,15 @@ import CopyToClipboard from "react-copy-to-clipboard";
             </div>
             <div className="code-section ">
               <div className="key-txt text-center">{props.text}</div>
-              <CopyToClipboard text={props.text} onCopy={onCopyHashCode}>
+              {/* <CopyToClipboard text={props.text} onCopy={onCopyHashCode}> */}
                 <div className="text-center">
-                {
-                  isCopied ? 
-                  <span className=" copy-icon bg-copy">
-                  Copied!
-                </span>:
-                <span className=" copy-icon bg-copy"></span>
-                }  
-               
+                {/* <button type="button" className="btn warning-btn w-100"> */}
+                  <span>
+                    <a href={props.link} target="_blank" > View On Block Explorer </a>
+                   </span>
+                {/* </button> */}
                 </div>
-              </CopyToClipboard>
+              {/* </CopyToClipboard> */}
             </div>
           </Modal.Body>
         </Modal>
