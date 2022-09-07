@@ -17,10 +17,11 @@ import fromExponential from 'from-exponential';
 // @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 import NumberFormat from 'react-number-format';
+import { useUserType } from '../../state/user/hooks';
 
 export default function Account() {
   // const [availBalance, setAvailBalance] = useState(0);
-  const [userType, setUserType] = useState('Anonymous');
+  const [userType, setUserType] = useUserType();
   const [boneUSDValue,setBoneUSDValue] = useState(0);
   const [cardsData, setCardsData] = useState({});
   const { chainId , account} = useActiveWeb3React();
@@ -88,7 +89,7 @@ console.log(availBalance, chainId)
            {
             Object.keys(cardsData).length ? 
            
-            <div className="row">
+            <div className="row justify-content-center">
               <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                   <div className="data-box">
@@ -105,11 +106,14 @@ console.log(availBalance, chainId)
                   
                 </div>
               </div>
-              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+              {/* {
+                userType  === UserType.Validator ? null :
+                <> */}
+                <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                 <div className="data-box">
                     <div>
-                      <h3 className="fwb upertxt font-xs">Your Stake</h3>
+                      <h3 className="fwb upertxt font-xs">Your Stake </h3>
                       <p className="mb-0 d-block fw-600 upertxt">{(fromExponential(cardsData?.totalStake)/Math.pow(10,18)).toFixed(8)}</p>
                     </div>
                     <div>
@@ -148,6 +152,9 @@ console.log(availBalance, chainId)
                   </div>
                 </div>
               </div>
+               {/*  </>
+              } */}
+             
               {/*<div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                   <h3 className="fwb upertxt">Your stake</h3>
@@ -173,7 +180,7 @@ console.log(availBalance, chainId)
                 </div>
               </div> */}
             </div> :
-            <div className="row">
+            <div className="row justify-content-center">
             {
               [...Array(4)].map(x => 
               <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">

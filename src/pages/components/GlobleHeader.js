@@ -3,12 +3,14 @@ import React from "react";
 import Link from "next/link";
 import { Nav, NavDropdown } from "react-bootstrap";
 import { useRouter } from "next/router";
+import { useUserType } from "app/state/user/hooks";
+import { UserType } from "app/enums/UserType";
 
 const GlobleHeader = ({tab}) => {
 
     const router = useRouter();
 
-  
+    const [userType, setUserType] = useUserType();
     const handleActiveTab = (index) => {
       if(index === 3) {
         console.log(index)
@@ -44,7 +46,10 @@ const GlobleHeader = ({tab}) => {
             </li>
           );
         })}
-        <li className="dark-dd">
+
+        {
+          userType  === UserType.Delegator ? 
+          <li className="dark-dd">
           <NavDropdown
             title='History'
             id=""
@@ -63,7 +68,9 @@ const GlobleHeader = ({tab}) => {
                 </Link>
             </NavDropdown.Item>
           </NavDropdown>
-        </li>
+        </li> : null 
+        }
+   
       </ul>
     </>
   );

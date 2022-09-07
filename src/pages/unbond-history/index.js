@@ -97,28 +97,28 @@ export default function Unbond() {
                                             {
                                                 value.completed ? 
                                                 <>
-                                                <div className="d-flex align-items-center">
+                                                <div className="align-items-center">
                                                     <span className="tb-data align up-text">Success</span>
-                                                    <p className="mb-0 fs-12 ms-2 primary-text mt-1">claimed</p>
+                                                    <p className="mb-0 fs-12 primary-text mt-1">Claimed</p>
                                                 </div>
                                                 </> :
                                                 value.remainingEpoch > 0 ? 
                                                 <>
                                                     <div className="d-flex align-items-center">
-                                                        <span className="tb-data align up-text">wait for <b>{value.remainingEpoch}</b> checkpoints</span>
-                                                        <p className="mb-0 fs-12 primary-badge px-2 ms-2 mt-1">claim now</p>                                                        
+                                                        <span className="tb-data align up-text">Wait for <b>{value.remainingEpoch}</b> checkpoints</span>
+                                                        <p className="mb-0 fs-12 primary-badge px-2 ms-2 mt-1">Claim Now</p>                                                        
                                                     </div>
                                                 </>
                                                 :
                                                 <>
                                                 <div className="d-flex align-items-center">
-                                                    <span className="tb-data align up-text">unbound period completed</span>
+                                                    <span className="tb-data align up-text">Unbound period completed</span>
                                                     <button className="primary-badge px-2"
                                                     type="submit"
                                                     onChange={() => unboundClaimAPI(value)}
                                                     //  className="mb-0 fs-12 "
                                                     >
-                                                    claim now
+                                                    Claim Now
                                                     </button> 
                                                 </div>
                                                 </>
