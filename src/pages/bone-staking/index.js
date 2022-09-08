@@ -73,22 +73,20 @@ const BoneStaking = () => {
                 </div>
               </h1>
               {userType === UserType.Delegator && (
-                <>
-                <div className="flex-wrap d-flex align-items-centeer">
+                <div className="row">
+                <div className="flex-wrap">
                   <WarningBtn
                     link="become-validator"
                     lable="Become A Validator"
                     handleModal={() => {}}
                   />
-                  </div>
-                <div className="flex-wrap d-flex align-items-centeer">
                   <WarningBtn
                     link="all-validator"
                     lable="Become A Delegator"
                     // handleModal={() => {}}
                   />
                   </div>
-                </>
+                </div>
               )}
               {userType === UserType.NA && (
                 <>

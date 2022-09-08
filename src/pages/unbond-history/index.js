@@ -17,9 +17,10 @@ export default function Unbond() {
 
     const [list, setList] = useState([]);
     const [listLoader, setListLoader] = useState(true);
-    const { account } = useActiveWeb3React();
+    const { account, chainId=1 } = useActiveWeb3React();
     const [ confirm, setConfirm] = useState(false);
     const [transactionLink, setTransactionLink] = useState('')
+    // const {account,chainId=1} = useActiveWeb3React()
 
     const [claimNowModals, setClamNowModals] = useState({
         data: {},
@@ -40,22 +41,37 @@ export default function Unbond() {
             setListLoader(false)
         })
     }
-
-    const unboundClaimAPI = (item) => {
-        console.log(item, " called api ")
+    console.log(claimNowModals)
+    const unboundClaimAPI = () => {
+        setClamNowModals(pre => ({...pre, progress: true, confirm: false}))
         let data = {
             delegatorAddress: account,
-            validatorId: item.validatorId,
-            unbondNonce: item.nonce
+            validatorId: claimNowModals?.data?.validatorId,
+            unbondNonce: claimNowModals?.data?.nonce
         }
+        console.log(data)
         unboundClaim(data).then(res => {
             if(res.status == 200){
             console.log(res.data.data)
             const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
             setTransactionLink(link)
+            console.log(link)
             }
+            setClamNowModals({
+                data:{},
+                confirm: false,
+                progress:false,
+                completed:true
+            })
+            getUnboundHistory(account)
         }).catch(err => {
             console.log(err)
+            setClamNowModals({
+                data:{},
+                confirm: false,
+                progress:false,
+                completed:true
+            })
         })
     }
 
@@ -66,7 +82,12 @@ export default function Unbond() {
     },[])
 
     const handleModalClosing = () => {
-
+        setClamNowModals({
+            data: {},
+            confirm: false,
+            progress: false,
+            completed: false,
+        })
     }
 
     return (
@@ -195,7 +216,7 @@ export default function Unbond() {
                         <div className="card">
                         <div className="text-center">
                             <h6 className="mute-text mb-2">Stake to claim</h6>
-                            <h3>{claimNowModals.data.amount} Bone</h3>
+                            <h3>{parseInt(claimNowModals.data.amount) / 10**18 } Bone</h3>
                             {/* <h6 className="mute-text">$8.17</h6> */}
                         </div>
                         </div>
@@ -208,11 +229,7 @@ export default function Unbond() {
                         </div>
                         </div> */}
                         <button type="button" 
-                        onClick={() => setClamNowModals({
-                            confirm: false,
-                            progress: true,
-                            completed: false
-                        })}
+                        onClick={() => unboundClaimAPI()}
                         className="btn warning-btn mt-3 mt-sm-4 w-100">Withdraw to Wallet</button>
                     </div>
                 </CommonModalNew>
@@ -249,7 +266,7 @@ export default function Unbond() {
                             <div className="center-align ">
                             <p className="fw-bold fs-18">Stake Claimed</p>
                             <p>Your Claim stake Transaction is successful. The transaction might take 1-2 minutes to be updated in your account.</p>
-                            <a href="javascript:void(0);" title="">View on Etherscan</a>
+                            <a href={transactionLink} target='_blank' title="">View on Block Explorer</a>
                             </div>
                         </div>
                         </CommonModalNew>
