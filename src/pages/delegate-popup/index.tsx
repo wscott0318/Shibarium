@@ -138,7 +138,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
             Delegate
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="fixm-height">
           <ul className="steps">
             <li className="step">
               <div className={`step-blk ${step >= 1 ? "step-active" : ""}`}>

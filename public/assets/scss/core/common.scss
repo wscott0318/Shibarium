@@ -2706,3 +2706,8 @@ input[type=number]::-webkit-outer-spin-button {
         padding-right: 60px;
     }
 }
+.fixm-height{
+    height:470px;
+    overflow: hidden;
+    overflow-y: auto;
+}
