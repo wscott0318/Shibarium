@@ -846,7 +846,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                   </div>
               </div>
               {/* old input */}
-              <div className="form-group">
+              <div className="form-group float-group">
                 <input
                 value={unboundInput}
                 onChange={(e) => setUnboundInput(e.target.value)}

@@ -2687,3 +2687,16 @@ input[type=number]::-webkit-outer-spin-button {
 //     width:334px;
 //     max-width: 100%;
 // }
+
+.float-group{
+    position: relative;
+    .over-text{
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+    }
+    .form-control {
+        padding-right: 60px;
+    }
+}
