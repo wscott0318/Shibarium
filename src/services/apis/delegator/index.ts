@@ -22,7 +22,7 @@ export function unbondsHistory(param:any) {
 }
 
 export function unboundClaim(body :any) {
-    return http.post(`delegators/unbonds/unstakeClaim`)
+    return http.post(`delegators/unbonds/unstakeClaim`, body)
 }
 
 // delegators/unbonds/sellVoucher' 
