@@ -592,11 +592,12 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
             <FormikProvider value={retakeFormikDelegator}>
            
               <form onSubmit={retakeFormikDelegator.handleSubmit} className="modal-form">
-                <div className="form-group">
-                   <ArrowTooltips 
+              <ArrowTooltips 
                     text={`Validator Address `}
                     tooltipText="Use Validators Staking Address"
                     />
+                <div className="form-group">
+                  
                   {/* <label htmlFor="" className="form-label">
                   Validator Address 
                     <span className="address_tooltip">?
