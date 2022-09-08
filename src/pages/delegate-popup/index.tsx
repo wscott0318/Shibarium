@@ -124,6 +124,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
       <ToastNotify toastMassage={toastMassage} type={msgType} />
       <Modal
         {...props}
+        // scrollable={true}
         onHide={closeModal}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
@@ -237,7 +238,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
             <div className="top-space-lg">
               <div className="step_prog_img">
                 <div className="d-flex align-items-center justify-content-start">
-                  <img src="../../assets/images/progrs-img.png" alt="" />
+                  <img className='img-fluid' src="../../assets/images/progrs-img.png" alt="" width={120} />
                 </div>
               </div>
               <div className="my-4 steps_data my-md-4">
@@ -284,7 +285,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
               <div>
                 <button type="button" className="btn warning-btn w-100">
                   <span>
-                    <a href={explorerLink} target="_blank" > View On Etherscan </a>
+                    <a href={explorerLink} target="_blank" > View On Block Explorer</a>
                    </span>
                 </button>
               </div>
@@ -302,8 +303,8 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
                     Transaction in process
                   </h4>
                   <p className="ft-16 top-space-lg">
-                    Ethereum transactions can take longer time to complete based
-                    upon network congestion. Please wait for increase the gas
+                    Bone transactions can take longer time to complete based
+                    upon network congestion. Please wait or increase the gas
                     price of the transaction
                   </p>
                 </div>

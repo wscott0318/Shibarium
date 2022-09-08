@@ -33,9 +33,9 @@ import CopyToClipboard from "react-copy-to-clipboard";
               {/* <CopyToClipboard text={props.text} onCopy={onCopyHashCode}> */}
                 <div className="text-center">
                 {/* <button type="button" className="btn warning-btn w-100"> */}
-                  <span>
-                    <a href={props.link} target="_blank" > View On Block Explorer </a>
-                   </span>
+                  <div className="mt-3">
+                    <a href={props.link} className='primary-text' target="_blank" > View On Block Explorer </a>
+                   </div>
                 {/* </button> */}
                 </div>
               {/* </CopyToClipboard> */}

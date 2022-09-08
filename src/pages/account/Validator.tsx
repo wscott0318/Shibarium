@@ -826,7 +826,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                 type="text" className="form-control" placeholder="10" />
               </div>
               <div className="card-primary dark-text p-2">
-                  Your Funds will be locked for <a href="" target='_blank' className="primary-text">checkpoints</a>
+                  Your Funds will be locked for <a href="" target='#' className="primary-text">checkpoints</a>
               </div>
             </div>
             {/* <div className="d-flex justify-content-between align-items-center">
@@ -858,7 +858,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
             <div className="center-align">
               <p className="fw-bold fs-18">Transaction in progress</p>
               <p>
-                Ethereum transaction can take upto 5 minute to complete.
+                Bone transaction can take upto 5 minute to complete.
                 Please wait or Increase the gas in metamask.
               </p>
               {/* <a href="javascript:void(0);" title="" className="primary-text">View on Etherscan</a> */}
@@ -880,7 +880,10 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
             <div className="center-align">
               <p className="fw-bold fs-18">Unbound Initiated</p>
               <p>The inbonding process has been initiated. Please come back after checkpoints and click on "Claim Stake".</p>
-              <a href={transactionLink} target='_blank' title="">View on Etherscan</a>
+              <div className="mt-3">
+              <a href={transactionLink} className="primary-text" target='_blank' title="">View on Block Explorer</a>
+               </div>
+ 
             </div>
           </div>
         </CommonModalNew>
