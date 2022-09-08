@@ -845,6 +845,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                     <h6 className="mb-0">{unboundModal.stakeAmount} Bone</h6>
                   </div>
               </div>
+              {/* old input */}
               <div className="form-group">
                 <input
                 value={unboundInput}
@@ -860,6 +861,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                   MAX
                 </span>
               </div>
+
+              {/* new input */}
               <div className="p-0 swap-control swap-flex float-control">
                   <div className="swap-col ">
                     <input
