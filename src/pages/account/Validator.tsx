@@ -366,7 +366,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           </> :
           <>
             {/* Delegations section start */}
-            <div className="baner-card mt-0">
+            <div className="baner-card mt-0 w-100">
               <h3 className="mb-0 mb-3 text-white fwb">Your Delegations</h3>
           
                 <div className="row">
@@ -846,7 +846,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                   </div>
               </div>
               {/* old input */}
-              <div className="form-group">
+              <div className="form-group float-group">
                 <input
                 value={unboundInput}
                 onChange={(e) => setUnboundInput(e.target.value)}

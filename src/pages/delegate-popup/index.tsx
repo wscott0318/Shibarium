@@ -126,6 +126,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
         {...props}
         // scrollable={true}
         onHide={closeModal}
+        scrollable={true}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
