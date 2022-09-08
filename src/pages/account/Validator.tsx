@@ -381,7 +381,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                         <div className="info-block">
                           <div className="image-blk">
                             <div>
-                              <img className="img-fluid" src="../../assets/images/shiba-bg.png" width="69" height="70" alt="coin-icon"/>
+                              <img className="img-fluid" src={item.logoUrl} width="69" height="70" alt="coin-icon"/>
                             </div>
                           </div>
                           <div className="grid-info">
@@ -862,26 +862,6 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                   MAX
                 </span>
               </div>
-
-              {/* new input */}
-              <div className="p-0 swap-control swap-flex float-control">
-                  <div className="swap-col ">
-                    <input
-                      type="text"
-                      className="swap-input"
-                      // value={amount}
-                      // onChange={(e) => setAmount(e.target.value)}
-                      placeholder="0.00"
-                    />
-                    <span
-                      className="primary-text over-text fw-600"
-                      style={{ cursor: "pointer" }}
-                      // onClick={useMax}
-                      >
-                      MAX
-                    </span>
-                  </div>
-                </div>
               <div className="card-primary dark-text p-2">
                   Your Funds will be locked for <a href="" target='#' className="primary-text">checkpoints</a>
               </div>

@@ -660,20 +660,20 @@ export default function Dashboard() {
           <div>
             <div className="center-align">
               <p className="fw-bold fs-18">Your unbounding period is complete. You can claim your stake now.</p>
-              <p className="mute-text fs-12 fw-600 mb-3"> Your stake willbe transferred to
+              <p className="mute-text fs-12 fw-600 mb-3"> Your stake will be transferred to
               0x8048790779e50D0822dF9b287287eeD35A3CCEC2</p>
             </div>
             <div className="card">
               <div className="text-center">
                 <h6 className="mute-text mb-2">Stake to claim</h6>
                 <h3>10 Bone</h3>
-                <h6 className="mute-text">$8.17</h6>
+                {/* <h6 className="mute-text">$8.17</h6> */}
               </div>
             </div>
             <div className="d-flex justify-content-between align-items-center">
-              <div className="mt-2">
+              {/* <div className="mt-2">
                 $3.359 Gas Fee
-              </div>
+              </div> */}
               <div className="mt-2 text-end">
                 <img className="img-fluid" src="../../assets/images/arrow-right-white.png" alt="img-fluid" width={6} />
               </div>
@@ -681,6 +681,7 @@ export default function Dashboard() {
             <button type="button" className="btn warning-btn mt-3 mt-sm-4 w-100">Withdraw to Wallet</button>
           </div>
         </CommonModal>
+        
         <CommonModal
           title={"Unbound"}
           show={showconfirmunboundModal}
@@ -739,7 +740,7 @@ export default function Dashboard() {
             </div>
             <div className="center-align mt-4">
               <p className="fw-bold fs-18">Transaction in progress</p>
-              <p>Etehereum Transaction can take upto 5 minute to complete. Please wait or increase the gas in metamask.</p>
+              <p>Bone Transaction can take upto 5 minute to complete. Please wait or increase the gas in metamask.</p>
               <a href="javascript:void(0);" title="">View on Etherscan</a>
             </div>
           </div>
