@@ -41,7 +41,7 @@ export default function Unbond() {
             setListLoader(false)
         })
     }
-    console.log(claimNowModals)
+    // console.log(claimNowModals)
     const unboundClaimAPI = () => {
         setClamNowModals(pre => ({...pre, progress: true, confirm: false}))
         let data = {
