@@ -10,7 +10,7 @@ import { useUserType } from '../../state/user/hooks';
 import { UserType } from "../../enums/UserType"; 
 import { RetakeFormInterface,RetakeFormInterfaceDelegator, CommissionRateInterface, WithdrawInterface } from "../../interface/reTakeFormInterface";
 import { useActiveWeb3React } from '../../services/web3'
-
+import ArrowTooltips from "../../components/Modal/Tooltip"
 import ConfirmPopUp from "pages/components/ConfirmPopUp";
 import ToastNotify from "pages/components/ToastNotify";
 import BorderBtn from "pages/components/BorderBtn";
@@ -23,7 +23,8 @@ import DelegatePopup from "pages/delegate-popup";
 import { CommonModalNew } from "../components/CommonModel";
 import { TailSpin } from "react-loader-spinner";
 import { unboundNew } from "../../services/apis/delegator/index"
-
+import { getExplorerLink } from 'app/functions';
+import { ChainId } from '@shibarium/core-sdk';
 
 interface WalletBalanceProps {
   balance: number;
@@ -54,7 +55,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
     progressValue: false,
     comfirmValue: false,
     address: '',
-    id: ''
+    id: '',
+    stakeAmount: ''
   });
   const [stakeMore, setStakeMoreModal] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -63,13 +65,16 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   const [confirm, setConfirm] = useState(false); 
   const [tranHashCode, setTranHashCode] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
-  const { account } = useActiveWeb3React();
   const [delegationsList, setDelegationsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState<any>({});
-  const [unboundInput, setUnboundInput] = useState<any>('')
+  const [unboundInput, setUnboundInput] = useState<any>('');
+
+  const [transactionLink, setTransactionLink] = useState('');
+
+  const {account,chainId=1} = useActiveWeb3React()
 
 
-  const handleModal = (btn: String, valAddress: any, id: any = null) => {
+  const handleModal = (btn: String, valAddress: any, id: any = null, stakeAmount: any = null) => {
     switch (btn) {
       case "Restake":
         if(userType === 'Validator'){
@@ -99,7 +104,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
         });
         break;
       case "Unbound":
-        setUnboundModal((preVal: any) => ({...preVal,  startValue: true, address: valAddress, id: id}));
+        setUnboundModal((preVal: any) => ({...preVal, stakeAmount: stakeAmount, startValue: true, address: valAddress, id: id}));
         break;
       default:
         break;
@@ -112,7 +117,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       progressValue: false,
       comfirmValue: false,
       address: '',
-      id: ''
+      id: '',
+      stakeAmount: ''
     })
   }
 
@@ -173,6 +179,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           // console.log("res", res);
           if (res.status == 200) {
             setLoading(false);
+            const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
+            setTransactionLink(link)
             setTranHashCode(res.data.data.transactionHash);
             setSuccessMsg(res.data.message);
             setConfirm(true);
@@ -206,6 +214,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           // console.log("res", res);
           if (res.status == 200) {
             setLoading(false);
+            const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
+            setTransactionLink(link)
             setTranHashCode(res.data.data.transactionHash);
             setSuccessMsg(res.data.message);
             setConfirm(true);
@@ -239,6 +249,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           if (res.status == 200) {  
             setLoading(false);
             setTranHashCode(res.data.data.transactionHash);
+            const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
+            setTransactionLink(link)
             setSuccessMsg(res.data.message);
             setConfirm(true);
             setCommiModal({value:false,address:''});
@@ -257,6 +269,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   const successWithdrawMessage = (res:any) =>{
         setTranHashCode(res.data.data.transactionHash);
         setSuccessMsg(res.data.message);
+        const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
+        setTransactionLink(link)
         setConfirm(true);
         setWithdrawModal({value:false,address:''});
         setLoading(false);
@@ -308,7 +322,10 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
     }
     unboundNew(data).then((res:any) => {
       if(res.status == 200){
-        console.log(res.data)
+        console.log(res.data.data.transactionHash)
+        const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
+        console.log(link)
+        setTransactionLink(link)
         setUnboundModal((preVal:any) => ({...preVal,progressValue: false, comfirmValue: true}))
         setUnboundInput('')
       }
@@ -355,7 +372,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                           <div className="grid-info">
                             <div className="fw-bold">{item.name}</div>
                             <div className="info-row">
-                              <span><span className="fw-bold">{item.checkpointSignedPercent}%</span> Checkpoints Signed</span>
+                              <span><span className="fw-bold">{parseInt(item.checkpointSignedPercent).toFixed(2)}%</span> Checkpoints Signed</span>
                             </div>
                             <div className="info-row">
                               <span><span className="fw-bold">{item.commission}%</span> Commission</span>
@@ -389,10 +406,10 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                               <button onClick={() => handleModal('Withdraw Rewards', item.validatorAddress)} className="btn btn-primary-outline btn-small">Withdraw Rewards</button>
                             </li>
                             <li className="btn-grp-lst">
-                              <button onClick={() => handleModal('Unbound', item.validatorAddress, item.id)} className="btn btn-primary-outline btn-small">Unbound</button>
+                              <button onClick={() => handleModal('Unbound', item.validatorAddress, item.id, (parseInt(item.stake) / 10 ** 18).toFixed(4))} className="btn btn-primary-outline btn-small">Unbound</button>
                             </li>
                             <li className="btn-grp-lst">
-                              <button disabled={parseInt(item.commission) == 0}  onClick={() => { setSelectedRow({owner:item.validatorAddress, commissionPercent: item.commission}); setStakeMoreModal(true);    }}  className="btn btn-primary-outline btn-small">Stake More</button>
+                              <button disabled={parseInt(item.commission) == 0}  onClick={() => { setSelectedRow({owner:item.validatorAddress, commissionPercent: item.commission, name: item.name}); setStakeMoreModal(true);    }}  className="btn btn-primary-outline btn-small">Stake More</button>
                             </li>
 
                         </ul>
@@ -546,18 +563,25 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
             </Modal.Title>
           </Modal.Header>
           <Modal.Body className="position-relative">
+          {/* <ArrowTooltips 
+            text={`Validator Address `}
+            tooltipText="Use Validators Staking Address"
+            /> */}
             <FormikProvider value={retakeFormikDelegator}>
-
+           
               <form onSubmit={retakeFormikDelegator.handleSubmit} className="modal-form">
                 <div className="form-group">
-                  <label htmlFor="" className="form-label">
+                   <ArrowTooltips 
+                    text={`Validator Address `}
+                    tooltipText="Use Validators Staking Address"
+                    />
+                  {/* <label htmlFor="" className="form-label">
                   Validator Address 
                     <span className="address_tooltip">?
-                    <span className="dummypopup"> Use Validators Staking Address</span>
+                    <span className="dummypopup"> Use Validators Staking Address test</span>
                     </span>
-
-                   
-                  </label>
+                  </label> */}
+                  
                   <Field
                     type="text"
                     className="form-control form-bg"
@@ -605,10 +629,14 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
             <form onSubmit={commiFormik.handleSubmit} className="modal-form">
               <div className="form-group">
                 <label htmlFor="" className="form-label">
-                  {userType} Address
+                  {/* {userType} Address
                   <span className="address_tooltip">?
                     <span className="dummypopup">Validators Address</span>
-                    </span>
+                    </span> */}
+                    <ArrowTooltips 
+                    text={`${userType} Address `}
+                    tooltipText="Validators Address"
+                    />
                 </label>
                 <input
                   type="text"
@@ -757,6 +785,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           setShow={setConfirm}
           text={tranHashCode}
           message={successMsg}
+          link={transactionLink}
         />
       </div>
 
@@ -777,7 +806,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
               <h3>Are you sure you want to unbound?</h3>
             </div>
             <div className="card">
-              <div className="row bdr-bottom">
+              {/* <div className="row bdr-bottom">
                   <div className="col-sm-8 mb-3">
                     <h6>Rewards</h6>
                     <p>You'll receive reward immediately.</p>
@@ -785,13 +814,13 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                   <div className="col-sm-4 text-end mb-3">
                     <h6>0.04 Bone</h6>
                   </div>
-              </div>
+              </div> */}
               <div className="row">
                   <div className="col-sm-6 mb-1">
                     <h6 className="mb-0">Withdraw Stake</h6>
                   </div>
                   <div className="col-sm-6 text-end mb-1">
-                    <h6 className="mb-0">10 Bone</h6>
+                    <h6 className="mb-0">{unboundModal.stakeAmount} Bone</h6>
                   </div>
               </div>
               <div className="form-group">
@@ -801,17 +830,17 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                 type="text" className="form-control" placeholder="10" />
               </div>
               <div className="card-primary dark-text p-2">
-                  Your Funds will be locked for <a href="checkpoints" className="primary-text">checkpoints</a>
+                  Your Funds will be locked for <a href="" target='#' className="primary-text">checkpoints</a>
               </div>
             </div>
-            <div className="d-flex justify-content-between align-items-center">
+            {/* <div className="d-flex justify-content-between align-items-center">
               <div className="mt-2">
                 $3.359 Gas Fee
               </div>
               <div className="mt-2 text-end">
                 <img className="img-fluid" src="../../assets/images/arrow-right-white.png" alt="img-fluid" width={6} />
               </div>
-            </div>
+            </div> */}
             <button
             onClick={() => unboundNewAPICall()}
             type="button" className="btn warning-btn mt-3 mt-sm-4 w-100">Confirm Unbound</button>
@@ -822,7 +851,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
          <CommonModalNew
           title={"Unbound"}
           show={unboundModal.progressValue}
-          setShow={undefined}
+          setShow={handleModalClosing}
         >
           <div className="spinner-outer position-relative spiner-blk">
               <div className="loading-spinner">
@@ -833,10 +862,10 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
             <div className="center-align">
               <p className="fw-bold fs-18">Transaction in progress</p>
               <p>
-                Ethereum transaction can take upto 5 minute to complete.
+                Bone transaction can take upto 5 minute to complete.
                 Please wait or Increase the gas in metamask.
               </p>
-              <a href="javascript:void(0);" title="" className="primary-text">View on Etherscan</a>
+              {/* <a href="javascript:void(0);" title="" className="primary-text">View on Etherscan</a> */}
             </div>
           </div>
         </CommonModalNew>
@@ -855,7 +884,10 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
             <div className="center-align">
               <p className="fw-bold fs-18">Unbound Initiated</p>
               <p>The inbonding process has been initiated. Please come back after checkpoints and click on "Claim Stake".</p>
-              <a href="javascript:void(0);" title="">View on Etherscan</a>
+              <div className="mt-3">
+              <a href={transactionLink} className="primary-text" target='_blank' title="">View on Block Explorer</a>
+               </div>
+ 
             </div>
           </div>
         </CommonModalNew>

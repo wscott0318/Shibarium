@@ -26,7 +26,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     const searchResult = useSearchFilter(validatorsByStatus, searchKey.trim());
   
     useEffect(() =>{
-      const slicedList = searchResult.slice(0, pageSize).sort((a:any, b:any)=> b.uptimePercent - a.uptimePercent)
+      const slicedList = searchResult.slice(0, pageSize).sort((a:any, b:any)=> parseInt(b.totalStaked) - parseInt(a.totalStaked))
       setValidators(slicedList)
     }, [searchResult])
   

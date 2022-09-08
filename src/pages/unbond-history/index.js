@@ -25,19 +25,19 @@ export default function Unbond() {
     }
 
     const unboundClaimAPI = (item) => {
-        console.log(data, " called api ")
+        console.log(item, " called api ")
         let data = {
             delegatorAddress: account,
             validatorId: item.validatorId,
             unbondNonce: item.nonce
         }
-        unboundClaim(data).then(res => {
-            if(res.status == 200){
-                console.log(res.data)
-            }
-        }).catch(err => {
-            console.log(err)
-        })
+        // unboundClaim(data).then(res => {
+        //     if(res.status == 200){
+        //         console.log(res.data)
+        //     }
+        // }).catch(err => {
+        //     console.log(err)
+        // })
     }
 
 
@@ -97,28 +97,35 @@ export default function Unbond() {
                                             {
                                                 value.completed ? 
                                                 <>
-                                                <div className="d-flex align-items-center">
+                                                <div className="align-items-center">
                                                     <span className="tb-data align up-text">Success</span>
-                                                    <p className="mb-0 fs-12 ms-2 primary-text mt-1">claimed</p>
+                                                    <p className="mb-0 fs-12 primary-text mt-1">Claimed</p>
                                                 </div>
                                                 </> :
                                                 value.remainingEpoch > 0 ? 
                                                 <>
-                                                    <div className="d-flex align-items-center">
-                                                        <span className="tb-data align up-text">wait for <b>{value.remainingEpoch}</b> checkpoints</span>
-                                                        <p className="mb-0 fs-12 primary-badge px-2 ms-2 mt-1">claim now</p>                                                        
+                                                    <div className="">
+                                                        <span className="d-block align up-text mb-1">Wait for <b>{value.remainingEpoch}</b> checkpoints</span>
+                                                        <button className="primary-badge px-2"
+                                                    type="button"
+                                                    disabled={true}
+                                                    onClick={() => unboundClaimAPI(value)}
+                                                    //  className="mb-0 fs-12 "
+                                                    >
+                                                    Claim Now
+                                                    </button>                                                       
                                                     </div>
                                                 </>
                                                 :
                                                 <>
-                                                <div className="d-flex align-items-center">
-                                                    <span className="tb-data align up-text">unbound period completed</span>
+                                                <div className="">
+                                                    <span className="d-block align up-text mb-1">Unbound period completed</span>
                                                     <button className="primary-badge px-2"
-                                                    type="submit"
-                                                    onChange={() => unboundClaimAPI(value)}
+                                                    type="button"
+                                                    onClick={() => unboundClaimAPI(value)}
                                                     //  className="mb-0 fs-12 "
                                                     >
-                                                    claim now
+                                                    Claim Now
                                                     </button> 
                                                 </div>
                                                 </>

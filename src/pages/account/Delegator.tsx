@@ -164,7 +164,7 @@ const DelegatorAccount = ({ balance, boneUSDValue,userType }: WalletBalanceProps
                 <div className="form-group">
                   <label htmlFor="" className="form-label">
                     {'Validator'} Address  <span className="address_tooltip">?
-                    <span className="dummypopup"> Use Validators Staking Address</span>
+                    <span className="dummypopup"> Use Validators Staking Address test</span>
                     </span>
                   </label>
                   <Field
