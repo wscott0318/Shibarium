@@ -2271,7 +2271,7 @@ input{
 }
 
 .fade-bg{
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: auto;
@@ -2279,7 +2279,7 @@ input{
     height: 100%;
     width: 100%;
     z-index: 2;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.4);
 }
 .loading-spinner{
     position: absolute;

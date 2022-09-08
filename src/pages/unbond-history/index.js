@@ -6,12 +6,19 @@ import Web3 from "web3";
 import { unbondsHistory, unboundClaim } from "../../services/apis/delegator";
 import { useActiveWeb3React } from '../../services/web3'
 import { parse } from "path";
+import { getExplorerLink } from 'app/functions'
+import ConfirmPopUp from "../../pages/components/ConfirmPopUp"
 
 
 export default function Unbond() {
 
     const [list, setList] = useState([]);
     const { account } = useActiveWeb3React();
+    const [ confirm, setConfirm] = useState(false);
+    const [transaction, setTransaction] = useState({
+        hash: '',
+        link: ''
+    })
 
     const getUnboundHistory = (account) => {
         unbondsHistory(account).then(res => {
@@ -31,14 +38,24 @@ export default function Unbond() {
             validatorId: item.validatorId,
             unbondNonce: item.nonce
         }
-        // unboundClaim(data).then(res => {
-        //     if(res.status == 200){
-        //         console.log(res.data)
-        //     }
-        // }).catch(err => {
-        //     console.log(err)
-        // })
+        unboundClaim(data).then(res => {
+            if(res.status == 200){
+            console.log(res.data.data)
+            const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
+            setTransactionLink(link)
+            }
+        }).catch(err => {
+            console.log(err)
+        })
     }
+
+    <ConfirmPopUp
+          show={confirm}
+          setShow={setConfirm}
+          text={transaction.hash}
+          message="Transaction completed"
+          link={transaction.link}
+        />
 
 
     useEffect(() => {

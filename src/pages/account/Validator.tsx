@@ -56,7 +56,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
     comfirmValue: false,
     address: '',
     id: '',
-    stakeAmount: ''
+    stakeAmount: 0
   });
   const [stakeMore, setStakeMoreModal] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -118,7 +118,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       comfirmValue: false,
       address: '',
       id: '',
-      stakeAmount: ''
+      stakeAmount: 0
     })
   }
 
@@ -149,10 +149,14 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
 
 
   const restakeValidation: any = Yup.object({
-    validatorAddress: Yup.string().required(),
+    // validatorAddress: Yup.string().required(),
     amount: Yup.number().min(0).max(balance).required(),
     reward: Yup.number().required(),
 
+  })
+
+  const unBoundValidation: any = Yup.object({
+    amount: Yup.number().min(0).max(unboundModal.stakeAmount).required(),
   })
   const restakeValidationDelegator: any = Yup.object({
     validatorAddress: Yup.string().required(),
@@ -193,7 +197,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           setLoading(false);
         });
     },
-    // validationSchema: restakeValidation,
+    validationSchema: restakeValidation,
   });
 
 
@@ -310,7 +314,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   //     Simple tooltip
   //   </Tooltip>
   // );
-  
+
 
   const unboundNewAPICall = () => {
     setUnboundModal((preVal:any) => ({...preVal, startValue:false, progressValue: true}))
@@ -335,6 +339,17 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       setUnboundInput('')
     })
   }
+
+
+  // const unboundFromikHandling = useFormik({
+  //   initialValues: {
+  //     amount: 0
+  //   },
+  //   onSubmit: (values) => {
+  //     unboundNewAPICall(),
+  //   }
+  //   // validationSchema: unBoundValidation
+  // })
 
   return (
 
@@ -419,7 +434,9 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                     )
                    }
                    </> :
+                   <div className="col-lg-4 col-md-6 col-12 mx-auto bs-col">
                 <span> No Validators Found</span>
+                </div>
                   }
                <div className="col-lg-4 col-md-6 col-12 mx-auto bs-col">
                 <div className="border-sec">
@@ -452,6 +469,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       {/* Retake modal start */}
       <div className={` modal-wrap`}>
         <Modal
+          // title={"Restake"}
           className="shib-popup"
           show={restakeModal.value1}
           onHide={() => setRestakeModal({value1: false,value2: false, address: ''})}
@@ -549,6 +567,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       {/* Retake modal for deligator start */}
       <div className={` modal-wrap`}>
         <Modal
+          title={"Restake"}
           className="shib-popup"
           show={restakeModal.value2}
           onHide={() => setRestakeModal({value2: false,value1: false, address: ''})}
@@ -558,8 +577,11 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
         >
           {loading && <LoadingSpinner />}
           <Modal.Header closeButton className="text-center">
-            <Modal.Title id="example-custom-modal-styling-title">
-              Restake
+            <Modal.Title
+              id="contained-modal-title-vcenter"
+              className="d-inline-block fw-800 trs-3"
+            >
+              <span style={{ color: "white" }}>Restake</span>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body className="position-relative">
@@ -823,12 +845,42 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                     <h6 className="mb-0">{unboundModal.stakeAmount} Bone</h6>
                   </div>
               </div>
+              {/* old input */}
               <div className="form-group">
                 <input
                 value={unboundInput}
                 onChange={(e) => setUnboundInput(e.target.value)}
-                type="text" className="form-control" placeholder="10" />
+                type="number" 
+                className="form-control" placeholder="10" 
+                />
+                <span
+                  className="primary-text over-text fw-600"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setUnboundInput(unboundModal.stakeAmount)}
+                  >
+                  MAX
+                </span>
               </div>
+
+              {/* new input */}
+              <div className="p-0 swap-control swap-flex float-control">
+                  <div className="swap-col ">
+                    <input
+                      type="text"
+                      className="swap-input"
+                      // value={amount}
+                      // onChange={(e) => setAmount(e.target.value)}
+                      placeholder="0.00"
+                    />
+                    <span
+                      className="primary-text over-text fw-600"
+                      style={{ cursor: "pointer" }}
+                      // onClick={useMax}
+                      >
+                      MAX
+                    </span>
+                  </div>
+                </div>
               <div className="card-primary dark-text p-2">
                   Your Funds will be locked for <a href="" target='#' className="primary-text">checkpoints</a>
               </div>
@@ -843,6 +895,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
             </div> */}
             <button
             onClick={() => unboundNewAPICall()}
+            disabled={unboundInput ? false : true}
             type="button" className="btn warning-btn mt-3 mt-sm-4 w-100">Confirm Unbound</button>
           </div>
         </CommonModalNew>
