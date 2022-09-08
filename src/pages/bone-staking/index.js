@@ -76,9 +76,16 @@ const BoneStaking = () => {
                 <>
                 <div className="flex-wrap d-flex align-items-centeer">
                   <WarningBtn
-                    link="delegator"
-                    lable="Become A Delegator"
+                    link="become-validator"
+                    lable="Become A Validator"
                     handleModal={() => {}}
+                  />
+                  </div>
+                <div className="flex-wrap d-flex align-items-centeer">
+                  <WarningBtn
+                    link="all-validator"
+                    lable="Become A Delegator"
+                    // handleModal={() => {}}
                   />
                   </div>
                 </>
