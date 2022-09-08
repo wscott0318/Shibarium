@@ -330,6 +330,9 @@ ul {
     border-radius: 30px;
     padding: 10px 16px;
     color:#fff;
+    &:focus{
+        box-shadow: none;
+    }
     &.form-bg{
         background-color: $black;
         border: 0;

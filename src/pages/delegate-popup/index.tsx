@@ -138,7 +138,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
             Delegate
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="fixm-height">
           <ul className="steps">
             <li className="step">
               <div className={`step-blk ${step >= 1 ? "step-active" : ""}`}>
@@ -196,7 +196,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
                   </div>
                 </div>
               </div>
-              <div className="my-4 form-group field-modify my-lg-5 my-md-4">
+              <div className="my-3 form-group field-modify mt-3 mb-4">
                 <div className="p-0 swap-control swap-flex">
                   <div className="swap-col">
                     <input
@@ -236,14 +236,14 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
               </div>
             </>
           ) : step === 2 && tnxCompleted ? (
-            <div className="top-space-lg">
+            <div className="">
               <div className="step_prog_img">
                 <div className="d-flex align-items-center justify-content-start">
-                  <img className='img-fluid' src="../../assets/images/progrs-img.png" alt="" width={120} />
+                  <img className='img-fluid' src="../../assets/images/progrs-img.png" alt="" width={90} />
                 </div>
               </div>
-              <div className="my-4 steps_data my-md-4">
-                <div className="flex-wrap mt-2 d-flex align-items-center justify-content-between helper-txt fw-600 ft-14">
+              <div className="steps_data">
+                <div className="flex-wrap d-flex align-items-center justify-content-between helper-txt fw-600 ft-14">
                   <h4 className="fw-700 top-space-lg">Buy Voucher</h4>
                   <p className="ft-16 top-space-lg">
                     Completing this transaction will stake your BURN tokens and
@@ -272,7 +272,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
             <>
               <div className="step_prog_img">
                 <div className="d-flex align-items-center justify-content-start">
-                  <img src="../../assets/images/cmpete-step.png" alt="" />
+                  <img className='img-fluid' src="../../assets/images/cmpete-step.png" alt="" width={90} />
                 </div>
               </div>
               <div className="my-4 steps_data my-md-4">
@@ -295,11 +295,11 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
             <>
               <div className="step_prog_img">
                 <div className="d-flex align-items-center justify-content-start">
-                  <img src="../../assets/images/progrs-img-2.png" alt="" />
+                  <img className='img-fluid' src="../../assets/images/progrs-img-2.png" alt="" width={90} />
                 </div>
               </div>
-              <div className="my-4 steps_data my-md-4">
-                <div className="flex-wrap mt-2 d-flex align-items-center justify-content-between helper-txt fw-600 ft-14">
+              <div className="my-3 steps_data mt-3 mb-4">
+                <div className="flex-wrap d-flex align-items-center justify-content-between helper-txt fw-600 ft-14">
                   <h4 className="fw-700 top-space-lg">
                     Transaction in process
                   </h4>
