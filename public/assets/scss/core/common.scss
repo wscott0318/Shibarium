@@ -1332,6 +1332,12 @@ color:$green-color;
 }
 .top-space-lg {
     margin-top: 30px;
+    @media #{$max-xxl}{
+        margin-top: 20px;
+    }
+    @media #{$max-lg}{
+        margin-top:15px;
+    }
 }
 .link-color{
     color:$primary;

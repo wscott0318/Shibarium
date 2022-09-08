@@ -116,8 +116,11 @@
     align-items: center;
     flex-wrap: wrap;
     padding-bottom: 85px;
-    @media #{$max-lg} {
+    @media #{$max-xxxl}{
         padding-bottom: 75px;
+    }
+    @media #{$max-lg} {
+        padding-bottom: 65px;
     }
    li{
         font-size: 20px;  
@@ -165,7 +168,7 @@
 }
 .info-box{
     border: 1px solid $primary;
-    padding: 20px;
+    padding: 15px;
     border-radius: 3px;
     background: $black;
     @media #{$max-xsm} {
@@ -174,20 +177,23 @@
 }
 .shib-popup{
     .user-icon{
-        width: 80px;
-        height: 80px;
-        line-height: 118px;
+        width: 60px;
+        height: 60px;
+        position: relative;
         @media #{$max-xsm} {
             width: 50px;
             height: 50px;
-            line-height: 70px;
         }
         &::before{
-            width: 44px;
-            height: 44px;
+            width: 35px;
+            height: 35px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
             @media #{$max-xsm} {
                 width: 24px;
-            height: 24px;
+                height: 24px;
             }
         }
     }
@@ -222,6 +228,8 @@
     display: flex;
     text-align: center;
     justify-content: center;
+    max-width: 100px;
+    margin: 0 auto;
 }
 .steps_data {
     text-align: center;

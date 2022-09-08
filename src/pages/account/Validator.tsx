@@ -375,7 +375,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                    <>
                    {
                     delegationsList.map((item: any) => 
-                    <div className="col-lg-4 col-md-6 col-12 mx-auto bs-col">
+                    <div className="col-lg-4 col-md-6 col-12 bs-col">
                     <div className="border-sec">
                       <div className="top-sec">
                         <div className="info-block">
@@ -434,11 +434,11 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                     )
                    }
                    </> :
-                   <div className="col-lg-4 col-md-6 col-12 mx-auto bs-col">
-                <span> No Validators Found</span>
+                   <div className="col-12 text-start mb-3 mb-lg-4">
+                    <span> No Validators Found</span>
                 </div>
                   }
-               <div className="col-lg-4 col-md-6 col-12 mx-auto bs-col">
+               <div className="col-lg-4 col-md-6 col-12 bs-col">
                 <div className="border-sec">
                   <div className="add-sec">
                     <div className="text-center">
