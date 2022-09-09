@@ -127,7 +127,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       getDelegatorData(accountAddress.toLowerCase()).then( (res :any) =>{
        if (res.data ) {
         console.log(res.data)
-        setDelegationsList(res.data.data.validators)
+        // setDelegationsList(res.data.data.validators)
         getCardsData(res.data.data)
        }
      }).catch((e :any)=>{
@@ -370,8 +370,14 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
               <h3 className="mb-0 mb-3 text-white fwb">Your Delegations</h3>
           
                 <div className="row transac-card">
+                  {/* {
+                    loading &&    
+                    <div className="loading-spinner">
+                    <TailSpin color="#f06500" height={80} width={80} />
+                </div>
+                  } */}
                   {
-                    delegationsList.length ? 
+                    delegationsList.length && 
                    <>
                    {
                     delegationsList.map((item: any) => 
@@ -433,10 +439,11 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                 </div>
                     )
                    }
-                   </> :
-                   <div className="col-12 text-start mb-3 mb-lg-4">
-                    <span> No Validators Found</span>
-                </div>
+                   </> 
+                //    :
+                //    <div className="col-12 text-start mb-3 mb-lg-4">
+                //     <span> No Validators Found</span>
+                // </div>
                   }
                <div className="col-lg-4 col-md-6 col-12 bs-col">
                 <div className="border-sec">
