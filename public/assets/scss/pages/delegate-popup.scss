@@ -35,16 +35,15 @@
             font-size: 20px;
         }
         h4{             
-            font-size: 32px;
+            font-size: 28px;
             @media #{$max-xxl} {
-                font-size: 30px;
+                font-size: 22px;
             }
             @media #{$max-xl} {
-                font-size: 28px;
+                font-size: 24px;
             }
             @media #{$max-lg} {
-                font-size: 24px;
-
+                font-size: 18px;
             }
         }
         .btn-close{

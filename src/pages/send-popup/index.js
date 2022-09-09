@@ -6,7 +6,8 @@ export default function SendPopup(props) {
     return (
         <Modal
           {...props}
-          // size="lg"
+          scrollable={true}
+        // size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
           className='shib-popup'

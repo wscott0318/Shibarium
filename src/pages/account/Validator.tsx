@@ -473,7 +473,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           className="shib-popup"
           show={restakeModal.value1}
           onHide={() => setRestakeModal({value1: false,value2: false, address: ''})}
-          // size="lg"
+          scrollable={true}
+        // size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
         >
@@ -571,7 +572,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           className="shib-popup"
           show={restakeModal.value2}
           onHide={() => setRestakeModal({value2: false,value1: false, address: ''})}
-          // size="lg"
+          scrollable={true}
+        // size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
         >
@@ -636,7 +638,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           className="shib-popup"
           show={commiModal.value}
           onHide={() => setCommiModal({value: false, address: ''})}
-          // size="lg"
+          scrollable={true}
+        // size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
         >
@@ -709,7 +712,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           className="shib-popup"
           show={withdrawModal.value}
           onHide={() => setWithdrawModal({value:false,address:''})}
-          // size="lg"
+          scrollable={true}
+        // size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
         
@@ -762,7 +766,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           className="shib-popup"
           // show={unboundModal.value}
           // onHide={() => setUnboundModal({value:false,address:''})}
-          // size="lg"
+          scrollable={true}
+        // size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
         >

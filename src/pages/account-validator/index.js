@@ -62,7 +62,8 @@ export default function Account() {
           <Modal className='shib-popup'
             show={show}
             onHide={() => setShow(false)}
-            // size="lg"
+            scrollable={true}
+        // size="lg"
             aria-labelledby="contained-modal-title-vcenter "
             centered>
             <Modal.Header closeButton className='text-center'>
@@ -98,7 +99,8 @@ export default function Account() {
           <Modal className='shib-popup'
             show={showm}
             onHide={() => showModal(false)}
-            // size="lg"
+            scrollable={true}
+        // size="lg"
             aria-labelledby="contained-modal-title-vcenter "
             centered>
             <Modal.Header closeButton className='text-center'>
@@ -128,7 +130,8 @@ export default function Account() {
           <Modal className='shib-popup'
             show={com}
             onHide={() => comShow(false)}
-            // size="lg"
+            scrollable={true}
+        // size="lg"
             aria-labelledby="contained-modal-title-vcenter "
             centered>
             <Modal.Header closeButton className='text-center'>
