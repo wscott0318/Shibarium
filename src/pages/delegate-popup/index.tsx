@@ -181,6 +181,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
           </ul>
           {step === 1 ? (
             <>
+              <div className='data-fix'>
               <div className="info-box">
                 <div className="d-flex align-items-center justify-content-start">
                   <div>
@@ -226,6 +227,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
                   <div>Available Balance: {walletBalance?.toFixed(8)} BONE</div>
                 </div>
               </div>
+              </div>
               <div>
                 <button
                   type="button"
@@ -237,12 +239,13 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
             </>
           ) : step === 2 && tnxCompleted ? (
             <div className="">
+              <div className="data-fix">
               <div className="step_prog_img">
                 <div className="d-flex align-items-center justify-content-start">
                   <img className='img-fluid' src="../../assets/images/progrs-img.png" alt="" width={90} />
                 </div>
               </div>
-              <div className="steps_data">
+              <div className="mb-3 steps_data fix-min  mb-xl-4">
                 <div className="flex-wrap d-flex align-items-center justify-content-between helper-txt fw-600 ft-14">
                   <h4 className="fw-700 top-space-lg">Buy Voucher</h4>
                   <p className="ft-16 top-space-lg">
@@ -257,6 +260,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
                   </div>
                 </div>
               </div>
+              </div>
               <div>
                 <button
                   type="button"
@@ -270,6 +274,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
             </div>
           ) :step === 3 && tnxCompleted ? (
             <>
+              <div className='data-fix'>
               <div className="step_prog_img">
                 <div className="d-flex align-items-center justify-content-start">
                   <img className='img-fluid' src="../../assets/images/cmpete-step.png" alt="" width={90} />
@@ -283,6 +288,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
                   </p>
                 </div>
               </div>
+              </div>
               <div className='text-center'>
                   <span className="primary-text">
                     <a className='primary-text ' href={explorerLink} target="_blank" ><span className="primary-text">View On Block Explorer</span> </a>
@@ -291,21 +297,23 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
             </>
           ): !tnxCompleted && (step === 2 || step === 3) ? (
             <>
-              <div className="step_prog_img">
-                <div className="d-flex align-items-center justify-content-start">
-                  <img className='img-fluid' src="../../assets/images/progrs-img-2.png" alt="" width={90} />
+              <div className="data-fix">
+                <div className="step_prog_img">
+                  <div className="d-flex align-items-center justify-content-start">
+                    <img className='img-fluid' src="../../assets/images/progrs-img-2.png" alt="" width={90} />
+                  </div>
                 </div>
-              </div>
-              <div className="mb-3 steps_data  mb-xl-4">
-                <div className="flex-wrap d-flex align-items-center justify-content-between helper-txt fw-600 ft-14">
-                  <h4 className="fw-700 top-space-lg">
-                    Transaction in process
-                  </h4>
-                  <p className="ft-16 top-space-lg">
-                    Bone transactions can take longer time to complete based
-                    upon network congestion. Please wait or increase the gas
-                    price of the transaction
-                  </p>
+                <div className="mb-3 steps_data fix-min  mb-xl-4">
+                  <div className="flex-wrap d-flex align-items-center justify-content-between helper-txt fw-600 ft-14">
+                    <h4 className="fw-700 top-space-lg">
+                      Transaction in process
+                    </h4>
+                    <p className="ft-16 top-space-lg">
+                      Bone transactions can take longer time to complete based
+                      upon network congestion. Please wait or increase the gas
+                      price of the transaction
+                    </p>
+                  </div>
                 </div>
               </div>
               <div>

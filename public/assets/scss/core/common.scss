@@ -2728,9 +2728,18 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 .fixm-height{
-    height:430px;
-    overflow:hidden !important;
+    @media #{$max-xxl}{
+        height:430px;
+        overflow:hidden !important;
+    }
 }
+.fix-min{
+    min-height: 140px;
+}
+.data-fix {
+    min-height: 230px;
+}
+
 .transac-card{
     .top-sec {
         padding: 20px 0;
