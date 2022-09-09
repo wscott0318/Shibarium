@@ -20,7 +20,7 @@ import {L1Block} from "app/hooks/L1Block";
 
 
 const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
-  const [step, setStep] = useState<number>(1)
+  const [step, setStep] = useState<number>(2)
   const [amount, setAmount] = useState<number|string>('');
   const [tnxCompleted, setTnxCompleted] = useState(false)
  const [boneUSDValue, setBoneUSDValue] = useState<number>(0);
@@ -296,7 +296,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
                   <img className='img-fluid' src="../../assets/images/progrs-img-2.png" alt="" width={90} />
                 </div>
               </div>
-              <div className="mb-3 steps_data  mb-xl-4">
+              <div className="steps_data">
                 <div className="flex-wrap d-flex align-items-center justify-content-between helper-txt fw-600 ft-14">
                   <h4 className="fw-700 top-space-lg">
                     Transaction in process
