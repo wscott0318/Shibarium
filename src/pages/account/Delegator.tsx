@@ -147,7 +147,8 @@ const DelegatorAccount = ({ balance, boneUSDValue,userType }: WalletBalanceProps
           className="shib-popup"
           show={restakePopup}
           onHide={() => setRestakePopup(false)}
-          // size="lg"
+          scrollable={true}
+        // size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
         >
@@ -254,7 +255,8 @@ const DelegatorAccount = ({ balance, boneUSDValue,userType }: WalletBalanceProps
           className="shib-popup"
           show={withdrawModal}
           onHide={() => setWithdrawModal(false)}
-          // size="lg"
+          scrollable={true}
+        // size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
         >
