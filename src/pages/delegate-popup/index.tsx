@@ -127,7 +127,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
         // scrollable={true}
         onHide={closeModal}
         scrollable={true}
-        size="lg"
+        // size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
         className="shib-popup">
@@ -275,20 +275,18 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
                   <img className='img-fluid' src="../../assets/images/cmpete-step.png" alt="" width={90} />
                 </div>
               </div>
-              <div className="my-4 steps_data my-md-4">
-                <div className="flex-wrap mt-2 d-flex align-items-center justify-content-between helper-txt fw-600 ft-14">
+              <div className="mb-4 steps_data mb-md-4">
+                <div className="flex-wrap d-flex align-items-center justify-content-between helper-txt fw-600 ft-14">
                   <h4 className="fw-700 top-space-lg">Delegation Completed</h4>
                   <p className="ft-16 top-space-lg">
                     Your BONE tokens are staked successfully. Your delegation will take 1 minute to reflect in your account
                   </p>
                 </div>
               </div>
-              <div>
-                <button type="button" className="btn warning-btn w-100">
-                  <span>
-                    <a href={explorerLink} target="_blank" > View On Block Explorer</a>
+              <div className='text-center'>
+                  <span className="primary-text">
+                    <a className='primary-text ' href={explorerLink} target="_blank" ><span className="primary-text">View On Block Explorer</span> </a>
                    </span>
-                </button>
               </div>
             </>
           ): !tnxCompleted && (step === 2 || step === 3) ? (
@@ -298,7 +296,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
                   <img className='img-fluid' src="../../assets/images/progrs-img-2.png" alt="" width={90} />
                 </div>
               </div>
-              <div className="my-3 steps_data mt-3 mb-4">
+              <div className="mb-3 steps_data  mb-xl-4">
                 <div className="flex-wrap d-flex align-items-center justify-content-between helper-txt fw-600 ft-14">
                   <h4 className="fw-700 top-space-lg">
                     Transaction in process

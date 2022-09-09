@@ -76,7 +76,7 @@
         }
     }
     .modal-body{
-       padding: 49px 60px;
+       padding: 35px 45px;
     //    @media #{$max-xxl}{
     //        padding:30px;
     //    }
@@ -119,16 +119,22 @@
     @media #{$max-xxxl}{
         padding-bottom: 75px;
     }
-    @media #{$max-lg} {
+    @media #{$max-xxl} {
         padding-bottom: 65px;
+    }
+    @media #{$max-xl} {
+        padding-bottom: 55px;
     }
    li{
         font-size: 20px;  
-        @media #{$max-lg} {
+        @media #{$max-xxl}{
             font-size: 16px;
         }
+        @media #{$max-lg} {
+            font-size: 14px;
+        }
         @media #{$max-xsm} {
-            font-size: 16px;
+            font-size: 12px;
         }
     }
 }
@@ -228,7 +234,7 @@
     display: flex;
     text-align: center;
     justify-content: center;
-    max-width: 100px;
+    max-width: 65px;
     margin: 0 auto;
 }
 .steps_data {

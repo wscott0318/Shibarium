@@ -369,7 +369,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
             <div className="baner-card mt-0 w-100">
               <h3 className="mb-0 mb-3 text-white fwb">Your Delegations</h3>
           
-                <div className="row">
+                <div className="row transac-card">
                   {
                     delegationsList.length ? 
                    <>
@@ -384,7 +384,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                               <img className="img-fluid" src={item.logoUrl} width="69" height="70" alt="coin-icon"/>
                             </div>
                           </div>
-                          <div className="grid-info">
+                          <div className="grid-info text-start">
                             <div className="fw-bold">{item.name}</div>
                             <div className="info-row">
                               <span><span className="fw-bold">{parseInt(item.checkpointSignedPercent).toFixed(2)}%</span> Checkpoints Signed</span>
@@ -444,11 +444,11 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                     <div className="text-center">
                     <Link href="./all-validator">
                       <a>
-                        <div className="text-center">
+                        <div className="text-center mb-4">
                         <img className="img-fluid d-inline-block" src="../../assets/images/white-plus.png" width="27" height="28" alt="coin-icon"/>
                         </div>
                         <div>
-                          <span>Stake to more validators</span>
+                          <span className="primary-text fw-600 fs-16">Stake to more validators</span>
                         </div>
                       </a>
                       </Link>
@@ -473,7 +473,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           className="shib-popup"
           show={restakeModal.value1}
           onHide={() => setRestakeModal({value1: false,value2: false, address: ''})}
-          size="lg"
+          // size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
         >
@@ -571,7 +571,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           className="shib-popup"
           show={restakeModal.value2}
           onHide={() => setRestakeModal({value2: false,value1: false, address: ''})}
-          size="lg"
+          // size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
         >
@@ -636,7 +636,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           className="shib-popup"
           show={commiModal.value}
           onHide={() => setCommiModal({value: false, address: ''})}
-          size="lg"
+          // size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
         >
@@ -709,15 +709,19 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           className="shib-popup"
           show={withdrawModal.value}
           onHide={() => setWithdrawModal({value:false,address:''})}
-          size="lg"
+          // size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
+        
         >
           {loading && <LoadingSpinner />}
           <Modal.Header closeButton className="text-center">
-            <h4 className="mb-0">
-              <span className="trs-3">Withdraw Rewards</span>
-            </h4>
+            {/* <h4 className="mb-0">
+              <span className="trs-3"></span>
+            </h4> */}
+            <Modal.Title id="example-custom-modal-styling-title" className="d-inline-block fw-800 trs-3">
+                Withdraw Rewards
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <form onSubmit={withdrawFormk.handleSubmit} className="modal-form">
@@ -758,7 +762,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           className="shib-popup"
           // show={unboundModal.value}
           // onHide={() => setUnboundModal({value:false,address:''})}
-          size="lg"
+          // size="lg"
           aria-labelledby="contained-modal-title-vcenter "
           centered
         >

@@ -32,7 +32,7 @@ body{
     background-color:$black;
     margin-top:126px;
     @media #{$max-xxl}{
-        font-size: 16px;
+        font-size: 14px;
     }
     @media #{$max-md}{
         font-size: 14px;
@@ -258,7 +258,7 @@ ul {
     &:focus{
         box-shadow: none;
     }
-    @media #{$max-lg}{
+    @media #{$max-md}{
         padding: 6px 12px;
         font-weight: 600;
         border-radius: 15px;

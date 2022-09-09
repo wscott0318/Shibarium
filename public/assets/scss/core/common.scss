@@ -1159,26 +1159,41 @@ color:$green-color;
 }
 .ft-16{
     font-size: 16px;
+    @media #{$max-xxxl}{
+        font-size: 14px;
+    }
+    @media #{$max-sm}{
+        font-size: 13px;
+    }
 }
 .ft-14{
     font-size: 14px;
+    @media #{$max-sm}{
+        font-size: 13px;
+    }
 }
 .ft-22{
     font-size: 22px;
-    @media #{$max-lg} {
-        font-size: 20px;
-    }
-    @media #{$max-md} {
+    @media #{$max-xxxl} {
         font-size: 18px;
+    }
+    @media #{$max-xxl} {
+        font-size: 16px;
     } 
     @media #{$max-xsm} {
-        font-size: 17px;
+        font-size: 14px;
     } 
 }
 .ft-20{
     font-size: 20px;
-    @media #{$max-md} {
+    @media #{$max-xxl} {
         font-size: 18px;
+    }
+    @media #{$max-xl} {
+        font-size: 16px;
+    }
+    @media #{$max-lg} {
+        font-size: 14px;
     }
 }
 .grey-color{
@@ -1335,8 +1350,11 @@ color:$green-color;
     @media #{$max-xxl}{
         margin-top: 20px;
     }
+    @media #{$max-xl}{
+        margin-top:16px;
+    }
     @media #{$max-lg}{
-        margin-top:15px;
+        margin-top:14px;
     }
 }
 .link-color{
@@ -2570,9 +2588,10 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 .image-blk{
-    margin-right: 15px;
+    margin-right: 12px;
+    max-width: 60px;
     @media #{$max-xsm}{
-        margin-bottom: 15px;
+        margin-bottom: 12px;
         margin-right: 0;
     }
 }
@@ -2626,9 +2645,9 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .info-row {
-    font-size: 17px;
-    @media #{$max-lg}{
-        font-size: 15px;
+    font-size: 16px;
+    @media #{$max-xl}{
+        font-size: 14px;
     }
 }
 .cus-dropdown{
@@ -2709,7 +2728,21 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 .fixm-height{
-    height:470px;
-    overflow: hidden;
-    overflow-y: auto;
+    height:430px;
+    overflow:hidden !important;
+}
+.transac-card{
+    .top-sec {
+        padding: 20px 0;
+        background-color: #15141b;
+        margin: 0;
+    }
+    .bs-card{
+        height: auto;
+    }
+    .border-sec {
+        border: 1px solid #fff;
+        height: 100%;
+        background-color: #000000;
+    }
 }
