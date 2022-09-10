@@ -25,6 +25,7 @@ import { TailSpin } from "react-loader-spinner";
 import { unboundNew } from "../../services/apis/delegator/index"
 import { getExplorerLink } from 'app/functions';
 import { ChainId } from '@shibarium/core-sdk';
+import TriggerExample from "../../components/Icon/TooltipBootstrap"
 
 interface WalletBalanceProps {
   balance: number;
@@ -606,19 +607,14 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
             </Modal.Title>
           </Modal.Header>
           <Modal.Body className="position-relative">
-          {/* <ArrowTooltips 
-            text={`Validator Address `}
-            tooltipText="Use Validators Staking Address"
-            /> */}
             <FormikProvider value={retakeFormikDelegator}>
            
               <form onSubmit={retakeFormikDelegator.handleSubmit} className="modal-form">
-              <ArrowTooltips 
-                    text={`Validator Address `}
-                    tooltipText="Use Validators Staking Address"
-                    />
-                <div className="form-group">
                   
+                <div className="form-group">
+                    {/* <TriggerExample 
+                    
+                    /> */}
                   {/* <label htmlFor="" className="form-label">
                   Validator Address 
                     <span className="address_tooltip">?
