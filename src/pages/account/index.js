@@ -82,15 +82,28 @@ console.log(availBalance, chainId)
           </div>
           <div className="container acct-sec">
 
+
+            {/* delegator card  */}
+       
+
             
             {/* overview section start */}
             <div className="baner-card top-margin">
-            <h3 className="mb-0 mb-3 text-white fwb">Staking Overview</h3>
+            
            {
             Object.keys(cardsData).length ? 
            
             <div className="row justify-content-center">
-              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+            {
+              userType  === UserType.Validator  || userType  === UserType.NA? 
+              <div className="cardMain text-center">
+            <h3 className="mb-2">{chainId == 7352 ? "Bone" : "Ethereum"} Wallet balance</h3>
+              <h1 className="fw-700">{availBalance.toFixed(4)} {chainId == 7352 ? "Bone" : "Ethereum"}</h1>
+              <h5 className="fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></h5>
+            </div> :
+            <>
+            <h3 className="mb-0 mb-3 text-white fwb">Staking Overview</h3>
+            <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                   <div className="data-box">
                     <div>
@@ -99,16 +112,16 @@ console.log(availBalance, chainId)
                     </div>
                     <div>
                       <div className="card-hr"></div>
-                      <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></p>
+                      <p className="mb-0 d-block fw-600">
+                      <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} />
+                      </p>
                     </div>
                   </div>
                   
                   
                 </div>
               </div>
-              {/* {
-                userType  === UserType.Validator ? null :
-                <> */}
+          
                 <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                 <div className="data-box">
@@ -152,10 +165,12 @@ console.log(availBalance, chainId)
                   </div>
                 </div>
               </div>
-               {/*  </>
-              } */}
+            </>
+            }
+              
+         
              
-              {/*<div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+              {/* <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                   <h3 className="fwb upertxt">Your stake</h3>
                   <p className="mb-0 d-block fw-600">10 Matic</p>
@@ -207,7 +222,6 @@ console.log(availBalance, chainId)
                 isDelegator={userType === UserType.Delegator}
                 isValidator={userType  === UserType.Validator}
                 getCardsData={getCardsData}
-
               />
             </div>
             {/* btns section end */}

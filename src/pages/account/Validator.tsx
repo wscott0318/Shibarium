@@ -128,7 +128,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       getDelegatorData(accountAddress.toLowerCase()).then( (res :any) =>{
        if (res.data ) {
         console.log(res.data)
-        setDelegationsList(res.data.data.validators)
+        let sortedData = res.data.data.validators.sort((a:any, b:any) => parseInt(b.stake) - parseInt(a.stake))
+        setDelegationsList(sortedData)
         getCardsData(res.data.data)
         setLoadingDCards(false)
        }
@@ -294,8 +295,11 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
     },
     onSubmit: (values:WithdrawInterface) => {
       setLoading(true);
+      let dataToSend = {
+        validatorAddress: userType === UserType.Validator ? account||'':'',
+      }
       if(userType === UserType.Validator){
-        withdrawReward(values).then((res) => {
+        withdrawReward(dataToSend).then((res) => {
           successWithdrawMessage(res);
         }).catch(err=>{
           errorWithdrawMessage(err)

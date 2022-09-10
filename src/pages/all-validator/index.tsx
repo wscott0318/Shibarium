@@ -59,7 +59,7 @@ export const Allvalidator: React.FC = () => {
                       <>
                       <div className="flex-wrap d-flex align-items-centeer">
                         <WarningBtn
-                          link='./delegator'
+                          link='/all-validator'
                           lable="Become A Delegator"
                           handleModal={() => {}}
                         />
@@ -70,17 +70,17 @@ export const Allvalidator: React.FC = () => {
                       <>
                         <div className="flex-wrap d-flex align-items-centeer">
                           <WarningBtn
-                            link='./become-validator'
+                            link='/become-validator'
                             lable="Become A Validator"
                             handleModal={() => {}}
                           />
                           <WarningBtn
-                            link='./delegator'
+                            link='/all-validator'
                             lable="Become A Delegator"
                             handleModal={() => {}}
                           />
                          <BorderBtn
-                            link='./become-validator'
+                            link='/delegator-validator'
                             lable="Choose Your Path"
                             handleModal={() => {}}
                           />
