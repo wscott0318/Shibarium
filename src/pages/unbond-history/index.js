@@ -90,6 +90,7 @@ export default function Unbond() {
         })
     }
 
+
     return (
         <>
          {listLoader && <LoadingSpinner />}
@@ -102,6 +103,7 @@ export default function Unbond() {
                                 <div className="row">
                                     <div className="text-center col-sm-8 text-sm-start">
                                         <h1 className="light-text fnt-58 fnt-100">Your Unbound History</h1>
+                                     
                                     </div>
                                 </div>
                             </div>
@@ -117,7 +119,7 @@ export default function Unbond() {
                                             <th className="cell-width-lg">Validator Name</th>
                                             <th>Amount</th>
                                             <th>Status</th>
-                                            <th>Timestamp</th>
+                                            <th className="text-start">Timestamp</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -183,7 +185,7 @@ export default function Unbond() {
                                             }
                                                 
                                             </td>
-                                            <td>
+                                            <td className="text-start">
                                                 <span className="tb-data align">{value.unbondStartedTimeStampFormatted}</span>
                                             </td>
                                         </tr>

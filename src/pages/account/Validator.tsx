@@ -25,6 +25,7 @@ import { TailSpin } from "react-loader-spinner";
 import { unboundNew } from "../../services/apis/delegator/index"
 import { getExplorerLink } from 'app/functions';
 import { ChainId } from '@shibarium/core-sdk';
+import TriggerExample from "../../components/Icon/TooltipBootstrap"
 
 interface WalletBalanceProps {
   balance: number;
@@ -60,6 +61,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   });
   const [stakeMore, setStakeMoreModal] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingDCards, setLoadingDCards] = useState<boolean>(true);
   const [toastType, setToastType] = useState<'success'|'error'|undefined>();
   const [toastMsg, setToastMessage] = useState("");
   const [confirm, setConfirm] = useState(false); 
@@ -127,8 +129,10 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       getDelegatorData(accountAddress.toLowerCase()).then( (res :any) =>{
        if (res.data ) {
         console.log(res.data)
-        setDelegationsList(res.data.data.validators)
+        let sortedData = res.data.data.validators.sort((a:any, b:any) => parseInt(b.stake) - parseInt(a.stake))
+        setDelegationsList(sortedData)
         getCardsData(res.data.data)
+        setLoadingDCards(false)
        }
      }).catch((e :any)=>{
        console.log(e);
@@ -292,8 +296,11 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
     },
     onSubmit: (values:WithdrawInterface) => {
       setLoading(true);
+      let dataToSend = {
+        validatorAddress: userType === UserType.Validator ? account||'':'',
+      }
       if(userType === UserType.Validator){
-        withdrawReward(values).then((res) => {
+        withdrawReward(dataToSend).then((res) => {
           successWithdrawMessage(res);
         }).catch(err=>{
           errorWithdrawMessage(err)
@@ -350,7 +357,11 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   //   }
   //   // validationSchema: unBoundValidation
   // })
-
+  const tooltipfunctiond=() =>{
+    return(
+      <span>Validthahahah</span>
+    )
+  }
   return (
 
     <>
@@ -371,7 +382,16 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           
                 <div className="row transac-card">
                   {
-                    delegationsList.length ? 
+                    loadingDCards ?   
+                    <div style={{height: '150px'}} className="justify-content-center"> 
+                    <div className="loading-spinner">
+                    <TailSpin color="#f06500" height={80} width={80} />
+                    </div>
+                    </div>
+                    :
+                    <>
+                     {
+                    delegationsList.length ?
                    <>
                    {
                     delegationsList.map((item: any) => 
@@ -430,10 +450,11 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                         </ul>
                       </div>
                     </div>
-                </div>
+                    </div>
                     )
                    }
-                   </> :
+                   </> 
+                   :
                    <div className="col-12 text-start mb-3 mb-lg-4">
                     <span> No Validators Found</span>
                 </div>
@@ -456,6 +477,9 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                   </div>
                 </div>
                 </div>
+                    </>
+                  }
+                 
               </div> 
               
           
@@ -587,19 +611,15 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
             </Modal.Title>
           </Modal.Header>
           <Modal.Body className="position-relative">
-          {/* <ArrowTooltips 
-            text={`Validator Address `}
-            tooltipText="Use Validators Staking Address"
-            /> */}
             <FormikProvider value={retakeFormikDelegator}>
            
               <form onSubmit={retakeFormikDelegator.handleSubmit} className="modal-form">
-              <ArrowTooltips 
-                    text={`Validator Address `}
-                    tooltipText="Use Validators Staking Address"
-                    />
-                <div className="form-group">
                   
+                <div className="form-group">
+                    <TriggerExample 
+                      tooltipText={'Use Validators Staking Address'}
+                      renderText={tooltipfunctiond}
+                    />
                   {/* <label htmlFor="" className="form-label">
                   Validator Address 
                     <span className="address_tooltip">?

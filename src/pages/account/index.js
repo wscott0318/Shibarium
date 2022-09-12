@@ -82,10 +82,14 @@ console.log(availBalance, chainId)
           </div>
           <div className="container acct-sec">
 
+
+            {/* delegator card  */}
+       
+
             
             {/* overview section start */}
             <div className="baner-card top-margin">
-            <h3 className="mb-0 mb-3 text-white fwb">Staking Overview</h3>
+            
            {
             Object.keys(cardsData).length ? 
            
@@ -101,9 +105,7 @@ console.log(availBalance, chainId)
                     </div>
                   </div>
               </div>
-              {/* {
-                userType  === UserType.Validator ? null :
-                <> */}
+          
                 <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                   <div className="bs-card card">
                     <div className="bs-data-col">
@@ -135,10 +137,12 @@ console.log(availBalance, chainId)
                     </div>
                 </div>
               </div>
-               {/*  </>
-              } */}
+            </>
+            }
+              
+         
              
-              {/*<div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+              {/* <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                   <h3 className="fwb upertxt">Your stake</h3>
                   <p className="mb-0 d-block fw-600">10 Matic</p>
@@ -188,7 +192,6 @@ console.log(availBalance, chainId)
                 isDelegator={userType === UserType.Delegator}
                 isValidator={userType  === UserType.Validator}
                 getCardsData={getCardsData}
-
               />
             </div>
             {/* btns section end */}

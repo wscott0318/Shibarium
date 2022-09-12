@@ -183,8 +183,12 @@ const WalletBalance = ({ balance, boneUSDValue , getCardsData}: WalletBalancePro
         {
           userType === UserType.NA
             ?  <>
-            <BorderBtn lable="Become A Validator" handleModal={() => { }} />
-            <WarningBtn link="/account" handleModal={undefined} lable="Become A Delegator" />
+            <BorderBtn link='become-validator' lable="Become A Validator" handleModal={() => { }} />
+            <BorderBtn link="all-validator" lable="Become A Delegator" handleModal={() => { }} />
+            <BorderBtn link="delegator-validator" lable="Choose your path" handleModal={() => { }} />
+            {/* <WarningBtn link="/all-validator" handleModal={undefined} lable="Become A Validator" /> */}
+            {/* <WarningBtn link="/account" handleModal={undefined} lable="Become A Delegator" /> */}
+            {/* <WarningBtn link="/account" handleModal={undefined} lable="Coose your path" /> */}
           </>
             : <ValidatorAccount getCardsData={getCardsData} balance={balance} boneUSDValue={boneUSDValue} userType={userType} /> 
              

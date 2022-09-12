@@ -5,17 +5,19 @@ import React, { useState, useEffect, useContext } from "react";
 import { useWeb3React } from "@web3-react/core";
 import  ProjectContext  from "../../context/ProjectContext";
 import Footer from "../../pages/footer/index"
+import { useActiveWeb3React } from "../../services/web3"
+
 export default function Home() {
   // const {account}=useContext(ProjectContext)
   
-  const { active,deactivate } = useWeb3React()
+  // const { active,deactivate } = useWeb3React()
   // const [accountsAddress, setAccountsAddress] = useState("");
   // useEffect(() => {
   //   setAccountsAddress(localStorage.getItem("accounts"));
   //   console.log('chainId',chainId)
   //   console.log('account-home',account)
   // },[account]);
-
+  const {account,chainId=1} = useActiveWeb3React()
   /**
    * 
     useEffect(()=>{
@@ -188,7 +190,7 @@ export default function Home() {
                 <div className="row chain-row justify-content-center">
                   <div className="col-md-6 chain-col">
                     <Link
-                      href={`/balance`}
+                      href={account ? `/balance` : '/login'}
                     >
                       <div className="cus-card chain-item">
                         <div className="chain-img">
@@ -209,7 +211,7 @@ export default function Home() {
                     </Link>
                   </div>
                   <div className="col-md-6 chain-col">
-                    <Link href="./bone-staking">
+                    <Link href={account ? "/bone-staking" : '/login'}>
                     <div  className="cus-card chain-item">
                       <div className="chain-img">
                         <img
@@ -228,7 +230,7 @@ export default function Home() {
                   </div>
                   <div className="col-md-6 chain-col">
                     <Link
-                      href={`/dashboard`}
+                      href={account ? `/dashboard` : '/login'}
                     >
                       <div className="cus-card chain-item">
                         <div className="chain-img">
