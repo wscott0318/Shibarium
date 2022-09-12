@@ -95,7 +95,7 @@ export default function Home() {
 
         {/* features section start */}
         <div className="page-content-wrap darkBg">
-          <section className="mt-4 features-section mt-lg-0">
+          <section className="mt-4 features-section mt-lg-0 pt-3 pt-4">
             <div className="container">
               <div className="row ftrs-row">
                 <div className="mb-4 col-sm-6 col-lg-3 ftrs-col mb-lg-5">
@@ -110,7 +110,7 @@ export default function Home() {
                       />
                     </div>
                     <div className="ftrs-content">
-                      <h3 className="mb-0 fwb">Fastest Transactions</h3>
+                      <h4 className="mb-0 fwb">Fastest Transactions</h4>
                     </div>
                   </div>
                 </div>
@@ -126,7 +126,7 @@ export default function Home() {
                       />
                     </div>
                     <div className="ftrs-content">
-                      <h3 className="mb-0 fwb">Made For Gaming</h3>
+                      <h4 className="mb-0 fwb">Made For Gaming</h4>
                     </div>
                   </div>
                 </div>
@@ -142,7 +142,7 @@ export default function Home() {
                       />
                     </div>
                     <div className="ftrs-content">
-                      <h3 className="mb-0 fwb">Optimized For Shib</h3>
+                      <h4 className="mb-0 fwb">Optimized For Shib</h4>
                     </div>
                   </div>
                 </div>
@@ -158,9 +158,9 @@ export default function Home() {
                       />
                     </div>
                     <div className="ftrs-content">
-                      <h3 className="mb-0 fwb">
+                      <h4 className="mb-0 fwb">
                         Secured by Shibarium Validators
-                      </h3>
+                      </h4>
                     </div>
                   </div>
                 </div>
