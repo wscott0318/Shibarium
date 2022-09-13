@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 // @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 
-export default function ListView({ validatorsList, searchKey }: { validatorsList: any , searchKey: string }) {
+export default function ListView({ validatorsList, searchKey, loading }: { validatorsList: any , searchKey: string , loading : boolean }) {
     const [modalShow, setModalShow] = React.useState(false);
     const [selectedRow, setSelectedRow] = useState({})
     const [userType, setUserType] = useUserType()
@@ -19,6 +19,8 @@ export default function ListView({ validatorsList, searchKey }: { validatorsList
       )
     }
 
+    console.log(validatorsList)
+
     return (
         <>
             <DelegatePopup show={modalShow} data={selectedRow}
@@ -26,9 +28,9 @@ export default function ListView({ validatorsList, searchKey }: { validatorsList
             <div className="mb-4 table-wrap table-responsive mb-lg-5">
 
               {
-                !validatorsList.length && !searchKey.length ?
+                !validatorsList.length  && loading ?
                 tableShimmerEffects() :
-                !validatorsList.length && searchKey.length ?
+                !validatorsList.length && !loading ?
                 <table className="table">
              <thead>
                <tr className="table-header">

@@ -357,11 +357,13 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   //   }
   //   // validationSchema: unBoundValidation
   // })
-  const tooltipfunctiond=() =>{
-    return(
-      <span>Validthahahah</span>
+
+  const tooltipRestakeDelegator = () => {
+    return (
+      <span>Validator Address</span>
     )
   }
+
   return (
 
     <>
@@ -617,8 +619,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                   
                 <div className="form-group">
                     <TriggerExample 
-                      tooltipText={'Use Validators Staking Address'}
-                      renderText={tooltipfunctiond}
+                    tooltipText="Use Validators Staking Address"
+                    renderText={tooltipRestakeDelegator}
                     />
                   {/* <label htmlFor="" className="form-label">
                   Validator Address 
