@@ -147,7 +147,7 @@ export default function ValidatorDetails() {
                             <div className="col-lg-12">
                                 <div className="mb-4 cus-panel darkBg mb-lg-5">
                                     <div className="panel-header">
-                                        <h4 className='fwb trs-3'>Voting Power</h4>
+                                        <h4 className='fwb trs-3'>Voting Power test</h4>
                                     </div>
                                     <div className="panel-body">
                                         <div className='flex-wrap mb-4 d-flex align-items-center'>
@@ -157,7 +157,7 @@ export default function ValidatorDetails() {
                                                 </span>
                                             </div>
                                             <div className='text'>
-                                                <span>(~{(+validatorInfo?.votingPower).toFixed(2) || 0}%)</span>
+                                               {validatorInfo?.votingPower ? <span>(~{(+validatorInfo?.votingPower).toFixed(2) || 0}%)</span> : null }
                                             </div>
                                         </div>
                                         <div className="mb-3 progress-line">

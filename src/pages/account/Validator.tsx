@@ -364,6 +364,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
     )
   }
 
+  const testUnboundDelegator = () => {}
+
   return (
 
     <>
@@ -375,7 +377,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
             <BorderBtn lable="Restake" handleModal={() => handleModal("Restake", account)} />
             <BorderBtn lable="Change Commission Rate" handleModal={()=>handleModal("Change Commission Rate", account)} />
             <BorderBtn lable="Withdraw Rewards" handleModal={()=>handleModal("Withdraw Rewards", account)} />
-            <BorderBtn lable="Unbound" handleModal={()=>handleModal("Unbound", account)} />
+            <BorderBtn lable="Unbound" handleModal={()=>testUnboundDelegator()} />
           </> :
           <>
             {/* Delegations section start */}
