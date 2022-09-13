@@ -322,6 +322,12 @@ ul {
     font-size: 18px;
     color:$white;
     font-weight: 600;
+    @media #{$max-lg}{
+        font-size: 16px;
+    }
+    @media #{$max-md}{
+        font-size: 14px;
+    }
 }
 
 .form-control {

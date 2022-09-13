@@ -506,7 +506,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
         >
           {loading && <LoadingSpinner />}
           <Modal.Header closeButton className="text-center">
-            <Modal.Title id="example-custom-modal-styling-title">
+            <Modal.Title id="example-custom-modal-styling-title" className="d-inline-block fw-800 trs-3">
               Restake
             </Modal.Title>
           </Modal.Header>
@@ -515,14 +515,24 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
 
               <form onSubmit={retakeFormik.handleSubmit} className="modal-form">
                 <div className="form-group">
-                  <label htmlFor="" className="form-label">
-                    {userType} Address 
-                    <span className="address_tooltip">?
-                    <span className="dummypopup"> Use Validators Staking Address</span>
-                    </span>
-
-                   
-                  </label>
+                  <div className="d-flex align-items-center">
+                    <label htmlFor="" className="form-label mb-1 m">
+                      {userType} Address 
+                      {/* <span className="address_tooltip">?
+                      <span className="dummypopup"> Use Validators Staking Address</span>
+                      </span> */}
+                    </label>
+                    <div className="mb-2 ms-1 mb-1">
+                      <div className="cus-tooltip">
+                        <div className="tool-ico">
+                          !
+                        </div>
+                        <div className="tool-desc">
+                          Use Validators Staking Address
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <Field
                     type="text"
                     className="form-control form-bg"
@@ -618,17 +628,25 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
               <form onSubmit={retakeFormikDelegator.handleSubmit} className="modal-form">
                   
                 <div className="form-group">
-                    <TriggerExample 
+                    {/* <TriggerExample 
                     tooltipText="Use Validators Staking Address"
                     renderText={tooltipRestakeDelegator}
-                    />
-                  {/* <label htmlFor="" className="form-label">
-                  Validator Address 
-                    <span className="address_tooltip">?
-                    <span className="dummypopup"> Use Validators Staking Address test</span>
-                    </span>
-                  </label> */}
-                  
+                    /> */}
+                  <div className="d-flex align-items-center pb-2">
+                    <label htmlFor="" className="form-label mb-1">
+                      Validator Address 
+                    </label>
+                    <div className="mb-2 ms-1 mb-1">
+                        <div className="cus-tooltip">
+                          <div className="tool-ico">
+                            !
+                          </div>
+                          <div className="tool-desc">
+                            Use Validators Staking Address
+                          </div>
+                        </div>
+                    </div>
+                  </div>
                   <Field
                     type="text"
                     className="form-control form-bg"
@@ -667,25 +685,40 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
         >
           {loading && <LoadingSpinner />}
           <Modal.Header closeButton className="text-center">
-            <h4>
+            {/* <h4>
               <span>Commission</span>
-            </h4>
+            </h4> */}
+            <Modal.Title id="example-custom-modal-styling-title" className="d-inline-block fw-800 trs-3">
+              Commission
+            </Modal.Title>
           </Modal.Header>
           
           <Modal.Body>
           <FormikProvider value={commiFormik}>
             <form onSubmit={commiFormik.handleSubmit} className="modal-form">
               <div className="form-group">
-                <label htmlFor="" className="form-label">
-                  {/* {userType} Address
-                  <span className="address_tooltip">?
-                    <span className="dummypopup">Validators Address</span>
-                    </span> */}
-                    <ArrowTooltips 
-                    text={`${userType} Address `}
-                    tooltipText="Validators Address"
-                    />
-                </label>
+                <div className="d-flex align-items-center">
+                  <label htmlFor="" className="form-label mb-1">
+                    {userType} Address
+                    {/* <span className="address_tooltip">?
+                      <span className="dummypopup">Validators Address</span>
+                      </span> */}
+                      {/* <ArrowTooltips 
+                      text={`${userType} Address `}
+                      tooltipText="Validators Address"
+                      /> */}
+                  </label>
+                  <div className="mb-2 ms-1 mb-1">
+                    <div className="cus-tooltip">
+                      <div className="tool-ico">
+                        !
+                      </div>
+                      <div className="tool-desc">
+                        Use Validators Staking Address
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <input
                   type="text"
                   className="form-control form-bg"
@@ -752,12 +785,24 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           <Modal.Body>
             <form onSubmit={withdrawFormk.handleSubmit} className="modal-form">
               <div className="form-group">
-                <label htmlFor="" className="form-label">
-                  {userType} Address
-                  <span className="address_tooltip">?
-                    <span className="dummypopup">Validators Address</span>
-                    </span>
-                </label>
+                <div className="d-flex align-items-center">
+                  <label htmlFor="" className="form-label mb-1">
+                    {userType} Address
+                    {/* <span className="address_tooltip">?
+                      <span className="dummypopup">Validators Address</span>
+                      </span> */}
+                  </label>
+                  <div className="mb-2 ms-1 mb-1">
+                    <div className="cus-tooltip">
+                      <div className="tool-ico">
+                          !
+                      </div>
+                      <div className="tool-desc">
+                          Use Validators Staking Address
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <input
                   type="text"
                   className="form-control form-bg"

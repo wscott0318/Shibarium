@@ -78,6 +78,7 @@ console.log(availBalance, chainId)
     } else if (userType === UserType.Delegator){
       if(Object.keys(cardsData).length){
         return (
+          
         <div className="row justify-content-center networkCard ">
             <div className="col-lg-12 mb-3">
               <h3 className="mb-0 mb-3 text-white fwb">Staking Overview</h3>
