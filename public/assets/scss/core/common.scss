@@ -2755,3 +2755,24 @@ input[type=number]::-webkit-outer-spin-button {
         background-color: #000000;
     }
 }
+.shimmer {
+    background: rgba(255,255,255,0.3) !important;
+}
+.shimmer-table-row {
+    background-color: #15141b !important;
+}
+
+.border_before {
+    position: relative;
+    padding-top: 9px;
+    &::before {
+        position: absolute;
+        content: '';
+        top: 0;
+        width: 86px;
+        height: 2px;
+        left: 0;
+        right: 0;
+        background: rgba(255,255,255, 0.2);
+    }
+}

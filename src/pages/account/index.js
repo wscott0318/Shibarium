@@ -78,71 +78,53 @@ console.log(availBalance, chainId)
     } else if (userType === UserType.Delegator){
       if(Object.keys(cardsData).length){
         return (
-        <div className="row justify-content-center">
-            <h3 className="mb-0 mb-3 text-white fwb">Staking Overview</h3>
+        <div className="row justify-content-center networkCard ">
+            <div className="col-lg-12 mb-3">
+              <h3 className="mb-0 mb-3 text-white fwb">Staking Overview</h3>
+            </div>
             <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
-                  <div className="data-box">
-                    <div>
+                    <div className="bs-data-col">
                       <h3 className="fwb upertxt font-xs">{chainId == 7352 ? "BONE" : "ETHEREUM"} WALLET BALANCE</h3>
                       <p className="mb-0 d-block fw-600 upertxt">{availBalance.toFixed(4)}</p>
                     </div>
-                    <div>
-                      <div className="card-hr"></div>
-                      <p className="mb-0 d-block fw-600">
-                      <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} />
-                      </p>
+                    <div className="bs-data-col">
+                      <p className="mb-0 d-block fw-600  border_before"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></p>
                     </div>
-                  </div>
-                  
-                  
                 </div>
-              </div>
-          
-                <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
-                <div className="bs-card card">
-                <div className="data-box">
-                    <div>
-                      <h3 className="fwb upertxt font-xs">Your Stake </h3>
-                      <p className="mb-0 d-block fw-600 upertxt">{(fromExponential(cardsData?.totalStake)/Math.pow(10,18)).toFixed(8)}</p>
-                    </div>
-                    <div>
-                      <div className="card-hr"></div>
-                      <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={(((cardsData?.totalStake)/Math.pow(10,18) || 0) * boneUSDValue).toFixed(2)} /></p>
-                    </div>
-                  </div>
+            </div>
+            <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+              <div className="bs-card card">
+                <div className="bs-data-col">
+                  <h4 className="fwb font-xs height-fx">Your Stake </h4>
+                  <p className="mb-0 d-block fw-600 upertxt">{(fromExponential(cardsData?.totalStake)/Math.pow(10,18)).toFixed(8)}</p>
                 </div>
-              </div>
-              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
-                <div className="bs-card card">
-                <div className="data-box">
-                    <div>
-                      <h3 className="fwb upertxt font-xs">Delegation</h3>
-                      <p className="mb-0 d-block fw-600 upertxt">{cardsData?.validators.filter(x => x !== '0').length} Validator</p>
-                    </div>
-                    <div>
-                      <div className="card-hr"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
-                <div className="bs-card card">
-                <div className="data-box">
-                    <div>
-                      <h3 className="fwb upertxt font-xs">Unclaimed Rewards</h3>
-                      <p className="mb-0 d-block fw-600 upertxt">{(fromExponential(cardsData?.unclaimedRewards)/Math.pow(10,18)).toFixed(8)}</p>
-                      
-                    </div>
-                    <div>
-                      <div className="card-hr"></div>
-                      <p className="mb-0 d-block fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={(((cardsData?.unclaimedRewards)/Math.pow(10,18) || 0) * boneUSDValue).toFixed(2)} /></p>
-                      {/* <span className="mb-0 mt-2">$null</span> */}
-                    </div>
-                  </div>
+                <div className="bs-data-col">
+                  <p className="mb-0 d-block fw-600 border_before"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={(((cardsData?.totalStake)/Math.pow(10,18) || 0) * boneUSDValue).toFixed(2)} /></p>
                 </div>
               </div>
             </div>
+            <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+              <div className="bs-card card">
+                  <div className="bs-data-col">
+                    <h4 className="fwb upertxt font-xs height-fx">Delegation</h4>
+                    <p className="mb-0 d-block fw-600 upertxt">{cardsData?.validators.filter(x => x !== '0').length} Validator</p>
+                  </div>
+              </div>
+            </div>
+            <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+                <div className="bs-card card">
+                    <div className="bs-data-col">
+                      <h4 className="fwb upertxt font-xs height-fx">Unclaimed Rewards</h4>
+                      <p className="mb-0 d-block fw-600 upertxt">{(fromExponential(cardsData?.unclaimedRewards)/Math.pow(10,18)).toFixed(8)}</p>
+                    </div>
+                    <div className="bs-data-col">
+                      <p className="mb-0 d-block fw-600 border_before"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={(((cardsData?.unclaimedRewards)/Math.pow(10,18) || 0) * boneUSDValue).toFixed(2)} /></p>
+                      {/* <span className="mb-0 mt-2">$null</span> */}
+                    </div>
+                </div>
+            </div>
+          </div>
         )
       } else {
         <div className="row justify-content-center">
