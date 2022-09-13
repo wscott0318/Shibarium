@@ -178,9 +178,9 @@ export default function ValidatorDetails() {
                                             </li>
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600'>Voting Power %</h6>
-                                                <p className='mb-0 trs-3 primary-text'>
+                                               {validatorInfo?.votingPower ? <p className='mb-0 trs-3 primary-text'>
                                                    {(+validatorInfo?.votingPower).toFixed(2) || 0}%
-                                                </p>
+                                                </p> : null }
                                             </li>
                                         </ul>
                                     </div>

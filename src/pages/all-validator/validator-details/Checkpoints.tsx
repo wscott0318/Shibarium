@@ -45,7 +45,7 @@ const Checkpoints:React.FC<Props> = ({ allCheckpoints,boneUsdValue }) => {
                             <th>Start block number</th>
                             <th>End block number</th>
                             <th>Result</th>
-                            <th>Time</th>
+                            <th className="text-start">Time</th>
                         </tr>
                     </thead>
                         <tbody>
@@ -71,7 +71,7 @@ const Checkpoints:React.FC<Props> = ({ allCheckpoints,boneUsdValue }) => {
                                                     <span>{checkpoint.signed? 'Success': 'Not completed'}</span>
                                                 </span>
                                             </td>
-                                            <td>
+                                            <td className="text-start">
                                                 <span className="tb-data align">
                                                 <TimeAgo datetime={checkpoint.timestamp*1000} />
 
