@@ -229,7 +229,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
             </div>
             
           {isListView ? (
-            <ListView  searchKey={searchKey} validatorsList={validators} />
+            <ListView loading={loading}  searchKey={searchKey} validatorsList={validators} />
           ) : (
             <div className="grid-view-wrap">
               <ValidatorGrid searchKey={searchKey} validatorsList={validators} />

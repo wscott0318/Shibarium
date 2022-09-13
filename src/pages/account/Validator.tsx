@@ -358,6 +358,12 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   //   // validationSchema: unBoundValidation
   // })
 
+  const tooltipRestakeDelegator = () => {
+    return (
+      <span>Validator Address</span>
+    )
+  }
+
   return (
 
     <>
@@ -612,9 +618,10 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
               <form onSubmit={retakeFormikDelegator.handleSubmit} className="modal-form">
                   
                 <div className="form-group">
-                    {/* <TriggerExample 
-                    
-                    /> */}
+                    <TriggerExample 
+                    tooltipText="Use Validators Staking Address"
+                    renderText={tooltipRestakeDelegator}
+                    />
                   {/* <label htmlFor="" className="form-label">
                   Validator Address 
                     <span className="address_tooltip">?

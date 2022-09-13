@@ -18,6 +18,7 @@ import fromExponential from 'from-exponential';
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 import NumberFormat from 'react-number-format';
 import { useUserType } from '../../state/user/hooks';
+import { User } from "react-feather";
 
 export default function Account() {
   // const [availBalance, setAvailBalance] = useState(0);
@@ -64,44 +65,20 @@ console.log(availBalance, chainId)
     )
   }
 
-  return (
-    <>
-      <InnerHeader />
-      <div className="page-wrapper">
-        <main className="delegatorgrid-sec">
-          <div className="botom-space-lg">
-            <div className="darkBg position-relative sec-spc-high">
-              <div className="container">
-                <div className="row">
-                  <div className="text-center col-sm-8 text-sm-start">
-                    <h1 className="light-text fnt-58 fnt-100">Your Account</h1>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="container acct-sec">
 
-
-            {/* delegator card  */}
-       
-
-            
-            {/* overview section start */}
-            <div className="baner-card top-margin">
-            
-           {
-            Object.keys(cardsData).length ? 
-           
-            <div className="row justify-content-center">
-            {
-              userType  === UserType.Validator  || userType  === UserType.NA? 
-              <div className="cardMain text-center">
+  const renderTopCards = () => {
+    if(userType  === UserType.Validator  || userType  === UserType.NA ) {
+      return (
+      <div className="cardMain text-center">
             <h3 className="mb-2">{chainId == 7352 ? "Bone" : "Ethereum"} Wallet balance</h3>
               <h1 className="fw-700">{availBalance.toFixed(4)} {chainId == 7352 ? "Bone" : "Ethereum"}</h1>
               <h5 className="fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></h5>
-            </div> :
-            <>
+      </div>
+      )
+    } else if (userType === UserType.Delegator){
+      if(Object.keys(cardsData).length){
+        return (
+        <div className="row justify-content-center">
             <h3 className="mb-0 mb-3 text-white fwb">Staking Overview</h3>
             <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
@@ -165,53 +142,54 @@ console.log(availBalance, chainId)
                   </div>
                 </div>
               </div>
-            </>
-            }
-              
-         
-             
-              {/* <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
-                <div className="bs-card card">
-                  <h3 className="fwb upertxt">Your stake</h3>
-                  <p className="mb-0 d-block fw-600">10 Matic</p>
-                  <div className="card-hr"></div>
-                  <span className="mb-0">$null</span>
+            </div>
+        )
+      } else {
+        <div className="row justify-content-center">
+        {
+          [...Array(4)].map(x => 
+          <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+            <div className="bs-card card">
+              <div className="data-box">
+              {cardShimmerEffects(2, 10)}
+                <div>
                 </div>
               </div>
-               <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
-                <div className="bs-card card">
-                  <h3 className="fwb upertxt">Your stake</h3>
-                  <p className="mb-0 d-block fw-600">10 Matic</p>
-                  <div className="card-hr"></div>
-                  <span className="mb-0">$null</span>
-                </div>
-              </div>
-              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
-                <div className="bs-card card">
-                  <h3 className="fwb upertxt">Your stake</h3>
-                  <p className="mb-0 d-block fw-600">10 Matic</p>
-                  <div className="card-hr"></div>
-                  <span className="mb-0">$null</span>
-                </div>
-              </div> */}
-            </div> :
-            <div className="row justify-content-center">
-            {
-              [...Array(4)].map(x => 
-              <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
-                <div className="bs-card card">
-                  <div className="data-box">
-                  {cardShimmerEffects(2, 10)}
-                    <div>
-                    </div>
+            </div>
+          </div>
+          )
+        }
+        </div>
+      }
+    }
+  }
+
+  return (
+    <>
+      <InnerHeader />
+      <div className="page-wrapper">
+        <main className="delegatorgrid-sec">
+          <div className="botom-space-lg">
+            <div className="darkBg position-relative sec-spc-high">
+              <div className="container">
+                <div className="row">
+                  <div className="text-center col-sm-8 text-sm-start">
+                    <h1 className="light-text fnt-58 fnt-100">Your Account</h1>
                   </div>
                 </div>
               </div>
-              )
-            }
-              
             </div>
-           }
+          </div>
+          <div className="container acct-sec">
+
+
+            {/* delegator card  */}
+       
+
+            
+            {/* overview section start */}
+            <div className="baner-card top-margin">
+            {renderTopCards()}
             </div>
             {/* overview section end */}
             {/* btns section start */}

@@ -88,7 +88,7 @@ export default function Login() {
     
 
   return (
-    <>
+    <div className="mt-0">
       <Popup show={showInsModal} setShow={setShowInsModal} title="Metamask" />
       <header className="main-header">
         <div className="container">
@@ -227,6 +227,6 @@ export default function Login() {
           </div>
         </div>
       </main>
-    </>
+    </div>
   );
 }
