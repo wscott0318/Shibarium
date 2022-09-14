@@ -247,10 +247,9 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
               </div>
               <div className="mb-3 steps_data fix-min  mb-xl-4">
                 <div className="flex-wrap d-flex align-items-center justify-content-between helper-txt fw-600 ft-14">
-                  <h4 className="fw-700 top-space-lg">Buy Voucher</h4>
+                  <h4 className="fw-700 top-space-lg">Complete Staking</h4>
                   <p className="ft-16 top-space-lg">
-                    Completing this transaction will stake your BURN tokens and
-                    you will start earning rewards for the upcoming checkpoints
+                    Completing this transaction will stake your BONE tokens & initiate rewards for future blocks
                   </p>
                 </div>
                 <div className="flex-wrap d-flex align-items-center justify-content-between helper-txt fw-600 ft-14 top-space-lg">
@@ -308,10 +307,8 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
                     <h4 className="fw-700 top-space-lg">
                       Transaction in process
                     </h4>
-                    <p className="ft-16 top-space-lg">
-                      Bone transactions can take longer time to complete based
-                      upon network congestion. Please wait or increase the gas
-                      price of the transaction
+                    <p className="ft-16 top-space-lg text-center">
+                      Please wait for the transactions to finalize
                     </p>
                   </div>
                 </div>

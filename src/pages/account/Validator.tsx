@@ -530,7 +530,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                           !
                         </div>
                         <div className="tool-desc">
-                          Use Validators Staking Address
+                          Validator's Staking Address
                         </div>
                       </div>
                     </div>
@@ -644,7 +644,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                             !
                           </div>
                           <div className="tool-desc">
-                            Validators Staking Address
+                            Validator's Staking Address
                           </div>
                         </div>
                     </div>
@@ -716,7 +716,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                         !
                       </div>
                       <div className="tool-desc">
-                        Use Validators Staking Address
+                        Validator's Staking Address
                       </div>
                     </div>
                   </div>
@@ -800,7 +800,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                           !
                       </div>
                       <div className="tool-desc">
-                          Use Validators Staking Address
+                        Validator's Staking Address
                       </div>
                     </div>
                   </div>
