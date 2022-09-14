@@ -110,7 +110,7 @@ export default function Unbond() {
                     </div>
                     <div className="container acct-sec">
                         <div className="baner-card top-margin">
-                            <h3 className="mb-0 mb-3 text-white fwb">History</h3>
+                             <h3 className="mb-0 mb-3 text-white fwb">History</h3>
                             <div className="mb-4 table-wrap table-responsive mb-lg-5">
                                 <table className="table">
                                     <thead>

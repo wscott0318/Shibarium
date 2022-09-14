@@ -281,7 +281,7 @@ export default function Dashboard() {
                         </div>
                         <div className="form-group">
                           <div className="swap-control swap-flex p-0">
-                            <div className="swap-modal">
+                            <div className="swap-modal d-flex align-items-center">
                               <span className="coin-img me-2">
                                 <img
                                   className="img-fluid"

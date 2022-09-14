@@ -70,7 +70,7 @@ function BalanceTable() {
                                 <span className="tb-data-sm align">
                                     ETH . Ether (Plasma - WETH)
                                 </span>
-                                <span className="badge-sm align">PLASMA</span>
+                                <span className="badge-sm align ms-1">PLASMA</span>
                             </td>
                             <td>
                                 <span className="tb-data align">0.0000 .</span>
@@ -153,7 +153,7 @@ function BalanceTable() {
                                 <span className="tb-data-sm align">
                                     ETH . Ether (Plasma - WETH)
                                 </span>
-                                <span className="badge-sm align">PLASMA</span>
+                                <span className="badge-sm align ms-1">PLASMA</span>
                             </td>
                             <td>
                                 <span className="tb-data align">0.0000 .</span>
@@ -236,7 +236,7 @@ function BalanceTable() {
                                 <span className="tb-data-sm align">
                                     ETH . Ether (Plasma - WETH)
                                 </span>
-                                <span className="badge-sm align">PLASMA</span>
+                                <span className="badge-sm align ms-1">PLASMA</span>
                             </td>
                             <td>
                                 <span className="tb-data align">0.0000 .</span>
@@ -319,7 +319,7 @@ function BalanceTable() {
                                 <span className="tb-data-sm align">
                                     ETH . Ether (Plasma - WETH)
                                 </span>
-                                <span className="badge-sm align">PLASMA</span>
+                                <span className="badge-sm align ms-1">PLASMA</span>
                             </td>
                             <td>
                                 <span className="tb-data align">0.0000 .</span>

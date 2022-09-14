@@ -15,9 +15,12 @@
     padding-left: 10px;
 }
 .block-wrap {
-    margin-bottom: 45px;
-    @media #{$max-md} {
+    margin-bottom: 30px;
+    @media #{$max-xxl}{
         margin-bottom: 25px;
+    }
+    @media #{$max-md} {
+        margin-bottom: 20px;
     } 
 }
 .btn-box {
