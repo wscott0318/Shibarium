@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Dropdown } from "react-bootstrap";
 import InnerHeader from "../inner-header";
 import DelegatePopup from "../delegate-popup";
@@ -19,6 +19,9 @@ import WarningBtn from "../components/WarningBtn";
 import Footer from "../../pages/footer/index";
 export const Allvalidator: React.FC = () => {
   const [userType, setUserType] = useUserType();
+  const myRef = useRef<any>(null)
+
+  const executeScroll = () => myRef.current.scrollIntoView()    
 
   // useEffect(() => {
   //   let filtered = []
@@ -58,11 +61,7 @@ export const Allvalidator: React.FC = () => {
                     {userType === UserType.Delegator && (
                       <>
                       <div className="flex-wrap d-flex align-items-centeer">
-                        <WarningBtn
-                          link='/all-validator'
-                          lable="Become A Delegator"
-                          handleModal={() => {}}
-                        />
+                         <button className="btn-group btn warning-btn light-text" onClick={executeScroll}>Become A Delegator</button>
                         </div>
                       </>
                     )}
@@ -74,11 +73,7 @@ export const Allvalidator: React.FC = () => {
                             lable="Become A Validator"
                             handleModal={() => {}}
                           />
-                          <WarningBtn
-                            link='/all-validator'
-                            lable="Become A Delegator"
-                            handleModal={() => {}}
-                          />
+                        <button className="btn-group btn warning-btn light-text" onClick={executeScroll}>Become A Delegator</button>
                          <BorderBtn
                             link='/delegator-validator'
                             lable="Choose Your Path"
@@ -93,7 +88,7 @@ export const Allvalidator: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="container">
+          <div ref={myRef} className="container">
            <Valitotors withStatusFilter={true} />
           </div>
           <Footer/>
