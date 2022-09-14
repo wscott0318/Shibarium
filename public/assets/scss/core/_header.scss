@@ -352,3 +352,15 @@
         }
     }
 }
+.meta-mask {
+    margin-right: 12px;
+    @media (max-width:1030px){
+        margin-right: 24px;
+    }
+    @media #{$max-md}{
+        margin-right:20px
+    }
+    @media #{$max-sm}{
+        margin-right:16px
+    }
+}
