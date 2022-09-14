@@ -20,7 +20,7 @@ import {L1Block} from "app/hooks/L1Block";
 
 
 const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
-  const [step, setStep] = useState<number>(2)
+  const [step, setStep] = useState<number>(1)
   const [amount, setAmount] = useState<number|string>('');
   const [tnxCompleted, setTnxCompleted] = useState(false)
  const [boneUSDValue, setBoneUSDValue] = useState<number>(0);

@@ -114,6 +114,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   };
   
   const handleModalClosing = () => {
+    setUnboundInput('')
     setUnboundModal({
       startValue: false,
       progressValue: false,
