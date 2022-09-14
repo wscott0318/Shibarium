@@ -223,11 +223,9 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
             </div>
             <div className="mt-4 mb-3">
               <h4 className="mb-0 fw-700">
-                Here is a list of active Validators
+                Here is a list of {isActiveTab ? "active" : "inactive"} Validators
               </h4>
-
             </div>
-            
           {isListView ? (
             <ListView loading={loading}  searchKey={searchKey} validatorsList={validators} />
           ) : (
