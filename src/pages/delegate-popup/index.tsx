@@ -248,7 +248,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
               <div className="mb-3 steps_data fix-min  mb-xl-4">
                 <div className="flex-wrap d-flex align-items-center justify-content-between helper-txt fw-600 ft-14">
                   <h4 className="fw-700 top-space-lg">Complete Staking</h4>
-                  <p className="ft-16 top-space-lg">
+                  <p className="ft-16 top-space-lg text-center">
                     Completing this transaction will stake your BONE tokens & initiate rewards for future blocks
                   </p>
                 </div>
@@ -307,7 +307,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
                     <h4 className="fw-700 top-space-lg">
                       Transaction in process
                     </h4>
-                    <p className="ft-16 top-space-lg text-center">
+                    <p className="ft-16 top-space-lg text-center w-100">
                       Please wait for the transactions to finalize
                     </p>
                   </div>
