@@ -509,7 +509,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           {loading && <LoadingSpinner />}
           <Modal.Header closeButton className="text-center">
             <Modal.Title id="example-custom-modal-styling-title" className="d-inline-block fw-800 trs-3">
-              Restake
+              Restake 
             </Modal.Title>
           </Modal.Header>
           <Modal.Body className="position-relative">
@@ -644,7 +644,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                             !
                           </div>
                           <div className="tool-desc">
-                            Use Validators Staking Address
+                            Validators Staking Address
                           </div>
                         </div>
                     </div>

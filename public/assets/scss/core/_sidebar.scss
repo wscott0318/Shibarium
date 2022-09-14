@@ -39,7 +39,12 @@
     }
     @media #{$max-xsm}{
         min-height: calc(100vh - 82px);
-        margin-top: 82px;
+    }
+    @media #{$small-mobile}{
+        margin-top: 58.6px;
+    }
+    @media (max-width:360.98px){
+        margin-top: 47.95px;
     }
     // @media (max-width:360.98px){
     //     min-height: calc(100vh - 49px);
@@ -47,10 +52,10 @@
     // }
     .close-icon {
         position: absolute;
-        top: 10px;
-        right: 12px;
-        width: 16px;
-        height: 16px;
+        top: -1px;
+        right: 9px;
+        width: 13px;
+        height: 13px;
         @media (min-width:1200px){
             display: none;
         }

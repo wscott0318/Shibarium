@@ -116,7 +116,7 @@ console.log(availBalance, chainId)
               <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                 <div className="bs-card card">
                   <div className="bs-data-col">
-                    <h4 className="fwb font-xs height-fx">Your Stake </h4>
+                    <h4 className="fwb font-xs upertxt height-fx">Your Stake </h4>
                     <p className="mb-0 d-block fw-600 upertxt">{(fromExponential(cardsData?.totalStake)/Math.pow(10,18)).toFixed(8)}</p>
                   </div>
                   <div className="bs-data-col">

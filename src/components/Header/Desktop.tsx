@@ -52,7 +52,7 @@ export const RightMenu = ()=>{
   const isCoinbaseWallet = useIsCoinbaseWallet()
 
   return(
-    <div className="flex items-center justify-end gap-2">
+    <div className="flex items-center justify-end gap-2 meta-mask">
     {library && (library.provider.isMetaMask || isCoinbaseWallet) && (
       <div className="hidden sm:inline-block">
         <Web3Network />

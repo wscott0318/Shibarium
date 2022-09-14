@@ -34,13 +34,19 @@ body{
     @media #{$max-xxl}{
         font-size: 14px;
     }
-    @media #{$max-md}{
-        font-size: 14px;
-    }
     @media #{$max-xxxl}{
         margin-top: 82px;
     }
-    
+    @media #{$max-md}{
+        font-size: 14px;
+        margin-top: 64.75px;
+    } 
+    @media #{$small-mobile}{
+        margin-top: 58.6px;
+    }
+    @media (max-width:360.98px){
+        margin-top: 48.95px;
+    }
 }
 
 // ::-webkit-scrollbar-track
