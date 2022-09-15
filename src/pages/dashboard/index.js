@@ -512,7 +512,7 @@ export default function Dashboard() {
               <span className="">
                 <img src="../../assets/images/coin-matic.png" alt="" className="img-fluid" width={69} height={70} />
               </span>
-              <p className="fw-bold amt-name">10 Matic token</p>
+              <p className="fw-bold amt-name">10 Bone token</p>
               <p className="amt-value">$ 7.95</p>
             </div>
             <div className="block-box mob-box">

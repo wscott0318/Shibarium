@@ -75,8 +75,8 @@ console.log(availBalance, chainId)
       return (
       <div className="cardMain text-center">
             <h3 className="mb-2">{chainId == 7352 ? "Bone" : "Ethereum"} Wallet balance</h3>
-              <h1 className="fw-700">{availBalance.toFixed(4)} {chainId == 7352 ? "Bone" : "Ethereum"}</h1>
-              <h5 className="fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></h5>
+            <h1 className="fw-700">{availBalance.toFixed(4)} {chainId == 7352 ? "Bone" : "Ethereum"}</h1>
+            <h5 className="fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></h5>
       </div>
       )
     } else if (userType === UserType.Delegator){
