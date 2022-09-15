@@ -82,12 +82,11 @@ export default function Unbond() {
     },[])
 
     const handleModalClosing = () => {
-        setClamNowModals({
-            data: {},
+        setClamNowModals(pre => ({...pre,
             confirm: false,
             progress: false,
             completed: false,
-        })
+        }))
     }
 
 
@@ -110,7 +109,7 @@ export default function Unbond() {
                     </div>
                     <div className="container acct-sec">
                         <div className="baner-card top-margin">
-                             <h3 className="mb-0 mb-3 text-white fwb">History</h3>
+                             {/* <h3 className="mb-0 mb-3 text-white fwb">History</h3> */}
                             <div className="mb-4 table-wrap table-responsive mb-lg-5">
                                 <table className="table">
                                     <thead>
@@ -136,7 +135,7 @@ export default function Unbond() {
                                             </td>
                                             <td>
                                                 <span className="tb-data align">{parseInt(value.amount) / 10 ** 18} Bone</span>
-                                                <p className="mb-0 fs-12 mute-text">$8.2</p>
+                                                {/* <p className="mb-0 fs-12 mute-text">$8.2</p> */}
                                             </td>
                                             <td>
                                             {
@@ -265,9 +264,9 @@ export default function Unbond() {
                         <div>
                             
                             <div className="center-align ">
-                            <p className="fw-bold fs-18">Stake Claimed</p>
+                            {/* <p className="fw-bold fs-18">Stake Claimed</p> */}
                             <p>Your Claim stake Transaction is successful. The transaction might take 1-2 minutes to be updated in your account.</p>
-                            <a href={transactionLink} target='_blank' title="">View on Block Explorer</a>
+                            <a href={transactionLink} target='_blank' className="primary-text">View on Block Explorer</a>
                             </div>
                         </div>
                         </CommonModalNew>

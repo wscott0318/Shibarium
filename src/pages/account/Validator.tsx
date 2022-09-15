@@ -996,7 +996,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
             </div>
             <div className="center-align">
               <p className="fw-bold fs-18">Unbound Initiated</p>
-              <p>The inbonding process has been initiated. Please come back after checkpoints and click on "Claim Stake".</p>
+              <p>The inbonding process has been initiated. Please come back after 80 checkpoints and click on  <a href="unbond-history" target='_blank' className="primary-text">Claim Stake</a>.</p>
               <div className="mt-3">
               <a href={transactionLink} className="primary-text" target='_blank' title="">View on Block Explorer</a>
                </div>

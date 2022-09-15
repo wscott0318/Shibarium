@@ -252,12 +252,12 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
                     Completing this transaction will stake your BONE tokens & initiate rewards for future blocks
                   </p>
                 </div>
-                <div className="flex-wrap d-flex align-items-center justify-content-between helper-txt fw-600 ft-14 top-space-lg">
+                {/* <div className="flex-wrap d-flex align-items-center justify-content-between helper-txt fw-600 ft-14 top-space-lg">
                   <div>Estimated Transaction Fee</div>
                   <div className="warning-color fw-700 ">
                     <NumberFormat thousandSeparator prefix='$ ' displayType='text' value={(expectedGas * boneUSDValue).toFixed(4)} />
                   </div>
-                </div>
+                </div> */}
               </div>
               </div>
               <div>

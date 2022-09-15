@@ -624,7 +624,9 @@ export default function Dashboard() {
             </div>
             <div className="center-align">
               <p className="fw-bold fs-18">Unbound Initiated</p>
-              <p>The inbonding process has been initiated. Please come back after checkpoints and click on "Claim Stake".</p>
+              <p>The inbonding process has been initiated. Please come back after 80 checkpoints and click on 
+              <a href="unbond-history" className="primary-text">Claim Stake</a>
+              .</p>
               <a href="javascript:void(0);" title="">View on Etherscan</a>
             </div>
           </div>
