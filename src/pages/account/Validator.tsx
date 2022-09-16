@@ -26,6 +26,15 @@ import { unboundNew } from "../../services/apis/delegator/index"
 import { getExplorerLink } from 'app/functions';
 import { ChainId } from '@shibarium/core-sdk';
 import TriggerExample from "../../components/Icon/TooltipBootstrap"
+import Web3 from "web3";
+import { Web3Provider } from "@ethersproject/providers";
+import { useWeb3React } from "@web3-react/core";
+import proxyManagerABI from "../../ABI/StakeManagerProxy.json";
+import {PROXY_MANAGER} from "../../web3/contractAddresses";
+import fromExponential from 'from-exponential';
+import {BONE} from "../../web3/contractAddresses";
+import ERC20 from "../../ABI/ERC20Abi.json";
+import { getAllowanceAmount } from "../../web3/commonFunctions";
 
 interface WalletBalanceProps {
   balance: number;
@@ -73,8 +82,38 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
 
   const [transactionLink, setTransactionLink] = useState('');
 
-  const {account,chainId=1} = useActiveWeb3React()
+  const {account,chainId=1,library } = useActiveWeb3React()
 
+  const getValidatorId = async () => {
+    let lib: any = library
+    let web3: any = new Web3(lib?.provider)
+    let user = account;
+    if(account){
+      const instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
+      const ID = await instance.methods.getValidatorId(user).call({ from: account });
+      console.log(ID)
+      return ID
+    } else {
+      console.log("account addres not found")
+    }
+  }
+
+  const approveAmount = () => {
+    if(account){
+      let lib: any = library
+      let web3: any = new Web3(lib?.provider)
+      let user = account;
+      let amount = 1000 * Math.pow(10,18)
+      let instance = new web3.eth.Contract(ERC20, BONE);
+      instance.methods.approve(PROXY_MANAGER,amount).send({ from: account })
+          .then((res: any) => {
+            console.log(res)
+          }).catch((err:any) => {
+            console.log(err)
+          })
+    }
+
+  }
 
   const handleModal = (btn: String, valAddress: any, id: any = null, stakeAmount: any = null) => {
     switch (btn) {
@@ -149,6 +188,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
    useEffect(() => {
     if(account){
       getDelegatorCardData(account)
+      
     }
    },[account])
 
@@ -175,32 +215,64 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       amount: '',
       reward:0,
     },
-    onSubmit: (values: RetakeFormInterface) => {
+    onSubmit: async (values: RetakeFormInterface) => {
       // console.log(values)
-      setLoading(true);
+      // setLoading(true);
       let data = {
         validatorAddress: restakeModal?.address ? restakeModal?.address : '',
         amount: values.amount,
         reward: values.reward,
       }
-      restake(data)
-        .then((res: any) => {
-          // console.log("res", res);
-          if (res.status == 200) {
-            setLoading(false);
-            const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
-            setTransactionLink(link)
-            setTranHashCode(res.data.data.transactionHash);
-            setSuccessMsg(res.data.message);
-            setConfirm(true);
-            setRestakeModal({value1:false, value2: false, address:''});
-          }
-        })
-        .catch((err) => {
-            setToastType('error')
-            setToastMessage(err?.response?.data?.message);
-          setLoading(false);
-        });
+      console.log(data)
+      if(account) {
+        let lib: any = library
+        let web3: any = new Web3(lib?.provider)
+        let walletAddress = account
+        let ID = await getValidatorId()
+        let allowance = await getAllowanceAmount(library,BONE, account, PROXY_MANAGER)
+        let instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
+        const amountWei = web3.utils.toBN(fromExponential((+values.amount * Math.pow(10, 18))));
+        console.log({allowance})
+        approveAmount()
+        // instance.methods.restake(ID, amountWei, values.reward == 0 ? false : true).send({ from: walletAddress })
+        //       .then((res: any) => {
+        //         console.log(res)
+        //         setLoading(false);
+        //         setTranHashCode(res.transactionHash)
+        //         setSuccessMsg("Reskate Done")
+        //         const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
+        //         setTransactionLink(link)
+        //         setConfirm(true)
+        //         setRestakeModal({
+        //           value1:false,
+        //           value2: false,
+        //           address: ""
+        //         })
+        //       }).catch((err :any) => {
+        //         console.log(err)
+        //         setLoading(false);
+        //       })
+      } else {
+        console.log("account addres not found")
+      }
+      // restake(data)
+      //   .then((res: any) => {
+      //     // console.log("res", res);
+      //     if (res.status == 200) {
+      //       setLoading(false);
+      //       const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
+      //       setTransactionLink(link)
+      //       setTranHashCode(res.data.data.transactionHash);
+      //       setSuccessMsg(res.data.message);
+      //       setConfirm(true);
+      //       setRestakeModal({value1:false, value2: false, address:''});
+      //     }
+      //   })
+      //   .catch((err) => {
+      //       setToastType('error')
+      //       setToastMessage(err?.response?.data?.message);
+      //     setLoading(false);
+      //   });
     },
     validationSchema: restakeValidation,
   });
