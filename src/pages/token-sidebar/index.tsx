@@ -56,7 +56,7 @@ function ShibaSidebar(props:any) {
                 </li>
             </ul>
             <ul className="nav-menu">
-                <li className="nav-item">
+                {/* <li className="nav-item">
                     <a href="./balance" className="nav-link">
                         <span className='nav-icon'>
                             <img className='img-fluid dark-ico' src="../../assets/images/icons/new-dark.png" alt="" />
@@ -64,8 +64,8 @@ function ShibaSidebar(props:any) {
                         </span>
                         <span>How The Burn Works?</span>
                     </a>
-                </li>
-                <li className="nav-item">
+                </li> */}
+                {/* <li className="nav-item">
                     <div className="active-shape">
                         <img className='img-fluid' src="../../assets/images/radius.png" alt="" />
                     </div>
@@ -76,7 +76,7 @@ function ShibaSidebar(props:any) {
                         </span>
                         <span>Get Support</span>
                     </a>
-                </li>
+                </li> */}
                 <li className="nav-item">
                     <a href="./shibatoken" className="nav-link">
                         <span className='nav-icon'>

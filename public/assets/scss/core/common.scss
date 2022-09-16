@@ -988,6 +988,15 @@ color:$green-color;
 }
 .botom-space-lg{
     margin-bottom: 65px;
+    @media #{$max-lg}{
+        margin-bottom: 50px;
+    }
+    @media #{$max-md}{
+        margin-bottom: 40px;
+    }
+    @media #{$max-sm}{
+        margin-bottom: 30px;
+    }
 }
 .user-icon{
     width: 24px;
@@ -2609,9 +2618,15 @@ input[type=number]::-webkit-outer-spin-button {
     color:$drk-orange;
 }
 .button-block {
-    margin: 70px 0 60px;
+    margin: 65px 0 60px;
+    @media #{$max-lg}{
+        margin: 50px 0 30px;
+    }
     @media #{$max-md}{
         margin: 40px 0 30px;
+    }
+    @media #{$max-sm}{
+        margin: 30px 0 30px;
     }
 }
 .add-sec {
@@ -2850,4 +2865,28 @@ input[type=number]::-webkit-outer-spin-button {
         }
     }
     
+}
+
+.cardUser {
+    max-width: 480px;
+    margin: 0 auto;
+    border: 1px solid $primary;
+    padding: 25px 20px;
+    border-radius: 8px;
+    @media #{$max-lg}{
+        padding: 20px;
+    }
+    @media #{$max-md}{
+        padding: 15px;
+    }
+}
+
+
+.swap-flex .swap-col.full-col .swap-input.full-input{
+    width: 100%;
+    padding-right: 12px;
+}
+
+.full-area .swap-flex .swap-col.full-col .swap-input {
+    padding-right: 27px;
 }

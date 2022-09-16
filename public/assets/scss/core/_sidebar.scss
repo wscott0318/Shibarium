@@ -101,6 +101,9 @@
                     border-top-left-radius: 30px;
                     border-bottom-left-radius: 30px;
                     position: relative;
+                    @media #{$max-xl}{
+                     border-radius:30px;                        
+                    }
                     .dark-ico {
                         display: inline-block;
                     }
@@ -126,6 +129,7 @@
                             margin-top: -30px;
                             background-size: 100%;
                             margin-right: 0px;
+                            content: none;
                         }
                     }
                     &::after{
@@ -145,6 +149,7 @@
                             width: 30px;
                             height: 30px;
                             margin-top: 45px;
+                            content: none;
                         }
                         @media #{$max-xxxl}{
                             margin-top: 49px;

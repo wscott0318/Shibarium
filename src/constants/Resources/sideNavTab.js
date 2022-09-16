@@ -55,14 +55,14 @@ const SideNavTab=[
         activeShapeImg:"../../assets/images/radius.png",
         link:"/faucet"
       },
-      {
-        id:7,
-      isActive:false,
-        title:"What’s New?",
-        icon:"../../assets/images/icons/new.png",
-        activeShapeImg:"../../assets/images/radius.png",
-        link:"/whats-new"
-      },
+      // {
+      //   id:7,
+      // isActive:false,
+      //   title:"What’s New?",
+      //   icon:"../../assets/images/icons/new.png",
+      //   activeShapeImg:"../../assets/images/radius.png",
+      //   link:"/whats-new"
+      // },
       // {
       //   id:8,
       // isActive:false,
@@ -88,22 +88,22 @@ const SideNavTab=[
       //   link:"#!"
       // },    
 
-      {
-        id:11,
-      isActive:false,
-        title:"FAQ",
-        icon:"../../assets/images/icons/faq.png",
-        activeShapeImg:"../../assets/images/radius.png",
-        link:"#!"
-      },
-      {
-        id:12,
-      isActive:false,
-        title:"User Guide",
-        icon:"../../assets/images/icons/userguide.png",
-        activeShapeImg:"../../assets/images/radius.png",
-        link:"#!"
-      }
+      // {
+      //   id:11,
+      // isActive:false,
+      //   title:"FAQ",
+      //   icon:"../../assets/images/icons/faq.png",
+      //   activeShapeImg:"../../assets/images/radius.png",
+      //   link:"#!"
+      // },
+      // {
+      //   id:12,
+      // isActive:false,
+      //   title:"User Guide",
+      //   icon:"../../assets/images/icons/userguide.png",
+      //   activeShapeImg:"../../assets/images/radius.png",
+      //   link:"#!"
+      // }
   ]
 
   export const innerNavTab=[

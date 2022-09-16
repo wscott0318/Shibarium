@@ -14,7 +14,7 @@ export default function Unbond() {
                         <div className="card-box mb-3 mb-sm-4">
                             <h3>
                                 <a href="javascript:void(0)" className="primary-text">
-                                    Introducing Polygon Wallet Suite, a One-Stop Solution for Safe and Easy Crypto Transactions
+                                    Introducing Shibarium Wallet Suite, a One-Stop Solution for Safe and Easy Crypto Transactions
                                 </a>
                             </h3>
                             <p>
@@ -28,7 +28,7 @@ export default function Unbond() {
                             </div>
                             <h3>
                                 <a href="javascript:void(0)" className="primary-text">
-                                    Introducing Polygon Wallet Suite, a One-Stop Solution for Safe and Easy Crypto Transactions
+                                    Introducing Shibarium Wallet Suite, a One-Stop Solution for Safe and Easy Crypto Transactions
                                 </a>
                             </h3>
                             <h6 className="mb-2 mute-text fw-600">1 Sep 2022</h6>
@@ -39,7 +39,7 @@ export default function Unbond() {
                         <div className="card-box mb-3 mb-sm-4">
                             <h3>
                                 <a href="javascript:void(0)" className="primary-text">
-                                    Introducing Polygon Wallet Suite, a One-Stop Solution for Safe and Easy Crypto Transactions
+                                    Introducing Shibarium Wallet Suite, a One-Stop Solution for Safe and Easy Crypto Transactions
                                 </a>
                             </h3>
                             <p>
@@ -49,7 +49,7 @@ export default function Unbond() {
                         <div className="card-box mb-3 mb-sm-4">
                             <h3>
                                 <a href="javascript:void(0)" className="primary-text">
-                                    Introducing Polygon Wallet Suite, a One-Stop Solution for Safe and Easy Crypto Transactions
+                                    Introducing Shibarium Wallet Suite, a One-Stop Solution for Safe and Easy Crypto Transactions
                                 </a>
                             </h3>
                             <p>
@@ -59,7 +59,7 @@ export default function Unbond() {
                         <div className="card-box mb-3 mb-sm-4">
                             <h3>
                                 <a href="javascript:void(0)" className="primary-text">
-                                    Introducing Polygon Wallet Suite, a One-Stop Solution for Safe and Easy Crypto Transactions
+                                    Introducing Shibarium Wallet Suite, a One-Stop Solution for Safe and Easy Crypto Transactions
                                 </a>
                             </h3>
                             <p>

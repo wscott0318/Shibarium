@@ -73,10 +73,10 @@ console.log(availBalance, chainId)
   const renderTopCards = () => {
     if(userType  === UserType.Validator  || userType  === UserType.NA ) {
       return (
-      <div className="cardMain text-center">
-            <h3 className="mb-2">{chainId == 7352 ? "Bone" : "Ethereum"} Wallet balance</h3>
-            <h1 className="fw-700">{availBalance.toFixed(4)} {chainId == 7352 ? "Bone" : "Ethereum"}</h1>
-            <h5 className="fw-600"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></h5>
+      <div className="cardMain text-center cardUser">
+            <h5 className="mb-2">{chainId == 7352 ? "Bone" : "Ethereum"} Wallet balance</h5>
+            <h3 className="fw-700">{availBalance.toFixed(4)} {chainId == 7352 ? "Bone" : "Ethereum"}</h3>
+            <h6 className="fw-600 primary-text"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></h6>
       </div>
       )
     } else if (userType === UserType.Delegator){
@@ -192,7 +192,7 @@ console.log(availBalance, chainId)
 
             
             {/* overview section start */}
-            <div className="baner-card top-margin">
+            <div className="">
             {renderTopCards()}
             </div>
             {/* overview section end */}

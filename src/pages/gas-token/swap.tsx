@@ -33,7 +33,7 @@ function Swaptoken() {
                         </Dropdown>
                     </div>
                     <div className="swap-col">
-                        <input type="text" className='swap-input' placeholder='0.00' />                                                    </div>
+                        <input type="text" className='swap-input w-100' placeholder='0.00' />                                                    </div>
                 </div>
             </div>
         </>
