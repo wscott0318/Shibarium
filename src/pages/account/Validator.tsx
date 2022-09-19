@@ -642,7 +642,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                               <button onClick={() => handleModal('Unbound', item.validatorAddress, item.contractAddress, (parseInt(item.stake) / 10 ** 18).toFixed(4))} className="btn btn-primary-outline btn-small">Unbound</button>
                             </li>
                             <li className="btn-grp-lst">
-                              <button disabled={parseInt(item.commission) == 0}  onClick={() => { setSelectedRow({owner:item.validatorAddress, commissionPercent: item.commission, name: item.name}); setStakeMoreModal(true);    }}  className="btn btn-primary-outline btn-small">Stake More</button>
+                              <button disabled={parseInt(item.commission) == 0}  onClick={() => { setSelectedRow({owner: item.contractAddress, commissionPercent: item.commission, name: item.name}); setStakeMoreModal(true);    }}  className="btn btn-primary-outline btn-small">Stake More</button>
                             </li>
 
                         </ul>

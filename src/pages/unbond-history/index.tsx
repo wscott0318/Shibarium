@@ -7,29 +7,47 @@ import { unbondsHistory, unboundClaim } from "../../services/apis/delegator";
 import { useActiveWeb3React } from '../../services/web3'
 import { parse } from "path";
 import { getExplorerLink } from 'app/functions'
-import ConfirmPopUp from "../../pages/components/ConfirmPopUp";
-import LoadingSpinner from "../../pages/components/Loading";
+import ConfirmPopUp from "../components/ConfirmPopUp";
+import LoadingSpinner from "../components/Loading";
 import { CommonModalNew } from "../components/CommonModel";
 import { TailSpin } from "react-loader-spinner";
+import { PROXY_MANAGER } from "web3/contractAddresses";
+import proxyManagerABI from "../../ABI/StakeManagerProxy.json";
+import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
+import fromExponential from "from-exponential";
 
 
 export default function Unbond() {
 
     const [list, setList] = useState([]);
     const [listLoader, setListLoader] = useState(true);
-    const { account, chainId=1 } = useActiveWeb3React();
+    const { account, chainId=1 , library} = useActiveWeb3React();
     const [ confirm, setConfirm] = useState(false);
     const [transactionLink, setTransactionLink] = useState('')
     // const {account,chainId=1} = useActiveWeb3React()
 
-    const [claimNowModals, setClamNowModals] = useState({
+    const getValidatorContractAddress = async (validatorID:any) => {
+        let lib: any = library
+        let web3: any = new Web3(lib?.provider)
+        let user = account;
+        if(account){
+          const instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
+          const ID = await instance.methods.getValidatorContract(validatorID).call({ from: account });
+          console.log(ID)
+          return ID
+        } else {
+          console.log("account addres not found")
+        }
+      }
+
+    const [claimNowModals, setClamNowModals] = useState<any>({
         data: {},
         confirm: false,
         progress: false,
         completed: false,
     })
 
-    const getUnboundHistory = (account) => {
+    const getUnboundHistory = (account : any) => {
         unbondsHistory(account).then(res => {
             if(res.status == 200) {
                 console.log(res.data.data.result)
@@ -42,21 +60,26 @@ export default function Unbond() {
         })
     }
     // console.log(claimNowModals)
-    const unboundClaimAPI = () => {
-        setClamNowModals(pre => ({...pre, progress: true, confirm: false}))
+    const unboundClaimAPI = async () => {
+        setClamNowModals((pre:any) => ({...pre, progress: true, confirm: false}))
         let data = {
             delegatorAddress: account,
             validatorId: claimNowModals?.data?.validatorId,
             unbondNonce: claimNowModals?.data?.nonce
         }
         console.log(data)
-        unboundClaim(data).then(res => {
-            if(res.status == 200){
-            console.log(res.data.data)
-            const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
+        let validatorContract = await getValidatorContractAddress(data.validatorId)
+        if(account){
+            let lib: any = library
+            let web3: any = new Web3(lib?.provider)
+            let walletAddress = account
+            // let amount = web3.utils.toBN(fromExponential(+unboundInput * Math.pow(10, 18)));
+            let instance = new web3.eth.Contract(ValidatorShareABI, validatorContract);
+            await instance.methods.unstakeClaimTokens_new(data.unbondNonce).send({ from: walletAddress }).then((res:any) => {
+              console.log(res)
+              const link = getExplorerLink(chainId , res.transactionHash,'transaction')
             setTransactionLink(link)
             console.log(link)
-            }
             setClamNowModals({
                 data:{},
                 confirm: false,
@@ -64,15 +87,45 @@ export default function Unbond() {
                 completed:true
             })
             getUnboundHistory(account)
-        }).catch(err => {
-            console.log(err)
-            setClamNowModals({
-                data:{},
-                confirm: false,
-                progress:false,
-                completed:true
+            }).catch((err:any) => {
+              console.log(err)
+              setClamNowModals({
+                        data:{},
+                        confirm: false,
+                        progress:false,
+                        completed:true
+                    })
+              if(err.code === 4001){
+                console.log("User desined this transaction! ")
+              }
+               
             })
-        })
+          }
+        console.log(validatorContract)
+        
+        // unboundClaim(data).then(res => {
+        //     if(res.status == 200){
+        //     console.log(res.data.data)
+        //     const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
+        //     setTransactionLink(link)
+        //     console.log(link)
+        //     }
+        //     setClamNowModals({
+        //         data:{},
+        //         confirm: false,
+        //         progress:false,
+        //         completed:true
+        //     })
+        //     getUnboundHistory(account)
+        // }).catch(err => {
+        //     console.log(err)
+        //     setClamNowModals({
+        //         data:{},
+        //         confirm: false,
+        //         progress:false,
+        //         completed:true
+        //     })
+        // })
     }
 
     useEffect(() => {
@@ -82,7 +135,7 @@ export default function Unbond() {
     },[])
 
     const handleModalClosing = () => {
-        setClamNowModals(pre => ({...pre,
+        setClamNowModals((pre:any) => ({...pre,
             confirm: false,
             progress: false,
             completed: false,
@@ -123,7 +176,7 @@ export default function Unbond() {
                                     <tbody>
                                     {
                                         list.length ? 
-                                        list.map(value => 
+                                        list.map((value: any) => 
                                             <tr key={value.unbondStartedTxHash}>
                                             <td>
                                                 <div className="d-flex align-items-center">

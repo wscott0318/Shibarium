@@ -17,6 +17,9 @@ import { ChainId } from '@shibarium/core-sdk';
 import ToastNotify from 'pages/components/ToastNotify';
 import { useTokenBalance } from 'app/hooks/useTokenBalance';
 import {L1Block} from "app/hooks/L1Block";
+import Web3 from "web3";
+import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
+import fromExponential from 'from-exponential';
 
 
 const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
@@ -28,7 +31,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
  const [explorerLink, setExplorerLink] = useState<string>('')
  const [msgType, setMsgType] = useState<'error'|'success'|undefined>()
  const [toastMassage, setToastMassage] = useState('')
- const {account,chainId=1} = useActiveWeb3React()
+ const {account,chainId=1, library} = useActiveWeb3React()
  const web3  = useLocalWeb3()
 
   const walletBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(ENV_CONFIGS[chainId].BONE);
@@ -97,7 +100,7 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
     }, 1000);
     setStep(2)
   }
-  const buyVouchers = () =>{
+  const buyVouchers = async () => {
    const requestBody = {
       validatorAddress: data.owner,
       delegatorAddress: account,
@@ -105,16 +108,35 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
       
     }
     setTnxCompleted(false)
-    buyVoucher(requestBody).then(res =>{
-      setTnxCompleted(true)
-      setToastMassage(res?.data?.message);
-      setMsgType('success')
-      const link = getExplorerLink(chainId,res?.data?.data?.transactionHash,'transaction')
-      setExplorerLink(link)
-    }).catch((e)=>{
-      setToastMassage(e?.response?.data?.message);
-      setMsgType('error')
-      setTnxCompleted(true);setStep(2)})
+    console.log(requestBody)
+    if(account){
+      let lib: any =  library
+      let web3: any = new Web3(lib?.provider)
+      let walletAddress = account
+      let _minSharesToMint = 1
+      let amount = web3.utils.toBN(fromExponential(+requestBody.amount * Math.pow(10, 18)));
+      let instance = new web3.eth.Contract(ValidatorShareABI, requestBody.validatorAddress);
+      await instance.methods.buyVoucher(amount, _minSharesToMint).send({ from: walletAddress }).then((res:any) => {
+        console.log(res)
+        const link = getExplorerLink(chainId , res.transactionHash,'transaction')
+          console.log(link)
+      }).catch((err:any) => {
+        console.log(err)
+        if(err.code === 4001){
+          console.log("User desined this transaction! ")
+        }
+      })
+    }
+    // buyVoucher(requestBody).then(res =>{
+    //   setTnxCompleted(true)
+    //   setToastMassage(res?.data?.message);
+    //   setMsgType('success')
+    //   const link = getExplorerLink(chainId,res?.data?.data?.transactionHash,'transaction')
+    //   setExplorerLink(link)
+    // }).catch((e)=>{
+    //   setToastMassage(e?.response?.data?.message);
+    //   setMsgType('error')
+    //   setTnxCompleted(true);setStep(2)})
   }
 
   console.log(data)
