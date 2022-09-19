@@ -35,6 +35,7 @@ import fromExponential from 'from-exponential';
 import {BONE} from "../../web3/contractAddresses";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { getAllowanceAmount } from "../../web3/commonFunctions";
+import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 
 interface WalletBalanceProps {
   balance: number;
@@ -79,6 +80,9 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   const [delegationsList, setDelegationsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState<any>({});
   const [unboundInput, setUnboundInput] = useState<any>('');
+  const [buttonText, setButtonText] = useState({
+    validatorReskate: 'Submit'
+  })
 
   const [transactionLink, setTransactionLink] = useState('');
 
@@ -98,18 +102,58 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
     }
   }
 
-  const approveAmount = () => {
+
+  // APPROVE BONE 
+  const approveAmount = (id:any, amount:any, reward: boolean) => {
     if(account){
       let lib: any = library
       let web3: any = new Web3(lib?.provider)
       let user = account;
-      let amount = 1000 * Math.pow(10,18)
+      let amount = web3.utils.toBN(fromExponential(1000 * Math.pow(10, 18)));
       let instance = new web3.eth.Contract(ERC20, BONE);
-      instance.methods.approve(PROXY_MANAGER,amount).send({ from: account })
+      instance.methods.approve(PROXY_MANAGER,amount).send({ from: user })
           .then((res: any) => {
+            let instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
             console.log(res)
+            setButtonText({
+              validatorReskate: 'Restaking...'
+            })
+            instance.methods.restake(id, amount, reward).send({ from: user })
+            .then((res: any) => {
+              console.log(res)
+              setLoading(false);
+              setTranHashCode(res.transactionHash)
+              setSuccessMsg("Reskate Done")
+              const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
+              setTransactionLink(link)
+              setConfirm(true)
+              setRestakeModal({
+                value1:false,
+                value2: false,
+                address: ""
+              })
+              setButtonText({
+                validatorReskate: 'Submit'
+              })
+            }).catch((err :any) => {
+              console.log(err)
+            if(err.code === 4001){
+              console.log("User denied this transaction! ")
+            }
+                setLoading(false);
+                setButtonText({
+                  validatorReskate: 'Submit'
+                })
+              })
           }).catch((err:any) => {
             console.log(err)
+            setLoading(false)
+            if(err.code === 4001){
+              console.log("User denied this transaction! ")
+            }
+            setButtonText({
+              validatorReskate: 'Submit'
+            })
           })
     }
 
@@ -217,7 +261,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
     },
     onSubmit: async (values: RetakeFormInterface) => {
       // console.log(values)
-      // setLoading(true);
+      setLoading(true);
       let data = {
         validatorAddress: restakeModal?.address ? restakeModal?.address : '',
         amount: values.amount,
@@ -229,29 +273,42 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
         let web3: any = new Web3(lib?.provider)
         let walletAddress = account
         let ID = await getValidatorId()
-        let allowance = await getAllowanceAmount(library,BONE, account, PROXY_MANAGER)
+        let allowance = await getAllowanceAmount(library,BONE, account, PROXY_MANAGER) || 0
         let instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
         const amountWei = web3.utils.toBN(fromExponential((+values.amount * Math.pow(10, 18))));
-        console.log({allowance})
-        approveAmount()
-        // instance.methods.restake(ID, amountWei, values.reward == 0 ? false : true).send({ from: walletAddress })
-        //       .then((res: any) => {
-        //         console.log(res)
-        //         setLoading(false);
-        //         setTranHashCode(res.transactionHash)
-        //         setSuccessMsg("Reskate Done")
-        //         const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
-        //         setTransactionLink(link)
-        //         setConfirm(true)
-        //         setRestakeModal({
-        //           value1:false,
-        //           value2: false,
-        //           address: ""
-        //         })
-        //       }).catch((err :any) => {
-        //         console.log(err)
-        //         setLoading(false);
-        //       })
+        if(+values.amount > +allowance){
+          console.log("need approval")
+          setButtonText({
+            validatorReskate:'Approving Bone...'
+          })
+            approveAmount(ID, amountWei, values.reward == 0 ? false : true)
+        } else {
+          console.log("no approval needed")
+          setButtonText({
+            validatorReskate:'Submit'
+          })
+        instance.methods.restake(ID, amountWei, values.reward == 0 ? false : true).send({ from: walletAddress })
+              .then((res: any) => {
+                console.log(res)
+                setLoading(false);
+                setTranHashCode(res.transactionHash)
+                setSuccessMsg("Reskate Done")
+                const link = getExplorerLink(chainId , res.transactionHash,'transaction')
+                setTransactionLink(link)
+                setConfirm(true)
+                setRestakeModal({
+                  value1:false,
+                  value2: false,
+                  address: ""
+                })
+              }).catch((err :any) => {
+                console.log(err)
+              if(err.code === 4001){
+                console.log("User denied this transaction! ")
+              }
+                  setLoading(false);
+                })
+              }
       } else {
         console.log("account addres not found")
       }
@@ -283,31 +340,53 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       validatorAddress: restakeModal?.address || 'test',
       delegatorAddress: account ? account : ''
     },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
      console.log(values)
       setLoading(true);
       let dataToSend = {
         validatorAddress: restakeModal?.address || 'test',
       delegatorAddress: account ? account : ''
       }
-      restakeDeligator(dataToSend)
-        .then((res: any) => {
-          // console.log("res", res);
-          if (res.status == 200) {
-            setLoading(false);
-            const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
-            setTransactionLink(link)
-            setTranHashCode(res.data.data.transactionHash);
-            setSuccessMsg(res.data.message);
-            setConfirm(true);
-            setRestakeModal({value1:false, value2: false, address:''});
+      console.log(dataToSend.validatorAddress)
+      if(account){
+        let lib: any = library
+        let web3: any = new Web3(lib?.provider)
+        let walletAddress = account
+        let instance = new web3.eth.Contract(ValidatorShareABI, dataToSend.validatorAddress);
+        await instance.methods.restake().send({ from: walletAddress }).then((res:any) => {
+          console.log(res)
+          setLoading(false);
+          setTranHashCode(res.transactionHash)
+          setSuccessMsg("Reskate Done")
+          const link = getExplorerLink(chainId , res.transactionHash,'transaction')
+          setTransactionLink(link)
+          setConfirm(true)
+        }).catch((err:any) => {
+          console.log(err)
+          setLoading(false);
+          if(err.code === 4001){
+            console.log("User desined this transaction! ")
           }
         })
-        .catch((err) => {
-            setToastType('error')
-            setToastMessage(err?.response?.data?.message);
-          setLoading(false);
-        });
+      }
+      // restakeDeligator(dataToSend)
+      //   .then((res: any) => {
+      //     // console.log("res", res);
+      //     if (res.status == 200) {
+      //       setLoading(false);
+      //       const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
+      //       setTransactionLink(link)
+      //       setTranHashCode(res.data.data.transactionHash);
+      //       setSuccessMsg(res.data.message);
+      //       setConfirm(true);
+      //       setRestakeModal({value1:false, value2: false, address:''});
+      //     }
+      //   })
+      //   .catch((err) => {
+      //       setToastType('error')
+      //       setToastMessage(err?.response?.data?.message);
+      //     setLoading(false);
+      //   });
     },
     // validationSchema: restakeValidationDelegator,
   });
@@ -367,7 +446,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
     initialValues: {
       validatorAddress: userType === UserType.Validator ? account||'':'',
     },
-    onSubmit: (values:WithdrawInterface) => {
+    onSubmit: async (values:WithdrawInterface) => {
       setLoading(true);
       let dataToSend = {
         validatorAddress: userType === UserType.Validator ? account||'':'',
@@ -379,11 +458,28 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           errorWithdrawMessage(err)
         })
       }else if(userType === UserType.Delegator){
-        withdrawRewardDelegator(withdrawModal.address,account ? account : '').then((res) => {
-          successWithdrawMessage(res);
-        }).catch(err=>{
-          errorWithdrawMessage(err)
-        })
+        console.log(withdrawModal.address)
+        if(account){
+          let lib: any = library
+          let web3: any = new Web3(lib?.provider)
+          let walletAddress = account
+          let instance = new web3.eth.Contract(ValidatorShareABI, withdrawModal.address);
+          await instance.methods.withdrawRewards().send({ from: walletAddress }).then((res:any) => {
+            console.log(res)
+            setLoading(false);
+            setTranHashCode(res.transactionHash)
+            setSuccessMsg("Withdrawal Done")
+            const link = getExplorerLink(chainId , res.transactionHash,'transaction')
+            setTransactionLink(link)
+            setConfirm(true)
+          }).catch((err:any) => {
+            console.log(err)
+            setLoading(false);
+            if(err.code === 4001){
+              console.log("User desined this transaction! ")
+            }
+          })
+        }
       }
     },
   });
@@ -396,7 +492,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   // );
 
 
-  const unboundNewAPICall = () => {
+  const unboundNewAPICall = async () => {
     setUnboundModal((preVal:any) => ({...preVal, startValue:false, progressValue: true}))
     console.log("called ===>")
     let data = {
@@ -404,20 +500,45 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       validatorId: unboundModal.id,
       amount: unboundInput
     }
-    unboundNew(data).then((res:any) => {
-      if(res.status == 200){
-        console.log(res.data.data.transactionHash)
-        const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
-        console.log(link)
-        setTransactionLink(link)
-        setUnboundModal((preVal:any) => ({...preVal,progressValue: false, comfirmValue: true}))
-        setUnboundInput('')
-      }
-    }).catch((err: any) => {
-      console.log(err)
-      setUnboundModal((preVal:any) => ({...preVal,progressValue: false, comfirmValue: true}))
-      setUnboundInput('')
-    })
+    console.log(data.validatorId)
+    if(account){
+      let lib: any = library
+      let web3: any = new Web3(lib?.provider)
+      let walletAddress = account
+      let amount = web3.utils.toBN(fromExponential(+unboundInput * Math.pow(10, 18)));
+      let instance = new web3.eth.Contract(ValidatorShareABI, data.validatorId);
+      await instance.methods.sellVoucher_new(amount, amount).send({ from: walletAddress }).then((res:any) => {
+        console.log(res)
+        const link = getExplorerLink(chainId , res.transactionHash,'transaction')
+          console.log(link)
+          setTransactionLink(link)
+          setUnboundModal((preVal:any) => ({...preVal,progressValue: false, comfirmValue: true}))
+          setUnboundInput('')
+      }).catch((err:any) => {
+        console.log(err)
+        setLoading(false);
+        if(err.code === 4001){
+          console.log("User desined this transaction! ")
+        }
+          setUnboundModal((preVal:any) => ({...preVal,progressValue: false, comfirmValue: true}))
+          setUnboundInput('')
+      })
+    }
+
+    // unboundNew(data).then((res:any) => {
+    //   if(res.status == 200){
+    //     console.log(res.data.data.transactionHash)
+    //     const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
+    //     console.log(link)
+    //     setTransactionLink(link)
+    //     setUnboundModal((preVal:any) => ({...preVal,progressValue: false, comfirmValue: true}))
+    //     setUnboundInput('')
+    //   }
+    // }).catch((err: any) => {
+    //   console.log(err)
+    //   setUnboundModal((preVal:any) => ({...preVal,progressValue: false, comfirmValue: true}))
+    //   setUnboundInput('')
+    // })
   }
 
 
@@ -512,13 +633,13 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                  
                         <ul className="btn-grp">
                             <li className="btn-grp-lst">
-                              <button disabled={parseInt(item.commission) == 0}  onClick={() => handleModal('Restake', item.validatorAddress)} className="btn white-btn mute-text btn-small">Restake</button>
+                              <button disabled={parseInt(item.commission) == 0}  onClick={() => handleModal('Restake', item.contractAddress)} className="btn white-btn mute-text btn-small">Restake</button>
                             </li>
                             <li className="btn-grp-lst">
-                              <button onClick={() => handleModal('Withdraw Rewards', item.validatorAddress)} className="btn btn-primary-outline btn-small">Withdraw Rewards</button>
+                              <button onClick={() => handleModal('Withdraw Rewards', item.contractAddress)} className="btn btn-primary-outline btn-small">Withdraw Rewards</button>
                             </li>
                             <li className="btn-grp-lst">
-                              <button onClick={() => handleModal('Unbound', item.validatorAddress, item.id, (parseInt(item.stake) / 10 ** 18).toFixed(4))} className="btn btn-primary-outline btn-small">Unbound</button>
+                              <button onClick={() => handleModal('Unbound', item.validatorAddress, item.contractAddress, (parseInt(item.stake) / 10 ** 18).toFixed(4))} className="btn btn-primary-outline btn-small">Unbound</button>
                             </li>
                             <li className="btn-grp-lst">
                               <button disabled={parseInt(item.commission) == 0}  onClick={() => { setSelectedRow({owner:item.validatorAddress, commissionPercent: item.commission, name: item.name}); setStakeMoreModal(true);    }}  className="btn btn-primary-outline btn-small">Stake More</button>
@@ -665,7 +786,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                     type="submit"
                     className="btn warning-btn border-btn light-text w-100"
                   >
-                    <span>Submit</span>
+                    <span>{buttonText.validatorReskate}</span>
                   </button>
                 </div>
               </form>
@@ -1003,7 +1124,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
                 value={unboundInput}
                 onChange={(e) => setUnboundInput(e.target.value)}
                 type="number" 
-                className="form-control" placeholder="10" 
+                className="form-control" placeholder="Enter amount" 
                 />
                 <span
                   className="primary-text over-text fw-600"
