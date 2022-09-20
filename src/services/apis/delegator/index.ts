@@ -21,6 +21,10 @@ export function unbondsHistory(param:any) {
     return http.get(`delegators/unbonds/history/${param}`)
 }
 
+export function unbondRewards(param:any) {
+    return http.get(`/delegators/claim-rewards/${param}`)
+}
+
 export function unboundClaim(body :any) {
     return http.post(`delegators/unbonds/unstakeClaim`, body)
 }

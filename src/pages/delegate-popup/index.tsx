@@ -20,6 +20,9 @@ import {L1Block} from "app/hooks/L1Block";
 import Web3 from "web3";
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import fromExponential from 'from-exponential';
+import { getAllowanceAmount } from "../../web3/commonFunctions";
+import { BONE, PROXY_MANAGER } from 'web3/contractAddresses';
+import ERC20 from "../../ABI/ERC20Abi.json"
 
 
 const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
@@ -42,6 +45,8 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
       console.log(lastBlock)
     })
   }
+
+
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then(res=>{
       setBoneUSDValue(res.data.data.price);
@@ -114,18 +119,58 @@ const DelegatePopup:React.FC<any> =({data,onHide,...props}:any)=> {
       let web3: any = new Web3(lib?.provider)
       let walletAddress = account
       let _minSharesToMint = 1
+      let allowance = await getAllowanceAmount(lib, BONE, account, PROXY_MANAGER) || 0
       let amount = web3.utils.toBN(fromExponential(+requestBody.amount * Math.pow(10, 18)));
+      if(+requestBody.amount > allowance){
+        console.log("need Approval")
+        let approvalAmount = web3.utils.toBN(fromExponential(1000 * Math.pow(10, 18)));
+      let approvalInstance = new web3.eth.Contract(ERC20, BONE);
+      approvalInstance.methods.approve(PROXY_MANAGER,approvalAmount).send({ from: walletAddress })
+          .then(async (res: any) => {
+            console.log(res)
+            let instance = new web3.eth.Contract(ValidatorShareABI, requestBody.validatorAddress);
+            await instance.methods.buyVoucher(amount, _minSharesToMint).send({ from: walletAddress }).then((res:any) => {
+                setTnxCompleted(true)
+                setToastMassage(res?.data?.message);
+                setMsgType('success')
+                const link = getExplorerLink(chainId,res.transactionHash,'transaction')
+                setExplorerLink(link)
+            }).catch((err:any) => {
+              console.log(err)
+              setToastMassage("Something went wrong");
+              setMsgType('error')
+              setTnxCompleted(true);setStep(2)
+              if(err.code === 4001){
+                console.log("User desined this transaction! ")
+              }
+            })
+          }).catch((err: any) => {
+            console.log(err)
+            setToastMassage("Something went wrong");
+            setMsgType('error')
+            setTnxCompleted(true);setStep(2)
+          })
+      }else {
+        console.log("No approval needed")
       let instance = new web3.eth.Contract(ValidatorShareABI, requestBody.validatorAddress);
       await instance.methods.buyVoucher(amount, _minSharesToMint).send({ from: walletAddress }).then((res:any) => {
         console.log(res)
-        const link = getExplorerLink(chainId , res.transactionHash,'transaction')
-          console.log(link)
+      setTnxCompleted(true)
+      setToastMassage(res?.data?.message);
+      setMsgType('success')
+      const link = getExplorerLink(chainId,res.transactionHash,'transaction')
+      setExplorerLink(link)
       }).catch((err:any) => {
         console.log(err)
+        setToastMassage("Something went wrong");
+      setMsgType('error')
+      setTnxCompleted(true);setStep(2)
         if(err.code === 4001){
           console.log("User desined this transaction! ")
         }
       })
+      }
+  
     }
     // buyVoucher(requestBody).then(res =>{
     //   setTnxCompleted(true)

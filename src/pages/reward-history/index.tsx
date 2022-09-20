@@ -3,8 +3,33 @@ import React, { useState, useEffect } from "react";
 import InnerHeader from "../inner-header";
 import { useWeb3React } from "@web3-react/core";
 import Web3 from "web3";
+import {unbondRewards} from "../../services/apis/delegator";
+import { useActiveWeb3React } from '../../services/web3'
 
 export default function Unbond() {
+
+    const { account, chainId=1 , library} = useActiveWeb3React();
+    const [list, setList] = useState([])
+    const [listLoader, setListLoader] = useState(true);
+
+    const getRewardsList = (account :any) => {
+        unbondRewards(account).then((res: any) => {
+            if(res.status == 200) {
+                console.log(res.data.data.result)
+                setList(res.data.data.result)
+                setListLoader(false)
+            }
+        }).catch((err : any) => {
+            console.log(err);
+            setListLoader(false)
+        })
+    }
+
+    useEffect(() => {
+        if(account){
+            getRewardsList(account)
+        }
+    },[account])
 
     return (
         <>
@@ -37,19 +62,19 @@ export default function Unbond() {
                                     </thead>
                                     <tbody>
                                         {
-                                            [...Array(8)].map(x => 
+                                            list.length && list.map((value:any) => 
                                                 <tr>
                                                 <td>
                                                     <div className="d-flex align-items-center">
                                                         <div className="coin-img me-2">
                                                             <img className="img-fluid" src="../../assets/images/bear.png" alt="coin" width={50} height={50} />
                                                         </div>
-                                                        <span className="tb-data align">DeFIMatic</span>
+                                                        <span className="tb-data align">{value.validatorId}</span>
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <span className="tb-data align">10 Bone</span>
-                                                    <p className="mb-0 fs-12 mute-text">$8.2</p>
+                                                    <span className="tb-data align">{parseInt(value.rewards) / Math.pow(10, 18)} Bone</span>
+                                                    {/* <p className="mb-0 fs-12 mute-text">$8.2</p> */}
                                                 </td>
                                                 <td>
                                                     <div className="">
@@ -58,7 +83,7 @@ export default function Unbond() {
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <span className="tb-data align">22/08/2022 ,<span>15:28:37</span></span>
+                                                    <span className="tb-data align">{value.timestampFormatted}</span>
                                                 </td>
                                             </tr>         
                                                 )

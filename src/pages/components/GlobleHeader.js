@@ -61,12 +61,12 @@ const GlobleHeader = ({tab}) => {
                 <span className="light-text">Unbound</span>
                 </Link>
             </NavDropdown.Item>
-            {/* <NavDropdown.Item
+            <NavDropdown.Item
               className="px-2"
             ><Link href="/reward-history">
                 <span className="light-text">Withdrawal</span>
                 </Link>
-            </NavDropdown.Item> */}
+            </NavDropdown.Item>
           </NavDropdown>
         </li> : null 
         }

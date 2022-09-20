@@ -26,9 +26,10 @@ export default function Unbond() {
     const [transactionLink, setTransactionLink] = useState('')
     // const {account,chainId=1} = useActiveWeb3React()
 
+    const lib: any = library
+    const web3: any = new Web3(lib?.provider)
+
     const getValidatorContractAddress = async (validatorID:any) => {
-        let lib: any = library
-        let web3: any = new Web3(lib?.provider)
         let user = account;
         if(account){
           const instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
@@ -70,10 +71,7 @@ export default function Unbond() {
         console.log(data)
         let validatorContract = await getValidatorContractAddress(data.validatorId)
         if(account){
-            let lib: any = library
-            let web3: any = new Web3(lib?.provider)
             let walletAddress = account
-            // let amount = web3.utils.toBN(fromExponential(+unboundInput * Math.pow(10, 18)));
             let instance = new web3.eth.Contract(ValidatorShareABI, validatorContract);
             await instance.methods.unstakeClaimTokens_new(data.unbondNonce).send({ from: walletAddress }).then((res:any) => {
               console.log(res)
@@ -102,30 +100,6 @@ export default function Unbond() {
             })
           }
         console.log(validatorContract)
-        
-        // unboundClaim(data).then(res => {
-        //     if(res.status == 200){
-        //     console.log(res.data.data)
-        //     const link = getExplorerLink(chainId , res?.data?.data?.transactionHash,'transaction')
-        //     setTransactionLink(link)
-        //     console.log(link)
-        //     }
-        //     setClamNowModals({
-        //         data:{},
-        //         confirm: false,
-        //         progress:false,
-        //         completed:true
-        //     })
-        //     getUnboundHistory(account)
-        // }).catch(err => {
-        //     console.log(err)
-        //     setClamNowModals({
-        //         data:{},
-        //         confirm: false,
-        //         progress:false,
-        //         completed:true
-        //     })
-        // })
     }
 
     useEffect(() => {
