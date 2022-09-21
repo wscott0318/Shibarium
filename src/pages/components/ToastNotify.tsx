@@ -10,7 +10,7 @@ const ToastNotify = ({toastMassage,type}:{toastMassage:String,type:'error'|'succ
    }
   }, [toastMassage]);
   return (
-    <ToastContainer />
+    <h1>Toast container</h1>
   )
 }
 export default ToastNotify;

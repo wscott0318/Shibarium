@@ -170,49 +170,7 @@ console.log(availBalance, chainId)
 
   return (
     <>
-      <InnerHeader />
-      <div className="page-wrapper">
-        <main className="delegatorgrid-sec">
-          <div className="botom-space-lg">
-            <div className="darkBg position-relative sec-spc-high">
-              <div className="container">
-                <div className="row">
-                  <div className="text-center col-sm-8 text-sm-start">
-                    <h1 className="light-text fnt-58 fnt-100">Your Account</h1>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="container acct-sec">
-
-
-            {/* delegator card  */}
-       
-
-            
-            {/* overview section start */}
-            <div className="">
-            {renderTopCards()}
-            </div>
-            {/* overview section end */}
-            {/* btns section start */}
-            <div className="text-center center-sec button-block">
-              <WalletBalance
-                balance={ availBalance}
-                boneUSDValue={boneUSDValue}
-                isDelegator={userType === UserType.Delegator}
-                isValidator={userType  === UserType.Validator}
-                getCardsData={getCardsData}
-              />
-            </div>
-            {/* btns section end */}
-          
-          </div>
-        </main>
-
-         
-      </div>
+     <h1>account</h1>
     </>
   );
 }

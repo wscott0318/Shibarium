@@ -173,28 +173,9 @@ const WalletBalance = ({ balance, boneUSDValue , getCardsData}: WalletBalancePro
   // // );
 
   return (
-    <>
-      {/* <h2 className="mb-3 low-font-wt">Ethereum Wallet Balance</h2>
-      <h1 className="fw-700 light-text">
-        {` ${(balance.toFixed(8))} BONE Wallet`}{" "}
-      </h1>
-      <h2 className="low-font-wt">{(balance * boneUSDValue).toFixed(4)} USD</h2> */}
-      <div className="wallet-btn flex-wrap mt-4 d-flex align-items-center justify-content-center flex-column flex-sm-row">
-        {
-          userType === UserType.NA
-            ?  <>
-            <BorderBtn link='become-validator' lable="Become A Validator" handleModal={() => { }} />
-            <BorderBtn link="all-validator" lable="Become A Delegator" handleModal={() => { }} />
-            <BorderBtn link="delegator-validator" lable="Choose your path" handleModal={() => { }} />
-            {/* <WarningBtn link="/all-validator" handleModal={undefined} lable="Become A Validator" /> */}
-            {/* <WarningBtn link="/account" handleModal={undefined} lable="Become A Delegator" /> */}
-            {/* <WarningBtn link="/account" handleModal={undefined} lable="Coose your path" /> */}
-          </>
-            : <ValidatorAccount getCardsData={getCardsData} balance={balance} boneUSDValue={boneUSDValue} userType={userType} /> 
-             
-        }
-      </div>
-    </>
+   <>
+   <h1>wallet balance</h1>
+   </>
   );
 };
 

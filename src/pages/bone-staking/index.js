@@ -57,83 +57,9 @@ const BoneStaking = () => {
   // console.log(user)
   const [show, setShow] = React.useState();
   return (
-    <div>
-      <InnerHeader />
-      <DelegatePopup show={modalShow} onHide={() => setModalShow(false)} />
-      <section className="banner-section card-banner dark_bg">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-8">
-              <h1 className="mb-4 text-white title-2 mb-lg-5">
-                <span className="mb-2 sub-title d-block mb-md-3 mb-lg-3 trs-6">
-                  Start Earning Rewards With
-                </span>
-                <div className="px-2 bg-white d-inline-block">
-                  <span className="grad-text trs-6">Shibarium Staking</span>
-                </div>
-              </h1>
-              {userType === UserType.Delegator && (
-                <div className="row">
-                <div className="flex-wrap">
-                  <WarningBtn
-                    link="become-validator"
-                    lable="Become A Validator"
-                    handleModal={() => {}}
-                  />
-                  <WarningBtn
-                    link="all-validator"
-                    lable="Become A Delegator"
-                    // handleModal={() => {}}
-                  />
-                  </div>
-                </div>
-              )}
-              {userType === UserType.NA && (
-                <>
-                  <div className="flex-wrap d-flex align-items-centeer">
-                    <WarningBtn
-                      link="./become-validator"
-                      lable="Become A Validator"
-                      handleModal={() => {}}
-                    />
-                    <WarningBtn
-                      link="delegator"
-                      lable="Become A Delegator"
-                      handleModal={() => {}}
-                    />{" "}
-                    <BorderBtn
-                      link="./delegator-validator"
-                      lable="Choose Your Path"
-                      handleModal={() => {}}
-                    />
-                  </div>
-                </>
-              )}
-            </div>
-            <div className="col-lg-4 text-lg-end">
-              <img
-                className="img-fluid"
-                src="../../assets/images/shiba-img.png"
-                alt="shiba-img"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* banner section end */}
-      <section className="mb-4 buy-sell-section mb-lg-5">
-        <div className="container">
-        <NetworkDetails />
-          {/* <BannerCard /> */}
-        </div>
-      </section>
-      <section className="mb-4 mb-lg-5">
-        <div className="container">
-          <Valitotors withStatusFilter={false} />
-        </div>
-      </section>
-      <Footer/>
-    </div>
+    <>
+      <h1>bone-staking index.js</h1>
+    </>
   );
 };
 

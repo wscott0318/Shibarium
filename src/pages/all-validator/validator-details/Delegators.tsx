@@ -22,61 +22,9 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
         setPageIndex(index)
     }
     return (
-        <div className="h-auto p-4 mb-4 cus-card mb-lg-5">
-            <div className="table-data-tab">
-                <div className="btn-nav mb-4">
-                    <Nav variant="pills" defaultActiveKey="/firts-tab">
-                        <Nav.Item>
-                            <h4 className='active fwb'><span className='trs-2'>Delegator</span></h4>
-                        </Nav.Item>
-                        {/* <Nav.Item>
-                                                    <Nav.Link eventKey="link-1"><span className='trs-2'>Polygon</span></Nav.Link>
-                                                </Nav.Item> */}
-                    </Nav>
-                </div>
-                <div className="mb-4 table-wrap table-responsive mb-lg-5">
-                    <table className="table">
-                        <thead>
-                            <tr className="table-header">
-                                <th>Accounts</th>
-                                <th>Bone Staked</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {delegators.map((item: any) => (
-                                <tr>
-                                    <td>
-                                        <div className="d-flex">
-                                            <div className="coin-wrap">
-                                                <img
-                                                    width="30"
-                                                    height="30"
-                                                    className="img-fluid me-3"
-                                                    src="../../assets/images/bear.png"
-                                                    alt=""
-                                                />
-                                            </div>
-                                            <span className="tb-data align">{item.address}</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span className="tb-data align">
-                                            <NumberFormat displayType='text' thousandSeparator value={(item.stake/Math.pow(10,18))} />
-                                        </span>
-                                        <span className="tb-data-sm align">
-                                        <NumberFormat displayType='text' prefix='$ ' thousandSeparator value={(item.stake/Math.pow(10,18) * boneUsdValue).toFixed(2)} />
-                                        </span>
-                                    </td>
-                                </tr>
-                            ))
-                            }
-
-                        </tbody>
-                    </table>
-                </div>
-                <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={allDelegators.length || 1} currentPage={pageIndex} />
-            </div>
-        </div>
+        <>
+        <h1>validator-details delegators</h1>
+        </>
     )
 }
 

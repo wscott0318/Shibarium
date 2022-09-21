@@ -36,64 +36,7 @@ export const Allvalidator: React.FC = () => {
  
   return (
     <>
-      <div className="page-wrapper">
-        {/* {loading && <LoadingSpinner />} */}
-        <InnerHeader />
-        <main className="delegator-sec">
-          <div className="botom-space-lg">
-            <div className="black_clr_box position-relative sec-spc-high">
-              <div className="char-block">
-                <img
-                  width="655"
-                  height="262"
-                  className="img-fluid"
-                  src="../../assets/images/meaoth.png"
-                  alt=""
-                />
-              </div>
-              <div className="container">
-                <div className="row">
-                  <div className="text-center col-sm-8 text-sm-start">
-                    <h1 className="mb-2 light-text mb-sm-3 fnt-58 fnt-100">
-                      All Validators
-                    </h1>
-                    <div className="flex-wrap d-flex align-items-centeer">
-                    {userType === UserType.Delegator && (
-                      <>
-                      <div className="flex-wrap d-flex align-items-centeer">
-                         <button className="btn-group btn warning-btn light-text" onClick={executeScroll}>Become A Delegator</button>
-                        </div>
-                      </>
-                    )}
-                    {userType === UserType.NA && (
-                      <>
-                        <div className="flex-wrap d-flex align-items-centeer">
-                          <WarningBtn
-                            link='/become-validator'
-                            lable="Become A Validator"
-                            handleModal={() => {}}
-                          />
-                        <button className="btn-group btn warning-btn light-text" onClick={executeScroll}>Become A Delegator</button>
-                         <BorderBtn
-                            link='/delegator-validator'
-                            lable="Choose Your Path"
-                            handleModal={() => {}}
-                          />
-                        </div>
-                      </>
-                    )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div ref={myRef} className="container">
-           <Valitotors withStatusFilter={true} />
-          </div>
-          <Footer/>
-        </main>
-      </div>
+      <h1>all-validator index</h1>
     </>
   );
 }

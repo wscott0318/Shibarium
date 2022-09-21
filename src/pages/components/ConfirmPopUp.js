@@ -14,35 +14,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
       };
       
   return (
-      <div className="modal-wrap">
-        <Modal
-          className="shib-popup"
-          show={props.show}
-          onHide={() => props.setShow(false)}
-          aria-labelledby="contained-modal-title-vcenter "
-          centered
-        >
-        
-          <Modal.Body className="postion-relative">
-            <div className="cross-blk"><span className="btn-close" onClick={()=>props.setShow(false)}></span></div>
-            <div className="pb-3 align-items-center">
-                <h4 className="text-center success-color-sec">{props.message}</h4>
-            </div>
-            <div className="code-section ">
-              <div className="key-txt text-center">{props.text}</div>
-              {/* <CopyToClipboard text={props.text} onCopy={onCopyHashCode}> */}
-                <div className="text-center">
-                {/* <button type="button" className="btn warning-btn w-100"> */}
-                  <div className="mt-3">
-                    <a href={props.link} className='primary-text' target="_blank" > View On Block Explorer </a>
-                   </div>
-                {/* </button> */}
-                </div>
-              {/* </CopyToClipboard> */}
-            </div>
-          </Modal.Body>
-        </Modal>
-      </div>
+      <h1>ConfirmPopUp</h1>
   );
 };
 

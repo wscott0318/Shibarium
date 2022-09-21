@@ -27,51 +27,7 @@ const GlobleHeader = ({tab}) => {
 
   return (
     <>
-      <ul className="me-auto navbar-nav header-row">
-        {tab&&tab.map((t, index) => {
-          return (
-            <li
-              className={`nav-item active`}
-              key={index}
-              onClick={() => handleActiveTab(index)}
-            >
-              <Link href={`${t.link}`}>
-                <Nav.Link
-                  href={`${t.link}`}
-                  className={`${router.pathname.startsWith(t.link) ? "active" : ""}`}
-                >
-                  {t.title}
-                </Nav.Link>
-              </Link>
-            </li>
-          );
-        })}
-
-        {
-          userType  === UserType.Delegator ? 
-          <li className="dark-dd">
-          <NavDropdown
-            title='History'
-            id=""
-          >
-            <NavDropdown.Item
-              className="px-2"
-            >
-            <Link href="/unbond-history">
-                <span className="light-text">Unbound</span>
-                </Link>
-            </NavDropdown.Item>
-            <NavDropdown.Item
-              className="px-2"
-            ><Link href="/reward-history">
-                <span className="light-text">Withdrawal</span>
-                </Link>
-            </NavDropdown.Item>
-          </NavDropdown>
-        </li> : null 
-        }
-   
-      </ul>
+    <h1>GlobleHeader</h1>
     </>
   );
 };
