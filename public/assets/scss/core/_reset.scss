@@ -21,7 +21,7 @@ html, body {
 }
 body{
     font-size: 18px;
-    // font-family: 'MADE Okine Sans PERSONAL USE';
+    font-family: 'Open Sans';
     color: $white;
     overflow: hidden;
     overflow-y: auto;
@@ -44,7 +44,7 @@ body{
 h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
     margin-bottom: 0;
-    // font-family: 'MADE Okine Sans PERSONAL USE';
+    font-family: 'Open Sans';
     line-height: 1.2;
 }
 
@@ -131,6 +131,7 @@ p{
     color:rgba(14, 14, 14, 0.89);
     color:rgba($white, 0.89);
     margin-bottom: 8px;
+    font-family: 'Open Sans';
     &:last-child {
         margin-bottom: 0;
     }
@@ -289,6 +290,7 @@ ul {
     border-radius: 30px;
     border: 1px solid #596380;
     color: $white;
+    font-family: 'Open Sans';
     .table th, .table td{
         color:$grey-color-800;
         font-weight: 400;
