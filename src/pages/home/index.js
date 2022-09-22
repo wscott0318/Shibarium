@@ -73,8 +73,8 @@ export default function Home() {
               <div className='text-center'>
                 <h2 className='heading'>Shibarium Solutions</h2>
               </div>
-              <div className="row cus-row">
-                <div className="col-lg-4 cus-col">
+              <div className="row cus-row justify-content-center">
+                <div className="col-lg-4 col-md-6 col-sm-8 cus-col">
                   <div className="ftrs-card">
                     <div className='ftrs-head'>
                       <h3 className='fw-600'>Swap</h3>
@@ -91,7 +91,7 @@ export default function Home() {
                     </a>
                   </div>
                 </div>
-                <div className="col-lg-4 cus-col">
+                <div className="col-lg-4 col-md-6 col-sm-8 cus-col">
                   <div className="ftrs-card ftrs-active">
                     <div className='ftrs-head'>
                       <h3 className='fw-600'>Swap</h3>
@@ -108,7 +108,7 @@ export default function Home() {
                     </a>
                   </div>
                 </div>
-                <div className="col-lg-4 cus-col">
+                <div className="col-lg-4 col-md-6 col-sm-8 cus-col">
                   <div className="ftrs-card">
                     <div className='ftrs-head'>
                       <h3 className='fw-600'>Swap</h3>

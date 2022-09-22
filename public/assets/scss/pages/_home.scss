@@ -135,7 +135,34 @@
         top: 5px;
     }
 }
-
+.features-section{
+    .cus-row {
+        .cus-col {
+            padding-left: 10px;
+            padding-right: 10px;
+            margin-bottom: 20px;
+        }
+    }
+    .ftrs-icon {
+        max-width: 50px;
+        @media #{$max-lg}{
+            max-width: 40px;
+        }
+        @media #{$max-xsm}{
+            max-width: 40px;
+        }
+    }
+    .link {
+        display: flex;
+        align-items: center;
+        span {
+            margin-right: 8px;
+        }
+        img {
+            max-width: 10px;
+        }
+    }
+}
 .bone-section{
     .card-item {
         flex: 0 0 calc(100% - 158px);

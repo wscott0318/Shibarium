@@ -30,6 +30,12 @@ body{
     line-height: 1.5;
     min-height: 100%;
     background-color:$body-bg-800;
+    @media #{$max-xxl}{
+        font-size: 16px;
+    }
+    @media #{$max-xl}{
+        font-size: 14px;
+    }
 }
 .ff-mos{
     font-family: 'MADE Okine Sans PERSONAL USE' !important;
