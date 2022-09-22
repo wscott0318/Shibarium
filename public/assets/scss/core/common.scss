@@ -47,7 +47,13 @@
 
 // common space closed
 .heading {
-    margin-bottom: 21px;
+    margin-bottom: 32px;
+    @media #{$max-lg}{
+        margin-bottom: 22px;
+    }
+    @media #{$max-sm}{
+        margin-bottom: 18px;
+    }
 }
 .cus-card {
     padding: 15px;
