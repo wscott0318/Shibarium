@@ -1,0 +1,50 @@
+.cmn_dashbord_main_outr{
+    background-color: $body-bg-800;
+    margin: 32px 20px 32px auto;
+    border-radius: 40px;
+    padding: 20px;
+    width: calc(100% - 275px);
+}
+
+.sidebar {
+    background: $body-bg;
+    position: fixed;
+    top: 0;
+    width: 237px;
+    left: 0;
+    bottom: 0;
+    min-height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .sidebar-logo {
+        padding: 30px 20px 70px;
+    }
+    .side-menu {
+        padding: 0 20px;
+        .side-menu-item {
+            margin-bottom: 12px;
+        }
+
+        .side-link {
+            display: block;
+            position: relative;
+            text-align: left;
+            padding-left: 40px;
+            font-weight: 600;
+            color: $grey-color;
+        }
+        .primary-btn{
+            color: $white;
+        }
+        .side-ico {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            max-width: 22px;
+        }
+        
+    }
+}

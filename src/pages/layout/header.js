@@ -31,21 +31,21 @@ export default function Header() {
   const wrapperRef = useRef(null);
   const [isVisible, setIsVisible] = useState(true);
   const [dblock, setDblock] = useState(false);
-  const [userType, setUserType] =useUserType();
+  const [userType, setUserType] = useUserType();
 
-  const { authenticate, isAuthenticated,User, user,logout,Moralis ,...restMoralisObj} = useMoralis();
+  const { authenticate, isAuthenticated, User, user, logout, Moralis, ...restMoralisObj } = useMoralis();
   // console.log({authenticate, isAuthenticated,User, user,logout,Moralis})
-  
+
   useEffect(() => {
-    if(!account)logout().then();
-    localStorage.setItem("ShibariumUser",JSON.stringify(user || []))
-  }, [user,account]);
+    if (!account) logout().then();
+    localStorage.setItem("ShibariumUser", JSON.stringify(user || []))
+  }, [user, account]);
 
 
-async function loginNew() {
+  async function loginNew() {
     if (!isAuthenticated) {
 
-      await authenticate({signingMessage: "Log in using Moralis" })
+      await authenticate({ signingMessage: "Log in using Moralis" })
         .then(function (user) {
           console.log("logged in user:", user);
           console.log(user.get("ethAddress"));
@@ -54,23 +54,23 @@ async function loginNew() {
           console.log(error);
         });
     }
-}
+  }
 
-async function logOut() {
-  await Moralis.User.logOut()
-  console.log('logged out')
-}
+  async function logOut() {
+    await Moralis.User.logOut()
+    console.log('logged out')
+  }
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn")
-    if(!isAuthenticated){
+    if (!isAuthenticated) {
       // authenticate()
     }
-    if(account && user){
-      
+    if (account && user) {
+
       getUsertype(account)
     }
-  }, [account,user])
+  }, [account, user])
   useEffect(() => {
     if (account)
       localStorage.setItem('isLoggedIn', true)
@@ -78,26 +78,26 @@ async function logOut() {
       localStorage.removeItem('isLoggedIn')
   }, [account]);
 
-  const getUsertype = (accountAddress) =>{
-   try {
-    getUserType(accountAddress.toLowerCase()).then( res =>{
-      if (res.data && res.data.data) {
-        let ut = res.data.data.userType;
-        console.log(ut)
-        setUserType(ut)
-      }
-    }).catch(e=>{
-      // console.log(e);
-      setUserType('NA')
-    })
-   } catch (error) {
-    
-   }
+  const getUsertype = (accountAddress) => {
+    try {
+      getUserType(accountAddress.toLowerCase()).then(res => {
+        if (res.data && res.data.data) {
+          let ut = res.data.data.userType;
+          console.log(ut)
+          setUserType(ut)
+        }
+      }).catch(e => {
+        // console.log(e);
+        setUserType('NA')
+      })
+    } catch (error) {
+
+    }
   }
   useEffect(() => {
     const { ethereum } = window
     if (ethereum && ethereum.on && !error) {
-      console.log({eth: ethereum.on})
+      console.log({ eth: ethereum.on })
       const handleConnect = () => {
         // console.log("Connected");
         // activate(injected)
@@ -108,11 +108,11 @@ async function logOut() {
         // }
         authenticate()
       }
-      const handleAccountsChanged = async(accounts) => {
+      const handleAccountsChanged = async (accounts) => {
         if (accounts.length > 0) {
           // if (library) {
-            authenticate()
-          }
+          authenticate()
+        }
         // activate(injected)
       }
       const handleNetworkChanged = (networkId) => {
@@ -172,8 +172,8 @@ async function logOut() {
     setDblock(!dblock);
   };
 
-  const LogoutMetamask = async() => {
-   await logout()
+  const LogoutMetamask = async () => {
+    await logout()
     router.push("/home");
     handleAccount("")
     deactivate()
@@ -190,37 +190,37 @@ async function logOut() {
   //   }
   // }
   return (
-  <>
-    <header className='main-header'>
-                <Navbar className='py-0' expand="lg">
-                    <Container>
-                        <Navbar.Brand href="#home">
-                            <img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} />
-                        </Navbar.Brand>
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                        <Navbar.Collapse id="basic-navbar-nav">
-                            <Nav className="ms-auto">
-                                <NavDropdown className="d-none" title="Dropdown" id="basic-nav-dropdown">
-                                    <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                                    <NavDropdown.Item href="#action/3.2">
-                                        Another action
-                                    </NavDropdown.Item>
-                                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                                    <NavDropdown.Divider />
-                                    <NavDropdown.Item href="#action/3.4">
-                                        Separated link
-                                    </NavDropdown.Item>
-                                </NavDropdown>
-                                <Nav.Item>
-                                    <a className='btn primary-btn' href="javascript:void(0)">
-                                        Launch App
-                                    </a>
-                                </Nav.Item>
-                            </Nav>
-                        </Navbar.Collapse>
-                    </Container>
-                </Navbar>
-            </header>
-  </>
+    <>
+      <header className='main-header d-none'>
+        <Navbar className='py-0' expand="lg">
+          <Container>
+            <Navbar.Brand href="#home">
+              <img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} />
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="ms-auto">
+                <NavDropdown className="d-none" title="Dropdown" id="basic-nav-dropdown">
+                  <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">
+                    Another action
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="#action/3.4">
+                    Separated link
+                  </NavDropdown.Item>
+                </NavDropdown>
+                <Nav.Item>
+                  <a className='btn primary-btn' href="javascript:void(0)">
+                    Launch App
+                  </a>
+                </Nav.Item>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+      </header>
+    </>
   );
 }

@@ -29,7 +29,7 @@ body{
     padding: 0;
     line-height: 1.5;
     min-height: 100%;
-    background-color:$body-bg-800;
+    background-color:$body-bg;
     @media #{$max-xxl}{
         font-size: 16px;
     }
@@ -216,7 +216,7 @@ ul {
 } 
 
 .btn{
-    border-radius: 20px;
+    border-radius: 10px;
     font-weight: 500;
     font-size: 18px;
     padding: 11px 22px;
@@ -236,7 +236,7 @@ ul {
 .primary-btn{
     background:$primary-gradient;
     color:rgba($white, 0.89);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    // border: 1px solid rgba(255, 255, 255, 0.4);
     &:hover{
         background:$primary-gradient;
         color:rgba($white, 0.89);
@@ -246,7 +246,7 @@ ul {
 .secondary-btn{
     background:$secondary;
     color: rgba($white, 0.89);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    // border: 1px solid rgba(255, 255, 255, 0.4);
     &:hover{
         background:$secondary;
         color: rgba($white, 0.89);

@@ -1,6 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect, useContext } from "react";
+
+import { Button, Container, Nav, Navbar, NavDropdown,Dropdown } from 'react-bootstrap';
+
 import { useRouter } from "next/dist/client/router";
 import Popup from "../components/PopUp";
 // import { useWeb3React } from '@web3-react/core'
@@ -9,6 +12,7 @@ import Popup from "../components/PopUp";
 // import { useAccount } from "../../../hooks/web3hooks";
 // import { walletConnector } from "../../utils/connectors";
 // import Web3 from "web3";
+import Link from 'next/link'
 import {
   NoEthereumProviderError,
   UserRejectedRequestError as UserRejectedRequestErrorInjected
@@ -90,9 +94,116 @@ export default function Assets() {
   return (
    <>
       <main className="main-content">
-        
+        {/* sidebar */}
+          <sidebar className="sidebar">
+            <div className="sidbar-top-menu">
+              <div className="sidebar-logo">
+                <a className="sidelogo-link" href="javascript:void(0)">
+                  <img className="img-fluid" src="../../images/logo.png" alt="" />
+                </a>
+              </div>
+              <ul className="side-menu">
+                    <li className="side-menu-item">
+                      <Link  href={`javascript:void(0)`}>
+                        <a className="side-link btn primary-btn" >
+                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
+                          <span>Wallet</span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li className="side-menu-item">
+                      <Link  href={`javascript:void(0)`}>
+                        <a className="side-link btn" >
+                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
+                          <span>Wallet</span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li className="side-menu-item">
+                      <Link  href={`javascript:void(0)`}>
+                        <a className="side-link btn" >
+                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
+                          <span>Wallet</span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li className="side-menu-item">
+                      <Link  href={`javascript:void(0)`}>
+                        <a className="side-link btn" >
+                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
+                          <span>Wallet</span>
+                        </a>
+                      </Link>
+                    </li>
+                </ul>
+            </div>
+            <div className="sidebar-bottom-menu">
+                <ul className="side-menu">
+                    <li className="side-menu-item">
+                      <Link  href={`javascript:void(0)`}>
+                        <a className="side-link btn" >
+                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
+                          <span>Wallet</span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li className="side-menu-item">
+                      <Link  href={`javascript:void(0)`}>
+                        <a className="side-link btn" >
+                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
+                          <span>Wallet</span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li className="side-menu-item">
+                      <Link  href={`javascript:void(0)`}>
+                        <a className="side-link btn" >
+                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
+                          <span>Wallet</span>
+                        </a>
+                      </Link>
+                    </li>
+                </ul>
+            </div>
+          </sidebar>
+        {/* sidebar */}
         <section className="assets-section">
             <div className="cmn_dashbord_main_outr">
+                <div className="inner-header">
+                <Navbar className='py-0' expand="lg">
+                  <Container>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                      <Nav className="ms-auto">
+                        <Dropdown className="d-flex align-items-center">
+                        <div className="" id="basic-nav-dropdown">
+                          <img src="../../images/menu-icon.png" alt="" />
+                        </div>
+                        <NavDropdown className="me-3" title="App">
+                          <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                          <NavDropdown.Item href="#action/3.2">
+                            Another action
+                          </NavDropdown.Item>
+                          <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                          <NavDropdown.Divider />
+                          <NavDropdown.Item href="#action/3.4">
+                            Separated link
+                          </NavDropdown.Item>
+                        </NavDropdown>
+                        </Dropdown>
+                        <Nav.Item>
+                          <Link href={'javascript:void(0)'}>
+                            <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
+                              <img className="img-fluid me-2" src="../../images/meta-icon.png" alt="meta-img"/>
+                              <span>0x21A...48A5</span>
+                            </a>
+                          </Link>
+                        </Nav.Item>
+                      </Nav>
+                    </Navbar.Collapse>
+                  </Container>
+                </Navbar>
+                </div>
                 {/* assets section start */}
                 <div className="assets_outr">
                     <h2>My Balance</h2>
