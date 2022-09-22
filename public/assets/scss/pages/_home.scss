@@ -13,6 +13,13 @@
         @media #{$max-md}{
             flex-direction: column;
             padding-bottom: 0;
+            padding-top: 115px;
+        }
+        @media #{$max-sm}{
+            padding-top: 95px;
+        }
+        @media #{$max-xsm}{
+            padding-top: 85px;
         }
         .banner-col-s {
             max-width: 525px;
@@ -134,6 +141,10 @@
         right: 20px;
         top: 5px;
     }
+    @media #{$max-xsmm}{
+        padding-top: 30px;
+        flex-direction: column;
+    }
 }
 .features-section{
     .cus-row {
@@ -167,6 +178,34 @@
     .card-item {
         flex: 0 0 calc(100% - 158px);
         padding-right: 40px;
+        @media #{$max-xl}{
+            flex: 0 0 calc(100% - 140px);
+            padding-right: 30px;
+        }
+        @media #{$max-lg}{
+            flex: 0 0 calc(100% - 130px);
+            padding-right: 20px;
+        }
+        
+        @media #{$max-md}{
+            flex: 0 0 calc(100% - 120px);
+            padding-right: 10px;
+        }
+        @media #{$max-xsmm}{
+            order: 2;
+        }
+    }
+    .card-img-block {
+        @media #{$max-xsmm}{
+            order: 1;
+        }
+    }
+    .cus-row {
+        .cus-col {
+            padding-left: 10px;
+            padding-right: 10px;
+            margin-bottom: 20px;
+        }
     }
 }
 
@@ -176,9 +215,16 @@
         display: flex;
         border-top: 1px solid #fff;
         flex-wrap: wrap;
+        @media #{$max-xsm}{
+            justify-content: center;
+        }
+        
         .shib-item {
             display: flex;
             align-items: center;
+            @media #{$max-md}{
+                justify-content: center;
+            }
             img{
                 margin-right: 4px;
             }
@@ -191,6 +237,15 @@
         flex: 0 0 16.66%;
         padding-top: 10px;
         padding-bottom: 10px;
+        @media #{$max-md}{
+            flex: 0 0 33.33%;
+            padding-top: 6px;
+            padding-bottom: 6px;
+        }
+        @media #{$max-xsmm}{
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
     }
 }
 
@@ -205,4 +260,35 @@
             top: -3px;
         }
     }
+    .shib-img{
+        @media #{$max-sm}{
+            max-width: 175px;
+        }
+    }
+}
+
+.shib-comun-section{
+    &.grid-pad {
+        padding-bottom: calc(70px - 30px);
+        @media #{$max-xl}{
+            padding-bottom:calc(60px - 30px);
+        }
+        @media #{$max-lg}{
+            padding-bottom:calc(50px - 30px);
+        }
+        @media #{$max-md}{
+            padding-bottom: calc(40px - 30px);
+        }
+        @media #{$max-sm}{
+            padding-bottom: calc(30px - 30px);
+        }
+    }
+    .cus-row {
+        .cus-col {
+            padding-left: 10px;
+            padding-right: 10px;
+            margin-bottom: 30px;
+        }
+    }
+
 }

@@ -1,0 +1,31 @@
+.main-footer {
+    padding: 32px 0;
+    @media #{$max-md}{
+        padding: 22px 0;
+    }
+    @media #{$max-sm}{
+        padding: 16px 0;
+    }
+    .top-footer {
+        border-bottom: 1px solid #fff;
+    }
+    .bottom-footer {
+        padding-top: 32px;
+        border-bottom: 1px solid #fff;
+        @media #{$max-md}{
+            padding-top:22px;
+        }
+        @media #{$max-sm}{
+            padding-top: 16px;
+        }
+    }
+    .bottom-item {
+        padding-bottom: 32px;
+        @media #{$max-md}{
+            padding-bottom:22px;
+        }
+        @media #{$max-sm}{
+            padding-bottom: 16px;
+        }
+    }
+}

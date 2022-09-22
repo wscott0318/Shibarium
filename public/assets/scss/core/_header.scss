@@ -6,4 +6,16 @@
     z-index: 999;
     bottom: auto;
     background: transparent;
+    .navbar-brand {
+        @media #{$max-lg}{
+            max-width: 150px;
+        }
+        @media #{$max-md}{
+            max-width: 120px;
+        }
+        @media #{$max-sm}{
+            max-width: 110px;
+        }
+    }
+    
 }
