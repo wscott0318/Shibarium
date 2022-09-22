@@ -262,7 +262,7 @@ ul {
 .grey-btn{
     background-color:$grey-color;
     border-radius: 10px;
-    padding: 15px 50px;
+    padding: 18px 50px;
     font-size: 16px;
     font-weight: 600;
     color:$white;
@@ -301,6 +301,12 @@ ul {
     }
     .table td span{
         padding-right: 15px;
+    }
+    .table td a{
+        text-decoration: none;
+        &:hover{
+            color:$primary;
+        }
     }
     ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
         color: #596380;

@@ -92,20 +92,20 @@ export default function Assets() {
       <main className="main-content">
         
         <section className="assets-section">
-            <div className="container cmn_dashbord_main_outr">
+            <div className="cmn_dashbord_main_outr">
                 {/* assets section start */}
                 <div className="assets_outr">
                     <h2>My Balance</h2>
                     <div className="assets_top_area">
-                        <div className="main_net_amnt">
+                        <div className="main_net_amnt t_a_clm">
                             <h1>20.000$</h1>
                             <p>shibarium mainnet</p>
                         </div>
-                        <div className="btns_area">
+                        <div className="btns_area t_a_clm">
                             <a href="#" className="btn grey-btn w-100 d-block"><span><img src="../../images/recive-icon.png" alt="recive"/></span>Receive</a>
                             <a href="#" className="btn grey-btn w-100 d-block"><span><img src="../../images/send-icon.png" alt="recive"/></span>Send</a>
                         </div>
-                        <div className="lrg_btns_area">
+                        <div className="lrg_btns_area t_a_clm">
                             <a href="#" className="btn white-btn w-100 d-block">Move funds from Ethereum to Shibarium</a>
                             <a href="#" className="btn white-btn w-100 d-block">How Shibarium works</a>
                         </div>
@@ -121,37 +121,37 @@ export default function Assets() {
                                             <th>Name</th>
                                             <th>Balance</th>
                                             <th>Actions</th>
-                                            <th colSpan="2"><input type="search" placeholder="Search"/></th>
+                                            <th colSpan="2" className="text-end"><input type="search" placeholder="Search"/></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td><span><img src="../../images/shiba-round-icon.png"/></span><b>SHIB</b> - Shibatoken</td>
                                             <td>0.0000 - 0.00$</td>
-                                            <td>Deposit</td>
-                                            <td>Whitdraw</td>
-                                            <td>Send</td>
+                                            <td><a href="#">Deposit</a></td>
+                                            <td><a href="#">Whitdraw</a></td>
+                                            <td><a href="#">Send</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span><img src="../../images/matic-round-icon.png"/></span><b>MATIC</b> - Polygon</td>
+                                            <td>0.0000 - 0.00$</td>
+                                            <td><a href="#">Deposit</a></td>
+                                            <td><a href="#">Whitdraw</a></td>
+                                            <td><a href="#">Send</a></td>                                            
+                                        </tr>
+                                        <tr>
+                                            <td><span><img src="../../images/bnb-round-icon.png"/></span><b>BNB</b> - BNB</td>
+                                            <td>0.0000 - 0.00$</td>
+                                            <td><a href="#">Deposit</a></td>
+                                            <td><a href="#">Whitdraw</a></td>
+                                            <td><a href="#">Send</a></td>                                            
                                         </tr>
                                         <tr>
                                             <td><span><img src="../../images/shiba-round-icon.png"/></span><b>SHIB</b> - Shibatoken</td>
                                             <td>0.0000 - 0.00$</td>
-                                            <td>Deposit</td>
-                                            <td>Whitdraw</td>
-                                            <td>Send</td>
-                                        </tr>
-                                        <tr>
-                                            <td><span><img src="../../images/shiba-round-icon.png"/></span><b>SHIB</b> - Shibatoken</td>
-                                            <td>0.0000 - 0.00$</td>
-                                            <td>Deposit</td>
-                                            <td>Whitdraw</td>
-                                            <td>Send</td>
-                                        </tr>
-                                        <tr>
-                                            <td><span><img src="../../images/shiba-round-icon.png"/></span><b>SHIB</b> - Shibatoken</td>
-                                            <td>0.0000 - 0.00$</td>
-                                            <td>Deposit</td>
-                                            <td>Whitdraw</td>
-                                            <td>Send</td>
+                                            <td><a href="#">Deposit</a></td>
+                                            <td><a href="#">Whitdraw</a></td>
+                                            <td><a href="#">Send</a></td>                                        
                                         </tr>
                                     </tbody>
                                 </table>
