@@ -19,7 +19,7 @@ import { useActiveWeb3React } from "app/services/web3";
 
 import { useMoralis } from "react-moralis";
 
-export default function Login() {
+export default function Assets() {
   const router = useRouter()
   // const { authenticate, isAuthenticated, user,} = useMoralis();
 
@@ -90,29 +90,79 @@ export default function Login() {
   return (
    <>
       <main className="main-content">
-        {/* login section start */}
-        <section className="login-section">
-            <div className="container">
-                <div className='login_h_logo text-center'>
-                    <a href='#' className=''><img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} /></a>
-                </div>
-                <div className='login_holder'>
-                    <div className='login_outr'>
-                        <h2>Login</h2>
-                        <div className='login_cnt_row'>
-                            <span className='login_icon'><img className='img-fluid' src="../../images/fox-icon.png" alt="login-logo" /></span>
-                            <div className='login_cnt_row_name'>    
-                                <b>Metamask Wallet</b>
-                                <p>Connect using Browser wallet</p>
-                            </div>
-                            <span className='white_arw'><img className='img-fluid' src="../../images/white-arrow.png" alt="white-arrow" /></span>
+        
+        <section className="assets-section">
+            <div className="container cmn_dashbord_main_outr">
+                {/* assets section start */}
+                <div className="assets_outr">
+                    <h2>My Balance</h2>
+                    <div className="assets_top_area">
+                        <div className="main_net_amnt">
+                            <h1>20.000$</h1>
+                            <p>shibarium mainnet</p>
                         </div>
-                        <p className='sign_up_optn'>Don’t have a wallet? <a href="#">Download here</a></p>
+                        <div className="btns_area">
+                            <a href="#" className="btn grey-btn w-100 d-block"><span><img src="../../images/recive-icon.png" alt="recive"/></span>Receive</a>
+                            <a href="#" className="btn grey-btn w-100 d-block"><span><img src="../../images/send-icon.png" alt="recive"/></span>Send</a>
+                        </div>
+                        <div className="lrg_btns_area">
+                            <a href="#" className="btn white-btn w-100 d-block">Move funds from Ethereum to Shibarium</a>
+                            <a href="#" className="btn white-btn w-100 d-block">How Shibarium works</a>
+                        </div>
+                    </div>
+
+                    <div className="assets_btm_area">
+                        <h2>Assets on Shibarium</h2>
+                        <div className="cmn_dasdrd_table">
+                            <div class="table-responsive">
+                                <table class="table table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Balance</th>
+                                            <th>Actions</th>
+                                            <th colSpan="2"><input type="search" placeholder="Search"/></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span><img src="../../images/shiba-round-icon.png"/></span><b>SHIB</b> - Shibatoken</td>
+                                            <td>0.0000 - 0.00$</td>
+                                            <td>Deposit</td>
+                                            <td>Whitdraw</td>
+                                            <td>Send</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span><img src="../../images/shiba-round-icon.png"/></span><b>SHIB</b> - Shibatoken</td>
+                                            <td>0.0000 - 0.00$</td>
+                                            <td>Deposit</td>
+                                            <td>Whitdraw</td>
+                                            <td>Send</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span><img src="../../images/shiba-round-icon.png"/></span><b>SHIB</b> - Shibatoken</td>
+                                            <td>0.0000 - 0.00$</td>
+                                            <td>Deposit</td>
+                                            <td>Whitdraw</td>
+                                            <td>Send</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span><img src="../../images/shiba-round-icon.png"/></span><b>SHIB</b> - Shibatoken</td>
+                                            <td>0.0000 - 0.00$</td>
+                                            <td>Deposit</td>
+                                            <td>Whitdraw</td>
+                                            <td>Send</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                {/* assets section end */}
             </div>
         </section> 
-        {/* login section end */}
+        
       </main>
    </>
   );
