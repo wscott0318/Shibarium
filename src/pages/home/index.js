@@ -135,8 +135,8 @@ export default function Home() {
           <section className='about-section bottom-pad'>
               <div className="container">
                   <div className="primary-card rad-25 p-25">
-                      <div className="row abt-row align-items-center">
-                          <div className="col-lg-6 abt-col">
+                      <div className="row abt-row align-items-center justify-content-center">
+                          <div className="col-lg-6 col-md-7 col-sm-8 order-2 order-md-1 abt-col">
                               <div className="abt-item">
                                   <h3 className='abt-title mb-3'>Built by developers, for developers</h3>
                                   <p className='abt-desc'>
@@ -165,8 +165,8 @@ export default function Home() {
                                   <a href="javascript:void(0)" className='btn secondary-btn'>First Steps</a>
                               </div>
                           </div>
-                          <div className="col-lg-6 abt-col text-lg-center">
-                              <div className='img-fluid'>
+                          <div className="col-lg-6 col-md-5 col-sm-8 abt-col order-1 order-md-2 text-center mb-4 mb-md-0">
+                              <div className='shib-img'>
                                   <img className='img-fluid' src="../../images/steps.png" alt="" />
                               </div>
                           </div>
@@ -177,13 +177,13 @@ export default function Home() {
           {/* about section end */}
 
           {/* Bone section start */}
-          <section className='bone-section bottom-pad'>
+          <section className='bone-section bottom-pad grid-pad'>
             <div className="container">
               <div className="heading text-center">
                 <h2>Stake and earn $BONE</h2>
               </div>
-              <div className="row cus-row">
-                <div className="col-lg-6 cus-col">
+              <div className="row cus-row justify-content-center">
+                <div className="col-md-6 col-sm-8 cus-col">
                   <div className="cus-card card-flex">
                     <a href="javacript:void(0)" className='icon-top'>
                       <img className='img-fluid' src="../../images/arrow-top.png" alt="" />
@@ -203,7 +203,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-6 cus-col">
+                <div className="col-md-6 col-sm-8 cus-col">
                   <div className="cus-card card-flex">
                     <a href="javacript:void(0)" className='icon-top'>
                       <img className='img-fluid' src="../../images/arrow-top.png" alt="" />
@@ -229,13 +229,13 @@ export default function Home() {
           {/* Bone section end */}
 
           {/* shib community section start */}
-          <section className='shib-comun-section bottom-pad'>
+          <section className='shib-comun-section bottom-pad grid-pad'>
             <div className="container">
               <div className="text-center">
                 <h2 className='heading pb-3'>Let’s grow as community</h2>
               </div>
               <div className="row cus-row">
-                <div className="col-lg-4 col-xl-3 cus-col">
+                <div className="col-sm-6 col-lg-4 col-xl-3 cus-col">
                   <div className="shib-item text-center">
                     <div className="shib-img mb-3">
                       <img className='img-fluid' src="../../images/rect-96.png" alt="rect-img" width={96} />
@@ -246,7 +246,7 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
-                <div className="col-lg-4 col-xl-3 cus-col">
+                <div className="col-sm-6 col-lg-4 col-xl-3 cus-col">
                   <div className="shib-item text-center">
                     <div className="shib-img mb-3">
                       <img className='img-fluid' src="../../images/rect-96.png" alt="rect-img" width={96} />
@@ -257,7 +257,7 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
-                <div className="col-lg-4 col-xl-3 cus-col">
+                <div className="col-sm-6 col-lg-4 col-xl-3 cus-col">
                   <div className="shib-item text-center">
                     <div className="shib-img mb-3">
                       <img className='img-fluid' src="../../images/rect-96.png" alt="rect-img" width={96} />
@@ -268,7 +268,7 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
-                <div className="col-lg-4 col-xl-3 cus-col">
+                <div className="col-sm-6 col-lg-4 col-xl-3 cus-col">
                   <div className="shib-item text-center">
                     <div className="shib-img mb-3">
                       <img className='img-fluid' src="../../images/rect-96.png" alt="rect-img" width={96} />
@@ -334,146 +334,148 @@ export default function Home() {
       <footer className="main-footer primary-bg ff-mos">
         <div className="container">
           <div className="top-footer">
-            <div className="row align-items-center py-4">
-              <div className="col-sm-6">
+            <div className="row align-items-center py-3 py-md-4">
+              <div className="col-6">
                 <a className='footer-logo' href="javascript:void(0)">
                   <img className='img-fluid' src="../../images/footer-logo.png" alt="footer-logo" />
                 </a>
               </div>
-              <div className="col-sm-6 text-sm-end">
+              <div className="col-6 text-end">
                 <a className='' href="javascript:void(0)">
                   English
                 </a>
               </div>
             </div>
           </div>
-          <div className="row ">
-            <div className="col-lg-3">
-              <div className='bottom-item'>
-                <h6 className='mb-3 uc'>Category</h6>
-                <ul className='footer-list'>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                </ul>
+          <div className="bottom-footer">
+            <div className="row">
+              <div className="col-sm-3 col-6">
+                <div className='bottom-item'>
+                  <h6 className='mb-3 uc'>Category</h6>
+                  <ul className='footer-list'>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
-            <div className="col-lg-3">
-              <div className='bottom-item'>
-                <h6 className='mb-3 uc'>Category</h6>
-                <ul className='footer-list'>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                </ul>
+              <div className="col-sm-3 col-6">
+                <div className='bottom-item'>
+                  <h6 className='mb-3 uc'>Category</h6>
+                  <ul className='footer-list'>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
-            <div className="col-lg-3">
-              <div className='bottom-item'>
-                <h6 className='mb-3 uc'>Category</h6>
-                <ul className='footer-list'>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                </ul>
+              <div className="col-sm-3 col-6">
+                <div className='bottom-item'>
+                  <h6 className='mb-3 uc'>Category</h6>
+                  <ul className='footer-list'>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
-            <div className="col-lg-3">
-              <div className='bottom-item'>
-                <h6 className='mb-3 uc'>Category</h6>
-                <ul className='footer-list'>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                  <li className='footer-lst-item'>
-                    <a href="javascript:void(0)">
-                      Link 1
-                    </a>
-                  </li>
-                </ul>
+              <div className="col-sm-3 col-6">
+                <div className='bottom-item'>
+                  <h6 className='mb-3 uc'>Category</h6>
+                  <ul className='footer-list'>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
