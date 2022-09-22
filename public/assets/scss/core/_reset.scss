@@ -258,3 +258,58 @@ ul {
     background-clip: text;
     text-fill-color: transparent;
 }
+.grey-btn{
+    background-color:$grey-color;
+    border-radius: 10px;
+    padding: 15px 50px;
+    font-size: 16px;
+    font-weight: 600;
+    color:$white;
+    &:hover{
+        background:$primary-gradient;
+        color:rgba($white, 0.89);
+    }
+}
+
+.white-btn{
+    background-color:$grey-color-800;
+    border-radius: 10px;
+    padding: 15px 50px;
+    font-size: 16px;
+    font-weight: 600;
+    color:$grey-color;
+    &:hover{
+        background:$primary-gradient;
+        color:rgba($white, 0.89);
+    }
+}
+
+.cmn_dasdrd_table {
+    background:$body-bg;
+    border-radius: 30px;
+    border: 1px solid #596380;
+    color: $white;
+    .table th, .table td{
+        color:$grey-color-800;
+        font-weight: 400;
+        padding: 20px;
+    }
+    .table th{
+        border-bottom: 1px solid #596380;
+    }
+    .table td span{
+        padding-right: 15px;
+    }
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #596380;
+        opacity: 1; /* Firefox */
+      }
+      
+      :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: #596380;
+      }
+      
+      ::-ms-input-placeholder { /* Microsoft Edge */
+        color: #596380;
+      }
+}
