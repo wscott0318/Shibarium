@@ -1,9 +1,9 @@
-
 @import './cus-var';
 
-@import url('https://fonts.googleapis.com/css2?family=Khula:wght@300;400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
 /*-- Common Style --*/
+
 *, *::after, *::before {
   box-sizing: border-box;
 }
@@ -13,7 +13,7 @@
     padding: 0;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-  }
+}
   
 html, body {
     // height: 100%;
@@ -21,7 +21,7 @@ html, body {
 }
 body{
     font-size: 18px;
-    font-family: 'Khula', sans-serif;
+    // font-family: 'MADE Okine Sans PERSONAL USE';
     color: $white;
     overflow: hidden;
     overflow-y: auto;
@@ -29,175 +29,95 @@ body{
     padding: 0;
     line-height: 1.5;
     min-height: 100%;
-    background-color:$black;
-    margin-top:126px;
-    @media #{$max-xxl}{
-        font-size: 14px;
-    }
-    @media #{$max-xxxl}{
-        margin-top: 82px;
-    }
-    @media #{$max-md}{
-        font-size: 14px;
-        margin-top: 64.75px;
-    } 
-    @media #{$small-mobile}{
-        margin-top: 58.6px;
-    }
-    @media (max-width:360.98px){
-        margin-top: 48.95px;
-    }
-    padding-right: 0 !important;
+    background-color:$body-bg-800;
+}
+.ff-mos{
+    font-family: 'MADE Okine Sans PERSONAL USE' !important;
 }
 
-// ::-webkit-scrollbar-track
-// {
-// 	-webkit-box-shadow: inset 0 0 6px #000000;
-// 	border-radius: 10px;
-// 	background-color: #15141b;
-// }
-// ::-webkit-scrollbar
-// {
-// 	width: 10px;
-// 	background-color:#15141b;
-// }
-
-// ::-webkit-scrollbar-thumb
-// {
-// 	border-radius: 10px;
-// 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,1);
-// 	background-color: #555;
-// }
-::ng-deep .ps--active-x > .ps__rail-x {
-    display: none;
-  }
-  
 h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
     margin-bottom: 0;
-    font-family: 'Khula', sans-serif;
+    // font-family: 'MADE Okine Sans PERSONAL USE';
     line-height: 1.2;
 }
+
 h1 {
     font-size: 48px;
-    font-weight: 700;
-    @media #{$max-xxxl}{
+    @media #{$max-xxl}{
         font-size: 44px;
     }
-    @media #{$max-xxl}{
-        font-size: 40px;
-    }
-    @media #{$max-xxl}{
-        font-size: 36px;
-    }
-    @media #{$max-md}{
-        font-size: 34px;
-    }
-    @media #{$max-sm}{
-        font-size: 32px;
-    }
-    @media #{$max-xsm}{
-        font-size: 30px;
+    @media #{$max-lg}{
+        font-size: 42px;
     }
 }
 h2 {
-    font-size: 42px;
-    font-size: 48px;
-    font-weight: 700;
-    @media #{$max-xxxl}{
-        font-size: 38px;
-    }
-    @media #{$max-xxl}{
-        font-size: 34px;
-    }
+    font-size: 40px;
     @media #{$max-xl}{
-        font-size: 32px;
+        font-size: 36px;
     }
     @media #{$max-lg}{
-        font-size: 28px;
+        font-size: 34px;
     }
     @media #{$max-md}{
-        font-size: 24px;
+        font-size: 32px;
     }
-    @media #{$max-xsm}{
-        font-size: 20px;
+    @media #{$max-sm}{
+        font-size: 28px;
     }
 }
 h3 {
     font-size: 32px;
-    @media #{$max-xxxl}{
+    @media #{$max-xl}{
         font-size: 28px;
     }
-    @media #{$max-xxl}{
+    @media #{$max-lg}{
+        font-size: 26px;
+    }
+    @media #{$max-md}{
         font-size: 24px;
     }
+    @media #{$max-sm}{
+        font-size: 22px;
+    }
+}
+h4 {
+    font-size: 25px;
     @media #{$max-xl}{
         font-size: 22px;
     }
     @media #{$max-lg}{
-        font-size: 18px;
-    }
-    @media #{$max-sm}{
-        font-size: 16px;
-    }
-    @media #{$max-sm}{
-        font-size: 16px;
-    }
-}
-
-h4 {
-    font-size: 28px;
-    @media #{$max-xxxl}{
-        font-size: 24px;
-    }
-    @media #{$max-xxl}{
-        font-size: 22px;
-    }
-    @media #{$max-lg}{
         font-size: 20px;
     }
     @media #{$max-md}{
         font-size: 18px;
     }
-    @media #{$max-xsm}{
+    @media #{$max-sm}{
         font-size: 16px;
     }
 }
 h5 {
-    font-size: 24px;
-    @media #{$max-xxl}{
-        font-size: 22px;
-    }
-    @media #{$max-lg}{
-        font-size: 20px;
-    }
-    @media #{$max-md}{
-        font-size: 18px;
-    }
-    @media #{$max-xsm}{
-        font-size: 16px;
-    }
+    font-size: 22px;
 }
 h6 {
-    font-size: 18px;
-    @media #{$max-xxl}{
-        font-size: 16px;
-    }
-    @media #{$max-lg}{
-        font-size: 14px;
-    }
-    @media #{$max-xsm}{
-        font-size: 12px;
-    }
+    font-size: 20px;
 }
+
 p{
-    font-family: 'Khula', sans-serif;
     color:rgba(14, 14, 14, 0.89);
     color:rgba($white, 0.89);
+    margin-bottom: 8px;
     &:last-child {
         margin-bottom: 0;
     }
+    @media #{$max-xxl}{
+        font-size: 16px;
+    }
+    @media #{$max-xl}{
+        font-size: 14px;
+    }
 }
+
 a, button {
     color: inherit;
     line-height: inherit;
@@ -236,245 +156,80 @@ ul {
     font-weight: 600;
     color:$white;
 }
+//reset end
 
-// color styled closed
-
-
-// reset closed
-.fw-500{
-    font-weight: 500;
+.primary-bg{
+    background: $primary !important;
 }
-.fw-600{
-    font-weight: 600;
-}
-.fw-700{
-    font-weight: 700;
-}
-.fw-800{
-    font-weight: 800;
-}
-.fwb{
-    font-weight: bold;
-}
-.btn{
-    padding: 10px 16px;
-    border:0;
-    border-radius: 30px !important;
-    font-weight: 800;
-    font-size: 14px;
-    &:focus{
-        box-shadow: none;
-    }
-    @media #{$max-md}{
-        padding: 6px 12px;
-        font-weight: 600;
-        border-radius: 15px;
-    }
-    @media #{$max-sm}{
-        padding: 5px 10px;
-    }
-    // span{
-    //     transform: translate(0px, 3px);
-    // }
-}
-.btn-gradient{
-    background-color: $primary-gradient;
+.primary-card{
+    background: $primary-gradient;
 }
 
-.light-btn {
-    box-shadow:1px 2px 1px 1px #e1e0e0;
-    background-color: #fff;
-}
-.gradient_btn{
-    background: $primary_grdnt_btn;
-    color:#fff;
-    &:hover{    
-        background: $primary_grdnt_btn;
-        color:#fff;
-    }
-}
-.white-btn {
-    border: solid 1px #c4c2c2;
-    background-color: #fff;
-}
-.primary-badge {
-    background: #F06701;
-    color: #fff;
-}
-.label-btn {
-    padding: 0px 8px;
-    border-radius: 30px;
+// colors end
+
+.p-25{
+    padding: 25px;
 }
 
-.badge-md{
-    padding: 0px 10px;
-    border-radius: 60px;
-    font-size: 14px;
+// radius css
+
+.rad-25{
+    border-radius: 25px;
 }
 
-// btn style end
-.swap-control {
-    position: relative;
-    background-color:$black;
-    border-radius: 30px;
-    padding: 12px 15px;
-    @media #{$max-sm}{
-        padding: 10px 15px;
+// helper css end
+.container {
+    @media (min-width:1300px){
+        max-width: 1280px;
     }
-    @media #{$max-xsm}{
-        padding: 8px 15px;
+    @media #{$max-xl}{
+        max-width: 1080px;
     }
-}
-.form-label {
-    font-size: 18px;
-    color:$white;
-    font-weight: 600;
     @media #{$max-lg}{
+        max-width: 920px;
+    }
+} 
+
+.btn{
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 18px;
+    padding: 11px 22px;
+    @media #{$max-xxl}{
+        padding: 9px 20px;
         font-size: 16px;
     }
-    @media #{$max-md}{
-        font-size: 14px;
+    @media #{$max-xl}{
+        padding: 9px 20px;
+    }
+    @media #{$max-lg}{
+        padding: 7px 20px;
     }
 }
 
-.form-control {
-    background: #212027;
-    border:1px solid #414042;
-    border-radius: 30px;
-    padding: 10px 16px;
-    color:#fff;
-    &:focus{
-        box-shadow: none;
-    }
-    &.form-bg{
-        background-color: $black;
-        border: 0;
-        &:focus{
-            background-color: $black;
-            border: 0;
-            box-shadow: none;
-        }
-    }
-    &:focus{
-        background: #212027;
-        border:1px solid #414042;
-        color:#fff;
-    }
-}
-
-// form item style end
-.container{
-    @media #{$min-exl}{
-        max-width: 1660px;
-    }
-    @media only screen and (min-device-width: 480px) 
-                   and (max-device-width: 640px) and (orientation: landscape) {
-        max-width: 100%;
-    } 
-}
-/** custum radio code start **/
-
-/* The container */
-.radio-container {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 22px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-  
-  /* Hide the browser's default radio button */
-  .radio-container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-  }
-  
-  /* Create a custom radio button */
-  .checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 21px;
-    width: 21px;
-    background-color: transparent;
-    border: 1px solid $primary;
-    border-radius: 50%;
-    -webkit-border-radius: 50%;
-    -o-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -moz-border-radius: 50%;
-  }
-  
- 
-  
-  /* When the radio button is checked, add a blue background */
-  .radio-container input:checked ~ .checkmark {
-    background-color: $black;
-    border: 1px solid $primary;
-  }
-  
-  /* Create the indicator (the dot/circle - hidden when not checked) */
-  .checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-  }
-  
-  /* Show the indicator (dot/circle) when checked */
-  .radio-container input:checked ~ .checkmark:after {
-    display: block;
-  }
-  
-  /* Style the indicator (dot/circle) */
-  .radio-container .checkmark:after {
-    top: 4px;
-    left: 4px;
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    border-radius: 50%;
-    -webkit-border-radius: 50%;
-    -o-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -moz-border-radius: 50%;
-    background: $primary;
-  }
-
-  /** custum radio code start **/
-
-
-// Dark theme page css
-
-.darkBg{
-    background-color: $darkbg !important;
-}
-
-.card{
-    background-color: $black;
-    padding: 25px;
-    border-radius: 10px;
-    @media #{$max-xxxl}{
-        padding: 15px;
-    }
-}
-
-.rad-10{
-    border-radius: 10px;
-}
-
-.btn, .btn-small, .cus-card{
+.primary-btn{
+    background:$primary-gradient;
+    color:rgba($white, 0.89);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     &:hover{
-        span, h3{
-            color:rgba(255, 255, 255, 0.8);
-        }  
+        background:$primary-gradient;
+        color:rgba($white, 0.89);
     }
 }
-.z-50{
-    z-index: 9999 !important;
+
+.secondary-btn{
+    background:$secondary;
+    color: rgba($white, 0.89);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    &:hover{
+        background:$secondary;
+        color: rgba($white, 0.89);
+    }
+}
+.primary-gradient-text {
+    background: linear-gradient(180deg, #F06500 0%, #F28B03 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
 }

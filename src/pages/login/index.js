@@ -89,7 +89,31 @@ export default function Login() {
 
   return (
    <>
-    login index
+      <main className="main-content">
+        {/* login section start */}
+        <section className="login-section">
+            <div className="container">
+                <div className='login_h_logo text-center'>
+                    <a href='#' className=''><img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} /></a>
+                </div>
+                <div className='login_holder'>
+                    <div className='login_outr'>
+                        <h2>Login</h2>
+                        <div className='login_cnt_row'>
+                            <span className='login_icon'><img className='img-fluid' src="../../images/fox-icon.png" alt="login-logo" /></span>
+                            <div className='login_cnt_row_name'>    
+                                <b>Metamask Wallet</b>
+                                <p>Connect using Browser wallet</p>
+                            </div>
+                            <span className='white_arw'><img className='img-fluid' src="../../images/white-arrow.png" alt="white-arrow" /></span>
+                        </div>
+                        <p className='sign_up_optn'>Don’t have a wallet? <a href="#">Download here</a></p>
+                    </div>
+                </div>
+            </div>
+        </section> 
+        {/* login section end */}
+      </main>
    </>
   );
 }

@@ -1,214 +1,181 @@
-.ftrs-col{
-    @media #{$mob}{
-        width: 50%;
-    }
-}
-
-.ftrs-icon {
-    max-width: 90px;
-    margin-bottom: 24px;
-    background-image:$dark-gradient;
-    border-radius: 8px;
-    padding: 8px;
-    box-shadow: 5.9px 5.5px 0 0 rgba($black, 0.87);
-    @media #{$max-xxl}{
-        max-width: 70px;
-        margin-bottom: 22px;
-    }
-    @media #{$max-lg}{
-        max-width: 50px;
-        margin-bottom: 12px;
-    }
-    @media #{$max-lg}{
-        max-width: 60px;
-        margin-bottom: 10px;
-    }
-}
-
-.chain-section{
-    position: relative;
-    padding-top: 80px;
-    padding-bottom: 100px;
-    overflow: hidden;
-    position:relative;
-    @media #{$max-xxxl}{
-        padding-top: 40px;
-    }
-    @media #{$max-md}{
-        padding-top: 60px;
-        padding-bottom: 20px;
-    }
-    @media #{$max-sm}{
-        padding-top: 40px;
-        padding-bottom: 0;
-    }
-    &::before{       
-            content: "";
-            position: absolute;
-            left: -40px;
-            right: 0;
-            top: auto;
-            bottom: -90px;
-            background-repeat: no-repeat;
-            background-position: left bottom;
-            width: 400px;
-            background-size: 90%;
-            height: 500px;
-            background-image: url('../../images/bone2.png');
-        
-        // @media #{$max-xxxl}{
-        //     background-size: 100% 100%;
-        //     background-position: top center;
-        // }
-        // @media #{$min-lg}{
-        //     background-image: url('../../images/chain-bg.png');
-        //     background-size: 100%;
-        //     background-position: bottom;
-        // }
-        // @media #{$max-lg}{
-        //     background-image: url('../../images/chain-bg-sm.jpg');
-        // }
-    }
-    &::after{       
-        content: "";
-        position: absolute;
-        left:auto;
-        right: 0;
-        top: auto;
-        bottom: 0px;
-        background-repeat: no-repeat;
-        background-position: right bottom;
-        width:330px;
-        background-size: 90%;
-        height: 650px;
-        background-image: url('../../images/get-started-bone-bg.png');
-        background-size:100%;
-        z-index: 1; 
-}
-    .shib-img {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        max-width: 400px;
-        @media #{$min-exl}{
-            max-width: 470px;
-        }
-        @media #{$max-xl}{
-            max-width: 300px;
-        }
-        @media #{$max-lg}{
-            display: none;
-        }
-    }
-    .chain-row{
-        padding-top: 100px;
-        margin-left: -20px;
-        margin-right: -20px;
-        @media #{$min-exl}{
-            padding-top: 220px;
-        }
-        @media #{$max-xl}{
-            padding-top: 90px;
-            margin-left: -10px;
-            margin-right: -10px;
-        }
-        @media #{$max-xl}{
-            padding-top: 60px;
-        }
-        @media #{$max-md}{
-            padding-top: 40px;
-        }
-        @media #{$max-sm}{
-            padding-top: 30px;
-        }
-
-        .chain-col{
-            margin-bottom: 40px;
-            padding-left: 20px;
-            padding-right: 20px;
-            cursor: pointer;
-            position: relative;
-            z-index: 2;
-            @media #{$max-xl}{
-                margin-bottom: 20px;
-                padding-left: 10px;
-                padding-right: 10px;
-            }
-        }
-    }
-
-    .chain-item {
+.banner-section{
+    background: linear-gradient(180deg, #0D0A16 61.86%, #E48014 100%);
+    .banner-row {
         display: flex;
-        align-items: center;
-        padding: 15px 10px;
-        @media #{$max-md}{
-            padding: 10px;
+        flex-wrap: wrap;
+        position: relative;
+        padding-top:208px;
+        padding-bottom: 111px;
+        overflow: hidden;
+        @media #{$max-xl}{
+            padding-top: 150px;
         }
-
-        .chain-img {
-            max-width: 170px;
+        @media #{$max-md}{
+            flex-direction: column;
+            padding-bottom: 0;
+        }
+        .banner-col-s {
+            max-width: 525px;
             @media #{$max-xl}{
-                max-width: 115px;
+                max-width: 455px;
             }
             @media #{$max-md}{
-                max-width: 100px;
+                max-width: 100%;
+                text-align: center;
             }
-            @media #{$max-xsm}{
-                max-width: 70px;
+        }
+        .banner-img {
+            position: absolute;
+            top: auto;
+            right: -73px;
+            bottom: -120px;
+            @media #{$max-xl}{
+                top: auto;
+                right: -73px;
+                bottom: -87px;
+                max-width: 575px;
+            }
+            @media #{$max-lg}{
+                bottom: -30px;
+                max-width: 480px;
+            }
+            @media #{$max-md}{
+                position: relative;
+                right: auto;
+                margin: 0 auto;
+                bottom: -60px;
             }
         }
     }
-}
-
-
-.cus-card {
-    background: $black2;
-    height: 100%;
-    border-radius: 35px;
-    box-shadow: 5.9px 5.5px 0 0 rgba($black, 0.87);
-    @media #{$max-xl}{
-        border-radius: 30px;
+    .banner-title {
+        font-size: 40px;
+        padding-right: 84px;
+        @media #{$max-xl}{
+            font-size: 36px;
+        }
+        @media #{$max-lg}{
+            font-size: 34px;
+        }
+        @media #{$max-md}{
+            font-size: 32px;
+            padding-right: 0;
+        }
+        @media #{$max-sm}{
+            font-size: 28px;
+        }
     }
-    @media #{$max-lg}{
-        border-radius: 22px;
+    .banner-desc {
+        margin-bottom: 30px;
     }
-    @media #{$max-md}{
-        border-radius: 15px;
+    .banner-btn {
+        display: flex;
+        max-width: 400px;
+        @media #{$max-xl}{
+            max-width: 336px;
+        }
+        @media #{$max-md}{
+            margin: 0 auto;
+        }
+        .btn-col {
+            width: 100%;
+            margin-right: 10px;
+            &:last-child{
+                margin-right: 0;
+            }
+        }
     }
+    
 }
-
-.banner-section{
-    position:relative;
-}
-.banner-section{
-    // &::after{
-    //     content: "";
-    //     position: absolute;
-    //     right: 20%;
-    //     left: auto;
-    //     top: 0;
-    //     width: 180px;
-    //     height: 110px;
-    //     background-image: url('../../images/bone1.png');
-    //     background-repeat: no-repeat;
-    // }
-}
-.features-section{
+// banner section closed
+.content-block {
+    background: $secondary-800;
+    border-radius: 25px 25px 0px 0px;
     position: relative;
-    &::before{
-        content: "";
+    margin-top: -21px;
+    border-color:rgba($white,0.4);
+    border: 1px solid;
+    border-bottom-width:0;
+}
+.cus-row {
+    margin-right: -10px;
+    margin-left: -10px;
+    .cus-col {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+.ftrs-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.ftrs-card {
+    background:$secondary-800;
+    box-shadow: 3px 4px 14px $secondary-800;
+    border-radius: 25px;
+    padding: 15px;
+    border: 1px solid rgba($white,0.4);
+    &.ftrs-active{
+        background: rgba(242, 139, 3, 0.2);
+        box-shadow: 3px 4px 14px #1C1B23;
+        border: 1px solid;
+        border-color:#F06500;
+    }
+}
+
+.card-flex {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    padding-top: 40px;
+    .icon-top {
         position: absolute;
-        left: 0;
-        top: 0;
-        width: 260px;
-        height: 450px;
-        background-image: url('../../images/features-sec-bg.png');
-        background-repeat: no-repeat;
-        background-size: 100%;
-        background-position: left bottom;
+        left: auto;
+        right: 20px;
+        top: 5px;
     }
 }
-.ftrs-row{
-    position: relative;
-    z-index: 2;
+
+.bone-section{
+    .card-item {
+        flex: 0 0 calc(100% - 158px);
+        padding-right: 40px;
+    }
+}
+
+
+.shib-social-section {
+    .shib-row {
+        display: flex;
+        border-top: 1px solid #fff;
+        flex-wrap: wrap;
+        .shib-item {
+            display: flex;
+            align-items: center;
+            img{
+                margin-right: 4px;
+            }
+            span{
+                transform: translateY(2px);
+            }
+        }
+    }
+    .shib-col {
+        flex: 0 0 16.66%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}
+
+.about-section{
+    .abt-lst-item {
+        position: relative;
+        padding-left: 25px;
+        margin-bottom: 12px;
+        .check-icon {
+            position: absolute;
+            left: 0;
+            top: -3px;
+        }
+    }
 }

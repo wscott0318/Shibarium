@@ -1,15 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useRef, useEffect, useContext } from "react";
+import { Button, Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+
 import Link from "next/link";
-import {
-  Container,
-  Navbar,
-  Nav,
-  NavItem,
-  NavDropdown,
-  MenuItem,
-} from "react-bootstrap";
 import Sidebar from "./sidebar";
 import { useRouter } from "next/router";
 import { useWeb3React } from "@web3-react/core";
@@ -197,7 +191,36 @@ async function logOut() {
   // }
   return (
   <>
-    <h1>layout Header</h1>
+    <header className='main-header'>
+                <Navbar className='py-0' expand="lg">
+                    <Container>
+                        <Navbar.Brand href="#home">
+                            <img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} />
+                        </Navbar.Brand>
+                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                        <Navbar.Collapse id="basic-navbar-nav">
+                            <Nav className="ms-auto">
+                                <NavDropdown className="d-none" title="Dropdown" id="basic-nav-dropdown">
+                                    <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                                    <NavDropdown.Item href="#action/3.2">
+                                        Another action
+                                    </NavDropdown.Item>
+                                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                                    <NavDropdown.Divider />
+                                    <NavDropdown.Item href="#action/3.4">
+                                        Separated link
+                                    </NavDropdown.Item>
+                                </NavDropdown>
+                                <Nav.Item>
+                                    <a className='btn primary-btn' href="javascript:void(0)">
+                                        Launch App
+                                    </a>
+                                </Nav.Item>
+                            </Nav>
+                        </Navbar.Collapse>
+                    </Container>
+                </Navbar>
+            </header>
   </>
   );
 }

@@ -1,213 +1,85 @@
-.login-wrap {
-    background-color:$black;
-    width: 100%;
-    min-height: 100vh;
-    position: relative;
-    height: 100%;
-    overflow: hidden;
-    @media #{$max-md}{
-        &::after {
-            content: '';
-            position: absolute;
-            top: -150px;
-            left: 0;
-            right: 0;
-            width: 100%;
-            height: 300px;
-            background-color:$black2;
-            clip-path: ellipse(65% 45% at 50% 50%);
-        }
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+
+.login_h_logo{
+    margin-top: 50px;
+}
+
+.login_outr{
+    background-color: $body-bg;
+    border-radius: 40px;
+    width: 600px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    @media #{$large-mobile}{
+        padding: 20px;
     }
-    &::before{
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        background-size: 70% auto;
-        background-repeat: no-repeat;
-        background-position:left center;
-        width: 100%;
-        height: 100%;
-        background-image: url('../../images/login-bg.png');
-        @media (min-width:1600px){
-            background-size: 60% auto;
-        }
-        @media #{$max-xxxl}{
-            background-size: 70% auto;
-        }
-        @media #{$max-xl}{
-            background-size: 70% auto;
-            left: -88px;
-        }
-        @media #{$max-lg}{
-            content: '';
-            background-image: none;
-            background-color:$black2;
-            width: 40%;
-            left: 0;
-            background-size: none;
-        }
-        @media #{$max-md}{
-            content: none;
-        }
-    }
-    .float-shib {
-        position: absolute;
-        top: auto;
-        right: auto;
-        left: 0;
-        bottom: 0px;
-        max-width: 483px;
-        @media (min-width:1600px){
-            max-width: 600px;
-        }
-        @media #{$max-xxxl}{
-            max-width: 400px;
-        }
-        @media #{$max-lg}{
-            z-index: 1;
-            max-width: 300px;
-        }
-        @media #{$max-md}{
+}
+.login_holder{
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.login_outr h2{   
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    text-align: center;
+}
+.login_cnt_row{
+    margin: 30px 0;
+    display: flex;
+    flex-direction: row;
+    background-color:$body-bg-800;
+    padding: 16px 21px;
+    align-items: center;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-bottom: 40px;
+    margin-top: 30px;
+    @media #{$large-mobile}{
+        flex-direction: column;
+        .white_arw{
             display: none;
         }
     }
-    .main-content {
-        width: 50%;
-        margin-left: auto;
-        display: flex;
-        align-items: center;
-        height: 100%;
-        min-height: 100vh;
-        position: relative;
-        // padding-left: 80px;
-        padding-right: 70px;
-        padding-top: 70px;
-        @media  #{$max-xxxl}{
-            padding-top: 30px;
-            margin-top: 0;
-            padding-right: 50px;
-        }
-        @media #{$max-lg}{
-            width: 60%;
-            padding: 30px 30px 0;
-        }
-        @media #{$max-md}{
-            width:100%;
-            padding: 20px 20px 0;
-            padding-top: 170px;
-        }
-        &::after{
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom:0;
-            width: 100%;
-            height: 100%;
-            background-image: url('../../images/login-big-bone.png');
-            background-position: bottom right;
-            background-repeat: no-repeat;
-        }
-        &::before{
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom:0;
-            width: 100%;
-            height: 100%;
-            background-image: url('../../images/login-small-bone.png');
-            background-position: top right;
-            background-repeat: no-repeat;
-        }
-    }
-    .login-row {
-        margin-left: -10px;
-        margin-right: -10px;
-        .login-col {
-            padding-left:5px;
-            padding-right: 5px;
-            margin-bottom: 20px;
-        }
-    }
-
-    .image-wrap {
-        max-width: 100px;
-        margin: 0 auto;
-        @media #{$max-xxxl}{
-            max-width: 60px;
-        }
-    }
-    .card-100{
-        border-radius: 30px;
-        box-shadow: 0px 6px 1px 0 rgba(0, 0, 0, 0.14);
-        border: solid 1px #e1e1e1;
-        background-color: #fff;
-        padding: 30px;
-        @media #{$max-xxxl}{
-            padding:30px 15px;
-        }
-    }
-
-    .arrow-icon {
-        position: absolute;
-        right: 14px;
-        top: 14px;
-        transition: transform 0.3s ease-out;
-    }
-    .card-link{
-        display: block;
-        position: relative;
-        height: 100%;
-        &:hover{
-            // background: linear-gradient(90deg, rgba(255,170,0,1) 0%, rgba(254,163,0,1) 18%);
-            // box-shadow: none;
-            h5{
-                color:$body_color;
-            }
-            p{
-                color:$body_color;
-            }
-            // .long-arrow-right {
-            //     transform: rotate(135deg) translate(-4px, 0px);
-            // }
-            .arrow-icon{
-                transform: translateX(8px);
-            }
-            .walet-blk{
-                h5, p{
-                    color:$white; 
-                    opacity: 0.8;
-                }
-            }
-        }
-        @media #{$max-sm}{
-            min-height: 160px;
-        }
-    }
-
+    
 }
-
-.login-wrap .card-link{
-    color:$black;
-    p{
-        color:$black;
+.login_icon {
+    margin-right: 15px;
+}
+.login_cnt_row_name {
+    width: 75%;
+    margin-right: 15px;
+    @media #{$large-mobile}{
+        margin-right: 0;
+        width: 100%;
+        text-align: center;
     }
 }
-.login-col.dwnld_optn{
-    .card-100{
-            background:$primary-gradient;  
-            border:solid 1px #f18302;
-            color:$white;   
-            p{
-                color:$white;
-            }  
-    }
+.login_cnt_row_name b{
+    font-size: 20px;
+    font-weight: 700;
+    font-family: 'MADE Okine Sans PERSONAL USE';
 }
-.login-data{
-    position: relative;
-    z-index: 2;
+.login_cnt_row_name p{
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+}
+.sign_up_optn{
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    text-align: center;
+    color: $white;
+}
+.sign_up_optn a{
+    color:$primary
 }
