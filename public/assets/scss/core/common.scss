@@ -1,12 +1,48 @@
 .bottom-pad {
     padding-bottom: 70px;
+    @media #{$max-xl}{
+        padding-bottom: 60px;
+    }
+    @media #{$max-lg}{
+        padding-bottom: 50px;
+    }
+    @media #{$max-md}{
+        padding-bottom: 40px;
+    }
+    @media #{$max-sm}{
+        padding-bottom: 30px;
+    }
 }
 
 .top-pad{
     padding-top: 70px;
+    @media #{$max-xl}{
+        padding-top: 60px;
+    }
+    @media #{$max-lg}{
+        padding-top: 50px;
+    }
+    @media #{$max-md}{
+        padding-top: 40px;
+    }
+    @media #{$max-sm}{
+        padding-top: 30px;
+    }
 }
 .grid-pad {
     padding-bottom: calc(70px - 20px);
+    @media #{$max-xl}{
+        padding-bottom:calc(60px - 20px);
+    }
+    @media #{$max-lg}{
+        padding-bottom:calc(50px - 20px);
+    }
+    @media #{$max-md}{
+        padding-bottom: calc(40px - 20px);
+    }
+    @media #{$max-sm}{
+        padding-bottom: calc(30px - 20px);
+    }
 }
 
 // common space closed
