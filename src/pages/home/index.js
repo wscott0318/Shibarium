@@ -32,25 +32,25 @@ export default function Home() {
   //  console.log('account---------------', account)
   return (
     <>
-      <main className="main-content ff-mos">
+      <main className="main-content">
         {/* Banner section start */}
         <section className="banner-section">
           <div className="container">
             <div className="banner-row">
               <div className="banner-col-s">
                 <div className="banner-content">
-                  <h1 className='banner-title mb-3'>
+                  <h1 className='banner-title mb-3 ff-mos'>
                     Shibarium world bridge, trade, swap
                   </h1>
-                  <p className='banner-desc'>
+                  <p className='banner-desc ff-mos'>
                     Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum. Sed nemo autem aut dolores quaerat ut repudiandae recusandae qui facilis
                   </p>
                   <div className='banner-btn'>
                     <div className="btn-col">
-                      <a className="btn primary-btn w-100 d-block" href="javascript:void(0)">Launch App</a>
+                      <a className="btn primary-btn w-100 d-block ff-mos" href="javascript:void(0)">Launch App</a>
                     </div>
                     <div className="btn-col">
-                      <a className="btn secondary-btn w-100 d-block" href="javascript:void(0)">Develop</a>
+                      <a className="btn secondary-btn w-100 d-block ff-mos" href="javascript:void(0)">Develop</a>
                     </div>
                   </div>
                 </div>
@@ -71,18 +71,18 @@ export default function Home() {
           <section className='features-section bottom-pad top-pad'>
             <div className="container">
               <div className='text-center'>
-                <h2 className='heading'>Shibarium Solutions</h2>
+                <h2 className='heading ff-mos'>Shibarium Solutions</h2>
               </div>
               <div className="row cus-row justify-content-center">
                 <div className="col-lg-4 col-md-6 col-sm-8 cus-col">
                   <div className="ftrs-card">
                     <div className='ftrs-head'>
-                      <h3 className='fw-600'>Swap</h3>
+                      <h3 className='fw-600 ff-mos'>Swap</h3>
                       <div className="ftrs-icon">
                         <img className='img-fluid' src="../../images/swap.png" alt="" />
                       </div>
                     </div>
-                    <p className='frts-desc'>
+                    <p className='frts-desc ff-mos'>
                       Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos
                       asperiores illum.
                     </p>
@@ -94,16 +94,16 @@ export default function Home() {
                 <div className="col-lg-4 col-md-6 col-sm-8 cus-col">
                   <div className="ftrs-card ftrs-active">
                     <div className='ftrs-head'>
-                      <h3 className='fw-600'>Swap</h3>
+                      <h3 className='fw-600 ff-mos'>Swap</h3>
                       <div className="ftrs-icon">
                         <img className='img-fluid' src="../../images/swap.png" alt="" />
                       </div>
                     </div>
-                    <p className='frts-desc'>
+                    <p className='frts-desc ff-mos'>
                       Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos
                       asperiores illum.
                     </p>
-                    <a href="javascript:void(0)" className='link'><span>Learn More</span>
+                    <a href="javascript:void(0)" className='link ff-mos'><span>Learn More</span>
                       <img className='img-fluid' src="../../images/link-arrow.png" alt="arrow-icon" />
                     </a>
                   </div>
@@ -111,12 +111,12 @@ export default function Home() {
                 <div className="col-lg-4 col-md-6 col-sm-8 cus-col">
                   <div className="ftrs-card">
                     <div className='ftrs-head'>
-                      <h3 className='fw-600'>Swap</h3>
+                      <h3 className='fw-600 ff-mos'>Swap</h3>
                       <div className="ftrs-icon">
                         <img className='img-fluid' src="../../images/swap.png" alt="" />
                       </div>
                     </div>
-                    <p className='frts-desc'>
+                    <p className='frts-desc ff-mos'>
                       Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos
                       asperiores illum.
                     </p>
@@ -138,31 +138,31 @@ export default function Home() {
                       <div className="row abt-row align-items-center justify-content-center">
                           <div className="col-lg-6 col-md-7 col-sm-8 order-2 order-md-1 abt-col">
                               <div className="abt-item">
-                                  <h3 className='abt-title mb-3'>Built by developers, for developers</h3>
-                                  <p className='abt-desc'>
+                                  <h3 className='abt-title mb-3 ff-mos'>Built by developers, for developers</h3>
+                                  <p className='abt-desc ff-mos'>
                                       Shibarium combines the best of Ethereum and sovereign blockchains into a full-fledged multi-chain system.
                                   </p>
                                   <ul className='abt-list mb-3'>
-                                      <li className='abt-lst-item'>
+                                      <li className='abt-lst-item ff-mos'>
                                           <div className="check-icon">
                                             <img className="img-fluid" src="../../images/tick.png" alt="tick-icon"/>
                                           </div>
                                           It is able to fully benefit from Ethereum’s network effects
                                       </li>
-                                      <li className='abt-lst-item'>
+                                      <li className='abt-lst-item ff-mos'>
                                           <div className="check-icon">
                                             <img className="img-fluid" src="../../images/tick.png" alt="tick-icon"/>
                                           </div>
                                           It is inherently more secure
                                       </li>
-                                      <li className='abt-lst-item'>
+                                      <li className='abt-lst-item ff-mos'>
                                           <div className="check-icon">
                                             <img className="img-fluid" src="../../images/tick.png" alt="tick-icon"/>
                                           </div>
                                           It is more open and powerful
                                       </li>
                                   </ul>
-                                  <a href="javascript:void(0)" className='btn secondary-btn'>First Steps</a>
+                                  <a href="javascript:void(0)" className='btn secondary-btn ff-mos'>First Steps</a>
                               </div>
                           </div>
                           <div className="col-lg-6 col-md-5 col-sm-8 abt-col order-1 order-md-2 text-center mb-4 mb-md-0">
@@ -180,7 +180,7 @@ export default function Home() {
           <section className='bone-section bottom-pad grid-pad'>
             <div className="container">
               <div className="heading text-center">
-                <h2>Stake and earn $BONE</h2>
+                <h2 className="ff-mos">Stake and earn $BONE</h2>
               </div>
               <div className="row cus-row justify-content-center">
                 <div className="col-md-6 col-sm-8 cus-col">
@@ -189,12 +189,12 @@ export default function Home() {
                       <img className='img-fluid' src="../../images/arrow-top.png" alt="" />
                     </a>
                     <div className='card-item'>
-                      <h3 className='mb-2'>Validators</h3>
+                      <h3 className='mb-2 ff-mos'>Validators</h3>
                       <p>
                         Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum.
                       </p>
                       <a className='primary-gradient-text d-flex align-items-center' href="javascript:void(0)">
-                        <span className='me-2'>Set up a node</span>
+                        <span className='me-2 ff-mos'>Set up a node</span>
                         <img className='img-fluid' src="../../images/top-arrow-prim.png" alt="img-fluid" />
                       </a>
                     </div>
@@ -209,12 +209,12 @@ export default function Home() {
                       <img className='img-fluid' src="../../images/arrow-top.png" alt="" />
                     </a>
                     <div className='card-item'>
-                      <h3 className='mb-2'>Validators</h3>
-                      <p>
+                      <h3 className='mb-2 ff-mos'>Validators</h3>
+                      <p className="ff-mos">
                         Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum.
                       </p>
                       <a className='primary-gradient-text d-flex align-items-center' href="javascript:void(0)">
-                        <span className='me-2'>Set up a node</span>
+                        <span className='me-2 ff-mos'>Set up a node</span>
                         <img className='img-fluid' src="../../images/top-arrow-prim.png" alt="img-fluid" />
                       </a>
                     </div>
@@ -232,7 +232,7 @@ export default function Home() {
           <section className='shib-comun-section bottom-pad grid-pad'>
             <div className="container">
               <div className="text-center">
-                <h2 className='heading pb-3'>Let’s grow as community</h2>
+                <h2 className='heading pb-3 ff-mos'>Let’s grow as community</h2>
               </div>
               <div className="row cus-row">
                 <div className="col-sm-6 col-lg-4 col-xl-3 cus-col">
@@ -240,8 +240,8 @@ export default function Home() {
                     <div className="shib-img mb-3">
                       <img className='img-fluid' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
-                    <h4 className='shib-title mb-2'>Developer Resources</h4>
-                    <p>
+                    <h4 className='shib-title mb-2 ff-mos'>Developer Resources</h4>
+                    <p className="ff-mos">
                       Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum.
                     </p>
                   </div>
@@ -251,8 +251,8 @@ export default function Home() {
                     <div className="shib-img mb-3">
                       <img className='img-fluid' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
-                    <h4 className='shib-title mb-2'>Developer Resources</h4>
-                    <p>
+                    <h4 className='shib-title mb-2 ff-mos'>Developer Resources</h4>
+                    <p className="ff-mos">
                       Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum.
                     </p>
                   </div>
@@ -262,8 +262,8 @@ export default function Home() {
                     <div className="shib-img mb-3">
                       <img className='img-fluid' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
-                    <h4 className='shib-title mb-2'>Developer Resources</h4>
-                    <p>
+                    <h4 className='shib-title mb-2 ff-mos'>Developer Resources</h4>
+                    <p className="ff-mos">
                       Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum.
                     </p>
                   </div>
@@ -273,8 +273,8 @@ export default function Home() {
                     <div className="shib-img mb-3">
                       <img className='img-fluid' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
-                    <h4 className='shib-title mb-2'>Developer Resources</h4>
-                    <p>
+                    <h4 className='shib-title mb-2 ff-mos'>Developer Resources</h4>
+                    <p className="ff-mos">
                       Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum.
                     </p>
                   </div>
@@ -292,37 +292,37 @@ export default function Home() {
                 <li className="shib-col">
                   <div className="shib-item">
                     <img className='img-fluid' src="../../images/instagram.png" alt="socail-icon" width={24} />
-                    <span>Instagram</span>
+                    <span className="ff-mos">Instagram</span>
                   </div>
                 </li>
                 <li className="shib-col">
                   <div className="shib-item">
                     <img className='img-fluid' src="../../images/instagram.png" alt="socail-icon" width={24} />
-                    <span>Instagram</span>
+                    <span className="ff-mos">Instagram</span>
                   </div>
                 </li>
                 <li className="shib-col">
                   <div className="shib-item">
                     <img className='img-fluid' src="../../images/instagram.png" alt="socail-icon" width={24} />
-                    <span>Instagram</span>
+                    <span className="ff-mos">Instagram</span>
                   </div>
                 </li>
                 <li className="shib-col">
                   <div className="shib-item">
                     <img className='img-fluid' src="../../images/instagram.png" alt="socail-icon" width={24} />
-                    <span>Instagram</span>
+                    <span className="ff-mos">Instagram</span>
                   </div>
                 </li>
                 <li className="shib-col">
                   <div className="shib-item">
                     <img className='img-fluid' src="../../images/instagram.png" alt="socail-icon" width={24} />
-                    <span>Instagram</span>
+                    <span className="ff-mos">Instagram</span>
                   </div>
                 </li>
                 <li className="shib-col">
                   <div className="shib-item">
                     <img className='img-fluid' src="../../images/instagram.png" alt="socail-icon" width={24} />
-                    <span>Instagram</span>
+                    <span className="ff-mos">Instagram</span>
                   </div>
                 </li>
               </ul>
@@ -341,7 +341,7 @@ export default function Home() {
                 </a>
               </div>
               <div className="col-6 text-end">
-                <a className='' href="javascript:void(0)">
+                <a className='ff-mos' href="javascript:void(0)">
                   English
                 </a>
               </div>
@@ -351,30 +351,94 @@ export default function Home() {
             <div className="row">
               <div className="col-sm-3 col-6">
                 <div className='bottom-item'>
-                  <h6 className='mb-3 uc'>Category</h6>
+                  <h6 className='mb-3 uc ff-mos'>Category</h6>
                   <ul className='footer-list'>
                     <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
+                      <a className="ftr-link ff-mos" href="javascript:void(0)">
                         Link 1
                       </a>
                     </li>
                     <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
+                      <a className="ftr-link ff-mos" href="javascript:void(0)">
                         Link 1
                       </a>
                     </li>
                     <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
+                      <a href="javascript:void(0)" className="ftr-link ff-mos">
                         Link 1
                       </a>
                     </li>
                     <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
+                      <a href="javascript:void(0)" className="ftr-link ff-mos">
                         Link 1
                       </a>
                     </li>
                     <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
+                      <a href="javascript:void(0)" className="ftr-link ff-mos">
+                        Link 1
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div className="col-sm-3 col-6">
+                <div className='bottom-item'>
+                  <h6 className='mb-3 uc ff-mos'>Category</h6>
+                  <ul className='footer-list'>
+                    <li className='footer-lst-item'>
+                      <a className="ftr-link ff-mos" href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a className="ftr-link ff-mos" href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a className="ftr-link ff-mos" href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a className="ftr-link ff-mos" href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a className="ftr-link ff-mos" href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div className="col-sm-3 col-6">
+                <div className='bottom-item'>
+                  <h6 className='mb-3 uc ff-mos'>Category</h6>
+                  <ul className='footer-list'>
+                    <li className='footer-lst-item'>
+                      <a className="ftr-link ff-mos" href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a className="ftr-link ff-mos" href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a className="ftr-link ff-mos" href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a className="ftr-link ff-mos" href="javascript:void(0)">
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='footer-lst-item'>
+                      <a className="ftr-link ff-mos" href="javascript:void(0)">
                         Link 1
                       </a>
                     </li>
@@ -386,91 +450,27 @@ export default function Home() {
                   <h6 className='mb-3 uc'>Category</h6>
                   <ul className='footer-list'>
                     <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
+                      <a className="ftr-link ff-mos" href="javascript:void(0)">
                         Link 1
                       </a>
                     </li>
                     <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
+                      <a className="ftr-link ff-mos" href="javascript:void(0)">
                         Link 1
                       </a>
                     </li>
                     <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
+                      <a className="ftr-link ff-mos" href="javascript:void(0)">
                         Link 1
                       </a>
                     </li>
                     <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
+                      <a className="ftr-link ff-mos" href="javascript:void(0)">
                         Link 1
                       </a>
                     </li>
                     <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div className="col-sm-3 col-6">
-                <div className='bottom-item'>
-                  <h6 className='mb-3 uc'>Category</h6>
-                  <ul className='footer-list'>
-                    <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div className="col-sm-3 col-6">
-                <div className='bottom-item'>
-                  <h6 className='mb-3 uc'>Category</h6>
-                  <ul className='footer-list'>
-                    <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a href="javascript:void(0)">
+                      <a className="ftr-link ff-mos" href="javascript:void(0)">
                         Link 1
                       </a>
                     </li>
