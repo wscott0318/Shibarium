@@ -101,14 +101,55 @@ export default function Assets() {
       <main className="main-content">
         <Sidebar handleMenuState={handleMenuState} menuState={menuState}/>
         <CommonModal
-          title={"Important"}
+          title={"Transferring funds"}
           show={showSendModal}
           setShow={setSendModal}
           
           >
           {/* step 1 */}
           <>
-            <h1 className="text-primary">test</h1>
+            {/* transferring funds popop start */}
+                
+                <div className="cmn_modal">
+                    <p>Sending funds to exchanges:</p>
+                    <div className="exchng_msg_box">
+                        <p>Exchanges supported from Shibarium network</p>
+                        <p className="sprdt_txt">Supported Excanges</p>
+                    </div>
+                    <p className="alert_msg"><img src="../../images/i-info-icon.png"/> Sending funds to unsupported exchanges will lead to permanent loss of funds.</p>
+                    <div className="pop_btns_area row">
+                          <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Cancel</a>  </div>
+                          <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Continue</a>  </div>
+                    </div>
+                    <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
+                </div>
+
+             {/* transferring funds popop ends */}
+
+             {/* send popop start */}
+                {/* <div className="cmn_modal">
+                    <h4 className="pop_main_h text-center">Send</h4>
+                     <form>
+                        <div class="form-group">                        
+                          <input type="text" class="form-control cmn_inpt_fld"  placeholder="Reciver address"/>
+                        </div>
+                        <div class="form-group">  
+                          <label>Enter a valid reciver address on Shibarium Mainnet</label>                      
+                          <input type="text" class="form-control cmn_inpt_fld"  placeholder="0.00"/>
+                          <p className="inpt_fld_hlpr_txt">
+                            <span>0.00$</span>
+                            <b>Available balance: 0.00 SHIB</b>
+                          </p>
+                          <div className="pop_btns_area mr-top-50 row">
+                              <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
+                              <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
+                          </div>
+                        </div>
+                     </form>
+                     <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
+                </div> */}
+                {/* send popop ends */}
+
           </>
           {/* step 1 end */}
           </CommonModal>
@@ -173,58 +214,59 @@ export default function Assets() {
                           </div>
                       </div>
 
-                      <div className="assets_btm_area">
-                          <h2>Assets on Shibarium</h2>
-                          <div className="cmn_dasdrd_table">
-                              <div class="table-responsive">
-                                  <table class="table table-borderless">
-                                      <thead>
-                                          <tr>
-                                              <th>Name</th>
-                                              <th>Balance</th>
-                                              <th>Actions</th>
-                                              <th colSpan="2" className="text-end"><input type="search" placeholder="Search"/></th>
-                                          </tr>
-                                      </thead>
-                                      <tbody>
-                                          <tr>
-                                              <td><span><img src="../../images/shiba-round-icon.png"/></span><b>SHIB</b> - Shibatoken</td>
-                                              <td>0.0000 - 0.00$</td>
-                                              <td><a href="#">Deposit</a></td>
-                                              <td><a href="#">Whitdraw</a></td>
-                                              <td><a href="#">Send</a></td>
-                                          </tr>
-                                          <tr>
-                                              <td><span><img src="../../images/matic-round-icon.png"/></span><b>MATIC</b> - Polygon</td>
-                                              <td>0.0000 - 0.00$</td>
-                                              <td><a href="#">Deposit</a></td>
-                                              <td><a href="#">Whitdraw</a></td>
-                                              <td><a href="#">Send</a></td>                                            
-                                          </tr>
-                                          <tr>
-                                              <td><span><img src="../../images/bnb-round-icon.png"/></span><b>BNB</b> - BNB</td>
-                                              <td>0.0000 - 0.00$</td>
-                                              <td><a href="#">Deposit</a></td>
-                                              <td><a href="#">Whitdraw</a></td>
-                                              <td><a href="#">Send</a></td>                                            
-                                          </tr>
-                                          <tr>
-                                              <td><span><img src="../../images/shiba-round-icon.png"/></span><b>SHIB</b> - Shibatoken</td>
-                                              <td>0.0000 - 0.00$</td>
-                                              <td><a href="#">Deposit</a></td>
-                                              <td><a href="#">Whitdraw</a></td>
-                                              <td><a href="#">Send</a></td>                                        
-                                          </tr>
-                                      </tbody>
-                                  </table>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  {/* assets section end */}
-                  
-              </div>
-          </section> 
+                    <div className="assets_btm_area">
+                        <h2>Assets on Shibarium</h2>
+                        <div className="cmn_dasdrd_table">
+                            <div class="table-responsive">
+                                <table class="table table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Balance</th>
+                                            <th>Actions</th>
+                                            <th colSpan="2" className="text-end"><input type="search" placeholder="Search"/></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span><img src="../../images/shiba-round-icon.png"/></span><b>SHIB</b> - Shibatoken</td>
+                                            <td>0.0000 - 0.00$</td>
+                                            <td><a href="#">Deposit</a></td>
+                                            <td><a href="#">Whitdraw</a></td>
+                                            <td><a href="#">Send</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span><img src="../../images/matic-round-icon.png"/></span><b>MATIC</b> - Polygon</td>
+                                            <td>0.0000 - 0.00$</td>
+                                            <td><a href="#">Deposit</a></td>
+                                            <td><a href="#">Whitdraw</a></td>
+                                            <td><a href="#">Send</a></td>                                            
+                                        </tr>
+                                        <tr>
+                                            <td><span><img src="../../images/bnb-round-icon.png"/></span><b>BNB</b> - BNB</td>
+                                            <td>0.0000 - 0.00$</td>
+                                            <td><a href="#">Deposit</a></td>
+                                            <td><a href="#">Whitdraw</a></td>
+                                            <td><a href="#">Send</a></td>                                            
+                                        </tr>
+                                        <tr>
+                                            <td><span><img src="../../images/shiba-round-icon.png"/></span><b>SHIB</b> - Shibatoken</td>
+                                            <td>0.0000 - 0.00$</td>
+                                            <td><a href="#">Deposit</a></td>
+                                            <td><a href="#">Whitdraw</a></td>
+                                            <td><a href="#">Send</a></td>                                        
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>   
+                {/* assets section end */}                                 
+
+            </div>
+        </section> 
+        
       </main>
    </>
   );

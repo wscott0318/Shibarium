@@ -94,7 +94,7 @@ h3 {
     }
 }
 h4 {
-    font-size: 25px;
+    font-size: 24px;
     @media #{$max-xl}{
         font-size: 22px;
     }
@@ -297,6 +297,18 @@ ul {
     }
 }
 
+.blue-btn{
+    background-color:$body-bg;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color:$white;
+    &:hover{
+        background:$primary-gradient;
+        color:rgba($white, 0.89);
+    }
+}
+
 .cmn_dasdrd_table {
     background:$body-bg;
     border-radius: 30px;
@@ -333,4 +345,72 @@ ul {
       ::-ms-input-placeholder { /* Microsoft Edge */
         color: #596380;
       }
+}
+.pop_main_h{
+    margin-bottom: 25px;
+}
+.cmn_modal{
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: $white;
+        opacity: 1; /* Firefox */
+      }
+      
+      :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color:$white;
+      }
+      
+      ::-ms-input-placeholder { /* Microsoft Edge */
+        color:$white;
+      }
+      .form-group{
+        margin-bottom: 20px;
+        label{
+            margin-bottom: 15px;
+        }
+        .inpt_fld_hlpr_txt{
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+      }
+}
+.cmn_modal p{
+    color: $white;
+} 
+.cmn_modal input[type="text"], .cmn_modal  input[type="email"]{
+    background-color: $body-bg;
+    padding: 15px 20px;
+    font-size: 16px;
+    border-radius: 10px;
+    border:0;
+    font-size: 16px;
+    font-weight: 400px;
+} 
+.mr-top-50{
+    margin-top: 50px;
+}
+.shib-popup{
+    .modal-content{
+        background-color: $body-bg-800;
+        border-radius: 40px;
+        padding: 50px 0px;
+        .modal-header{
+            border: 0;
+            text-align: center;
+            font-weight: 600;
+            margin: 0 auto;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+            text-align: center !important;
+            .btn-close{
+                position: absolute;
+                right: 50px;
+                background-image: url('../../../images/pop-close.png') !important;
+                background-repeat: no-repeat;
+                opacity: 1;
+                padding: 5px 0;
+            }
+        }
+    }
 }
