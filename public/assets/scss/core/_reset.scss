@@ -56,6 +56,12 @@ h1 {
     @media #{$max-lg}{
         font-size: 42px;
     }
+    @media #{$max-md}{
+        font-size: 40px;
+    }
+    @media #{$max-sm}{
+        font-size: 36px;
+    }
 }
 h2 {
     font-size: 40px;
@@ -262,7 +268,6 @@ ul {
 .grey-btn{
     background-color:$grey-color;
     border-radius: 10px;
-    padding: 18px 50px;
     font-size: 16px;
     font-weight: 600;
     color:$white;
@@ -275,7 +280,6 @@ ul {
 .white-btn{
     background-color:$grey-color-800;
     border-radius: 10px;
-    padding: 15px 50px;
     font-size: 16px;
     font-weight: 600;
     color:$grey-color;
@@ -295,6 +299,7 @@ ul {
         color:$grey-color-800;
         font-weight: 400;
         padding: 20px;
+        white-space:nowrap;
     }
     .table th{
         border-bottom: 1px solid #596380;

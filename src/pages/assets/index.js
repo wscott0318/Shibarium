@@ -271,6 +271,7 @@ export default function Assets() {
                     </div>
                 </div>
                 {/* assets section end */}
+                
             </div>
         </section> 
         
