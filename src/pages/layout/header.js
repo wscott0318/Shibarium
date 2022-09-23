@@ -189,12 +189,16 @@ export default function Header() {
   //     )
   //   }
   // }
+
+  const location = window.location.pathname
+  console.log(location)
   return (
     <>
-      <header className='main-header d-none'>
+      {/* <header className={location == '/home' ? 'main-header' : 'd-none'}> */}
+      <header className='main-header sticky-header'>
         <Navbar className='py-0'>
           <Container>
-            <Navbar.Brand href="#home">
+            <Navbar.Brand href="/">
               <img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} />
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -212,7 +216,7 @@ export default function Header() {
                   </NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Item>
-                  <a className='btn primary-btn' href="javascript:void(0)">
+                  <a className='btn primary-btn ff-mos' href="javascript:void(0)">
                     Launch App
                   </a>
                 </Nav.Item>
