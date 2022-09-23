@@ -218,6 +218,7 @@
     "cids": "^1.1.9",
     "formik": "^2.2.9",
     "from-exponential": "^1.1.1",
+    "i": "^0.3.7",
     "moralis": "1.5.4",
     "moralis-v1": "^1.11.0",
     "react-bootstrap": "^2.5.0",

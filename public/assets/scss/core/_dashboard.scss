@@ -28,6 +28,15 @@
     }
     .sidebar-logo {
         padding: 30px 20px 70px;
+        @media #{$max-xxl}{
+            padding: 22px 15px 40px;
+        }
+        @media #{$max-xl}{
+            padding: 15px 15px 30px;
+        }
+        // @media #{$max-xl}{
+        //     padding: 15px 15px 30px;
+        // }
     }
     .side-menu {
         padding: 0 20px;
