@@ -110,6 +110,9 @@ export default function Sidebar(props) {
       <sidebar className="sidebar">
         <div className="sidbar-top-menu">
           <div className="sidebar-logo">
+            <a className="close-icon" href="javascript:void(0)">
+              <img className="img-fluid" src="../../images/close-icon.png" alt="close-icon"/>
+            </a>
             <a className="sidelogo-link" href="javascript:void(0)">
               <img className="img-fluid" src="../../images/logo.png" alt="" />
             </a>

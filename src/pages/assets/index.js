@@ -114,7 +114,8 @@ export default function Assets() {
                   <div className="inner-header">
                   <Navbar className='py-0'>
                     <Container>
-                      <Navbar.Brand href="#home">
+                      <Navbar.Brand href="" className="menu-btn">
+                        <img className="img-fluid" src="../../images/menu.svg" alt="" />
                       </Navbar.Brand>
                       <Navbar.Toggle aria-controls="basic-navbar-nav" />
                       <Navbar.Collapse id="basic-navbar-nav">
