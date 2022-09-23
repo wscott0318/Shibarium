@@ -189,12 +189,25 @@ export default function Header() {
   //     )
   //   }
   // }
+
+ const handleScrollToElement = (event) => {
+    console.log(event)
+}
+
+const [scroll, setScroll] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      setScroll(window.scrollY > 50);
+    });
+  },[])
+
   return (
     <>
-      <header className='main-header d-none'>
-        <Navbar className='py-0' expand="lg">
+      <header className={scroll ? 'main-header sticky-header' : 'main-header'}>
+        <Navbar className='py-0'>
           <Container>
-            <Navbar.Brand href="#home">
+            <Navbar.Brand href="/">
               <img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} />
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -212,9 +225,9 @@ export default function Header() {
                   </NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Item>
-                  <a className='btn primary-btn' href="javascript:void(0)">
-                    Launch App
-                  </a>
+                  <Link href="/assets">
+                    <a className='btn primary-btn ff-mos'>Launch App</a>
+                  </Link>
                 </Nav.Item>
               </Nav>
             </Navbar.Collapse>

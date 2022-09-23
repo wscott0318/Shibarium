@@ -6,7 +6,12 @@
     z-index: 999;
     bottom: auto;
     background: transparent;
+    &.sticky-header{
+        background: $body-bg;
+    }
     .navbar-brand {
+        padding-top: 8px;
+        padding-bottom: 8px;
         @media #{$max-lg}{
             max-width: 150px;
         }

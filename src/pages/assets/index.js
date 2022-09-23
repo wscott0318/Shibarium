@@ -2,7 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect, useContext } from "react";
 
-import { Button, Container, Nav, Navbar, NavDropdown,Dropdown } from 'react-bootstrap';
+import { Button, Container, Nav, Navbar, NavDropdown,Dropdown ,Modal} from 'react-bootstrap';
 
 import { useRouter } from "next/dist/client/router";
 import Popup from "../components/PopUp";
@@ -12,15 +12,15 @@ import Popup from "../components/PopUp";
 // import { useAccount } from "../../../hooks/web3hooks";
 // import { walletConnector } from "../../utils/connectors";
 // import Web3 from "web3";
+import  CommonModal from "../components/CommonModel";
 import Link from 'next/link'
 import {
   NoEthereumProviderError,
   UserRejectedRequestError as UserRejectedRequestErrorInjected
 } from '@web3-react/injected-connector'
-
+import Sidebar  from "../layout/sidebar"
 import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
-
 import { useMoralis } from "react-moralis";
 
 export default function Assets() {
@@ -28,7 +28,7 @@ export default function Assets() {
   // const { authenticate, isAuthenticated, user,} = useMoralis();
 
   // const {handleAccount}=useContext(ProjectContext)
-  const [showInsModal, setShowInsModal] = useState(false);
+  const [showSendModal, setSendModal] = useState(false);
  
   const { account } = useActiveWeb3React()
   // const account = useAccount()
@@ -63,7 +63,7 @@ export default function Assets() {
   useEffect(() => {
     if(account){
       // handleAccount(account)
-      router.push('/assets')
+      // router.push('/assets')
     }
     },[account]);
     // useEffect(() => {
@@ -89,138 +89,100 @@ export default function Assets() {
         return ''
       }
     }
+
+
     
 
   return (
    <>
       <main className="main-content">
-        {/* sidebar */}
-          <sidebar className="sidebar">
-            <div className="sidbar-top-menu">
-              <div className="sidebar-logo">
-                <a className="sidelogo-link" href="javascript:void(0)">
-                  <img className="img-fluid" src="../../images/logo.png" alt="" />
-                </a>
-              </div>
-              <ul className="side-menu">
-                    <li className="side-menu-item">
-                      <Link  href={`javascript:void(0)`}>
-                        <a className="side-link btn primary-btn" >
-                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
-                        </a>
-                      </Link>
-                    </li>
-                    <li className="side-menu-item">
-                      <Link  href={`javascript:void(0)`}>
-                        <a className="side-link btn" >
-                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
-                        </a>
-                      </Link>
-                    </li>
-                    <li className="side-menu-item">
-                      <Link  href={`javascript:void(0)`}>
-                        <a className="side-link btn" >
-                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
-                        </a>
-                      </Link>
-                    </li>
-                    <li className="side-menu-item">
-                      <Link  href={`javascript:void(0)`}>
-                        <a className="side-link btn" >
-                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
-                        </a>
-                      </Link>
-                    </li>
-                </ul>
-            </div>
-            <div className="sidebar-bottom-menu">
-                <ul className="side-menu">
-                    <li className="side-menu-item">
-                      <Link  href={`javascript:void(0)`}>
-                        <a className="side-link btn" >
-                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
-                        </a>
-                      </Link>
-                    </li>
-                    <li className="side-menu-item">
-                      <Link  href={`javascript:void(0)`}>
-                        <a className="side-link btn" >
-                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
-                        </a>
-                      </Link>
-                    </li>
-                    <li className="side-menu-item">
-                      <Link  href={`javascript:void(0)`}>
-                        <a className="side-link btn" >
-                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
-                        </a>
-                      </Link>
-                    </li>
-                </ul>
-            </div>
-          </sidebar>
-        {/* sidebar */}
-        <section className="assets-section">
-            <div className="cmn_dashbord_main_outr">
-                <div className="inner-header">
-                <Navbar className='py-0' expand="lg">
-                  <Container>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                      <Nav className="ms-auto">
-                        <Dropdown className="d-flex align-items-center">
-                        <div className="" id="basic-nav-dropdown">
-                          <img src="../../images/menu-icon.png" alt="" />
-                        </div>
-                        <NavDropdown className="me-3" title="App">
-                          <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                          <NavDropdown.Item href="#action/3.2">
-                            Another action
-                          </NavDropdown.Item>
-                          <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                          <NavDropdown.Divider />
-                          <NavDropdown.Item href="#action/3.4">
-                            Separated link
-                          </NavDropdown.Item>
-                        </NavDropdown>
-                        </Dropdown>
-                        <Nav.Item>
-                          <Link href={'javascript:void(0)'}>
-                            <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
-                              <img className="img-fluid me-2" src="../../images/meta-icon.png" alt="meta-img"/>
-                              <span>0x21A...48A5</span>
-                            </a>
-                          </Link>
-                        </Nav.Item>
-                      </Nav>
-                    </Navbar.Collapse>
-                  </Container>
-                </Navbar>
-                </div>
-                {/* assets section start */}
-                <div className="assets_outr">
-                    <h2>My Balance</h2>
-                    <div className="assets_top_area">
-                        <div className="main_net_amnt t_a_clm">
-                            <h1>20.000$</h1>
-                            <p>shibarium mainnet</p>
-                        </div>
-                        <div className="btns_area t_a_clm">
-                            <a href="#" className="btn grey-btn w-100 d-block"><span><img src="../../images/recive-icon.png" alt="recive"/></span>Receive</a>
-                            <a href="#" className="btn grey-btn w-100 d-block"><span><img src="../../images/send-icon.png" alt="recive"/></span>Send</a>
-                        </div>
-                        <div className="lrg_btns_area t_a_clm">
-                            <a href="#" className="btn white-btn w-100 d-block">Move funds from Ethereum to Shibarium</a>
-                            <a href="#" className="btn white-btn w-100 d-block">How Shibarium works</a>
-                        </div>
+        <Sidebar/>
+        <CommonModal
+          title={"Important"}
+          show={showSendModal}
+          setShow={setSendModal}
+          
+          >
+          {/* step 1 */}
+          <>
+           
+          <div className="cmn_modal">
+                    <h4 className="pop_main_h text-center">Transferring funds</h4>
+                    <p>Sending funds to exchanges:</p>
+                    <div className="exchng_msg_box">
+                        <p>Exchanges supported from Shibarium network</p>
+                        <p className="sprdt_txt">Supported Excanges</p>
                     </div>
+                    <p className="alert_msg"><img src="../../images/i-info-icon.png"/> Sending funds to unsupported exchanges will lead to permanent loss of funds.</p>
+                    <div className="pop_btns_area">
+                        <a className='btn blue-btn w-100' href="javascript:void(0)">Cancel</a>  
+                        <a className='btn primary-btn w-100' href="javascript:void(0)">Continue</a>  
+                    </div>
+                    <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
+                </div>
+                
+          </>
+          {/* step 1 end */}
+          </CommonModal>
+          <section className="assets-section">
+              <div className="cmn_dashbord_main_outr">
+                  <div className="inner-header">
+                  <Navbar className='py-0'>
+                    <Container>
+                      <Navbar.Brand href="#home">
+                      </Navbar.Brand>
+                      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                      <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="ms-auto">
+                          <Dropdown className="d-flex align-items-center">
+                          <div className="" id="basic-nav-dropdown">
+                            <img src="../../images/menu-icon.png" alt="" />
+                          </div>
+                          <NavDropdown className="me-3" title="App">
+                            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.2">
+                              Another action
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item href="#action/3.4">
+                              Separated link
+                            </NavDropdown.Item>
+                          </NavDropdown>
+                          </Dropdown>
+                          <Nav.Item>
+                            <Link href={'javascript:void(0)'}>
+                              <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
+                                <img className="img-fluid me-2" src="../../images/meta-icon.png" alt="meta-img"/>
+                                <span>0x21A...48A5</span>
+                              </a>
+                            </Link>
+                          </Nav.Item>
+                        </Nav>
+                      </Navbar.Collapse>
+                    </Container>
+                  </Navbar>
+                  </div>
+                  {/* assets section start */}
+                  <div className="assets_outr">
+                      <h2>My Balance</h2>
+                      <div className="assets_top_area">
+                          <div className="main_net_amnt t_a_clm">
+                              <h1>20.000$</h1>
+                              <p>shibarium mainnet</p>
+                          </div>
+                          <div className="btns_area t_a_clm">
+                              <a href="#" className="btn grey-btn w-100 d-block">
+                                <span><img src="../../images/recive-icon.png" alt="recive"/></span>
+                                Receive
+                              </a>
+                              <button onClick={() => setSendModal(true)} className="btn grey-btn w-100 d-block"><span><img src="../../images/send-icon.png" alt="recive"/></span>Send</button>
+                          </div>
+                          <div className="lrg_btns_area t_a_clm">
+                              <a href="#" className="btn white-btn w-100 d-block">Move funds from Ethereum to Shibarium</a>
+                              <a href="#" className="btn white-btn w-100 d-block">How Shibarium works</a>
+                          </div>
+                      </div>
 
                     <div className="assets_btm_area">
                         <h2>Assets on Shibarium</h2>
@@ -275,20 +237,7 @@ export default function Assets() {
                 <br/>
                 <br/>
                 {/* transferring funds popop start */}
-                <div className="cmn_modal">
-                    <h4 className="pop_main_h text-center">Transferring funds</h4>
-                    <p>Sending funds to exchanges:</p>
-                    <div className="exchng_msg_box">
-                        <p>Exchanges supported from Shibarium network</p>
-                        <p className="sprdt_txt">Supported Excanges</p>
-                    </div>
-                    <p className="alert_msg"><img src="../../images/i-info-icon.png"/> Sending funds to unsupported exchanges will lead to permanent loss of funds.</p>
-                    <div className="pop_btns_area">
-                        <a className='btn blue-btn w-100' href="javascript:void(0)">Cancel</a>  
-                        <a className='btn primary-btn w-100' href="javascript:void(0)">Continue</a>  
-                    </div>
-                    <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
-                </div>
+                
                 {/* transferring funds popop ends */}
                 <br/>
                 <br/>
