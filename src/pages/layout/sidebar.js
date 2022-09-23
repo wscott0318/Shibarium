@@ -53,7 +53,7 @@ export default function Sidebar(props) {
                       <Link  href={`javascript:void(0)`}>
                         <a className="side-link btn" >
                           <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
+                          <span>Transactions</span>
                         </a>
                       </Link>
                     </li>
@@ -61,7 +61,7 @@ export default function Sidebar(props) {
                       <Link  href={`javascript:void(0)`}>
                         <a className="side-link btn" >
                           <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
+                          <span>Bridge</span>
                         </a>
                       </Link>
                     </li>
@@ -69,7 +69,15 @@ export default function Sidebar(props) {
                       <Link  href={`javascript:void(0)`}>
                         <a className="side-link btn" >
                           <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
+                          <span>Swap token</span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li className="side-menu-item">
+                      <Link  href={`javascript:void(0)`}>
+                        <a className="side-link btn" >
+                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
+                          <span>Gas token</span>
                         </a>
                       </Link>
                     </li>
@@ -81,7 +89,7 @@ export default function Sidebar(props) {
                       <Link  href={`javascript:void(0)`}>
                         <a className="side-link btn" >
                           <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
+                          <span>FAQs</span>
                         </a>
                       </Link>
                     </li>
@@ -89,7 +97,7 @@ export default function Sidebar(props) {
                       <Link  href={`javascript:void(0)`}>
                         <a className="side-link btn" >
                           <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
+                          <span>Developer Tools</span>
                         </a>
                       </Link>
                     </li>
@@ -97,7 +105,7 @@ export default function Sidebar(props) {
                       <Link  href={`javascript:void(0)`}>
                         <a className="side-link btn" >
                           <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
+                          <span>Support</span>
                         </a>
                       </Link>
                     </li>
