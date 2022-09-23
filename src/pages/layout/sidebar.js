@@ -21,15 +21,92 @@ export default function Sidebar(props) {
     setIsVisible((prev) => !prev);
   };
 
-  const handleActiveTab = (index) => {
-    SideNavTab.filter(elm => {
-      if (elm.id == index) {
-        elm.isActive = true
-      } else {
-        elm.isActive = false
-      }
-    })
+  const topList = [
+    {
+      name: 'Wallet',
+      route:'',
+      isSelected: false,
+      img:"../../images/sidebar/wallet.png",
+    },
+    {
+      name: 'Transactions',
+      route:'',
+      isSelected: false,
+      img:"../../images/sidebar/transaction.png",
+    },
+    {
+      name: 'Bridge',
+      route:'',
+      isSelected: false,
+      img:"../../images/sidebar/bridge.png",
+    },
+    {
+      name: 'Swap token',
+      route:'',
+      isSelected: false,
+      img:"../../images/sidebar/swap.png",
+    },
+    {
+      name: 'Gas token',
+      route:'',
+      isSelected: false,
+      img:"../../images/sidebar/gas-toke.png",
+    }
+  ]
+
+  const bottomList = [
+    {
+      name: 'FAQs',
+      route:'',
+      isSelected: false,
+      img:"../../images/sidebar/faq.png" ,
+    },
+    {
+      name: 'Developer Tools',
+      route:'',
+      isSelected: false,
+      img:"../../images/sidebar/tools.png",
+    },
+    {
+      name: 'Support',
+      route:'',
+      isSelected: false,
+      img:"../../images/sidebar/wallet.png",
+    },
+  ]
+
+  const [renderTopList, setRenderTopList] = useState(topList)
+  const [renderBottomList, setRenderBottomList] = useState(bottomList)
+
+  const handelClick = (index, type) => {
+    if(type === 'top'){
+      let newData = renderTopList.map(elm => {
+        if (elm.name === index) {
+          elm.isSelected = true
+        } else {
+          elm.isSelected = false
+        }
+        return elm
+      })
+      setRenderTopList(newData)
+      setRenderBottomList(bottomList)
+    } else {
+      let newData = renderBottomList.map(elm => {
+        if (elm.name === index) {
+          elm.isSelected = true
+        } else {
+          elm.isSelected = false
+        }
+        return elm
+      })
+      setRenderTopList(topList)
+      setRenderBottomList(newData)
+    }
+
   }
+
+  console.log(renderTopList)
+
   return (
     <>
       {/* sidebar start */}
@@ -44,74 +121,34 @@ export default function Sidebar(props) {
             </a>
           </div>
           <ul className="side-menu">
-            <li className="side-menu-item">
-              <Link href={`javascript:void(0)`}>
-                <a className="side-link btn primary-btn" >
-                  <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                  <span>Wallet</span>
-                </a>
-              </Link>
-            </li>
-            <li className="side-menu-item">
-              <Link href={`javascript:void(0)`}>
-                <a className="side-link btn" >
-                  <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/transaction.png" alt="side-icon" /></span>
-                  <span>Transactions</span>
-                </a>
-              </Link>
-            </li>
-            <li className="side-menu-item">
-              <Link href={`javascript:void(0)`}>
-                <a className="side-link btn" >
-                  <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/bridge.png" alt="side-icon" /></span>
-                  <span>Bridge</span>
-                </a>
-              </Link>
-            </li>
-            <li className="side-menu-item">
-              <Link href={`javascript:void(0)`}>
-                <a className="side-link btn" >
-                  <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/swap.png" alt="side-icon" /></span>
-                  <span>Swap token</span>
-                </a>
-              </Link>
-            </li>
-            <li className="side-menu-item">
-              <Link href={`javascript:void(0)`}>
-                <a className="side-link btn" >
-                  <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/gas-toke.png" alt="side-icon" /></span>
-                  <span>Gas token</span>
-                </a>
-              </Link>
-            </li>
+            {
+              renderTopList.map(x => 
+              <li className="side-menu-item">
+                <button className={x.isSelected ? "side-link btn primary-btn w-100" : "side-link btn w-100"} onClick={() => handelClick(x.name, 'top')}>
+                  <span>
+                    <span className="side-ico"><img className="img-fluid" src={x.img} alt="side-icon" /></span>
+                    <span>{x.name}</span>
+                  </span>
+                </button>
+              </li>
+              ) 
+            }
           </ul>
         </div>
         <div className="sidebar-bottom-menu">
           <ul className="side-menu">
-            <li className="side-menu-item">
-              <Link href={`javascript:void(0)`}>
-                <a className="side-link btn" >
-                  <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/faq.png" alt="side-icon" /></span>
-                  <span>FAQs</span>
-                </a>
-              </Link>
+          {
+            renderBottomList.map(x => 
+              <li className="side-menu-item">
+              <button className={x.isSelected ? "side-link btn primary-btn w-100" : "side-link btn w-100"} onClick={() => handelClick(x.name, 'bottom')}>
+                <span>
+                  <span className="side-ico"><img className="img-fluid" src={x.img} alt="side-icon" /></span>
+                  <span>{x.name}</span>
+                </span>
+              </button>
             </li>
-            <li className="side-menu-item">
-              <Link href={`javascript:void(0)`}>
-                <a className="side-link btn" >
-                  <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/tools.png" alt="side-icon" /></span>
-                  <span>Developer Tools</span>
-                </a>
-              </Link>
-            </li>
-            <li className="side-menu-item">
-              <Link href={`javascript:void(0)`}>
-                <a className="side-link btn" >
-                  <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                  <span>Support</span>
-                </a>
-              </Link>
-            </li>
+            )
+          }
           </ul>
         </div>
       </sidebar>
