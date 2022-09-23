@@ -15,11 +15,19 @@ interface propsNew{
     title:string;
     children:React.ReactNode;
 }
-
 const CommonModal:React.FC<props> = ({show,setShow, title,children})=> {
   const abc = {show,setShow, title,children};
   return (
-    <Modal>
+    <Modal
+    {...abc}
+    centered
+    show={show}
+    onHide={() => setShow(false)}
+    backdrop="static"
+    keyboard={false}
+    className="shib-popup"
+    scrollable={true}
+  >
     <Modal.Header closeButton className="text-center modal-header">
     {/* <div className="back-blk">
         <a href="#!;" title="">
