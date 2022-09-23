@@ -12,7 +12,7 @@ import Popup from "../components/PopUp";
 // import { useAccount } from "../../../hooks/web3hooks";
 // import { walletConnector } from "../../utils/connectors";
 // import Web3 from "web3";
-import { CommonModal } from "../components/CommonModel";
+import  CommonModal from "../components/CommonModel";
 import Link from 'next/link'
 import {
   NoEthereumProviderError,
@@ -28,7 +28,7 @@ export default function Assets() {
   // const { authenticate, isAuthenticated, user,} = useMoralis();
 
   // const {handleAccount}=useContext(ProjectContext)
-  const [showInsModal, setShowInsModal] = useState(false);
+  const [showSendModal, setSendModal] = useState(false);
  
   const { account } = useActiveWeb3React()
   // const account = useAccount()
@@ -63,7 +63,7 @@ export default function Assets() {
   useEffect(() => {
     if(account){
       // handleAccount(account)
-      router.push('/assets')
+      // router.push('/assets')
     }
     },[account]);
     // useEffect(() => {
@@ -89,12 +89,26 @@ export default function Assets() {
         return ''
       }
     }
+
+
     
 
   return (
    <>
       <main className="main-content">
         <Sidebar/>
+        <CommonModal
+          title={"Important"}
+          show={showSendModal}
+          setShow={setSendModal}
+          
+          >
+          {/* step 1 */}
+          <>
+            <h1 className="text-primary">test</h1>
+          </>
+          {/* step 1 end */}
+          </CommonModal>
         <section className="assets-section">
             <div className="cmn_dashbord_main_outr">
                 <div className="inner-header">
@@ -147,7 +161,7 @@ export default function Assets() {
                               <span><img src="../../images/recive-icon.png" alt="recive"/></span>
                               Receive
                             </a>
-                            <a href="#" className="btn grey-btn w-100 d-block"><span><img src="../../images/send-icon.png" alt="recive"/></span>Send</a>
+                            <button onClick={() => setSendModal(true)} className="btn grey-btn w-100 d-block"><span><img src="../../images/send-icon.png" alt="recive"/></span>Send</button>
                         </div>
                         <div className="lrg_btns_area t_a_clm">
                             <a href="#" className="btn white-btn w-100 d-block">Move funds from Ethereum to Shibarium</a>

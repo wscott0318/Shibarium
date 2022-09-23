@@ -190,12 +190,21 @@ export default function Header() {
   //   }
   // }
 
-  const location = window.location.pathname
-  console.log(location)
+ const handleScrollToElement = (event) => {
+    console.log(event)
+}
+
+const [scroll, setScroll] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      setScroll(window.scrollY > 50);
+    });
+  },[])
+
   return (
     <>
-      {/* <header className={location == '/home' ? 'main-header' : 'd-none'}> */}
-      <header className='main-header sticky-header'>
+      <header className={scroll ? 'main-header sticky-header' : 'main-header'}>
         <Navbar className='py-0'>
           <Container>
             <Navbar.Brand href="/">
@@ -216,9 +225,9 @@ export default function Header() {
                   </NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Item>
-                  <a className='btn primary-btn ff-mos' href="javascript:void(0)">
+                  <Link className='btn primary-btn ff-mos' href="/assets">
                     Launch App
-                  </a>
+                  </Link>
                 </Nav.Item>
               </Nav>
             </Navbar.Collapse>
