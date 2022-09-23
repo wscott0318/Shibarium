@@ -189,9 +189,13 @@ export default function Header() {
   //     )
   //   }
   // }
+
+  const location = window.location.pathname
+  console.log(location)
   return (
     <>
-      <header className='main-header d-none'>
+      {/* <header className={location == '/home' ? 'main-header' : 'd-none'}> */}
+      <header className='main-header'>
         <Navbar className='py-0' expand="lg">
           <Container>
             <Navbar.Brand href="#home">
