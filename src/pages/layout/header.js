@@ -225,8 +225,8 @@ const [scroll, setScroll] = useState(false);
                   </NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Item>
-                  <Link className='btn primary-btn ff-mos' href="/assets">
-                    Launch App
+                  <Link href="/assets">
+                    <a className='btn primary-btn ff-mos'>Launch App</a>
                   </Link>
                 </Nav.Item>
               </Nav>
