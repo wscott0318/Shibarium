@@ -87,3 +87,28 @@
         padding: 10px 0;
     }
 }
+.exchng_msg_box{
+    margin-top: 20px;
+    background-color: $body-bg;
+    padding: 16px;
+    text-align: center;
+    border-radius: 10px;
+    .sprdt_txt{
+        background-color: $body-bg-800;
+        padding: 10px;
+        border-radius: 10px;
+        font-weight: 600;
+    }
+}
+.alert_msg{
+    margin: 20px;
+}
+.pop_btm_txt{
+    margin: 30px 0;
+    a{
+        color: $primary;
+    }
+}
+.pop_btns_area{
+    display: flex;
+}
