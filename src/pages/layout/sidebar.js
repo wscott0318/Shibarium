@@ -78,31 +78,28 @@ export default function Sidebar(props) {
   const [renderTopList, setRenderTopList] = useState(topList)
   const [renderBottomList, setRenderBottomList] = useState(bottomList)
 
+  const activateBtn = (arr, index) => {
+    let newData = arr.map(elm => {
+      if (elm.name === index) {
+        elm.isSelected = true
+      } else {
+        elm.isSelected = false
+      }
+      return elm
+    })
+    return newData
+  }
+
   const handelClick = (index, type) => {
     if(type === 'top'){
-      let newData = renderTopList.map(elm => {
-        if (elm.name === index) {
-          elm.isSelected = true
-        } else {
-          elm.isSelected = false
-        }
-        return elm
-      })
+      let newData = activateBtn(renderTopList, index)
       setRenderTopList(newData)
       setRenderBottomList(bottomList)
     } else {
-      let newData = renderBottomList.map(elm => {
-        if (elm.name === index) {
-          elm.isSelected = true
-        } else {
-          elm.isSelected = false
-        }
-        return elm
-      })
+      let newData = activateBtn(renderBottomList, index)
       setRenderTopList(topList)
       setRenderBottomList(newData)
     }
-
   }
 
   console.log(renderTopList)
