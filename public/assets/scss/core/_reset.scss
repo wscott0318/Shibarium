@@ -239,7 +239,10 @@ ul {
         font-size: 14px;
     }
     @media #{$max-lg}{
-        padding: 7px 20px;
+        padding: 7px 14px;
+    }
+    @media #{$max-lg}{
+        padding: 5px 10px;
     }
 }
 .primary-btn{
