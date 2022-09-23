@@ -192,7 +192,7 @@ export default function Header() {
   return (
     <>
       <header className='main-header d-none'>
-        <Navbar className='py-0' expand="lg">
+        <Navbar className='py-0'>
           <Container>
             <Navbar.Brand href="#home">
               <img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} />

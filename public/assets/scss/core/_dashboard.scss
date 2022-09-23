@@ -4,6 +4,11 @@
     border-radius: 40px;
     padding: 20px;
     width: calc(100% - 275px);
+    @media #{$max-lg}{
+        width:calc(100% - 30px);
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 .sidebar {
@@ -18,11 +23,17 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    @media #{$max-lg}{
+        display: none;
+    }
     .sidebar-logo {
         padding: 30px 20px 70px;
     }
     .side-menu {
         padding: 0 20px;
+        @media #{$max-xxl}{
+            padding: 0 16px;
+        }
         .side-menu-item {
             margin-bottom: 12px;
         }

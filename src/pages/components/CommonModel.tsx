@@ -19,7 +19,30 @@ interface propsNew{
 const CommonModal:React.FC<props> = ({show,setShow, title,children})=> {
   const abc = {show,setShow, title,children};
   return (
-   <h1>CommonModal</h1>
+    <Modal>
+    <Modal.Header closeButton className="text-center modal-header">
+    {/* <div className="back-blk">
+        <a href="#!;" title="">
+        <img className="img-fluid" src="../../assets/images/left-icon.png"width="45" height="78" alt=""></img>
+        </a>
+    </div> */}
+      <Modal.Title
+        id="contained-modal-title-vcenter"
+        className="d-inline-block fw-800 trs-3"
+      >
+        <span style={{ color: "white" }}>{title}</span>
+      </Modal.Title>
+    </Modal.Header>
+
+    <Modal.Body className='low-sidespace body-font-sm'>
+       {children}
+    </Modal.Body>
+    {/* <Modal.Footer className='text-center d-block'>
+        <button >
+          <CopyHelper toCopy={address}> Copy address </CopyHelper>
+        </button>
+    </Modal.Footer> */}
+  </Modal>
   )
 }
 

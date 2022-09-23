@@ -2,7 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect, useContext } from "react";
 
-import { Button, Container, Nav, Navbar, NavDropdown,Dropdown } from 'react-bootstrap';
+import { Button, Container, Nav, Navbar, NavDropdown,Dropdown ,Modal} from 'react-bootstrap';
 
 import { useRouter } from "next/dist/client/router";
 import Popup from "../components/PopUp";
@@ -12,6 +12,7 @@ import Popup from "../components/PopUp";
 // import { useAccount } from "../../../hooks/web3hooks";
 // import { walletConnector } from "../../utils/connectors";
 // import Web3 from "web3";
+import { CommonModal } from "../components/CommonModel";
 import Link from 'next/link'
 import {
   NoEthereumProviderError,
@@ -94,14 +95,15 @@ export default function Assets() {
   return (
    <>
       <main className="main-content">
-      
         <Sidebar/>
-
         <section className="assets-section">
             <div className="cmn_dashbord_main_outr">
                 <div className="inner-header">
-                <Navbar className='py-0' expand="lg">
+                <Navbar className='py-0'>
                   <Container>
+                    <Navbar.Brand href="#home">
+                      <img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} />
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                       <Nav className="ms-auto">
@@ -143,7 +145,10 @@ export default function Assets() {
                             <p>shibarium mainnet</p>
                         </div>
                         <div className="btns_area t_a_clm">
-                            <a href="#" className="btn grey-btn w-100 d-block"><span><img src="../../images/recive-icon.png" alt="recive"/></span>Receive</a>
+                            <a href="#" className="btn grey-btn w-100 d-block">
+                              <span><img src="../../images/recive-icon.png" alt="recive"/></span>
+                              Receive
+                            </a>
                             <a href="#" className="btn grey-btn w-100 d-block"><span><img src="../../images/send-icon.png" alt="recive"/></span>Send</a>
                         </div>
                         <div className="lrg_btns_area t_a_clm">
@@ -204,7 +209,6 @@ export default function Assets() {
                 
             </div>
         </section> 
-        
       </main>
    </>
   );
