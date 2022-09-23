@@ -29,6 +29,7 @@ export default function Assets() {
 
   // const {handleAccount}=useContext(ProjectContext)
   const [showSendModal, setSendModal] = useState(false);
+  const [menuState, setMenuState] = useState(false);
  
   const { account } = useActiveWeb3React()
   // const account = useAccount()
@@ -96,7 +97,7 @@ export default function Assets() {
   return (
    <>
       <main className="main-content">
-        <Sidebar/>
+        <Sidebar menuState={menuState}/>
         <CommonModal
           title={"Transferring funds"}
           show={showSendModal}
@@ -155,7 +156,7 @@ export default function Assets() {
                   <div className="inner-header">
                   <Navbar className='py-0'>
                     <Container>
-                      <Navbar.Brand href="" className="menu-btn">
+                      <Navbar.Brand onClick={() => setMenuState(true)} className="menu-btn">
                         <img className="img-fluid" src="../../images/menu.svg" alt="" />
                       </Navbar.Brand>
                       <Navbar.Toggle aria-controls="basic-navbar-nav" />
