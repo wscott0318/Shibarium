@@ -21,7 +21,6 @@ import {
 import Sidebar  from "../layout/sidebar"
 import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
-
 import { useMoralis } from "react-moralis";
 
 export default function Assets() {
@@ -102,7 +101,6 @@ export default function Assets() {
                 <Navbar className='py-0'>
                   <Container>
                     <Navbar.Brand href="#home">
-                      <img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} />
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
