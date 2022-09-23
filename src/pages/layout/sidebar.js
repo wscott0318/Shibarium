@@ -107,7 +107,7 @@ export default function Sidebar(props) {
   return (
     <>
       {/* sidebar start */}
-      <sidebar className="sidebar">
+      <sidebar className="sidebar ">
         <div className="sidbar-top-menu">
           <div className="sidebar-logo">
             <a className="close-icon" href="javascript:void(0)">
