@@ -59,6 +59,10 @@
             top: 10px;
             right: 10px;
             max-width: 24px;
+            display: none;
+            @media #{$max-lg}{
+                display: block;
+            }
         }
     }
 
