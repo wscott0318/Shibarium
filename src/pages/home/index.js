@@ -94,9 +94,9 @@ export default function Home() {
                 <div className="col-lg-4 col-md-6 col-sm-8 cus-col">
                   <div className="ftrs-card ftrs-active">
                     <div className='ftrs-head'>
-                      <h3 className='fw-600 ff-mos'>Swap</h3>
+                      <h3 className='fw-600 ff-mos'>Bridge</h3>
                       <div className="ftrs-icon">
-                        <img className='img-fluid' src="../../images/swap.png" alt="" />
+                        <img className='img-fluid' src="../../images/bridge.png" alt="" />
                       </div>
                     </div>
                     <p className='frts-desc ff-mos'>
@@ -111,9 +111,9 @@ export default function Home() {
                 <div className="col-lg-4 col-md-6 col-sm-8 cus-col">
                   <div className="ftrs-card">
                     <div className='ftrs-head'>
-                      <h3 className='fw-600 ff-mos'>Swap</h3>
+                      <h3 className='fw-600 ff-mos'>Burn</h3>
                       <div className="ftrs-icon">
-                        <img className='img-fluid' src="../../images/swap.png" alt="" />
+                        <img className='img-fluid' src="../../images/burn.png" alt="" />
                       </div>
                     </div>
                     <p className='frts-desc ff-mos'>
@@ -209,7 +209,7 @@ export default function Home() {
                       <img className='img-fluid' src="../../images/arrow-top.png" alt="" />
                     </a>
                     <div className='card-item'>
-                      <h3 className='mb-2 ff-mos'>Validators</h3>
+                      <h3 className='mb-2 ff-mos'>Delegator</h3>
                       <p className="ff-mos">
                         Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum.
                       </p>
@@ -251,7 +251,7 @@ export default function Home() {
                     <div className="shib-img mb-3">
                       <img className='img-fluid' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
-                    <h4 className='shib-title mb-2 ff-mos'>Developer Resources</h4>
+                    <h4 className='shib-title mb-2 ff-mos'>Join the Ecosystem</h4>
                     <p className="ff-mos">
                       Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum.
                     </p>
@@ -262,7 +262,7 @@ export default function Home() {
                     <div className="shib-img mb-3">
                       <img className='img-fluid' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
-                    <h4 className='shib-title mb-2 ff-mos'>Developer Resources</h4>
+                    <h4 className='shib-title mb-2 ff-mos'>Join the Community</h4>
                     <p className="ff-mos">
                       Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum.
                     </p>
@@ -273,7 +273,7 @@ export default function Home() {
                     <div className="shib-img mb-3">
                       <img className='img-fluid' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
-                    <h4 className='shib-title mb-2 ff-mos'>Developer Resources</h4>
+                    <h4 className='shib-title mb-2 ff-mos'>Secure the Network</h4>
                     <p className="ff-mos">
                       Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum.
                     </p>

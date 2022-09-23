@@ -17,7 +17,7 @@ import {
   NoEthereumProviderError,
   UserRejectedRequestError as UserRejectedRequestErrorInjected
 } from '@web3-react/injected-connector'
-
+import Sidebar  from "../layout/sidebar"
 import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
 
@@ -94,79 +94,9 @@ export default function Assets() {
   return (
    <>
       <main className="main-content">
-        {/* sidebar */}
-          <sidebar className="sidebar">
-            <div className="sidbar-top-menu">
-              <div className="sidebar-logo">
-                <a className="sidelogo-link" href="javascript:void(0)">
-                  <img className="img-fluid" src="../../images/logo.png" alt="" />
-                </a>
-              </div>
-              <ul className="side-menu">
-                    <li className="side-menu-item">
-                      <Link  href={`javascript:void(0)`}>
-                        <a className="side-link btn primary-btn" >
-                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
-                        </a>
-                      </Link>
-                    </li>
-                    <li className="side-menu-item">
-                      <Link  href={`javascript:void(0)`}>
-                        <a className="side-link btn" >
-                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
-                        </a>
-                      </Link>
-                    </li>
-                    <li className="side-menu-item">
-                      <Link  href={`javascript:void(0)`}>
-                        <a className="side-link btn" >
-                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
-                        </a>
-                      </Link>
-                    </li>
-                    <li className="side-menu-item">
-                      <Link  href={`javascript:void(0)`}>
-                        <a className="side-link btn" >
-                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
-                        </a>
-                      </Link>
-                    </li>
-                </ul>
-            </div>
-            <div className="sidebar-bottom-menu">
-                <ul className="side-menu">
-                    <li className="side-menu-item">
-                      <Link  href={`javascript:void(0)`}>
-                        <a className="side-link btn" >
-                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
-                        </a>
-                      </Link>
-                    </li>
-                    <li className="side-menu-item">
-                      <Link  href={`javascript:void(0)`}>
-                        <a className="side-link btn" >
-                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
-                        </a>
-                      </Link>
-                    </li>
-                    <li className="side-menu-item">
-                      <Link  href={`javascript:void(0)`}>
-                        <a className="side-link btn" >
-                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
-                          <span>Wallet</span>
-                        </a>
-                      </Link>
-                    </li>
-                </ul>
-            </div>
-          </sidebar>
-        {/* sidebar */}
+      
+        <Sidebar/>
+
         <section className="assets-section">
             <div className="cmn_dashbord_main_outr">
                 <div className="inner-header">

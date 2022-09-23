@@ -32,7 +32,79 @@ export default function Sidebar(props) {
   }
   return (
    <>
-    <h1>layout sidebar</h1>
+      {/* sidebar start */}
+      <sidebar className="sidebar">
+            <div className="sidbar-top-menu">
+              <div className="sidebar-logo">
+                <a className="sidelogo-link" href="javascript:void(0)">
+                  <img className="img-fluid" src="../../images/logo.png" alt="" />
+                </a>
+              </div>
+              <ul className="side-menu">
+                    <li className="side-menu-item">
+                      <Link  href={`javascript:void(0)`}>
+                        <a className="side-link btn primary-btn" >
+                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
+                          <span>Wallet</span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li className="side-menu-item">
+                      <Link  href={`javascript:void(0)`}>
+                        <a className="side-link btn" >
+                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
+                          <span>Wallet</span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li className="side-menu-item">
+                      <Link  href={`javascript:void(0)`}>
+                        <a className="side-link btn" >
+                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
+                          <span>Wallet</span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li className="side-menu-item">
+                      <Link  href={`javascript:void(0)`}>
+                        <a className="side-link btn" >
+                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
+                          <span>Wallet</span>
+                        </a>
+                      </Link>
+                    </li>
+                </ul>
+            </div>
+            <div className="sidebar-bottom-menu">
+                <ul className="side-menu">
+                    <li className="side-menu-item">
+                      <Link  href={`javascript:void(0)`}>
+                        <a className="side-link btn" >
+                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
+                          <span>Wallet</span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li className="side-menu-item">
+                      <Link  href={`javascript:void(0)`}>
+                        <a className="side-link btn" >
+                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
+                          <span>Wallet</span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li className="side-menu-item">
+                      <Link  href={`javascript:void(0)`}>
+                        <a className="side-link btn" >
+                          <span className="side-ico"><img className="img-fluid" src="../../images/sidebar/wallet.png" alt="side-icon" /></span>
+                          <span>Wallet</span>
+                        </a>
+                      </Link>
+                    </li>
+                </ul>
+            </div>
+          </sidebar>
+        {/* sidebar end */}
    </>
   );
 }
