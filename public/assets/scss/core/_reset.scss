@@ -383,8 +383,31 @@ ul {
     font-size: 16px;
     font-weight: 400px;
 } 
-
-
 .mr-top-50{
     margin-top: 50px;
+}
+.shib-popup{
+    .modal-content{
+        background-color: $body-bg-800;
+        border-radius: 40px;
+        padding: 50px 0px;
+        .modal-header{
+            border: 0;
+            text-align: center;
+            font-weight: 600;
+            margin: 0 auto;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+            text-align: center !important;
+            .btn-close{
+                position: absolute;
+                right: 50px;
+                background-image: url('../../../images/pop-close.png') !important;
+                background-repeat: no-repeat;
+                opacity: 1;
+                padding: 5px 0;
+            }
+        }
+    }
 }

@@ -95,9 +95,11 @@
     border-radius: 10px;
     .sprdt_txt{
         background-color: $body-bg-800;
-        padding: 10px;
+        padding: 10px 30px;
         border-radius: 10px;
         font-weight: 600;
+        display:inline-block;
+        margin-top: 10px;
     }
 }
 .alert_msg{
