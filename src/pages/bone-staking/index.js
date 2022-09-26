@@ -58,7 +58,163 @@ const BoneStaking = () => {
   const [show, setShow] = React.useState();
   return (
     <>
-      <h1>bone-staking index.js</h1>
+    <div className="cmn_dashbord_main_outr bone-stake">
+      <div className="container">
+          <div className="iner-header">
+            <div className="lft-sec">
+              <ul className="lft-links ms-auto">
+                <li>
+                  <a className="primary-btn btn" href="javascript:void(0);">Overview</a>
+                </li>
+                <li>
+                  <a className="" href="javascript:void(0);">All Validators</a>
+                </li>
+                <li>
+                  <a className="" href="javascript:void(0);">My Account</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="section-info">
+            <div className="row">
+              <div className="col-md-6">
+                <h1>Start Earning Rewards with <br/><span className="white-bg">Shibarium Staking</span></h1>
+                <div className="btns-sec">
+                  <div>
+                    <button className="btn primary-btn">Become a Validator</button>
+                  </div>
+                  <div>
+                    <button className="btn  white-btn">Become a Delegator</button>
+                  </div>
+                  <div>
+                    <button className="btn grey-btn">Choose Your Path</button>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="shib-img-sec text-end"> 
+                  <img src="../../images/shiba-img.png"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="grid-contain">
+            <div className="row">
+              <div className="col-lg-4 col-custum">
+                <div className="cus-box">
+                    <div className="head-sec">
+                      <div className="top-head">
+                        <span>155,554,455 Shiba</span>
+                      </div>
+                      <div className="mid-head">
+                        <span>$12354655.36</span>
+                      </div>
+                    </div>
+                    <div className="botom-sec">
+                      <div className="botom-headsec">
+                        <span>Total Stake</span>
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div className="col-lg-4 col-custum">
+                <div className="cus-box">
+                    <div className="head-sec">
+                      <div className="top-head">
+                        <span>155,554,455 Shiba</span>
+                      </div>
+                      <div className="mid-head">
+                        <span>$12354655.36</span>
+                      </div>
+                    </div>
+                    <div className="botom-sec">
+                      <div className="botom-headsec">
+                        <span>Total Stake</span>
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div className="col-lg-4 col-custum">
+                <div className="cus-box">
+                    <div className="head-sec">
+                      <div className="top-head">
+                        <span>155,554,455 Shiba</span>
+                      </div>
+                      <div className="mid-head">
+                        <span>$12354655.36</span>
+                      </div>
+                    </div>
+                    <div className="botom-sec">
+                      <div className="botom-headsec">
+                        <span>Total Stake</span>
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div className="col-lg-4">
+                <div className="cus-box">
+                    <div className="head-sec">
+                      <div className="top-head">
+                        <span>155,554,455 Shiba</span>
+                      </div>
+                      <div className="mid-head">
+                        <span>$12354655.36</span>
+                      </div>
+                    </div>
+                    <div className="botom-sec">
+                      <div className="botom-headsec">
+                        <span>Total Stake</span>
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div className="col-lg-4">
+                <div className="cus-box">
+                    <div className="head-sec">
+                      <div className="top-head">
+                        <span>155,554,455 Shiba</span>
+                      </div>
+                      <div className="mid-head">
+                        <span>$12354655.36</span>
+                      </div>
+                    </div>
+                    <div className="botom-sec">
+                      <div className="botom-headsec">
+                        <span>Total Stake</span>
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div className="col-lg-4">
+                <div className="cus-box">
+                    <div className="head-sec">
+                      <div className="top-head">
+                        <span>155,554,455 Shiba</span>
+                      </div>
+                      <div className="mid-head">
+                        <span>$12354655.36</span>
+                      </div>
+                    </div>
+                    <div className="botom-sec">
+                      <div className="botom-headsec">
+                        <span>Total Stake</span>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="heading-sec">
+            <h2 className="sub-head">All Validators</h2>
+          </div>
+          <div className="filter-row">
+            <div className="left-section">
+              <input className="custum-search" type="search" placeholder="Search by validator name, id"/>
+            </div>
+            <div></div>
+          </div>
+      </div>
+      </div>
     </>
   );
 };

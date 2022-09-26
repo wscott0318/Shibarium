@@ -69,3 +69,135 @@
     background-clip: text;
     text-fill-color: transparent;
 }
+/** Cus dd start **/
+.cus-dd{
+    .dropdown-menu{
+        background: $body-bg-secondry;
+        padding: 20px;
+        color:$white;
+        right: 0;
+        left: auto;
+        top: 35px;
+        @media #{$max-md}{
+            right: auto;
+            left: 0;
+            padding: 15px;
+            width: 250px;
+            font-size: 14px;
+        }
+        @media #{$max-xsm}{
+            left: -100%;
+        }
+        
+    }
+    a{
+        color: $white;
+        padding: 0;
+        &:hover{
+            background: transparent;
+            color:$white;
+        }
+    }
+    .dropdown-toggle{
+        &:focus, &:hover, &:visited{
+            color:$white;
+        }
+    }
+}
+.grey-txt{
+    color: $grey-color;
+}
+.drop-head, .botom-txt, .custum-row{
+    position: relative;
+}
+.head-brand {
+    position: absolute;
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    @media #{$max-md}{
+        position: initial;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+}
+.head-txt {
+    width: 100%;
+    padding-left: 80px;
+    @media #{$max-md}{
+        padding-left: 0;
+    }
+}
+.top-txt {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    @media #{$max-md}{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+.copy-blk {
+    position: absolute;
+    right: 0;
+    left: auto;
+    top: -1px;
+    bottom: auto;
+}
+.code-txt {
+    width: 100%;
+    padding-right: 30px;
+}
+.drop-head {
+    padding-bottom: 25px;
+    border-bottom: 1px solid $white;
+    margin-bottom: 30px;
+    @media #{$max-md}{
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+    }
+}
+.lft-img {
+    position: absolute;
+    top: auto;
+    left: auto;
+    bottom: auto;
+    right: auto;
+}
+.center-txt {
+    width: 100%;
+    padding: 0 45px;
+}
+.rt-image {
+    position: absolute;
+    right: 0;
+    top: 0;
+    left: auto;
+    bottom: auto;
+}
+.custum-row{
+    padding-bottom: 25px;
+    @media #{$max-md}{
+        padding-bottom: 20px;
+    }
+}
+.key {
+    width: 400px;
+    word-break: break-word;
+    @media #{$max-lg}{
+        width: 260px;
+    }
+    @media #{$max-md}{
+        width: 215px;
+    }
+}
+.fw-bold{
+    font-weight: 800;
+}
+/** Cus dd End **/
+.custum-search::placeholder{
+    color:$grey-color;
+}
