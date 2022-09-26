@@ -11,8 +11,8 @@ export interface ModalHeaderProps {
 
 const ModalHeader: FC<ModalHeaderProps> = ({ header, subheader, onBack, onClose }) => {
   return (
-    <div className="flex items-start justify-between">
-      <div className="flex flex-col gap-1 justify-center">
+    <div className="d-flex justify-content-between align-items-center">
+      <div className="flex flex-col gap-1 justify-center mb-2">
         <Typography weight={700} className="flex gap-3 text-high-emphesis items-center">
           {onBack && (
             <ArrowLeftIcon onClick={onBack} width={24} height={24} className="cursor-pointer text-high-emphesis" />
@@ -22,7 +22,7 @@ const ModalHeader: FC<ModalHeaderProps> = ({ header, subheader, onBack, onClose 
         {subheader && <Typography variant="sm">{subheader}</Typography>}
       </div>
       {onClose && (
-        <div className="flex items-center justify-center w-6 h-6 cursor-pointer" onClick={onClose}>
+        <div className="flex items-center justify-center w-6 h-6 cursor-pointer mb-2" onClick={onClose}>
           <XIcon width={24} height={24} className="text-high-emphesis" />
         </div>
       )}

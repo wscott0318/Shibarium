@@ -107,7 +107,7 @@ const HeadlessUiModalControlled: FC<ControlledModalProps> = ({
   const isDesktop = useDesktopMediaQuery()
   return (
     <Transition appear show={isOpen} as={Fragment} afterLeave={afterLeave} unmount={unmount}>
-      <Dialog as="div" className="fixed z-50 inset-0" onClose={onDismiss} unmount={unmount}>
+      <Dialog as="div" className="fixed-popup" onClose={onDismiss} unmount={unmount}>
         <div className="relative flex items-center justify-center block min-h-screen text-center">
           <Transition.Child
             unmount={false}
@@ -144,7 +144,7 @@ const HeadlessUiModalControlled: FC<ControlledModalProps> = ({
           >
             <div
               className={classNames(
-                transparent ? '' : 'bg-dark-900 border border-dark-800',
+                transparent ? '' : 'bg-dark-900 border border-dark-800 model-content',
                 isDesktop ? MAX_WIDTH_CLASS_MAPPING[maxWidth] : '',
                 isDesktop ? `w-full` : 'w-[85vw] max-h-[85vh] overflow-y-auto mx-auto',
                 'inline-block align-bottom rounded-xl text-left overflow-hidden transform p-4'

@@ -22,9 +22,8 @@ import Sidebar  from "../layout/sidebar"
 import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
 import { useMoralis } from "react-moralis";
-// import Web3Status from "app/components/Web3Status";  
 
-export default function Assets() {
+export default function Deposit() {
   const router = useRouter()
   // const { authenticate, isAuthenticated, user,} = useMoralis();
 
@@ -75,26 +74,8 @@ export default function Assets() {
     //   //  }
     // },[error]);
   
-    function getErrorMessage(error) {
-      if (error instanceof NoEthereumProviderError) {
-        return 'Please install metamask and try again.'
-      } else if (error instanceof UnsupportedChainIdError) {
-        return "You're connected to an unsupported network."
-      } else if (
-        error instanceof UserRejectedRequestErrorInjected ||
-        error instanceof UserRejectedRequestErrorWalletConnect
-      ) {
-        return 'Please authorize this website to access your Ethereum account.'
-      } 
-      else {
-        console.error(error)
-        return ''
-      }
-    }
-
-
     const handleMenuState = () => {
-      setMenuState(false)
+        setMenuState(false)
     }
 
   return (
@@ -111,7 +92,7 @@ export default function Assets() {
           <>
             {/* transferring funds popop start */}
                 
-                {/* <div className="cmn_modal">
+                <div className="cmn_modal">
                     <p>Sending funds to exchanges:</p>
                     <div className="exchng_msg_box">
                         <p>Exchanges supported from Shibarium network</p>
@@ -123,13 +104,13 @@ export default function Assets() {
                           <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Continue</a>  </div>
                     </div>
                     <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
-                </div> */}
+                </div>
 
              {/* transferring funds popop ends */}
 
              {/* send popop start */}
-                {/*<div className="cmn_modal">
-                     <h4 className="pop_main_h text-center">Send</h4> 
+                {/* <div className="cmn_modal">
+                    <h4 className="pop_main_h text-center">Send</h4>
                      <form>
                         <div class="form-group">                        
                           <input type="text" class="form-control cmn_inpt_fld"  placeholder="Reciver address"/>
@@ -141,70 +122,15 @@ export default function Assets() {
                             <span>0.00$</span>
                             <b>Available balance: 0.00 SHIB</b>
                           </p>
+                          <div className="pop_btns_area mr-top-50 row">
+                              <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
+                              <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
+                          </div>
                         </div>
-                        <div className="pop_btns_area mr-top-50 row">
-                            <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
-                            <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
-                        </div>
-                        
                      </form>
                      <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
-                </div>*/}
-                {/* send popop ends */}
-
-                {/* confirm send popop start */}
-                <div className="cmn_modal">
-                    <div className="cnfrm_box">
-                        <div className="top_overview col-12">
-                              <span><img src="../../images/shib-borderd-icon.png"/></span>
-                              <h6>1100.00 SHIB</h6>
-                              <p>500.00$</p>
-                        </div>
-                        <div className="add_detail col-12">
-                            <p><b>RECEIVER:</b></p>
-                            <p>0x5c932BBe4485C24E1a779872362e990dEdf0D208</p>
-                        </div>
-                    </div>
-                    <div className="cnfrm_check_box">
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                          <label class="form-check-label" for="flexCheckChecked">
-                            I’m not sending funds to an <a href="#">unsupported excange</a> or incorrect address
-                          </label>
-                        </div>
-                        
-                       
-                    </div>
-                      <div className="pop_btns_area row">
-                          <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
-                          <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
-                      </div>
-                         
-                      <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
-                </div>
-                {/* confirm send popop ends */}
-
-                {/* submitted popop start */}
-                {/* <div className="cmn_modal">
-                    <div className="cnfrm_box">
-                        <div className="top_overview col-12">
-                              <span><img src="../../images/shib-borderd-icon.png"/></span>
-                              <h6>1100.00 SHIB</h6>
-                              <p>500.00$</p>
-                        </div>
-                        <div className="add_detail col-12">
-                            <p><b>TRANSACTION SUBMITTED TO:</b></p>
-                            <p>0x5c932BBe4485C24E1a779872362e990dEdf0D208</p>
-                        </div>
-                    </div>
-                    <div className="cnfrm_check_box text-center">
-                        Check your wallet activity to see the status of the transaction
-                    </div>
-                      <div className="pop_btns_area row">
-                          <div className="col-12"><a className='btn primary-btn w-100' href="javascript:void(0)">Close</a>  </div>
-                      </div> 
                 </div> */}
-                {/* submitted popop ends */}
+                {/* send popop ends */}
 
           </>
           {/* step 1 end */}
@@ -220,103 +146,29 @@ export default function Assets() {
                       <Navbar.Toggle aria-controls="basic-navbar-nav" />
                       <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ms-auto">
-                            <Dropdown className="d-flex align-items-center cus-dd mob-drop">
-                            <div className="" id="basic-nav-dropdown">
-                              <img src="../../images/menu-icon.png" alt="" />
-                            </div>
-                            <NavDropdown className="me-3" title="App">
-                              <div className="drop-head">
-                                <div className="head-brand">
-                                  <img src="../../images/Shib-Logo.png" alt="" />
-                                </div>
-                                <div className="head-txt">
-                                  <div className="top-txt">
-                                    <div>
-                                      <span>Account 0xe78</span>
-                                    </div>
-                                    <div>
-                                      <span className="grey-txt">Shibarium Mainnet</span>
-                                    </div>
-                                  </div>
-                                  <div className="botom-txt">
-                                    <div className="code-txt">
-                                      <span className="key">0xe7832a34576B9A23b98B7cE8ef83B1a8D9D229f0</span>
-                                    </div>
-                                    <div className="copy-blk">
-                                      <a href="javascript:void(0);" title="Copy"><img src="../../images/copy.png" alt="" /></a>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <NavDropdown.Item href="#action/3.1">
-                                <div className="custum-row">
-                                  <div className="lft-img">
-                                    <img src="../../images/recive-icon.png" alt="" />
-                                  </div>
-                                  <div className="center-txt">
-                                    <span>Recive Funds</span>
-                                  </div>
-                                  <div className="rt-image">
-                                    <img src="../../images/rt-arow.png" alt="" />  
-                                  </div>
-                                </div>
-                              </NavDropdown.Item>
-                              <NavDropdown.Item href="#action/3.2">
-                                <div className="custum-row">
-                                  <div className="lft-img">
-                                    <img src="../../images/graph.png" alt="" />
-                                  </div>
-                                  <div className="center-txt">
-                                    <span>View on Etherscan</span>
-                                  </div>
-                                  <div className="rt-image">
-                                    <img src="../../images/rt-arow.png" alt="" />  
-                                  </div>
-                                </div>
-                              </NavDropdown.Item>
-                              <NavDropdown.Item href="#action/3.3">
-                                <div className="custum-row">
-                                  <div className="lft-img">
-                                    <img src="../../images/graph.png" alt="" />
-                                  </div>
-                                  <div className="center-txt">
-                                    <span>View on Shibariumscan</span>
-                                  </div>
-                                  <div className="rt-image">
-                                    <img src="../../images/rt-arow.png" alt="" />  
-                                  </div>
-                                </div>
-                              </NavDropdown.Item>
-                              <NavDropdown.Item href="#action/3.3">
-                                <div className="custum-row pb-0">
-                                  <div className="lft-img ps-2">
-                                    <img src="../../images/back.png" alt="" />
-                                  </div>
-                                  <div className="center-txt">
-                                    <span>Logout</span>
-                                  </div>
-                                  <div className="rt-image">
-                                    <img src="../../images/rt-arow.png" alt="" />  
-                                  </div>
-                                </div>
-                              </NavDropdown.Item>
-                              {/* <NavDropdown.Divider />
-                              <NavDropdown.Item href="#action/3.4">
-                                Separated link
-                              </NavDropdown.Item> */}
-                            </NavDropdown>
-                            </Dropdown>
-                          
+                          <Dropdown className="d-flex align-items-center">
+                          <div className="" id="basic-nav-dropdown">
+                            <img src="../../images/menu-icon.png" alt="" />
+                          </div>
+                          <NavDropdown className="me-3" title="App">
+                            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.2">
+                              Another action
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item href="#action/3.4">
+                              Separated link
+                            </NavDropdown.Item>
+                          </NavDropdown>
+                          </Dropdown>
                           <Nav.Item>
                             <Link href={'javascript:void(0)'}>
                               <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
-                                <img className="img-fluid me-2" src="../../images/meta-icon.png" alt="meta-img"/>
+                                <img className="img-fluid me-2" src="../../images/meta-icon.png" alt="meta-img" width={28}/>
                                 <span>0x21A...48A5</span>
                               </a>
                             </Link>
-                          </Nav.Item>
-                          <Nav.Item>
-                            <Web3Status/>
                           </Nav.Item>
                         </Nav>
                       </Navbar.Collapse>
@@ -347,14 +199,14 @@ export default function Assets() {
                     <div className="assets_btm_area">
                         <h2>Assets on Shibarium</h2>
                         <div className="cmn_dasdrd_table">
-                            <div class="table-responsive">
-                                <table class="table table-borderless">
+                            <div className="table-responsive">
+                                <table className="table table-borderless">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
                                             <th>Balance</th>
                                             <th>Actions</th>
-                                            <th colSpan="2" className="text-end"><input type="search" placeholder="Search"/></th>
+                                            <th colSpan={2} className="text-end"><input type="search" placeholder="Search"/></th>
                                         </tr>
                                     </thead>
                                     <tbody>

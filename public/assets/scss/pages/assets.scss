@@ -22,7 +22,7 @@
     font-weight: 700;
     margin-bottom: 15px;
 }
-.main_net_amnt p{
+.main_net_amnt p{   
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 400;
@@ -98,7 +98,7 @@
         padding: 10px 30px;
         border-radius: 10px;
         font-weight: 600;
-        display:inline-block;
+        display:inline-block;   
         margin-top: 10px;
     }
 }
@@ -113,4 +113,46 @@
 }
 .pop_btns_area{
     display: flex;
+}
+.cnfrm_box{
+    
+    background-color:$body-bg;
+    border-radius: 10px;
+}
+.top_overview{
+    padding: 16px 0;
+    text-align: center;
+    h6{
+        font-weight: 700;
+        margin: 5px 0;
+        margin-top: 20px;
+    }
+}
+.add_detail {
+    background-color:$primary;
+    padding: 16px 20px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.cnfrm_check_box {
+    color: $body-text;
+    padding: 15px 0;
+    a{
+        color:$primary;
+    }
+    input[type="checkbox"]{
+        border: 1px solid #F28B03;
+        background-color: transparent;
+    }
+}
+.add_detail p{
+    margin-bottom: 0;
+    word-break: break-all;
+}
+.modal-body {
+    padding-top:0;
+    padding-bottom: 0;
+}
+.modal-backdrop.show{
+    opacity: 0;
 }

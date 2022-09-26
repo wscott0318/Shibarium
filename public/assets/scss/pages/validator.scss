@@ -1,0 +1,30 @@
+.top_bnr_area{
+    background-color:$body-bg;
+    padding: 70px 0;
+}
+
+.mid_cnt_area{
+    padding: 100px 0;
+    text-align: center;
+    background-color: $body-bg-800;
+    h3{
+        margin-top: 15px;
+    }
+    .btns_sec{
+        margin-top: 50px;
+    }
+}
+.cmn_inpt_row{
+    margin-bottom: 15px;
+}
+.val_popups{
+    padding-top: 50px;
+    // min-height: 295px;
+}
+.val_all_bts{
+    @media #{$max-md} {
+        button{
+            margin:10px 0;
+        }
+    }
+}

@@ -12,10 +12,10 @@ export default function Web3Connect({ color = 'gray', size = 'sm', className = '
   const { error } = useWeb3React()
   return error ? (
     <div
-      className="flex items-center justify-center px-4 py-2 font-semibold text-white border rounded bg-opacity-80 border-red bg-red hover:bg-opacity-100"
+      className="wallet-pop"
       onClick={toggleWalletModal}
     >
-      <div className="mr-1">
+      <div className="">
         <Activity className="w-4 h-4" />
       </div>
       {error instanceof UnsupportedChainIdError ? 'You are on the wrong network' : 'Error'}
@@ -26,7 +26,7 @@ export default function Web3Connect({ color = 'gray', size = 'sm', className = '
       onClick={toggleWalletModal}
       // variant="outlined"
       // color={color}
-      className={classNames(className, '!border-none btn gradient_btn')}
+      className={classNames(className, '!border-none btn primary-btn')}
       
       {...rest}
     >
