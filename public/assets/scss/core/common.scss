@@ -69,3 +69,27 @@
     background-clip: text;
     text-fill-color: transparent;
 }
+
+// 
+// .fixed-popup {
+//     position: fixed;
+//     z-index: 999;
+//     top: 0;
+//     bottom: 0;
+//     right: 0;
+//     left: 0;
+//     background: #151b28;
+//     .grid {
+//         display: grid;
+//         grid-template-columns: auto auto;
+//     }
+//     .model-content {
+//         width: 500px;
+//         margin: 0 auto;
+//     }
+//     .mask-flex {
+//         display: flex;
+//         align-items: center;
+//         justify-content: space-between;
+//     }
+// }

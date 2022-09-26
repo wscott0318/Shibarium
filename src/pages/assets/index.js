@@ -188,6 +188,8 @@ export default function Assets() {
                                 <span>0x21A...48A5</span>
                               </a>
                             </Link>
+                          </Nav.Item>
+                          <Nav.Item>
                             <Web3Status/>
                           </Nav.Item>
                         </Nav>

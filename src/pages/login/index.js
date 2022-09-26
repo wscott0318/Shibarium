@@ -92,8 +92,8 @@ export default function Login() {
       <main className="main-content">
         {/* login section start */}
         <p className="mb-0" style={{display:'flex', justifyContent:'center'}}>
-                                  <Web3Status />
-                                </p>
+          <Web3Status />
+        </p>
         <section className="login-section">
             <div className="container">
                 <div className='login_h_logo text-center'>
