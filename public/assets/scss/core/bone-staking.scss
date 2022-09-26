@@ -14,6 +14,7 @@
 }
 .iner-header {
     padding: 15px 0;
+    background: $body-bg;
 }
 .white-bg {
     background: $white;
@@ -23,7 +24,7 @@
     margin-top: 15px;
 }
 .section-info {
-    padding-top: 70px;
+    padding-top: 30px;
 }
 .btns-sec {
     display: flex;
@@ -42,6 +43,7 @@
     -o-border-radius: 6px;
     -ms-border-radius: 6px;
     -moz-border-radius: 6px;
+    margin-top: 70px;
 }
 .cus-box{
     background:$body-bg;
@@ -65,6 +67,7 @@
     border-radius: 0;
     height: 100%;
     margin-bottom: 0;
+    padding: 0;
 }
 .top-head {
     font-size: 28px;
@@ -89,8 +92,62 @@
     justify-content: space-between;
     flex-wrap: wrap;
     margin-top: 25px;
+    margin-bottom: 20px;
 }
 .left-section {
     width: 32%;
+}
+.switch-sec, .select-sec, .right-section, .layout-sec{
+    display: flex;
+    align-items: center;
+}
+.right-section{
+    justify-content: space-between;
+}
+.cus-sel {
+    select{
+        &:focus{
+            border:1px solid transparent;
+        }
+    }
+}
+.help-txt {
+    margin-right: 10px;
+}
+.switch-sec {
+    margin-right: 30px;
+}
+.cus-sel {
+    margin-left: 10px;
+}
+.layout-sec {
+    margin-left: 25px;
+}
+.grey-icon{
+    display: inline-block;
+}
+.list, .cus-grid{
+    background: $white;
+    border-radius: 6px;
+    width: 36px;
+    height: 32px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 30px;
+    .white-icon{
+        display: none;
+    }
+}
+.list.blk-active, .cus-grid.blk-active{
+    background: #f17d02; 
+    .grey-icon{
+        display: none;
+    }
+    .white-icon{
+        display: inline-block;
+    }
+}
+.cus-grid {
+    margin-left: 10px;
 }
 /** Bone staking start **/

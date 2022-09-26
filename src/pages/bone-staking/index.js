@@ -59,24 +59,27 @@ const BoneStaking = () => {
   return (
     <>
     <div className="cmn_dashbord_main_outr bone-stake">
-      <div className="container">
           <div className="iner-header">
-            <div className="lft-sec">
-              <ul className="lft-links ms-auto">
-                <li>
-                  <a className="primary-btn btn" href="javascript:void(0);">Overview</a>
-                </li>
-                <li>
-                  <a className="" href="javascript:void(0);">All Validators</a>
-                </li>
-                <li>
-                  <a className="" href="javascript:void(0);">My Account</a>
-                </li>
-              </ul>
+            <div className="container">
+              <div className="lft-sec">
+                <ul className="lft-links ms-auto">
+                  <li>
+                    <a className="primary-btn btn" href="javascript:void(0);">Overview</a>
+                  </li>
+                  <li>
+                    <a className="" href="javascript:void(0);">All Validators</a>
+                  </li>
+                  <li>
+                    <a className="" href="javascript:void(0);">My Account</a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
+      <div className="container">
+          
           <div className="section-info">
-            <div className="row">
+            <div className="row align-items-center">
               <div className="col-md-6">
                 <h1>Start Earning Rewards with <br/><span className="white-bg">Shibarium Staking</span></h1>
                 <div className="btns-sec">
@@ -209,10 +212,84 @@ const BoneStaking = () => {
           </div>
           <div className="filter-row">
             <div className="left-section">
-              <input className="custum-search" type="search" placeholder="Search by validator name, id"/>
+              <input className="custum-search w-100" type="search " placeholder="Search by validator name, id"/>
             </div>
-            <div></div>
+            <div className="right-section">
+              <div className="switch-sec">
+                <span className="help-txt">Show Auction Only</span>
+                <label class="switch">
+                  <input type="checkbox"/>
+                  <span class="slider round"></span>
+                </label>
+              </div>
+              <div className="select-sec">
+                <div>
+                  <span>Sort By</span>
+                </div>
+                <div className="cus-sel">
+                  <select class="form-select" >
+                    <option selected>Random</option>
+                    <option value="1">One</option>
+                  </select>
+                </div>
+                <div className="layout-sec">
+                  <div className="list blk-active">
+                    <a href="javascript:void(0);"><img class="white-icon" src="../../images/list-white.png"/></a>
+                    <a href="javascript:void(0);"><img class="grey-icon" src="../../images/list-grey.png"/></a>
+                  </div>
+                  <div className="cus-grid">
+                    <a href="javascript:void(0);"><img class="white-icon" src="../../images/grid-white.png"/></a>
+                    <a href="javascript:void(0);"><img class="grey-icon" src="../../images/grid-grey.png"/></a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+          <div className="cmn_dasdrd_table">
+                            <div class="table-responsive">
+                                <table class="table table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Stake</th>
+                                            <th>Checkpoints Signed</th>
+                                            <th>Commission</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span><img src="../../images/shiba-round-icon.png"/></span><b>SHIB</b> - Shibatoken</td>
+                                            <td>0.0000 - 0.00$</td>
+                                            <td><a href="#">Deposit</a></td>
+                                            <td><a href="#">Whitdraw</a></td>
+                                            <td><a href="#">Send</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span><img src="../../images/matic-round-icon.png"/></span><b>MATIC</b> - Polygon</td>
+                                            <td>0.0000 - 0.00$</td>
+                                            <td><a href="#">Deposit</a></td>
+                                            <td><a href="#">Whitdraw</a></td>
+                                            <td><a href="#">Send</a></td>                                            
+                                        </tr>
+                                        <tr>
+                                            <td><span><img src="../../images/bnb-round-icon.png"/></span><b>BNB</b> - BNB</td>
+                                            <td>0.0000 - 0.00$</td>
+                                            <td><a href="#">Deposit</a></td>
+                                            <td><a href="#">Whitdraw</a></td>
+                                            <td><a href="#">Send</a></td>                                            
+                                        </tr>
+                                        <tr>
+                                            <td><span><img src="../../images/shiba-round-icon.png"/></span><b>SHIB</b> - Shibatoken</td>
+                                            <td>0.0000 - 0.00$</td>
+                                            <td><a href="#">Deposit</a></td>
+                                            <td><a href="#">Whitdraw</a></td>
+                                            <td><a href="#">Send</a></td>                                        
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
       </div>
       </div>
     </>
