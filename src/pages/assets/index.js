@@ -92,12 +92,14 @@ export default function Assets() {
     }
 
 
-    
+    const handleMenuState = () => {
+      setMenuState(false)
+    }
 
   return (
    <>
       <main className="main-content">
-        <Sidebar menuState={menuState}/>
+        <Sidebar handleMenuState={handleMenuState} menuState={menuState}/>
         <CommonModal
           title={"Transferring funds"}
           show={showSendModal}

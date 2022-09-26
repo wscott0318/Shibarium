@@ -13,7 +13,10 @@ import {
 } from "react-bootstrap";
 import NavLink from "../components/NavLink";
 import SideNavTab from "../../constants/Resources/sideNavTab";
-export default function Sidebar(props) {
+
+
+
+export default function Sidebar({menuState, handleMenuState}) {
   const wrapperRef = useRef(null);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -53,7 +56,7 @@ export default function Sidebar(props) {
       img:"../../images/sidebar/gas-toke.png",
     }
   ]
-
+  
   const bottomList = [
     {
       name: 'FAQs',
@@ -74,6 +77,8 @@ export default function Sidebar(props) {
       img:"../../images/sidebar/wallet.png",
     },
   ]
+
+
 
   const [renderTopList, setRenderTopList] = useState(topList)
   const [renderBottomList, setRenderBottomList] = useState(bottomList)
@@ -102,17 +107,17 @@ export default function Sidebar(props) {
     }
   }
 
-  console.log(renderTopList)
+  // console.log(renderTopList)
 
   return (
     <>
       {/* sidebar start */}
-      <sidebar className="sidebar ">
+      <sidebar className={menuState ? "sidebar sidebar-active" : "sidebar"}>
         <div className="sidbar-top-menu">
           <div className="sidebar-logo">
-            <a className="close-icon" href="javascript:void(0)">
+            <span className="close-icon" onClick={handleMenuState}>
               <img className="img-fluid" src="../../images/close-icon.png" alt="close-icon"/>
-            </a>
+            </span>
             <a className="sidelogo-link" href="javascript:void(0)">
               <img className="img-fluid" src="../../images/logo.png" alt="" />
             </a>
