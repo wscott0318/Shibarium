@@ -22,6 +22,7 @@ import Sidebar  from "../layout/sidebar"
 import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
 import { useMoralis } from "react-moralis";
+// import Web3Status from "app/components/Web3Status";  
 
 export default function Assets() {
   const router = useRouter()
@@ -187,6 +188,7 @@ export default function Assets() {
                                 <span>0x21A...48A5</span>
                               </a>
                             </Link>
+                            <Web3Status/>
                           </Nav.Item>
                         </Nav>
                       </Navbar.Collapse>
