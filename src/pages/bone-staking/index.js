@@ -232,7 +232,8 @@ const BoneStaking = () => {
                     <option value="1">One</option>
                   </select>
                 </div>
-                <div className="layout-sec">
+              </div>
+              <div className="layout-sec">
                   <div className="list blk-active">
                     <a href="javascript:void(0);"><img class="white-icon" src="../../images/list-white.png"/></a>
                     <a href="javascript:void(0);"><img class="grey-icon" src="../../images/list-grey.png"/></a>
@@ -242,7 +243,6 @@ const BoneStaking = () => {
                     <a href="javascript:void(0);"><img class="grey-icon" src="../../images/grid-grey.png"/></a>
                   </div>
                 </div>
-              </div>
             </div>
           </div>
           <div className="cmn_dasdrd_table">
