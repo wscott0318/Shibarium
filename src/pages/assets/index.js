@@ -108,7 +108,7 @@ export default function Assets() {
           <>
             {/* transferring funds popop start */}
                 
-                <div className="cmn_modal">
+                {/* <div className="cmn_modal">
                     <p>Sending funds to exchanges:</p>
                     <div className="exchng_msg_box">
                         <p>Exchanges supported from Shibarium network</p>
@@ -120,13 +120,13 @@ export default function Assets() {
                           <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Continue</a>  </div>
                     </div>
                     <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
-                </div>
+                </div> */}
 
              {/* transferring funds popop ends */}
 
              {/* send popop start */}
-                {/* <div className="cmn_modal">
-                    <h4 className="pop_main_h text-center">Send</h4>
+                {/*<div className="cmn_modal">
+                     <h4 className="pop_main_h text-center">Send</h4> 
                      <form>
                         <div class="form-group">                        
                           <input type="text" class="form-control cmn_inpt_fld"  placeholder="Reciver address"/>
@@ -138,15 +138,70 @@ export default function Assets() {
                             <span>0.00$</span>
                             <b>Available balance: 0.00 SHIB</b>
                           </p>
-                          <div className="pop_btns_area mr-top-50 row">
-                              <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
-                              <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
-                          </div>
                         </div>
+                        <div className="pop_btns_area mr-top-50 row">
+                            <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
+                            <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
+                        </div>
+                        
                      </form>
                      <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
-                </div> */}
+                </div>*/}
                 {/* send popop ends */}
+
+                {/* confirm send popop start */}
+                <div className="cmn_modal">
+                    <div className="cnfrm_box">
+                        <div className="top_overview col-12">
+                              <span><img src="../../images/shib-borderd-icon.png"/></span>
+                              <h6>1100.00 SHIB</h6>
+                              <p>500.00$</p>
+                        </div>
+                        <div className="add_detail col-12">
+                            <p><b>RECEIVER:</b></p>
+                            <p>0x5c932BBe4485C24E1a779872362e990dEdf0D208</p>
+                        </div>
+                    </div>
+                    <div className="cnfrm_check_box">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                          <label class="form-check-label" for="flexCheckChecked">
+                            I’m not sending funds to an <a href="#">unsupported excange</a> or incorrect address
+                          </label>
+                        </div>
+                        
+                       
+                    </div>
+                      <div className="pop_btns_area row">
+                          <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
+                          <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
+                      </div>
+                         
+                      <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
+                </div>
+                {/* confirm send popop ends */}
+
+                {/* submitted popop start */}
+                {/* <div className="cmn_modal">
+                    <div className="cnfrm_box">
+                        <div className="top_overview col-12">
+                              <span><img src="../../images/shib-borderd-icon.png"/></span>
+                              <h6>1100.00 SHIB</h6>
+                              <p>500.00$</p>
+                        </div>
+                        <div className="add_detail col-12">
+                            <p><b>TRANSACTION SUBMITTED TO:</b></p>
+                            <p>0x5c932BBe4485C24E1a779872362e990dEdf0D208</p>
+                        </div>
+                    </div>
+                    <div className="cnfrm_check_box text-center">
+                        Check your wallet activity to see the status of the transaction
+                    </div>
+                      <div className="pop_btns_area row">
+                          <div className="col-12"><a className='btn primary-btn w-100' href="javascript:void(0)">Close</a>  </div>
+                      </div> 
+                </div> */}
+                {/* submitted popop ends */}
 
           </>
           {/* step 1 end */}
