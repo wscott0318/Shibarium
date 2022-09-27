@@ -307,14 +307,14 @@ export default function Assets() {
                             </NavDropdown>
                             </Dropdown>
                           
-                          <Nav.Item>
+                          {/* <Nav.Item>
                             <Link href={'javascript:void(0)'}>
                               <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
                                 <img className="img-fluid me-2" src="../../images/meta-icon.png" alt="meta-img"/>
                                 <span>0x21A...48A5</span>
                               </a>
                             </Link>
-                          </Nav.Item>
+                          </Nav.Item> */}
                           <Nav.Item>
                             <Web3Status/>
                           </Nav.Item>
@@ -343,7 +343,6 @@ export default function Assets() {
                               <a href="#" className="btn white-btn w-100 d-block">How Shibarium works</a>
                           </div>
                       </div>
-
                     <div className="assets_btm_area">
                         <h2>Assets on Shibarium</h2>
                         <div className="cmn_dasdrd_table">
@@ -395,8 +394,7 @@ export default function Assets() {
                 {/* assets section end */}                                 
 
             </div>
-        </section> 
-        
+        </section>
       </main>
    </>
   );
