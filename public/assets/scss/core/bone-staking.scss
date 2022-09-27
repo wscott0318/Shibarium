@@ -5,10 +5,19 @@
     justify-content: left;
 }
 .lft-links{
+    @media #{$max-xsm}{
+        flex-direction: column;
+    }
     li{
         margin:0 30px;
         &:first-child{
             margin-left: 0; 
+        }
+        @media #{$max-lg}{
+            margin: 0 15px;
+        }
+        @media #{$max-md}{
+            margin: 0 7px;
         }
     }
 }
@@ -26,20 +35,54 @@
 .section-info {
     padding: 0px 20px 30px;
     margin-top: 40px;
+    @media #{$max-lg}{
+        padding: 0px 0 30px;
+    }
 }
 .btns-sec {
     display: flex;
     flex-wrap: wrap;
     margin-top: 70px;
-    justify-content: space-between;
+    @media #{$max-xxl}{
+        margin-top: 50px;
+    }
+    @media #{$max-lg}{
+        margin-top: 35px;
+    }
+    @media #{$max-xsm}{
+        flex-direction: column;
+        align-items: center;
+    }
     .btn{
         font-size: 16px;
+        @media #{$max-xxl}{
+            font-size: 14px;
+        }
+        @media #{$max-xsm}{
+            width: 100%;
+        }
+    }
+    .grey-btn{
+        font-weight: 500;
+    }
+}
+.btns-wrap{
+    margin: 0 10px 10px 0;
+    @media #{$max-xsm}{
+        margin: 0 0px 10px 0;
+        width: 100%;
     }
 }
 .grid-contain{
     border:1px solid $grey-color;
     padding: 20px;
     margin-top: 70px;
+    @media #{$max-xl}{
+        margin-top: 50px;
+    }
+    @media #{$max-lg}{
+        margin-top: 40px;
+    }
 }
 .cus-box{
     background:$body-bg;
@@ -63,6 +106,18 @@
 .top-head {
     font-size: 28px;
     font-weight: 700;
+    @media #{$max-xl}{
+        font-size: 24px;
+    }
+    @media #{$max-lg}{
+        font-size: 20px;
+    }
+    @media #{$max-md}{
+        font-size: 18px;
+    }
+    @media #{$max-xsm}{
+        font-size: 16px;
+    }
 }
 .mid-head, .botom-headsec {
     font-size: 16px;
@@ -87,6 +142,10 @@
 }
 .left-section {
     width: 32%;
+    @media #{$max-md}{
+        width: 100%;
+        margin-bottom: 15px;
+    }
 }
 .switch-sec, .select-sec, .right-section, .layout-sec{
     display: flex;
@@ -94,6 +153,17 @@
 }
 .right-section{
     justify-content: space-between;
+    @media #{$max-sm}{
+        flex-direction: column;
+        align-items: end;
+        width: 100%;
+    }
+    .switch-sec, .select-sec{
+        @media #{$max-sm}{
+            margin-bottom: 10px;
+            margin-right: 0;
+        }
+    }
 }
 .cus-sel {
     select{
@@ -133,7 +203,7 @@
     }
 }
 .list.blk-active, .cus-grid.blk-active{
-    background: #f17d02; 
+    background: $primary-two; 
     .grey-icon{
         display: none;
     }
@@ -146,5 +216,52 @@
 }
 .section-info h1{
     font-size: 40px;
+    @media #{$max-xxl}{
+        font-size: 36px;
+    }
+    @media #{$max-xl}{
+        font-size: 34px;
+    }
+    @media #{$max-lg}{
+        font-size: 26px;
+    }
+    @media #{$max-sm}{
+        font-size: 24px;
+    }
+}
+.sub-head{
+    @media #{$max-xxl}{
+        font-size: 36px;
+    }
+    @media #{$max-xl}{
+        font-size: 34px;
+    }
+    @media #{$max-lg}{
+        font-size: 26px;
+    }
+    @media #{$max-sm}{
+        font-size: 24px;
+    } 
+}
+.m-hide{
+    @media #{$max-md}{
+        display: none;
+    }
+}
+.mob-margin{
+    @media #{$max-xl}{
+        margin-bottom: 20px;
+    }
+    &:last-child, &:nth-last-child(2){
+        @media #{$max-xl}{
+            margin-bottom: 0;
+        }
+        
+    }
+    @media #{$max-md}{
+        &:nth-last-child(2){
+            margin-bottom: 20px;
+        }
+    }
 }
 /** Bone staking start **/
