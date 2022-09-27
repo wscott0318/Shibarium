@@ -13,7 +13,9 @@
     color: $primary !important;
 }
 /** text color start **/
-
+.top-space{
+    padding-top: 76px;
+}
 .bottom-pad {
     padding-bottom: 70px;
     @media #{$max-xl}{
