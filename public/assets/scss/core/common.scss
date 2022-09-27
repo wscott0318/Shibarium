@@ -285,6 +285,72 @@
 .green-txt{
     color: $green-color;
 }
+.cmn_dashbord_main_outr.bg-section{
+    width: 100%;
+    margin-top: 0;
+    border-radius: 0;
+    height: 100%;
+    margin-bottom: 30px;
+    padding: 0;
+}
+.block-wrap{
+    padding: 20px;
+    background: $body-bg-800;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -o-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -moz-border-radius: 10px;
+}
+.head-md{
+    font-size: 34px;
+}
+.top-botom-spc {
+    margin: 20px 0 25px;
+}
+.arrow-down {
+    border: solid $white;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    position:absolute;
+    top:20px;
+    right:20px;
+    pointer-events: none;
+  }
+  .form-select{
+    cursor:pointer;
+  }
+  .botom-spc {
+    margin-bottom: 20px;
+}
+.black-field{
+    background-color: #151B28;
+    padding: 15px 20px;
+    border-radius: 10px;
+    border: 0;
+    font-size: 16px;
+    font-weight: 400px;
+    color: #FFFFFF;
+}
+.orange-btn {
+    background: #f07501;
+    padding: 3px 8px;
+    font-size: 14px;
+    border-radius: 6px;
+}
+.input-contain{
+    .orange-btn{
+        position: absolute;
+        right: 15px;
+        top: 14px;
+    } 
+    .black-field{
+        padding-right: 85px;
+    }
+}
 /** cus swith end **/
 // 
 // .fixed-popup {

@@ -58,7 +58,7 @@ const BoneStaking = () => {
   const [show, setShow] = React.useState();
   return (
     <>
-    <div className="cmn_dashbord_main_outr bone-stake">
+    <div className="cmn_dashbord_main_outr bg-section">
           <div className="iner-header">
             <div className="container">
               <div className="lft-sec">

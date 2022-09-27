@@ -24,7 +24,9 @@
     margin-top: 15px;
 }
 .section-info {
-    padding-top: 30px;
+    background: $secondary-800;
+    padding: 0px 20px 30px;
+    margin-top: 40px;
 }
 .btns-sec {
     display: flex;
@@ -38,37 +40,27 @@
 .grid-contain{
     border:1px solid $grey-color;
     padding: 20px;
-    border-radius: 6px;
-    -webkit-border-radius: 6px;
-    -o-border-radius: 6px;
-    -ms-border-radius: 6px;
-    -moz-border-radius: 6px;
     margin-top: 70px;
 }
 .cus-box{
     background:$body-bg;
     padding: 15px 20px 20px;
-    border-radius: 6px;
-    -webkit-border-radius: 6px;
-    -o-border-radius: 6px;
-    -ms-border-radius: 6px;
-    -moz-border-radius: 6px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
 }
+.cus-box, .grid-contain, .section-info{
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -o-border-radius: 6px;
+    -ms-border-radius: 6px;
+    -moz-border-radius: 6px;
+}
 .bg{
     background: $body-bg-800;
 }
-.cmn_dashbord_main_outr.bone-stake{
-    width: 100%;
-    margin-top: 0;
-    border-radius: 0;
-    height: 100%;
-    margin-bottom: 30px;
-    padding: 0;
-}
+
 .top-head {
     font-size: 28px;
     font-weight: 700;
@@ -107,8 +99,11 @@
 .cus-sel {
     select{
         &:focus{
-            border:1px solid transparent;
+            border:0;
+            box-shadow: none;
         }
+        border:0;
+            
     }
 }
 .help-txt {
@@ -149,5 +144,8 @@
 }
 .cus-grid {
     margin-left: 10px;
+}
+.section-info h1{
+    font-size: 40px;
 }
 /** Bone staking start **/
