@@ -40,7 +40,7 @@ export default function ValidatorAccount() {
   //  console.log('account---------------', account)
   return (
     <>
-      <main className="main-content">
+      <main className="main-content val_account_outr">
 {/* retake popop start */}
       <CommonModal
           title={"Retake"}
@@ -174,22 +174,22 @@ export default function ValidatorAccount() {
                     <h3><b>0 Bone</b></h3>
                     <h4>$0.00</h4>        
                     <div className="btns_sec val_all_bts row">
-                        <div className="col-md-3"> 
+                        <div className="col-md-3 col-sm-4"> 
                             <button onClick={() =>setretakepop(true)} className="btn grey-btn w-100 d-block">
                                 Restake
                             </button>
                         </div>
-                        <div className="col-md-3">                        
+                        <div className="col-md-3 col-sm-4">                        
                             <button onClick={() =>setcommissionpop(true)} className="btn grey-btn w-100 d-block">
                                 Change Comission Rate
                             </button> 
                         </div>
-                        <div className="col-md-3">                        
+                        <div className="col-md-3 col-sm-4">                        
                             <button onClick={() =>setwithdrawpop(true)} className="btn grey-btn w-100 d-block">
                                 Withdraw Rewards
                             </button>
                         </div>
-                        <div className="col-md-3">                        
+                        <div className="col-md-3 col-sm-4">                        
                             <button onClick={() =>setunboundpop(true)} className="btn grey-btn w-100 d-block">
                                 Unbound
                             </button>

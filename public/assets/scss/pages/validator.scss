@@ -28,3 +28,17 @@
         }
     }
 }
+.val_account_outr .mid_cnt_area button{
+    
+    @media #{$max-lg}{
+        padding: 5px;
+        font-size: 13px;
+    }    
+}
+.mid_cnt_area{
+    @media #{$max-md}{
+        .val_all_bts{
+            justify-content: center;
+        }
+    }
+}
