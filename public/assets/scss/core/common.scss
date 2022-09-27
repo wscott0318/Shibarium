@@ -262,9 +262,29 @@
   .slider.round:before {
     border-radius: 50%;
   }
-
-
-
+  .square {
+    width: 30px;
+    height: 30px;
+    background: $primary;
+    text-align: center;
+    vertical-align: middle;
+    display: inline-block;
+    line-height: 33px;
+    padding-right: 0 !important;
+    margin-right: 10px;
+}
+.dot {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: #FFFFFF;
+}
+.orange-txt{
+    color:$primary;
+}
+.green-txt{
+    color: $green-color;
+}
 /** cus swith end **/
 // 
 // .fixed-popup {
