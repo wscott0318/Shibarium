@@ -1,0 +1,151 @@
+.box-wrap{
+    display: flex;
+    margin-top: 30px;
+}
+.custum-card{
+    padding: 20px;
+    background: $body-bg;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -o-border-radius: 30px;
+    -ms-border-radius: 30px;
+    -moz-border-radius: 30px;
+    height: 100%;
+}
+.left-box {
+    flex: 0 0 600px;
+    .custum-card{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        height: 100%;
+    }
+}
+.heading-main {
+    font-size: 40px;
+}
+.box-top{
+    .heading-main{
+        margin-bottom: 30px;
+    }
+}
+.txt-row {
+    margin-bottom: 25px;
+}
+.row-description {
+    font-size: 15px;
+    color: $grey-color;
+}
+.alignment{
+    vertical-align: text-top;
+}
+.icon-image {
+    margin-right: 5px;
+}
+.coin-sec {
+    position: absolute;
+    left: 0;
+    right: auto;
+    top: auto;
+    bottom: auto;
+}
+.amt-section {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 30px;
+    width: 100%;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+.sub-buttons-sec {
+    
+    .btn{
+        font-size: 16px;
+        color: $grey-color;
+        padding: 15px;
+    }
+}
+.height-blk {
+    height: 170px;
+}
+.box-bottom{
+    margin-top: 140px;
+}
+.right-box {
+    width: calc(100% - 600px);
+    margin-left: 20px;
+}
+.botom-spcing {
+    margin-bottom: 35px;
+}
+.tab-sec {
+    padding: 5px;
+    background: #fff;
+    border-radius: 8px;
+}
+.tab-links{
+    display: flex;
+    li{
+        width: 50%;
+        .tb-link{
+            color:$grey-color;
+            text-align: center;
+            width: 100%;
+            border-radius: 9px;
+            padding: 10px;
+        }
+        .tb-link.tab-active{
+            background: $body-bg;
+            color: $white;
+        }
+    }
+}
+.form-field{
+    background:$white;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 16px;
+}
+.icon-chain{
+    position: absolute;
+    left: 15px;
+    top:auto;
+    right: auto;
+    bottom: auto;
+}
+.mid-chain {
+    padding: 0 26% 0 25px;
+}
+.rt-chain {
+    position: absolute;
+    right: 15px;
+    top: 14px;
+    bottom: auto;
+    left: auto;
+}
+.fld-txt{
+    color:$body-bg;
+    font-weight: 700;
+}
+.field-grid{
+     margin-top: 15px;
+    .form-field{
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer;
+    }
+    .arrow-down{
+        color:$body-bg;
+        border-color:$body-bg;
+        border-width: 0 2px 2px 0;
+        position:initial;
+    }
+}
+.arow-outer {
+    width: 22px;
+    height: 22px;
+    background: $grey-color-800;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 16px;
+}
