@@ -1,3 +1,19 @@
+/** background color start **/
+.dark-bg-800{
+    background-color:$body-bg-800;
+}
+.dark-bg{
+    background-color:$body-bg;
+}
+
+/** background color end **/
+
+/** text color start **/
+.primary-text{
+    color: $primary !important;
+}
+/** text color start **/
+
 .bottom-pad {
     padding-bottom: 70px;
     @media #{$max-xl}{
@@ -375,3 +391,7 @@
 //         justify-content: space-between;
 //     }
 // }
+.full-vh {
+    min-height: 100vh
+}
+
