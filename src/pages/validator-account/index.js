@@ -41,7 +41,7 @@ export default function ValidatorAccount() {
     //  console.log('account---------------', account)
     return (
         <>
-            <main className="main-content dark-bg-800 full-vh">
+            <main className="main-content dark-bg-800 full-vh top-space">
             <StakingHeader />
                 {/* retake popop start */}
                 <CommonModal

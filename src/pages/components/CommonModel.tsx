@@ -26,7 +26,7 @@ const CommonModal:React.FC<props> = ({show,setShow, title,children})=> {
     backdrop="static"
     keyboard={false}
     className="shib-popup"
-    scrollable={true}
+    // scrollable={true}
   >
     <Modal.Header closeButton className="text-center modal-header">
     {/* <div className="back-blk">

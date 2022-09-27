@@ -400,7 +400,10 @@ ul {
     .modal-content{
         background-color: $body-bg-800;
         border-radius: 40px;
-        padding: 50px 20px;
+        padding: 40px 20px;
+        @media #{$max-xxl}{
+            padding: 30px 15px;
+        }
         .modal-header{
             border: 0;
             text-align: center;
@@ -410,7 +413,7 @@ ul {
             width: 100%;
             position: relative;
             padding-top: 0;
-            padding-bottom: 0;
+            padding-bottom: 15px;
             text-align: center !important;
             .btn-close{
                 position: absolute;
