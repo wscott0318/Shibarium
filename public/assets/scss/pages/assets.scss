@@ -56,7 +56,7 @@
 .assets_btm_area h2{
     margin-bottom: 50px;
 }
-.table input[type="search"] {
+.table input[type="search"], .custum-search {
     border-radius: 10px;
     border: none;
     background: #E9E9EC;
@@ -154,5 +154,5 @@
     padding-bottom: 0;
 }
 .modal-backdrop.show{
-    opacity: 0;
+    opacity: 0.9;
 }

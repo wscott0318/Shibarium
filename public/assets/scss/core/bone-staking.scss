@@ -1,0 +1,150 @@
+/** Bone staking start **/
+.lft-links{
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+.lft-links{
+    li{
+        margin:0 30px;
+        &:first-child{
+            margin-left: 0; 
+        }
+    }
+}
+.iner-header {
+    padding: 15px 0;
+    background: $body-bg;
+}
+.white-bg {
+    background: $white;
+    color: $body-bg-800;
+    padding: 5px 10px;
+    font-weight: 800;
+    margin-top: 15px;
+}
+.section-info {
+    padding: 0px 20px 30px;
+    margin-top: 40px;
+}
+.btns-sec {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 70px;
+    justify-content: space-between;
+    .btn{
+        font-size: 16px;
+    }
+}
+.grid-contain{
+    border:1px solid $grey-color;
+    padding: 20px;
+    margin-top: 70px;
+}
+.cus-box{
+    background:$body-bg;
+    padding: 15px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+.cus-box, .grid-contain, .section-info{
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -o-border-radius: 6px;
+    -ms-border-radius: 6px;
+    -moz-border-radius: 6px;
+}
+.bg{
+    background: $body-bg-800;
+}
+
+.top-head {
+    font-size: 28px;
+    font-weight: 700;
+}
+.mid-head, .botom-headsec {
+    font-size: 16px;
+}
+.botom-sec {
+    border-top: 1px solid $grey-color;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+.col-custum{
+    margin-bottom: 20px;
+}
+.heading-sec {
+    margin-top: 50px;
+}
+.filter-row{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 25px;
+    margin-bottom: 20px;
+}
+.left-section {
+    width: 32%;
+}
+.switch-sec, .select-sec, .right-section, .layout-sec{
+    display: flex;
+    align-items: center;
+}
+.right-section{
+    justify-content: space-between;
+}
+.cus-sel {
+    select{
+        &:focus{
+            border:0;
+            box-shadow: none;
+        }
+        border:0;
+            
+    }
+}
+.help-txt {
+    margin-right: 10px;
+}
+.switch-sec {
+    margin-right: 30px;
+}
+.cus-sel {
+    margin-left: 10px;
+}
+.layout-sec {
+    margin-left: 25px;
+}
+.grey-icon{
+    display: inline-block;
+}
+.list, .cus-grid{
+    background: $white;
+    border-radius: 6px;
+    width: 36px;
+    height: 32px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 30px;
+    .white-icon{
+        display: none;
+    }
+}
+.list.blk-active, .cus-grid.blk-active{
+    background: #f17d02; 
+    .grey-icon{
+        display: none;
+    }
+    .white-icon{
+        display: inline-block;
+    }
+}
+.cus-grid {
+    margin-left: 10px;
+}
+.section-info h1{
+    font-size: 40px;
+}
+/** Bone staking start **/
