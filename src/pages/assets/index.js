@@ -112,13 +112,13 @@ export default function Assets() {
             {/* transferring funds popop start */}
                 
                 {/* <div className="cmn_modal">
-                    <p>Sending funds to exchanges:</p>
+                    <p className="mr-top-50">Sending funds to exchanges:</p>
                     <div className="exchng_msg_box">
                         <p>Exchanges supported from Shibarium network</p>
                         <p className="sprdt_txt">Supported Excanges</p>
                     </div>
                     <p className="alert_msg"><img src="../../images/i-info-icon.png"/> Sending funds to unsupported exchanges will lead to permanent loss of funds.</p>
-                    <div className="pop_btns_area row">
+                    <div className="pop_btns_area row form-control">
                           <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Cancel</a>  </div>
                           <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Continue</a>  </div>
                     </div>
@@ -128,9 +128,9 @@ export default function Assets() {
              {/* transferring funds popop ends */}
 
              {/* send popop start */}
-                {/*<div className="cmn_modal">
+                {/* <div className="cmn_modal">
                      <h4 className="pop_main_h text-center">Send</h4> 
-                     <form>
+                     <form className="mr-top-50">
                         <div class="form-group">                        
                           <input type="text" class="form-control cmn_inpt_fld"  placeholder="Reciver address"/>
                         </div>
@@ -142,18 +142,18 @@ export default function Assets() {
                             <b>Available balance: 0.00 SHIB</b>
                           </p>
                         </div>
-                        <div className="pop_btns_area mr-top-50 row">
+                        <div className="pop_btns_area mr-top-50 row form-control">
                             <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
                             <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
                         </div>
                         
                      </form>
                      <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
-                </div>*/}
+                </div> */}
                 {/* send popop ends */}
 
                 {/* confirm send popop start */}
-                <div className="cmn_modal">
+                {/* <div className="cmn_modal">
                     <div className="cnfrm_box">
                         <div className="top_overview col-12">
                               <span><img src="../../images/shib-borderd-icon.png"/></span>
@@ -175,17 +175,17 @@ export default function Assets() {
                         
                        
                     </div>
-                      <div className="pop_btns_area row">
+                      <div className="pop_btns_area form-control row">
                           <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
                           <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
                       </div>
                          
                       <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
-                </div>
+                </div> */}
                 {/* confirm send popop ends */}
 
                 {/* submitted popop start */}
-                {/* <div className="cmn_modal">
+                <div className="cmn_modal">
                     <div className="cnfrm_box">
                         <div className="top_overview col-12">
                               <span><img src="../../images/shib-borderd-icon.png"/></span>
@@ -200,10 +200,10 @@ export default function Assets() {
                     <div className="cnfrm_check_box text-center">
                         Check your wallet activity to see the status of the transaction
                     </div>
-                      <div className="pop_btns_area row">
+                      <div className="pop_btns_area row form-control">
                           <div className="col-12"><a className='btn primary-btn w-100' href="javascript:void(0)">Close</a>  </div>
                       </div> 
-                </div> */}
+                </div>
                 {/* submitted popop ends */}
 
           </>
