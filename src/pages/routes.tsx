@@ -16,7 +16,7 @@ const ComponentRouters=({Component, pageProps}:any)=> {
     // console.log(orientation,isMobile,isDesktop);
   return (
       <RouteGuard user={user}>
-          {router.asPath == "/home" ? <Header /> : ""}
+          {router.asPath == "/home" || '/bone-staking' ? <Header /> : ""}
          {isMobile && orientation === 'landscape-primary' ? <PortraitWarning /> : <Component {...pageProps} />
          }
       </RouteGuard>
