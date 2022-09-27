@@ -10,7 +10,7 @@ import OuterTable from './outerTable';
 export default function Transactions() {
   return (
     <>
-     <h1>Transactions index.js</h1>
+      
     </>
   )
 }
