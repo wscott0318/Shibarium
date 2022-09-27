@@ -1,12 +1,3 @@
-// import React from 'react'
-
-// function Index() {
-//   return (
-//     <div>Index</div>
-//   )
-// }
-
-// export default Index
 import Davatar from '@davatar/react'
 import { Web3Provider } from '@ethersproject/providers'
 
