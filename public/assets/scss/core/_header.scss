@@ -22,6 +22,7 @@
             max-width: 110px;
         }
     }   
+    
 }
 .nav-link{
     font-size: 16px;
@@ -35,6 +36,39 @@
 .inner-header{
     .nav-item {
         margin-right: 12px;
+    }
+    .bg-dark-1000{
+        background-color: $primary;
+    }   
+    .text-primary{
+        color: $white !important;
+    }
+    .btn-status{
+        .btn-primary{
+            display: flex;
+            align-items: center;
+        }
+        button{
+            background-color: $primary !important;
+        }
+    }
+    .dot-icon{
+        max-width: 30px;
+        @media #{$max-lg}{
+            max-width: 25px;
+        }
+    }
+    .px-4 {
+        @media #{$max-sm}{
+            padding-right: 0.5rem !important;
+            padding-left: 0.5rem !important;
+        }
+    }
+    .container{
+        @media #{$max-sm}{
+            padding-left: 0;
+            padding-right: 0;
+        }
     }
 }
 .staking-header{
@@ -63,4 +97,8 @@
           }  
         }
     }
+}
+
+.z-50 {
+    z-index: 999;
 }
