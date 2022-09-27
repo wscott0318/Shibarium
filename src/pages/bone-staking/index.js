@@ -17,7 +17,7 @@ import NetworkDetails from './NetworkDetails';
 import Footer from "../../pages/footer/index";
 // import { useMoralis } from "react-moralis";
 // import BannerCard from './bannerCard'
-
+import StakingHeader from '../staking-header'
 const BoneStaking = () => {
   // const [validators, setValidators] = useState([]);
   const [userType, setUserType] = useUserType();
@@ -58,239 +58,237 @@ const BoneStaking = () => {
   const [show, setShow] = React.useState();
   return (
     <>
-    <div className="cmn_dashbord_main_outr bone-stake">
-          <div className="iner-header">
-            <div className="container">
-              <div className="lft-sec">
-                <ul className="lft-links ms-auto">
-                  <li>
-                    <a className="primary-btn btn" href="javascript:void(0);">Overview</a>
-                  </li>
-                  <li>
-                    <a className="" href="javascript:void(0);">All Validators</a>
-                  </li>
-                  <li>
-                    <a className="" href="javascript:void(0);">My Account</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-      <div className="container">
-          
-          <div className="section-info">
-            <div className="row align-items-center">
-              <div className="col-md-6">
-                <h1>Start Earning Rewards with <br/><span className="white-bg">Shibarium Staking</span></h1>
-                <div className="btns-sec">
-                  <div>
-                    <button className="btn primary-btn">Become a Validator</button>
+      <div className="main-content dark-bg-800 full-vh">
+        <StakingHeader />
+        {/* banner section start */}
+        <section className="inner-banner dark-bg">
+          <div className="container">
+            <div className="section-info">
+              <div className="row align-items-center">
+                <div className="col-md-6">
+                  <h1>Start Earning Rewards with <br /><span className="white-bg">Shibarium Staking</span></h1>
+                  <div className="btns-sec">
+                    <div>
+                      <button className="btn primary-btn">Become a Validator</button>
+                    </div>
+                    <div>
+                      <button className="btn  white-btn">Become a Delegator</button>
+                    </div>
+                    <div>
+                      <button className="btn grey-btn">Choose Your Path</button>
+                    </div>
                   </div>
-                  <div>
-                    <button className="btn  white-btn">Become a Delegator</button>
-                  </div>
-                  <div>
-                    <button className="btn grey-btn">Choose Your Path</button>
+                </div>
+                <div className="col-md-6">
+                  <div className="shib-img-sec text-end">
+                    <img src="../../images/shiba-img.png" />
                   </div>
                 </div>
               </div>
-              <div className="col-md-6">
-                <div className="shib-img-sec text-end"> 
-                  <img src="../../images/shiba-img.png"/>
+            </div>
+          </div>
+        </section>
+        {/* banner section closed */}
+
+        {/* card-section */}
+        <section className="card-section">
+          <div className="container">
+            <div className="grid-contain">
+              <div className="row">
+                <div className="col-lg-4 col-custum">
+                  <div className="cus-box">
+                    <div className="head-sec">
+                      <div className="top-head">
+                        <span>155,554,455 Shiba</span>
+                      </div>
+                      <div className="mid-head">
+                        <span>$12354655.36</span>
+                      </div>
+                    </div>
+                    <div className="botom-sec">
+                      <div className="botom-headsec">
+                        <span>Total Stake</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-4 col-custum">
+                  <div className="cus-box">
+                    <div className="head-sec">
+                      <div className="top-head">
+                        <span>155,554,455 Shiba</span>
+                      </div>
+                      <div className="mid-head">
+                        <span>$12354655.36</span>
+                      </div>
+                    </div>
+                    <div className="botom-sec">
+                      <div className="botom-headsec">
+                        <span>Total Stake</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-4 col-custum">
+                  <div className="cus-box">
+                    <div className="head-sec">
+                      <div className="top-head">
+                        <span>155,554,455 Shiba</span>
+                      </div>
+                      <div className="mid-head">
+                        <span>$12354655.36</span>
+                      </div>
+                    </div>
+                    <div className="botom-sec">
+                      <div className="botom-headsec">
+                        <span>Total Stake</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-4">
+                  <div className="cus-box">
+                    <div className="head-sec">
+                      <div className="top-head">
+                        <span>155,554,455 Shiba</span>
+                      </div>
+                      <div className="mid-head">
+                        <span>$12354655.36</span>
+                      </div>
+                    </div>
+                    <div className="botom-sec">
+                      <div className="botom-headsec">
+                        <span>Total Stake</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-4">
+                  <div className="cus-box">
+                    <div className="head-sec">
+                      <div className="top-head">
+                        <span>155,554,455 Shiba</span>
+                      </div>
+                      <div className="mid-head">
+                        <span>$12354655.36</span>
+                      </div>
+                    </div>
+                    <div className="botom-sec">
+                      <div className="botom-headsec">
+                        <span>Total Stake</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-4">
+                  <div className="cus-box">
+                    <div className="head-sec">
+                      <div className="top-head">
+                        <span>155,554,455 Shiba</span>
+                      </div>
+                      <div className="mid-head">
+                        <span>$12354655.36</span>
+                      </div>
+                    </div>
+                    <div className="botom-sec">
+                      <div className="botom-headsec">
+                        <span>Total Stake</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="grid-contain">
-            <div className="row">
-              <div className="col-lg-4 col-custum">
-                <div className="cus-box">
-                    <div className="head-sec">
-                      <div className="top-head">
-                        <span>155,554,455 Shiba</span>
-                      </div>
-                      <div className="mid-head">
-                        <span>$12354655.36</span>
-                      </div>
-                    </div>
-                    <div className="botom-sec">
-                      <div className="botom-headsec">
-                        <span>Total Stake</span>
-                      </div>
-                    </div>
-                </div>
-              </div>
-              <div className="col-lg-4 col-custum">
-                <div className="cus-box">
-                    <div className="head-sec">
-                      <div className="top-head">
-                        <span>155,554,455 Shiba</span>
-                      </div>
-                      <div className="mid-head">
-                        <span>$12354655.36</span>
-                      </div>
-                    </div>
-                    <div className="botom-sec">
-                      <div className="botom-headsec">
-                        <span>Total Stake</span>
-                      </div>
-                    </div>
-                </div>
-              </div>
-              <div className="col-lg-4 col-custum">
-                <div className="cus-box">
-                    <div className="head-sec">
-                      <div className="top-head">
-                        <span>155,554,455 Shiba</span>
-                      </div>
-                      <div className="mid-head">
-                        <span>$12354655.36</span>
-                      </div>
-                    </div>
-                    <div className="botom-sec">
-                      <div className="botom-headsec">
-                        <span>Total Stake</span>
-                      </div>
-                    </div>
-                </div>
-              </div>
-              <div className="col-lg-4">
-                <div className="cus-box">
-                    <div className="head-sec">
-                      <div className="top-head">
-                        <span>155,554,455 Shiba</span>
-                      </div>
-                      <div className="mid-head">
-                        <span>$12354655.36</span>
-                      </div>
-                    </div>
-                    <div className="botom-sec">
-                      <div className="botom-headsec">
-                        <span>Total Stake</span>
-                      </div>
-                    </div>
-                </div>
-              </div>
-              <div className="col-lg-4">
-                <div className="cus-box">
-                    <div className="head-sec">
-                      <div className="top-head">
-                        <span>155,554,455 Shiba</span>
-                      </div>
-                      <div className="mid-head">
-                        <span>$12354655.36</span>
-                      </div>
-                    </div>
-                    <div className="botom-sec">
-                      <div className="botom-headsec">
-                        <span>Total Stake</span>
-                      </div>
-                    </div>
-                </div>
-              </div>
-              <div className="col-lg-4">
-                <div className="cus-box">
-                    <div className="head-sec">
-                      <div className="top-head">
-                        <span>155,554,455 Shiba</span>
-                      </div>
-                      <div className="mid-head">
-                        <span>$12354655.36</span>
-                      </div>
-                    </div>
-                    <div className="botom-sec">
-                      <div className="botom-headsec">
-                        <span>Total Stake</span>
-                      </div>
-                    </div>
-                </div>
-              </div>
+        </section>
+        {/* card section  end */}
+        <section className="table-section">
+          <div className="container">
+            <div className="heading-sec">
+              <h2 className="sub-head">All Validators</h2>
             </div>
-          </div>
-          <div className="heading-sec">
-            <h2 className="sub-head">All Validators</h2>
-          </div>
-          <div className="filter-row">
-            <div className="left-section">
-              <input className="custum-search w-100" type="search " placeholder="Search by validator name, id"/>
-            </div>
-            <div className="right-section">
-              <div className="switch-sec">
-                <span className="help-txt">Show Auction Only</span>
-                <label class="switch">
-                  <input type="checkbox"/>
-                  <span class="slider round"></span>
-                </label>
+            <div className="filter-row">
+              <div className="left-section">
+                <input className="custum-search w-100" type="search " placeholder="Search by validator name, id" />
               </div>
-              <div className="select-sec">
-                <div>
-                  <span>Sort By</span>
+              <div className="right-section">
+                <div className="switch-sec">
+                  <span className="help-txt">Show Auction Only</span>
+                  <label class="switch">
+                    <input type="checkbox" />
+                    <span class="slider round"></span>
+                  </label>
                 </div>
-                <div className="cus-sel">
-                  <select class="form-select" >
-                    <option selected>Random</option>
-                    <option value="1">One</option>
-                  </select>
+                <div className="select-sec">
+                  <div>
+                    <span>Sort By</span>
+                  </div>
+                  <div className="cus-sel">
+                    <select class="form-select" >
+                      <option selected>Random</option>
+                      <option value="1">One</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div className="layout-sec">
+                <div className="layout-sec">
                   <div className="list blk-active">
-                    <a href="javascript:void(0);"><img class="white-icon" src="../../images/list-white.png"/></a>
-                    <a href="javascript:void(0);"><img class="grey-icon" src="../../images/list-grey.png"/></a>
+                    <a href="javascript:void(0);"><img class="white-icon" src="../../images/list-white.png" /></a>
+                    <a href="javascript:void(0);"><img class="grey-icon" src="../../images/list-grey.png" /></a>
                   </div>
                   <div className="cus-grid">
-                    <a href="javascript:void(0);"><img class="white-icon" src="../../images/grid-white.png"/></a>
-                    <a href="javascript:void(0);"><img class="grey-icon" src="../../images/grid-grey.png"/></a>
+                    <a href="javascript:void(0);"><img class="white-icon" src="../../images/grid-white.png" /></a>
+                    <a href="javascript:void(0);"><img class="grey-icon" src="../../images/grid-grey.png" /></a>
                   </div>
                 </div>
+              </div>
+            </div>
+            <div className="cmn_dasdrd_table">
+              <div class="table-responsive">
+                <table class="table table-borderless">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Stake</th>
+                      <th>Checkpoints Signed</th>
+                      <th>Commission</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
+                      <td>0.0000 - 0.00$</td>
+                      <td><a href="#">Deposit</a></td>
+                      <td><a href="#">Whitdraw</a></td>
+                      <td><a href="#">Send</a></td>
+                    </tr>
+                    <tr>
+                      <td><span><img src="../../images/matic-round-icon.png" /></span><b>MATIC</b> - Polygon</td>
+                      <td>0.0000 - 0.00$</td>
+                      <td><a href="#">Deposit</a></td>
+                      <td><a href="#">Whitdraw</a></td>
+                      <td><a href="#">Send</a></td>
+                    </tr>
+                    <tr>
+                      <td><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
+                      <td>0.0000 - 0.00$</td>
+                      <td><a href="#">Deposit</a></td>
+                      <td><a href="#">Whitdraw</a></td>
+                      <td><a href="#">Send</a></td>
+                    </tr>
+                    <tr>
+                      <td><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
+                      <td>0.0000 - 0.00$</td>
+                      <td><a href="#">Deposit</a></td>
+                      <td><a href="#">Whitdraw</a></td>
+                      <td><a href="#">Send</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-          <div className="cmn_dasdrd_table">
-                            <div class="table-responsive">
-                                <table class="table table-borderless">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Stake</th>
-                                            <th>Checkpoints Signed</th>
-                                            <th>Commission</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><span><img src="../../images/shiba-round-icon.png"/></span><b>SHIB</b> - Shibatoken</td>
-                                            <td>0.0000 - 0.00$</td>
-                                            <td><a href="#">Deposit</a></td>
-                                            <td><a href="#">Whitdraw</a></td>
-                                            <td><a href="#">Send</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td><span><img src="../../images/matic-round-icon.png"/></span><b>MATIC</b> - Polygon</td>
-                                            <td>0.0000 - 0.00$</td>
-                                            <td><a href="#">Deposit</a></td>
-                                            <td><a href="#">Whitdraw</a></td>
-                                            <td><a href="#">Send</a></td>                                            
-                                        </tr>
-                                        <tr>
-                                            <td><span><img src="../../images/bnb-round-icon.png"/></span><b>BNB</b> - BNB</td>
-                                            <td>0.0000 - 0.00$</td>
-                                            <td><a href="#">Deposit</a></td>
-                                            <td><a href="#">Whitdraw</a></td>
-                                            <td><a href="#">Send</a></td>                                            
-                                        </tr>
-                                        <tr>
-                                            <td><span><img src="../../images/shiba-round-icon.png"/></span><b>SHIB</b> - Shibatoken</td>
-                                            <td>0.0000 - 0.00$</td>
-                                            <td><a href="#">Deposit</a></td>
-                                            <td><a href="#">Whitdraw</a></td>
-                                            <td><a href="#">Send</a></td>                                        
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-      </div>
+        </section>
       </div>
     </>
   );
