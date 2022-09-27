@@ -1,3 +1,14 @@
+.dark-bg-800{
+    background-color:$body-bg-800;
+}
+.dark-bg{
+    background-color:$body-bg;
+}
+.primary-text{
+    color: $primary !important;
+}
+// color css end
+
 .bottom-pad {
     padding-bottom: 70px;
     @media #{$max-xl}{
@@ -289,3 +300,7 @@
 //         justify-content: space-between;
 //     }
 // }
+.full-vh {
+    min-height: 100vh
+}
+

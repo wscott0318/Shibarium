@@ -40,7 +40,7 @@ export default function ValidatorAccount() {
   //  console.log('account---------------', account)
   return (
     <>
-      <main className="main-content">
+      <main className="main-content dark-bg-800 full-vh">
 {/* retake popop start */}
       <CommonModal
           title={"Retake"}
@@ -162,7 +162,7 @@ export default function ValidatorAccount() {
 
 
 
-            <section className="top_bnr_area">
+            <section className="top_bnr_area dark-bg">
                 <div className="container">
                     <h1>My Account</h1>
                 </div>                
@@ -171,7 +171,7 @@ export default function ValidatorAccount() {
             <section className="mid_cnt_area">
                 <div className="container">
                     <h4>Ethereum Wallet Balance</h4>
-                    <h3><b>0 Bone</b></h3>
+                    <h3 className="primary-text"><b>0 Bone</b></h3>
                     <h4>$0.00</h4>        
                     <div className="btns_sec val_all_bts row">
                         <div className="col-md-3"> 
