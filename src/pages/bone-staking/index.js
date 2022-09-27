@@ -58,7 +58,7 @@ const BoneStaking = () => {
   const [show, setShow] = React.useState();
   return (
     <>
-      <div className="main-content dark-bg-800 full-vh">
+      <div className="main-content dark-bg-800 full-vh top-space">
         <StakingHeader />
         {/* banner section start */}
         <section className="inner-banner dark-bg">

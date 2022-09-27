@@ -55,23 +55,23 @@ export default function ValidatorAccount() {
 
                         <div className="cmn_modal val_popups">
                             <form>
-                                <div className="row cmn_inpt_row">
-                                    <div className="col-md-12">
+                                <div className="cmn_inpt_row">
+                                    <div className="form-control">
                                         <input type="text" placeholder="Enter validator address" className="w-100" />
                                     </div>
                                 </div>
-                                <div className="row cmn_inpt_row">
-                                    <div className="col-md-12">
+                                <div className="cmn_inpt_row">
+                                    <div className="form-control">
                                         <input type="text" placeholder="Enter amount" className="w-100" />
                                     </div>
                                 </div>
-                                <div className="row cmn_inpt_row">
-                                    <div className="col-md-12">
+                                <div className="cmn_inpt_row">
+                                    <div className="form-control">
                                         <input type="text" placeholder="Enter stakereward" className="w-100" />
                                     </div>
                                 </div>
-                                <div className="pop_btns_area row">
-                                    <div className="col-12"><a className='btn primary-btn w-100' href="javascript:void(0)">Submit</a>  </div>
+                                <div className="pop_btns_area">
+                                    <div className="form-control"><a className='btn primary-btn w-100' href="javascript:void(0)">Submit</a>  </div>
                                 </div>
                             </form>
                         </div>
@@ -91,18 +91,18 @@ export default function ValidatorAccount() {
                     <>
                         <div className="cmn_modal val_popups">
                             <form>
-                                <div className="row cmn_inpt_row">
-                                    <div className="col-md-12">
+                                <div className="cmn_inpt_row">
+                                    <div className="form-control">
                                         <input type="text" placeholder="Enter validator address" className="w-100" />
                                     </div>
                                 </div>
-                                <div className="row cmn_inpt_row">
-                                    <div className="col-md-12">
+                                <div className="cmn_inpt_row">
+                                    <div className="form-control">
                                         <input type="text" placeholder="Enter new commission" className="w-100" />
                                     </div>
                                 </div>
-                                <div className="pop_btns_area row">
-                                    <div className="col-12"><a className='btn primary-btn w-100' href="javascript:void(0)">Submit</a>  </div>
+                                <div className="pop_btns_area">
+                                    <div className="form-control"><a className='btn primary-btn w-100' href="javascript:void(0)">Submit</a>  </div>
                                 </div>
                             </form>
                         </div>
@@ -122,13 +122,13 @@ export default function ValidatorAccount() {
                     <>
                         <div className="cmn_modal val_popups">
                             <form>
-                                <div className="row cmn_inpt_row">
-                                    <div className="col-md-12">
+                                <div className="cmn_inpt_row">
+                                    <div className="form-control">
                                         <input type="text" placeholder="Enter validator address" className="w-100" />
                                     </div>
                                 </div>
-                                <div className="pop_btns_area row">
-                                    <div className="col-12"><a className='btn primary-btn w-100' href="javascript:void(0)">Submit</a>  </div>
+                                <div className="pop_btns_area">
+                                    <div className="form-control"><a className='btn primary-btn w-100' href="javascript:void(0)">Submit</a>  </div>
                                 </div>
                             </form>
                         </div>
@@ -148,10 +148,10 @@ export default function ValidatorAccount() {
                     <>
                         <div className="cmn_modal val_popups">
                             <form>
-                                <div className="row">
+                                <div className="">
                                     <p className="text-center">Are you sure you want to unbound?</p>
                                 </div>
-                                <div className="pop_btns_area row mr-top-50">
+                                <div className="pop_btns_area row mr-top-50 form-control">
                                     <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Cancel</a>  </div>
                                     <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Confirm</a>  </div>
                                 </div>
