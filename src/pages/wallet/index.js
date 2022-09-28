@@ -6,12 +6,8 @@ import { Button, Container, Nav, Navbar, NavDropdown,Dropdown ,Modal} from 'reac
 
 import { useRouter } from "next/dist/client/router";
 import Popup from "../components/PopUp";
-// import { useWeb3React } from '@web3-react/core'
-// import { Web3Provider } from '@ethersproject/providers'
-// import  ProjectContext  from "../../context/ProjectContext";
-// import { useAccount } from "../../../hooks/web3hooks";
-// import { walletConnector } from "../../utils/connectors";
-// import Web3 from "web3";
+import { ChainId } from "@shibarium/core-sdk";
+import Web3 from "web3";
 import  CommonModal from "../components/CommonModel";
 import Link from 'next/link'
 import {
@@ -22,58 +18,32 @@ import Sidebar  from "../layout/sidebar"
 import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
 import { useMoralis } from "react-moralis";
-// import Web3Status from "app/components/Web3Status";  
+import {useEthBalance} from "../../hooks/useEthBalance";
+import {useTokenBalance} from '../../hooks/useTokenBalance';
+import { BONE_ID, ENV_CONFIGS } from '../../config/constant';
 
 export default function Wallet() {
-  const router = useRouter()
-  // const { authenticate, isAuthenticated, user,} = useMoralis();
 
-  // const {handleAccount}=useContext(ProjectContext)
-  const [showSendModal, setSendModal] = useState(false);
+  const router = useRouter()
+  const { chainId , account} = useActiveWeb3React();
+  const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(ENV_CONFIGS[chainId].BONE);
+  const [senderAddress, setSenderAdress] = useState('');
+  const [isValidAddress, setIsValidAddress] = useState(false)
+  const [sendAmount, setSendAmount] = useState('')
+  const [senderModal, setSenderModal] = useState(true)
+  const [showSendModal, setSendModal] = useState({
+    step1:true,
+    step2:false,
+    step3:false
+  });
   const [menuState, setMenuState] = useState(false);
- 
-  const { account } = useActiveWeb3React()
-  // const account = useAccount()
-   
-  const connectToMetamask=()=>{
-    // authenticate()
-    // activate(walletConnector)
+  console.log(availBalance)
+  const varifyAccount = (address) => {
+      let result = Web3.utils.isAddress(address)
+      setIsValidAddress(result)
+      return result
   }
 
-  
-  // useEffect(() => {
-  //   if (library) {
-  //    let web3 =  new Web3(library?.provider)
-  //    const publicAddress = account;
-  //    if ( publicAddress && web3 && web3.eth &&  web3.eth.personal) {
-  //      web3.eth.personal.sign(
-  //       'Welcome to Shibarium',
-  //       publicAddress,
-  //       ()=>{}
-  //     )
-  //    }
-  //   }
-  // }, [library,account])
-  
-
-  // useEffect(()=>{
-  //  const isLoggedIn =  localStorage.getItem('isLoggedIn')
-  //  if (isLoggedIn) {
-  //    connectToMetamask()
-  //  }
-  // },[])
-  useEffect(() => {
-    if(account){
-      // handleAccount(account)
-      // router.push('/assets')
-    }
-    },[account]);
-    // useEffect(() => {
-    //   // if(error){
-    //   //   const errorMsg = getErrorMessage(error)
-    //   //  alert(errorMsg)
-    //   //  }
-    // },[error]);
   
     function getErrorMessage(error) {
       if (error instanceof NoEthereumProviderError) {
@@ -92,9 +62,26 @@ export default function Wallet() {
       }
     }
 
+    const handleChange = (e) => {
+      setSenderAdress(e.target.value)
+      const isValid = varifyAccount(e.target.value)
+      console.log(isValid)
+    }
+
 
     const handleMenuState = () => {
       setMenuState(false)
+    }
+
+    const handleSend = () => {
+      console.log("called handleSend")
+      if(isValidAddress && sendAmount){
+        setSendModal({
+          step1:true,
+          step2:true,
+          step3:false
+        })
+      }
     }
 
   return (
@@ -103,7 +90,7 @@ export default function Wallet() {
         <Sidebar handleMenuState={handleMenuState} menuState={menuState}/>
         <CommonModal
           title={"Transferring funds"}
-          show={showSendModal}
+          show={senderModal}
           setShow={setSendModal}
           
           >
@@ -128,41 +115,65 @@ export default function Wallet() {
              {/* transferring funds popop ends */}
 
              {/* send popop start */}
-                {/*<div className="cmn_modal">
+                {showSendModal.step1 &&
+                  <div className="cmn_modal">
                      <h4 className="pop_main_h text-center">Send</h4> 
                      <form>
                         <div class="form-group">                        
-                          <input type="text" class="form-control cmn_inpt_fld"  placeholder="Reciver address"/>
+                          <input 
+                          type="text" 
+                          class="form-control cmn_inpt_fld" 
+                          value={senderAddress}
+                          onChange={(e) => handleChange(e)}
+                          placeholder="Reciver address"/>
                         </div>
                         <div class="form-group">  
-                          <label>Enter a valid reciver address on Shibarium Mainnet</label>                      
-                          <input type="text" class="form-control cmn_inpt_fld"  placeholder="0.00"/>
+                          {!isValidAddress && senderAddress && <label style={{ color: 'red'}}>Enter a valid reciver address on Shibarium Mainnet</label> }                     
+                          <input
+                           type="text" 
+                           class="form-control cmn_inpt_fld"  
+                           placeholder="0.00"
+                           value={sendAmount}
+                           onChange={(e) => setSendAmount(e.target.value)}
+                           />
                           <p className="inpt_fld_hlpr_txt">
                             <span>0.00$</span>
-                            <b>Available balance: 0.00 SHIB</b>
+                            <b>Available balance: {availBalance.toFixed(4)} BONE</b>
                           </p>
                         </div>
                         <div className="pop_btns_area mr-top-50 row">
-                            <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
-                            <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
+                            <div className="col-6">
+                            <button
+                             className='btn blue-btn w-100'
+                             
+                             >Back</button>  
+                            </div>
+                            <div className="col-6">
+                            <button
+                              disabled={isValidAddress && sendAmount ? false : true}
+                             onClick={() => handleSend()}
+                             className='btn primary-btn w-100'
+                             >Sendd</button>  
+                            </div>
                         </div>
                         
                      </form>
                      <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
-                </div>*/}
+                </div>}
                 {/* send popop ends */}
 
                 {/* confirm send popop start */}
-                <div className="cmn_modal">
+               {showSendModal.step2 && 
+                 <div className="cmn_modal">
                     <div className="cnfrm_box">
                         <div className="top_overview col-12">
                               <span><img src="../../images/shib-borderd-icon.png"/></span>
-                              <h6>1100.00 SHIB</h6>
-                              <p>500.00$</p>
+                              <h6>{sendAmount} BONE</h6>
+                              <p>00.00 $</p>
                         </div>
                         <div className="add_detail col-12">
                             <p><b>RECEIVER:</b></p>
-                            <p>0x5c932BBe4485C24E1a779872362e990dEdf0D208</p>
+                            <p>{senderAddress}</p>
                         </div>
                     </div>
                     <div className="cnfrm_check_box">
@@ -181,11 +192,12 @@ export default function Wallet() {
                       </div>
                          
                       <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
-                </div>
+                </div> }
                 {/* confirm send popop ends */}
 
                 {/* submitted popop start */}
-                {/* <div className="cmn_modal">
+                {showSendModal.step3 && 
+                  <div className="cmn_modal">
                     <div className="cnfrm_box">
                         <div className="top_overview col-12">
                               <span><img src="../../images/shib-borderd-icon.png"/></span>
@@ -203,7 +215,7 @@ export default function Wallet() {
                       <div className="pop_btns_area row">
                           <div className="col-12"><a className='btn primary-btn w-100' href="javascript:void(0)">Close</a>  </div>
                       </div> 
-                </div> */}
+                </div>}
                 {/* submitted popop ends */}
 
           </>
