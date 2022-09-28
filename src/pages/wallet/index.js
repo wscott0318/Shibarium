@@ -62,11 +62,11 @@ export default function Wallet() {
         return ''
       }
     }
-    // else {
-    //   console.error(error)
-    //   return ''
-    // }
-  // }
+    else {
+      console.error(error)
+      return ''
+    }
+  }
 
     const handleChange = (e) => {
       setSenderAdress(e.target.value)
