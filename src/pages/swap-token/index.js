@@ -10,9 +10,20 @@ import Amount from './amount';
 import Footer from '../footer/index';
 export default function differentchainbridge() {
 
+    const [menuState, setMenuState] = useState(false);
+
+    const handleMenuState = () => {
+        setMenuState(false)
+    }
+
     return (
        <>
-        <h1>index.js differentchainbridge</h1>
+            <main className="main-content">
+                <Sidebar handleMenuState={handleMenuState} menuState={menuState}/>
+                <div className="cmn_dashbord_main_outr">
+                    
+                </div>
+            </main>
        </>
     )
 }
