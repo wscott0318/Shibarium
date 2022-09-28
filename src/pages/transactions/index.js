@@ -216,13 +216,49 @@ export default function Transaction() {
                     </Container>
                   </Navbar>
                   </div>
-                  {/* assets section start */}
-                  <div className="assets_outr">
+                  {/* transactions section start */}
+                  <div className="trnsc_outr">
                       <h2>Transactions history</h2>
-                     
-
+                      <div className="trnsc_inr_cont">
+                          <div className="trns_top_btns_area row">
+                              <div className="col-3"><a href="#" className="primary-btn btn w-100">All Transactions</a></div>  
+                              <div className="col-3"><a href="#" className="white-btn btn w-100">Pending</a></div>       
+                          </div>
+                          <div className="overview_sec"> 
+                            <div className="overview_top_area ">
+                              <div className="row">
+                                  <div className="col-4 step_no">
+                                      <span><img src="../../images/track.png" alt="loading"/></span>
+                                      <div>
+                                        <b>Whitdraw</b>
+                                        <b>Step 1/2</b>
+                                      </div>
+                                  </div>
+                                  <div className="col-4 bone_count">
+                                      <span><img src="../../images/red-bone.png" alt="bones"/></span>
+                                      <div>
+                                        <b>100 BONE</b>
+                                        <p>500.00$</p>
+                                      </div>
+                                  </div>
+                                  <div className="col-4 bone_count">
+                                      <div>
+                                        <b>Transaction hash</b>
+                                        <p>0x1a95....ba496</p>
+                                      </div>
+                                  </div>
+                                </div>
+                            </div>
+                            <div className="cont_sec">
+                                <div className="row">
+                                  <div className="col-8">You are 1 step away, click continue to complete the transaction</div>
+                                  <div className="col-2"><a href="#" className="primary-btn btn w-100">Continue</a></div>
+                                  </div>  
+                            </div>
+                          </div>
+                      </div>         
                 </div>   
-                {/* assets section end */}                                 
+                {/* transactions section end */}                                 
 
             </div>
         </section> 

@@ -1,0 +1,50 @@
+.trnsc_inr_cont{
+    padding: 32px 20px;
+    background-color: $body-bg;
+    border-radius: 40px;
+    margin-top: 50px;
+}
+.overview_top_area{
+    background-color:$grey-color;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 22px;
+    margin-top: 32px;
+    div.col-4 {
+        display: flex;
+        align-items: center;
+        span{
+            margin-right: 20px;
+        }
+    }
+}
+.step_no b {
+    font-size: 16px;
+    display: block;
+    width: 100%;
+    font-weight: 700;
+} 
+.bone_count{
+    b{
+        font-size: 20px;
+        font-weight: 700;
+        color: $white;
+    }
+    p{
+        font-size: 16px;
+        color: $body-text;
+        font-weight: 600;
+    }
+}
+.cont_sec{
+    background-color:$body-bg-800;
+    padding: 15px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    .row{
+        align-items: center;
+        justify-content: space-between;
+    }
+}
