@@ -31,9 +31,10 @@ export default function Wallet() {
   const [isValidAddress, setIsValidAddress] = useState(false)
   const [sendAmount, setSendAmount] = useState('')
   const [senderModal, setSenderModal] = useState(true)
+  const [verifyAmount, setVerifyAmount] = useState(false)
   const [showSendModal, setSendModal] = useState({
-    step1:true,
-    step2:false,
+    step1:false,
+    step2:true,
     step3:false
   });
   const [menuState, setMenuState] = useState(false);
@@ -77,12 +78,13 @@ export default function Wallet() {
       console.log("called handleSend")
       if(isValidAddress && sendAmount){
         setSendModal({
-          step1:true,
+          step1:false,
           step2:true,
           step3:false
         })
       }
     }
+
 
   return (
    <>
@@ -153,7 +155,7 @@ export default function Wallet() {
                               disabled={isValidAddress && sendAmount ? false : true}
                              onClick={() => handleSend()}
                              className='btn primary-btn w-100'
-                             >Sendd</button>  
+                             >Send</button>  
                             </div>
                         </div>
                         
@@ -178,7 +180,13 @@ export default function Wallet() {
                     </div>
                     <div className="cnfrm_check_box">
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                          <input
+                           class="form-check-input" 
+                           type="checkbox" 
+                           onChange={() => setVerifyAmount(!varifyAccount)}
+                           value={verifyAmount}
+                           id="flexCheckChecked"
+                           />
                           <label class="form-check-label" for="flexCheckChecked">
                             I’m not sending funds to an <a href="#">unsupported excange</a> or incorrect address
                           </label>
@@ -187,8 +195,14 @@ export default function Wallet() {
                        
                     </div>
                       <div className="pop_btns_area row">
-                          <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
-                          <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
+                          <div className="col-6">
+                          <button className='btn blue-btn w-100' href="javascript:void(0)">Back</button>  
+                          </div>
+                          <div className="col-6">
+                          <button className='btn primary-btn w-100' 
+                            // disabled={ ? false : true}
+                          >Send</button> 
+                          </div>
                       </div>
                          
                       <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
