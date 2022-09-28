@@ -106,12 +106,7 @@
         }
     }
 }
-.form-field{
-    background:$grey-color-800;
-    padding: 15px;
-    border-radius: 8px;
-    font-size: 16px;
-}
+
 .icon-chain{
     position: absolute;
     left: 15px;
@@ -122,13 +117,7 @@
 .mid-chain {
     padding: 0 23% 0 25px;
 }
-.rt-chain {
-    position: absolute;
-    right: 15px;
-    top: 14px;
-    bottom: auto;
-    left: auto;
-}
+
 .mid-chain{
     input{
         background: $grey-color-800;

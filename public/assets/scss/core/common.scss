@@ -1,9 +1,9 @@
 /** background color start **/
 .dark-bg-800{
-    background-color:$body-bg-800;
+    background-color:$body-bg-800 !important;
 }
 .dark-bg{
-    background-color:$body-bg;
+    background-color:$body-bg !important;
 }
 
 /** background color end **/
@@ -15,6 +15,15 @@
 .lite-color{
     color: $grey-color;
 }
+// card-style
+
+.cus-card-800 {
+    background: #151B28;
+    border-radius: 25px;
+    padding: 30px;
+}
+
+
 /** text color start **/
 .top-space{
     padding-top: 76px;
@@ -72,6 +81,46 @@
     padding-bottom: 32px;
 }
 // common space closed
+
+// form scss start
+.form-field{
+    &.dark-input{
+        background-color: $body-bg-800;
+        .mid-chain{
+            input {
+                background:$body-bg-800;
+                color:$grey-color-800;
+            }
+        }
+    }
+}
+.form-field{
+    background:$grey-color-800;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    @media #{$max-xxl}{
+        padding: 10px 12px;
+    }
+}
+.rt-chain {
+    position: absolute;
+    right: 15px;
+    bottom: auto;
+    left: auto;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.coin-img{
+    width: 24px;
+    height: 24px;
+    img{
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+// form scss ens
+
 .heading {
     margin-bottom: 32px;
     @media #{$max-lg}{

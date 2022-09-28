@@ -304,6 +304,14 @@ ul {
         color:rgba($white, 0.89);
     }
 }
+.black-btn{
+    background-color: $body-bg-800;
+    color: rgba($white, 0.89);
+    &:hover{
+        background:$primary-gradient;
+        color:rgba($white, 0.89);
+    }
+}
 
 .blue-btn{
     background-color:$body-bg;

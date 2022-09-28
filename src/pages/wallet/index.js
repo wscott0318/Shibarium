@@ -2,7 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect, useContext } from "react";
 
-import { Button, Container, Nav, Navbar, NavDropdown,Dropdown ,Modal} from 'react-bootstrap';
+import { Button, Container, Nav, Navbar, NavDropdown, Dropdown, Modal } from 'react-bootstrap';
 
 import { useRouter } from "next/dist/client/router";
 import Popup from "../components/PopUp";
@@ -12,13 +12,13 @@ import Popup from "../components/PopUp";
 // import { useAccount } from "../../../hooks/web3hooks";
 // import { walletConnector } from "../../utils/connectors";
 // import Web3 from "web3";
-import  CommonModal from "../components/CommonModel";
+import CommonModal from "../components/CommonModel";
 import Link from 'next/link'
 import {
   NoEthereumProviderError,
   UserRejectedRequestError as UserRejectedRequestErrorInjected
 } from '@web3-react/injected-connector'
-import Sidebar  from "../layout/sidebar"
+import Sidebar from "../layout/sidebar"
 import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
 import { useMoralis } from "react-moralis";
@@ -31,16 +31,16 @@ export default function Wallet() {
   // const {handleAccount}=useContext(ProjectContext)
   const [showSendModal, setSendModal] = useState(false);
   const [menuState, setMenuState] = useState(false);
- 
+
   const { account } = useActiveWeb3React()
   // const account = useAccount()
-   
-  const connectToMetamask=()=>{
+
+  const connectToMetamask = () => {
     // authenticate()
     // activate(walletConnector)
   }
 
-  
+
   // useEffect(() => {
   //   if (library) {
   //    let web3 =  new Web3(library?.provider)
@@ -54,7 +54,7 @@ export default function Wallet() {
   //    }
   //   }
   // }, [library,account])
-  
+
 
   // useEffect(()=>{
   //  const isLoggedIn =  localStorage.getItem('isLoggedIn')
@@ -63,55 +63,55 @@ export default function Wallet() {
   //  }
   // },[])
   useEffect(() => {
-    if(account){
+    if (account) {
       // handleAccount(account)
       // router.push('/assets')
     }
-    },[account]);
-    // useEffect(() => {
-    //   // if(error){
-    //   //   const errorMsg = getErrorMessage(error)
-    //   //  alert(errorMsg)
-    //   //  }
-    // },[error]);
-  
-    function getErrorMessage(error) {
-      if (error instanceof NoEthereumProviderError) {
-        return 'Please install metamask and try again.'
-      } else if (error instanceof UnsupportedChainIdError) {
-        return "You're connected to an unsupported network."
-      } else if (
-        error instanceof UserRejectedRequestErrorInjected ||
-        error instanceof UserRejectedRequestErrorWalletConnect
-      ) {
-        return 'Please authorize this website to access your Ethereum account.'
-      } 
-      else {
-        console.error(error)
-        return ''
-      }
+  }, [account]);
+  // useEffect(() => {
+  //   // if(error){
+  //   //   const errorMsg = getErrorMessage(error)
+  //   //  alert(errorMsg)
+  //   //  }
+  // },[error]);
+
+  function getErrorMessage(error) {
+    if (error instanceof NoEthereumProviderError) {
+      return 'Please install metamask and try again.'
+    } else if (error instanceof UnsupportedChainIdError) {
+      return "You're connected to an unsupported network."
+    } else if (
+      error instanceof UserRejectedRequestErrorInjected ||
+      error instanceof UserRejectedRequestErrorWalletConnect
+    ) {
+      return 'Please authorize this website to access your Ethereum account.'
     }
+    else {
+      console.error(error)
+      return ''
+    }
+  }
 
 
-    const handleMenuState = () => {
-      setMenuState(false)
-    }
+  const handleMenuState = () => {
+    setMenuState(false)
+  }
 
   return (
-   <>
+    <>
       <main className="main-content">
-        <Sidebar handleMenuState={handleMenuState} menuState={menuState}/>
+        <Sidebar handleMenuState={handleMenuState} menuState={menuState} />
         <CommonModal
           title={"Transferring funds"}
           show={showSendModal}
           setShow={setSendModal}
-          
-          >
+
+        >
           {/* step 1 */}
           <>
             {/* transferring funds popop start */}
-                
-                {/* <div className="cmn_modal">
+
+            {/* <div className="cmn_modal">
                     <p>Sending funds to exchanges:</p>
                     <div className="exchng_msg_box">
                         <p>Exchanges supported from Shibarium network</p>
@@ -125,10 +125,10 @@ export default function Wallet() {
                     <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
                 </div> */}
 
-             {/* transferring funds popop ends */}
+            {/* transferring funds popop ends */}
 
-             {/* send popop start */}
-                {/*<div className="cmn_modal">
+            {/* send popop start */}
+            {/*<div className="cmn_modal">
                      <h4 className="pop_main_h text-center">Send</h4> 
                      <form>
                         <div class="form-group">                        
@@ -150,42 +150,41 @@ export default function Wallet() {
                      </form>
                      <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
                 </div>*/}
-                {/* send popop ends */}
+            {/* send popop ends */}
 
-                {/* confirm send popop start */}
-                <div className="cmn_modal">
-                    <div className="cnfrm_box">
-                        <div className="top_overview col-12">
-                              <span><img src="../../images/shib-borderd-icon.png"/></span>
-                              <h6>1100.00 SHIB</h6>
-                              <p>500.00$</p>
-                        </div>
-                        <div className="add_detail col-12">
-                            <p><b>RECEIVER:</b></p>
-                            <p>0x5c932BBe4485C24E1a779872362e990dEdf0D208</p>
-                        </div>
-                    </div>
-                    <div className="cnfrm_check_box">
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                          <label class="form-check-label" for="flexCheckChecked">
-                            I’m not sending funds to an <a href="#">unsupported excange</a> or incorrect address
-                          </label>
-                        </div>
-                        
-                       
-                    </div>
-                      <div className="pop_btns_area row">
-                          <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
-                          <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
-                      </div>
-                         
-                      <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
+            {/* confirm send popop start */}
+            <div className="cmn_modal">
+              <div className="cnfrm_box">
+                <div className="top_overview col-12">
+                  <span><img src="../../images/shib-borderd-icon.png" /></span>
+                  <h6>1100.00 SHIB</h6>
+                  <p>500.00$</p>
                 </div>
-                {/* confirm send popop ends */}
+                <div className="add_detail col-12">
+                  <p><b>RECEIVER:</b></p>
+                  <p>0x5c932BBe4485C24E1a779872362e990dEdf0D208</p>
+                </div>
+              </div>
+              <div className="cnfrm_check_box">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                  <label class="form-check-label" for="flexCheckChecked">
+                    I’m not sending funds to an <a href="#">unsupported excange</a> or incorrect address
+                  </label>
+                </div>
 
-                {/* submitted popop start */}
-                {/* <div className="cmn_modal">
+
+              </div>
+              <div className="pop_btns_area row">
+                <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
+                <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
+              </div>
+              <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
+            </div>
+            {/* confirm send popop ends */}
+
+            {/* submitted popop start */}
+            {/* <div className="cmn_modal">
                     <div className="cnfrm_box">
                         <div className="top_overview col-12">
                               <span><img src="../../images/shib-borderd-icon.png"/></span>
@@ -204,110 +203,110 @@ export default function Wallet() {
                           <div className="col-12"><a className='btn primary-btn w-100' href="javascript:void(0)">Close</a>  </div>
                       </div> 
                 </div> */}
-                {/* submitted popop ends */}
+            {/* submitted popop ends */}
 
           </>
           {/* step 1 end */}
-          </CommonModal>
-          <section className="assets-section">
-              <div className="cmn_dashbord_main_outr">
-                  <div className="inner-header">
-                    <Navbar className='py-0'>
-                      <Container>
-                        <Navbar.Brand onClick={() => setMenuState(true)} className="menu-btn">
-                          <img className="img-fluid" src="../../images/menu.svg" alt="" />
-                        </Navbar.Brand>
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                        <Navbar.Collapse id="basic-navbar-nav">
-                          <Nav className="ms-auto">
-                              <Dropdown className="d-flex align-items-center cus-dd mob-drop">
-                              <div className="dot-icon" id="basic-nav-dropdown">
-                                <img src="../../images/menu-icon.png" alt="" />
-                              </div>
-                              <NavDropdown className="me-3" title="App">
-                                <div className="drop-head">
-                                  <div className="head-brand">
-                                    <img src="../../images/Shib-Logo.png" alt="" />
-                                  </div>
-                                  <div className="head-txt">
-                                    <div className="top-txt">
-                                      <div>
-                                        <span>Account 0xe78</span>
-                                      </div>
-                                      <div>
-                                        <span className="grey-txt">Shibarium Mainnet</span>
-                                      </div>
-                                    </div>
-                                    <div className="botom-txt">
-                                      <div className="code-txt">
-                                        <span className="key">0xe7832a34576B9A23b98B7cE8ef83B1a8D9D229f0</span>
-                                      </div>
-                                      <div className="copy-blk">
-                                        <a href="javascript:void(0);" title="Copy"><img src="../../images/copy.png" alt="" /></a>
-                                      </div>
-                                    </div>
-                                  </div>
+        </CommonModal>
+        <section className="assets-section">
+          <div className="cmn_dashbord_main_outr">
+            <div className="inner-header">
+              <Navbar className='py-0'>
+                <Container>
+                  <Navbar.Brand onClick={() => setMenuState(true)} className="menu-btn">
+                    <img className="img-fluid" src="../../images/menu.svg" alt="" />
+                  </Navbar.Brand>
+                  <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                  <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="ms-auto">
+                      <Dropdown className="d-flex align-items-center cus-dd mob-drop">
+                        <div className="dot-icon" id="basic-nav-dropdown">
+                          <img src="../../images/menu-icon.png" alt="" />
+                        </div>
+                        <NavDropdown className="me-3" title="App">
+                          <div className="drop-head">
+                            <div className="head-brand">
+                              <img src="../../images/Shib-Logo.png" alt="" />
+                            </div>
+                            <div className="head-txt">
+                              <div className="top-txt">
+                                <div>
+                                  <span>Account 0xe78</span>
                                 </div>
-                                <NavDropdown.Item href="#action/3.1">
-                                  <div className="custum-row">
-                                    <div className="lft-img">
-                                      <img src="../../images/recive-icon.png" alt="" />
-                                    </div>
-                                    <div className="center-txt">
-                                      <span>Recive Funds</span>
-                                    </div>
-                                    <div className="rt-image">
-                                      <img src="../../images/rt-arow.png" alt="" />  
-                                    </div>
-                                  </div>
-                                </NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.2">
-                                  <div className="custum-row">
-                                    <div className="lft-img">
-                                      <img src="../../images/graph.png" alt="" />
-                                    </div>
-                                    <div className="center-txt">
-                                      <span>View on Etherscan</span>
-                                    </div>
-                                    <div className="rt-image">
-                                      <img src="../../images/rt-arow.png" alt="" />  
-                                    </div>
-                                  </div>
-                                </NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.3">
-                                  <div className="custum-row">
-                                    <div className="lft-img">
-                                      <img src="../../images/graph.png" alt="" />
-                                    </div>
-                                    <div className="center-txt">
-                                      <span>View on Shibariumscan</span>
-                                    </div>
-                                    <div className="rt-image">
-                                      <img src="../../images/rt-arow.png" alt="" />  
-                                    </div>
-                                  </div>
-                                </NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.3">
-                                  <div className="custum-row pb-0">
-                                    <div className="lft-img ps-2">
-                                      <img src="../../images/back.png" alt="" />
-                                    </div>
-                                    <div className="center-txt">
-                                      <span>Logout</span>
-                                    </div>
-                                    <div className="rt-image">
-                                      <img src="../../images/rt-arow.png" alt="" />  
-                                    </div>
-                                  </div>
-                                </NavDropdown.Item>
-                                {/* <NavDropdown.Divider />
+                                <div>
+                                  <span className="grey-txt">Shibarium Mainnet</span>
+                                </div>
+                              </div>
+                              <div className="botom-txt">
+                                <div className="code-txt">
+                                  <span className="key">0xe7832a34576B9A23b98B7cE8ef83B1a8D9D229f0</span>
+                                </div>
+                                <div className="copy-blk">
+                                  <a href="javascript:void(0);" title="Copy"><img src="../../images/copy.png" alt="" /></a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <NavDropdown.Item href="#action/3.1">
+                            <div className="custum-row">
+                              <div className="lft-img">
+                                <img src="../../images/recive-icon.png" alt="" />
+                              </div>
+                              <div className="center-txt">
+                                <span>Recive Funds</span>
+                              </div>
+                              <div className="rt-image">
+                                <img src="../../images/rt-arow.png" alt="" />
+                              </div>
+                            </div>
+                          </NavDropdown.Item>
+                          <NavDropdown.Item href="#action/3.2">
+                            <div className="custum-row">
+                              <div className="lft-img">
+                                <img src="../../images/graph.png" alt="" />
+                              </div>
+                              <div className="center-txt">
+                                <span>View on Etherscan</span>
+                              </div>
+                              <div className="rt-image">
+                                <img src="../../images/rt-arow.png" alt="" />
+                              </div>
+                            </div>
+                          </NavDropdown.Item>
+                          <NavDropdown.Item href="#action/3.3">
+                            <div className="custum-row">
+                              <div className="lft-img">
+                                <img src="../../images/graph.png" alt="" />
+                              </div>
+                              <div className="center-txt">
+                                <span>View on Shibariumscan</span>
+                              </div>
+                              <div className="rt-image">
+                                <img src="../../images/rt-arow.png" alt="" />
+                              </div>
+                            </div>
+                          </NavDropdown.Item>
+                          <NavDropdown.Item href="#action/3.3">
+                            <div className="custum-row pb-0">
+                              <div className="lft-img ps-2">
+                                <img src="../../images/back.png" alt="" />
+                              </div>
+                              <div className="center-txt">
+                                <span>Logout</span>
+                              </div>
+                              <div className="rt-image">
+                                <img src="../../images/rt-arow.png" alt="" />
+                              </div>
+                            </div>
+                          </NavDropdown.Item>
+                          {/* <NavDropdown.Divider />
                                 <NavDropdown.Item href="#action/3.4">
                                   Separated link
                                 </NavDropdown.Item> */}
-                              </NavDropdown>
-                              </Dropdown>
-                            
-                            {/* <Nav.Item>
+                        </NavDropdown>
+                      </Dropdown>
+
+                      {/* <Nav.Item>
                               <Link href={'javascript:void(0)'}>
                                 <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
                                   <img className="img-fluid me-2" src="../../images/meta-icon.png" alt="meta-img"/>
@@ -315,95 +314,95 @@ export default function Wallet() {
                                 </a>
                               </Link>
                             </Nav.Item> */}
-                            <Nav.Item className="btn-status">
-                              <Web3Status/>
-                            </Nav.Item>
-                          </Nav>
-                        </Navbar.Collapse>
-                      </Container>
-                    </Navbar>
-                  </div>
-                  {/* assets section start */}
-                  <div className="assets_outr">
-                      <h2>My Balance</h2>
-                      <div className="assets_top_area bal-row">
-                          <div className="bal-col">
-                            <div className="main_net_amnt t_a_clm">
-                                <h1>20.000$</h1>
-                                <p>shibarium mainnet</p>
-                            </div>
-                          </div>
-                          <div className="bal-col">
-                            <div className="btns_area t_a_clm">
-                                <button type="button" href="#" className="btn grey-btn w-100 d-flex align-items-center justify-content-center">
-                                  <span className="me-2"><img className="btn-img" src="../../images/recive-icon.png" alt="recive"/></span>
-                                  Receive
-                                </button>
-
-                                <button onClick={() => setSendModal(true)} className="btn grey-btn w-100 d-flex align-items-center justify-content-center">
-                                  <span className="me-2"><img className="btn-img" src="../../images/send-icon.png" alt="recive"/></span>Send</button>
-                            </div>
-                          </div>
-                          <div className="bal-col">
-                            <div className="lrg_btns_area t_a_clm">
-                                <a href="#" className="btn white-btn w-100 d-block">Move funds from Ethereum to Shibarium</a>
-                                <a href="#" className="btn white-btn w-100 d-block">How Shibarium works</a>
-                            </div>
-                          </div>
-                      </div>
-                    <div className="assets_btm_area">
-                        <h2>Wallet on Shibarium</h2>
-                        <div className="cmn_dasdrd_table">
-                            <div class="table-responsive">
-                                <table class="table table-borderless">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Balance</th>
-                                            <th>Actions</th>
-                                            <th colSpan="2" className="text-end"><input type="search" placeholder="Search"/></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><span><img src="../../images/shiba-round-icon.png"/></span><b>SHIB</b> - Shibatoken</td>
-                                            <td>0.0000 - 0.00$</td>
-                                            <td><a href="#">Deposit</a></td>
-                                            <td><a href="#">Whitdraw</a></td>
-                                            <td><a href="#">Send</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td><span><img src="../../images/matic-round-icon.png"/></span><b>MATIC</b> - Polygon</td>
-                                            <td>0.0000 - 0.00$</td>
-                                            <td><a href="#">Deposit</a></td>
-                                            <td><a href="#">Whitdraw</a></td>
-                                            <td><a href="#">Send</a></td>                                            
-                                        </tr>
-                                        <tr>
-                                            <td><span><img src="../../images/bnb-round-icon.png"/></span><b>BNB</b> - BNB</td>
-                                            <td>0.0000 - 0.00$</td>
-                                            <td><a href="#">Deposit</a></td>
-                                            <td><a href="#">Whitdraw</a></td>
-                                            <td><a href="#">Send</a></td>                                            
-                                        </tr>
-                                        <tr>
-                                            <td><span><img src="../../images/shiba-round-icon.png"/></span><b>SHIB</b> - Shibatoken</td>
-                                            <td>0.0000 - 0.00$</td>
-                                            <td><a href="#">Deposit</a></td>
-                                            <td><a href="#">Whitdraw</a></td>
-                                            <td><a href="#">Send</a></td>                                        
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>   
-                {/* assets section end */}                                 
-
+                      <Nav.Item className="btn-status">
+                        <Web3Status />
+                      </Nav.Item>
+                    </Nav>
+                  </Navbar.Collapse>
+                </Container>
+              </Navbar>
             </div>
+            {/* assets section start */}
+            <div className="assets_outr">
+              <h2>My Balance</h2>
+              <div className="assets_top_area bal-row">
+                <div className="bal-col">
+                  <div className="main_net_amnt t_a_clm">
+                    <h1>20.000$</h1>
+                    <p>shibarium mainnet</p>
+                  </div>
+                </div>
+                <div className="bal-col">
+                  <div className="btns_area t_a_clm">
+                    <button type="button" href="#" className="btn grey-btn w-100 d-flex align-items-center justify-content-center">
+                      <span className="me-2"><img className="btn-img" src="../../images/recive-icon.png" alt="recive" /></span>
+                      Receive
+                    </button>
+
+                    <button onClick={() => setSendModal(true)} className="btn grey-btn w-100 d-flex align-items-center justify-content-center">
+                      <span className="me-2"><img className="btn-img" src="../../images/send-icon.png" alt="recive" /></span>Send</button>
+                  </div>
+                </div>
+                <div className="bal-col">
+                  <div className="lrg_btns_area t_a_clm">
+                    <a href="#" className="btn white-btn w-100 d-block">Move funds from Ethereum to Shibarium</a>
+                    <a href="#" className="btn white-btn w-100 d-block">How Shibarium works</a>
+                  </div>
+                </div>
+              </div>
+              <div className="assets_btm_area">
+                <h2>Wallet on Shibarium</h2>
+                <div className="cmn_dasdrd_table">
+                  <div class="table-responsive">
+                    <table class="table table-borderless">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Balance</th>
+                          <th>Actions</th>
+                          <th colSpan="2" className="text-end"><input type="search" placeholder="Search" /></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
+                          <td>0.0000 - 0.00$</td>
+                          <td><a href="#">Deposit</a></td>
+                          <td><a href="#">Whitdraw</a></td>
+                          <td><a href="#">Send</a></td>
+                        </tr>
+                        <tr>
+                          <td><span><img src="../../images/matic-round-icon.png" /></span><b>MATIC</b> - Polygon</td>
+                          <td>0.0000 - 0.00$</td>
+                          <td><a href="#">Deposit</a></td>
+                          <td><a href="#">Whitdraw</a></td>
+                          <td><a href="#">Send</a></td>
+                        </tr>
+                        <tr>
+                          <td><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
+                          <td>0.0000 - 0.00$</td>
+                          <td><a href="#">Deposit</a></td>
+                          <td><a href="#">Whitdraw</a></td>
+                          <td><a href="#">Send</a></td>
+                        </tr>
+                        <tr>
+                          <td><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
+                          <td>0.0000 - 0.00$</td>
+                          <td><a href="#">Deposit</a></td>
+                          <td><a href="#">Whitdraw</a></td>
+                          <td><a href="#">Send</a></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* assets section end */}
+
+          </div>
         </section>
       </main>
-   </>
+    </>
   );
 }
