@@ -7,7 +7,7 @@ import Sidebar from '../layout/sidebar';
 import Selection from './selection';
 import Swap from './swap';
 import Amount from './amount';
-import Footer from '../../pages/footer/index';
+import Footer from '../footer/index';
 export default function differentchainbridge() {
 
     return (
