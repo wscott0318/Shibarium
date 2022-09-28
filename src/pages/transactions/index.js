@@ -96,12 +96,53 @@ export default function Transaction() {
     const handleMenuState = () => {
       setMenuState(false)
     }
+    
 
   return (
    <>
       <main className="main-content">
         <Sidebar handleMenuState={handleMenuState} menuState={menuState}/>
         
+
+        {/* <CommonModal
+          title={"Reaching Checkpoint"}
+          show={showSendModal}
+          setShow={setSendModal}
+          
+          >
+          <>
+
+                Reaching Checkpoint popop start
+                <div className="cmn_modal trans_popups">
+                      <div className="image_area row">
+                          <div className="col-12 text-center"><img src="../../images/watch.png"/></div>
+                      </div> 
+                      <div className="mid_text row">
+                          <div className="col-12 text-center"><h4>Bridging funds</h4></div>
+                          <div className="col-12 text-center"><p>Bridging funds from Shibarium Chain to Ethereum Chain the transaction will take from 60 min to 3 hrs</p></div>
+                      </div>
+                      <div className="fees_text">
+                          <div className="icon_name">
+                              <img src="../../images/eth-icon.png"/><span>Estimation of GAS fee required</span>
+                          </div>
+                          <div className="">
+                              <p>$10.00</p>
+                          </div>
+                      </div>
+                      <div className="pop_btns_area row form-control">
+                          <div className="col-12">
+                            <a className='btn grey-btn d-flex align-items-center' href="javascript:void(0)">
+                              <img src="../../images/track-small.png"/>
+                              <span>Close</span>
+                            </a>
+                          </div>
+                      </div> 
+                </div>
+                Reaching Checkpoint popop ends 
+
+          </>
+          </CommonModal> */}
+
           <section className="assets-section">
               <div className="cmn_dashbord_main_outr">
                   <div className="inner-header">
@@ -252,9 +293,123 @@ export default function Transaction() {
                             <div className="cont_sec">
                                 <div className="row">
                                   <div className="col-8">You are 1 step away, click continue to complete the transaction</div>
-                                  <div className="col-2"><a href="#" className="primary-btn btn w-100">Continue</a></div>
-                                  </div>  
+                                  <div className="col-2"><button onClick={() => setSendModal(true)} className="btn primary-btn w-100">Continue</button></div>
+                                </div>  
                             </div>
+                          </div>
+                          {/* all transactions table start */}
+                            <div className="transactions_list_outr">
+                                <div className="single_trns_row">
+                                    <div className="row trns_date">
+                                      <div className="col-12">19/07/2022</div>
+                                    </div>
+                                    <div className="row trns_data">
+                                        <div className="col-4 cmn_data">
+                                            <span><img className="img-fluid me-2" src="../../images/down-arrow.png" alt="meta-img"/></span>
+                                            <div>
+                                              <b>Recive</b>
+                                              <b className="grey_txt">10:30 AM</b>
+                                            </div>
+                                        </div>
+                                        <div className="col-4 cmn_data">
+                                            <span><img className="img-fluid me-2" src="../../images/red-bone.png" alt="meta-img"/></span>
+                                            <div>
+                                              <b>100 BONE</b>
+                                              <b className="grey_txt">1000$</b>
+                                            </div>
+                                        </div>
+                                        <div className="col-4 cmn_data">
+                                            <div>
+                                              <b>Transaction hash</b>
+                                              <p className="grey_txt trns_has_add"><span>0x1a95....ba496</span><a href="#"><img src="../../images/grey-arrow.png"/></a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                  
+                                <div className="single_trns_row">
+                                    <div className="row trns_date">
+                                      <div className="col-12">19/07/2022</div>
+                                    </div>
+                                    <div className="row trns_data">
+                                        <div className="col-4 cmn_data">
+                                            <span><img className="img-fluid me-2" src="../../images/down-arrow.png" alt="meta-img"/></span>
+                                            <div>
+                                              <b>Recive</b>
+                                              <b className="grey_txt">10:30 AM</b>
+                                            </div>
+                                        </div>
+                                        <div className="col-4 cmn_data">
+                                            <span><img className="img-fluid me-2" src="../../images/red-bone.png" alt="meta-img"/></span>
+                                            <div>
+                                              <b>100 BONE</b>
+                                              <b className="grey_txt">1000$</b>
+                                            </div>
+                                        </div>
+                                        <div className="col-4 cmn_data">
+                                            <div>
+                                              <b>Transaction hash</b>
+                                              <p className="grey_txt trns_has_add"><span>0x1a95....ba496</span><a href="#"><img src="../../images/grey-arrow.png"/></a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="single_trns_row">
+                                    <div className="row trns_date">
+                                      <div className="col-12">19/07/2022</div>
+                                    </div>
+                                    <div className="row trns_data">
+                                        <div className="col-4 cmn_data">
+                                            <span><img className="img-fluid me-2" src="../../images/down-arrow.png" alt="meta-img"/></span>
+                                            <div>
+                                              <b>Recive</b>
+                                              <b className="grey_txt">10:30 AM</b>
+                                            </div>
+                                        </div>
+                                        <div className="col-4 cmn_data">
+                                            <span><img className="img-fluid me-2" src="../../images/red-bone.png" alt="meta-img"/></span>
+                                            <div>
+                                              <b>100 BONE</b>
+                                              <b className="grey_txt">1000$</b>
+                                            </div>
+                                        </div>
+                                        <div className="col-4 cmn_data">
+                                            <div>
+                                              <b>Transaction hash</b>
+                                              <p className="grey_txt trns_has_add"><span>0x1a95....ba496</span><a href="#"><img src="../../images/grey-arrow.png"/></a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          {/* all transactions table ends */}
+
+
+                          {/* pending transactions table start */}
+                            {/* <div className="transactions_list_outr">
+                                  
+                            </div> */}
+                          {/* pending transactions table ends */}
+
+                          <div className="cstm_pagination">
+                              <div className="pag_con">
+                                  <div className="left_block">
+                                      <span><img src="../../images/download-icon.png"/></span>
+                                      <b>Download CSV</b>
+                                  </div>
+                                  <div className="right_block">                                       
+                                      <nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                          <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                          <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                          <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                          <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                        </ul>
+                                      </nav>
+                                  </div>
+                              </div>
                           </div>
                       </div>         
                 </div>   

@@ -48,3 +48,130 @@
         justify-content: space-between;
     }
 }
+.trns_data .cmn_data {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    div{
+        display: flex;
+        flex-direction: column;
+    }
+    span{
+        margin-right: 15px;
+    }
+    .grey_txt{
+        color:$body-text ;
+    }
+    p{
+        font-size: 16px;
+    }
+}
+.trns_date{
+    font-weight: 800;
+    font-size: 16px;
+    color:$body-text ;
+ }
+ .single_trns_row {
+    margin-top: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid $grey-color-800;
+}
+.cstm_pagination {
+    margin-top: 30px;
+    .row{
+        justify-content: space-between;
+        div{
+            display: flex;
+        }
+    }
+    .left_block span{
+        margin-right: 15px;
+    }
+}
+.transactions_list_outr {
+    height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+.transactions_list_outr::-webkit-scrollbar {
+    width: 7px;
+    background-color: #0C0F17;
+    border-radius: 10px;
+}
+
+
+.transactions_list_outr::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 2px rgba(104, 140, 240, 0.3);
+    
+  }
+
+.transactions_list_outr::-webkit-scrollbar-thumb {
+    background-color: #596380;
+    // outline: 1px solid slategrey;
+    border-radius: 10px;
+}
+.trns_has_add{
+    display: flex;
+    align-items: center;
+     
+}
+.trans_popups .image_area img{
+    margin: 15px auto;
+}
+.mid_text {
+    padding: 0 15px;
+    h4{
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+    p{
+        font-weight: 400;
+        margin-bottom: 10px;
+        color: $body-text;
+        font-size: 16px;
+    }
+}
+.fees_text {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    padding: 0 15px;
+    .icon_name{
+        display: flex;
+        span{
+            font-size: 16px;
+            font-weight: 400;
+            color: $body-text;
+            margin-left: 10px;
+        }
+    }
+    p{
+        
+        font-size: 16px;
+        font-weight: 700;
+    }
+}
+.trans_popups .pop_btns_area a{
+    justify-content: center;
+    img{
+        margin-right: 10px;
+    }
+}
+.pag_con{
+    display: flex;
+    justify-content: space-between;
+    .left_block {
+        display: flex;
+        align-items: center;
+    }
+    .page-link, .page-link:focus{
+        background-color: transparent;
+        border: 0;
+        color: $white;
+        box-shadow: none;
+    }
+}
