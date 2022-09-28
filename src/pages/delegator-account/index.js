@@ -129,7 +129,7 @@ export default function DelegatorAccount() {
                     </form>      
                 </div>
                 
-                </> 
+                </>   
           </CommonModal>
 {/* unbound popop ends */} 
 

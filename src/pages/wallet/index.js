@@ -118,7 +118,7 @@ export default function Wallet() {
                         <p className="sprdt_txt">Supported Excanges</p>
                     </div>
                     <p className="alert_msg"><img src="../../images/i-info-icon.png"/> Sending funds to unsupported exchanges will lead to permanent loss of funds.</p>
-                    <div className="pop_btns_area row">
+                    <div className="pop_btns_area row form-control">
                           <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Cancel</a>  </div>
                           <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Continue</a>  </div>
                     </div>
@@ -130,7 +130,7 @@ export default function Wallet() {
             {/* send popop start */}
             {/*<div className="cmn_modal">
                      <h4 className="pop_main_h text-center">Send</h4> 
-                     <form>
+                     <form className="mr-top-50">
                         <div class="form-group">                        
                           <input type="text" class="form-control cmn_inpt_fld"  placeholder="Reciver address"/>
                         </div>
@@ -142,7 +142,7 @@ export default function Wallet() {
                             <b>Available balance: 0.00 SHIB</b>
                           </p>
                         </div>
-                        <div className="pop_btns_area mr-top-50 row">
+                        <div className="pop_btns_area mr-top-50 row form-control">
                             <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
                             <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
                         </div>
@@ -199,7 +199,7 @@ export default function Wallet() {
                     <div className="cnfrm_check_box text-center">
                         Check your wallet activity to see the status of the transaction
                     </div>
-                      <div className="pop_btns_area row">
+                      <div className="pop_btns_area row form-control">
                           <div className="col-12"><a className='btn primary-btn w-100' href="javascript:void(0)">Close</a>  </div>
                       </div> 
                 </div> */}
