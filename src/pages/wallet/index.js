@@ -24,7 +24,7 @@ import { useActiveWeb3React } from "app/services/web3";
 import { useMoralis } from "react-moralis";
 // import Web3Status from "app/components/Web3Status";  
 
-export default function Assets() {
+export default function Wallet() {
   const router = useRouter()
   // const { authenticate, isAuthenticated, user,} = useMoralis();
 
@@ -352,7 +352,7 @@ export default function Assets() {
                           </div>
                       </div>
                     <div className="assets_btm_area">
-                        <h2>Assets on Shibarium</h2>
+                        <h2>Wallet on Shibarium</h2>
                         <div className="cmn_dasdrd_table">
                             <div class="table-responsive">
                                 <table class="table table-borderless">
