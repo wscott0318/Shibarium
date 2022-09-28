@@ -65,17 +65,20 @@ h1 {
 }
 h2 {
     font-size: 40px;
-    @media #{$max-xl}{
+    @media #{$max-xxl}{
         font-size: 36px;
     }
-    @media #{$max-lg}{
+    @media #{$max-xl}{
         font-size: 34px;
     }
-    @media #{$max-md}{
+    @media #{$max-lg}{
         font-size: 32px;
     }
-    @media #{$max-sm}{
+    @media #{$max-md}{
         font-size: 28px;
+    }
+    @media #{$max-sm}{
+        font-size: 24px;
     }
 }
 h3 {
@@ -279,6 +282,9 @@ ul {
     font-size: 16px;
     font-weight: 600;
     color:$white;
+    @media #{$max-xxl}{
+        font-size: 14px;
+    }
     &:hover{
         background:$primary-gradient;
         color:rgba($white, 0.89);
@@ -288,9 +294,11 @@ ul {
 .white-btn{
     background-color:$grey-color-800;
     border-radius: 10px;
-    font-size: 16px;
     font-weight: 600;
     color:$grey-color;
+    @media #{$max-xxl}{
+        font-size: 14px;
+    }
     &:hover{
         background:$primary-gradient;
         color:rgba($white, 0.89);
@@ -400,7 +408,10 @@ ul {
     .modal-content{
         background-color: $body-bg-800;
         border-radius: 40px;
-        padding: 50px 20px;
+        padding: 40px 20px;
+        @media #{$max-xxl}{
+            padding: 30px 15px;
+        }
         .modal-header{
             border: 0;
             text-align: center;
@@ -410,7 +421,7 @@ ul {
             width: 100%;
             position: relative;
             padding-top: 0;
-            padding-bottom: 0;
+            padding-bottom: 15px;
             text-align: center !important;
             .btn-close{
                 position: absolute;

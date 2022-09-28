@@ -1,7 +1,9 @@
 .menu-btn{
     display: none;
+    max-width: 30px;
     @media #{$max-lg}{
         display: inline-block;
+        max-width: 25px;
     }
 }
 
