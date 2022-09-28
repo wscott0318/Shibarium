@@ -1,8 +1,7 @@
 .box-wrap{
     display: flex;
-    margin-top: 30px;
 }
-.custum-card{
+.block-card{
     padding: 20px;
     background: $body-bg;
     border-radius: 30px;
@@ -12,14 +11,18 @@
     -moz-border-radius: 30px;
     height: 100%;
 }
-.left-box {
-    flex: 0 0 600px;
-    .custum-card{
+.left-box, .right-box {
+    margin-top: 30px;
+    .block-card{
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
         height: 100%;
+        justify-content: space-between;
     }
+}
+.left-box{
+    flex: 0 0 600px;
 }
 .heading-main {
     font-size: 40px;
@@ -33,7 +36,6 @@
     margin-bottom: 25px;
 }
 .row-description {
-    font-size: 15px;
     color: $grey-color;
 }
 .alignment{
@@ -68,19 +70,20 @@
 .height-blk {
     height: 170px;
 }
-.box-bottom{
-    margin-top: 140px;
+.blank-box{
+    min-height: 140px;
 }
 .right-box {
     width: calc(100% - 600px);
-    margin-left: 20px;
+    padding-left: 20px;
+    margin-top: 30px;
 }
 .botom-spcing {
     margin-bottom: 35px;
 }
 .tab-sec {
     padding: 5px;
-    background: #fff;
+    background: $grey-color-800;
     border-radius: 8px;
 }
 .tab-links{
@@ -101,7 +104,7 @@
     }
 }
 .form-field{
-    background:$white;
+    background:$grey-color-800;
     padding: 15px;
     border-radius: 8px;
     font-size: 16px;
@@ -114,7 +117,7 @@
     bottom: auto;
 }
 .mid-chain {
-    padding: 0 26% 0 25px;
+    padding: 0 23% 0 25px;
 }
 .rt-chain {
     position: absolute;
@@ -122,6 +125,11 @@
     top: 14px;
     bottom: auto;
     left: auto;
+}
+.mid-chain{
+    input{
+        background: $grey-color-800;
+    }
 }
 .fld-txt{
     color:$body-bg;
@@ -144,8 +152,18 @@
 .arow-outer {
     width: 22px;
     height: 22px;
-    background: $grey-color-800;
+    background: $white;
     border-radius: 50%;
     text-align: center;
     line-height: 16px;
+}
+.two-fld{
+    .mid-chain{
+        padding: 0 10% 0 0;
+    }
+}
+.btn-modify{
+    .primary-btn{
+
+    }
 }

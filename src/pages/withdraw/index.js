@@ -151,16 +151,16 @@ export default function Withdraw() {
                   <div className="box-wrap">
                     {/* Left section start */}
                     <div className="left-box">
-                      <div className="custum-card">
+                      <div className="block-card">
                         <div className="box-top">
                           <h1 className="heading-main">Shibarium Bridge</h1>
                           <div className="txt-row">
                              <div className="row-hd">Transfer Overview:</div>
-                             <div className="row-description">The deposit process consists of a single transaction.</div>   
+                             <p className="row-description">The deposit process consists of a single transaction.</p>   
                           </div>
                           <div className="txt-row">
                              <div className="row-hd">Transfer Time:</div>
-                             <div className="row-description">Moving your funds from Ethereum to Polygon take up to 10 - 15 Minutes.</div>   
+                             <p className="row-description">Moving your funds from Ethereum to Polygon take up to 10 - 15 Minutes.</p>   
                           </div>
                           <div className="txt-row">
                              <div className="row-hd">
@@ -169,13 +169,13 @@ export default function Withdraw() {
                                 </span>
                                 <span className="alignment">Delegation/Staking Advice:</span>
                               </div>
-                             <div className="row-description">
+                             <p className="row-description">
                                 Delegation/Staking takes place on Ethereum. Do not deposit funds to Shibarium for this purpose. 
                                 To delegate or stake please visit the <a className="orange-txt" href="javascript:void(0);">Staking UI</a>
-                              </div>   
+                              </p>   
                           </div>
                         </div>
-                        
+                        <div className="blank-box"></div>
                         <div className="box-bottom">
                           <div className="amt-section position-relative">
                             <div className="coin-blk">
@@ -200,57 +200,93 @@ export default function Withdraw() {
                      {/* Left section end */}
                       {/* Right section start */}
                     <div className="right-box">
-                      <div className="custum-card">
-                        <form>
-                          <div className="botom-spcing">
+                      <div className="block-card">
                             <div className="tab-sec">
                               <ul className="tab-links">
                                 <li><a className="tb-link tab-active" href="javascript:void(0);">Deposit</a></li>
                                 <li><a className="tb-link" href="javascript:void(0);">Withdraw</a></li>
                               </ul>
                             </div>
-                          </div>
-                          <div className="">
-                            <div>
-                              <label>From</label>
-                              <div className="form-field position-relative">
-                                <div className="icon-chain">
-                                  <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
-                                </div>
-                                <div className="mid-chain">
-                                  <input type="text" placeholder="Ethereum chain"/>
-                                </div>
-                                <div className="rt-chain">
-                                  <span className="fld-head lite-color">Balance:</span>
-                                  <span className="fld-txt lite-color">100.00ETH</span>
-                                </div>
-                              </div>
+                            <div className="tab-content-sec">
+                              <form>
+                                
+                                  <div className="botom-spcing">
+                                    <div>
+                                      <label>From</label>
+                                      <div className="form-field position-relative">
+                                        <div className="icon-chain">
+                                          <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
+                                        </div>
+                                        <div className="mid-chain">
+                                          <input className="w-100" type="text" placeholder="Ethereum chain"/>
+                                        </div>
+                                        <div className="rt-chain">
+                                          <span className="fld-head lite-color">Balance:</span>
+                                          <span className="fld-txt lite-color">100.00ETH</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="field-grid row">
+                                      <div className="col-md-4">
+                                        <div className="form-field position-relative">
+                                          <div className="">
+                                            <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
+                                          </div>
+                                          <div className="lite-color">
+                                            <span className="lite-color fw-bold">ETH</span>
+                                          </div>
+                                          <div className="">
+                                            <div className="arow-outer"><span className="arrow-down"></span></div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-8">
+                                          <div className="form-field position-relative two-fld">
+                                              <div className="mid-chain w-100">
+                                                <input className="w-100" type="text" placeholder="0.00"/>
+                                              </div>
+                                              <div className="rt-chain">
+                                                <span className="orange-txt fw-bold">MAX</span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="botom-spcing">
+                                    <div>
+                                      <label>To</label>
+                                      <div className="form-field position-relative">
+                                        <div className="icon-chain">
+                                          <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
+                                        </div>
+                                        <div className="mid-chain">
+                                          <input className="w-100" type="text" placeholder="Ethereum chain"/>
+                                        </div>
+                                        <div className="rt-chain">
+                                          <span className="fld-head lite-color">Balance:</span>
+                                          <span className="fld-txt lite-color">100.00ETH</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                
+                                
+                                  <div className="btn-modify">
+                                    <button type="button" className="btn primary-btn w-100">Transfer</button>
+                                  </div>
+                                
+                              </form>
                             </div>
-                            <div className="field-grid row">
-                              <div className="col-md-4">
-                                <div className="form-field position-relative">
-                                  <div className="">
-                                    <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
-                                  </div>
-                                  <div className="lite-color">
-                                    <span className="lite-color fw-bold">ETH</span>
-                                  </div>
-                                  <div className="">
-                                    <div className="arow-outer"><span className="arrow-down"></span></div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-md-8">
-                                <div className="form-field position-relative">
-
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
+                            
+                            
+                        
+                       
+                          
+                        
+                        
                       </div> 
                     </div>
-                     {/* Left section start */}
+                     {/* right section start */}
                   </div>
                   {/* withdraw main section end */}
               </div>
