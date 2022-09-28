@@ -89,14 +89,14 @@ export default function Login() {
 
   return (
    <>
-      <main className="main-content">
+      <main className="main-content full-vh dark-bg-800">
         {/* login section start */}
         <p className="mb-0" style={{display:'flex', justifyContent:'center'}}>
           <Web3Status />
         </p>
         <section className="login-section">
             <div className="container">
-                <div className='login_h_logo text-center'>
+                <div className='login_h_logo text-center d-none'>
                     <a href='#' className=''><img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} /></a>
                 </div>
                 <div className='login_holder'>
