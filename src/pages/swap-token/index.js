@@ -19,7 +19,7 @@ export default function differentchainbridge() {
         setMenuState(false)
     }
 
-    const [showSendModal, setSendModal] = useState(false);
+    const [showSlippageModal, setSlippageModal] = useState(false);
 
     return (
         <>
@@ -149,7 +149,7 @@ export default function differentchainbridge() {
                                 <div className='swp-right-col mb-3 mb-lg-4 mb-xl-5'>
                                     <ul className='swp-icon'>
                                         <li>
-                                            <a href="javascript:void(0)" onClick={() => setSendModal(true)}>
+                                            <a href="javascript:void(0)" onClick={() => setSlippageModal(true)}>
                                                 <img className='img-fluid' src="../../images/setting.png" alt="icon-img" width={25} height="25" />
                                             </a>
                                         </li>
@@ -162,7 +162,7 @@ export default function differentchainbridge() {
                                 </div>
                             </div>
                             <div className="swp-body">
-                                <form action="" className='flex-column'>
+                                <form action="" className='flex-form'>
                                     <div className="field-grid row">
                                         <div className="col-md-4">
                                             <div className="form-group">
@@ -256,111 +256,32 @@ export default function differentchainbridge() {
             {/* modal code start */}
 
             <CommonModal
-          title={"Transferring funds"}
-          show={showSendModal}
-          setShow={setSendModal}
+          title={"Set Slippage"}
+          show={showSlippageModal}
+          setShow={setSlippageModal}
 
         >
-          {/* step 1 */}
-          <>
-            {/* transferring funds popop start */}
-
-            {/* <div className="cmn_modal">
-                    <p>Sending funds to exchanges:</p>
-                    <div className="exchng_msg_box">
-                        <p>Exchanges supported from Shibarium network</p>
-                        <p className="sprdt_txt">Supported Excanges</p>
-                    </div>
-                    <p className="alert_msg"><img src="../../images/i-info-icon.png"/> Sending funds to unsupported exchanges will lead to permanent loss of funds.</p>
-                    <div className="pop_btns_area row">
-                          <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Cancel</a>  </div>
-                          <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Continue</a>  </div>
-                    </div>
-                    <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
-                </div> */}
-
-            {/* transferring funds popop ends */}
-
-            {/* send popop start */}
-            {/*<div className="cmn_modal">
-                     <h4 className="pop_main_h text-center">Send</h4> 
-                     <form>
-                        <div class="form-group">                        
-                          <input type="text" class="form-control cmn_inpt_fld"  placeholder="Reciver address"/>
-                        </div>
-                        <div class="form-group">  
-                          <label>Enter a valid reciver address on Shibarium Mainnet</label>                      
-                          <input type="text" class="form-control cmn_inpt_fld"  placeholder="0.00"/>
-                          <p className="inpt_fld_hlpr_txt">
-                            <span>0.00$</span>
-                            <b>Available balance: 0.00 SHIB</b>
-                          </p>
-                        </div>
-                        <div className="pop_btns_area mr-top-50 row">
-                            <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
-                            <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
-                        </div>
-                        
-                     </form>
-                     <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
-                </div>*/}
-            {/* send popop ends */}
-
-            {/* confirm send popop start */}
-            <div className="cmn_modal">
-              <div className="cnfrm_box">
-                <div className="top_overview col-12">
-                  <span><img src="../../images/shib-borderd-icon.png" /></span>
-                  <h6>1100.00 SHIB</h6>
-                  <p>500.00$</p>
+            <div className='modal-body fix-vh d-flex flex-column justify-content-between mt-3'>
+                <div className="top-area">
+                    <ul className='badges-list'>
+                        <li className='badges-lst-item'>
+                            <a href="javascript:void(0)" className="btn bage-bg d-block text-center">1 %</a>
+                        </li>
+                        <li className='badges-lst-item'>
+                            <a href="javascript:void(0)" className="btn bage-bg d-block text-center active">2 %</a>
+                        </li>
+                        <li className='badges-lst-item'>
+                            <a href="javascript:void(0)" className="btn bage-bg d-block text-center">5 %</a>
+                        </li>
+                        <li className='badges-lst-item'>
+                            <a href="javascript:void(0)" className="btn bage-bg d-block text-center">Insert custom slippage</a>
+                        </li>
+                    </ul>
                 </div>
-                <div className="add_detail col-12">
-                  <p><b>RECEIVER:</b></p>
-                  <p>0x5c932BBe4485C24E1a779872362e990dEdf0D208</p>
+                <div className='bottom-area'>
+                    <button type='button' className='btn primary-btn w-100'>Set Slippage</button>
                 </div>
-              </div>
-              <div className="cnfrm_check_box">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                  <label class="form-check-label" for="flexCheckChecked">
-                    I’m not sending funds to an <a href="#">unsupported excange</a> or incorrect address
-                  </label>
-                </div>
-
-
-              </div>
-              <div className="pop_btns_area row">
-                <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
-                <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
-              </div>
-              <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
             </div>
-            {/* confirm send popop ends */}
-
-            {/* submitted popop start */}
-            {/* <div className="cmn_modal">
-                    <div className="cnfrm_box">
-                        <div className="top_overview col-12">
-                              <span><img src="../../images/shib-borderd-icon.png"/></span>
-                              <h6>1100.00 SHIB</h6>
-                              <p>500.00$</p>
-                        </div>
-                        <div className="add_detail col-12">
-                            <p><b>TRANSACTION SUBMITTED TO:</b></p>
-                            <p>0x5c932BBe4485C24E1a779872362e990dEdf0D208</p>
-                        </div>
-                    </div>
-                    <div className="cnfrm_check_box text-center">
-                        Check your wallet activity to see the status of the transaction
-                    </div>
-                      <div className="pop_btns_area row">
-                          <div className="col-12"><a className='btn primary-btn w-100' href="javascript:void(0)">Close</a>  </div>
-                      </div> 
-                </div> */}
-            {/* submitted popop ends */}
-
-          </>
-          {/* step 1 end */}
         </CommonModal>
 
             {/* modal code closed */}

@@ -2,6 +2,11 @@
     max-width: 600px;
     margin: 0 auto;
     margin-top: 32px;
+    margin-bottom: 32px;
+    @media #{$max-xxl}{
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
     .swp-header {
         display: flex;
         justify-content: space-between;
@@ -16,13 +21,13 @@
             }
         }
     }
-    .flex-column{
+    .flex-form{
         min-height: 500px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         @media #{$max-xxl}{
-            min-height: 400px;
+            min-height: 300px;
         }
     }
     .coin-text {
