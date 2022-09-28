@@ -65,21 +65,21 @@ const BoneStaking = () => {
           <div className="container">
             <div className="section-info">
               <div className="row align-items-center">
-                <div className="col-md-6">
+                <div className="col-md-7 col-sm-12">
                   <h1>Start Earning Rewards with <br /><span className="white-bg">Shibarium Staking</span></h1>
                   <div className="btns-sec">
-                    <div>
+                    <div className="btns-wrap">
                       <button className="btn primary-btn">Become a Validator</button>
                     </div>
-                    <div>
+                    <div className="btns-wrap">
                       <button className="btn  white-btn">Become a Delegator</button>
                     </div>
-                    <div>
+                    <div className="btns-wrap">
                       <button className="btn grey-btn">Choose Your Path</button>
                     </div>
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-5 col-sm-12 m-hide">
                   <div className="shib-img-sec text-end">
                     <img src="../../images/shiba-img.png" />
                   </div>
@@ -95,7 +95,7 @@ const BoneStaking = () => {
           <div className="container">
             <div className="grid-contain">
               <div className="row">
-                <div className="col-lg-4 col-custum">
+                <div className="col-md-6 col-xl-4 col-custum">
                   <div className="cus-box">
                     <div className="head-sec">
                       <div className="top-head">
@@ -112,7 +112,7 @@ const BoneStaking = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-4 col-custum">
+                <div className="col-md-6 col-xl-4 col-custum">
                   <div className="cus-box">
                     <div className="head-sec">
                       <div className="top-head">
@@ -129,7 +129,7 @@ const BoneStaking = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-4 col-custum">
+                <div className="col-md-6 col-xl-4 col-custum">
                   <div className="cus-box">
                     <div className="head-sec">
                       <div className="top-head">
@@ -146,7 +146,7 @@ const BoneStaking = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-4">
+                <div className="col-md-6 col-xl-4 mob-margin">
                   <div className="cus-box">
                     <div className="head-sec">
                       <div className="top-head">
@@ -163,7 +163,7 @@ const BoneStaking = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-4">
+                <div className="col-md-6 col-xl-4 mob-margin">
                   <div className="cus-box">
                     <div className="head-sec">
                       <div className="top-head">
@@ -180,7 +180,7 @@ const BoneStaking = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-4">
+                <div className="col-md-6 col-xl-4 mob-margin">
                   <div className="cus-box">
                     <div className="head-sec">
                       <div className="top-head">
@@ -214,9 +214,9 @@ const BoneStaking = () => {
               <div className="right-section">
                 <div className="switch-sec">
                   <span className="help-txt">Show Auction Only</span>
-                  <label class="switch">
+                  <label className="switch">
                     <input type="checkbox" />
-                    <span class="slider round"></span>
+                    <span className="slider round"></span>
                   </label>
                 </div>
                 <div className="select-sec">
@@ -224,7 +224,7 @@ const BoneStaking = () => {
                     <span>Sort By</span>
                   </div>
                   <div className="cus-sel">
-                    <select class="form-select" >
+                    <select className="form-select" >
                       <option selected>Random</option>
                       <option value="1">One</option>
                     </select>
@@ -232,19 +232,19 @@ const BoneStaking = () => {
                 </div>
                 <div className="layout-sec">
                   <div className="list blk-active">
-                    <a href="javascript:void(0);"><img class="white-icon" src="../../images/list-white.png" /></a>
-                    <a href="javascript:void(0);"><img class="grey-icon" src="../../images/list-grey.png" /></a>
+                    <a href="javascript:void(0);"><img className="white-icon" src="../../images/list-white.png" /></a>
+                    <a href="javascript:void(0);"><img className="grey-icon" src="../../images/list-grey.png" /></a>
                   </div>
                   <div className="cus-grid">
-                    <a href="javascript:void(0);"><img class="white-icon" src="../../images/grid-white.png" /></a>
-                    <a href="javascript:void(0);"><img class="grey-icon" src="../../images/grid-grey.png" /></a>
+                    <a href="javascript:void(0);"><img className="white-icon" src="../../images/grid-white.png" /></a>
+                    <a href="javascript:void(0);"><img className="grey-icon" src="../../images/grid-grey.png" /></a>
                   </div>
                 </div>
               </div>
             </div>
             <div className="cmn_dasdrd_table">
-              <div class="table-responsive">
-                <table class="table table-borderless">
+              <div className="table-responsive">
+                <table className="table table-borderless">
                   <thead>
                     <tr>
                       <th>Name</th>
