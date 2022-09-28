@@ -221,7 +221,7 @@ export default function Assets() {
                       <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ms-auto">
                             <Dropdown className="d-flex align-items-center cus-dd mob-drop">
-                            <div className="" id="basic-nav-dropdown">
+                            <div className="dot-icon" id="basic-nav-dropdown">
                               <img src="../../images/menu-icon.png" alt="" />
                             </div>
                             <NavDropdown className="me-3" title="App">
@@ -307,15 +307,15 @@ export default function Assets() {
                             </NavDropdown>
                             </Dropdown>
                           
-                          <Nav.Item>
+                          {/* <Nav.Item>
                             <Link href={'javascript:void(0)'}>
                               <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
                                 <img className="img-fluid me-2" src="../../images/meta-icon.png" alt="meta-img"/>
                                 <span>0x21A...48A5</span>
                               </a>
                             </Link>
-                          </Nav.Item>
-                          <Nav.Item>
+                          </Nav.Item> */}
+                          <Nav.Item className="btn-status">
                             <Web3Status/>
                           </Nav.Item>
                         </Nav>
@@ -326,24 +326,31 @@ export default function Assets() {
                   {/* assets section start */}
                   <div className="assets_outr">
                       <h2>My Balance</h2>
-                      <div className="assets_top_area">
-                          <div className="main_net_amnt t_a_clm">
-                              <h1>20.000$</h1>
-                              <p>shibarium mainnet</p>
+                      <div className="assets_top_area bal-row">
+                          <div className="bal-col">
+                            <div className="main_net_amnt t_a_clm">
+                                <h1>20.000$</h1>
+                                <p>shibarium mainnet</p>
+                            </div>
                           </div>
-                          <div className="btns_area t_a_clm">
-                              <a href="#" className="btn grey-btn w-100 d-block">
-                                <span><img src="../../images/recive-icon.png" alt="recive"/></span>
-                                Receive
-                              </a>
-                              <button onClick={() => setSendModal(true)} className="btn grey-btn w-100 d-block"><span><img src="../../images/send-icon.png" alt="recive"/></span>Send</button>
+                          <div className="bal-col">
+                            <div className="btns_area t_a_clm">
+                                <button type="button" href="#" className="btn grey-btn w-100 d-flex align-items-center justify-content-center">
+                                  <span className="me-2"><img className="btn-img" src="../../images/recive-icon.png" alt="recive"/></span>
+                                  Receive
+                                </button>
+
+                                <button onClick={() => setSendModal(true)} className="btn grey-btn w-100 d-flex align-items-center justify-content-center">
+                                  <span className="me-2"><img className="btn-img" src="../../images/send-icon.png" alt="recive"/></span>Send</button>
+                            </div>
                           </div>
-                          <div className="lrg_btns_area t_a_clm">
-                              <a href="#" className="btn white-btn w-100 d-block">Move funds from Ethereum to Shibarium</a>
-                              <a href="#" className="btn white-btn w-100 d-block">How Shibarium works</a>
+                          <div className="bal-col">
+                            <div className="lrg_btns_area t_a_clm">
+                                <a href="#" className="btn white-btn w-100 d-block">Move funds from Ethereum to Shibarium</a>
+                                <a href="#" className="btn white-btn w-100 d-block">How Shibarium works</a>
+                            </div>
                           </div>
                       </div>
-
                     <div className="assets_btm_area">
                         <h2>Assets on Shibarium</h2>
                         <div className="cmn_dasdrd_table">
@@ -395,8 +402,7 @@ export default function Assets() {
                 {/* assets section end */}                                 
 
             </div>
-        </section> 
-        
+        </section>
       </main>
    </>
   );

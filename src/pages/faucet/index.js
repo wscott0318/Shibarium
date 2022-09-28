@@ -26,10 +26,10 @@ export default function faucet() {
   return (
     <>
     {/* Form section start */}
-      <div className="">
-        <div className="form-section">
-          <div className="row">
-            <div className="col-md-5 mx-auto">
+      <div className="faucet-form">
+        <div className="container">
+          <div className="form-section">
+            <div className="">
               <div className="block-wrap">
                 <h1 className="head-md">Get Test Tokens</h1>
                 <p className="top-botom-spc">This faucet transfers TestToken on Matic testnets and parent chain. Confirms details before submitting.</p>
