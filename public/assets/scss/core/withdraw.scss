@@ -11,7 +11,7 @@
     -moz-border-radius: 30px;
     height: 100%;
 }
-.left-box, .right-box {
+.left-box {
     margin-top: 30px;
     .block-card{
         display: flex;
@@ -23,6 +23,9 @@
 }
 .left-box{
     flex: 0 0 600px;
+}
+.right-box{
+    margin-top: 30px;
 }
 .heading-main {
     font-size: 40px;
@@ -71,7 +74,7 @@
     height: 170px;
 }
 .blank-box{
-    min-height: 140px;
+    min-height: 100px;
 }
 .right-box {
     width: calc(100% - 600px);
@@ -164,6 +167,19 @@
 }
 .btn-modify{
     .primary-btn{
-
+        font-size: 16px;
+        padding: 15px;
     }
+}
+.sec-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 100%;
+}
+.tab-content-sec{
+    height: 100%;
+}
+.height{
+    height: calc(100% - 115px);
 }

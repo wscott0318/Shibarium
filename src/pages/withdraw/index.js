@@ -201,80 +201,82 @@ export default function Withdraw() {
                       {/* Right section start */}
                     <div className="right-box">
                       <div className="block-card">
-                            <div className="tab-sec">
+                            <div className="tab-sec botom-spcing">
                               <ul className="tab-links">
                                 <li><a className="tb-link tab-active" href="javascript:void(0);">Deposit</a></li>
                                 <li><a className="tb-link" href="javascript:void(0);">Withdraw</a></li>
                               </ul>
                             </div>
                             <div className="tab-content-sec">
-                              <form>
-                                
-                                  <div className="botom-spcing">
-                                    <div>
-                                      <label>From</label>
-                                      <div className="form-field position-relative">
-                                        <div className="icon-chain">
-                                          <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
-                                        </div>
-                                        <div className="mid-chain">
-                                          <input className="w-100" type="text" placeholder="Ethereum chain"/>
-                                        </div>
-                                        <div className="rt-chain">
-                                          <span className="fld-head lite-color">Balance:</span>
-                                          <span className="fld-txt lite-color">100.00ETH</span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="field-grid row">
-                                      <div className="col-md-4">
-                                        <div className="form-field position-relative">
-                                          <div className="">
-                                            <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
-                                          </div>
-                                          <div className="lite-color">
-                                            <span className="lite-color fw-bold">ETH</span>
-                                          </div>
-                                          <div className="">
-                                            <div className="arow-outer"><span className="arrow-down"></span></div>
+                              <form className="height">
+                                  <div className="sec-wrapper">
+                                    <div className="wrap-top">
+                                      <div className="botom-spcing">
+                                        <div>
+                                          <label>From</label>
+                                          <div className="form-field position-relative">
+                                            <div className="icon-chain">
+                                              <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
+                                            </div>
+                                            <div className="mid-chain">
+                                              <input className="w-100" type="text" placeholder="Ethereum chain"/>
+                                            </div>
+                                            <div className="rt-chain">
+                                              <span className="fld-head lite-color">Balance:</span>
+                                              <span className="fld-txt lite-color">100.00ETH</span>
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
-                                      <div className="col-md-8">
-                                          <div className="form-field position-relative two-fld">
-                                              <div className="mid-chain w-100">
-                                                <input className="w-100" type="text" placeholder="0.00"/>
+                                        <div className="field-grid row">
+                                          <div className="col-md-4">
+                                            <div className="form-field position-relative">
+                                              <div className="">
+                                                <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
                                               </div>
-                                              <div className="rt-chain">
-                                                <span className="orange-txt fw-bold">MAX</span>
+                                              <div className="lite-color">
+                                                <span className="lite-color fw-bold">ETH</span>
+                                              </div>
+                                              <div className="">
+                                                <div className="arow-outer"><span className="arrow-down"></span></div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="col-md-8">
+                                              <div className="form-field position-relative two-fld">
+                                                  <div className="mid-chain w-100">
+                                                    <input className="w-100" type="text" placeholder="0.00"/>
+                                                  </div>
+                                                  <div className="rt-chain">
+                                                    <span className="orange-txt fw-bold">MAX</span>
+                                                  </div>
                                               </div>
                                           </div>
+                                        </div>
+                                      </div>
+                                      <div className="botom-spcing">
+                                        <div>
+                                          <label>To</label>
+                                          <div className="form-field position-relative">
+                                            <div className="icon-chain">
+                                              <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
+                                            </div>
+                                            <div className="mid-chain">
+                                              <input className="w-100" type="text" placeholder="Ethereum chain"/>
+                                            </div>
+                                            <div className="rt-chain">
+                                              <span className="fld-head lite-color">Balance:</span>
+                                              <span className="fld-txt lite-color">100.00ETH</span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="wrap-bottom">
+                                      <div className="btn-modify">
+                                        <button type="button" className="btn primary-btn w-100">Transfer</button>
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="botom-spcing">
-                                    <div>
-                                      <label>To</label>
-                                      <div className="form-field position-relative">
-                                        <div className="icon-chain">
-                                          <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
-                                        </div>
-                                        <div className="mid-chain">
-                                          <input className="w-100" type="text" placeholder="Ethereum chain"/>
-                                        </div>
-                                        <div className="rt-chain">
-                                          <span className="fld-head lite-color">Balance:</span>
-                                          <span className="fld-txt lite-color">100.00ETH</span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                
-                                
-                                  <div className="btn-modify">
-                                    <button type="button" className="btn primary-btn w-100">Transfer</button>
-                                  </div>
-                                
                               </form>
                             </div>
                             
