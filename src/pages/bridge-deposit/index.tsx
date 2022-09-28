@@ -163,7 +163,7 @@ export default function Deposit() {
                           </NavDropdown>
                           </Dropdown>
                           <Nav.Item>
-                            <Link href={'javascript:void(0)'}>
+                            <Link className="d-none" href={'javascript:void(0)'}>
                               <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
                                 <img className="img-fluid me-2" src="../../images/meta-icon.png" alt="meta-img" width={28}/>
                                 <span>0x21A...48A5</span>
