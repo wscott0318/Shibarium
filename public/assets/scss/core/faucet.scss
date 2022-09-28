@@ -1,3 +1,10 @@
+.faucet-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 76px);
+    margin-top: 76px;
+}
 .black-sel{
     .form-select{
         background: $body-bg;
@@ -9,6 +16,8 @@
         position: relative;
     }
 }
+
 .form-section {
-    margin-top: 100px;
+    max-width: 650px;
+    margin: 0 auto;
 }
