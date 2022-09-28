@@ -183,7 +183,7 @@ export default function Wallet() {
                           <input
                            class="form-check-input" 
                            type="checkbox" 
-                           onChange={() => setVerifyAmount(!varifyAccount)}
+                           onChange={() => setVerifyAmount(!varifyAmount)}
                            value={verifyAmount}
                            id="flexCheckChecked"
                            />
@@ -200,7 +200,7 @@ export default function Wallet() {
                           </div>
                           <div className="col-6">
                           <button className='btn primary-btn w-100' 
-                            // disabled={ ? false : true}
+                            disabled={verifyAmount ? false : true}
                           >Send</button> 
                           </div>
                       </div>
