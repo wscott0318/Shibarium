@@ -166,7 +166,7 @@ export default function Transaction() {
               <div className="pop_btns_area row form-control">
                 <div className="col-12">
                   <a className='btn grey-btn d-flex align-items-center' href="javascript:void(0)">
-                    <img src="../../images/track-small.png" />
+                    <span className="spinner-border text-secondary pop-spiner"></span>
                     <span>Close</span>
                   </a>
                 </div>
@@ -294,7 +294,7 @@ export default function Transaction() {
               <div className="pop_btns_area row form-control">
                 <div className="col-12">
                   <a className='btn grey-btn d-flex align-items-center' href="javascript:void(0)">
-                    <img src="../../images/track-small.png" />
+                    <span className="spinner-border text-secondary pop-spiner"></span>
                     <span>Moving funds</span>
                   </a>
                 </div>
@@ -495,14 +495,14 @@ export default function Transaction() {
                   <div className="overview_top_area ">
                     <div className="row">
                       <div className="col-md-4  col-sm-6 col-xs-12 step_no">
-                        <span><img src="../../images/track.png" alt="loading" /></span>
+                        <span><span className="spinner-border text-secondary pop-spiner"></span></span>
                         <div>
                           <b>Whitdraw</b>
                           <b>Step 1/2</b>
                         </div>
                       </div>
                       <div className="col-md-4 col-sm-6 col-xs-12 bone_count">
-                        <span><img src="../../images/red-bone.png" alt="bones" /></span>
+                        <span><img src="../../images/red-bone.png" alt="bones"  className="img-fluid" /></span>
                         <div>
                           <b>100 BONE</b>
                           <p>500.00$</p>
@@ -538,7 +538,7 @@ export default function Transaction() {
                         </div>
                       </div>
                       <div className="col-4 cmn_data">
-                        <span><img className="img-fluid me-2" src="../../images/red-bone.png" alt="meta-img" /></span>
+                        <span><img className="img-fluid me-2" src="../../images/red-bone.png" alt="meta-img"/></span>
                         <div>
                           <b>100 BONE</b>
                           <b className="grey_txt">1000$</b>
@@ -547,7 +547,35 @@ export default function Transaction() {
                       <div className="col-4 cmn_data">
                         <div>
                           <b>Transaction hash</b>
-                          <p className="grey_txt trns_has_add"><span>0x1a95....ba496</span><a href="#"><img src="../../images/grey-arrow.png" /></a></p>
+                          <p className="grey_txt trns_has_add"><span>0x1a95....ba496</span><a href="#"><img src="../../images/grey-arrow.png"  className="img-fluid"/></a></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="single_trns_row">
+                    <div className="row trns_date">
+                      <div className="col-12">19/07/2022</div>
+                    </div>
+                    <div className="row trns_data">
+                      <div className="col-4 cmn_data">
+                        <span><img className="img-fluid me-2" src="../../images/down-arrow.png" alt="meta-img" /></span>
+                        <div>
+                          <b>Recive</b>
+                          <b className="grey_txt">10:30 AM</b>
+                        </div>
+                      </div>
+                      <div className="col-4 cmn_data">
+                        <span><img className="img-fluid me-2" src="../../images/red-bone.png" alt="meta-img"/></span>
+                        <div>
+                          <b>100 BONE</b>
+                          <b className="grey_txt">1000$</b>
+                        </div>
+                      </div>
+                      <div className="col-4 cmn_data">
+                        <div>
+                          <b>Transaction hash</b>
+                          <p className="grey_txt trns_has_add"><span>0x1a95....ba496</span><a href="#"><img src="../../images/grey-arrow.png" className="img-fluid" /></a></p>
                         </div>
                       </div>
                     </div>
@@ -575,35 +603,7 @@ export default function Transaction() {
                       <div className="col-4 cmn_data">
                         <div>
                           <b>Transaction hash</b>
-                          <p className="grey_txt trns_has_add"><span>0x1a95....ba496</span><a href="#"><img src="../../images/grey-arrow.png" /></a></p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="single_trns_row">
-                    <div className="row trns_date">
-                      <div className="col-12">19/07/2022</div>
-                    </div>
-                    <div className="row trns_data">
-                      <div className="col-4 cmn_data">
-                        <span><img className="img-fluid me-2" src="../../images/down-arrow.png" alt="meta-img" /></span>
-                        <div>
-                          <b>Recive</b>
-                          <b className="grey_txt">10:30 AM</b>
-                        </div>
-                      </div>
-                      <div className="col-4 cmn_data">
-                        <span><img className="img-fluid me-2" src="../../images/red-bone.png" alt="meta-img" /></span>
-                        <div>
-                          <b>100 BONE</b>
-                          <b className="grey_txt">1000$</b>
-                        </div>
-                      </div>
-                      <div className="col-4 cmn_data">
-                        <div>
-                          <b>Transaction hash</b>
-                          <p className="grey_txt trns_has_add"><span>0x1a95....ba496</span><a href="#"><img src="../../images/grey-arrow.png" /></a></p>
+                          <p className="grey_txt trns_has_add"><span>0x1a95....ba496</span><a href="#"><img src="../../images/grey-arrow.png" className="img-fluid" /></a></p>
                         </div>
                       </div>
                     </div>
@@ -621,7 +621,7 @@ export default function Transaction() {
                 <div className="cstm_pagination">
                   <div className="pag_con">
                     <div className="left_block">
-                      <span><img src="../../images/download-icon.png" /></span>
+                      <span><img src="../../images/download-icon.png"  className="img-fluid" /></span>
                       <b>Download CSV</b>
                     </div>
                     <div className="right_block">
