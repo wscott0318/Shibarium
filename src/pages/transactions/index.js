@@ -173,6 +173,199 @@ export default function Transaction() {
               </div>
             </div>
             {/* Reaching Checkpoint popop end  */}
+
+
+            {/* Checkpoint reached popop start  */}  
+            {/* <div className="cmn_modal trans_popups">
+              <ul className="stepper mt-3">
+                <li className="step active">
+                  <div className="step-ico">
+                    <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon"/>
+                  </div>
+                  <div className="step-title">
+                    Reaching Checkpoint
+                  </div>
+                </li>
+                <li className="step active">
+                  <div className="step-ico">
+                    <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon"/>
+                  </div>
+                  <div className="step-title">
+                    Checkpoint I
+                  </div>
+                </li>
+                <li className="step">
+                  <div className="step-ico">
+                    <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon"/>
+                  </div>
+                  <div className="step-title">
+                    Withdrawing Funds
+                  </div>
+                </li>
+                <li className="step">
+                  <div className="step-ico">
+                    <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon"/>
+                  </div>
+                  <div className="step-title">
+                    Withdraw Completed
+                  </div>
+                </li>
+              </ul>
+              <div className="image_area row">
+                <div className="col-12 text-center">
+                  <img className="img-fluid" src="../../images/funds-coin.png" />
+                </div>
+              </div>
+              <div className="mid_text row">
+                <div className="col-12 text-center"><h4>Move Funds to your account</h4></div>
+                <div className="col-12 text-center"><p>Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5</p></div>
+              </div>
+              <div className="fees_text">
+                <div className="icon_name">
+                  <img src="../../images/eth-icon.png" /><span>Estimation of GAS fee required</span>
+                </div>
+                <div className="">
+                  <p>$10.00</p>
+                </div>
+              </div>
+              <div className="pop_btns_area row form-control">
+                <div className="col-12">
+                  <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
+                    <span>Confirm</span>
+                  </a>
+                </div>
+              </div>
+            </div> */}
+            {/* Checkpoint reached popop ends  */}  
+
+             {/* Checkpoint reached popop 2 start  */}  
+             {/* <div className="cmn_modal trans_popups">
+              <ul className="stepper mt-3">
+                <li className="step active">
+                  <div className="step-ico">
+                    <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon"/>
+                  </div>
+                  <div className="step-title">
+                    Reaching Checkpoint
+                  </div>
+                </li>
+                <li className="step active">
+                  <div className="step-ico">
+                    <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon"/>
+                  </div>
+                  <div className="step-title">
+                    Checkpoint I
+                  </div>
+                </li>
+                <li className="step active">
+                  <div className="step-ico">
+                    <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon"/>
+                  </div>
+                  <div className="step-title">
+                    Withdrawing Funds
+                  </div>
+                </li>
+                <li className="step">
+                  <div className="step-ico">
+                    <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon"/>
+                  </div>
+                  <div className="step-title">
+                    Withdraw Completed
+                  </div>
+                </li>
+              </ul>
+              <div className="image_area row">
+                <div className="col-12 text-center">
+                  <img className="img-fluid" src="../../images/watch.png" />
+                </div>
+              </div>
+              <div className="mid_text row">
+                <div className="col-12 text-center"><h4>Move Funds to your account</h4></div>
+                <div className="col-12 text-center"><p>Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5</p></div>
+              </div>
+              <div className="fees_text">
+                <div className="icon_name">
+                  <img src="../../images/eth-icon.png" /><span>Estimation of GAS fee required</span>
+                </div>
+                <div className="">
+                  <p>$10.00</p>
+                </div>
+              </div>
+              <div className="pop_btns_area row form-control">
+                <div className="col-12">
+                  <a className='btn grey-btn d-flex align-items-center' href="javascript:void(0)">
+                    <img src="../../images/track-small.png" />
+                    <span>Moving funds</span>
+                  </a>
+                </div>
+              </div>
+            </div> */}
+            {/* Checkpoint reached popop 2 ends  */}  
+
+
+              {/* Checkpoint reached popop 3 start  */}  
+             {/* <div className="cmn_modal trans_popups">
+              <ul className="stepper mt-3">
+                <li className="step active">
+                  <div className="step-ico">
+                    <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon"/>
+                  </div>
+                  <div className="step-title">
+                    Reaching Checkpoint
+                  </div>
+                </li>
+                <li className="step active">
+                  <div className="step-ico">
+                    <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon"/>
+                  </div>
+                  <div className="step-title">
+                    Checkpoint I
+                  </div>
+                </li>
+                <li className="step active">
+                  <div className="step-ico">
+                    <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon"/>
+                  </div>
+                  <div className="step-title">
+                    Withdrawing Funds
+                  </div>
+                </li>
+                <li className="step active">
+                  <div className="step-ico">
+                    <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon"/>
+                  </div>
+                  <div className="step-title">
+                    Withdraw Completed
+                  </div>
+                </li>
+              </ul>
+              <div className="image_area row">
+                <div className="col-12 text-center">
+                  <img className="img-fluid" src="../../images/thumb-up-icon.png" />
+                </div>
+              </div>
+              <div className="mid_text row">
+                <div className="col-12 text-center"><h4>Move Funds to your account</h4></div>
+                <div className="col-12 text-center"><p>Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5</p></div>
+              </div>
+              <div className="fees_text">
+                <div className="icon_name">
+                  <img src="../../images/eth-icon.png" /><span>Estimation of GAS fee required</span>
+                </div>
+                <div className="">
+                  <p>$10.00</p>
+                </div>
+              </div>
+              <div className="pop_btns_area row form-control">
+                <div className="col-12">
+                  <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
+                    <span>Confirm</span>
+                  </a>
+                </div>
+              </div>
+            </div> */}
+            {/* Checkpoint reached popop 3 ends  */}   
+
           </>
         </CommonModal >
 
