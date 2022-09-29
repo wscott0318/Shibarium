@@ -21,7 +21,9 @@ export default function differentchainbridge() {
 
     const [showSlippageModal, setSlippageModal] = useState(false);
 
-    return ( 
+    const [showSwapModal, setSwapModal] = useState(true);
+
+    return (
         <>
             <main className="main-content">
                 <Sidebar handleMenuState={handleMenuState} menuState={menuState} />
@@ -240,7 +242,7 @@ export default function differentchainbridge() {
                                                 </button>
                                             </div>
                                             <div className="col-6">
-                                                <button type='button' className='btn black-btn w-100'>
+                                                <button type='button' className='btn black-btn w-100' onClick={() => setSwapModal(true)}>
                                                     Review Swap
                                                 </button>
                                             </div>
@@ -256,33 +258,92 @@ export default function differentchainbridge() {
             {/* modal code start */}
 
             <CommonModal
-          title={"Set Slippage"}
-          show={showSlippageModal}
-          setShow={setSlippageModal}
+                title={"Set Slippage"}
+                show={showSlippageModal}
+                setShow={setSlippageModal}
+            >
+                <div className='modal-body fix-vh d-flex flex-column justify-content-between mt-3'>
+                    <div className="top-area">
+                        <ul className='badges-list'>
+                            <li className='badges-lst-item'>
+                                <a href="javascript:void(0)" className="btn bage-bg d-block text-center">1 %</a>
+                            </li>
+                            <li className='badges-lst-item'>
+                                <a href="javascript:void(0)" className="btn bage-bg d-block text-center active">2 %</a>
+                            </li>
+                            <li className='badges-lst-item'>
+                                <a href="javascript:void(0)" className="btn bage-bg d-block text-center">5 %</a>
+                            </li>
+                            <li className='badges-lst-item'>
+                                <a href="javascript:void(0)" className="btn bage-bg d-block text-center">Insert custom slippage</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className='bottom-area'>
+                        <button type='button' className='btn primary-btn w-100'>Set Slippage</button>
+                    </div>
+                </div>
+            </CommonModal>
 
-        >
-            <div className='modal-body fix-vh d-flex flex-column justify-content-between mt-3'>
-                <div className="top-area">
-                    <ul className='badges-list'>
-                        <li className='badges-lst-item'>
-                            <a href="javascript:void(0)" className="btn bage-bg d-block text-center">1 %</a>
-                        </li>
-                        <li className='badges-lst-item'>
-                            <a href="javascript:void(0)" className="btn bage-bg d-block text-center active">2 %</a>
-                        </li>
-                        <li className='badges-lst-item'>
-                            <a href="javascript:void(0)" className="btn bage-bg d-block text-center">5 %</a>
-                        </li>
-                        <li className='badges-lst-item'>
-                            <a href="javascript:void(0)" className="btn bage-bg d-block text-center">Insert custom slippage</a>
-                        </li>
-                    </ul>
+            {/* modal code closed */}
+
+            {/* modal code start */}
+
+            <CommonModal
+                title={"Review Swap"}
+                show={showSwapModal}
+                setShow={setSwapModal}
+            >
+                <div className="popmodal-body">
+                    <div className="pop-block">
+                        <div className="pop-top">
+                            <div className="cnfrm_box dark-bg-800">
+                                <div className="top_overview col-12">
+                                    <span><img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></span>
+                                    <h6>1000 SHIB</h6>
+                                    <p>2000.00$</p>
+                                </div>
+                            </div>
+                            <div className="pop-grid flex-grid">
+                                <div className="text-center box-block">
+                                    <button type='button' className='btn primary-btn w-100'>ETH</button>
+                                </div>
+                                <div className="text-center box-block">
+                                    <div className="d-inline-block">
+                                        <img class="img-fluid" src="../../images/white-arrow.png" alt="" />
+                                    </div>
+                                </div>
+                                <div className="text-center box-block">
+                                    <button type='button' className='btn primary-btn w-100'>BONE</button>
+                                </div>
+                            </div>
+                            <p className='mb-0 text-center'>1 ETH = 10 SHIB</p>
+
+                        </div>
+                        <div className="pop-bottom">
+                            <div className="amt-section position-relative ps-0">
+                                <div className="coin-blk">
+                                    <p className="lite-color">Slippage tollerance</p>
+                                </div>
+                                <div>
+                                    <p className="fw-bold">2%</p>
+                                </div>
+                            </div>
+                            <div className="amt-section position-relative ps-0">
+                                <div className="coin-blk">
+                                    <p className="lite-color">Powered By</p>
+                                </div>
+                                <div>
+                                    <p className="fw-bold">X-Funds</p>
+                                </div>
+                            </div>
+                            <div className='btn-wrap'>
+                                <a className='btn grey-btn w-100' href="javascript:void(0)"><span className="spinner-border text-secondary pop-spiner"></span><span>Confirm Swap</span></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className='bottom-area'>
-                    <button type='button' className='btn primary-btn w-100'>Set Slippage</button>
-                </div>
-            </div>
-        </CommonModal>
+            </CommonModal>
 
             {/* modal code closed */}
         </>
