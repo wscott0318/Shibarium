@@ -122,18 +122,17 @@
     overflow-x: hidden;
     margin-top: 30px;
 }
-
+  
 
 .transactions_list_outr::-webkit-scrollbar {
     width: 7px;
     background-color: #0C0F17;
-    border-radius: 10px;
+    border-radius: 10px;    
 }
 
 
 .transactions_list_outr::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 2px rgba(104, 140, 240, 0.3);
-    
+    box-shadow: inset 0 0 2px rgba(104, 140, 240, 0.3);    
   }
 
 .transactions_list_outr::-webkit-scrollbar-thumb {
@@ -171,6 +170,7 @@
     padding: 0 15px;
     .icon_name{
         display: flex;
+        align-items: center;
         span{
             font-size: 16px;
             font-weight: 400;
