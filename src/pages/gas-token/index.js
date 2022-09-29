@@ -31,16 +31,12 @@ export default function Gastoken() {
                             <div className="swp-header">
                                 <div className='swp-left-col mb-3 mb-lg-4 mb-xl-5'>
                                     <h3 className=''>
-                                        Swap Tokens
+                                        Get Gas Token
                                     </h3>
+                                    <p className='grey-txt'>BONE is used to pay the transaction fee</p>
                                 </div>
                                 <div className='swp-right-col mb-3 mb-lg-4 mb-xl-5'>
-                                    <ul className='swp-icon'>
-                                        <li>
-                                            <a href="javascript:void(0)" onClick={() => setSlippageModal(true)}>
-                                                <img className='img-fluid' src="../../images/setting.png" alt="icon-img" width={25} height="25" />
-                                            </a>
-                                        </li>
+                                    <ul className='swp-icon'>                                        
                                         <li>
                                             <a href="javascript:void(0)">
                                                 <img className='img-fluid' src="../../images/faq.png" alt="icon-img" width={25} height="25" />
@@ -54,66 +50,42 @@ export default function Gastoken() {
                                     <div className="field-grid row">
                                         <div className="col-md-4">
                                             <div className="form-group">
-                                                <div className="form-field position-relative dark-input">
-                                                    <div className="coin-icon">
-                                                        <div className='coin-img'>
-                                                            <img className="img-fluid" src="../../images/eth.png" alt="" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="coin-name">
-                                                        <span className="fw-bold">ETH</span>
-                                                    </div>
-                                                    <div className="drop-row">
-                                                        <div className="arow-outer"><span className="arrow-down"></span></div>
-                                                    </div>
-                                                </div>
-                                                <label className='lite-color mt-1' htmlFor="">Balance: 10 ETH</label>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-8">
-                                            <div className="form-group">
                                                 <div className="form-field position-relative two-fld dark-input">
                                                     <div className="mid-chain w-100">
-                                                        <input className="w-100" type="text" placeholder="0.00" />
-                                                    </div>
-                                                    <div className="rt-chain">
-                                                        <span className="orange-txt fw-bold">MAX</span>
-                                                    </div>
-                                                </div>
-                                                <label htmlFor="" className='lite-color mt-1 text-end d-block'>Balance: 10 ETH</label>
+                                                        <input className="w-100" type="text" placeholder="1" />
+                                                    </div> 
+                                                </div> 
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="field-grid row">
                                         <div className="col-md-4">
                                             <div className="form-group">
-                                                <div className="form-field position-relative dark-input">
-                                                    <div className="coin-icon">
-                                                        <div className='coin-img'>
-                                                            <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="coin-name">
-                                                        <span className="fw-bold">SHIB</span>
-                                                    </div>
-                                                    <div className="drop-row">
-                                                        <div className="arow-outer"><span className="arrow-down"></span></div>
-                                                    </div>
-                                                </div>
-                                                <label htmlFor="" className='lite-color mt-1 d-block'>Balance: 0 BONE</label>
+                                                <div className="form-field position-relative two-fld dark-input">
+                                                    <div className="mid-chain w-100">
+                                                        <input className="w-100" type="text" placeholder="5" />
+                                                    </div> 
+                                                </div> 
                                             </div>
                                         </div>
-                                        <div className="col-md-8">
+                                        <div className="col-md-4">
                                             <div className="form-group">
                                                 <div className="form-field position-relative two-fld dark-input">
                                                     <div className="mid-chain w-100">
-                                                        <input className="w-100" type="text" placeholder="0.00" />
-                                                    </div>
-                                                    <div className="rt-chain">
-                                                        <span className="orange-txt fw-bold">MAX</span>
-                                                    </div>
-                                                </div>
-                                                <label htmlFor="" className='lite-color mt-1 text-end d-block'>Balance: 10 ETH</label>
+                                                        <input className="w-100" type="text" placeholder="10" />
+                                                    </div> 
+                                                </div> 
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div className="field-grid row">
+                                        
+                                        <div className="col-md-12">
+                                            <div className="form-group">
+                                                <div className="form-field dark-input">
+                                                    <div className="mid-chain w-100">
+                                                        <input className="w-100" type="text" placeholder="Insert a custom value" />
+                                                    </div> 
+                                                </div> 
                                             </div>
                                         </div>
                                     </div>
