@@ -30,7 +30,7 @@ export default function Wallet() {
   const [senderAddress, setSenderAdress] = useState('');
   const [isValidAddress, setIsValidAddress] = useState(false)
   const [sendAmount, setSendAmount] = useState('')
-  const [senderModal, setSenderModal] = useState(true)
+  const [senderModal, setSenderModal] = useState(false)
   const [verifyAmount, setVerifyAmount] = useState(false)
   const [showSendModal, setSendModal] = useState({
     step1:false,
@@ -168,7 +168,7 @@ export default function Wallet() {
                 {/* confirm send popop start */}
                {showSendModal.step2 && 
                  <div className="cmn_modal">
-                    <div className="cnfrm_box">
+                    <div className="cnfrm_box dark-bg-800">
                         <div className="top_overview col-12">
                               <span><img src="../../images/shib-borderd-icon.png"/></span>
                               <h6>{sendAmount} BONE</h6>
