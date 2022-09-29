@@ -484,3 +484,71 @@
         }
     }
 }
+// common stepper
+.stepper {
+    display: flex;
+    .step {
+        position: relative;
+        width: 25%;
+        margin: 0 auto;
+        padding-bottom: 26px;
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            width: 100%;
+            background:$grey-color;
+            height: 2px;
+            top: calc(50% - 25px);
+            transform: translateY(calc(-50% + 13px));
+        }
+        &:first-child{
+            .step-ico {
+                margin-left: 0;
+            }
+            .step-title {
+                text-align: left;
+            }
+        }
+        &:last-child{
+            .step-ico {
+                margin-right:0;
+            }
+            .step-title {
+                text-align: right;
+            } 
+        }
+        &.active{
+            &::before{
+                background-color: $primary
+            }
+            .step-ico {
+                border-color:$primary;
+                background-color: $primary;
+            }
+        }
+        .step-ico {
+            max-width: 25px;
+            height: 25px;
+            border-radius: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid $grey-color;
+            background-color: $body-bg-800;
+            padding: 2px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .step-title {
+            font-size: 10px;
+            font-weight: 600;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+    }
+}

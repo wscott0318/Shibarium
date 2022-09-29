@@ -21,7 +21,7 @@ export default function differentchainbridge() {
 
     const [showSlippageModal, setSlippageModal] = useState(false);
 
-    return (
+    return ( 
         <>
             <main className="main-content">
                 <Sidebar handleMenuState={handleMenuState} menuState={menuState} />
