@@ -30,7 +30,7 @@ export default function Wallet() {
   const [senderAddress, setSenderAdress] = useState('');
   const [isValidAddress, setIsValidAddress] = useState(false)
   const [sendAmount, setSendAmount] = useState('')
-  const [senderModal, setSenderModal] = useState(true)
+  const [senderModal, setSenderModal] = useState(false)
   const [verifyAmount, setVerifyAmount] = useState(false)
   const [showSendModal, setSendModal] = useState({
     step1:false,
