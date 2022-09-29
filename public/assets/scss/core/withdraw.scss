@@ -212,10 +212,11 @@
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    height: 400px;
+    height:420;
 }
+
 .popmodal-body {
-    min-height: 400px;
+    min-height: 420px;
 }
 .pop-spiner{
     vertical-align: middle;
@@ -347,15 +348,32 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
+    &:last-child{
+        margin-bottom: 0;
+    }
 }
 .left-side{
     width: 60%;
 }
 .right-side{
-    width: 30%;
+    width: 40%;
+    text-align: right;
 }
-// .two-col {
-//     display: flex;
-//     align-items: center;
-// }
+.row-wrap {
+    min-height: 130px;
+    overflow-y: auto;
+}
+.two-col{
+    .text-block {
+        margin-bottom: 15px;
+    }
+}
+
+.row-wrap {
+    height: 210px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-bottom: 10px;
+}
+
 /** Popup style end **/
