@@ -560,7 +560,7 @@ export default function Withdraw() {
                 {/* Manage token popop ends */}
 
                  {/* Add token popop starts */}
-                 <div className="popmodal-body tokn-popup">
+                 {/* <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -585,13 +585,57 @@ export default function Withdraw() {
                           <p>Custom token not found Add your first custom token</p>
                         </div>
                     </div>
+                  </div>
+                </div> */}
+                {/* Add token popop ends */}
+
+                {/* search popop starts */}
+                 <div className="popmodal-body tokn-popup">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                    <div className="black-bg-sec">
+                      <div className="token-btn-sec pop-btns-grid"> 
+                        <div className="blk-width">
+                          <button type="button" className="btn btn-active w-100">Token Lists</button>
+                        </div>
+                        <div className="blk-width">
+                          <button type="button" className="btn w-100">Add token</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="sec-search sec-search-secondry">
+                      <div className="position-relative search-row">
+                        <input type="text" className="w-100" placeholder="Enter Token Address" />
+                        <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
+                      </div>
+                    </div>
+                    </div>
+                    <div className="h-100">
+                        <div className="two-col position-relative">
+                          <div className="left-sec-img">
+                            <div><img  class="img-fluid" src="../../images/alert.png" alt="" /></div>
+                          </div>
+                          <p className="text-block">Anyone can create a token, including creating FAKE version of existing tokens. Interact with any new token carefully.</p>
+                        </div>
+                        <div className="box-wrap">
+                          <div className="crypto-info">
+                            <div className="left-side data">
+                              <p className="lite-color">Token Address on Ethereum</p>
+                            </div>
+                            <div className="right-side data">
+                              <p>0x95ad6...4c4ce</p>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
                     <div className="pop-bottom">
                       <div className="" >
+                        <a className='btn primary-btn w-100' href="javascript:void(0)">Add Token</a>
                        </div>
-                    </div>
+                    </div>  
                   </div>
                 </div>
-                {/* Add token popop ends */}
+                {/* Search popop ends */}
 
                 
 

@@ -212,10 +212,10 @@
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    height: 580px;
+    height: 400px;
 }
 .popmodal-body {
-    min-height: 580px;
+    min-height: 400px;
 }
 .pop-spiner{
     vertical-align: middle;
@@ -267,7 +267,7 @@
 .token-listwrap {
     position: relative;
     margin-top: 20px;
-    height: 435px;
+    height: 225px;
     overflow-y: auto;
 }
 .tkn-grid {
@@ -314,17 +314,48 @@
     -ms-border-radius: 10px;
     -moz-border-radius: 10px;
 }
-.sec-search-secondry{
-    .search-icon{
-        display: none;
-    }
-    input{
-        padding-left: 15px;
-    }
-}
+// .sec-search-secondry{
+//     .search-icon{
+//         display: none;
+//     }
+//     input{
+//         padding-left: 15px;
+//     }
+// }
 .sec-search.sec-search-secondry {
     margin-bottom: 15px;
     border-bottom: 1px solid $lite-grey-secondry;
     padding-bottom: 10px;
 }
+.pop-mid{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.left-sec-img {
+    position: absolute;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+}
+.text-block {
+    padding-left: 65px;
+}
+.crypto-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+.left-side{
+    width: 60%;
+}
+.right-side{
+    width: 30%;
+}
+// .two-col {
+//     display: flex;
+//     align-items: center;
+// }
 /** Popup style end **/
