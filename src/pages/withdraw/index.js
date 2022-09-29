@@ -26,7 +26,9 @@ import { useMoralis } from "react-moralis";
 
 export default function Withdraw() {
   const [menuState, setMenuState] = useState(false);
-  const [showSendModal, setSendModal] = useState(false);
+  const [showDepositModal, setDepositModal] = useState(false);
+  const [showWithdrawModal, setWithdrawModal] = useState(false);
+  const [showTokenModal, setTokenModal] = useState(false);
  
   const handleMenuState = () => {
     setMenuState(false)
@@ -36,90 +38,17 @@ export default function Withdraw() {
          <main className="main-content">
           <Sidebar handleMenuState={handleMenuState} menuState={menuState}/>
           <CommonModal
-          title={"Transferring funds"}
-          show={showSendModal}
-          setShow={setSendModal}
+          title={"Deposit"}
+          show={showDepositModal}
+          setShow={setDepositModal}
           
           >
-          {/* step 1 */}
+          {/* Deposit popups start */}
           <>
-            {/* transferring funds popop start */}
-                
-                {/* <div className="cmn_modal">
-                    <p>Sending funds to exchanges:</p>
-                    <div className="exchng_msg_box">
-                        <p>Exchanges supported from Shibarium network</p>
-                        <p className="sprdt_txt">Supported Excanges</p>
-                    </div>
-                    <p className="alert_msg"><img src="../../images/i-info-icon.png"/> Sending funds to unsupported exchanges will lead to permanent loss of funds.</p>
-                    <div className="pop_btns_area row">
-                          <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Cancel</a>  </div>
-                          <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Continue</a>  </div>
-                    </div>
-                    <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
-                </div> */}
+            
 
-             {/* transferring funds popop ends */}
-
-             {/* send popop start */}
-                {/*<div className="cmn_modal">
-                     <h4 className="pop_main_h text-center">Send</h4> 
-                     <form>
-                        <div class="form-group">                        
-                          <input type="text" class="form-control cmn_inpt_fld"  placeholder="Reciver address"/>
-                        </div>
-                        <div class="form-group">  
-                          <label>Enter a valid reciver address on Shibarium Mainnet</label>                      
-                          <input type="text" class="form-control cmn_inpt_fld"  placeholder="0.00"/>
-                          <p className="inpt_fld_hlpr_txt">
-                            <span>0.00$</span>
-                            <b>Available balance: 0.00 SHIB</b>
-                          </p>
-                        </div>
-                        <div className="pop_btns_area mr-top-50 row">
-                            <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
-                            <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
-                        </div>
-                        
-                     </form>
-                     <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
-                </div>*/}
-                {/* send popop ends */}
-
-                {/* confirm send popop start */}
-                {/* <div className="cmn_modal">
-                    <div className="cnfrm_box">
-                        <div className="top_overview col-12">
-                              <span><img src="../../images/shib-borderd-icon.png"/></span>
-                              <h6>1100.00 SHIB</h6>
-                              <p>500.00$</p>
-                        </div>
-                        <div className="add_detail col-12">
-                            <p><b>RECEIVER:</b></p>
-                            <p>0x5c932BBe4485C24E1a779872362e990dEdf0D208</p>
-                        </div>
-                    </div>
-                    <div className="cnfrm_check_box">
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-                          <label class="form-check-label" for="flexCheckChecked">
-                            I’m not sending funds to an <a href="#">unsupported excange</a> or incorrect address
-                          </label>
-                        </div>
-                        
-                       
-                    </div>
-                      <div className="pop_btns_area row">
-                          <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
-                          <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
-                      </div>
-                         
-                      <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
-                </div> */}
-                {/* confirm send popop ends */}
-
-                {/* confirm deposit popop starts */}
-                {/* <div className="popmodal-body">
+              {/* confirm deposit popop starts */}
+                <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box">
@@ -158,7 +87,7 @@ export default function Withdraw() {
                           </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
                 {/* confirm deposit popop ends */}
 
                 {/* Transaction pending popup start */}
@@ -236,8 +165,23 @@ export default function Withdraw() {
                 </div> */}
                 {/* Transaction completed popup end */}
 
-                {/* Initialize withdraw popup start */}
-                {/* <div className="popmodal-body">
+                
+
+          </>
+          {/* Deposit popups end */}
+          </CommonModal>
+          <CommonModal
+          title={"Withdraw"}
+          show={showWithdrawModal}
+          setShow={setWithdrawModal}
+          
+          >
+          {/* Withdraw tab popups start */}
+          <>
+            
+
+              {/* Initialize withdraw popup start */}
+                <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box">
@@ -280,7 +224,7 @@ export default function Withdraw() {
                         </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
 
                 {/* Initialize withdraw popup end */}
 
@@ -412,7 +356,7 @@ export default function Withdraw() {
                 {/* Complete withdraw popup end */}
 
                 {/* withdraw complete popup start */}
-                 <div className="popmodal-body">
+                 {/* <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box">
@@ -436,11 +380,223 @@ export default function Withdraw() {
                         </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* withdraw complete popup start */}
 
           </>
-          {/* step 1 end */}
+          {/* Withdraw tab popups end */}
+          </CommonModal>
+          <CommonModal
+          title={"Select token"}
+          show={showTokenModal}
+          setShow={setTokenModal}
+          
+          >
+          {/* Token popups start */}
+          <>
+            
+
+              {/* Select token popop starts */}
+                {/* <div className="popmodal-body tokn-popup">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                    <div className="sec-search">
+                      <div className="position-relative search-row">
+                        <input type="text" className="w-100" placeholder="Search token or token address" />
+                        <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
+                      </div>
+                    </div>
+                    <div className="token-sec">
+                      <div className="info-grid">
+                        <div>
+                          <p>Token List</p>
+                        </div>
+                        <div className="token-btn-sec">
+                          <button type="button" className="btn primary-btn w-100">Manage Tokens</button>
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                    <div className="pop-bottom">
+                      <div className="token-listwrap">
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">SHIB</h6>
+                              <p>Shibatoken</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img class="img-fluid" src="../../images/red-bone.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">BONE</h6>
+                              <p>Bone Token</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> */}
+                {/* Select token popop ends */}
+
+
+                {/* Manage token popop starts */}
+                {/* <div className="popmodal-body tokn-popup">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                    <div className="black-bg-sec">
+                      <div className="token-btn-sec pop-btns-grid"> 
+                        <div className="blk-width">
+                          <button type="button" className="btn btn-active w-100">Token Lists</button>
+                        </div>
+                        <div className="blk-width">
+                          <button type="button" className="btn w-100">Add token</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="sec-search sec-search-secondry">
+                      <div className="position-relative search-row">
+                        <input type="text" className="w-100" placeholder="Add list by https://" />
+                        <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
+                      </div>
+                    </div>
+                    </div>
+                    <div className="pop-bottom">
+                      <div className="">
+                        <div className="token-listwrap">
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <h6 className="fw-bold">
+                                  <label class="toggle">
+                                    <input type="checkbox" />
+                                    <span class="slider"></span>
+                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                  </label>
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/red-bone.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">BONE</h6>
+                                <p>Bone Token</p>
+                              </div>
+                              <div>
+                                <h6 className="fw-bold">
+                                  <label class="toggle">
+                                    <input type="checkbox" />
+                                    <span class="slider"></span>
+                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                  </label>
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">ETH</h6>
+                                <p>Ethereum</p>
+                              </div>
+                              <div>
+                                <h6 className="fw-bold">
+                                  <label class="toggle">
+                                    <input type="checkbox" />
+                                    <span class="slider"></span>
+                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                  </label>
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> */}
+                {/* Manage token popop ends */}
+
+                 {/* Add token popop starts */}
+                 <div className="popmodal-body tokn-popup">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                    <div className="black-bg-sec">
+                      <div className="token-btn-sec pop-btns-grid"> 
+                        <div className="blk-width">
+                          <button type="button" className="btn btn-active w-100">Token Lists</button>
+                        </div>
+                        <div className="blk-width">
+                          <button type="button" className="btn w-100">Add token</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="sec-search sec-search-secondry">
+                      <div className="position-relative search-row">
+                        <input type="text" className="w-100" placeholder="Enter Token Address" />
+                        <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
+                      </div>
+                    </div>
+                    </div>
+                    <div className="pop-mid">
+                        <div className="center-content">
+                          <p>Custom token not found Add your first custom token</p>
+                        </div>
+                    </div>
+                    <div className="pop-bottom">
+                      <div className="" >
+                       </div>
+                    </div>
+                  </div>
+                </div>
+                {/* Add token popop ends */}
+
+                
+
+          </>
+          {/* Token popups end */}
           </CommonModal>
             <section className="assets-section">
               <div className="cmn_dashbord_main_outr">
@@ -638,7 +794,7 @@ export default function Withdraw() {
                                         </div>
                                         <div className="field-grid row">
                                           <div className="col-md-4">
-                                            <div className="form-field position-relative">
+                                            <div className="form-field position-relative" onClick={() => setTokenModal(true)}>
                                               <div className="">
                                                 <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
                                               </div>
@@ -682,7 +838,7 @@ export default function Withdraw() {
                                     </div>
                                     <div className="wrap-bottom">
                                       <div className="btn-modify">
-                                        <button onClick={() => setSendModal(true)} type="button" className="btn primary-btn w-100">Transfer</button>
+                                        <button onClick={() => setDepositModal(true)} type="button" className="btn primary-btn w-100">Transfer</button>
                                       </div>
                                     </div>
                                   </div>
