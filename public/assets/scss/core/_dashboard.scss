@@ -13,6 +13,7 @@
     border-radius: 40px;
     padding: 20px;
     width: calc(100% - 275px);
+    min-height: calc(100vh - 64px);
     @media #{$max-lg}{
         width:calc(100% - 30px);
         margin-left: auto;

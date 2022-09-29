@@ -31,6 +31,9 @@
     &:hover{
         color: $white;
     }
+    @media #{$max-xl}{
+        font-size: 14px;
+    }
 }
 
 .inner-header{

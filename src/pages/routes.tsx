@@ -13,7 +13,7 @@ const ComponentRouters=({Component, pageProps}:any)=> {
     const {user} = useMoralis();
     const router = useRouter();
     const orientation = useScreenOrientation()
-    // console.log(orientation,isMobile,isDesktop);
+    console.log(router.asPath);
   return (
       <RouteGuard user={user}>
          {router.asPath === "/home" || router.asPath ===  '/bone-staking' ? <Header /> : ""}

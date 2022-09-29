@@ -304,6 +304,14 @@ ul {
         color:rgba($white, 0.89);
     }
 }
+.black-btn{
+    background-color: $body-bg-800;
+    color: rgba($white, 0.89);
+    &:hover{
+        background:$primary-gradient;
+        color:rgba($white, 0.89);
+    }
+}
 
 .blue-btn{
     background-color:$body-bg;
@@ -334,6 +342,7 @@ ul {
     }
     .table td span{
         padding-right: 15px;
+        vertical-align: middle;
     }
     .table td a{
         text-decoration: none;
@@ -406,7 +415,8 @@ ul {
 }
 .shib-popup{
     .modal-content{
-        background-color: $body-bg-800;
+        // background-color: $body-bg-800;
+        background-color:$body-bg;
         border-radius: 40px;
         padding: 40px 20px;
         @media #{$max-xxl}{
@@ -451,5 +461,11 @@ ul {
 .btn-sm {
     padding: 5px 10px;
     border-radius: 5px;
+    font-size: 16px;
+}
+input{
+    color: $body-bg;
+}
+label{
     font-size: 16px;
 }

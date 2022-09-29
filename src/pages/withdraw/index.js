@@ -1,12 +1,701 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react'
-import Header from '../layout/header'
-import { Container, Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
-import Sidebar from '../layout/sidebar';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @next/next/no-img-element */
+import React, { useState, useEffect, useContext } from "react";
+
+import { Button, Container, Nav, Navbar, NavDropdown,Dropdown ,Modal} from 'react-bootstrap';
+
+import { useRouter } from "next/dist/client/router";
+import Popup from "../components/PopUp";
+// import { useWeb3React } from '@web3-react/core'
+// import { Web3Provider } from '@ethersproject/providers'
+// import  ProjectContext  from "../../context/ProjectContext";
+// import { useAccount } from "../../../hooks/web3hooks";
+// import { walletConnector } from "../../utils/connectors";
+// import Web3 from "web3";
+import  CommonModal from "../components/CommonModel";
+import Link from 'next/link'
+import {
+  NoEthereumProviderError,
+  UserRejectedRequestError as UserRejectedRequestErrorInjected
+} from '@web3-react/injected-connector'
+import Sidebar  from "../layout/sidebar"
+import Web3Status from "app/components/Web3Status";
+import { useActiveWeb3React } from "app/services/web3";
+import { useMoralis } from "react-moralis";
+
 export default function Withdraw() {
+  const [menuState, setMenuState] = useState(false);
+  const [showSendModal, setSendModal] = useState(false);
+ 
+  const handleMenuState = () => {
+    setMenuState(false)
+  }
   return (
     <>
-        <h1>withdarw index.js</h1>
+         <main className="main-content">
+          <Sidebar handleMenuState={handleMenuState} menuState={menuState}/>
+          <CommonModal
+          title={"Transferring funds"}
+          show={showSendModal}
+          setShow={setSendModal}
+          
+          >
+          {/* step 1 */}
+          <>
+            {/* transferring funds popop start */}
+                
+                {/* <div className="cmn_modal">
+                    <p>Sending funds to exchanges:</p>
+                    <div className="exchng_msg_box">
+                        <p>Exchanges supported from Shibarium network</p>
+                        <p className="sprdt_txt">Supported Excanges</p>
+                    </div>
+                    <p className="alert_msg"><img src="../../images/i-info-icon.png"/> Sending funds to unsupported exchanges will lead to permanent loss of funds.</p>
+                    <div className="pop_btns_area row">
+                          <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Cancel</a>  </div>
+                          <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Continue</a>  </div>
+                    </div>
+                    <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
+                </div> */}
+
+             {/* transferring funds popop ends */}
+
+             {/* send popop start */}
+                {/*<div className="cmn_modal">
+                     <h4 className="pop_main_h text-center">Send</h4> 
+                     <form>
+                        <div class="form-group">                        
+                          <input type="text" class="form-control cmn_inpt_fld"  placeholder="Reciver address"/>
+                        </div>
+                        <div class="form-group">  
+                          <label>Enter a valid reciver address on Shibarium Mainnet</label>                      
+                          <input type="text" class="form-control cmn_inpt_fld"  placeholder="0.00"/>
+                          <p className="inpt_fld_hlpr_txt">
+                            <span>0.00$</span>
+                            <b>Available balance: 0.00 SHIB</b>
+                          </p>
+                        </div>
+                        <div className="pop_btns_area mr-top-50 row">
+                            <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
+                            <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
+                        </div>
+                        
+                     </form>
+                     <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
+                </div>*/}
+                {/* send popop ends */}
+
+                {/* confirm send popop start */}
+                {/* <div className="cmn_modal">
+                    <div className="cnfrm_box">
+                        <div className="top_overview col-12">
+                              <span><img src="../../images/shib-borderd-icon.png"/></span>
+                              <h6>1100.00 SHIB</h6>
+                              <p>500.00$</p>
+                        </div>
+                        <div className="add_detail col-12">
+                            <p><b>RECEIVER:</b></p>
+                            <p>0x5c932BBe4485C24E1a779872362e990dEdf0D208</p>
+                        </div>
+                    </div>
+                    <div className="cnfrm_check_box">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                          <label class="form-check-label" for="flexCheckChecked">
+                            I’m not sending funds to an <a href="#">unsupported excange</a> or incorrect address
+                          </label>
+                        </div>
+                        
+                       
+                    </div>
+                      <div className="pop_btns_area row">
+                          <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
+                          <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
+                      </div>
+                         
+                      <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
+                </div> */}
+                {/* confirm send popop ends */}
+
+                {/* confirm deposit popop starts */}
+                {/* <div className="popmodal-body">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                      <div className="cnfrm_box">
+                          <div className="top_overview col-12">
+                                <span><img class="img-fluid" src="../../images/etharium.png" alt="" /></span>
+                                <h6>100 ETH</h6>
+                                <p>500.00$</p>
+                          </div>
+                      </div>
+                      <div className="pop-grid">
+                        <div className="text-center box-block">
+                          <div className="d-inline-block"><img class="img-fluid" src="../../images/etharium.png" alt="" /></div>
+                          <p>ETHEREUM MAINNET</p>
+                        </div>
+                        <div className="text-center box-block">
+                          <div className="d-inline-block"><img class="img-fluid" src="../../images/white-arrow.png" alt="" /></div>
+                        </div>
+                        <div className="text-center box-block">
+                          <div className="d-inline-block"><img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></div>
+                          <p>SHIBARIUM MAINNET</p>
+                        </div>
+                      </div>
+                      <div className="amt-section position-relative">
+                        <div className="coin-blk">
+                          <div className="coin-sec"><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
+                          <p>Estimation of GAS fee required</p>
+                        </div>
+                        <div>
+                          <p className="fw-bold">$10.00</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="pop-bottom">
+                      <div>
+                            <a className='btn primary-btn w-100' href="javascript:void(0)">Continue</a>
+                          </div>
+                    </div>
+                  </div>
+                </div> */}
+                {/* confirm deposit popop ends */}
+
+                {/* Transaction pending popup start */}
+                {/* <div className="popmodal-body">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                      <div className="cnfrm_box">
+                          <div className="top_overview col-12">
+                                <span><img class="img-fluid" src="../../images/etharium.png" alt="" /></span>
+                                <h6>100 ETH</h6>
+                                <p>500.00$</p>
+                          </div>
+                      </div>
+                      <div className="pop-grid">
+                        <div className="text-center box-block">
+                          <div className="d-inline-block"><img class="img-fluid" src="../../images/etharium.png" alt="" /></div>
+                          <p>ETHEREUM MAINNET</p>
+                        </div>
+                        <div className="text-center box-block">
+                          <div className="d-inline-block"><img class="img-fluid" src="../../images/white-arrow.png" alt="" /></div>
+                        </div>
+                        <div className="text-center box-block">
+                          <div className="d-inline-block"><img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></div>
+                          <p>SHIBARIUM MAINNET</p>
+                        </div>
+                      </div>
+                      <div className="amt-section position-relative">
+                        <div className="coin-blk">
+                          <div className="coin-sec"><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
+                          <p>Estimation of GAS fee required</p>
+                        </div>
+                        <div>
+                          <p className="fw-bold">$10.00</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="pop-bottom">
+                        <div className="text-section">
+                          <h4 className="pop-hd-md">Moving funds</h4>
+                          <p>It will take up to 10 - 15 minutes to move the funds on Shibarium Mainnet</p>
+                        </div>
+                        <div>
+                          <a className='btn grey-btn w-100' href="javascript:void(0)"><span className="spinner-border text-secondary pop-spiner"></span><span>Continue</span></a>
+                        </div>
+                    </div>
+                  </div>
+                </div> */}
+                {/* Transaction pending popup end */}
+
+                {/* Transaction completed popup start */}
+                {/* <div className="popmodal-body">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                      <div className="cnfrm_box">
+                          <div className="top_overview col-12">
+                                <span><img class="img-fluid" src="../../images/etharium.png" alt="" /></span>
+                                <h6>100 ETH</h6>
+                                <p>500.00$</p>
+                          </div>
+                      </div>
+                      <div className="pop-action">
+                        <a className='btn primary-btn w-100 w-100' href="javascript:void(0)">SHIBARIUM MAINNET</a>
+                      </div>
+                    </div>
+                    <div className="pop-bottom">
+                        <div className="text-section">
+                          <h4 className="pop-hd-md">Transaction Completed</h4>
+                          <p>Transaction completed succesfully.</p>
+                        </div>
+                        <div>
+                          <a className='btn primary-btn w-100' href="javascript:void(0)">View on Shibascan</a>
+                        </div>
+                    </div>
+                  </div>
+                </div> */}
+                {/* Transaction completed popup end */}
+
+                {/* Initialize withdraw popup start */}
+                {/* <div className="popmodal-body">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                      <div className="cnfrm_box">
+                          <div className="top_overview col-12">
+                                <span><img class="img-fluid" src="../../images/red-bone.png" alt="" /></span>
+                                <h6>100 BONE</h6>
+                                <p>500.00$</p>
+                          </div>
+                      </div>
+                      <div className="pop-grid">
+                        <div className="text-center box-block">
+                          <div className="d-inline-block"><img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></div>
+                          <p>SHIBARIUM MAINNET</p>
+                        </div>
+                        <div className="text-center box-block">
+                          <div className="d-inline-block"><img class="img-fluid" src="../../images/white-arrow.png" alt="" /></div>
+                        </div>
+                        <div className="text-center box-block">
+                          <div className="d-inline-block"><img class="img-fluid" src="../../images/etharium.png" alt="" /></div>
+                          <p>ETHERIUM MAINNET</p>
+                        </div>
+                      </div>
+                      <div className="amt-section position-relative">
+                        <div className="coin-blk">
+                          <div className="coin-sec"><img width="24" height="24" className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></div>
+                          <p>Estimation of GAS fee required</p>
+                        </div>
+                        <div>
+                          <p className="fw-bold">$10.00</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="pop-bottom">
+                      <div className="text-section">
+                        <h4 className="pop-hd-md">Initialize Whitdraw</h4>
+                        <p>It will take up to 60 mins to 3 hours to reach the checkpoint. </p>
+                      </div>
+                      <div>
+                          <a className='btn primary-btn w-100' href="javascript:void(0)">Continue</a>
+                        </div>
+                    </div>
+                  </div>
+                </div> */}
+
+                {/* Initialize withdraw popup end */}
+
+                {/* Reaching checkpoint popup start */}
+                {/* <div className="popmodal-body">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                      <div className="cnfrm_box">
+                          <div className="top_overview col-12">
+                                <span><img class="img-fluid" src="../../images/red-bone.png" alt="" /></span>
+                                <h6>100 BONE</h6>
+                                <p>500.00$</p>
+                          </div>
+                      </div>
+                      <div className="pop-grid">
+                        <div className="text-center box-block">
+                          <div className="d-inline-block"><img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></div>
+                          <p>SHIBARIUM MAINNET</p>
+                        </div>
+                        <div className="text-center box-block">
+                          <div className="d-inline-block"><img class="img-fluid" src="../../images/white-arrow.png" alt="" /></div>
+                        </div>
+                        <div className="text-center box-block">
+                          <div className="d-inline-block"><img class="img-fluid" src="../../images/etharium.png" alt="" /></div>
+                          <p>ETHEREUM MAINNET</p>
+                        </div>
+                      </div>
+                      <div className="amt-section position-relative">
+                        <div className="coin-blk">
+                          <div className="coin-sec"><img width="24" height="24" className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></div>
+                          <p>Estimation of GAS fee required</p>
+                        </div>
+                        <div>
+                          <p className="fw-bold">$20.00</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="pop-bottom">
+                      <div className="text-section">
+                        <h4 className="pop-hd-md">Moving funds to Ethereum</h4>
+                        <p>It will take up to 60 mins to 3 hours to reach the checkpoint I.</p>
+                      </div>
+                      <div>
+                          <a className='btn grey-btn w-100' href="javascript:void(0)">
+                            <span className="spinner-border text-secondary pop-spiner"></span><span>Moving funds</span>
+                          </a>
+                        </div>
+                    </div>
+                  </div>
+                </div> */}
+                {/* Reaching checkpoint  popup end */}
+
+
+                {/* checkpoint Reached popup start */}
+                  {/* <div className="popmodal-body">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                      <div className="cnfrm_box">
+                          <div className="top_overview col-12">
+                                <span><img class="img-fluid" src="../../images/red-bone.png" alt="" /></span>
+                                <h6>100 SHIB</h6>
+                                <p>500.00$</p>
+                          </div>
+                      </div>
+                      <div className="pop-action">
+                        <a className='btn primary-btn w-100 w-100' href="javascript:void(0)">ETHEREUM MAINNET</a>
+                      </div>
+                    </div>
+                    <div className="pop-bottom">
+                        <div className="text-section">
+                          <h4 className="pop-hd-md">Complete Withdraw</h4>
+                          <p>You need to confirm one more transaction to get your funds in your Ethereum Account.</p>
+                        </div>
+                        <div>
+                          <a className='btn primary-btn w-100' href="javascript:void(0)">Confirm</a>
+                        </div>
+                    </div>
+                  </div>
+                </div> */}
+                {/* checkpoint Reached popup end */}
+
+                {/* Complete withdraw popup start */}
+                {/* <div className="popmodal-body">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                      <div className="cnfrm_box">
+                          <div className="top_overview col-12">
+                                <span><img class="img-fluid" src="../../images/red-bone.png" alt="" /></span>
+                                <h6>100 ETH</h6>
+                                <p>500.00$</p>
+                          </div>
+                      </div>
+                      <div className="pop-grid">
+                        <div className="text-center box-block">
+                          <div className="d-inline-block"><img class="img-fluid" src="../../images/etharium.png" alt="" /></div>
+                          <p>ETHEREUM MAINNET</p>
+                        </div>
+                        <div className="text-center box-block">
+                          <div className="d-inline-block"><img class="img-fluid" src="../../images/white-arrow.png" alt="" /></div>
+                        </div>
+                        <div className="text-center box-block">
+                          <div className="d-inline-block"><img class="img-fluid" src="../../images/etharium.png" alt="" /></div>
+                          <p>WALLET X25654a5</p>
+                        </div>
+                      </div>
+                      <div className="amt-section position-relative">
+                        <div className="coin-blk">
+                          <div className="coin-sec"><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
+                          <p>Estimation of GAS fee required</p>
+                        </div>
+                        <div>
+                          <p className="fw-bold">$20.00</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="pop-bottom">
+                      <div className="text-section">
+                          <h4 className="pop-hd-md">Withdrawing funds</h4>
+                          <p>Moving funds to your Ethereum Account</p>
+                      </div>
+                      <div>
+                        <a className='btn grey-btn w-100' href="javascript:void(0)">
+                          <span className="spinner-border text-secondary pop-spiner"></span><span>Moving funds</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div> */}
+                {/* Complete withdraw popup end */}
+
+                {/* withdraw complete popup start */}
+                 <div className="popmodal-body">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                      <div className="cnfrm_box">
+                          <div className="top_overview col-12">
+                                <span><img class="img-fluid" src="../../images/red-bone.png" alt="" /></span>
+                                <h6>100 SHIB</h6>
+                                <p>500.00$</p>
+                          </div>
+                      </div>
+                      <div className="pop-action">
+                        <a className='btn primary-btn w-100 w-100' href="javascript:void(0)">TRANSFER COMPLETE</a>
+                      </div>
+                    </div>
+                    <div className="pop-bottom">
+                        <div className="text-section">
+                          <h4 className="pop-hd-md">Transaction Completed</h4>
+                          <p>Transaction completed succesfully. Your Ethereum wallet Balance will be updated in few minute. In case of problems contact our Support</p>
+                        </div>
+                        <div>
+                          <a className='btn primary-btn w-100' href="javascript:void(0)">View on Shibascan</a>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                {/* withdraw complete popup start */}
+
+          </>
+          {/* step 1 end */}
+          </CommonModal>
+            <section className="assets-section">
+              <div className="cmn_dashbord_main_outr">
+                  <div className="inner-header">
+                  <Navbar className='py-0'>
+                    <Container>
+                      <Navbar.Brand onClick={() => setMenuState(true)} className="menu-btn">
+                        <img className="img-fluid" src="../../images/menu.svg" alt="" />
+                      </Navbar.Brand>
+                      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                      <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="ms-auto">
+                            <Dropdown className="d-flex align-items-center cus-dd mob-drop">
+                            <div className="" id="basic-nav-dropdown">
+                              <img src="../../images/menu-icon.png" alt="" />
+                            </div>
+                            <NavDropdown className="me-3" title="App">
+                              <div className="drop-head">
+                                <div className="head-brand">
+                                  <img src="../../images/Shib-Logo.png" alt="" />
+                                </div>
+                                <div className="head-txt">
+                                  <div className="top-txt">
+                                    <div>
+                                      <span>Account 0xe78</span>
+                                    </div>
+                                    <div>
+                                      <span className="grey-txt">Shibarium Mainnet</span>
+                                    </div>
+                                  </div>
+                                  <div className="botom-txt">
+                                    <div className="code-txt">
+                                      <span className="key">0xe7832a34576B9A23b98B7cE8ef83B1a8D9D229f0</span>
+                                    </div>
+                                    <div className="copy-blk">
+                                      <a href="javascript:void(0);" title="Copy"><img src="../../images/copy.png" alt="" /></a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <NavDropdown.Item href="#action/3.1">
+                                <div className="custum-row">
+                                  <div className="lft-img">
+                                    <img src="../../images/recive-icon.png" alt="" />
+                                  </div>
+                                  <div className="center-txt">
+                                    <span>Recive Funds</span>
+                                  </div>
+                                  <div className="rt-image">
+                                    <img src="../../images/rt-arow.png" alt="" />  
+                                  </div>
+                                </div>
+                              </NavDropdown.Item>
+                              <NavDropdown.Item href="#action/3.2">
+                                <div className="custum-row">
+                                  <div className="lft-img">
+                                    <img src="../../images/graph.png" alt="" />
+                                  </div>
+                                  <div className="center-txt">
+                                    <span>View on Etherscan</span>
+                                  </div>
+                                  <div className="rt-image">
+                                    <img src="../../images/rt-arow.png" alt="" />  
+                                  </div>
+                                </div>
+                              </NavDropdown.Item>
+                              <NavDropdown.Item href="#action/3.3">
+                                <div className="custum-row">
+                                  <div className="lft-img">
+                                    <img src="../../images/graph.png" alt="" />
+                                  </div>
+                                  <div className="center-txt">
+                                    <span>View on Shibariumscan</span>
+                                  </div>
+                                  <div className="rt-image">
+                                    <img src="../../images/rt-arow.png" alt="" />  
+                                  </div>
+                                </div>
+                              </NavDropdown.Item>
+                              <NavDropdown.Item href="#action/3.3">
+                                <div className="custum-row pb-0">
+                                  <div className="lft-img ps-2">
+                                    <img src="../../images/back.png" alt="" />
+                                  </div>
+                                  <div className="center-txt">
+                                    <span>Logout</span>
+                                  </div>
+                                  <div className="rt-image">
+                                    <img src="../../images/rt-arow.png" alt="" />  
+                                  </div>
+                                </div>
+                              </NavDropdown.Item>
+                              {/* <NavDropdown.Divider />
+                              <NavDropdown.Item href="#action/3.4">
+                                Separated link
+                              </NavDropdown.Item> */}
+                            </NavDropdown>
+                            </Dropdown>
+                          
+                          <Nav.Item>
+                            <Link href={'javascript:void(0)'}>
+                              <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
+                                <img className="img-fluid me-2" src="../../images/meta-icon.png" alt="meta-img"/>
+                                <span>0x21A...48A5</span>
+                              </a>
+                            </Link>
+                          </Nav.Item>
+                          <Nav.Item>
+                            <Web3Status/>
+                          </Nav.Item>
+                        </Nav>
+                      </Navbar.Collapse>
+                    </Container>
+                  </Navbar>
+                  </div>
+                  {/* withdraw main section start */}
+                  <div className="box-wrap">
+                    {/* Left section start */}
+                    <div className="left-box">
+                      <div className="block-card">
+                        <div className="box-top">
+                          <h1 className="heading-main">Shibarium Bridge</h1>
+                          <div className="txt-row">
+                             <div className="row-hd">Transfer Overview:</div>
+                             <p className="row-description">The deposit process consists of a single transaction.</p>   
+                          </div>
+                          <div className="txt-row">
+                             <div className="row-hd">Transfer Time:</div>
+                             <p className="row-description">Moving your funds from Ethereum to Polygon take up to 10 - 15 Minutes.</p>   
+                          </div>
+                          <div className="txt-row">
+                             <div className="row-hd">
+                                <span className="icon-image">
+                                  <img className="img-fluid" src="../../images/i-info-icon.png" alt="" />
+                                </span>
+                                <span className="alignment">Delegation/Staking Advice:</span>
+                              </div>
+                             <p className="row-description">
+                                Delegation/Staking takes place on Ethereum. Do not deposit funds to Shibarium for this purpose. 
+                                To delegate or stake please visit the <a className="orange-txt" href="javascript:void(0);">Staking UI</a>
+                              </p>   
+                          </div>
+                        </div>
+                        <div className="blank-box"></div>
+                        <div className="box-bottom">
+                          <div className="amt-section position-relative">
+                            <div className="coin-blk">
+                              <div className="coin-sec"><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
+                              <p className="lite-color">Estimation of GAS fee required</p>
+                            </div>
+                            <div>
+                              <p className="lite-color fw-bold">$10.00</p>
+                            </div>
+                          </div>
+                          <div className="sub-buttons-sec row">
+                              <div className="col-md-6">
+                                <button type="button" className="btn white-btn w-100">How Shibarium Works</button>
+                              </div>
+                              <div className="col-md-6">
+                                <button type="button w-100" className="btn white-btn w-100">FAQs</button>
+                              </div>
+                          </div>
+                        </div>
+                      </div>          
+                    </div>
+                     {/* Left section end */}
+                      {/* Right section start */}
+                    <div className="right-box">
+                      <div className="block-card">
+                            <div className="tab-sec botom-spcing">
+                              <ul className="tab-links">
+                                <li><a className="tb-link tab-active" href="javascript:void(0);">Deposit</a></li>
+                                <li><a className="tb-link" href="javascript:void(0);">Withdraw</a></li>
+                              </ul>
+                            </div>
+                            <div className="tab-content-sec">
+                              <form className="height">
+                                  <div className="sec-wrapper">
+                                    <div className="wrap-top">
+                                      <div className="botom-spcing">
+                                        <div>
+                                          <label>From</label>
+                                          <div className="form-field position-relative">
+                                            <div className="icon-chain">
+                                              <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
+                                            </div>
+                                            <div className="mid-chain">
+                                              <input className="w-100" type="text" placeholder="Ethereum chain"/>
+                                            </div>
+                                            <div className="rt-chain">
+                                              <span className="fld-head lite-color">Balance:</span>
+                                              <span className="fld-txt lite-color">100.00ETH</span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="field-grid row">
+                                          <div className="col-md-4">
+                                            <div className="form-field position-relative">
+                                              <div className="">
+                                                <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
+                                              </div>
+                                              <div className="lite-color">
+                                                <span className="lite-color fw-bold">ETH</span>
+                                              </div>
+                                              <div className="">
+                                                <div className="arow-outer"><span className="arrow-down"></span></div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="col-md-8">
+                                              <div className="form-field position-relative two-fld">
+                                                  <div className="mid-chain w-100">
+                                                    <input className="w-100" type="text" placeholder="0.00"/>
+                                                  </div>
+                                                  <div className="rt-chain">
+                                                    <span className="orange-txt fw-bold">MAX</span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="botom-spcing">
+                                        <div>
+                                          <label>To</label>
+                                          <div className="form-field position-relative">
+                                            <div className="icon-chain">
+                                              <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
+                                            </div>
+                                            <div className="mid-chain">
+                                              <input className="w-100" type="text" placeholder="Ethereum chain"/>
+                                            </div>
+                                            <div className="rt-chain">
+                                              <span className="fld-head lite-color">Balance:</span>
+                                              <span className="fld-txt lite-color">100.00ETH</span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="wrap-bottom">
+                                      <div className="btn-modify">
+                                        <button onClick={() => setSendModal(true)} type="button" className="btn primary-btn w-100">Transfer</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                              </form>
+                            </div>
+                      </div> 
+                    </div>
+                     {/* right section start */}
+                  </div>
+                  {/* withdraw main section end */}
+              </div>
+            </section>
+         </main>
     </>
   )
 }

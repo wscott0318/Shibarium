@@ -1,0 +1,41 @@
+.swap-card {
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 32px;
+    margin-bottom: 32px;
+    @media #{$max-xxl}{
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
+    .swp-header {
+        display: flex;
+        justify-content: space-between;
+    }
+    .swp-icon {
+        display: flex;
+        align-items: center;
+        li{
+            margin-right: 16px;
+            &:last-child{
+                margin-right: 0;
+            }
+        }
+    }
+    .flex-form{
+        min-height: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        @media #{$max-xxl}{
+            min-height: 300px;
+        }
+    }
+    .coin-text {
+        text-align: center;
+        padding-bottom: 16px;
+    }
+    .field-grid {
+        margin-top: 0;
+        margin-bottom: 12px;
+    }
+}
