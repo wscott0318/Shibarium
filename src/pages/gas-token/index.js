@@ -36,7 +36,7 @@ export default function Gastoken() {
                                     <p className='grey-txt'>BONE is used to pay the transaction fee</p>
                                 </div>
                                 <div className='swp-right-col mb-3 mb-lg-4 mb-xl-5'>
-                                    <ul className='swp-icon'>                                        
+                                    <ul className='swp-icon'>
                                         <li>
                                             <a href="javascript:void(0)">
                                                 <img className='img-fluid' src="../../images/faq.png" alt="icon-img" width={25} height="25" />
@@ -53,8 +53,8 @@ export default function Gastoken() {
                                                 <div className="form-field position-relative two-fld dark-input">
                                                     <div className="mid-chain w-100">
                                                         <input className="w-100" type="text" placeholder="1" />
-                                                    </div> 
-                                                </div> 
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div className="col-md-4">
@@ -62,8 +62,8 @@ export default function Gastoken() {
                                                 <div className="form-field position-relative two-fld dark-input">
                                                     <div className="mid-chain w-100">
                                                         <input className="w-100" type="text" placeholder="5" />
-                                                    </div> 
-                                                </div> 
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div className="col-md-4">
@@ -71,21 +71,21 @@ export default function Gastoken() {
                                                 <div className="form-field position-relative two-fld dark-input">
                                                     <div className="mid-chain w-100">
                                                         <input className="w-100" type="text" placeholder="10" />
-                                                    </div> 
-                                                </div> 
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                     <div className="field-grid row">
-                                        
+
                                         <div className="col-md-12">
                                             <div className="form-group">
                                                 <div className="form-field dark-input">
                                                     <div className="mid-chain w-100">
                                                         <input className="w-100" type="text" placeholder="Insert a custom value" />
-                                                    </div> 
-                                                </div> 
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -113,9 +113,11 @@ export default function Gastoken() {
                     </div>
                 </div>
             </main>
-                        {/* modal code start */}
 
-                        <CommonModal
+            
+            {/* modal code start */}
+
+            <CommonModal
                 title={"Set Slippage"}
                 show={showSlippageModal}
                 setShow={setSlippageModal}
