@@ -104,15 +104,14 @@ export default function Transaction() {
         <Sidebar handleMenuState={handleMenuState} menuState={menuState}/>
         
 
-        {/* <CommonModal
+         <CommonModal
           title={"Reaching Checkpoint"}
           show={showSendModal}
           setShow={setSendModal}
           
           >
           <>
-
-                Reaching Checkpoint popop start
+        {/* Reaching Checkpoint popop start  */}
                 <div className="cmn_modal trans_popups">
                       <div className="image_area row">
                           <div className="col-12 text-center"><img src="../../images/watch.png"/></div>
@@ -138,10 +137,9 @@ export default function Transaction() {
                           </div>
                       </div> 
                 </div>
-                Reaching Checkpoint popop ends 
-
+        {/* Reaching Checkpoint popop end  */}
           </>
-          </CommonModal> */}
+          </CommonModal> 
 
           <section className="assets-section">
               <div className="cmn_dashbord_main_outr">
@@ -262,27 +260,27 @@ export default function Transaction() {
                       <h2>Transactions history</h2>
                       <div className="trnsc_inr_cont">
                           <div className="trns_top_btns_area row">
-                              <div className="col-3"><a href="#" className="primary-btn btn w-100">All Transactions</a></div>  
-                              <div className="col-3"><a href="#" className="white-btn btn w-100">Pending</a></div>       
+                              <div className="col-md-3 col-sm-4 col-xs-12"><a href="#" className="primary-btn btn w-100">All Transactions</a></div>  
+                              <div className="col-md-3 col-sm-4 col-xs-12"><a href="#" className="white-btn btn w-100">Pending</a></div>       
                           </div>
                           <div className="overview_sec"> 
                             <div className="overview_top_area ">
                               <div className="row">
-                                  <div className="col-4 step_no">
+                                  <div className="col-md-4  col-sm-6 col-xs-12 step_no">
                                       <span><img src="../../images/track.png" alt="loading"/></span>
                                       <div>
                                         <b>Whitdraw</b>
                                         <b>Step 1/2</b>
                                       </div>
                                   </div>
-                                  <div className="col-4 bone_count">
+                                  <div className="col-md-4 col-sm-6 col-xs-12 bone_count">
                                       <span><img src="../../images/red-bone.png" alt="bones"/></span>
                                       <div>
                                         <b>100 BONE</b>
                                         <p>500.00$</p>
                                       </div>
                                   </div>
-                                  <div className="col-4 bone_count">
+                                  <div className="col-md-4  col-sm-6 col-xs-12 bone_count">
                                       <div>
                                         <b>Transaction hash</b>
                                         <p>0x1a95....ba496</p>
@@ -292,8 +290,8 @@ export default function Transaction() {
                             </div>
                             <div className="cont_sec">
                                 <div className="row">
-                                  <div className="col-8">You are 1 step away, click continue to complete the transaction</div>
-                                  <div className="col-2"><button onClick={() => setSendModal(true)} className="btn primary-btn w-100">Continue</button></div>
+                                  <div className="col-md-6 col-xs-12">You are 1 step away, click continue to complete the transaction</div>
+                                  <div className="col-md-3 col-xs-12"><button onClick={() => setSendModal(true)} className="btn primary-btn w-100">Continue</button></div>
                                 </div>  
                             </div>
                           </div>
