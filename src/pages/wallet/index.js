@@ -33,12 +33,14 @@ export default function Wallet() {
   const [senderModal, setSenderModal] = useState(true)
   const [verifyAmount, setVerifyAmount] = useState(false)
   const [showSendModal, setSendModal] = useState({
-    step1:false,
-    step2:true,
+    step1:true,
+    step2:false,
     step3:false
   });
   const [menuState, setMenuState] = useState(false);
   console.log(availBalance)
+
+
   const varifyAccount = (address) => {
       let result = Web3.utils.isAddress(address)
       setIsValidAddress(result)
@@ -84,6 +86,23 @@ export default function Wallet() {
           step3:false
         })
       }
+    }
+
+    const submitTransaction = () => {
+      setSendModal({
+        step1:false,
+        step2:false,
+        step3:true
+      }) 
+    }
+
+    const handleCloseModal = () => {
+      setSenderModal(false)
+      setSendModal({
+        step1:true,
+        step2:false,
+        step3:false
+      })
     }
 
 
@@ -184,7 +203,7 @@ export default function Wallet() {
                           <input
                            class="form-check-input" 
                            type="checkbox" 
-                           onChange={() => setVerifyAmount(!varifyAmount)}
+                           onChange={() => setVerifyAmount(!verifyAmount)}
                            value={verifyAmount}
                            id="flexCheckChecked"
                            />
@@ -202,6 +221,7 @@ export default function Wallet() {
                           <div className="col-6">
                           <button className='btn primary-btn w-100' 
                             disabled={verifyAmount ? false : true}
+                            onClick={() => submitTransaction()}
                           >Send</button> 
                           </div>
                       </div>
@@ -216,8 +236,8 @@ export default function Wallet() {
                     <div className="cnfrm_box">
                         <div className="top_overview col-12">
                               <span><img src="../../images/shib-borderd-icon.png"/></span>
-                              <h6>1100.00 SHIB</h6>
-                              <p>500.00$</p>
+                              <h6>{sendAmount} BONE</h6>
+                              <p>00.00$</p>
                         </div>
                         <div className="add_detail col-12">
                             <p><b>TRANSACTION SUBMITTED TO:</b></p>
@@ -228,7 +248,12 @@ export default function Wallet() {
                         Check your wallet activity to see the status of the transaction
                     </div>
                       <div className="pop_btns_area row form-control">
-                          <div className="col-12"><a className='btn primary-btn w-100' href="javascript:void(0)">Close</a>  </div>
+                          <div className="col-12">
+                          <button 
+                          className='btn primary-btn w-100' 
+                          onClick={() => handleCloseModal()}
+                          >Close</button>  
+                          </div>
                       </div> 
                 </div>}
                 {/* submitted popop ends */}
@@ -367,7 +392,7 @@ export default function Wallet() {
                       Receive
                     </button>
 
-                    <button onClick={() => setSendModal(true)} className="btn grey-btn w-100 d-flex align-items-center justify-content-center">
+                    <button onClick={() => setSenderModal(true)} className="btn grey-btn w-100 d-flex align-items-center justify-content-center">
                       <span className="me-2"><img className="btn-img" src="../../images/send-icon.png" alt="recive" /></span>Send</button>
                   </div>
                 </div>
