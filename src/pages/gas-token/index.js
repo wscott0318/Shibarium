@@ -36,7 +36,7 @@ export default function Gastoken() {
                                     <p className='grey-txt'>BONE is used to pay the transaction fee</p>
                                 </div>
                                 <div className='swp-right-col mb-3 mb-lg-4 mb-xl-5'>
-                                    <ul className='swp-icon'>                                        
+                                    <ul className='swp-icon'>
                                         <li>
                                             <a href="javascript:void(0)">
                                                 <img className='img-fluid' src="../../images/faq.png" alt="icon-img" width={25} height="25" />
@@ -158,7 +158,7 @@ export default function Gastoken() {
                 show={showSwapModal}
                 setShow={setSwapModal}
             >
-                <div className="popmodal-body">
+                {/* <div className="popmodal-body">
                     <div className="pop-block">
                         <div className="pop-top">
                             <div className="cnfrm_box dark-bg-800">
@@ -185,28 +185,33 @@ export default function Gastoken() {
 
                         </div>
                         <div className="pop-bottom">
-                            {/* <div className="amt-section position-relative ps-0">
-                                <div className="coin-blk">
-                                    <p className="lite-color">Slippage tollerance</p>
-                                </div>
-                                <div>
-                                    <p className="fw-bold">2%</p>
-                                </div>
-                            </div>
-                            <div className="amt-section position-relative ps-0">
-                                <div className="coin-blk">
-                                    <p className="lite-color">Powered By</p>
-                                </div>
-                                <div>
-                                    <p className="fw-bold">X-Funds</p>
-                                </div>
-                            </div> */}
+                          
                             <div className='btn-wrap'>
                                 <a className='btn primary-btn w-100' href="javascript:void(0)"><span>Confirm Swap</span></a>
                             </div>
                         </div>
                     </div>
+                </div> */}
+
+                {/* Transaction Pending popup version 2 start*/}
+                <div className="popmodal-body tokn-popup">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                        <div className='dark-bg-800 h-100 status-sec'>
+                            <span>
+                                <div><img width="150" height="150" className="img-fluid" src="../../images/Ellipse.png" alt="" /></div>
+                            </span>
+                            <p className='mt-5'>Swap of ETH to SHIB</p>
+                        </div>
+                    </div>
+                    <div className="pop-bottom">
+                      <div className='staus-btn'>
+                        <button type='button' className='btn primary-btn w-100'>View on Shibascan</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+                {/* Transaction Pending popup version 2 end*/}
             </CommonModal>
 
             {/* modal code closed */}

@@ -170,7 +170,7 @@ export default function Home() {
                           </div>
                           <div className="col-lg-6 col-md-5 col-sm-8 abt-col order-1 order-md-2 text-center mb-4 mb-md-0">
                               <div className='shib-img'>
-                                  <img className='img-fluid' src="../../images/steps.png" alt="" />
+                                  <img className='img-fluid mx-auto' src="../../images/steps.png" alt="" />
                               </div>
                           </div>
                       </div>
@@ -241,7 +241,7 @@ export default function Home() {
                 <div className="col-sm-6 col-lg-4 col-xl-3 cus-col">
                   <div className="shib-item text-center">
                     <div className="shib-img mb-3">
-                      <img className='img-fluid' src="../../images/rect-96.png" alt="rect-img" width={96} />
+                      <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
                     <h4 className='shib-title mb-2 ff-mos'>Developer Resources</h4>
                     <p className="ff-mos">
@@ -252,7 +252,7 @@ export default function Home() {
                 <div className="col-sm-6 col-lg-4 col-xl-3 cus-col">
                   <div className="shib-item text-center">
                     <div className="shib-img mb-3">
-                      <img className='img-fluid' src="../../images/rect-96.png" alt="rect-img" width={96} />
+                      <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
                     <h4 className='shib-title mb-2 ff-mos'>Join the Ecosystem</h4>
                     <p className="ff-mos">
@@ -263,7 +263,7 @@ export default function Home() {
                 <div className="col-sm-6 col-lg-4 col-xl-3 cus-col">
                   <div className="shib-item text-center">
                     <div className="shib-img mb-3">
-                      <img className='img-fluid' src="../../images/rect-96.png" alt="rect-img" width={96} />
+                      <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
                     <h4 className='shib-title mb-2 ff-mos'>Join the Community</h4>
                     <p className="ff-mos">
@@ -274,7 +274,7 @@ export default function Home() {
                 <div className="col-sm-6 col-lg-4 col-xl-3 cus-col">
                   <div className="shib-item text-center">
                     <div className="shib-img mb-3">
-                      <img className='img-fluid' src="../../images/rect-96.png" alt="rect-img" width={96} />
+                      <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
                     <h4 className='shib-title mb-2 ff-mos'>Secure the Network</h4>
                     <p className="ff-mos">
