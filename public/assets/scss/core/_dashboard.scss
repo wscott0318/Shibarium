@@ -13,12 +13,21 @@
     border-radius: 40px;
     padding: 20px;
     width: calc(100% - 275px);
-    height: calc(100vh - 64px);
+    min-height: calc(100vh - 64px);
     position: relative;
-    @media #{$max-lg}{
+    @media #{$max-xl}{
+        margin: 22px 22px 22px auto;
         width:calc(100% - 30px);
+        padding: 15px;
+        border-radius: 12px;
+    }
+    @media #{$max-lg}{
+        margin: 15px 15px 15px auto;
+        width:calc(100% - 15px);
         margin-left: auto;
         margin-right: auto;
+        padding: 12px;
+        border-radius: 10px;
     }
 }
 
@@ -100,3 +109,4 @@
         
     }
 }
+

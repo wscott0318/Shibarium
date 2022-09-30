@@ -98,9 +98,6 @@ h3 {
     @media #{$max-md}{
         font-size: 16px;
     }
-    @media #{$max-sm}{
-        font-size: 14px;
-    }
 }
 h4 {
     font-size: 24px;
@@ -246,12 +243,6 @@ ul {
     @media #{$max-xl}{
         font-size: 14px;
     }
-    @media #{$max-md}{
-        padding: 8px 14px;
-    }
-    @media #{$max-xsm}{
-        padding: 5px 10px;
-    }
 }
 .primary-btn{
     background:$primary-gradient;
@@ -341,6 +332,19 @@ ul {
         font-weight: 400;
         padding: 20px;
         white-space:nowrap;
+        vertical-align: middle;
+        @media #{$max-xxl}{
+            padding: 15px 15px;
+        }
+        @media #{$max-xl}{
+            padding: 12px 15px;
+        }
+        @media #{$max-lg}{
+            padding: 10px 15px;
+        }
+        @media #{$max-md}{
+            padding: 8px 15px;
+        }
     }
     .table th{
         border-bottom: 1px solid #596380;
@@ -348,6 +352,11 @@ ul {
     .table td span{
         padding-right: 15px;
         vertical-align: middle;
+        display: inline-block;
+        @media #{$max-xsm}{
+            padding-right: 10px;
+            max-width: 25px;
+        }
     }
     .table td a{
         text-decoration: none;

@@ -30,7 +30,7 @@ export default function differentchainbridge() {
                 <Sidebar handleMenuState={handleMenuState} menuState={menuState} />
                 <div className="cmn_dashbord_main_outr">
                     <InnerHeader />
-                    <div className="container">
+                    <div className="container px-0">
                         <div className='swap-card cus-card-800'>
                             <div className="swp-header">
                                 <div className='swp-left-col mb-3 mb-lg-4 mb-xl-5'>

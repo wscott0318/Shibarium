@@ -23,16 +23,25 @@ const InnerHeader = () => {
   }, []);
 
 
+  const [menuState, setMenuState] = useState(false);
 
-
+  const handleMenuState = () => {
+    setMenuState(false)
+}
   return (
+
     <>
-      <div className="inner-header">
+      <header className="inner-header">
         <Navbar className='py-0'>
           <Container>
-            <Navbar.Brand onClick={() => setMenuState(true)} className="menu-btn">
-              <img className="img-fluid" src="../../images/menu.svg" alt="" />
-            </Navbar.Brand>
+            <div className="left-widget">
+              {/* <Navbar.Brand className="nav-logo">
+                <img className="img-fluid" src="../../images/logo.png" alt="logo" width={120} />
+              </Navbar.Brand> */}
+              <Navbar.Brand onClick={() => setMenuState(true)} className="menu-btn">
+                <img className="img-fluid" src="../../images/menu.svg" alt="" />
+              </Navbar.Brand>
+            </div>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto">
@@ -43,7 +52,7 @@ const InnerHeader = () => {
                   <NavDropdown className="me-3" title="App">
                     <div className="drop-head">
                       <div className="head-brand">
-                        <img src="../../images/Shib-Logo.png" alt="" />
+                        <img className="mx-auto img-fluid" src="../../images/Shib-Logo.png" alt="" />
                       </div>
                       <div className="head-txt">
                         <div className="top-txt">
@@ -138,7 +147,7 @@ const InnerHeader = () => {
             </Navbar.Collapse>
           </Container>
         </Navbar>
-      </div>
+      </header>
     </>
   );
 };
