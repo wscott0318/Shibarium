@@ -51,64 +51,70 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
     font-size: 48px;
     @media #{$max-xxl}{
-        font-size: 44px;
-    }
-    @media #{$max-lg}{
         font-size: 42px;
     }
+    @media #{$max-lg}{
+        font-size: 38px;
+    }
     @media #{$max-md}{
-        font-size: 40px;
+        font-size: 34px;
     }
     @media #{$max-sm}{
-        font-size: 36px;
+        font-size: 32px;
+    }
+    @media #{$max-xsm}{
+        font-size: 28px;
     }
 }
 h2 {
     font-size: 40px;
     @media #{$max-xxl}{
-        font-size: 36px;
-    }
-    @media #{$max-xl}{
-        font-size: 34px;
-    }
-    @media #{$max-lg}{
         font-size: 32px;
     }
-    @media #{$max-md}{
+    @media #{$max-xl}{
         font-size: 28px;
     }
-    @media #{$max-sm}{
+    @media #{$max-lg}{
         font-size: 24px;
+    }
+    @media #{$max-md}{
+        font-size: 20px;
+    }
+    @media #{$max-sm}{
+        font-size: 18px;
     }
 }
 h3 {
     font-size: 32px;
-    @media #{$max-xl}{
-        font-size: 28px;
-    }
-    @media #{$max-lg}{
-        font-size: 26px;
-    }
-    @media #{$max-md}{
+    @media #{$max-xxl}{
         font-size: 24px;
     }
+    @media #{$max-xl}{
+        font-size: 20px;
+    }
+    @media #{$max-lg}{
+        font-size: 18px;
+    }
+    @media #{$max-md}{
+        font-size: 16px;
+    }
     @media #{$max-sm}{
-        font-size: 22px;
+        font-size: 14px;
     }
 }
 h4 {
     font-size: 24px;
     @media #{$max-xl}{
-        font-size: 22px;
-    }
-    @media #{$max-lg}{
         font-size: 20px;
     }
-    @media #{$max-md}{
+    @media #{$max-lg}{
         font-size: 18px;
     }
-    @media #{$max-sm}{
+    @media #{$max-md}{
         font-size: 16px;
+    }
+    @media #{$max-sm}{
+        font-size: 14px;
     }
 }
 h5 {
@@ -234,17 +240,16 @@ ul {
     font-size: 18px;
     padding: 11px 22px;
     @media #{$max-xxl}{
-        padding: 9px 20px;
+        padding: 10px 20px;
         font-size: 16px;
     }
     @media #{$max-xl}{
-        padding: 9px 20px;
         font-size: 14px;
     }
-    @media #{$max-lg}{
-        padding: 7px 14px;
+    @media #{$max-md}{
+        padding: 8px 14px;
     }
-    @media #{$max-lg}{
+    @media #{$max-xsm}{
         padding: 5px 10px;
     }
 }
