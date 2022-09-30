@@ -21,17 +21,24 @@ import { useMoralis } from "react-moralis";
 import {useEthBalance} from "../../hooks/useEthBalance";
 import {useTokenBalance} from '../../hooks/useTokenBalance';
 import { BONE_ID, ENV_CONFIGS } from '../../config/constant';
+import {BONE} from "../../web3/contractAddresses";
+import ERC20 from "../../ABI/ERC20Abi.json";
+import fromExponential from "from-exponential";
 
 export default function Wallet() {
 
   const router = useRouter()
-  const { chainId , account} = useActiveWeb3React();
+  const { chainId=1, account, library} = useActiveWeb3React();
   const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(ENV_CONFIGS[chainId].BONE);
+  const lib  = library
+  const web3 = new Web3(lib?.provider)
+
   const [senderAddress, setSenderAdress] = useState('');
   const [isValidAddress, setIsValidAddress] = useState(false)
   const [sendAmount, setSendAmount] = useState('')
-  const [senderModal, setSenderModal] = useState(true)
+  const [senderModal, setSenderModal] = useState(false)
   const [verifyAmount, setVerifyAmount] = useState(false)
+  const [transactionHash, setTransactionHash] = useState('')
   const [showSendModal, setSendModal] = useState({
     step1:true,
     step2:false,
@@ -89,15 +96,43 @@ export default function Wallet() {
     }
 
     const submitTransaction = () => {
-      setSendModal({
-        step1:false,
-        step2:false,
-        step3:true
-      }) 
+      let user = account;
+      let amount = web3.utils.toBN(fromExponential(+sendAmount * Math.pow(10, 18)));
+      let instance = new web3.eth.Contract(ERC20, BONE);
+      instance.methods.transfer(senderAddress,amount).send({ from: user })
+      .on('transactionHash',(res) => {
+        console.log(res, "hash")
+        setTransactionHash(res)
+        setSendModal({
+          step1:false,
+          step2:false,
+          step3:true
+        }) 
+      }).on('receipt', (res) => {
+        console.log(res, "response")
+      }).on('error',(err) => {
+        console.log(err, "error")
+      })
     }
 
+    const transactionCounts = () => {
+      var subscription = web3.eth.subscribe('pendingTransactions', function(error, result){
+        if (!error)
+            console.log(result);
+    })
+    .on("data", function(transaction){
+        console.log(transaction);
+    });
+    console.log(subscription)
+    }
+
+    // transactionCounts()
+    
     const handleCloseModal = () => {
       setSenderModal(false)
+      setVerifyAmount(false)
+      setSendAmount('');
+      setSenderAdress('')
       setSendModal({
         step1:true,
         step2:false,
@@ -167,7 +202,7 @@ export default function Wallet() {
                             <div className="col-6">
                             <button
                              className='btn blue-btn w-100'
-                             
+                             onClick={() => handleCloseModal()}
                              >Back</button>  
                             </div>
                             <div className="col-6">
@@ -241,7 +276,7 @@ export default function Wallet() {
                         </div>
                         <div className="add_detail col-12">
                             <p><b>TRANSACTION SUBMITTED TO:</b></p>
-                            <p>0x5c932BBe4485C24E1a779872362e990dEdf0D208</p>
+                            <p>{transactionHash}</p>
                         </div>
                     </div>
                     <div className="cnfrm_check_box text-center">
@@ -393,7 +428,9 @@ export default function Wallet() {
                     </button>
 
                     <button onClick={() => setSenderModal(true)} className="btn grey-btn w-100 d-flex align-items-center justify-content-center">
-                      <span className="me-2"><img className="btn-img" src="../../images/send-icon.png" alt="recive" /></span>Send</button>
+                      <span className="me-2">
+                      <img className="btn-img" src="../../images/send-icon.png" alt="recive" />
+                      </span>Send</button>
                   </div>
                 </div>
                 <div className="bal-col">
