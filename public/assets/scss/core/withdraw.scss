@@ -70,11 +70,8 @@
     margin-bottom: 20px;
 }
 .sub-buttons-sec {
-    
     .btn{
-        font-size: 16px;
         color: $grey-color;
-        padding: 15px;
     }
 }
 .height-blk {
@@ -82,6 +79,9 @@
 }
 .blank-box{
     min-height: 100px;
+    @media #{$max-xxl}{
+        min-height: 50px;
+    }
 }
 .right-box {
     width: calc(100% - 600px);
@@ -166,10 +166,8 @@
     }
 }
 .btn-modify{
-    .primary-btn{
-        font-size: 16px;
-        padding: 15px;
-    }
+    // .primary-btn{
+    // }
 }
 .sec-wrapper {
     display: flex;
@@ -177,12 +175,7 @@
     flex-direction: column;
     height: 100%;
 }
-.tab-content-sec{
-    height: 100%;
-}
-.height{
-    height: calc(100% - 115px);
-}
+
 /** Popup style start **/
 .pop-grid {
     display: flex;
@@ -261,9 +254,9 @@
     font-size: 16px;
 }
 .token-btn-sec{
-    .btn{
-        font-size: 16px;
-    }
+    // .btn{
+    //     font-size: 16px;
+    // }
 }
 .token-listwrap {
     position: relative;
