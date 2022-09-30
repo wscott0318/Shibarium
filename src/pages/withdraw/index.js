@@ -50,7 +50,7 @@ export default function Withdraw() {
             
 
               {/* confirm deposit popop starts */}
-                <div className="popmodal-body">
+                {/* <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box">
@@ -89,7 +89,7 @@ export default function Withdraw() {
                           </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* confirm deposit popop ends */}
 
                 {/* Transaction pending popup start */}
@@ -140,7 +140,7 @@ export default function Withdraw() {
                 {/* Transaction pending popup end */}
 
                 {/* Transaction completed popup start */}
-                {/* <div className="popmodal-body">
+                <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box">
@@ -164,7 +164,7 @@ export default function Withdraw() {
                         </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
                 {/* Transaction completed popup end */}
 
                 
@@ -399,7 +399,7 @@ export default function Withdraw() {
             
 
               {/* Select token popop starts */}
-                {/* <div className="popmodal-body tokn-popup">
+                <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="sec-search">
@@ -418,9 +418,7 @@ export default function Withdraw() {
                         </div>
                       </div>
                     </div>
-                    </div>
-                    <div className="pop-bottom">
-                      <div className="token-listwrap">
+                    <div className="token-listwrap">
                         <div className="tokn-row">
                           <div className="cryoto-box">
                             <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
@@ -465,8 +463,9 @@ export default function Withdraw() {
                         </div>
                       </div>
                     </div>
+                    
                   </div>
-                </div> */}
+                </div>
                 {/* Select token popop ends */}
 
 
@@ -673,7 +672,7 @@ export default function Withdraw() {
                 {/* Search popop ends */}
 
                 {/* new added token with delete action starts */}
-                 <div className="popmodal-body tokn-popup">
+                 {/* <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -725,7 +724,7 @@ export default function Withdraw() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* new added token with delete action ends */}
 
           </>
