@@ -183,7 +183,7 @@ export default function Withdraw() {
             
 
               {/* Initialize withdraw popup start */}
-                <div className="popmodal-body">
+                {/* <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box">
@@ -226,7 +226,7 @@ export default function Withdraw() {
                         </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Initialize withdraw popup end */}
 
@@ -281,7 +281,7 @@ export default function Withdraw() {
 
 
                 {/* checkpoint Reached popup start */}
-                  {/* <div className="popmodal-body">
+                  <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box">
@@ -305,7 +305,7 @@ export default function Withdraw() {
                         </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
                 {/* checkpoint Reached popup end */}
 
                 {/* Complete withdraw popup start */}
@@ -399,7 +399,7 @@ export default function Withdraw() {
             
 
               {/* Select token popop starts */}
-                <div className="popmodal-body tokn-popup">
+                {/* <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="sec-search">
@@ -465,12 +465,12 @@ export default function Withdraw() {
                     </div>
                     
                   </div>
-                </div>
+                </div> */}
                 {/* Select token popop ends */}
 
 
                 {/* Manage token popop starts */}
-                {/* <div className="popmodal-body tokn-popup">
+                <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -557,7 +557,7 @@ export default function Withdraw() {
                       </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
                 {/* Manage token popop ends */}
 
                  {/* Add token popop starts */}
@@ -860,7 +860,7 @@ export default function Withdraw() {
                                     </div>
                                     <div className="wrap-bottom">
                                       <div className="btn-modify">
-                                        <button onClick={() => setDepositModal(true)} type="button" className="btn primary-btn w-100">Transfer</button>
+                                        <button onClick={() => setWithdrawModal(true)} type="button" className="btn primary-btn w-100">Transfer</button>
                                       </div>
                                     </div>
                                   </div>
