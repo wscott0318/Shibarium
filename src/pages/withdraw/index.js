@@ -50,7 +50,7 @@ export default function Withdraw() {
             
 
               {/* confirm deposit popop starts */}
-                {/* <div className="popmodal-body">
+                <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box">
@@ -89,7 +89,7 @@ export default function Withdraw() {
                           </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
                 {/* confirm deposit popop ends */}
 
                 {/* Transaction pending popup start */}
@@ -140,7 +140,7 @@ export default function Withdraw() {
                 {/* Transaction pending popup end */}
 
                 {/* Transaction completed popup start */}
-                <div className="popmodal-body">
+                {/* <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box">
@@ -164,7 +164,7 @@ export default function Withdraw() {
                         </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* Transaction completed popup end */}
 
                 
@@ -489,10 +489,7 @@ export default function Withdraw() {
                         <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
                       </div>
                     </div>
-                    </div>
-                    <div className="pop-bottom">
-                      <div className="">
-                        <div className="token-listwrap">
+                    <div className="token-listwrap">
                           <div className="tokn-row">
                             <div className="cryoto-box">
                               <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
@@ -554,8 +551,8 @@ export default function Withdraw() {
                             </div>
                           </div>
                         </div>
-                      </div>
                     </div>
+                    
                   </div>
                 </div>
                 {/* Manage token popop ends */}
@@ -740,7 +737,7 @@ export default function Withdraw() {
                     <div className="left-box">
                       <div className="block-card">
                         <div className="box-top">
-                          <h1 className="heading-main">Shibarium Bridge</h1>
+                          <h3 className="mb-3">Shibarium Bridge</h3>
                           <div className="txt-row">
                              <div className="row-hd">Transfer Overview:</div>
                              <p className="row-description">The deposit process consists of a single transaction.</p>   
@@ -763,7 +760,7 @@ export default function Withdraw() {
                           </div>
                         </div>
                         <div className="blank-box"></div>
-                        <div className="box-bottom">
+                        <div className="box-bottom d-flex flex-column justify-content-end">
                           <div className="amt-section position-relative">
                             <div className="coin-blk">
                               <div className="coin-sec"><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
@@ -774,10 +771,10 @@ export default function Withdraw() {
                             </div>
                           </div>
                           <div className="sub-buttons-sec row">
-                              <div className="col-md-6">
+                              <div className="col-lg-6 mb-3 mb-lg-0">
                                 <button type="button" className="btn white-btn w-100">How Shibarium Works</button>
                               </div>
-                              <div className="col-md-6">
+                              <div className="col-lg-6">
                                 <button type="button w-100" className="btn white-btn w-100">FAQs</button>
                               </div>
                           </div>
@@ -787,85 +784,85 @@ export default function Withdraw() {
                      {/* Left section end */}
                       {/* Right section start */}
                     <div className="right-box">
-                      <div className="block-card">
-                            <div className="tab-sec botom-spcing">
-                              <ul className="tab-links">
-                                <li><a className="tb-link tab-active" href="javascript:void(0);">Deposit</a></li>
-                                <li><a className="tb-link" href="javascript:void(0);">Withdraw</a></li>
-                              </ul>
-                            </div>
-                            <div className="tab-content-sec">
-                              <form className="height">
-                                  <div className="sec-wrapper">
-                                    <div className="wrap-top">
-                                      <div className="botom-spcing">
-                                        <div>
-                                          <label>From</label>
-                                          <div className="form-field position-relative">
-                                            <div className="icon-chain">
-                                              <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
-                                            </div>
-                                            <div className="mid-chain">
-                                              <input className="w-100" type="text" placeholder="Ethereum chain"/>
-                                            </div>
-                                            <div className="rt-chain">
-                                              <span className="fld-head lite-color">Balance:</span>
-                                              <span className="fld-txt lite-color">100.00ETH</span>
-                                            </div>
+                      <div className="block-card d-flex flex-column justify-content-between">
+                          <div className="tab-sec botom-spcing">
+                            <ul className="tab-links">
+                              <li><a className="tb-link tab-active" href="javascript:void(0);">Deposit</a></li>
+                              <li><a className="tb-link" href="javascript:void(0);">Withdraw</a></li>
+                            </ul>
+                          </div>
+                          <div className="tab-content-sec h-100">
+                            <form className="h-100">
+                                <div className="sec-wrapper">
+                                  <div className="wrap-top">
+                                    <div className="botom-spcing">
+                                      <div>
+                                        <label>From</label>
+                                        <div className="form-field position-relative">
+                                          <div className="icon-chain">
+                                            <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
                                           </div>
-                                        </div>
-                                        <div className="field-grid row">
-                                          <div className="col-md-4">
-                                            <div className="form-field position-relative" onClick={() => setTokenModal(true)}>
-                                              <div className="">
-                                                <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
-                                              </div>
-                                              <div className="lite-color">
-                                                <span className="lite-color fw-bold">ETH</span>
-                                              </div>
-                                              <div className="">
-                                                <div className="arow-outer"><span className="arrow-down"></span></div>
-                                              </div>
-                                            </div>
+                                          <div className="mid-chain">
+                                            <input className="w-100" type="text" placeholder="Ethereum chain"/>
                                           </div>
-                                          <div className="col-md-8">
-                                              <div className="form-field position-relative two-fld">
-                                                  <div className="mid-chain w-100">
-                                                    <input className="w-100" type="text" placeholder="0.00"/>
-                                                  </div>
-                                                  <div className="rt-chain">
-                                                    <span className="orange-txt fw-bold">MAX</span>
-                                                  </div>
-                                              </div>
+                                          <div className="rt-chain">
+                                            <span className="fld-head lite-color">Balance:</span>
+                                            <span className="fld-txt lite-color">100.00ETH</span>
                                           </div>
                                         </div>
                                       </div>
-                                      <div className="botom-spcing">
-                                        <div>
-                                          <label>To</label>
-                                          <div className="form-field position-relative">
-                                            <div className="icon-chain">
+                                      <div className="field-grid row">
+                                        <div className="col-md-4">
+                                          <div className="form-field position-relative" onClick={() => setTokenModal(true)}>
+                                            <div className="">
                                               <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
                                             </div>
-                                            <div className="mid-chain">
-                                              <input className="w-100" type="text" placeholder="Ethereum chain"/>
+                                            <div className="lite-color">
+                                              <span className="lite-color fw-bold">ETH</span>
                                             </div>
-                                            <div className="rt-chain">
-                                              <span className="fld-head lite-color">Balance:</span>
-                                              <span className="fld-txt lite-color">100.00ETH</span>
+                                            <div className="">
+                                              <div className="arow-outer"><span className="arrow-down"></span></div>
                                             </div>
                                           </div>
+                                        </div>
+                                        <div className="col-md-8">
+                                            <div className="form-field position-relative two-fld">
+                                                <div className="mid-chain w-100">
+                                                  <input className="w-100" type="text" placeholder="0.00"/>
+                                                </div>
+                                                <div className="rt-chain">
+                                                  <span className="orange-txt fw-bold">MAX</span>
+                                                </div>
+                                            </div>
                                         </div>
                                       </div>
                                     </div>
-                                    <div className="wrap-bottom">
-                                      <div className="btn-modify">
-                                        <button onClick={() => setWithdrawModal(true)} type="button" className="btn primary-btn w-100">Transfer</button>
+                                    <div className="botom-spcing">
+                                      <div>
+                                        <label>To</label>
+                                        <div className="form-field position-relative">
+                                          <div className="icon-chain">
+                                            <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
+                                          </div>
+                                          <div className="mid-chain">
+                                            <input className="w-100" type="text" placeholder="Ethereum chain"/>
+                                          </div>
+                                          <div className="rt-chain">
+                                            <span className="fld-head lite-color">Balance:</span>
+                                            <span className="fld-txt lite-color">100.00ETH</span>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
-                              </form>
-                            </div>
+                                  <div className="wrap-bottom">
+                                    <div className="btn-modify">
+                                      <button onClick={() => setDepositModal(true)} type="button" className="btn primary-btn w-100">Transfer</button>
+                                    </div>
+                                  </div>
+                                </div>
+                            </form>
+                          </div>
                       </div> 
                     </div>
                      {/* right section start */}
