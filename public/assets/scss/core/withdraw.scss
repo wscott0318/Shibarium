@@ -212,7 +212,7 @@
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    height:420;
+    height:420px;
 }
 
 .popmodal-body {
@@ -375,5 +375,12 @@
     overflow-x: hidden;
     margin-bottom: 10px;
 }
-
+.grid-block {
+    display: flex;
+    justify-content: space-between;
+}
+.btn-sm .btn {
+    padding: 6px 15px;
+    font-size: 16px;
+}
 /** Popup style end **/

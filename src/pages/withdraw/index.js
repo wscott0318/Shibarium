@@ -37,6 +37,7 @@ export default function Withdraw() {
     <>
          <main className="main-content">
           <Sidebar handleMenuState={handleMenuState} menuState={menuState}/>
+          {/* modal code start */}
           <CommonModal
           title={"Deposit"}
           show={showDepositModal}
@@ -670,7 +671,7 @@ export default function Withdraw() {
                 </div> */}
                 {/* Search popop ends */}
 
-                {/* token-list popop starts */}
+                {/* new added token with delete action starts */}
                  <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
@@ -693,6 +694,15 @@ export default function Withdraw() {
                     </div>
                     <div className="pop-bottom">
                       <div className="">
+                        <div className="grid-block">
+                          <div className="blk-width">
+                            <div>1 Token Found</div>
+                            <p className="lite-color">Token stored in your browser</p>
+                          </div>
+                          <div className="blk-width btn-sm">
+                            <button type="button" className="btn primary-btn w-100">Clear All</button>
+                          </div>
+                        </div>
                         <div className="token-listwrap">
                           <div className="tokn-row">
                             <div className="cryoto-box">
@@ -704,66 +714,23 @@ export default function Withdraw() {
                                 <p>Shibatoken</p>
                               </div>
                               <div>
-                                <h6 className="fw-bold">
-                                  <label class="toggle">
-                                    <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
-                                  </label>
-                                </h6>
+                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
-                          <div className="tokn-row">
-                            <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/red-bone.png" alt="" />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">BONE</h6>
-                                <p>Bone Token</p>
-                              </div>
-                              <div>
-                                <h6 className="fw-bold">
-                                  <label class="toggle">
-                                    <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
-                                  </label>
-                                </h6>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="tokn-row">
-                            <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/etharium.png" alt="" />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">ETH</h6>
-                                <p>Ethereum</p>
-                              </div>
-                              <div>
-                                <h6 className="fw-bold">
-                                  <label class="toggle">
-                                    <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
-                                  </label>
-                                </h6>
-                              </div>
-                            </div>
-                          </div>
+                          
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                {/* token-list popop ends */}
+                {/* new added token with delete action ends */}
 
           </>
           {/* Token popups end */}
           </CommonModal>
+          {/* modal code closed */}
             <section className="assets-section">
               <div className="cmn_dashbord_main_outr">
                   <div className="inner-header">

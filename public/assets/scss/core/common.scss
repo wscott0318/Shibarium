@@ -650,4 +650,11 @@
   .toggle input:checked~.labels::before {
     opacity: 1;
   }
+  .spiner-lg{
+    .pop-spiner{
+        width: 151px;
+        height: 151px;
+        font-size: 100px;
+    }
+  }
   /** On Off Switch **/
