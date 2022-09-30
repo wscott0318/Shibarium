@@ -23,9 +23,25 @@
 }
 .left-box{
     flex: 0 0 600px;
+    @media #{$max-xl}{
+        flex: 0 0 500px;
+    }
+    @media #{$max-lg}{
+        width: 50%;
+        flex: 0 0 50%;
+    }
 }
-.right-box{
+.right-box {
+    width: calc(100% - 600px);
+    padding-left: 20px;
     margin-top: 30px;
+    @media #{$max-xl}{
+        width: calc(100% - 500px);
+    }
+    @media #{$max-lg}{
+        width: 50%;
+        flex: 0 0 50%;
+    }
 }
 .heading-main {
     font-size: 40px;
@@ -78,7 +94,6 @@
     margin-bottom: 20px;
 }
 .sub-buttons-sec {
-    
     .btn{
         font-size: 16px;
         color: $grey-color;
@@ -94,11 +109,7 @@
         min-height: 50px;
     }
 }
-.right-box {
-    width: calc(100% - 600px);
-    padding-left: 20px;
-    margin-top: 30px;
-}
+
 .botom-spcing {
     margin-bottom: 35px;
 }

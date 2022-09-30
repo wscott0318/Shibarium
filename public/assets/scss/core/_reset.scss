@@ -87,16 +87,16 @@ h2 {
 h3 {
     font-size: 32px;
     @media #{$max-xxl}{
-        font-size: 24px;
+        font-size: 28px;
     }
     @media #{$max-xl}{
-        font-size: 20px;
+        font-size: 24px;
     }
     @media #{$max-lg}{
-        font-size: 18px;
+        font-size: 22px;
     }
     @media #{$max-md}{
-        font-size: 16px;
+        font-size: 20px;
     }
 }
 h4 {
