@@ -158,6 +158,8 @@ export default function Gastoken() {
                 show={showSwapModal}
                 setShow={setSwapModal}
             >
+                {/* review swap popup starts */}
+
                 {/* <div className="popmodal-body">
                     <div className="pop-block">
                         <div className="pop-top">
@@ -192,9 +194,33 @@ export default function Gastoken() {
                         </div>
                     </div>
                 </div> */}
+                
+                {/* review swap popup ends */}
 
-                {/* Transaction Pending popup version 2 start*/}
+
+                {/* Transaction pending popup start*/}
                 <div className="popmodal-body tokn-popup">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                        <div className='dark-bg-800 h-100 status-sec'>
+                            <span>
+                                <div><span className="spinner-border text-secondary pop-spiner"></span></div>
+                            </span>
+                            <p className='mt-5'>Sign the transaction in your wallet to complete the swap</p>
+                        </div>
+                    </div>
+                    <div className="pop-bottom">
+                      <div className='staus-btn'>
+                        <button type='button' className='btn black-btn w-100'>Sign the message</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* Transaction pending popup end*/}
+
+                
+                {/* Transaction complete popup start*/}
+                {/* <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                         <div className='dark-bg-800 h-100 status-sec'>
@@ -210,8 +236,8 @@ export default function Gastoken() {
                       </div>
                     </div>
                   </div>
-                </div>
-                {/* Transaction Pending popup version 2 end*/}
+                </div> */}
+                {/* Transaction complete popup end*/}
             </CommonModal>
 
             {/* modal code closed */}
