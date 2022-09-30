@@ -1,16 +1,22 @@
 .swap-card {
     width: 600px;
     margin: 0 auto;
-    margin-bottom: 32px;
-    margin-top: 42px;
     max-width: 100%;
     position: absolute;
-    top: 50%;
+    top: calc(50% + 16px);
     left: 50%;
-    transform: translate(-50%, -50%);
-    @media #{$max-xxl}{
-        margin-top: 16px;
-        margin-bottom: 16px;
+    transform: translate(-50%, calc(-50% + 16px));
+    // @media #{$max-xl}{
+    //     margin-top: 16px;
+    //     margin-bottom: 16px;
+    // }
+    @media #{$max-md}{
+        width: 100%;
+        position: static;
+        top:auto;
+        left: auto;
+        transform: none;
+        margin-top: 40px;
     }
     .swp-header {
         display: flex;
@@ -24,15 +30,23 @@
             &:last-child{
                 margin-right: 0;
             }
+            img{
+                @media #{$max-sm}{
+                    max-width: 20px;
+                }
+            }
         }
     }
     .flex-form{
-        min-height: 500px;
+        min-height: 350px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         @media #{$max-xxl}{
             min-height: 300px;
+        }
+        @media #{$max-lg}{
+            min-height: auto;
         }
     }
     .coin-text {

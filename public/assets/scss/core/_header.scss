@@ -39,6 +39,9 @@
 .inner-header{
     .nav-item {
         margin-right: 12px;
+        &:last-child{
+            margin-right: 0;
+        }
     }
     .bg-dark-1000{
         background-color: $primary;
@@ -59,7 +62,7 @@
     .dot-icon{
         max-width: 30px;
         @media #{$max-lg}{
-            max-width: 25px;
+            max-width: 20px;
         }
     }
     .px-4 {

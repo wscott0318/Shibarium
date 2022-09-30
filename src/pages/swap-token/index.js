@@ -32,7 +32,7 @@ export default function differentchainbridge() {
                 <Sidebar handleMenuState={handleMenuState} menuState={menuState} />
                 <div className="cmn_dashbord_main_outr">
                     <InnerHeader />
-                    <div className="container">
+                    <div className="container px-0">
                         <div className='swap-card cus-card-800'>
                             <div className="swp-header">
                                 <div className='swp-left-col mb-3 mb-lg-4 mb-xl-5'>
@@ -58,7 +58,7 @@ export default function differentchainbridge() {
                             <div className="swp-body">
                                 <form action="" className='flex-form'>
                                     <div className="field-grid row">
-                                        <div className="col-md-4">
+                                        <div className="col-sm-4">
                                             <div className="form-group">
                                                 <div className="form-field position-relative dark-input" onClick={() => setTokenModal(true)}>
                                                     <div className="coin-icon">
@@ -76,7 +76,7 @@ export default function differentchainbridge() {
                                                 <label className='lite-color mt-1' htmlFor="">Balance: 10 ETH</label>
                                             </div>
                                         </div>
-                                        <div className="col-md-8">
+                                        <div className="col-sm-8">
                                             <div className="form-group">
                                                 <div className="form-field position-relative two-fld dark-input">
                                                     <div className="mid-chain w-100">
@@ -91,7 +91,7 @@ export default function differentchainbridge() {
                                         </div>
                                     </div>
                                     <div className="field-grid row">
-                                        <div className="col-md-4">
+                                        <div className="col-sm-4">
                                             <div className="form-group">
                                                 <div className="form-field position-relative dark-input"  onClick={() => setTokentwoModal(true)}>
                                                     <div className="coin-icon">
@@ -109,7 +109,7 @@ export default function differentchainbridge() {
                                                 <label htmlFor="" className='lite-color mt-1 d-block'>Balance: 0 BONE</label>
                                             </div>
                                         </div>
-                                        <div className="col-md-8">
+                                        <div className="col-sm-8">
                                             <div className="form-group">
                                                 <div className="form-field position-relative two-fld dark-input">
                                                     <div className="mid-chain w-100">
