@@ -46,50 +46,86 @@ export default function Gastoken() {
                                 </div>
                             </div>
                             <div className="swp-body">
-                                <form action="" className='flex-form'>
-                                    <div className="field-grid row">
-                                        <div className="col-md-4">
-                                            <div className="form-group">
-                                                <div className="form-field position-relative two-fld dark-input">
-                                                    <div className="mid-chain w-100">
-                                                        <input className="w-100" type="text" placeholder="1" />
+                                <form action="" className='flex-form gas_token_form'>
+                                    <div className='flex-form-top'>
+                                        <div className="field-grid row">
+                                            <div className="col-md-4 col-sm-4">
+                                                <div className="form-group">
+                                                    <div className="form-field position-relative two-fld dark-input">
+                                                        <div className="mid-chain w-100">
+                                                            <input className="w-100" type="text" placeholder="1" />
+                                                        </div> 
                                                     </div> 
-                                                </div> 
+                                                </div>
+                                            </div>
+                                            <div className="col-md-4 col-sm-4">
+                                                <div className="form-group">
+                                                    <div className="form-field position-relative two-fld dark-input">
+                                                        <div className="mid-chain w-100">
+                                                            <input className="w-100" type="text" placeholder="5" />
+                                                        </div> 
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            <div className="col-md-4 col-sm-4">
+                                                <div className="form-group">
+                                                    <div className="form-field position-relative two-fld dark-input">
+                                                        <div className="mid-chain w-100">
+                                                            <input className="w-100" type="text" placeholder="10" />
+                                                        </div> 
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div className="field-grid row">                                        
+                                            <div className="col-md-12">
+                                                <div className="form-group">
+                                                    <div className="form-field dark-input">
+                                                        <div className="mid-chain w-100">
+                                                            <input className="w-100" type="text" placeholder="Insert a custom value" />
+                                                        </div> 
+                                                    </div> 
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="col-md-4">
-                                            <div className="form-group">
-                                                <div className="form-field position-relative two-fld dark-input">
-                                                    <div className="mid-chain w-100">
-                                                        <input className="w-100" type="text" placeholder="5" />
-                                                    </div> 
-                                                </div> 
-                                            </div>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <div className="form-group">
-                                                <div className="form-field position-relative two-fld dark-input">
-                                                    <div className="mid-chain w-100">
-                                                        <input className="w-100" type="text" placeholder="10" />
-                                                    </div> 
-                                                </div> 
-                                            </div>
-                                        </div>
-                                        
                                     </div>
-                                    <div className="field-grid row">
+                                    <div className="form-btn flex-form-btm">
                                         
-                                        <div className="col-md-12">
+                                    <div className="field-grid position-relative  row">
+                                        <div className="col-md-4 col-sm-4 col-xs-12 ps_abs">
                                             <div className="form-group">
-                                                <div className="form-field dark-input">
-                                                    <div className="mid-chain w-100">
-                                                        <input className="w-100" type="text" placeholder="Insert a custom value" />
-                                                    </div> 
-                                                </div> 
+                                                <div className="form-field position-relative dark-input">
+                                                    <div className="coin-icon">
+                                                        <div className='coin-img'>
+                                                            <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="" />
+                                                        </div>
+                                                    </div>
+                                                    <div className="coin-name">
+                                                        <span className="fw-bold">SHIB</span>
+                                                    </div>
+                                                    <div className="drop-row">
+                                                        <div className="arow-outer"><span className="arrow-down"></span></div>
+                                                    </div>
+                                                </div>
+                                                <label htmlFor="" className='lite-color mt-1 d-block'>Balance: 0 BONE</label>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-12 col-sm-12 col-xs-12">
+                                            <div className="form-group">
+                                                <div className="form-field two-fld dark-input">
+                                                    <div className="mid-chain w-100 abs_prnt">
+                                                        <input className="w-100" type="text" placeholder="0.00" />
+                                                    </div>
+                                                </div>
+                                                <label htmlFor="" className='lite-color mt-1 text-end d-block'>Balance: 10 ETH</label>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="form-btn">
+
+
+
+
                                         <div className="coin-text">
                                             1 ETH = 1 BONE
                                         </div>
@@ -113,37 +149,7 @@ export default function Gastoken() {
                     </div>
                 </div>
             </main>
-                        {/* modal code start */}
-
-                        <CommonModal
-                title={"Set Slippage"}
-                show={showSlippageModal}
-                setShow={setSlippageModal}
-            >
-                <div className='modal-body fix-vh d-flex flex-column justify-content-between mt-3'>
-                    <div className="top-area">
-                        <ul className='badges-list'>
-                            <li className='badges-lst-item'>
-                                <a href="javascript:void(0)" className="btn bage-bg d-block text-center">1 %</a>
-                            </li>
-                            <li className='badges-lst-item'>
-                                <a href="javascript:void(0)" className="btn bage-bg d-block text-center active">2 %</a>
-                            </li>
-                            <li className='badges-lst-item'>
-                                <a href="javascript:void(0)" className="btn bage-bg d-block text-center">5 %</a>
-                            </li>
-                            <li className='badges-lst-item'>
-                                <a href="javascript:void(0)" className="btn bage-bg d-block text-center">Insert custom slippage</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className='bottom-area'>
-                        <button type='button' className='btn primary-btn w-100'>Set Slippage</button>
-                    </div>
-                </div>
-            </CommonModal>
-
-            {/* modal code closed */}
+                        
 
             {/* modal code start */}
 
@@ -179,7 +185,7 @@ export default function Gastoken() {
 
                         </div>
                         <div className="pop-bottom">
-                            <div className="amt-section position-relative ps-0">
+                            {/* <div className="amt-section position-relative ps-0">
                                 <div className="coin-blk">
                                     <p className="lite-color">Slippage tollerance</p>
                                 </div>
@@ -194,9 +200,9 @@ export default function Gastoken() {
                                 <div>
                                     <p className="fw-bold">X-Funds</p>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className='btn-wrap'>
-                                <a className='btn grey-btn w-100' href="javascript:void(0)"><span className="spinner-border text-secondary pop-spiner"></span><span>Confirm Swap</span></a>
+                                <a className='btn primary-btn w-100' href="javascript:void(0)"><span>Confirm Swap</span></a>
                             </div>
                         </div>
                     </div>

@@ -39,3 +39,60 @@
         margin-bottom: 12px;
     }
 }
+.gas_token_form .flex-form-top{
+    input{
+        text-align: center;
+        text-transform: uppercase;
+    }
+    input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #ffffff;
+        opacity: 1; /* Firefox */
+      }
+      
+      input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: #ffffff;
+      }
+      
+      input::-ms-input-placeholder { /* Microsoft Edge */
+        color: #ffffff;
+      }
+      .mid-chain{
+        padding: 0;
+      }
+}
+.flex-form-btm{
+    // position: relative;
+}
+.flex-form-btm .ps_abs {
+    position: absolute;
+    z-index: 999;
+    @media #{$max-sm }{
+        position: relative;
+    }
+}
+.mid-chain.w-100.abs_prnt {
+    padding-right: 0;
+    padding-left: 30%;
+    text-align: right;
+    input{
+        text-align: right;
+    }
+    input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #ffffff;
+        opacity: 1; /* Firefox */
+      }
+      
+      input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: #ffffff;
+      }
+      
+      input::-ms-input-placeholder { /* Microsoft Edge */
+        color: #ffffff;
+      }
+}
+.ps_abs .form-field {
+    background: #E48014;
+}
+.gas_token_form .flex-form-top .form-group{
+    margin-bottom: 15px;
+}
