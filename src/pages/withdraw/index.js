@@ -740,7 +740,7 @@ export default function Withdraw() {
                     <div className="left-box">
                       <div className="block-card">
                         <div className="box-top">
-                          <h1 className="heading-main">Shibarium Bridge</h1>
+                          <h3 className="mb-3">Shibarium Bridge</h3>
                           <div className="txt-row">
                              <div className="row-hd">Transfer Overview:</div>
                              <p className="row-description">The deposit process consists of a single transaction.</p>   
@@ -774,10 +774,10 @@ export default function Withdraw() {
                             </div>
                           </div>
                           <div className="sub-buttons-sec row">
-                              <div className="col-md-6">
+                              <div className="col-lg-6 mb-3 mb-lg-0">
                                 <button type="button" className="btn white-btn w-100">How Shibarium Works</button>
                               </div>
-                              <div className="col-md-6">
+                              <div className="col-lg-6">
                                 <button type="button w-100" className="btn white-btn w-100">FAQs</button>
                               </div>
                           </div>
@@ -815,7 +815,7 @@ export default function Withdraw() {
                                         </div>
                                       </div>
                                       <div className="field-grid row">
-                                        <div className="col-md-4">
+                                        <div className="col-sm-5 field-col">
                                           <div className="form-field position-relative" onClick={() => setTokenModal(true)}>
                                             <div className="">
                                               <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
@@ -828,7 +828,7 @@ export default function Withdraw() {
                                             </div>
                                           </div>
                                         </div>
-                                        <div className="col-md-8">
+                                        <div className="col-sm-7 field-col">
                                             <div className="form-field position-relative two-fld">
                                                 <div className="mid-chain w-100">
                                                   <input className="w-100" type="text" placeholder="0.00"/>

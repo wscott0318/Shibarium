@@ -141,6 +141,13 @@ const InnerHeader = () => {
                                 </a>
                               </Link>
                             </Nav.Item> */}
+                <Nav.Item>
+                <Link href={'javascript:void(0)'}>
+                  <a className='btn primary-btn d-none align-items-center' href="javascript:void(0)">
+                    <span>Switch to Shibarium</span>
+                  </a>
+                </Link>
+                </Nav.Item>
                 <Nav.Item className="btn-status">
                   <Web3Status />
                 </Nav.Item>
