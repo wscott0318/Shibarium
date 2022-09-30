@@ -398,7 +398,7 @@ export default function Withdraw() {
             
 
               {/* Select token popop starts */}
-                {/* <div className="popmodal-body tokn-popup">
+                <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="sec-search">
@@ -417,9 +417,7 @@ export default function Withdraw() {
                         </div>
                       </div>
                     </div>
-                    </div>
-                    <div className="pop-bottom">
-                      <div className="token-listwrap">
+                    <div className="token-listwrap">
                         <div className="tokn-row">
                           <div className="cryoto-box">
                             <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
@@ -464,8 +462,9 @@ export default function Withdraw() {
                         </div>
                       </div>
                     </div>
+                    
                   </div>
-                </div> */}
+                </div>
                 {/* Select token popop ends */}
 
 
@@ -672,7 +671,7 @@ export default function Withdraw() {
                 {/* Search popop ends */}
 
                 {/* new added token with delete action starts */}
-                 <div className="popmodal-body tokn-popup">
+                 {/* <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -724,7 +723,7 @@ export default function Withdraw() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* new added token with delete action ends */}
 
           </>

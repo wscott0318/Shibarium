@@ -553,14 +553,22 @@
     }
 }
 
-.flex-grid{
+// .flex-grid{
+//     .box-block{
+//         flex: 1;
+//         &:nth-child(2){
+//             flex: 0 0 64px;
+//         }
+//     }
+// }
+
     .box-block{
         flex: 1;
         &:nth-child(2){
             flex: 0 0 64px;
         }
     }
-}
+
 
 /** On Off Switch **/
 .toggle {
@@ -655,6 +663,26 @@
         width: 151px;
         height: 151px;
         font-size: 100px;
+        @media #{$max-lg}{
+            width: 111px;
+            height: 111px;
+            font-size: 70px;
+        }
+        @media #{$max-md}{
+            width: 91px;
+            height: 91px;
+            font-size: 50px;
+        }
+        @media #{$max-md}{
+            width: 91px;
+            height: 91px;
+            font-size: 50px;
+        }
+        @media #{$max-xsm}{
+            width: 71px;
+            height: 71px;
+            font-size: 30px;
+        }
     }
   }
   /** On Off Switch **/

@@ -192,12 +192,12 @@
 }
 .box-block{
     cursor: pointer;
-    p{
-        white-space: nowrap;
-        width: 180px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+    // p{
+    //     white-space: nowrap;
+    //     width: 180px;
+    //     overflow: hidden;
+    //     text-overflow: ellipsis;
+    // }
 }
 .pop-ht {
     min-height: 250px;
@@ -212,11 +212,11 @@
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    height:420px;
+    height:520px;
 }
 
 .popmodal-body {
-    min-height: 420px;
+    min-height: 520px;
 }
 .pop-spiner{
     vertical-align: middle;
@@ -241,6 +241,12 @@
             color:$white;
             font-weight: 100;
         }
+        @media #{$max-lg}{
+            padding: 10px 10px 10px 45px;
+        }
+        @media #{$max-md}{
+            font-size: 14px;
+        }
     }
 }
 .search-icon {
@@ -249,6 +255,9 @@
     left: 15px;
     right: auto;
     bottom: auto;
+    @media #{$max-lg}{
+        top: 9px;
+    }
 }
 .sec-search {
     margin: 10px 0 30px;
@@ -263,6 +272,9 @@
 .token-btn-sec{
     .btn{
         font-size: 16px;
+        @media #{$max-md}{
+            font-size: 14px;
+        }
     }
 }
 .token-listwrap {
@@ -379,8 +391,13 @@
     display: flex;
     justify-content: space-between;
 }
-.btn-sm .btn {
-    padding: 6px 15px;
-    font-size: 16px;
+.btn-sm {
+    .btn{
+        padding: 6px 15px;
+        font-size: 16px;
+        @media #{$max-lg}{
+            font-size: 14px;
+        }
+    }  
 }
 /** Popup style end **/

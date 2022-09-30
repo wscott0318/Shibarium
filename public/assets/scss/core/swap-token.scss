@@ -7,6 +7,14 @@
     -o-border-radius: 10px;
     -ms-border-radius: 10px;
     -moz-border-radius: 10px;
+    img{
+        @media #{$max-lg}{
+            width: 100px;
+        }
+        @media #{$max-md}{
+            width: 70px;
+        }
+    }
 }
 .btns-sec{
     .primary-btn{
