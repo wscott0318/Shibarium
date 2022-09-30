@@ -83,6 +83,7 @@ export default function Wallet() {
 
 
   const handleMenuState = () => {
+    console.log("called click")
     setMenuState(false)
   }
 

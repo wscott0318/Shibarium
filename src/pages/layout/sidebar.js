@@ -118,7 +118,7 @@ export default function Sidebar({menuState, handleMenuState}) {
       <sidebar className={menuState ? "sidebar sidebar-active" : "sidebar"}>
         <div className="sidbar-top-menu">
           <div className="sidebar-logo">
-            <span className="close-icon" onClick={handleMenuState}>
+            <span className="close-icon" style={{cursor :'pointer'}} onClick={handleMenuState}>
               <img className="img-fluid" src="../../images/close-icon.png" alt="close-icon"/>
             </span>
             <a className="sidelogo-link" href="javascript:void(0)">

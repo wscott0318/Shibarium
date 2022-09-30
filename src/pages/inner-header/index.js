@@ -26,6 +26,7 @@ const InnerHeader = () => {
   const [menuState, setMenuState] = useState(false);
 
   const handleMenuState = () => {
+    console.log("called menue")
     setMenuState(false)
 }
   return (
@@ -38,7 +39,7 @@ const InnerHeader = () => {
               {/* <Navbar.Brand className="nav-logo">
                 <img className="img-fluid" src="../../images/logo.png" alt="logo" width={120} />
               </Navbar.Brand> */}
-              <Navbar.Brand onClick={() => setMenuState(true)} className="menu-btn">
+              <Navbar.Brand onClick={() => handleMenuState(true)} className="menu-btn">
                 <img className="img-fluid" src="../../images/menu.svg" alt="" />
               </Navbar.Brand>
             </div>
