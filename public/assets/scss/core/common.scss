@@ -21,6 +21,18 @@
     background: #151B28;
     border-radius: 25px;
     padding: 30px;
+    @media #{$max-xl}{
+        padding: 25px;
+        border-radius: 20px;
+    }
+    @media #{$max-lg}{
+        padding: 20px;
+        border-radius: 15px;
+    }
+    @media #{$max-md}{
+        padding: 15px;
+        border-radius: 10px;
+    }
 }
 
 
@@ -97,10 +109,16 @@
 .form-field{
     background:$grey-color-800;
     padding: 15px;
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 16px;
-    @media #{$max-xxl}{
-        padding: 10px 12px;
+    @media #{$max-xl}{
+        font-size: 14px;
+    }
+    @media #{$max-md}{
+        padding: 8px 14px;
+    }
+    @media #{$max-xsm}{
+        padding: 5px 10px;
     }
 }
 .rt-chain {
@@ -484,3 +502,170 @@
         }
     }
 }
+// common stepper
+.stepper {
+    display: flex;
+    .step {
+        position: relative;
+        width: 25%;
+        margin: 0 auto;
+        padding-bottom: 26px;
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            width: 100%;
+            background:$grey-color;
+            height: 2px;
+            top: calc(50% - 25px);
+            transform: translateY(calc(-50% + 13px));
+        }
+        &:first-child{
+            .step-ico {
+                margin-left: 0;
+            }
+            .step-title {
+                text-align: left;
+            }
+        }
+        &:last-child{
+            .step-ico {
+                margin-right:0;
+            }
+            .step-title {
+                text-align: right;
+            } 
+        }
+        &.active{
+            &::before{
+                background-color: $primary
+            }
+            .step-ico {
+                border-color:$primary;
+                background-color: $primary;
+            }
+        }
+        .step-ico {
+            max-width: 25px;
+            height: 25px;
+            border-radius: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid $grey-color;
+            background-color: $body-bg-800;
+            padding: 2px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .step-title {
+            font-size: 10px;
+            font-weight: 600;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+    }
+}
+
+.flex-grid{
+    .box-block{
+        flex: 1;
+        &:nth-child(2){
+            flex: 0 0 64px;
+        }
+    }
+}
+
+/** On Off Switch **/
+.toggle {
+    --width: 70px;
+    --height: calc(var(--width) / 2.5);
+
+    position: relative;
+    display: inline-block;
+    width: var(--width);
+    height: var(--height);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+    border-radius: var(--height);
+    cursor: pointer;
+  }
+
+  .toggle input {
+    display: none;
+  }
+
+  .toggle .slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--height);
+    background-color: $body-bg-800;
+    transition: all 0.4s ease-in-out;
+  }
+
+  .toggle .slider::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 5px;
+    width:20px;
+    height: 20px;
+    border-radius: calc(var(--height) / 2);
+    background-color: #fff;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s ease-in-out;
+  }
+
+  .toggle input:checked+.slider {
+    background-color: $primary-three;
+  }
+
+  .toggle input:checked+.slider::before {
+    transform: translateX(calc(var(--width) - var(--height)));
+  }
+
+  .toggle .labels {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 12px;
+    font-family: sans-serif;
+    transition: all 0.4s ease-in-out;
+  }
+
+  .toggle .labels::after {
+    content: attr(data-off);
+    position: absolute;
+    right: 5px;
+    color: #4d4d4d;
+    opacity: 1;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+    transition: all 0.4s ease-in-out;
+  }
+
+  .toggle .labels::before {
+    content: attr(data-on);
+    position: absolute;
+    left: 5px;
+    color: #ffffff;
+    opacity: 0;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.4);
+    transition: all 0.4s ease-in-out;
+  }
+
+  .toggle input:checked~.labels::after {
+    opacity: 0;
+  }
+
+  .toggle input:checked~.labels::before {
+    opacity: 1;
+  }
+  /** On Off Switch **/

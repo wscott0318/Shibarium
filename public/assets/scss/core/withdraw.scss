@@ -46,6 +46,7 @@
 }
 .icon-image {
     margin-right: 5px;
+    vertical-align: middle;
 }
 .coin-sec {
     position: absolute;
@@ -103,7 +104,11 @@
             color:$grey-color;
             text-align: center;
             width: 100%;
-            border-radius: 9px;
+            border-radius: 8px;
+            -webkit-border-radius: 8px;
+            -o-border-radius: 8px;
+            -ms-border-radius: 8px;
+            -moz-border-radius: 8px;
             padding: 10px;
         }
         .tb-link.tab-active{
@@ -207,10 +212,11 @@
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    height: 580px;
+    height:420;
 }
+
 .popmodal-body {
-    min-height: 580px;
+    min-height: 420px;
 }
 .pop-spiner{
     vertical-align: middle;
@@ -219,6 +225,155 @@
 }
 .pop-action {
     margin-top: 15px;
+}
+.search-row {
+    input{
+        background: $body-bg-800;
+        padding: 15px 15px 15px 45px;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -o-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -moz-border-radius: 10px;
+        font-size: 16px;
+        color:$white;
+        &::placeholder{
+            color:$white;
+            font-weight: 100;
+        }
+    }
+}
+.search-icon {
+    position: absolute;
+    top: 16px;
+    left: 15px;
+    right: auto;
+    bottom: auto;
+}
+.sec-search {
+    margin: 10px 0 30px;
+}
+
+.info-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+}
+.token-btn-sec{
+    .btn{
+        font-size: 16px;
+    }
+}
+.token-listwrap {
+    position: relative;
+    margin-top: 20px;
+    height: 225px;
+    overflow-y: auto;
+}
+.tkn-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 65px;
+    padding-right: 15px
+}
+.cryoto-box {
+    position: absolute;
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+}
+.tokn-row {
+    margin-bottom: 20px;
+}
+.pop-btns-grid{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .btn{
+        background: $grey-color-800;
+        color: $grey-color;
+    }
+    .btn.btn-active{
+        background:$primary-gradient;
+        color: $white;
+        font-weight: 700;
+    }
+}
+.blk-width {
+    flex: 0 0 49%;
+}
+.black-bg-sec{
+    background: $body-bg-800;
+    padding: 5px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -o-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -moz-border-radius: 10px;
+}
+// .sec-search-secondry{
+//     .search-icon{
+//         display: none;
+//     }
+//     input{
+//         padding-left: 15px;
+//     }
+// }
+.sec-search.sec-search-secondry {
+    margin-bottom: 15px;
+    border-bottom: 1px solid $lite-grey-secondry;
+    padding-bottom: 10px;
+}
+.pop-mid{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.left-sec-img {
+    position: absolute;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+}
+.text-block {
+    padding-left: 65px;
+}
+.crypto-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    &:last-child{
+        margin-bottom: 0;
+    }
+}
+.left-side{
+    width: 60%;
+}
+.right-side{
+    width: 40%;
+    text-align: right;
+}
+.row-wrap {
+    min-height: 130px;
+    overflow-y: auto;
+}
+.two-col{
+    .text-block {
+        margin-bottom: 15px;
+    }
+}
+
+.row-wrap {
+    height: 210px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-bottom: 10px;
 }
 
 /** Popup style end **/

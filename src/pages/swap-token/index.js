@@ -10,6 +10,7 @@ import Amount from './amount';
 import Footer from '../footer/index';
 import Web3Status from "app/components/Web3Status";
 import CommonModal from "../components/CommonModel";
+import InnerHeader from "../../pages/inner-header";
 
 export default function differentchainbridge() {
 
@@ -21,123 +22,14 @@ export default function differentchainbridge() {
 
     const [showSlippageModal, setSlippageModal] = useState(false);
 
+    const [showSwapModal, setSwapModal] = useState(false);
+
     return (
         <>
             <main className="main-content">
                 <Sidebar handleMenuState={handleMenuState} menuState={menuState} />
                 <div className="cmn_dashbord_main_outr">
-                    <div className="inner-header">
-                        <Navbar className='py-0'>
-                            <Container>
-                                <Navbar.Brand onClick={() => setMenuState(true)} className="menu-btn">
-                                    <img className="img-fluid" src="../../images/menu.svg" alt="" />
-                                </Navbar.Brand>
-                                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                                <Navbar.Collapse id="basic-navbar-nav">
-                                    <Nav className="ms-auto">
-                                        <Dropdown className="d-flex align-items-center cus-dd mob-drop">
-                                            <div className="dot-icon" id="basic-nav-dropdown">
-                                                <img src="../../images/menu-icon.png" alt="" />
-                                            </div>
-                                            <NavDropdown className="me-3" title="App">
-                                                <div className="drop-head">
-                                                    <div className="head-brand">
-                                                        <img src="../../images/Shib-Logo.png" alt="" />
-                                                    </div>
-                                                    <div className="head-txt">
-                                                        <div className="top-txt">
-                                                            <div>
-                                                                <span>Account 0xe78</span>
-                                                            </div>
-                                                            <div>
-                                                                <span className="grey-txt">Shibarium Mainnet</span>
-                                                            </div>
-                                                        </div>
-                                                        <div className="botom-txt">
-                                                            <div className="code-txt">
-                                                                <span className="key">0xe7832a34576B9A23b98B7cE8ef83B1a8D9D229f0</span>
-                                                            </div>
-                                                            <div className="copy-blk">
-                                                                <a href="javascript:void(0);" title="Copy"><img src="../../images/copy.png" alt="" /></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <NavDropdown.Item href="#action/3.1">
-                                                    <div className="custum-row">
-                                                        <div className="lft-img">
-                                                            <img src="../../images/recive-icon.png" alt="" />
-                                                        </div>
-                                                        <div className="center-txt">
-                                                            <span>Recive Funds</span>
-                                                        </div>
-                                                        <div className="rt-image">
-                                                            <img src="../../images/rt-arow.png" alt="" />
-                                                        </div>
-                                                    </div>
-                                                </NavDropdown.Item>
-                                                <NavDropdown.Item href="#action/3.2">
-                                                    <div className="custum-row">
-                                                        <div className="lft-img">
-                                                            <img src="../../images/graph.png" alt="" />
-                                                        </div>
-                                                        <div className="center-txt">
-                                                            <span>View on Etherscan</span>
-                                                        </div>
-                                                        <div className="rt-image">
-                                                            <img src="../../images/rt-arow.png" alt="" />
-                                                        </div>
-                                                    </div>
-                                                </NavDropdown.Item>
-                                                <NavDropdown.Item href="#action/3.3">
-                                                    <div className="custum-row">
-                                                        <div className="lft-img">
-                                                            <img src="../../images/graph.png" alt="" />
-                                                        </div>
-                                                        <div className="center-txt">
-                                                            <span>View on Shibariumscan</span>
-                                                        </div>
-                                                        <div className="rt-image">
-                                                            <img src="../../images/rt-arow.png" alt="" />
-                                                        </div>
-                                                    </div>
-                                                </NavDropdown.Item>
-                                                <NavDropdown.Item href="#action/3.3">
-                                                    <div className="custum-row pb-0">
-                                                        <div className="lft-img ps-2">
-                                                            <img src="../../images/back.png" alt="" />
-                                                        </div>
-                                                        <div className="center-txt">
-                                                            <span>Logout</span>
-                                                        </div>
-                                                        <div className="rt-image">
-                                                            <img src="../../images/rt-arow.png" alt="" />
-                                                        </div>
-                                                    </div>
-                                                </NavDropdown.Item>
-                                                {/* <NavDropdown.Divider />
-                                <NavDropdown.Item href="#action/3.4">
-                                  Separated link
-                                </NavDropdown.Item> */}
-                                            </NavDropdown>
-                                        </Dropdown>
-
-                                        {/* <Nav.Item>
-                              <Link href={'javascript:void(0)'}>
-                                <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
-                                  <img className="img-fluid me-2" src="../../images/meta-icon.png" alt="meta-img"/>
-                                  <span>0x21A...48A5</span>
-                                </a>
-                              </Link>
-                            </Nav.Item> */}
-                                        <Nav.Item className="btn-status">
-                                            <Web3Status />
-                                        </Nav.Item>
-                                    </Nav>
-                                </Navbar.Collapse>
-                            </Container>
-                        </Navbar>
-                    </div>
+                    <InnerHeader />
                     <div className="container">
                         <div className='swap-card cus-card-800'>
                             <div className="swp-header">
@@ -164,7 +56,7 @@ export default function differentchainbridge() {
                             <div className="swp-body">
                                 <form action="" className='flex-form'>
                                     <div className="field-grid row">
-                                        <div className="col-md-4">
+                                        <div className="col-sm-4">
                                             <div className="form-group">
                                                 <div className="form-field position-relative dark-input">
                                                     <div className="coin-icon">
@@ -182,7 +74,7 @@ export default function differentchainbridge() {
                                                 <label className='lite-color mt-1' htmlFor="">Balance: 10 ETH</label>
                                             </div>
                                         </div>
-                                        <div className="col-md-8">
+                                        <div className="col-sm-8">
                                             <div className="form-group">
                                                 <div className="form-field position-relative two-fld dark-input">
                                                     <div className="mid-chain w-100">
@@ -197,7 +89,7 @@ export default function differentchainbridge() {
                                         </div>
                                     </div>
                                     <div className="field-grid row">
-                                        <div className="col-md-4">
+                                        <div className="col-sm-4">
                                             <div className="form-group">
                                                 <div className="form-field position-relative dark-input">
                                                     <div className="coin-icon">
@@ -215,7 +107,7 @@ export default function differentchainbridge() {
                                                 <label htmlFor="" className='lite-color mt-1 d-block'>Balance: 0 BONE</label>
                                             </div>
                                         </div>
-                                        <div className="col-md-8">
+                                        <div className="col-sm-8">
                                             <div className="form-group">
                                                 <div className="form-field position-relative two-fld dark-input">
                                                     <div className="mid-chain w-100">
@@ -240,7 +132,7 @@ export default function differentchainbridge() {
                                                 </button>
                                             </div>
                                             <div className="col-6">
-                                                <button type='button' className='btn black-btn w-100'>
+                                                <button type='button' className='btn black-btn w-100' onClick={() => setSwapModal(true)}>
                                                     Review Swap
                                                 </button>
                                             </div>
@@ -256,33 +148,92 @@ export default function differentchainbridge() {
             {/* modal code start */}
 
             <CommonModal
-          title={"Set Slippage"}
-          show={showSlippageModal}
-          setShow={setSlippageModal}
+                title={"Set Slippage"}
+                show={showSlippageModal}
+                setShow={setSlippageModal}
+            >
+                <div className='modal-body fix-vh d-flex flex-column justify-content-between mt-3'>
+                    <div className="top-area">
+                        <ul className='badges-list'>
+                            <li className='badges-lst-item'>
+                                <a href="javascript:void(0)" className="btn bage-bg d-block text-center">1 %</a>
+                            </li>
+                            <li className='badges-lst-item'>
+                                <a href="javascript:void(0)" className="btn bage-bg d-block text-center active">2 %</a>
+                            </li>
+                            <li className='badges-lst-item'>
+                                <a href="javascript:void(0)" className="btn bage-bg d-block text-center">5 %</a>
+                            </li>
+                            <li className='badges-lst-item'>
+                                <a href="javascript:void(0)" className="btn bage-bg d-block text-center">Insert custom slippage</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className='bottom-area'>
+                        <button type='button' className='btn primary-btn w-100'>Set Slippage</button>
+                    </div>
+                </div>
+            </CommonModal>
 
-        >
-            <div className='modal-body fix-vh d-flex flex-column justify-content-between mt-3'>
-                <div className="top-area">
-                    <ul className='badges-list'>
-                        <li className='badges-lst-item'>
-                            <a href="javascript:void(0)" className="btn bage-bg d-block text-center">1 %</a>
-                        </li>
-                        <li className='badges-lst-item'>
-                            <a href="javascript:void(0)" className="btn bage-bg d-block text-center active">2 %</a>
-                        </li>
-                        <li className='badges-lst-item'>
-                            <a href="javascript:void(0)" className="btn bage-bg d-block text-center">5 %</a>
-                        </li>
-                        <li className='badges-lst-item'>
-                            <a href="javascript:void(0)" className="btn bage-bg d-block text-center">Insert custom slippage</a>
-                        </li>
-                    </ul>
+            {/* modal code closed */}
+
+            {/* modal code start */}
+
+            <CommonModal
+                title={"Review Swap"}
+                show={showSwapModal}
+                setShow={setSwapModal}
+            >
+                <div className="popmodal-body">
+                    <div className="pop-block">
+                        <div className="pop-top">
+                            <div className="cnfrm_box dark-bg-800">
+                                <div className="top_overview col-12">
+                                    <span><img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></span>
+                                    <h6>1000 SHIB</h6>
+                                    <p>2000.00$</p>
+                                </div>
+                            </div>
+                            <div className="pop-grid flex-grid">
+                                <div className="text-center box-block">
+                                    <button type='button' className='btn primary-btn w-100'>ETH</button>
+                                </div>
+                                <div className="text-center box-block">
+                                    <div className="d-inline-block">
+                                        <img class="img-fluid" src="../../images/white-arrow.png" alt="" />
+                                    </div>
+                                </div>
+                                <div className="text-center box-block">
+                                    <button type='button' className='btn primary-btn w-100'>BONE</button>
+                                </div>
+                            </div>
+                            <p className='mb-0 text-center'>1 ETH = 10 SHIB</p>
+
+                        </div>
+                        <div className="pop-bottom">
+                            <div className="amt-section position-relative ps-0">
+                                <div className="coin-blk">
+                                    <p className="lite-color">Slippage tollerance</p>
+                                </div>
+                                <div>
+                                    <p className="fw-bold">2%</p>
+                                </div>
+                            </div>
+                            <div className="amt-section position-relative ps-0">
+                                <div className="coin-blk">
+                                    <p className="lite-color">Powered By</p>
+                                </div>
+                                <div>
+                                    <p className="fw-bold">X-Funds</p>
+                                </div>
+                            </div>
+                            <div className='btn-wrap'>
+                                <a className='btn grey-btn w-100' href="javascript:void(0)"><span className="spinner-border text-secondary pop-spiner"></span><span>Confirm Swap</span></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className='bottom-area'>
-                    <button type='button' className='btn primary-btn w-100'>Set Slippage</button>
-                </div>
-            </div>
-        </CommonModal>
+            </CommonModal>
 
             {/* modal code closed */}
         </>

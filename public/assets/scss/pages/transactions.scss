@@ -10,30 +10,47 @@
     border-top-right-radius: 10px;
     padding: 22px;
     margin-top: 32px;
-    div.col-4 {
+    div.col-md-4 {
         display: flex;
         align-items: center;
         span{
             margin-right: 20px;
         }
+        @media #{$max-md }{
+            margin: 10px 0;
+        }
     }
+}
+.step_no .spinner-border{
+    height: 4rem;
+    width: 4rem;
 }
 .step_no b {
     font-size: 16px;
     display: block;
     width: 100%;
     font-weight: 700;
+    @media #{$max-lg}{
+        font-size: 14px;
+    }
 } 
 .bone_count{
     b{
         font-size: 20px;
         font-weight: 700;
         color: $white;
+        @media #{$max-lg}{
+            font-size: 14px;
+        }
+        
     }
     p{
         font-size: 16px;
         color: $body-text;
         font-weight: 600;
+        @media #{$max-lg}{
+            font-size: 14px;
+        }
     }
 }
 .cont_sec{
@@ -46,6 +63,11 @@
     .row{
         align-items: center;
         justify-content: space-between;
+    }
+    @media #{$max-md}{
+        button{
+            margin-top: 15px;
+        }
     }
 }
 .trns_data .cmn_data {
@@ -65,11 +87,21 @@
     p{
         font-size: 16px;
     }
+    @media #{$max-xl}{
+        font-size: 18px;
+    }
+    @media #{$max-lg}{
+        font-size: 16px;
+    }
+    @media #{$max-md}{
+        font-size: 14px;
+    }
 }
 .trns_date{
     font-weight: 800;
     font-size: 16px;
     color:$body-text ;
+    margin-bottom: 10px;
  }
  .single_trns_row {
     margin-top: 30px;
@@ -92,19 +124,19 @@
     height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
+    margin-top: 30px;
 }
-
+  
 
 .transactions_list_outr::-webkit-scrollbar {
     width: 7px;
     background-color: #0C0F17;
-    border-radius: 10px;
+    border-radius: 10px;    
 }
 
 
 .transactions_list_outr::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 2px rgba(104, 140, 240, 0.3);
-    
+    box-shadow: inset 0 0 2px rgba(104, 140, 240, 0.3);    
   }
 
 .transactions_list_outr::-webkit-scrollbar-thumb {
@@ -142,6 +174,7 @@
     padding: 0 15px;
     .icon_name{
         display: flex;
+        align-items: center;
         span{
             font-size: 16px;
             font-weight: 400;
@@ -173,5 +206,12 @@
         border: 0;
         color: $white;
         box-shadow: none;
+    }
+}
+.trns_top_btns_area{
+    @media #{$max-sm}{
+        div{
+            margin: 10px 0;
+        }
     }
 }
