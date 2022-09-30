@@ -11,7 +11,7 @@
     //     margin-bottom: 16px;
     // }
     @media #{$max-md}{
-        width: calc(100% - 30px);
+        width: 100%;
         position: static;
         top:auto;
         left: auto;
@@ -29,6 +29,11 @@
             margin-right: 16px;
             &:last-child{
                 margin-right: 0;
+            }
+            img{
+                @media #{$max-sm}{
+                    max-width: 20px;
+                }
             }
         }
     }

@@ -1,11 +1,21 @@
+.assets_outr {
+    padding-top: 22px;
+    @media #{$max-sm}{
+        padding-top: 16px;
+    }
+}
 
  
 .assets_top_area{
-    margin: 30px -12px;
+    margin: 30px -12px 0;
     display: flex;
     justify-content: space-between;
     @media #{$max-xxl}{
-            flex-wrap: wrap;  
+        flex-wrap: wrap;
+        margin: 20px -12px;
+    }
+    @media #{$max-lg}{
+        margin: 15px -12px 0;
     }
     .btn-img {
         max-width: 25px;
@@ -68,6 +78,12 @@
             @media #{$max-xl}{
                 padding: 12px 10px;
             }
+            @media #{$max-md}{
+                padding: 10px 8px;
+            }
+            @media #{$max-sm}{
+                padding: 8px 8px;
+            }
         }
         a{
             span{
@@ -96,8 +112,20 @@
 
 .assets_btm_area {
     margin-top: 32px;
+    @media #{$max-xxl}{
+        margin-top: 22px;
+    }
+    @media #{$max-lg}{
+        margin-top: 16px;
+    }
     h2{
         margin-bottom: 32px;
+        @media #{$max-xxl}{
+            margin-bottom: 22px;
+        }
+        @media #{$max-lg}{
+            margin-bottom: 16px;
+        }
     }
 }
 

@@ -9,6 +9,8 @@ import Popup from "../components/PopUp";
 import { ChainId } from "@shibarium/core-sdk";
 import Web3 from "web3";
 import  CommonModal from "../components/CommonModel";
+import InnerHeader from "../../pages/inner-header";
+
 import Link from 'next/link'
 import {
   NoEthereumProviderError,
@@ -21,24 +23,33 @@ import { useMoralis } from "react-moralis";
 import {useEthBalance} from "../../hooks/useEthBalance";
 import {useTokenBalance} from '../../hooks/useTokenBalance';
 import { BONE_ID, ENV_CONFIGS } from '../../config/constant';
+import {BONE} from "../../web3/contractAddresses";
+import ERC20 from "../../ABI/ERC20Abi.json";
+import fromExponential from "from-exponential";
 
 export default function Wallet() {
 
   const router = useRouter()
-  const { chainId , account} = useActiveWeb3React();
+  const { chainId=1, account, library} = useActiveWeb3React();
   const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(ENV_CONFIGS[chainId].BONE);
+  const lib  = library
+  const web3 = new Web3(lib?.provider)
+
   const [senderAddress, setSenderAdress] = useState('');
   const [isValidAddress, setIsValidAddress] = useState(false)
   const [sendAmount, setSendAmount] = useState('')
   const [senderModal, setSenderModal] = useState(false)
   const [verifyAmount, setVerifyAmount] = useState(false)
+  const [transactionHash, setTransactionHash] = useState('')
   const [showSendModal, setSendModal] = useState({
-    step1:false,
-    step2:true,
+    step1:true,
+    step2:false,
     step3:false
   });
   const [menuState, setMenuState] = useState(false);
   console.log(availBalance)
+
+
   const varifyAccount = (address) => {
       let result = Web3.utils.isAddress(address)
       setIsValidAddress(result)
@@ -84,6 +95,51 @@ export default function Wallet() {
           step3:false
         })
       }
+    }
+
+    const submitTransaction = () => {
+      let user = account;
+      let amount = web3.utils.toBN(fromExponential(+sendAmount * Math.pow(10, 18)));
+      let instance = new web3.eth.Contract(ERC20, BONE);
+      instance.methods.transfer(senderAddress,amount).send({ from: user })
+      .on('transactionHash',(res) => {
+        console.log(res, "hash")
+        setTransactionHash(res)
+        setSendModal({
+          step1:false,
+          step2:false,
+          step3:true
+        }) 
+      }).on('receipt', (res) => {
+        console.log(res, "response")
+      }).on('error',(err) => {
+        console.log(err, "error")
+      })
+    }
+
+    const transactionCounts = () => {
+      var subscription = web3.eth.subscribe('pendingTransactions', function(error, result){
+        if (!error)
+            console.log(result);
+    })
+    .on("data", function(transaction){
+        console.log(transaction);
+    });
+    console.log(subscription)
+    }
+
+    // transactionCounts()
+    
+    const handleCloseModal = () => {
+      setSenderModal(false)
+      setVerifyAmount(false)
+      setSendAmount('');
+      setSenderAdress('')
+      setSendModal({
+        step1:true,
+        step2:false,
+        step3:false
+      })
     }
 
 
@@ -148,7 +204,7 @@ export default function Wallet() {
                             <div className="col-6">
                             <button
                              className='btn blue-btn w-100'
-                             
+                             onClick={() => handleCloseModal()}
                              >Back</button>  
                             </div>
                             <div className="col-6">
@@ -184,7 +240,7 @@ export default function Wallet() {
                           <input
                            class="form-check-input" 
                            type="checkbox" 
-                           onChange={() => setVerifyAmount(!varifyAmount)}
+                           onChange={() => setVerifyAmount(!verifyAmount)}
                            value={verifyAmount}
                            id="flexCheckChecked"
                            />
@@ -202,6 +258,7 @@ export default function Wallet() {
                           <div className="col-6">
                           <button className='btn primary-btn w-100' 
                             disabled={verifyAmount ? false : true}
+                            onClick={() => submitTransaction()}
                           >Send</button> 
                           </div>
                       </div>
@@ -216,19 +273,24 @@ export default function Wallet() {
                     <div className="cnfrm_box">
                         <div className="top_overview col-12">
                               <span><img src="../../images/shib-borderd-icon.png"/></span>
-                              <h6>1100.00 SHIB</h6>
-                              <p>500.00$</p>
+                              <h6>{sendAmount} BONE</h6>
+                              <p>00.00$</p>
                         </div>
                         <div className="add_detail col-12">
                             <p><b>TRANSACTION SUBMITTED TO:</b></p>
-                            <p>0x5c932BBe4485C24E1a779872362e990dEdf0D208</p>
+                            <p>{transactionHash}</p>
                         </div>
                     </div>
                     <div className="cnfrm_check_box text-center">
                         Check your wallet activity to see the status of the transaction
                     </div>
                       <div className="pop_btns_area row form-control">
-                          <div className="col-12"><a className='btn primary-btn w-100' href="javascript:void(0)">Close</a>  </div>
+                          <div className="col-12">
+                          <button 
+                          className='btn primary-btn w-100' 
+                          onClick={() => handleCloseModal()}
+                          >Close</button>  
+                          </div>
                       </div> 
                 </div>}
                 {/* submitted popop ends */}
@@ -238,118 +300,7 @@ export default function Wallet() {
         </CommonModal>
         <section className="assets-section">
           <div className="cmn_dashbord_main_outr">
-            <div className="inner-header">
-              <Navbar className='py-0'>
-                <Container>
-                  <Navbar.Brand onClick={() => setMenuState(true)} className="menu-btn">
-                    <img className="img-fluid" src="../../images/menu.svg" alt="" />
-                  </Navbar.Brand>
-                  <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                  <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="ms-auto">
-                      <Dropdown className="d-flex align-items-center cus-dd mob-drop">
-                        <div className="dot-icon" id="basic-nav-dropdown">
-                          <img src="../../images/menu-icon.png" alt="" />
-                        </div>
-                        <NavDropdown className="me-3" title="App">
-                          <div className="drop-head">
-                            <div className="head-brand">
-                              <img src="../../images/Shib-Logo.png" alt="" />
-                            </div>
-                            <div className="head-txt">
-                              <div className="top-txt">
-                                <div>
-                                  <span>Account 0xe78</span>
-                                </div>
-                                <div>
-                                  <span className="grey-txt">Shibarium Mainnet</span>
-                                </div>
-                              </div>
-                              <div className="botom-txt">
-                                <div className="code-txt">
-                                  <span className="key">0xe7832a34576B9A23b98B7cE8ef83B1a8D9D229f0</span>
-                                </div>
-                                <div className="copy-blk">
-                                  <a href="javascript:void(0);" title="Copy"><img src="../../images/copy.png" alt="" /></a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <NavDropdown.Item href="#action/3.1">
-                            <div className="custum-row">
-                              <div className="lft-img">
-                                <img src="../../images/recive-icon.png" alt="" />
-                              </div>
-                              <div className="center-txt">
-                                <span>Recive Funds</span>
-                              </div>
-                              <div className="rt-image">
-                                <img src="../../images/rt-arow.png" alt="" />
-                              </div>
-                            </div>
-                          </NavDropdown.Item>
-                          <NavDropdown.Item href="#action/3.2">
-                            <div className="custum-row">
-                              <div className="lft-img">
-                                <img src="../../images/graph.png" alt="" />
-                              </div>
-                              <div className="center-txt">
-                                <span>View on Etherscan</span>
-                              </div>
-                              <div className="rt-image">
-                                <img src="../../images/rt-arow.png" alt="" />
-                              </div>
-                            </div>
-                          </NavDropdown.Item>
-                          <NavDropdown.Item href="#action/3.3">
-                            <div className="custum-row">
-                              <div className="lft-img">
-                                <img src="../../images/graph.png" alt="" />
-                              </div>
-                              <div className="center-txt">
-                                <span>View on Shibariumscan</span>
-                              </div>
-                              <div className="rt-image">
-                                <img src="../../images/rt-arow.png" alt="" />
-                              </div>
-                            </div>
-                          </NavDropdown.Item>
-                          <NavDropdown.Item href="#action/3.3">
-                            <div className="custum-row pb-0">
-                              <div className="lft-img ps-2">
-                                <img src="../../images/back.png" alt="" />
-                              </div>
-                              <div className="center-txt">
-                                <span>Logout</span>
-                              </div>
-                              <div className="rt-image">
-                                <img src="../../images/rt-arow.png" alt="" />
-                              </div>
-                            </div>
-                          </NavDropdown.Item>
-                          {/* <NavDropdown.Divider />
-                                <NavDropdown.Item href="#action/3.4">
-                                  Separated link
-                                </NavDropdown.Item> */}
-                        </NavDropdown>
-                      </Dropdown>
-
-                      {/* <Nav.Item>
-                              <Link href={'javascript:void(0)'}>
-                                <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
-                                  <img className="img-fluid me-2" src="../../images/meta-icon.png" alt="meta-img"/>
-                                  <span>0x21A...48A5</span>
-                                </a>
-                              </Link>
-                            </Nav.Item> */}
-                      <Nav.Item className="btn-status">
-                        <Web3Status />
-                      </Nav.Item>
-                    </Nav>
-                  </Navbar.Collapse>
-                </Container>
-              </Navbar>
-            </div>
+            <InnerHeader />
             {/* assets section start */}
             <div className="assets_outr">
               <h2>My Balance</h2>
@@ -367,8 +318,10 @@ export default function Wallet() {
                       Receive
                     </button>
 
-                    <button onClick={() => setSendModal(true)} className="btn grey-btn w-100 d-flex align-items-center justify-content-center">
-                      <span className="me-2"><img className="btn-img" src="../../images/send-icon.png" alt="recive" /></span>Send</button>
+                    <button onClick={() => setSenderModal(true)} className="btn grey-btn w-100 d-flex align-items-center justify-content-center">
+                      <span className="me-2">
+                      <img className="btn-img" src="../../images/send-icon.png" alt="recive" />
+                      </span>Send</button>
                   </div>
                 </div>
                 <div className="bal-col">
@@ -385,7 +338,7 @@ export default function Wallet() {
                     <table class="table table-borderless">
                       <thead>
                         <tr>
-                          <th>Name</th>
+                          <th colSpan="2">Name</th>
                           <th>Balance</th>
                           <th>Actions</th>
                           <th colSpan="2" className="text-end"><input type="search" placeholder="Search" /></th>
@@ -393,28 +346,28 @@ export default function Wallet() {
                       </thead>
                       <tbody>
                         <tr>
-                          <td><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
+                          <td colSpan="2"><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
                           <td>0.0000 - 0.00$</td>
                           <td><a href="#">Deposit</a></td>
                           <td><a href="#">Whitdraw</a></td>
                           <td><a href="#">Send</a></td>
                         </tr>
                         <tr>
-                          <td><span><img src="../../images/matic-round-icon.png" /></span><b>MATIC</b> - Polygon</td>
+                          <td colSpan="2"><span><img src="../../images/matic-round-icon.png" /></span><b>MATIC</b> - Polygon</td>
                           <td>0.0000 - 0.00$</td>
                           <td><a href="#">Deposit</a></td>
                           <td><a href="#">Whitdraw</a></td>
                           <td><a href="#">Send</a></td>
                         </tr>
                         <tr>
-                          <td><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
+                          <td colSpan="2"><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
                           <td>0.0000 - 0.00$</td>
                           <td><a href="#">Deposit</a></td>
                           <td><a href="#">Whitdraw</a></td>
                           <td><a href="#">Send</a></td>
                         </tr>
                         <tr>
-                          <td><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
+                          <td colSpan="2"><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
                           <td>0.0000 - 0.00$</td>
                           <td><a href="#">Deposit</a></td>
                           <td><a href="#">Whitdraw</a></td>
