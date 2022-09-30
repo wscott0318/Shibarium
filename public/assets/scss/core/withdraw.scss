@@ -59,6 +59,14 @@
 .coin-blk, .amt-section{
     p{
         font-size: 16px;
+        @media #{$max-lg}{
+            font-size: 14px;
+        }
+    }
+}
+.coin-blk{
+    p{
+        padding-right: 5px;
     }
 }
 .amt-section {

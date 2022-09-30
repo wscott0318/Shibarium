@@ -50,7 +50,7 @@ export default function Withdraw() {
             
 
               {/* confirm deposit popop starts */}
-                <div className="popmodal-body">
+                {/* <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box">
@@ -89,7 +89,7 @@ export default function Withdraw() {
                           </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* confirm deposit popop ends */}
 
                 {/* Transaction pending popup start */}
@@ -140,7 +140,7 @@ export default function Withdraw() {
                 {/* Transaction pending popup end */}
 
                 {/* Transaction completed popup start */}
-                {/* <div className="popmodal-body">
+                <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box">
@@ -164,7 +164,7 @@ export default function Withdraw() {
                         </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
                 {/* Transaction completed popup end */}
 
                 
