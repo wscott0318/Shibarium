@@ -701,3 +701,8 @@
     }
   }
   /** On Off Switch **/
+  .cmn-input-bg{
+    .cmn_modal input[type=email], .cmn_modal input[type=text] {
+        background-color:$body-bg-800;
+    }
+  }

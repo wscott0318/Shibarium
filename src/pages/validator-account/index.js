@@ -41,7 +41,7 @@ export default function ValidatorAccount() {
     //  console.log('account---------------', account)
     return (
         <>
-            <main className="main-content dark-bg-800 full-vh top-space">
+            <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg">
             <StakingHeader />
                 {/* retake popop start */}
                 <CommonModal
@@ -152,7 +152,7 @@ export default function ValidatorAccount() {
                                     <p className="text-center">Are you sure you want to unbound?</p>
                                 </div>
                                 <div className="pop_btns_area row mr-top-50 form-control">
-                                    <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Cancel</a>  </div>
+                                    <div className="col-6"><a className='btn blue-btn w-100 dark-bg-800 text-white' href="javascript:void(0)">Cancel</a>  </div>
                                     <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Confirm</a>  </div>
                                 </div>
                             </form>
@@ -172,6 +172,7 @@ export default function ValidatorAccount() {
 
                 <section className="mid_cnt_area">
                     <div className="container">
+                    <div className="col-lg-10 mx-auto">
                         <h4>Ethereum Wallet Balance</h4>
                         <h3 className="primary-text"><b>0 Bone</b></h3>
                         <h4>$0.00</h4>
@@ -198,6 +199,7 @@ export default function ValidatorAccount() {
                             </div>
 
                         </div>
+                    </div>
                     </div>
                 </section>
 

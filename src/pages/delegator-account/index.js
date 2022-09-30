@@ -7,6 +7,7 @@ import ProjectContext from "../../context/ProjectContext";
 import Footer from "../../pages/footer/index"
 import { useActiveWeb3React } from "../../services/web3"
 import  CommonModal from "../components/CommonModel";
+import Header from "../layout/header"
 export default function DelegatorAccount() {
   // const {account}=useContext(ProjectContext)
 
@@ -40,7 +41,8 @@ export default function DelegatorAccount() {
   //  console.log('account---------------', account)
   return (
     <>
-      <main className="main-content val_account_outr">
+      <main className="main-content val_account_outr cmn-input-bg">
+          <Header />
 {/* retake popop start */}
       <CommonModal
           title={"Retake"}
@@ -123,7 +125,7 @@ export default function DelegatorAccount() {
                              <p className="text-center">Are you sure you want to unbound?</p>
                         </div> 
                         <div className="pop_btns_area row mr-top-50 form-control">
-                            <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Cancel</a>  </div>
+                            <div className="col-6"><a className='btn dark-bg-800 text-white w-100' href="javascript:void(0)">Cancel</a>  </div>
                             <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Confirm</a>  </div>
                         </div>                         
                     </form>      
@@ -143,31 +145,33 @@ export default function DelegatorAccount() {
 
             <section className="mid_cnt_area">
                 <div className="container">
-                    <h4>Ethereum Wallet Balance</h4>
-                    <h3><b>0 Bone</b></h3>
-                    <h4>$0.00</h4>        
-                    <div className="btns_sec val_all_bts row">
-                        <div className="col-md-3 col-sm-4"> 
-                            <button  className="btn grey-btn w-100 d-block">
-                                Become a Validator
-                            </button>
+                    <div className="col-xl-8 mx-auto">
+                        <h4>Ethereum Wallet Balance</h4>
+                        <h3><b>0 Bone</b></h3>
+                        <h4>$0.00</h4>        
+                        <div className="btns_sec val_all_bts row">
+                            <div className="col-md-3 col-sm-4"> 
+                                <button  className="btn grey-btn w-100 d-block">
+                                    Become a Validator
+                                </button>
+                            </div>
+                            <div className="col-md-3 col-sm-4">                        
+                                <button onClick={() =>setvalidatorpop(true)} className="btn grey-btn w-100 d-block">
+                                    Restake
+                                </button> 
+                            </div>
+                            <div className="col-md-3 col-sm-4">                        
+                                <button onClick={() =>setwithdrawpop(true)} className="btn grey-btn w-100 d-block">
+                                    Withdraw Rewards
+                                </button>
+                            </div>
+                            <div className="col-md-3 col-sm-4">                        
+                                <button onClick={() =>setunboundpop(true)} className="btn grey-btn w-100 d-block">
+                                    Unbound
+                                </button>    
+                            </div>
+                            
                         </div>
-                        <div className="col-md-3 col-sm-4">                        
-                            <button onClick={() =>setvalidatorpop(true)} className="btn grey-btn w-100 d-block">
-                                Restake
-                            </button> 
-                        </div>
-                        <div className="col-md-3 col-sm-4">                        
-                            <button onClick={() =>setwithdrawpop(true)} className="btn grey-btn w-100 d-block">
-                                Withdraw Rewards
-                            </button>
-                        </div>
-                        <div className="col-md-3 col-sm-4">                        
-                            <button onClick={() =>setunboundpop(true)} className="btn grey-btn w-100 d-block">
-                                Unbound
-                            </button>    
-                        </div>
-                        
                     </div>
                 </div>                
             </section>
