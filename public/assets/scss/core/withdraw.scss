@@ -70,8 +70,11 @@
     margin-bottom: 20px;
 }
 .sub-buttons-sec {
+    
     .btn{
+        font-size: 16px;
         color: $grey-color;
+        padding: 15px;
     }
 }
 .height-blk {
@@ -166,8 +169,10 @@
     }
 }
 .btn-modify{
-    // .primary-btn{
-    // }
+    .primary-btn{
+        font-size: 16px;
+        padding: 15px;
+    }
 }
 .sec-wrapper {
     display: flex;
@@ -254,9 +259,9 @@
     font-size: 16px;
 }
 .token-btn-sec{
-    // .btn{
-    //     font-size: 16px;
-    // }
+    .btn{
+        font-size: 16px;
+    }
 }
 .token-listwrap {
     position: relative;
