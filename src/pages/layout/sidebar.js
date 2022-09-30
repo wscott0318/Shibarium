@@ -13,12 +13,14 @@ import {
 } from "react-bootstrap";
 import NavLink from "../components/NavLink";
 import SideNavTab from "../../constants/Resources/sideNavTab";
+import { useRouter } from 'next/router'
 
 
 
 export default function Sidebar({menuState, handleMenuState}) {
   const wrapperRef = useRef(null);
   const [isVisible, setIsVisible] = useState(true);
+  const router = useRouter()
 
   const handlClick = () => {
     setIsVisible((prev) => !prev);
@@ -27,32 +29,32 @@ export default function Sidebar({menuState, handleMenuState}) {
   const topList = [
     {
       name: 'Wallet',
-      route:'',
-      isSelected: false,
+      route:'/wallet',
+      isSelected: router.asPath == '/wallet' ? true : false,
       img:"../../images/sidebar/wallet.png",
     },
     {
       name: 'Transactions',
-      route:'',
-      isSelected: false,
+      route:'/transactions',
+      isSelected: router.asPath == '/transactions' ? true : false,
       img:"../../images/sidebar/transaction.png",
     },
     {
       name: 'Bridge',
-      route:'',
-      isSelected: false,
+      route:'/withdraw',
+      isSelected: router.asPath == '/withdraw' ? true : false,
       img:"../../images/sidebar/bridge.png",
     },
     {
       name: 'Swap token',
-      route:'',
-      isSelected: false,
+      route:'/swap-token',
+      isSelected: router.asPath == '/swap-token' ? true : false,
       img:"../../images/sidebar/swap.png",
     },
     {
       name: 'Gas token',
-      route:'',
-      isSelected: false,
+      route:'/gas-token',
+      isSelected: router.asPath == '/gas-token' ? true : false,
       img:"../../images/sidebar/gas-toke.png",
     }
   ]
@@ -96,15 +98,16 @@ export default function Sidebar({menuState, handleMenuState}) {
   }
 
   const handelClick = (index, type) => {
-    if(type === 'top'){
-      let newData = activateBtn(renderTopList, index)
-      setRenderTopList(newData)
-      setRenderBottomList(bottomList)
-    } else {
-      let newData = activateBtn(renderBottomList, index)
-      setRenderTopList(topList)
-      setRenderBottomList(newData)
-    }
+    // if(type === 'top'){
+    //   let newData = activateBtn(renderTopList, index.name)
+    //   setRenderTopList(newData)
+    //   setRenderBottomList(bottomList)
+    // } else {
+    //   let newData = activateBtn(renderBottomList, index.name)
+    //   setRenderTopList(topList)
+    //   setRenderBottomList(newData)
+    // }
+    router.push(index.route)
   }
 
   // console.log(renderTopList)
@@ -126,7 +129,7 @@ export default function Sidebar({menuState, handleMenuState}) {
             {
               renderTopList.map(x => 
               <li className="side-menu-item">
-                <button className={x.isSelected ? "side-link btn primary-btn w-100" : "side-link btn w-100"} onClick={() => handelClick(x.name, 'top')}>
+                <button className={x.isSelected ? "side-link btn primary-btn w-100" : "side-link btn w-100"} onClick={() => handelClick(x, 'top')}>
                   <span>
                     <span className="side-ico"><img className="img-fluid" src={x.img} alt="side-icon" /></span>
                     <span>{x.name}</span>
@@ -142,7 +145,7 @@ export default function Sidebar({menuState, handleMenuState}) {
           {
             renderBottomList.map(x => 
               <li className="side-menu-item">
-              <button className={x.isSelected ? "side-link btn primary-btn w-100" : "side-link btn w-100"} onClick={() => handelClick(x.name, 'bottom')}>
+              <button className={x.isSelected ? "side-link btn primary-btn w-100" : "side-link btn w-100"} onClick={() => handelClick(x, 'bottom')}>
                 <span>
                   <span className="side-ico"><img className="img-fluid" src={x.img} alt="side-icon" /></span>
                   <span>{x.name}</span>
