@@ -399,7 +399,7 @@ export default function Withdraw() {
             
 
               {/* Select token popop starts */}
-                {/* <div className="popmodal-body tokn-popup">
+                <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="sec-search">
@@ -461,16 +461,45 @@ export default function Withdraw() {
                             </div>
                           </div>
                         </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                       
                       </div>
                     </div>
                     
                   </div>
-                </div> */}
+                </div>
                 {/* Select token popop ends */}
 
 
                 {/* Manage token popop starts */}
-                <div className="popmodal-body tokn-popup">
+                {/* <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -554,7 +583,7 @@ export default function Withdraw() {
                     </div>
                     
                   </div>
-                </div>
+                </div> */}
                 {/* Manage token popop ends */}
 
                  {/* Add token popop starts */}

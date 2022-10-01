@@ -373,26 +373,77 @@
     align-items: center;
     font-size: 16px;
 }
-.token-btn-sec{
-    .btn{
-        // font-size: 16px;
-        // @media #{$max-md}{
-        //     font-size: 14px;
-        // }
-    }
-}
+// .token-btn-sec{
+//     .btn{
+//         // font-size: 16px;
+//         // @media #{$max-md}{
+//         //     font-size: 14px;
+//         // }
+//     }
+// }
 .token-listwrap {
     position: relative;
     margin-top: 20px;
-    height: 225px;
+    max-height: 355px;
     overflow-y: auto;
+    @media #{$max-xxl}{
+        max-height: 265px;
+    }
+    @media #{$max-xl}{
+        max-height: 245px;
+    }
+    @media #{$max-lg}{
+        max-height: 235px;
+    }
+    @media #{$max-lg}{
+        max-height: 235px;
+    }
+    @media #{$max-md}{
+        max-height: 225px;
+    }
+}
+.cryoto-box{
+    img{
+        @media #{$max-xxl}{
+            max-width: 43px;
+        }
+        @media #{$max-xl}{
+            max-width: 40px;
+        }
+        @media #{$max-lg}{
+            max-width: 36px;
+        }
+    }
 }
 .tkn-grid {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-left: 65px;
-    padding-right: 15px
+    padding-right: 15px;
+    @media #{$max-xxl}{
+        padding-left: 55px;
+    }
+    @media #{$max-xl}{
+        padding-left: 55px;
+    }
+    @media #{$max-lg}{
+        padding-left: 49px;
+    }
+    
+}
+.popmodal-body.cus-ht{
+    .pop-block{
+        @media #{$max-md}{
+            height: 380px;
+        }
+        .popmodal-body{
+            @media #{$max-md}{
+                min-height: 380px;
+            } 
+        }
+    }
+    
 }
 .cryoto-box {
     position: absolute;
