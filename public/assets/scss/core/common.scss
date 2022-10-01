@@ -526,6 +526,9 @@
         width: 25%;
         margin: 0 auto;
         padding-bottom: 26px;
+        @media #{$max-xsm}{
+            padding-bottom: 36px;
+        }
         &::before {
             content: '';
             position: absolute;
@@ -536,6 +539,9 @@
             height: 2px;
             top: calc(50% - 25px);
             transform: translateY(calc(-50% + 13px));
+            @media #{$max-xsm}{
+                top: calc(50% - 29px);
+            }
         }
         &:first-child{
             .step-ico {
@@ -731,3 +737,28 @@
         border: none;
     }
   }
+  
+  /** Validator account page responsive start **/
+  .side-auto{
+    margin-left: auto;
+    margin-right: auto;
+    @media #{$max-xl}{
+        margin-left: 0;
+        margin-right: 0;
+    }
+  }
+  .blk-space{
+    @media #{$max-xl}{
+        margin-bottom: 15px !important;
+    }
+    @media #{$max-lg}{
+        margin-bottom: 15px !important;
+    }
+  }
+  
+  /** Validator account page responsive end **/
+
+  /** Transaction page responsive **/
+  
+  /** Transaction page responsive **/
+ 

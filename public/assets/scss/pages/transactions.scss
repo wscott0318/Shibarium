@@ -24,6 +24,11 @@
 .step_no .spinner-border{
     height: 4rem;
     width: 4rem;
+    @media #{$max-sm}{
+        height: 3rem;
+        width: 3rem;
+        margin-right: 0px !important;
+    }
 }
 .step_no b {
     font-size: 16px;
@@ -32,6 +37,12 @@
     font-weight: 700;
     @media #{$max-lg}{
         font-size: 14px;
+    }
+    @media #{$max-lg}{
+        font-weight: 600;
+    }
+    @media #{$max-md}{
+        font-weight: 500;
     }
 } 
 .bone_count{
@@ -151,6 +162,15 @@
 }
 .trans_popups .image_area img{
     margin: 15px auto;
+    @media #{$max-xxl}{
+        max-width: 140px;
+    }
+    @media #{$max-xl}{
+        max-width: 120px;
+    }
+    @media #{$max-lg}{
+        max-width: 100px;
+    }
 }
 .mid_text {
     padding: 0 15px;
@@ -197,9 +217,20 @@
 .pag_con{
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     .left_block {
         display: flex;
         align-items: center;
+        @media #{$max-sm}{
+            width: 100%;
+            margin-bottom: 15px;
+        }
+    }
+    .right_block{
+        @media #{$max-sm}{
+            width: 100%;
+            margin-bottom: 15px;
+        }
     }
     .page-link, .page-link:focus{
         background-color: transparent;
@@ -213,5 +244,18 @@
         div{
             margin: 10px 0;
         }
+    }
+}
+.cmn_data{
+    img{
+        @media #{$max-sm}{
+            max-width: 32px;
+        }
+    }
+}
+.trnsc_outr {
+    margin-top: 32px;
+    @media #{$max-lg}{
+        margin-top: 16px;
     }
 }

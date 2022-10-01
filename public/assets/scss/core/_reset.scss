@@ -1,6 +1,6 @@
 @import './cus-var';
 
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
 /*-- Common Style --*/
 
@@ -22,7 +22,7 @@ html, body {
 }
 body{
     font-size: 18px;
-    font-family: 'Open Sans';
+    font-family: 'Open Sans' !important;
     color: $white;
     overflow: hidden;
     overflow-y: auto;
@@ -45,7 +45,7 @@ body{
 h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
     margin-bottom: 0;
-    font-family: 'Open Sans';
+    font-family: 'Open Sans' !important;
     line-height: 1.2;
 }
 
@@ -70,19 +70,16 @@ h1 {
 h2 {
     font-size: 40px;
     @media #{$max-xxl}{
-        font-size: 32px;
+        font-size: 36px;
     }
     @media #{$max-xl}{
-        font-size: 28px;
+        font-size: 32px;
     }
     @media #{$max-lg}{
-        font-size: 24px;
+        font-size: 28px;
     }
     @media #{$max-md}{
-        font-size: 20px;
-    }
-    @media #{$max-sm}{
-        font-size: 18px;
+        font-size: 26px;
     }
 }
 h3 {
@@ -94,10 +91,7 @@ h3 {
         font-size: 24px;
     }
     @media #{$max-lg}{
-        font-size: 22px;
-    }
-    @media #{$max-md}{
-        font-size: 20px;
+        font-size: 24px;
     }
 }
 h4 {
@@ -107,12 +101,6 @@ h4 {
     }
     @media #{$max-lg}{
         font-size: 18px;
-    }
-    @media #{$max-md}{
-        font-size: 16px;
-    }
-    @media #{$max-sm}{
-        font-size: 14px;
     }
 }
 h5 {
@@ -144,7 +132,7 @@ p{
     color:rgba(14, 14, 14, 0.89);
     color:rgba($white, 0.89);
     margin-bottom: 8px;
-    font-family: 'Open Sans';
+    font-family: 'Open Sans' !important;
     &:last-child {
         margin-bottom: 0;
     }
