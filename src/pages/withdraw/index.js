@@ -55,21 +55,21 @@ export default function Withdraw() {
                     <div className="pop-top">
                       <div className="cnfrm_box">
                           <div className="top_overview col-12">
-                                <span><img class="img-fluid" src="../../images/etharium.png" alt="" /></span>
+                                <div className="img-flexible"><img class="img-fluid d-inline-block" src="../../images/etharium.png" alt="" /></div>
                                 <h6>100 ETH</h6>
                                 <p>500.00$</p>
                           </div>
                       </div>
                       <div className="pop-grid">
                         <div className="text-center box-block">
-                          <div className="d-inline-block"><img class="img-fluid" src="../../images/etharium.png" alt="" /></div>
+                          <div className="d-inline-block img-flexible"><img class="img-fluid" src="../../images/etharium.png" alt="" /></div>
                           <p>ETHEREUM MAINNET</p>
                         </div>
                         <div className="text-center box-block">
-                          <div className="d-inline-block"><img class="img-fluid" src="../../images/white-arrow.png" alt="" /></div>
+                          <div className="d-inline-block arow-block"><img class="img-fluid" src="../../images/white-arrow.png" alt="" /></div>
                         </div>
                         <div className="text-center box-block">
-                          <div className="d-inline-block"><img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></div>
+                          <div className="d-inline-block img-flexible"><img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></div>
                           <p>SHIBARIUM MAINNET</p>
                         </div>
                       </div>

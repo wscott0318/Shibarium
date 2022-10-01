@@ -193,6 +193,9 @@
     margin-top: 20px;
     background-color:$body-bg-800;
     border-radius: 10px;
+    @media #{$max-xxl}{
+        margin-top: 10px;
+    }
 }
 .top_overview{
     padding: 16px 0;

@@ -260,20 +260,28 @@
 }
 .center-txt {
     width: 100%;
-    padding: 0 45px;
+    padding: 5px 45px;
 }
 .rt-image {
     position: absolute;
     right: 0;
-    top: 0;
+    top: 50%;
     left: auto;
     bottom: auto;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
 }
 .custum-row{
-    padding-bottom: 25px;
-    @media #{$max-md}{
-        padding-bottom: 20px;
-    }
+    // padding-bottom: 25px;
+    // @media #{$max-md}{
+    //     padding-bottom: 20px;
+    // }
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
 }
 .key {
     width: 400px;
@@ -705,5 +713,11 @@
   .cmn-input-bg{
     .cmn_modal input[type=email], .cmn_modal input[type=text] {
         background-color:$body-bg-800;
+    }
+  }
+  .active-btn{
+    button:disabled{
+        opacity: 1;
+        border: none;
     }
   }
