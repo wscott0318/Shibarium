@@ -32,7 +32,7 @@ const InnerHeader = () => {
 
     <>
       <header className="inner-header">
-        <Navbar className='py-0'>
+        <Navbar className='py-0' expand="md" variant="dark">
           <Container>
             <div className="left-widget">
               {/* <Navbar.Brand className="nav-logo">
@@ -45,7 +45,7 @@ const InnerHeader = () => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto">
-                <Dropdown className="d-flex align-items-center cus-dd mob-drop">
+                <Dropdown className="nav-item d-flex align-items-center cus-dd mob-drop">
                   <div className="dot-icon" id="basic-nav-dropdown">
                     <img src="../../images/menu-icon.png" alt="" />
                   </div>
@@ -142,7 +142,7 @@ const InnerHeader = () => {
                             </Nav.Item> */}
                 <Nav.Item>
                 <Link href={'javascript:void(0)'}>
-                  <a className='btn primary-btn d-none align-items-center' href="javascript:void(0)">
+                  <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
                     <span>Switch to Shibarium</span>
                   </a>
                 </Link>
