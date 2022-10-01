@@ -332,7 +332,7 @@ export default function Wallet() {
                 </div>
               </div>
               <div className="assets_btm_area">
-                <h2>Assets on Shibarium on Shibarium</h2>
+                <h2>Assets on Shibarium</h2>
                 <div className="cmn_dasdrd_table">
                   <div class="table-responsive">
                     <table class="table table-borderless">

@@ -102,7 +102,7 @@ export default function Gastoken() {
                                                         </div>
                                                     </div>
                                                     <div className="coin-name">
-                                                        <span className="fw-bold">SHIB</span>
+                                                        <span className="fw-bold">ETH</span>
                                                     </div>
                                                     <div className="drop-row">
                                                         <div className="arow-outer"><span className="arrow-down"></span></div>
