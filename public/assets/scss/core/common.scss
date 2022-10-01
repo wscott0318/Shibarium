@@ -479,6 +479,16 @@
 }
 .fix-vh{
     height: 400px;
+    @media #{$max-xxl}{
+        height: 330px;
+    }
+    @media #{$max-xl}{
+        height: 300px;
+    }
+    @media #{$max-lg}{
+        height: 290px;
+    }
+    
 }
 .fw-bold{
     font-weight: 700;
