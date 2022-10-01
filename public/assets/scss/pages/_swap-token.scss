@@ -118,4 +118,8 @@
 .tokn-popup  .spinner-border {
     height: 8rem;
     width: 8rem;
+    @media #{$max-xxl}{
+        height: 5rem;
+        width: 5rem;
+    }
 }
