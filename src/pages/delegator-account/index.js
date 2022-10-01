@@ -148,27 +148,27 @@ export default function DelegatorAccount() {
 
             <section className="mid_cnt_area">
                 <div className="container">
-                    <div className="col-xl-8 mx-auto">
+                    <div className="col-xl-11 col-lg-12 side-auto">
                         <h4>Ethereum Wallet Balance</h4>
                         <h3><b>0 Bone</b></h3>
                         <h4>$0.00</h4>        
                         <div className="btns_sec val_all_bts row">
-                            <div className="col-md-3 col-sm-4"> 
+                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space"> 
                                 <button  className="btn grey-btn w-100 d-block">
                                     Become a Validator
                                 </button>
                             </div>
-                            <div className="col-md-3 col-sm-4">                        
+                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">                        
                                 <button onClick={() =>setvalidatorpop(true)} className="btn grey-btn w-100 d-block">
                                     Restake
                                 </button> 
                             </div>
-                            <div className="col-md-3 col-sm-4">                        
+                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">                        
                                 <button onClick={() =>setwithdrawpop(true)} className="btn grey-btn w-100 d-block">
                                     Withdraw Rewards
                                 </button>
                             </div>
-                            <div className="col-md-3 col-sm-4">                        
+                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">                        
                                 <button onClick={() =>setunboundpop(true)} className="btn grey-btn w-100 d-block">
                                     Unbound
                                 </button>    
