@@ -731,3 +731,23 @@
         border: none;
     }
   }
+  
+  /** Validator account page responsive start **/
+  .side-auto{
+    margin-left: auto;
+    margin-right: auto;
+    @media #{$max-xl}{
+        margin-left: 0;
+        margin-right: 0;
+    }
+  }
+  .blk-space{
+    @media #{$max-xl}{
+        margin-bottom: 15px !important;
+    }
+    @media #{$max-lg}{
+        margin-bottom: 15px !important;
+    }
+  }
+  
+  /** Validator account page responsive end **/
