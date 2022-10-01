@@ -420,21 +420,21 @@ export default function Transaction() {
                       <div className="col-12">19/07/2022</div>
                     </div>
                     <div className="row trns_data">
-                      <div className="col-4 cmn_data">
+                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
                         <span><img className="img-fluid me-2" src="../../images/down-arrow.png" alt="meta-img" /></span>
                         <div>
-                          <b>Recieve</b>
+                          <b>Receive</b>
                           <b className="grey_txt">10:30 AM</b>
                         </div>
                       </div>
-                      <div className="col-4 cmn_data">
+                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
                         <span><img className="img-fluid me-2" src="../../images/red-bone.png" alt="meta-img"/></span>
                         <div>
                           <b>100 BONE</b>
                           <b className="grey_txt">1000$</b>
                         </div>
                       </div>
-                      <div className="col-4 cmn_data">
+                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
                         <div>
                           <b>Transaction hash</b>
                           <p className="grey_txt trns_has_add"><span>0x1a95....ba496</span><a href="#"><img src="../../images/grey-arrow.png"  className="img-fluid"/></a></p>
@@ -448,21 +448,21 @@ export default function Transaction() {
                       <div className="col-12">19/07/2022</div>
                     </div>
                     <div className="row trns_data">
-                      <div className="col-4 cmn_data">
+                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
                         <span><img className="img-fluid me-2" src="../../images/down-arrow.png" alt="meta-img" /></span>
                         <div>
-                          <b>Recieve</b>
+                          <b>Receive</b>
                           <b className="grey_txt">10:30 AM</b>
                         </div>
                       </div>
-                      <div className="col-4 cmn_data">
+                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
                         <span><img className="img-fluid me-2" src="../../images/red-bone.png" alt="meta-img"/></span>
                         <div>
                           <b>100 BONE</b>
                           <b className="grey_txt">1000$</b>
                         </div>
                       </div>
-                      <div className="col-4 cmn_data">
+                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
                         <div>
                           <b>Transaction hash</b>
                           <p className="grey_txt trns_has_add"><span>0x1a95....ba496</span><a href="#"><img src="../../images/grey-arrow.png" className="img-fluid" /></a></p>
@@ -476,21 +476,21 @@ export default function Transaction() {
                       <div className="col-12">19/07/2022</div>
                     </div>
                     <div className="row trns_data">
-                      <div className="col-4 cmn_data">
+                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
                         <span><img className="img-fluid me-2" src="../../images/down-arrow.png" alt="meta-img" /></span>
                         <div>
-                          <b>Recieve</b>
+                          <b>Receive</b>
                           <b className="grey_txt">10:30 AM</b>
                         </div>
                       </div>
-                      <div className="col-4 cmn_data">
+                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
                         <span><img className="img-fluid me-2" src="../../images/red-bone.png" alt="meta-img" /></span>
                         <div>
                           <b>100 BONE</b>
                           <b className="grey_txt">1000$</b>
                         </div>
                       </div>
-                      <div className="col-4 cmn_data">
+                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
                         <div>
                           <b>Transaction hash</b>
                           <p className="grey_txt trns_has_add"><span>0x1a95....ba496</span><a href="#"><img src="../../images/grey-arrow.png" className="img-fluid" /></a></p>
