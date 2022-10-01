@@ -16,19 +16,13 @@
         }
     }
 }
-.btns-sec{
+.butns-sec{
     .primary-btn{
         background: $body-bg-800;
         color: $white;
-        font-size: 16px;
         padding: 15px;
         &:hover{
             background: $primary-gradient;  
         }
-    }
-}
-.staus-btn{
-    .btn{
-        font-size: 16px;
     }
 }

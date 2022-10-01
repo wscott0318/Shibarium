@@ -177,7 +177,7 @@ export default function Wallet() {
              {/* send popop start */}
                 {showSendModal.step1 &&
                   <div className="cmn_modal">
-                     <h4 className="pop_main_h text-center">Send</h4> 
+                     {/* <h4 className="pop_main_h text-center">Send</h4>  */}
                      <form className="mr-top-50">
                         <div class="form-group">                        
                           <input 
@@ -204,11 +204,11 @@ export default function Wallet() {
                         <div className="pop_btns_area mr-top-50 row">
                             <div className="col-6">
                             <button
-                             className='btn blue-btn w-100'
+                             className='btn dark-bg-800 text-white w-100'
                              onClick={() => handleCloseModal()}
                              >Back</button>  
                             </div>
-                            <div className="col-6">
+                            <div className="col-6 active-btn">
                             <button
                               disabled={isValidAddress && sendAmount ? false : true}
                              onClick={() => handleSend()}
@@ -254,9 +254,9 @@ export default function Wallet() {
                     </div>
                       <div className="pop_btns_area row">
                           <div className="col-6">
-                          <button className='btn blue-btn w-100' href="javascript:void(0)">Back</button>  
+                          <button className='btn dark-bg-800 text-white w-100' href="javascript:void(0)">Back</button>  
                           </div>
-                          <div className="col-6">
+                          <div className="col-6 active-btn">
                           <button className='btn primary-btn w-100' 
                             disabled={verifyAmount ? false : true}
                             onClick={() => submitTransaction()}
@@ -333,7 +333,7 @@ export default function Wallet() {
                 </div>
               </div>
               <div className="assets_btm_area">
-                <h2>Wallet on Shibarium</h2>
+                <h2>Assets on Shibarium on Shibarium</h2>
                 <div className="cmn_dasdrd_table">
                   <div class="table-responsive">
                     <table class="table table-borderless">
@@ -350,28 +350,28 @@ export default function Wallet() {
                           <td colSpan="2"><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
                           <td>0.0000 - 0.00$</td>
                           <td><a href="#">Deposit</a></td>
-                          <td><a href="#">Whitdraw</a></td>
+                          <td><a href="#">Withdraw</a></td>
                           <td><a href="#">Send</a></td>
                         </tr>
                         <tr>
                           <td colSpan="2"><span><img src="../../images/matic-round-icon.png" /></span><b>MATIC</b> - Polygon</td>
                           <td>0.0000 - 0.00$</td>
                           <td><a href="#">Deposit</a></td>
-                          <td><a href="#">Whitdraw</a></td>
+                          <td><a href="#">Withdraw</a></td>
                           <td><a href="#">Send</a></td>
                         </tr>
                         <tr>
                           <td colSpan="2"><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
                           <td>0.0000 - 0.00$</td>
                           <td><a href="#">Deposit</a></td>
-                          <td><a href="#">Whitdraw</a></td>
+                          <td><a href="#">Withdraw</a></td>
                           <td><a href="#">Send</a></td>
                         </tr>
                         <tr>
                           <td colSpan="2"><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
                           <td>0.0000 - 0.00$</td>
                           <td><a href="#">Deposit</a></td>
-                          <td><a href="#">Whitdraw</a></td>
+                          <td><a href="#">Withdraw</a></td>
                           <td><a href="#">Send</a></td>
                         </tr>
                       </tbody>

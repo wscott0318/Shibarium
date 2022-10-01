@@ -80,7 +80,7 @@ const InnerHeader = () => {
                           <img src="../../images/recive-icon.png" alt="" />
                         </div>
                         <div className="center-txt">
-                          <span>Recive Funds</span>
+                          <span>Receive Funds</span>
                         </div>
                         <div className="rt-image">
                           <img src="../../images/rt-arow.png" alt="" />
@@ -114,7 +114,7 @@ const InnerHeader = () => {
                       </div>
                     </NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.3">
-                      <div className="custum-row pb-0">
+                      <div className="custum-row mb-0">
                         <div className="lft-img ps-2">
                           <img src="../../images/back.png" alt="" />
                         </div>

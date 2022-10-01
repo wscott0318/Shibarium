@@ -35,12 +35,12 @@ export default function differentchainbridge() {
                     <div className="container px-0">
                         <div className='swap-card cus-card-800'>
                             <div className="swp-header">
-                                <div className='swp-left-col mb-3 mb-lg-4 mb-xl-5'>
+                                <div className='swp-left-col mb-3 mb-lg-3 mb-xl-4'>
                                     <h3 className=''>
                                         Swap Tokens
                                     </h3>
                                 </div>
-                                <div className='swp-right-col mb-3 mb-lg-4 mb-xl-5'>
+                                <div className='swp-right-col mb-3 mb-lg-3 mb-xl-4'>
                                     <ul className='swp-icon'>
                                         <li>
                                             <a href="javascript:void(0)" onClick={() => setSlippageModal(true)}>
@@ -128,12 +128,12 @@ export default function differentchainbridge() {
                                             1 ETH = 1 BONE
                                         </div>
                                         <div className="row">
-                                            <div className="col-6">
+                                            <div className="col-sm-6 mb-3 mb-sm-0">
                                                 <button type='button' className='btn primary-btn w-100'>
                                                     Approve
                                                 </button>
                                             </div>
-                                            <div className="col-6">
+                                            <div className="col-sm-6">
                                                 <button type='button' className='btn black-btn w-100' onClick={() => setSwapModal(true)}>
                                                     Review Swap
                                                 </button>
@@ -186,12 +186,12 @@ export default function differentchainbridge() {
                 show={showSwapModal}
                 setShow={setSwapModal}
             >
-                <div className="popmodal-body">
+                <div className="popmodal-body cus-ht">
                     <div className="pop-block">
                         <div className="pop-top">
                             <div className="cnfrm_box dark-bg-800">
                                 <div className="top_overview col-12">
-                                    <span><img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></span>
+                                    <div className='img-flexible'><img class="img-fluid d-inline-block" src="../../images/shib-borderd-icon.png" alt="" /></div>
                                     <h6>1000 SHIB</h6>
                                     <p>2000.00$</p>
                                 </div>
@@ -230,7 +230,9 @@ export default function differentchainbridge() {
                                 </div>
                             </div>
                             <div className='btn-wrap'>
-                                <a className='btn grey-btn w-100' href="javascript:void(0)"><span className="spinner-border text-secondary pop-spiner"></span><span>Confirm Swap</span></a>
+                            <div>
+                              <a className='btn primary-btn w-100' href="javascript:void(0)">Confirm Swap</a>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -351,8 +353,38 @@ export default function differentchainbridge() {
                             </div>
                           </div>
                         </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                       
                       </div>
                     </div>
+                    
                   </div>
                 </div>
                 {/* Select token popop ends */}
@@ -689,6 +721,35 @@ export default function differentchainbridge() {
                             </div>
                           </div>
                         </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                       
                       </div>
                     </div>
                     

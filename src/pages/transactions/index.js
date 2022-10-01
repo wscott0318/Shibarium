@@ -387,7 +387,7 @@ export default function Transaction() {
                       <div className="col-md-4  col-sm-6 col-xs-12 step_no">
                         <span><span className="spinner-border text-secondary pop-spiner"></span></span>
                         <div>
-                          <b>Whitdraw</b>
+                          <b>Withdraw</b>
                           <b>Step 1/2</b>
                         </div>
                       </div>
@@ -423,7 +423,7 @@ export default function Transaction() {
                       <div className="col-4 cmn_data">
                         <span><img className="img-fluid me-2" src="../../images/down-arrow.png" alt="meta-img" /></span>
                         <div>
-                          <b>Recive</b>
+                          <b>Recieve</b>
                           <b className="grey_txt">10:30 AM</b>
                         </div>
                       </div>
@@ -451,7 +451,7 @@ export default function Transaction() {
                       <div className="col-4 cmn_data">
                         <span><img className="img-fluid me-2" src="../../images/down-arrow.png" alt="meta-img" /></span>
                         <div>
-                          <b>Recive</b>
+                          <b>Recieve</b>
                           <b className="grey_txt">10:30 AM</b>
                         </div>
                       </div>
@@ -479,7 +479,7 @@ export default function Transaction() {
                       <div className="col-4 cmn_data">
                         <span><img className="img-fluid me-2" src="../../images/down-arrow.png" alt="meta-img" /></span>
                         <div>
-                          <b>Recive</b>
+                          <b>Recieve</b>
                           <b className="grey_txt">10:30 AM</b>
                         </div>
                       </div>
