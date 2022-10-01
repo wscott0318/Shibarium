@@ -43,8 +43,8 @@ export default function ValidatorAccount() {
     return (
         <>
             <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg">
-            <Header />
-            <StakingHeader />
+                <Header />
+                <StakingHeader />
                 {/* retake popop start */}
                 <CommonModal
                     title={"Retake"}

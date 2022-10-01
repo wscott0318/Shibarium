@@ -176,7 +176,7 @@ export default function Wallet() {
              {/* send popop start */}
                 {showSendModal.step1 &&
                   <div className="cmn_modal">
-                     <h4 className="pop_main_h text-center">Send</h4> 
+                     {/* <h4 className="pop_main_h text-center">Send</h4>  */}
                      <form className="mr-top-50">
                         <div class="form-group">                        
                           <input 
@@ -203,7 +203,7 @@ export default function Wallet() {
                         <div className="pop_btns_area mr-top-50 row">
                             <div className="col-6">
                             <button
-                             className='btn blue-btn w-100'
+                             className='btn dark-bg-800 text-white w-100'
                              onClick={() => handleCloseModal()}
                              >Back</button>  
                             </div>
@@ -253,7 +253,7 @@ export default function Wallet() {
                     </div>
                       <div className="pop_btns_area row">
                           <div className="col-6">
-                          <button className='btn blue-btn w-100' href="javascript:void(0)">Back</button>  
+                          <button className='btn dark-bg-800 text-white w-100' href="javascript:void(0)">Back</button>  
                           </div>
                           <div className="col-6 active-btn">
                           <button className='btn primary-btn w-100' 
