@@ -353,7 +353,7 @@ export default function Wallet() {
                           <td><a href="#">Send</a></td>
                         </tr>
                         <tr>
-                          <td colSpan="2"><span><img src="../../images/matic-round-icon.png" /></span><b>MATIC</b> - Polygon</td>
+                          <td colSpan="2"><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
                           <td>0.0000 - 0.00$</td>
                           <td><a href="#">Deposit</a></td>
                           <td><a href="#">Withdraw</a></td>
