@@ -165,7 +165,7 @@ export default function Home() {
                                           It is more open and powerful
                                       </li>
                                   </ul>
-                                  <a href="javascript:void(0)" className='btn secondary-btn ff-mos'>First Steps</a>
+                                  <a href="javascript:void(0)" className='btn secondary-btn ff-mos'>First Step</a>
                               </div>
                           </div>
                           <div className="col-lg-6 col-md-5 col-sm-8 abt-col order-1 order-md-2 text-center mb-4 mb-md-0">

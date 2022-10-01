@@ -184,7 +184,7 @@ export default function ValidatorAccount() {
                             </div>
                             <div className="col-md-3">
                                 <button onClick={() => setcommissionpop(true)} className="btn grey-btn w-100 d-block">
-                                    Change Comission Rate
+                                    Change Commission.  Rate
                                 </button>
                             </div>
                             <div className="col-md-3">
