@@ -773,7 +773,7 @@ export default function Withdraw() {
                           </div>
                           <div className="txt-row">
                              <div className="row-hd">Transfer Time:</div>
-                             <p className="row-description">Moving your funds from Ethereum to Polygon take up to 10 - 15 Minutes.</p>   
+                             <p className="row-description">Moving your funds from Ethereum to Shibarium take up to 10 - 15 Minutes.</p>   
                           </div>
                           <div className="txt-row">
                              <div className="row-hd">

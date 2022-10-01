@@ -7,7 +7,8 @@ import ProjectContext from "../../context/ProjectContext";
 import Footer from "../../pages/footer/index"
 import { useActiveWeb3React } from "../../services/web3"
 import CommonModal from "../components/CommonModel";
-import StakingHeader from '../staking-header'
+import StakingHeader from '../staking-header';
+import Header from "../layout/header";
 export default function ValidatorAccount() {
     // const {account}=useContext(ProjectContext)
 
@@ -42,6 +43,7 @@ export default function ValidatorAccount() {
     return (
         <>
             <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg">
+            <Header />
             <StakingHeader />
                 {/* retake popop start */}
                 <CommonModal
@@ -184,7 +186,7 @@ export default function ValidatorAccount() {
                             </div>
                             <div className="col-md-3">
                                 <button onClick={() => setcommissionpop(true)} className="btn grey-btn w-100 d-block">
-                                    Change Comission Rate
+                                    Change Commission.  Rate
                                 </button>
                             </div>
                             <div className="col-md-3">

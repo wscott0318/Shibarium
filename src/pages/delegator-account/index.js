@@ -7,7 +7,8 @@ import ProjectContext from "../../context/ProjectContext";
 import Footer from "../../pages/footer/index"
 import { useActiveWeb3React } from "../../services/web3"
 import  CommonModal from "../components/CommonModel";
-import Header from "../layout/header"
+import Header from "../layout/header";
+import StakingHeader from '../staking-header'
 export default function DelegatorAccount() {
   // const {account}=useContext(ProjectContext)
 
@@ -41,8 +42,10 @@ export default function DelegatorAccount() {
   //  console.log('account---------------', account)
   return (
     <>
-      <main className="main-content val_account_outr cmn-input-bg">
+      <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space">
           <Header />
+          <StakingHeader />
+
 {/* retake popop start */}
       <CommonModal
           title={"Retake"}
@@ -137,7 +140,7 @@ export default function DelegatorAccount() {
 
 
 
-            <section className="top_bnr_area">
+            <section className="top_bnr_area dark-bg">
                 <div className="container">
                     <h1>My Account</h1>
                 </div>                

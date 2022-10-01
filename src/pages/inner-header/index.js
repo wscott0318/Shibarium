@@ -79,7 +79,7 @@ const InnerHeader = () => {
                           <img src="../../images/recive-icon.png" alt="" />
                         </div>
                         <div className="center-txt">
-                          <span>Recive Funds</span>
+                          <span>Receive Funds</span>
                         </div>
                         <div className="rt-image">
                           <img src="../../images/rt-arow.png" alt="" />

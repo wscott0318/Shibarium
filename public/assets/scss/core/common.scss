@@ -21,16 +21,16 @@
     background: #151B28;
     border-radius: 25px;
     padding: 30px;
-    @media #{$max-xl}{
-        padding: 25px;
+    @media #{$max-xxl}{
+        padding: 20px;
         border-radius: 20px;
     }
     @media #{$max-lg}{
-        padding: 20px;
+        padding: 16px;
         border-radius: 15px;
     }
     @media #{$max-md}{
-        padding: 15px;
+        padding: 12px;
         border-radius: 10px;
     }
 }

@@ -332,7 +332,7 @@ export default function Wallet() {
                 </div>
               </div>
               <div className="assets_btm_area">
-                <h2>Wallet on Shibarium</h2>
+                <h2>Assets on Shibarium on Shibarium</h2>
                 <div className="cmn_dasdrd_table">
                   <div class="table-responsive">
                     <table class="table table-borderless">
@@ -349,28 +349,28 @@ export default function Wallet() {
                           <td colSpan="2"><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
                           <td>0.0000 - 0.00$</td>
                           <td><a href="#">Deposit</a></td>
-                          <td><a href="#">Whitdraw</a></td>
+                          <td><a href="#">Withdraw</a></td>
                           <td><a href="#">Send</a></td>
                         </tr>
                         <tr>
                           <td colSpan="2"><span><img src="../../images/matic-round-icon.png" /></span><b>MATIC</b> - Polygon</td>
                           <td>0.0000 - 0.00$</td>
                           <td><a href="#">Deposit</a></td>
-                          <td><a href="#">Whitdraw</a></td>
+                          <td><a href="#">Withdraw</a></td>
                           <td><a href="#">Send</a></td>
                         </tr>
                         <tr>
                           <td colSpan="2"><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
                           <td>0.0000 - 0.00$</td>
                           <td><a href="#">Deposit</a></td>
-                          <td><a href="#">Whitdraw</a></td>
+                          <td><a href="#">Withdraw</a></td>
                           <td><a href="#">Send</a></td>
                         </tr>
                         <tr>
                           <td colSpan="2"><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
                           <td>0.0000 - 0.00$</td>
                           <td><a href="#">Deposit</a></td>
-                          <td><a href="#">Whitdraw</a></td>
+                          <td><a href="#">Withdraw</a></td>
                           <td><a href="#">Send</a></td>
                         </tr>
                       </tbody>
