@@ -148,7 +148,7 @@ export default function Transaction() {
                 </li>
               </ul>
               <div className="image_area row">
-                <div className="col-12 text-center">
+                <div className="col-12 text-center watch-img-sec">
                   <img className="img-fluid" src="../../images/watch.png" />
                 </div>
               </div>
