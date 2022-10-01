@@ -253,3 +253,9 @@
         }
     }
 }
+.trnsc_outr {
+    margin-top: 32px;
+    @media #{$max-lg}{
+        margin-top: 16px;
+    }
+}
