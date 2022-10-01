@@ -26,16 +26,16 @@ export default function Gastoken() {
                 <Sidebar handleMenuState={handleMenuState} menuState={menuState} />
                 <div className="cmn_dashbord_main_outr">
                     <InnerHeader />
-                    <div className="container">
+                    <div className="container px-0">
                         <div className='swap-card cus-card-800'>
                             <div className="swp-header">
-                                <div className='swp-left-col mb-3 mb-lg-4 mb-xl-5'>
+                                <div className='swp-left-col mb-3 mb-lg-3 mb-xl-4'>
                                     <h3 className=''>
                                         Get Gas Token
                                     </h3>
                                     <p className='grey-txt'>BONE is used to pay the transaction fee</p>
                                 </div>
-                                <div className='swp-right-col mb-3 mb-lg-4 mb-xl-5'>
+                                <div className='swp-right-col mb-3 mb-lg-3 mb-xl-4'>
                                     <ul className='swp-icon'>
                                         <li>
                                             <a href="javascript:void(0)">
@@ -93,12 +93,12 @@ export default function Gastoken() {
                                     <div className="form-btn flex-form-btm">
                                         
                                     <div className="field-grid position-relative  row">
-                                        <div className="col-md-4 col-sm-4 col-xs-12 ps_abs">
+                                        <div className="col-md-4 col-sm-4 col-xs-12 ps_abs mb-3 mb-sm-0">
                                             <div className="form-group">
                                                 <div className="form-field position-relative dark-input">
                                                     <div className="coin-icon">
                                                         <div className='coin-img'>
-                                                            <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="" />
+                                                            <img className="img-fluid" src="../../images/etharium.png" alt="eth" width={30} />
                                                         </div>
                                                     </div>
                                                     <div className="coin-name">
@@ -108,7 +108,6 @@ export default function Gastoken() {
                                                         <div className="arow-outer"><span className="arrow-down"></span></div>
                                                     </div>
                                                 </div>
-                                                <label htmlFor="" className='lite-color mt-1 d-block'>Balance: 0 BONE</label>
                                             </div>
                                         </div>
                                         <div className="col-md-12 col-sm-12 col-xs-12">
@@ -118,24 +117,29 @@ export default function Gastoken() {
                                                         <input className="w-100" type="text" placeholder="0.00" />
                                                     </div>
                                                 </div>
-                                                <label htmlFor="" className='lite-color mt-1 text-end d-block'>Balance: 10 ETH</label>
                                             </div>
                                         </div>
                                     </div>
-
-
+                                    <div className="d-flex align-items-center justify-content-between flex-wrap">
+                                        <div className="mb-1">
+                                            <label for="" className="lite-color mt-1 text-end d-block">Balance: 10 ETH</label>
+                                        </div>
+                                        <div className="mb-1">
+                                             <label for="" className="lite-color mt-1 text-end d-block">Balance: 10 ETH</label>
+                                        </div>
+                                    </div>
 
 
                                         <div className="coin-text">
                                             1 ETH = 1 BONE
                                         </div>
                                         <div className="row">
-                                            <div className="col-6">
+                                            <div className="col-sm-6 mb-3 mb-sm-0">
                                                 <button type='button' className='btn primary-btn w-100'>
                                                     Approve
                                                 </button>
                                             </div>
-                                            <div className="col-6">
+                                            <div className="col-sm-6">
                                                 <button type='button' className='btn black-btn w-100' onClick={() => setSwapModal(true)}>
                                                     Review Swap
                                                 </button>

@@ -263,7 +263,7 @@ const BoneStaking = () => {
                       <td><a href="#">Send</a></td>
                     </tr>
                     <tr>
-                      <td><span><img src="../../images/matic-round-icon.png" /></span><b>MATIC</b> - Polygon</td>
+                      <td><span><img src="../../images/matic-round-icon.png" /></span><b>MATIC</b> - Shibarium</td>
                       <td>0.0000 - 0.00$</td>
                       <td><a href="#">Deposit</a></td>
                       <td><a href="#">Whitdraw</a></td>

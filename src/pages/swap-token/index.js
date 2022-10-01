@@ -35,12 +35,12 @@ export default function differentchainbridge() {
                     <div className="container px-0">
                         <div className='swap-card cus-card-800'>
                             <div className="swp-header">
-                                <div className='swp-left-col mb-3 mb-lg-4 mb-xl-5'>
+                                <div className='swp-left-col mb-3 mb-lg-3 mb-xl-4'>
                                     <h3 className=''>
                                         Swap Tokens
                                     </h3>
                                 </div>
-                                <div className='swp-right-col mb-3 mb-lg-4 mb-xl-5'>
+                                <div className='swp-right-col mb-3 mb-lg-3 mb-xl-4'>
                                     <ul className='swp-icon'>
                                         <li>
                                             <a href="javascript:void(0)" onClick={() => setSlippageModal(true)}>
@@ -128,12 +128,12 @@ export default function differentchainbridge() {
                                             1 ETH = 1 BONE
                                         </div>
                                         <div className="row">
-                                            <div className="col-6">
+                                            <div className="col-sm-6 mb-3 mb-sm-0">
                                                 <button type='button' className='btn primary-btn w-100'>
                                                     Approve
                                                 </button>
                                             </div>
-                                            <div className="col-6">
+                                            <div className="col-sm-6">
                                                 <button type='button' className='btn black-btn w-100' onClick={() => setSwapModal(true)}>
                                                     Review Swap
                                                 </button>
