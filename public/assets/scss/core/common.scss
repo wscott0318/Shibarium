@@ -526,6 +526,9 @@
         width: 25%;
         margin: 0 auto;
         padding-bottom: 26px;
+        @media #{$max-xsm}{
+            padding-bottom: 36px;
+        }
         &::before {
             content: '';
             position: absolute;
@@ -536,6 +539,9 @@
             height: 2px;
             top: calc(50% - 25px);
             transform: translateY(calc(-50% + 13px));
+            @media #{$max-xsm}{
+                top: calc(50% - 29px);
+            }
         }
         &:first-child{
             .step-ico {
@@ -751,3 +757,8 @@
   }
   
   /** Validator account page responsive end **/
+
+  /** Transaction page responsive **/
+  
+  /** Transaction page responsive **/
+ 

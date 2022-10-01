@@ -162,6 +162,15 @@
 }
 .trans_popups .image_area img{
     margin: 15px auto;
+    @media #{$max-xxl}{
+        max-width: 140px;
+    }
+    @media #{$max-xl}{
+        max-width: 120px;
+    }
+    @media #{$max-lg}{
+        max-width: 100px;
+    }
 }
 .mid_text {
     padding: 0 15px;
