@@ -50,26 +50,26 @@ export default function Withdraw() {
             
 
               {/* confirm deposit popop starts */}
-                {/* <div className="popmodal-body">
+                <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box">
                           <div className="top_overview col-12">
-                                <span><img class="img-fluid" src="../../images/etharium.png" alt="" /></span>
+                                <div className="img-flexible"><img class="img-fluid d-inline-block" src="../../images/etharium.png" alt="" /></div>
                                 <h6>100 ETH</h6>
                                 <p>500.00$</p>
                           </div>
                       </div>
                       <div className="pop-grid">
                         <div className="text-center box-block">
-                          <div className="d-inline-block"><img class="img-fluid" src="../../images/etharium.png" alt="" /></div>
+                          <div className="d-inline-block img-flexible"><img class="img-fluid" src="../../images/etharium.png" alt="" /></div>
                           <p>ETHEREUM MAINNET</p>
                         </div>
                         <div className="text-center box-block">
-                          <div className="d-inline-block"><img class="img-fluid" src="../../images/white-arrow.png" alt="" /></div>
+                          <div className="d-inline-block arow-block"><img class="img-fluid" src="../../images/white-arrow.png" alt="" /></div>
                         </div>
                         <div className="text-center box-block">
-                          <div className="d-inline-block"><img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></div>
+                          <div className="d-inline-block img-flexible"><img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></div>
                           <p>SHIBARIUM MAINNET</p>
                         </div>
                       </div>
@@ -89,7 +89,7 @@ export default function Withdraw() {
                           </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
                 {/* confirm deposit popop ends */}
 
                 {/* Transaction pending popup start */}
@@ -140,7 +140,7 @@ export default function Withdraw() {
                 {/* Transaction pending popup end */}
 
                 {/* Transaction completed popup start */}
-                <div className="popmodal-body">
+                {/* <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box">
@@ -164,7 +164,7 @@ export default function Withdraw() {
                         </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* Transaction completed popup end */}
 
                 
@@ -183,7 +183,7 @@ export default function Withdraw() {
             
 
               {/* Initialize withdraw popup start */}
-                <div className="popmodal-body">
+                {/* <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box">
@@ -226,7 +226,7 @@ export default function Withdraw() {
                         </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Initialize withdraw popup end */}
 
@@ -281,7 +281,7 @@ export default function Withdraw() {
 
 
                 {/* checkpoint Reached popup start */}
-                  {/* <div className="popmodal-body">
+                  <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box">
@@ -305,7 +305,7 @@ export default function Withdraw() {
                         </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
                 {/* checkpoint Reached popup end */}
 
                 {/* Complete withdraw popup start */}
@@ -399,7 +399,7 @@ export default function Withdraw() {
             
 
               {/* Select token popop starts */}
-                <div className="popmodal-body tokn-popup">
+                {/* <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="sec-search">
@@ -465,12 +465,12 @@ export default function Withdraw() {
                     </div>
                     
                   </div>
-                </div>
+                </div> */}
                 {/* Select token popop ends */}
 
 
                 {/* Manage token popop starts */}
-                {/* <div className="popmodal-body tokn-popup">
+                <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -489,10 +489,7 @@ export default function Withdraw() {
                         <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
                       </div>
                     </div>
-                    </div>
-                    <div className="pop-bottom">
-                      <div className="">
-                        <div className="token-listwrap">
+                    <div className="token-listwrap">
                           <div className="tokn-row">
                             <div className="cryoto-box">
                               <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
@@ -554,10 +551,10 @@ export default function Withdraw() {
                             </div>
                           </div>
                         </div>
-                      </div>
                     </div>
+                    
                   </div>
-                </div> */}
+                </div>
                 {/* Manage token popop ends */}
 
                  {/* Add token popop starts */}

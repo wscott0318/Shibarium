@@ -207,7 +207,7 @@ export default function Wallet() {
                              onClick={() => handleCloseModal()}
                              >Back</button>  
                             </div>
-                            <div className="col-6">
+                            <div className="col-6 active-btn">
                             <button
                               disabled={isValidAddress && sendAmount ? false : true}
                              onClick={() => handleSend()}
@@ -255,7 +255,7 @@ export default function Wallet() {
                           <div className="col-6">
                           <button className='btn blue-btn w-100' href="javascript:void(0)">Back</button>  
                           </div>
-                          <div className="col-6">
+                          <div className="col-6 active-btn">
                           <button className='btn primary-btn w-100' 
                             disabled={verifyAmount ? false : true}
                             onClick={() => submitTransaction()}

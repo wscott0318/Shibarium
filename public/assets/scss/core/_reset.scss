@@ -248,6 +248,7 @@ ul {
 .primary-btn{
     background:$primary-gradient;
     color:rgba($white, 0.89);
+    font-weight: 600;
     // border: 1px solid rgba(255, 255, 255, 0.4);
     &:hover{
         background:$primary-gradient;
@@ -276,7 +277,6 @@ ul {
 .grey-btn{
     background-color:$grey-color;
     border-radius: 10px;
-    font-size: 16px;
     font-weight: 600;
     color:$white;
     @media #{$max-xxl}{
