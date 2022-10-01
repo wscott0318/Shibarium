@@ -812,7 +812,7 @@ export default function Withdraw() {
                                         </div>
                                       </div>
                                       <div className="field-grid row">
-                                        <div className="col-md-4">
+                                        <div className="col-sm-5 field-col">
                                           <div className="form-field position-relative" onClick={() => setTokenModal(true)}>
                                             <div className="">
                                               <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
@@ -825,7 +825,7 @@ export default function Withdraw() {
                                             </div>
                                           </div>
                                         </div>
-                                        <div className="col-md-8">
+                                        <div className="col-sm-7 field-col">
                                             <div className="form-field position-relative two-fld">
                                                 <div className="mid-chain w-100">
                                                   <input className="w-100" type="text" placeholder="0.00"/>

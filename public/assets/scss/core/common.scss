@@ -111,11 +111,12 @@
     padding: 15px;
     border-radius: 10px;
     font-size: 16px;
+    @media #{$max-xxl}{
+        padding: 10px 20px;
+        font-size: 16px;
+    }
     @media #{$max-xl}{
         font-size: 14px;
-    }
-    @media #{$max-md}{
-        padding: 10px 14px;
     }
 }
 .rt-chain {
@@ -701,3 +702,8 @@
     }
   }
   /** On Off Switch **/
+  .cmn-input-bg{
+    .cmn_modal input[type=email], .cmn_modal input[type=text] {
+        background-color:$body-bg-800;
+    }
+  }

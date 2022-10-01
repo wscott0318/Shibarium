@@ -1,5 +1,6 @@
 .box-wrap{
     display: flex;
+    flex-wrap: wrap;
 }
 .block-card{
     padding: 20px;
@@ -10,6 +11,14 @@
     -ms-border-radius: 30px;
     -moz-border-radius: 30px;
     height: 100%;
+    @media #{$max-xxl}{
+        padding: 16px;
+        border-radius: 24px;
+    }
+    @media #{$max-md}{
+        padding: 12px;
+        border-radius: 22px;
+    }
 }
 .left-box {
     margin-top: 30px;
@@ -30,6 +39,12 @@
         width: 50%;
         flex: 0 0 50%;
     }
+    @media #{$max-md}{
+        width: 100%;
+        flex: 0 0 100%;
+        margin-bottom: 15px;
+        order: 2;
+    }
 }
 .right-box {
     width: calc(100% - 600px);
@@ -41,6 +56,12 @@
     @media #{$max-lg}{
         width: 50%;
         flex: 0 0 50%;
+    }
+    @media #{$max-md}{
+        width: 100%;
+        flex: 0 0 100%;
+        order: 1;
+        padding-left: 0;
     }
 }
 .heading-main {
@@ -95,9 +116,9 @@
 }
 .sub-buttons-sec {
     .btn{
-        font-size: 16px;
+        // font-size: 16px;
         color: $grey-color;
-        padding: 15px;
+        // padding: 15px;
     }
 }
 .height-blk {
@@ -162,6 +183,17 @@
 }
 .field-grid{
      margin-top: 15px;
+     .field-col{
+         &:first-child{
+            @media #{$max-md}{
+                padding-right: 0;
+            }
+            @media #{$max-sm}{
+                padding-right: 12px;
+                margin-bottom: 12px;
+            }
+         }
+     }
     .form-field{
         display: flex;
         justify-content: space-between;
@@ -189,8 +221,8 @@
 }
 .btn-modify{
     .primary-btn{
-        font-size: 16px;
-        padding: 15px;
+        // font-size: 16px;
+        // padding: 15px;
     }
 }
 .sec-wrapper {
@@ -288,10 +320,10 @@
 }
 .token-btn-sec{
     .btn{
-        font-size: 16px;
-        @media #{$max-md}{
-            font-size: 14px;
-        }
+        // font-size: 16px;
+        // @media #{$max-md}{
+        //     font-size: 14px;
+        // }
     }
 }
 .token-listwrap {
