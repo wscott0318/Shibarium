@@ -26,6 +26,8 @@ import { BONE_ID, ENV_CONFIGS } from '../../config/constant';
 import {BONE} from "../../web3/contractAddresses";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import fromExponential from "from-exponential";
+import {useAppDispatch} from "../../state/hooks"
+import {addTransaction, finalizeTransaction} from "../../state/transactions/actions"
 
 export default function Wallet() {
 
@@ -34,6 +36,7 @@ export default function Wallet() {
   const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(ENV_CONFIGS[chainId].BONE);
   const lib  = library
   const web3 = new Web3(lib?.provider)
+  const dispatch = useAppDispatch()
 
   const [senderAddress, setSenderAdress] = useState('');
   const [isValidAddress, setIsValidAddress] = useState(false)
@@ -111,24 +114,38 @@ export default function Wallet() {
           step2:false,
           step3:true
         }) 
+        dispatch(
+          addTransaction({
+            hash: res,
+            from: account,
+            chainId,
+            summary : 'Transafer Bone',
+          })
+        )
       }).on('receipt', (res) => {
         console.log(res, "response")
+        dispatch(
+          finalizeTransaction({
+            hash: res.transactionHash,
+            chainId,
+            receipt: {
+              to: res.to,
+              from: res.from,
+              contractAddress: res.contractAddress,
+              transactionIndex: res.transactionIndex,
+              blockHash: res.blockHash,
+              transactionHash: res.transactionHash,
+              blockNumber: res.blockNumber,
+              status: 1
+            }
+          })
+        )
       }).on('error',(err) => {
         console.log(err, "error")
       })
     }
 
-    const transactionCounts = () => {
-      var subscription = web3.eth.subscribe('pendingTransactions', function(error, result){
-        if (!error)
-            console.log(result);
-    })
-    .on("data", function(transaction){
-        console.log(transaction);
-    });
-    console.log(subscription)
-    }
-
+  
     // transactionCounts()
     
     const handleCloseModal = () => {
@@ -151,7 +168,7 @@ export default function Wallet() {
         <CommonModal
           title={"Transferring funds"}
           show={senderModal}
-          setShow={setSendModal}
+          setShow={setSenderModal}
 
         >
           {/* step 1 */}
@@ -254,7 +271,13 @@ export default function Wallet() {
                     </div>
                       <div className="pop_btns_area row">
                           <div className="col-6">
-                          <button className='btn dark-bg-800 text-white w-100' href="javascript:void(0)">Back</button>  
+                          <button className='btn dark-bg-800 text-white w-100' 
+                            onClick={() => setSendModal({
+                                step1:true,
+                                step2:false,
+                                step3:false
+                              })}
+                          >Back</button>  
                           </div>
                           <div className="col-6 active-btn">
                           <button className='btn primary-btn w-100' 

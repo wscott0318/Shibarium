@@ -54,6 +54,8 @@ const AccountDetails: FC<AccountDetailsProps> = ({
     if (chainId) dispatch(clearAllTransactions({ chainId }))
   }, [dispatch, chainId])
 
+  console.log({pendingTransactions})
+
   return (
     <div className="space-y-3">
       <div className="space-y-3">
@@ -125,7 +127,7 @@ const AccountDetails: FC<AccountDetailsProps> = ({
               </>
             ) : (
               <Typography variant="xs" weight={700} className="text-secondary">
-                {`Your transactions will appear here...`}
+                {`Your transactions will appear test here...`}
               </Typography>
             )}
           </div>
