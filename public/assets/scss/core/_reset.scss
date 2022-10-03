@@ -87,6 +87,7 @@ h2 {
         font-size: 26px;
     }
 }
+
 h3 {
     font-size: 32px;
     @media #{$max-xxl}{
@@ -195,7 +196,16 @@ ul {
 .primary-card{
     background: $primary-gradient;
 }
-
+.bg-dark-900 {
+    background-color: #0C0F17;
+}
+.text-blue {
+    color: #F28B03;
+    opacity: 1 !important;
+}
+.text-primary {
+    color:$primary !important;
+}
 // colors end
 
 .p-25{
@@ -476,4 +486,12 @@ input{
 }
 label{
     font-size: 16px;
+}
+
+body.modal-open {
+    padding-left: 0 !important;   
+}
+.whitespace-nowrap {
+    white-space: pre-wrap;
+    word-break: break-all;
 }
