@@ -12,7 +12,7 @@ function getApi() {
     .catch((error) => {throw error})
 }
 
-function* fetchTransaction(action :any) {
+function* fetchTransaction(action :any) : any {
    try {
       const users = yield call(getApi);
       yield put({type: 'GET_USERS_SUCCESS', users: users});

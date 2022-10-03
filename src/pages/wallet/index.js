@@ -28,6 +28,8 @@ import ERC20 from "../../ABI/ERC20Abi.json";
 import fromExponential from "from-exponential";
 import {useAppDispatch} from "../../state/hooks"
 import {addTransaction, finalizeTransaction} from "../../state/transactions/actions"
+import QrModal from "../components/QrModal";
+import QRCode from "react-qr-code";
 
 export default function Wallet() {
 
@@ -39,6 +41,7 @@ export default function Wallet() {
   const dispatch = useAppDispatch()
 
   const [senderAddress, setSenderAdress] = useState('');
+  const [userQrCode, setUserQrCode] = useState(false)
   const [isValidAddress, setIsValidAddress] = useState(false)
   const [sendAmount, setSendAmount] = useState('')
   const [senderModal, setSenderModal] = useState(false)
@@ -165,6 +168,16 @@ export default function Wallet() {
     <>
       <main className="main-content">
         <Sidebar handleMenuState={handleMenuState} menuState={menuState} />
+
+          {/* QR modal starts */}
+        {account && <QrModal
+        title={'My QR Code'}
+        show={userQrCode}
+        setShow={setUserQrCode}
+        address={account}
+        />}
+        {/* QR modal ends */}
+
         <CommonModal
           title={"Transferring funds"}
           show={senderModal}
@@ -190,7 +203,7 @@ export default function Wallet() {
                 </div> */}
 
             {/* transferring funds popop ends */}
-
+             
              {/* send popop start */}
                 {showSendModal.step1 &&
                   <div className="cmn_modal">
@@ -337,7 +350,9 @@ export default function Wallet() {
                 </div>
                 <div className="bal-col">
                   <div className="btns_area t_a_clm">
-                    <button type="button" href="#" className="btn grey-btn w-100 d-flex align-items-center justify-content-center">
+                    <button type="button" 
+                    onClick={() => setUserQrCode(true)}
+                    className="btn grey-btn w-100 d-flex align-items-center justify-content-center">
                       <span className="me-2"><img className="btn-img" src="../../images/recive-icon.png" alt="recive" /></span>
                       Receive
                     </button>
