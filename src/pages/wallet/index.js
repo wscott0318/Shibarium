@@ -46,7 +46,7 @@ export default function Wallet() {
   const [userQrCode, setUserQrCode] = useState(false)
   const [isValidAddress, setIsValidAddress] = useState(false)
   const [sendAmount, setSendAmount] = useState('')
-  const [senderModal, setSenderModal] = useState(false)
+  const [senderModal, setSenderModal] = useState(true)
   const [verifyAmount, setVerifyAmount] = useState(false)
   const [transactionHash, setTransactionHash] = useState('')
   const [boneUSDValue,setBoneUSDValue] = useState(0);
@@ -169,12 +169,12 @@ export default function Wallet() {
         address={account}
         />}
         {/* QR modal ends */}
-
+        <div className="">
         <CommonModal
           title={"Transferring funds"}
           show={senderModal}
           setShow={setSenderModal}
-
+          externalCls="dark-modal-100"
         >
           {/* step 1 */}
           <>
@@ -226,7 +226,7 @@ export default function Wallet() {
                         <div className="pop_btns_area mr-top-50 row">
                             <div className="col-6">
                             <button
-                             className='btn dark-bg-800 text-white w-100'
+                             className='btn blue-btn w-100'
                              onClick={() => handleCloseModal()}
                              >Back</button>  
                             </div>
@@ -327,7 +327,7 @@ export default function Wallet() {
           </>
           {/* step 1 end */}
         </CommonModal>
-        
+        </div>
         <section className="assets-section">
           <div className="cmn_dashbord_main_outr">
             <InnerHeader />
