@@ -764,33 +764,85 @@
 .form-group{
     position: relative;
 }
+.float-input{
+    position: relative;
+}
 .coin-dd{
     &.float-dd {
         position: absolute;
-        top: 0;
-        right: 0;
+        top: 50%;
+        right: 7px;
+        bottom: auto;
+        height: calc(100% - 10px);
+        transform: translateY(-50%);
+    }
+    .dropdown-menu {
+        background-color: $secondary;
+        width: 100%;
+        max-height: 200px;
+        overflow: hidden;
+        overflow-y: auto;
+        .dropdown-item{
+            position: relative;
+            padding: 8px 8px;
+            background-color: transparent;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            
+            &:hover{
+                background-color: transparent;
+            }
+            .drop-text {
+                padding-left: 30px;
+                color:rgba($color: $white, $alpha: 0.84);
+            }
+            .drop-ico {
+                position: absolute;
+                left: 6px;
+                top: 50%;
+                -webkit-transform: translateY(-50%);
+                transform: translateY(-50%);
+            }        
+        }
     }
     .drop-flex {
         display: flex;
         justify-content: space-between;
     }
-    .btn-dd{
+    .btn-dd {
         position: relative;
+        padding: 0 40px;
+        height: 100%;
+        padding-left: 40px;
+        background-color: $secondary;
+        box-shadow: none;
+        border-radius: 10px;
+        border: 0;
+        &:hover{
+            background-color: $secondary;
+        }
+        &:focus{
+            box-shadow: none;
+            border: 0;
+        }
     }
     .dropdown-toggle{
         &::after{
-            content: "";
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
+            content:none;
         }
     }
     .drop-ico {
         position: absolute;
-        left: 0;
+        left: 12px;
         top: 50%;
         transform: translateY(-50%);
+    }
+    .drop-chev {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        max-width: 14px;
+        margin-top: 1px;
     }
 }
 /** qr model start **/

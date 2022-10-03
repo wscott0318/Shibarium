@@ -95,6 +95,15 @@
             padding-left: 40px;
             font-weight: 600;
             color: $grey-color;
+            cursor: pointer;
+            border: 0;
+            box-shadow: none;
+            outline: none;
+            &:hover{
+                border: 0;
+                box-shadow: none;
+                outline: none;
+            }
         }
         .primary-btn{
             color: $white;
