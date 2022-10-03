@@ -761,4 +761,35 @@
   /** Transaction page responsive **/
   
   /** Transaction page responsive **/
- 
+.form-group{
+    position: relative;
+}
+.coin-dd{
+    &.float-dd {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    .drop-flex {
+        display: flex;
+        justify-content: space-between;
+    }
+    .btn-dd{
+        position: relative;
+    }
+    .dropdown-toggle{
+        &::after{
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+    .drop-ico {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
