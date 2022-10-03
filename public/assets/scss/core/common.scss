@@ -793,3 +793,31 @@
         transform: translateY(-50%);
     }
 }
+/** qr model start **/
+ .qr-wrap{
+    text-align: center;
+    svg{
+        display: inline-block;
+    }
+    .word-wrap{
+        word-break: break-word;
+    }
+ }
+ .qr-wrap{
+    background: $body-bg-800;
+    padding: 25px 15px 45px 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+    @media #{$max-xxl}{
+        padding: 25px 15px 15px 15px;
+        margin-top: 0;
+    }
+ }
+ .footer-sec{
+    border-top: 0;
+    padding: 10px 0 0;
+    .btn{
+        display: block;
+    }
+ }
+/** qr model end **/
