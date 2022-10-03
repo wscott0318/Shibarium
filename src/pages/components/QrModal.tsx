@@ -32,17 +32,20 @@ const QrModal:React.FC<props> = ({show,setShow, title,address})=> {
       </Modal.Title>
     </Modal.Header>
     <Modal.Body>
-        <div
-          className="qr-code">
-          <QRCode value={address} bgColor='#15141b' fgColor='#fff' title={address} />
-        </div>
-        <div>
-          <div className='mt-4 text-center'>Wallet address </div>
+        <div className="qr-wrap">
+          <div
+            className="qr-code">
+            <QRCode value={address} bgColor='#15141b' fgColor='#fff' title={address} />
+          </div>
+          <div className='mt-4 text-center lite-color'>Wallet address </div>
           <div  className='text-center word-wrap'>{address}</div>
         </div>
+        <div>
+          
+        </div>
     </Modal.Body>
-    <Modal.Footer className='text-center d-block'>
-        <button >
+    <Modal.Footer className='text-center footer-sec'>
+        <button className='btn primary-btn w-100'>
           <CopyHelper toCopy={address}> Copy address </CopyHelper>
         </button>
     </Modal.Footer>
