@@ -169,7 +169,7 @@ export default function Web3Status() {
   if (!contextNetwork.active && !active) {
     return null
   }
-  console.log(allTransactions)
+
   return (
     <>
       <Web3StatusInner />

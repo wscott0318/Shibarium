@@ -6,13 +6,13 @@ import { Modal } from 'react-bootstrap'
 interface props{
     show:boolean;
     setShow: React.Dispatch<React.SetStateAction<boolean>>
-    title:string;
+    title:any;
     children:React.ReactNode;
 }
 interface propsNew{
     show:boolean;
     setShow: any;
-    title:string;
+    title:any;
     children:React.ReactNode;
 }
 const CommonModal:React.FC<props> = ({show,setShow, title,children})=> {

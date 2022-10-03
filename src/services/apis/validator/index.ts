@@ -21,4 +21,10 @@ export function unbound(body:any){
 export function getBoneUSDValue(coinId:string){
     return http.get(`coins/rate/${coinId}`)
 }
+
+export function getWalletTokenList(coinId:string){
+    return http.get(`token/list/${coinId}`)
+}
+
+
 export const getValidatorsDetail = (id:string) =>  http.get(`validators/overview/${id}`)

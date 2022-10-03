@@ -12,7 +12,6 @@ interface props{
 
 const QrModal:React.FC<props> = ({show,setShow, title,address})=> {
   const abc = {show,setShow, title,address};
-  console.log("qr code called")
   return (
     <Modal
     {...abc}

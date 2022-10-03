@@ -9,7 +9,7 @@ import Popup from "../components/PopUp";
 import { ChainId } from "@shibarium/core-sdk";
 import Web3 from "web3";
 import  CommonModal from "../components/CommonModel";
-import InnerHeader from "../../pages/inner-header";
+import InnerHeader from "../inner-header";
 
 import Link from 'next/link'
 import {
@@ -30,16 +30,23 @@ import {useAppDispatch} from "../../state/hooks"
 import {addTransaction, finalizeTransaction} from "../../state/transactions/actions"
 import QrModal from "../components/QrModal";
 import QRCode from "react-qr-code";
-import { getBoneUSDValue } from "../../services/apis/validator/index";
+import { getBoneUSDValue, getWalletTokenList } from "../../services/apis/validator/index";
 import NumberFormat from 'react-number-format';
+
+const sendInitialState = {
+  step0:true,
+  step1:false,
+  step2:false,
+  step3:false
+}
 
 export default function Wallet() {
 
   const router = useRouter()
   const { chainId=1, account, library} = useActiveWeb3React();
   const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(ENV_CONFIGS[chainId].BONE);
-  const lib  = library
-  const web3 = new Web3(lib?.provider)
+  const lib : any  = library
+  const web3 :any = new Web3(lib?.provider)
   const dispatch = useAppDispatch()
 
   const [senderAddress, setSenderAdress] = useState('');
@@ -50,16 +57,11 @@ export default function Wallet() {
   const [verifyAmount, setVerifyAmount] = useState(false)
   const [transactionHash, setTransactionHash] = useState('')
   const [boneUSDValue,setBoneUSDValue] = useState(0);
-  const [showSendModal, setSendModal] = useState({
-    step1:true,
-    step2:false,
-    step3:false
-  });
+  const [showSendModal, setSendModal] = useState(sendInitialState);
   const [menuState, setMenuState] = useState(false);
-  console.log(availBalance)
 
 
-  const varifyAccount = (address) => {
+  const varifyAccount = (address :any) => {
       let result = Web3.utils.isAddress(address)
       setIsValidAddress(result)
       return result
@@ -69,11 +71,13 @@ export default function Wallet() {
     getBoneUSDValue(BONE_ID).then(res=>{
       setBoneUSDValue(res.data.data.price);
     })
+    getWalletTokenList("plasma").then(res => {
+      console.log(res.data)
+    })
   },[account])
 
-  console.log(boneUSDValue)
 
-    const handleChange = (e) => {
+    const handleChange = (e :any) => {
       setSenderAdress(e.target.value)
       const isValid = varifyAccount(e.target.value)
       console.log(isValid)
@@ -89,6 +93,7 @@ export default function Wallet() {
       console.log("called handleSend")
       if(isValidAddress && sendAmount){
         setSendModal({
+          step0:false,
           step1:false,
           step2:true,
           step3:false
@@ -97,14 +102,15 @@ export default function Wallet() {
     }
 
     const submitTransaction = () => {
-      let user = account;
+      let user : any = account;
       let amount = web3.utils.toBN(fromExponential(+sendAmount * Math.pow(10, 18)));
       let instance = new web3.eth.Contract(ERC20, BONE);
       instance.methods.transfer(senderAddress,amount).send({ from: user })
-      .on('transactionHash',(res) => {
+      .on('transactionHash',(res :any) => {
         console.log(res, "hash")
         setTransactionHash(res)
         setSendModal({
+          step0: false,
           step1:false,
           step2:false,
           step3:true
@@ -112,12 +118,12 @@ export default function Wallet() {
         dispatch(
           addTransaction({
             hash: res,
-            from: account,
+            from: user,
             chainId,
-            summary : `Transafer of ${sendAmount} Bone to ${senderAddress}`,
+            summary : res,
           })
         )
-      }).on('receipt', (res) => {
+      }).on('receipt', (res :any) => {
         console.log(res, "response")
         dispatch(
           finalizeTransaction({
@@ -135,8 +141,12 @@ export default function Wallet() {
             }
           })
         )
-      }).on('error',(err) => {
+      }).on('error',(err :any) => {
         console.log(err, "error")
+        if(err.code === 4001){
+          setSenderModal(false)
+          setSendModal(sendInitialState)
+        }
       })
     }
 
@@ -149,10 +159,23 @@ export default function Wallet() {
       setSendAmount('');
       setSenderAdress('')
       setSendModal({
-        step1:true,
+        step0:true,
+        step1:false,
         step2:false,
         step3:false
       })
+    }
+
+    const getTitle = () => {
+      if(showSendModal.step0){
+        return "Transferring funds"
+      } else if (showSendModal.step1){
+        return "Send"
+      } else if (showSendModal.step2){
+        return "Confirm Send"
+      } else {
+        return "Submitted"
+      }
     }
 
 
@@ -171,7 +194,7 @@ export default function Wallet() {
         {/* QR modal ends */}
 
         <CommonModal
-          title={"Transferring funds"}
+          title={showSendModal.step0 ? "Transferring funds" : showSendModal.step1 ? "Send" : showSendModal.step2 ? "Confirm Send" : "Submitted"}
           show={senderModal}
           setShow={setSenderModal}
 
@@ -180,7 +203,7 @@ export default function Wallet() {
           <>
             {/* transferring funds popop start */}
 
-            {/* <div className="cmn_modal">
+            {showSendModal.step0 &&<div className="cmn_modal">
                     <p>Sending funds to exchanges:</p>
                     <div className="exchng_msg_box">
                         <p>Exchanges supported from Shibarium network</p>
@@ -188,11 +211,23 @@ export default function Wallet() {
                     </div>
                     <p className="alert_msg"><img src="../../images/i-info-icon.png"/> Sending funds to unsupported exchanges will lead to permanent loss of funds.</p>
                     <div className="pop_btns_area row form-control">
-                          <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Cancel</a>  </div>
-                          <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Continue</a>  </div>
+                          <div className="col-6">
+                            <button className='btn blue-btn w-100' onClick={() => 
+                            { setSenderModal(false);
+                              setSendModal(sendInitialState)}}>Cancel</button>  
+                              </div>
+                          <div className="col-6">
+                            <button className='btn primary-btn w-100' 
+                            onClick={() => setSendModal({
+                              step0:false,
+                              step1:true,
+                              step2:false,
+                              step3:false
+                            })}>Continue</button>
+                            </div>
                     </div>
                     <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
-                </div> */}
+                </div>}
 
             {/* transferring funds popop ends */}
              
@@ -201,19 +236,19 @@ export default function Wallet() {
                   <div className="cmn_modal">
                      {/* <h4 className="pop_main_h text-center">Send</h4>  */}
                      <form className="mr-top-50">
-                        <div class="form-group">                        
+                        <div className="form-group">                        
                           <input 
                           type="text" 
-                          class="form-control cmn_inpt_fld" 
+                          className="form-control cmn_inpt_fld" 
                           value={senderAddress}
                           onChange={(e) => handleChange(e)}
                           placeholder="Reciver address"/>
                         </div>
-                        <div class="form-group">  
+                        <div className="form-group">  
                           {!isValidAddress && senderAddress && <label style={{ color: 'red'}}>Enter a valid reciver address on Shibarium Mainnet</label> }                     
                           <input
                            type="text" 
-                           class="form-control cmn_inpt_fld"  
+                           className="form-control cmn_inpt_fld"  
                            placeholder="0.00"
                            value={sendAmount}
                            onChange={(e) => setSendAmount(e.target.value)}
@@ -259,15 +294,16 @@ export default function Wallet() {
                         </div>
                     </div>
                     <div className="cnfrm_check_box">
-                        <div class="form-check">
+                        <div className="form-check">
                           <input
-                           class="form-check-input" 
+                           className="form-check-input" 
                            type="checkbox" 
                            onChange={() => setVerifyAmount(!verifyAmount)}
+                           // @ts-ignore
                            value={verifyAmount}
                            id="flexCheckChecked"
                            />
-                          <label class="form-check-label" for="flexCheckChecked">
+                          <label className="form-check-label" htmlFor="flexCheckChecked">
                             I’m not sending funds to an <a href="#">unsupported excange</a> or incorrect address
                           </label>
                         </div>
@@ -278,6 +314,7 @@ export default function Wallet() {
                           <div className="col-6">
                           <button className='btn dark-bg-800 text-white w-100' 
                             onClick={() => setSendModal({
+                                step0:false,
                                 step1:true,
                                 step2:false,
                                 step3:false
@@ -366,40 +403,40 @@ export default function Wallet() {
               <div className="assets_btm_area">
                 <h2>Assets on Shibarium</h2>
                 <div className="cmn_dasdrd_table">
-                  <div class="table-responsive">
-                    <table class="table table-borderless">
+                  <div className="table-responsive">
+                    <table className="table table-borderless">
                       <thead>
                         <tr>
-                          <th colSpan="2">Name</th>
+                          <th colSpan={2}>Name</th>
                           <th>Balance</th>
                           <th>Actions</th>
-                          <th colSpan="2" className="text-end"><input type="search" placeholder="Search" /></th>
+                          <th colSpan={2} className="text-end"><input type="search" placeholder="Search" /></th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-                          <td colSpan="2"><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
+                          <td colSpan={2}><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
                           <td>0.0000 - 0.00$</td>
                           <td><a href="#">Deposit</a></td>
                           <td><a href="#">Withdraw</a></td>
                           <td><a href="#">Send</a></td>
                         </tr>
                         <tr>
-                          <td colSpan="2"><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
+                          <td colSpan={2}><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
                           <td>0.0000 - 0.00$</td>
                           <td><a href="#">Deposit</a></td>
                           <td><a href="#">Withdraw</a></td>
                           <td><a href="#">Send</a></td>
                         </tr>
                         <tr>
-                          <td colSpan="2"><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
+                          <td colSpan={2}><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
                           <td>0.0000 - 0.00$</td>
                           <td><a href="#">Deposit</a></td>
                           <td><a href="#">Withdraw</a></td>
                           <td><a href="#">Send</a></td>
                         </tr>
                         <tr>
-                          <td colSpan="2"><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
+                          <td colSpan={2}><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
                           <td>0.0000 - 0.00$</td>
                           <td><a href="#">Deposit</a></td>
                           <td><a href="#">Withdraw</a></td>
