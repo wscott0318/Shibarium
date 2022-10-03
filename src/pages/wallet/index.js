@@ -229,7 +229,6 @@ export default function Wallet() {
                             </div>
                           </div>
                         </Dropdown.Toggle>
-
                         <Dropdown.Menu>
                           <Dropdown.Item href="#">
                             <div className="drop-item-flex">
