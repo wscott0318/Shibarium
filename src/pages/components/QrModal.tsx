@@ -31,12 +31,9 @@ const QrModal:React.FC<props> = ({show,setShow, title,address})=> {
         <span style={{ color: "white" }}>{title}</span>
       </Modal.Title>
     </Modal.Header>
-
     <Modal.Body>
         <div
-          className="qr-code"
-          
-        >
+          className="qr-code">
           <QRCode value={address} bgColor='#15141b' fgColor='#fff' title={address} />
         </div>
         <div>
