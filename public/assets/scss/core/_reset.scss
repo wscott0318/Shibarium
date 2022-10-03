@@ -432,6 +432,24 @@ ul {
     margin-top: 50px;
 }
 .shib-popup{
+    &.dark-modal-100{
+        .modal-content{
+            background-color: $body-bg-800;
+            input{
+                background-color: $body-bg;
+                color: rgba($white, 0.89);
+                &:hover{
+                    box-shadow: none;
+                }
+                &:focus{
+                    box-shadow: none;
+                }
+                &::placeholder{
+                    color: rgba($white, 0.89);
+                }
+            }
+        }
+    }
     .modal-content{
         // background-color: $body-bg-800;
         background-color:$body-bg;

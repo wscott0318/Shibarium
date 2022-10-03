@@ -28,6 +28,10 @@ import ERC20 from "../../ABI/ERC20Abi.json";
 import fromExponential from "from-exponential";
 import {useAppDispatch} from "../../state/hooks"
 import {addTransaction, finalizeTransaction} from "../../state/transactions/actions"
+import QrModal from "../components/QrModal";
+import QRCode from "react-qr-code";
+import { getBoneUSDValue } from "../../services/apis/validator/index";
+import NumberFormat from 'react-number-format';
 
 export default function Wallet() {
 
@@ -39,11 +43,13 @@ export default function Wallet() {
   const dispatch = useAppDispatch()
 
   const [senderAddress, setSenderAdress] = useState('');
+  const [userQrCode, setUserQrCode] = useState(false)
   const [isValidAddress, setIsValidAddress] = useState(false)
   const [sendAmount, setSendAmount] = useState('')
-  const [senderModal, setSenderModal] = useState(false)
+  const [senderModal, setSenderModal] = useState(true)
   const [verifyAmount, setVerifyAmount] = useState(false)
   const [transactionHash, setTransactionHash] = useState('')
+  const [boneUSDValue,setBoneUSDValue] = useState(0);
   const [showSendModal, setSendModal] = useState({
     step1:true,
     step2:false,
@@ -59,24 +65,13 @@ export default function Wallet() {
       return result
   }
 
-  
-    function getErrorMessage(error) {
-      if (error instanceof NoEthereumProviderError) {
-        return 'Please install metamask and try again.'
-      } else if (error instanceof UnsupportedChainIdError) {
-        return "You're connected to an unsupported network."
-      } else if (
-        error instanceof UserRejectedRequestErrorInjected ||
-        error instanceof UserRejectedRequestErrorWalletConnect
-      ) {
-        return 'Please authorize this website to access your Ethereum account.'
-      } 
-      else {
-        console.error(error)
-        return ''
-      }
-    }
-    
+  useEffect(() => {
+    getBoneUSDValue(BONE_ID).then(res=>{
+      setBoneUSDValue(res.data.data.price);
+    })
+  },[account])
+
+  console.log(boneUSDValue)
 
     const handleChange = (e) => {
       setSenderAdress(e.target.value)
@@ -165,11 +160,21 @@ export default function Wallet() {
     <>
       <main className="main-content">
         <Sidebar handleMenuState={handleMenuState} menuState={menuState} />
+
+          {/* QR modal starts */}
+        {account && <QrModal
+        title={'My QR Code'}
+        show={userQrCode}
+        setShow={setUserQrCode}
+        address={account}
+        />}
+        {/* QR modal ends */}
+        <div className="">
         <CommonModal
           title={"Transferring funds"}
           show={senderModal}
           setShow={setSenderModal}
-
+          externalCls="dark-modal-100"
         >
           {/* step 1 */}
           <>
@@ -190,7 +195,7 @@ export default function Wallet() {
                 </div> */}
 
             {/* transferring funds popop ends */}
-
+             
              {/* send popop start */}
                 {showSendModal.step1 &&
                   <div className="cmn_modal">
@@ -214,14 +219,14 @@ export default function Wallet() {
                            onChange={(e) => setSendAmount(e.target.value)}
                            />
                           <p className="inpt_fld_hlpr_txt">
-                            <span>0.00$</span>
-                            <b>Available balance: {availBalance.toFixed(4)} BONE</b>
+                            <span><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></span>
+                            <b>balance: {availBalance.toFixed(4)} BONE</b>
                           </p>
                         </div>
                         <div className="pop_btns_area mr-top-50 row">
                             <div className="col-6">
                             <button
-                             className='btn dark-bg-800 text-white w-100'
+                             className='btn blue-btn w-100'
                              onClick={() => handleCloseModal()}
                              >Back</button>  
                             </div>
@@ -246,7 +251,7 @@ export default function Wallet() {
                         <div className="top_overview col-12">
                               <span><img src="../../images/shib-borderd-icon.png"/></span>
                               <h6>{sendAmount} BONE</h6>
-                              <p>00.00 $</p>
+                              <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+sendAmount || 0) * boneUSDValue).toFixed(2)} /></p>
                         </div>
                         <div className="add_detail col-12">
                             <p><b>RECEIVER:</b></p>
@@ -298,7 +303,7 @@ export default function Wallet() {
                         <div className="top_overview col-12">
                               <span><img src="../../images/shib-borderd-icon.png"/></span>
                               <h6>{sendAmount} BONE</h6>
-                              <p>00.00$</p>
+                              <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+sendAmount || 0) * boneUSDValue).toFixed(2)} /></p>
                         </div>
                         <div className="add_detail col-12">
                             <p><b>TRANSACTION SUBMITTED TO:</b></p>
@@ -322,6 +327,7 @@ export default function Wallet() {
           </>
           {/* step 1 end */}
         </CommonModal>
+        </div>
         <section className="assets-section">
           <div className="cmn_dashbord_main_outr">
             <InnerHeader />
@@ -331,13 +337,15 @@ export default function Wallet() {
               <div className="assets_top_area bal-row">
                 <div className="bal-col">
                   <div className="main_net_amnt t_a_clm">
-                    <h1>20.000$</h1>
+                   <h1><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></h1>
                     <p>shibarium mainnet</p>
                   </div>
                 </div>
                 <div className="bal-col">
                   <div className="btns_area t_a_clm">
-                    <button type="button" href="#" className="btn grey-btn w-100 d-flex align-items-center justify-content-center">
+                    <button type="button" 
+                    onClick={() => setUserQrCode(true)}
+                    className="btn grey-btn w-100 d-flex align-items-center justify-content-center">
                       <span className="me-2"><img className="btn-img" src="../../images/recive-icon.png" alt="recive" /></span>
                       Receive
                     </button>
