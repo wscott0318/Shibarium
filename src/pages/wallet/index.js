@@ -119,7 +119,7 @@ export default function Wallet() {
             hash: res,
             from: account,
             chainId,
-            summary : 'Transafer Bone',
+            summary : `Transafer of ${sendAmount} Bone to ${senderAddress}`,
           })
         )
       }).on('receipt', (res) => {
