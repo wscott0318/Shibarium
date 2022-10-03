@@ -1,0 +1,28 @@
+.cus-alerbox {
+    background: $secondary-800;
+    // color: $body-bg;
+    padding: 15px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -o-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -moz-border-radius: 10px;
+    font-size: 16px;
+    // p{
+    //     color: $body-bg; 
+    // }
+    @media #{$max-xl}{
+        font-size: 14px;
+        padding: 15px;
+    }
+}
+.underline{
+    text-decoration: underline;
+}
+.text-list {
+    list-style: disc;
+    padding-left: 20px;
+}
+.image-section{
+    margin-bottom: 15px;
+}

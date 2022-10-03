@@ -67,6 +67,7 @@
         button{
             background-color: $primary !important;
             height: auto;
+            cursor: pointer;
             @media #{$max-md}{
                 width: 100%;
             }
@@ -76,6 +77,8 @@
             font-weight: 500;
             font-size: 18px;
             padding: 13px 22px !important;
+            height: 100%;
+            cursor: pointer;
             @media #{$max-xxl}{
                 padding: 12px 20px !important;
                 font-size: 16px;
@@ -98,6 +101,8 @@
         }
     }
     .container{
+        width: 100%;
+        max-width: 100%;
         @media #{$max-sm}{
             padding-left: 0;
             padding-right: 0;
