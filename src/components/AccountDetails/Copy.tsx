@@ -15,7 +15,7 @@ const CopyHelper: FC<CopyHelperProps> = ({ className, toCopy, children }) => {
   return (
     <div className={classNames(className)} onClick={() => setCopied(toCopy)}>
         <div className="flex items-center gap-1 cursor-pointer">
-          {isCopied ? <CheckIcon width={16} height={16} />  : children ? children : <DocumentDuplicateIcon width={16} height={16} />}
+          {isCopied ? "Copied!"  : children ? children : <DocumentDuplicateIcon width={16} height={16} />}
         </div>
     </div>
   )
