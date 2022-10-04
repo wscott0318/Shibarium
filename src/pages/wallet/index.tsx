@@ -273,7 +273,8 @@ export default function Wallet() {
                         value={sendAmount}
                         onChange={(e) => setSendAmount(e.target.value)}
                       />
-                                           {sendAmount && selectedToken.balance <= 0 && <label className="mb-0">Insufficient balance</label>}
+                      {sendAmount && !selectedToken ? <label className="mb-0">Select token</label> : sendAmount && selectedToken.balance <= 0 ? 
+                        <label className="mb-0">Insufficient balance</label> : null }
                       <Dropdown className="coin-dd float-dd">
                         <Dropdown.Toggle id="dropdown-autoclose-true" className="btn-dd">
                           <div className="drop-flex">
@@ -342,7 +343,7 @@ export default function Wallet() {
                     <div className="top_overview col-12">
                       <span><img src="../../images/shib-borderd-icon.png" /></span>
                       <h6>{sendAmount} BONE</h6>
-                      <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+sendAmount || 0) * boneUSDValue).toFixed(2)} /></p>
+                      <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+selectedToken.balance || 0) * boneUSDValue).toFixed(2)} /></p>
                     </div>
                     <div className="add_detail col-12">
                       <p><b>RECEIVER:</b></p>
@@ -396,7 +397,7 @@ export default function Wallet() {
                     <div className="top_overview col-12">
                       <span><img src="../../images/shib-borderd-icon.png" /></span>
                       <h6>{sendAmount} BONE</h6>
-                      <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+sendAmount || 0) * boneUSDValue).toFixed(2)} /></p>
+                      <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+selectedToken.balance || 0) * boneUSDValue).toFixed(2)} /></p>
                     </div>
                     <div className="add_detail col-12">
                       <p><b>TRANSACTION SUBMITTED TO:</b></p>
