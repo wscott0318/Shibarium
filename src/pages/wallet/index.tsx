@@ -61,7 +61,7 @@ export default function Wallet() {
   const [tokenPosList, setPosTokenList] = useState<any>([]);
   const [tokenPlasmaList, setPlasmaTokenList] = useState<any>([]);
   const [selectedToken, setSelectedToken] = useState<any>({})
-  const [showTokenModal, setTokenModal] = useState(true);
+  const [showTokenModal, setTokenModal] = useState(false);
 
   const varifyAccount = (address: any) => {
     let result = Web3.utils.isAddress(address)
