@@ -13,7 +13,7 @@ interface props{
 interface propsNew{
     show:boolean;
     setShow: any;
-    title:string;
+    title:any;
     children:React.ReactNode;
 }
 const CommonModal:React.FC<props> = ({show,setShow, title,externalCls,children})=> {

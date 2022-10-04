@@ -271,7 +271,6 @@ ul {
     &:hover{
         background:$primary-gradient;
         color:rgba($white, 0.89);
-        opacity: 0.9;
     }
 }
 
@@ -282,7 +281,6 @@ ul {
     &:hover{
         background:$secondary !important;
         color: rgba($white, 0.89);
-        opacity: 0.9;
     }
 }
 .primary-gradient-text {
@@ -296,7 +294,7 @@ ul {
     background-color:$grey-color;
     border-radius: 10px;
     font-weight: 600;
-    color:$white;
+    color:rgba($white, 0.89);
     @media #{$max-xxl}{
         font-size: 14px;
     }
@@ -316,7 +314,7 @@ ul {
     }
     &:hover{
         background:$primary-gradient;
-        color:rgba($white, 0.89);
+        color:$grey-color;
     }
 }
 .black-btn{
@@ -440,21 +438,21 @@ ul {
         padding:9px 20px
     }
 } 
-.mr-top-50{
-    margin-top: 50px;
-    @media #{$max-xl}{
-        margin-top: 40px;
-    }
-    @media #{$max-lg}{
-        margin-top: 35px;
-    }
-    @media #{$max-sm}{
-        margin-top: 30px;
-    }
-    @media #{$max-xsm}{
-        margin-top: 20px;
-    }
-}
+// .mr-top-50{
+//     margin-top: 50px;
+//     @media #{$max-xl}{
+//         margin-top: 40px;
+//     }
+//     @media #{$max-lg}{
+//         margin-top: 35px;
+//     }
+//     @media #{$max-sm}{
+//         margin-top: 30px;
+//     }
+//     @media #{$max-xsm}{
+//         margin-top: 20px;
+//     }
+// }
 .shib-popup{
     &.dark-modal-100{
         .modal-content{
@@ -495,7 +493,7 @@ ul {
             width: 100%;
             position: relative;
             padding-top: 0;
-            padding-bottom: 15px;
+            padding-bottom: 32px;
             text-align: center !important;
             .btn-close{
                 position: absolute;
