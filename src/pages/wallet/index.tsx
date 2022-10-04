@@ -129,7 +129,7 @@ export default function Wallet() {
   const submitTransaction = () => {
     let user :any = account;
     let amount = web3.utils.toBN(fromExponential(+sendAmount * Math.pow(10, 18)));
-    let instance = new web3.eth.Contract(ERC20, BONE);
+    let instance = new web3.eth.Contract(ERC20, selectedToken.parentContract);
     instance.methods.transfer(senderAddress, amount).send({ from: user })
       .on('transactionHash', (res :any) => {
         console.log(res, "hash")
@@ -273,6 +273,7 @@ export default function Wallet() {
                         value={sendAmount}
                         onChange={(e) => setSendAmount(e.target.value)}
                       />
+                                           {sendAmount && selectedToken.balance <= 0 && <label className="mb-0">Insufficient balance</label>}
                       <Dropdown className="coin-dd float-dd">
                         <Dropdown.Toggle id="dropdown-autoclose-true" className="btn-dd">
                           <div className="drop-flex">
@@ -305,9 +306,12 @@ export default function Wallet() {
                         </Dropdown.Menu>
                       </Dropdown>
                       </div>
+                      <div className="error-msg">
+ 
+                    </div>
                       <p className="inpt_fld_hlpr_txt">
-                        <span><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></span>
-                        <b>balance: {selectedToken.balance ? selectedToken.balance.toFixed(4) : '00.00'} BONE</b>
+                        <span><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((selectedToken.balance || 0) * boneUSDValue).toFixed(2)} /></span>
+                        <b>balance: {selectedToken.balance ? selectedToken.balance.toFixed(4) : '00.00'} {selectedToken.parentSymbol ? selectedToken.parentSymbol : ""}</b>
                       </p>
                     </div>
                     <div className="pop_btns_area mr-top-50 row">
@@ -319,7 +323,7 @@ export default function Wallet() {
                       </div>
                       <div className="col-6 active-btn">
                         <button
-                          disabled={isValidAddress && sendAmount ? false : true}
+                          disabled={isValidAddress && sendAmount && selectedToken.balance > 0 ? false : true}
                           onClick={() => handleSend()}
                           className='btn primary-btn w-100'
                         >Send</button>
