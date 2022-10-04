@@ -175,7 +175,7 @@ export default function Wallet() {
         {/* QR modal ends */}
         <div className="">
           <CommonModal
-            title={"Transferring funds"}
+            title={showSendModal.step0 ? "Transferring funds" : showSendModal.step1 ? "Send" : showSendModal.step2 ? "Confirm Send" : "Submitted"}
             show={senderModal}
             setShow={setSenderModal}
             externalCls="dark-modal-100"
