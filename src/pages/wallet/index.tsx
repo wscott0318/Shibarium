@@ -230,8 +230,10 @@ export default function Wallet() {
                         placeholder="Reciver address" />
                     </div>
                     <div className="form-group">
-                      <div className="float-input">
+                    <div className="error-msg">
                       {!isValidAddress && senderAddress && <label style={{ color: 'red' }}>Enter a valid reciver address on Shibarium Mainnet</label>}
+                    </div>
+                      <div className="float-input">
                       <input
                         type="text"
                         className="form-control cmn_inpt_fld"

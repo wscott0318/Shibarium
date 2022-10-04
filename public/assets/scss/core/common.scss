@@ -892,3 +892,15 @@
     }
  }
 /** qr model end **/
+
+.error-msg {
+    position: absolute;
+    top: -22px;
+    left: 0;
+    z-index: 1;
+    label {
+        font-size: 12px;
+        font-weight: 600;
+        color: $primary
+    }
+}
