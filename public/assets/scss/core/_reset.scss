@@ -500,8 +500,17 @@ ul {
             width: 100%;
             position: relative;
             padding-top: 0;
-            padding-bottom: 32px;
+            padding-bottom: 53px;
             text-align: center !important;
+            @media #{$max-xxl}{
+                padding-bottom: 40px;
+            }
+            @media #{$max-xl}{
+                padding-bottom: 35px;
+            }
+            @media #{$max-lg}{
+                padding-bottom: 30px;
+            }
             .btn-close{
                 position: absolute;
                 right: 50px;

@@ -226,7 +226,7 @@ export default function Wallet() {
                         <img className="img-fluid" src="../../images/i-info-icon.png" width={16}/>
                       </div>
                        Sending funds to unsupported exchanges will lead to permanent loss of funds.</p>
-                    <div className="pop_btns_area row form-control">
+                    <div className="pop_btns_area row form-control sidebtn-space">
                           <div className="col-6">
                             <button className='btn blue-btn w-100' onClick={() => 
                             { setSenderModal(false);
@@ -310,7 +310,7 @@ export default function Wallet() {
                         <b>balance: {selectedToken.balance ? selectedToken.balance.toFixed(4) : '00.00'} BONE</b>
                       </p>
                     </div>
-                    <div className="pop_btns_area mr-top-50 row">
+                    <div className="pop_btns_area mr-top-50 row sep-space">
                       <div className="col-6">
                         <button
                           className='btn blue-btn w-100'
@@ -362,7 +362,7 @@ export default function Wallet() {
 
 
                   </div>
-                  <div className="pop_btns_area row">
+                  <div className="pop_btns_area row sep-space">
                     <div className="col-6">
                       <button className='btn blue-btn w-100'
                         onClick={() => setSendModal({

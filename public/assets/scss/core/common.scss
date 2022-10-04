@@ -784,7 +784,7 @@
         overflow-y: auto;
         .dropdown-item{
             position: relative;
-            padding: 8px 8px;
+            padding: 10px 13px;
             background-color: transparent;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             
@@ -797,7 +797,7 @@
             }
             .drop-ico {
                 position: absolute;
-                left: 6px;
+                left: 12px;
                 top: 50%;
                 -webkit-transform: translateY(-50%);
                 transform: translateY(-50%);
@@ -902,5 +902,17 @@
         font-size: 12px;
         font-weight: 600;
         color: $primary;
+    }
+}
+.sep-space {
+    padding-top: 25px;
+    @media #{$max-xxl}{
+        padding-top: 20px;
+    }
+    @media #{$max-xl}{
+        padding-top: 15px;
+    }
+    @media #{$max-lg}{
+        padding-top: 10px;
     }
 }

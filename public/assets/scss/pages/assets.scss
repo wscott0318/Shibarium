@@ -163,9 +163,9 @@
 }
 
 .exchng_msg_box{
-    margin-top: 20px;
+    margin-top: 25px;
     background-color: $body-bg;
-    padding: 10px 16px 16px 16px;
+    padding: 18px;
     text-align: center;
     border-radius: 10px;
     .sprdt_txt{
@@ -178,14 +178,15 @@
     }
 }
 .alert_msg{
-    margin: 20px;
+    // margin: 20px;
+    padding: 20px 0px 30px 0px;
     img{
         max-width: 16px;
         display: inline-block;
     }
 }
 .pop_btm_txt{
-    margin: 30px 0;
+    margin: 35px 0;
     a{
         color: $primary;
     }
