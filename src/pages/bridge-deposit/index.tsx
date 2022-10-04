@@ -86,7 +86,7 @@ export default function Deposit() {
           title={"Transferring funds"}
           show={showSendModal}
           setShow={setSendModal}
-          
+          externalCls=''
           >
           {/* step 1 */}
           <>
