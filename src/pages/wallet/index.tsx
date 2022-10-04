@@ -215,37 +215,6 @@ export default function Wallet() {
             <>
               {/* transferring funds popop start */}
 
-<<<<<<< HEAD
-               {showSendModal.step0 && <div className="cmn_modal">
-                    <p className="mb-0">Sending funds to exchanges:</p>
-                    <div className="exchng_msg_box">
-                        <p>Exchanges supported from Shibarium network</p>
-                        <p className="sprdt_txt">Supported Excanges</p>
-                    </div>
-                    <p className="alert_msg">
-                      <div className="image-wrap d-inline-block me-2">
-                        <img className="img-fluid" src="../../images/i-info-icon.png" width={16}/>
-                      </div>
-                       Sending funds to unsupported exchanges will lead to permanent loss of funds.</p>
-                    <div className="pop_btns_area row form-control sidebtn-space">
-                          <div className="col-6">
-                            <button className='btn blue-btn w-100' onClick={() => 
-                            { setSenderModal(false);
-                              setSendModal(sendInitialState)}}>Cancel</button>  
-                              </div>
-                          <div className="col-6">
-                            <button className='btn primary-btn w-100' 
-                            onClick={() => setSendModal({
-                              step0:false,
-                              step1:true,
-                              step2:false,
-                              step3:false
-                            })}>Continue</button>
-                            </div>
-                    </div>
-                    <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
-                </div>}
-=======
               {showSendModal.step0 && <div className="cmn_modal">
                 <p className="mb-0">Sending funds to exchanges:</p>
                 <div className="exchng_msg_box">
@@ -276,7 +245,6 @@ export default function Wallet() {
                 </div>
                 <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
               </div>}
->>>>>>> 11de5358580b29162bb3c10c98eb2abcaf2a57ff
 
               {/* transferring funds popop ends */}
 
