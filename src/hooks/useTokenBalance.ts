@@ -26,7 +26,7 @@ export const useTokenBalance = (address:string)=>{
     return balance
 }
 
-export const getTokenBalance = (library :any, account :any, address :any) => {
+export const getTokenBalance = async (library :any, account :any, address :any) => {
     var balance :any = 0
     console.log({library,account, address})
     if (library && account && address) {
@@ -34,8 +34,8 @@ export const getTokenBalance = (library :any, account :any, address :any) => {
             const web3:any = new Web3(library?.provider);
             const contract = new web3.eth.Contract(ERC20_ABI,address);
     
-            contract.methods.balanceOf(account).call().then((res:any) => {
-                contract.methods.decimals().call().then((d:number)=>{
+          await  contract.methods.balanceOf(account).call().then(async (res:any) => {
+              await  contract.methods.decimals().call().then((d:number)=>{
                     balance = (+res / Math.pow(10, d))
                     console.log(res)
                 }).catch((e:any) =>{console.log(e)});
@@ -43,6 +43,7 @@ export const getTokenBalance = (library :any, account :any, address :any) => {
         } catch (error) {
             console.log(error)
         }
+        return balance
      }
-     return balance
+
 }

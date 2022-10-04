@@ -60,7 +60,7 @@ export default function Wallet() {
   const [menuState, setMenuState] = useState(false);
   const [tokenPosList, setPosTokenList] = useState<any>([]);
   const [tokenPlasmaList, setPlasmaTokenList] = useState<any>([]);
-
+  const [selectedToken, setSelectedToken] = useState<any>({})
 
   const varifyAccount = (address : any) => {
     let result = Web3.utils.isAddress(address)
@@ -70,20 +70,24 @@ export default function Wallet() {
 
   const getTokensList = () => {
     getWalletTokenList('pos').then(res => {
-      
+      let list = res.data.data.tokenList
+      list.forEach(async (x:any) => {
+        x.balance = await getTokenBalance(lib, account, x.parentContract)
+      })
+      setPosTokenList(list)
     })
-    getWalletTokenList('plasma').then(res => {
-      // let list = res.data.data.tokenList
-      // list.forEach((x:any) => {
-      //   x.balance = getTokenBalance(lib, account, x.parentContract)
-      // })
-      // console.log(list)
+    getWalletTokenList('plasma').then(async (res:any) => {
+      let list = res.data.data.tokenList
+      list.forEach(async (x:any) => {
+        x.balance = await getTokenBalance(lib, account, x.parentContract)
+      })
+      setPlasmaTokenList(list)
       
     })
   }
 
 
-  // console.log([...tokenPlasmaList, ...tokenPosList])
+  console.log([...tokenPlasmaList, ...tokenPosList])
 
   useEffect(() => {
     if(account){
@@ -182,7 +186,10 @@ export default function Wallet() {
     setSendModal(sendInitialState)
   }
 
-  
+  const handledropDown = (x :any) => {
+    console.log(x)
+    setSelectedToken(x)
+  }
 
   return (
     <>
@@ -265,62 +272,35 @@ export default function Wallet() {
                             <div className="drop-chev">
                               <img className="img-fluid" src="../../images/chev-drop.png" alt="chev-ico" />
                             </div>
-                            <div className="drop-ico">
+                            {selectedToken.parentName && <div className="drop-ico">
                               <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
-                            </div>
+                            </div>}
                             <div className="drop-text">
-                              <span>Shiba Token</span>
+                              <span>{selectedToken.parentName ? selectedToken.parentName : "Select Token"}</span>
                             </div>
                           </div>
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                          <Dropdown.Item className="coin-item" href="#">
+                          {
+                          [...tokenPosList, ...tokenPlasmaList].map((x => 
+                            <Dropdown.Item className="coin-item" value={x.parentName} onClick={() => handledropDown(x)}>
                             <div className="drop-ico">
                               <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
                             </div>
                             <div className="drop-text">
-                              <span>Shiba Token</span>
+                              <span>{x.parentName}</span>
                             </div>
-                          </Dropdown.Item>
-                          <Dropdown.Item className="coin-item" href="#">
-                            <div className="drop-ico">
-                              <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
-                            </div>
-                            <div className="drop-text">
-                              <span>Shiba Token</span>
-                            </div>
-                          </Dropdown.Item>
-                          <Dropdown.Item className="coin-item" href="#">
-                            <div className="drop-ico">
-                              <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
-                            </div>
-                            <div className="drop-text">
-                              <span>Shiba Token</span>
-                            </div>
-                          </Dropdown.Item>
-                          <Dropdown.Item className="coin-item" href="#">
-                            <div className="drop-ico">
-                              <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
-                            </div>
-                            <div className="drop-text">
-                              <span>Shiba Token</span>
-                            </div>
-                          </Dropdown.Item>
-                          <Dropdown.Item className="coin-item" href="#">
-                            <div className="drop-ico">
-                              <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
-                            </div>
-                            <div className="drop-text">
-                              <span>Shiba Token</span>
-                            </div>
-                          </Dropdown.Item>
+                          </Dropdown.Item>))
+                          }
+                         
+                          
                         </Dropdown.Menu>
                       </Dropdown>
                       </div>
                       <p className="inpt_fld_hlpr_txt">
                         <span><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></span>
-                        <b>balance: {availBalance.toFixed(4)} BONE</b>
+                        <b>balance: {selectedToken.balance ? selectedToken.balance.toFixed(4) : '00.00'} BONE</b>
                       </p>
                     </div>
                     <div className="pop_btns_area mr-top-50 row">
