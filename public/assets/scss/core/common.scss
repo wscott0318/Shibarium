@@ -896,12 +896,12 @@
 .error-msg {
     position: absolute;
     bottom: -22px;
-    left: 0;
+    left: 10px;
     z-index: 1;
     label {
         font-size: 12px;
         font-weight: 600;
-        color: $primary;
+        color: $grey-color-800;
     }
 }
 .sep-space {
