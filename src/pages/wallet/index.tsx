@@ -293,7 +293,7 @@ export default function Wallet() {
 
                             <Dropdown.Menu>
                               {
-                                tokenPosList.length && tokenPosList.map((x =>
+                                tokenPosList.length && tokenPosList.map((x:any) =>
                                   <Dropdown.Item className="coin-item" value={x.parentName} onClick={() => handledropDown(x)}>
                                     <div className="drop-ico">
                                       <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
@@ -301,7 +301,7 @@ export default function Wallet() {
                                     <div className="drop-text">
                                       <span>{x.parentName}</span>
                                     </div>
-                                  </Dropdown.Item>))
+                                  </Dropdown.Item>)
                               }
 
 
