@@ -255,6 +255,13 @@ ul {
     font-weight: 500;
     font-size: 18px;
     padding: 11px 22px;
+    border: 0;
+    &:hover{
+        border: 0;
+    }
+    &:focus{
+        border: 0;
+    }
     @media #{$max-xxl}{
         padding: 10px 20px;
         font-size: 16px;

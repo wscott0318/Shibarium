@@ -259,11 +259,12 @@ export default function Wallet() {
                         value={senderAddress}
                         onChange={(e) => handleChange(e)}
                         placeholder="Reciver address" />
+                        <div className="error-msg">
+                      {!isValidAddress && senderAddress && <label className="mb-0">Enter a valid reciver address on Shibarium Mainnet</label>}
+                    </div>
                     </div>
                     <div className="form-group">
-                    <div className="error-msg">
-                      {!isValidAddress && senderAddress && <label style={{ color: 'red' }}>Enter a valid reciver address on Shibarium Mainnet</label>}
-                    </div>
+                    
                       <div className="float-input">
                       <input
                         type="text"
