@@ -103,10 +103,10 @@ h3 {
 h4 {
     font-size: 24px;
     @media #{$max-xl}{
-        font-size: 20px;
+        font-size: 22px;
     }
-    @media #{$max-lg}{
-        font-size: 18px;
+    @media #{$max-md}{
+        font-size: 20px;
     }
 }
 h5 {
@@ -150,6 +150,15 @@ p{
     }
 }
 
+button{
+    outline: none;
+    &:hover{
+        outline: none;
+    }
+    &:focus{
+        outline: none;
+    }
+}
 a, button {
     color: inherit;
     line-height: inherit;
@@ -187,6 +196,12 @@ ul {
 ::placeholder{
     font-weight: 600;
     color:$white;
+    @media #{$max-lg}{
+        font-weight: 500;
+    }
+    @media #{$max-xxsm}{
+        font-weight: 400;
+    }
 }
 //reset end
 
@@ -424,12 +439,21 @@ ul {
     @media #{$max-xxl}{
         padding:9px 20px
     }
-    @media #{$max-lg}{
-        padding: 5px 20px;
-    }
 } 
 .mr-top-50{
     margin-top: 50px;
+    @media #{$max-xl}{
+        margin-top: 40px;
+    }
+    @media #{$max-lg}{
+        margin-top: 35px;
+    }
+    @media #{$max-sm}{
+        margin-top: 30px;
+    }
+    @media #{$max-xsm}{
+        margin-top: 20px;
+    }
 }
 .shib-popup{
     &.dark-modal-100{
@@ -438,6 +462,10 @@ ul {
             input{
                 background-color: $body-bg;
                 color: rgba($white, 0.89);
+                padding: 15px 20px;
+                @media #{$max-xxl}{
+                    padding:9px 20px
+                }
                 &:hover{
                     box-shadow: none;
                 }
@@ -476,6 +504,16 @@ ul {
                 background-repeat: no-repeat;
                 opacity: 1;
                 padding: 5px 0;
+                box-shadow: none;
+                outline: none;
+                &:hover{
+                    box-shadow: none;
+                    border: 0;
+                }
+                &:focus{
+                    box-shadow: none;
+                    border: 0;
+                }
             }
         }
     }

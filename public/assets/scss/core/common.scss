@@ -812,7 +812,7 @@
         position: relative;
         padding: 0 40px;
         height: 100%;
-        padding-left: 40px;
+        padding-left: 50px;
         background-color: $secondary;
         box-shadow: none;
         border-radius: 10px;
@@ -823,6 +823,12 @@
         &:focus{
             box-shadow: none;
             border: 0;
+        }
+        @media #{$max-xsm}{
+            padding: 0 30px;
+            padding-left: 30px;
+            box-shadow: none;
+            border-radius: 8px;
         }
     }
     .dropdown-toggle{
@@ -835,6 +841,11 @@
         left: 12px;
         top: 50%;
         transform: translateY(-50%);
+        @media #{$max-xsm}{
+            left: 7px;
+            top: 50%;
+            max-width: 18px;
+        }
     }
     .drop-chev {
         position: absolute;
@@ -843,6 +854,11 @@
         transform: translateY(-50%);
         max-width: 14px;
         margin-top: 1px;
+        @media #{$max-xsm}{
+            right: 8px;
+            max-width: 10px;
+        }
+        
     }
 }
 /** qr model start **/
