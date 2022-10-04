@@ -21,7 +21,7 @@ import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
 import { useMoralis } from "react-moralis";
 import { useEthBalance } from "../../hooks/useEthBalance";
-import { useTokenBalance , getTokenBalance} from '../../hooks/useTokenBalance';
+import { useTokenBalance, getTokenBalance } from '../../hooks/useTokenBalance';
 import { BONE_ID, ENV_CONFIGS } from '../../config/constant';
 import { BONE } from "../../web3/contractAddresses";
 import ERC20 from "../../ABI/ERC20Abi.json";
@@ -33,10 +33,10 @@ import { getBoneUSDValue, getWalletTokenList } from "../../services/apis/validat
 import NumberFormat from 'react-number-format';
 
 const sendInitialState = {
-  step0:true,
-  step1:false,
-  step2:false,
-  step3:false
+  step0: true,
+  step1: false,
+  step2: false,
+  step3: false
 }
 
 export default function Wallet() {
@@ -44,8 +44,8 @@ export default function Wallet() {
   const router = useRouter()
   const { chainId = 1, account, library } = useActiveWeb3React();
   const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(ENV_CONFIGS[chainId].BONE);
-  const lib :any = library
-  const web3 : any = new Web3(lib?.provider)
+  const lib: any = library
+  const web3: any = new Web3(lib?.provider)
   const dispatch = useAppDispatch()
 
   const [senderAddress, setSenderAdress] = useState('');
@@ -62,7 +62,7 @@ export default function Wallet() {
   const [tokenPlasmaList, setPlasmaTokenList] = useState<any>([]);
   const [selectedToken, setSelectedToken] = useState<any>({})
 
-  const varifyAccount = (address : any) => {
+  const varifyAccount = (address: any) => {
     let result = Web3.utils.isAddress(address)
     setIsValidAddress(result)
     return result
@@ -71,18 +71,18 @@ export default function Wallet() {
   const getTokensList = () => {
     getWalletTokenList('pos').then(res => {
       let list = res.data.data.tokenList
-      list.forEach(async (x:any) => {
+      list.forEach(async (x: any) => {
         x.balance = await getTokenBalance(lib, account, x.parentContract)
       })
       setPosTokenList(list)
     })
-    getWalletTokenList('plasma').then(async (res:any) => {
+    getWalletTokenList('plasma').then(async (res: any) => {
       let list = res.data.data.tokenList
-      list.forEach(async (x:any) => {
+      list.forEach(async (x: any) => {
         x.balance = await getTokenBalance(lib, account, x.parentContract)
       })
       setPlasmaTokenList(list)
-      
+
     })
   }
 
@@ -90,7 +90,7 @@ export default function Wallet() {
   console.log([...tokenPlasmaList, ...tokenPosList])
 
   useEffect(() => {
-    if(account){
+    if (account) {
       getBoneUSDValue(BONE_ID).then(res => {
         setBoneUSDValue(res.data.data.price);
       })
@@ -98,11 +98,11 @@ export default function Wallet() {
     }
 
   }, [account])
-  
 
 
 
-  const handleChange = (e :any) => {
+
+  const handleChange = (e: any) => {
     setSenderAdress(e.target.value)
     const isValid = varifyAccount(e.target.value)
     console.log(isValid)
@@ -127,11 +127,11 @@ export default function Wallet() {
   }
 
   const submitTransaction = () => {
-    let user :any = account;
+    let user: any = account;
     let amount = web3.utils.toBN(fromExponential(+sendAmount * Math.pow(10, 18)));
     let instance = new web3.eth.Contract(ERC20, selectedToken.parentContract);
     instance.methods.transfer(senderAddress, amount).send({ from: user })
-      .on('transactionHash', (res :any) => {
+      .on('transactionHash', (res: any) => {
         console.log(res, "hash")
         setTransactionHash(res)
         setSendModal({
@@ -148,7 +148,7 @@ export default function Wallet() {
             summary: `Transafer of ${sendAmount} Bone to ${senderAddress}`,
           })
         )
-      }).on('receipt', (res :any) => {
+      }).on('receipt', (res: any) => {
         console.log(res, "response")
         dispatch(
           finalizeTransaction({
@@ -166,9 +166,9 @@ export default function Wallet() {
             }
           })
         )
-      }).on('error', (err :any) => {
+      }).on('error', (err: any) => {
         console.log(err, "error")
-        if(err.code === 4001){
+        if (err.code === 4001) {
           setSenderModal(false)
           setSendModal(sendInitialState)
         }
@@ -186,7 +186,7 @@ export default function Wallet() {
     setSendModal(sendInitialState)
   }
 
-  const handledropDown = (x :any) => {
+  const handledropDown = (x: any) => {
     console.log(x)
     setSelectedToken(x)
   }
@@ -215,35 +215,36 @@ export default function Wallet() {
             <>
               {/* transferring funds popop start */}
 
-               {showSendModal.step0 && <div className="cmn_modal">
-                    <p className="mb-0">Sending funds to exchanges:</p>
-                    <div className="exchng_msg_box">
-                        <p>Exchanges supported from Shibarium network</p>
-                        <p className="sprdt_txt">Supported Excanges</p>
-                    </div>
-                    <p className="alert_msg">
-                      <div className="image-wrap d-inline-block me-2">
-                        <img className="img-fluid" src="../../images/i-info-icon.png" width={16}/>
-                      </div>
-                       Sending funds to unsupported exchanges will lead to permanent loss of funds.</p>
-                    <div className="pop_btns_area row form-control">
-                          <div className="col-6">
-                            <button className='btn blue-btn w-100' onClick={() => 
-                            { setSenderModal(false);
-                              setSendModal(sendInitialState)}}>Cancel</button>  
-                              </div>
-                          <div className="col-6">
-                            <button className='btn primary-btn w-100' 
-                            onClick={() => setSendModal({
-                              step0:false,
-                              step1:true,
-                              step2:false,
-                              step3:false
-                            })}>Continue</button>
-                            </div>
-                    </div>
-                    <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
-                </div>}
+              {showSendModal.step0 && <div className="cmn_modal">
+                <p className="mb-0">Sending funds to exchanges:</p>
+                <div className="exchng_msg_box">
+                  <p>Exchanges supported from Shibarium network</p>
+                  <p className="sprdt_txt">Supported Excanges</p>
+                </div>
+                <p className="alert_msg">
+                  <div className="image-wrap d-inline-block me-2">
+                    <img className="img-fluid" src="../../images/i-info-icon.png" width={16} />
+                  </div>
+                  Sending funds to unsupported exchanges will lead to permanent loss of funds.</p>
+                <div className="pop_btns_area row form-control">
+                  <div className="col-6">
+                    <button className='btn blue-btn w-100' onClick={() => {
+                      setSenderModal(false);
+                      setSendModal(sendInitialState)
+                    }}>Cancel</button>
+                  </div>
+                  <div className="col-6">
+                    <button className='btn primary-btn w-100'
+                      onClick={() => setSendModal({
+                        step0: false,
+                        step1: true,
+                        step2: false,
+                        step3: false
+                      })}>Continue</button>
+                  </div>
+                </div>
+                <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
+              </div>}
 
               {/* transferring funds popop ends */}
 
@@ -258,68 +259,69 @@ export default function Wallet() {
                         className="form-control cmn_inpt_fld"
                         value={senderAddress}
                         onChange={(e) => handleChange(e)}
-                        placeholder="Reciver address" />
-                        <div className="error-msg">
-                      {!isValidAddress && senderAddress && <label className="mb-0">Enter a valid reciver address on Shibarium Mainnet</label>}
-                    </div>
+                        placeholder="Receiver address" />
+                      <div className="error-msg">
+                        {!isValidAddress && senderAddress && <label className="mb-0">Enter a valid reciver address on Shibarium Mainnet</label>}
+                      </div>
                     </div>
                     <div className="form-group">
-                    
-                      <div className="float-input">
-                      <input
-                        type="text"
-                        className="form-control cmn_inpt_fld"
-                        placeholder="0.00"
-                        value={sendAmount}
-                        onChange={(e) => setSendAmount(e.target.value)}
-                      />
-                      {sendAmount && !selectedToken ? <label className="mb-0">Select token</label> : sendAmount && selectedToken.balance <= 0 ? 
-                        <label className="mb-0">Insufficient balance</label> : null }
-                      <Dropdown className="coin-dd float-dd">
-                        <Dropdown.Toggle id="dropdown-autoclose-true" className="btn-dd">
-                          <div className="drop-flex">
-                            <div className="drop-chev">
-                              <img className="img-fluid" src="../../images/chev-drop.png" alt="chev-ico" />
-                            </div>
-                            {selectedToken.parentName && <div className="drop-ico">
-                              <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
-                            </div>}
-                            <div className="drop-text">
-                              <span>{selectedToken.parentName ? selectedToken.parentName : "Select Token"}</span>
-                            </div>
-                          </div>
-                        </Dropdown.Toggle>
+                      <div className="position-relative">
+                        <div className="float-input">
+                          <input
+                            type="text"
+                            className="form-control cmn_inpt_fld"
+                            placeholder="0.00"
+                            value={sendAmount}
+                            onChange={(e) => setSendAmount(e.target.value)}
+                          />
 
-                        <Dropdown.Menu>
-                          {
-                          [...tokenPosList, ...tokenPlasmaList].map((x => 
-                            <Dropdown.Item className="coin-item" value={x.parentName} onClick={() => handledropDown(x)}>
-                            <div className="drop-ico">
-                              <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
-                            </div>
-                            <div className="drop-text">
-                              <span>{x.parentName}</span>
-                            </div>
-                          </Dropdown.Item>))
-                          }
-                         
-                          
-                        </Dropdown.Menu>
-                      </Dropdown>
+                          <Dropdown className="coin-dd float-dd">
+                            <Dropdown.Toggle id="dropdown-autoclose-true" className="btn-dd">
+                              <div className="drop-flex">
+                                <div className="drop-chev">
+                                  <img className="img-fluid" src="../../images/chev-drop.png" alt="chev-ico" />
+                                </div>
+                                {selectedToken.parentName && <div className="drop-ico">
+                                  <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
+                                </div>}
+                                <div className="drop-text">
+                                  <span>{selectedToken.parentName ? selectedToken.parentName : "Select Token"}</span>
+                                </div>
+                              </div>
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                              {
+                                [...tokenPosList, ...tokenPlasmaList].map((x =>
+                                  <Dropdown.Item className="coin-item" value={x.parentName} onClick={() => handledropDown(x)}>
+                                    <div className="drop-ico">
+                                      <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
+                                    </div>
+                                    <div className="drop-text">
+                                      <span>{x.parentName}</span>
+                                    </div>
+                                  </Dropdown.Item>))
+                              }
+
+
+                            </Dropdown.Menu>
+                          </Dropdown>
+                        </div>
+                        <div className="error-msg">
+                          {sendAmount && !selectedToken ? <label className="mb-0">Select token</label> : sendAmount && selectedToken.balance <= 0 ?
+                            <label className="mb-0">Insufficient balance</label> : null}
+                        </div>
                       </div>
-                      <div className="error-msg">
- 
-                    </div>
                       <p className="inpt_fld_hlpr_txt">
                         <span><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((selectedToken.balance || 0) * boneUSDValue).toFixed(2)} /></span>
-                        <b>balance: {selectedToken.balance ? selectedToken.balance.toFixed(4) : '00.00'} {selectedToken.parentSymbol ? selectedToken.parentSymbol : ""}</b>
+                        <b>Balance: {selectedToken.balance ? selectedToken.balance.toFixed(4) : '00.00'} {selectedToken.parentSymbol ? selectedToken.parentSymbol : ""}</b>
                       </p>
                     </div>
                     <div className="pop_btns_area mr-top-50 row">
                       <div className="col-6">
                         <button
                           className='btn blue-btn w-100'
-                          onClick={() => setSendModal({step0: true, step1: false, step2: false, step3:false})}
+                          onClick={() => setSendModal({ step0: true, step1: false, step2: false, step3: false })}
                         >Back</button>
                       </div>
                       <div className="col-6 active-btn">
@@ -436,7 +438,7 @@ export default function Wallet() {
                   </div>
                 </div>
                 <div className="bal-col">
-                  <div className="btns_area t_a_clm">
+                  <div className="btns_area t_a_clm h-100">
                     <button type="button"
                       onClick={() => setUserQrCode(true)}
                       className="btn grey-btn w-100 d-flex align-items-center justify-content-center">
