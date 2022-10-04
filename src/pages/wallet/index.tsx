@@ -21,7 +21,7 @@ import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
 import { useMoralis } from "react-moralis";
 import { useEthBalance } from "../../hooks/useEthBalance";
-import { useTokenBalance } from '../../hooks/useTokenBalance';
+import { useTokenBalance , getTokenBalance} from '../../hooks/useTokenBalance';
 import { BONE_ID, ENV_CONFIGS } from '../../config/constant';
 import { BONE } from "../../web3/contractAddresses";
 import ERC20 from "../../ABI/ERC20Abi.json";
@@ -29,7 +29,6 @@ import fromExponential from "from-exponential";
 import { useAppDispatch } from "../../state/hooks"
 import { addTransaction, finalizeTransaction } from "../../state/transactions/actions"
 import QrModal from "../components/QrModal";
-import QRCode from "react-qr-code";
 import { getBoneUSDValue, getWalletTokenList } from "../../services/apis/validator/index";
 import NumberFormat from 'react-number-format';
 
@@ -59,7 +58,9 @@ export default function Wallet() {
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const [showSendModal, setSendModal] = useState(sendInitialState);
   const [menuState, setMenuState] = useState(false);
-
+  const [tokenPosList, setPosTokenList] = useState<any>([]);
+  const [tokenPlasmaList, setPlasmaTokenList] = useState<any>([]);
+  const [selectedToken, setSelectedToken] = useState<any>({})
 
   const varifyAccount = (address : any) => {
     let result = Web3.utils.isAddress(address)
@@ -67,11 +68,38 @@ export default function Wallet() {
     return result
   }
 
-  useEffect(() => {
-    getBoneUSDValue(BONE_ID).then(res => {
-      setBoneUSDValue(res.data.data.price);
+  const getTokensList = () => {
+    getWalletTokenList('pos').then(res => {
+      let list = res.data.data.tokenList
+      list.forEach(async (x:any) => {
+        x.balance = await getTokenBalance(lib, account, x.parentContract)
+      })
+      setPosTokenList(list)
     })
+    getWalletTokenList('plasma').then(async (res:any) => {
+      let list = res.data.data.tokenList
+      list.forEach(async (x:any) => {
+        x.balance = await getTokenBalance(lib, account, x.parentContract)
+      })
+      setPlasmaTokenList(list)
+      
+    })
+  }
+
+
+  console.log([...tokenPlasmaList, ...tokenPosList])
+
+  useEffect(() => {
+    if(account){
+      getBoneUSDValue(BONE_ID).then(res => {
+        setBoneUSDValue(res.data.data.price);
+      })
+      getTokensList()
+    }
+
   }, [account])
+  
+
 
 
   const handleChange = (e :any) => {
@@ -158,7 +186,10 @@ export default function Wallet() {
     setSendModal(sendInitialState)
   }
 
-  
+  const handledropDown = (x :any) => {
+    console.log(x)
+    setSelectedToken(x)
+  }
 
   return (
     <>
@@ -228,10 +259,13 @@ export default function Wallet() {
                         value={senderAddress}
                         onChange={(e) => handleChange(e)}
                         placeholder="Reciver address" />
+                        <div className="error-msg">
+                      {!isValidAddress && senderAddress && <label className="mb-0">Enter a valid reciver address on Shibarium Mainnet</label>}
+                    </div>
                     </div>
                     <div className="form-group">
+                    
                       <div className="float-input">
-                      {!isValidAddress && senderAddress && <label style={{ color: 'red' }}>Enter a valid reciver address on Shibarium Mainnet</label>}
                       <input
                         type="text"
                         className="form-control cmn_inpt_fld"
@@ -245,69 +279,42 @@ export default function Wallet() {
                             <div className="drop-chev">
                               <img className="img-fluid" src="../../images/chev-drop.png" alt="chev-ico" />
                             </div>
-                            <div className="drop-ico">
+                            {selectedToken.parentName && <div className="drop-ico">
                               <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
-                            </div>
+                            </div>}
                             <div className="drop-text">
-                              <span>Shiba Token</span>
+                              <span>{selectedToken.parentName ? selectedToken.parentName : "Select Token"}</span>
                             </div>
                           </div>
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                          <Dropdown.Item className="coin-item" href="#">
+                          {
+                          [...tokenPosList, ...tokenPlasmaList].map((x => 
+                            <Dropdown.Item className="coin-item" value={x.parentName} onClick={() => handledropDown(x)}>
                             <div className="drop-ico">
                               <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
                             </div>
                             <div className="drop-text">
-                              <span>Shiba Token</span>
+                              <span>{x.parentName}</span>
                             </div>
-                          </Dropdown.Item>
-                          <Dropdown.Item className="coin-item" href="#">
-                            <div className="drop-ico">
-                              <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
-                            </div>
-                            <div className="drop-text">
-                              <span>Shiba Token</span>
-                            </div>
-                          </Dropdown.Item>
-                          <Dropdown.Item className="coin-item" href="#">
-                            <div className="drop-ico">
-                              <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
-                            </div>
-                            <div className="drop-text">
-                              <span>Shiba Token</span>
-                            </div>
-                          </Dropdown.Item>
-                          <Dropdown.Item className="coin-item" href="#">
-                            <div className="drop-ico">
-                              <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
-                            </div>
-                            <div className="drop-text">
-                              <span>Shiba Token</span>
-                            </div>
-                          </Dropdown.Item>
-                          <Dropdown.Item className="coin-item" href="#">
-                            <div className="drop-ico">
-                              <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
-                            </div>
-                            <div className="drop-text">
-                              <span>Shiba Token</span>
-                            </div>
-                          </Dropdown.Item>
+                          </Dropdown.Item>))
+                          }
+                         
+                          
                         </Dropdown.Menu>
                       </Dropdown>
                       </div>
                       <p className="inpt_fld_hlpr_txt">
                         <span><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></span>
-                        <b>balance: {availBalance.toFixed(4)} BONE</b>
+                        <b>balance: {selectedToken.balance ? selectedToken.balance.toFixed(4) : '00.00'} BONE</b>
                       </p>
                     </div>
                     <div className="pop_btns_area mr-top-50 row">
                       <div className="col-6">
                         <button
                           className='btn blue-btn w-100'
-                          onClick={() => handleCloseModal()}
+                          onClick={() => setSendModal({step0: true, step1: false, step2: false, step3:false})}
                         >Back</button>
                       </div>
                       <div className="col-6 active-btn">

@@ -10,9 +10,7 @@ import React, { FC } from 'react'
 const Transaction: FC<{ hash: string }> = ({ hash }) => {
   const { chainId } = useActiveWeb3React()
   const allTransactions = useAllTransactions()
-
-  console.log({allTransactions})
-
+  
   const tx = allTransactions?.[hash]
   const summary = tx?.summary
   const pending = !tx?.receipt
