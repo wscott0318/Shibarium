@@ -191,7 +191,7 @@ export default function Wallet() {
                         <p className="sprdt_txt">Supported Excanges</p>
                     </div>
                     <p className="alert_msg">
-                      <div className="image-wrap">
+                      <div className="image-wrap d-inline-block me-2">
                         <img className="img-fluid" src="../../images/i-info-icon.png" width={16}/>
                       </div>
                        Sending funds to unsupported exchanges will lead to permanent loss of funds.</p>
@@ -327,7 +327,7 @@ export default function Wallet() {
               {/* confirm send popop start */}
               {showSendModal.step2 &&
                 <div className="cmn_modal">
-                  <div className="cnfrm_box dark-bg">
+                  <div className="cnfrm_box dark-bg mt-0">
                     <div className="top_overview col-12">
                       <span><img src="../../images/shib-borderd-icon.png" /></span>
                       <h6>{sendAmount} BONE</h6>
@@ -357,7 +357,7 @@ export default function Wallet() {
                   </div>
                   <div className="pop_btns_area row">
                     <div className="col-6">
-                      <button className='btn dark-bg-800 text-white w-100'
+                      <button className='btn blue-btn w-100'
                         onClick={() => setSendModal({
                           step0: false,
                           step1: true,
@@ -381,7 +381,7 @@ export default function Wallet() {
               {/* submitted popop start */}
               {showSendModal.step3 &&
                 <div className="cmn_modal">
-                  <div className="cnfrm_box">
+                  <div className="cnfrm_box dark-bg mt-0">
                     <div className="top_overview col-12">
                       <span><img src="../../images/shib-borderd-icon.png" /></span>
                       <h6>{sendAmount} BONE</h6>
