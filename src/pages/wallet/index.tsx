@@ -74,20 +74,20 @@ export default function Wallet() {
       list.forEach(async (x: any) => {
         x.balance = await getTokenBalance(lib, account, x.parentContract)
       })
-      setPosTokenList(list)
+      setPosTokenList((pre:any[]) => ([...pre, ...list]))
     })
     getWalletTokenList('plasma').then(async (res: any) => {
       let list = res.data.data.tokenList
       list.forEach(async (x: any) => {
         x.balance = await getTokenBalance(lib, account, x.parentContract)
       })
-      setPlasmaTokenList(list)
+      setPosTokenList((pre:any[]) => ([...pre, ...list]))
 
     })
   }
 
 
-  console.log([...tokenPlasmaList, ...tokenPosList])
+  console.log(tokenPosList)
 
   useEffect(() => {
     if (account) {
@@ -293,7 +293,7 @@ export default function Wallet() {
 
                             <Dropdown.Menu>
                               {
-                                [...tokenPosList, ...tokenPlasmaList].map((x =>
+                                tokenPosList.length && tokenPosList.map((x =>
                                   <Dropdown.Item className="coin-item" value={x.parentName} onClick={() => handledropDown(x)}>
                                     <div className="drop-ico">
                                       <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
@@ -458,7 +458,7 @@ export default function Wallet() {
                 <div className="bal-col">
                   <div className="lrg_btns_area t_a_clm">
                     <a href="#" className="btn white-btn w-100 d-block">Move funds from Ethereum to Shibarium</a>
-                    <Link href="/how-it-works" className="btn white-btn w-100 d-block">How Shibarium works</Link>
+                    <Link href="/how-it-works"><a className="btn white-btn w-100 d-block">How Shibarium works</a></Link>
                   </div>
                 </div>
               </div>
@@ -476,34 +476,17 @@ export default function Wallet() {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td colSpan={2}><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
-                          <td>0.0000 - 0.00$</td>
+                       {
+                       [...tokenPlasmaList, ...tokenPosList].length && [...tokenPlasmaList, ...tokenPosList].map(x =>
+                       <tr>
+                          <td colSpan={2}><span><img src="../../images/shiba-round-icon.png" /></span><b>{x.parentSymbol}</b> - {x.parentName}</td>
+                          <td>{x?.balance} - <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((x.balance || 0) * boneUSDValue).toFixed(2)} /></td>
                           <td><a href="#">Deposit</a></td>
                           <td><a href="#">Withdraw</a></td>
                           <td><a href="#">Send</a></td>
                         </tr>
-                        <tr>
-                          <td colSpan={2}><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
-                          <td>0.0000 - 0.00$</td>
-                          <td><a href="#">Deposit</a></td>
-                          <td><a href="#">Withdraw</a></td>
-                          <td><a href="#">Send</a></td>
-                        </tr>
-                        <tr>
-                          <td colSpan={2}><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
-                          <td>0.0000 - 0.00$</td>
-                          <td><a href="#">Deposit</a></td>
-                          <td><a href="#">Withdraw</a></td>
-                          <td><a href="#">Send</a></td>
-                        </tr>
-                        <tr>
-                          <td colSpan={2}><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
-                          <td>0.0000 - 0.00$</td>
-                          <td><a href="#">Deposit</a></td>
-                          <td><a href="#">Withdraw</a></td>
-                          <td><a href="#">Send</a></td>
-                        </tr>
+                        )}
+                      
                       </tbody>
                     </table>
                   </div>
