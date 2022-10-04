@@ -895,12 +895,12 @@
 
 .error-msg {
     position: absolute;
-    bottom: -22px;
+    bottom: -18px;
     left: 0;
     z-index: 1;
     label {
         font-size: 12px;
         font-weight: 600;
-        color: $primary;
+        color: $grey-color-800;
     }
 }

@@ -431,7 +431,7 @@ export default function Wallet() {
                   </div>
                 </div>
                 <div className="bal-col">
-                  <div className="btns_area t_a_clm">
+                  <div className="btns_area t_a_clm h-100">
                     <button type="button"
                       onClick={() => setUserQrCode(true)}
                       className="btn grey-btn w-100 d-flex align-items-center justify-content-center">
