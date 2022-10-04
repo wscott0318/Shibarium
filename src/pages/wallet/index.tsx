@@ -185,12 +185,16 @@ export default function Wallet() {
               {/* transferring funds popop start */}
 
                {showSendModal.step0 && <div className="cmn_modal">
-                    <p>Sending funds to exchanges:</p>
+                    <p className="mb-0">Sending funds to exchanges:</p>
                     <div className="exchng_msg_box">
                         <p>Exchanges supported from Shibarium network</p>
                         <p className="sprdt_txt">Supported Excanges</p>
                     </div>
-                    <p className="alert_msg"><img src="../../images/i-info-icon.png"/> Sending funds to unsupported exchanges will lead to permanent loss of funds.</p>
+                    <p className="alert_msg">
+                      <div className="image-wrap">
+                        <img className="img-fluid" src="../../images/i-info-icon.png" width={16}/>
+                      </div>
+                       Sending funds to unsupported exchanges will lead to permanent loss of funds.</p>
                     <div className="pop_btns_area row form-control">
                           <div className="col-6">
                             <button className='btn blue-btn w-100' onClick={() => 
@@ -323,7 +327,7 @@ export default function Wallet() {
               {/* confirm send popop start */}
               {showSendModal.step2 &&
                 <div className="cmn_modal">
-                  <div className="cnfrm_box dark-bg-800">
+                  <div className="cnfrm_box dark-bg">
                     <div className="top_overview col-12">
                       <span><img src="../../images/shib-borderd-icon.png" /></span>
                       <h6>{sendAmount} BONE</h6>
