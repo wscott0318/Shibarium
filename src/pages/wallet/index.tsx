@@ -21,7 +21,7 @@ import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
 import { useMoralis } from "react-moralis";
 import { useEthBalance } from "../../hooks/useEthBalance";
-import { useTokenBalance } from '../../hooks/useTokenBalance';
+import { useTokenBalance , getTokenBalance} from '../../hooks/useTokenBalance';
 import { BONE_ID, ENV_CONFIGS } from '../../config/constant';
 import { BONE } from "../../web3/contractAddresses";
 import ERC20 from "../../ABI/ERC20Abi.json";
@@ -29,7 +29,6 @@ import fromExponential from "from-exponential";
 import { useAppDispatch } from "../../state/hooks"
 import { addTransaction, finalizeTransaction } from "../../state/transactions/actions"
 import QrModal from "../components/QrModal";
-import QRCode from "react-qr-code";
 import { getBoneUSDValue, getWalletTokenList } from "../../services/apis/validator/index";
 import NumberFormat from 'react-number-format';
 
@@ -59,6 +58,8 @@ export default function Wallet() {
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const [showSendModal, setSendModal] = useState(sendInitialState);
   const [menuState, setMenuState] = useState(false);
+  const [tokenPosList, setPosTokenList] = useState<any>([]);
+  const [tokenPlasmaList, setPlasmaTokenList] = useState<any>([]);
 
 
   const varifyAccount = (address : any) => {
@@ -67,11 +68,34 @@ export default function Wallet() {
     return result
   }
 
-  useEffect(() => {
-    getBoneUSDValue(BONE_ID).then(res => {
-      setBoneUSDValue(res.data.data.price);
+  const getTokensList = () => {
+    getWalletTokenList('pos').then(res => {
+      
     })
+    getWalletTokenList('plasma').then(res => {
+      // let list = res.data.data.tokenList
+      // list.forEach((x:any) => {
+      //   x.balance = getTokenBalance(lib, account, x.parentContract)
+      // })
+      // console.log(list)
+      
+    })
+  }
+
+
+  // console.log([...tokenPlasmaList, ...tokenPosList])
+
+  useEffect(() => {
+    if(account){
+      getBoneUSDValue(BONE_ID).then(res => {
+        setBoneUSDValue(res.data.data.price);
+      })
+      getTokensList()
+    }
+
   }, [account])
+  
+
 
 
   const handleChange = (e :any) => {
@@ -303,7 +327,7 @@ export default function Wallet() {
                       <div className="col-6">
                         <button
                           className='btn blue-btn w-100'
-                          onClick={() => handleCloseModal()}
+                          onClick={() => setSendModal({step0: true, step1: false, step2: false, step3:false})}
                         >Back</button>
                       </div>
                       <div className="col-6 active-btn">
