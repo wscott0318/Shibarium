@@ -53,7 +53,7 @@ export default function Wallet() {
   const [userQrCode, setUserQrCode] = useState(false)
   const [isValidAddress, setIsValidAddress] = useState(false)
   const [sendAmount, setSendAmount] = useState('')
-  const [senderModal, setSenderModal] = useState(true)
+  const [senderModal, setSenderModal] = useState(false)
   const [verifyAmount, setVerifyAmount] = useState(false)
   const [transactionHash, setTransactionHash] = useState('')
   const [boneUSDValue,setBoneUSDValue] = useState(0);
