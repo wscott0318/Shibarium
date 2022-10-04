@@ -8,7 +8,7 @@ import { useRouter } from "next/dist/client/router";
 import Popup from "../components/PopUp";
 import { ChainId } from "@shibarium/core-sdk";
 import Web3 from "web3";
-import CommonModal from "../components/CommonModel";
+import CommonModal , {CommonModalNew} from "../components/CommonModel";
 import InnerHeader from "../../pages/inner-header";
 
 import Link from 'next/link'
@@ -184,6 +184,7 @@ export default function Wallet() {
     setSendAmount('');
     setSenderAdress('')
     setSendModal(sendInitialState)
+    setSelectedToken({})
   }
 
   const handledropDown = (x: any) => {
@@ -205,10 +206,10 @@ export default function Wallet() {
         />}
         {/* QR modal ends */}
         <div className="">
-          <CommonModal
+          <CommonModalNew
             title={showSendModal.step0 ? "Transferring funds" : showSendModal.step1 ? "Send" : showSendModal.step2 ? "Confirm Send" : "Submitted"}
             show={senderModal}
-            setShow={setSenderModal}
+            setShow={handleCloseModal}
             externalCls="dark-modal-100"
           >
             {/* step 1 */}
@@ -268,7 +269,7 @@ export default function Wallet() {
                       <div className="position-relative">
                         <div className="float-input">
                           <input
-                            type="text"
+                            type="number"
                             className="form-control cmn_inpt_fld"
                             placeholder="0.00"
                             value={sendAmount}
@@ -345,7 +346,7 @@ export default function Wallet() {
                     <div className="top_overview col-12">
                       <span><img src="../../images/shib-borderd-icon.png" /></span>
                       <h6>{sendAmount} BONE</h6>
-                      <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+selectedToken.balance || 0) * boneUSDValue).toFixed(2)} /></p>
+                      <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+sendAmount || 0) * boneUSDValue).toFixed(2)} /></p>
                     </div>
                     <div className="add_detail col-12">
                       <p><b>RECEIVER:</b></p>
@@ -372,12 +373,14 @@ export default function Wallet() {
                   <div className="pop_btns_area row">
                     <div className="col-6">
                       <button className='btn blue-btn w-100'
-                        onClick={() => setSendModal({
+                        onClick={() => {setSendModal({
                           step0: false,
                           step1: true,
                           step2: false,
                           step3: false
-                        })}
+                        })
+                        setVerifyAmount(false)
+                      }}
                       >Back</button>
                     </div>
                     <div className="col-6 active-btn">
@@ -399,7 +402,7 @@ export default function Wallet() {
                     <div className="top_overview col-12">
                       <span><img src="../../images/shib-borderd-icon.png" /></span>
                       <h6>{sendAmount} BONE</h6>
-                      <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+selectedToken.balance || 0) * boneUSDValue).toFixed(2)} /></p>
+                      <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+sendAmount || 0) * boneUSDValue).toFixed(2)} /></p>
                     </div>
                     <div className="add_detail col-12">
                       <p><b>TRANSACTION SUBMITTED TO:</b></p>
@@ -422,7 +425,7 @@ export default function Wallet() {
 
             </>
             {/* step 1 end */}
-          </CommonModal>
+          </CommonModalNew>
         </div>
         <section className="assets-section">
           <div className="cmn_dashbord_main_outr">
@@ -455,7 +458,7 @@ export default function Wallet() {
                 <div className="bal-col">
                   <div className="lrg_btns_area t_a_clm">
                     <a href="#" className="btn white-btn w-100 d-block">Move funds from Ethereum to Shibarium</a>
-                    <a href="#" className="btn white-btn w-100 d-block">How Shibarium works</a>
+                    <Link href="/how-it-works" className="btn white-btn w-100 d-block">How Shibarium works</Link>
                   </div>
                 </div>
               </div>

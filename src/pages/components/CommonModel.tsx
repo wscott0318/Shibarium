@@ -14,6 +14,7 @@ interface propsNew{
     show:boolean;
     setShow: any;
     title:any;
+    externalCls:string;
     children:React.ReactNode;
 }
 const CommonModal:React.FC<props> = ({show,setShow, title,externalCls,children})=> {
@@ -56,10 +57,43 @@ const CommonModal:React.FC<props> = ({show,setShow, title,externalCls,children})
   )
 }
 
-export const CommonModalNew:React.FC<propsNew> = ({show,setShow = null, title,children})=> {
-  const abc = {show,setShow, title,children};
+export const CommonModalNew:React.FC<propsNew> = ({show,setShow = null, title,externalCls,children})=> {
+  const abc = {show,setShow, title,children, externalCls};
   return (
-    <h1>CommonModalNew</h1>
+    <Modal
+    {...abc}
+    
+    centered
+    show={show}
+    onHide={() => setShow()}
+    backdrop="static"
+    keyboard={false}
+    className={`shib-popup ${externalCls}`}
+    // scrollable={true}
+  >
+    <Modal.Header closeButton className="text-center modal-header">
+    {/* <div className="back-blk">
+        <a href="#!;" title="">
+        <img className="img-fluid" src="../../assets/images/left-icon.png"width="45" height="78" alt=""></img>
+        </a>
+    </div> */}
+      <Modal.Title
+        id="contained-modal-title-vcenter"
+        className="d-inline-block fw-800 trs-3"
+      >
+        <span style={{ color: "white" }}>{title}</span>
+      </Modal.Title>
+    </Modal.Header>
+
+    <Modal.Body className='low-sidespace body-font-sm'>
+       {children}
+    </Modal.Body>
+    {/* <Modal.Footer className='text-center d-block'>
+        <button >
+          <CopyHelper toCopy={address}> Copy address </CopyHelper>
+        </button>
+    </Modal.Footer> */}
+  </Modal>
   )
 }
 
