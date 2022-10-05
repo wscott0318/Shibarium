@@ -73,6 +73,12 @@ export default function Sidebar({menuState, handleMenuState}) {
       img:"../../images/sidebar/tools.png",
     },
     {
+      name: 'Faucet',
+      route:'/faucet',
+      isSelected: router.asPath == '/faucet' ? true : false,
+      img:"../../images/sidebar/tools.png",
+    },
+    {
       name: 'Support',
       route:'',
       isSelected: false,

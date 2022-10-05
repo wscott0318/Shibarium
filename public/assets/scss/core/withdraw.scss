@@ -225,12 +225,12 @@
         padding: 0 10% 0 0;
     }
 }
-.btn-modify{
-    .primary-btn{
-        // font-size: 16px;
-        // padding: 15px;
-    }
-}
+// .btn-modify{
+//     .primary-btn{
+//         // font-size: 16px;
+//         // padding: 15px;
+//     }
+// }
 .sec-wrapper {
     display: flex;
     justify-content: space-between;
@@ -454,6 +454,13 @@
 }
 .tokn-row {
     margin-bottom: 20px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 2px;
+}
+
+.tokn-row:hover {
+    background-color: #354164;
 }
 .pop-btns-grid{
     display: flex;

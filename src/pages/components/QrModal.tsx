@@ -1,7 +1,9 @@
 import CopyHelper from 'app/components/AccountDetails/Copy';
 import React from 'react'
 import { Modal } from 'react-bootstrap'
-import QRCode from "react-qr-code";
+// import QRCode from "react-qr-code";
+import { QRCode } from 'react-qrcode-logo';
+// import QrLogo from "../../images/shiba-round-icon.png"
 
 interface props{
     show:boolean;
@@ -34,7 +36,16 @@ const QrModal:React.FC<props> = ({show,setShow, title,address})=> {
         <div className="qr-wrap">
           <div
             className="qr-code">
-            <QRCode value={address} bgColor='#15141b' fgColor='#fff' title={address} />
+            <QRCode 
+            size={250}
+             removeQrCodeBehindLogo={true}
+             value={address} 
+             logoWidth={50}
+             bgColor='#15141b' fgColor='#fff' 
+             logoHeight={50}  
+            // logoImage={QrLogo}
+            logoImage='https://www.thewistle.com/wp-content/uploads/2021/07/Shiba-Token-1.jpg'
+            />
           </div>
           <div className='mt-4 text-center lite-color'>Wallet address </div>
           <div  className='text-center word-wrap'>{address}</div>

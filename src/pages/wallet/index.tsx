@@ -3,14 +3,14 @@
 import React, { useState, useEffect, useContext } from "react";
 
 import { Button, Container, Nav, Navbar, NavDropdown, DropdownButton, Dropdown, Modal } from 'react-bootstrap';
-
+// @ts-ignore
 import { useRouter } from "next/dist/client/router";
 import Popup from "../components/PopUp";
 import { ChainId } from "@shibarium/core-sdk";
 import Web3 from "web3";
 import CommonModal , {CommonModalNew} from "../components/CommonModel";
 import InnerHeader from "../../pages/inner-header";
-
+// @ts-ignore
 import Link from 'next/link'
 import {
   NoEthereumProviderError,
@@ -31,12 +31,14 @@ import { addTransaction, finalizeTransaction } from "../../state/transactions/ac
 import QrModal from "../components/QrModal";
 import { getBoneUSDValue, getWalletTokenList } from "../../services/apis/validator/index";
 import NumberFormat from 'react-number-format';
+import { useSearchFilter } from "app/hooks/useSearchFilter";
 
 const sendInitialState = {
   step0: true,
   step1: false,
   step2: false,
-  step3: false
+  step3: false,
+  showTokens: false
 }
 
 export default function Wallet() {
@@ -58,10 +60,21 @@ export default function Wallet() {
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const [showSendModal, setSendModal] = useState(sendInitialState);
   const [menuState, setMenuState] = useState(false);
-  const [tokenPosList, setPosTokenList] = useState<any>([]);
-  const [tokenPlasmaList, setPlasmaTokenList] = useState<any>([]);
+  const [tokenList, setTokenList] = useState<any>([]);
+  const [tokenFilteredList, setTokenFilteredList] = useState<any>([]);
   const [selectedToken, setSelectedToken] = useState<any>({})
-  const [showTokenModal, setTokenModal] = useState(false);
+  const [searchKey, setSearchKey] = useState<string>('');
+
+  const searchResult = useSearchFilter(tokenList, searchKey.trim());
+
+  useEffect(() => {
+    if(tokenFilteredList.length) {
+     let obj = tokenFilteredList.filter((x:any) => x.parentSymbol === 'BONE').map((y:any) => y)[0] 
+     setSelectedToken(obj) 
+    }
+  },[tokenFilteredList])
+
+  console.log(selectedToken)
 
   const varifyAccount = (address: any) => {
     let result = Web3.utils.isAddress(address)
@@ -75,20 +88,22 @@ export default function Wallet() {
       list.forEach(async (x: any) => {
         x.balance = await getTokenBalance(lib, account, x.parentContract)
       })
-      setPosTokenList((pre:any[]) => ([...pre, ...list]))
+      setTokenList((pre:any[]) => ([...pre, ...list]))
+      setTokenFilteredList((pre:any[]) => ([...pre, ...list]))
     })
     getWalletTokenList('plasma').then(async (res: any) => {
       let list = res.data.data.tokenList
       list.forEach(async (x: any) => {
         x.balance = await getTokenBalance(lib, account, x.parentContract)
       })
-      setPosTokenList((pre:any[]) => ([...pre, ...list]))
+      setTokenList((pre:any[]) => ([...pre, ...list]))
+      setTokenFilteredList((pre:any[]) => ([...pre, ...list]))
 
     })
   }
 
 
-  console.log(tokenPosList)
+  console.log(tokenList)
 
   useEffect(() => {
     if (account) {
@@ -122,9 +137,26 @@ export default function Wallet() {
         step0: false,
         step1: false,
         step2: true,
-        step3: false
+        step3: false,
+        showTokens:false
       })
     }
+  }
+
+  const handleSearchList = (key:any) => {
+    setSearchKey(key)
+    if(key.length){
+      let newData = tokenList.filter((name: any) => {
+        return Object.values(name)
+              .join(" ")
+              .toLowerCase()
+              .includes(key.toLowerCase());
+        });
+        setTokenFilteredList(newData)
+    } else {
+      setTokenFilteredList(tokenList)
+    }
+    
   }
 
   const submitTransaction = () => {
@@ -139,14 +171,15 @@ export default function Wallet() {
           step0: false,
           step1: false,
           step2: false,
-          step3: true
+          step3: true,
+          showTokens:false
         })
         dispatch(
           addTransaction({
             hash: res,
             from: user,
             chainId,
-            summary: `Transafer of ${sendAmount} Bone to ${senderAddress}`,
+            summary: `${res}`,
           })
         )
       }).on('receipt', (res: any) => {
@@ -167,6 +200,9 @@ export default function Wallet() {
             }
           })
         )
+        setTokenFilteredList([])
+        setTokenList([])
+        getTokensList()
       }).on('error', (err: any) => {
         console.log(err, "error")
         if (err.code === 4001) {
@@ -185,12 +221,21 @@ export default function Wallet() {
     setSendAmount('');
     setSenderAdress('')
     setSendModal(sendInitialState)
-    setSelectedToken({})
   }
 
   const handledropDown = (x: any) => {
     console.log(x)
     setSelectedToken(x)
+  }
+
+  const handleSendAmount = () => {
+    if(sendAmount > selectedToken.balance){
+      return true
+    } else if (!sendAmount){
+      return true
+    } else {
+      return false
+    }
   }
 
   return (
@@ -208,7 +253,7 @@ export default function Wallet() {
         {/* QR modal ends */}
         <div className="">
           <CommonModalNew
-            title={showSendModal.step0 ? "Transferring funds" : showSendModal.step1 ? "Send" : showSendModal.step2 ? "Confirm Send" : "Submitted"}
+            title={showSendModal.step0 ? "Transferring funds" : showSendModal.step1 ? "Send" : showSendModal.step2 ? "Confirm Send" : showSendModal.showTokens ? 'Select Token' : "Submitted"}
             show={senderModal}
             setShow={handleCloseModal}
             externalCls="dark-modal-100"
@@ -241,7 +286,8 @@ export default function Wallet() {
                         step0: false,
                         step1: true,
                         step2: false,
-                        step3: false
+                        step3: false,
+                        showTokens:false
                       })}>Continue</button>
                   </div>
                 </div>
@@ -277,41 +323,32 @@ export default function Wallet() {
                             onChange={(e) => setSendAmount(e.target.value)}
                           />
 
-                          <Dropdown className="coin-dd float-dd">
-                            <Dropdown.Toggle id="dropdown-autoclose-true" className="btn-dd">
+                          <div className="coin-dd float-dd" onClick={() => setSendModal({
+                             step0: false,
+                             step1: false,
+                             step2: false,
+                             step3: false,
+                             showTokens: true
+                          })}>
+                            <div id="div-autoclose-true" className="btn-dd">
                               <div className="drop-flex">
                                 <div className="drop-chev">
                                   <img className="img-fluid" src="../../images/chev-drop.png" alt="chev-ico" />
                                 </div>
-                                {selectedToken.parentName && <div className="drop-ico">
+                                {selectedToken ?  <div className="drop-ico">
                                   <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
-                                </div>}
-                                <div className="drop-text">
-                                  {/* <span>{selectedToken.parentName ? selectedToken.parentName : "Select Token"}</span> */}
+                                    <span>{selectedToken.parentName ? selectedToken.parentName : "Select Token"}</span>
+                                </div> :
+                                 <div className="drop-text">
                                   <span>Select Token</span>
-                                </div>
+                                </div> }
+                                
                               </div>
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu className="d-none">
-                              {
-                                tokenPosList.length && tokenPosList.map((x:any) =>
-                                  <Dropdown.Item className="coin-item" value={x.parentName} onClick={() => handledropDown(x)}>
-                                    <div className="drop-ico">
-                                      <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
-                                    </div>
-                                    <div className="drop-text">
-                                      <span>{x.parentName}</span>
-                                    </div>
-                                  </Dropdown.Item>)
-                              }
-
-
-                            </Dropdown.Menu>
-                          </Dropdown>
+                            </div>
+                          </div>
                         </div>
                         <div className="error-msg">
-                          {sendAmount && !selectedToken ? <label className="mb-0">Select token</label> : sendAmount && selectedToken.balance <= 0 ?
+                          {sendAmount && +sendAmount > selectedToken.balance && !selectedToken ? <label className="mb-0">Select token</label> : sendAmount && +sendAmount > selectedToken.balance ||  selectedToken.balance <= 0 ?
                             <label className="mb-0">Insufficient balance</label> : null}
                         </div>
                       </div>
@@ -324,12 +361,12 @@ export default function Wallet() {
                       <div className="col-6">
                         <button
                           className='btn blue-btn w-100'
-                          onClick={() => setSendModal({ step0: true, step1: false, step2: false, step3: false })}
+                          onClick={() => setSendModal({ step0: true, step1: false, step2: false, step3: false, showTokens:false })}
                         >Back</button>
                       </div>
                       <div className="col-6 active-btn">
                         <button
-                          disabled={isValidAddress && sendAmount && selectedToken.balance > 0 ? false : true}
+                          disabled={isValidAddress && +sendAmount < selectedToken.balance && selectedToken.balance > 0 ? false : true}
                           onClick={() => handleSend()}
                           className='btn primary-btn w-100'
                         >Send</button>
@@ -379,7 +416,8 @@ export default function Wallet() {
                           step0: false,
                           step1: true,
                           step2: false,
-                          step3: false
+                          step3: false,
+                          showTokens:false
                         })
                         setVerifyAmount(false)
                       }}
@@ -425,246 +463,73 @@ export default function Wallet() {
                 </div>}
               {/* submitted popop ends */}
 
+              {/* Select token popop starts */}
+             {showSendModal.showTokens && <div className="popmodal-body tokn-popup">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                    <div className="sec-search">
+                      <div className="position-relative search-row">
+                        <input type="text" className="w-100" placeholder="Search token or token address" />
+                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
+                      </div>
+                    </div>
+                    <div className="token-sec">
+                      <div className="info-grid">
+                        <p onClick={() => setSendModal({
+                             step0: false,
+                             step1: true,
+                             step2: false,
+                             step3: false,
+                             showTokens: false
+                        })}>Back</p>
+                        <div>
+                          <p>Token List</p>
+                        </div>
+                        <div className="token-btn-sec">
+                          <button type="button" className="btn primary-btn w-100">Manage Tokens</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="token-listwrap">
+                        {tokenFilteredList ? tokenFilteredList.map((x:any) => 
+                          <div className="tokn-row" onClick={() => {
+                            setSelectedToken(x);
+                            setSendModal({
+                              step0: false,
+                              step1: true,
+                              step2: false,
+                              step3: false,
+                              showTokens: false
+                         })
+                            }}>
+                          <div className="cryoto-box">
+                            <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">{x.parentSymbol}</h6>
+                              <p>{x.parentName}</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">{x.balance ? (x.balance).toFixed(4) : '00.00'}</h6>
+                            </div>
+                          </div>
+                        </div>
+                        ) : null }
+                       
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>}
+                {/* Select token popop ends */}
+
             </>
-            {/* step 1 end */}
+           
           </CommonModalNew>
 
-          {/* Token popup start */}
-          <CommonModal
-            title="Send Token"
-            show={showTokenModal}
-            setShow={setTokenModal}
-            externalCls=""
-          >
-            {/* step 1 */}
-            <>
-              {/* Select token popop starts */}
-              <div className="popmodal-body tokn-popup">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                    <div className="sec-search">
-                      <div className="position-relative search-row">
-                        <input type="text" className="w-100" placeholder="Search token or token address" />
-                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
-                      </div>
-                    </div>
-                    <div className="token-sec">
-                      <div className="info-grid">
-                        <div>
-                          <p>Token List</p>
-                        </div>
-                        <div className="token-btn-sec">
-                          <button type="button" className="btn primary-btn w-100">Manage Tokens</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="token-listwrap">
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">SHIB</h6>
-                              <p>Shibatoken</p>
-                            </div>
-                            <div>
-                              <h6 className="fw-bold">1000</h6>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/red-bone.png" alt="" />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">BONE</h6>
-                              <p>Bone Token</p>
-                            </div>
-                            <div>
-                              <h6 className="fw-bold">1000</h6>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">ETH</h6>
-                              <p>Ethereum</p>
-                            </div>
-                            <div>
-                              <h6 className="fw-bold">1000</h6>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">ETH</h6>
-                              <p>Ethereum</p>
-                            </div>
-                            <div>
-                              <h6 className="fw-bold">1000</h6>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">ETH</h6>
-                              <p>Ethereum</p>
-                            </div>
-                            <div>
-                              <h6 className="fw-bold">1000</h6>
-                            </div>
-                          </div>
-                        </div>
-                       
-                      </div>
-                    </div>
-                    
-                  </div>
-                </div>
-                {/* Select token popop ends */}
+        
 
-              
-
-              
-
-             
-
-            </>
-            {/* step 1 end */}
-          </CommonModal>
-
-          {/* Token popup start */}
-          <CommonModal
-            title="Send Token"
-            show={showTokenModal}
-            setShow={setTokenModal}
-            externalCls=""
-          >
-            {/* step 1 */}
-            <>
-              {/* Select token popop starts */}
-              <div className="popmodal-body tokn-popup">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                    <div className="sec-search">
-                      <div className="position-relative search-row">
-                        <input type="text" className="w-100" placeholder="Search token or token address" />
-                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
-                      </div>
-                    </div>
-                    <div className="token-sec">
-                      <div className="info-grid">
-                        <div>
-                          <p>Token List</p>
-                        </div>
-                        <div className="token-btn-sec">
-                          <button type="button" className="btn primary-btn w-100">Manage Tokens</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="token-listwrap">
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">SHIB</h6>
-                              <p>Shibatoken</p>
-                            </div>
-                            <div>
-                              <h6 className="fw-bold">1000</h6>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/red-bone.png" alt="" />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">BONE</h6>
-                              <p>Bone Token</p>
-                            </div>
-                            <div>
-                              <h6 className="fw-bold">1000</h6>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">ETH</h6>
-                              <p>Ethereum</p>
-                            </div>
-                            <div>
-                              <h6 className="fw-bold">1000</h6>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">ETH</h6>
-                              <p>Ethereum</p>
-                            </div>
-                            <div>
-                              <h6 className="fw-bold">1000</h6>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">ETH</h6>
-                              <p>Ethereum</p>
-                            </div>
-                            <div>
-                              <h6 className="fw-bold">1000</h6>
-                            </div>
-                          </div>
-                        </div>
-                       
-                      </div>
-                    </div>
-                    
-                  </div>
-                </div>
-                {/* Select token popop ends */}
-
-              
-
-              
-
-             
-
-            </>
-            {/* step 1 end */}
-          </CommonModal>
-          {/* Token popup end */}
         </div>
         <section className="assets-section">
           <div className="cmn_dashbord_main_outr">
@@ -711,21 +576,31 @@ export default function Wallet() {
                           <th colSpan={2}>Name</th>
                           <th>Balance</th>
                           <th>Actions</th>
-                          <th colSpan={2} className="text-end"><input type="search" placeholder="Search" /></th>
+                          <th colSpan={2} className="text-end">
+                            <input
+                            value={searchKey}
+                            onChange={(e) => handleSearchList(e.target.value)}
+                            type="search" 
+                            placeholder="Search" 
+                            />
+                            </th>
                         </tr>
                       </thead>
                       <tbody>
                        {
-                       [...tokenPlasmaList, ...tokenPosList].length && [...tokenPlasmaList, ...tokenPosList].map(x =>
+                       tokenFilteredList.length ? tokenFilteredList.map((x:any) =>
                        <tr>
                           <td colSpan={2}><span><img src="../../images/shiba-round-icon.png" /></span><b>{x.parentSymbol}</b> - {x.parentName}</td>
-                          <td>{x?.balance} - <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((x.balance || 0) * boneUSDValue).toFixed(2)} /></td>
+                          <td>{(x.balance || 0).toFixed(4)} - <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((x.balance || 0) * boneUSDValue).toFixed(2)} /></td>
                           <td><a href="#">Deposit</a></td>
                           <td><a href="#">Withdraw</a></td>
                           <td><a href="#">Send</a></td>
                         </tr>
-                        )}
-                      
+                        ) : null }
+                      {
+                       searchKey.length && !tokenFilteredList.length && 
+                       <tr><p>No record found</p></tr>
+                      }
                       </tbody>
                     </table>
                   </div>
