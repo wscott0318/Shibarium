@@ -1,10 +1,5 @@
-.shiba-row{
-    z-index: 2;
-    position: relative;
-}
 .shiba-features {
     padding-top: 80px;
-    z-index: 999;
     @media #{$max-xl}{
         padding-top: 70px;
     }
@@ -38,7 +33,6 @@
         top: 10%;
         left: 0;
         max-width: 130px;
-        z-index: 1;
         @media #{$max-xxxl}{
             top: 20%;
             max-width: 100px;

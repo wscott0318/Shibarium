@@ -164,7 +164,7 @@ export default function Gastoken() {
             >
                 {/* review swap popup starts */}
 
-                {/* <div className="popmodal-body">
+                <div className="popmodal-body">
                     <div className="pop-block">
                         <div className="pop-top">
                             <div className="cnfrm_box dark-bg-800">
@@ -197,13 +197,13 @@ export default function Gastoken() {
                             </div>
                         </div>
                     </div>
-                </div> */}
+                </div>
                 
                 {/* review swap popup ends */}
 
 
                 {/* Transaction pending popup start*/}
-                <div className="popmodal-body tokn-popup">
+                {/* <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                         <div className='dark-bg-800 h-100 status-sec'>
@@ -219,7 +219,7 @@ export default function Gastoken() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* Transaction pending popup end*/}
 
                 

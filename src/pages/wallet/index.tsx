@@ -61,6 +61,7 @@ export default function Wallet() {
   const [tokenPosList, setPosTokenList] = useState<any>([]);
   const [tokenPlasmaList, setPlasmaTokenList] = useState<any>([]);
   const [selectedToken, setSelectedToken] = useState<any>({})
+  const [showTokenModal, setTokenModal] = useState(false);
 
   const varifyAccount = (address: any) => {
     let result = Web3.utils.isAddress(address)
@@ -286,12 +287,13 @@ export default function Wallet() {
                                   <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
                                 </div>}
                                 <div className="drop-text">
-                                  <span>{selectedToken.parentName ? selectedToken.parentName : "Select Token"}</span>
+                                  {/* <span>{selectedToken.parentName ? selectedToken.parentName : "Select Token"}</span> */}
+                                  <span>Select Token</span>
                                 </div>
                               </div>
                             </Dropdown.Toggle>
 
-                            <Dropdown.Menu>
+                            <Dropdown.Menu className="d-none">
                               {
                                 tokenPosList.length && tokenPosList.map((x:any) =>
                                   <Dropdown.Item className="coin-item" value={x.parentName} onClick={() => handledropDown(x)}>
@@ -318,7 +320,7 @@ export default function Wallet() {
                         <b>Balance: {selectedToken.balance ? selectedToken.balance.toFixed(4) : '00.00'} {selectedToken.parentSymbol ? selectedToken.parentSymbol : ""}</b>
                       </p>
                     </div>
-                    <div className="pop_btns_area mr-top-50 row">
+                    <div className="pop_btns_area mr-top-50 row sep-space">
                       <div className="col-6">
                         <button
                           className='btn blue-btn w-100'
@@ -370,7 +372,7 @@ export default function Wallet() {
 
 
                   </div>
-                  <div className="pop_btns_area row">
+                  <div className="pop_btns_area row sep-space">
                     <div className="col-6">
                       <button className='btn blue-btn w-100'
                         onClick={() => {setSendModal({
@@ -426,6 +428,243 @@ export default function Wallet() {
             </>
             {/* step 1 end */}
           </CommonModalNew>
+
+          {/* Token popup start */}
+          <CommonModal
+            title="Send Token"
+            show={showTokenModal}
+            setShow={setTokenModal}
+            externalCls=""
+          >
+            {/* step 1 */}
+            <>
+              {/* Select token popop starts */}
+              <div className="popmodal-body tokn-popup">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                    <div className="sec-search">
+                      <div className="position-relative search-row">
+                        <input type="text" className="w-100" placeholder="Search token or token address" />
+                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
+                      </div>
+                    </div>
+                    <div className="token-sec">
+                      <div className="info-grid">
+                        <div>
+                          <p>Token List</p>
+                        </div>
+                        <div className="token-btn-sec">
+                          <button type="button" className="btn primary-btn w-100">Manage Tokens</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="token-listwrap">
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">SHIB</h6>
+                              <p>Shibatoken</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img className="img-fluid" src="../../images/red-bone.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">BONE</h6>
+                              <p>Bone Token</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                       
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+                {/* Select token popop ends */}
+
+              
+
+              
+
+             
+
+            </>
+            {/* step 1 end */}
+          </CommonModal>
+
+          {/* Token popup start */}
+          <CommonModal
+            title="Send Token"
+            show={showTokenModal}
+            setShow={setTokenModal}
+            externalCls=""
+          >
+            {/* step 1 */}
+            <>
+              {/* Select token popop starts */}
+              <div className="popmodal-body tokn-popup">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                    <div className="sec-search">
+                      <div className="position-relative search-row">
+                        <input type="text" className="w-100" placeholder="Search token or token address" />
+                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
+                      </div>
+                    </div>
+                    <div className="token-sec">
+                      <div className="info-grid">
+                        <div>
+                          <p>Token List</p>
+                        </div>
+                        <div className="token-btn-sec">
+                          <button type="button" className="btn primary-btn w-100">Manage Tokens</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="token-listwrap">
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">SHIB</h6>
+                              <p>Shibatoken</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img className="img-fluid" src="../../images/red-bone.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">BONE</h6>
+                              <p>Bone Token</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                       
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+                {/* Select token popop ends */}
+
+              
+
+              
+
+             
+
+            </>
+            {/* step 1 end */}
+          </CommonModal>
+          {/* Token popup end */}
         </div>
         <section className="assets-section">
           <div className="cmn_dashbord_main_outr">
