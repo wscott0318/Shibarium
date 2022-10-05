@@ -62,8 +62,10 @@ export default function Wallet() {
   const [menuState, setMenuState] = useState(false);
   const [tokenList, setTokenList] = useState<any>([]);
   const [tokenFilteredList, setTokenFilteredList] = useState<any>([]);
+  const [tokenModalList, setTokenModalList] = useState<any>([]);
   const [selectedToken, setSelectedToken] = useState<any>({})
   const [searchKey, setSearchKey] = useState<string>('');
+  const [modalKeyword, setmodalKeyword] = useState<string>('');
 
   const searchResult = useSearchFilter(tokenList, searchKey.trim());
 
@@ -90,6 +92,7 @@ export default function Wallet() {
       })
       setTokenList((pre:any[]) => ([...pre, ...list]))
       setTokenFilteredList((pre:any[]) => ([...pre, ...list]))
+      setTokenModalList((pre:any[]) => ([...pre, ...list]))
     })
     getWalletTokenList('plasma').then(async (res: any) => {
       let list = res.data.data.tokenList
@@ -98,6 +101,7 @@ export default function Wallet() {
       })
       setTokenList((pre:any[]) => ([...pre, ...list]))
       setTokenFilteredList((pre:any[]) => ([...pre, ...list]))
+      setTokenModalList((pre:any[]) => ([...pre, ...list]))
 
     })
   }
@@ -143,8 +147,12 @@ export default function Wallet() {
     }
   }
 
-  const handleSearchList = (key:any) => {
-    setSearchKey(key)
+  const handleSearchList = (key:any, type : any ='main') => {
+    if(type === 'modal'){
+      setmodalKeyword(key)
+    } else {
+      setSearchKey(key)          
+    }
     if(key.length){
       let newData = tokenList.filter((name: any) => {
         return Object.values(name)
@@ -152,9 +160,17 @@ export default function Wallet() {
               .toLowerCase()
               .includes(key.toLowerCase());
         });
-        setTokenFilteredList(newData)
+        if(type === 'modal'){
+          setTokenModalList(newData)
+        } else {
+          setTokenFilteredList(newData)          
+        }
     } else {
-      setTokenFilteredList(tokenList)
+      if(type === 'modal'){
+        setTokenModalList(tokenList)
+      } else {
+        setTokenFilteredList(tokenList)         
+      }
     }
     
   }
@@ -469,19 +485,28 @@ export default function Wallet() {
                     <div className="pop-top">
                     <div className="sec-search">
                       <div className="position-relative search-row">
-                        <input type="text" className="w-100" placeholder="Search token or token address" />
+                        <input
+                         type="text" 
+                         value={modalKeyword}
+                         className="w-100" 
+                         placeholder="Search token or token address" 
+                         onChange={(e) => handleSearchList(e.target.value, 'modal')}
+                         />
                         <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
                       </div>
                     </div>
                     <div className="token-sec">
                       <div className="info-grid">
-                        <p onClick={() => setSendModal({
+                        <p onClick={() => {
+                          setSendModal({
                              step0: false,
                              step1: true,
                              step2: false,
                              step3: false,
                              showTokens: false
-                        })}>Back</p>
+                        })
+                        setmodalKeyword('')
+                        }}>Back</p>
                         <div>
                           <p>Token List</p>
                         </div>
@@ -491,7 +516,7 @@ export default function Wallet() {
                       </div>
                     </div>
                     <div className="token-listwrap">
-                        {tokenFilteredList ? tokenFilteredList.map((x:any) => 
+                        {tokenModalList ? tokenModalList.map((x:any) => 
                           <div className="tokn-row" onClick={() => {
                             setSelectedToken(x);
                             setSendModal({
@@ -516,7 +541,7 @@ export default function Wallet() {
                           </div>
                         </div>
                         ) : null }
-                       
+                       {!tokenModalList.length && modalKeyword ? <p>no record found</p> : null }
                       </div>
                     </div>
                     
