@@ -184,7 +184,7 @@
         font-weight: 400;
         margin-bottom: 10px;
         color: $body-text;
-        font-size: 16px;
+        
     }
 }
 .fees_text {
@@ -205,9 +205,10 @@
         }
     }
     p{
-        
-        font-size: 16px;
         font-weight: 700;
+        @media #{$max-xl}{
+            font-weight: 600;
+        }
     }
 }
 .trans_popups .pop_btns_area a{
