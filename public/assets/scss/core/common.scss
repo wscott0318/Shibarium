@@ -938,7 +938,7 @@
 
 .modal-title{
     font-weight: 600;
-    @media #{$max-xxl}{
+    @media #{$max-md}{
         font-weight: 400;
     }
 }
