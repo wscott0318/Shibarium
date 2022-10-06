@@ -585,7 +585,7 @@ export default function Withdraw() {
                 {/* Manage token popop ends */}
 
                  {/* Add token popop starts */}
-                 <div className="popmodal-body tokn-popup">
+                 {/* <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -611,11 +611,11 @@ export default function Withdraw() {
                         </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* Add token popop ends */}
 
                 {/* search popop starts */}
-                 {/* <div className="popmodal-body tokn-popup">
+                 <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -692,7 +692,7 @@ export default function Withdraw() {
                        </div>
                     </div>  
                   </div>
-                </div> */}
+                </div>
                 {/* Search popop ends */}
 
                 {/* new added token with delete action starts */}
