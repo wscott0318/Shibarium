@@ -23,7 +23,6 @@ import { useMoralis } from "react-moralis";
 import { useEthBalance } from "../../hooks/useEthBalance";
 import { useTokenBalance, getTokenBalance } from '../../hooks/useTokenBalance';
 import { BONE_ID, ENV_CONFIGS } from '../../config/constant';
-import { BONE } from "../../web3/contractAddresses";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import fromExponential from "from-exponential";
 import { useAppDispatch } from "../../state/hooks"
@@ -32,6 +31,7 @@ import QrModal from "../components/QrModal";
 import { getBoneUSDValue, getWalletTokenList } from "../../services/apis/validator/index";
 import NumberFormat from 'react-number-format';
 import { useSearchFilter } from "app/hooks/useSearchFilter";
+import {dynamicChaining} from "../../web3/DynamicChaining"; 
 
 const sendInitialState = {
   step0: true,
@@ -45,6 +45,9 @@ export default function Wallet() {
 
   const router = useRouter()
   const { chainId = 1, account, library } = useActiveWeb3React();
+  const id :any = chainId
+  console.log(dynamicChaining[id].BONE)
+
   const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(ENV_CONFIGS[chainId].BONE);
   const lib: any = library
   const web3: any = new Web3(lib?.provider)
