@@ -64,3 +64,12 @@
         }
     }
 }
+.vali_deli_popups .image_area img {
+    margin: 40px auto;
+    @media #{$max-md} {
+         width: 100px;
+    }
+}
+.vali_deli_popups  .pop_btns_area a {
+    justify-content: center;
+}
