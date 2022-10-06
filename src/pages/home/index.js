@@ -50,7 +50,9 @@ export default function Home() {
                   </p>
                   <div className='banner-btn'>
                     <div className="btn-col">
-                      <a className="btn primary-btn w-100 d-block ff-mos" href="javascript:void(0)">Launch App</a>
+                    <Link href={account ? '/wallet' : '/login'}>
+                    <a className="btn primary-btn w-100 d-block ff-mos">Launch App</a>
+                    </Link>
                     </div>
                     <div className="btn-col">
                       <a className="btn secondary-btn w-100 d-block ff-mos" href="javascript:void(0)">Develop</a>

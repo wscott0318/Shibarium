@@ -225,7 +225,7 @@ const [scroll, setScroll] = useState(false);
                   </NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Item>
-                  <Link href="/wallet">
+                  <Link href={ account ? "/wallet" : "/login"}>
                     <a className='btn primary-btn ff-mos'>Launch App</a>
                   </Link>
                 </Nav.Item>
