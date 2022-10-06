@@ -51,7 +51,7 @@ export default function Withdraw() {
             
 
               {/* confirm deposit popop starts */}
-                <div className="popmodal-body">
+                {/* <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg">
@@ -90,14 +90,14 @@ export default function Withdraw() {
                           </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* confirm deposit popop ends */}
 
                 {/* Transaction pending popup start */}
                 {/* <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
-                      <div className="cnfrm_box">
+                      <div className="cnfrm_box dark-bg">
                           <div className="top_overview col-12">
                                 <span><img class="img-fluid" src="../../images/etharium.png" alt="" /></span>
                                 <h6>100 ETH</h6>
@@ -133,10 +133,10 @@ export default function Withdraw() {
                 {/* Transaction pending popup end */}
 
                 {/* Transaction completed popup start */}
-                {/* <div className="popmodal-body">
+                <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
-                      <div className="cnfrm_box">
+                      <div className="cnfrm_box dark-bg">
                           <div className="top_overview col-12">
                                 <span><img class="img-fluid" src="../../images/etharium.png" alt="" /></span>
                                 <h6>100 ETH</h6>
@@ -157,7 +157,7 @@ export default function Withdraw() {
                         </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
                 {/* Transaction completed popup end */}
 
                 
@@ -180,10 +180,10 @@ export default function Withdraw() {
             
 
               {/* Initialize withdraw popup start */}
-                {/* <div className="popmodal-body">
+                <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
-                      <div className="cnfrm_box">
+                      <div className="cnfrm_box dark-bg">
                           <div className="top_overview col-12">
                                 <span><img class="img-fluid" src="../../images/red-bone.png" alt="" /></span>
                                 <h6>100 BONE</h6>
@@ -223,7 +223,7 @@ export default function Withdraw() {
                         </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
 
                 {/* Initialize withdraw popup end */}
 
@@ -231,7 +231,7 @@ export default function Withdraw() {
                 {/* <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
-                      <div className="cnfrm_box">
+                      <div className="cnfrm_box dark-bg">
                           <div className="top_overview col-12">
                                 <span><img class="img-fluid" src="../../images/red-bone.png" alt="" /></span>
                                 <h6>100 BONE</h6>
@@ -281,7 +281,7 @@ export default function Withdraw() {
                   {/* <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
-                      <div className="cnfrm_box">
+                      <div className="cnfrm_box dark-bg">
                           <div className="top_overview col-12">
                                 <span><img class="img-fluid" src="../../images/red-bone.png" alt="" /></span>
                                 <h6>100 SHIB</h6>
@@ -309,7 +309,7 @@ export default function Withdraw() {
                 {/* <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
-                      <div className="cnfrm_box">
+                      <div className="cnfrm_box dark-bg">
                           <div className="top_overview col-12">
                                 <span><img class="img-fluid" src="../../images/red-bone.png" alt="" /></span>
                                 <h6>100 ETH</h6>
@@ -355,10 +355,10 @@ export default function Withdraw() {
                 {/* Complete withdraw popup end */}
 
                 {/* withdraw complete popup start */}
-                 <div className="popmodal-body">
+                 {/* <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
-                      <div className="cnfrm_box">
+                      <div className="cnfrm_box dark-bg">
                           <div className="top_overview col-12">
                                 <span><img class="img-fluid" src="../../images/red-bone.png" alt="" /></span>
                                 <h6>100 SHIB</h6>
@@ -379,7 +379,7 @@ export default function Withdraw() {
                         </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* withdraw complete popup start */}
 
           </>
@@ -828,7 +828,7 @@ export default function Withdraw() {
                                   <div className="wrap-top">
                                     <div className="botom-spcing">
                                       <div>
-                                        <label>From</label>
+                                        <label className="mb-2 mb-xxl-3 mb-md-2">From</label>
                                         <div className="form-field position-relative">
                                           <div className="icon-chain">
                                             <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
@@ -870,7 +870,7 @@ export default function Withdraw() {
                                     </div>
                                     <div className="botom-spcing">
                                       <div>
-                                        <label>To</label>
+                                        <label className="mb-2 mb-xxl-3 mb-md-2">To</label>
                                         <div className="form-field position-relative">
                                           <div className="icon-chain">
                                             <div><img width="22" height="22" className="img-fluid" src="../../images/shiba-round-icon.png" alt="" /></div>
@@ -888,7 +888,7 @@ export default function Withdraw() {
                                   </div>
                                   <div className="wrap-bottom">
                                     <div className="btn-modify">
-                                      <button onClick={() => setDepositModal(true)} type="button" className="btn primary-btn w-100">Transfer</button>
+                                      <button onClick={() => setWithdrawModal(true)} type="button" className="btn primary-btn w-100">Transfer</button>
                                     </div>
                                   </div>
                                 </div>
@@ -903,7 +903,7 @@ export default function Withdraw() {
                                   <div className="wrap-top">
                                     <div className="botom-spcing">
                                       <div>
-                                        <label>From</label>
+                                        <label className="mb-2 mb-xxl-3 mb-md-2">From</label>
                                         <div className="form-field position-relative">
                                           <div className="icon-chain">
                                             <div><img width="22" height="22" className="img-fluid" src="../../images/shiba-round-icon.png" alt="" /></div>
@@ -945,7 +945,7 @@ export default function Withdraw() {
                                     </div>
                                     <div className="botom-spcing">
                                       <div>
-                                        <label>To</label>
+                                        <label className="mb-2 mb-xxl-3 mb-md-2">To</label>
                                         <div className="form-field position-relative">
                                           <div className="icon-chain">
                                             <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
