@@ -333,7 +333,7 @@
 .search-row {
     input{
         background: $body-bg-800;
-        padding: 15px 15px 15px 45px;
+        padding: 15px 15px 15px 45px !important;
         border-radius: 10px;
         -webkit-border-radius: 10px;
         -o-border-radius: 10px;
@@ -355,10 +355,12 @@
 }
 .search-icon {
     position: absolute;
-    top: 16px;
+    top: 50%;
     left: 15px;
     right: auto;
     bottom: auto;
+    transform: translateY(-50%);
+    max-width: 24px;
     @media #{$max-lg}{
         top: 9px;
     }

@@ -44,7 +44,8 @@ const QrModal:React.FC<props> = ({show,setShow, title,address})=> {
              bgColor='#15141b' fgColor='#fff' 
              logoHeight={50}  
             // logoImage={QrLogo}
-            logoImage='https://www.thewistle.com/wp-content/uploads/2021/07/Shiba-Token-1.jpg'
+            // logoImage='https://www.thewistle.com/wp-content/uploads/2021/07/Shiba-Token-1.jpg'
+            logoImage='../../images/shib-borderd-icon.png'
             />
           </div>
           <div className='mt-4 text-center lite-color'>Wallet address </div>

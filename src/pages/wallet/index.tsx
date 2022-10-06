@@ -351,10 +351,11 @@ export default function Wallet() {
                                 <div className="drop-chev">
                                   <img className="img-fluid" src="../../images/chev-drop.png" alt="chev-ico" />
                                 </div>
-                                {selectedToken ?  <div className="drop-ico">
+                                {selectedToken ? 
+                                 <div className="drop-ico">
                                   <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="icon" width={24} />
                                     <span>{selectedToken.parentName ? selectedToken.parentName : "Select Token"}</span>
-                                </div> :
+                                  </div> :
                                  <div className="drop-text">
                                   <span>Select Token</span>
                                 </div> }

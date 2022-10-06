@@ -817,6 +817,8 @@
         box-shadow: none;
         border-radius: 10px;
         border: 0;
+        max-width: 100%;
+        padding-left: 12px;
         &:hover{
             background-color: $secondary;
         }
@@ -837,15 +839,21 @@
         }
     }
     .drop-ico {
-        position: absolute;
-        left: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        @media #{$max-xsm}{
-            left: 7px;
-            top: 50%;
-            max-width: 18px;
+        display: flex;
+        align-items: center;
+        padding-top: 4px;
+        img{
+            margin-right: 8px;
         }
+        // position: absolute;
+        // left: 12px;
+        // top: 50%;
+        // transform: translateY(-50%);
+        // @media #{$max-xsm}{
+        //     left: 7px;
+        //     top: 50%;
+        //     max-width: 18px;
+        // }
     }
     .drop-chev {
         position: absolute;
@@ -919,5 +927,11 @@
 .assets_btm_area{
     .cmn_dasdrd_table{
         overflow: hidden;
+    }
+}
+
+.qr-code{
+    canvas{
+        margin: 0 auto;
     }
 }
