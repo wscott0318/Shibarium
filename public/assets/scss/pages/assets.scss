@@ -248,6 +248,13 @@
     padding-top:0;
     padding-bottom: 0;
 }
-.modal-backdrop.show{
-    opacity: 0.9;
+
+.modal-backdrop.show {
+    opacity: 0.10;
+    background: rgba($white,0.6);
+}
+.flex.flex-col.divide-y{
+    height: 200px;
+    overflow: hidden;
+    overflow-y: auto;
 }
