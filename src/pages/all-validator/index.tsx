@@ -64,7 +64,7 @@ export const Allvalidator: React.FC = () => {
         {/* banner section closed */}
 
         
-        <section className="table-section">
+        <section className="table-section top-pad bottom-pad">
           <div className="container">
             
             <div className="filter-row">
