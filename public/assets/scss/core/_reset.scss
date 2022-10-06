@@ -487,7 +487,7 @@ ul {
         // background-color: $body-bg-800;
         background-color:$body-bg;
         border-radius: 40px;
-        padding: 40px 20px;
+        padding: 32px 20px;
         @media #{$max-xxl}{
             padding: 30px 15px;
         }
@@ -500,17 +500,12 @@ ul {
             width: 100%;
             position: relative;
             padding-top: 0;
-            padding-bottom: 53px;
+            padding-bottom: 32px;
             text-align: center !important;
-            @media #{$max-xxl}{
-                padding-bottom: 40px;
+            @media #{$max-sm}{
+                padding-bottom: 15px;
             }
-            @media #{$max-xl}{
-                padding-bottom: 35px;
-            }
-            @media #{$max-lg}{
-                padding-bottom: 30px;
-            }
+            
             .btn-close{
                 position: absolute;
                 right: 50px;

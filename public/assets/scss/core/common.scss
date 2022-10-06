@@ -935,3 +935,13 @@
         margin: 0 auto;
     }
 }
+
+.modal-title{
+    font-weight: 600;
+    @media #{$max-xxl}{
+        font-weight: 400;
+    }
+}
+.orange-txt{
+    color: $primary;
+}

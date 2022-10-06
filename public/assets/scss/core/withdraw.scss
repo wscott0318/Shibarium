@@ -243,7 +243,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 25px 0;
+    margin: 32px 0 20px;
+    @media #{$max-xxl}{
+        margin: 30px 0;
+    }
+    @media #{$max-xl}{
+        margin: 25px 0;
+    }
+    @media #{$max-lg}{
+        margin: 20px 0;
+    }
 }
 .box-block{
     cursor: pointer;
@@ -258,7 +267,7 @@
     min-height: 250px;
 }
 .text-section {
-    margin-bottom: 15px;
+    margin-bottom: 16px;
     .pop-hd-md{
         margin-bottom: 5px;
     }
@@ -322,6 +331,11 @@
           
     }
 }
+.complete-modal{
+    .pop-hd-md{
+        margin-bottom: 16px;
+    }
+}
 .pop-spiner{
     vertical-align: middle;
     margin-right: 10px;
@@ -366,7 +380,7 @@
     }
 }
 .sec-search {
-    margin: 10px 0 30px;
+    margin: 10px 0 32px;
 }
 
 .info-grid {
@@ -385,7 +399,7 @@
 // }
 .token-listwrap {
     position: relative;
-    margin-top: 20px;
+    margin-top: 16px;
     max-height: 355px;
     overflow-y: auto;
     @media #{$max-xxl}{
@@ -484,7 +498,7 @@
 .black-bg-sec{
     background: $body-bg-800;
     padding: 5px;
-    margin-bottom: 15px;
+    margin-bottom: 24px;
     border-radius: 10px;
     -webkit-border-radius: 10px;
     -o-border-radius: 10px;
@@ -502,7 +516,10 @@
 .sec-search.sec-search-secondry {
     margin-bottom: 15px;
     border-bottom: 1px solid $lite-grey-secondry;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
+    @media #{$max-sm}{
+        padding-bottom: 15px;
+    }
 }
 .pop-mid{
     display: flex;
