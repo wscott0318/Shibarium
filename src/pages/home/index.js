@@ -55,7 +55,7 @@ export default function Home() {
                     </Link>
                     </div>
                     <div className="btn-col">
-                      <a className="btn secondary-btn w-100 d-block ff-mos" href="javascript:void(0)">Develop</a>
+                      {/* <a className="btn secondary-btn w-100 d-block ff-mos" href="javascript:void(0)">Develop</a> */}
                     </div>
                   </div>
                 </div>
@@ -75,8 +75,8 @@ export default function Home() {
 
           <section className='features-section bottom-pad top-pad'>
             <div className="container">
-              <div className='text-center'>
-                <h2 className='heading ff-mos'>Shibarium Solutions</h2>
+              <div className='text-center pt-3 pt-sm-0'>
+                <h2 className='heading ff-mos d-none d-sm-block'>Shibarium Solutions</h2>
               </div>
               <div className="row cus-row justify-content-center">
                 <div className="col-lg-4 col-md-6 col-sm-8 cus-col">
@@ -108,12 +108,15 @@ export default function Home() {
                       Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos
                       asperiores illum.
                     </p>
-                    <a href="javascript:void(0)" className='link ff-mos'><span>Learn More</span>
-                      <img className='img-fluid' src="../../images/link-arrow.png" alt="arrow-icon" />
-                    </a>
+                    <Link href="/withdraw">
+                      <a className='link ff-mos'><span>Learn More</span>
+                        <img className='img-fluid' src="../../images/link-arrow.png" alt="arrow-icon" />
+                      </a>
+                    </Link>
+
                   </div>
                 </div>
-                <div className="col-lg-4 col-md-6 col-sm-8 cus-col">
+                {/* <div className="col-lg-4 col-md-6 col-sm-8 cus-col">
                   <div className="ftrs-card">
                     <div className='ftrs-head'>
                       <h3 className='fw-600 ff-mos'>Burn</h3>
@@ -129,7 +132,7 @@ export default function Home() {
                       <img className='img-fluid' src="../../images/link-arrow.png" alt="arrow-icon" />
                     </a>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </section>

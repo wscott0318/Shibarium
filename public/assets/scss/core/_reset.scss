@@ -183,6 +183,7 @@ a:focus {
 }
 a:hover {
     text-decoration: none;
+    color: $primary;
 }
 button, input[type="submit"] {
     cursor: pointer;
