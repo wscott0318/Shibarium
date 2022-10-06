@@ -195,7 +195,7 @@
     display: flex;
 }
 .cnfrm_box{
-    margin-top: 20px;
+    // margin-top: 20px;
     background-color:$body-bg-800;
     border-radius: 10px;
     @media #{$max-xxl}{
@@ -203,12 +203,11 @@
     }
 }
 .top_overview{
-    padding: 20px 0;
+    padding: 16px 0;
     text-align: center;
     h6{
-        font-weight: 700;
-        margin: 5px 0;
-        margin-top: 6px;
+        font-weight: 600;
+        margin: 16px 0 0;
     }
 }
 .add_detail {

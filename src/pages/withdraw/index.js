@@ -39,6 +39,7 @@ export default function Withdraw() {
          <main className="main-content">
           <Sidebar handleMenuState={handleMenuState} menuState={menuState}/>
           {/* modal code start */}
+          {/* Deposit popup start */}
           <CommonModal
           title={"Deposit"}
           show={showDepositModal}
@@ -116,15 +117,7 @@ export default function Withdraw() {
                           <p>SHIBARIUM MAINNET</p>
                         </div>
                       </div>
-                      <div className="amt-section position-relative">
-                        <div className="coin-blk">
-                          <div className="coin-sec"><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
-                          <p>Estimation of GAS fee required</p>
-                        </div>
-                        <div>
-                          <p className="fw-bold">$10.00</p>
-                        </div>
-                      </div>
+                      
                     </div>
                     <div className="pop-bottom">
                         <div className="text-section">
@@ -155,7 +148,7 @@ export default function Withdraw() {
                       </div>
                     </div>
                     <div className="pop-bottom">
-                        <div className="text-section">
+                        <div className="text-section complete-modal">
                           <h4 className="pop-hd-md">Transaction Completed</h4>
                           <p>Transaction completed succesfully.</p>
                         </div>
@@ -172,6 +165,8 @@ export default function Withdraw() {
           </>
           {/* Deposit popups end */}
           </CommonModal>
+          {/* Deposit popup end */}
+          {/* Withdraw popups start */}
           <CommonModal
           title={"Withdraw"}
           show={showWithdrawModal}
@@ -281,7 +276,7 @@ export default function Withdraw() {
 
 
                 {/* checkpoint Reached popup start */}
-                  <div className="popmodal-body">
+                  {/* <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box">
@@ -305,7 +300,7 @@ export default function Withdraw() {
                         </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* checkpoint Reached popup end */}
 
                 {/* Complete withdraw popup start */}
@@ -358,7 +353,7 @@ export default function Withdraw() {
                 {/* Complete withdraw popup end */}
 
                 {/* withdraw complete popup start */}
-                 {/* <div className="popmodal-body">
+                 <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box">
@@ -375,19 +370,22 @@ export default function Withdraw() {
                     <div className="pop-bottom">
                         <div className="text-section">
                           <h4 className="pop-hd-md">Transaction Completed</h4>
-                          <p>Transaction completed succesfully. Your Ethereum wallet Balance will be updated in few minute. In case of problems contact our Support</p>
+                          <p>Transaction completed succesfully. Your Ethereum wallet Balance will be updated in few minute. In case of problems contact our <a title="Support"  href="javascript:void(0);" className="orange-txt">Support</a></p>
                         </div>
                         <div>
                           <a className='btn primary-btn w-100' href="javascript:void(0)">View on Shibascan</a>
                         </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
                 {/* withdraw complete popup start */}
 
           </>
           {/* Withdraw tab popups end */}
           </CommonModal>
+          {/* Withdraw tab popups end */}
+
+          {/* Token popups start */}
           <CommonModal
           title={"Select token"}
           show={showTokenModal}
@@ -399,7 +397,7 @@ export default function Withdraw() {
             
 
               {/* Select token popop starts */}
-                <div className="popmodal-body tokn-popup">
+                {/* <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="sec-search">
@@ -494,7 +492,7 @@ export default function Withdraw() {
                     </div>
                     
                   </div>
-                </div>
+                </div> */}
                 {/* Select token popop ends */}
 
 
@@ -587,7 +585,7 @@ export default function Withdraw() {
                 {/* Manage token popop ends */}
 
                  {/* Add token popop starts */}
-                 {/* <div className="popmodal-body tokn-popup">
+                 <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -613,7 +611,7 @@ export default function Withdraw() {
                         </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
                 {/* Add token popop ends */}
 
                 {/* search popop starts */}
@@ -756,6 +754,7 @@ export default function Withdraw() {
           </>
           {/* Token popups end */}
           </CommonModal>
+          {/* Token popups start */}
           {/* modal code closed */}
             <section className="assets-section">
               <div className="cmn_dashbord_main_outr">
@@ -820,6 +819,7 @@ export default function Withdraw() {
                               <li><a className="tb-link" href="javascript:void(0);">Withdraw</a></li>
                             </ul>
                           </div>
+                          {/* Deposit tab content section start */}
                           <div className="tab-content-sec h-100">
                             <form className="h-100">
                                 <div className="sec-wrapper">
@@ -871,6 +871,81 @@ export default function Withdraw() {
                                         <label>To</label>
                                         <div className="form-field position-relative">
                                           <div className="icon-chain">
+                                            <div><img width="22" height="22" className="img-fluid" src="../../images/shiba-round-icon.png" alt="" /></div>
+                                          </div>
+                                          <div className="mid-chain">
+                                            <input className="w-100" type="text" placeholder="Shibarium chain"/>
+                                          </div>
+                                          <div className="rt-chain">
+                                            <span className="fld-head lite-color">Balance:</span>
+                                            <span className="fld-txt lite-color">100.00ETH</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="wrap-bottom">
+                                    <div className="btn-modify">
+                                      <button onClick={() => setDepositModal(true)} type="button" className="btn primary-btn w-100">Transfer</button>
+                                    </div>
+                                  </div>
+                                </div>
+                            </form>
+                          </div>
+                          {/* Deposit tab content section end */}
+
+                          {/* Withdraw tab content section start */}
+                          {/* <div className="tab-content-sec h-100">
+                            <form className="h-100">
+                                <div className="sec-wrapper">
+                                  <div className="wrap-top">
+                                    <div className="botom-spcing">
+                                      <div>
+                                        <label>From</label>
+                                        <div className="form-field position-relative">
+                                          <div className="icon-chain">
+                                            <div><img width="22" height="22" className="img-fluid" src="../../images/shiba-round-icon.png" alt="" /></div>
+                                          </div>
+                                          <div className="mid-chain">
+                                            <input className="w-100" type="text" placeholder="Shibarium Mainnet"/>
+                                          </div>
+                                          <div className="rt-chain">
+                                            <span className="fld-head lite-color">Balance:</span>
+                                            <span className="fld-txt lite-color">100.00ETH</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="field-grid row">
+                                        <div className="col-sm-5 field-col">
+                                          <div className="form-field position-relative" onClick={() => setTokenModal(true)}>
+                                            <div className="">
+                                              <div><img width="24" height="24" className="img-fluid" src="../../images/red-bone.png" alt="" /></div>
+                                            </div>
+                                            <div className="lite-color">
+                                              <span className="lite-color fw-bold">Bone</span>
+                                            </div>
+                                            <div className="">
+                                              <div className="arow-outer"><span className="arrow-down"></span></div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="col-sm-7 field-col">
+                                            <div className="form-field position-relative two-fld">
+                                                <div className="mid-chain w-100">
+                                                  <input className="w-100" type="text" placeholder="0.00"/>
+                                                </div>
+                                                <div className="rt-chain">
+                                                  <span className="orange-txt fw-bold">MAX</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="botom-spcing">
+                                      <div>
+                                        <label>To</label>
+                                        <div className="form-field position-relative">
+                                          <div className="icon-chain">
                                             <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
                                           </div>
                                           <div className="mid-chain">
@@ -891,7 +966,8 @@ export default function Withdraw() {
                                   </div>
                                 </div>
                             </form>
-                          </div>
+                          </div> */}
+                          {/* Withdraw   tab content section end */}
                       </div> 
                     </div>
                      {/* right section start */}
