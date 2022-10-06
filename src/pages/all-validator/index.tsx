@@ -18,6 +18,7 @@ import BorderBtn from "../components/BorderBtn";
 import WarningBtn from "../components/WarningBtn";
 import Footer from "../../pages/footer/index";
 import StakingHeader from '../staking-header'
+
 export const Allvalidator: React.FC = () => {
   const [userType, setUserType] = useUserType();
   const myRef = useRef<any>(null)
@@ -45,7 +46,7 @@ export const Allvalidator: React.FC = () => {
             <div className="section-info">
               <div className="row align-items-center">
                 <div className="col-md-7 col-sm-12">
-                  <h1>All Validators</h1>
+                  <h1 className="mb-4">All Validators</h1>
                   <div className="btns-sec mt-2">
                     <div className="btns-wrap">
                       <button className="btn primary-btn">Become a Validator</button>
@@ -63,10 +64,8 @@ export const Allvalidator: React.FC = () => {
         </section>
         {/* banner section closed */}
 
-        
         <section className="table-section top-pad bottom-pad">
           <div className="container">
-            
             <div className="filter-row">
               <div className="left-section">
                 <input className="custum-search w-100" type="search " placeholder="Search by validator name, id" />

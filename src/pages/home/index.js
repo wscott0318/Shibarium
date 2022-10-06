@@ -79,7 +79,7 @@ export default function Home() {
                 <h2 className='heading ff-mos d-none d-sm-block'>Shibarium Solutions</h2>
               </div>
               <div className="row cus-row justify-content-center">
-                <div className="col-lg-4 col-md-6 col-sm-8 cus-col">
+                {/* <div className="col-lg-4 col-md-6 col-sm-8 cus-col">
                   <div className="ftrs-card">
                     <div className='ftrs-head'>
                       <h3 className='fw-600 ff-mos'>Swap</h3>
@@ -97,7 +97,7 @@ export default function Home() {
                       </a>
                     </Link>
                   </div>
-                </div>
+                </div> */}
                 <div className="col-lg-4 col-md-6 col-sm-8 cus-col">
                   <div className="ftrs-card ftrs-active">
                     <div className='ftrs-head'>
@@ -127,7 +127,7 @@ export default function Home() {
                       </div>
                     </div>
                     <p className='frts-desc ff-mos'>
-                      Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos
+                      Lorem ipsum sdolor sit amet. Ut asperiores tenetur et natus laudantium eos
                       asperiores illum.
                     </p>
                     <a href="javascript:void(0)" className='link'><span>Learn More</span>
@@ -172,7 +172,9 @@ export default function Home() {
                                           It is more open and powerful
                                       </li>
                                   </ul>
-                                  <a href="javascript:void(0)" className='btn secondary-btn ff-mos'>First Step</a>
+                                  <Link href="/all-validator">
+                                    <a href="javascript:void(0)" className='btn secondary-btn ff-mos'>First Step</a>
+                                  </Link>
                               </div>
                           </div>
                           <div className="col-lg-6 col-md-5 col-sm-8 abt-col order-1 order-md-2 text-center mb-4 mb-md-0">

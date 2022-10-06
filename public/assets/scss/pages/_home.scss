@@ -263,7 +263,8 @@
         .check-icon {
             position: absolute;
             left: 0;
-            top: -3px;
+            top: 50%;
+            transform: translateY(-50%);
         }
     }
     .shib-img{
