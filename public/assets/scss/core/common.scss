@@ -922,15 +922,9 @@
     }
 }
 .modal-title{
-    
+    font-weight: 600;
     @media #{$max-xxl}{
-        font-weight: 600;
-    }
-    @media #{$max-xl}{
         font-weight: 400;
-    }
-    @media #{$max-lg}{
-        font-weight: 300;
     }
 }
 .orange-txt{
