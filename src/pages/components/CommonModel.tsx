@@ -7,25 +7,27 @@ interface props{
     show:boolean;
     setShow: React.Dispatch<React.SetStateAction<boolean>>
     title:string;
+    externalCls:string;
     children:React.ReactNode;
 }
 interface propsNew{
     show:boolean;
     setShow: any;
-    title:string;
+    title:any;
     children:React.ReactNode;
 }
-const CommonModal:React.FC<props> = ({show,setShow, title,children})=> {
-  const abc = {show,setShow, title,children};
+const CommonModal:React.FC<props> = ({show,setShow, title,externalCls,children})=> {
+  const abc = {show,setShow, title,externalCls,children};
   return (
     <Modal
     {...abc}
+    
     centered
     show={show}
     onHide={() => setShow(false)}
     backdrop="static"
     keyboard={false}
-    className="shib-popup"
+    className={`shib-popup ${externalCls}`}
     // scrollable={true}
   >
     <Modal.Header closeButton className="text-center modal-header">

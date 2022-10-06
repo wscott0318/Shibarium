@@ -86,14 +86,14 @@ export default function Deposit() {
           title={"Transferring funds"}
           show={showSendModal}
           setShow={setSendModal}
-          
+          externalCls=''
           >
           {/* step 1 */}
           <>
             {/* transferring funds popop start */}
                 
                 <div className="cmn_modal">
-                    <p>Sending funds to exchanges:</p>
+                    <p className="mb-0">Sending funds to exchanges:</p>
                     <div className="exchng_msg_box">
                         <p>Exchanges supported from Shibarium network</p>
                         <p className="sprdt_txt">Supported Excanges</p>

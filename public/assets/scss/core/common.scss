@@ -761,4 +761,163 @@
   /** Transaction page responsive **/
   
   /** Transaction page responsive **/
- 
+.form-group{
+    position: relative;
+}
+.float-input{
+    position: relative;
+}
+.coin-dd{
+    &.float-dd {
+        position: absolute;
+        top: 50%;
+        right: 7px;
+        bottom: auto;
+        height: calc(100% - 10px);
+        transform: translateY(-50%);
+    }
+    .dropdown-menu {
+        background-color: $secondary;
+        width: 100%;
+        max-height: 200px;
+        overflow: hidden;
+        overflow-y: auto;
+        .dropdown-item{
+            position: relative;
+            padding: 10px 13px;
+            background-color: transparent;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            
+            &:hover{
+                background-color: transparent;
+            }
+            .drop-text {
+                padding-left: 30px;
+                color:rgba($color: $white, $alpha: 0.84);
+            }
+            .drop-ico {
+                position: absolute;
+                left: 12px;
+                top: 50%;
+                -webkit-transform: translateY(-50%);
+                transform: translateY(-50%);
+            }        
+        }
+    }
+    .drop-flex {
+        display: flex;
+        justify-content: space-between;
+    }
+    .btn-dd {
+        position: relative;
+        padding: 0 40px;
+        height: 100%;
+        padding-left: 50px;
+        background-color: $secondary;
+        box-shadow: none;
+        border-radius: 10px;
+        border: 0;
+        &:hover{
+            background-color: $secondary;
+        }
+        &:focus{
+            box-shadow: none;
+            border: 0;
+        }
+        @media #{$max-xsm}{
+            padding: 0 30px;
+            padding-left: 30px;
+            box-shadow: none;
+            border-radius: 8px;
+        }
+    }
+    .dropdown-toggle{
+        &::after{
+            content:none;
+        }
+    }
+    .drop-ico {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        @media #{$max-xsm}{
+            left: 7px;
+            top: 50%;
+            max-width: 18px;
+        }
+    }
+    .drop-chev {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        max-width: 14px;
+        margin-top: 1px;
+        @media #{$max-xsm}{
+            right: 8px;
+            max-width: 10px;
+        }
+        
+    }
+}
+/** qr model start **/
+ .qr-wrap{
+    text-align: center;
+    svg{
+        display: inline-block;
+    }
+    .word-wrap{
+        word-break: break-word;
+    }
+ }
+ .qr-wrap{
+    background: $body-bg-800;
+    padding: 25px 15px 45px 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+    @media #{$max-xxl}{
+        padding: 25px 15px 15px 15px;
+        margin-top: 0;
+    }
+ }
+ .footer-sec{
+    border-top: 0;
+    padding: 10px 0 0;
+    .btn{
+        .flex{
+            display: block;
+        }
+        
+    }
+ }
+/** qr model end **/
+
+.error-msg {
+    position: absolute;
+    bottom: -22px;
+    left: 10px;
+    z-index: 1;
+    label {
+        font-size: 12px;
+        font-weight: 600;
+        color: $grey-color-800;
+    }
+}
+.sep-space {
+    padding-top: 25px;
+    @media #{$max-xxl}{
+        padding-top: 20px;
+    }
+    @media #{$max-xl}{
+        padding-top: 15px;
+    }
+    @media #{$max-lg}{
+        padding-top: 10px;
+    }
+}
+.assets_btm_area{
+    .cmn_dasdrd_table{
+        overflow: hidden;
+    }
+}

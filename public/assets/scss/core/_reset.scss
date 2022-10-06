@@ -87,6 +87,7 @@ h2 {
         font-size: 26px;
     }
 }
+
 h3 {
     font-size: 32px;
     @media #{$max-xxl}{
@@ -102,10 +103,10 @@ h3 {
 h4 {
     font-size: 24px;
     @media #{$max-xl}{
-        font-size: 20px;
+        font-size: 22px;
     }
-    @media #{$max-lg}{
-        font-size: 18px;
+    @media #{$max-md}{
+        font-size: 20px;
     }
 }
 h5 {
@@ -149,6 +150,15 @@ p{
     }
 }
 
+button{
+    outline: none;
+    &:hover{
+        outline: none;
+    }
+    &:focus{
+        outline: none;
+    }
+}
 a, button {
     color: inherit;
     line-height: inherit;
@@ -186,6 +196,12 @@ ul {
 ::placeholder{
     font-weight: 600;
     color:$white;
+    @media #{$max-lg}{
+        font-weight: 500;
+    }
+    @media #{$max-xxsm}{
+        font-weight: 400;
+    }
 }
 //reset end
 
@@ -195,7 +211,16 @@ ul {
 .primary-card{
     background: $primary-gradient;
 }
-
+.bg-dark-900 {
+    background-color: #0C0F17;
+}
+.text-blue {
+    color: #F28B03;
+    opacity: 1 !important;
+}
+.text-primary {
+    color:$primary !important;
+}
 // colors end
 
 .p-25{
@@ -230,6 +255,13 @@ ul {
     font-weight: 500;
     font-size: 18px;
     padding: 11px 22px;
+    border: 0;
+    &:hover{
+        border: 0;
+    }
+    &:focus{
+        border: 0;
+    }
     @media #{$max-xxl}{
         padding: 10px 20px;
         font-size: 16px;
@@ -240,24 +272,22 @@ ul {
 }
 .primary-btn{
     background:$primary-gradient;
-    color:rgba($white, 0.89);
+    color:rgba($white, 0.89) !important;
     font-weight: 600;
     // border: 1px solid rgba(255, 255, 255, 0.4);
     &:hover{
         background:$primary-gradient;
-        color:rgba($white, 0.89);
-        opacity: 0.9;
+        color:rgba($white, 0.89) !important;
     }
 }
 
 .secondary-btn{
     background:$secondary;
-    color: rgba($white, 0.89);
+    color: rgba($white, 0.89) !important;
     // border: 1px solid rgba(255, 255, 255, 0.4);
     &:hover{
         background:$secondary !important;
-        color: rgba($white, 0.89);
-        opacity: 0.9;
+        color: rgba($white, 0.89) !important;
     }
 }
 .primary-gradient-text {
@@ -271,13 +301,13 @@ ul {
     background-color:$grey-color;
     border-radius: 10px;
     font-weight: 600;
-    color:$white;
+    color:rgba($white, 0.89) !important;
     @media #{$max-xxl}{
         font-size: 14px;
     }
     &:hover{
         background:$primary-gradient;
-        color:rgba($white, 0.89);
+        color:rgba($white, 0.89) !important;
     }
 }
 
@@ -285,21 +315,21 @@ ul {
     background-color:$grey-color-800;
     border-radius: 10px;
     font-weight: 600;
-    color:$grey-color;
+    color:$grey-color !important;
     @media #{$max-xxl}{
         font-size: 14px;
     }
     &:hover{
         background:$primary-gradient;
-        color:rgba($white, 0.89);
+        color:$grey-color !important;
     }
 }
 .black-btn{
     background-color: $body-bg-800;
-    color: rgba($white, 0.89);
+    color: rgba($white, 0.89) !important;
     &:hover{
         background:$primary-gradient;
-        color:rgba($white, 0.89);
+        color:rgba($white, 0.89) !important;
     }
 }
 
@@ -308,10 +338,10 @@ ul {
     border-radius: 10px;
     // font-size: 16px;
     font-weight: 600;
-    color:$white;
+    color:$white !important;
     &:hover{
         background:$primary-gradient;
-        color:rgba($white, 0.89);
+        color:rgba($white, 0.89) !important;
     }
 }
 
@@ -388,14 +418,14 @@ ul {
         color:$white;
       }
       .form-group{
-        margin-bottom: 20px;
+        margin-bottom: 28px;
         label{
             margin-bottom: 15px;
         }
         .inpt_fld_hlpr_txt{
             display: flex;
             justify-content: space-between;
-            margin-top: 15px;
+            margin-top: 16px;
         }
       }
 }
@@ -414,14 +444,45 @@ ul {
     @media #{$max-xxl}{
         padding:9px 20px
     }
-    @media #{$max-lg}{
-        padding: 5px 20px;
-    }
 } 
-.mr-top-50{
-    margin-top: 50px;
-}
+// .mr-top-50{
+//     margin-top: 50px;
+//     @media #{$max-xl}{
+//         margin-top: 40px;
+//     }
+//     @media #{$max-lg}{
+//         margin-top: 35px;
+//     }
+//     @media #{$max-sm}{
+//         margin-top: 30px;
+//     }
+//     @media #{$max-xsm}{
+//         margin-top: 20px;
+//     }
+// }
 .shib-popup{
+    &.dark-modal-100{
+        .modal-content{
+            background-color: $body-bg-800;
+            input{
+                background-color: $body-bg;
+                color: rgba($white, 0.89);
+                padding: 15px 20px;
+                @media #{$max-xxl}{
+                    padding:9px 20px
+                }
+                &:hover{
+                    box-shadow: none;
+                }
+                &:focus{
+                    box-shadow: none;
+                }
+                &::placeholder{
+                    color: rgba($white, 0.89);
+                }
+            }
+        }
+    }
     .modal-content{
         // background-color: $body-bg-800;
         background-color:$body-bg;
@@ -439,8 +500,17 @@ ul {
             width: 100%;
             position: relative;
             padding-top: 0;
-            padding-bottom: 15px;
+            padding-bottom: 53px;
             text-align: center !important;
+            @media #{$max-xxl}{
+                padding-bottom: 40px;
+            }
+            @media #{$max-xl}{
+                padding-bottom: 35px;
+            }
+            @media #{$max-lg}{
+                padding-bottom: 30px;
+            }
             .btn-close{
                 position: absolute;
                 right: 50px;
@@ -448,6 +518,16 @@ ul {
                 background-repeat: no-repeat;
                 opacity: 1;
                 padding: 5px 0;
+                box-shadow: none;
+                outline: none;
+                &:hover{
+                    box-shadow: none;
+                    border: 0;
+                }
+                &:focus{
+                    box-shadow: none;
+                    border: 0;
+                }
             }
         }
     }
@@ -476,4 +556,15 @@ input{
 }
 label{
     font-size: 16px;
+}
+
+body.modal-open {
+    padding-left: 0 !important;   
+}
+.whitespace-nowrap {
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+.fw-700{
+    font-weight: 700;
 }
