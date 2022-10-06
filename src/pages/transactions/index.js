@@ -168,7 +168,7 @@ export default function Transaction() {
                 <div className="col-12">
                   <a className='btn grey-btn d-flex align-items-center' href="javascript:void(0)">
                     <span className="spinner-border text-secondary pop-spiner"></span>
-                    <span>Close</span>
+                    <span>Moving funds</span>
                   </a>
                 </div>
               </div>

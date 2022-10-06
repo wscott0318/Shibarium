@@ -311,7 +311,7 @@ export default function Wallet() {
                         </div>
                         <div className="error-msg">
                           {sendAmount && !selectedToken ? <label className="mb-0">Select token</label> : sendAmount && selectedToken.balance <= 0 ?
-                            <label className="mb-0">Insufficient balance</label> : null}
+                            <label className="mb-0">Insufficient Balance</label> : null}
                         </div>
                       </div>
                       <p className="inpt_fld_hlpr_txt">
