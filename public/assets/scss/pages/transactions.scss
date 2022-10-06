@@ -160,22 +160,25 @@
      
 }
 .trans_popups .image_area img{
-    margin: 15px auto;
+    margin: 48px auto 16px;
     @media #{$max-xxl}{
         max-width: 140px;
+        margin: 40px auto 15px;
     }
     @media #{$max-xl}{
         max-width: 120px;
+        margin: 20px auto 15px;
     }
     @media #{$max-lg}{
         max-width: 100px;
+        margin: 15px auto;
     }
 }
 .mid_text {
     padding: 0 15px;
     h4{
         font-weight: 600;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
     }
     p{
         font-weight: 400;
@@ -188,8 +191,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 30px;
-    margin-bottom: 20px;
+    margin-top: 16px;
+    margin-bottom: 16px;
     padding: 0 15px;
     .icon_name{
         display: flex;

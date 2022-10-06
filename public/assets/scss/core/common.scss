@@ -773,8 +773,9 @@
         top: 50%;
         right: 7px;
         bottom: auto;
-        height: calc(100% - 10px);
+        // height: calc(100% - 10px);
         transform: translateY(-50%);
+        cursor: pointer;
     }
     .dropdown-menu {
         background-color: $secondary;
@@ -841,7 +842,7 @@
     .drop-ico {
         display: flex;
         align-items: center;
-        padding-top: 4px;
+        // padding-top: 4px;
         img{
             margin-right: 8px;
         }

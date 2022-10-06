@@ -112,8 +112,8 @@ export default function Transaction() {
         >
           <>
             {/* Reaching Checkpoint popop start  */}
-            <div className="cmn_modal trans_popups">
-              <ul className="stepper mt-3">
+            {/* <div className="cmn_modal trans_popups">
+              <ul className="stepper">
                 <li className="step active">
                   <div className="step-ico">
                     <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon"/>
@@ -154,7 +154,7 @@ export default function Transaction() {
               </div>
               <div className="mid_text row">
                 <div className="col-12 text-center"><h4>Bridging funds</h4></div>
-                <div className="col-12 text-center"><p>Bridging funds from Shibarium Chain to Ethereum Chain the transaction will take from 60 min to 3 hrs</p></div>
+                <div className="col-12 text-center"><p className="mb-0">Bridging funds from Shibarium Chain to Ethereum Chain the transaction will take from 60 min to 3 hrs</p></div>
               </div>
               <div className="fees_text">
                 <div className="icon_name">
@@ -172,13 +172,13 @@ export default function Transaction() {
                   </a>
                 </div>
               </div>
-            </div>
+            </div> */}
             {/* Reaching Checkpoint popop end  */}
 
 
             {/* Checkpoint reached popop start  */}  
             {/* <div className="cmn_modal trans_popups">
-              <ul className="stepper mt-3">
+              <ul className="stepper">
                 <li className="step active">
                   <div className="step-ico">
                     <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon"/>
@@ -219,7 +219,7 @@ export default function Transaction() {
               </div>
               <div className="mid_text row">
                 <div className="col-12 text-center"><h4>Move Funds to your account</h4></div>
-                <div className="col-12 text-center"><p>Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5</p></div>
+                <div className="col-12 text-center"><p className="mb-0">Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5</p></div>
               </div>
               <div className="fees_text">
                 <div className="icon_name">
@@ -241,7 +241,7 @@ export default function Transaction() {
 
              {/* Checkpoint reached popop 2 start  */}  
              {/* <div className="cmn_modal trans_popups">
-              <ul className="stepper mt-3">
+              <ul className="stepper">
                 <li className="step active">
                   <div className="step-ico">
                     <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon"/>
@@ -282,7 +282,7 @@ export default function Transaction() {
               </div>
               <div className="mid_text row">
                 <div className="col-12 text-center"><h4>Move Funds to your account</h4></div>
-                <div className="col-12 text-center"><p>Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5</p></div>
+                <div className="col-12 text-center"><p className="mb-0">Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5</p></div>
               </div>
               <div className="fees_text">
                 <div className="icon_name">
@@ -305,8 +305,8 @@ export default function Transaction() {
 
 
               {/* Checkpoint reached popop 3 start  */}  
-             {/* <div className="cmn_modal trans_popups">
-              <ul className="stepper mt-3">
+             <div className="cmn_modal trans_popups">
+              <ul className="stepper">
                 <li className="step active">
                   <div className="step-ico">
                     <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon"/>
@@ -347,7 +347,7 @@ export default function Transaction() {
               </div>
               <div className="mid_text row">
                 <div className="col-12 text-center"><h4>Move Funds to your account</h4></div>
-                <div className="col-12 text-center"><p>Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5</p></div>
+                <div className="col-12 text-center"><p className="mb-0">Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5</p></div>
               </div>
               <div className="fees_text">
                 <div className="icon_name">
@@ -364,7 +364,7 @@ export default function Transaction() {
                   </a>
                 </div>
               </div>
-            </div> */}
+            </div>
             {/* Checkpoint reached popop 3 ends  */}   
 
           </>

@@ -418,7 +418,12 @@ ul {
         color:$white;
       }
       .form-group{
-        margin-bottom: 28px;
+        margin-bottom: 48px;
+        @media #{$max-xxl}{
+            margin-bottom: 40px;
+        }
+        
+        
         label{
             margin-bottom: 15px;
         }
@@ -485,7 +490,7 @@ ul {
     }
     .modal-content{
         // background-color: $body-bg-800;
-        background-color:$body-bg;
+        background-color:$body-bg-800;
         border-radius: 40px;
         padding: 32px 20px;
         @media #{$max-xxl}{

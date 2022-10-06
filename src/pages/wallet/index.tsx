@@ -377,7 +377,7 @@ export default function Wallet() {
                         <b>Balance: {selectedToken.balance ? selectedToken.balance.toFixed(4) : '00.00'} {selectedToken.parentSymbol ? selectedToken.parentSymbol : ""}</b>
                       </p>
                     </div>
-                    <div className="pop_btns_area mr-top-50 row sep-space">
+                    <div className="pop_btns_area mr-top-50 row">
                       <div className="col-6">
                         <button
                           className='btn blue-btn w-100'

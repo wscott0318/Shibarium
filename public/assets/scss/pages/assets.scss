@@ -179,14 +179,17 @@
 }
 .alert_msg{
     // margin: 20px;
-    padding: 20px 0px 30px 0px;
+    padding: 16px 0px 32px 0px;
     img{
         max-width: 16px;
         display: inline-block;
     }
 }
 .pop_btm_txt{
-    margin: 35px 0;
+    margin: 32px 0;
+    @media #{$max-sm}{
+        margin: 25px 0;
+    }
     a{
         color: $primary;
     }

@@ -375,9 +375,7 @@
     bottom: auto;
     transform: translateY(-50%);
     max-width: 24px;
-    @media #{$max-lg}{
-        top: 9px;
-    }
+    
 }
 .sec-search {
     margin: 10px 0 32px;
