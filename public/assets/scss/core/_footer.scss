@@ -28,4 +28,11 @@
             padding-bottom: 16px;
         }
     }
+    .footer-lst-item {
+        .ftr-link{
+            &:hover{
+                color: $white;
+            }
+        }
+    }
 }

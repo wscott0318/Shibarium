@@ -155,13 +155,19 @@
         }
     }
     .ftrs-icon {
-        max-width: 50px;
-        @media #{$max-lg}{
-            max-width: 40px;
-        }
-        @media #{$max-xsm}{
-            max-width: 40px;
-        }
+        max-width: 80px;
+        // @media #{$max-xxl}{
+        //     max-width: 70px;
+        // }
+        // @media #{$max-xl}{
+        //     max-width: 60px;
+        // }
+        // @media #{$max-md}{
+        //     max-width: 50px;
+        // }
+        // @media #{$max-xsm}{
+        //     max-width: 40px;
+        // }
     }
     .link {
         display: flex;

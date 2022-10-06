@@ -568,7 +568,7 @@ export default function Wallet() {
               <h2>My Balance</h2>
               <div className="assets_top_area bal-row">
                 <div className="bal-col">
-                  <div className="main_net_amnt t_a_clm">
+                  <div className="main_net_amnt t_a_clm h-100">
                     <h1><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></h1>
                     <p>shibarium mainnet</p>
                   </div>
