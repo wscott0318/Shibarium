@@ -498,7 +498,7 @@ export default function Wallet() {
                     </div>
                     <div className="token-sec">
                       <div className="info-grid">
-                        <p onClick={() => {
+                        <p className="mb-0" onClick={() => {
                           setSendModal({
                              step0: false,
                              step1: true,

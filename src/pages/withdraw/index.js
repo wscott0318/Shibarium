@@ -397,7 +397,7 @@ export default function Withdraw() {
             
 
               {/* Select token popop starts */}
-                {/* <div className="popmodal-body tokn-popup">
+                <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="sec-search">
@@ -492,7 +492,7 @@ export default function Withdraw() {
                     </div>
                     
                   </div>
-                </div> */}
+                </div>
                 {/* Select token popop ends */}
 
 
@@ -615,7 +615,7 @@ export default function Withdraw() {
                 {/* Add token popop ends */}
 
                 {/* search popop starts */}
-                 <div className="popmodal-body tokn-popup">
+                 {/* <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -692,7 +692,7 @@ export default function Withdraw() {
                        </div>
                     </div>  
                   </div>
-                </div>
+                </div> */}
                 {/* Search popop ends */}
 
                 {/* new added token with delete action starts */}
@@ -754,7 +754,7 @@ export default function Withdraw() {
           </>
           {/* Token popups end */}
           </CommonModal>
-          {/* Token popups start */}
+          {/* Token popups end */}
           {/* modal code closed */}
             <section className="assets-section">
               <div className="cmn_dashbord_main_outr">
