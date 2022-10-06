@@ -92,7 +92,6 @@ export default function Login() {
       <main className="main-content full-vh dark-bg-800">
         {/* login section start */}
         <p className="mb-0" style={{display:'flex', justifyContent:'center'}}>
-          <Web3Status />
         </p>
         <section className="login-section">
             <div className="container">
@@ -102,16 +101,8 @@ export default function Login() {
                 <div className='login_holder'>
                     <div className='login_outr'>
                         <h2>Login</h2>
-                        <div className='login_cnt_row'>
-                            <span className='login_icon'><img className='img-fluid' src="../../images/fox-icon.png" alt="login-logo" /></span>
-                            <div className='login_cnt_row_name'>    
-                                <b>Metamask Wallet</b>
-                                <p>Connect using Browser wallet</p>
-                               
-                                {/* <Web3Status /> */}
-                            </div>
-                            <span className='white_arw'><img className='img-fluid' src="../../images/white-arrow.png" alt="white-arrow" /></span>
-                        </div>
+                         <Web3Status />
+                       
                         <p className='sign_up_optn'>Don’t have a wallet? <a href="#">Download here</a></p>
                     </div>
                 </div>

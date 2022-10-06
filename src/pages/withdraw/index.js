@@ -44,7 +44,7 @@ export default function Withdraw() {
           title={"Deposit"}
           show={showDepositModal}
           setShow={setDepositModal}
-          
+          externalCls="dark-modal-100"
           >
           {/* Deposit popups start */}
           <>
@@ -54,7 +54,7 @@ export default function Withdraw() {
                 <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
-                      <div className="cnfrm_box">
+                      <div className="cnfrm_box dark-bg">
                           <div className="top_overview col-12">
                                 <div className="img-flexible"><img class="img-fluid d-inline-block" src="../../images/etharium.png" alt="" /></div>
                                 <h6>100 ETH</h6>
@@ -163,9 +163,11 @@ export default function Withdraw() {
                 
 
           </>
-          {/* Deposit popups end */}
+
           </CommonModal>
+
           {/* Deposit popup end */}
+
           {/* Withdraw popups start */}
           <CommonModal
           title={"Withdraw"}
@@ -390,7 +392,7 @@ export default function Withdraw() {
           title={"Select token"}
           show={showTokenModal}
           setShow={setTokenModal}
-          
+          externalCls="dark-modal-100"
           >
           {/* Token popups start */}
           <>
