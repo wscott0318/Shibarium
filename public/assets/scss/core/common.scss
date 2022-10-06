@@ -294,7 +294,13 @@
     }
 }
 .fw-bold{
-    font-weight: 800;
+    font-weight: 700 !important;
+    @media #{$max-xxl}{
+        font-weight:600 !important;
+    }
+    @media #{$max-md}{
+        font-weight: 500 !important;
+    }
 }
 /** Cus dd End **/
 .custum-search::placeholder{
