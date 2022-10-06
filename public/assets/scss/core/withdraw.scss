@@ -243,9 +243,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 32px 0 20px;
+    margin: 32px 0 24px;
     @media #{$max-xxl}{
-        margin: 30px 0;
+        margin: 30px 0 24px;
     }
     @media #{$max-xl}{
         margin: 25px 0;
@@ -474,7 +474,7 @@
     }
 }
 .tokn-row {
-    margin-bottom: 16px;
+    // margin-bottom: 16px;
     cursor: pointer;
     padding: 5px;
     border-radius: 2px;

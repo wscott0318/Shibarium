@@ -51,10 +51,11 @@ export default function Withdraw() {
             
 
               {/* confirm deposit popop starts */}
+
                 {/* <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
-                      <div className="cnfrm_box dark-bg">
+                      <div className="cnfrm_box dark-bg mt-0">
                           <div className="top_overview col-12">
                                 <div className="img-flexible"><img class="img-fluid d-inline-block" src="../../images/etharium.png" alt="" /></div>
                                 <h6>100 ETH</h6>
@@ -91,13 +92,15 @@ export default function Withdraw() {
                     </div>
                   </div>
                 </div> */}
+
                 {/* confirm deposit popop ends */}
 
                 {/* Transaction pending popup start */}
+                
                 {/* <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
-                      <div className="cnfrm_box dark-bg">
+                      <div className="cnfrm_box dark-bg mt-0">
                           <div className="top_overview col-12">
                                 <span><img class="img-fluid" src="../../images/etharium.png" alt="" /></span>
                                 <h6>100 ETH</h6>
@@ -130,13 +133,18 @@ export default function Withdraw() {
                     </div>
                   </div>
                 </div> */}
+
+
                 {/* Transaction pending popup end */}
 
                 {/* Transaction completed popup start */}
-                <div className="popmodal-body">
+
+
+
+                {/* <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
-                      <div className="cnfrm_box dark-bg">
+                      <div className="cnfrm_box dark-bg mt-0">
                           <div className="top_overview col-12">
                                 <span><img class="img-fluid" src="../../images/etharium.png" alt="" /></span>
                                 <h6>100 ETH</h6>
@@ -157,7 +165,9 @@ export default function Withdraw() {
                         </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
+
+
                 {/* Transaction completed popup end */}
 
                 
@@ -173,7 +183,7 @@ export default function Withdraw() {
           title={"Withdraw"}
           show={showWithdrawModal}
           setShow={setWithdrawModal}
-          
+          externalCls="dark-modal-100"
           >
           {/* Withdraw tab popups start */}
           <>
@@ -183,7 +193,7 @@ export default function Withdraw() {
                 <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
-                      <div className="cnfrm_box dark-bg">
+                      <div className="cnfrm_box dark-bg mt-0">
                           <div className="top_overview col-12">
                                 <span><img class="img-fluid" src="../../images/red-bone.png" alt="" /></span>
                                 <h6>100 BONE</h6>
@@ -399,10 +409,10 @@ export default function Withdraw() {
             
 
               {/* Select token popop starts */}
-                <div className="popmodal-body tokn-popup">
+                {/* <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
-                    <div className="sec-search">
+                    <div className="sec-search ng-16">
                       <div className="position-relative search-row">
                         <input type="text" className="w-100" placeholder="Search token or token address" />
                         <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
@@ -494,11 +504,12 @@ export default function Withdraw() {
                     </div>
                     
                   </div>
-                </div>
+                </div> */}
                 {/* Select token popop ends */}
 
 
                 {/* Manage token popop starts */}
+
                 {/* <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
@@ -584,9 +595,11 @@ export default function Withdraw() {
                     
                   </div>
                 </div> */}
+
                 {/* Manage token popop ends */}
 
                  {/* Add token popop starts */}
+
                  {/* <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
@@ -617,7 +630,8 @@ export default function Withdraw() {
                 {/* Add token popop ends */}
 
                 {/* search popop starts */}
-                 {/* <div className="popmodal-body tokn-popup">
+
+                 <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -694,7 +708,7 @@ export default function Withdraw() {
                        </div>
                     </div>  
                   </div>
-                </div> */}
+                </div>
                 {/* Search popop ends */}
 
                 {/* new added token with delete action starts */}
