@@ -467,9 +467,17 @@
     right: auto;
     top: auto;
     bottom: auto;
+    img{
+        @media #{$max-xxl}{
+            max-width: 42px;
+        } 
+        @media #{$max-xl}{
+            max-width: 38px;
+        } 
+    }
 }
 .tokn-row {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     cursor: pointer;
     padding: 5px;
     border-radius: 2px;
