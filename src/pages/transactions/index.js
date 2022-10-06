@@ -109,10 +109,11 @@ export default function Transaction() {
           title={"Reaching Checkpoint"}
           show={showSendModal}
           setShow={setSendModal}
+          externalCls="dark-modal-100"
         >
           <>
             {/* Reaching Checkpoint popop start  */}
-            <div className="cmn_modal trans_popups">
+            {/* <div className="cmn_modal trans_popups">
               <ul className="stepper">
                 <li className="step active">
                   <div className="step-ico">
@@ -149,7 +150,9 @@ export default function Transaction() {
               </ul>
               <div className="image_area row">
                 <div className="col-12 text-center watch-img-sec">
-                  <img className="img-fluid" src="../../images/watch.png" />
+                  <div className="set-block">
+                    <img className="img-fluid" src="../../images/watch.png" />
+                  </div>
                 </div>
               </div>
               <div className="mid_text row">
@@ -172,12 +175,12 @@ export default function Transaction() {
                   </a>
                 </div>
               </div>
-            </div>
+            </div> */}
             {/* Reaching Checkpoint popop end  */}
 
 
             {/* Checkpoint reached popop start  */}  
-            {/* <div className="cmn_modal trans_popups">
+            <div className="cmn_modal trans_popups">
               <ul className="stepper">
                 <li className="step active">
                   <div className="step-ico">
@@ -214,7 +217,9 @@ export default function Transaction() {
               </ul>
               <div className="image_area row">
                 <div className="col-12 text-center">
-                  <img className="img-fluid" src="../../images/funds-coin.png" />
+                  <div className="set-block">
+                    <img className="img-fluid" src="../../images/funds-coin.png" />
+                  </div>
                 </div>
               </div>
               <div className="mid_text row">
@@ -236,7 +241,7 @@ export default function Transaction() {
                   </a>
                 </div>
               </div>
-            </div> */}
+            </div>
             {/* Checkpoint reached popop ends  */}  
 
              {/* Checkpoint reached popop 2 start  */}  
@@ -277,7 +282,9 @@ export default function Transaction() {
               </ul>
               <div className="image_area row">
                 <div className="col-12 text-center">
-                  <img className="img-fluid" src="../../images/watch.png" />
+                  <div className="set-block">
+                    <img className="img-fluid" src="../../images/watch.png" />
+                  </div>
                 </div>
               </div>
               <div className="mid_text row">
@@ -342,7 +349,9 @@ export default function Transaction() {
               </ul>
               <div className="image_area row">
                 <div className="col-12 text-center">
-                  <img className="img-fluid" src="../../images/thumb-up-icon.png" />
+                  <div className="set-block">
+                    <img className="img-fluid" src="../../images/thumb-up-icon.png" />
+                  </div>
                 </div>
               </div>
               <div className="mid_text row">

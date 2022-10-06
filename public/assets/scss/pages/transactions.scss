@@ -160,18 +160,18 @@
      
 }
 .trans_popups .image_area img{
-    margin: 48px auto 16px;
+    // margin: 48px auto 16px;
     @media #{$max-xxl}{
         max-width: 140px;
-        margin: 40px auto 15px;
+        
     }
     @media #{$max-xl}{
         max-width: 120px;
-        margin: 20px auto 15px;
+        
     }
     @media #{$max-lg}{
         max-width: 100px;
-        margin: 15px auto;
+        
     }
 }
 .mid_text {
