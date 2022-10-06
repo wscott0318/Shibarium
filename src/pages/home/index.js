@@ -91,9 +91,11 @@ export default function Home() {
                       Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos
                       asperiores illum.
                     </p>
-                    <a href="javascript:void(0)" className='link'><span>Learn More</span>
-                      <img className='img-fluid' src="../../images/link-arrow.png" alt="arrow-icon" />
-                    </a>
+                    <Link href="/swap-token">
+                      <a className='link'><span>Learn More</span>
+                        <img className='img-fluid' src="../../images/link-arrow.png" alt="arrow-icon" />
+                      </a>
+                    </Link>
                   </div>
                 </div>
                 <div className="col-lg-4 col-md-6 col-sm-8 cus-col">
