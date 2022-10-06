@@ -402,7 +402,7 @@ export default function Withdraw() {
           title={"Select token"}
           show={showTokenModal}
           setShow={setTokenModal}
-          externalCls="dark-modal-100"
+          
           >
           {/* Token popups start */}
           <>
@@ -510,7 +510,7 @@ export default function Withdraw() {
 
                 {/* Manage token popop starts */}
 
-                {/* <div className="popmodal-body tokn-popup">
+                <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -594,7 +594,7 @@ export default function Withdraw() {
                     </div>
                     
                   </div>
-                </div> */}
+                </div>
 
                 {/* Manage token popop ends */}
 
@@ -631,7 +631,7 @@ export default function Withdraw() {
 
                 {/* search popop starts */}
 
-                 <div className="popmodal-body tokn-popup">
+                 {/* <div className="popmodal-body tokn-popup">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -708,7 +708,7 @@ export default function Withdraw() {
                        </div>
                     </div>  
                   </div>
-                </div>
+                </div> */}
                 {/* Search popop ends */}
 
                 {/* new added token with delete action starts */}

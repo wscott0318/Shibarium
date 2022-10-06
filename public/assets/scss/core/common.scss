@@ -955,3 +955,19 @@
 .orange-txt{
     color: $primary;
 }
+.set-block {
+    max-width: 100%;
+    height: 260px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @media #{$max-xxl}{
+        height: 200px;
+    }
+    @media #{$max-xl}{
+        height: 180px;
+    }
+    @media #{$max-xl}{
+        height: 160px;
+    }
+}
