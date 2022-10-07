@@ -64,7 +64,7 @@ export default function HowitWorks() {
                         <h3 className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2">Depositing Funds from Ethereum to Shibarium</h3>
                         <p className="">You can either watch the video tutorial below or follow the step-by-step guide.</p>
                         <div className="image-section">
-                            <div><img className="img-fluid" src="../../images/blank.jpg" alt="check-icon"/></div>
+                            <div><img className="img-fluid" src="../../images/blank.jpg" alt="check-icon" width={300}/></div>
                         </div>
                     </section>
                 </div>
