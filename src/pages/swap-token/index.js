@@ -24,8 +24,24 @@ export default function differentchainbridge() {
 
     const [showSwapModal, setSwapModal] = useState(false);
     const [showTokenModal, setTokenModal] = useState(false);
-    const [showTokentwoModal, setTokentwoModal] = useState(false);
-
+    const [showToken2Modal, setToken2Modal] = useState(false);
+    const [tokenState, setTokenState] = useState({
+      step0: true,
+      step1: false,
+      step2: false,
+      step3: false,
+      step4: false,
+      title: "Select a Token",
+    });
+    const [token2State, setToken2State] = useState({
+      step0: true,
+      step1: false,
+      step2: false,
+      step3: false,
+      step4: false,
+      title: "Select a Token",
+    });
+    const [approveReview,setApproveReview] = useState(true);
     return (
         <>
             <main className="main-content">
@@ -60,7 +76,17 @@ export default function differentchainbridge() {
                                     <div className="field-grid row">
                                         <div className="col-sm-4">
                                             <div className="form-group">
-                                                <div className="form-field position-relative dark-input" onClick={() => setTokenModal(true)}>
+                                                <div className="form-field position-relative dark-input" onClick={() => {
+                                                  setTokenModal(true);
+                                                  setTokenState({
+                                                    step0: true,
+                                                    step1: false,
+                                                    step2: false,
+                                                    step3: false,
+                                                    step4: false,
+                                                    title: "Select a Token",
+                                                  });
+                                                  }}>
                                                     <div className="coin-icon">
                                                         <div className='coin-img'>
                                                             <img className="img-fluid" src="../../images/eth.png" alt="" />
@@ -93,7 +119,17 @@ export default function differentchainbridge() {
                                     <div className="field-grid row">
                                         <div className="col-sm-4">
                                             <div className="form-group">
-                                                <div className="form-field position-relative dark-input"  onClick={() => setTokentwoModal(true)}>
+                                                <div className="form-field position-relative dark-input"  onClick={() => {
+                                                  setToken2Modal(true);
+                                                  setToken2State({
+                                                    step0: true,
+                                                    step1: false,
+                                                    step2: false,
+                                                    step3: false,
+                                                    step4: false,
+                                                    title: "Select a Token",
+                                                  });
+                                                  }}>
                                                     <div className="coin-icon">
                                                         <div className='coin-img'>
                                                             <img className="img-fluid" src="../../images/shiba-round-icon.png" alt="" />
@@ -129,12 +165,15 @@ export default function differentchainbridge() {
                                         </div>
                                         <div className="row">
                                             <div className="col-sm-6 mb-3 mb-sm-0">
-                                                <button type='button' className='btn primary-btn w-100'>
+                                                <button type='button' className={`btn ${approveReview ? 'orangeButton' : 'blackButton'} w-100`} onClick={()=>setApproveReview(false)}>
                                                     Approve
                                                 </button>
                                             </div>
                                             <div className="col-sm-6">
-                                                <button type='button' className='btn black-btn w-100' onClick={() => setSwapModal(true)}>
+                                                <button type='button' className={`btn ${!approveReview ? 'orangeButton' : 'blackButton'} w-100`} onClick={() => {
+                                                  if(!approveReview){setSwapModal(true)
+                                                  setApproveReview(true)}
+                                                  }}>
                                                     Review Swap
                                                 </button>
                                             </div>
@@ -172,7 +211,7 @@ export default function differentchainbridge() {
                         </ul>
                     </div>
                     <div className='bottom-area'>
-                        <button type='button' className='btn primary-btn w-100'>Set Slippage</button>
+                        <button type='button' className='btn primary-btn w-100' onClick={()=>setSlippageModal(false)}>Set Slippage</button>
                     </div>
                 </div>
             </CommonModal>
@@ -288,14 +327,14 @@ export default function differentchainbridge() {
 
             {/* Token popup code start */}
             <CommonModal
-                title={"Select Token"}
+                title={tokenState.title}
                 show={showTokenModal}
                 setShow={setTokenModal}
             >
                {/* Token popups start */}     
 
                 {/* Select token popop starts */}
-                {/* <div className="popmodal-body tokn-popup no-ht">
+                {showTokenModal && tokenState.step0 && <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="sec-search ng-16">
@@ -310,7 +349,16 @@ export default function differentchainbridge() {
                           <p>Token List</p>
                         </div>
                         <div className="token-btn-sec">
-                          <button type="button" className="btn primary-btn w-100">Manage Tokens</button>
+                          <button type="button" className="btn primary-btn w-100" onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: true,
+                                step2: false,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}>Manage Tokens</button>
                         </div>
                       </div>
                     </div>
@@ -390,13 +438,13 @@ export default function differentchainbridge() {
                     </div>
                     
                   </div>
-                </div> */}
+                </div> }
                 {/* Select token popop ends */}
 
 
                 {/* Manage token popop starts */}
 
-                {/* <div className="popmodal-body tokn-popup no-ht">
+                {showTokenModal && tokenState.step1 && <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -405,7 +453,16 @@ export default function differentchainbridge() {
                           <button type="button" className="btn btn-active w-100">Token Lists</button>
                         </div>
                         <div className="blk-width">
-                          <button type="button" className="btn w-100">Add token</button>
+                          <button type="button" className="btn w-100" onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}>Add token</button>
                         </div>
                       </div>
                     </div>
@@ -480,13 +537,13 @@ export default function differentchainbridge() {
                     </div>
                     
                   </div>
-                </div> */}
+                </div> }
 
                 {/* Manage token popop ends */}
 
                  {/* Add token popop starts */}
 
-                 {/* <div className="popmodal-body tokn-popup no-ht">
+                 {showTokenModal && tokenState.step2 && <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -500,7 +557,16 @@ export default function differentchainbridge() {
                       </div>
                     </div>
                     <div className="sec-search sec-search-secondry">
-                      <div className="position-relative search-row">
+                      <div className="position-relative search-row" onClick={() => {
+                          setTokenState({
+                            step0: false,
+                            step1: false,
+                            step2: false,
+                            step3: true,
+                            step4: false,
+                            title: "Manage Token",
+                          });
+                        }}>
                         <input type="text" className="w-100" placeholder="Enter Token Address" />
                         <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
                       </div>
@@ -512,12 +578,12 @@ export default function differentchainbridge() {
                         </div>
                     </div>
                   </div>
-                </div> */}
+                </div>}
                 {/* Add token popop ends */}
 
                 {/* search popop starts */}
 
-                 {/* <div className="popmodal-body tokn-popup no-ht">
+                 {showTokenModal && tokenState.step3 && <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -590,15 +656,24 @@ export default function differentchainbridge() {
                     </div>
                     <div className="pop-bottom">
                       <div className="" >
-                        <a className='btn primary-btn w-100' href="javascript:void(0)">Add Token</a>
+                        <a className='btn primary-btn w-100' href="javascript:void(0)" onClick={() => {
+                          setTokenState({
+                            step0: false,
+                            step1: false,
+                            step2: false,
+                            step3: false,
+                            step4: true,
+                            title: "Manage Token",
+                          });
+                        }}>Add Token</a>
                        </div>
                     </div>  
                   </div>
-                </div> */}
+                </div> }
                 {/* Search popop ends */}
 
                 {/* new added token with delete action starts */}
-                <div className="popmodal-body tokn-popup no-ht">
+                {showTokenModal && tokenState.step4 && <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -626,7 +701,16 @@ export default function differentchainbridge() {
                             <p className="lite-color">Token stored in your browser</p>
                           </div>
                           <div className="blk-width btn-sm">
-                            <button type="button" className="btn primary-btn w-100">Clear All</button>
+                            <button type="button" className="btn primary-btn w-100" onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}>Clear All</button>
                           </div>
                         </div>
                         <div className="token-listwrap">
@@ -640,7 +724,16 @@ export default function differentchainbridge() {
                                 <p>Shibatoken</p>
                               </div>
                               <div>
-                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span className="me-4"  onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
                                 <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
@@ -655,7 +748,16 @@ export default function differentchainbridge() {
                                 <p>Shibatoken</p>
                               </div>
                               <div>
-                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span className="me-4"  onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
                                 <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
@@ -670,7 +772,16 @@ export default function differentchainbridge() {
                                 <p>Shibatoken</p>
                               </div>
                               <div>
-                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span className="me-4"  onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
                                 <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
@@ -685,7 +796,16 @@ export default function differentchainbridge() {
                                 <p>Shibatoken</p>
                               </div>
                               <div>
-                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span className="me-4"  onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
                                 <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
@@ -700,7 +820,16 @@ export default function differentchainbridge() {
                                 <p>Shibatoken</p>
                               </div>
                               <div>
-                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span className="me-4"  onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
                                 <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
@@ -709,7 +838,7 @@ export default function differentchainbridge() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div>}
                 {/* new added token with delete action ends */}
                 
 
@@ -719,14 +848,14 @@ export default function differentchainbridge() {
 
             {/* Token popup code start */}
             <CommonModal
-                title={"Select Token"}
-                show={showTokentwoModal}
-                setShow={setTokentwoModal}
+                title={token2State.title}
+                show={showToken2Modal}
+                setShow={setToken2Modal}
             >
                {/* Token popups start */}     
 
                 {/* Select token popop starts */}
-                {/* <div className="popmodal-body tokn-popup no-ht">
+                {showToken2Modal && token2State.step0 &&  <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="sec-search ng-16">
@@ -741,7 +870,16 @@ export default function differentchainbridge() {
                           <p>Token List</p>
                         </div>
                         <div className="token-btn-sec">
-                          <button type="button" className="btn primary-btn w-100">Manage Tokens</button>
+                          <button type="button" className="btn primary-btn w-100" onClick={() => {
+                              setToken2State({
+                                step0: false,
+                                step1: true,
+                                step2: false,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}>Manage Tokens</button>
                         </div>
                       </div>
                     </div>
@@ -821,13 +959,13 @@ export default function differentchainbridge() {
                     </div>
                     
                   </div>
-                </div> */}
+                </div>}
                 {/* Select token popop ends */}
 
 
                 {/* Manage token popop starts */}
 
-                {/* <div className="popmodal-body tokn-popup no-ht">
+                {showToken2Modal && token2State.step1 && <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -836,7 +974,16 @@ export default function differentchainbridge() {
                           <button type="button" className="btn btn-active w-100">Token Lists</button>
                         </div>
                         <div className="blk-width">
-                          <button type="button" className="btn w-100">Add token</button>
+                          <button type="button" className="btn w-100" onClick={() => {
+                              setToken2State({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}>Add token</button>
                         </div>
                       </div>
                     </div>
@@ -911,13 +1058,13 @@ export default function differentchainbridge() {
                     </div>
                     
                   </div>
-                </div> */}
+                </div>}
 
                 {/* Manage token popop ends */}
 
                  {/* Add token popop starts */}
 
-                 {/* <div className="popmodal-body tokn-popup no-ht">
+                 {showToken2Modal && token2State.step2 && <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -931,7 +1078,16 @@ export default function differentchainbridge() {
                       </div>
                     </div>
                     <div className="sec-search sec-search-secondry">
-                      <div className="position-relative search-row">
+                      <div className="position-relative search-row"  onClick={() => {
+                          setToken2State({
+                            step0: false,
+                            step1: false,
+                            step2: false,
+                            step3: true,
+                            step4: false,
+                            title: "Manage Token",
+                          });
+                        }}>
                         <input type="text" className="w-100" placeholder="Enter Token Address" />
                         <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
                       </div>
@@ -943,12 +1099,12 @@ export default function differentchainbridge() {
                         </div>
                     </div>
                   </div>
-                </div> */}
+                </div>}
                 {/* Add token popop ends */}
 
                 {/* search popop starts */}
 
-                 {/* <div className="popmodal-body tokn-popup no-ht">
+                 {showToken2Modal && token2State.step3 && <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -1021,15 +1177,24 @@ export default function differentchainbridge() {
                     </div>
                     <div className="pop-bottom">
                       <div className="" >
-                        <a className='btn primary-btn w-100' href="javascript:void(0)">Add Token</a>
+                        <a className='btn primary-btn w-100' href="javascript:void(0)" onClick={() => {
+                              setToken2State({
+                                step0: false,
+                                step1: false,
+                                step2: false,
+                                step3: false,
+                                step4: true,
+                                title: "Manage Token",
+                              });
+                            }}>Add Token</a>
                        </div>
                     </div>  
                   </div>
-                </div> */}
+                </div>}
                 {/* Search popop ends */}
 
                 {/* new added token with delete action starts */}
-                <div className="popmodal-body tokn-popup no-ht">
+                {showToken2Modal && token2State.step4 && <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -1057,7 +1222,16 @@ export default function differentchainbridge() {
                             <p className="lite-color">Token stored in your browser</p>
                           </div>
                           <div className="blk-width btn-sm">
-                            <button type="button" className="btn primary-btn w-100">Clear All</button>
+                            <button type="button" className="btn primary-btn w-100" onClick={() => {
+                              setToken2State({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}>Clear All</button>
                           </div>
                         </div>
                         <div className="token-listwrap">
@@ -1071,7 +1245,16 @@ export default function differentchainbridge() {
                                 <p>Shibatoken</p>
                               </div>
                               <div>
-                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span className="me-4" onClick={() => {
+                              setToken2State({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
                                 <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
@@ -1086,7 +1269,16 @@ export default function differentchainbridge() {
                                 <p>Shibatoken</p>
                               </div>
                               <div>
-                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span className="me-4" onClick={() => {
+                              setToken2State({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
                                 <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
@@ -1101,7 +1293,16 @@ export default function differentchainbridge() {
                                 <p>Shibatoken</p>
                               </div>
                               <div>
-                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span className="me-4" onClick={() => {
+                              setToken2State({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
                                 <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
@@ -1116,7 +1317,16 @@ export default function differentchainbridge() {
                                 <p>Shibatoken</p>
                               </div>
                               <div>
-                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span className="me-4" onClick={() => {
+                              setToken2State({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
                                 <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
@@ -1131,7 +1341,16 @@ export default function differentchainbridge() {
                                 <p>Shibatoken</p>
                               </div>
                               <div>
-                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span className="me-4" onClick={() => {
+                              setToken2State({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
                                 <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
@@ -1140,7 +1359,7 @@ export default function differentchainbridge() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div>}
                 {/* new added token with delete action ends */}
                 
 

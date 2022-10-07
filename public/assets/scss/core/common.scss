@@ -1026,3 +1026,23 @@
         height: auto !important;
     }
 }
+
+.visVisible {
+    visibility: visible;
+    opacity: 1;
+}
+
+.visInvisible {
+    visibility: hidden;
+    opacity: 0;
+}
+.blackButton {
+    background-color: #0C0F17;
+    color: rgba(255, 255, 255, 0.89) !important;
+}
+
+.orangeButton {
+    background: linear-gradient(180deg, #F06500 0%, #F28B03 100%);
+    color: rgba(255, 255, 255, 0.89) !important;
+    font-weight: 600;
+}
