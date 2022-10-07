@@ -15,7 +15,6 @@ export default function HowitWorks() {
         <>
             <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg">
             <Header />
-            <StakingHeader />
                 <div className="py-xxl-5 py-sm-4 py-4">
                     <section className="container mb-xxl-5 mb-xl-4 mb-sm-3 mb-3">
                         <h1 className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2">Web Wallet Usage Guide</h1>
@@ -31,6 +30,7 @@ export default function HowitWorks() {
                         <p className="mt-2">Please refer to <a className="underline" href="javascript:void(0);">this guide</a> to learn how to connect Shibarium to Metamask.</p>
                         </div>
                     </section>
+
                     <section className="container mb-xxl-5 mb-xl-4 mb-sm-3 mb-3">
                         <h3 className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2">Logging into the Shibarium Wallet Suite</h3>
                         <p className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2">To log into the Shibarium Wallet Suite you need to access the following URL: <a className="underline" href="javascript:void(0);">https://wallet.Shibarium.technology/.</a>
