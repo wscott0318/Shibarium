@@ -6,6 +6,8 @@ import { useWeb3React } from "@web3-react/core";
 import ProjectContext from "../../context/ProjectContext";
 import Footer from "../../pages/footer/index"
 import { useActiveWeb3React } from "../../services/web3"
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 export default function Home() {
   // const {account}=useContext(ProjectContext)
@@ -252,7 +254,13 @@ export default function Home() {
                     <div className="shib-img mb-3">
                       <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
-                    <h4 className='shib-title mb-2 ff-mos'>Developer Resources</h4>
+                    <h4 className='shib-title mb-2 ff-mos'>
+                      <Link href="javascript:void(0)">
+                        <a>
+                          Developer Resources
+                        </a>
+                      </Link>
+                    </h4>
                     <p className="ff-mos">
                       Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum.
                     </p>
@@ -263,7 +271,13 @@ export default function Home() {
                     <div className="shib-img mb-3">
                       <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
-                    <h4 className='shib-title mb-2 ff-mos'>Join the Ecosystem</h4>
+                    <h4 className='shib-title mb-2 ff-mos'>
+                      <Link href="javascript:void(0)">
+                        <a>
+                          Join the Ecosystem
+                        </a>
+                      </Link>
+                    </h4>
                     <p className="ff-mos">
                       Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum.
                     </p>
@@ -274,7 +288,14 @@ export default function Home() {
                     <div className="shib-img mb-3">
                       <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
-                    <h4 className='shib-title mb-2 ff-mos'>Join the Community</h4>
+                    <h4 className='shib-title mb-2 ff-mos'>
+                      <Link href="javascript:void(0)">
+                        <a>
+                          Join the Community
+                        </a>
+                      </Link>
+                    </h4>
+                    
                     <p className="ff-mos">
                       Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum.
                     </p>
@@ -285,7 +306,13 @@ export default function Home() {
                     <div className="shib-img mb-3">
                       <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
-                    <h4 className='shib-title mb-2 ff-mos'>Secure the Network</h4>
+                    <h4 className='shib-title mb-2 ff-mos'>
+                      <Link href="javascript:void(0)">
+                        <a>
+                          Secure the Network
+                        </a>
+                      </Link>
+                    </h4>
                     <p className="ff-mos">
                       Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum.
                     </p>
@@ -302,45 +329,56 @@ export default function Home() {
             <div className="container">
               <ul className="shib-row">
                 <li className="shib-col">
-                  <div className="shib-item">
-                    <img className='img-fluid' src="../../images/instagram.png" alt="socail-icon" width={24} />
-                    <span className="ff-mos">Instagram</span>
-                  </div>
+                  <Link href="/">
+                    <a className="shib-item">
+                      <img className='img-fluid' src="../../images/instagram.png" alt="socail-icon" width={24} />
+                      <span className="ff-mos">Instagram</span>
+                    </a>
+                  </Link>
                 </li>
                 <li className="shib-col">
-                  <div className="shib-item">
-                    <img className='img-fluid' src="../../images/instagram.png" alt="socail-icon" width={24} />
-                    <span className="ff-mos">Instagram</span>
-                  </div>
+                  <Link href="javascript:void(0)" className="shib-item">
+                    <a className="shib-item">
+                      <img className='img-fluid' src="../../images/instagram.png" alt="socail-icon" width={24} />
+                      <span className="ff-mos">Instagram</span>
+                    </a>
+                  </Link>
                 </li>
                 <li className="shib-col">
-                  <div className="shib-item">
-                    <img className='img-fluid' src="../../images/instagram.png" alt="socail-icon" width={24} />
-                    <span className="ff-mos">Instagram</span>
-                  </div>
+                  <Link href="javascript:void(0)" className="shib-item">
+                    <a className="shib-item">
+                      <img className='img-fluid' src="../../images/instagram.png" alt="socail-icon" width={24} />
+                      <span className="ff-mos">Instagram</span>
+                    </a>
+                  </Link>
                 </li>
                 <li className="shib-col">
-                  <div className="shib-item">
-                    <img className='img-fluid' src="../../images/instagram.png" alt="socail-icon" width={24} />
-                    <span className="ff-mos">Instagram</span>
-                  </div>
+                  <Link href="javascript:void(0)" className="shib-item">
+                    <a className="shib-item">
+                      <img className='img-fluid' src="../../images/instagram.png" alt="socail-icon" width={24} />
+                      <span className="ff-mos">Instagram</span>
+                    </a>
+                  </Link>
                 </li>
                 <li className="shib-col">
-                  <div className="shib-item">
-                    <img className='img-fluid' src="../../images/instagram.png" alt="socail-icon" width={24} />
-                    <span className="ff-mos">Instagram</span>
-                  </div>
+                  <Link href="javascript:void(0)" className="shib-item">
+                    <a className="shib-item">
+                      <img className='img-fluid' src="../../images/instagram.png" alt="socail-icon" width={24} />
+                      <span className="ff-mos">Instagram</span>
+                    </a>
+                  </Link>
                 </li>
                 <li className="shib-col">
-                  <div className="shib-item">
-                    <img className='img-fluid' src="../../images/instagram.png" alt="socail-icon" width={24} />
-                    <span className="ff-mos">Instagram</span>
-                  </div>
+                  <Link href="javascript:void(0)" className="shib-item">
+                    <a className="shib-item">
+                      <img className='img-fluid' src="../../images/instagram.png" alt="socail-icon" width={24} />
+                      <span className="ff-mos">Instagram</span>
+                    </a>
+                  </Link>
                 </li>
               </ul>
             </div>
           </section>
-
         </div>
       </main>
       <footer className="main-footer primary-bg ff-mos">
@@ -353,9 +391,19 @@ export default function Home() {
                 </a>
               </div>
               <div className="col-6 text-end">
-                <a className='ff-mos' href="javascript:void(0)">
-                  English
-                </a>
+                <div className="dd-style">
+                  <DropdownButton
+                    align="end"
+                    title="English"
+                    id="dropdown-menu-align-end"
+                  >
+                    <Dropdown.Item eventKey="1">English</Dropdown.Item>
+                    <Dropdown.Item eventKey="2">English</Dropdown.Item>
+                    <Dropdown.Item eventKey="3">English</Dropdown.Item>
+                    <Dropdown.Item eventKey="3">English</Dropdown.Item>
+
+                  </DropdownButton>
+                </div>
               </div>
             </div>
           </div>

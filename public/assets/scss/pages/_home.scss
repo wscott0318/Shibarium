@@ -299,3 +299,23 @@
     }
 
 }
+.dd-style{
+    .btn-primary {
+        background: transparent;
+        color:$white;
+        border: 0;
+        &:hover{
+            background: transparent;
+            color:$white;
+            box-shadow: none;
+            border: 0;
+        }
+    }
+    .dropdown-menu{
+        background-color: $body-bg-800;
+        .dropdown-item{
+            background-color: rgba($body-bg-800,0.8);
+            color:$white;
+        }
+    }
+}
