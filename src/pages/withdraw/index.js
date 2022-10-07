@@ -409,7 +409,7 @@ export default function Withdraw() {
             
 
               {/* Select token popop starts */}
-                {/* <div className="popmodal-body tokn-popup no-ht">
+                <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="sec-search ng-16">
@@ -504,7 +504,7 @@ export default function Withdraw() {
                     </div>
                     
                   </div>
-                </div> */}
+                </div>
                 {/* Select token popop ends */}
 
 
@@ -712,7 +712,7 @@ export default function Withdraw() {
                 {/* Search popop ends */}
 
                 {/* new added token with delete action starts */}
-                 <div className="popmodal-body tokn-popup no-ht">
+                 {/* <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -823,7 +823,7 @@ export default function Withdraw() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* new added token with delete action ends */}
 
           </>

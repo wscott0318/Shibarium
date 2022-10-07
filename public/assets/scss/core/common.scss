@@ -94,6 +94,9 @@
 }
 .ng-16{
     margin-top: -16px !important;
+    @media #{$max-sm}{
+        margin-top: 0 !important;
+    }
 }
 // common space closed
 
