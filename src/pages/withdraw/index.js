@@ -72,7 +72,7 @@ export default function Withdraw() {
 
               {/* confirm deposit popop starts */}
 
-                { (dWState && depModalState.step0) &&  <div className="popmodal-body">
+                { (dWState && depModalState.step0) &&  <div className="popmodal-body no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg mt-0">
@@ -124,7 +124,7 @@ export default function Withdraw() {
 
                 {/* Transaction pending popup start */}
                 
-                {(dWState && depModalState.step1) &&   <div className="popmodal-body">
+                {(dWState && depModalState.step1) &&   <div className="popmodal-body no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg mt-0">
@@ -176,7 +176,7 @@ export default function Withdraw() {
 
 
 
-                {(dWState && depModalState.step2) &&   <div className="popmodal-body">
+                {(dWState && depModalState.step2) &&   <div className="popmodal-body no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg mt-0">
@@ -225,7 +225,7 @@ export default function Withdraw() {
             
 
               {/* Initialize withdraw popup start */}
-                {(withModalState.step0 && !dWState) && <div className="popmodal-body">
+                {(withModalState.step0 && !dWState) && <div className="popmodal-body no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg mt-0">
@@ -282,7 +282,7 @@ export default function Withdraw() {
                 {/* Initialize withdraw popup end */}
 
                 {/* Reaching checkpoint popup start */}
-                {(withModalState.step1 && !dWState) && <div className="popmodal-body">
+                {(withModalState.step1 && !dWState) && <div className="popmodal-body no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg">
@@ -342,7 +342,7 @@ export default function Withdraw() {
 
 
                 {/* checkpoint Reached popup start */}
-                  {(withModalState.step2 && !dWState) &&  <div className="popmodal-body">
+                  {(withModalState.step2 && !dWState) &&  <div className="popmodal-body no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg">
@@ -379,7 +379,7 @@ export default function Withdraw() {
                 {/* checkpoint Reached popup end */}
 
                 {/* Complete withdraw popup start */}
-                {(withModalState.step3 && !dWState) &&  <div className="popmodal-body">
+                {(withModalState.step3 && !dWState) &&  <div className="popmodal-body no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg">
@@ -438,7 +438,7 @@ export default function Withdraw() {
                 {/* Complete withdraw popup end */}
 
                 {/* withdraw complete popup start */}
-                 {(withModalState.step4 && !dWState) &&  <div className="popmodal-body">
+                 {(withModalState.step4 && !dWState) &&  <div className="popmodal-body no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg">
