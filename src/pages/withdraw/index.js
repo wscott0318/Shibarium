@@ -52,6 +52,8 @@ export default function Withdraw() {
     step0: true,
     step1: false,
     step2: false,
+    step3: false,
+    step4: false,
     title: "Select a Token",
   });
   return (
@@ -482,6 +484,7 @@ export default function Withdraw() {
             
 
               {/* Select token popop starts */}
+                {(showTokenModal && tokenState.step0) && 
                 <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
@@ -497,7 +500,16 @@ export default function Withdraw() {
                           <p>Token List</p>
                         </div>
                         <div className="token-btn-sec">
-                          <button type="button" className="btn primary-btn w-100">Manage Tokens</button>
+                          <button type="button" className="btn primary-btn w-100" onClick={()=>{
+                            setTokenState({
+                              step0: false,
+                              step1: true,
+                              step2: false,
+                              step3: false,
+                              step4: false,
+                              title: "Manage Token",
+                            });
+                          }}>Manage Tokens</button>
                         </div>
                       </div>
                     </div>
@@ -577,13 +589,13 @@ export default function Withdraw() {
                     </div>
                     
                   </div>
-                </div>
+                </div>}
                 {/* Select token popop ends */}
 
 
                 {/* Manage token popop starts */}
 
-                {/* <div className="popmodal-body tokn-popup no-ht">
+                {(showTokenModal && tokenState.step1) &&  <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -592,7 +604,16 @@ export default function Withdraw() {
                           <button type="button" className="btn btn-active w-100">Token Lists</button>
                         </div>
                         <div className="blk-width">
-                          <button type="button" className="btn w-100">Add token</button>
+                          <button type="button" className="btn w-100" onClick={()=>{
+                            setTokenState({
+                              step0: false,
+                              step1: false,
+                              step2: true,
+                              step3: false,
+                              step4: false,
+                              title: "Manage Token",
+                            });
+                          }}>Add token</button>
                         </div>
                       </div>
                     </div>
@@ -667,13 +688,13 @@ export default function Withdraw() {
                     </div>
                     
                   </div>
-                </div> */}
+                </div> }
 
                 {/* Manage token popop ends */}
 
                  {/* Add token popop starts */}
 
-                 {/* <div className="popmodal-body tokn-popup no-ht">
+                 {(showTokenModal && tokenState.step2) &&  <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -699,12 +720,12 @@ export default function Withdraw() {
                         </div>
                     </div>
                   </div>
-                </div> */}
+                </div> }
                 {/* Add token popop ends */}
 
                 {/* search popop starts */}
 
-                 {/* <div className="popmodal-body tokn-popup no-ht">
+                 {(showTokenModal && tokenState.step3) &&  <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -781,11 +802,11 @@ export default function Withdraw() {
                        </div>
                     </div>  
                   </div>
-                </div> */}
+                </div> }
                 {/* Search popop ends */}
 
                 {/* new added token with delete action starts */}
-                 {/* <div className="popmodal-body tokn-popup no-ht">
+                 {(showTokenModal && tokenState.step4) &&  <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -896,7 +917,7 @@ export default function Withdraw() {
                       </div>
                     </div>
                   </div>
-                </div> */}
+                </div> }
                 {/* new added token with delete action ends */}
 
           </>
@@ -990,7 +1011,17 @@ export default function Withdraw() {
                                       </div>
                                       <div className="field-grid row">
                                         <div className="col-sm-5 field-col">
-                                          <div className="form-field position-relative" onClick={() => setTokenModal(true)}>
+                                          <div className="form-field position-relative" onClick={() => {
+                                            setTokenModal(true);
+                                            setTokenState({
+                                              step0: true,
+                                              step1: false,
+                                              step2: false,
+                                              step3: false,
+                                              step4: false,
+                                              title: "Select a Token",
+                                            });
+                                            }}>
                                             <div className="">
                                               <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
                                             </div>
