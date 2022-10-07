@@ -250,7 +250,7 @@ export default function Withdraw() {
                       </div>
                       <div className="amt-section position-relative">
                         <div className="coin-blk">
-                          <div className="coin-sec"><img width="24" height="24" className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></div>
+                          <div className="coin-sec"><img width="24" height="24" className="img-fluid" src="../../images/red-bone.png" alt="" /></div>
                           <p>Estimation of GAS fee required</p>
                         </div>
                         <div>
@@ -307,7 +307,7 @@ export default function Withdraw() {
                       </div>
                       <div className="amt-section position-relative">
                         <div className="coin-blk">
-                          <div className="coin-sec"><img width="24" height="24" className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></div>
+                          <div className="coin-sec"><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
                           <p>Estimation of GAS fee required</p>
                         </div>
                         <div>
@@ -455,7 +455,7 @@ export default function Withdraw() {
                     <div className="pop-bottom">
                         <div className="text-section">
                           <h4 className="pop-hd-md">Transaction Completed</h4>
-                          <p>Transaction completed succesfully. Your Ethereum wallet Balance will be updated in few minute. In case of problems contact our <a title="Support"  href="javascript:void(0);" className="orange-txt">Support</a></p>
+                          <p className="lite-color">Transaction completed succesfully. Your Ethereum wallet Balance will be updated in few minute. In case of problems contact our <a title="Support"  href="javascript:void(0);" className="orange-txt">Support</a></p>
                         </div>
                         <div>
                           <a className='btn primary-btn w-100'  onClick={()=>setWithdrawModal(false)}>View on Shibascan</a>
