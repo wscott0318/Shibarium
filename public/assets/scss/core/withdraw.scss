@@ -243,7 +243,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 32px 0 24px;
+    margin: 25px 0 24px;
     @media #{$max-xxl}{
         margin: 30px 0 24px;
     }
@@ -534,10 +534,11 @@
 }
 .left-sec-img {
     position: absolute;
-    top: auto;
+    top: 50%;
     bottom: auto;
     left: auto;
     right: auto;
+    transform: translateY(-50%);
 }
 .text-block {
     padding-left: 65px;
@@ -567,12 +568,13 @@
     }
 }
 
-.row-wrap {
-    height: 210px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    margin-bottom: 10px;
-}
+// .row-wrap {
+//     height: 210px;
+//     overflow-y: auto;
+//     overflow-x: hidden;
+//     margin-bottom: 10px;
+    
+// }
 .grid-block {
     display: flex;
     justify-content: space-between;

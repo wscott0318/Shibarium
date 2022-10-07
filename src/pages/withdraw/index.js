@@ -52,7 +52,7 @@ export default function Withdraw() {
 
               {/* confirm deposit popop starts */}
 
-                {/* <div className="popmodal-body">
+                {/* <div className="popmodal-body no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg mt-0">
@@ -97,7 +97,7 @@ export default function Withdraw() {
 
                 {/* Transaction pending popup start */}
                 
-                {/* <div className="popmodal-body">
+                {/* <div className="popmodal-body no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg mt-0">
@@ -141,7 +141,7 @@ export default function Withdraw() {
 
 
 
-                {/* <div className="popmodal-body">
+                <div className="popmodal-body no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg mt-0">
@@ -165,7 +165,7 @@ export default function Withdraw() {
                         </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
 
 
                 {/* Transaction completed popup end */}
@@ -190,7 +190,7 @@ export default function Withdraw() {
             
 
               {/* Initialize withdraw popup start */}
-                <div className="popmodal-body">
+                <div className="popmodal-body no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg mt-0">
@@ -238,7 +238,7 @@ export default function Withdraw() {
                 {/* Initialize withdraw popup end */}
 
                 {/* Reaching checkpoint popup start */}
-                {/* <div className="popmodal-body">
+                {/* <div className="popmodal-body no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg">
@@ -288,7 +288,7 @@ export default function Withdraw() {
 
 
                 {/* checkpoint Reached popup start */}
-                  {/* <div className="popmodal-body">
+                  {/* <div className="popmodal-body no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg">
@@ -316,7 +316,7 @@ export default function Withdraw() {
                 {/* checkpoint Reached popup end */}
 
                 {/* Complete withdraw popup start */}
-                {/* <div className="popmodal-body">
+                {/* <div className="popmodal-body no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg">
@@ -365,7 +365,7 @@ export default function Withdraw() {
                 {/* Complete withdraw popup end */}
 
                 {/* withdraw complete popup start */}
-                 {/* <div className="popmodal-body">
+                 {/* <div className="popmodal-body no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg">
@@ -409,7 +409,7 @@ export default function Withdraw() {
             
 
               {/* Select token popop starts */}
-                {/* <div className="popmodal-body tokn-popup">
+                {/* <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="sec-search ng-16">
@@ -510,7 +510,7 @@ export default function Withdraw() {
 
                 {/* Manage token popop starts */}
 
-                <div className="popmodal-body tokn-popup">
+                {/* <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -594,13 +594,13 @@ export default function Withdraw() {
                     </div>
                     
                   </div>
-                </div>
+                </div> */}
 
                 {/* Manage token popop ends */}
 
                  {/* Add token popop starts */}
 
-                 {/* <div className="popmodal-body tokn-popup">
+                 {/* <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -631,7 +631,7 @@ export default function Withdraw() {
 
                 {/* search popop starts */}
 
-                 {/* <div className="popmodal-body tokn-popup">
+                 {/* <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -712,7 +712,7 @@ export default function Withdraw() {
                 {/* Search popop ends */}
 
                 {/* new added token with delete action starts */}
-                 {/* <div className="popmodal-body tokn-popup">
+                 <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -732,7 +732,7 @@ export default function Withdraw() {
                       </div>
                     </div>
                     </div>
-                    <div className="pop-bottom">
+                    <div className="pop-bottom pt-0">
                       <div className="">
                         <div className="grid-block">
                           <div className="blk-width">
@@ -759,12 +759,71 @@ export default function Withdraw() {
                               </div>
                             </div>
                           </div>
-                          
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
                 {/* new added token with delete action ends */}
 
           </>

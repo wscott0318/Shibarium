@@ -162,14 +162,12 @@ export default function Gastoken() {
                 show={showSwapModal}
                 setShow={setSwapModal}
             >
-                {/* review swap popup starts */}
-
-                <div className="popmodal-body">
+                {/* <div className="popmodal-body no-ht">
                     <div className="pop-block">
                         <div className="pop-top">
                             <div className="cnfrm_box dark-bg-800">
                                 <div className="top_overview col-12">
-                                    <span><img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></span>
+                                    <div className='img-flexible'><img class="img-fluid d-inline-block" src="../../images/shib-borderd-icon.png" alt="" /></div>
                                     <h6>1000 SHIB</h6>
                                     <p>2000.00$</p>
                                 </div>
@@ -191,45 +189,60 @@ export default function Gastoken() {
 
                         </div>
                         <div className="pop-bottom">
-                          
+                            <div className="amt-section position-relative ps-0">
+                                <div className="coin-blk">
+                                    <p className="lite-color">Slippage tollerance</p>
+                                </div>
+                                <div>
+                                    <p className="fw-bold">2%</p>
+                                </div>
+                            </div>
+                            <div className="amt-section position-relative ps-0">
+                                <div className="coin-blk">
+                                    <p className="lite-color">Powered By</p>
+                                </div>
+                                <div>
+                                    <p className="fw-bold">X-Funds</p>
+                                </div>
+                            </div>
                             <div className='btn-wrap'>
-                                <a className='btn primary-btn w-100' href="javascript:void(0)"><span>Confirm Swap</span></a>
+                            <div>
+                              <a className='btn primary-btn w-100' href="javascript:void(0)">Confirm Swap</a>
+                            </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                {/* review swap popup ends */}
+                </div> */}
 
-
-                {/* Transaction pending popup start*/}
-                {/* <div className="popmodal-body tokn-popup">
+                {/* Transaction Pending popup start*/}
+                {/* <div className="popmodal-body tokn-popup no-ht trans-mod">
                   <div className="pop-block">
                     <div className="pop-top">
                         <div className='dark-bg-800 h-100 status-sec'>
-                            <span>
-                                <div><span className="spinner-border text-secondary pop-spiner"></span></div>
-                            </span>
+                            <div>
+                                <span className='spiner-lg' >
+                                    <span className="spinner-border text-secondary pop-spiner"></span>
+                                </span>
+                            </div>
                             <p className='mt-5'>Sign the transaction in your wallet to complete the swap</p>
                         </div>
                     </div>
                     <div className="pop-bottom">
-                      <div className='staus-btn'>
-                        <button type='button' className='btn black-btn w-100'>Sign the message</button>
+                      <div className='btns-sec mt-0'>
+                        <button type='button' className='btn primary-btn w-100'>Sign the message</button>
                       </div>
                     </div>
                   </div>
                 </div> */}
-                {/* Transaction pending popup end*/}
+                {/* Transaction Pending popup start*/}
 
-                
-                {/* Transaction complete popup start*/}
-                {/* <div className="popmodal-body tokn-popup">
+                {/* Transaction Pending popup version 2 start*/}
+                <div className="popmodal-body tokn-popup no-ht trans-mod">
                   <div className="pop-block">
                     <div className="pop-top">
                         <div className='dark-bg-800 h-100 status-sec'>
                             <span>
-                                <div><img width="150" height="150" className="img-fluid" src="../../images/Ellipse.png" alt="" /></div>
+                                <div><img width="272" height="272" className="img-fluid" src="../../images/Ellipse.png" alt="" /></div>
                             </span>
                             <p className='mt-5'>Swap of ETH to SHIB</p>
                         </div>
@@ -240,8 +253,12 @@ export default function Gastoken() {
                       </div>
                     </div>
                   </div>
-                </div> */}
-                {/* Transaction complete popup end*/}
+                </div>
+                {/* Transaction Pending popup version 2 end*/}
+
+
+                                
+                
             </CommonModal>
 
             {/* modal code closed */}
