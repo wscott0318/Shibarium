@@ -263,4 +263,15 @@
         }
     }
 }
-/** Bone staking start **/
+.lft-txt{
+    @media #{$max-md}{
+        padding: 40px 0 0;
+        text-align: center;
+    }
+    .btns-wrap{
+        @media #{$max-md}{
+            width:100%;
+        } 
+    }
+}
+/** Bone staking end **/

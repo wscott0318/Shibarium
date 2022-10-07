@@ -46,10 +46,12 @@ export const Allvalidator: React.FC = () => {
             <div className="section-info">
               <div className="row align-items-center">
                 <div className="col-md-7 col-sm-12">
-                  <h1 className="mb-4">All Validators</h1>
-                  <div className="btns-sec mt-2">
-                    <div className="btns-wrap">
-                      <button className="btn primary-btn">Become a Validator</button>
+                  <div className="lft-txt">
+                    <h1 className="mb-2 mb-sm-3 mb-md-4">All Validators</h1>
+                    <div className="btns-sec mt-2">
+                      <div className="btns-wrap">
+                        <button className="btn primary-btn">Become a Validator</button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -66,7 +68,7 @@ export const Allvalidator: React.FC = () => {
 
         <section className="table-section top-pad bottom-pad">
           <div className="container">
-            <div className="filter-row">
+            <div className="filter-row mb-md-5 mb-sm-4 mb-3">
               <div className="left-section">
                 <input className="custum-search w-100" type="search " placeholder="Search by validator name, id" />
               </div>
@@ -102,7 +104,7 @@ export const Allvalidator: React.FC = () => {
               </div>
             </div>
             <div className="heading-sec mt-2 mb-2">
-              <h2 className="sub-head">List of active Validators</h2>
+              <h2 className="sub-head mb-sm-4 mb-3">List of active Validators</h2>
             </div>
             <div className="cmn_dasdrd_table">
               <div className="table-responsive">

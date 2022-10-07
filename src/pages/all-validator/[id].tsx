@@ -185,7 +185,7 @@ export default function ValidatorDetails() {
                                     </div>
                                 </div>
                                 <div className="h-auto p-4 mb-4 cus-card mb-lg-5">
-                                    <div className="table-data-tab">
+                                    {/* <div className="table-data-tab">
                                         <div className="btn-nav mb-4">
                                             <div className="nav nav-pills">
                                                 <div className="nav-item">
@@ -279,7 +279,96 @@ export default function ValidatorDetails() {
                                                 </tbody>
                                             </table>
                                         </div>
+                                    </div> */}
+                                    <div className="cmn_dasdrd_table">
+                                        <div className="table-responsive">
+                                            <table className="table table-borderless">
+                                            <thead>
+                                                <tr>
+                                                <th>Name</th>
+                                                <th>Stake</th>
+                                                <th>Checkpoints Signed</th>
+                                                <th>Commission</th>
+                                                <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                <td><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
+                                                <td>0.0000 - 0.00$</td>
+                                                <td><a href="#">Deposit</a></td>
+                                                <td><a href="#">Whitdraw</a></td>
+                                                <td><a className="sm-btn primary-btn" href="#">Send</a></td>
+                                                </tr>
+                                                <tr>
+                                                <td><span><img src="../../images/matic-round-icon.png" /></span><b>MATIC</b> - Shibarium</td>
+                                                <td>0.0000 - 0.00$</td>
+                                                <td><a href="#">Deposit</a></td>
+                                                <td><a href="#">Whitdraw</a></td>
+                                                <td><a className="sm-btn primary-btn" href="#">Send</a></td>
+                                                </tr>
+                                                <tr>
+                                                <td><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
+                                                <td>0.0000 - 0.00$</td>
+                                                <td><a href="#">Deposit</a></td>
+                                                <td><a href="#">Whitdraw</a></td>
+                                                <td><a className="sm-btn primary-btn" href="#">Send</a></td>
+                                                </tr>
+                                                <tr>
+                                                <td><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
+                                                <td>0.0000 - 0.00$</td>
+                                                <td><a href="#">Deposit</a></td>
+                                                <td><a href="#">Whitdraw</a></td>
+                                                <td><a className="sm-btn primary-btn" href="#">Send</a></td>
+                                                </tr>
+                                            </tbody>
+                                            </table>
+                                        </div>
                                     </div>
+                                    <div className="cstm_pagination">
+                                        <div className="pag_con">
+                                            <div className="left_block">
+                                            <span>
+                                                <img
+                                                src="../../images/download-icon.png"
+                                                className="img-fluid"
+                                                />
+                                            </span>
+                                            <b>Download CSV</b>
+                                            </div>
+                                            <div className="right_block">
+                                            <nav aria-label="Page navigation example">
+                                                <ul className="pagination">
+                                                <li className="page-item">
+                                                    <a className="page-link" href="#">
+                                                    Previous
+                                                    </a>
+                                                </li>
+                                                <li className="page-item">
+                                                    <a className="page-link" href="#">
+                                                    1
+                                                    </a>
+                                                </li>
+                                                <li className="page-item">
+                                                    <a className="page-link" href="#">
+                                                    2
+                                                    </a>
+                                                </li>
+                                                <li className="page-item">
+                                                    <a className="page-link" href="#">
+                                                    3
+                                                    </a>
+                                                </li>
+                                                <li className="page-item">
+                                                    <a className="page-link" href="#">
+                                                    Next
+                                                    </a>
+                                                </li>
+                                                </ul>
+                                            </nav>
+                                            </div>
+                                    </div>
+                </div>
                                 </div>
                                 {/* Delegation tabs start */}
                                 {/* <Delegators allDelegators={allDelegators} boneUsdValue={boneUsdValue}/> */}
