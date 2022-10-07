@@ -154,7 +154,7 @@ export default function differentchainbridge() {
                 show={showSlippageModal}
                 setShow={setSlippageModal}
             >
-                <div className='modal-body fix-vh d-flex flex-column justify-content-between mt-3'>
+                <div className='modal-body fix-vh d-flex flex-column justify-content-between mt-0'>
                     <div className="top-area">
                         <ul className='badges-list'>
                             <li className='badges-lst-item'>
@@ -181,12 +181,13 @@ export default function differentchainbridge() {
 
             {/* modal code start */}
 
+            {/* Review model code start */}
             <CommonModal
                 title={"Review Swap"}
                 show={showSwapModal}
                 setShow={setSwapModal}
             >
-                <div className="popmodal-body cus-ht">
+                {/* <div className="popmodal-body no-ht">
                     <div className="pop-block">
                         <div className="pop-top">
                             <div className="cnfrm_box dark-bg-800">
@@ -236,10 +237,10 @@ export default function differentchainbridge() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 {/* Transaction Pending popup start*/}
-                {/* <div className="popmodal-body tokn-popup">
+                {/* <div className="popmodal-body tokn-popup no-ht trans-mod">
                   <div className="pop-block">
                     <div className="pop-top">
                         <div className='dark-bg-800 h-100 status-sec'>
@@ -252,7 +253,7 @@ export default function differentchainbridge() {
                         </div>
                     </div>
                     <div className="pop-bottom">
-                      <div className='btns-sec'>
+                      <div className='btns-sec mt-0'>
                         <button type='button' className='btn primary-btn w-100'>Sign the message</button>
                       </div>
                     </div>
@@ -261,12 +262,12 @@ export default function differentchainbridge() {
                 {/* Transaction Pending popup start*/}
 
                 {/* Transaction Pending popup version 2 start*/}
-                {/* <div className="popmodal-body tokn-popup">
+                <div className="popmodal-body tokn-popup no-ht trans-mod">
                   <div className="pop-block">
                     <div className="pop-top">
                         <div className='dark-bg-800 h-100 status-sec'>
                             <span>
-                                <div><img width="150" height="150" className="img-fluid" src="../../images/Ellipse.png" alt="" /></div>
+                                <div><img width="272" height="272" className="img-fluid" src="../../images/Ellipse.png" alt="" /></div>
                             </span>
                             <p className='mt-5'>Swap of ETH to SHIB</p>
                         </div>
@@ -277,12 +278,15 @@ export default function differentchainbridge() {
                       </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
                 {/* Transaction Pending popup version 2 end*/}
 
 
 
             </CommonModal>
+            {/* Review model code end */}
+
+            {/* Token popup code start */}
             <CommonModal
                 title={"Select Token"}
                 show={showTokenModal}
@@ -291,10 +295,10 @@ export default function differentchainbridge() {
                {/* Token popups start */}     
 
                 {/* Select token popop starts */}
-                <div className="popmodal-body tokn-popup">
+                {/* <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
-                    <div className="sec-search">
+                    <div className="sec-search ng-16">
                       <div className="position-relative search-row">
                         <input type="text" className="w-100" placeholder="Search token or token address" />
                         <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
@@ -386,12 +390,13 @@ export default function differentchainbridge() {
                     </div>
                     
                   </div>
-                </div>
+                </div> */}
                 {/* Select token popop ends */}
 
 
                 {/* Manage token popop starts */}
-                {/* <div className="popmodal-body tokn-popup">
+
+                {/* <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -410,10 +415,7 @@ export default function differentchainbridge() {
                         <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
                       </div>
                     </div>
-                    </div>
-                    <div className="pop-bottom">
-                      <div className="">
-                        <div className="token-listwrap">
+                    <div className="token-listwrap">
                           <div className="tokn-row">
                             <div className="cryoto-box">
                               <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
@@ -475,23 +477,25 @@ export default function differentchainbridge() {
                             </div>
                           </div>
                         </div>
-                      </div>
                     </div>
+                    
                   </div>
                 </div> */}
+
                 {/* Manage token popop ends */}
 
                  {/* Add token popop starts */}
-                 {/* <div className="popmodal-body tokn-popup">
+
+                 {/* <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
                       <div className="token-btn-sec pop-btns-grid"> 
                         <div className="blk-width">
-                          <button type="button" className="btn  w-100">Token Lists</button>
+                          <button type="button" className="btn btn-active w-100">Token Lists</button>
                         </div>
                         <div className="blk-width">
-                          <button type="button" className="btn btn-active w-100">Add token</button>
+                          <button type="button" className="btn w-100">Add token</button>
                         </div>
                       </div>
                     </div>
@@ -512,7 +516,8 @@ export default function differentchainbridge() {
                 {/* Add token popop ends */}
 
                 {/* search popop starts */}
-                 {/* <div className="popmodal-body tokn-popup">
+
+                 {/* <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -593,7 +598,7 @@ export default function differentchainbridge() {
                 {/* Search popop ends */}
 
                 {/* new added token with delete action starts */}
-                {/* <div className="popmodal-body tokn-popup">
+                <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -613,7 +618,7 @@ export default function differentchainbridge() {
                       </div>
                     </div>
                     </div>
-                    <div className="pop-bottom">
+                    <div className="pop-bottom pt-0">
                       <div className="">
                         <div className="grid-block">
                           <div className="blk-width">
@@ -640,17 +645,79 @@ export default function differentchainbridge() {
                               </div>
                             </div>
                           </div>
-                          
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
                 {/* new added token with delete action ends */}
-
+                
 
                 {/* Token popups end */}
             </CommonModal>
+            {/* Token popup code end */}
+
+            {/* Token popup code start */}
             <CommonModal
                 title={"Select Token"}
                 show={showTokentwoModal}
@@ -659,10 +726,10 @@ export default function differentchainbridge() {
                {/* Token popups start */}     
 
                 {/* Select token popop starts */}
-                <div className="popmodal-body tokn-popup">
+                {/* <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
-                    <div className="sec-search">
+                    <div className="sec-search ng-16">
                       <div className="position-relative search-row">
                         <input type="text" className="w-100" placeholder="Search token or token address" />
                         <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
@@ -754,12 +821,13 @@ export default function differentchainbridge() {
                     </div>
                     
                   </div>
-                </div>
+                </div> */}
                 {/* Select token popop ends */}
 
 
                 {/* Manage token popop starts */}
-                {/* <div className="popmodal-body tokn-popup">
+
+                {/* <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -778,10 +846,7 @@ export default function differentchainbridge() {
                         <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
                       </div>
                     </div>
-                    </div>
-                    <div className="pop-bottom">
-                      <div className="">
-                        <div className="token-listwrap">
+                    <div className="token-listwrap">
                           <div className="tokn-row">
                             <div className="cryoto-box">
                               <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
@@ -843,14 +908,16 @@ export default function differentchainbridge() {
                             </div>
                           </div>
                         </div>
-                      </div>
                     </div>
+                    
                   </div>
                 </div> */}
+
                 {/* Manage token popop ends */}
 
                  {/* Add token popop starts */}
-                 {/* <div className="popmodal-body tokn-popup">
+
+                 {/* <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -880,7 +947,8 @@ export default function differentchainbridge() {
                 {/* Add token popop ends */}
 
                 {/* search popop starts */}
-                 {/* <div className="popmodal-body tokn-popup">
+
+                 {/* <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -961,7 +1029,7 @@ export default function differentchainbridge() {
                 {/* Search popop ends */}
 
                 {/* new added token with delete action starts */}
-                {/* <div className="popmodal-body tokn-popup">
+                <div className="popmodal-body tokn-popup no-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="black-bg-sec">
@@ -981,7 +1049,7 @@ export default function differentchainbridge() {
                       </div>
                     </div>
                     </div>
-                    <div className="pop-bottom">
+                    <div className="pop-bottom pt-0">
                       <div className="">
                         <div className="grid-block">
                           <div className="blk-width">
@@ -1008,18 +1076,78 @@ export default function differentchainbridge() {
                               </div>
                             </div>
                           </div>
-                          
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
                 {/* new added token with delete action ends */}
+                
 
 
                 {/* Token popups end */}
             </CommonModal>
-
+            {/* Token popup code end */}
             {/* modal code closed */}
         </>
     )

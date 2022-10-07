@@ -1,13 +1,15 @@
 .status-sec {
-    padding: 25px 15px;
+    padding: 38px 15px;
     text-align: center;
-    margin-top: 10px;
     border-radius:10px;
     -webkit-border-radius: 10px;
     -o-border-radius: 10px;
     -ms-border-radius: 10px;
     -moz-border-radius: 10px;
     img{
+        @media #{$max-xxl}{
+            width: 190px;
+        }
         @media #{$max-lg}{
             width: 100px;
         }

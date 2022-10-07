@@ -94,6 +94,9 @@
 }
 .ng-16{
     margin-top: -16px !important;
+    @media #{$max-sm}{
+        margin-top: 0 !important;
+    }
 }
 // common space closed
 
@@ -977,11 +980,46 @@
     @media #{$max-xl}{
         height: 180px;
     }
-    @media #{$max-xl}{
+    @media #{$max-lg}{
         height: 160px;
     }
 }
-
+.popmodal-body.no-ht{
+    min-height: 100%;
+    .pop-block{
+        height: 100%;
+    }
+    .pop-bottom{
+        padding-top: 80px;
+        @media #{$max-xxl}{
+            padding-top: 50px;
+        }
+        @media #{$max-xl}{
+            padding-top: 40px;
+        }
+        @media #{$max-lg}{
+            padding-top: 30px;
+        }
+    }
+}
+.tokn-popup.no-ht{
+    .pop-bottom{
+        padding-top: 40px;
+        @media #{$max-lg}{
+            padding-top: 30px;
+        }
+    }
+}
+.tokn-popup.no-ht.trans-mod{
+    .pop-bottom{
+        padding-top: 15px;
+    }
+}
+.status-sec{
+    p{
+        font-weight: 600;
+    }
+}
 
 .login_outr{
     button{
