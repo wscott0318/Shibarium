@@ -220,6 +220,9 @@
     right: auto;
     top: auto;
     bottom: auto;
+    @media #{$max-lg}{
+        max-width:40px;
+    }
     @media #{$max-md}{
         position: initial;
         width: 100%;
@@ -230,10 +233,14 @@
 .head-txt {
     width: 100%;
     padding-left: 80px;
+    @media #{$max-lg}{
+        padding-left: 40px;
+    }
     @media #{$max-md}{
         padding-left: 0;
     }
 }
+
 .top-txt {
     display: flex;
     justify-content: space-between;
@@ -1024,5 +1031,11 @@
 .login_outr{
     button{
         height: auto !important;
+    }
+}
+
+.popmodal-body {
+    .token-ht {
+        min-height: 300px;
     }
 }

@@ -60,9 +60,36 @@
         color: $white !important;
     }
     .btn-status{
+        position: relative;
         .btn-primary{
             display: flex;
             align-items: center;
+        }
+        .dropdown {
+            position: absolute;
+            top: 50%;
+            right: -8px;
+            z-index: 99;
+            background: transparent;
+            transform: translateY(-50%);
+            height: 100%;
+            .dropdown-toggle::after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                -webkit-transform: translateY(-50%);
+                transform: translateY(-50%) rotate(45deg);
+                right: 10px;
+                width: 10px;
+                height: 10px;
+                border: 2px solid;
+                border-top: 0;
+                border-left: 0;
+                margin-top: -3px;
+            }
+        }
+        .flex{
+            flex-direction: row-reverse;
         }
         button{
             background-color: $primary !important;
@@ -77,10 +104,12 @@
             font-weight: 500;
             font-size: 18px;
             padding: 13px 22px !important;
+            padding-right: 30px !important;
             height: 100%;
             cursor: pointer;
             @media #{$max-xxl}{
                 padding: 12px 20px !important;
+                padding-right: 30px !important;
                 font-size: 16px;
             }
             @media #{$max-xl}{
@@ -110,6 +139,12 @@
     }
     .navbar-nav .dropdown-menu {
         position: absolute;
+        top: 100%;
+        @media #{$max-lg}{
+            top: 100%;
+            right: 100%;
+            left: auto;
+        }
     }
 }
 .staking-header{
