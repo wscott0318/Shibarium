@@ -243,6 +243,7 @@ export default function Home() {
           {/* Bone section end */}
 
           {/* shib community section start */}
+
           <section className='shib-comun-section bottom-pad grid-pad'>
             <div className="container">
               <div className="text-center">
@@ -321,6 +322,7 @@ export default function Home() {
               </div>
             </div>
           </section>
+
           {/* shib community section end */}
 
           {/* shib social section start*/}
@@ -379,6 +381,10 @@ export default function Home() {
               </ul>
             </div>
           </section>
+          
+          {/* shib social section End*/ }
+          
+          
         </div>
       </main>
       <footer className="main-footer primary-bg ff-mos">
@@ -418,26 +424,6 @@ export default function Home() {
                         Link 1
                       </a>
                     </li>
-                    <li className='footer-lst-item'>
-                      <a className="ftr-link ff-mos" href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a href="javascript:void(0)" className="ftr-link ff-mos">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a href="javascript:void(0)" className="ftr-link ff-mos">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a href="javascript:void(0)" className="ftr-link ff-mos">
-                        Link 1
-                      </a>
-                    </li>
                   </ul>
                 </div>
               </div>
@@ -450,26 +436,6 @@ export default function Home() {
                         Link 1
                       </a>
                     </li>
-                    <li className='footer-lst-item'>
-                      <a className="ftr-link ff-mos" href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a className="ftr-link ff-mos" href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a className="ftr-link ff-mos" href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a className="ftr-link ff-mos" href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
                   </ul>
                 </div>
               </div>
@@ -477,26 +443,6 @@ export default function Home() {
                 <div className='bottom-item'>
                   <h6 className='mb-3 uc ff-mos'>Category</h6>
                   <ul className='footer-list'>
-                    <li className='footer-lst-item'>
-                      <a className="ftr-link ff-mos" href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a className="ftr-link ff-mos" href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a className="ftr-link ff-mos" href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a className="ftr-link ff-mos" href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
                     <li className='footer-lst-item'>
                       <a className="ftr-link ff-mos" href="javascript:void(0)">
                         Link 1
@@ -509,26 +455,6 @@ export default function Home() {
                 <div className='bottom-item'>
                   <h6 className='mb-3 uc'>Category</h6>
                   <ul className='footer-list'>
-                    <li className='footer-lst-item'>
-                      <a className="ftr-link ff-mos" href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a className="ftr-link ff-mos" href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a className="ftr-link ff-mos" href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='footer-lst-item'>
-                      <a className="ftr-link ff-mos" href="javascript:void(0)">
-                        Link 1
-                      </a>
-                    </li>
                     <li className='footer-lst-item'>
                       <a className="ftr-link ff-mos" href="javascript:void(0)">
                         Link 1
