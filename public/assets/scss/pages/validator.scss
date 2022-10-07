@@ -31,6 +31,8 @@
     }
     .btns_sec{
         margin-top: 50px;
+        display: flex;
+        justify-content: center;
         @media #{$max-xxl}{
             margin-top: 30px;
         }
