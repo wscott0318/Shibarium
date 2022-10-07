@@ -45,9 +45,11 @@ export default function HowitWorks() {
                         </ul>
                         <p>Click on the Shibarium Wallet or Shibarium Bridge, and you will see all your token
                         balances on the Shibarium Wallet across the bridges(PoS and Plasma).</p>
+                        <br/>
                         <div className="image-section">
-                            <div><img width="600" height="600" className="img-fluid" src="../../images/blank.jpg" alt="check-icon"/></div>
+                            <div><img  className="img-fluid" src="../../images/500x500.png" alt="check-icon"/></div>
                         </div>
+                        <br/>
                         <div class="cus-alerbox">
                         <div className="d-flex align-items-center">
                             <div className="d-inline-block me-2">
@@ -63,8 +65,9 @@ export default function HowitWorks() {
                     <section className="container mb-xxl-5 mb-xl-4 mb-sm-3 mb-3">
                         <h3 className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2">Depositing Funds from Ethereum to Shibarium</h3>
                         <p className="">You can either watch the video tutorial below or follow the step-by-step guide.</p>
+                        <br/>
                         <div className="image-section">
-                            <div><img className="img-fluid" src="../../images/blank.jpg" alt="check-icon" width={300}/></div>
+                            <div><img className="img-fluid" src="../../images/blank.jpg" alt="check-icon" width={400}/></div>
                         </div>
                     </section>
                 </div>
