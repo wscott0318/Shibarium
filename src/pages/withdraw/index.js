@@ -30,10 +30,30 @@ export default function Withdraw() {
   const [showDepositModal, setDepositModal] = useState(false);
   const [showWithdrawModal, setWithdrawModal] = useState(false);
   const [showTokenModal, setTokenModal] = useState(false);
- 
+  const [dWState,setDWState] = useState(false);
   const handleMenuState = () => {
     setMenuState(false)
   }
+  const [withModalState, setWidModState] = useState({
+    step0: true,
+    step1: false,
+    step2: false,
+    step3: false,
+    step4: false,
+    title:"Initialize Withdraw"
+  });
+  const [depModalState, setDepModState] = useState({
+    step0: true,
+    step1: false,
+    step2: false,
+    title:"Confirm deposit"
+  });
+  const [tokenState, setTokenState] = useState({
+    step0: true,
+    step1: false,
+    step2: false,
+    title: "Select a Token",
+  });
   return (
     <>
          <main className="main-content">
@@ -41,7 +61,7 @@ export default function Withdraw() {
           {/* modal code start */}
           {/* Deposit popup start */}
           <CommonModal
-          title={"Deposit"}
+          title={depModalState.title}
           show={showDepositModal}
           setShow={setDepositModal}
           externalCls="dark-modal-100"
@@ -52,7 +72,7 @@ export default function Withdraw() {
 
               {/* confirm deposit popop starts */}
 
-                {/* <div className="popmodal-body no-ht">
+                { (dWState && depModalState.step0) &&  <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg mt-0">
@@ -87,17 +107,24 @@ export default function Withdraw() {
                     </div>
                     <div className="pop-bottom">
                       <div>
-                            <a className='btn primary-btn w-100' href="javascript:void(0)">Continue</a>
+                            <a className='btn primary-btn w-100'  onClick={()=>{
+                            setDepModState({
+                              step0: false,
+                              step1: true,
+                              step2: false,
+                              title:"Transaction Pending"
+                            });
+                          }}>Continue</a>
                           </div>
                     </div>
                   </div>
-                </div> */}
+                </div> }
 
                 {/* confirm deposit popop ends */}
 
                 {/* Transaction pending popup start */}
                 
-                {/* <div className="popmodal-body no-ht">
+                {(dWState && depModalState.step1) &&   <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg mt-0">
@@ -128,11 +155,19 @@ export default function Withdraw() {
                           <p>It will take up to 10 - 15 minutes to move the funds on Shibarium Mainnet</p>
                         </div>
                         <div>
-                          <a className='btn grey-btn w-100' href="javascript:void(0)"><span className="spinner-border text-secondary pop-spiner"></span><span>Continue</span></a>
+                          <a className='btn grey-btn w-100' href="javascript:void(0)"><span className="spinner-border text-secondary pop-spiner"></span>
+                          <span onClick={()=>{
+                            setDepModState({
+                              step0: false,
+                              step1: false,
+                              step2: true,
+                              title:"Transaction Completed"
+                            });
+                          }}>Continue</span></a>
                         </div>
                     </div>
                   </div>
-                </div> */}
+                </div> }
 
 
                 {/* Transaction pending popup end */}
@@ -141,7 +176,7 @@ export default function Withdraw() {
 
 
 
-                <div className="popmodal-body no-ht">
+                {(dWState && depModalState.step2) &&   <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg mt-0">
@@ -161,11 +196,11 @@ export default function Withdraw() {
                           <p>Transaction completed succesfully.</p>
                         </div>
                         <div>
-                          <a className='btn primary-btn w-100' href="javascript:void(0)">View on Shibascan</a>
+                          <a className='btn primary-btn w-100' onClick={()=>setDepositModal(false)}>View on Shibascan</a>
                         </div>
                     </div>
                   </div>
-                </div>
+                </div> }
 
 
                 {/* Transaction completed popup end */}
@@ -180,7 +215,7 @@ export default function Withdraw() {
 
           {/* Withdraw popups start */}
           <CommonModal
-          title={"Withdraw"}
+          title={withModalState.title}
           show={showWithdrawModal}
           setShow={setWithdrawModal}
           externalCls="dark-modal-100"
@@ -190,7 +225,7 @@ export default function Withdraw() {
             
 
               {/* Initialize withdraw popup start */}
-                <div className="popmodal-body no-ht">
+                {(withModalState.step0 && !dWState) && <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg mt-0">
@@ -229,16 +264,25 @@ export default function Withdraw() {
                         <p>It will take up to 60 mins to 3 hours to reach the checkpoint. </p>
                       </div>
                       <div>
-                          <a className='btn primary-btn w-100' href="javascript:void(0)">Continue</a>
+                          <a className='btn primary-btn w-100' onClick={() =>
+                          setWidModState({
+                            step0: false,
+                            step1: true,
+                            step2: false,
+                            step3: false,
+                            step4: false,
+                            title:"Reaching Checkpoint I"
+                          })
+                        }>Continue</a>
                         </div>
                     </div>
                   </div>
-                </div>
+                </div>}
 
                 {/* Initialize withdraw popup end */}
 
                 {/* Reaching checkpoint popup start */}
-                {/* <div className="popmodal-body no-ht">
+                {(withModalState.step1 && !dWState) && <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg">
@@ -278,17 +322,27 @@ export default function Withdraw() {
                       </div>
                       <div>
                           <a className='btn grey-btn w-100' href="javascript:void(0)">
-                            <span className="spinner-border text-secondary pop-spiner"></span><span>Moving funds</span>
+                            <span className="spinner-border text-secondary pop-spiner"></span>
+                            <span onClick={() =>
+                          setWidModState({
+                            step0: false,
+                            step1: false,
+                            step2: true,
+                            step3: false,
+                            step4: false,
+                            title:"Checkpoint I reached"
+                          })
+                        }>Moving funds</span>
                           </a>
                         </div>
                     </div>
                   </div>
-                </div> */}
+                </div> }
                 {/* Reaching checkpoint  popup end */}
 
 
                 {/* checkpoint Reached popup start */}
-                  {/* <div className="popmodal-body no-ht">
+                  {(withModalState.step2 && !dWState) &&  <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg">
@@ -308,15 +362,24 @@ export default function Withdraw() {
                           <p>You need to confirm one more transaction to get your funds in your Ethereum Account.</p>
                         </div>
                         <div>
-                          <a className='btn primary-btn w-100' href="javascript:void(0)">Confirm</a>
+                          <a className='btn primary-btn w-100' onClick={() =>
+                          setWidModState({
+                            step0: false,
+                            step1: false,
+                            step2: false,
+                            step3: true,
+                            step4: false,
+                            title:"Complete Withdraw"
+                          })
+                        }>Confirm</a>
                         </div>
                     </div>
                   </div>
-                </div> */}
+                </div> }
                 {/* checkpoint Reached popup end */}
 
                 {/* Complete withdraw popup start */}
-                {/* <div className="popmodal-body no-ht">
+                {(withModalState.step3 && !dWState) &&  <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg">
@@ -356,16 +419,26 @@ export default function Withdraw() {
                       </div>
                       <div>
                         <a className='btn grey-btn w-100' href="javascript:void(0)">
-                          <span className="spinner-border text-secondary pop-spiner"></span><span>Moving funds</span>
+                          <span className="spinner-border text-secondary pop-spiner"></span>
+                          <span onClick={() =>
+                          setWidModState({
+                            step0: false,
+                            step1: false,
+                            step2: false,
+                            step3: false,
+                            step4: true,
+                            title:"Withdraw Complete"
+                          })
+                        }>Moving funds</span>
                         </a>
                       </div>
                     </div>
                   </div>
-                </div> */}
+                </div> }
                 {/* Complete withdraw popup end */}
 
                 {/* withdraw complete popup start */}
-                 {/* <div className="popmodal-body no-ht">
+                 {(withModalState.step4 && !dWState) &&  <div className="popmodal-body">
                   <div className="pop-block">
                     <div className="pop-top">
                       <div className="cnfrm_box dark-bg">
@@ -385,11 +458,11 @@ export default function Withdraw() {
                           <p>Transaction completed succesfully. Your Ethereum wallet Balance will be updated in few minute. In case of problems contact our <a title="Support"  href="javascript:void(0);" className="orange-txt">Support</a></p>
                         </div>
                         <div>
-                          <a className='btn primary-btn w-100' href="javascript:void(0)">View on Shibascan</a>
+                          <a className='btn primary-btn w-100'  onClick={()=>setWithdrawModal(false)}>View on Shibascan</a>
                         </div>
                     </div>
                   </div>
-                </div> */}
+                </div>}
                 {/* withdraw complete popup start */}
 
           </>
@@ -890,12 +963,12 @@ export default function Withdraw() {
                       <div className="block-card d-flex flex-column justify-content-between">
                           <div className="tab-sec botom-spcing">
                             <ul className="tab-links">
-                              <li><a className="tb-link tab-active" href="javascript:void(0);">Deposit</a></li>
-                              <li><a className="tb-link" href="javascript:void(0);">Withdraw</a></li>
+                              <li><a className={`tb-link ${dWState && "tab-active"}`} onClick={()=>setDWState(true)}>Deposit</a></li>
+                              <li><a className={`tb-link ${!dWState && "tab-active"}`} onClick={()=>setDWState(false)}>Withdraw</a></li>
                             </ul>
                           </div>
                           {/* Deposit tab content section start */}
-                          <div className="tab-content-sec h-100">
+                          { dWState && <div className="tab-content-sec h-100">
                             <form className="h-100">
                                 <div className="sec-wrapper">
                                   <div className="wrap-top">
@@ -961,16 +1034,24 @@ export default function Withdraw() {
                                   </div>
                                   <div className="wrap-bottom">
                                     <div className="btn-modify">
-                                      <button onClick={() => setWithdrawModal(true)} type="button" className="btn primary-btn w-100">Transfer</button>
+                                      <button onClick={() => {
+                                        setDepModState({
+                                          step0: true,
+                                          step1: false,
+                                          step2: false,
+                                          title:"Confirm deposit"
+                                        });
+                                        setDepositModal(true);
+                                        }} type="button" className="btn primary-btn w-100">Transfer</button>
                                     </div>
                                   </div>
                                 </div>
                             </form>
-                          </div>
+                          </div>}
                           {/* Deposit tab content section end */}
 
                           {/* Withdraw tab content section start */}
-                          {/* <div className="tab-content-sec h-100">
+                          { !dWState && <div className="tab-content-sec h-100">
                             <form className="h-100">
                                 <div className="sec-wrapper">
                                   <div className="wrap-top">
@@ -1036,12 +1117,22 @@ export default function Withdraw() {
                                   </div>
                                   <div className="wrap-bottom">
                                     <div className="btn-modify">
-                                      <button onClick={() => setDepositModal(true)} type="button" className="btn primary-btn w-100">Transfer</button>
+                                      <button onClick={() => {
+                                       setWithdrawModal(true);
+                                        setWidModState({
+                                          step0: true,
+                                          step1: false,
+                                          step2: false,
+                                          step3: false,
+                                          step4: false,
+                                          title: "Initialize Withdraw",
+                                        });
+                                        }} type="button" className="btn primary-btn w-100">Transfer</button>
                                     </div>
                                   </div>
                                 </div>
                             </form>
-                          </div> */}
+                          </div> }
                           {/* Withdraw   tab content section end */}
                       </div> 
                     </div>
