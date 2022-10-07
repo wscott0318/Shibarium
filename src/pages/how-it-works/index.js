@@ -46,7 +46,7 @@ export default function HowitWorks() {
                         <p>Click on the Shibarium Wallet or Shibarium Bridge, and you will see all your token
                         balances on the Shibarium Wallet across the bridges(PoS and Plasma).</p>
                         <div className="image-section">
-                            <div><img className="img-fluid" src="../../images/blank.jpg" alt="check-icon"/></div>
+                            <div><img width="600" height="600" className="img-fluid" src="../../images/blank.jpg" alt="check-icon"/></div>
                         </div>
                         <div class="cus-alerbox">
                         <div className="d-flex align-items-center">
