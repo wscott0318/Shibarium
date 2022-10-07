@@ -1017,6 +1017,27 @@
         }
     }
 }
+.amt-txt {
+    font-size: 14px;
+    font-weight: 600;
+}
+.sm-btn {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.cmn_dasdrd_table.dt-table{
+    .table{
+        td{
+            span{
+                @media #{$max-xsm}{
+                    max-width: initial;
+                }
+            }
+        }
+    }
+    
+}
 .tokn-popup.no-ht.trans-mod{
     .pop-bottom{
         padding-top: 15px;

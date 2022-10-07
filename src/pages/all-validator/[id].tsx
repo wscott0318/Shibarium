@@ -185,99 +185,159 @@ export default function ValidatorDetails() {
                                     </div>
                                 </div>
                                 <div className="h-auto p-4 mb-4 cus-card mb-lg-5">
-                                    <div className="table-data-tab">
-                                        <div className="btn-nav mb-4">
-                                            <div className="nav nav-pills">
-                                                <div className="nav-item">
-                                                    <h4 className="active fwb">
-                                                        <span className="trs-2">Delegator</span>
-                                                    </h4>
-                                                </div>
+                                    
+                                    <h3 className="mb-2 mb-sm-4">Delegator</h3>
+                                    <div className="cmn_dasdrd_table dt-table">
+                                        <div className="table-responsive">
+                                            <table className="table table-borderless">
+                                            <thead>
+                                                <tr>
+                                                <th>Accounts</th>
+                                                <th>Bone Staked</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><span><img src="../../images/shiba-round-icon.png" /></span><span className="word-br">0xc3E9adc34bFD50bB99E8D0fD4846360D2557c0cb</span></td>
+                                                    <td><span className="amt-value pe-1">91.4512821127219</span><span className="amt-txt pe-1">$ 98.13</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span><img src="../../images/shiba-round-icon.png" /></span><span className="word-br">0xc3E9adc34bFD50bB99E8D0fD4846360D2557c0cb</span></td>
+                                                    <td><span className="amt-value pe-1">91.4512821127219</span><span className="amt-txt pe-1">$ 98.13</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span><img src="../../images/shiba-round-icon.png" /></span><span className="word-br">0xc3E9adc34bFD50bB99E8D0fD4846360D2557c0cb</span></td>
+                                                    <td><span className="amt-value pe-1">91.4512821127219</span><span className="amt-txt pe-1">$ 98.13</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span><img src="../../images/shiba-round-icon.png" /></span><span className="word-br">0xc3E9adc34bFD50bB99E8D0fD4846360D2557c0cb</span></td>
+                                                    <td><span className="amt-value pe-1">91.4512821127219</span><span className="amt-txt pe-1">$ 98.13</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span><img src="../../images/shiba-round-icon.png" /></span><span className="word-br">0xc3E9adc34bFD50bB99E8D0fD4846360D2557c0cb</span></td>
+                                                    <td><span className="amt-value pe-1">91.4512821127219</span><span className="amt-txt pe-1">$ 98.13</span></td>
+                                                </tr>
+                                            </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div className="cstm_pagination ">
+                                        <div className="pag_con justify-content-end">
+                                            <div className="right_block justify-content-end">
+                                            <nav aria-label="Page navigation example">
+                                                <ul className="pagination">
+                                                <li className="page-item">
+                                                    <a className="page-link" href="#">
+                                                    Previous
+                                                    </a>
+                                                </li>
+                                                <li className="page-item">
+                                                    <a className="page-link" href="#">
+                                                    1
+                                                    </a>
+                                                </li>
+                                                <li className="page-item">
+                                                    <a className="page-link" href="#">
+                                                    2
+                                                    </a>
+                                                </li>
+                                                <li className="page-item">
+                                                    <a className="page-link" href="#">
+                                                    3
+                                                    </a>
+                                                </li>
+                                                <li className="page-item">
+                                                    <a className="page-link" href="#">
+                                                    Next
+                                                    </a>
+                                                </li>
+                                                </ul>
+                                            </nav>
                                             </div>
                                         </div>
-                                        <div className="mb-4 table-wrap table-responsive mb-lg-5">
-                                            <table className="table">
-                                                <thead>
-                                                    <tr className="table-header">
-                                                        <th className="fw-600">Accounts</th>
-                                                        <th className="fw-600">Bone Staked</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <div className="d-flex">
-                                                                <div className="coin-wrap">
-                                                                    <img width="30" height="30" className="img-fluid me-3" src="../../assets/images/bear.png" alt=""/>
-                                                                </div>
-                                                                <span className="tb-data align">0xc3E9adc34bFD50bB99E8D0fD4846360D2557c0cb</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <span className="tb-data align">
-                                                                <span>91.4512821127219</span>
-                                                            </span>
-                                                            <span className="tb-data-sm align"> 
-                                                                <span>$ 114.31</span>
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className="d-flex">
-                                                                <div className="coin-wrap">
-                                                                    <img width="30" height="30" className="img-fluid me-3" src="../../assets/images/bear.png" alt=""/>
-                                                                </div>
-                                                                <span className="tb-data align">0xc3E9adc34bFD50bB99E8D0fD4846360D2557c0cb</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <span className="tb-data align">
-                                                                <span>91.4512821127219</span>
-                                                            </span>
-                                                            <span className="tb-data-sm align"> 
-                                                                <span>$ 114.31</span>
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className="d-flex">
-                                                                <div className="coin-wrap">
-                                                                    <img width="30" height="30" className="img-fluid me-3" src="../../assets/images/bear.png" alt=""/>
-                                                                </div>
-                                                                <span className="tb-data align">0xc3E9adc34bFD50bB99E8D0fD4846360D2557c0cb</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <span className="tb-data align">
-                                                                <span>91.4512821127219</span>
-                                                            </span>
-                                                            <span className="tb-data-sm align"> 
-                                                                <span>$ 114.31</span>
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div className="d-flex">
-                                                                <div className="coin-wrap">
-                                                                    <img width="30" height="30" className="img-fluid me-3" src="../../assets/images/bear.png" alt=""/>
-                                                                </div>
-                                                                <span className="tb-data align">0xc3E9adc34bFD50bB99E8D0fD4846360D2557c0cb</span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <span className="tb-data align">
-                                                                <span>91.4512821127219</span>
-                                                            </span>
-                                                            <span className="tb-data-sm align"> 
-                                                                <span>$ 114.31</span>
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
+                                    </div>
+                                </div>
+                                <div className="h-auto p-4 mb-4 cus-card mb-lg-5">
+                                    
+                                    <h3 className="mb-2 mb-sm-4">Checkpoints</h3>
+                                    <div className="cmn_dasdrd_table">
+                                        <div className="table-responsive">
+                                            <table className="table table-borderless">
+                                            <thead>
+                                                <tr>
+                                                <th>Checkpoint</th>
+                                                <th>Start block number</th>
+                                                <th>End block number</th>
+                                                <th>Result</th>
+                                                <th>Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                <td>4,848</td>
+                                                <td>1407799</td>
+                                                <td>1408054</td>
+                                                <td><span><img src="../../images/green-tick2.png"></img></span><span>Not completed</span></td>
+                                                <td>4 hours ago</td>
+                                                </tr>
+                                                <tr>
+                                                <td>4,848</td>
+                                                <td>1407799</td>
+                                                <td>1408054</td>
+                                                <td><span><img src="../../images/green-tick2.png"></img></span><span>Not completed</span></td>
+                                                <td>4 hours ago</td>
+                                                </tr>
+                                                <tr>
+                                                <td>4,848</td>
+                                                <td>1407799</td>
+                                                <td>1408054</td>
+                                                <td><span><img src="../../images/green-tick2.png"></img></span><span>Not completed</span></td>
+                                                <td>4 hours ago</td>
+                                                </tr>
+                                                <tr>
+                                                <td>4,848</td>
+                                                <td>1407799</td>
+                                                <td>1408054</td>
+                                                <td><span><img src="../../images/green-tick2.png"></img></span><span>Not completed</span></td>
+                                                <td>4 hours ago</td>
+                                                </tr>
+                                            </tbody>
                                             </table>
+                                        </div>
+                                    </div>
+                                    <div className="cstm_pagination ">
+                                        <div className="pag_con justify-content-end">
+                                            <div className="right_block justify-content-end">
+                                            <nav aria-label="Page navigation example">
+                                                <ul className="pagination">
+                                                <li className="page-item">
+                                                    <a className="page-link" href="#">
+                                                    Previous
+                                                    </a>
+                                                </li>
+                                                <li className="page-item">
+                                                    <a className="page-link" href="#">
+                                                    1
+                                                    </a>
+                                                </li>
+                                                <li className="page-item">
+                                                    <a className="page-link" href="#">
+                                                    2
+                                                    </a>
+                                                </li>
+                                                <li className="page-item">
+                                                    <a className="page-link" href="#">
+                                                    3
+                                                    </a>
+                                                </li>
+                                                <li className="page-item">
+                                                    <a className="page-link" href="#">
+                                                    Next
+                                                    </a>
+                                                </li>
+                                                </ul>
+                                            </nav>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
