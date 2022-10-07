@@ -52,443 +52,706 @@ export default function Withdraw() {
     step0: true,
     step1: false,
     step2: false,
+    step3: false,
+    step4: false,
     title: "Select a Token",
   });
   return (
     <>
-         <main className="main-content">
-          <Sidebar handleMenuState={handleMenuState} menuState={menuState}/>
-          {/* modal code start */}
-          {/* Deposit popup start */}
-          <CommonModal
+      <main className="main-content">
+        <Sidebar handleMenuState={handleMenuState} menuState={menuState} />
+        {/* modal code start */}
+        {/* Deposit popup start */}
+        <CommonModal
           title={depModalState.title}
           show={showDepositModal}
           setShow={setDepositModal}
           externalCls="dark-modal-100"
-          >
+        >
           {/* Deposit popups start */}
           <>
-            
+            {/* confirm deposit popop starts */}
 
-              {/* confirm deposit popop starts */}
-
-                { (dWState && depModalState.step0) &&  <div className="popmodal-body no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="cnfrm_box dark-bg mt-0">
-                          <div className="top_overview col-12">
-                                <div className="img-flexible"><img class="img-fluid d-inline-block" src="../../images/etharium.png" alt="" /></div>
-                                <h6>100 ETH</h6>
-                                <p>500.00$</p>
-                          </div>
-                      </div>
-                      <div className="pop-grid">
-                        <div className="text-center box-block">
-                          <div className="d-inline-block img-flexible"><img class="img-fluid" src="../../images/etharium.png" alt="" /></div>
-                          <p>ETHEREUM MAINNET</p>
+            {dWState && depModalState.step0 && (
+              <div className="popmodal-body no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="cnfrm_box dark-bg mt-0">
+                      <div className="top_overview col-12">
+                        <div className="img-flexible">
+                          <img
+                            class="img-fluid d-inline-block"
+                            src="../../images/etharium.png"
+                            alt=""
+                          />
                         </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block arow-block"><img class="img-fluid" src="../../images/white-arrow.png" alt="" /></div>
-                        </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block img-flexible"><img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></div>
-                          <p>SHIBARIUM MAINNET</p>
-                        </div>
-                      </div>
-                      <div className="amt-section position-relative">
-                        <div className="coin-blk">
-                          <div className="coin-sec"><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
-                          <p>Estimation of GAS fee required</p>
-                        </div>
-                        <div>
-                          <p className="fw-bold">$10.00</p>
-                        </div>
+                        <h6>100 ETH</h6>
+                        <p>500.00$</p>
                       </div>
                     </div>
-                    <div className="pop-bottom">
+                    <div className="pop-grid">
+                      <div className="text-center box-block">
+                        <div className="d-inline-block img-flexible">
+                          <img
+                            class="img-fluid"
+                            src="../../images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>ETHEREUM MAINNET</p>
+                      </div>
+                      <div className="text-center box-block">
+                        <div className="d-inline-block arow-block">
+                          <img
+                            class="img-fluid"
+                            src="../../images/white-arrow.png"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                      <div className="text-center box-block">
+                        <div className="d-inline-block img-flexible">
+                          <img
+                            class="img-fluid"
+                            src="../../images/shib-borderd-icon.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>SHIBARIUM MAINNET</p>
+                      </div>
+                    </div>
+                    <div className="amt-section position-relative">
+                      <div className="coin-blk">
+                        <div className="coin-sec">
+                          <img
+                            className="img-fluid"
+                            src="../../images/eth.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>Estimation of GAS fee required</p>
+                      </div>
                       <div>
-                            <a className='btn primary-btn w-100'  onClick={()=>{
-                            setDepModState({
-                              step0: false,
-                              step1: true,
-                              step2: false,
-                              title:"Transaction Pending"
-                            });
-                          }}>Continue</a>
-                          </div>
+                        <p className="fw-bold">$10.00</p>
+                      </div>
                     </div>
                   </div>
-                </div> }
-
-                {/* confirm deposit popop ends */}
-
-                {/* Transaction pending popup start */}
-                
-                {(dWState && depModalState.step1) &&   <div className="popmodal-body no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="cnfrm_box dark-bg mt-0">
-                          <div className="top_overview col-12">
-                                <span><img class="img-fluid" src="../../images/etharium.png" alt="" /></span>
-                                <h6>100 ETH</h6>
-                                <p>500.00$</p>
-                          </div>
-                      </div>
-                      <div className="pop-grid">
-                        <div className="text-center box-block">
-                          <div className="d-inline-block"><img class="img-fluid" src="../../images/etharium.png" alt="" /></div>
-                          <p>ETHEREUM MAINNET</p>
-                        </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block"><img class="img-fluid" src="../../images/white-arrow.png" alt="" /></div>
-                        </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block"><img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></div>
-                          <p>SHIBARIUM MAINNET</p>
-                        </div>
-                      </div>
-                      
+                  <div className="pop-bottom">
+                    <div>
+                      <a
+                        className="btn primary-btn w-100"
+                        onClick={() => {
+                          setDepModState({
+                            step0: false,
+                            step1: true,
+                            step2: false,
+                            title: "Transaction Pending",
+                          });
+                        }}
+                      >
+                        Continue
+                      </a>
                     </div>
-                    <div className="pop-bottom">
-                        <div className="text-section">
-                          <h4 className="pop-hd-md">Moving funds</h4>
-                          <p>It will take up to 10 - 15 minutes to move the funds on Shibarium Mainnet</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* confirm deposit popop ends */}
+
+            {/* Transaction pending popup start */}
+
+            {dWState && depModalState.step1 && (
+              <div className="popmodal-body no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="cnfrm_box dark-bg mt-0">
+                      <div className="top_overview col-12">
+                        <span>
+                          <img
+                            class="img-fluid"
+                            src="../../images/etharium.png"
+                            alt=""
+                          />
+                        </span>
+                        <h6>100 ETH</h6>
+                        <p>500.00$</p>
+                      </div>
+                    </div>
+                    <div className="pop-grid">
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            class="img-fluid"
+                            src="../../images/etharium.png"
+                            alt=""
+                          />
                         </div>
-                        <div>
-                          <a className='btn grey-btn w-100' href="javascript:void(0)"><span className="spinner-border text-secondary pop-spiner"></span>
-                          <span onClick={()=>{
+                        <p>ETHEREUM MAINNET</p>
+                      </div>
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            class="img-fluid"
+                            src="../../images/white-arrow.png"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            class="img-fluid"
+                            src="../../images/shib-borderd-icon.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>SHIBARIUM MAINNET</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pop-bottom">
+                    <div className="text-section">
+                      <h4 className="pop-hd-md">Moving funds</h4>
+                      <p>
+                        It will take up to 10 - 15 minutes to move the funds on
+                        Shibarium Mainnet
+                      </p>
+                    </div>
+                    <div>
+                      <a
+                        className="btn grey-btn w-100"
+                        href="javascript:void(0)"
+                      >
+                        <span className="spinner-border text-secondary pop-spiner"></span>
+                        <span
+                          onClick={() => {
                             setDepModState({
                               step0: false,
                               step1: false,
                               step2: true,
-                              title:"Transaction Completed"
+                              title: "Transaction Completed",
                             });
-                          }}>Continue</span></a>
-                        </div>
+                          }}
+                        >
+                          Continue
+                        </span>
+                      </a>
                     </div>
                   </div>
-                </div> }
+                </div>
+              </div>
+            )}
 
+            {/* Transaction pending popup end */}
 
-                {/* Transaction pending popup end */}
+            {/* Transaction completed popup start */}
 
-                {/* Transaction completed popup start */}
-
-
-
-                {(dWState && depModalState.step2) &&   <div className="popmodal-body no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="cnfrm_box dark-bg mt-0">
-                          <div className="top_overview col-12">
-                                <span><img class="img-fluid" src="../../images/etharium.png" alt="" /></span>
-                                <h6>100 ETH</h6>
-                                <p>500.00$</p>
-                          </div>
-                      </div>
-                      <div className="pop-action">
-                        <a className='btn primary-btn w-100 w-100' href="javascript:void(0)">SHIBARIUM MAINNET</a>
+            {dWState && depModalState.step2 && (
+              <div className="popmodal-body no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="cnfrm_box dark-bg mt-0">
+                      <div className="top_overview col-12">
+                        <span>
+                          <img
+                            class="img-fluid"
+                            src="../../images/etharium.png"
+                            alt=""
+                          />
+                        </span>
+                        <h6>100 ETH</h6>
+                        <p>500.00$</p>
                       </div>
                     </div>
-                    <div className="pop-bottom">
-                        <div className="text-section complete-modal">
-                          <h4 className="pop-hd-md">Transaction Completed</h4>
-                          <p>Transaction completed succesfully.</p>
-                        </div>
-                        <div>
-                          <a className='btn primary-btn w-100' onClick={()=>setDepositModal(false)}>View on Shibascan</a>
-                        </div>
+                    <div className="pop-action">
+                      <a
+                        className="btn primary-btn w-100 w-100"
+                        href="javascript:void(0)"
+                      >
+                        SHIBARIUM MAINNET
+                      </a>
                     </div>
                   </div>
-                </div> }
+                  <div className="pop-bottom">
+                    <div className="text-section complete-modal">
+                      <h4 className="pop-hd-md">Transaction Completed</h4>
+                      <p>Transaction completed succesfully.</p>
+                    </div>
+                    <div>
+                      <a
+                        className="btn primary-btn w-100"
+                        onClick={() => setDepositModal(false)}
+                      >
+                        View on Shibascan
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
-
-                {/* Transaction completed popup end */}
-
-                
-
+            {/* Transaction completed popup end */}
           </>
+        </CommonModal>
 
-          </CommonModal>
+        {/* Deposit popup end */}
 
-          {/* Deposit popup end */}
-
-          {/* Withdraw popups start */}
-          <CommonModal
+        {/* Withdraw popups start */}
+        <CommonModal
           title={withModalState.title}
           show={showWithdrawModal}
           setShow={setWithdrawModal}
           externalCls="dark-modal-100"
-          >
+        >
           {/* Withdraw tab popups start */}
           <>
-            
-
-              {/* Initialize withdraw popup start */}
-                {(withModalState.step0 && !dWState) && <div className="popmodal-body no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="cnfrm_box dark-bg mt-0">
-                          <div className="top_overview col-12">
-                                <span><img class="img-fluid" src="../../images/red-bone.png" alt="" /></span>
-                                <h6>100 BONE</h6>
-                                <p>500.00$</p>
-                          </div>
-                      </div>
-                      <div className="pop-grid">
-                        <div className="text-center box-block">
-                          <div className="d-inline-block"><img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></div>
-                          <p>SHIBARIUM MAINNET</p>
-                        </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block"><img class="img-fluid" src="../../images/white-arrow.png" alt="" /></div>
-                        </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block"><img class="img-fluid" src="../../images/etharium.png" alt="" /></div>
-                          <p>ETHERIUM MAINNET</p>
-                        </div>
-                      </div>
-                      <div className="amt-section position-relative">
-                        <div className="coin-blk">
-                          <div className="coin-sec"><img width="24" height="24" className="img-fluid" src="../../images/red-bone.png" alt="" /></div>
-                          <p>Estimation of GAS fee required</p>
-                        </div>
-                        <div>
-                          <p className="fw-bold">$10.00</p>
-                        </div>
+            {/* Initialize withdraw popup start */}
+            {withModalState.step0 && !dWState && (
+              <div className="popmodal-body no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="cnfrm_box dark-bg mt-0">
+                      <div className="top_overview col-12">
+                        <span>
+                          <img
+                            class="img-fluid"
+                            src="../../images/red-bone.png"
+                            alt=""
+                          />
+                        </span>
+                        <h6>100 BONE</h6>
+                        <p>500.00$</p>
                       </div>
                     </div>
-                    <div className="pop-bottom">
-                      <div className="text-section">
-                        <h4 className="pop-hd-md">Initialize Whitdraw</h4>
-                        <p>It will take up to 60 mins to 3 hours to reach the checkpoint. </p>
+                    <div className="pop-grid">
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            class="img-fluid"
+                            src="../../images/shib-borderd-icon.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>SHIBARIUM MAINNET</p>
+                      </div>
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            class="img-fluid"
+                            src="../../images/white-arrow.png"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            class="img-fluid"
+                            src="../../images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>ETHERIUM MAINNET</p>
+                      </div>
+                    </div>
+                    <div className="amt-section position-relative">
+                      <div className="coin-blk">
+                        <div className="coin-sec">
+                          <img
+                            width="24"
+                            height="24"
+                            className="img-fluid"
+                            src="../../images/red-bone.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>Estimation of GAS fee required</p>
                       </div>
                       <div>
-                          <a className='btn primary-btn w-100' onClick={() =>
+                        <p className="fw-bold">$10.00</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pop-bottom">
+                    <div className="text-section">
+                      <h4 className="pop-hd-md">Initialize Whitdraw</h4>
+                      <p>
+                        It will take up to 60 mins to 3 hours to reach the
+                        checkpoint.{" "}
+                      </p>
+                    </div>
+                    <div>
+                      <a
+                        className="btn primary-btn w-100"
+                        onClick={() =>
                           setWidModState({
                             step0: false,
                             step1: true,
                             step2: false,
                             step3: false,
                             step4: false,
-                            title:"Reaching Checkpoint I"
+                            title: "Reaching Checkpoint I",
                           })
-                        }>Continue</a>
-                        </div>
+                        }
+                      >
+                        Continue
+                      </a>
                     </div>
                   </div>
-                </div>}
+                </div>
+              </div>
+            )}
 
-                {/* Initialize withdraw popup end */}
+            {/* Initialize withdraw popup end */}
 
-                {/* Reaching checkpoint popup start */}
-                {(withModalState.step1 && !dWState) && <div className="popmodal-body no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="cnfrm_box dark-bg">
-                          <div className="top_overview col-12">
-                                <span><img class="img-fluid" src="../../images/red-bone.png" alt="" /></span>
-                                <h6>100 BONE</h6>
-                                <p>500.00$</p>
-                          </div>
-                      </div>
-                      <div className="pop-grid">
-                        <div className="text-center box-block">
-                          <div className="d-inline-block"><img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" /></div>
-                          <p>SHIBARIUM MAINNET</p>
-                        </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block"><img class="img-fluid" src="../../images/white-arrow.png" alt="" /></div>
-                        </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block"><img class="img-fluid" src="../../images/etharium.png" alt="" /></div>
-                          <p>ETHEREUM MAINNET</p>
-                        </div>
-                      </div>
-                      <div className="amt-section position-relative">
-                        <div className="coin-blk">
-                          <div className="coin-sec"><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
-                          <p>Estimation of GAS fee required</p>
-                        </div>
-                        <div>
-                          <p className="fw-bold">$20.00</p>
-                        </div>
+            {/* Reaching checkpoint popup start */}
+            {withModalState.step1 && !dWState && (
+              <div className="popmodal-body no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="cnfrm_box dark-bg">
+                      <div className="top_overview col-12">
+                        <span>
+                          <img
+                            class="img-fluid"
+                            src="../../images/red-bone.png"
+                            alt=""
+                          />
+                        </span>
+                        <h6>100 BONE</h6>
+                        <p>500.00$</p>
                       </div>
                     </div>
-                    <div className="pop-bottom">
-                      <div className="text-section">
-                        <h4 className="pop-hd-md">Moving funds to Ethereum</h4>
-                        <p>It will take up to 60 mins to 3 hours to reach the checkpoint I.</p>
+                    <div className="pop-grid">
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            class="img-fluid"
+                            src="../../images/shib-borderd-icon.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>SHIBARIUM MAINNET</p>
+                      </div>
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            class="img-fluid"
+                            src="../../images/white-arrow.png"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            class="img-fluid"
+                            src="../../images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>ETHEREUM MAINNET</p>
+                      </div>
+                    </div>
+                    <div className="amt-section position-relative">
+                      <div className="coin-blk">
+                        <div className="coin-sec">
+                          <img
+                            className="img-fluid"
+                            src="../../images/eth.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>Estimation of GAS fee required</p>
                       </div>
                       <div>
-                          <a className='btn grey-btn w-100' href="javascript:void(0)">
-                            <span className="spinner-border text-secondary pop-spiner"></span>
-                            <span onClick={() =>
-                          setWidModState({
-                            step0: false,
-                            step1: false,
-                            step2: true,
-                            step3: false,
-                            step4: false,
-                            title:"Checkpoint I reached"
-                          })
-                        }>Moving funds</span>
-                          </a>
-                        </div>
+                        <p className="fw-bold">$20.00</p>
+                      </div>
                     </div>
                   </div>
-                </div> }
-                {/* Reaching checkpoint  popup end */}
+                  <div className="pop-bottom">
+                    <div className="text-section">
+                      <h4 className="pop-hd-md">Moving funds to Ethereum</h4>
+                      <p>
+                        It will take up to 60 mins to 3 hours to reach the
+                        checkpoint I.
+                      </p>
+                    </div>
+                    <div>
+                      <a
+                        className="btn grey-btn w-100"
+                        href="javascript:void(0)"
+                      >
+                        <span className="spinner-border text-secondary pop-spiner"></span>
+                        <span
+                          onClick={() =>
+                            setWidModState({
+                              step0: false,
+                              step1: false,
+                              step2: true,
+                              step3: false,
+                              step4: false,
+                              title: "Checkpoint I reached",
+                            })
+                          }
+                        >
+                          Moving funds
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* Reaching checkpoint  popup end */}
 
-
-                {/* checkpoint Reached popup start */}
-                  {(withModalState.step2 && !dWState) &&  <div className="popmodal-body no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="cnfrm_box dark-bg">
-                          <div className="top_overview col-12">
-                                <span><img class="img-fluid" src="../../images/red-bone.png" alt="" /></span>
-                                <h6>100 SHIB</h6>
-                                <p>500.00$</p>
-                          </div>
-                      </div>
-                      <div className="pop-action">
-                        <a className='btn primary-btn w-100 w-100' href="javascript:void(0)">ETHEREUM MAINNET</a>
+            {/* checkpoint Reached popup start */}
+            {withModalState.step2 && !dWState && (
+              <div className="popmodal-body no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="cnfrm_box dark-bg">
+                      <div className="top_overview col-12">
+                        <span>
+                          <img
+                            class="img-fluid"
+                            src="../../images/red-bone.png"
+                            alt=""
+                          />
+                        </span>
+                        <h6>100 SHIB</h6>
+                        <p>500.00$</p>
                       </div>
                     </div>
-                    <div className="pop-bottom">
-                        <div className="text-section">
-                          <h4 className="pop-hd-md">Complete Withdraw</h4>
-                          <p>You need to confirm one more transaction to get your funds in your Ethereum Account.</p>
-                        </div>
-                        <div>
-                          <a className='btn primary-btn w-100' onClick={() =>
+                    <div className="pop-action">
+                      <a
+                        className="btn primary-btn w-100 w-100"
+                        href="javascript:void(0)"
+                      >
+                        ETHEREUM MAINNET
+                      </a>
+                    </div>
+                  </div>
+                  <div className="pop-bottom">
+                    <div className="text-section">
+                      <h4 className="pop-hd-md">Complete Withdraw</h4>
+                      <p>
+                        You need to confirm one more transaction to get your
+                        funds in your Ethereum Account.
+                      </p>
+                    </div>
+                    <div>
+                      <a
+                        className="btn primary-btn w-100"
+                        onClick={() =>
                           setWidModState({
                             step0: false,
                             step1: false,
                             step2: false,
                             step3: true,
                             step4: false,
-                            title:"Complete Withdraw"
+                            title: "Complete Withdraw",
                           })
-                        }>Confirm</a>
-                        </div>
+                        }
+                      >
+                        Confirm
+                      </a>
                     </div>
                   </div>
-                </div> }
-                {/* checkpoint Reached popup end */}
+                </div>
+              </div>
+            )}
+            {/* checkpoint Reached popup end */}
 
-                {/* Complete withdraw popup start */}
-                {(withModalState.step3 && !dWState) &&  <div className="popmodal-body no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="cnfrm_box dark-bg">
-                          <div className="top_overview col-12">
-                                <span><img class="img-fluid" src="../../images/red-bone.png" alt="" /></span>
-                                <h6>100 ETH</h6>
-                                <p>500.00$</p>
-                          </div>
-                      </div>
-                      <div className="pop-grid">
-                        <div className="text-center box-block">
-                          <div className="d-inline-block"><img class="img-fluid" src="../../images/etharium.png" alt="" /></div>
-                          <p>ETHEREUM MAINNET</p>
-                        </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block"><img class="img-fluid" src="../../images/white-arrow.png" alt="" /></div>
-                        </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block"><img class="img-fluid" src="../../images/etharium.png" alt="" /></div>
-                          <p>WALLET X25654a5</p>
-                        </div>
-                      </div>
-                      <div className="amt-section position-relative">
-                        <div className="coin-blk">
-                          <div className="coin-sec"><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
-                          <p>Estimation of GAS fee required</p>
-                        </div>
-                        <div>
-                          <p className="fw-bold">$20.00</p>
-                        </div>
+            {/* Complete withdraw popup start */}
+            {withModalState.step3 && !dWState && (
+              <div className="popmodal-body no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="cnfrm_box dark-bg">
+                      <div className="top_overview col-12">
+                        <span>
+                          <img
+                            class="img-fluid"
+                            src="../../images/red-bone.png"
+                            alt=""
+                          />
+                        </span>
+                        <h6>100 ETH</h6>
+                        <p>500.00$</p>
                       </div>
                     </div>
-                    <div className="pop-bottom">
-                      <div className="text-section">
-                          <h4 className="pop-hd-md">Withdrawing funds</h4>
-                          <p>Moving funds to your Ethereum Account</p>
+                    <div className="pop-grid">
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            class="img-fluid"
+                            src="../../images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>ETHEREUM MAINNET</p>
+                      </div>
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            class="img-fluid"
+                            src="../../images/white-arrow.png"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            class="img-fluid"
+                            src="../../images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>WALLET X25654a5</p>
+                      </div>
+                    </div>
+                    <div className="amt-section position-relative">
+                      <div className="coin-blk">
+                        <div className="coin-sec">
+                          <img
+                            className="img-fluid"
+                            src="../../images/eth.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>Estimation of GAS fee required</p>
                       </div>
                       <div>
-                        <a className='btn grey-btn w-100' href="javascript:void(0)">
-                          <span className="spinner-border text-secondary pop-spiner"></span>
-                          <span onClick={() =>
-                          setWidModState({
-                            step0: false,
-                            step1: false,
-                            step2: false,
-                            step3: false,
-                            step4: true,
-                            title:"Withdraw Complete"
-                          })
-                        }>Moving funds</span>
+                        <p className="fw-bold">$20.00</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pop-bottom">
+                    <div className="text-section">
+                      <h4 className="pop-hd-md">Withdrawing funds</h4>
+                      <p>Moving funds to your Ethereum Account</p>
+                    </div>
+                    <div>
+                      <a
+                        className="btn grey-btn w-100"
+                        href="javascript:void(0)"
+                      >
+                        <span className="spinner-border text-secondary pop-spiner"></span>
+                        <span
+                          onClick={() =>
+                            setWidModState({
+                              step0: false,
+                              step1: false,
+                              step2: false,
+                              step3: false,
+                              step4: true,
+                              title: "Withdraw Complete",
+                            })
+                          }
+                        >
+                          Moving funds
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* Complete withdraw popup end */}
+
+            {/* withdraw complete popup start */}
+            {withModalState.step4 && !dWState && (
+              <div className="popmodal-body no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="cnfrm_box dark-bg">
+                      <div className="top_overview col-12">
+                        <span>
+                          <img
+                            class="img-fluid"
+                            src="../../images/red-bone.png"
+                            alt=""
+                          />
+                        </span>
+                        <h6>100 SHIB</h6>
+                        <p>500.00$</p>
+                      </div>
+                    </div>
+                    <div className="pop-action">
+                      <a
+                        className="btn primary-btn w-100 w-100"
+                        href="javascript:void(0)"
+                      >
+                        TRANSFER COMPLETE
+                      </a>
+                    </div>
+                  </div>
+                  <div className="pop-bottom">
+                    <div className="text-section">
+                      <h4 className="pop-hd-md">Transaction Completed</h4>
+                      <p className="lite-color">
+                        Transaction completed succesfully. Your Ethereum wallet
+                        Balance will be updated in few minute. In case of
+                        problems contact our{" "}
+                        <a
+                          title="Support"
+                          href="javascript:void(0);"
+                          className="orange-txt"
+                        >
+                          Support
                         </a>
-                      </div>
+                      </p>
+                    </div>
+                    <div>
+                      <a
+                        className="btn primary-btn w-100"
+                        onClick={() => setWithdrawModal(false)}
+                      >
+                        View on Shibascan
+                      </a>
                     </div>
                   </div>
-                </div> }
-                {/* Complete withdraw popup end */}
-
-                {/* withdraw complete popup start */}
-                 {(withModalState.step4 && !dWState) &&  <div className="popmodal-body no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="cnfrm_box dark-bg">
-                          <div className="top_overview col-12">
-                                <span><img class="img-fluid" src="../../images/red-bone.png" alt="" /></span>
-                                <h6>100 SHIB</h6>
-                                <p>500.00$</p>
-                          </div>
-                      </div>
-                      <div className="pop-action">
-                        <a className='btn primary-btn w-100 w-100' href="javascript:void(0)">TRANSFER COMPLETE</a>
-                      </div>
-                    </div>
-                    <div className="pop-bottom">
-                        <div className="text-section">
-                          <h4 className="pop-hd-md">Transaction Completed</h4>
-                          <p className="lite-color">Transaction completed succesfully. Your Ethereum wallet Balance will be updated in few minute. In case of problems contact our <a title="Support"  href="javascript:void(0);" className="orange-txt">Support</a></p>
-                        </div>
-                        <div>
-                          <a className='btn primary-btn w-100'  onClick={()=>setWithdrawModal(false)}>View on Shibascan</a>
-                        </div>
-                    </div>
-                  </div>
-                </div>}
-                {/* withdraw complete popup start */}
-
+                </div>
+              </div>
+            )}
+            {/* withdraw complete popup start */}
           </>
           {/* Withdraw tab popups end */}
-          </CommonModal>
-          {/* Withdraw tab popups end */}
+        </CommonModal>
+        {/* Withdraw tab popups end */}
 
-          {/* Token popups start */}
-          <CommonModal
+        {/* Token popups start */}
+        <CommonModal
           title={"Select token"}
           show={showTokenModal}
           setShow={setTokenModal}
-          
-          >
+        >
           {/* Token popups start */}
           <>
-            
-
-              {/* Select token popop starts */}
-                <div className="popmodal-body tokn-popup no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
+            {/* Select token popop starts */}
+            {showTokenModal && tokenState.step0 && (
+              <div className="popmodal-body tokn-popup no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
                     <div className="sec-search ng-16">
                       <div className="position-relative search-row">
-                        <input type="text" className="w-100" placeholder="Search token or token address" />
-                        <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
+                        <input
+                          type="text"
+                          className="w-100"
+                          placeholder="Search token or token address"
+                        />
+                        <div className="search-icon">
+                          <img
+                            width="20"
+                            height="21"
+                            class="img-fluid"
+                            src="../../images/search.png"
+                            alt=""
+                          />
+                        </div>
                       </div>
                     </div>
                     <div className="token-sec">
@@ -497,14 +760,543 @@ export default function Withdraw() {
                           <p>Token List</p>
                         </div>
                         <div className="token-btn-sec">
-                          <button type="button" className="btn primary-btn w-100">Manage Tokens</button>
+                          <button
+                            type="button"
+                            className="btn primary-btn w-100"
+                            onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: true,
+                                step2: false,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}
+                          >
+                            Manage Tokens
+                          </button>
                         </div>
                       </div>
                     </div>
                     <div className="token-listwrap">
+                      <div className="tokn-row">
+                        <div className="cryoto-box">
+                          <img
+                            class="img-fluid"
+                            src="../../images/shib-borderd-icon.png"
+                            alt=""
+                          />
+                        </div>
+                        <div className="tkn-grid">
+                          <div>
+                            <h6 className="fw-bold">SHIB</h6>
+                            <p>Shibatoken</p>
+                          </div>
+                          <div>
+                            <h6 className="fw-bold">1000</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="tokn-row">
+                        <div className="cryoto-box">
+                          <img
+                            class="img-fluid"
+                            src="../../images/red-bone.png"
+                            alt=""
+                          />
+                        </div>
+                        <div className="tkn-grid">
+                          <div>
+                            <h6 className="fw-bold">BONE</h6>
+                            <p>Bone Token</p>
+                          </div>
+                          <div>
+                            <h6 className="fw-bold">1000</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="tokn-row">
+                        <div className="cryoto-box">
+                          <img
+                            class="img-fluid"
+                            src="../../images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <div className="tkn-grid">
+                          <div>
+                            <h6 className="fw-bold">ETH</h6>
+                            <p>Ethereum</p>
+                          </div>
+                          <div>
+                            <h6 className="fw-bold">1000</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="tokn-row">
+                        <div className="cryoto-box">
+                          <img
+                            class="img-fluid"
+                            src="../../images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <div className="tkn-grid">
+                          <div>
+                            <h6 className="fw-bold">ETH</h6>
+                            <p>Ethereum</p>
+                          </div>
+                          <div>
+                            <h6 className="fw-bold">1000</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="tokn-row">
+                        <div className="cryoto-box">
+                          <img
+                            class="img-fluid"
+                            src="../../images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <div className="tkn-grid">
+                          <div>
+                            <h6 className="fw-bold">ETH</h6>
+                            <p>Ethereum</p>
+                          </div>
+                          <div>
+                            <h6 className="fw-bold">1000</h6>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* Select token popop ends */}
+
+            {/* Manage token popop starts */}
+
+            {showTokenModal && tokenState.step1 && (
+              <div className="popmodal-body tokn-popup no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="black-bg-sec">
+                      <div className="token-btn-sec pop-btns-grid">
+                        <div className="blk-width">
+                          <button
+                            type="button"
+                            className="btn btn-active w-100"
+                          >
+                            Token Lists
+                          </button>
+                        </div>
+                        <div className="blk-width">
+                          <button
+                            type="button"
+                            className="btn w-100"
+                            onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}
+                          >
+                            Add token
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="sec-search sec-search-secondry">
+                      <div className="position-relative search-row">
+                        <input
+                          type="text"
+                          className="w-100"
+                          placeholder="Add list by https://"
+                        />
+                        <div className="search-icon">
+                          <img
+                            width="20"
+                            height="21"
+                            class="img-fluid"
+                            src="../../images/search.png"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="token-listwrap">
+                      <div className="tokn-row">
+                        <div className="cryoto-box">
+                          <img
+                            class="img-fluid"
+                            src="../../images/shib-borderd-icon.png"
+                            alt=""
+                          />
+                        </div>
+                        <div className="tkn-grid">
+                          <div>
+                            <h6 className="fw-bold">SHIB</h6>
+                            <p>Shibatoken</p>
+                          </div>
+                          <div>
+                            <h6 className="fw-bold">
+                              <label class="toggle">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                                <span
+                                  class="labels"
+                                  data-on="ON"
+                                  data-off="OFF"
+                                ></span>
+                              </label>
+                            </h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="tokn-row">
+                        <div className="cryoto-box">
+                          <img
+                            class="img-fluid"
+                            src="../../images/red-bone.png"
+                            alt=""
+                          />
+                        </div>
+                        <div className="tkn-grid">
+                          <div>
+                            <h6 className="fw-bold">BONE</h6>
+                            <p>Bone Token</p>
+                          </div>
+                          <div>
+                            <h6 className="fw-bold">
+                              <label class="toggle">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                                <span
+                                  class="labels"
+                                  data-on="ON"
+                                  data-off="OFF"
+                                ></span>
+                              </label>
+                            </h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="tokn-row">
+                        <div className="cryoto-box">
+                          <img
+                            class="img-fluid"
+                            src="../../images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <div className="tkn-grid">
+                          <div>
+                            <h6 className="fw-bold">ETH</h6>
+                            <p>Ethereum</p>
+                          </div>
+                          <div>
+                            <h6 className="fw-bold">
+                              <label class="toggle">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                                <span
+                                  class="labels"
+                                  data-on="ON"
+                                  data-off="OFF"
+                                ></span>
+                              </label>
+                            </h6>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Manage token popop ends */}
+
+            {/* Add token popop starts */}
+
+            {showTokenModal && tokenState.step2 && (
+              <div className="popmodal-body tokn-popup no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="black-bg-sec">
+                      <div className="token-btn-sec pop-btns-grid">
+                        <div className="blk-width">
+                          <button
+                            type="button"
+                            className="btn btn-active w-100"
+                          >
+                            Token Lists
+                          </button>
+                        </div>
+                        <div className="blk-width">
+                          <button type="button" className="btn w-100">
+                            Add token
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="sec-search sec-search-secondry">
+                      <div
+                        className="position-relative search-row"
+                        onClick={() => {
+                          setTokenState({
+                            step0: false,
+                            step1: false,
+                            step2: false,
+                            step3: true,
+                            step4: false,
+                            title: "Manage Token",
+                          });
+                        }}
+                      >
+                        <input
+                          type="text"
+                          className="w-100"
+                          placeholder="Enter Token Address"
+                        />
+                        <div className="search-icon">
+                          <img
+                            width="20"
+                            height="21"
+                            class="img-fluid"
+                            src="../../images/search.png"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pop-mid">
+                    <div className="center-content">
+                      <p>Custom token not found Add your first custom token</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* Add token popop ends */}
+
+            {/* search popop starts */}
+
+            {showTokenModal && tokenState.step3 && (
+              <div className="popmodal-body tokn-popup no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="black-bg-sec">
+                      <div className="token-btn-sec pop-btns-grid">
+                        <div className="blk-width">
+                          <button
+                            type="button"
+                            className="btn btn-active w-100"
+                          >
+                            Token Lists
+                          </button>
+                        </div>
+                        <div className="blk-width">
+                          <button type="button" className="btn w-100">
+                            Add token
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="sec-search sec-search-secondry">
+                      <div className="position-relative search-row">
+                        <input
+                          type="text"
+                          className="w-100"
+                          placeholder="Enter Token Address"
+                        />
+                        <div className="search-icon">
+                          <img
+                            width="20"
+                            height="21"
+                            class="img-fluid"
+                            src="../../images/search.png"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="h-100">
+                    <div className="two-col position-relative">
+                      <div className="left-sec-img">
+                        <div>
+                          <img
+                            class="img-fluid"
+                            src="../../images/alert.png"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                      <p className="text-block">
+                        Anyone can create a token, including creating FAKE
+                        version of existing tokens. Interact with any new token
+                        carefully.
+                      </p>
+                    </div>
+                    <div className="row-wrap">
+                      <div className="crypto-info">
+                        <div className="left-side data">
+                          <p className="lite-color">
+                            Token Address on Ethereum
+                          </p>
+                        </div>
+                        <div className="right-side data">
+                          <p>0x95ad6...4c4ce</p>
+                        </div>
+                      </div>
+                      <div className="crypto-info">
+                        <div className="left-side data">
+                          <p className="lite-color">
+                            Token Address on Shibarium
+                          </p>
+                        </div>
+                        <div className="right-side data">
+                          <p>0x6f8a0...1d4ec</p>
+                        </div>
+                      </div>
+
+                      <div className="crypto-info">
+                        <div className="left-side data">
+                          <p className="lite-color">Project name</p>
+                        </div>
+                        <div className="right-side data">
+                          <p>SHIBA INU</p>
+                        </div>
+                      </div>
+                      <div className="crypto-info">
+                        <div className="left-side data">
+                          <p className="lite-color">Ticker name</p>
+                        </div>
+                        <div className="right-side data">
+                          <p>SHIB</p>
+                        </div>
+                      </div>
+                      <div className="crypto-info">
+                        <div className="left-side data">
+                          <p className="lite-color">Token Decimal</p>
+                        </div>
+                        <div className="right-side data">
+                          <p>18</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pop-bottom">
+                    <div className="">
+                      <a
+                        className="btn primary-btn w-100"
+                        href="javascript:void(0)"
+                        onClick={() => {
+                          setTokenState({
+                            step0: false,
+                            step1: false,
+                            step2: false,
+                            step3: false,
+                            step4: true,
+                            title: "Manage Token",
+                          });
+                        }}
+                      >
+                        Add Token
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* Search popop ends */}
+
+            {/* new added token with delete action starts */}
+            {showTokenModal && tokenState.step4 && (
+              <div className="popmodal-body tokn-popup no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="black-bg-sec">
+                      <div className="token-btn-sec pop-btns-grid">
+                        <div className="blk-width">
+                          <button
+                            type="button"
+                            className="btn btn-active w-100"
+                          >
+                            Token Lists
+                          </button>
+                        </div>
+                        <div className="blk-width">
+                          <button type="button" className="btn w-100">
+                            Add token
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="sec-search sec-search-secondry">
+                      <div className="position-relative search-row">
+                        <input
+                          type="text"
+                          className="w-100"
+                          placeholder="Add list by https://"
+                        />
+                        <div className="search-icon">
+                          <img
+                            width="20"
+                            height="21"
+                            class="img-fluid"
+                            src="../../images/search.png"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pop-bottom pt-0">
+                    <div className="">
+                      <div className="grid-block">
+                        <div className="blk-width">
+                          <div>1 Token Found</div>
+                          <p className="lite-color">
+                            Token stored in your browser
+                          </p>
+                        </div>
+                        <div className="blk-width btn-sm">
+                          <button
+                            type="button"
+                            className="btn primary-btn w-100"
+                            onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}
+                          >
+                            Clear All
+                          </button>
+                        </div>
+                      </div>
+                      <div className="token-listwrap">
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            <img
+                              class="img-fluid"
+                              src="../../images/shib-borderd-icon.png"
+                              alt=""
+                            />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -512,636 +1304,689 @@ export default function Withdraw() {
                               <p>Shibatoken</p>
                             </div>
                             <div>
-                              <h6 className="fw-bold">1000</h6>
+                              <span
+                                className="me-4"
+                                onClick={() => {
+                                  setTokenState({
+                                    step0: false,
+                                    step1: false,
+                                    step2: true,
+                                    step3: false,
+                                    step4: false,
+                                    title: "Manage Token",
+                                  });
+                                }}
+                              >
+                                <img
+                                  class="img-fluid"
+                                  src="../../images/del.png"
+                                  alt=""
+                                />
+                              </span>
+                              <span>
+                                <img
+                                  class="img-fluid"
+                                  src="../../images/up.png"
+                                  alt=""
+                                />
+                              </span>
                             </div>
                           </div>
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/red-bone.png" alt="" />
+                            <img
+                              class="img-fluid"
+                              src="../../images/shib-borderd-icon.png"
+                              alt=""
+                            />
                           </div>
                           <div className="tkn-grid">
                             <div>
-                              <h6 className="fw-bold">BONE</h6>
-                              <p>Bone Token</p>
+                              <h6 className="fw-bold">SHIB</h6>
+                              <p>Shibatoken</p>
                             </div>
                             <div>
-                              <h6 className="fw-bold">1000</h6>
+                              <span
+                                className="me-4"
+                                onClick={() => {
+                                  setTokenState({
+                                    step0: false,
+                                    step1: false,
+                                    step2: true,
+                                    step3: false,
+                                    step4: false,
+                                    title: "Manage Token",
+                                  });
+                                }}
+                              >
+                                <img
+                                  class="img-fluid"
+                                  src="../../images/del.png"
+                                  alt=""
+                                />
+                              </span>
+                              <span>
+                                <img
+                                  class="img-fluid"
+                                  src="../../images/up.png"
+                                  alt=""
+                                />
+                              </span>
                             </div>
                           </div>
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img
+                              class="img-fluid"
+                              src="../../images/shib-borderd-icon.png"
+                              alt=""
+                            />
                           </div>
                           <div className="tkn-grid">
                             <div>
-                              <h6 className="fw-bold">ETH</h6>
-                              <p>Ethereum</p>
+                              <h6 className="fw-bold">SHIB</h6>
+                              <p>Shibatoken</p>
                             </div>
                             <div>
-                              <h6 className="fw-bold">1000</h6>
+                              <span
+                                className="me-4"
+                                onClick={() => {
+                                  setTokenState({
+                                    step0: false,
+                                    step1: false,
+                                    step2: true,
+                                    step3: false,
+                                    step4: false,
+                                    title: "Manage Token",
+                                  });
+                                }}
+                              >
+                                <img
+                                  class="img-fluid"
+                                  src="../../images/del.png"
+                                  alt=""
+                                />
+                              </span>
+                              <span>
+                                <img
+                                  class="img-fluid"
+                                  src="../../images/up.png"
+                                  alt=""
+                                />
+                              </span>
                             </div>
                           </div>
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img
+                              class="img-fluid"
+                              src="../../images/shib-borderd-icon.png"
+                              alt=""
+                            />
                           </div>
                           <div className="tkn-grid">
                             <div>
-                              <h6 className="fw-bold">ETH</h6>
-                              <p>Ethereum</p>
+                              <h6 className="fw-bold">SHIB</h6>
+                              <p>Shibatoken</p>
                             </div>
                             <div>
-                              <h6 className="fw-bold">1000</h6>
+                              <span
+                                className="me-4"
+                                onClick={() => {
+                                  setTokenState({
+                                    step0: false,
+                                    step1: false,
+                                    step2: true,
+                                    step3: false,
+                                    step4: false,
+                                    title: "Manage Token",
+                                  });
+                                }}
+                              >
+                                <img
+                                  class="img-fluid"
+                                  src="../../images/del.png"
+                                  alt=""
+                                />
+                              </span>
+                              <span>
+                                <img
+                                  class="img-fluid"
+                                  src="../../images/up.png"
+                                  alt=""
+                                />
+                              </span>
                             </div>
                           </div>
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img
+                              class="img-fluid"
+                              src="../../images/shib-borderd-icon.png"
+                              alt=""
+                            />
                           </div>
                           <div className="tkn-grid">
                             <div>
-                              <h6 className="fw-bold">ETH</h6>
-                              <p>Ethereum</p>
+                              <h6 className="fw-bold">SHIB</h6>
+                              <p>Shibatoken</p>
                             </div>
                             <div>
-                              <h6 className="fw-bold">1000</h6>
+                              <span
+                                className="me-4"
+                                onClick={() => {
+                                  setTokenState({
+                                    step0: false,
+                                    step1: false,
+                                    step2: true,
+                                    step3: false,
+                                    step4: false,
+                                    title: "Manage Token",
+                                  });
+                                }}
+                              >
+                                <img
+                                  class="img-fluid"
+                                  src="../../images/del.png"
+                                  alt=""
+                                />
+                              </span>
+                              <span>
+                                <img
+                                  class="img-fluid"
+                                  src="../../images/up.png"
+                                  alt=""
+                                />
+                              </span>
                             </div>
                           </div>
                         </div>
-                       
                       </div>
                     </div>
-                    
                   </div>
                 </div>
-                {/* Select token popop ends */}
-
-
-                {/* Manage token popop starts */}
-
-                {/* <div className="popmodal-body tokn-popup no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                    <div className="black-bg-sec">
-                      <div className="token-btn-sec pop-btns-grid"> 
-                        <div className="blk-width">
-                          <button type="button" className="btn btn-active w-100">Token Lists</button>
-                        </div>
-                        <div className="blk-width">
-                          <button type="button" className="btn w-100">Add token</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="sec-search sec-search-secondry">
-                      <div className="position-relative search-row">
-                        <input type="text" className="w-100" placeholder="Add list by https://" />
-                        <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
-                      </div>
-                    </div>
-                    <div className="token-listwrap">
-                          <div className="tokn-row">
-                            <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">SHIB</h6>
-                                <p>Shibatoken</p>
-                              </div>
-                              <div>
-                                <h6 className="fw-bold">
-                                  <label class="toggle">
-                                    <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
-                                  </label>
-                                </h6>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="tokn-row">
-                            <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/red-bone.png" alt="" />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">BONE</h6>
-                                <p>Bone Token</p>
-                              </div>
-                              <div>
-                                <h6 className="fw-bold">
-                                  <label class="toggle">
-                                    <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
-                                  </label>
-                                </h6>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="tokn-row">
-                            <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/etharium.png" alt="" />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">ETH</h6>
-                                <p>Ethereum</p>
-                              </div>
-                              <div>
-                                <h6 className="fw-bold">
-                                  <label class="toggle">
-                                    <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
-                                  </label>
-                                </h6>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                    
-                  </div>
-                </div> */}
-
-                {/* Manage token popop ends */}
-
-                 {/* Add token popop starts */}
-
-                 {/* <div className="popmodal-body tokn-popup no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                    <div className="black-bg-sec">
-                      <div className="token-btn-sec pop-btns-grid"> 
-                        <div className="blk-width">
-                          <button type="button" className="btn btn-active w-100">Token Lists</button>
-                        </div>
-                        <div className="blk-width">
-                          <button type="button" className="btn w-100">Add token</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="sec-search sec-search-secondry">
-                      <div className="position-relative search-row">
-                        <input type="text" className="w-100" placeholder="Enter Token Address" />
-                        <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
-                      </div>
-                    </div>
-                    </div>
-                    <div className="pop-mid">
-                        <div className="center-content">
-                          <p>Custom token not found Add your first custom token</p>
-                        </div>
-                    </div>
-                  </div>
-                </div> */}
-                {/* Add token popop ends */}
-
-                {/* search popop starts */}
-
-                 {/* <div className="popmodal-body tokn-popup no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                    <div className="black-bg-sec">
-                      <div className="token-btn-sec pop-btns-grid"> 
-                        <div className="blk-width">
-                          <button type="button" className="btn btn-active w-100">Token Lists</button>
-                        </div>
-                        <div className="blk-width">
-                          <button type="button" className="btn w-100">Add token</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="sec-search sec-search-secondry">
-                      <div className="position-relative search-row">
-                        <input type="text" className="w-100" placeholder="Enter Token Address" />
-                        <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
-                      </div>
-                    </div>
-                    </div>
-                    <div className="h-100">
-                        <div className="two-col position-relative">
-                          <div className="left-sec-img">
-                            <div><img  class="img-fluid" src="../../images/alert.png" alt="" /></div>
-                          </div>
-                          <p className="text-block">Anyone can create a token, including creating FAKE version of existing tokens. Interact with any new token carefully.</p>
-                        </div>
-                        <div className="row-wrap">
-                          <div className="crypto-info">
-                            <div className="left-side data">
-                              <p className="lite-color">Token Address on Ethereum</p>
-                            </div>
-                            <div className="right-side data">
-                              <p>0x95ad6...4c4ce</p>
-                            </div>
-                          </div>
-                          <div className="crypto-info">
-                            <div className="left-side data">
-                              <p className="lite-color">Token Address on Shibarium</p>
-                            </div>
-                            <div className="right-side data">
-                              <p>0x6f8a0...1d4ec</p>
-                            </div>
-                          </div>
-                          
-                          <div className="crypto-info">
-                            <div className="left-side data">
-                              <p className="lite-color">Project name</p>
-                            </div>
-                            <div className="right-side data">
-                              <p>SHIBA INU</p>
-                            </div>
-                          </div>
-                          <div className="crypto-info">
-                            <div className="left-side data">
-                              <p className="lite-color">Ticker name</p>
-                            </div>
-                            <div className="right-side data">
-                              <p>SHIB</p>
-                            </div>
-                          </div>
-                          <div className="crypto-info">
-                            <div className="left-side data">
-                              <p className="lite-color">Token Decimal</p>
-                            </div>
-                            <div className="right-side data">
-                              <p>18</p>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                    <div className="pop-bottom">
-                      <div className="" >
-                        <a className='btn primary-btn w-100' href="javascript:void(0)">Add Token</a>
-                       </div>
-                    </div>  
-                  </div>
-                </div> */}
-                {/* Search popop ends */}
-
-                {/* new added token with delete action starts */}
-                 {/* <div className="popmodal-body tokn-popup no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                    <div className="black-bg-sec">
-                      <div className="token-btn-sec pop-btns-grid"> 
-                        <div className="blk-width">
-                          <button type="button" className="btn btn-active w-100">Token Lists</button>
-                        </div>
-                        <div className="blk-width">
-                          <button type="button" className="btn w-100">Add token</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="sec-search sec-search-secondry">
-                      <div className="position-relative search-row">
-                        <input type="text" className="w-100" placeholder="Add list by https://" />
-                        <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
-                      </div>
-                    </div>
-                    </div>
-                    <div className="pop-bottom pt-0">
-                      <div className="">
-                        <div className="grid-block">
-                          <div className="blk-width">
-                            <div>1 Token Found</div>
-                            <p className="lite-color">Token stored in your browser</p>
-                          </div>
-                          <div className="blk-width btn-sm">
-                            <button type="button" className="btn primary-btn w-100">Clear All</button>
-                          </div>
-                        </div>
-                        <div className="token-listwrap">
-                          <div className="tokn-row">
-                            <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">SHIB</h6>
-                                <p>Shibatoken</p>
-                              </div>
-                              <div>
-                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="tokn-row">
-                            <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">SHIB</h6>
-                                <p>Shibatoken</p>
-                              </div>
-                              <div>
-                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="tokn-row">
-                            <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">SHIB</h6>
-                                <p>Shibatoken</p>
-                              </div>
-                              <div>
-                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="tokn-row">
-                            <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">SHIB</h6>
-                                <p>Shibatoken</p>
-                              </div>
-                              <div>
-                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="tokn-row">
-                            <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">SHIB</h6>
-                                <p>Shibatoken</p>
-                              </div>
-                              <div>
-                                <span className="me-4"><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
-                {/* new added token with delete action ends */}
-
+              </div>
+            )}
+            {/* new added token with delete action ends */}
           </>
           {/* Token popups end */}
-          </CommonModal>
-          {/* Token popups end */}
-          {/* modal code closed */}
-            <section className="assets-section">
-              <div className="cmn_dashbord_main_outr">
-                <InnerHeader />
-                  {/* withdraw main section start */}
-                  <div className="box-wrap">
-                    {/* Left section start */}
-                    <div className="left-box">
-                      <div className="block-card">
-                        <div className="box-top">
-                          <h3 className="mb-3">Shibarium Bridge</h3>
-                          <div className="txt-row">
-                             <div className="row-hd">Transfer Overview:</div>
-                             <p className="row-description">The deposit process consists of a single transaction.</p>   
-                          </div>
-                          <div className="txt-row">
-                             <div className="row-hd">Transfer Time:</div>
-                             <p className="row-description">Moving your funds from Ethereum to Shibarium take up to 10 - 15 Minutes.</p>   
-                          </div>
-                          <div className="txt-row">
-                             <div className="row-hd">
-                                <span className="icon-image">
-                                  <img className="img-fluid" src="../../images/i-info-icon.png" alt="" />
-                                </span>
-                                <span className="alignment">Delegation/Staking Advice:</span>
-                              </div>
-                             <p className="row-description">
-                                Delegation/Staking takes place on Ethereum. Do not deposit funds to Shibarium for this purpose. 
-                                To delegate or stake please visit the <a className="orange-txt" href="javascript:void(0);">Staking UI</a>
-                              </p>   
-                          </div>
+        </CommonModal>
+        {/* Token popups end */}
+        {/* modal code closed */}
+        <section className="assets-section">
+          <div className="cmn_dashbord_main_outr">
+            <InnerHeader />
+            {/* withdraw main section start */}
+            <div className="box-wrap">
+              {/* Left section start */}
+              <div className="left-box">
+                <div className="block-card">
+                  <div className="box-top">
+                    <h3 className="mb-3">Shibarium Bridge</h3>
+                    {dWState ? (
+                      <div className="txt-row">
+                        <div className="row-hd">Transfer Overview:</div>
+                        <p className="row-description">
+                          The deposit process consists of a single transaction.
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="txt-row">
+                        <div className="row-hd">Withdraw Overview:</div>
+                        <p className="row-description">
+                          The deposit process consists of three transactions.
+                        </p>
+                      </div>
+                    )}
+                    {dWState ? (
+                      <div className="txt-row">
+                        <div className="row-hd">Transfer Time:</div>
+                        <p className="row-description">
+                          Moving your funds from Ethereum to Shibarium take up
+                          to 10 - 15 Minutes.
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="txt-row">
+                        <div className="row-hd">Withdraw Time:</div>
+                        <p className="row-description">
+                          Moving your funds from Ethereum to Shibarium take up
+                          to 60 mins to 3 hours.
+                        </p>
+                      </div>
+                    )}
+                    {
+                      <div
+                        className={`txt-row ${
+                          dWState ? "visVisible" : "visInvisible"
+                        }`}
+                      >
+                        <div className="row-hd">
+                          <span className="icon-image">
+                            <img
+                              className="img-fluid"
+                              src="../../images/i-info-icon.png"
+                              alt=""
+                            />
+                          </span>
+                          <span className="alignment">
+                            Delegation/Staking Advice:
+                          </span>
                         </div>
-                        <div className="blank-box"></div>
-                        <div className="box-bottom d-flex flex-column justify-content-end">
-                          <div className="amt-section position-relative">
-                            <div className="coin-blk">
-                              <div className="coin-sec"><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
-                              <p className="lite-color">Estimation of GAS fee required</p>
-                            </div>
-                            <div>
-                              <p className="lite-color fw-bold">$10.00</p>
-                            </div>
-                          </div>
-                          <div className="sub-buttons-sec row">
-                              <div className="col-lg-6 mb-3 mb-lg-0">
-                                <button type="button" className="btn white-btn w-100">How Shibarium Works</button>
-                              </div>
-                              <div className="col-lg-6">
-                                <button type="button w-100" className="btn white-btn w-100">FAQs</button>
-                              </div>
-                          </div>
-                        </div>
-                      </div>          
-                    </div>
-                     {/* Left section end */}
-                      {/* Right section start */}
-                    <div className="right-box">
-                      <div className="block-card d-flex flex-column justify-content-between">
-                          <div className="tab-sec botom-spcing">
-                            <ul className="tab-links">
-                              <li><a className={`tb-link ${dWState && "tab-active"}`} onClick={()=>setDWState(true)}>Deposit</a></li>
-                              <li><a className={`tb-link ${!dWState && "tab-active"}`} onClick={()=>setDWState(false)}>Withdraw</a></li>
-                            </ul>
-                          </div>
-                          {/* Deposit tab content section start */}
-                          { dWState && <div className="tab-content-sec h-100">
-                            <form className="h-100">
-                                <div className="sec-wrapper">
-                                  <div className="wrap-top">
-                                    <div className="botom-spcing">
-                                      <div>
-                                        <label className="mb-2 mb-xxl-3 mb-md-2">From</label>
-                                        <div className="form-field position-relative">
-                                          <div className="icon-chain">
-                                            <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
-                                          </div>
-                                          <div className="mid-chain">
-                                            <input className="w-100" type="text" placeholder="Ethereum chain"/>
-                                          </div>
-                                          <div className="rt-chain">
-                                            <span className="fld-head lite-color">Balance:</span>
-                                            <span className="fld-txt lite-color">100.00ETH</span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="field-grid row">
-                                        <div className="col-sm-5 field-col">
-                                          <div className="form-field position-relative" onClick={() => setTokenModal(true)}>
-                                            <div className="">
-                                              <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
-                                            </div>
-                                            <div className="lite-color">
-                                              <span className="lite-color fw-bold">ETH</span>
-                                            </div>
-                                            <div className="">
-                                              <div className="arow-outer"><span className="arrow-down"></span></div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div className="col-sm-7 field-col">
-                                            <div className="form-field position-relative two-fld">
-                                                <div className="mid-chain w-100">
-                                                  <input className="w-100" type="text" placeholder="0.00"/>
-                                                </div>
-                                                <div className="rt-chain">
-                                                  <span className="orange-txt fw-bold">MAX</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="botom-spcing">
-                                      <div>
-                                        <label className="mb-2 mb-xxl-3 mb-md-2">To</label>
-                                        <div className="form-field position-relative">
-                                          <div className="icon-chain">
-                                            <div><img width="22" height="22" className="img-fluid" src="../../images/shiba-round-icon.png" alt="" /></div>
-                                          </div>
-                                          <div className="mid-chain">
-                                            <input className="w-100" type="text" placeholder="Shibarium chain"/>
-                                          </div>
-                                          <div className="rt-chain">
-                                            <span className="fld-head lite-color">Balance:</span>
-                                            <span className="fld-txt lite-color">100.00ETH</span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="wrap-bottom">
-                                    <div className="btn-modify">
-                                      <button onClick={() => {
-                                        setDepModState({
-                                          step0: true,
-                                          step1: false,
-                                          step2: false,
-                                          title:"Confirm deposit"
-                                        });
-                                        setDepositModal(true);
-                                        }} type="button" className="btn primary-btn w-100">Transfer</button>
-                                    </div>
-                                  </div>
-                                </div>
-                            </form>
-                          </div>}
-                          {/* Deposit tab content section end */}
-
-                          {/* Withdraw tab content section start */}
-                          { !dWState && <div className="tab-content-sec h-100">
-                            <form className="h-100">
-                                <div className="sec-wrapper">
-                                  <div className="wrap-top">
-                                    <div className="botom-spcing">
-                                      <div>
-                                        <label className="mb-2 mb-xxl-3 mb-md-2">From</label>
-                                        <div className="form-field position-relative">
-                                          <div className="icon-chain">
-                                            <div><img width="22" height="22" className="img-fluid" src="../../images/shiba-round-icon.png" alt="" /></div>
-                                          </div>
-                                          <div className="mid-chain">
-                                            <input className="w-100" type="text" placeholder="Shibarium Mainnet"/>
-                                          </div>
-                                          <div className="rt-chain">
-                                            <span className="fld-head lite-color">Balance:</span>
-                                            <span className="fld-txt lite-color">100.00ETH</span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="field-grid row">
-                                        <div className="col-sm-5 field-col">
-                                          <div className="form-field position-relative" onClick={() => setTokenModal(true)}>
-                                            <div className="">
-                                              <div><img width="24" height="24" className="img-fluid" src="../../images/red-bone.png" alt="" /></div>
-                                            </div>
-                                            <div className="lite-color">
-                                              <span className="lite-color fw-bold">Bone</span>
-                                            </div>
-                                            <div className="">
-                                              <div className="arow-outer"><span className="arrow-down"></span></div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div className="col-sm-7 field-col">
-                                            <div className="form-field position-relative two-fld">
-                                                <div className="mid-chain w-100">
-                                                  <input className="w-100" type="text" placeholder="0.00"/>
-                                                </div>
-                                                <div className="rt-chain">
-                                                  <span className="orange-txt fw-bold">MAX</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="botom-spcing">
-                                      <div>
-                                        <label className="mb-2 mb-xxl-3 mb-md-2">To</label>
-                                        <div className="form-field position-relative">
-                                          <div className="icon-chain">
-                                            <div><img className="img-fluid" src="../../images/eth.png" alt="" /></div>
-                                          </div>
-                                          <div className="mid-chain">
-                                            <input className="w-100" type="text" placeholder="Ethereum chain"/>
-                                          </div>
-                                          <div className="rt-chain">
-                                            <span className="fld-head lite-color">Balance:</span>
-                                            <span className="fld-txt lite-color">100.00ETH</span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="wrap-bottom">
-                                    <div className="btn-modify">
-                                      <button onClick={() => {
-                                       setWithdrawModal(true);
-                                        setWidModState({
-                                          step0: true,
-                                          step1: false,
-                                          step2: false,
-                                          step3: false,
-                                          step4: false,
-                                          title: "Initialize Withdraw",
-                                        });
-                                        }} type="button" className="btn primary-btn w-100">Transfer</button>
-                                    </div>
-                                  </div>
-                                </div>
-                            </form>
-                          </div> }
-                          {/* Withdraw   tab content section end */}
-                      </div> 
-                    </div>
-                     {/* right section start */}
+                        <p className="row-description">
+                          Delegation/Staking takes place on Ethereum. Do not
+                          deposit funds to Shibarium for this purpose. To
+                          delegate or stake please visit the{" "}
+                          <a className="orange-txt" href="javascript:void(0);">
+                            Staking UI
+                          </a>
+                        </p>
+                      </div>
+                    }
                   </div>
-                  {/* withdraw main section end */}
+                  <div className="blank-box"></div>
+                  <div className="box-bottom d-flex flex-column justify-content-end">
+                    <div className={`amt-section position-relative ${!dWState ? 'visVisible' : 'visInvisible'}`}>
+                      <div className="coin-blk">
+                        <div className="coin-sec">
+                          <img
+                            className="img-fluid"
+                            width="20"
+                            height="20"
+                            src="../../images/red-bone.png"
+                            alt=""
+                          />
+                        </div>
+                        <p className="lite-color">
+                          Estimation of GAS fee required
+                        </p>
+                      </div>
+                      <div>
+                        <p className="lite-color fw-bold">$10.00</p>
+                      </div>
+                    </div>
+                    <div className="amt-section position-relative">
+                      <div className="coin-blk">
+                        <div className="coin-sec">
+                          <img
+                            className="img-fluid"
+                            src="../../images/eth.png"
+                            alt=""
+                          />
+                        </div>
+                        <p className="lite-color">
+                          Estimation of GAS fee required
+                        </p>
+                      </div>
+                      <div>
+                        <p className="lite-color fw-bold">$10.00</p>
+                      </div>
+                    </div>
+                    <div className="sub-buttons-sec row">
+                      <div className="col-lg-6 mb-3 mb-lg-0">
+                        <button type="button" className="btn white-btn w-100">
+                          How Shibarium Works
+                        </button>
+                      </div>
+                      <div className="col-lg-6">
+                        <button
+                          type="button w-100"
+                          className="btn white-btn w-100"
+                        >
+                          FAQs
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </section>
-         </main>
+              {/* Left section end */}
+              {/* Right section start */}
+              <div className="right-box">
+                <div className="block-card d-flex flex-column justify-content-between">
+                  <div className="tab-sec botom-spcing">
+                    <ul className="tab-links">
+                      <li>
+                        <a
+                          className={`tb-link ${dWState && "tab-active"}`}
+                          onClick={() => setDWState(true)}
+                        >
+                          Deposit
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          className={`tb-link ${!dWState && "tab-active"}`}
+                          onClick={() => setDWState(false)}
+                        >
+                          Withdraw
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  {/* Deposit tab content section start */}
+                  {dWState && (
+                    <div className="tab-content-sec h-100">
+                      <form className="h-100">
+                        <div className="sec-wrapper">
+                          <div className="wrap-top">
+                            <div className="botom-spcing">
+                              <div>
+                                <label className="mb-2 mb-xxl-3 mb-md-2">
+                                  From
+                                </label>
+                                <div className="form-field position-relative">
+                                  <div className="icon-chain">
+                                    <div>
+                                      <img
+                                        className="img-fluid"
+                                        src="../../images/eth.png"
+                                        alt=""
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="mid-chain">
+                                    <input
+                                      className="w-100"
+                                      type="text"
+                                      placeholder="Ethereum chain"
+                                    />
+                                  </div>
+                                  <div className="rt-chain">
+                                    <span className="fld-head lite-color">
+                                      Balance:
+                                    </span>
+                                    <span className="fld-txt lite-color">
+                                      100.00ETH
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="field-grid row">
+                                <div className="col-sm-5 field-col">
+                                  <div
+                                    className="form-field position-relative"
+                                    onClick={() => {
+                                      setTokenModal(true);
+                                      setTokenState({
+                                        step0: true,
+                                        step1: false,
+                                        step2: false,
+                                        step3: false,
+                                        step4: false,
+                                        title: "Select a Token",
+                                      });
+                                    }}
+                                  >
+                                    <div className="">
+                                      <div>
+                                        <img
+                                          className="img-fluid"
+                                          src="../../images/eth.png"
+                                          alt=""
+                                        />
+                                      </div>
+                                    </div>
+                                    <div className="lite-color">
+                                      <span className="lite-color fw-bold">
+                                        ETH
+                                      </span>
+                                    </div>
+                                    <div className="">
+                                      <div className="arow-outer">
+                                        <span className="arrow-down"></span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-sm-7 field-col">
+                                  <div className="form-field position-relative two-fld">
+                                    <div className="mid-chain w-100">
+                                      <input
+                                        className="w-100"
+                                        type="text"
+                                        placeholder="0.00"
+                                      />
+                                    </div>
+                                    <div className="rt-chain">
+                                      <span className="orange-txt fw-bold">
+                                        MAX
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="botom-spcing">
+                              <div>
+                                <label className="mb-2 mb-xxl-3 mb-md-2">
+                                  To
+                                </label>
+                                <div className="form-field position-relative">
+                                  <div className="icon-chain">
+                                    <div>
+                                      <img
+                                        width="22"
+                                        height="22"
+                                        className="img-fluid"
+                                        src="../../images/shiba-round-icon.png"
+                                        alt=""
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="mid-chain">
+                                    <input
+                                      className="w-100"
+                                      type="text"
+                                      placeholder="Shibarium chain"
+                                    />
+                                  </div>
+                                  <div className="rt-chain">
+                                    <span className="fld-head lite-color">
+                                      Balance:
+                                    </span>
+                                    <span className="fld-txt lite-color">
+                                      100.00ETH
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="wrap-bottom">
+                            <div className="btn-modify">
+                              <button
+                                onClick={() => {
+                                  setDepModState({
+                                    step0: true,
+                                    step1: false,
+                                    step2: false,
+                                    title: "Confirm deposit",
+                                  });
+                                  setDepositModal(true);
+                                }}
+                                type="button"
+                                className="btn primary-btn w-100"
+                              >
+                                Transfer
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  )}
+                  {/* Deposit tab content section end */}
+
+                  {/* Withdraw tab content section start */}
+                  {!dWState && (
+                    <div className="tab-content-sec h-100">
+                      <form className="h-100">
+                        <div className="sec-wrapper">
+                          <div className="wrap-top">
+                            <div className="botom-spcing">
+                              <div>
+                                <label className="mb-2 mb-xxl-3 mb-md-2">
+                                  From
+                                </label>
+                                <div className="form-field position-relative">
+                                  <div className="icon-chain">
+                                    <div>
+                                      <img
+                                        width="22"
+                                        height="22"
+                                        className="img-fluid"
+                                        src="../../images/shiba-round-icon.png"
+                                        alt=""
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="mid-chain">
+                                    <input
+                                      className="w-100"
+                                      type="text"
+                                      placeholder="Shibarium Mainnet"
+                                    />
+                                  </div>
+                                  <div className="rt-chain">
+                                    <span className="fld-head lite-color">
+                                      Balance:
+                                    </span>
+                                    <span className="fld-txt lite-color">
+                                      100.00ETH
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="field-grid row">
+                                <div className="col-sm-5 field-col">
+                                  <div
+                                    className="form-field position-relative"
+                                    onClick={() => {
+                                      setTokenModal(true);
+                                      setTokenState({
+                                        step0: true,
+                                        step1: false,
+                                        step2: false,
+                                        step3: false,
+                                        step4: false,
+                                        title: "Select a Token",
+                                      });
+                                    }}
+                                  >
+                                    <div className="">
+                                      <div>
+                                        <img
+                                          width="24"
+                                          height="24"
+                                          className="img-fluid"
+                                          src="../../images/red-bone.png"
+                                          alt=""
+                                        />
+                                      </div>
+                                    </div>
+                                    <div className="lite-color">
+                                      <span className="lite-color fw-bold">
+                                        Bone
+                                      </span>
+                                    </div>
+                                    <div className="">
+                                      <div className="arow-outer">
+                                        <span className="arrow-down"></span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-sm-7 field-col">
+                                  <div className="form-field position-relative two-fld">
+                                    <div className="mid-chain w-100">
+                                      <input
+                                        className="w-100"
+                                        type="text"
+                                        placeholder="0.00"
+                                      />
+                                    </div>
+                                    <div className="rt-chain">
+                                      <span className="orange-txt fw-bold">
+                                        MAX
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="botom-spcing">
+                              <div>
+                                <label className="mb-2 mb-xxl-3 mb-md-2">
+                                  To
+                                </label>
+                                <div className="form-field position-relative">
+                                  <div className="icon-chain">
+                                    <div>
+                                      <img
+                                        className="img-fluid"
+                                        src="../../images/eth.png"
+                                        alt=""
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="mid-chain">
+                                    <input
+                                      className="w-100"
+                                      type="text"
+                                      placeholder="Ethereum chain"
+                                    />
+                                  </div>
+                                  <div className="rt-chain">
+                                    <span className="fld-head lite-color">
+                                      Balance:
+                                    </span>
+                                    <span className="fld-txt lite-color">
+                                      100.00ETH
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="wrap-bottom">
+                            <div className="btn-modify">
+                              <button
+                                onClick={() => {
+                                  setWithdrawModal(true);
+                                  setWidModState({
+                                    step0: true,
+                                    step1: false,
+                                    step2: false,
+                                    step3: false,
+                                    step4: false,
+                                    title: "Initialize Withdraw",
+                                  });
+                                }}
+                                type="button"
+                                className="btn primary-btn w-100"
+                              >
+                                Transfer
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  )}
+                  {/* Withdraw   tab content section end */}
+                </div>
+              </div>
+              {/* right section start */}
+            </div>
+            {/* withdraw main section end */}
+          </div>
+        </section>
+      </main>
     </>
-  )
+  );
 }
