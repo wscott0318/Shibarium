@@ -278,6 +278,7 @@ ul {
     // border: 1px solid rgba(255, 255, 255, 0.4);
     &:hover{
         background:$primary-gradient;
+        opacity: 0.8;
         color:rgba($white, 0.89) !important;
     }
 }
@@ -289,6 +290,7 @@ ul {
     &:hover{
         background:$secondary !important;
         color: rgba($white, 0.89) !important;
+        opacity: 0.8;
     }
 }
 .primary-gradient-text {
@@ -309,6 +311,7 @@ ul {
     &:hover{
         background:$primary-gradient;
         color:rgba($white, 0.89) !important;
+        opacity: 0.8;
     }
 }
 
@@ -323,6 +326,7 @@ ul {
     &:hover{
         background:$primary-gradient;
         color:$grey-color !important;
+        opacity: 0.8;
     }
 }
 .black-btn{
@@ -331,6 +335,7 @@ ul {
     &:hover{
         background:$primary-gradient;
         color:rgba($white, 0.89) !important;
+        opacity: 0.8;
     }
 }
 
@@ -343,6 +348,7 @@ ul {
     &:hover{
         background:$primary-gradient;
         color:rgba($white, 0.89) !important;
+        opacity: 0.8;
     }
 }
 
@@ -524,6 +530,7 @@ ul {
                 &:hover{
                     box-shadow: none;
                     border: 0;
+                    opacity: 0.8;
                 }
                 &:focus{
                     box-shadow: none;

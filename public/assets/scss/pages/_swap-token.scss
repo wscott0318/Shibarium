@@ -43,10 +43,10 @@
         flex-direction: column;
         justify-content: space-between;
         @media #{$max-xxl}{
-            min-height: 300px;
+            min-height: 500px;
         }
         @media #{$max-lg}{
-            min-height: auto;
+            // min-height: auto;
         }
     }
     .coin-text {
@@ -106,14 +106,14 @@
       }
       
       input::-ms-input-placeholder { /* Microsoft Edge */
-        color: #ffffff;
+        color: #ffffff;  
       }
 }
 .ps_abs .form-field {
     background: #E48014;
 }
 .gas_token_form .flex-form-top .form-group{
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 .tokn-popup  .spinner-border {
     height: 8rem;

@@ -172,6 +172,13 @@
         right: 0;
         left: auto;
         top: 35px;
+        // @media #{$max-xl}{
+        //     right: -30px;
+        // }
+        // @media #{$max-lg }{
+        //     right: -100px;
+        // }
+        
         @media #{$max-md}{
             right: auto;
             left: 0;
@@ -448,6 +455,9 @@
     padding: 3px 8px;
     font-size: 14px;
     border-radius: 6px;
+    &:hover{
+        opacity: 0.8;
+    }
 }
 .input-contain{
     .orange-btn{

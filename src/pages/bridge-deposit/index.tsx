@@ -120,7 +120,7 @@ export default function Deposit() {
                           <input type="text" class="form-control cmn_inpt_fld"  placeholder="0.00"/>
                           <p className="inpt_fld_hlpr_txt">
                             <span>0.00$</span>
-                            <b>Available balance: 0.00 SHIB</b>
+                            <b>Available Balance: 0.00 SHIB</b>
                           </p>
                           <div className="pop_btns_area mr-top-50 row">
                               <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
