@@ -144,6 +144,7 @@ p{
     }
     @media #{$max-xxl}{
         font-size: 16px;
+        line-height: 26px;
     }
     @media #{$max-xl}{
         font-size: 14px;
@@ -277,7 +278,7 @@ ul {
     font-weight: 600;
     // border: 1px solid rgba(255, 255, 255, 0.4);
     &:hover{
-        background:$primary-gradient;
+        background:$primary-gradient !important;
         opacity: 0.8;
         color:rgba($white, 0.89) !important;
     }
@@ -309,7 +310,7 @@ ul {
         font-size: 14px;
     }
     &:hover{
-        background:$primary-gradient;
+        background-color:$grey-color !important;
         color:rgba($white, 0.89) !important;
         opacity: 0.8;
     }
@@ -323,17 +324,17 @@ ul {
     @media #{$max-xxl}{
         font-size: 14px;
     }
-    &:hover{
-        background:$primary-gradient;
+    &:hover{    
+        background-color:$grey-color-800 !important;
         color:$grey-color !important;
-        opacity: 0.8;
+        opacity: 0.9;
     }
 }
 .black-btn{
     background-color: $body-bg-800;
     color: rgba($white, 0.89) !important;
     &:hover{
-        background:$primary-gradient;
+        background-color: $body-bg-800 !important;
         color:rgba($white, 0.89) !important;
         opacity: 0.8;
     }
@@ -346,7 +347,7 @@ ul {
     font-weight: 600;
     color:$white !important;
     &:hover{
-        background:$primary-gradient;
+        background-color:$body-bg !important;
         color:rgba($white, 0.89) !important;
         opacity: 0.8;
     }
