@@ -220,8 +220,12 @@
     right: auto;
     top: auto;
     bottom: auto;
+    @media #{$max-xxl}{
+        max-width:60px;
+    }
     @media #{$max-lg}{
         max-width:40px;
+        margin: 0 auto;
     }
     @media #{$max-md}{
         position: initial;
@@ -233,8 +237,11 @@
 .head-txt {
     width: 100%;
     padding-left: 80px;
+    @media #{$max-xxl}{
+        padding-left: 75px;
+    }
     @media #{$max-lg}{
-        padding-left: 40px;
+        padding-left: 50px;
     }
     @media #{$max-md}{
         padding-left: 0;
