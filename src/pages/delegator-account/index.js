@@ -25,6 +25,7 @@ export default function DelegatorAccount() {
   const [showwithdrawpop, setwithdrawpop] = useState(false);
   const [showunboundpop, setunboundpop] = useState(false);
   const [showallinonepop, setallinonepop] = useState(false);
+  const [showUnboundpop, setUnboundpop] = useState(false);
   
   /**
    * 
@@ -46,6 +47,43 @@ export default function DelegatorAccount() {
       <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space">
           <Header />
           <StakingHeader />
+
+{/** unbound popups start */}
+<CommonModal
+          title={"Unbound"}
+          show={showUnboundpop}
+          setShow={setUnboundpop}
+          
+          >
+          <>
+
+                
+                <div className="cmn_modal val_popups">              
+                    <form>
+                        <div className="cmn_inpt_row">
+                            <div className="form-control">
+                                <input type="text" placeholder="Enter validator address" className="w-100"/>
+                            </div>
+                        </div>
+                        <div className="cmn_inpt_row">
+                            <div className="form-control">
+                                <input type="text" placeholder="Enter delegator address" className="w-100"/>
+                            </div>
+                        </div>
+                        <div className="cmn_inpt_row">
+                            <div className="form-control">
+                                <input type="text" placeholder="Enter amount" className="w-100"/>
+                            </div>
+                        </div>
+                        <div className="pop_btns_area">
+                            <div className="form-control"><a className='btn primary-btn w-100' href="javascript:void(0)">Submit</a>  </div>
+                        </div>                         
+                    </form>      
+                </div>
+                
+                </> 
+          </CommonModal>
+{/** unbound popups start */}
 
 {/* retake popop start */}
       <CommonModal
@@ -266,7 +304,11 @@ export default function DelegatorAccount() {
                                     All in one popup btn
                                 </button>    
                             </div>
-                            
+                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">                        
+                                <button onClick={() =>setUnboundpop(true)} className="btn grey-btn w-100 d-block">
+                                    Unbound Popup 2
+                                </button>    
+                            </div>
                         </div>
                     </div>
                 </div>                
