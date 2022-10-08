@@ -33,7 +33,7 @@ const InnerHeader = () => {
 
     <>
       <header className="inner-header">
-        <Navbar className='py-0' expand="md" variant="dark">
+        <Navbar className='py-0' variant="dark">
           <Container>
             <div className="left-widget">
               {/* <Navbar.Brand className="nav-logo">
@@ -143,10 +143,16 @@ const InnerHeader = () => {
                             </Nav.Item> */}
                 <Nav.Item>
                 <Link href={'javascript:void(0)'}>
-                  <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
-                    <span>Switch to Shibarium</span>
-                  </a>
-                </Link>
+                    <a className='d-md-none swap-btn'>
+                      <img className="img-fluid" src="../../images/eth-swap.png" alt="" width={30} />
+                    </a>
+                  </Link>
+                  <Link href={'javascript:void(0)'}>
+                    <a className='d-none btn primary-btn d-md-flex align-items-center' href="javascript:void(0)">
+                      <span className="d-none d-sm-inline-block">Switch to Shibarium</span>
+                      <img className="img-fluid d-sm-none" src="../../images/meta-icon.png" alt="img=icon" width={12} />
+                    </a>
+                  </Link>
                 </Nav.Item>
                 <Nav.Item className="btn-status">
                   <Web3Status />
