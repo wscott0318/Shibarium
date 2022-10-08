@@ -2,11 +2,14 @@
 import React, { useRef, useState } from "react";
 
 import Link from "next/link";
-
-import StepOne from './stepOne';
-import StepTwo from './stepTwo';
-import StepThree from './stepThree';
-import StepFour from './stepFour';
+// import { validators, validatorsList } from "../service/validator";
+import { useWeb3React } from "@web3-react/core";
+import ProjectContext from "../../context/ProjectContext";
+import Footer from "../../pages/footer/index"
+import { useActiveWeb3React } from "../../services/web3"
+import CommonModal from "../components/CommonModel";
+import StakingHeader from '../staking-header';
+import Header from "../layout/header";
 
 const Rewards = () => {
   const refName = useRef();
@@ -52,8 +55,10 @@ const Rewards = () => {
   };
   return (
     <>
-
-      <h1>become-validator index.js</h1>
+      <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg">
+      <Header />
+            {/* <StakingHeader /> */}
+      </main>
     </>
   );
 };
