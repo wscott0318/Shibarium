@@ -40,8 +40,6 @@ export default function ShibaToken() {
           </div>
         </div>
         <Burn />
-
-
         <div className='filter-sec mt-4 mt-lg-5'>
           <div className='row align-items-center'>
             <div className='col-sm-6 col-12 mb-3'>
