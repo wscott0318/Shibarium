@@ -1079,6 +1079,14 @@
         min-height: 300px;
     }
 }
+.mob-drop{
+    @media #{$max-lg}{
+        padding-right: 0 !important;
+    } 
+}
+
+
+
 /** become a validator steps style start **/
 .rewards-section {
     padding: 70px 0;
