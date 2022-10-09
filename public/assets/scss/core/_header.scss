@@ -55,9 +55,10 @@
             }
         }
         @media #{$max-md}{
-            margin-bottom: 15px;
+            margin-bottom: 0px;
             margin-right: 0;
         }
+
     }
     .bg-dark-1000{
         background-color: $primary;
@@ -79,6 +80,9 @@
             background: transparent;
             transform: translateY(-50%);
             height: 100%;
+            .dropdown-menu{
+                right: calc(100% - 18px);
+            }
             .dropdown-toggle::after {
                 content: "";
                 position: absolute;
@@ -92,6 +96,11 @@
                 border-top: 0;
                 border-left: 0;
                 margin-top: -3px;
+                @media #{$max-xsm}{
+                    right: 8px;
+                    height: 8px;
+                    width: 8px;
+                }
             }
         }
         .flex{
@@ -103,6 +112,12 @@
             cursor: pointer;
             @media #{$max-md}{
                 width: 100%;
+            }
+            @media #{$max-sm}{
+                padding-right: 25px !important;
+            }
+            @media #{$max-xsm}{
+                font-size: 12px;
             }
         }
         .bg-dark-1000 {
@@ -150,6 +165,54 @@
             top: 100%;
             right: 100%;
             left: auto;
+        }
+    }
+    .app-drop {
+        .dropdown-menu{
+            right: 0;
+            @media #{$max-sm}{
+                right: -100px;
+            }
+            @media #{$max-sm}{
+                right: -100px;
+            }
+            @media #{$max-xxsm}{
+                right: -150px;
+            }
+            
+            .dropdown-item {
+                border-bottom:1px solid rgba($color: $white, $alpha: 0.2);
+                padding: 12px 0px;
+                margin: 10px 0;
+                @media #{$max-md}{
+                    white-space: normal;
+                }
+               
+            }
+            .h6 {
+                font-size: 16px;
+                font-weight: 600;
+            }
+            span{
+                font-size: 14px;
+                font-weight: 400;
+            }
+            .left-border {
+                position: relative;
+                padding-left: 12px;
+                &::before {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    bottom: 0;
+                    height: 65%;
+                    width: 3px;
+                    background:$primary;
+                    -webkit-transform: translateY(0px);
+                    transform: translateY(0px);
+                }
+            }
         }
     }
 }
