@@ -67,7 +67,7 @@ export default function HowitWorks() {
                         <p className="">You can either watch the video tutorial below or follow the step-by-step guide.</p>
                         <br/>
                         <div className="image-section">
-                            <div><img className="img-fluid" src="../../images/blank.jpg" alt="check-icon" width={400}/></div>
+                            <div><img className="img-fluid" src="../../images/700x300.png" alt="check-icon"/></div>
                         </div>
                     </section>
                 </div>
