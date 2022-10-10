@@ -25,6 +25,12 @@ export default function differentchainbridge() {
     const [showSwapModal, setSwapModal] = useState(false);
     const [showTokenModal, setTokenModal] = useState(false);
     const [showToken2Modal, setToken2Modal] = useState(false);
+    const [swapState,setSwapState] = useState({
+      step0: true,
+      step1: false,
+      step2: false,
+      title: "Review Swap",
+    })
     const [tokenState, setTokenState] = useState({
       step0: true,
       step1: false,
@@ -171,8 +177,16 @@ export default function differentchainbridge() {
                                             </div>
                                             <div className="col-sm-6">
                                                 <button type='button' className={`btn ${!approveReview ? 'orangeButton' : 'blackButton'} w-100`} onClick={() => {
-                                                  if(!approveReview){setSwapModal(true)
-                                                  setApproveReview(true)}
+                                                  if(!approveReview){
+                                                    setSwapModal(true)
+                                                  setApproveReview(true)
+                                                  setSwapState({
+                                                    step0: true,
+                                                    step1: false,
+                                                    step2: false,
+                                                    title: "Review Swap",
+                                                  });
+                                                }
                                                   }}>
                                                     Review Swap
                                                 </button>
@@ -226,7 +240,7 @@ export default function differentchainbridge() {
                 show={showSwapModal}
                 setShow={setSwapModal}
             >
-                {/* <div className="popmodal-body no-ht">
+                {showSwapModal && swapState.step0 &&  <div className="popmodal-body no-ht">
                     <div className="pop-block">
                         <div className="pop-top">
                             <div className="cnfrm_box dark-bg-800">
@@ -271,15 +285,30 @@ export default function differentchainbridge() {
                             </div>
                             <div className='btn-wrap'>
                             <div>
-                              <a className='btn primary-btn w-100' href="javascript:void(0)">Confirm Swap</a>
+                              <a className='btn primary-btn w-100' href="javascript:void(0)" onClick={()=>{
+                                setSwapState({
+                                  step0: false,
+                                  step1: true,
+                                  step2: false,
+                                  title: "Transaction Pending",
+                                });
+                                setTimeout(()=>{
+                                  setSwapState({
+                                    step0: false,
+                                    step1: false,
+                                    step2: true,
+                                    title: "Transaction Pending",
+                                  });
+                                },[2000])
+                              }}>Confirm Swap</a>
                             </div>
                             </div>
                         </div>
                     </div>
-                </div> */}
+                </div>}
 
                 {/* Transaction Pending popup start*/}
-                {/* <div className="popmodal-body tokn-popup no-ht trans-mod">
+                {showSwapModal && swapState.step1 &&  <div className="popmodal-body tokn-popup no-ht trans-mod">
                   <div className="pop-block">
                     <div className="pop-top">
                         <div className='dark-bg-800 h-100 status-sec'>
@@ -293,15 +322,15 @@ export default function differentchainbridge() {
                     </div>
                     <div className="pop-bottom">
                       <div className='btns-sec mt-0'>
-                        <button type='button' className='btn primary-btn w-100'>Sign the message</button>
+                        <button type='button' className='btn black-btn w-100'>Sign the message</button>
                       </div>
                     </div>
                   </div>
-                </div> */}
+                </div> }
                 {/* Transaction Pending popup start*/}
 
                 {/* Transaction Pending popup version 2 start*/}
-                <div className="popmodal-body tokn-popup no-ht trans-mod">
+                {showSwapModal && swapState.step2 &&  <div className="popmodal-body tokn-popup no-ht trans-mod">
                   <div className="pop-block">
                     <div className="pop-top">
                         <div className='dark-bg-800 h-100 status-sec'>
@@ -313,11 +342,11 @@ export default function differentchainbridge() {
                     </div>
                     <div className="pop-bottom">
                       <div className='staus-btn'>
-                        <button type='button' className='btn primary-btn w-100'>View on Shibascan</button>
+                        <button type='button' className='btn primary-btn w-100' onClick={()=>{setSwapModal(false)}}>View on Shibascan</button>
                       </div>
                     </div>
                   </div>
-                </div>
+                </div>}
                 {/* Transaction Pending popup version 2 end*/}
 
 
