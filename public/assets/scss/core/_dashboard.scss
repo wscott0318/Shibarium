@@ -35,8 +35,9 @@
     top: 34px;
     z-index: 99;
     left: 30px;
+    cursor: pointer;
     display: none;
-    @media #{$max-lg}{
+    @media #{$max-xl}{
         display: block;
     }
     @media #{$max-xsm}{
