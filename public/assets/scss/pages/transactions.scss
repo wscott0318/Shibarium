@@ -3,6 +3,17 @@
     background-color: $body-bg;
     border-radius: 40px;
     margin-top: 50px;
+    @media #{$max-lg}{
+        padding: 24px 12px;
+        margin-top: 40px;
+    }
+    @media #{$max-md}{
+        padding: 20px 8px;
+        margin-top: 30px;
+    }
+    @media #{$max-sm}{
+        margin-top: 20px;
+    }
 }
 .overview_top_area{
     background-color:$grey-color;
@@ -10,6 +21,9 @@
     border-top-right-radius: 10px;
     padding: 22px;
     margin-top: 32px;
+    @media #{$max-sm}{
+        margin-top: 16px;
+    }
     div.col-md-4 {
         display: flex;
         align-items: center;
