@@ -1010,24 +1010,24 @@
         height: 160px;
     }
 }
-.popmodal-body.no-ht{
-    min-height: 100%;
-    .pop-block{
-        height: 100%;
-    }
-    .pop-bottom{
-        padding-top: 80px;
-        @media #{$max-xxl}{
-            padding-top: 50px;
-        }
-        @media #{$max-xl}{
-            padding-top: 40px;
-        }
-        @media #{$max-lg}{
-            padding-top: 30px;
-        }
-    }
-}
+// .popmodal-body.no-ht{
+//     min-height: 100%;
+//     .pop-block{
+//         height: 100%;
+//     }
+//     .pop-bottom{
+//         padding-top: 80px;
+//         @media #{$max-xxl}{
+//             padding-top: 50px;
+//         }
+//         @media #{$max-xl}{
+//             padding-top: 40px;
+//         }
+//         @media #{$max-lg}{
+//             padding-top: 30px;
+//         }
+//     }
+// }
 .tokn-popup.no-ht{
     .pop-bottom{
         padding-top: 40px;
@@ -1103,9 +1103,56 @@
         padding-right: 0 !important;
     } 
 }
-
-
-
+.walet-ht{
+    .cmn_modal{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height:100%;
+    }
+    .modal-content{
+        height:520px;
+        @media #{$max-sm}{
+            height:470px;
+        }
+    }
+}
+.bridge-ht{
+    .modal-content{
+        height: 570px;
+        @media #{$max-xl}{
+            height:550px;
+        }
+    }
+}
+.bridge-ht2{
+    .modal-content{
+        height: 608px;
+        @media #{$max-xxl}{
+            height:590px;
+        }
+        @media #{$max-xl}{
+            height:580px;
+        }
+        @media #{$max-sm}{
+            height:560px;
+        }
+    }
+}
+.tkn-ht{
+    .modal-content{
+        height: 680px;
+    } 
+    @media #{$max-sm}{
+        height:650px;
+    }
+    .token-listwrap.list-ht {
+        max-height: 380px;
+    }
+}
+.token-listwrap.usr-listht {
+    max-height: 280px;
+}
 /** become a validator steps style start **/
 .rewards-section {
     padding: 70px 0;
@@ -2026,3 +2073,5 @@ background: $body-bg;
         height: 100px;
     }
 }
+
+
