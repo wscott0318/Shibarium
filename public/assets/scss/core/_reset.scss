@@ -276,6 +276,12 @@ ul {
     @media #{$max-xl}{
         font-size: 14px;
     }
+    @media #{$max-xsm}{
+        padding: 8px 15px;
+    }
+    @media #{$max-xxsm}{
+        padding: 6px 15px;
+    }
 }
 
 .primary-btn{
@@ -523,6 +529,16 @@ ul {
         padding: 32px 20px;
         @media #{$max-xxl}{
             padding: 30px 15px;
+            border-radius: 30px;
+        }
+        @media #{$max-lg}{
+            border-radius: 20px;
+        }
+        @media #{$max-md}{
+            border-radius: 16x;
+        }
+        @media #{$max-sm}{
+            border-radius: 12x;
         }
         .modal-header{
             border: 0;
@@ -558,9 +574,6 @@ ul {
                     border: 0;
                 }
             }
-        }
-        @media #{$max-lg}{
-            border-radius: 5px;
         }
     }
     .modal-body{
