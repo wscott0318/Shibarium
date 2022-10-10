@@ -256,7 +256,7 @@ export default function Home() {
                       <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
                     <h4 className='shib-title mb-2 ff-mos'>
-                      <Link href="javascript:void(0)">
+                      <Link href="/developer-resources">
                         <a>
                           Developer Resources
                         </a>
@@ -273,7 +273,7 @@ export default function Home() {
                       <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
                     <h4 className='shib-title mb-2 ff-mos'>
-                      <Link href="javascript:void(0)">
+                      <Link href="/ecosystem">
                         <a>
                           Join the Ecosystem
                         </a>
@@ -290,7 +290,7 @@ export default function Home() {
                       <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
                     <h4 className='shib-title mb-2 ff-mos'>
-                      <Link href="javascript:void(0)">
+                      <Link href="/community">
                         <a>
                           Join the Community
                         </a>
@@ -308,7 +308,7 @@ export default function Home() {
                       <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
                     <h4 className='shib-title mb-2 ff-mos'>
-                      <Link href="javascript:void(0)">
+                      <Link href="/secure-network">
                         <a>
                           Secure the Network
                         </a>

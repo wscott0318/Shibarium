@@ -5,7 +5,10 @@
 .dark-bg{
     background-color:$body-bg !important;
 }
-
+.white-label{
+    background-color:$white;
+    border-radius: 4px;
+}
 /** background color end **/
 
 /** text color start **/
@@ -13,7 +16,7 @@
     color: $primary !important;
 }
 .lite-color{
-    color: $grey-color;
+    color: $grey-color !important;
 }
 // card-style
 
@@ -220,8 +223,12 @@
     right: auto;
     top: auto;
     bottom: auto;
+    @media #{$max-xxl}{
+        max-width:60px;
+    }
     @media #{$max-lg}{
         max-width:40px;
+        margin: 0 auto;
     }
     @media #{$max-md}{
         position: initial;
@@ -233,8 +240,11 @@
 .head-txt {
     width: 100%;
     padding-left: 80px;
+    @media #{$max-xxl}{
+        padding-left: 75px;
+    }
     @media #{$max-lg}{
-        padding-left: 40px;
+        padding-left: 50px;
     }
     @media #{$max-md}{
         padding-left: 0;
@@ -311,6 +321,7 @@
     }
     @media #{$max-md}{
         width: 215px;
+        display: inline;
     }
 }
 .fw-bold{
@@ -550,6 +561,11 @@
 // common stepper
 .stepper {
     display: flex;
+    &.del-step{
+        .step{
+            width: 33.33%;
+        }
+    }
     .step {
         position: relative;
         width: 25%;
@@ -1969,3 +1985,41 @@ background: $body-bg;
     }
 }
 /**rewards calculator style end **/
+
+// deligator common css
+.arrow-block {
+    position: relative;
+    .arrow-float {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+    }
+}
+.del-img {
+    max-width: 170px;
+    margin: 0 auto;
+    height: 185px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.del-height {
+    height: 365px;
+}
+.del-flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.del-img{
+    .pop-spiner {
+        vertical-align: middle;
+        margin-right: 10px;
+        color: #6a7596 !important;
+        width: 100px;
+        height: 100px;
+    }
+}

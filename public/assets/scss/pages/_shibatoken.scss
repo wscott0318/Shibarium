@@ -1,0 +1,350 @@
+.shib-content {
+    width: calc(100% - 290px);
+    margin-left: auto;
+    // margin-top: 126px;
+    padding: 30px 30px 30px;
+    @media #{$max-xxxl}{
+        // margin-top: 82px;
+    }
+    @media #{$max-xl}{
+        width: 100%;
+        padding: 15px;
+        // margin-top: 112px;
+    }
+}
+
+.bs-card{
+    background-color:$black;
+    height: 100%;
+    padding: 15px;
+    border: 0;
+    @media #{$max-md}{
+        min-height: 120px;
+    }
+    span{
+        display: inline;
+    }
+}
+
+.baner-card {
+    border-radius: 8px;
+    box-shadow: 2.5px 4.3px 27px 0 rgba(0, 0, 0, 0.21);
+    background-color:$body-bg-800;
+    padding: 30px 30px 5px;
+    margin-top: -70px;
+    position: relative;
+}
+.card-hr {
+    max-width: 95px;
+    height: 2px;
+    background-color: #2e2d2d;
+    display: inline-block;
+    margin:4px 0 5px;
+}
+
+.bs-col {
+    margin-bottom: 25px;
+}
+
+.networkCard {
+    .bs-card {
+        justify-content: space-between;
+    }
+}
+.filter-sec.topmargin {
+    margin-top: 30px;
+}
+
+.black_clr_box{
+    background-color: $body-bg;
+}
+.sec-spc-low {
+    padding: 40px 40px 30px;
+}
+.rt-border {
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.image-section {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+.heading-sec{
+    margin-bottom: 35px;
+    @media #{$max-xxl} {
+        margin-bottom: 20px;
+    }
+}
+
+.card-box {
+    padding: 20px 15px;
+    border-radius: 8px;
+    background-color:$body-bg;
+    border: transparent;
+}
+
+.border-orange{
+    border:1px solid $primary;
+}
+.stats-blk, .cus-alert {
+    display: flex;
+}
+.burn-image {
+    margin-right: 25px;
+}
+.btn-sec{
+    padding: 20px 0 0;
+}
+.button-light{
+    // background: $white6;
+    // color: $white5;
+}
+.lightborder{
+    box-shadow: 1px 3px 1px #e2e3e4;
+}
+.btn-sec{
+    .btn{
+        min-width: 200px;
+    }
+}
+
+.cus-alert {
+    padding: 10px;
+    background:$white;
+    border-radius: 4px;
+    color:$grey-color;
+    margin-top: 35px;
+}
+.botom-spacing {
+    padding-bottom: 50px;
+}
+.botom-space-md {
+    margin-bottom: 30px;
+}
+
+
+// sidebar scss
+
+.shiba-token {
+    width: calc(100% - 290px);
+    margin-left: auto;
+    // margin-top: 126px;
+    padding: 30px 30px 30px;
+    @media #{$max-xxxl}{
+        // margin-top: 82px;
+    }
+    @media #{$max-xl}{
+        width: 100%;
+        padding: 15px;
+        // margin-top: 112px;
+    }
+}
+
+.token-sidebar{
+    background-color:$body-bg;
+    width: 290px;
+    min-height: calc(100vh - 82px);
+    margin-top: 82px;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: auto;
+    z-index: 2;
+    @media #{$max-xl}{
+        width: 230px;
+        margin-left: -230px;
+        display: none;
+        min-height: calc(100vh - 78px);
+        margin-top: 78px;
+    }
+    @media #{$max-md}{
+        margin-top: 64px;
+    }
+    @media #{$max-xsm}{
+        min-height: calc(100vh - 82px);
+    }
+    @media #{$small-mobile}{
+        margin-top: 58.6px;
+    }
+    @media (max-width:360.98px){
+        margin-top: 47.95px;
+    }
+    // @media (max-width:360.98px){
+    //     min-height: calc(100vh - 49px);
+    //     margin-top: 49px;
+    // }
+    .close-icon {
+        position: absolute;
+        top: -1px;
+        right: 9px;
+        width: 13px;
+        height: 13px;
+        @media (min-width:1200px){
+            display: none;
+        }
+    }
+    .ps__rail-x {
+        display: none !important;
+    }
+    
+    &.active{
+        margin-left: 0;
+        display: block;
+    }
+    .side-logo {
+        padding: 14px 10px 30px;
+        padding-left: 0;
+        margin-left: 30px;
+        max-width: 160px;
+    }
+    .nav-menu {
+        padding-top: 25px;
+        @media #{$max-xl}{
+            padding-top: 0;
+        }
+        .nav-item{
+            margin-left: 15px;
+            position: relative;
+            @media #{$max-xxl}{
+                margin-left: 12px;
+            }
+            @media #{$max-xl}{
+                margin-left: 6px;
+            }
+            .active-shape {
+                position: absolute;
+                top: -104px;
+                right: -37px;
+                display: none;
+            }
+            &.active{
+                .nav-link{
+                    color:$primary;
+                    background-color:$body-bg-800;
+                    border-top-left-radius: 30px;
+                    border-bottom-left-radius: 30px;
+                    position: relative;
+                    @media #{$max-xl}{
+                     border-radius:30px;                        
+                    }
+                    .dark-ico {
+                        display: inline-block;
+                    }
+                    .light-ico {
+                        display:none;
+                    }
+                    &::before{
+                        content: '';
+                        position: absolute;
+                        transform: rotate(90deg) scale(1.04);
+                        background-size: 100%;
+                        background-image: url('../../images/curve-shape.svg');
+                        top: 0px;
+                        right: 0px;
+                        width: 55px;
+                        height: 44px;
+                        margin-top: -50px;
+                        background-size: 100%;
+                        margin-right: -6px;
+                        @media #{$max-xl}{
+                            width: 30px;
+                            height: 30px;
+                            margin-top: -30px;
+                            background-size: 100%;
+                            margin-right: 0px;
+                            content: none;
+                        }
+                    }
+                    &::after{
+                        content: '';
+                        position: absolute;
+                        transform: scale(1.04);
+                        background-size: 100%;
+                        background-image: url('../../images/curve-shape.svg');
+                        top: 0px;
+                        right: 0px;
+                        width: 55px;
+                        height: 44px;
+                        margin-top: 56px;
+                        background-size: 100%;
+                        margin-right: 0px;
+                        @media #{$max-xl}{
+                            width: 30px;
+                            height: 30px;
+                            margin-top: 45px;
+                            content: none;
+                        }
+                        @media #{$max-xxxl}{
+                            margin-top: 49px;
+                        }
+                    }
+                }
+                .active-shape {
+                    display:none;
+                }
+            }
+        }       
+        .nav-link {
+            padding:12px 10px;
+            font-size: 18px;
+            letter-spacing: 0.72px;
+            color: #fff;
+            padding-left: 12px;
+            position: relative;   
+            display: flex;
+            align-items: center;        
+            @media #{$max-xxl}{
+                font-size: 16px;
+            }
+            @media #{$max-xl}{
+                font-size: 14px;
+                padding: 10px 8px;
+            }
+            .nav-icon {
+                transform: translateY(-3px);
+                margin-right: 16px;
+                @media #{$max-xl}{
+                    margin-right: 6px;
+                    max-width: 25px;
+                    margin-right: 6px;
+                }
+            }
+            .dark-ico {
+                display: none;
+            }
+        }
+    }
+}
+
+
+.nav-menu{
+    &.side-bg {
+        background-color: $black;
+        width: calc(100% - 54px);
+        margin: 0 auto;
+        border-radius: 8px;
+        .nav-item{
+            margin-left: 0;
+            .nav-link{
+                padding: 6px 12px;
+                .nav-icon {
+                    transform: translateY(0);
+                }
+            }
+        }
+        
+    }
+}
+
+.swap-btn{
+    margin-right:10px;
+    img{
+        max-width: 25px;
+    }
+}
