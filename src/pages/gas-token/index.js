@@ -89,7 +89,7 @@ export default function Gastoken() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className='down_arrow'><img src="../../images/chev-drop.png" alt="icon-img"/></div>
+                                        <div className='down_arrow'><img src="../../images/down-arrow-gif.gif" alt="icon-img"/></div>
                                     </div>
                                     <div className="form-btn flex-form-btm">
                                         
