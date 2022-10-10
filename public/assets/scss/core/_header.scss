@@ -136,6 +136,10 @@
             @media #{$max-xl}{
                 font-size: 14px;
             }
+            @media #{$max-xsm}{
+                padding: 8px 7px !important;
+                padding-right: 20px !important;
+            }
         }
     }
     .dot-icon{
