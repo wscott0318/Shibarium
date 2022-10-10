@@ -51,7 +51,9 @@ export default function differentchainbridge() {
     return (
         <>
             <main className="main-content">
-                <Sidebar handleMenuState={handleMenuState} menuState={menuState} />
+                <Sidebar handleMenuState={handleMenuState} onClickOutside={() => {
+            setMenuState(false);
+          }} menuState={menuState} />
                 <div className="cmn_dashbord_main_outr">
                     <InnerHeader />
                     <div className="container px-0">

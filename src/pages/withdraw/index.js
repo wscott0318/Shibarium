@@ -59,7 +59,13 @@ export default function Withdraw() {
   return (
     <>
       <main className="main-content">
-        <Sidebar handleMenuState={handleMenuState} menuState={menuState} />
+        <Sidebar
+          handleMenuState={handleMenuState}
+          onClickOutside={() => {
+            setMenuState(false);
+          }}
+          menuState={menuState}
+        />
         {/* modal code start */}
         {/* Deposit popup start */}
         <CommonModal
