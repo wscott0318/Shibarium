@@ -124,6 +124,9 @@ export default function differentchainbridge() {
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                    <div class="down_arrow"><img src="../../images/down-arrow-gif.gif" alt="icon-img"/></div>
+
                                     <div className="field-grid row">
                                         <div className="col-sm-4">
                                             <div className="form-group">

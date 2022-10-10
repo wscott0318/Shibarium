@@ -110,7 +110,7 @@ export default function Withdraw() {
                         <div className="d-inline-block arow-block">
                           <img
                             class="img-fluid"
-                            src="../../images/white-arrow.png"
+                            src="../../images/right-arrow-gif.gif"
                             alt=""
                           />
                         </div>
@@ -199,7 +199,7 @@ export default function Withdraw() {
                         <div className="d-inline-block">
                           <img
                             class="img-fluid"
-                            src="../../images/white-arrow.png"
+                            src="../../images/right-arrow-gif.gif"
                             alt=""
                           />
                         </div>
@@ -345,7 +345,7 @@ export default function Withdraw() {
                         <div className="d-inline-block">
                           <img
                             class="img-fluid"
-                            src="../../images/white-arrow.png"
+                            src="../../images/right-arrow-gif.gif"
                             alt=""
                           />
                         </div>
@@ -444,7 +444,7 @@ export default function Withdraw() {
                         <div className="d-inline-block">
                           <img
                             class="img-fluid"
-                            src="../../images/white-arrow.png"
+                            src="../../images/right-arrow-gif.gif"
                             alt=""
                           />
                         </div>
@@ -603,7 +603,7 @@ export default function Withdraw() {
                         <div className="d-inline-block">
                           <img
                             class="img-fluid"
-                            src="../../images/white-arrow.png"
+                            src="../../images/right-arrow-gif.gif"
                             alt=""
                           />
                         </div>
