@@ -134,7 +134,7 @@ export default function Wallet() {
 
   const handleMenuState = () => {
     console.log("called click")
-    setMenuState(false)
+    setMenuState(!menuState);
   }
 
   const handleSend = () => {

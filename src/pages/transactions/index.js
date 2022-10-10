@@ -101,7 +101,7 @@ export default function Transaction() {
 
 
   const handleMenuState = () => {
-    setMenuState(false)
+    setMenuState(!menuState);
   }
 
 
