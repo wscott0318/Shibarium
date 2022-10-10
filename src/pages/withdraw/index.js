@@ -32,7 +32,7 @@ export default function Withdraw() {
   const [showTokenModal, setTokenModal] = useState(false);
   const [dWState,setDWState] = useState(false);
   const handleMenuState = () => {
-    setMenuState(false)
+    setMenuState(!menuState);
   }
   const [withModalState, setWidModState] = useState({
     step0: true,
@@ -59,7 +59,13 @@ export default function Withdraw() {
   return (
     <>
       <main className="main-content">
-        <Sidebar handleMenuState={handleMenuState} menuState={menuState} />
+        <Sidebar
+          handleMenuState={handleMenuState}
+          onClickOutside={() => {
+            setMenuState(false);
+          }}
+          menuState={menuState}
+        />
         {/* modal code start */}
         {/* Deposit popup start */}
         <CommonModal
@@ -1036,6 +1042,16 @@ export default function Withdraw() {
                           <button
                             type="button"
                             className="btn btn-active w-100"
+                            onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: true,
+                                step2: false,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}
                           >
                             Token Lists
                           </button>
@@ -1100,6 +1116,16 @@ export default function Withdraw() {
                           <button
                             type="button"
                             className="btn btn-active w-100"
+                            onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: true,
+                                step2: false,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}
                           >
                             Token Lists
                           </button>
@@ -1231,6 +1257,16 @@ export default function Withdraw() {
                           <button
                             type="button"
                             className="btn btn-active w-100"
+                            onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: true,
+                                step2: false,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}
                           >
                             Token Lists
                           </button>
@@ -1590,7 +1626,11 @@ export default function Withdraw() {
                   </div>
                   <div className="blank-box"></div>
                   <div className="box-bottom d-flex flex-column justify-content-end">
-                    <div className={`amt-section position-relative ${!dWState ? 'visVisible' : 'visInvisible'}`}>
+                    <div
+                      className={`amt-section position-relative ${
+                        !dWState ? "visVisible" : "visInvisible"
+                      }`}
+                    >
                       <div className="coin-blk">
                         <div className="coin-sec">
                           <img

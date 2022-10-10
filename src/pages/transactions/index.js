@@ -101,14 +101,20 @@ export default function Transaction() {
 
 
   const handleMenuState = () => {
-    setMenuState(false)
+    setMenuState(!menuState);
   }
 
 
   return (
     <>
       <main className="main-content">
-        <Sidebar handleMenuState={handleMenuState} menuState={menuState} />
+        <Sidebar
+          handleMenuState={handleMenuState}
+          onClickOutside={() => {
+            setMenuState(false);
+          }}
+          menuState={menuState}
+        />
 
         <CommonModal
           title={showSendModal.title}
@@ -494,7 +500,7 @@ export default function Transaction() {
                       className="btn primary-btn d-flex align-items-center"
                       href="javascript:void(0)"
                     >
-                      <span onClick={()=>setShowModal(false)}>Confirm</span>
+                      <span onClick={() => setShowModal(false)}>Confirm</span>
                     </a>
                   </div>
                 </div>

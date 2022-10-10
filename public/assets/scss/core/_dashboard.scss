@@ -68,6 +68,7 @@
         transform: translateX(0);
         opacity: 1;
         transition: transform 0.5s;
+        z-index: 1001;
     }
     .sidebar-logo {
         position: relative;
