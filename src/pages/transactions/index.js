@@ -125,7 +125,7 @@ export default function Transaction() {
           <>
             {/* Reaching Checkpoint popop start  */}
             {showSendModal.step0 && (
-              <div className="cmn_modal trans_popups">
+              <div className="cmn_modal trans_popups trans-ht">
                 <ul className="stepper">
                   <li className="step active">
                     <div className="step-ico">
@@ -226,7 +226,7 @@ export default function Transaction() {
 
             {/* Checkpoint reached popop start  */}
             {showSendModal.step1 && (
-              <div className="cmn_modal trans_popups">
+              <div className="cmn_modal trans_popups trans-ht">
                 <ul className="stepper">
                   <li className="step active">
                     <div className="step-ico">

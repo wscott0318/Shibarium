@@ -293,14 +293,14 @@ export default function Wallet() {
             }
             show={senderModal}
             setShow={handleCloseModal}
-            externalCls="dark-modal-100"
+            externalCls="dark-modal-100 walet-ht"
           >
             {/* step 1 */}
             <>
               {/* transferring funds popop start */}
 
-              {showSendModal.step0 && (
-                <div className="cmn_modal">
+              {showSendModal.step0 && <div className="cmn_modal">
+                <div className="pop-top">
                   <p className="mb-0">Sending funds to exchanges:</p>
                   <div className="exchng_msg_box">
                     <p>Exchanges supported from Shibarium network</p>
@@ -308,50 +308,34 @@ export default function Wallet() {
                   </div>
                   <p className="alert_msg">
                     <div className="image-wrap d-inline-block me-2">
-                      <img
-                        className="img-fluid"
-                        src="../../images/i-info-icon.png"
-                        width={16}
-                      />
+                      <img className="img-fluid" src="../../images/i-info-icon.png" width={16} />
                     </div>
-                    Sending funds to unsupported exchanges will lead to
-                    permanent loss of funds.
-                  </p>
+                    Sending funds to unsupported exchanges will lead to permanent loss of funds.</p>
+                </div>
+                <div className="pop-bottom">
                   <div className="pop_btns_area row form-control">
                     <div className="col-6">
-                      <button
-                        className="btn blue-btn w-100"
-                        onClick={() => {
-                          setSenderModal(false);
-                          setSendModal(sendInitialState);
-                        }}
-                      >
-                        Cancel
-                      </button>
+                      <button className='btn blue-btn w-100' onClick={() => {
+                        setSenderModal(false);
+                        setSendModal(sendInitialState)
+                      }}>Cancel</button>
                     </div>
                     <div className="col-6">
-                      <button
-                        className="btn primary-btn w-100"
-                        onClick={() =>
-                          setSendModal({
-                            step0: false,
-                            step1: true,
-                            step2: false,
-                            step3: false,
-                            showTokens: false,
-                          })
-                        }
-                      >
-                        Continue
-                      </button>
+                      <button className='btn primary-btn w-100'
+                        onClick={() => setSendModal({
+                          step0: false,
+                          step1: true,
+                          step2: false,
+                          step3: false,
+                          showTokens:false
+                        })}>Continue</button>
                     </div>
                   </div>
-                  <p className="pop_btm_txt text-center">
-                    If you want to send funds between chains visit{" "}
-                    <a href="#">Shibarium Bridge</a>
-                  </p>
+                  <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
                 </div>
-              )}
+                
+                
+              </div>}
 
               {/* transferring funds popop ends */}
 
@@ -359,6 +343,7 @@ export default function Wallet() {
               {showSendModal.step1 && (
                 <div className="cmn_modal">
                   {/* <h4 className="pop_main_h text-center">Send</h4>  */}
+                  <div className="pop-top">
                   <form className="mr-top-50">
                     <div className="form-group">
                       <input
@@ -499,17 +484,20 @@ export default function Wallet() {
                       </div>
                     </div>
                   </form>
-                  <p className="pop_btm_txt text-center">
-                    If you want to send funds between chains visit{" "}
-                    <a href="#">Shibarium Bridge</a>
-                  </p>
-                </div>
-              )}
+                  </div>
+                  <div className="pop-bottom">
+                    <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
+                  </div>
+                  
+                </div>)}
+
+                
               {/* send popop ends */}
 
               {/* confirm send popop start */}
               {showSendModal.step2 && (
                 <div className="cmn_modal">
+                  <div className="pop-top">
                   <div className="cnfrm_box dark-bg mt-0">
                     <div className="top_overview col-12">
                       <span>
@@ -551,84 +539,68 @@ export default function Wallet() {
                       </label>
                     </div>
                   </div>
-                  <div className="pop_btns_area row sep-space">
-                    <div className="col-6">
-                      <button
-                        className="btn blue-btn w-100"
-                        onClick={() => {
-                          setSendModal({
+                  </div>
+                  <div className="pop-bottom">
+                    <div className="pop_btns_area row sep-space">
+                      <div className="col-6">
+                        <button className='btn blue-btn w-100'
+                          onClick={() => {setSendModal({
                             step0: false,
                             step1: true,
                             step2: false,
                             step3: false,
-                            showTokens: false,
-                          });
-                          setVerifyAmount(false);
+                            showTokens:false
+                          })
+                          setVerifyAmount(false)
                         }}
-                      >
-                        Back
-                      </button>
+                        >Back</button>
+                      </div>
+                      <div className="col-6 active-btn">
+                        <button className='btn primary-btn w-100'
+                          disabled={verifyAmount ? false : true}
+                          onClick={() => submitTransaction()}
+                        >Send</button>
+                      </div>
                     </div>
-                    <div className="col-6 active-btn">
-                      <button
-                        className="btn primary-btn w-100"
-                        disabled={verifyAmount ? false : true}
-                        onClick={() => submitTransaction()}
-                      >
-                        Send
-                      </button>
-                    </div>
+                    <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
                   </div>
-
-                  <p className="pop_btm_txt text-center">
-                    If you want to send funds between chains visit{" "}
-                    <a href="#">Shibarium Bridge</a>
-                  </p>
-                </div>
-              )}
+                  
+                  
+                </div>)}
               {/* confirm send popop ends */}
 
               {/* submitted popop start */}
               {showSendModal.step3 && (
                 <div className="cmn_modal">
-                  <div className="cnfrm_box dark-bg mt-0">
-                    <div className="top_overview col-12">
-                      <span>
-                        <img src="../../images/shib-borderd-icon.png" />
-                      </span>
-                      <h6>{sendAmount} BONE</h6>
-                      <p>
-                        <NumberFormat
-                          thousandSeparator
-                          displayType={"text"}
-                          prefix="$ "
-                          value={((+sendAmount || 0) * boneUSDValue).toFixed(2)}
-                        />
-                      </p>
+                  <div className="pop-top">
+                    <div className="cnfrm_box dark-bg mt-0">
+                      <div className="top_overview col-12">
+                        <span><img src="../../images/shib-borderd-icon.png" /></span>
+                        <h6>{sendAmount} BONE</h6>
+                        <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+sendAmount || 0) * boneUSDValue).toFixed(2)} /></p>
+                      </div>
+                      <div className="add_detail col-12">
+                        <p><b>TRANSACTION SUBMITTED TO:</b></p>
+                        <p>{transactionHash}</p>
+                      </div>
                     </div>
-                    <div className="add_detail col-12">
-                      <p>
-                        <b>TRANSACTION SUBMITTED TO:</b>
-                      </p>
-                      <p>{transactionHash}</p>
+                    <div className="cnfrm_check_box text-center">
+                      Check your wallet activity to see the status of the transaction
                     </div>
                   </div>
-                  <div className="cnfrm_check_box text-center">
-                    Check your wallet activity to see the status of the
-                    transaction
-                  </div>
-                  <div className="pop_btns_area row form-control">
-                    <div className="col-12">
-                      <button
-                        className="btn primary-btn w-100"
-                        onClick={() => handleCloseModal()}
-                      >
-                        Close
-                      </button>
+                  <div className="pop-bottom">
+                    <div className="pop_btns_area row form-control">
+                      <div className="col-12">
+                        <button
+                          className='btn primary-btn w-100'
+                          onClick={() => handleCloseModal()}
+                        >Close</button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                  
+                  
+                </div>)}
               {/* submitted popop ends */}
 
               {/* Select token popop starts */}

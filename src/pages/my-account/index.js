@@ -9,6 +9,7 @@ import { useActiveWeb3React } from "../../services/web3"
 import  CommonModal from "../components/CommonModel";
 import Header from "../layout/header";
 import StakingHeader from '../staking-header'
+import { useRouter } from "next/router";
 export default function MyAcount() {
   // const {account}=useContext(ProjectContext)
 
@@ -41,6 +42,7 @@ export default function MyAcount() {
  
 
   //  console.log('account---------------', account)
+  const router = useRouter();
   return (
     <>
       <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space">
@@ -61,12 +63,16 @@ export default function MyAcount() {
                         <h4>$0.00</h4>        
                         <div className="btns_sec val_all_bts row">
                             <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space"> 
-                                <button  className="btn grey-btn w-100 d-block">
+                                <button  onClick={()=>{
+                                    router.push('/become-validator')
+                                  }} className="btn grey-btn w-100 d-block">
                                     Become a Validator
                                 </button>
                             </div>
                             <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">                        
-                                <button onClick={() =>setvalidatorpop(true)} className="btn primary-btn w-100 d-block">
+                                <button onClick={()=>{
+                                  router.push('/all-validator')
+                                }} className="btn primary-btn w-100 d-block">
                                     Become a Delegator
                                 </button> 
                             </div>
