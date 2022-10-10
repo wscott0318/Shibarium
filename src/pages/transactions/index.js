@@ -27,6 +27,7 @@ import InnerHeader from "../../pages/inner-header";
 
 export default function Transaction() {
   const router = useRouter()
+  const [onlyPending, setOnlyPending] = useState(false);
   // const { authenticate, isAuthenticated, user,} = useMoralis();
 
   // const {handleAccount}=useContext(ProjectContext)
@@ -103,7 +104,6 @@ export default function Transaction() {
   const handleMenuState = () => {
     setMenuState(!menuState);
   }
-
 
   return (
     <>
@@ -527,14 +527,34 @@ export default function Transaction() {
               <div className="trnsc_inr_cont">
                 <div className="trns_top_btns_area row">
                   <div className="col-md-3 col-sm-4 col-xs-12">
-                    <a href="#" className="primary-btn btn w-100">
-                      All Transactions
-                    </a>
+                    <button
+                      onClick={() => setOnlyPending(false)}
+                      className="w-full"
+                    >
+                      <a
+                        href="#"
+                        className={`${
+                          !onlyPending ? "primary-btn" : "white-btn"
+                        } btn w-100`}
+                      >
+                        All Transactions
+                      </a>
+                    </button>
                   </div>
                   <div className="col-md-3 col-sm-4 col-xs-12">
-                    <a href="#" className="white-btn btn w-100">
-                      Pending
-                    </a>
+                    <button
+                      onClick={() => setOnlyPending(true)}
+                      className="w-full"
+                    >
+                      <a
+                        href="#"
+                        className={`${
+                          onlyPending ? "primary-btn" : "white-btn"
+                        } btn w-100`}
+                      >
+                        Pending
+                      </a>
+                    </button>
                   </div>
                 </div>
                 <div className="overview_sec">
@@ -597,151 +617,153 @@ export default function Transaction() {
                   </div>
                 </div>
                 {/* all transactions table start */}
-                <div className="transactions_list_outr">
-                  <div className="single_trns_row">
-                    <div className="row trns_date">
-                      <div className="col-12">19/07/2022</div>
+                {!onlyPending && (
+                  <div className="transactions_list_outr">
+                    <div className="single_trns_row">
+                      <div className="row trns_date">
+                        <div className="col-12">19/07/2022</div>
+                      </div>
+                      <div className="row trns_data">
+                        <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+                          <span>
+                            <img
+                              className="img-fluid me-2"
+                              src="../../images/down-arrow.png"
+                              alt="meta-img"
+                            />
+                          </span>
+                          <div>
+                            <b>Receive</b>
+                            <b className="grey_txt">10:30 AM</b>
+                          </div>
+                        </div>
+                        <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+                          <span>
+                            <img
+                              className="img-fluid me-2"
+                              src="../../images/red-bone.png"
+                              alt="meta-img"
+                            />
+                          </span>
+                          <div>
+                            <b>100 BONE</b>
+                            <b className="grey_txt">1000$</b>
+                          </div>
+                        </div>
+                        <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+                          <div>
+                            <b>Transaction hash</b>
+                            <p className="grey_txt trns_has_add">
+                              <span>0x1a95....ba496</span>
+                              <a href="#">
+                                <img
+                                  src="../../images/grey-arrow.png"
+                                  className="img-fluid"
+                                />
+                              </a>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="row trns_data">
-                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                        <span>
-                          <img
-                            className="img-fluid me-2"
-                            src="../../images/down-arrow.png"
-                            alt="meta-img"
-                          />
-                        </span>
-                        <div>
-                          <b>Receive</b>
-                          <b className="grey_txt">10:30 AM</b>
-                        </div>
-                      </div>
-                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                        <span>
-                          <img
-                            className="img-fluid me-2"
-                            src="../../images/red-bone.png"
-                            alt="meta-img"
-                          />
-                        </span>
-                        <div>
-                          <b>100 BONE</b>
-                          <b className="grey_txt">1000$</b>
-                        </div>
-                      </div>
-                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                        <div>
-                          <b>Transaction hash</b>
-                          <p className="grey_txt trns_has_add">
-                            <span>0x1a95....ba496</span>
-                            <a href="#">
-                              <img
-                                src="../../images/grey-arrow.png"
-                                className="img-fluid"
-                              />
-                            </a>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
 
-                  <div className="single_trns_row">
-                    <div className="row trns_date">
-                      <div className="col-12">19/07/2022</div>
+                    <div className="single_trns_row">
+                      <div className="row trns_date">
+                        <div className="col-12">19/07/2022</div>
+                      </div>
+                      <div className="row trns_data">
+                        <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+                          <span>
+                            <img
+                              className="img-fluid me-2"
+                              src="../../images/down-arrow.png"
+                              alt="meta-img"
+                            />
+                          </span>
+                          <div>
+                            <b>Receive</b>
+                            <b className="grey_txt">10:30 AM</b>
+                          </div>
+                        </div>
+                        <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+                          <span>
+                            <img
+                              className="img-fluid me-2"
+                              src="../../images/red-bone.png"
+                              alt="meta-img"
+                            />
+                          </span>
+                          <div>
+                            <b>100 BONE</b>
+                            <b className="grey_txt">1000$</b>
+                          </div>
+                        </div>
+                        <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+                          <div>
+                            <b>Transaction hash</b>
+                            <p className="grey_txt trns_has_add">
+                              <span>0x1a95....ba496</span>
+                              <a href="#">
+                                <img
+                                  src="../../images/grey-arrow.png"
+                                  className="img-fluid"
+                                />
+                              </a>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="row trns_data">
-                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                        <span>
-                          <img
-                            className="img-fluid me-2"
-                            src="../../images/down-arrow.png"
-                            alt="meta-img"
-                          />
-                        </span>
-                        <div>
-                          <b>Receive</b>
-                          <b className="grey_txt">10:30 AM</b>
-                        </div>
-                      </div>
-                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                        <span>
-                          <img
-                            className="img-fluid me-2"
-                            src="../../images/red-bone.png"
-                            alt="meta-img"
-                          />
-                        </span>
-                        <div>
-                          <b>100 BONE</b>
-                          <b className="grey_txt">1000$</b>
-                        </div>
-                      </div>
-                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                        <div>
-                          <b>Transaction hash</b>
-                          <p className="grey_txt trns_has_add">
-                            <span>0x1a95....ba496</span>
-                            <a href="#">
-                              <img
-                                src="../../images/grey-arrow.png"
-                                className="img-fluid"
-                              />
-                            </a>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
 
-                  <div className="single_trns_row">
-                    <div className="row trns_date">
-                      <div className="col-12">19/07/2022</div>
-                    </div>
-                    <div className="row trns_data">
-                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                        <span>
-                          <img
-                            className="img-fluid me-2"
-                            src="../../images/down-arrow.png"
-                            alt="meta-img"
-                          />
-                        </span>
-                        <div>
-                          <b>Receive</b>
-                          <b className="grey_txt">10:30 AM</b>
-                        </div>
+                    <div className="single_trns_row">
+                      <div className="row trns_date">
+                        <div className="col-12">19/07/2022</div>
                       </div>
-                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                        <span>
-                          <img
-                            className="img-fluid me-2"
-                            src="../../images/red-bone.png"
-                            alt="meta-img"
-                          />
-                        </span>
-                        <div>
-                          <b>100 BONE</b>
-                          <b className="grey_txt">1000$</b>
+                      <div className="row trns_data">
+                        <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+                          <span>
+                            <img
+                              className="img-fluid me-2"
+                              src="../../images/down-arrow.png"
+                              alt="meta-img"
+                            />
+                          </span>
+                          <div>
+                            <b>Receive</b>
+                            <b className="grey_txt">10:30 AM</b>
+                          </div>
                         </div>
-                      </div>
-                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                        <div>
-                          <b>Transaction hash</b>
-                          <p className="grey_txt trns_has_add">
-                            <span>0x1a95....ba496</span>
-                            <a href="#">
-                              <img
-                                src="../../images/grey-arrow.png"
-                                className="img-fluid"
-                              />
-                            </a>
-                          </p>
+                        <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+                          <span>
+                            <img
+                              className="img-fluid me-2"
+                              src="../../images/red-bone.png"
+                              alt="meta-img"
+                            />
+                          </span>
+                          <div>
+                            <b>100 BONE</b>
+                            <b className="grey_txt">1000$</b>
+                          </div>
+                        </div>
+                        <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+                          <div>
+                            <b>Transaction hash</b>
+                            <p className="grey_txt trns_has_add">
+                              <span>0x1a95....ba496</span>
+                              <a href="#">
+                                <img
+                                  src="../../images/grey-arrow.png"
+                                  className="img-fluid"
+                                />
+                              </a>
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                )}
                 {/* all transactions table ends */}
 
                 {/* pending transactions table start */}
