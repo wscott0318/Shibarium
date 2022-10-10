@@ -1153,6 +1153,29 @@
 .token-listwrap.usr-listht {
     max-height: 280px;
 }
+.review-ht{
+    .modal-content{
+        height: 612px;
+        @media #{$max-xxl}{
+            height:570px;
+        }
+        @media #{$max-lg}{
+            height:530px;
+        }
+        @media #{$max-sm}{
+            height:480px;
+        }
+    }
+}
+.top-exspace{
+    @media #{$max-xxl}{
+        padding-top: 55px;
+    }
+    @media #{$max-xl}{
+        padding-top: 80px;
+    }
+    
+}
 /** become a validator steps style start **/
 .rewards-section {
     padding: 70px 0;
