@@ -503,6 +503,10 @@
     .btn{
         background: $grey-color-800;
         color: $grey-color;
+        &:hover{
+            background: $grey-color-800;
+            color: $grey-color; 
+        }
     }
     .btn.btn-active{
         background:$primary-gradient;

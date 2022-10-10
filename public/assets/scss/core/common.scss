@@ -1172,9 +1172,11 @@
         padding-top: 55px;
     }
     @media #{$max-xl}{
-        padding-top: 80px;
+        padding-top: 90px;
     }
-    
+    @media #{$max-sm}{
+        padding-top: 50px;
+    }
 }
 /** become a validator steps style start **/
 .rewards-section {
