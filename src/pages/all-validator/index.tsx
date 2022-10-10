@@ -18,11 +18,11 @@ import BorderBtn from "../components/BorderBtn";
 import WarningBtn from "../components/WarningBtn";
 import Footer from "../../pages/footer/index";
 import StakingHeader from '../staking-header'
-
+import { useRouter } from "next/router";
 export const Allvalidator: React.FC = () => {
   const [userType, setUserType] = useUserType();
   const myRef = useRef<any>(null)
-
+  const router = useRouter();
   const executeScroll = () => myRef.current.scrollIntoView()    
 
   // useEffect(() => {
@@ -50,7 +50,9 @@ export const Allvalidator: React.FC = () => {
                     <h1 className="mb-2 mb-sm-3 mb-md-4">All Validators</h1>
                     <div className="btns-sec mt-2">
                       <div className="btns-wrap">
-                        <button className="btn primary-btn">Become a Validator</button>
+                        <button onClick={()=>{
+                        router.push('/become-validator')
+                       }} className="btn primary-btn">Become a Validator</button>
                       </div>
                     </div>
                   </div>
@@ -124,28 +126,28 @@ export const Allvalidator: React.FC = () => {
                       <td>0.0000 - 0.00$</td>
                       <td><a href="#">Deposit</a></td>
                       <td><a href="#">Whitdraw</a></td>
-                      <td><a href="#">Send</a></td>
+                      <td><a className="sm-btn primary-btn" href="javascript:void(0);">Delegate</a></td>
                     </tr>
                     <tr>
                       <td><span><img src="../../images/matic-round-icon.png" /></span><b>MATIC</b> - Shibarium</td>
                       <td>0.0000 - 0.00$</td>
                       <td><a href="#">Deposit</a></td>
                       <td><a href="#">Whitdraw</a></td>
-                      <td><a href="#">Send</a></td>
+                      <td><a className="sm-btn primary-btn" href="javascript:void(0);">Delegate</a></td>
                     </tr>
                     <tr>
                       <td><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
                       <td>0.0000 - 0.00$</td>
                       <td><a href="#">Deposit</a></td>
                       <td><a href="#">Whitdraw</a></td>
-                      <td><a href="#">Send</a></td>
+                      <td><a className="sm-btn primary-btn" href="javascript:void(0);">Delegate</a></td>
                     </tr>
                     <tr>
                       <td><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
                       <td>0.0000 - 0.00$</td>
                       <td><a href="#">Deposit</a></td>
                       <td><a href="#">Whitdraw</a></td>
-                      <td><a href="#">Send</a></td>
+                      <td><a className="sm-btn primary-btn" href="javascript:void(0);">Delegate</a></td>
                     </tr>
                   </tbody>
                 </table>
