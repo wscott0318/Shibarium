@@ -75,7 +75,7 @@ export default function Deposit() {
     // },[error]);
   
     const handleMenuState = () => {
-        setMenuState(false)
+        setMenuState(!menuState)
     }
 
   return (
