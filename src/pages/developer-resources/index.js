@@ -113,7 +113,7 @@ export default function developerResources() {
                                 </ul>
                             </div>
                             <div className="col-md-6 col-sm-6 col-xs-12">
-                                <div className="image-section">
+                                <div className="image-section static_img">
                                     <div><img className="img-fluid" src="../../images/500x500.png" alt="check-icon"/></div>
                                 </div>
                             </div>
@@ -247,7 +247,7 @@ export default function developerResources() {
                     <section className="container mb-xxl-5 mb-xl-4 mb-sm-3 mb-3">
                         <div className="row">
                             <div className="col-md-7 col-sm-7 col-xs-12">
-                                <div className="image-section">
+                                <div className="image-section static_img">
                                     <div><img className="img-fluid" src="../../images/700x300.png" alt="check-icon"/></div>
                                 </div>
                             </div>
