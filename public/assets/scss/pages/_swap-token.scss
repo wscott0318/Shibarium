@@ -43,7 +43,7 @@
         flex-direction: column;
         justify-content: space-between;
         @media #{$max-xxl}{
-            min-height: 500px;
+            min-height: 300px;
         }
         @media #{$max-lg}{
             // min-height: auto;

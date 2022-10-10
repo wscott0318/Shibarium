@@ -484,7 +484,7 @@ export default function Wallet() {
               {/* submitted popop ends */}
 
               {/* Select token popop starts */}
-             {showSendModal.showTokens && <div className="popmodal-body tokn-popup">
+             {showSendModal.showTokens && <div className="popmodal-body tokn-popup token-ht">
                   <div className="pop-block">
                     <div className="pop-top">
                     <div className="sec-search">

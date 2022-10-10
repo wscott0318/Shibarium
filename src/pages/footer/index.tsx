@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import Link from "next/link";
 
 export default function Footer() {
 
@@ -38,11 +39,26 @@ export default function Footer() {
                         <div className="row">
                             <div className="col-sm-3 col-6">
                                 <div className='bottom-item'>
-                                    <h6 className='mb-3 uc ff-mos'>About</h6>
+                                    <h6 className='mb-3 uc ff-mos'>Shib</h6>
                                     <ul className='footer-list'>
                                         <li className='footer-lst-item'>
                                             <a className="ftr-link ff-mos" href="javascript:void(0)">
-                                                Link 1
+                                                Shiba Inu Token Website
+                                            </a>
+                                        </li>
+                                        <li className='footer-lst-item'>
+                                            <a className="ftr-link ff-mos" href="javascript:void(0)">
+                                                ShibaSwap DEX
+                                            </a>
+                                        </li>
+                                        <li className='footer-lst-item'>
+                                            <a className="ftr-link ff-mos" href="javascript:void(0)">
+                                                SHIB - The Metaverse
+                                            </a>
+                                        </li>
+                                        <li className='footer-lst-item'>
+                                            <a className="ftr-link ff-mos" href="javascript:void(0)">
+                                                Shiba Inu Blog
                                             </a>
                                         </li>
                                     </ul>
@@ -50,11 +66,39 @@ export default function Footer() {
                             </div>
                             <div className="col-sm-3 col-6">
                                 <div className='bottom-item'>
-                                    <h6 className='mb-3 uc ff-mos'>Category</h6>
+                                    <h6 className='mb-3 uc ff-mos'>Shib</h6>
+                                    <ul className='footer-list'>
+                                       <li className='footer-lst-item'>
+                                            <a className="ftr-link ff-mos" href="javascript:void(0)">
+                                                SHIBOSHIS NFTs
+                                            </a>
+                                        </li>
+                                        <li className='footer-lst-item'>
+                                            <a className="ftr-link ff-mos" href="javascript:void(0)">
+                                                Certik ShibaSwap Audit
+                                            </a>
+                                        </li>
+                                        <li className='footer-lst-item'>
+                                            <a className="ftr-link ff-mos" href="javascript:void(0)">
+                                                Shiba Inu Woof Paper V2
+                                            </a>
+                                        </li>
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="col-sm-3 col-6">
+                                <div className='bottom-item'>
+                                    <h6 className='mb-3 uc ff-mos'>Metaverse</h6>
                                     <ul className='footer-list'>
                                         <li className='footer-lst-item'>
                                             <a className="ftr-link ff-mos" href="javascript:void(0)">
-                                                Link 1
+                                                SHIB The Metaverse Reddit
+                                            </a>
+                                        </li>
+                                        <li className='footer-lst-item'>
+                                            <a className="ftr-link ff-mos" href="javascript:void(0)">
+                                                The Third Floor x SHIB The Metaverse
                                             </a>
                                         </li>
                                     </ul>
@@ -62,24 +106,28 @@ export default function Footer() {
                             </div>
                             <div className="col-sm-3 col-6">
                                 <div className='bottom-item'>
-                                    <h6 className='mb-3 uc ff-mos'>Category</h6>
+                                    <h6 className='mb-3 ff-mos'>General</h6>
                                     <ul className='footer-list'>
                                         <li className='footer-lst-item'>
-                                            <a className="ftr-link ff-mos" href="javascript:void(0)">
-                                                Link 1
-                                            </a>
+                                            <Link href="javascript:void(0)">
+                                                <a className="ftr-link ff-mos">
+                                                    About
+                                                </a>
+                                            </Link>
                                         </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div className="col-sm-3 col-6">
-                                <div className='bottom-item'>
-                                    <h6 className='mb-3 uc'>Category</h6>
-                                    <ul className='footer-list'>
                                         <li className='footer-lst-item'>
-                                            <a className="ftr-link ff-mos" href="javascript:void(0)">
-                                                Link 1
-                                            </a>
+                                            <Link href="javascript:void(0)">
+                                                <a className="ftr-link ff-mos">
+                                                    Blog
+                                                </a>
+                                            </Link>
+                                        </li>
+                                        <li className='footer-lst-item'>
+                                            <Link href="javascript:void(0)">
+                                                <a className="ftr-link ff-mos">
+                                                    Careers
+                                                </a>
+                                            </Link>
                                         </li>
                                     </ul>
                                 </div>

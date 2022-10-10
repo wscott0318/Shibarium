@@ -144,6 +144,7 @@ p{
     }
     @media #{$max-xxl}{
         font-size: 16px;
+        line-height: 26px;
     }
     @media #{$max-xl}{
         font-size: 14px;
@@ -225,6 +226,7 @@ ul {
 .text-green{
     color: $green-color;
 }
+
 // colors end
 
 .p-25{
@@ -254,6 +256,7 @@ ul {
     background-color: var(--bs-btn-hover-bg);
     border-color: var(--bs-btn-hover-border-color);
 }
+
 .btn{
     border-radius: 10px;
     font-weight: 500;
@@ -274,13 +277,14 @@ ul {
         font-size: 14px;
     }
 }
+
 .primary-btn{
     background:$primary-gradient;
     color:rgba($white, 0.89) !important;
     font-weight: 600;
     // border: 1px solid rgba(255, 255, 255, 0.4);
     &:hover{
-        background:$primary-gradient;
+        background:$primary-gradient !important;
         opacity: 0.8;
         color:rgba($white, 0.89) !important;
     }
@@ -296,6 +300,7 @@ ul {
         opacity: 0.8;
     }
 }
+
 .primary-gradient-text {
     background: linear-gradient(180deg, #F06500 0%, #F28B03 100%);
     -webkit-background-clip: text;
@@ -303,6 +308,7 @@ ul {
     background-clip: text;
     text-fill-color: transparent;
 }
+
 .grey-btn{
     background-color:$grey-color;
     border-radius: 10px;
@@ -312,7 +318,7 @@ ul {
         font-size: 14px;
     }
     &:hover{
-        background:$primary-gradient;
+        background-color:$grey-color !important;
         color:rgba($white, 0.89) !important;
         opacity: 0.8;
     }
@@ -326,17 +332,18 @@ ul {
     @media #{$max-xxl}{
         font-size: 14px;
     }
-    &:hover{
-        background:$primary-gradient;
+    &:hover{    
+        background-color:$grey-color-800 !important;
         color:$grey-color !important;
-        opacity: 0.8;
+        opacity: 0.9;
     }
 }
+
 .black-btn{
     background-color: $body-bg-800;
     color: rgba($white, 0.89) !important;
     &:hover{
-        background:$primary-gradient;
+        background-color: $body-bg-800 !important;
         color:rgba($white, 0.89) !important;
         opacity: 0.8;
     }
@@ -349,12 +356,20 @@ ul {
     font-weight: 600;
     color:$white !important;
     &:hover{
-        background:$primary-gradient;
+        background-color:$body-bg !important;
         color:rgba($white, 0.89) !important;
         opacity: 0.8;
     }
 }
-
+.success-btn{
+    background-color: $green-color;
+    color:$white !important;
+    &:hover{
+        background-color:$green-color !important;
+        color:rgba($white, 0.89) !important;
+        opacity: 0.8;
+    }
+}
 .cmn_dasdrd_table {
     background:$body-bg;
     border-radius: 30px;
@@ -410,6 +425,9 @@ ul {
       ::-ms-input-placeholder { /* Microsoft Edge */
         color: #596380;
       }
+      @media #{$max-lg}{
+        border-radius: 5px;
+    }
 }
 .pop_main_h{
     margin-bottom: 25px;
@@ -540,6 +558,9 @@ ul {
                     border: 0;
                 }
             }
+        }
+        @media #{$max-lg}{
+            border-radius: 5px;
         }
     }
     .modal-body{

@@ -30,6 +30,19 @@
         border-radius: 10px;
     }
 }
+.sidebar-toggle {
+    position: absolute;
+    top: 34px;
+    z-index: 99;
+    left: 30px;
+    display: none;
+    @media #{$max-lg}{
+        display: block;
+    }
+    @media #{$max-xsm}{
+        left: 15px;
+    }
+}
 
 .sidebar {
     background: $body-bg;

@@ -29,6 +29,10 @@
         }
     }
     .footer-lst-item {
+        margin-bottom: 10px;
+        &:last-child{
+            margin-bottom: 0;
+        }
         .ftr-link{
             &:hover{
                 color: $white;
