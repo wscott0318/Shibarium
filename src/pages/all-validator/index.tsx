@@ -38,7 +38,7 @@ export const Allvalidator: React.FC = () => {
  
   return (
     <>
-      <div className="main-content dark-bg-800 full-vh">
+      <div className="main-content dark-bg-800 full-vh top-space">
         <StakingHeader />
         {/* banner section start */}
         <section className="inner-banner dark-bg">
@@ -50,16 +50,21 @@ export const Allvalidator: React.FC = () => {
                     <h1 className="mb-2 mb-sm-3 mb-md-4">All Validators</h1>
                     <div className="btns-sec mt-2">
                       <div className="btns-wrap">
-                        <button onClick={()=>{
-                        router.push('/become-validator')
-                       }} className="btn primary-btn">Become a Validator</button>
+                        <button
+                          onClick={() => {
+                            router.push("/become-validator");
+                          }}
+                          className="btn primary-btn"
+                        >
+                          Become a Validator
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="col-md-5 col-sm-12 m-hide">
                   <div className="shib-img-sec text-end">
-                    <img src="../../images/shiba-img.png" />
+                    <img src="../../images/meaoth.png" />
                   </div>
                 </div>
               </div>
@@ -72,7 +77,11 @@ export const Allvalidator: React.FC = () => {
           <div className="container">
             <div className="filter-row mb-md-5 mb-sm-4 mb-3">
               <div className="left-section">
-                <input className="custum-search w-100" type="search " placeholder="Search by validator name, id" />
+                <input
+                  className="custum-search w-100"
+                  type="search "
+                  placeholder="Search by validator name, id"
+                />
               </div>
               <div className="right-section">
                 <div className="switch-sec">
@@ -87,7 +96,7 @@ export const Allvalidator: React.FC = () => {
                     <span>Sort By</span>
                   </div>
                   <div className="cus-sel">
-                    <select className="form-select" >
+                    <select className="form-select">
                       <option selected>Random</option>
                       <option value="1">One</option>
                     </select>
@@ -95,18 +104,40 @@ export const Allvalidator: React.FC = () => {
                 </div>
                 <div className="layout-sec">
                   <div className="list blk-active">
-                    <a href="javascript:void(0);"><img className="white-icon" src="../../images/list-white.png" /></a>
-                    <a href="javascript:void(0);"><img className="grey-icon" src="../../images/list-grey.png" /></a>
+                    <a href="javascript:void(0);">
+                      <img
+                        className="white-icon"
+                        src="../../images/list-white.png"
+                      />
+                    </a>
+                    <a href="javascript:void(0);">
+                      <img
+                        className="grey-icon"
+                        src="../../images/list-grey.png"
+                      />
+                    </a>
                   </div>
                   <div className="cus-grid">
-                    <a href="javascript:void(0);"><img className="white-icon" src="../../images/grid-white.png" /></a>
-                    <a href="javascript:void(0);"><img className="grey-icon" src="../../images/grid-grey.png" /></a>
+                    <a href="javascript:void(0);">
+                      <img
+                        className="white-icon"
+                        src="../../images/grid-white.png"
+                      />
+                    </a>
+                    <a href="javascript:void(0);">
+                      <img
+                        className="grey-icon"
+                        src="../../images/grid-grey.png"
+                      />
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
             <div className="heading-sec mt-2 mb-2">
-              <h2 className="sub-head mb-sm-4 mb-3">List of active Validators</h2>
+              <h2 className="sub-head mb-sm-4 mb-3">
+                List of active Validators
+              </h2>
             </div>
             <div className="cmn_dasdrd_table">
               <div className="table-responsive">
@@ -122,32 +153,96 @@ export const Allvalidator: React.FC = () => {
                   </thead>
                   <tbody>
                     <tr>
-                      <td><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
+                      <td>
+                        <span>
+                          <img src="../../images/shiba-round-icon.png" />
+                        </span>
+                        <b>SHIB</b> - Shibatoken
+                      </td>
                       <td>0.0000 - 0.00$</td>
-                      <td><a href="#">Deposit</a></td>
-                      <td><a href="#">Whitdraw</a></td>
-                      <td><a className="sm-btn primary-btn" href="javascript:void(0);">Delegate</a></td>
+                      <td>
+                        <a href="#">Deposit</a>
+                      </td>
+                      <td>
+                        <a href="#">Whitdraw</a>
+                      </td>
+                      <td>
+                        <a
+                          className="sm-btn primary-btn"
+                          href="javascript:void(0);"
+                        >
+                          Delegate
+                        </a>
+                      </td>
                     </tr>
                     <tr>
-                      <td><span><img src="../../images/matic-round-icon.png" /></span><b>MATIC</b> - Shibarium</td>
+                      <td>
+                        <span>
+                          <img src="../../images/matic-round-icon.png" />
+                        </span>
+                        <b>MATIC</b> - Shibarium
+                      </td>
                       <td>0.0000 - 0.00$</td>
-                      <td><a href="#">Deposit</a></td>
-                      <td><a href="#">Whitdraw</a></td>
-                      <td><a className="sm-btn primary-btn" href="javascript:void(0);">Delegate</a></td>
+                      <td>
+                        <a href="#">Deposit</a>
+                      </td>
+                      <td>
+                        <a href="#">Whitdraw</a>
+                      </td>
+                      <td>
+                        <a
+                          className="sm-btn primary-btn"
+                          href="javascript:void(0);"
+                        >
+                          Delegate
+                        </a>
+                      </td>
                     </tr>
                     <tr>
-                      <td><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
+                      <td>
+                        <span>
+                          <img src="../../images/bnb-round-icon.png" />
+                        </span>
+                        <b>BNB</b> - BNB
+                      </td>
                       <td>0.0000 - 0.00$</td>
-                      <td><a href="#">Deposit</a></td>
-                      <td><a href="#">Whitdraw</a></td>
-                      <td><a className="sm-btn primary-btn" href="javascript:void(0);">Delegate</a></td>
+                      <td>
+                        <a href="#">Deposit</a>
+                      </td>
+                      <td>
+                        <a href="#">Whitdraw</a>
+                      </td>
+                      <td>
+                        <a
+                          className="sm-btn primary-btn"
+                          href="javascript:void(0);"
+                        >
+                          Delegate
+                        </a>
+                      </td>
                     </tr>
                     <tr>
-                      <td><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
+                      <td>
+                        <span>
+                          <img src="../../images/shiba-round-icon.png" />
+                        </span>
+                        <b>SHIB</b> - Shibatoken
+                      </td>
                       <td>0.0000 - 0.00$</td>
-                      <td><a href="#">Deposit</a></td>
-                      <td><a href="#">Whitdraw</a></td>
-                      <td><a className="sm-btn primary-btn" href="javascript:void(0);">Delegate</a></td>
+                      <td>
+                        <a href="#">Deposit</a>
+                      </td>
+                      <td>
+                        <a href="#">Whitdraw</a>
+                      </td>
+                      <td>
+                        <a
+                          className="sm-btn primary-btn"
+                          href="javascript:void(0);"
+                        >
+                          Delegate
+                        </a>
+                      </td>
                     </tr>
                   </tbody>
                 </table>

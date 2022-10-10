@@ -27,6 +27,7 @@ import InnerHeader from "../../pages/inner-header";
 
 export default function Transaction() {
   const router = useRouter()
+  const [onlyPending, setOnlyPending] = useState(false);
   // const { authenticate, isAuthenticated, user,} = useMoralis();
 
   // const {handleAccount}=useContext(ProjectContext)
@@ -104,17 +105,22 @@ export default function Transaction() {
     setMenuState(!menuState);
   }
 
-
   return (
     <>
       <main className="main-content">
-        <Sidebar handleMenuState={handleMenuState} menuState={menuState} />
+        <Sidebar
+          handleMenuState={handleMenuState}
+          onClickOutside={() => {
+            setMenuState(false);
+          }}
+          menuState={menuState}
+        />
 
         <CommonModal
           title={showSendModal.title}
           show={showModal}
           setShow={setShowModal}
-          externalCls="dark-modal-100"
+          externalCls="dark-modal-100 pop-fix"
         >
           <>
             {/* Reaching Checkpoint popop start  */}
@@ -162,54 +168,56 @@ export default function Transaction() {
                     <div className="step-title">Withdraw Completed</div>
                   </li>
                 </ul>
-                <div className="image_area row">
-                  <div className="col-12 text-center watch-img-sec">
-                    <div className="set-block">
-                      <img className="img-fluid" src="../../images/watch.png" />
+                <div className="step-content">
+                  <div className="image_area row">
+                    <div className="col-12 text-center watch-img-sec">
+                      <div className="set-block">
+                        <img className="img-fluid" src="../../images/watch.png" />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="mid_text row">
-                  <div className="col-12 text-center">
-                    <h4>Bridging funds</h4>
+                  <div className="mid_text row">
+                    <div className="col-12 text-center">
+                      <h4>Bridging funds</h4>
+                    </div>
+                    <div className="col-12 text-center">
+                      <p className="mb-0">
+                        Bridging funds from Shibarium Chain to Ethereum Chain the
+                        transaction will take from 60 min to 3 hrs
+                      </p>
+                    </div>
                   </div>
-                  <div className="col-12 text-center">
-                    <p className="mb-0">
-                      Bridging funds from Shibarium Chain to Ethereum Chain the
-                      transaction will take from 60 min to 3 hrs
-                    </p>
+                  <div className="fees_text">
+                    <div className="icon_name">
+                      <img src="../../images/eth-icon.png" />
+                      <span>Estimation of GAS fee required</span>
+                    </div>
+                    <div className="">
+                      <p>$10.00</p>
+                    </div>
                   </div>
-                </div>
-                <div className="fees_text">
-                  <div className="icon_name">
-                    <img src="../../images/eth-icon.png" />
-                    <span>Estimation of GAS fee required</span>
-                  </div>
-                  <div className="">
-                    <p>$10.00</p>
-                  </div>
-                </div>
-                <div className="pop_btns_area row form-control">
-                  <div className="col-12">
-                    <a
-                      className="btn grey-btn d-flex align-items-center"
-                      href="javascript:void(0)"
-                    >
-                      <span className="spinner-border text-secondary pop-spiner"></span>
-                      <span
-                        onClick={() =>
-                          setSendModal({
-                            step0: false,
-                            step1: true,
-                            step2: false,
-                            step3: false,
-                            title: "Checkpoint I Reached",
-                          })
-                        }
+                  <div className="pop_btns_area row form-control">
+                    <div className="col-12">
+                      <a
+                        className="btn grey-btn d-flex align-items-center"
+                        href="javascript:void(0)"
                       >
-                        Moving funds
-                      </span>
-                    </a>
+                        <span className="spinner-border text-secondary pop-spiner"></span>
+                        <span
+                          onClick={() =>
+                            setSendModal({
+                              step0: false,
+                              step1: true,
+                              step2: false,
+                              step3: false,
+                              title: "Checkpoint I Reached",
+                            })
+                          }
+                        >
+                          Moving funds
+                        </span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -261,55 +269,57 @@ export default function Transaction() {
                     <div className="step-title">Withdraw Completed</div>
                   </li>
                 </ul>
-                <div className="image_area row">
-                  <div className="col-12 text-center">
-                    <div className="set-block">
-                      <img
-                        className="img-fluid"
-                        src="../../images/funds-coin.png"
-                      />
+                <div className="step-content">
+                  <div className="image_area row">
+                    <div className="col-12 text-center">
+                      <div className="set-block">
+                        <img
+                          className="img-fluid"
+                          src="../../images/funds-coin.png"
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="mid_text row">
-                  <div className="col-12 text-center">
-                    <h4>Move Funds to your account</h4>
+                  <div className="mid_text row">
+                    <div className="col-12 text-center">
+                      <h4>Move Funds to your account</h4>
+                    </div>
+                    <div className="col-12 text-center">
+                      <p className="mb-0">
+                        Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5
+                      </p>
+                    </div>
                   </div>
-                  <div className="col-12 text-center">
-                    <p className="mb-0">
-                      Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5
-                    </p>
+                  <div className="fees_text">
+                    <div className="icon_name">
+                      <img src="../../images/eth-icon.png" />
+                      <span>Estimation of GAS fee required</span>
+                    </div>
+                    <div className="">
+                      <p>$10.00</p>
+                    </div>
                   </div>
-                </div>
-                <div className="fees_text">
-                  <div className="icon_name">
-                    <img src="../../images/eth-icon.png" />
-                    <span>Estimation of GAS fee required</span>
-                  </div>
-                  <div className="">
-                    <p>$10.00</p>
-                  </div>
-                </div>
-                <div className="pop_btns_area row form-control">
-                  <div className="col-12">
-                    <a
-                      className="btn primary-btn d-flex align-items-center"
-                      href="javascript:void(0)"
-                    >
-                      <span
-                        onClick={() =>
-                          setSendModal({
-                            step0: false,
-                            step1: false,
-                            step2: true,
-                            step3: false,
-                            title: "Withdrawing Funds",
-                          })
-                        }
+                  <div className="pop_btns_area row form-control">
+                    <div className="col-12">
+                      <a
+                        className="btn primary-btn d-flex align-items-center"
+                        href="javascript:void(0)"
                       >
-                        Confirm
-                      </span>
-                    </a>
+                        <span
+                          onClick={() =>
+                            setSendModal({
+                              step0: false,
+                              step1: false,
+                              step2: true,
+                              step3: false,
+                              title: "Withdrawing Funds",
+                            })
+                          }
+                        >
+                          Confirm
+                        </span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -361,53 +371,55 @@ export default function Transaction() {
                     <div className="step-title">Withdraw Completed</div>
                   </li>
                 </ul>
-                <div className="image_area row">
-                  <div className="col-12 text-center">
-                    <div className="set-block">
-                      <img className="img-fluid" src="../../images/watch.png" />
+                <div className="step-content">
+                  <div className="image_area row">
+                    <div className="col-12 text-center">
+                      <div className="set-block">
+                        <img className="img-fluid" src="../../images/watch.png" />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="mid_text row">
-                  <div className="col-12 text-center">
-                    <h4>Move Funds to your account</h4>
+                  <div className="mid_text row">
+                    <div className="col-12 text-center">
+                      <h4>Move Funds to your account</h4>
+                    </div>
+                    <div className="col-12 text-center">
+                      <p className="mb-0">
+                        Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5
+                      </p>
+                    </div>
                   </div>
-                  <div className="col-12 text-center">
-                    <p className="mb-0">
-                      Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5
-                    </p>
+                  <div className="fees_text">
+                    <div className="icon_name">
+                      <img src="../../images/eth-icon.png" />
+                      <span>Estimation of GAS fee required</span>
+                    </div>
+                    <div className="">
+                      <p>$10.00</p>
+                    </div>
                   </div>
-                </div>
-                <div className="fees_text">
-                  <div className="icon_name">
-                    <img src="../../images/eth-icon.png" />
-                    <span>Estimation of GAS fee required</span>
-                  </div>
-                  <div className="">
-                    <p>$10.00</p>
-                  </div>
-                </div>
-                <div className="pop_btns_area row form-control">
-                  <div className="col-12">
-                    <a
-                      className="btn grey-btn d-flex align-items-center"
-                      href="javascript:void(0)"
-                    >
-                      <span className="spinner-border text-secondary pop-spiner"></span>
-                      <span
-                        onClick={() => {
-                          setSendModal({
-                            step0: false,
-                            step1: false,
-                            step2: false,
-                            step3: true,
-                            title: "Withdraw Completed",
-                          });
-                        }}
+                  <div className="pop_btns_area row form-control">
+                    <div className="col-12">
+                      <a
+                        className="btn grey-btn d-flex align-items-center"
+                        href="javascript:void(0)"
                       >
-                        Moving funds
-                      </span>
-                    </a>
+                        <span className="spinner-border text-secondary pop-spiner"></span>
+                        <span
+                          onClick={() => {
+                            setSendModal({
+                              step0: false,
+                              step1: false,
+                              step2: false,
+                              step3: true,
+                              title: "Withdraw Completed",
+                            });
+                          }}
+                        >
+                          Moving funds
+                        </span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -459,43 +471,45 @@ export default function Transaction() {
                     <div className="step-title">Withdraw Completed</div>
                   </li>
                 </ul>
-                <div className="image_area row">
-                  <div className="col-12 text-center">
-                    <div className="set-block">
-                      <img
-                        className="img-fluid"
-                        src="../../images/thumb-up-icon.png"
-                      />
+                <div className="step-content">
+                  <div className="image_area row">
+                    <div className="col-12 text-center">
+                      <div className="set-block">
+                        <img
+                          className="img-fluid"
+                          src="../../images/thumb-up-icon.png"
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="mid_text row">
-                  <div className="col-12 text-center">
-                    <h4>Move Funds to your account</h4>
+                  <div className="mid_text row">
+                    <div className="col-12 text-center">
+                      <h4>Move Funds to your account</h4>
+                    </div>
+                    <div className="col-12 text-center">
+                      <p className="mb-0">
+                        Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5
+                      </p>
+                    </div>
                   </div>
-                  <div className="col-12 text-center">
-                    <p className="mb-0">
-                      Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5
-                    </p>
+                  <div className="fees_text">
+                    <div className="icon_name">
+                      <img src="../../images/eth-icon.png" />
+                      <span>Estimation of GAS fee required</span>
+                    </div>
+                    <div className="">
+                      <p>$10.00</p>
+                    </div>
                   </div>
-                </div>
-                <div className="fees_text">
-                  <div className="icon_name">
-                    <img src="../../images/eth-icon.png" />
-                    <span>Estimation of GAS fee required</span>
-                  </div>
-                  <div className="">
-                    <p>$10.00</p>
-                  </div>
-                </div>
-                <div className="pop_btns_area row form-control">
-                  <div className="col-12">
-                    <a
-                      className="btn primary-btn d-flex align-items-center"
-                      href="javascript:void(0)"
-                    >
-                      <span onClick={()=>setShowModal(false)}>Confirm</span>
-                    </a>
+                  <div className="pop_btns_area row form-control">
+                    <div className="col-12">
+                      <a
+                        className="btn primary-btn d-flex align-items-center"
+                        href="javascript:void(0)"
+                      >
+                        <span onClick={() => setShowModal(false)}>Confirm</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -513,14 +527,34 @@ export default function Transaction() {
               <div className="trnsc_inr_cont">
                 <div className="trns_top_btns_area row">
                   <div className="col-md-3 col-sm-4 col-xs-12">
-                    <a href="#" className="primary-btn btn w-100">
-                      All Transactions
-                    </a>
+                    <button
+                      onClick={() => setOnlyPending(false)}
+                      className="w-full"
+                    >
+                      <a
+                        href="#"
+                        className={`${
+                          !onlyPending ? "primary-btn" : "white-btn"
+                        } btn w-100`}
+                      >
+                        All Transactions
+                      </a>
+                    </button>
                   </div>
                   <div className="col-md-3 col-sm-4 col-xs-12">
-                    <a href="#" className="white-btn btn w-100">
-                      Pending
-                    </a>
+                    <button
+                      onClick={() => setOnlyPending(true)}
+                      className="w-full"
+                    >
+                      <a
+                        href="#"
+                        className={`${
+                          onlyPending ? "primary-btn" : "white-btn"
+                        } btn w-100`}
+                      >
+                        Pending
+                      </a>
+                    </button>
                   </div>
                 </div>
                 <div className="overview_sec">
@@ -583,151 +617,153 @@ export default function Transaction() {
                   </div>
                 </div>
                 {/* all transactions table start */}
-                <div className="transactions_list_outr">
-                  <div className="single_trns_row">
-                    <div className="row trns_date">
-                      <div className="col-12">19/07/2022</div>
+                {!onlyPending && (
+                  <div className="transactions_list_outr">
+                    <div className="single_trns_row">
+                      <div className="row trns_date">
+                        <div className="col-12">19/07/2022</div>
+                      </div>
+                      <div className="row trns_data">
+                        <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+                          <span>
+                            <img
+                              className="img-fluid me-2"
+                              src="../../images/down-arrow.png"
+                              alt="meta-img"
+                            />
+                          </span>
+                          <div>
+                            <b>Receive</b>
+                            <b className="grey_txt">10:30 AM</b>
+                          </div>
+                        </div>
+                        <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+                          <span>
+                            <img
+                              className="img-fluid me-2"
+                              src="../../images/red-bone.png"
+                              alt="meta-img"
+                            />
+                          </span>
+                          <div>
+                            <b>100 BONE</b>
+                            <b className="grey_txt">1000$</b>
+                          </div>
+                        </div>
+                        <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+                          <div>
+                            <b>Transaction hash</b>
+                            <p className="grey_txt trns_has_add">
+                              <span>0x1a95....ba496</span>
+                              <a href="#">
+                                <img
+                                  src="../../images/grey-arrow.png"
+                                  className="img-fluid"
+                                />
+                              </a>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="row trns_data">
-                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                        <span>
-                          <img
-                            className="img-fluid me-2"
-                            src="../../images/down-arrow.png"
-                            alt="meta-img"
-                          />
-                        </span>
-                        <div>
-                          <b>Receive</b>
-                          <b className="grey_txt">10:30 AM</b>
-                        </div>
-                      </div>
-                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                        <span>
-                          <img
-                            className="img-fluid me-2"
-                            src="../../images/red-bone.png"
-                            alt="meta-img"
-                          />
-                        </span>
-                        <div>
-                          <b>100 BONE</b>
-                          <b className="grey_txt">1000$</b>
-                        </div>
-                      </div>
-                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                        <div>
-                          <b>Transaction hash</b>
-                          <p className="grey_txt trns_has_add">
-                            <span>0x1a95....ba496</span>
-                            <a href="#">
-                              <img
-                                src="../../images/grey-arrow.png"
-                                className="img-fluid"
-                              />
-                            </a>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
 
-                  <div className="single_trns_row">
-                    <div className="row trns_date">
-                      <div className="col-12">19/07/2022</div>
+                    <div className="single_trns_row">
+                      <div className="row trns_date">
+                        <div className="col-12">19/07/2022</div>
+                      </div>
+                      <div className="row trns_data">
+                        <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+                          <span>
+                            <img
+                              className="img-fluid me-2"
+                              src="../../images/down-arrow.png"
+                              alt="meta-img"
+                            />
+                          </span>
+                          <div>
+                            <b>Receive</b>
+                            <b className="grey_txt">10:30 AM</b>
+                          </div>
+                        </div>
+                        <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+                          <span>
+                            <img
+                              className="img-fluid me-2"
+                              src="../../images/red-bone.png"
+                              alt="meta-img"
+                            />
+                          </span>
+                          <div>
+                            <b>100 BONE</b>
+                            <b className="grey_txt">1000$</b>
+                          </div>
+                        </div>
+                        <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+                          <div>
+                            <b>Transaction hash</b>
+                            <p className="grey_txt trns_has_add">
+                              <span>0x1a95....ba496</span>
+                              <a href="#">
+                                <img
+                                  src="../../images/grey-arrow.png"
+                                  className="img-fluid"
+                                />
+                              </a>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="row trns_data">
-                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                        <span>
-                          <img
-                            className="img-fluid me-2"
-                            src="../../images/down-arrow.png"
-                            alt="meta-img"
-                          />
-                        </span>
-                        <div>
-                          <b>Receive</b>
-                          <b className="grey_txt">10:30 AM</b>
-                        </div>
-                      </div>
-                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                        <span>
-                          <img
-                            className="img-fluid me-2"
-                            src="../../images/red-bone.png"
-                            alt="meta-img"
-                          />
-                        </span>
-                        <div>
-                          <b>100 BONE</b>
-                          <b className="grey_txt">1000$</b>
-                        </div>
-                      </div>
-                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                        <div>
-                          <b>Transaction hash</b>
-                          <p className="grey_txt trns_has_add">
-                            <span>0x1a95....ba496</span>
-                            <a href="#">
-                              <img
-                                src="../../images/grey-arrow.png"
-                                className="img-fluid"
-                              />
-                            </a>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
 
-                  <div className="single_trns_row">
-                    <div className="row trns_date">
-                      <div className="col-12">19/07/2022</div>
-                    </div>
-                    <div className="row trns_data">
-                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                        <span>
-                          <img
-                            className="img-fluid me-2"
-                            src="../../images/down-arrow.png"
-                            alt="meta-img"
-                          />
-                        </span>
-                        <div>
-                          <b>Receive</b>
-                          <b className="grey_txt">10:30 AM</b>
-                        </div>
+                    <div className="single_trns_row">
+                      <div className="row trns_date">
+                        <div className="col-12">19/07/2022</div>
                       </div>
-                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                        <span>
-                          <img
-                            className="img-fluid me-2"
-                            src="../../images/red-bone.png"
-                            alt="meta-img"
-                          />
-                        </span>
-                        <div>
-                          <b>100 BONE</b>
-                          <b className="grey_txt">1000$</b>
+                      <div className="row trns_data">
+                        <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+                          <span>
+                            <img
+                              className="img-fluid me-2"
+                              src="../../images/down-arrow.png"
+                              alt="meta-img"
+                            />
+                          </span>
+                          <div>
+                            <b>Receive</b>
+                            <b className="grey_txt">10:30 AM</b>
+                          </div>
                         </div>
-                      </div>
-                      <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                        <div>
-                          <b>Transaction hash</b>
-                          <p className="grey_txt trns_has_add">
-                            <span>0x1a95....ba496</span>
-                            <a href="#">
-                              <img
-                                src="../../images/grey-arrow.png"
-                                className="img-fluid"
-                              />
-                            </a>
-                          </p>
+                        <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+                          <span>
+                            <img
+                              className="img-fluid me-2"
+                              src="../../images/red-bone.png"
+                              alt="meta-img"
+                            />
+                          </span>
+                          <div>
+                            <b>100 BONE</b>
+                            <b className="grey_txt">1000$</b>
+                          </div>
+                        </div>
+                        <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+                          <div>
+                            <b>Transaction hash</b>
+                            <p className="grey_txt trns_has_add">
+                              <span>0x1a95....ba496</span>
+                              <a href="#">
+                                <img
+                                  src="../../images/grey-arrow.png"
+                                  className="img-fluid"
+                                />
+                              </a>
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                )}
                 {/* all transactions table ends */}
 
                 {/* pending transactions table start */}

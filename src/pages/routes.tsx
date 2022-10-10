@@ -15,12 +15,22 @@ const ComponentRouters=({Component, pageProps}:any)=> {
     const orientation = useScreenOrientation()
     console.log(router.asPath);
   return (
-      <RouteGuard user={user}>
-         {router.asPath === "/home" || router.asPath ===  '/bone-staking' ? <Header /> : ""}
-         {isMobile && orientation === 'landscape-primary' ? <PortraitWarning /> : <Component {...pageProps} />
-         }
-      </RouteGuard>
-  )
+    <RouteGuard user={user}>
+      {router.asPath === "/home" ||
+      router.asPath === "/bone-staking" ||
+      router.asPath === "/all-validator" ||
+      router.asPath === "/my-account" ? (
+        <Header />
+      ) : (
+        ""
+      )}
+      {isMobile && orientation === "landscape-primary" ? (
+        <PortraitWarning />
+      ) : (
+        <Component {...pageProps} />
+      )}
+    </RouteGuard>
+  );
 }
 
 export default ComponentRouters

@@ -54,7 +54,7 @@ const InnerHeader = () => {
                     <img src="../../images/menu-icon.png" alt="" />
                   </div>
                   <NavDropdown className="light-text dd-ico" title="App" id="">
-                    <NavDropdown.Item href="/balance">
+                    <NavDropdown.Item href="/wallet">
                       <h6 className="fw-600 light-text left-border">
                         Shibarium Wallet
                       </h6>
@@ -62,7 +62,7 @@ const InnerHeader = () => {
                         Send and receive crypto assets on Shibarium network
                       </span>
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="/dashboard">
+                    <NavDropdown.Item href="/withdraw">
                       <h6 className="fw-600 light-text left-border">
                         Shibarium Bridge
                       </h6>
@@ -70,7 +70,7 @@ const InnerHeader = () => {
                         Deposit and withdraw between networks
                       </span>
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="./bone-staking">
+                    <NavDropdown.Item href="/bone-staking">
                       <h6 className="fw-600 light-text left-border">Staking</h6>
                       <span className="light-text">
                         Stake shiba and earn rewards

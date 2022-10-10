@@ -199,9 +199,11 @@ export default function Home() {
               <div className="row cus-row justify-content-center">
                 <div className="col-md-6 col-sm-8 cus-col">
                   <div className="cus-card card-flex">
-                    <a href="javacript:void(0)" className='icon-top'>
+                    <Link href="/become-validator">
+                    <a  className='icon-top'>
                       <img className='img-fluid' src="../../images/arrow-top.png" alt="" />
                     </a>
+                    </Link>
                     <div className='card-item'>
                       <h3 className='mb-2 ff-mos'>Validators</h3>
                       <p>
@@ -219,9 +221,11 @@ export default function Home() {
                 </div>
                 <div className="col-md-6 col-sm-8 cus-col">
                   <div className="cus-card card-flex">
-                    <a href="javacript:void(0)" className='icon-top'>
-                      <img className='img-fluid' src="../../images/arrow-top.png" alt="" />
-                    </a>
+                    <Link href="/all-validator">
+                      <a  className='icon-top'>
+                        <img className='img-fluid' src="../../images/arrow-top.png" alt="" />
+                      </a>
+                    </Link>
                     <div className='card-item'>
                       <h3 className='mb-2 ff-mos'>Delegator</h3>
                       <p className="ff-mos">
