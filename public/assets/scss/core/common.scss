@@ -1675,7 +1675,14 @@
         top: 16px;
     }
 }
-
+.mob-btns {
+     @media #{$max-lg} {
+        margin-left: 15px !important;
+    }
+}
+.mob-swtch {
+    padding-right: 15px !important;
+}
 /** Delegator grid style end **/
 
 /** rewards calculator style start **/
