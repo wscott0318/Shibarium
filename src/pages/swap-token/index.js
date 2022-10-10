@@ -256,6 +256,7 @@ export default function differentchainbridge() {
                 title={"Review Swap"}
                 show={showSwapModal}
                 setShow={setSwapModal}
+                externalCls="review-ht"
             >
                 {showSwapModal && swapState.step0 && <div className="popmodal-body no-ht">
                     <div className="pop-block">
@@ -378,6 +379,7 @@ export default function differentchainbridge() {
                 title={tokenState.title}
                 show={showTokenModal}
                 setShow={setTokenModal}
+                externalCls="tkn-ht"
             >
                {/* Token popups start */}     
 
@@ -481,7 +483,76 @@ export default function differentchainbridge() {
                             </div>
                           </div>
                         </div>
-                       
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     
@@ -520,7 +591,7 @@ export default function differentchainbridge() {
                         <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
                       </div>
                     </div>
-                    <div className="token-listwrap">
+                    <div className="token-listwrap list-ht">
                           <div className="tokn-row">
                             <div className="cryoto-box">
                               <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
@@ -549,6 +620,106 @@ export default function differentchainbridge() {
                               <div>
                                 <h6 className="fw-bold">BONE</h6>
                                 <p>Bone Token</p>
+                              </div>
+                              <div>
+                                <h6 className="fw-bold">
+                                  <label class="toggle">
+                                    <input type="checkbox" />
+                                    <span class="slider"></span>
+                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                  </label>
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">ETH</h6>
+                                <p>Ethereum</p>
+                              </div>
+                              <div>
+                                <h6 className="fw-bold">
+                                  <label class="toggle">
+                                    <input type="checkbox" />
+                                    <span class="slider"></span>
+                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                  </label>
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">ETH</h6>
+                                <p>Ethereum</p>
+                              </div>
+                              <div>
+                                <h6 className="fw-bold">
+                                  <label class="toggle">
+                                    <input type="checkbox" />
+                                    <span class="slider"></span>
+                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                  </label>
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">ETH</h6>
+                                <p>Ethereum</p>
+                              </div>
+                              <div>
+                                <h6 className="fw-bold">
+                                  <label class="toggle">
+                                    <input type="checkbox" />
+                                    <span class="slider"></span>
+                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                  </label>
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">ETH</h6>
+                                <p>Ethereum</p>
+                              </div>
+                              <div>
+                                <h6 className="fw-bold">
+                                  <label class="toggle">
+                                    <input type="checkbox" />
+                                    <span class="slider"></span>
+                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                  </label>
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">ETH</h6>
+                                <p>Ethereum</p>
                               </div>
                               <div>
                                 <h6 className="fw-bold">
@@ -788,7 +959,79 @@ export default function differentchainbridge() {
                             }}>Clear All</button>
                           </div>
                         </div>
-                        <div className="token-listwrap">
+                        <div className="token-listwrap usr-listht">
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <span className="me-4"  onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <span className="me-4"  onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <span className="me-4"  onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                              </div>
+                            </div>
+                          </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
                               <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
@@ -926,6 +1169,7 @@ export default function differentchainbridge() {
                 title={token2State.title}
                 show={showToken2Modal}
                 setShow={setToken2Modal}
+                externalCls="tkn-ht"
             >
                {/* Token popups start */}     
 
@@ -1029,7 +1273,76 @@ export default function differentchainbridge() {
                             </div>
                           </div>
                         </div>
-                       
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">SHIB</h6>
+                              <p>Shibatoken</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img class="img-fluid" src="../../images/red-bone.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">BONE</h6>
+                              <p>Bone Token</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tokn-row">
+                          <div className="cryoto-box">
+                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">ETH</h6>
+                              <p>Ethereum</p>
+                            </div>
+                            <div>
+                              <h6 className="fw-bold">1000</h6>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     
@@ -1068,7 +1381,7 @@ export default function differentchainbridge() {
                         <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
                       </div>
                     </div>
-                    <div className="token-listwrap">
+                    <div className="token-listwrap list-ht">
                           <div className="tokn-row">
                             <div className="cryoto-box">
                               <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
@@ -1129,6 +1442,107 @@ export default function differentchainbridge() {
                               </div>
                             </div>
                           </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <h6 className="fw-bold">
+                                  <label class="toggle">
+                                    <input type="checkbox" />
+                                    <span class="slider"></span>
+                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                  </label>
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/red-bone.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">BONE</h6>
+                                <p>Bone Token</p>
+                              </div>
+                              <div>
+                                <h6 className="fw-bold">
+                                  <label class="toggle">
+                                    <input type="checkbox" />
+                                    <span class="slider"></span>
+                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                  </label>
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">ETH</h6>
+                                <p>Ethereum</p>
+                              </div>
+                              <div>
+                                <h6 className="fw-bold">
+                                  <label class="toggle">
+                                    <input type="checkbox" />
+                                    <span class="slider"></span>
+                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                  </label>
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <h6 className="fw-bold">
+                                  <label class="toggle">
+                                    <input type="checkbox" />
+                                    <span class="slider"></span>
+                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                  </label>
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/red-bone.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">BONE</h6>
+                                <p>Bone Token</p>
+                              </div>
+                              <div>
+                                <h6 className="fw-bold">
+                                  <label class="toggle">
+                                    <input type="checkbox" />
+                                    <span class="slider"></span>
+                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                  </label>
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                          
                         </div>
                     </div>
                     
@@ -1336,7 +1750,79 @@ export default function differentchainbridge() {
                             }}>Clear All</button>
                           </div>
                         </div>
-                        <div className="token-listwrap">
+                        <div className="token-listwrap usr-listht">
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <span className="me-4" onClick={() => {
+                              setToken2State({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <span className="me-4" onClick={() => {
+                              setToken2State({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">SHIB</h6>
+                                <p>Shibatoken</p>
+                              </div>
+                              <div>
+                                <span className="me-4" onClick={() => {
+                              setToken2State({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                              </div>
+                            </div>
+                          </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
                               <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />

@@ -450,7 +450,7 @@ export default function Wallet() {
                         </b>
                       </p>
                     </div>
-                    <div className="pop_btns_area mr-top-50 row">
+                    <div className="pop_btns_area mr-top-50 row top-exspace">
                       <div className="col-6">
                         <button
                           className="btn blue-btn w-100"
