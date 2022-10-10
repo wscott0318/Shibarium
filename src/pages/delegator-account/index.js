@@ -266,7 +266,7 @@ export default function DelegatorAccount() {
                     <>
                         <div className="cmn_modal val_popups">
                             <form>
-                                <div className="">
+                                <div className="only_text"> 
                                     <p className="text-center">Are you sure you want to unbound?</p>
                                 </div>
                                 <div className="pop_btns_area row mr-top-50 form-control">
@@ -412,7 +412,7 @@ export default function DelegatorAccount() {
 
                 <section className="mid_cnt_area">
                     <div className="container">
-                        <div className="col-xl-11 col-lg-12 side-auto">
+                        <div className="col-xl-9 col-lg-12 side-auto">
                             <h4>Ethereum Wallet Balance</h4>
                             <h3><b>0 Bone</b></h3>
                             <h4>$0.00</h4>

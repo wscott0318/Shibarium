@@ -223,6 +223,9 @@ ul {
 .text-primary {
     color:$primary !important;
 }
+.text-green{
+    color: $green-color;
+}
 
 // colors end
 
@@ -422,6 +425,9 @@ ul {
       ::-ms-input-placeholder { /* Microsoft Edge */
         color: #596380;
       }
+      @media #{$max-lg}{
+        border-radius: 5px;
+    }
 }
 .pop_main_h{
     margin-bottom: 25px;
@@ -552,6 +558,9 @@ ul {
                     border: 0;
                 }
             }
+        }
+        @media #{$max-lg}{
+            border-radius: 5px;
         }
     }
     .modal-body{
