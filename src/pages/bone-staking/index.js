@@ -209,7 +209,7 @@ const BoneStaking = () => {
           </div>
         </section>
         {/* card section  end */}
-        <section className="table-section">
+        <section className="table-section pb-4 pb-lg-5">
           <div className="container">
             <div className="heading-sec">
               <h2 className="sub-head">All Validators</h2>
@@ -264,13 +264,6 @@ const BoneStaking = () => {
                   <tbody>
                     <tr>
                       <td><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
-                      <td>0.0000 - 0.00$</td>
-                      <td><a href="#">Deposit</a></td>
-                      <td><a href="#">Whitdraw</a></td>
-                      <td><a href="#">Send</a></td>
-                    </tr>
-                    <tr>
-                      <td><span><img src="../../images/matic-round-icon.png" /></span><b>MATIC</b> - Shibarium</td>
                       <td>0.0000 - 0.00$</td>
                       <td><a href="#">Deposit</a></td>
                       <td><a href="#">Whitdraw</a></td>
