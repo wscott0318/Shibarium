@@ -782,7 +782,7 @@ export default function Wallet() {
                 <h2>Assets on Shibarium</h2>
                 <div className="cmn_dasdrd_table">
                   <div className="table-responsive">
-                    <table className="table table-borderless">
+                    <table className="table table-borderless mb-0">
                       <thead>
                         <tr>
                           <th colSpan={2}>Name</th>
