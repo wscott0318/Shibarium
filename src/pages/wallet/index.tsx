@@ -366,8 +366,9 @@ export default function Wallet() {
               {showSendModal.step1 && (
                 <div className="cmn_modal">
                   {/* <h4 className="pop_main_h text-center">Send</h4>  */}
-                  <div className="pop-top">
-                    <form className="mr-top-50">
+                  <div className="pop-top h-100">
+                  <form className="mr-top-50 flex-group">
+                    <div className="group-top">
                       <div className="form-group">
                         <input
                           type="text"
@@ -464,7 +465,7 @@ export default function Wallet() {
                               ).toFixed(2)}
                             />
                           </span>
-                          <b>
+                          <span>
                             Balance:{" "}
                             {selectedToken.balance
                               ? selectedToken.balance.toFixed(4)
@@ -472,7 +473,7 @@ export default function Wallet() {
                             {selectedToken.parentSymbol
                               ? selectedToken.parentSymbol
                               : ""}
-                          </b>
+                          </span>
                         </p>
                       </div>
                       <div className="pop_btns_area mr-top-50 row top-exspace">
@@ -508,6 +509,7 @@ export default function Wallet() {
                           </button>
                         </div>
                       </div>
+                      </div>
                     </form>
                   </div>
                   <div className="pop-bottom">
@@ -530,8 +532,8 @@ export default function Wallet() {
                         <span>
                           <img src="../../images/shib-borderd-icon.png" />
                         </span>
-                        <h6>{sendAmount} BONE</h6>
-                        <p>
+                        <h6 className="fw-700">{sendAmount} BONE</h6>
+                        <p className="fw-600">
                           <NumberFormat
                             thousandSeparator
                             displayType={"text"}
@@ -544,7 +546,7 @@ export default function Wallet() {
                       </div>
                       <div className="add_detail col-12">
                         <p>
-                          <b>RECEIVER:</b>
+                          <b>Receiver:</b>
                         </p>
                         <p>{senderAddress}</p>
                       </div>
@@ -614,26 +616,13 @@ export default function Wallet() {
                   <div className="pop-top">
                     <div className="cnfrm_box dark-bg mt-0">
                       <div className="top_overview col-12">
-                        <span>
-                          <img src="../../images/shib-borderd-icon.png" />
-                        </span>
-                        <h6>{sendAmount} BONE</h6>
-                        <p>
-                          <NumberFormat
-                            thousandSeparator
-                            displayType={"text"}
-                            prefix="$ "
-                            value={((+sendAmount || 0) * boneUSDValue).toFixed(
-                              2
-                            )}
-                          />
-                        </p>
+                        <span><img src="../../images/shib-borderd-icon.png" /></span>
+                        <h6 className="fw-700">{sendAmount} BONE</h6>
+                        <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+sendAmount || 0) * boneUSDValue).toFixed(2)} /></p>
                       </div>
                       <div className="add_detail col-12">
-                        <p>
-                          <b>TRANSACTION SUBMITTED TO:</b>
-                        </p>
-                        <p>{transactionHash}</p>
+                        <p><b>Transaction Submitted To:</b></p>
+                        <p className="elip-text">{transactionHash}</p>
                       </div>
                     </div>
                     <div className="cnfrm_check_box text-center">
@@ -842,7 +831,7 @@ export default function Wallet() {
                           <th colSpan={2}>Name</th>
                           <th>Balance</th>
                           <th>Actions</th>
-                          <th colSpan={2} className="text-end">
+                          <th colSpan={1} className="text-end">
                             <input
                               value={searchKey}
                               onChange={(e) => handleSearchList(e.target.value)}
@@ -874,13 +863,29 @@ export default function Wallet() {
                                   />
                                 </td>
                                 <td>
-                                  <a href="#">Deposit</a>
+                                  <Link href="javascript:void(0)">
+                                      <a  className="px-0"> 
+                                        Deposit
+                                      </a>
+                                  </Link>
                                 </td>
                                 <td>
-                                  <a href="#">Withdraw</a>
-                                </td>
-                                <td>
-                                  <a href="#">Send</a>
+                                  <div className="row mx-0">
+                                    <div className="col-6 px-0">
+                                      <Link href="javascript:void(0)">
+                                          <a  className=" px-0"> 
+                                            Withdraw
+                                          </a>
+                                      </Link>
+                                    </div>
+                                    <div className="col-6 px-0">
+                                      <Link href="javascript:void(0)">
+                                          <a  className=" px-0"> 
+                                            Send
+                                          </a>
+                                      </Link>
+                                    </div>
+                                  </div>
                                 </td>
                               </tr>
                             ))

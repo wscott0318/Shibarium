@@ -163,14 +163,14 @@
 }
 
 .exchng_msg_box{
-    margin-top: 16px;
+    margin-top: 20px;
     background-color: $body-bg;
     padding: 16px;
     text-align: center;
     border-radius: 10px;
     .sprdt_txt{
         background-color: $body-bg-800;
-        padding: 10px 30px;
+        padding: 5px 30px;
         border-radius: 10px;
         font-weight: 600;
         display:inline-block;   
@@ -186,9 +186,9 @@
     }
 }
 .pop_btm_txt{
-    margin: 32px 0;
+    margin: 24px 0;
     @media #{$max-sm}{
-        margin: 25px 0;
+        margin: 22px 0;
     }
     a{
         color: $primary;
@@ -215,7 +215,7 @@
 }
 .add_detail {
     background-color:$primary;
-    padding: 16px 20px;
+    padding: 12px 20px;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
 }

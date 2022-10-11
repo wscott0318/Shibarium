@@ -4,16 +4,25 @@ import React, { useState } from "react";
 import { Nav } from "react-bootstrap";
 import DogTab from './dogTabfirst';
 import DogTabfirst from './dogTabsecond';
-import Footer from "../../pages/footer/index"
+import Footer from "../footer/index"
 import CommonModal from "../components/CommonModel";
 import Header from "../layout/header";
-import StakingHeader from '../staking-header'
+import StakingHeader from '../staking-header';
+import { useActiveWeb3React } from "app/services/web3";
+import axios from "axios";
 
 
 export default function faucet() {
   const [isTopdoG, setIsTopdoG] = useState(true);
   const [isPuppyDog, setIsPuppyDog] = useState(false);
   const [showSwapModal, setSwapModal] = useState(false);
+  const [modalState, setModalState] = useState({
+    pending:true, 
+    done: false,
+    hash:''
+  })
+
+  const { chainId = 1, account, library } = useActiveWeb3React();
   const handleTopdoG = () => {
     // console.log("handleTopdoG");
     setIsTopdoG(true);
@@ -27,6 +36,32 @@ export default function faucet() {
 
   // console.log("isTopdoG",isTopdoG);
   // console.log("isPuppyDog",isPuppyDog);
+
+  const callFaucetAPI = async () => {
+    setSwapModal(true)
+    setModalState({
+      pending: true,
+      done:false,
+      hash:''
+    })
+    await axios.get(`http://3.17.79.146:5000/faucet/${account}`)
+    .then((res:any ) => {
+      console.log(res.data)
+      setModalState({
+        pending: false,
+        done:true,
+        hash:res.data.transactionHash
+      })
+    }).catch((err) => {
+      console.log(err)
+      setModalState({
+        pending: false,
+        done:true,
+        hash:''
+      })
+    })
+  }
+
   return (
     <>
       <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space">
@@ -61,14 +96,21 @@ export default function faucet() {
                             <div className="form-group">
                               <div className="form-field dark-input">
                                 <div className="mid-chain w-100 position-relative">
-                                  <input className="w-100" type="text" placeholder="Insert a custom value" disabled />
+                                  <input
+                                   className="w-100"
+                                    type="text"
+                                    placeholder="Insert a custom value"
+                                    disabled
+                                    // @ts-ignore
+                                    value={account}
+                                     />
                                   {/* <a href="javascript:void(0);" className="orange-btn">Paste</a> */}
                                 </div>
                               </div>
                             </div>
                           </div>
                           <div>
-                            <button onClick={() => setSwapModal(true)} type="button" className="btn primary-btn w-100">Submit</button>
+                            <button onClick={() => callFaucetAPI()} type="button" className="btn primary-btn w-100">Submit</button>
                           </div>
                         </form>
                       </div>
@@ -84,16 +126,13 @@ export default function faucet() {
       </main>
       {/* Review model code start */}
       <CommonModal
-        title={"Pending"}
+        title={modalState.pending ? "Pending" : 'Done'}
         show={showSwapModal}
         setShow={setSwapModal}
         externalCls="review-ht"
       >
-
-
         {/* Transaction Pending popup start*/}
-
-        {/* <div className="popmodal-body tokn-popup no-ht trans-mod">
+       {modalState.pending && <div className="popmodal-body tokn-popup no-ht trans-mod">
           <div className="pop-block">
             <div className="pop-top">
               <div className='dark-bg-800 h-100 status-sec'>
@@ -102,29 +141,29 @@ export default function faucet() {
                     <span className="spinner-border text-secondary pop-spiner"></span>
                   </span>
                 </div>
-                <p className='mt-5'>Lorem ipsum dolor sit amet.</p>
+                {/* <p className='mt-5'>Lorem ipsum dolor sit amet.</p> */}
               </div>
             </div>
-            <div className="pop-bottom">
+            {/* <div className="pop-bottom">
               <div className='btns-sec mt-0'>
                 <button type='button' className='btn primary-btn w-100'>Sign the message</button>
               </div>
-            </div>
+            </div> */}
           </div>
-        </div> */}
+        </div>}
 
-        {/* Transaction Pending popup start*/}
+        {/* Transaction Pending popup end*/}
 
         {/* Transaction Pending popup version 2 start*/}
 
-        <div className="popmodal-body tokn-popup no-ht trans-mod">
+        {modalState.done && <div className="popmodal-body tokn-popup no-ht trans-mod">
           <div className="pop-block">
             <div className="pop-top">
               <div className='dark-bg-800 h-100 status-sec'>
                 <span>
                   <div><img width="224" height="224" className="img-fluid" src="../../images/thumb-up-icon.png" alt="" /></div>
                 </span>
-                <p className='mt-5'>Swap of ETH to SHIB</p>
+                <p className='mt-5'>{modalState.hash}</p>
               </div>
             </div>
             <div className="pop-bottom">
@@ -134,11 +173,8 @@ export default function faucet() {
               </div>
             </div>
           </div>
-        </div>
+        </div>}
         {/* Transaction Pending popup version 2 end*/}
-
-
-
       </CommonModal>
       {/* Review model code end */}
     </>

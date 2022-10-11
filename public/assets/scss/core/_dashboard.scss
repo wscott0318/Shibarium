@@ -97,7 +97,7 @@
     .side-menu {
         padding: 0 20px;
         @media #{$max-xxl}{
-            padding: 0 16px;
+            padding: 0 9px;
         }
         .side-menu-item {
             margin-bottom: 12px;
@@ -114,6 +114,9 @@
             border: 0;
             box-shadow: none;
             outline: none;
+            @media #{$max-xxl}{
+                padding-right: 10px;
+            }
             &:hover{
                 border: 0;
                 box-shadow: none;
