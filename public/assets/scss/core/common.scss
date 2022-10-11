@@ -2111,3 +2111,21 @@ background: $body-bg;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.stak-pop {
+    &::before{
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba($black,0.89);
+    }
+    .modal-content {
+        padding:30px;
+        border: 1px solid $white;
+    }
+}

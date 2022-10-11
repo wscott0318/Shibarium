@@ -8,12 +8,21 @@ import Footer from "../../pages/footer/index"
 import CommonModal from "../components/CommonModel";
 import Header from "../layout/header";
 import StakingHeader from '../staking-header'
+import InnerHeader from "../../pages/inner-header";
+import Sidebar from "../layout/sidebar"
 
 
 export default function faucet() {
   const [isTopdoG, setIsTopdoG] = useState(true);
   const [isPuppyDog, setIsPuppyDog] = useState(false);
   const [showSwapModal, setSwapModal] = useState(false);
+  const [menuState, setMenuState] = useState(false);
+
+  const handleMenuState = () => {
+    console.log("called click")
+    setMenuState(!menuState);
+  }
+
   const handleTopdoG = () => {
     // console.log("handleTopdoG");
     setIsTopdoG(true);
@@ -29,11 +38,20 @@ export default function faucet() {
   // console.log("isPuppyDog",isPuppyDog);
   return (
     <>
-      <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space">
-        <Header />
-        {/* <StakingHeader /> */}
+      <main className="main-content">
+        
+      <Sidebar
+          handleMenuState={handleMenuState}
+          onClickOutside={() => {
+            setMenuState(false);
+          }}
+          menuState={menuState}
+        />
         {/* Form section start */}
-        <div className="container">
+        <div className="cmn_dashbord_main_outr">
+          <InnerHeader />
+
+          <h2 className="mb-4">Faucet</h2>
           <div className='swap-card cus-card-800'>
             <div className="swp-header">
               <div className='swp-left-col mb-3 mb-lg-3 mb-xl-4'>
@@ -122,7 +140,7 @@ export default function faucet() {
             <div className="pop-top">
               <div className='dark-bg-800 h-100 status-sec'>
                 <span>
-                  <div><img width="224" height="224" className="img-fluid" src="../../images/thumb-up-icon.png" alt="" /></div>
+                  <div><img width="224" height="224" className="img-fluid" src="../../images/Ellipse.png" alt="" /></div>
                 </span>
                 <p className='mt-5'>Swap of ETH to SHIB</p>
               </div>
