@@ -92,7 +92,8 @@ export default function faucet() {
 
 
         {/* Transaction Pending popup start*/}
-        <div className="popmodal-body tokn-popup no-ht trans-mod">
+
+        {/* <div className="popmodal-body tokn-popup no-ht trans-mod">
           <div className="pop-block">
             <div className="pop-top">
               <div className='dark-bg-800 h-100 status-sec'>
@@ -110,28 +111,30 @@ export default function faucet() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
+
         {/* Transaction Pending popup start*/}
 
         {/* Transaction Pending popup version 2 start*/}
-        {/* <div className="popmodal-body tokn-popup no-ht trans-mod">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                        <div className='dark-bg-800 h-100 status-sec'>
-                            <span>
-                                <div><img width="272" height="272" className="img-fluid" src="../../images/Ellipse.png" alt="" /></div>
-                            </span>
-                            <p className='mt-5'>Swap of ETH to SHIB</p>
-                        </div>
-                    </div>
-                    <div className="pop-bottom">
-                      <div className='staus-btn'>
-                        <button type='button' className='btn primary-btn w-100' }}>
-                        View on Shibascan</button>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
+
+        <div className="popmodal-body tokn-popup no-ht trans-mod">
+          <div className="pop-block">
+            <div className="pop-top">
+              <div className='dark-bg-800 h-100 status-sec'>
+                <span>
+                  <div><img width="224" height="224" className="img-fluid" src="../../images/thumb-up-icon.png" alt="" /></div>
+                </span>
+                <p className='mt-5'>Swap of ETH to SHIB</p>
+              </div>
+            </div>
+            <div className="pop-bottom">
+              <div className='staus-btn'>
+                <button type='button' className='btn primary-btn w-100'>
+                  View on Shibascan</button>
+              </div>
+            </div>
+          </div>
+        </div>
         {/* Transaction Pending popup version 2 end*/}
 
 

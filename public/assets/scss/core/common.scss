@@ -1112,6 +1112,9 @@
         @media #{$max-sm}{
             height:470px;
         }
+        .token-listwrap {
+            max-height: 250px;
+        }
     }
 }
 .bridge-ht{
