@@ -392,6 +392,13 @@ export default function Gastoken() {
         </CommonModal>
 
         {/* modal code closed */}
+
+        
+
+
+
+
+
       </>
     );
 }
