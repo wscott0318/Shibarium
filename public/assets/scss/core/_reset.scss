@@ -388,6 +388,12 @@ ul {
         padding: 20px;
         white-space:nowrap;
         vertical-align: middle;
+        &:first-child{
+            text-align: left;
+        }
+        &:last-child{
+            text-align: right;
+        }
         @media #{$max-xxl}{
             padding: 15px 15px;
         }
@@ -442,6 +448,7 @@ ul {
     ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
         color: $white;
         opacity: 1; /* Firefox */
+        font-weight: 400;
       }
       
       :-ms-input-placeholder { /* Internet Explorer 10-11 */
@@ -506,9 +513,9 @@ ul {
             input{
                 background-color: $body-bg;
                 color: rgba($white, 0.89);
-                padding: 15px 20px;
+                padding: 15px 25px;
                 @media #{$max-xxl}{
-                    padding:9px 20px
+                    padding:10px 25px
                 }
                 &:hover{
                     box-shadow: none;
@@ -529,7 +536,7 @@ ul {
         padding: 32px 20px;
         overflow: hidden;
         @media #{$max-xxl}{
-            padding: 30px 15px;
+            padding: 30px 20px;
             border-radius: 30px;
         }
         @media #{$max-lg}{
@@ -612,9 +619,11 @@ body.modal-open {
     word-break: break-all;
 }
 .fw-700{
-    font-weight: 700;
+    font-weight: 700 !important;
 }
-
+.fw-600{
+    font-weight: 600 !important;
+}
 .right-arrow  .scrolldown-container {
     transform: rotate(270deg);
 }
