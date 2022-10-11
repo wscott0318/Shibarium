@@ -408,13 +408,11 @@ export default function DelegatorAccount() {
                     </>
                 </CommonModal>
                 {/* claim stake popop ends */}
-
                 <section className="top_bnr_area dark-bg">
                     <div className="container">
                         <h1>My Account</h1>
                     </div>
                 </section>
-
                 <section className="mid_cnt_area">
                     <div className="container">
                         <div className="col-xl-12 col-lg-12 side-auto">
@@ -464,7 +462,6 @@ export default function DelegatorAccount() {
                         </div>
                     </div>
                 </section>
-
             </main>
         </>
     );
