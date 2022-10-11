@@ -2096,3 +2096,15 @@ background: $body-bg;
     }
 }
 
+
+.flex-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+.elip-text{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
