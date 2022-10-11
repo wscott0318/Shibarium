@@ -59,17 +59,20 @@ export default function ValidatorAccount() {
                             <form>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter validator address" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter validator address</label>
+                                        <input type="text" placeholder="Validator address" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter amount" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter amount</label>
+                                        <input type="text" placeholder="Amount" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter stakereward" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter stakereward</label>
+                                        <input type="text" placeholder="Stakereward" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="pop_btns_area">
@@ -95,12 +98,14 @@ export default function ValidatorAccount() {
                             <form>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter validator address" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter validator address</label>
+                                        <input type="text" placeholder="Validator address" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter new commission" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter new commission</label>
+                                        <input type="text" placeholder="New commission" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="pop_btns_area">
@@ -126,7 +131,8 @@ export default function ValidatorAccount() {
                             <form>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter validator address" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter validator address</label>
+                                        <input type="text" placeholder="Validator address" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="pop_btns_area">
