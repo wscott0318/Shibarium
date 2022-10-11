@@ -202,16 +202,19 @@ export default function DelegatorAccount() {
                             <form>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter validator address" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter validator address</label>
+                                        <input type="text" placeholder="Validator address" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter delegator address" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter delegator address</label>
+                                        <input type="text" placeholder="Delegator address" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
+                                        <label className="mb-2 mb-md-2 text-white">Enter amount</label>
                                         <input type="text" placeholder="Enter amount" className="w-100" />
                                     </div>
                                 </div>
@@ -412,46 +415,48 @@ export default function DelegatorAccount() {
 
                 <section className="mid_cnt_area">
                     <div className="container">
-                        <div className="col-xl-9 col-lg-12 side-auto">
-                            <h4>Ethereum Wallet Balance</h4>
-                            <h3><b>0 Bone</b></h3>
-                            <h4>$0.00</h4>
-                            <div className="btns_sec val_all_bts row">
-                                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                                    <button className="btn grey-btn w-100 d-block">
-                                        Become a Validator
-                                    </button>
-                                </div>
-                                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                                    <button onClick={() => setvalidatorpop(true)} className="btn grey-btn w-100 d-block">
-                                        Restake
-                                    </button>
-                                </div>
-                                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                                    <button onClick={() => setwithdrawpop(true)} className="btn grey-btn w-100 d-block">
-                                        Withdraw Rewards
-                                    </button>
-                                </div>
-                                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                    <button onClick={() => setunboundpop(true)} className="btn grey-btn w-100 d-block">
-                                        Unbound
-                                    </button>
-                                </div>
-                                <br />   <br />   <br />
-                                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                    <button onClick={() => setallinonepop(true)} className="btn grey-btn w-100 d-block">
-                                        All in one popup btn
-                                    </button>
-                                </div>
-                                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                    <button onClick={() => setUnboundpop(true)} className="btn grey-btn w-100 d-block">
-                                        Unbound Popup 2
-                                    </button>
-                                </div>
-                                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                    <button onClick={() => setClaimpop(true)} className="btn grey-btn w-100 d-block">
-                                        Stake Claim
-                                    </button>
+                        <div className="col-xl-12 col-lg-12 side-auto">
+                            <div className="val_del_outr">
+                                <h4>Ethereum Wallet Balance</h4>
+                                <h3><b>0 Bone</b></h3>
+                                <h4>$0.00</h4>
+                                <div className="btns_sec val_all_bts row">
+                                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
+                                        <button className="btn black-btn w-100 d-block">
+                                            Become a Validator
+                                        </button>
+                                    </div>
+                                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
+                                        <button onClick={() => setvalidatorpop(true)} className="btn black-btn w-100 d-block">
+                                            Restake
+                                        </button>
+                                    </div>
+                                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
+                                        <button onClick={() => setwithdrawpop(true)} className="btn black-btn w-100 d-block">
+                                            Withdraw Rewards
+                                        </button>
+                                    </div>
+                                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                                        <button onClick={() => setunboundpop(true)} className="btn black-btn w-100 d-block">
+                                            Unbound
+                                        </button>
+                                    </div>
+                                    {/* <br />   <br />   <br />
+                                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                                        <button onClick={() => setallinonepop(true)} className="btn grey-btn w-100 d-block">
+                                            All in one popup btn
+                                        </button>
+                                    </div>
+                                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                                        <button onClick={() => setUnboundpop(true)} className="btn grey-btn w-100 d-block">
+                                            Unbound Popup 2
+                                        </button>
+                                    </div>
+                                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                                        <button onClick={() => setClaimpop(true)} className="btn grey-btn w-100 d-block">
+                                            Stake Claim
+                                        </button>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
