@@ -240,12 +240,14 @@ export default function DelegatorAccount() {
                             <form>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter validator address" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter validator address</label>
+                                        <input type="text" placeholder="Validator address" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter delegator address" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter delegator address</label>
+                                        <input type="text" placeholder="Delegator address" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="pop_btns_area">
