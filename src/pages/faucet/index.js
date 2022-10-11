@@ -37,7 +37,7 @@ export default function faucet() {
           <div className='swap-card cus-card-800'>
             <div className="swp-header">
               <div className='swp-left-col mb-3 mb-lg-3 mb-xl-4'>
-                <h3 className=''>
+                <h3 className='mb-3'>
                   Get Test Tokens
                 </h3>
                 <p className='grey-txt'>This faucet transfers TestToken on Matic testnets and parent chain. Confirms details before submitting.</p>
@@ -61,8 +61,8 @@ export default function faucet() {
                             <div className="form-group">
                               <div className="form-field dark-input">
                                 <div className="mid-chain w-100 position-relative">
-                                  <input className="w-100" type="text" placeholder="Insert a custom value" disabled/>
-                                  <a href="javascript:void(0);" className="orange-btn">Paste</a>
+                                  <input className="w-100" type="text" placeholder="Insert a custom value" disabled />
+                                  {/* <a href="javascript:void(0);" className="orange-btn">Paste</a> */}
                                 </div>
                               </div>
                             </div>
@@ -84,121 +84,57 @@ export default function faucet() {
       </main>
       {/* Review model code start */}
       <CommonModal
-        title={"Review Swap"}
+        title={"Pending"}
         show={showSwapModal}
         setShow={setSwapModal}
         externalCls="review-ht"
       >
-        {/* Review model code start */}
-        <div className="popmodal-body no-ht">
+
+
+        {/* Transaction Pending popup start*/}
+
+        {/* <div className="popmodal-body tokn-popup no-ht trans-mod">
           <div className="pop-block">
             <div className="pop-top">
-              <div className="cnfrm_box dark-bg-800">
-                <div className="top_overview col-12">
-                  <div className='img-flexible'><img class="img-fluid d-inline-block" src="../../images/shib-borderd-icon.png" alt="" /></div>
-                  <h6>1000 SHIB</h6>
-                  <p>2000.00$</p>
+              <div className='dark-bg-800 h-100 status-sec'>
+                <div>
+                  <span className='spiner-lg' >
+                    <span className="spinner-border text-secondary pop-spiner"></span>
+                  </span>
                 </div>
+                <p className='mt-5'>Lorem ipsum dolor sit amet.</p>
               </div>
-              <div className="pop-grid flex-grid">
-                <div className="text-center box-block">
-                  <button type='button' className='btn primary-btn w-100'>ETH</button>
-                </div>
-                <div className="text-center box-block">
-                  <div className="d-inline-block">
-                    <img class="img-fluid" src="../../images/white-arrow.png" alt="" />
-                  </div>
-                </div>
-                <div className="text-center box-block">
-                  <button type='button' className='btn primary-btn w-100'>BONE</button>
-                </div>
-              </div>
-              <p className='mb-0 text-center'>1 ETH = 10 SHIB</p>
-
             </div>
             <div className="pop-bottom">
-              <div className="amt-section position-relative ps-0">
-                <div className="coin-blk">
-                  <p className="lite-color">Slippage tollerance</p>
-                </div>
-                <div>
-                  <p className="fw-bold">2%</p>
-                </div>
+              <div className='btns-sec mt-0'>
+                <button type='button' className='btn primary-btn w-100'>Sign the message</button>
               </div>
-              <div className="amt-section position-relative ps-0">
-                <div className="coin-blk">
-                  <p className="lite-color">Powered By</p>
-                </div>
-                <div>
-                  <p className="fw-bold">X-Funds</p>
-                </div>
+            </div>
+          </div>
+        </div> */}
+
+        {/* Transaction Pending popup start*/}
+
+        {/* Transaction Pending popup version 2 start*/}
+
+        <div className="popmodal-body tokn-popup no-ht trans-mod">
+          <div className="pop-block">
+            <div className="pop-top">
+              <div className='dark-bg-800 h-100 status-sec'>
+                <span>
+                  <div><img width="224" height="224" className="img-fluid" src="../../images/thumb-up-icon.png" alt="" /></div>
+                </span>
+                <p className='mt-5'>Swap of ETH to SHIB</p>
               </div>
-              <div className='btn-wrap'>
-                <div>
-                  <a className='btn primary-btn w-100' href="javascript:void(0)" onClick={() => {
-                    setSwapState({
-                      step0: false,
-                      step1: true,
-                      step2: false,
-                      title: "Transaction Pending"
-                    })
-                    setTimeout(() => {
-                      setSwapState({
-                        step0: false,
-                        step1: false,
-                        step2: true,
-                        title: "Transaction Pending",
-                      });
-                    }, 2000)
-                  }}>Confirm Swap</a>
-                </div>
+            </div>
+            <div className="pop-bottom">
+              <div className='staus-btn'>
+                <button type='button' className='btn primary-btn w-100'>
+                  View on Shibascan</button>
               </div>
             </div>
           </div>
         </div>
-        {/* Review model code start */}
-
-        {/* Transaction Pending popup start*/}
-        {/* <div className="popmodal-body tokn-popup no-ht trans-mod">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                        <div className='dark-bg-800 h-100 status-sec'>
-                            <div>
-                                <span className='spiner-lg' >
-                                    <span className="spinner-border text-secondary pop-spiner"></span>
-                                </span>
-                            </div>
-                            <p className='mt-5'>Sign the transaction in your wallet to complete the swap</p>
-                        </div>
-                    </div>
-                    <div className="pop-bottom">
-                      <div className='btns-sec mt-0'>
-                        <button type='button' className='btn primary-btn w-100'>Sign the message</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>  */}
-        {/* Transaction Pending popup start*/}
-
-        {/* Transaction Pending popup version 2 start*/}
-        {/* <div className="popmodal-body tokn-popup no-ht trans-mod">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                        <div className='dark-bg-800 h-100 status-sec'>
-                            <span>
-                                <div><img width="272" height="272" className="img-fluid" src="../../images/Ellipse.png" alt="" /></div>
-                            </span>
-                            <p className='mt-5'>Swap of ETH to SHIB</p>
-                        </div>
-                    </div>
-                    <div className="pop-bottom">
-                      <div className='staus-btn'>
-                        <button type='button' className='btn primary-btn w-100' }}>
-                        View on Shibascan</button>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
         {/* Transaction Pending popup version 2 end*/}
 
 

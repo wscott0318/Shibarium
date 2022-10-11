@@ -410,7 +410,7 @@
 .token-listwrap {
     position: relative;
     margin-top: 16px;
-    max-height: 425px;
+    max-height: 420px;
     overflow-y: auto;
     // @media #{$max-xxl}{
     //     max-height: 265px;
@@ -473,10 +473,11 @@
 }
 .cryoto-box {
     position: absolute;
-    left: auto;
+    left: 4px;
     right: auto;
-    top: auto;
+    top: 50%;
     bottom: auto;
+    transform: translateY(-50%);
     img{
         @media #{$max-xxl}{
             max-width: 42px;
@@ -487,10 +488,11 @@
     }
 }
 .tokn-row {
-    // margin-bottom: 16px;
     cursor: pointer;
-    padding: 5px;
     border-radius: 2px;
+    margin-bottom: 12px;
+    padding: 4px;
+    position: relative;
 }
 
 .tokn-row:hover {
