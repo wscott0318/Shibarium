@@ -25,7 +25,7 @@ const InnerHeader = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const { account, connector, library } = useWeb3React()
+  const { account, connector, library,deactivate } = useWeb3React()
   const { ENSName } = useENSName(account ?? undefined);
   const [showScanpop, setScanpop] = useState(false);
 
@@ -38,6 +38,11 @@ const InnerHeader = () => {
 
   const copyAddress = () => {
     navigator.clipboard.writeText(account);
+  }
+
+  const logoutHandler = async () => {
+    deactivate();
+    await router.push("/home");
   }
 
   return (
@@ -165,9 +170,13 @@ const InnerHeader = () => {
                             </div>
                             <div className="copy-blk">
                               {/* <button> */}
-                                <a href="javascript:void(0);" title="Copy">
-                                  <img src="../../images/copy.png" alt="" onClick={copyAddress}/>
-                                </a>
+                              <a href="javascript:void(0);" title="Copy">
+                                <img
+                                  src="../../images/copy.png"
+                                  alt=""
+                                  onClick={copyAddress}
+                                />
+                              </a>
                               {/* </button> */}
                             </div>
                           </div>
@@ -218,12 +227,16 @@ const InnerHeader = () => {
                       <NavDropdown.Item href="#action/3.3">
                         <div className="custum-row mb-0">
                           <div className="lft-img ps-2">
-                            <img src="../../images/back.png" alt="" />
+                            <img
+                              src="../../images/back.png"
+                              alt=""
+                              onClick={logoutHandler}
+                            />
                           </div>
-                          <div className="center-txt">
+                          <div className="center-txt" onClick={logoutHandler}>
                             <span>Logout</span>
                           </div>
-                          <div className="rt-image">
+                          <div className="rt-image" onClick={logoutHandler}>
                             <img src="../../images/rt-arow.png" alt="" />
                           </div>
                         </div>
