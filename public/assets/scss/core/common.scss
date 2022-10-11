@@ -2096,3 +2096,9 @@ background: $body-bg;
     }
 }
 
+.backArrowBtn {
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    right: 5%;
+}
