@@ -637,6 +637,9 @@
         }
     }
 }
+.vali_deli_popups .stepper .step {
+    width: 33.33%;
+}
 
 // .flex-grid{
 //     .box-block{
@@ -993,38 +996,31 @@
 }
 .set-block {
     max-width: 100%;
-    height: 260px;
+    height: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
-    @media #{$max-xxl}{
-        height: 200px;
-    }
-    @media #{$max-xl}{
-        height: 180px;
-    }
-    @media #{$max-lg}{
-        height: 160px;
-    }
+    margin-top: 16px;
+    margin-bottom: 16px;
 }
-.popmodal-body.no-ht{
-    min-height: 100%;
-    .pop-block{
-        height: 100%;
-    }
-    .pop-bottom{
-        padding-top: 80px;
-        @media #{$max-xxl}{
-            padding-top: 50px;
-        }
-        @media #{$max-xl}{
-            padding-top: 40px;
-        }
-        @media #{$max-lg}{
-            padding-top: 30px;
-        }
-    }
-}
+// .popmodal-body.no-ht{
+//     min-height: 100%;
+//     .pop-block{
+//         height: 100%;
+//     }
+//     .pop-bottom{
+//         padding-top: 80px;
+//         @media #{$max-xxl}{
+//             padding-top: 50px;
+//         }
+//         @media #{$max-xl}{
+//             padding-top: 40px;
+//         }
+//         @media #{$max-lg}{
+//             padding-top: 30px;
+//         }
+//     }
+// }
 .tokn-popup.no-ht{
     .pop-bottom{
         padding-top: 40px;
@@ -1081,8 +1077,12 @@
     opacity: 0;
 }
 .blackButton {
-    background-color: #0C0F17;
-    color: rgba(255, 255, 255, 0.89) !important;
+    background-color: $body-bg-800 !important;
+    color: rgba($white,0.89) !important;
+    &:hover{
+        background-color: $body-bg-800 !important;
+        color: rgba($white,0.89) !important;
+    }
 }
 
 .orangeButton {
@@ -1100,9 +1100,81 @@
         padding-right: 0 !important;
     } 
 }
-
-
-
+.walet-ht{
+    .cmn_modal{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height:100%;
+    }
+    .modal-content{
+        height:520px;
+        @media #{$max-sm}{
+            height:470px;
+        }
+    }
+}
+.bridge-ht{
+    .modal-content{
+        height: 570px;
+        @media #{$max-xl}{
+            height:550px;
+        }
+    }
+}
+.bridge-ht2{
+    .modal-content{
+        height: 608px;
+        @media #{$max-xxl}{
+            height:590px;
+        }
+        @media #{$max-xl}{
+            height:580px;
+        }
+        @media #{$max-sm}{
+            height:560px;
+        }
+    }
+}
+.tkn-ht{
+    .modal-content{
+        height: 680px;
+    } 
+    @media #{$max-sm}{
+        height:650px;
+    }
+    .token-listwrap.list-ht {
+        max-height: 380px;
+    }
+}
+.token-listwrap.usr-listht {
+    max-height: 280px;
+}
+.review-ht{
+    .modal-content{
+        height: 612px;
+        @media #{$max-xxl}{
+            height:570px;
+        }
+        @media #{$max-lg}{
+            height:530px;
+        }
+        @media #{$max-sm}{
+            height:480px;
+        }
+    }
+}
+.top-exspace{
+    @media #{$max-xxl}{
+        padding-top: 55px;
+    }
+    @media #{$max-xl}{
+        padding-top: 90px;
+    }
+    @media #{$max-sm}{
+        padding-top: 50px;
+    }
+}
 /** become a validator steps style start **/
 .rewards-section {
     padding: 70px 0;
@@ -2023,3 +2095,4 @@ background: $body-bg;
         height: 100px;
     }
 }
+

@@ -150,7 +150,7 @@ export default function ValidatorAccount() {
                     <>
                         <div className="cmn_modal val_popups">
                             <form>
-                                <div className="">
+                                <div className="only_text">
                                     <p className="text-center">Are you sure you want to unbound?</p>
                                 </div>
                                 <div className="pop_btns_area row mr-top-50 form-control">

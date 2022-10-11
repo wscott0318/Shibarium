@@ -233,6 +233,7 @@ export default function Gastoken() {
           title={"Review Swap"}
           show={showSwapModal}
           setShow={setSwapModal}
+          externalCls="review-ht"
         >
           {showSwapModal && swapState.step0 && (
             <div className="popmodal-body no-ht">
@@ -390,6 +391,13 @@ export default function Gastoken() {
         </CommonModal>
 
         {/* modal code closed */}
+
+        
+
+
+
+
+
       </>
     );
 }

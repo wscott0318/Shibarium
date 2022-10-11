@@ -120,12 +120,12 @@ export default function Transaction() {
           title={showSendModal.title}
           show={showModal}
           setShow={setShowModal}
-          externalCls="dark-modal-100"
+          externalCls="dark-modal-100 pop-fix"
         >
           <>
             {/* Reaching Checkpoint popop start  */}
             {showSendModal.step0 && (
-              <div className="cmn_modal trans_popups">
+              <div className="cmn_modal trans_popups trans-ht">
                 <ul className="stepper">
                   <li className="step active">
                     <div className="step-ico">
@@ -168,54 +168,56 @@ export default function Transaction() {
                     <div className="step-title">Withdraw Completed</div>
                   </li>
                 </ul>
-                <div className="image_area row">
-                  <div className="col-12 text-center watch-img-sec">
-                    <div className="set-block">
-                      <img className="img-fluid" src="../../images/watch.png" />
+                <div className="step-content">
+                  <div className="image_area row">
+                    <div className="col-12 text-center watch-img-sec">
+                      <div className="set-block">
+                        <img className="img-fluid" src="../../images/watch.png" />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="mid_text row">
-                  <div className="col-12 text-center">
-                    <h4>Bridging funds</h4>
+                  <div className="mid_text row">
+                    <div className="col-12 text-center">
+                      <h4>Bridging funds</h4>
+                    </div>
+                    <div className="col-12 text-center">
+                      <p className="mb-0">
+                        Bridging funds from Shibarium Chain to Ethereum Chain the
+                        transaction will take from 60 min to 3 hrs
+                      </p>
+                    </div>
                   </div>
-                  <div className="col-12 text-center">
-                    <p className="mb-0">
-                      Bridging funds from Shibarium Chain to Ethereum Chain the
-                      transaction will take from 60 min to 3 hrs
-                    </p>
+                  <div className="fees_text">
+                    <div className="icon_name">
+                      <img src="../../images/eth-icon.png" />
+                      <span>Estimation of GAS fee required</span>
+                    </div>
+                    <div className="">
+                      <p>$10.00</p>
+                    </div>
                   </div>
-                </div>
-                <div className="fees_text">
-                  <div className="icon_name">
-                    <img src="../../images/eth-icon.png" />
-                    <span>Estimation of GAS fee required</span>
-                  </div>
-                  <div className="">
-                    <p>$10.00</p>
-                  </div>
-                </div>
-                <div className="pop_btns_area row form-control">
-                  <div className="col-12">
-                    <a
-                      className="btn grey-btn d-flex align-items-center"
-                      href="javascript:void(0)"
-                    >
-                      <span className="spinner-border text-secondary pop-spiner"></span>
-                      <span
-                        onClick={() =>
-                          setSendModal({
-                            step0: false,
-                            step1: true,
-                            step2: false,
-                            step3: false,
-                            title: "Checkpoint I Reached",
-                          })
-                        }
+                  <div className="pop_btns_area row form-control">
+                    <div className="col-12">
+                      <a
+                        className="btn grey-btn d-flex align-items-center"
+                        href="javascript:void(0)"
                       >
-                        Moving funds
-                      </span>
-                    </a>
+                        <span className="spinner-border text-secondary pop-spiner"></span>
+                        <span
+                          onClick={() =>
+                            setSendModal({
+                              step0: false,
+                              step1: true,
+                              step2: false,
+                              step3: false,
+                              title: "Checkpoint I Reached",
+                            })
+                          }
+                        >
+                          Moving funds
+                        </span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -224,7 +226,7 @@ export default function Transaction() {
 
             {/* Checkpoint reached popop start  */}
             {showSendModal.step1 && (
-              <div className="cmn_modal trans_popups">
+              <div className="cmn_modal trans_popups trans-ht">
                 <ul className="stepper">
                   <li className="step active">
                     <div className="step-ico">
@@ -267,55 +269,57 @@ export default function Transaction() {
                     <div className="step-title">Withdraw Completed</div>
                   </li>
                 </ul>
-                <div className="image_area row">
-                  <div className="col-12 text-center">
-                    <div className="set-block">
-                      <img
-                        className="img-fluid"
-                        src="../../images/funds-coin.png"
-                      />
+                <div className="step-content">
+                  <div className="image_area row">
+                    <div className="col-12 text-center">
+                      <div className="set-block">
+                        <img
+                          className="img-fluid"
+                          src="../../images/funds-coin.png"
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="mid_text row">
-                  <div className="col-12 text-center">
-                    <h4>Move Funds to your account</h4>
+                  <div className="mid_text row">
+                    <div className="col-12 text-center">
+                      <h4>Move Funds to your account</h4>
+                    </div>
+                    <div className="col-12 text-center">
+                      <p className="mb-0">
+                        Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5
+                      </p>
+                    </div>
                   </div>
-                  <div className="col-12 text-center">
-                    <p className="mb-0">
-                      Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5
-                    </p>
+                  <div className="fees_text">
+                    <div className="icon_name">
+                      <img src="../../images/eth-icon.png" />
+                      <span>Estimation of GAS fee required</span>
+                    </div>
+                    <div className="">
+                      <p>$10.00</p>
+                    </div>
                   </div>
-                </div>
-                <div className="fees_text">
-                  <div className="icon_name">
-                    <img src="../../images/eth-icon.png" />
-                    <span>Estimation of GAS fee required</span>
-                  </div>
-                  <div className="">
-                    <p>$10.00</p>
-                  </div>
-                </div>
-                <div className="pop_btns_area row form-control">
-                  <div className="col-12">
-                    <a
-                      className="btn primary-btn d-flex align-items-center"
-                      href="javascript:void(0)"
-                    >
-                      <span
-                        onClick={() =>
-                          setSendModal({
-                            step0: false,
-                            step1: false,
-                            step2: true,
-                            step3: false,
-                            title: "Withdrawing Funds",
-                          })
-                        }
+                  <div className="pop_btns_area row form-control">
+                    <div className="col-12">
+                      <a
+                        className="btn primary-btn d-flex align-items-center"
+                        href="javascript:void(0)"
                       >
-                        Confirm
-                      </span>
-                    </a>
+                        <span
+                          onClick={() =>
+                            setSendModal({
+                              step0: false,
+                              step1: false,
+                              step2: true,
+                              step3: false,
+                              title: "Withdrawing Funds",
+                            })
+                          }
+                        >
+                          Confirm
+                        </span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -367,53 +371,55 @@ export default function Transaction() {
                     <div className="step-title">Withdraw Completed</div>
                   </li>
                 </ul>
-                <div className="image_area row">
-                  <div className="col-12 text-center">
-                    <div className="set-block">
-                      <img className="img-fluid" src="../../images/watch.png" />
+                <div className="step-content">
+                  <div className="image_area row">
+                    <div className="col-12 text-center">
+                      <div className="set-block">
+                        <img className="img-fluid" src="../../images/watch.png" />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="mid_text row">
-                  <div className="col-12 text-center">
-                    <h4>Move Funds to your account</h4>
+                  <div className="mid_text row">
+                    <div className="col-12 text-center">
+                      <h4>Move Funds to your account</h4>
+                    </div>
+                    <div className="col-12 text-center">
+                      <p className="mb-0">
+                        Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5
+                      </p>
+                    </div>
                   </div>
-                  <div className="col-12 text-center">
-                    <p className="mb-0">
-                      Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5
-                    </p>
+                  <div className="fees_text">
+                    <div className="icon_name">
+                      <img src="../../images/eth-icon.png" />
+                      <span>Estimation of GAS fee required</span>
+                    </div>
+                    <div className="">
+                      <p>$10.00</p>
+                    </div>
                   </div>
-                </div>
-                <div className="fees_text">
-                  <div className="icon_name">
-                    <img src="../../images/eth-icon.png" />
-                    <span>Estimation of GAS fee required</span>
-                  </div>
-                  <div className="">
-                    <p>$10.00</p>
-                  </div>
-                </div>
-                <div className="pop_btns_area row form-control">
-                  <div className="col-12">
-                    <a
-                      className="btn grey-btn d-flex align-items-center"
-                      href="javascript:void(0)"
-                    >
-                      <span className="spinner-border text-secondary pop-spiner"></span>
-                      <span
-                        onClick={() => {
-                          setSendModal({
-                            step0: false,
-                            step1: false,
-                            step2: false,
-                            step3: true,
-                            title: "Withdraw Completed",
-                          });
-                        }}
+                  <div className="pop_btns_area row form-control">
+                    <div className="col-12">
+                      <a
+                        className="btn grey-btn d-flex align-items-center"
+                        href="javascript:void(0)"
                       >
-                        Moving funds
-                      </span>
-                    </a>
+                        <span className="spinner-border text-secondary pop-spiner"></span>
+                        <span
+                          onClick={() => {
+                            setSendModal({
+                              step0: false,
+                              step1: false,
+                              step2: false,
+                              step3: true,
+                              title: "Withdraw Completed",
+                            });
+                          }}
+                        >
+                          Moving funds
+                        </span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -465,43 +471,45 @@ export default function Transaction() {
                     <div className="step-title">Withdraw Completed</div>
                   </li>
                 </ul>
-                <div className="image_area row">
-                  <div className="col-12 text-center">
-                    <div className="set-block">
-                      <img
-                        className="img-fluid"
-                        src="../../images/thumb-up-icon.png"
-                      />
+                <div className="step-content">
+                  <div className="image_area row">
+                    <div className="col-12 text-center">
+                      <div className="set-block">
+                        <img
+                          className="img-fluid"
+                          src="../../images/thumb-up-icon.png"
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="mid_text row">
-                  <div className="col-12 text-center">
-                    <h4>Move Funds to your account</h4>
+                  <div className="mid_text row">
+                    <div className="col-12 text-center">
+                      <h4>Move Funds to your account</h4>
+                    </div>
+                    <div className="col-12 text-center">
+                      <p className="mb-0">
+                        Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5
+                      </p>
+                    </div>
                   </div>
-                  <div className="col-12 text-center">
-                    <p className="mb-0">
-                      Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5
-                    </p>
+                  <div className="fees_text">
+                    <div className="icon_name">
+                      <img src="../../images/eth-icon.png" />
+                      <span>Estimation of GAS fee required</span>
+                    </div>
+                    <div className="">
+                      <p>$10.00</p>
+                    </div>
                   </div>
-                </div>
-                <div className="fees_text">
-                  <div className="icon_name">
-                    <img src="../../images/eth-icon.png" />
-                    <span>Estimation of GAS fee required</span>
-                  </div>
-                  <div className="">
-                    <p>$10.00</p>
-                  </div>
-                </div>
-                <div className="pop_btns_area row form-control">
-                  <div className="col-12">
-                    <a
-                      className="btn primary-btn d-flex align-items-center"
-                      href="javascript:void(0)"
-                    >
-                      <span onClick={() => setShowModal(false)}>Confirm</span>
-                    </a>
+                  <div className="pop_btns_area row form-control">
+                    <div className="col-12">
+                      <a
+                        className="btn primary-btn d-flex align-items-center"
+                        href="javascript:void(0)"
+                      >
+                        <span onClick={() => setShowModal(false)}>Confirm</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
