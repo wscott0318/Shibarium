@@ -13,22 +13,27 @@ export default function Gastoken() {
     const [menuState, setMenuState] = useState(false);
 
     const handleMenuState = () => {
-        setMenuState(false)
+        setMenuState(!menuState);
     }
-
-    const [showSlippageModal, setSlippageModal] = useState(false);
     const [swapState, setSwapState] = useState({
     step0: true,
     step1: false,
     step2: false,
     title: "Review Swap",
     });
+    const [showSlippageModal, setSlippageModal] = useState(false);
     const [showSwapModal, setSwapModal] = useState(false);
     const [approveReview, setApproveReview] = useState(true);
     return (
       <>
         <main className="main-content">
-          <Sidebar handleMenuState={handleMenuState} menuState={menuState} />
+          <Sidebar
+            handleMenuState={handleMenuState}
+            onClickOutside={() => {
+              setMenuState(false);
+            }}
+            menuState={menuState}
+          />
           <div className="cmn_dashbord_main_outr">
             <InnerHeader />
             <div className="container px-0">
@@ -200,13 +205,13 @@ export default function Gastoken() {
                             onClick={() => {
                               if (!approveReview) {
                                 setSwapModal(true);
-                                setApproveReview(true);
                                 setSwapState({
                                   step0: true,
                                   step1: false,
                                   step2: false,
                                   title: "Review Swap",
                                 });
+                                setApproveReview(true);
                               }
                             }}
                           >
@@ -305,7 +310,7 @@ export default function Gastoken() {
                               step2: true,
                               title: "Transaction Pending",
                             });
-                          }, [2000]);
+                          }, 2000);
                         }}
                       >
                         Confirm Swap

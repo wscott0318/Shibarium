@@ -35,8 +35,9 @@
     top: 34px;
     z-index: 99;
     left: 30px;
+    cursor: pointer;
     display: none;
-    @media #{$max-lg}{
+    @media #{$max-xl}{
         display: block;
     }
     @media #{$max-xsm}{
@@ -67,6 +68,7 @@
         transform: translateX(0);
         opacity: 1;
         transition: transform 0.5s;
+        z-index: 1001;
     }
     .sidebar-logo {
         position: relative;

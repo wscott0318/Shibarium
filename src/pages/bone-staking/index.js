@@ -18,6 +18,7 @@ import Footer from "../../pages/footer/index";
 // import { useMoralis } from "react-moralis";
 // import BannerCard from './bannerCard'
 import StakingHeader from '../staking-header'
+ 
 const BoneStaking = () => {
   // const [validators, setValidators] = useState([]);
   const [userType, setUserType] = useUserType();
@@ -69,13 +70,19 @@ const BoneStaking = () => {
                   <h1>Start Earning Rewards with <br /><span className="white-bg">Shibarium Staking</span></h1>
                   <div className="btns-sec">
                     <div className="btns-wrap">
-                      <button className="btn primary-btn">Become a Validator</button>
+                       <button onClick={()=>{
+                        router.push('/become-validator')
+                       }} className="btn primary-btn">Become a Validator</button>
                     </div>
                     <div className="btns-wrap">
-                      <button className="btn  white-btn">Become a Delegator</button>
+                      <button onClick={()=>{
+                        router.push('/all-validator')
+                       }} className="btn  white-btn">Become a Delegator</button>
                     </div>
                     <div className="btns-wrap">
-                      <button className="btn grey-btn">Choose Your Path</button>
+                      <button onClick={()=>{
+                        router.push('/delegator-validator')
+                       }} className="btn grey-btn">Choose Your Path</button>
                     </div>
                   </div>
                 </div>
