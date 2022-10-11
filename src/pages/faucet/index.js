@@ -37,7 +37,7 @@ export default function faucet() {
           <div className='swap-card cus-card-800'>
             <div className="swp-header">
               <div className='swp-left-col mb-3 mb-lg-3 mb-xl-4'>
-                <h3 className=''>
+                <h3 className='mb-3'>
                   Get Test Tokens
                 </h3>
                 <p className='grey-txt'>This faucet transfers TestToken on Matic testnets and parent chain. Confirms details before submitting.</p>
@@ -62,7 +62,7 @@ export default function faucet() {
                               <div className="form-field dark-input">
                                 <div className="mid-chain w-100 position-relative">
                                   <input className="w-100" type="text" placeholder="Insert a custom value" disabled/>
-                                  <a href="javascript:void(0);" className="orange-btn">Paste</a>
+                                  {/* <a href="javascript:void(0);" className="orange-btn">Paste</a> */}
                                 </div>
                               </div>
                             </div>

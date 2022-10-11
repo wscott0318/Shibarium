@@ -489,7 +489,8 @@ export default function Wallet() {
                     <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
                   </div>
                   
-                </div>)}
+                </div>)
+              }
 
                 
               {/* send popop ends */}
