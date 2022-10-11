@@ -81,19 +81,7 @@ export const CommonModalNew: React.FC<propsNew> = ({
     setSenderModal,
   };
   const backHandler = () => {
-    if (title === "Transferring funds") {
-      setSenderModal(false)
-    }
-    if (title === "Send") {
-      setSendModal({
-        step0: true,
-        step1: false,
-        step2: false,
-        step3: false,
-        showTokens: false,
-      });
-    }
-    if (title === "Confirm Send") {
+    if (title === "Select Token") {
       setSendModal({
         step0: false,
         step1: true,
@@ -101,15 +89,6 @@ export const CommonModalNew: React.FC<propsNew> = ({
         step3: false,
         showTokens: false,
       });
-    }
-    if (title === "Select Token") {
-       setSendModal({
-         step0: false,
-         step1: true,
-         step2: false,
-         step3: false,
-         showTokens: false,
-       });
     }
   };
 
@@ -124,7 +103,7 @@ export const CommonModalNew: React.FC<propsNew> = ({
       className={`shib-popup ${externalCls}`}
       // scrollable={true}
     >
-      {showClose || title === "Submitted" ? (
+      {title !== "Select Token" && !showClose ? (
         <Modal.Header closeButton className="text-center modal-header">
           {/* <div className="back-blk">
         <a href="#!;" title="">
