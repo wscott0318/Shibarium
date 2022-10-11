@@ -50,7 +50,7 @@ export default function faucet() {
       setModalState({
         pending: false,
         done:true,
-        hash:res.data.transactionHash
+        hash:res.data.transectionHash
       })
     }).catch((err) => {
       console.log(err)
@@ -163,10 +163,10 @@ export default function faucet() {
                 <span>
                   <div><img width="224" height="224" className="img-fluid" src="../../images/thumb-up-icon.png" alt="" /></div>
                 </span>
-                <p className='mt-5'>{modalState.hash}</p>
               </div>
             </div>
             <div className="pop-bottom">
+            <p className='mt-5'>{modalState.hash}</p>
               <div className='staus-btn'>
                 <button type='button' className='btn primary-btn w-100'>
                   View on Shibascan</button>
