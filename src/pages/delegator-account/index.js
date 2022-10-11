@@ -54,7 +54,7 @@ export default function DelegatorAccount() {
                     title={"Unbound"}
                     show={showUnboundpop}
                     setShow={setUnboundpop}
-
+                    externalCls="stak-pop"
                 >
                     <>
                         <div className="cmn_modal">
@@ -193,7 +193,7 @@ export default function DelegatorAccount() {
                     title={"Retake"}
                     show={showvalidatorpop}
                     setShow={setvalidatorpop}
-
+                    externalCls="stak-pop"
                 >
                     <>
 
@@ -233,7 +233,7 @@ export default function DelegatorAccount() {
                     title={"Withdraw Rewards"}
                     show={showwithdrawpop}
                     setShow={setwithdrawpop}
-
+                    externalCls="stak-pop"
                 >
                     <>
                         <div className="cmn_modal val_popups">
@@ -266,7 +266,7 @@ export default function DelegatorAccount() {
                     title={"Unbound"}
                     show={showunboundpop}
                     setShow={setunboundpop}
-
+                    externalCls="stak-pop"
                 >
                     <>
                         <div className="cmn_modal val_popups">
@@ -291,7 +291,7 @@ export default function DelegatorAccount() {
                     title={"Delegate"}
                     show={showallinonepop}
                     setShow={setallinonepop}
-
+                    externalCls="stak-pop"
                 >
                     <>
                         <div className="cmn_modal vali_deli_popups">
@@ -376,7 +376,7 @@ export default function DelegatorAccount() {
                     title={"claim Stake"}
                     show={showClaimpop}
                     setShow={setClaimpop}
-
+                    externalCls="stak-pop"
                 >
                     <>
                         <div className="cmn_modal">

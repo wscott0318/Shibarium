@@ -12,23 +12,23 @@ import Header from "../layout/header";
 import StakingHeader from '../staking-header';
 
 export default function Account() {
-  
-  const [show, setShow] = useState(false);
-  const [showm, showModal] = useState(false);
-  const [com, comShow] = useState(false);
-  const [bond, bondShow] = useState(false);
 
-  const { account, chainId = 1 } = useActiveWeb3React();
-  const [showvalidatorpop, setvalidatorpop] = useState(false);
-  const [showcommissionpop, setcommissionpop] = useState(false);
-  const [showwithdrawpop, setwithdrawpop] = useState(false);
-  const [showunboundpop, setunboundpop] = useState(false);
-  const [showallinonepop, setallinonepop] = useState(false);
-  const [showUnboundpop, setUnboundpop] = useState(false);
-  const [showClaimpop, setClaimpop] = useState(false);
-  return (
-   <>
-      <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space">
+    const [show, setShow] = useState(false);
+    const [showm, showModal] = useState(false);
+    const [com, comShow] = useState(false);
+    const [bond, bondShow] = useState(false);
+
+    const { account, chainId = 1 } = useActiveWeb3React();
+    const [showvalidatorpop, setvalidatorpop] = useState(false);
+    const [showcommissionpop, setcommissionpop] = useState(false);
+    const [showwithdrawpop, setwithdrawpop] = useState(false);
+    const [showunboundpop, setunboundpop] = useState(false);
+    const [showallinonepop, setallinonepop] = useState(false);
+    const [showUnboundpop, setUnboundpop] = useState(false);
+    const [showClaimpop, setClaimpop] = useState(false);
+    return (
+        <>
+            <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space">
                 <Header />
                 <StakingHeader />
 
@@ -249,7 +249,7 @@ export default function Account() {
                     <>
                         <div className="cmn_modal val_popups">
                             <form>
-                                <div className="only_text"> 
+                                <div className="only_text">
                                     <p className="text-center">Are you sure you want to unbound?</p>
                                 </div>
                                 <div className="pop_btns_area row mr-top-50 form-control">
@@ -370,7 +370,7 @@ export default function Account() {
                                     <div className="del-bott">
                                         <h4 className="mb-3">Stake Claimed </h4>
                                         <p>
-                                            Your claim stake Transaction is successful. The Transaction might 
+                                            Your claim stake Transaction is successful. The Transaction might
                                             take 1-2 minutes to be updated in your account.
                                         </p>
                                         <Link href="javascript:void(0)">
@@ -442,6 +442,6 @@ export default function Account() {
                 </section>
 
             </main>
-   </>
-  )
+        </>
+    )
 }
