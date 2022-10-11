@@ -382,6 +382,15 @@ ul {
     border: 1px solid #596380;
     color: $white;
     font-family: 'Open Sans';
+    @media #{$max-lg}{
+        border-radius: 20px;
+    }
+    @media #{$max-md}{
+        border-radius: 16px;
+    }
+    @media #{$max-sm}{
+        border-radius: 12px;
+    }
     .table th, .table td{
         color:$grey-color-800;
         font-weight: 400;
@@ -437,9 +446,6 @@ ul {
       ::-ms-input-placeholder { /* Microsoft Edge */
         color: #596380;
       }
-      @media #{$max-lg}{
-        border-radius: 5px;
-    }
 }
 .pop_main_h{
     margin-bottom: 25px;
