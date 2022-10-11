@@ -35,6 +35,7 @@ export default function Account() {
           title={"Retake"}
           show={showretakepop}
           setShow={setretakepop}
+          externalCls="stak-pop"
         >
           <>
             <div className="cmn_modal val_popups">
@@ -70,7 +71,7 @@ export default function Account() {
           title={"Commission"}
           show={showcommissionpop}
           setShow={setcommissionpop}
-
+          externalCls="stak-pop"
         >
           <>
             <div className="cmn_modal val_popups">
@@ -101,7 +102,7 @@ export default function Account() {
           title={"Withdraw rewards"}
           show={showwithdrawpop}
           setShow={setwithdrawpop}
-
+          externalCls="stak-pop"
         >
           <>
             <div className="cmn_modal val_popups">
@@ -127,7 +128,7 @@ export default function Account() {
           title={"Unbound"}
           show={showunboundpop}
           setShow={setunboundpop}
-
+          externalCls="stak-pop"
         >
           <>
             <div className="cmn_modal val_popups">
