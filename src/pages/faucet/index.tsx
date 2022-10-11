@@ -73,12 +73,11 @@ export default function faucet() {
             <div className="swp-header">
               <div className='swp-left-col mb-3 mb-lg-3 mb-xl-4'>
                 <h3 className='mb-3'>
-                  Get Test Tokens
+                  Get Gas Coin
                 </h3>
-                <p className='grey-txt'>This faucet transfers TestToken on Matic testnets and parent chain. Confirms details before submitting.</p>
+                <p className='grey-txt'>This faucet transfers Gas Coin on Shibarium testnet. Confirms details before submitting.</p>
               </div>
             </div>
-
             <div className="fau_tabs_area">
               {/* <div className="tab-sec botom-spcing">
                       <ul className="tab-links">
@@ -112,6 +111,14 @@ export default function faucet() {
                           <div>
                             <button onClick={() => callFaucetAPI()} type="button" className="btn primary-btn w-100">Submit</button>
                           </div>
+                          <button
+                              type="button"
+                              onClick={() => {
+                                throw new Error("Sentry Frontend Error");
+                              }}
+                            >
+                              Throw error
+                            </button>
                         </form>
                       </div>
                     </div>
