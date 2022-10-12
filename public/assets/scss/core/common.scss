@@ -2128,3 +2128,7 @@ background: $body-bg;
         border: 1px solid $white;
     }
 }
+.disabled {
+    pointer-events:none; //This makes it not clickable
+    opacity:0.4;         //This grays it out to look disabled
+}

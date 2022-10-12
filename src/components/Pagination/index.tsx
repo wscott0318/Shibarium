@@ -39,12 +39,12 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
        <>
         <div className="row">
         <div className="col-md-4 d-flex align-items-center">
-        {totalCount > 1 && <span className="fw-700">Showing {((currentPage-1)*pageSize)+1 }-{totalCount>pageSize ? ((currentPage)*pageSize): totalCount } of {totalCount}</span>}
+        {totalCount > 1 && <span className="fw-700 text-white">Showing {((currentPage-1)*pageSize)+1 }-{totalCount>pageSize ? ((currentPage)*pageSize): totalCount } of {totalCount}</span>}
     </div>
     <div className="col-md-8">
         <div className="cus-pagination">
             <ul className="pagination justify-content-end">
-            <li className={`page-item ${currentPage ===1 ? 'disable':''}`} >
+            <li className={`page-item ${currentPage ===1 ? 'disabled':''}`} >
                                 <a  className="page-link" href="#"  onClick={onPrevious}>
                                     <span>Previous</span>
                                 </a>
@@ -62,7 +62,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
                             }
                             )}
 
-                            <li className={`page-item ${currentPage === lastPage ? 'disable':''}`} onClick={onNext}>
+                            <li className={`page-item ${currentPage === lastPage ? 'disabled':''}`} onClick={onNext}>
                                 <a className="page-link" href="#">
                                     <span>Next</span>
                                 </a>

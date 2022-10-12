@@ -151,6 +151,24 @@ export default function Wallet() {
       })
     }
   }
+    const pageSize = 4;
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [slicedTokenFilteredList, setSliceTokenFilteredList] = useState([]);
+    useEffect(() => {
+      if(tokenFilteredList.length){
+        const slicedList = tokenFilteredList.slice(0, pageSize);
+      setSliceTokenFilteredList(slicedList);
+    }
+    }, [tokenFilteredList]);
+
+    const pageChangeHandler = (index: number) => {
+      const slicedList = tokenFilteredList.slice(
+        (index - 1) * pageSize,
+        index * pageSize
+      );
+      setSliceTokenFilteredList(slicedList);
+      setCurrentPage(index);
+    };
 
   const handleSearchList = (key:any, type : any ='main') => {
     if(type === 'modal'){
@@ -168,13 +186,14 @@ export default function Wallet() {
         if(type === 'modal'){
           setTokenModalList(newData)
         } else {
-          setTokenFilteredList(newData)          
+          setTokenFilteredList(newData)        
+          pageChangeHandler(currentPage);  
         }
     } else {
       if(type === 'modal'){
         setTokenModalList(tokenList)
       } else {
-        setTokenFilteredList(tokenList)         
+        setTokenFilteredList(tokenList)     
       }
     }
     
@@ -258,7 +277,7 @@ export default function Wallet() {
       return false
     }
   }
-
+  
   return (
     <>
       <main className="main-content">
@@ -844,8 +863,8 @@ export default function Wallet() {
                         </tr>
                       </thead>
                       <tbody>
-                        {tokenFilteredList.length
-                          ? tokenFilteredList.map((x: any) => (
+                        {slicedTokenFilteredList.length
+                          ? slicedTokenFilteredList.map((x: any) => (
                               <tr>
                                 <td colSpan={2}>
                                   <span>
@@ -892,7 +911,7 @@ export default function Wallet() {
                               </tr>
                             ))
                           : null}
-                          
+                          <Pagination currentPage={currentPage} pageSize={pageSize} totalCount={tokenFilteredList.length} onPageChange={pageChangeHandler}/>
                         {searchKey.length && !tokenFilteredList.length && (
                           <tr>
                             <p>No record found</p>
