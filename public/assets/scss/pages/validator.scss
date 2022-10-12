@@ -1,6 +1,6 @@
 .top_bnr_area{
     // background-color:$body-bg;
-    padding: 70px 0;
+    padding: 100px 0;
     @media #{$max-xxl}{
         padding: 50px 0;
     }
@@ -44,6 +44,12 @@
 .val_popups{
     padding-top: 20px;
     // min-height: 295px;
+    ::placeholder{
+        color:$lt-grey;
+    }
+    .pop_btns_area{
+        margin-top: 50px;
+    }
 }
 .val_all_bts{
     @media #{$max-md} {
@@ -77,4 +83,11 @@
 }
 .only_text{
     margin-bottom: 50px;
+}
+
+.val_del_outr{
+    background: linear-gradient(180deg, #F06500 0%, #F28B03 100%);
+    padding: 50px 20px;
+    border-radius: 10px;
+    
 }

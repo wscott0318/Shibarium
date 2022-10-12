@@ -50,7 +50,7 @@ export default function ValidatorAccount() {
                     title={"Retake"}
                     show={showretakepop}
                     setShow={setretakepop}
-
+                    externalCls="stak-pop"
                 >
                     <>
 
@@ -59,17 +59,20 @@ export default function ValidatorAccount() {
                             <form>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter validator address" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter validator address</label>
+                                        <input type="text" placeholder="Validator address" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter amount" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter amount</label>
+                                        <input type="text" placeholder="Amount" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter stakereward" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter stakereward</label>
+                                        <input type="text" placeholder="Stakereward" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="pop_btns_area">
@@ -88,19 +91,21 @@ export default function ValidatorAccount() {
                     title={"Commission"}
                     show={showcommissionpop}
                     setShow={setcommissionpop}
-
+                    externalCls="stak-pop"
                 >
                     <>
                         <div className="cmn_modal val_popups">
                             <form>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter validator address" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter validator address</label>
+                                        <input type="text" placeholder="Validator address" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter new commission" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter new commission</label>
+                                        <input type="text" placeholder="New commission" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="pop_btns_area">
@@ -119,14 +124,15 @@ export default function ValidatorAccount() {
                     title={"Withdraw rewards"}
                     show={showwithdrawpop}
                     setShow={setwithdrawpop}
-
+                    externalCls="stak-pop"
                 >
                     <>
                         <div className="cmn_modal val_popups">
                             <form>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter validator address" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter validator address</label>
+                                        <input type="text" placeholder="Validator address" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="pop_btns_area">
@@ -145,7 +151,7 @@ export default function ValidatorAccount() {
                     title={"Unbound"}
                     show={showunboundpop}
                     setShow={setunboundpop}
-
+                    externalCls="stak-pop"
                 >
                     <>
                         <div className="cmn_modal val_popups">
@@ -174,32 +180,34 @@ export default function ValidatorAccount() {
 
                 <section className="mid_cnt_area">
                     <div className="container">
-                    <div className="col-xl-11 col-lg-12 side-auto">
-                        <h4>Ethereum Wallet Balance</h4>
-                        <h3 className="primary-text"><b>0 Bone</b></h3>
-                        <h4>$0.00</h4>
-                        <div className="btns_sec val_all_bts row">
-                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                                <button onClick={() => setretakepop(true)} className="btn grey-btn w-100 d-block">
-                                    Restake
-                                </button>
-                            </div>
-                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                                <button onClick={() => setcommissionpop(true)} className="btn grey-btn w-100 d-block">
-                                    Change Commission Rate
-                                </button>
-                            </div>
-                            <div className="col-xl-3  col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                                <button onClick={() => setwithdrawpop(true)} className="btn grey-btn w-100 d-block">
-                                    Withdraw Rewards
-                                </button>
-                            </div>
-                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <button onClick={() => setunboundpop(true)} className="btn grey-btn w-100 d-block">
-                                    Unbound
-                                </button>
-                            </div>
+                    <div className="col-xl-12 col-lg-12 side-auto">
+                        <div className="val_del_outr">
+                            <h4>Ethereum Wallet Balance</h4>
+                            <h3><b>0 Bone</b></h3>
+                            <h4>$0.00</h4>
+                            <div className="btns_sec val_all_bts row">
+                                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
+                                    <button onClick={() => setretakepop(true)} className="btn black-btn w-100 d-block">
+                                        Restake
+                                    </button>
+                                </div>
+                                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
+                                    <button onClick={() => setcommissionpop(true)} className="btn black-btn w-100 d-block">
+                                        Change Commission Rate
+                                    </button>
+                                </div>
+                                <div className="col-xl-3  col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
+                                    <button onClick={() => setwithdrawpop(true)} className="btn black-btn w-100 d-block">
+                                        Withdraw Rewards
+                                    </button>
+                                </div>
+                                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                                    <button onClick={() => setunboundpop(true)} className="btn black-btn w-100 d-block">
+                                        Unbound
+                                    </button>
+                                </div>
 
+                            </div>
                         </div>
                     </div>
                     </div>
