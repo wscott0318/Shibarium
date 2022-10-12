@@ -117,14 +117,9 @@ const InnerHeader = () => {
                               </Link>
                             </Nav.Item> */}
                 <Nav.Item className="d-flex align-items-center">
-                  <Link href={"javascript:void(0)"}>
-                    <a className="d-md-none swap-btn">
-                      <img
-                        className="img-fluid"
-                        src="../../images/eth-swap.png"
-                        alt=""
-                        width={30}
-                      />
+                  <Link href={'javascript:void(0)'}>
+                    <a className='d-md-none swap-btn'>
+                      <img className="img-fluid" src="../../images/switch-icon.png" alt="" width={30} />
                     </a>
                   </Link>
                   <Link href={"javascript:void(0)"}>
@@ -133,7 +128,7 @@ const InnerHeader = () => {
                       href="javascript:void(0)"
                     >
                       <span className="d-none d-sm-inline-block">
-                        Switch to Shibarium
+                        {/* Switch to Shibarium */}Action Required
                       </span>
                       <img
                         className="img-fluid d-sm-none"

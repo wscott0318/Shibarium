@@ -1178,6 +1178,28 @@
         padding-top: 50px;
     }
 }
+.black-btn.btn-active {
+    background: $primary;
+}
+.tab-btns {
+    .black-btn.btn-active{
+        &:hover{
+            background: $primary !important;
+        }
+    }
+    .black-btn{
+        &:hover{
+            background: transparent !important;
+        }
+    }
+}
+.btns-wrap{
+    .btn{
+        @media #{$max-sm}{
+            width: 100%;
+        }
+    }
+}
 /** become a validator steps style start **/
 .rewards-section {
     padding: 70px 0;

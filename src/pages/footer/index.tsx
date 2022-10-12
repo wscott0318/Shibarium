@@ -39,7 +39,7 @@ export default function Footer() {
                         <div className="row">
                             <div className="col-sm-3 col-6">
                                 <div className='bottom-item'>
-                                    <h6 className='mb-3 uc ff-mos'>Shib</h6>
+                                    <h6 className='mb-3 uc ff-mos hd-xs'>Shib</h6>
                                     <ul className='footer-list'>
                                         <li className='footer-lst-item'>
                                             <a className="ftr-link ff-mos" href="javascript:void(0)">
@@ -66,7 +66,7 @@ export default function Footer() {
                             </div>
                             <div className="col-sm-3 col-6">
                                 <div className='bottom-item'>
-                                    <h6 className='mb-3 uc ff-mos'>Shib</h6>
+                                    <h6 className='mb-3 uc ff-mos hd-xs'>Shib</h6>
                                     <ul className='footer-list'>
                                        <li className='footer-lst-item'>
                                             <a className="ftr-link ff-mos" href="javascript:void(0)">
@@ -89,7 +89,7 @@ export default function Footer() {
                             </div>
                             <div className="col-sm-3 col-6">
                                 <div className='bottom-item'>
-                                    <h6 className='mb-3 uc ff-mos'>Metaverse</h6>
+                                    <h6 className='mb-3 uc ff-mos hd-xs'>Metaverse</h6>
                                     <ul className='footer-list'>
                                         <li className='footer-lst-item'>
                                             <a className="ftr-link ff-mos" href="javascript:void(0)">
@@ -106,7 +106,7 @@ export default function Footer() {
                             </div>
                             <div className="col-sm-3 col-6">
                                 <div className='bottom-item'>
-                                    <h6 className='mb-3 ff-mos'>General</h6>
+                                    <h6 className='mb-2 ff-mos hd-xs'>General</h6>
                                     <ul className='footer-list'>
                                         <li className='footer-lst-item'>
                                             <Link href="javascript:void(0)">
