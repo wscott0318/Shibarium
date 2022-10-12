@@ -302,63 +302,41 @@ export default function Wallet() {
             <>
               {/* transferring funds popop start */}
 
-              {showSendModal.step0 && (
-                <div className="cmn_modal">
-                  <div className="pop-top">
-                    <p className="mb-0">Sending funds to exchanges:</p>
-                    <div className="exchng_msg_box">
-                      <p>Exchanges supported from Shibarium network</p>
-                      <p className="sprdt_txt">Supported Excanges</p>
-                    </div>
-                    <p className="alert_msg">
-                      <div className="image-wrap d-inline-block me-2">
-                        <img
-                          className="img-fluid"
-                          src="../../images/i-info-icon.png"
-                          width={16}
-                        />
-                      </div>
-                      Sending funds to unsupported exchanges will lead to
-                      permanent loss of funds.
-                    </p>
+              {showSendModal.step0 && <div className="cmn_modal flex-group">
+                <div className="pop-top">
+                  <p className="mb-0">Sending funds to exchanges:</p>
+                  <div className="exchng_msg_box">
+                    <p>Exchanges supported from Shibarium network</p>
+                    <p className="sprdt_txt">Supported Exchanges</p>
                   </div>
-                  <div className="pop-bottom">
-                    <div className="pop_btns_area row form-control">
-                      <div className="col-6">
-                        <button
-                          className="btn blue-btn w-100"
-                          onClick={() => {
-                            setSenderModal(false);
-                            setSendModal(sendInitialState);
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                      <div className="col-6">
-                        <button
-                          className="btn primary-btn w-100"
-                          onClick={() =>
-                            setSendModal({
-                              step0: false,
-                              step1: true,
-                              step2: false,
-                              step3: false,
-                              showTokens: false,
-                            })
-                          }
-                        >
-                          Continue
-                        </button>
-                      </div>
+                  <p className="alert_msg">
+                    <div className="image-wrap d-inline-block me-2">
+                      <img className="img-fluid" src="../../images/i-info-icon.png" width={16} />
                     </div>
-                    <p className="pop_btm_txt text-center">
-                      If you want to send funds between chains visit{" "}
-                      <a href="#">Shibarium Bridge</a>
-                    </p>
-                  </div>
+                    Sending funds to unsupported exchanges will lead to permanent loss of funds.</p>
                 </div>
-              )}
+                <div className="pop-bottom">
+                  <div className="pop_btns_area row form-control">
+                    <div className="col-6">
+                      <button className='btn blue-btn w-100' onClick={() => {
+                        setSenderModal(false);
+                        setSendModal(sendInitialState)
+                      }}>Cancel</button>
+                    </div>
+                    <div className="col-6">
+                      <button className='btn primary-btn w-100'
+                        onClick={() => setSendModal({
+                          step0: false,
+                          step1: true,
+                          step2: false,
+                          step3: false,
+                          showTokens:false
+                        })}>Continue</button>
+                    </div>
+                  </div>
+                  <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
+                </div>
+              </div>}
 
               {/* transferring funds popop ends */}
 
