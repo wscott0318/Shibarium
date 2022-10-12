@@ -93,13 +93,14 @@ export default function faucet() {
         <div className="cmn_dashbord_main_outr">
           <InnerHeader />
 
-          <h2 className="mb-4">Faucet</h2>
+          
           <div className='swap-card cus-card-800'>
             <div className="swp-header">
               <div className='swp-left-col mb-3 mb-lg-3 mb-xl-4'>
-                <h3 className='mb-3'>
+              <h2 className="mb-4">Faucet</h2>
+                <h6 className='mb-2'>
                   Get Gas Coin
-                </h3>
+                </h6>
                 <p className='grey-txt'>This faucet transfers Gas Coin on Shibarium testnet. Confirms details before submitting.</p>
               </div>
             </div>
@@ -136,10 +137,12 @@ export default function faucet() {
                           <div>
                             <button onClick={() => callFaucetAPI()} type="button" className="btn primary-btn w-100">Submit</button>
                           </div>
-                          <ReCAPTCHA
-                            sitekey='6LdDZXQiAAAAAMN4TDWxug9KDry_OIr4sAGrhvXX'
-                            ref={captchaRef}
-                            />
+                          <div className="captcha-wrap mt-3 mt-sm-4">
+                            <ReCAPTCHA
+                              sitekey='6LdDZXQiAAAAAMN4TDWxug9KDry_OIr4sAGrhvXX'
+                              ref={captchaRef}
+                              />
+                          </div>
                         </form>
                       </div>
                     </div>
@@ -157,7 +160,7 @@ export default function faucet() {
         title={modalState.pending ? "Pending" : 'Done'}
         show={showSwapModal}
         setShow={setSwapModal}
-        externalCls="review-ht"
+        externalCls="faucet-pop"
       >
       <div className="popmodal-body tokn-popup no-ht trans-mod">
           <div className="pop-block">
@@ -169,7 +172,7 @@ export default function faucet() {
               </div>
             </div>
             <div className="pop-bottom">
-            <p className='elip-text mt-5'>{modalState.hash}</p>
+            <p className='elip-text mt-3'>{modalState.hash}</p>
               <div className='staus-btn'>
                 <button
                  type='button'
