@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Nav } from "react-bootstrap";
 import DogTab from './dogTabfirst';
 import DogTabfirst from './dogTabsecond';
@@ -10,13 +10,23 @@ import Header from "../layout/header";
 import StakingHeader from '../staking-header'
 import InnerHeader from "../../pages/inner-header";
 import Sidebar from "../layout/sidebar"
-
+import axios from "axios";
+import { useActiveWeb3React } from "app/services/web3";
+// @ts-ignore
+import ReCAPTCHA from "react-google-recaptcha"
 
 export default function faucet() {
   const [isTopdoG, setIsTopdoG] = useState(true);
   const [isPuppyDog, setIsPuppyDog] = useState(false);
   const [showSwapModal, setSwapModal] = useState(false);
   const [menuState, setMenuState] = useState(false);
+  const captchaRef = useRef<any>(null)
+  const [modalState, setModalState] = useState({
+    pending: true, 
+    done: false,
+    hash: ''
+  })
+  const { chainId = 1, account, library } = useActiveWeb3React();
 
   const handleMenuState = () => {
     console.log("called click")
@@ -61,6 +71,12 @@ export default function faucet() {
       })
     })
   }
+
+  const handleSubmit = (e :any) =>{
+    e.preventDefault();
+    const token = captchaRef.current.getValue();
+    captchaRef.current.reset();
+}
 
   return (
     <>
@@ -120,14 +136,10 @@ export default function faucet() {
                           <div>
                             <button onClick={() => callFaucetAPI()} type="button" className="btn primary-btn w-100">Submit</button>
                           </div>
-                          <button
-                              type="button"
-                              onClick={() => {
-                                throw new Error("Sentry Frontend Error");
-                              }}
-                            >
-                              Throw error
-                            </button>
+                          <ReCAPTCHA
+                            sitekey='6LdDZXQiAAAAAMN4TDWxug9KDry_OIr4sAGrhvXX'
+                            ref={captchaRef}
+                            />
                         </form>
                       </div>
                     </div>
