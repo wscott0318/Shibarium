@@ -766,7 +766,7 @@ export default function Wallet() {
                             ))
                           : null}
                         {!tokenModalList.length && modalKeyword ? (
-                          <p>no record found</p>
+                          <p className="py-3 py-md-4 py-lg-5 text-center">no record found</p>
                         ) : null}
                       </div>
                     </div>
@@ -844,7 +844,7 @@ export default function Wallet() {
               </div>
               <div className="assets_btm_area">
                 <h2>Assets on Shibarium</h2>
-                <div className="cmn_dasdrd_table mb-3">
+                <div className="cmn_dasdrd_table mb-3 mb-sm-4">
                   <div className="table-responsive">
                     <table className="table table-borderless mb-0">
                       <thead>
@@ -912,8 +912,10 @@ export default function Wallet() {
                             ))
                           : null}
                         {searchKey.length && !tokenFilteredList.length && (
-                          <tr>
-                            <p>No record found</p>
+                          <tr >
+                            <td colSpan={6}>
+                            <p className="p-3 p-sm-4 p-xl-5 text-center">No record found</p>
+                            </td>
                           </tr>
                         )}
                       </tbody>
