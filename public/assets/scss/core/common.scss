@@ -2162,3 +2162,56 @@ background: $body-bg;
     pointer-events:none; //This makes it not clickable
     opacity:0.4;         //This grays it out to look disabled
 }
+
+.cus-pagination{
+    .page-link{
+        border:none;
+        background: $black;
+        font-weight: 700;
+    }
+    .page-link:focus{
+        box-shadow: none;
+    }
+}
+.cus-pagination{
+    .page-item {
+        margin-right: 15px;
+        &.disable {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+    }
+    .page-item:last-child {
+        margin-right: 0;
+    }
+}
+.cus-pagination{
+    .page-item {
+       a{
+           color:$white;
+           border-radius: 5px;
+           font-size: 16px;
+           padding:5px 12px;
+           color:$white;
+           font-weight: 500;
+           border: 1px solid $primary;
+            @media #{$max-xsm} {
+                font-size: 14px;
+                padding: 5px 10px 0px;
+            }
+           span{
+            transition: none;
+           }
+       }
+       a:hover{
+        background: $primary;
+        color:$white;
+       }
+       &.active .page-link {
+        z-index: 3;
+        color:$white;
+        background-color: $primary;
+        border-color: $primary;
+    }
+    }
+}

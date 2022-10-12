@@ -844,7 +844,7 @@ export default function Wallet() {
               </div>
               <div className="assets_btm_area">
                 <h2>Assets on Shibarium</h2>
-                <div className="cmn_dasdrd_table">
+                <div className="cmn_dasdrd_table mb-3">
                   <div className="table-responsive">
                     <table className="table table-borderless mb-0">
                       <thead>
@@ -911,7 +911,6 @@ export default function Wallet() {
                               </tr>
                             ))
                           : null}
-                          <Pagination currentPage={currentPage} pageSize={pageSize} totalCount={tokenFilteredList.length} onPageChange={pageChangeHandler}/>
                         {searchKey.length && !tokenFilteredList.length && (
                           <tr>
                             <p>No record found</p>
@@ -921,6 +920,8 @@ export default function Wallet() {
                     </table>
                   </div>
                 </div>
+                <Pagination currentPage={currentPage} pageSize={pageSize} totalCount={tokenFilteredList.length} onPageChange={pageChangeHandler}/>
+
               </div>
             </div>
             {/* assets section end */}
