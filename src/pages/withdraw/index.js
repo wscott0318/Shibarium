@@ -406,7 +406,7 @@ export default function Withdraw() {
                             step2: false,
                             step3: false,
                             step4: false,
-                            title: "Reaching Checkpoint I",
+                            title: "Reaching Checkpoint",
                           })
                         }
                       >
@@ -510,7 +510,7 @@ export default function Withdraw() {
                               step2: true,
                               step3: false,
                               step4: false,
-                              title: "Checkpoint I reached",
+                              title: "Checkpoint reached",
                             })
                           }
                         >
