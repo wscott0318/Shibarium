@@ -58,7 +58,7 @@ export default function faucet() {
                 <h3 className='mb-3'>
                   Get Test Tokens
                 </h3>
-                <p className='grey-txt'>This faucet transfers TestToken on Matic testnets and parent chain. Confirms details before submitting.</p>
+                <p className='grey-txt'>This faucet transfers TestToken on testnets and parent chain. Confirms details before submitting.</p>
               </div>
             </div>
 
