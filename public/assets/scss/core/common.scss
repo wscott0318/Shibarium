@@ -1193,6 +1193,13 @@
         }
     }
 }
+.btns-wrap{
+    .btn{
+        @media #{$max-sm}{
+            width: 100%;
+        }
+    }
+}
 /** become a validator steps style start **/
 .rewards-section {
     padding: 70px 0;

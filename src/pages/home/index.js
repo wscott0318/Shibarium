@@ -253,7 +253,7 @@ export default function Home() {
               <div className="text-center">
                 <h2 className='heading pb-3 ff-mos'>Let’s grow as community</h2>
               </div>
-              <div className="row cus-row">
+              <div className="row cus-row justify-content-center">
                 <div className="col-sm-6 col-lg-4 col-xl-3 cus-col">
                   <div className="shib-item text-center">
                     <div className="shib-img mb-3">

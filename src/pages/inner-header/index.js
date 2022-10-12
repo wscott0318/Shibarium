@@ -128,7 +128,7 @@ const InnerHeader = () => {
                       href="javascript:void(0)"
                     >
                       <span className="d-none d-sm-inline-block">
-                        Switch to Shibarium
+                        {/* Switch to Shibarium */}Action Required
                       </span>
                       <img
                         className="img-fluid d-sm-none"
