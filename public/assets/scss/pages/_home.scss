@@ -313,9 +313,10 @@
         }
     }
     .dropdown-menu{
-        background-color: $body-bg-800;
+        background-color: $body-bg-secondry;
         .dropdown-item{
-            background-color: rgba($body-bg-800,0.8);
+            // background-color: rgba($body-bg-800,0.8);
+            background-color: $body-bg-secondry;
             color:$white;
         }
     }

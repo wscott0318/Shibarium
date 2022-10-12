@@ -145,7 +145,7 @@ export default function Transaction() {
                         alt="check-icon"
                       />
                     </div>
-                    <div className="step-title">Checkpoint I</div>
+                    <div className="step-title">Checkpoint</div>
                   </li>
                   <li className="step">
                     <div className="step-ico">

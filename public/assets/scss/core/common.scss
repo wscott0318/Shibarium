@@ -1200,6 +1200,11 @@
         }
     }
 }
+.lft-spc{
+    @media #{$max-sm}{
+        padding-left: 5px;
+    } 
+}
 /** become a validator steps style start **/
 .rewards-section {
     padding: 70px 0;
