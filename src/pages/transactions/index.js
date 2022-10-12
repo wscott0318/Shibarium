@@ -201,21 +201,18 @@ export default function Transaction() {
                       <a
                         className="btn grey-btn d-flex align-items-center"
                         href="javascript:void(0)"
+                        onClick={() =>
+                          setSendModal({
+                            step0: false,
+                            step1: true,
+                            step2: false,
+                            step3: false,
+                            title: "Checkpoint I Reached",
+                          })
+                        }
                       >
-                        <span className="spinner-border text-secondary pop-spiner"></span>
-                        <span
-                          onClick={() =>
-                            setSendModal({
-                              step0: false,
-                              step1: true,
-                              step2: false,
-                              step3: false,
-                              title: "Checkpoint I Reached",
-                            })
-                          }
-                        >
+                          <span className="spinner-border text-secondary pop-spiner"></span>
                           Moving funds
-                        </span>
                       </a>
                     </div>
                   </div>
@@ -302,10 +299,6 @@ export default function Transaction() {
                   <div className="pop_btns_area row form-control">
                     <div className="col-12">
                       <a
-                        className="btn primary-btn d-flex align-items-center"
-                        href="javascript:void(0)"
-                      >
-                        <span
                           onClick={() =>
                             setSendModal({
                               step0: false,
@@ -315,6 +308,11 @@ export default function Transaction() {
                               title: "Withdrawing Funds",
                             })
                           }
+                        className="btn primary-btn d-flex align-items-center"
+                        href="javascript:void(0)"
+                      >
+                        <span
+                          
                         >
                           Confirm
                         </span>
@@ -403,18 +401,18 @@ export default function Transaction() {
                       <a
                         className="btn grey-btn d-flex align-items-center"
                         href="javascript:void(0)"
+                        onClick={() => {
+                          setSendModal({
+                            step0: false,
+                            step1: false,
+                            step2: false,
+                            step3: true,
+                            title: "Withdraw Completed",
+                          });
+                        }}
                       >
                         <span className="spinner-border text-secondary pop-spiner"></span>
                         <span
-                          onClick={() => {
-                            setSendModal({
-                              step0: false,
-                              step1: false,
-                              step2: false,
-                              step3: true,
-                              title: "Withdraw Completed",
-                            });
-                          }}
                         >
                           Moving funds
                         </span>
@@ -503,11 +501,11 @@ export default function Transaction() {
                   </div>
                   <div className="pop_btns_area row form-control">
                     <div className="col-12">
-                      <a
-                        className="btn primary-btn d-flex align-items-center"
+                      <a onClick={() => setShowModal(false)}
+                        className="btn primary-btn d-block"
                         href="javascript:void(0)"
                       >
-                        <span onClick={() => setShowModal(false)}>Confirm</span>
+                        <span className="d-block">Confirm</span>
                       </a>
                     </div>
                   </div>
