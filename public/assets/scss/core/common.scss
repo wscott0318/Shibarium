@@ -2126,6 +2126,13 @@ background: $body-bg;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+    position: absolute;
+    right: 45px;
+    top: 5px;
+    width: auto;
+    img{
+        width: 10px;
+    }
 }
 
 .elip-text{
