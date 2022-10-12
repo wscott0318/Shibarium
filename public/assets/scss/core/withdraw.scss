@@ -579,9 +579,25 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
+    @media #{$max-xxl}{
+        margin-bottom: 5px;
+    }
     &:last-child{
         margin-bottom: 0;
     }
+}
+.tkn-ht{
+    .tokn-popup.no-ht{
+        .pop-bottom{
+            @media #{$max-xxl}{
+                padding-top: 20px;
+            }
+            @media #{$max-xxl}{
+                padding-top: 0;
+            }
+        }
+    }
+    
 }
 .left-side{
     width: 60%;
