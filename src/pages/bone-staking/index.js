@@ -266,21 +266,21 @@ const BoneStaking = () => {
                       <td><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
                       <td>0.0000 - 0.00$</td>
                       <td><a href="#">Deposit</a></td>
-                      <td><a href="#">Whitdraw</a></td>
+                      <td><a href="#">Withdraw</a></td>
                       <td><a href="#">Send</a></td>
                     </tr>
                     <tr>
                       <td><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
                       <td>0.0000 - 0.00$</td>
                       <td><a href="#">Deposit</a></td>
-                      <td><a href="#">Whitdraw</a></td>
+                      <td><a href="#">Withdraw</a></td>
                       <td><a href="#">Send</a></td>
                     </tr>
                     <tr>
                       <td><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
                       <td>0.0000 - 0.00$</td>
                       <td><a href="#">Deposit</a></td>
-                      <td><a href="#">Whitdraw</a></td>
+                      <td><a href="#">Withdraw</a></td>
                       <td><a href="#">Send</a></td>
                     </tr>
                   </tbody>
