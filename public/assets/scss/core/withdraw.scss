@@ -493,7 +493,12 @@
     margin-bottom: 12px;
     padding: 4px;
     position: relative;
+    min-height: 58px;
+    &:last-child{
+        margin-bottom: 0;
+    }
 }
+
 
 .tokn-row:hover {
     background-color: #354164;
