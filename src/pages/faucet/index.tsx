@@ -18,12 +18,12 @@ import ReCAPTCHA from "react-google-recaptcha"
 export default function faucet() {
   const [isTopdoG, setIsTopdoG] = useState(true);
   const [isPuppyDog, setIsPuppyDog] = useState(false);
-  const [showSwapModal, setSwapModal] = useState(true);
+  const [showSwapModal, setSwapModal] = useState(false);
   const [menuState, setMenuState] = useState(false);
   const captchaRef = useRef<any>(null)
   const [modalState, setModalState] = useState({
-    pending: false, 
-    done: true,
+    pending: true, 
+    done: false,
     hash: ''
   })
   const { chainId = 1, account, library } = useActiveWeb3React();
@@ -159,7 +159,7 @@ export default function faucet() {
         setShow={setSwapModal}
         externalCls="review-ht"
       >
-        {modalState.done && <div className="popmodal-body tokn-popup no-ht trans-mod">
+      <div className="popmodal-body tokn-popup no-ht trans-mod">
           <div className="pop-block">
             <div className="pop-top">
               <div className='dark-bg-800 h-100 status-sec'>
@@ -169,7 +169,7 @@ export default function faucet() {
               </div>
             </div>
             <div className="pop-bottom">
-            <p className='mt-5'>{modalState.hash}</p>
+            <p className='elip-text mt-5'>{modalState.hash}</p>
               <div className='staus-btn'>
                 <button
                  type='button'
@@ -180,7 +180,7 @@ export default function faucet() {
               </div>
             </div>
           </div>
-        </div>}
+        </div>
         {/* Transaction Pending popup version 2 end*/}
       </CommonModal>
       {/* Review model code end */}

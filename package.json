@@ -213,6 +213,7 @@
   "dependencies": {
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@material-ui/core": "^4.12.4",
+    "@sentry/utils": "^7.15.0",
     "@sentry/wizard": "^2.2.2",
     "@shibarium/core-sdk": "^1.0.5",
     "bootstrap": "^5.2.1",
