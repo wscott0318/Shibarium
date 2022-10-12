@@ -20,4 +20,3 @@ Sentry.init({
   //   return event
   // },
 })
-

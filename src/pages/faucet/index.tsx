@@ -186,6 +186,14 @@ export default function faucet() {
               <div className='staus-btn'>
                 <button type='button' className='btn primary-btn w-100'>
                   View on Shibascan</button>
+                  <button
+  type="button"
+  onClick={() => {
+    throw new Error("Sentry Frontend Error");
+  }}
+>
+  Throw error
+</button>
               </div>
             </div>
           </div>
