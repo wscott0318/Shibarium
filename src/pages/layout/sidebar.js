@@ -25,11 +25,13 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
   const handlClick = () => {
     setIsVisible((prev) => !prev);
   };
+  
   const handleClickOutside = (event) => {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
       onClickOutside && onClickOutside();
     }
   };
+
   const topList = [
     {
       name: "Wallet",
@@ -62,6 +64,7 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
       img: "../../images/sidebar/gas-toke.png",
     },
   ];
+
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
     return () => {

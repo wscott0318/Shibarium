@@ -18,6 +18,11 @@
         @media #{$max-sm}{
             padding-top: 16px;
         }
+        .hd-xs{
+            @media #{$max-sm}{
+                font-size: 18px;
+            }  
+        }
     }
     .bottom-item {
         padding-bottom: 32px;
@@ -25,7 +30,7 @@
             padding-bottom:22px;
         }
         @media #{$max-sm}{
-            padding-bottom: 16px;
+            padding-bottom: 30px;
         }
     }
     .footer-lst-item {
@@ -36,6 +41,7 @@
         .ftr-link{
             &:hover{
                 color: $white;
+                opacity: 0.7;
             }
         }
     }

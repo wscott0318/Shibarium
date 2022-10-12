@@ -48,6 +48,10 @@
         margin-bottom: 15px;
         order: 2;
     }
+    @media #{$min-exl}{
+        width: 50%;
+        flex: 0 0 50%;
+    }
 }
 .right-box {
     width: calc(100% - 600px);
@@ -68,6 +72,10 @@
         flex: 0 0 100%;
         order: 1;
         padding-left: 0;
+    }
+    @media #{$min-exl}{
+        width: 50%;
+        flex: 0 0 50%;
     }
 }
 .heading-main {
@@ -279,7 +287,7 @@
 .text-section {
     margin-bottom: 16px;
     .pop-hd-md{
-        margin-bottom: 5px;
+        margin-bottom: 10px;
     }
 }
 .pop-block {
@@ -493,7 +501,12 @@
     margin-bottom: 12px;
     padding: 4px;
     position: relative;
+    min-height: 58px;
+    &:last-child{
+        margin-bottom: 0;
+    }
 }
+
 
 .tokn-row:hover {
     background-color: #354164;

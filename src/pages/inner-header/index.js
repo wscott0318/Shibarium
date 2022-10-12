@@ -2,18 +2,21 @@ import React, { useState, useEffect } from "react";
 import { Dropdown, Navbar, NavDropdown, Container, Nav } from "react-bootstrap";
 import { useRouter } from "next/router";
 import Link from "next/link";
-
+import useENSName from "../../hooks/useENSName";
 import { innerNavTab } from "app/constants/Resources/sideNavTab";
 import GlobleHeader from "../components/GlobleHeader";
 import Web3Status from "app/components/Web3Status";
 import CommonModal from "../components/CommonModel";
+import { useWeb3React } from "@web3-react/core";
+import { shortenAddress } from "../../functions";
+import QrModal from "pages/components/QrModal";
 
 const InnerHeader = () => {
   const router = useRouter();
   const [show, setShow] = useState();
   const [offset, setOffset] = useState(0);
   const [accountAddress, setAccountAddress] = useState("")
-
+  const [userQrCode, setUserQrCode] = useState(false);
   useEffect(() => {
     setAccountAddress(localStorage.getItem('accounts'))
     const onScroll = () => setOffset(window.pageYOffset);
@@ -23,7 +26,8 @@ const InnerHeader = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-
+  const { account, connector, library,deactivate } = useWeb3React()
+  const { ENSName } = useENSName(account ?? undefined);
   const [showScanpop, setScanpop] = useState(false);
 
   const [menuState, setMenuState] = useState(false);
@@ -32,11 +36,28 @@ const InnerHeader = () => {
     console.log("called menue")
     setMenuState(false)
   }
-  return (
 
+  const copyAddress = () => {
+    navigator.clipboard.writeText(account);
+  }
+
+  const logoutHandler = async () => {
+    deactivate();
+    await router.push("/home");
+  }
+
+  return (
     <>
       <header className="inner-header">
-        <Navbar className='py-0' variant="dark">
+        {account && (
+          <QrModal
+            title={"Restake"}
+            show={userQrCode}
+            setShow={setUserQrCode}
+            address={account}
+          />
+        )}
+        <Navbar className="py-0" variant="dark">
           <Container>
             <div className="left-widget">
               {/* <Navbar.Brand className="nav-logo">
@@ -98,13 +119,23 @@ const InnerHeader = () => {
                 <Nav.Item className="d-flex align-items-center">
                   <Link href={'javascript:void(0)'}>
                     <a className='d-md-none swap-btn'>
-                      <img className="img-fluid" src="../../images/eth-swap.png" alt="" width={30} />
+                      <img className="img-fluid" src="../../images/switch-icon.png" alt="" width={30} />
                     </a>
                   </Link>
-                  <Link href={'javascript:void(0)'}>
-                    <a className='d-none btn primary-btn d-md-flex align-items-center' href="javascript:void(0)">
-                      <span className="d-none d-sm-inline-block">Switch to Shibarium</span>
-                      <img className="img-fluid d-sm-none" src="../../images/meta-icon.png" alt="img=icon" width={12} />
+                  <Link href={"javascript:void(0)"}>
+                    <a
+                      className="d-none btn primary-btn d-md-flex align-items-center"
+                      href="javascript:void(0)"
+                    >
+                      <span className="d-none d-sm-inline-block">
+                        {/* Switch to Shibarium */}Action Required
+                      </span>
+                      <img
+                        className="img-fluid d-sm-none"
+                        src="../../images/meta-icon.png"
+                        alt="img=icon"
+                        width={12}
+                      />
                     </a>
                   </Link>
                 </Nav.Item>
@@ -119,7 +150,11 @@ const InnerHeader = () => {
                     <NavDropdown className="me-3">
                       <div className="drop-head">
                         <div className="head-brand">
-                          <img className="mx-auto img-fluid" src="../../images/Shib-Logo.png" alt="" />
+                          <img
+                            className="mx-auto img-fluid"
+                            src="../../images/Shib-Logo.png"
+                            alt=""
+                          />
                         </div>
                         <div className="head-txt">
                           <div className="top-txt">
@@ -127,20 +162,34 @@ const InnerHeader = () => {
                               <span>Account 0xe78</span>
                             </div>
                             <div>
-                              <span className="grey-txt">Shibarium Mainnet</span>
+                              <span className="grey-txt">
+                                Shibarium Mainnet
+                              </span>
                             </div>
                           </div>
                           <div className="botom-txt">
                             <div className="code-txt">
-                              <span className="key">0xe7832a34576B9A23b98B7cE8ef83B1a8D9D229f0</span>
+                              {/* <span className="key">0xe7832a34576B9A23b98B7cE8ef83B1a8D9D229f0</span> */}
+                              <span className="key">{ENSName || account}</span>
                             </div>
                             <div className="copy-blk">
-                              <a href="javascript:void(0);" title="Copy"><img src="../../images/copy.png" alt="" /></a>
+                              {/* <button> */}
+                              <a href="javascript:void(0);" title="Copy">
+                                <img
+                                  src="../../images/copy.png"
+                                  alt=""
+                                  onClick={copyAddress}
+                                />
+                              </a>
+                              {/* </button> */}
                             </div>
                           </div>
                         </div>
                       </div>
-                      <NavDropdown.Item href="javascript:void(0)" onClick={() => setScanpop(true)}>
+                      <NavDropdown.Item
+                        href="javascript:void(0)"
+                        onClick={() => setUserQrCode(true)}
+                      >
                         <div className="custum-row">
                           <div className="lft-img">
                             <img src="../../images/recive-icon.png" alt="" />
@@ -153,7 +202,10 @@ const InnerHeader = () => {
                           </div>
                         </div>
                       </NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.2">
+                      <NavDropdown.Item
+                        href={`https://etherscan.io/address/${account}`}
+                        target="blank"
+                      >
                         <div className="custum-row">
                           <div className="lft-img">
                             <img src="../../images/graph.png" alt="" />
@@ -182,12 +234,16 @@ const InnerHeader = () => {
                       <NavDropdown.Item href="#action/3.3">
                         <div className="custum-row mb-0">
                           <div className="lft-img ps-2">
-                            <img src="../../images/back.png" alt="" />
+                            <img
+                              src="../../images/back.png"
+                              alt=""
+                              onClick={logoutHandler}
+                            />
                           </div>
-                          <div className="center-txt">
+                          <div className="center-txt" onClick={logoutHandler}>
                             <span>Logout</span>
                           </div>
-                          <div className="rt-image">
+                          <div className="rt-image" onClick={logoutHandler}>
                             <img src="../../images/rt-arow.png" alt="" />
                           </div>
                         </div>
@@ -205,34 +261,36 @@ const InnerHeader = () => {
         </Navbar>
       </header>
       {/* retake popop start */}
-      <CommonModal
-        title={"Retake"}
-        show={showScanpop}
-        setShow={setScanpop}
-
-      >
+      {/* <CommonModal title={"Retake"} show={showScanpop} setShow={setScanpop}>
         <>
-
-
           <div className="cmn_modal">
             <div className="qr-wrap">
               <div className="scan-wrap">
-                <img className="img-fluid mx-auto" src="../../images/qr.png" alt="qr-img" width={200} />
+                <img
+                  className="img-fluid mx-auto"
+                  src="../../images/qr.png"
+                  alt="qr-img"
+                  width={200}
+                />
               </div>
               <div className="mt-4 text-center lite-color">Wallet address </div>
-              <div className="text-center word-wrap">0x993E8794Ca03F520c4A8A30F7C0f44f6B57C1D93</div>
+              <div className="text-center word-wrap">
+                0x993E8794Ca03F520c4A8A30F7C0f44f6B57C1D93
+              </div>
             </div>
             <div className="text-center footer-sec modal-footer">
               <button className="btn primary-btn w-100">
                 <div className="">
-                  <div className="flex items-center gap-1 cursor-pointer"> Copy address </div>
+                  <div className="flex items-center gap-1 cursor-pointer">
+                    {" "}
+                    Copy address{" "}
+                  </div>
                 </div>
               </button>
             </div>
           </div>
-
         </>
-      </CommonModal>
+      </CommonModal> */}
       {/* retake popop ends */}
     </>
   );

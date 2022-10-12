@@ -38,7 +38,7 @@
 .step_no .spinner-border{
     height: 4rem;
     width: 4rem;
-    @media #{$max-sm}{
+    @media #{$max-lg}{
         height: 3rem;
         width: 3rem;
         margin-right: 0px !important;
@@ -49,6 +49,9 @@
     display: block;
     width: 100%;
     font-weight: 700;
+    &:first-child{
+        font-size: 20px;
+    }
     @media #{$max-lg}{
         font-size: 14px;
     }
@@ -85,6 +88,9 @@
     border-bottom-right-radius: 10px;
     font-size: 16px;
     font-weight: 700;
+    @media #{$max-md}{
+        font-weight: 600;
+    }
     .row{
         align-items: center;
         justify-content: space-between;
@@ -223,7 +229,7 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 16px;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
     padding: 0 15px;
     .icon_name{
         display: flex;

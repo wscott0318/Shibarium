@@ -1178,6 +1178,28 @@
         padding-top: 50px;
     }
 }
+.black-btn.btn-active {
+    background: $primary;
+}
+.tab-btns {
+    .black-btn.btn-active{
+        &:hover{
+            background: $primary !important;
+        }
+    }
+    .black-btn{
+        &:hover{
+            background: transparent !important;
+        }
+    }
+}
+.btns-wrap{
+    .btn{
+        @media #{$max-sm}{
+            width: 100%;
+        }
+    }
+}
 /** become a validator steps style start **/
 .rewards-section {
     padding: 70px 0;
@@ -2099,13 +2121,13 @@ background: $body-bg;
     }
 }
 
-
-.flex-group {
+.backArrowBtn {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
 }
+
 .elip-text{
     white-space: nowrap;
     overflow: hidden;
@@ -2128,4 +2150,15 @@ background: $body-bg;
         padding:30px;
         border: 1px solid $white;
     }
+}
+.captcha-wrap > div > div > div {
+    margin: 0 auto;
+}
+.transac-data{
+    height: 270px;
+    margin-top: 30px;
+}
+.disabled {
+    pointer-events:none; //This makes it not clickable
+    opacity:0.4;         //This grays it out to look disabled
 }

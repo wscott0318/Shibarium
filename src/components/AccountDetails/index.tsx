@@ -15,6 +15,7 @@ import ExternalLink from '../ExternalLink'
 import Typography from '../Typography'
 import Copy from './Copy'
 import Transaction from './Transaction'
+import { useRouter } from 'next/router'
 
 interface AccountDetailsProps {
   toggleWalletModal: () => void
@@ -33,7 +34,7 @@ const AccountDetails: FC<AccountDetailsProps> = ({
 }) => {
   const { chainId, account, connector, deactivate, library } = useActiveWeb3React()
   const dispatch = useAppDispatch()
-
+  const router = useRouter();
   const connectorName = useMemo(() => {
     const { ethereum } = window
     const isMetaMask = !!(ethereum && ethereum.isMetaMask)
@@ -55,7 +56,10 @@ const AccountDetails: FC<AccountDetailsProps> = ({
   }, [dispatch, chainId])
 
   console.log({pendingTransactions})
-
+  const logoutHandler = async () => {
+    deactivate();
+    await router.push("/home");
+  };
   return (
     <div className="space-y-3">
       <div className="space-y-3">
@@ -63,7 +67,7 @@ const AccountDetails: FC<AccountDetailsProps> = ({
         <HeadlessUiModal.BorderedContent className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
             {connectorName}
-            <Button variant="outlined" color="blue" size="xs" onClick={deactivate}>
+            <Button variant="outlined" color="blue" size="xs" onClick={logoutHandler}>
               <span className='trs-2'>{`Disconnect`}</span>
             </Button>
           </div>
