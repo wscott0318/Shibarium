@@ -2272,7 +2272,7 @@ export default function Withdraw() {
                                       Balance:
                                     </span>
                                     <span className="fld-txt lite-color">
-                                      100.00ETH
+                                      100 BONE
                                     </span>
                                   </div>
                                 </div>
