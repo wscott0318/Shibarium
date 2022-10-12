@@ -49,6 +49,9 @@
     display: block;
     width: 100%;
     font-weight: 700;
+    &:first-child{
+        font-size: 20px;
+    }
     @media #{$max-lg}{
         font-size: 14px;
     }
