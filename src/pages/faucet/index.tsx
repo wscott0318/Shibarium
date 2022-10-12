@@ -12,8 +12,7 @@ import InnerHeader from "../../pages/inner-header";
 import Sidebar from "../layout/sidebar"
 import axios from "axios";
 import { useActiveWeb3React } from "app/services/web3";
-// @ts-ignore
-import ReCAPTCHA from "react-google-recaptcha"
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function faucet() {
   const [isTopdoG, setIsTopdoG] = useState(true);
@@ -72,10 +71,9 @@ export default function faucet() {
     })
   }
 
-  const handleSubmit = (e :any) =>{
+  const handleCaptcha = (e :any) =>{
     e.preventDefault();
-    const token = captchaRef.current.getValue();
-    captchaRef.current.reset();
+   console.log("receptcha event ", e )
 }
 
   return (
@@ -138,7 +136,7 @@ export default function faucet() {
                           </div>
                           <ReCAPTCHA
                             sitekey='6LdDZXQiAAAAAMN4TDWxug9KDry_OIr4sAGrhvXX'
-                            ref={captchaRef}
+                            onChange={handleCaptcha}
                             />
                         </form>
                       </div>
