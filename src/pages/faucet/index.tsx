@@ -159,32 +159,7 @@ export default function faucet() {
         setShow={setSwapModal}
         externalCls="review-ht"
       >
-        {/* Transaction Pending popup start*/}
-       {modalState.pending && <div className="popmodal-body tokn-popup no-ht trans-mod">
-          <div className="pop-block">
-            <div className="pop-top">
-              <div className='dark-bg-800 h-100 status-sec'>
-                <div>
-                  <span className='spiner-lg' >
-                    <span className="spinner-border text-secondary pop-spiner"></span>
-                  </span>
-                </div>
-                {/* <p className='mt-5'>Lorem ipsum dolor sit amet.</p> */}
-              </div>
-            </div>
-            {/* <div className="pop-bottom">
-              <div className='btns-sec mt-0'>
-                <button type='button' className='btn primary-btn w-100'>Sign the message</button>
-              </div>
-            </div> */}
-          </div>
-        </div>}
-
-        {/* Transaction Pending popup end*/}
-
-        {/* Transaction Pending popup version 2 start*/}
-
-        {modalState.done && <div className="popmodal-body tokn-popup no-ht trans-mod">
+      <div className="popmodal-body tokn-popup no-ht trans-mod">
           <div className="pop-block">
             <div className="pop-top">
               <div className='dark-bg-800 h-100 status-sec'>
@@ -194,22 +169,18 @@ export default function faucet() {
               </div>
             </div>
             <div className="pop-bottom">
-            <p className='mt-5'>{modalState.hash}</p>
+            <p className='elip-text mt-5'>{modalState.hash}</p>
               <div className='staus-btn'>
-                <button type='button' className='btn primary-btn w-100'>
+                <button
+                 type='button'
+                className='btn primary-btn w-100'
+                disabled={modalState.hash ? false  : true }
+                >
                   View on Shibascan</button>
-                  <button
-  type="button"
-  onClick={() => {
-    throw new Error("Sentry Frontend Error");
-  }}
->
-  Throw error
-</button>
               </div>
             </div>
           </div>
-        </div>}
+        </div>
         {/* Transaction Pending popup version 2 end*/}
       </CommonModal>
       {/* Review model code end */}
