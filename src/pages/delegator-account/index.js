@@ -54,7 +54,7 @@ export default function DelegatorAccount() {
                     title={"Unbound"}
                     show={showUnboundpop}
                     setShow={setUnboundpop}
-
+                    externalCls="stak-pop"
                 >
                     <>
                         <div className="cmn_modal">
@@ -193,7 +193,7 @@ export default function DelegatorAccount() {
                     title={"Retake"}
                     show={showvalidatorpop}
                     setShow={setvalidatorpop}
-
+                    externalCls="stak-pop"
                 >
                     <>
 
@@ -233,19 +233,21 @@ export default function DelegatorAccount() {
                     title={"Withdraw Rewards"}
                     show={showwithdrawpop}
                     setShow={setwithdrawpop}
-
+                    externalCls="stak-pop"
                 >
                     <>
                         <div className="cmn_modal val_popups">
                             <form>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter validator address" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter validator address</label>
+                                        <input type="text" placeholder="Validator address" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter delegator address" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter delegator address</label>
+                                        <input type="text" placeholder="Delegator address" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="pop_btns_area">
@@ -264,7 +266,7 @@ export default function DelegatorAccount() {
                     title={"Unbound"}
                     show={showunboundpop}
                     setShow={setunboundpop}
-
+                    externalCls="stak-pop"
                 >
                     <>
                         <div className="cmn_modal val_popups">
@@ -289,7 +291,7 @@ export default function DelegatorAccount() {
                     title={"Delegate"}
                     show={showallinonepop}
                     setShow={setallinonepop}
-
+                    externalCls="stak-pop"
                 >
                     <>
                         <div className="cmn_modal vali_deli_popups">
@@ -374,7 +376,7 @@ export default function DelegatorAccount() {
                     title={"claim Stake"}
                     show={showClaimpop}
                     setShow={setClaimpop}
-
+                    externalCls="stak-pop"
                 >
                     <>
                         <div className="cmn_modal">
@@ -406,13 +408,11 @@ export default function DelegatorAccount() {
                     </>
                 </CommonModal>
                 {/* claim stake popop ends */}
-
                 <section className="top_bnr_area dark-bg">
                     <div className="container">
                         <h1>My Account</h1>
                     </div>
                 </section>
-
                 <section className="mid_cnt_area">
                     <div className="container">
                         <div className="col-xl-12 col-lg-12 side-auto">
@@ -462,7 +462,6 @@ export default function DelegatorAccount() {
                         </div>
                     </div>
                 </section>
-
             </main>
         </>
     );

@@ -270,6 +270,7 @@
     .shib-img{
         @media #{$max-sm}{
             max-width: 175px;
+            margin: 0 auto;
         }
     }
 }

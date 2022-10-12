@@ -50,7 +50,7 @@ export default function ValidatorAccount() {
                     title={"Retake"}
                     show={showretakepop}
                     setShow={setretakepop}
-
+                    externalCls="stak-pop"
                 >
                     <>
 
@@ -59,17 +59,20 @@ export default function ValidatorAccount() {
                             <form>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter validator address" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter validator address</label>
+                                        <input type="text" placeholder="Validator address" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter amount" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter amount</label>
+                                        <input type="text" placeholder="Amount" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter stakereward" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter stakereward</label>
+                                        <input type="text" placeholder="Stakereward" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="pop_btns_area">
@@ -88,19 +91,21 @@ export default function ValidatorAccount() {
                     title={"Commission"}
                     show={showcommissionpop}
                     setShow={setcommissionpop}
-
+                    externalCls="stak-pop"
                 >
                     <>
                         <div className="cmn_modal val_popups">
                             <form>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter validator address" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter validator address</label>
+                                        <input type="text" placeholder="Validator address" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter new commission" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter new commission</label>
+                                        <input type="text" placeholder="New commission" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="pop_btns_area">
@@ -119,14 +124,15 @@ export default function ValidatorAccount() {
                     title={"Withdraw rewards"}
                     show={showwithdrawpop}
                     setShow={setwithdrawpop}
-
+                    externalCls="stak-pop"
                 >
                     <>
                         <div className="cmn_modal val_popups">
                             <form>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <input type="text" placeholder="Enter validator address" className="w-100" />
+                                        <label className="mb-2 mb-md-2 text-white">Enter validator address</label>
+                                        <input type="text" placeholder="Validator address" className="w-100" />
                                     </div>
                                 </div>
                                 <div className="pop_btns_area">
@@ -145,7 +151,7 @@ export default function ValidatorAccount() {
                     title={"Unbound"}
                     show={showunboundpop}
                     setShow={setunboundpop}
-
+                    externalCls="stak-pop"
                 >
                     <>
                         <div className="cmn_modal val_popups">

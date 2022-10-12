@@ -756,6 +756,7 @@ export default function Wallet() {
             </>
           </CommonModalNew>
         </div>
+        
         <section className="assets-section">
           <div className="cmn_dashbord_main_outr">
             <InnerHeader />
