@@ -9,13 +9,14 @@ import Web3Status from "app/components/Web3Status";
 import CommonModal from "../components/CommonModel";
 import { useWeb3React } from "@web3-react/core";
 import { shortenAddress } from "../../functions";
+import QrModal from "pages/components/QrModal";
 
 const InnerHeader = () => {
   const router = useRouter();
   const [show, setShow] = useState();
   const [offset, setOffset] = useState(0);
   const [accountAddress, setAccountAddress] = useState("")
-
+  const [userQrCode, setUserQrCode] = useState(false);
   useEffect(() => {
     setAccountAddress(localStorage.getItem('accounts'))
     const onScroll = () => setOffset(window.pageYOffset);
@@ -48,6 +49,14 @@ const InnerHeader = () => {
   return (
     <>
       <header className="inner-header">
+        {account && (
+          <QrModal
+            title={"Restake"}
+            show={userQrCode}
+            setShow={setUserQrCode}
+            address={account}
+          />
+        )}
         <Navbar className="py-0" variant="dark">
           <Container>
             <div className="left-widget">
@@ -184,7 +193,7 @@ const InnerHeader = () => {
                       </div>
                       <NavDropdown.Item
                         href="javascript:void(0)"
-                        onClick={() => setScanpop(true)}
+                        onClick={() => setUserQrCode(true)}
                       >
                         <div className="custum-row">
                           <div className="lft-img">
@@ -198,7 +207,10 @@ const InnerHeader = () => {
                           </div>
                         </div>
                       </NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.2">
+                      <NavDropdown.Item
+                        href={`https://etherscan.io/address/${account}`}
+                        target="blank"
+                      >
                         <div className="custum-row">
                           <div className="lft-img">
                             <img src="../../images/graph.png" alt="" />
@@ -254,7 +266,7 @@ const InnerHeader = () => {
         </Navbar>
       </header>
       {/* retake popop start */}
-      <CommonModal title={"Retake"} show={showScanpop} setShow={setScanpop}>
+      {/* <CommonModal title={"Retake"} show={showScanpop} setShow={setScanpop}>
         <>
           <div className="cmn_modal">
             <div className="qr-wrap">
@@ -283,7 +295,7 @@ const InnerHeader = () => {
             </div>
           </div>
         </>
-      </CommonModal>
+      </CommonModal> */}
       {/* retake popop ends */}
     </>
   );
