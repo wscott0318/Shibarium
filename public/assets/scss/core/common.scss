@@ -1142,16 +1142,35 @@
 .tkn-ht{
     .modal-content{
         height: 680px;
+        @media #{$max-xxl}{
+            height:600px;
+        }
+        @media #{$max-xl}{
+            height:580px;
+        }
     } 
+    
     @media #{$max-sm}{
         height:650px;
     }
     .token-listwrap.list-ht {
         max-height: 380px;
+        @media #{$max-xxl}{
+            max-height: 305px;
+        }
+        @media #{$max-xl}{
+            height:293px;
+        }
     }
 }
 .token-listwrap.usr-listht {
     max-height: 280px;
+    @media #{$max-xxl}{
+        max-height: 243px;
+    }
+    @media #{$max-xl}{
+        height:231px;
+    }
 }
 .review-ht{
     .modal-content{
