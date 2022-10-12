@@ -2114,13 +2114,13 @@ background: $body-bg;
     }
 }
 
-
-.flex-group {
+.backArrowBtn {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
 }
+
 .elip-text{
     white-space: nowrap;
     overflow: hidden;
@@ -2143,4 +2143,7 @@ background: $body-bg;
         padding:30px;
         border: 1px solid $white;
     }
+}
+.captcha-wrap > div > div > div {
+    margin: 0 auto;
 }

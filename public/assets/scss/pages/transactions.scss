@@ -38,7 +38,7 @@
 .step_no .spinner-border{
     height: 4rem;
     width: 4rem;
-    @media #{$max-sm}{
+    @media #{$max-lg}{
         height: 3rem;
         width: 3rem;
         margin-right: 0px !important;
@@ -85,6 +85,9 @@
     border-bottom-right-radius: 10px;
     font-size: 16px;
     font-weight: 700;
+    @media #{$max-md}{
+        font-weight: 600;
+    }
     .row{
         align-items: center;
         justify-content: space-between;

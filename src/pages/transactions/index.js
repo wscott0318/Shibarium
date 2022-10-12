@@ -590,11 +590,11 @@ export default function Transaction() {
                   </div>
                   <div className="cont_sec">
                     <div className="row">
-                      <div className="col-md-6 col-xs-12">
+                      <div className="col-md-6 col-lg-9 col-xs-12">
                         You are 1 step away, click continue to complete the
                         transaction
                       </div>
-                      <div className="col-md-3 col-xs-12">
+                      <div className="col-md-3 col-lg-3 col-xs-12">
                         <button
                           onClick={() => {
                             setSendModal({

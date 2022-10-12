@@ -340,7 +340,7 @@ export default function differentchainbridge() {
                     </div>
                     <div className="pop-bottom">
                       <div className='btns-sec mt-0'>
-                        <button type='button' className='btn primary-btn w-100'>Sign the message</button>
+                        <button type='button' className='btn black-btn w-100'>Sign the message</button>
                       </div>
                     </div>
                   </div>

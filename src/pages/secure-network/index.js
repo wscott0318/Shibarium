@@ -23,7 +23,7 @@ export default function secureNetwork() {
                         <br/>
                         <br/>
                         <h2 className="heading pb-3 ff-mos text-center ">Developer Resources</h2>
-                        <p className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 text-center ">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+                        <p className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 text-center ff-mos">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
                         It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>                         
                     </section>
 
@@ -95,16 +95,16 @@ export default function secureNetwork() {
                     </section>
 
                     <section className="container mb-xxl-5 mb-xl-4 mb-sm-3 mb-3">
-                        <h3 className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2">Where does it come from?</h3>
-                        <p className="">It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, 
+                        <h3 className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 ff-mos">Where does it come from?</h3>
+                        <p className="ff-mos">It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, 
                         looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
                         <br/>
                         <div className="row">
                             <div className="col-md-6 col-sm-6 col-xs-12">
-                                <h3 className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2">Where does it come from?</h3>
-                                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, 
+                                <h3 className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 ff-mos">Where does it come from?</h3>
+                                <p className="ff-mos">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, 
                         looked up one of the more obscure Latin words, consectetur </p>
-                                <ul className="text-list mb-xxl-4 mb-xl-3 mb-sm-2 mb-2">
+                                <ul className="text-list mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 ff-mos">
                                     <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
                                     <li>Sed venenatis urna et orci porttitor, ut semper risus gravida.</li>
                                     <li>Vestibulum nec libero id mi commodo viverra.</li>
@@ -119,7 +119,7 @@ export default function secureNetwork() {
                             </div>
                         </div>
                         <br/>
-                        <p className="">It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, 
+                        <p className="ff-mos">It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, 
                         looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
                     </section>
                     
@@ -252,7 +252,7 @@ export default function secureNetwork() {
                                 </div>
                             </div>
                             <div className="col-md-5 col-sm-5 col-xs-12">
-                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. 
+                                <p className="ff-mos">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. 
                                     The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', 
                                     making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text. 
                                     Various versions have evolved over the years, sometimes by accident, sometimes on purpose <a href="#" className="text-primary">injected humour and the like.</a>
@@ -260,7 +260,7 @@ export default function secureNetwork() {
                             </div>
                         </div>
                         <br/>
-                        <p>All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
+                        <p className="ff-mos">All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
                     </section>
                 </div>
                </main>

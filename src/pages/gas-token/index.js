@@ -22,7 +22,6 @@ export default function Gastoken() {
     title: "Review Swap",
     });
     const [showSlippageModal, setSlippageModal] = useState(false);
-
     const [showSwapModal, setSwapModal] = useState(false);
     const [approveReview, setApproveReview] = useState(true);
     return (
