@@ -31,7 +31,8 @@ import QrModal from "../components/QrModal";
 import { getBoneUSDValue, getWalletTokenList } from "../../services/apis/validator/index";
 import NumberFormat from 'react-number-format';
 import { useSearchFilter } from "app/hooks/useSearchFilter";
-import {dynamicChaining} from "../../web3/DynamicChaining";
+import {dynamicChaining} from "../../web3/DynamicChaining"; 
+import Pagination from 'app/components/Pagination';
 
 
 const sendInitialState = {
@@ -150,6 +151,24 @@ export default function Wallet() {
       })
     }
   }
+    const pageSize = 4;
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [slicedTokenFilteredList, setSliceTokenFilteredList] = useState([]);
+    useEffect(() => {
+      if(tokenFilteredList.length){
+        const slicedList = tokenFilteredList.slice(0, pageSize);
+      setSliceTokenFilteredList(slicedList);
+    }
+    }, [tokenFilteredList]);
+
+    const pageChangeHandler = (index: number) => {
+      const slicedList = tokenFilteredList.slice(
+        (index - 1) * pageSize,
+        index * pageSize
+      );
+      setSliceTokenFilteredList(slicedList);
+      setCurrentPage(index);
+    };
 
   const handleSearchList = (key:any, type : any ='main') => {
     if(type === 'modal'){
@@ -167,13 +186,14 @@ export default function Wallet() {
         if(type === 'modal'){
           setTokenModalList(newData)
         } else {
-          setTokenFilteredList(newData)          
+          setTokenFilteredList(newData)        
+          pageChangeHandler(currentPage);  
         }
     } else {
       if(type === 'modal'){
         setTokenModalList(tokenList)
       } else {
-        setTokenFilteredList(tokenList)         
+        setTokenFilteredList(tokenList)     
       }
     }
     
@@ -257,7 +277,7 @@ export default function Wallet() {
       return false
     }
   }
-
+  
   return (
     <>
       <main className="main-content">
@@ -303,41 +323,63 @@ export default function Wallet() {
             <>
               {/* transferring funds popop start */}
 
-              {showSendModal.step0 && <div className="cmn_modal flex-group">
-                <div className="pop-top">
-                  <p className="mb-0">Sending funds to exchanges:</p>
-                  <div className="exchng_msg_box">
-                    <p>Exchanges supported from Shibarium network</p>
-                    <p className="sprdt_txt">Supported Exchanges</p>
+              {showSendModal.step0 && (
+                <div className="cmn_modal">
+                  <div className="pop-top">
+                    <p className="mb-0">Sending funds to exchanges:</p>
+                    <div className="exchng_msg_box">
+                      <p>Exchanges supported from Shibarium network</p>
+                      <p className="sprdt_txt">Supported Excanges</p>
+                    </div>
+                    <p className="alert_msg">
+                      <div className="image-wrap d-inline-block me-2">
+                        <img
+                          className="img-fluid"
+                          src="../../images/i-info-icon.png"
+                          width={16}
+                        />
+                      </div>
+                      Sending funds to unsupported exchanges will lead to
+                      permanent loss of funds.
+                    </p>
                   </div>
-                  <p className="alert_msg">
-                    <div className="image-wrap d-inline-block me-2">
-                      <img className="img-fluid" src="../../images/i-info-icon.png" width={16} />
+                  <div className="pop-bottom">
+                    <div className="pop_btns_area row form-control">
+                      <div className="col-6">
+                        <button
+                          className="btn blue-btn w-100"
+                          onClick={() => {
+                            setSenderModal(false);
+                            setSendModal(sendInitialState);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                      <div className="col-6">
+                        <button
+                          className="btn primary-btn w-100"
+                          onClick={() =>
+                            setSendModal({
+                              step0: false,
+                              step1: true,
+                              step2: false,
+                              step3: false,
+                              showTokens: false,
+                            })
+                          }
+                        >
+                          Continue
+                        </button>
+                      </div>
                     </div>
-                    Sending funds to unsupported exchanges will lead to permanent loss of funds.</p>
-                </div>
-                <div className="pop-bottom">
-                  <div className="pop_btns_area row form-control">
-                    <div className="col-6">
-                      <button className='btn blue-btn w-100' onClick={() => {
-                        setSenderModal(false);
-                        setSendModal(sendInitialState)
-                      }}>Cancel</button>
-                    </div>
-                    <div className="col-6">
-                      <button className='btn primary-btn w-100'
-                        onClick={() => setSendModal({
-                          step0: false,
-                          step1: true,
-                          step2: false,
-                          step3: false,
-                          showTokens:false
-                        })}>Continue</button>
-                    </div>
+                    <p className="pop_btm_txt text-center">
+                      If you want to send funds between chains visit{" "}
+                      <a href="#">Shibarium Bridge</a>
+                    </p>
                   </div>
-                  <p className="pop_btm_txt text-center">If you want to send funds between chains visit <a href="#" >Shibarium Bridge</a></p>
                 </div>
-              </div>}
+              )}
 
               {/* transferring funds popop ends */}
 
@@ -346,149 +388,148 @@ export default function Wallet() {
                 <div className="cmn_modal">
                   {/* <h4 className="pop_main_h text-center">Send</h4>  */}
                   <div className="pop-top h-100">
-                    <form className="mr-top-50 flex-group">
-                      <div className="group-top">
-                        <div className="form-group">
-                          <input
-                            type="text"
-                            className="form-control cmn_inpt_fld"
-                            value={senderAddress}
-                            onChange={(e) => handleChange(e)}
-                            placeholder="Receiver address"
-                          />
-                          <div className="error-msg">
-                            {!isValidAddress && senderAddress && (
-                              <label className="mb-0">
-                                Enter a valid reciver address on Shibarium
-                                Mainnet
-                              </label>
-                            )}
-                          </div>
+                  <form className="mr-top-50 flex-group">
+                    <div className="group-top">
+                      <div className="form-group">
+                        <input
+                          type="text"
+                          className="form-control cmn_inpt_fld"
+                          value={senderAddress}
+                          onChange={(e) => handleChange(e)}
+                          placeholder="Receiver address"
+                        />
+                        <div className="error-msg">
+                          {!isValidAddress && senderAddress && (
+                            <label className="mb-0">
+                              Enter a valid reciver address on Shibarium Mainnet
+                            </label>
+                          )}
                         </div>
-                        <div className="form-group">
-                          <div className="position-relative">
-                            <div className="float-input">
-                              <input
-                                type="number"
-                                className="form-control cmn_inpt_fld"
-                                placeholder="0.00"
-                                value={sendAmount}
-                                onChange={(e) => setSendAmount(e.target.value)}
-                              />
+                      </div>
+                      <div className="form-group">
+                        <div className="position-relative">
+                          <div className="float-input">
+                            <input
+                              type="number"
+                              className="form-control cmn_inpt_fld"
+                              placeholder="0.00"
+                              value={sendAmount}
+                              onChange={(e) => setSendAmount(e.target.value)}
+                            />
 
-                              <div
-                                className="coin-dd float-dd"
-                                onClick={() =>
-                                  setSendModal({
-                                    step0: false,
-                                    step1: false,
-                                    step2: false,
-                                    step3: false,
-                                    showTokens: true,
-                                  })
-                                }
-                              >
-                                <div id="div-autoclose-true" className="btn-dd">
-                                  <div className="drop-flex">
-                                    <div className="drop-chev">
-                                      <img
-                                        className="img-fluid"
-                                        src="../../images/chev-drop.png"
-                                        alt="chev-ico"
-                                      />
-                                    </div>
-                                    {selectedToken ? (
-                                      <div className="drop-ico">
-                                        <img
-                                          className="img-fluid"
-                                          src="../../images/shiba-round-icon.png"
-                                          alt="icon"
-                                          width={24}
-                                        />
-                                        <span>
-                                          {selectedToken.parentName
-                                            ? selectedToken.parentName
-                                            : "Select Token"}
-                                        </span>
-                                      </div>
-                                    ) : (
-                                      <div className="drop-text">
-                                        <span>Select Token</span>
-                                      </div>
-                                    )}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="error-msg">
-                              {sendAmount &&
-                              +sendAmount > selectedToken.balance &&
-                              !selectedToken ? (
-                                <label className="mb-0">Select token</label>
-                              ) : (sendAmount &&
-                                  +sendAmount > selectedToken.balance) ||
-                                selectedToken.balance <= 0 ? (
-                                <label className="mb-0">
-                                  Insufficient balance
-                                </label>
-                              ) : null}
-                            </div>
-                          </div>
-                          <p className="inpt_fld_hlpr_txt">
-                            <span>
-                              <NumberFormat
-                                thousandSeparator
-                                displayType={"text"}
-                                prefix="$ "
-                                value={(
-                                  (selectedToken.balance || 0) * boneUSDValue
-                                ).toFixed(2)}
-                              />
-                            </span>
-                            <span>
-                              Balance:{" "}
-                              {selectedToken.balance
-                                ? selectedToken.balance.toFixed(4)
-                                : "00.00"}{" "}
-                              {selectedToken.parentSymbol
-                                ? selectedToken.parentSymbol
-                                : ""}
-                            </span>
-                          </p>
-                        </div>
-                        <div className="pop_btns_area mr-top-50 row top-exspace">
-                          <div className="col-6">
-                            <button
-                              className="btn blue-btn w-100"
+                            <div
+                              className="coin-dd float-dd"
                               onClick={() =>
                                 setSendModal({
-                                  step0: true,
+                                  step0: false,
                                   step1: false,
                                   step2: false,
                                   step3: false,
-                                  showTokens: false,
+                                  showTokens: true,
                                 })
                               }
                             >
-                              Back
-                            </button>
+                              <div id="div-autoclose-true" className="btn-dd">
+                                <div className="drop-flex">
+                                  <div className="drop-chev">
+                                    <img
+                                      className="img-fluid"
+                                      src="../../images/chev-drop.png"
+                                      alt="chev-ico"
+                                    />
+                                  </div>
+                                  {selectedToken ? (
+                                    <div className="drop-ico">
+                                      <img
+                                        className="img-fluid"
+                                        src="../../images/shiba-round-icon.png"
+                                        alt="icon"
+                                        width={24}
+                                      />
+                                      <span>
+                                        {selectedToken.parentName
+                                          ? selectedToken.parentName
+                                          : "Select Token"}
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    <div className="drop-text">
+                                      <span>Select Token</span>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <div className="col-6 active-btn">
-                            <button
-                              disabled={
-                                isValidAddress &&
-                                +sendAmount < selectedToken.balance &&
-                                selectedToken.balance > 0
-                                  ? false
-                                  : true
-                              }
-                              onClick={() => handleSend()}
-                              className="btn primary-btn w-100"
-                            >
-                              Send
-                            </button>
+                          <div className="error-msg">
+                            {sendAmount &&
+                            +sendAmount > selectedToken.balance &&
+                            !selectedToken ? (
+                              <label className="mb-0">Select token</label>
+                            ) : (sendAmount &&
+                                +sendAmount > selectedToken.balance) ||
+                              selectedToken.balance <= 0 ? (
+                              <label className="mb-0">
+                                Insufficient balance
+                              </label>
+                            ) : null}
                           </div>
                         </div>
+                        <p className="inpt_fld_hlpr_txt">
+                          <span>
+                            <NumberFormat
+                              thousandSeparator
+                              displayType={"text"}
+                              prefix="$ "
+                              value={(
+                                (selectedToken.balance || 0) * boneUSDValue
+                              ).toFixed(2)}
+                            />
+                          </span>
+                          <span>
+                            Balance:{" "}
+                            {selectedToken.balance
+                              ? selectedToken.balance.toFixed(4)
+                              : "00.00"}{" "}
+                            {selectedToken.parentSymbol
+                              ? selectedToken.parentSymbol
+                              : ""}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="pop_btns_area mr-top-50 row top-exspace">
+                        <div className="col-6">
+                          <button
+                            className="btn blue-btn w-100"
+                            onClick={() =>
+                              setSendModal({
+                                step0: true,
+                                step1: false,
+                                step2: false,
+                                step3: false,
+                                showTokens: false,
+                              })
+                            }
+                          >
+                            Back
+                          </button>
+                        </div>
+                        <div className="col-6 active-btn">
+                          <button
+                            disabled={
+                              isValidAddress &&
+                              +sendAmount < selectedToken.balance &&
+                              selectedToken.balance > 0
+                                ? false
+                                : true
+                            }
+                            onClick={() => handleSend()}
+                            className="btn primary-btn w-100"
+                          >
+                            Send
+                          </button>
+                        </div>
+                      </div>
                       </div>
                     </form>
                   </div>
@@ -596,25 +637,12 @@ export default function Wallet() {
                   <div className="pop-top">
                     <div className="cnfrm_box dark-bg mt-0">
                       <div className="top_overview col-12">
-                        <span>
-                          <img src="../../images/shib-borderd-icon.png" />
-                        </span>
+                        <span><img src="../../images/shib-borderd-icon.png" /></span>
                         <h6 className="fw-700">{sendAmount} BONE</h6>
-                        <p>
-                          <NumberFormat
-                            thousandSeparator
-                            displayType={"text"}
-                            prefix="$ "
-                            value={((+sendAmount || 0) * boneUSDValue).toFixed(
-                              2
-                            )}
-                          />
-                        </p>
+                        <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+sendAmount || 0) * boneUSDValue).toFixed(2)} /></p>
                       </div>
                       <div className="add_detail col-12">
-                        <p>
-                          <b>Transaction Submitted To:</b>
-                        </p>
+                        <p><b>Transaction Submitted To:</b></p>
                         <p className="elip-text">{transactionHash}</p>
                       </div>
                     </div>
@@ -749,7 +777,6 @@ export default function Wallet() {
             </>
           </CommonModalNew>
         </div>
-        
         <section className="assets-section">
           <div className="cmn_dashbord_main_outr">
             <InnerHeader />
@@ -836,8 +863,8 @@ export default function Wallet() {
                         </tr>
                       </thead>
                       <tbody>
-                        {tokenFilteredList.length
-                          ? tokenFilteredList.map((x: any) => (
+                        {slicedTokenFilteredList.length
+                          ? slicedTokenFilteredList.map((x: any) => (
                               <tr>
                                 <td colSpan={2}>
                                   <span>
@@ -858,19 +885,25 @@ export default function Wallet() {
                                 </td>
                                 <td>
                                   <Link href="javascript:void(0)">
-                                    <a className="px-0">Deposit</a>
+                                      <a  className="px-0"> 
+                                        Deposit
+                                      </a>
                                   </Link>
                                 </td>
                                 <td>
                                   <div className="row mx-0">
                                     <div className="col-6 px-0">
                                       <Link href="javascript:void(0)">
-                                        <a className=" px-0">Withdraw</a>
+                                          <a  className=" px-0"> 
+                                            Withdraw
+                                          </a>
                                       </Link>
                                     </div>
                                     <div className="col-6 px-0">
                                       <Link href="javascript:void(0)">
-                                        <a className=" px-0">Send</a>
+                                          <a  className=" px-0"> 
+                                            Send
+                                          </a>
                                       </Link>
                                     </div>
                                   </div>
@@ -878,6 +911,7 @@ export default function Wallet() {
                               </tr>
                             ))
                           : null}
+                          <Pagination currentPage={currentPage} pageSize={pageSize} totalCount={tokenFilteredList.length} onPageChange={pageChangeHandler}/>
                         {searchKey.length && !tokenFilteredList.length && (
                           <tr>
                             <p>No record found</p>

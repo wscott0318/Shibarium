@@ -2158,3 +2158,7 @@ background: $body-bg;
     height: 270px;
     margin-top: 30px;
 }
+.disabled {
+    pointer-events:none; //This makes it not clickable
+    opacity:0.4;         //This grays it out to look disabled
+}
