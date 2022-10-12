@@ -98,7 +98,7 @@ const InnerHeader = () => {
                 <Nav.Item className="d-flex align-items-center">
                   <Link href={'javascript:void(0)'}>
                     <a className='d-md-none swap-btn'>
-                      <img className="img-fluid" src="../../images/eth-swap.png" alt="" width={30} />
+                      <img className="img-fluid" src="../../images/switch-icon.png" alt="" width={30} />
                     </a>
                   </Link>
                   <Link href={'javascript:void(0)'}>

@@ -75,6 +75,18 @@ export const Allvalidator: React.FC = () => {
 
         <section className="table-section top-pad bottom-pad">
           <div className="container">
+              <div className="d-flex align-items-center btns-space tab-btns">
+                <div className="me-3">
+                  <p className="btn black-btn btn-active" title="">
+                    <span>ACTIVE</span>
+                    </p>
+                </div>
+                <div>
+                  <p className="btn black-btn " title="">
+                  <span>INACTIVE</span>
+                  </p>
+                </div>
+              </div>
             <div className="filter-row mb-md-5 mb-sm-4 mb-3">
               <div className="left-section">
                 <input
