@@ -104,7 +104,7 @@ export default function Withdraw() {
                             alt=""
                           />
                         </div>
-                        <p>ETHEREUM MAINNET</p>
+                        <p>Ethereum Mainnet</p>
                       </div>
                       <div className="text-center box-block">
                         <div className="d-inline-block arow-block right-arrow">
@@ -126,7 +126,7 @@ export default function Withdraw() {
                             alt=""
                           />
                         </div>
-                        <p>SHIBARIUM MAINNET</p>
+                        <p>Shibarium Mainnet</p>
                       </div>
                     </div>
                     <div className="amt-section position-relative">
@@ -196,7 +196,7 @@ export default function Withdraw() {
                             alt=""
                           />
                         </div>
-                        <p>ETHEREUM MAINNET</p>
+                        <p>Ethereum Mainnet</p>
                       </div>
                       <div className="text-center box-block">
                         <div className="d-inline-block right-arrow">
@@ -218,7 +218,7 @@ export default function Withdraw() {
                             alt=""
                           />
                         </div>
-                        <p>SHIBARIUM MAINNET</p>
+                        <p>Shibarium Mainnet</p>
                       </div>
                     </div>
                   </div>
@@ -281,7 +281,7 @@ export default function Withdraw() {
                         className="btn primary-btn w-100 w-100"
                         href="javascript:void(0)"
                       >
-                        SHIBARIUM MAINNET
+                        ETHEREUM MAINNET
                       </a>
                     </div>
                   </div>
@@ -345,7 +345,7 @@ export default function Withdraw() {
                             alt=""
                           />
                         </div>
-                        <p>SHIBARIUM MAINNET</p>
+                        <p>Shibarium Mainnet</p>
                       </div>
                       <div className="text-center box-block">
                         <div className="d-inline-block right-arrow">
@@ -367,7 +367,7 @@ export default function Withdraw() {
                             alt=""
                           />
                         </div>
-                        <p>ETHERIUM MAINNET</p>
+                        <p>Ethereum Mainnet</p>
                       </div>
                     </div>
                     <div className="amt-section position-relative">
@@ -447,7 +447,7 @@ export default function Withdraw() {
                             alt=""
                           />
                         </div>
-                        <p>SHIBARIUM MAINNET</p>
+                        <p>Shibarium Mainnet</p>
                       </div>
                       <div className="text-center box-block">
                         <div className="d-inline-block right-arrow">
@@ -469,7 +469,7 @@ export default function Withdraw() {
                             alt=""
                           />
                         </div>
-                        <p>ETHEREUM MAINNET</p>
+                        <p>Ethereum Mainnet</p>
                       </div>
                     </div>
                     <div className="amt-section position-relative">
@@ -609,7 +609,7 @@ export default function Withdraw() {
                             alt=""
                           />
                         </div>
-                        <p>ETHEREUM MAINNET</p>
+                        <p>Ethereum Mainnet</p>
                       </div>
                       <div className="text-center box-block">
                         <div className="d-inline-block right-arrow">
@@ -631,7 +631,7 @@ export default function Withdraw() {
                             alt=""
                           />
                         </div>
-                        <p>WALLET X25654a5</p>
+                        <p>Wallet X25654a5</p>
                       </div>
                     </div>
                     <div className="amt-section position-relative">
