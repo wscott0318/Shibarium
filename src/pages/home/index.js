@@ -374,7 +374,7 @@ export default function Home() {
                     </a>
                   </Link>
                 </li>
-                <li className="shib-col">
+                <li className="shib-col lft-spc">
                   <Link href="javascript:void(0)" className="shib-item">
                     <a className="shib-item">
                       <img className='img-fluid' src="../../images/icons/ether.png" alt="socail-icon" width={24} />
