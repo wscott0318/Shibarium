@@ -138,12 +138,12 @@
 .height-blk {
     height: 170px;
 }
-.blank-box{
-    min-height: 100px;
-    @media #{$max-xxl}{
-        min-height: 50px;
-    }
-}
+// .blank-box{
+//     min-height: 100px;
+//     @media #{$max-xxl}{
+//         min-height: 50px;
+//     }
+// }
 
 .botom-spcing {
     margin-bottom: 35px;
@@ -420,6 +420,12 @@
     margin-top: 16px;
     max-height: 420px;
     overflow-y: auto;
+    @media #{$max-xxl}{
+        max-height: 345px;
+    }
+    @media #{$max-xl}{
+        max-height: 335px;
+    }
     // @media #{$max-xxl}{
     //     max-height: 265px;
     // }
