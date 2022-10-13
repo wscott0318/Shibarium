@@ -47,14 +47,14 @@ export const Allvalidator: React.FC = () => {
               <div className="row align-items-center">
                 <div className="col-md-7 col-sm-12">
                   <div className="lft-txt">
-                    <h1 className="mb-2 mb-sm-3 mb-md-4">All Validators</h1>
+                    <h1 className="mb-2 mb-sm-3 mb-md-4 ff-mos">All Validators</h1>
                     <div className="btns-sec mt-2">
                       <div className="btns-wrap">
                         <button
                           onClick={() => {
                             router.push("/become-validator");
                           }}
-                          className="btn primary-btn"
+                          className="btn primary-btn ff-mos"
                         >
                           Become a Validator
                         </button>
@@ -77,12 +77,12 @@ export const Allvalidator: React.FC = () => {
           <div className="container">
               <div className="d-flex align-items-center btns-space tab-btns">
                 <div className="me-3">
-                  <p className="btn black-btn btn-active" title="">
+                  <p className="btn black-btn btn-active ff-mos" title="">
                     <span>ACTIVE</span>
                     </p>
                 </div>
                 <div>
-                  <p className="btn black-btn " title="">
+                  <p className="btn black-btn ff-mos" title="">
                   <span>INACTIVE</span>
                   </p>
                 </div>
@@ -97,7 +97,7 @@ export const Allvalidator: React.FC = () => {
               </div>
               <div className="right-section">
                 <div className="switch-sec">
-                  <span className="help-txt">Show Auction Only</span>
+                  <span className="help-txt ff-mos">Show Auction Only</span>
                   <label className="switch">
                     <input type="checkbox" />
                     <span className="slider round"></span>
@@ -105,7 +105,7 @@ export const Allvalidator: React.FC = () => {
                 </div>
                 <div className="select-sec">
                   <div>
-                    <span>Sort By</span>
+                    <span className="ff-mos">Sort By</span>
                   </div>
                   <div className="cus-sel">
                     <select className="form-select">
@@ -147,7 +147,7 @@ export const Allvalidator: React.FC = () => {
               </div>
             </div>
             <div className="heading-sec mt-2 mb-2">
-              <h2 className="sub-head mb-sm-4 mb-3">
+              <h2 className="sub-head mb-sm-4 mb-3 ff-mos">
                 List of active Validators
               </h2>
             </div>
