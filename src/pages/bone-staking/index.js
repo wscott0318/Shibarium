@@ -66,8 +66,8 @@ const BoneStaking = () => {
           <div className="container">
             <div className="section-info">
               <div className="row align-items-center">
-                <div className="col-md-7 col-sm-12">
-                  <h1>Start Earning Rewards with <br /><span className="white-bg">Shibarium Staking</span></h1>
+                <div className="col-md-7 col-sm-12 ff-mos">
+                  <h1 className="ff-mos">Start Earning Rewards with <br /><span className="white-bg">Shibarium Staking</span></h1>
                   <div className="btns-sec">
                     <div className="btns-wrap">
                        <button onClick={()=>{
@@ -114,7 +114,7 @@ const BoneStaking = () => {
                     </div>
                     <div className="botom-sec">
                       <div className="botom-headsec">
-                        <span>Total Stake</span>
+                        <span className="ff-mos">Total Stake</span>
                       </div>
                     </div>
                   </div>
@@ -131,7 +131,7 @@ const BoneStaking = () => {
                     </div>
                     <div className="botom-sec">
                       <div className="botom-headsec">
-                        <span>Total Stake</span>
+                        <span className="ff-mos">Total Stake</span>
                       </div>
                     </div>
                   </div>
@@ -148,7 +148,7 @@ const BoneStaking = () => {
                     </div>
                     <div className="botom-sec">
                       <div className="botom-headsec">
-                        <span>Total Stake</span>
+                        <span className="ff-mos">Total Stake</span>
                       </div>
                     </div>
                   </div>
@@ -165,7 +165,7 @@ const BoneStaking = () => {
                     </div>
                     <div className="botom-sec">
                       <div className="botom-headsec">
-                        <span>Total Stake</span>
+                        <span className="ff-mos">Total Stake</span>
                       </div>
                     </div>
                   </div>
@@ -182,7 +182,7 @@ const BoneStaking = () => {
                     </div>
                     <div className="botom-sec">
                       <div className="botom-headsec">
-                        <span>Total Stake</span>
+                        <span className="ff-mos">Total Stake</span>
                       </div>
                     </div>
                   </div>
@@ -199,7 +199,7 @@ const BoneStaking = () => {
                     </div>
                     <div className="botom-sec">
                       <div className="botom-headsec">
-                        <span>Total Stake</span>
+                        <span className="ff-mos">Total Stake</span>
                       </div>
                     </div>
                   </div>
@@ -212,7 +212,7 @@ const BoneStaking = () => {
         <section className="table-section pb-4 pb-lg-5">
           <div className="container">
             <div className="heading-sec">
-              <h2 className="sub-head">All Validators</h2>
+              <h2 className="sub-head ff-mos">All Validators</h2>
             </div>
             <div className="filter-row">
               <div className="left-section">
@@ -220,7 +220,7 @@ const BoneStaking = () => {
               </div>
               <div className="right-section">
                 <div className="switch-sec">
-                  <span className="help-txt">Show Auction Only</span>
+                  <span className="help-txt ff-mos">Show Auction Only</span>
                   <label className="switch">
                     <input type="checkbox" />
                     <span className="slider round"></span>
@@ -228,7 +228,7 @@ const BoneStaking = () => {
                 </div>
                 <div className="select-sec">
                   <div>
-                    <span>Sort By</span>
+                    <span  className="ff-mos" >Sort By</span>
                   </div>
                   <div className="cus-sel">
                     <select className="form-select" >

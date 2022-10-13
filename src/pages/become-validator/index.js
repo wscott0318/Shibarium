@@ -60,7 +60,7 @@ const Rewards = () => {
             {/* <StakingHeader /> */}
             <section className="top_bnr_area dark-bg darkbg py-4 py-md-5">
                 <div className="container">
-                    <h1 className="text-white trs-6 fw-500">Become a validator</h1>
+                    <h1 className="text-white trs-6 fw-500 ff-mos">Become a validator</h1>
                 </div>
             </section>
             {/*  Rewards section start */}
@@ -70,7 +70,7 @@ const Rewards = () => {
                   <div className="col-lg-3 validator-steps">
                     <ul className="step-vertical">
                       <li className="step-list active completed">
-                        <p className="light-text fw-700">Setup Node</p>
+                        <p className="light-text fw-700 ff-mos">Setup Node</p>
                         <div className="step-blk step-float">
                           <span className="fw-700 step-num">1</span>
                           <img
@@ -82,7 +82,7 @@ const Rewards = () => {
                         </div>
                       </li>
                       <li className="step-list active">
-                        <p className="light-text fw-600">Add Node Detail</p>
+                        <p className="light-text fw-600 ff-mos">Add Node Detail</p>
                         <div className="step-blk step-float">
                           <span className="fw-700 step-num">2</span>
                           <img
@@ -94,7 +94,7 @@ const Rewards = () => {
                         </div>
                       </li>
                       <li className="step-list">
-                        <p className="light-text fw-600">Add Your Stake</p>
+                        <p className="light-text fw-600 ff-mos">Add Your Stake</p>
                         <div className="step-blk step-float">
                           <span className="fw-700 step-num">3</span>
                           <img
@@ -106,7 +106,7 @@ const Rewards = () => {
                         </div>
                       </li>
                       <li className="step-list">
-                        <p className="light-text fw-600">Completed</p>
+                        <p className="light-text fw-600 ff-mos">Completed</p>
                         <div className="step-blk step-float">
                           <span className="fw-700 step-num">4</span>
                           <img
@@ -123,8 +123,8 @@ const Rewards = () => {
 
                     {/* step 1 start*/}
                       <div className="progress-tab">
-                        <h5 className="mb-2 fw-700">Setup a node</h5>
-                        <p className="mb-0 fw-700">
+                        <h5 className="mb-2 fw-700 ff-mos">Setup a node</h5>
+                        <p className="mb-0 fw-700 ff-mos">
                           You can setup your node using any of the options from below
                         </p>
                         <div className="box-alert top-space-lg">
@@ -141,7 +141,7 @@ const Rewards = () => {
                               </div>
                             </div>
                             <div className="trs-3">
-                              <h6 className="fw-600">Ansible</h6>
+                              <h6 className="fw-600 ff-mos">Ansible</h6>
                               <p className="ft-14 fw-600">
                                 Your Ansible playbooks for setting up Shiba Validator
                                 node
@@ -163,7 +163,7 @@ const Rewards = () => {
                               </div>
                             </div>
                             <div className="trs-3">
-                            <h6 className="fw-600">Binaries</h6>
+                            <h6 className="fw-600 ff-mos">Binaries</h6>
                               <p className="ft-14 fw-600">
                                 Build from Source to setup your validator node.
                               </p>
@@ -183,7 +183,7 @@ const Rewards = () => {
                           or on our{" "}
                           <a
                             href="#!;"
-                            className="fw-600 link-color"
+                            className="fw-600 link-color ff-mos"
                             title=""
                           >
                             Validator Discord channel.
@@ -193,7 +193,7 @@ const Rewards = () => {
                     {/* step 1 end */}
 
                     {/* step 2  start */}
-                      <div className=" d-none">
+                      <div className="d-none">
                         <div className="mb-4 mb-xl-5">
                           <h5 className="fwb fw-700 mb-2">Add node details</h5>
                           <p className="">
@@ -203,7 +203,7 @@ const Rewards = () => {
                         <div className="row">
                           <div className="col-sm-6 form-grid">
                             <div className="form-group">
-                              <label htmlFor="" className="form-label">
+                              <label htmlFor="" className="form-label ff-mos">
                                 Validator logo
                               </label>
                               <div className="file-wrap">
@@ -226,7 +226,7 @@ const Rewards = () => {
                           </div>
                           <div className="col-sm-6 form-grid">
                             <div className="form-group">
-                              <label htmlFor="" className="form-label">
+                              <label htmlFor="" className="form-label ff-mos">
                                 Validator name
                               </label>
                               <input
@@ -238,7 +238,7 @@ const Rewards = () => {
                           </div>
                           <div className="col-sm-6 form-grid">
                             <div className="form-group">
-                              <label htmlFor="" className="form-label">
+                              <label htmlFor="" className="form-label ff-mos">
                                 Website
                               </label>
                               <input
@@ -250,7 +250,7 @@ const Rewards = () => {
                           </div>
                           <div className="col-sm-6 form-grid">
                             <div className="form-group">
-                              <label htmlFor="" className="form-label">
+                              <label htmlFor="" className="form-label ff-mos">
                                 Signer’s address
                               </label>
                               <input
@@ -262,7 +262,7 @@ const Rewards = () => {
                           </div>
                           <div className="col-sm-6 form-grid">
                             <div className="form-group">
-                              <label htmlFor="" className="form-label">
+                              <label htmlFor="" className="form-label ff-mos">
                                 Signer’s Public key
                               </label>
                               <input
@@ -274,7 +274,7 @@ const Rewards = () => {
                           </div>
                           <div className="col-sm-6 form-grid">
                             <div className="form-group">
-                              <label htmlFor="" className="form-label">
+                              <label htmlFor="" className="form-label ff-mos">
                                 Comission in %
                               </label>
                               <input
@@ -292,13 +292,13 @@ const Rewards = () => {
 
                       <div className="progress-tab d-none">
                           <div className="mb-4 mb-xl-5">
-                              <h5 className="fw-700 mb-2">Add your stake amount</h5>
-                              <p>Please provide your stake amount detail here</p>
+                              <h5 className="fw-700 mb-2 ff-mos">Add your stake amount</h5>
+                              <p className="ff-mos">Please provide your stake amount detail here</p>
                           </div>
                           <div className="row">
                               <div className="col-sm-6 form-grid">
                                   <div className="form-group">
-                                      <label htmlFor="" className="form-label">
+                                      <label htmlFor="" className="form-label ff-mos">
                                           Enter the stake amount
                                       </label>
                                       <input
@@ -320,14 +320,14 @@ const Rewards = () => {
                     {/* <StepFour activInput= {activInput} handleEdit= {handleEdit} /> */}
                       <div className="progress-tab d-none">
                           <div className="mb-4 mb-xl-5">
-                              <h5 className="fw-700 mb-2">Check complete detail</h5>
+                              <h5 className="fw-700 mb-2 ff-mos">Check complete detail</h5>
                               <p>Please confirm your details and submit</p>
                           </div>
                           <div className="row">
 
                               <div className="col-sm-6 form-grid">
                                   <div className="form-group">
-                                      <label htmlFor="" className="form-label d-block">
+                                      <label htmlFor="" className="form-label d-block ff-mos">
                                           Validator logo
                                       </label>
                                       <div className="icon-wrap">
@@ -337,7 +337,7 @@ const Rewards = () => {
                               </div>
                               <div className="col-sm-6 form-grid">
                                   <div className="form-group">
-                                      <label htmlFor="" className="form-label d-block">
+                                      <label htmlFor="" className="form-label d-block ff-mos">
                                           Signer’s address
                                       </label>
                                       <label htmlFor="" className="form-value">
@@ -348,7 +348,7 @@ const Rewards = () => {
                               <div className="col-sm-6 form-grid">
                                   <div className="form-group">
                                       <div className="d-flex justify-content-between">
-                                          <label htmlFor="" className="form-label">
+                                          <label htmlFor="" className="form-label ff-mos">
                                               Validator name
                                           </label>
                                           <a
@@ -386,7 +386,7 @@ const Rewards = () => {
                               </div>
                               <div className="col-sm-6 form-grid">
                                   <div className="form-group">
-                                      <label htmlFor="" className="form-label d-block">
+                                      <label htmlFor="" className="form-label d-block ff-mos">
                                           Signer’s public key
                                       </label>
                                       <label htmlFor="" className="form-value">
@@ -397,7 +397,7 @@ const Rewards = () => {
                               <div className="col-sm-6 form-grid">
                                   <div className="form-group">
                                       <div className="d-flex justify-content-between">
-                                          <label htmlFor="" className="form-label">
+                                          <label htmlFor="" className="form-label ff-mos">
                                               Website
                                           </label>
                                           <a
@@ -434,7 +434,7 @@ const Rewards = () => {
                               </div>
                               <div className="col-sm-6 form-grid">
                                   <div className="form-group">
-                                      <label htmlFor="" className="form-label d-block">
+                                      <label htmlFor="" className="form-label d-block ff-mos">
                                           Stake amount
                                       </label>
                                       <label htmlFor="" className="form-value">
@@ -445,7 +445,7 @@ const Rewards = () => {
                               <div className="col-sm-6 form-grid">
                                   <div className="form-group">
                                       <div className="d-flex justify-content-between">
-                                          <label htmlFor="" className="form-label">
+                                          <label htmlFor="" className="form-label ff-mos">
                                               Comission in %
                                           </label>
                                           <a
@@ -486,7 +486,7 @@ const Rewards = () => {
                     {/* step 4 end */}
                     <div className="btn-wrap col-sm-3 mt-4 mt-5">
                       <button type="button" className="btn primary-btn w-100">
-                        <span>Save</span>
+                        <span className="ff-mos">Save</span>
                       </button>
                     </div>
                   </div>

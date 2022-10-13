@@ -20,7 +20,7 @@ export default function DelegatorGrid() {
       <StakingHeader />
         <section className="top_bnr_area dark-bg darkbg py-4 py-md-5">
             <div className="container">
-                <h1 className="text-white trs-6 fw-500">All Validators</h1>
+                <h1 className="text-white trs-6 fw-500 ff-mos">All Validators</h1>
             </div>
         </section>
         <section className="mt-lg-5 mt-sm-4 mt-3">
@@ -36,14 +36,14 @@ export default function DelegatorGrid() {
                     </div>
                     <div className='col-md-7 col-12 text-end mob-filter'>
                         <div className='d-inline-block pe-4 pe-sm-4 mob-filter mob-swtch'>
-                            <label className="head-xsm fw-600" htmlFor="Auction"><span className='top-low-spc pe-2 align'>Show Auction Only</span></label>
+                            <label className="head-xsm fw-600" htmlFor="Auction"><span className='top-low-spc pe-2 align ff-mos'>Show Auction Only</span></label>
                             <label className="switch align">
                                 <input type="checkbox"/>
                                 <span className="slider round"></span>
                             </label>
                         </div>
                         <div className='d-inline-block pe-4 pe-sm-4 mob-drop'>
-                            <label className="head-xsm fw-600" htmlFor="Auction"><span className='top-low-spc pe-2 align'>Sort by</span></label>
+                            <label className="head-xsm fw-600" htmlFor="Auction"><span className='top-low-spc pe-2 align ff-mos'>Sort by</span></label>
                             <Dropdown className='dark-dd cus-dropdown position-relative d-inline-block'>
                                 <i className="arrow down"></i>
                                 <Dropdown.Toggle  id="dropdown-basic">

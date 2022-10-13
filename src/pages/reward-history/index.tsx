@@ -33,7 +33,7 @@ export default function Unbond() {
 
     return (
       <>
-      <h1>reward-history index.tsx</h1>
+      <h1 className="ff-mos">reward-history index.tsx</h1>
       </>
     );
 }
