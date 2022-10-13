@@ -420,6 +420,12 @@
     margin-top: 16px;
     max-height: 420px;
     overflow-y: auto;
+    @media #{$max-xxl}{
+        max-height: 340px;
+    }
+    @media #{$max-xl}{
+        max-height: 335px;
+    }
     // @media #{$max-xxl}{
     //     max-height: 265px;
     // }
