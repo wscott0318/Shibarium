@@ -108,7 +108,78 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
 
   return (
    <>
-   <h1>all-validatos validators</h1>
+    
+    {loading && <LoadingSpinner />}
+    <section className="table-section pb-4 pb-lg-5">
+          <div className="container">
+            <div className="heading-sec">
+              <h2 className="sub-head">All Validators</h2>
+            </div>
+            <div className="filter-row">
+              <div className="left-section">
+                <input
+                 className="custum-search w-100" 
+                 type="search " 
+                 placeholder="Search by validator name, owner or signer address"
+                 value={searchKey}
+                 onChange={(e) => setSearchKey(e.target.value)}
+                 />
+              </div>
+              <div className="right-section">
+                <div className="switch-sec">
+                  <span className="help-txt">Show Action Only</span>
+                  <label className="switch">
+                    <input type="checkbox" />
+                    <span className="slider round"></span>
+                  </label>
+                </div>
+                <div className="d-inline-block pe-4 pe-sm-4 ">
+                    <label className="head-xsm fw-600" htmlFor="Auction">
+                      <span className="top-low-spc pe-2 align">Sort by</span>
+                    </label>
+                    <Dropdown className="dark-dd cus-dropdown position-relative d-inline-block">
+                      <i className="arrow down"></i>
+                      <Dropdown.Toggle id="dropdown-basic">
+                        <span>{sortKey}</span>
+                      </Dropdown.Toggle>
+
+                      <Dropdown.Menu>
+                        <Dropdown.Item onClick={() => onSort('Random', 'name','string')}>Random</Dropdown.Item>
+                        <Dropdown.Item onClick={() => onSort('Commission', 'commissionPercent','number')}>Commission</Dropdown.Item>
+                        <Dropdown.Item onClick={() => onSort('Self', 'selfPercent','number')}>Self</Dropdown.Item>
+                        <Dropdown.Item onClick={() => onSort('Voting Power', 'totalStaked','number')}>
+                          Voting Power
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={() => onSort('Uptime', 'uptimePercent','number')}>
+                          Uptime
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </div>
+                <div className="layout-sec">
+                  <div onClick={() => setListView(true)}  className={isListView ? "list blk-active" : "list"}>
+                    <p><img className="white-icon" src="../../images/list-white.png" /></p>
+                    <p><img className="grey-icon" src="../../images/list-grey.png" /></p>
+                  </div>
+                  <div onClick={() => setListView(false)}  className={!isListView ? "cus-grid blk-active" : "cus-grid"}>
+                    <p><img className="white-icon" src="../../images/grid-white.png" /></p>
+                    <p><img className="grey-icon" src="../../images/grid-grey.png" /></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+
+            {isListView ? (
+            <ListView loading={loading}  searchKey={searchKey} validatorsList={validators} />
+          ) : (
+            <div className="grid-view-wrap">
+              <ValidatorGrid searchKey={searchKey} validatorsList={validators} />
+            </div>
+          )}
+          <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={searchKey ? searchResult.length : validatorsByStatus.length || 1} currentPage={currentPage} />
+          </div>
+        </section>
    </>
   )
 }

@@ -90,6 +90,8 @@ export default function Wallet() {
   }
 
   const getTokensList = () => {
+    setTokenFilteredList([])
+    setTokenList([])
     getWalletTokenList('pos').then(res => {
       let list = res.data.data.tokenList
       list.forEach(async (x: any) => {
@@ -122,7 +124,7 @@ export default function Wallet() {
       getTokensList()
     }
 
-  }, [account])
+  }, [account, chainId])
 
 
 

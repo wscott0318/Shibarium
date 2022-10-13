@@ -14,10 +14,11 @@ import Valitotors from "../all-validator/valitotors";
 import { useUserType, useUserOpenMev } from "../../state/user/hooks";
 import { UserType } from "../../enums/UserType";
 import NetworkDetails from './NetworkDetails';
-import Footer from "../../pages/footer/index";
+import Footer from "../footer/index";
 // import { useMoralis } from "react-moralis";
 // import BannerCard from './bannerCard'
 import StakingHeader from '../staking-header'
+import ValidatorsCard from "../all-validator/valitotors";
  
 const BoneStaking = () => {
   // const [validators, setValidators] = useState([]);
@@ -209,86 +210,11 @@ const BoneStaking = () => {
           </div>
         </section>
         {/* card section  end */}
-        <section className="table-section pb-4 pb-lg-5">
-          <div className="container">
-            <div className="heading-sec">
-              <h2 className="sub-head">All Validators</h2>
-            </div>
-            <div className="filter-row">
-              <div className="left-section">
-                <input className="custum-search w-100" type="search " placeholder="Search by validator name, id" />
-              </div>
-              <div className="right-section">
-                <div className="switch-sec">
-                  <span className="help-txt">Show Auction Only</span>
-                  <label className="switch">
-                    <input type="checkbox" />
-                    <span className="slider round"></span>
-                  </label>
-                </div>
-                <div className="select-sec">
-                  <div>
-                    <span>Sort By</span>
-                  </div>
-                  <div className="cus-sel">
-                    <select className="form-select" >
-                      <option selected>Random</option>
-                      <option value="1">One</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="layout-sec">
-                  <div className="list blk-active">
-                    <a href="javascript:void(0);"><img className="white-icon" src="../../images/list-white.png" /></a>
-                    <a href="javascript:void(0);"><img className="grey-icon" src="../../images/list-grey.png" /></a>
-                  </div>
-                  <div className="cus-grid">
-                    <a href="javascript:void(0);"><img className="white-icon" src="../../images/grid-white.png" /></a>
-                    <a href="javascript:void(0);"><img className="grey-icon" src="../../images/grid-grey.png" /></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="cmn_dasdrd_table">
-              <div className="table-responsive">
-                <table className="table table-borderless">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Stake</th>
-                      <th>Checkpoints Signed</th>
-                      <th>Commission</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
-                      <td>0.0000 - 0.00$</td>
-                      <td><a href="#">Deposit</a></td>
-                      <td><a href="#">Withdraw</a></td>
-                      <td><a href="#">Send</a></td>
-                    </tr>
-                    <tr>
-                      <td><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
-                      <td>0.0000 - 0.00$</td>
-                      <td><a href="#">Deposit</a></td>
-                      <td><a href="#">Withdraw</a></td>
-                      <td><a href="#">Send</a></td>
-                    </tr>
-                    <tr>
-                      <td><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
-                      <td>0.0000 - 0.00$</td>
-                      <td><a href="#">Deposit</a></td>
-                      <td><a href="#">Withdraw</a></td>
-                      <td><a href="#">Send</a></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </section>
+
+
+        {/* ValidatorsCard starts  */}
+        <ValidatorsCard />
+        {/* ValidatorsCard ends  */}
       </div>
     </>
   );
