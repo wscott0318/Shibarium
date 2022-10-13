@@ -400,8 +400,8 @@ export default function Wallet() {
                         />
                         <div className="error-msg">
                           {!isValidAddress && senderAddress && (
-                            <label className="primary-text mb-0">
-                              Enter a valid wallet address
+                            <label className="mb-0">
+                              Enter a valid reciver address on Shibarium Mainnet
                             </label>
                           )}
                         </div>
