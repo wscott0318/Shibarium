@@ -90,8 +90,6 @@ export default function Wallet() {
   }
 
   const getTokensList = () => {
-    setTokenFilteredList([])
-    setTokenList([])
     getWalletTokenList('pos').then(res => {
       let list = res.data.data.tokenList
       list.forEach(async (x: any) => {
@@ -124,7 +122,7 @@ export default function Wallet() {
       getTokensList()
     }
 
-  }, [account, chainId])
+  }, [account])
 
 
 
@@ -402,8 +400,8 @@ export default function Wallet() {
                         />
                         <div className="error-msg">
                           {!isValidAddress && senderAddress && (
-                            <label className="mb-0">
-                              Enter a valid reciver address on Shibarium Mainnet
+                            <label className="mb-0 red-txt">
+                              Enter a valid receiver address on Shibarium Mainnet
                             </label>
                           )}
                         </div>
@@ -463,7 +461,7 @@ export default function Wallet() {
                               </div>
                             </div>
                           </div>
-                          {+sendAmount > 0 && <div className="error-msg">
+                          <div className="error-msg">
                             {sendAmount &&
                             +sendAmount > selectedToken.balance &&
                             !selectedToken ? (
@@ -471,11 +469,11 @@ export default function Wallet() {
                             ) : (sendAmount &&
                                 +sendAmount > selectedToken.balance) ||
                               selectedToken.balance <= 0 ? (
-                              <label className="mb-0">
+                              <label className="primary-text mb-0">
                                 Insufficient balance
                               </label>
                             ) : null}
-                          </div>}
+                          </div>
                         </div>
                         <p className="inpt_fld_hlpr_txt">
                           <span>
@@ -768,7 +766,7 @@ export default function Wallet() {
                             ))
                           : null}
                         {!tokenModalList.length && modalKeyword ? (
-                          <p>no record found</p>
+                          <p className="py-3 py-md-4 py-lg-5 text-center">no record found</p>
                         ) : null}
                       </div>
                     </div>
@@ -846,7 +844,7 @@ export default function Wallet() {
               </div>
               <div className="assets_btm_area">
                 <h2>Assets on Shibarium</h2>
-                <div className="cmn_dasdrd_table">
+                <div className="cmn_dasdrd_table mb-3 mb-sm-4">
                   <div className="table-responsive">
                     <table className="table table-borderless mb-0">
                       <thead>
@@ -913,16 +911,19 @@ export default function Wallet() {
                               </tr>
                             ))
                           : null}
-                          <Pagination currentPage={currentPage} pageSize={pageSize} totalCount={tokenFilteredList.length} onPageChange={pageChangeHandler}/>
                         {searchKey.length && !tokenFilteredList.length && (
-                          <tr>
-                            <p>No record found</p>
+                          <tr >
+                            <td colSpan={6}>
+                            <p className="p-3 p-sm-4 p-xl-5 text-center">No record found</p>
+                            </td>
                           </tr>
                         )}
                       </tbody>
                     </table>
                   </div>
                 </div>
+                <Pagination currentPage={currentPage} pageSize={pageSize} totalCount={tokenFilteredList.length} onPageChange={pageChangeHandler}/>
+
               </div>
             </div>
             {/* assets section end */}
