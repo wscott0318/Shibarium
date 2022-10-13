@@ -461,7 +461,7 @@ export default function Wallet() {
                               </div>
                             </div>
                           </div>
-                          {sendAmount > "0.00" && <div className="error-msg">
+                          {+sendAmount > 0 && <div className="error-msg">
                             {sendAmount &&
                             +sendAmount > selectedToken.balance &&
                             !selectedToken ? (
