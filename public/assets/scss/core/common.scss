@@ -1227,6 +1227,16 @@
         padding-left: 5px;
     } 
 }
+.gs-tkn {
+    .scrolldown-container{
+        .scrolldown-btn{
+            @media #{$max-xxl}{
+                transform: translateX(-50%) translateY(-95%); 
+            }
+            
+        }
+    }
+} 
 /** become a validator steps style start **/
 .rewards-section {
     padding: 70px 0;

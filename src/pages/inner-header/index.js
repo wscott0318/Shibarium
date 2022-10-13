@@ -10,13 +10,15 @@ import CommonModal from "../components/CommonModel";
 import { useWeb3React } from "@web3-react/core";
 import { shortenAddress } from "../../functions";
 import QrModal from "pages/components/QrModal";
-
+import NetworkModel from "../../modals/NetworkModal";
+import { useNetworkModalToggle } from "../../state/application/hooks";
 const InnerHeader = () => {
   const router = useRouter();
   const [show, setShow] = useState();
   const [offset, setOffset] = useState(0);
   const [accountAddress, setAccountAddress] = useState("")
   const [userQrCode, setUserQrCode] = useState(false);
+  const toggleNetworkModal = useNetworkModalToggle();
   useEffect(() => {
     setAccountAddress(localStorage.getItem('accounts'))
     const onScroll = () => setOffset(window.pageYOffset);
@@ -57,6 +59,7 @@ const InnerHeader = () => {
             address={account}
           />
         )}
+        <NetworkModel/>
         <Navbar className="py-0" variant="dark">
           <Container>
             <div className="left-widget">
@@ -122,13 +125,13 @@ const InnerHeader = () => {
                       <img className="img-fluid" src="../../images/switch-icon.png" alt="" width={30} />
                     </a>
                   </Link>
-                  <Link href={"javascript:void(0)"}>
+                  <button onClick={toggleNetworkModal}>
                     <a
                       className="d-none btn primary-btn d-md-flex align-items-center"
                       href="javascript:void(0)"
                     >
                       <span className="d-none d-sm-inline-block">
-                        {/* Switch to Shibarium */}Action Required
+                        Switch to Network
                       </span>
                       <img
                         className="img-fluid d-sm-none"
@@ -137,7 +140,7 @@ const InnerHeader = () => {
                         width={12}
                       />
                     </a>
-                  </Link>
+                  </button>
                 </Nav.Item>
                 <Nav.Item className="btn-status">
                   <Web3Status />

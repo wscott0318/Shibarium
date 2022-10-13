@@ -81,7 +81,7 @@ const BoneStaking = () => {
                     </div>
                     <div className="btns-wrap">
                       <button onClick={()=>{
-                        router.push('/delegator-validator')
+                        router.push('/choose-your-path')
                        }} className="btn grey-btn">Choose Your Path</button>
                     </div>
                   </div>

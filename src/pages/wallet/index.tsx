@@ -400,8 +400,8 @@ export default function Wallet() {
                         />
                         <div className="error-msg">
                           {!isValidAddress && senderAddress && (
-                            <label className="mb-0 red-txt">
-                              Enter a valid receiver address on Shibarium Mainnet
+                            <label className="mb-0">
+                              Enter a valid reciver address on Shibarium Mainnet
                             </label>
                           )}
                         </div>
@@ -469,7 +469,7 @@ export default function Wallet() {
                             ) : (sendAmount &&
                                 +sendAmount > selectedToken.balance) ||
                               selectedToken.balance <= 0 ? (
-                              <label className="mb-0">
+                              <label className="primary-text mb-0">
                                 Insufficient balance
                               </label>
                             ) : null}
