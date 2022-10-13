@@ -26,7 +26,7 @@ export default function Gastoken() {
     const [approveReview, setApproveReview] = useState(true);
     return (
       <>
-        <main className="main-content">
+        <main className="main-content gs-tkn">
           <Sidebar
             handleMenuState={handleMenuState}
             onClickOutside={() => {

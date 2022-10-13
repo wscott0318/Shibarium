@@ -32,8 +32,12 @@
 }
 .left-box{
     flex: 0 0 600px;
+    @media #{$max-xxl}{
+        min-height: 530px;
+    }
     @media #{$max-xl}{
         flex: 0 0 500px;
+        min-height: auto;
     }
     @media only screen and (min-width: 1199px) and (max-width: 1300px){
         flex: 0 0 460px;
@@ -138,12 +142,12 @@
 .height-blk {
     height: 170px;
 }
-.blank-box{
-    min-height: 100px;
-    @media #{$max-xxl}{
-        min-height: 50px;
-    }
-}
+// .blank-box{
+//     min-height: 100px;
+//     @media #{$max-xxl}{
+//         min-height: 50px;
+//     }
+// }
 
 .botom-spcing {
     margin-bottom: 35px;
@@ -421,7 +425,7 @@
     max-height: 420px;
     overflow-y: auto;
     @media #{$max-xxl}{
-        max-height: 340px;
+        max-height: 345px;
     }
     @media #{$max-xl}{
         max-height: 335px;

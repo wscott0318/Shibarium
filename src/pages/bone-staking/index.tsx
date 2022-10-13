@@ -67,8 +67,8 @@ const BoneStaking = () => {
           <div className="container">
             <div className="section-info">
               <div className="row align-items-center">
-                <div className="col-md-7 col-sm-12">
-                  <h1>Start Earning Rewards with <br /><span className="white-bg">Shibarium Staking</span></h1>
+                <div className="col-md-7 col-sm-12 ff-mos">
+                  <h1 className="ff-mos">Start Earning Rewards with <br /><span className="white-bg">Shibarium Staking</span></h1>
                   <div className="btns-sec">
                     <div className="btns-wrap">
                        <button onClick={()=>{
@@ -82,7 +82,7 @@ const BoneStaking = () => {
                     </div>
                     <div className="btns-wrap">
                       <button onClick={()=>{
-                        router.push('/delegator-validator')
+                        router.push('/choose-your-path')
                        }} className="btn grey-btn">Choose Your Path</button>
                     </div>
                   </div>
@@ -115,7 +115,7 @@ const BoneStaking = () => {
                     </div>
                     <div className="botom-sec">
                       <div className="botom-headsec">
-                        <span>Total Stake</span>
+                        <span className="ff-mos">Total Stake</span>
                       </div>
                     </div>
                   </div>
@@ -132,7 +132,7 @@ const BoneStaking = () => {
                     </div>
                     <div className="botom-sec">
                       <div className="botom-headsec">
-                        <span>Total Stake</span>
+                        <span className="ff-mos">Total Stake</span>
                       </div>
                     </div>
                   </div>
@@ -149,7 +149,7 @@ const BoneStaking = () => {
                     </div>
                     <div className="botom-sec">
                       <div className="botom-headsec">
-                        <span>Total Stake</span>
+                        <span className="ff-mos">Total Stake</span>
                       </div>
                     </div>
                   </div>
@@ -166,7 +166,7 @@ const BoneStaking = () => {
                     </div>
                     <div className="botom-sec">
                       <div className="botom-headsec">
-                        <span>Total Stake</span>
+                        <span className="ff-mos">Total Stake</span>
                       </div>
                     </div>
                   </div>
@@ -183,7 +183,7 @@ const BoneStaking = () => {
                     </div>
                     <div className="botom-sec">
                       <div className="botom-headsec">
-                        <span>Total Stake</span>
+                        <span className="ff-mos">Total Stake</span>
                       </div>
                     </div>
                   </div>
@@ -200,7 +200,7 @@ const BoneStaking = () => {
                     </div>
                     <div className="botom-sec">
                       <div className="botom-headsec">
-                        <span>Total Stake</span>
+                        <span className="ff-mos">Total Stake</span>
                       </div>
                     </div>
                   </div>

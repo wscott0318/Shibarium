@@ -207,7 +207,7 @@ export default function Transaction() {
                             step1: true,
                             step2: false,
                             step3: false,
-                            title: "Checkpoint I Reached",
+                            title: "Checkpoint Reached",
                           })
                         }
                       >
@@ -243,7 +243,7 @@ export default function Transaction() {
                         alt="check-icon"
                       />
                     </div>
-                    <div className="step-title">Checkpoint I</div>
+                    <div className="step-title">Checkpoint</div>
                   </li>
                   <li className="step">
                     <div className="step-ico">
@@ -346,7 +346,7 @@ export default function Transaction() {
                         alt="check-icon"
                       />
                     </div>
-                    <div className="step-title">Checkpoint I</div>
+                    <div className="step-title">Checkpoint</div>
                   </li>
                   <li className="step active">
                     <div className="step-ico">
@@ -446,7 +446,7 @@ export default function Transaction() {
                         alt="check-icon"
                       />
                     </div>
-                    <div className="step-title">Checkpoint I</div>
+                    <div className="step-title">Checkpoint</div>
                   </li>
                   <li className="step active">
                     <div className="step-ico">

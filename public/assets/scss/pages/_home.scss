@@ -89,6 +89,9 @@
             &:last-child{
                 margin-right: 0;
             }
+            @media #{$max-md}{
+                display: none;
+            }
         }
     }
     

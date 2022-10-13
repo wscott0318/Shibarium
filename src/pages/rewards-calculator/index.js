@@ -21,14 +21,14 @@ const Rewards = () => {
       <StakingHeader />
         <section className="top_bnr_area dark-bg darkbg py-4 py-md-5">
             <div className="container">
-                <h1 className="text-white trs-6 fw-500">Rewards Calculator</h1>
+                <h1 className="text-white trs-6 fw-500 ff-mos">Rewards Calculator</h1>
             </div>
         </section>
         <section className="rewards-section-cal">
           <div className="container">
             <div className="row">
               <div className="col-xl-7 col-lg-7 col-md-10 mx-auto me-md-auto order-2 order-lg-1 mb-4 mb-lg-0">
-                <h4 className="fw-600 mb-4">
+                <h4 className="fw-600 mb-4 ff-mos">
                   Calculate Your Delegation Rewards With BONE Staking
                 </h4>
                 <div className="input-wrap mb-4">
@@ -78,7 +78,7 @@ const Rewards = () => {
                   </div>
                 </div>
                 <div className="input-wrap mb-4">
-                  <p className="mb-2 light-text fw-600">
+                  <p className="mb-2 light-text fw-600  ff-mos">
                     How much BONE will you delegate?
                   </p>
                   <div className="input-box">
@@ -148,7 +148,7 @@ const Rewards = () => {
                       />
                     </div>
                     <h4 className="mb-0 fwb-600 text-white">
-                      <span className="trs-3">Project Rewards</span>
+                      <span className="trs-3 ff-mos">Project Rewards</span>
                     </h4>
                   </div>
                   <div className="shib-img text-center pt-4">

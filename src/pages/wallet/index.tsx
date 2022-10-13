@@ -331,7 +331,7 @@ export default function Wallet() {
                     <p className="mb-0">Sending funds to exchanges:</p>
                     <div className="exchng_msg_box">
                       <p>Exchanges supported from Shibarium network</p>
-                      <p className="sprdt_txt">Supported Excanges</p>
+                      <p className="sprdt_txt">Supported Exchanges</p>
                     </div>
                     <p className="alert_msg">
                       <div className="image-wrap d-inline-block me-2">
@@ -402,8 +402,8 @@ export default function Wallet() {
                         />
                         <div className="error-msg">
                           {!isValidAddress && senderAddress && (
-                            <label className="primary-text mb-0">
-                              Enter a valid wallet address
+                            <label className="mb-0">
+                              Enter a valid reciver address on Shibarium Mainnet
                             </label>
                           )}
                         </div>
@@ -589,7 +589,7 @@ export default function Wallet() {
                           htmlFor="flexCheckChecked"
                         >
                           I’m not sending funds to an{" "}
-                          <a href="#">unsupported excange</a> or incorrect
+                          <a href="#">unsupported exchange</a> or incorrect
                           address
                         </label>
                       </div>

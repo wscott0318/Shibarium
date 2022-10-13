@@ -44,7 +44,7 @@ export default function rewardHistoryNew() {
 
             <section className="top_bnr_area dark-bg">
                 <div className="container">
-                    <h1>Your Reward History</h1>
+                    <h1 className="ff-mos">Your Reward History</h1>
                 </div>                
             </section> 
 
