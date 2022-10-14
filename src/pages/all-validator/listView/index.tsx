@@ -172,10 +172,27 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                     <td>{x.commissionPercent}%</td>
                     <td>{x.uptimePercent.toFixed(2)}%</td>
                     <td>
-                      <button onClick={()=>setdelegatepop(true)}>DELEGATE</button>
+                      <button onClick={() => setdelegatepop(true)}>
+                        DELEGATE
+                      </button>
                     </td>
                   </tr>
                 ))}
+                {validatorsList.length === 0 && (
+                  <tr>
+                    <td colSpan={6}>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          padding: "3rem",
+                        }}
+                      >
+                        No Record Found.
+                      </div>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
