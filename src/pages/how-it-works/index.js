@@ -39,7 +39,7 @@ export default function HowitWorks() {
                         the landing page with various means on how to transact with the web wallet. Shibarium POS chain currently offers the following services:</p>
                         <ul className="text-list mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 ff-mos">
                             <li>The Shibarium Wallet for sending, receiving and storing your assets on the Shibarium network.</li>
-                            <li>the Shibarium Bridge, for withdrawals and deposits across networks.</li>
+                            <li>The Shibarium Bridge, for withdrawals and deposits across networks.</li>
                             <li>Shibarium Staking: your go-to place for staking and getting rewards with your $MATIC.</li>
                             
                         </ul>

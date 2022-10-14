@@ -69,8 +69,8 @@ const BoneStaking = () => {
               <div className="row align-items-center">
                 <div className="col-md-7 col-sm-12 ff-mos">
                   <h1 className="ff-mos">Start Earning Rewards with <br /><span className="white-bg">Shibarium Staking</span></h1>
-                  <div className="btns-sec">
-                    <div className="btns-wrap">
+                  <div className="btns-sec btn-width">
+                    <div className="btns-wrap ">
                        <button onClick={()=>{
                         router.push('/become-validator')
                        }} className="btn primary-btn">Become a Validator</button>
