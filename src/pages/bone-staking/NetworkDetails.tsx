@@ -93,7 +93,155 @@ function NetworkDetails() {
 
   return (
     <>
-    <h1>bone-staking NetworkDetails</h1>
+        {/* card-section */}
+
+        <section className="card-section">
+          <div className="container">
+          <h1>Network Overview</h1>
+          <div className="grid-contain">
+          {
+          Object.keys(networkDetails).length ? 
+           
+              <div className="row">
+                <div className="col-md-6 col-xl-4 col-custum">
+                  <div className="cus-box">
+                    <div className="head-sec">
+                      <div className="top-head">
+                        <span>{networkDetails?.validatorCount}</span>
+                      </div>
+                    </div>
+                    <div className="botom-sec">
+                      <div className="botom-headsec">
+                        <span className="ff-mos">Total Validators</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-6 col-xl-4 col-custum">
+                  <div className="cus-box">
+                    <div className="head-sec">
+                      <div className="top-head">
+                        <span>
+                        <NumberFormat thousandSeparator displayType={"text"} value={(+networkDetails?.totalStakeFormatted || 0).toFixed(8)} /> BONE
+                        </span>
+                      </div>
+                      <div className="mid-head">
+                        <span>
+                        <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={+(((+networkDetails?.totalStakeFormatted) * boneUSDValue).toFixed(2))} />
+                        </span>
+                      </div>
+                    </div>
+                    <div className="botom-sec">
+                      <div className="botom-headsec">
+                        <span className="ff-mos">Total Stake</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-6 col-xl-4 col-custum">
+                  <div className="cus-box">
+                    <div className="head-sec">
+                      <div className="top-head">
+                        <span>
+                        <NumberFormat thousandSeparator displayType={"text"}value={(+networkDetails?.totalReward || 0).toFixed(8)} /> BONE
+                        </span>
+                      </div>
+                      <div className="mid-head">
+                        <span>
+                        <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((networkDetails?.totalReward || 0) * boneUSDValue).toFixed(2)} />
+                        </span>
+                      </div>
+                    </div>
+                    <div className="botom-sec">
+                      <div className="botom-headsec">
+                        <span className="ff-mos">Total Reward Distributed</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-6 col-xl-4 mob-margin">
+                  <div className="cus-box">
+                    <div className="head-sec">
+                      <div className="top-head">
+                        <span>
+                        <NumberFormat thousandSeparator displayType={"text"} value={latestBlock} />
+                        </span>
+                      </div>
+                    </div>
+                    <div className="botom-sec">
+                      <div className="botom-headsec">
+                        <span className="ff-mos">Bor Block Height</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-6 col-xl-4 mob-margin">
+                  <div className="cus-box">
+                    <div className="head-sec">
+                      <div className="top-head">
+                        <span><NumberFormat thousandSeparator displayType={"text"} value={networkDetails?.heimdallHeight} /></span>
+                      </div>
+                    </div>
+                    <div className="botom-sec">
+                      <div className="botom-headsec">
+                        <span className="ff-mos">Heimdall Block Height</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-6 col-xl-4 mob-margin">
+                  <div className="cus-box">
+                    <div className="head-sec">
+                      <div className="top-head">
+                        <span>
+                        <NumberFormat thousandSeparator displayType={"text"} value={networkDetails?.lastCheckpointId || 0} />
+                        </span>
+                      </div>
+                      <div className="mid-head">
+                        <span>{networkDetails?.lastCheckpointInterval || '0'} ago</span>
+                      </div>
+                    </div>
+                    <div className="botom-sec">
+                      <div className="botom-headsec">
+                        <span className="ff-mos">Last Checkpoint</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-6 col-xl-4 mob-margin">
+                  <div className="cus-box">
+                    <div className="head-sec">
+                      <div className="top-head">
+                        <span>{networkDetails?.averageInterval}</span>
+                      </div>
+                    </div>
+                    <div className="botom-sec">
+                      <div className="botom-headsec">
+                        <span className="ff-mos">Checkpoint Interval</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+             :
+             <div className="row">
+               {
+                 [...Array(7)].map((x :any) => 
+                 <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+                 <div className="bs-card card">
+                   {cardShimmerEffects()}
+                 </div>
+               </div>        
+                 )
+               }
+         
+             </div>
+             }
+            </div>
+          </div>
+        </section>
+       
+        {/* card section  end */}
     </>
   )
 }
