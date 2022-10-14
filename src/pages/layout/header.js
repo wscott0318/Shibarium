@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { Button, Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Button, Container, Nav, Navbar, NavDropdown, Dropdown } from 'react-bootstrap';
 
 import Link from "next/link";
 import Sidebar from "./sidebar";
@@ -231,6 +231,119 @@ const [scroll, setScroll] = useState(false);
                 </Nav.Item>
                 <Nav.Item className="btn-status">
                     {account ? <Web3Status /> : null}
+                    <Dropdown className="nav-item d-flex align-items-center cus-dd mob-drop">
+                    <div className="dot-icon" id="basic-nav-dropdown">
+                      {/* <div class="drop-chev">
+                      <img className="img-fluid" src="../../images/chev-drop.png" alt="chev-ico"/>
+                    </div> */}
+                    </div>
+                    <NavDropdown className="me-3">
+                      <div className="drop-head">
+                        <div className="head-brand">
+                          <img
+                            className="mx-auto img-fluid"
+                            src="../../images/Shib-Logo.png"
+                            alt=""
+                          />
+                        </div>
+                        <div className="head-txt">
+                          <div className="top-txt">
+                            <div>
+                              <span>Account 0xe78</span>
+                            </div>
+                            <div>
+                              <span className="grey-txt">
+                                Shibarium Mainnet
+                              </span>
+                            </div>
+                          </div>
+                          <div className="botom-txt">
+                            <div className="code-txt">
+                              {/* <span className="key">0xe7832a34576B9A23b98B7cE8ef83B1a8D9D229f0</span> */}
+                              <span className="key">{ENSName || account}</span>
+                            </div>
+                            <div className="copy-blk">
+                              {/* <button> */}
+                              <a href="javascript:void(0);" title="Copy">
+                                <img
+                                  src="../../images/copy.png"
+                                  alt=""
+                                  onClick={copyAddress}
+                                />
+                              </a>
+                              {/* </button> */}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <NavDropdown.Item
+                        href="javascript:void(0)"
+                        onClick={() => setUserQrCode(true)}
+                      >
+                        <div className="custum-row">
+                          <div className="lft-img">
+                            <img src="../../images/recive-icon.png" alt="" />
+                          </div>
+                          <div className="center-txt">
+                            <span>Receive Funds</span>
+                          </div>
+                          <div className="rt-image">
+                            <img src="../../images/rt-arow.png" alt="" />
+                          </div>
+                        </div>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item
+                        href={`https://etherscan.io/address/${account}`}
+                        target="blank"
+                      >
+                        <div className="custum-row">
+                          <div className="lft-img">
+                            <img src="../../images/graph.png" alt="" />
+                          </div>
+                          <div className="center-txt">
+                            <span>View on Etherscan</span>
+                          </div>
+                          <div className="rt-image">
+                            <img src="../../images/rt-arow.png" alt="" />
+                          </div>
+                        </div>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item href="#action/3.3">
+                        <div className="custum-row">
+                          <div className="lft-img">
+                            <img src="../../images/graph.png" alt="" />
+                          </div>
+                          <div className="center-txt">
+                            <span>View on Shibariumscan</span>
+                          </div>
+                          <div className="rt-image">
+                            <img src="../../images/rt-arow.png" alt="" />
+                          </div>
+                        </div>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item href="#action/3.3">
+                        <div className="custum-row mb-0">
+                          <div className="lft-img ps-2">
+                            <img
+                              src="../../images/back.png"
+                              alt=""
+                              onClick={logoutHandler}
+                            />
+                          </div>
+                          <div className="center-txt" onClick={logoutHandler}>
+                            <span>Logout</span>
+                          </div>
+                          <div className="rt-image" onClick={logoutHandler}>
+                            <img src="../../images/rt-arow.png" alt="" />
+                          </div>
+                        </div>
+                      </NavDropdown.Item>
+                      {/* <NavDropdown.Divider />
+                                <NavDropdown.Item href="#action/3.4">
+                                  Separated link
+                                </NavDropdown.Item> */}
+                    </NavDropdown>
+                  </Dropdown>
                 </Nav.Item>
               </Nav>
             </Navbar.Collapse>

@@ -2348,12 +2348,15 @@ background: $body-bg;
             margin-right: 0;
         }
     }
-    .nav-item{
-        background: $primary;
+    .nav-item.btn-status{
+        .bg-dark-1000{
+            background: $primary;
+        }
+        .text-primary {
+            color: $white !important;
+        }
     }
-    .text-primary {
-        color: $white;
-    }
+    
     .btn-status{
         .bg-dark-1000{
             border-radius: 10px;
@@ -2363,6 +2366,9 @@ background: $body-bg;
             padding-right: 30px !important;
             height: 100%;
             cursor: pointer;
+        }
+        .flex{
+            flex-direction: row-reverse;
         }
     }
 }
