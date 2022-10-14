@@ -53,7 +53,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                   </div>
                   <div className="step-title">Approve</div>
                 </li>
-                <li className="step">
+                <li className={`step ${!delegateState.step0 && "active"}`}>
                   <div className="step-ico">
                     <img
                       className="img-fluid"
@@ -63,7 +63,11 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                   </div>
                   <div className="step-title">Delegate</div>
                 </li>
-                <li className="step">
+                <li
+                  className={`step ${
+                    (delegateState.step4) && "active"
+                  }`}
+                >
                   <div className="step-ico">
                     <img
                       className="img-fluid"
@@ -77,44 +81,46 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
               {/* added by vivek */}
               {delegateState.step0 && (
                 <div className="step_content fl-box">
-                  
-                  
-                    <div className='ax-top'>
-                      <div className="info-box my-3">
-                    <div className="d-flex align-items-center justify-content-start">
-                      <div>
-                        <span className="user-icon"></span>
-                      </div>
-                      <div className="fw-700">
-                        <span className="vertical-align ft-22">Val 3</span>
-                        <p>
-                          <span className="light-text">
-                            100% Performance - 13% Commission
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                      </div>
-                      <div className="form-field position-relative two-fld max-group extr_pd_remove">
-                        <div className="mid-chain w-100">
-                          <input className="w-100" type="text" placeholder="0.00" />
+                  <div className="ax-top">
+                    <div className="info-box my-3">
+                      <div className="d-flex align-items-center justify-content-start">
+                        <div>
+                          <span className="user-icon"></span>
                         </div>
-                        <div className="rt-chain">
-                          <span className="orange-txt fw-bold">MAX</span>
+                        <div className="fw-700">
+                          <span className="vertical-align ft-22">Val 3</span>
+                          <p>
+                            <span className="light-text">
+                              100% Performance - 13% Commission
+                            </span>
+                          </p>
                         </div>
                       </div>
-                      <p className="inpt_fld_hlpr_txt mt-3 text-pop-right">
-                        <span>$ 0.00 </span>
-                        <span className="text-right">
-                          Available Balance: 00.00 BONE
-                        </span>
-                      </p>
                     </div>
-                    <div className='ax-bottom'>
-                      <div className="pop_btns_area row form-control mt-5">
+                    <div className="form-field position-relative two-fld max-group extr_pd_remove">
+                      <div className="mid-chain w-100">
+                        <input
+                          className="w-100"
+                          type="text"
+                          placeholder="0.00"
+                        />
+                      </div>
+                      <div className="rt-chain">
+                        <span className="orange-txt fw-bold">MAX</span>
+                      </div>
+                    </div>
+                    <p className="inpt_fld_hlpr_txt mt-3 text-pop-right">
+                      <span>$ 0.00 </span>
+                      <span className="text-right">
+                        Available Balance: 00.00 BONE
+                      </span>
+                    </p>
+                  </div>
+                  <div className="ax-bottom">
+                    <div className="pop_btns_area row form-control mt-5">
                       <div className="col-12">
                         <button
-                          className='w-100'
+                          className="w-100"
                           onClick={() => {
                             setdelegateState({
                               ...delegateState,
@@ -141,10 +147,8 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                           </a>
                         </button>
                       </div>
-                      </div>
                     </div>
-                 
-                  
+                  </div>
                 </div>
               )}
               {/* added by vivek */}
@@ -152,7 +156,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
               {/* step 1 */}
               {delegateState.step1 && (
                 <div className="step_content fl-box">
-                  <div className='ax-top'>
+                  <div className="ax-top">
                     <div className="image_area row">
                       <div className="col-12 text-center watch-img-sec">
                         <img
@@ -168,13 +172,13 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       <div className="col-12 text-center">
                         <p>
                           Ethereum transactions can take longer time to complete
-                          based upon network congestion. Please wait for increase
-                          the gas price of the transaction
+                          based upon network congestion. Please wait for
+                          increase the gas price of the transaction
                         </p>
                       </div>
                     </div>
                   </div>
-                  <div className='ax-bottom'>
+                  <div className="ax-bottom">
                     <div className="pop_btns_area row form-control mt-3">
                       <div className="col-12">
                         <a
@@ -186,16 +190,13 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       </div>
                     </div>
                   </div>
-                  
-
-                  
                 </div>
               )}
 
               {/* step 2 */}
               {delegateState.step2 && (
                 <div className="step_content fl-box">
-                  <div className='ax-top'>
+                  <div className="ax-top">
                     <div className="image_area row">
                       <div className="col-12 text-center watch-img-sec">
                         <img
@@ -210,9 +211,9 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       </div>
                       <div className="col-12 text-center">
                         <p>
-                          Completing this transaction will stake your Burn tokens
-                          and you will start earning rewards for the upcoming
-                          checkpoints.
+                          Completing this transaction will stake your Burn
+                          tokens and you will start earning rewards for the
+                          upcoming checkpoints.
                         </p>
                       </div>
                     </div>
@@ -225,11 +226,11 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       </div>
                     </div>
                   </div>
-                  <div className='ax-bottom'>
+                  <div className="ax-bottom">
                     <div className="pop_btns_area row form-control">
                       <div className="col-12">
                         <button
-                          className='w-100'
+                          className="w-100"
                           onClick={() => {
                             setdelegateState({
                               step0: false,
@@ -261,15 +262,13 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       </div>
                     </div>
                   </div>
-                  
-                  
                 </div>
               )}
 
               {/* step 3 */}
               {delegateState.step3 && (
                 <div className="step_content fl-box">
-                  <div className='ax-top'>
+                  <div className="ax-top">
                     <div className="image_area row">
                       <div className="col-12 text-center watch-img-sec">
                         <img
@@ -285,13 +284,13 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       <div className="col-12 text-center">
                         <p>
                           Ethereum transactions can take longer time to complete
-                          based upon network congestion. Please wait for increase
-                          the gas price of the transaction
+                          based upon network congestion. Please wait for
+                          increase the gas price of the transaction
                         </p>
                       </div>
                     </div>
                   </div>
-                  <div className='ax-bottom'>
+                  <div className="ax-bottom">
                     <div className="pop_btns_area row form-control mt-3">
                       <div className="col-12">
                         {/* <button onClick={()=>{
@@ -321,7 +320,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
               {/* step 4 */}
               {delegateState.step4 && (
                 <div className="step_content fl-box">
-                  <div className='ax-top'>
+                  <div className="ax-top">
                     <div className="image_area row">
                       <div className="col-12 text-center watch-img-sec">
                         <img
@@ -343,10 +342,13 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       </div>
                     </div>
                   </div>
-                  <div className='ax-bottom'>
+                  <div className="ax-bottom">
                     <div className="pop_btns_area row form-control mt-3">
                       <div className="col-12">
-                        <button className='w-100' onClick={()=>setdelegatepop(false)}>
+                        <button
+                          className="w-100"
+                          onClick={() => setdelegatepop(false)}
+                        >
                           <a
                             className="btn primary-btn d-flex align-items-center"
                             href="javascript:void(0)"
