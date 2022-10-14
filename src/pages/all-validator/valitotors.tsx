@@ -74,6 +74,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
           setLoading(false)
         });
     }, []);
+
     useEffect(() => {
       let filtered = []
       if (isActiveTab) {
@@ -122,7 +123,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                     </p>
                 </div>
                 <div>
-                  <p onClick={() => setIsActiveTab(true)} className={`btn black-btn ff-mos ${!isActiveTab ? "btn-active" : ""}`} title="">
+                  <p onClick={() => setIsActiveTab(false)} className={`btn black-btn ff-mos ${!isActiveTab ? "btn-active" : ""}`} title="">
                   <span>INACTIVE</span>
                   </p>
                 </div>
