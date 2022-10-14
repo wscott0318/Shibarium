@@ -2259,7 +2259,7 @@ background: $body-bg;
 }
 .cus-pagination{
     .page-item {
-        margin-right: 15px;
+        margin-right: 10px;
         &.disable {
             opacity: 0.5;
             pointer-events: none;
@@ -2281,7 +2281,8 @@ background: $body-bg;
            padding:5px 12px;
            color:$white;
            font-weight: 500;
-           border: 1px solid $primary;
+           border: 1px solid transparent;
+           background-color: transparent;
             @media #{$max-xsm} {
                 font-size: 14px;
                 padding: 5px 10px;
