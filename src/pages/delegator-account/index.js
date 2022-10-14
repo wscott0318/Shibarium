@@ -196,8 +196,6 @@ export default function DelegatorAccount() {
                     externalCls="stak-pop"
                 >
                     <>
-
-
                         <div className="cmn_modal val_popups">
                             <form>
                                 <div className="cmn_inpt_row">
@@ -223,7 +221,6 @@ export default function DelegatorAccount() {
                                 </div>
                             </form>
                         </div>
-
                     </>
                 </CommonModal>
                 {/* retake popop ends */}
@@ -321,8 +318,8 @@ export default function DelegatorAccount() {
                                     </div>
                                 </li>
                             </ul>
-                            {/* added by vivek */}
-                            <div className="step_content ">
+                            {/* step 1 */}
+                            <div className="step_content">
                                 <div className="info-box my-3">
                                     <div className="d-flex align-items-center justify-content-start">
                                         <div>
@@ -357,9 +354,8 @@ export default function DelegatorAccount() {
                                     </div>
                                 </div>
                             </div>
-                            {/* added by vivek */}
                             
-                            {/* step 1 */}
+                            {/* step 2 */}
                             <div className="step_content d-none">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec redu_img">
@@ -380,8 +376,8 @@ export default function DelegatorAccount() {
                                 </div>
                             </div>
 
-                            {/* step 2 */}
-                            <div className="step_content  d-none">
+                            {/* step 3 */}
+                            <div className="step_content d-none">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec redu_img">
                                         <img className="img-fluid" src="../../images/progrs-img.png" />
@@ -408,8 +404,8 @@ export default function DelegatorAccount() {
                                 </div>
                             </div>
 
-                            {/* step 3 */}
-                            <div className="step_content  d-none">
+                            {/* step 4 */}
+                            <div className="step_content d-none">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec redu_img">
                                         <img className="img-fluid" src="../../images/progrs-img-2.png" />
@@ -429,8 +425,8 @@ export default function DelegatorAccount() {
                                 </div>
                             </div>
 
-                            {/* step 4 */}
-                            <div className="step_content  d-none">
+                            {/* step 5 */}
+                            <div className="step_content d-none">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec redu_img">
                                         <img className="img-fluid" src="../../images/cmpete-step.png" />

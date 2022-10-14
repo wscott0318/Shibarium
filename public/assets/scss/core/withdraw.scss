@@ -34,6 +34,7 @@
     flex: 0 0 600px;
     @media #{$max-xxl}{
         min-height: 530px;
+        // min-height: auto;
     }
     @media #{$max-xl}{
         flex: 0 0 500px;

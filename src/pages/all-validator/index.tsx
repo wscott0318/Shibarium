@@ -45,7 +45,7 @@ export const Allvalidator: React.FC = () => {
           onClick={() => {
             router.push("/become-validator");
           }}
-          className="btn primary-btn ff-mos"
+          className="btn primary-btn btn-rspc ff-mos"
         >
           Become a delegator
         </button>
@@ -58,7 +58,7 @@ export const Allvalidator: React.FC = () => {
         onClick={() => {
           router.push("/become-validator");
         }}
-        className="btn primary-btn ff-mos"
+        className="btn primary-btn btn-rspc ff-mos"
       >
         Become a Validator
       </button>
@@ -66,7 +66,7 @@ export const Allvalidator: React.FC = () => {
         onClick={() => {
           router.push("/delegator-validator");
         }}
-        className="btn primary-btn ff-mos"
+        className="btn primary-btn btn-rspc ff-mos"
       >
         Choose Your Path
       </button>

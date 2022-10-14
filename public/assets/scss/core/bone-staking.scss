@@ -37,6 +37,9 @@
     @media #{$max-lg}{
         padding: 30px;
     }
+    @media #{$max-sm}{
+        padding: 30px 0;
+    }
 }
 .btns-sec {
     display: flex;
@@ -156,9 +159,9 @@
         flex-direction: column;
     }
     @media #{$max-sm}{
-        
         align-items: flex-start;
         width: 100%;
+        flex-direction: column;
     }
     .switch-sec, .select-sec{
         @media #{$max-sm}{
@@ -191,9 +194,13 @@
 }
 .help-txt {
     margin-right: 10px;
+    font-size: 16px;
 }
 .switch-sec {
     margin-right: 30px;
+    @media #{$max-md}{
+        margin-right: 20px;
+    }
 }
 .cus-sel {
     margin-left: 10px;
@@ -205,6 +212,7 @@
     margin-left: 25px;
     @media #{$max-sm}{
         margin-left: 0;
+        
     }
 }
 .grey-icon{
@@ -218,6 +226,7 @@
     text-align: center;
     vertical-align: middle;
     line-height: 30px;
+    cursor: pointer;
     .white-icon{
         display: none;
     }
@@ -286,7 +295,7 @@
 }
 .lft-txt{
     @media #{$max-md}{
-        padding: 40px 0 0;
+        padding: 10px 0 0;
         text-align: center;
     }
     .btns-wrap{

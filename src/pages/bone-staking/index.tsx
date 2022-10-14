@@ -69,8 +69,8 @@ const BoneStaking = () => {
               <div className="row align-items-center">
                 <div className="col-md-7 col-sm-12 ff-mos">
                   <h1 className="ff-mos">Start Earning Rewards with <br /><span className="white-bg">Shibarium Staking</span></h1>
-                  <div className="btns-sec">
-                    <div className="btns-wrap">
+                  <div className="btns-sec btn-width">
+                    <div className="btns-wrap ">
                        <button onClick={()=>{
                         router.push('/become-validator')
                        }} className="btn primary-btn">Become a Validator</button>
@@ -97,121 +97,7 @@ const BoneStaking = () => {
           </div>
         </section>
         {/* banner section closed */}
-
-        {/* card-section */}
-        <section className="card-section">
-          <div className="container">
-            <div className="grid-contain">
-              <div className="row">
-                <div className="col-md-6 col-xl-4 col-custum">
-                  <div className="cus-box">
-                    <div className="head-sec">
-                      <div className="top-head">
-                        <span>155,554,455 Shiba</span>
-                      </div>
-                      <div className="mid-head">
-                        <span>$12354655.36</span>
-                      </div>
-                    </div>
-                    <div className="botom-sec">
-                      <div className="botom-headsec">
-                        <span className="ff-mos">Total Stake</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6 col-xl-4 col-custum">
-                  <div className="cus-box">
-                    <div className="head-sec">
-                      <div className="top-head">
-                        <span>155,554,455 Shiba</span>
-                      </div>
-                      <div className="mid-head">
-                        <span>$12354655.36</span>
-                      </div>
-                    </div>
-                    <div className="botom-sec">
-                      <div className="botom-headsec">
-                        <span className="ff-mos">Total Stake</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6 col-xl-4 col-custum">
-                  <div className="cus-box">
-                    <div className="head-sec">
-                      <div className="top-head">
-                        <span>155,554,455 Shiba</span>
-                      </div>
-                      <div className="mid-head">
-                        <span>$12354655.36</span>
-                      </div>
-                    </div>
-                    <div className="botom-sec">
-                      <div className="botom-headsec">
-                        <span className="ff-mos">Total Stake</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6 col-xl-4 mob-margin">
-                  <div className="cus-box">
-                    <div className="head-sec">
-                      <div className="top-head">
-                        <span>155,554,455 Shiba</span>
-                      </div>
-                      <div className="mid-head">
-                        <span>$12354655.36</span>
-                      </div>
-                    </div>
-                    <div className="botom-sec">
-                      <div className="botom-headsec">
-                        <span className="ff-mos">Total Stake</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6 col-xl-4 mob-margin">
-                  <div className="cus-box">
-                    <div className="head-sec">
-                      <div className="top-head">
-                        <span>155,554,455 Shiba</span>
-                      </div>
-                      <div className="mid-head">
-                        <span>$12354655.36</span>
-                      </div>
-                    </div>
-                    <div className="botom-sec">
-                      <div className="botom-headsec">
-                        <span className="ff-mos">Total Stake</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6 col-xl-4 mob-margin">
-                  <div className="cus-box">
-                    <div className="head-sec">
-                      <div className="top-head">
-                        <span>155,554,455 Shiba</span>
-                      </div>
-                      <div className="mid-head">
-                        <span>$12354655.36</span>
-                      </div>
-                    </div>
-                    <div className="botom-sec">
-                      <div className="botom-headsec">
-                        <span className="ff-mos">Total Stake</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        {/* card section  end */}
-
-
+        <NetworkDetails />
         {/* ValidatorsCard starts  */}
         <ValidatorsCard />
         {/* ValidatorsCard ends  */}

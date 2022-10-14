@@ -463,6 +463,20 @@
   .botom-spc {
     margin-bottom: 20px;
 }
+.cus-dropdown{
+    .arrow-down{
+        color: $body-bg;
+        border-color: $body-bg;
+        border-width: 0 2px 2px 0;
+        top:18px;
+        @media #{$max-xxl}{
+            top:16px;
+        }
+        @media #{$max-xl}{
+            top:15px;
+        }
+    }
+}
 .black-field{
     background-color: #151B28;
     padding: 15px 20px;
@@ -1074,11 +1088,13 @@
 .visVisible {
     visibility: visible;
     opacity: 1;
+    // display: block;
 }
 
 .visInvisible {
     visibility: hidden;
     opacity: 0;
+    // display: none;
 }
 .blackButton {
     background-color: $body-bg-800 !important;
@@ -1740,7 +1756,12 @@
         background: $grey-color-800;
         color:$body-bg;
         padding: 10px 50px 10px 20px;
-        
+        font-size: 16px;
+        width:170px;
+        @media #{$max-md} {
+            font-size: 14px;
+            width: 155px;
+        }
         &:focus{
             box-shadow: none;
         }
@@ -1751,6 +1772,18 @@
             background: $grey-color-800;
             color:$body-bg;
         }
+    }
+}
+.dropdwn-sec {
+    @media #{$max-sm} {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+    .head-xsm{
+        @media #{$max-sm} {
+           margin-bottom: 4px;
+        } 
     }
 }
 .view-blk{
@@ -2236,6 +2269,9 @@ background: $body-bg;
     }
 }
 .cus-pagination{
+    @media #{$max-xsm} {
+        margin-top: 10px;
+    }
     .page-item {
        a{
            color:$white;
@@ -2247,7 +2283,7 @@ background: $body-bg;
            border: 1px solid $primary;
             @media #{$max-xsm} {
                 font-size: 14px;
-                padding: 5px 10px 0px;
+                padding: 5px 10px;
             }
            span{
             transition: none;
@@ -2265,8 +2301,36 @@ background: $body-bg;
     }
     }
 }
+.btn-rspc{
+    margin: 0 10px 10px 0;
+}
 .max-group{
     &.form-field{
         background-color:$body-bg-800;
     }
+}
+.watch-img-sec{
+    .img-wdth{
+        max-width: 100px;
+    }
+}
+.del-pop{
+    .modal-content{
+        height: 605px;
+    }
+    .cmn_modal{
+        height: 100%;
+    }
+    .step_content.fl-box {
+        height: calc(100% - 65px);
+    }
+    .watch-img-sec{
+        height: 180px;
+    }
+}
+
+.fl-box {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
 }

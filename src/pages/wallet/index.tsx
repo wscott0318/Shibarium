@@ -587,7 +587,7 @@ export default function Wallet() {
                           htmlFor="flexCheckChecked"
                         >
                           I’m not sending funds to an{" "}
-                          <a href="#">unsupported exchange</a> or incorrect
+                          <a href="#">unsupported excange</a> or incorrect
                           address
                         </label>
                       </div>
