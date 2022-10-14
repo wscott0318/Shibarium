@@ -228,9 +228,9 @@ const [scroll, setScroll] = useState(false);
                 <Link href={ account ? "/wallet" : "/login"}>
                     <a className='btn primary-btn ff-mos'>Launch App</a>
                   </Link>
-                  {
-                    account ? <Web3Status /> : null
-                  }
+                </Nav.Item>
+                <Nav.Item>
+                    {account ? <Web3Status /> : null}
                 </Nav.Item>
               </Nav>
             </Navbar.Collapse>
