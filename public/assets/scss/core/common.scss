@@ -1088,11 +1088,13 @@
 .visVisible {
     visibility: visible;
     opacity: 1;
+    // display: block;
 }
 
 .visInvisible {
     visibility: hidden;
     opacity: 0;
+    // display: none;
 }
 .blackButton {
     background-color: $body-bg-800 !important;
