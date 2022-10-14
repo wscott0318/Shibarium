@@ -104,6 +104,7 @@
 // common space closed
 
 // form scss start
+
 .form-field{
     &.dark-input{
         background-color: $body-bg-800;
@@ -1237,6 +1238,11 @@
         }
     }
 } 
+.btn-width{
+    .btn{
+        min-width: 171px;
+    }
+}
 /** become a validator steps style start **/
 .rewards-section {
     padding: 70px 0;
@@ -2257,5 +2263,10 @@ background: $body-bg;
         background-color: $primary;
         border-color: $primary;
     }
+    }
+}
+.max-group{
+    &.form-field{
+        background-color:$body-bg-800;
     }
 }

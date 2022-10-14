@@ -42,7 +42,6 @@ export default function Account() {
                     <>
                         <div className="cmn_modal">
                             <form action="">
-
                                 {/* Unbond popup first start */}
                                 <div className="del-tab-content d-none">
                                     <div className="pb-3 pb-sm-4">
@@ -164,7 +163,6 @@ export default function Account() {
                                     </div>
                                 </div>
                                 {/* Unbond popup fourth end */}
-
                             </form>
                         </div>
                     </>
@@ -307,7 +305,7 @@ export default function Account() {
                         </div>
                         </li> */}
                             </ul>
-                            <div className="step_content">
+                            <div className="step_content d-none">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec">
                                         {/* <img className="img-fluid" src="../../images/progrs-img-2.png" /> */}
@@ -343,6 +341,7 @@ export default function Account() {
                                     </div>
                                 </div>
                             </div>
+
                         </div>
 
                     </>
@@ -385,7 +384,8 @@ export default function Account() {
 
                     </>
                 </CommonModal>
-                {/* claim stake popop ends */}
+                {/* claim stake popop ends
+                 */}
 
                 <section className="top_bnr_area dark-bg">
                     <div className="container">

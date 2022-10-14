@@ -91,3 +91,12 @@
     border-radius: 10px;
     
 }
+.vali_deli_popups { 
+    .extr_pd_remove input[type=text]{
+        padding: 0;
+    }
+}
+.text-pop-right {
+    display: flex;
+    justify-content: space-between;
+}

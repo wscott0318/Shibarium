@@ -41,7 +41,7 @@ export default function HowitWorks() {
                             <li>The Shibarium Wallet for sending, receiving and storing your assets on the Shibarium network.</li>
                             <li>the Shibarium Bridge, for withdrawals and deposits across networks.</li>
                             <li>Shibarium Staking: your go-to place for staking and getting rewards with your $MATIC.</li>
-                            <li>Shibarium Staking: your go-to place for staking and getting rewards with your $MATIC.</li>
+                            
                         </ul>
                         <p className="ff-mos">Click on the Shibarium Wallet or Shibarium Bridge, and you will see all your token
                         balances on the Shibarium Wallet across the bridges(PoS and Plasma).</p>
