@@ -156,9 +156,9 @@
         flex-direction: column;
     }
     @media #{$max-sm}{
-        
         align-items: flex-start;
         width: 100%;
+        flex-direction: column;
     }
     .switch-sec, .select-sec{
         @media #{$max-sm}{
@@ -191,6 +191,7 @@
 }
 .help-txt {
     margin-right: 10px;
+    font-size: 16px;
 }
 .switch-sec {
     margin-right: 30px;
@@ -205,6 +206,7 @@
     margin-left: 25px;
     @media #{$max-sm}{
         margin-left: 0;
+        
     }
 }
 .grey-icon{
@@ -218,6 +220,7 @@
     text-align: center;
     vertical-align: middle;
     line-height: 30px;
+    cursor: pointer;
     .white-icon{
         display: none;
     }
