@@ -2340,3 +2340,18 @@ background: $body-bg;
     justify-content: space-between;
     flex-direction: column;
 }
+
+.fade-bg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    margin: 0 auto;
+    text-align: center;
+    background-color: rgba(0,0,0,0.8);
+}
