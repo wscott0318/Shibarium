@@ -196,8 +196,6 @@ export default function DelegatorAccount() {
                     externalCls="stak-pop"
                 >
                     <>
-
-
                         <div className="cmn_modal val_popups">
                             <form>
                                 <div className="cmn_inpt_row">
@@ -223,7 +221,6 @@ export default function DelegatorAccount() {
                                 </div>
                             </form>
                         </div>
-
                     </>
                 </CommonModal>
                 {/* retake popop ends */}
