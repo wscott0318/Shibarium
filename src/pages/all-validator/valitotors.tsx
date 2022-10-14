@@ -110,7 +110,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
   return (
    <>
     
-    {loading && <LoadingSpinner />}
+{loading && <LoadingSpinner />}
     <section className="table-section pb-4 pb-lg-5">
           <div className="container">
             <div className="heading-sec">

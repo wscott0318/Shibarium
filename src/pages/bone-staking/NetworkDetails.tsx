@@ -97,8 +97,8 @@ function NetworkDetails() {
 
         <section className="card-section">
           <div className="container">
-          <h1>Network Overview</h1>
-          <div className="grid-contain">
+            <div className="heading-sec"><h2 className="sub-head">Network Overview</h2></div>
+           <div className="grid-contain">
           {
           Object.keys(networkDetails).length ? 
            
@@ -159,7 +159,7 @@ function NetworkDetails() {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-6 col-xl-4 mob-margin">
+                <div className="col-md-6 col-xl-4 mob-margin col-custum">
                   <div className="cus-box">
                     <div className="head-sec">
                       <div className="top-head">
@@ -175,7 +175,7 @@ function NetworkDetails() {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-6 col-xl-4 mob-margin">
+                <div className="col-md-6 col-xl-4 mob-margin col-custum">
                   <div className="cus-box">
                     <div className="head-sec">
                       <div className="top-head">
@@ -189,7 +189,7 @@ function NetworkDetails() {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-6 col-xl-4 mob-margin">
+                <div className="col-md-6 col-xl-4 mob-margin col-custum">
                   <div className="cus-box">
                     <div className="head-sec">
                       <div className="top-head">
@@ -208,7 +208,7 @@ function NetworkDetails() {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-6 col-xl-4 mob-margin">
+                <div className="col-md-6 col-xl-4 mob-margin col-custum">
                   <div className="cus-box">
                     <div className="head-sec">
                       <div className="top-head">
