@@ -21,11 +21,13 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
     }
     const [showdelegatepop, setdelegatepop] = useState(false);
     const [delegateState, setdelegateState] = useState({
-      step0:true,
-      step1:false,
-      step2:false,
-      title:"Delegate"
-    })
+      step0: true,
+      step1: false,
+      step2: false,
+      step3: false,
+      step4:false,
+      title: "Delegate",
+    });
     console.log(validatorsList)
 
     return (
@@ -71,65 +73,265 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                   </div>
                   <div className="step-title">Completed</div>
                 </li>
-                {/* <li className="step">
-                        <div className="step-ico">
-                            <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon"/>
-                        </div>
-                        <div className="step-title">
-                            Withdraw Completed
-                        </div>
-                        </li> */}
               </ul>
-              <div className="step_content">
-                <div className="image_area row">
-                  <div className="col-12 text-center watch-img-sec">
-                    {/* <img className="img-fluid" src="../../images/progrs-img-2.png" /> */}
-                    {/* <img className="img-fluid" src="../../images/progrs-img.png" /> */}
-                    <img
-                      className="img-fluid"
-                      src="../../images/cmpete-step.png"
-                    />
+              {/* added by vivek */}
+              {delegateState.step0 && (
+                <div className="step_content">
+                  <div className="info-box my-3">
+                    <div className="d-flex align-items-center justify-content-start">
+                      <div>
+                        <span className="user-icon"></span>
+                      </div>
+                      <div className="fw-700">
+                        <span className="vertical-align ft-22">Val 3</span>
+                        <p>
+                          <span className="light-text">
+                            100% Performance - 13% Commission
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="form-field position-relative two-fld max-group extr_pd_remove">
+                    <div className="mid-chain w-100">
+                      <input className="w-100" type="text" placeholder="0.00" />
+                    </div>
+                    <div className="rt-chain">
+                      <span className="orange-txt fw-bold">MAX</span>
+                    </div>
+                  </div>
+                  <p className="inpt_fld_hlpr_txt mt-3 text-pop-right">
+                    <span>$ 0.00 </span>
+                    <span className="text-right">
+                      Available Balance: 00.00 BONE
+                    </span>
+                  </p>
+
+                  <div className="pop_btns_area row form-control mt-5">
+                    <div className="col-12">
+                      <button
+                        onClick={() => {
+                          setdelegateState({
+                            ...delegateState,
+                            step0: false,
+                            step1: true,
+                          });
+                          setTimeout(() => {
+                            setdelegateState({
+                              step0: false,
+                              step1: false,
+                              step2: true,
+                              step3: false,
+                              step4: false,
+                              title: "Delegate",
+                            });
+                          }, 2000);
+                        }}
+                      >
+                        <a
+                          className="btn primary-btn d-flex align-items-center"
+                          href="javascript:void(0)"
+                        >
+                          <span>View on Etherscan</span>
+                        </a>
+                      </button>
+                    </div>
                   </div>
                 </div>
-                <div className="mid_text row">
-                  {/* <div className="col-12 text-center"><h4>Transaction in progress</h4></div> */}
-                  {/* <div className="col-12 text-center"><h4>Buy Voucher</h4></div> */}
-                  {/* <div className="col-12 text-center"><p>Completing this transaction will stake your Burn tokens and you will start earning rewards for the upcoming checkpoints.</p></div> */}
-                  {/* <div className="col-12 text-center"><h4>Transaction in progress</h4></div>
-                            <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction</p></div> */}
-                  <div className="col-12 text-center">
-                    <h4>Delegation completed</h4>
+              )}
+              {/* added by vivek */}
+
+              {/* step 1 */}
+              {delegateState.step1 && (
+                <div className="step_content">
+                  <div className="image_area row">
+                    <div className="col-12 text-center watch-img-sec">
+                      <img
+                        className="img-fluid"
+                        src="../../images/progrs-img-2.png"
+                      />
+                    </div>
                   </div>
-                  <div className="col-12 text-center">
-                    <p>
-                      Your SHIBA tokens are staked successfully on validator
-                      Tarus Validator. Your delegation will take-1 mintue to
-                      reflect in your account.
-                    </p>
+                  <div className="mid_text row">
+                    <div className="col-12 text-center">
+                      <h4>Transaction in progress</h4>
+                    </div>
+                    <div className="col-12 text-center">
+                      <p>
+                        Ethereum transactions can take longer time to complete
+                        based upon network congestion. Please wait for increase
+                        the gas price of the transaction
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="pop_btns_area row form-control mt-5">
+                    <div className="col-12">
+                      <a
+                        className="btn primary-btn d-flex align-items-center"
+                        href="javascript:void(0)"
+                      >
+                        <span>View on Etherscan</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
-                <div className="fees_text">
-                  <div className="icon_name">
-                    <span>Estimated transaction fee</span>
+              )}
+
+              {/* step 2 */}
+              {delegateState.step2 && (
+                <div className="step_content">
+                  <div className="image_area row">
+                    <div className="col-12 text-center watch-img-sec">
+                      <img
+                        className="img-fluid"
+                        src="../../images/progrs-img.png"
+                      />
+                    </div>
                   </div>
-                  <div className="">
-                    <p>$10.00</p>
+                  <div className="mid_text row">
+                    <div className="col-12 text-center">
+                      <h4>Buy Voucher</h4>
+                    </div>
+                    <div className="col-12 text-center">
+                      <p>
+                        Completing this transaction will stake your Burn tokens
+                        and you will start earning rewards for the upcoming
+                        checkpoints.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="fees_text">
+                    <div className="icon_name">
+                      <span>Estimated transaction fee</span>
+                    </div>
+                    <div className="">
+                      <p>$10.00</p>
+                    </div>
+                  </div>
+                  <div className="pop_btns_area row form-control mt-5">
+                    <div className="col-12">
+                      <button
+                        onClick={() => {
+                          setdelegateState({
+                            step0: false,
+                            step1: false,
+                            step2: false,
+                            step3: true,
+                            step4: false,
+                            title: "Delegate",
+                          });
+                          setTimeout(() => {
+                            setdelegateState({
+                              step0: false,
+                              step1: false,
+                              step2: false,
+                              step3: false,
+                              step4: true,
+                              title: "Delegate",
+                            });
+                          }, 2000);
+                        }}
+                      >
+                        <a
+                          className="btn primary-btn d-flex align-items-center"
+                          href="javascript:void(0)"
+                        >
+                          <span>Buy Voucher</span>
+                        </a>
+                      </button>
+                    </div>
                   </div>
                 </div>
-                <div className="pop_btns_area row form-control">
-                  <div className="col-12">
-                    {/* <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">                             
-                                    <span>Buy voucher</span>
-                                </a> */}
-                    <a
-                      className="btn primary-btn d-flex align-items-center"
-                      href="javascript:void(0)"
-                    >
-                      <span>View on Etherscan</span>
-                    </a>
+              )}
+
+              {/* step 3 */}
+              {delegateState.step3 && (
+                <div className="step_content">
+                  <div className="image_area row">
+                    <div className="col-12 text-center watch-img-sec">
+                      <img
+                        className="img-fluid"
+                        src="../../images/progrs-img-2.png"
+                      />
+                    </div>
+                  </div>
+                  <div className="mid_text row">
+                    <div className="col-12 text-center">
+                      <h4>Transaction in progress</h4>
+                    </div>
+                    <div className="col-12 text-center">
+                      <p>
+                        Ethereum transactions can take longer time to complete
+                        based upon network congestion. Please wait for increase
+                        the gas price of the transaction
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="pop_btns_area row form-control mt-5">
+                    <div className="col-12">
+                      {/* <button onClick={()=>{
+                        setdelegateState({
+                          step0: false,
+                          step1: false,
+                          step2: false,
+                          step3: false,
+                          step4: true,
+                          title: "Delegate",
+                        });
+                        
+                      }}> */}
+                      <a
+                        className="btn primary-btn d-flex align-items-center"
+                        href="javascript:void(0)"
+                      >
+                        <span>View on Ethereum</span>
+                      </a>
+                      {/* </button> */}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
+
+              {/* step 4 */}
+              {delegateState.step4 && (
+                <div className="step_content">
+                  <div className="image_area row">
+                    <div className="col-12 text-center watch-img-sec">
+                      <img
+                        className="img-fluid"
+                        src="../../images/cmpete-step.png"
+                      />
+                    </div>
+                  </div>
+                  <div className="mid_text row">
+                    <div className="col-12 text-center">
+                      <h4>Delegation completed</h4>
+                    </div>
+                    <div className="col-12 text-center">
+                      <p>
+                        Your SHIBA tokens are staked successfully on validator
+                        Tarus Validator. Your delegation will take-1 mintue to
+                        reflect in your account.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="pop_btns_area row form-control mt-5">
+                    <div className="col-12">
+                      <button onClick={()=>setdelegatepop(false)}>
+                        <a
+                          className="btn primary-btn d-flex align-items-center"
+                          href="javascript:void(0)"
+                        >
+                          <span>View on Ethereum</span>
+                        </a>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </>
         </CommonModal>
@@ -172,7 +374,19 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                     <td>{x.commissionPercent}%</td>
                     <td>{x.uptimePercent.toFixed(2)}%</td>
                     <td>
-                      <button onClick={() => setdelegatepop(true)}>
+                      <button
+                        onClick={() => {
+                          setdelegatepop(true);
+                          setdelegateState({
+                            step0: true,
+                            step1: false,
+                            step2: false,
+                            step3: false,
+                            step4: false,
+                            title: "Delegate",
+                          });
+                        }}
+                      >
                         DELEGATE
                       </button>
                     </td>
