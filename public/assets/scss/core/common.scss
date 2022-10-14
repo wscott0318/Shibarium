@@ -2340,3 +2340,32 @@ background: $body-bg;
     justify-content: space-between;
     flex-direction: column;
 }
+/** Mainheader style start **/
+.main-header{
+    .nav-item {
+        margin-right: 12px;
+        &:last-child{
+            margin-right: 0;
+        }
+    }
+    .nav-item{
+        background: $primary;
+    }
+    .text-primary {
+        color: $white;
+    }
+    .btn-status{
+        .bg-dark-1000{
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 18px;
+            padding: 13px 22px !important;
+            padding-right: 30px !important;
+            height: 100%;
+            cursor: pointer;
+        }
+    }
+}
+
+
+/** Mainheader style end **/
