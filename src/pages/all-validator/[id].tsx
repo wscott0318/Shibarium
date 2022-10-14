@@ -164,9 +164,6 @@ export default function ValidatorDetails() {
                                         </div>
                                         <div className="mb-3 progress-line">
                                             <ProgressBar now={+(+validatorInfo?.votingPower).toFixed(2) || 0}/>
-                                            <div className="progress">
-                                                <div className="progress-bar"  style={{ width: '55.55%' }}></div>
-                                            </div>
                                         </div>
                                         <ul className='mb-0 info-list list-unstyled'>
                                             <li className='info-data-lst'>
