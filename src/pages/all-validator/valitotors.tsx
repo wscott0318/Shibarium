@@ -74,6 +74,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
           setLoading(false)
         });
     }, []);
+
     useEffect(() => {
       let filtered = []
       if (isActiveTab) {
@@ -122,7 +123,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                     </p>
                 </div>
                 <div>
-                  <p onClick={() => setIsActiveTab(true)} className={`btn black-btn ff-mos ${!isActiveTab ? "btn-active" : ""}`} title="">
+                  <p onClick={() => setIsActiveTab(false)} className={`btn black-btn ff-mos ${!isActiveTab ? "btn-active" : ""}`} title="">
                   <span>INACTIVE</span>
                   </p>
                 </div>
@@ -139,18 +140,18 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
               </div>
               <div className="right-section">
                 <div className="switch-sec">
-                  <span className="help-txt">Show Action Only</span>
+                  <span className="help-txt fw-600">Show Action Only</span>
                   <label className="switch">
                     <input type="checkbox" />
                     <span className="slider round"></span>
                   </label>
                 </div>
-                <div className="d-inline-block pe-4 pe-sm-4 ">
+                <div className=" drop-sec dropdwn-sec">
                     <label className="head-xsm fw-600" htmlFor="Auction">
                       <span className="top-low-spc pe-2 align">Sort by</span>
                     </label>
                     <Dropdown className="dark-dd cus-dropdown position-relative d-inline-block">
-                      <i className="arrow down"></i>
+                      <i className="arrow-down"></i>
                       <Dropdown.Toggle id="dropdown-basic">
                         <span>{sortKey}</span>
                       </Dropdown.Toggle>
@@ -170,12 +171,12 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                   </div>
                 <div className="layout-sec">
                   <div onClick={() => setListView(true)}  className={isListView ? "list blk-active" : "list"}>
-                    <p><img className="white-icon" src="../../images/list-white.png" /></p>
-                    <p><img className="grey-icon" src="../../images/list-grey.png" /></p>
+                    <p className="d-inline-block"><img className="white-icon" src="../../images/list-white.png" /></p>
+                    <p className="d-inline-block"><img className="grey-icon" src="../../images/list-grey.png" /></p>
                   </div>
                   <div onClick={() => setListView(false)}  className={!isListView ? "cus-grid blk-active" : "cus-grid"}>
-                    <p><img className="white-icon" src="../../images/grid-white.png" /></p>
-                    <p><img className="grey-icon" src="../../images/grid-grey.png" /></p>
+                    <p className="d-inline-block"><img className="white-icon" src="../../images/grid-white.png" /></p>
+                    <p className="d-inline-block"><img className="grey-icon" src="../../images/grid-grey.png" /></p>
                   </div>
                 </div>
               </div>
@@ -189,7 +190,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
               <ValidatorGrid searchKey={searchKey} validatorsList={validators} />
             </div>
           )}
-          <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={searchKey ? searchResult.length : validatorsByStatus.length || 1} currentPage={currentPage} />
+          <div className='mt-sm-4 mt-3'><Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={searchKey ? searchResult.length : validatorsByStatus.length || 1} currentPage={currentPage} /></div>
           </div>
         </section>
    </>

@@ -329,7 +329,7 @@ export default function Wallet() {
                     <p className="mb-0">Sending funds to exchanges:</p>
                     <div className="exchng_msg_box">
                       <p>Exchanges supported from Shibarium network</p>
-                      <p className="sprdt_txt">Supported Excanges</p>
+                      <p className="sprdt_txt">Supported Exchanges</p>
                     </div>
                     <p className="alert_msg">
                       <div className="image-wrap d-inline-block me-2">

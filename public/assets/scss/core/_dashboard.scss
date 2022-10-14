@@ -59,9 +59,7 @@
     justify-content: space-between;
     z-index: 99;
     transition: transform 0.5s;
-    @media #{$max-lg}{
-        justify-content: flex-start;
-    }
+    
     @media #{$max-xl}{
         transform: translateX(-237px);
         opacity: 0;
