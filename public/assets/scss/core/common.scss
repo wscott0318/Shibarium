@@ -1096,6 +1096,7 @@
     opacity: 0;
     // display: none;
 }
+
 .blackButton {
     background-color: $body-bg-800 !important;
     color: rgba($white,0.89) !important;
@@ -2312,11 +2313,17 @@ background: $body-bg;
 .watch-img-sec{
     .img-wdth{
         max-width: 100px;
+        @media #{$max-xl} {
+            max-width: 80px;
+        }
     }
 }
 .del-pop{
     .modal-content{
         height: 605px;
+        @media #{$max-xl} {
+            height: 570px;
+        }
     }
     .cmn_modal{
         height: 100%;
@@ -2334,3 +2341,32 @@ background: $body-bg;
     justify-content: space-between;
     flex-direction: column;
 }
+/** Mainheader style start **/
+.main-header{
+    .nav-item {
+        margin-right: 12px;
+        &:last-child{
+            margin-right: 0;
+        }
+    }
+    .nav-item{
+        background: $primary;
+    }
+    .text-primary {
+        color: $white;
+    }
+    .btn-status{
+        .bg-dark-1000{
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 18px;
+            padding: 13px 22px !important;
+            padding-right: 30px !important;
+            height: 100%;
+            cursor: pointer;
+        }
+    }
+}
+
+
+/** Mainheader style end **/
