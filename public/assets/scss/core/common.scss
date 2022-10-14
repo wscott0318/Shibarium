@@ -2370,6 +2370,22 @@ background: $body-bg;
         .flex{
             flex-direction: row-reverse;
         }
+        .dropdown{
+            &::after{
+                content: "";
+                position: absolute;
+                top: 50%;
+                -webkit-transform: translateY(-50%);
+                transform: translateY(-50%) rotate(45deg);
+                right: 10px;
+                width: 10px;
+                height: 10px;
+                border: 2px solid;
+                border-top: 0;
+                border-left: 0;
+                margin-top: -3px;
+            }
+        } 
     }
 }
 
