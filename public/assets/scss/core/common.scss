@@ -1238,6 +1238,11 @@
         }
     }
 } 
+.btn-width{
+    .btn{
+        min-width: 171px;
+    }
+}
 /** become a validator steps style start **/
 .rewards-section {
     padding: 70px 0;

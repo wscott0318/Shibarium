@@ -319,32 +319,40 @@ export default function DelegatorAccount() {
                                     <div className="step-title">
                                         Completed
                                     </div>
-                                </li>
-                                {/* <li className="step">
-                        <div className="step-ico">
-                            <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon"/>
-                        </div>
-                        <div className="step-title">
-                            Withdraw Completed
-                        </div>
-                        </li> */}
+                                </li> 
                             </ul>
+
+                             {/* step 1 */}
                             <div className="step_content">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec">
-                                        {/* <img className="img-fluid" src="../../images/progrs-img-2.png" /> */}
-                                        {/* <img className="img-fluid" src="../../images/progrs-img.png" /> */}
-                                        <img className="img-fluid" src="../../images/cmpete-step.png" />
+                                        <img className="img-fluid" src="../../images/progrs-img-2.png" /> 
                                     </div>
                                 </div>
+                                <div className="mid_text row">                                   
+                                    <div className="col-12 text-center"><h4>Transaction in progress</h4></div>
+                                    <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction</p></div>                                    
+                                </div>
+                                 
+                                <div className="pop_btns_area row form-control mt-5">
+                                    <div className="col-12">                                         
+                                        <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
+                                            <span>View on Etherscan</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* step 2 */}
+                            <div className="step_content">
+                                <div className="image_area row">
+                                    <div className="col-12 text-center watch-img-sec">
+                                         <img className="img-fluid" src="../../images/progrs-img.png" />
+                                     </div>
+                                </div>
                                 <div className="mid_text row">
-                                    {/* <div className="col-12 text-center"><h4>Transaction in progress</h4></div> */}
-                                    {/* <div className="col-12 text-center"><h4>Buy Voucher</h4></div> */}
-                                    {/* <div className="col-12 text-center"><p>Completing this transaction will stake your Burn tokens and you will start earning rewards for the upcoming checkpoints.</p></div> */}
-                                    {/* <div className="col-12 text-center"><h4>Transaction in progress</h4></div>
-                            <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction</p></div> */}
-                                    <div className="col-12 text-center"><h4>Delegation completed</h4></div>
-                                    <div className="col-12 text-center"><p>Your SHIBA tokens are staked successfully on validator Tarus Validator. Your delegation will take-1 mintue to reflect in your account.</p></div>
+                                     <div className="col-12 text-center"><h4>Buy Voucher</h4></div>
+                                    <div className="col-12 text-center"><p>Completing this transaction will stake your Burn tokens and you will start earning rewards for the upcoming checkpoints.</p></div>                                    
                                 </div>
                                 <div className="fees_text">
                                     <div className="icon_name">
@@ -354,13 +362,52 @@ export default function DelegatorAccount() {
                                         <p>$10.00</p>
                                     </div>
                                 </div>
-                                <div className="pop_btns_area row form-control">
-                                    <div className="col-12">
-                                        {/* <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">                             
-                                    <span>Buy voucher</span>
-                                </a> */}
+                                <div className="pop_btns_area row form-control mt-5">
+                                    <div className="col-12"> 
                                         <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
-                                            <span>View on Etherscan</span>
+                                            <span>Buy Voucher</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* step 3 */}
+                            <div className="step_content">
+                                <div className="image_area row">
+                                    <div className="col-12 text-center watch-img-sec">
+                                        <img className="img-fluid" src="../../images/progrs-img-2.png" /> 
+                                    </div>
+                                </div>
+                                <div className="mid_text row">                                   
+                                    <div className="col-12 text-center"><h4>Transaction in progress</h4></div>
+                                    <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction</p></div>                                    
+                                </div>
+                                
+                                <div className="pop_btns_area row form-control mt-5">
+                                    <div className="col-12">                                        
+                                        <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
+                                            <span>View on Ethereum</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* step 4 */}
+                            <div className="step_content">
+                                <div className="image_area row">
+                                    <div className="col-12 text-center watch-img-sec">
+                                         <img className="img-fluid" src="../../images/cmpete-step.png" /> 
+                                    </div>
+                                </div>
+                                <div className="mid_text row">                                   
+                                    <div className="col-12 text-center"><h4>Delegation completed</h4></div>
+                                    <div className="col-12 text-center"><p>Your SHIBA tokens are staked successfully on validator Tarus Validator. Your delegation will take-1 mintue to reflect in your account.</p></div>
+                                </div>
+                                
+                                <div className="pop_btns_area row form-control mt-5">
+                                    <div className="col-12">                                        
+                                        <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
+                                            <span>View on Ethereum</span>
                                         </a>
                                     </div>
                                 </div>
@@ -441,7 +488,7 @@ export default function DelegatorAccount() {
                                             Unbound
                                         </button>
                                     </div>
-                                    {/* <br />   <br />   <br />
+                                    <br />   <br />   <br />
                                     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                                         <button onClick={() => setallinonepop(true)} className="btn grey-btn w-100 d-block">
                                             All in one popup btn
@@ -456,7 +503,7 @@ export default function DelegatorAccount() {
                                         <button onClick={() => setClaimpop(true)} className="btn grey-btn w-100 d-block">
                                             Stake Claim
                                         </button>
-                                    </div> */}
+                                    </div>
                                 </div>
                             </div>
                         </div>
