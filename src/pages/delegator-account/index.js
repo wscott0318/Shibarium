@@ -336,7 +336,7 @@ export default function DelegatorAccount() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="form-field position-relative two-fld max-group">
+                                <div className="form-field position-relative two-fld max-group extr_pd_remove">
                                     <div className="mid-chain w-100">
                                         <input className="w-100" type="text" placeholder="0.00" />
                                     </div>
@@ -344,17 +344,23 @@ export default function DelegatorAccount() {
                                         <span className="orange-txt fw-bold">MAX</span>
                                     </div>
                                 </div>
-                                <p className="inpt_fld_hlpr_txt">
-                                    <span>
-                                        <span>$ 0.00</span>
-                                    </span>
-                                    <span>Balance: 00.00 BONE</span>
+                                <p className="inpt_fld_hlpr_txt mt-3 text-pop-right">
+                                    <span>$ 0.00 </span>
+                                    <span className="text-right">Available Balance: 00.00 BONE</span>
                                 </p>
+
+                                <div className="pop_btns_area row form-control mt-5">
+                                    <div className="col-12">
+                                        <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
+                                            <span>View on Etherscan</span>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                             {/* added by vivek */}
                             
                             {/* step 1 */}
-                            <div className="step_content">
+                            <div className="step_content d-none">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec">
                                         <img className="img-fluid" src="../../images/progrs-img-2.png" />
@@ -375,7 +381,7 @@ export default function DelegatorAccount() {
                             </div>
 
                             {/* step 2 */}
-                            <div className="step_content">
+                            <div className="step_content d-none">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec">
                                         <img className="img-fluid" src="../../images/progrs-img.png" />
@@ -403,7 +409,7 @@ export default function DelegatorAccount() {
                             </div>
 
                             {/* step 3 */}
-                            <div className="step_content">
+                            <div className="step_content d-none">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec">
                                         <img className="img-fluid" src="../../images/progrs-img-2.png" />
@@ -424,7 +430,7 @@ export default function DelegatorAccount() {
                             </div>
 
                             {/* step 4 */}
-                            <div className="step_content">
+                            <div className="step_content d-none">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec">
                                         <img className="img-fluid" src="../../images/cmpete-step.png" />
