@@ -229,7 +229,7 @@ const [scroll, setScroll] = useState(false);
                     <a className='btn primary-btn ff-mos'>Launch App</a>
                   </Link>
                 </Nav.Item>
-                <Nav.Item>
+                <Nav.Item className="btn-status">
                     {account ? <Web3Status /> : null}
                 </Nav.Item>
               </Nav>
