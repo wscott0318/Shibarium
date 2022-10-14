@@ -10,10 +10,10 @@ import { useActiveWeb3React } from "../../services/web3"
 import CommonModal from "../components/CommonModel";
 import StakingHeader from '../staking-header';
 import Header from "../layout/header";
-import StepOne from "./StepOne";
-import StepTwo from "./StepTwo";
-import StepThree from "./StepThree";
-import StepFour from "./StepFour";
+import StepOne from "./stepOne";
+import StepTwo from "./stepTwo";
+import StepThree from "./stepThree";
+import StepFour from "./stepFour";
 
 const Rewards = () => {
   const refName = useRef();
@@ -120,8 +120,7 @@ const Rewards = () => {
                   </li>
                   <li
                     className={`step-list ${
-                      (!stepState.step1) &&
-                      "active completed"
+                      !stepState.step1 && "active completed"
                     }`}
                   >
                     <p className="light-text fw-600 ff-mos">Add Node Detail</p>
@@ -171,22 +170,25 @@ const Rewards = () => {
               </div>
               <div className="col-lg-8">
                 {/* step 1 start*/}
-                {stepState.step1 && <StepOne />}
+                {stepState.step1 && <StepOne/>}
                 {/* step 1 end */}
 
                 {/* step 2  start */}
-                {stepState.step2 && <StepTwo />}
+                {stepState.step2 && <StepTwo/>}
                 {/* step 2 end */}
 
                 {/* step 3 start */}
 
-                {stepState.step3 && <StepThree />}
+                {stepState.step3 && <StepThree/>}
 
                 {/* step 3 end */}
 
                 {/* step 4 start */}
                 {stepState.step4 && (
-                  <StepFour activInput={activInput} handleEdit={handleEdit} />
+                  <StepFour
+                    activInput={activInput}
+                    handleEdit={handleEdit}
+                  />
                 )}
 
                 {/* step 4 end */}
@@ -197,7 +199,7 @@ const Rewards = () => {
                     onClick={stepHandler}
                   >
                     {/* <span className="ff-mos">Save</span> */}
-                    <span className="ff-mos">Next</span>
+                    <span className="ff-mos">{!stepState.step4 ? "Next" : "Save"}</span>
                   </button>
                 </div>
               </div>
