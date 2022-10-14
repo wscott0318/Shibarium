@@ -9,7 +9,6 @@ const index = () => {
     //           message: 'Ok',
     //           date: new Date()
     //         }
-          
     //         res.status(200).send(data);
     //       });
     // }
