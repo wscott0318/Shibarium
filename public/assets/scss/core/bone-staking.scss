@@ -198,6 +198,9 @@
 }
 .switch-sec {
     margin-right: 30px;
+    @media #{$max-md}{
+        margin-right: 20px;
+    }
 }
 .cus-sel {
     margin-left: 10px;

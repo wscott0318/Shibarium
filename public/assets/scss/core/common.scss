@@ -2307,3 +2307,28 @@ background: $body-bg;
         background-color:$body-bg-800;
     }
 }
+.watch-img-sec{
+    .img-wdth{
+        max-width: 100px;
+    }
+}
+.del-pop{
+    .modal-content{
+        height: 605px;
+    }
+    .cmn_modal{
+        height: 100%;
+    }
+    .step_content.fl-box {
+        height: calc(100% - 65px);
+    }
+    .watch-img-sec{
+        height: 180px;
+    }
+}
+
+.fl-box {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}

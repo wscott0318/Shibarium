@@ -38,7 +38,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
           title={delegateState.title}
           show={showdelegatepop}
           setShow={setdelegatepop}
-          externalCls="stak-pop"
+          externalCls="stak-pop del-pop"
         >
           <>
             <div className="cmn_modal vali_deli_popups">
@@ -76,8 +76,11 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
               </ul>
               {/* added by vivek */}
               {delegateState.step0 && (
-                <div className="step_content">
-                  <div className="info-box my-3">
+                <div className="step_content fl-box">
+                  
+                  
+                    <div className='ax-top'>
+                      <div className="info-box my-3">
                     <div className="d-flex align-items-center justify-content-start">
                       <div>
                         <span className="user-icon"></span>
@@ -91,204 +94,225 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                         </p>
                       </div>
                     </div>
-                  </div>
-                  <div className="form-field position-relative two-fld max-group extr_pd_remove">
-                    <div className="mid-chain w-100">
-                      <input className="w-100" type="text" placeholder="0.00" />
+                      </div>
+                      <div className="form-field position-relative two-fld max-group extr_pd_remove">
+                        <div className="mid-chain w-100">
+                          <input className="w-100" type="text" placeholder="0.00" />
+                        </div>
+                        <div className="rt-chain">
+                          <span className="orange-txt fw-bold">MAX</span>
+                        </div>
+                      </div>
+                      <p className="inpt_fld_hlpr_txt mt-3 text-pop-right">
+                        <span>$ 0.00 </span>
+                        <span className="text-right">
+                          Available Balance: 00.00 BONE
+                        </span>
+                      </p>
                     </div>
-                    <div className="rt-chain">
-                      <span className="orange-txt fw-bold">MAX</span>
-                    </div>
-                  </div>
-                  <p className="inpt_fld_hlpr_txt mt-3 text-pop-right">
-                    <span>$ 0.00 </span>
-                    <span className="text-right">
-                      Available Balance: 00.00 BONE
-                    </span>
-                  </p>
-
-                  <div className="pop_btns_area row form-control mt-5">
-                    <div className="col-12">
-                      <button
-                        onClick={() => {
-                          setdelegateState({
-                            ...delegateState,
-                            step0: false,
-                            step1: true,
-                          });
-                          setTimeout(() => {
+                    <div className='ax-bottom'>
+                      <div className="pop_btns_area row form-control mt-5">
+                      <div className="col-12">
+                        <button
+                          className='w-100'
+                          onClick={() => {
                             setdelegateState({
+                              ...delegateState,
                               step0: false,
-                              step1: false,
-                              step2: true,
-                              step3: false,
-                              step4: false,
-                              title: "Delegate",
+                              step1: true,
                             });
-                          }, 2000);
-                        }}
-                      >
-                        <a
-                          className="btn primary-btn d-flex align-items-center"
-                          href="javascript:void(0)"
+                            setTimeout(() => {
+                              setdelegateState({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Delegate",
+                              });
+                            }, 2000);
+                          }}
                         >
-                          <span>View on Etherscan</span>
-                        </a>
-                      </button>
+                          <a
+                            className="btn primary-btn d-flex align-items-center"
+                            href="javascript:void(0)"
+                          >
+                            <span>View on Etherscan</span>
+                          </a>
+                        </button>
+                      </div>
+                      </div>
                     </div>
-                  </div>
+                 
+                  
                 </div>
               )}
               {/* added by vivek */}
 
               {/* step 1 */}
               {delegateState.step1 && (
-                <div className="step_content">
-                  <div className="image_area row">
-                    <div className="col-12 text-center watch-img-sec">
-                      <img
-                        className="img-fluid"
-                        src="../../images/progrs-img-2.png"
-                      />
+                <div className="step_content fl-box">
+                  <div className='ax-top'>
+                    <div className="image_area row">
+                      <div className="col-12 text-center watch-img-sec">
+                        <img
+                          className="img-fluid img-wdth"
+                          src="../../images/progrs-img-2.png"
+                        />
+                      </div>
+                    </div>
+                    <div className="mid_text row">
+                      <div className="col-12 text-center">
+                        <h4>Transaction in progress</h4>
+                      </div>
+                      <div className="col-12 text-center">
+                        <p>
+                          Ethereum transactions can take longer time to complete
+                          based upon network congestion. Please wait for increase
+                          the gas price of the transaction
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  <div className="mid_text row">
-                    <div className="col-12 text-center">
-                      <h4>Transaction in progress</h4>
-                    </div>
-                    <div className="col-12 text-center">
-                      <p>
-                        Ethereum transactions can take longer time to complete
-                        based upon network congestion. Please wait for increase
-                        the gas price of the transaction
-                      </p>
+                  <div className='ax-bottom'>
+                    <div className="pop_btns_area row form-control mt-3">
+                      <div className="col-12">
+                        <a
+                          className="btn primary-btn d-flex align-items-center"
+                          href="javascript:void(0)"
+                        >
+                          <span>View on Etherscan</span>
+                        </a>
+                      </div>
                     </div>
                   </div>
+                  
 
-                  <div className="pop_btns_area row form-control mt-5">
-                    <div className="col-12">
-                      <a
-                        className="btn primary-btn d-flex align-items-center"
-                        href="javascript:void(0)"
-                      >
-                        <span>View on Etherscan</span>
-                      </a>
-                    </div>
-                  </div>
+                  
                 </div>
               )}
 
               {/* step 2 */}
               {delegateState.step2 && (
-                <div className="step_content">
-                  <div className="image_area row">
-                    <div className="col-12 text-center watch-img-sec">
-                      <img
-                        className="img-fluid"
-                        src="../../images/progrs-img.png"
-                      />
+                <div className="step_content fl-box">
+                  <div className='ax-top'>
+                    <div className="image_area row">
+                      <div className="col-12 text-center watch-img-sec">
+                        <img
+                          className="img-fluid img-wdth"
+                          src="../../images/progrs-img.png"
+                        />
+                      </div>
+                    </div>
+                    <div className="mid_text row">
+                      <div className="col-12 text-center">
+                        <h4>Buy Voucher</h4>
+                      </div>
+                      <div className="col-12 text-center">
+                        <p>
+                          Completing this transaction will stake your Burn tokens
+                          and you will start earning rewards for the upcoming
+                          checkpoints.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="fees_text">
+                      <div className="icon_name">
+                        <span>Estimated transaction fee</span>
+                      </div>
+                      <div className="">
+                        <p>$10.00</p>
+                      </div>
                     </div>
                   </div>
-                  <div className="mid_text row">
-                    <div className="col-12 text-center">
-                      <h4>Buy Voucher</h4>
-                    </div>
-                    <div className="col-12 text-center">
-                      <p>
-                        Completing this transaction will stake your Burn tokens
-                        and you will start earning rewards for the upcoming
-                        checkpoints.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="fees_text">
-                    <div className="icon_name">
-                      <span>Estimated transaction fee</span>
-                    </div>
-                    <div className="">
-                      <p>$10.00</p>
-                    </div>
-                  </div>
-                  <div className="pop_btns_area row form-control mt-5">
-                    <div className="col-12">
-                      <button
-                        onClick={() => {
-                          setdelegateState({
-                            step0: false,
-                            step1: false,
-                            step2: false,
-                            step3: true,
-                            step4: false,
-                            title: "Delegate",
-                          });
-                          setTimeout(() => {
+                  <div className='ax-bottom'>
+                    <div className="pop_btns_area row form-control">
+                      <div className="col-12">
+                        <button
+                          className='w-100'
+                          onClick={() => {
                             setdelegateState({
                               step0: false,
                               step1: false,
                               step2: false,
-                              step3: false,
-                              step4: true,
+                              step3: true,
+                              step4: false,
                               title: "Delegate",
                             });
-                          }, 2000);
-                        }}
-                      >
-                        <a
-                          className="btn primary-btn d-flex align-items-center"
-                          href="javascript:void(0)"
+                            setTimeout(() => {
+                              setdelegateState({
+                                step0: false,
+                                step1: false,
+                                step2: false,
+                                step3: false,
+                                step4: true,
+                                title: "Delegate",
+                              });
+                            }, 2000);
+                          }}
                         >
-                          <span>Buy Voucher</span>
-                        </a>
-                      </button>
+                          <a
+                            className="btn primary-btn d-flex align-items-center"
+                            href="javascript:void(0)"
+                          >
+                            <span>Buy Voucher</span>
+                          </a>
+                        </button>
+                      </div>
                     </div>
                   </div>
+                  
+                  
                 </div>
               )}
 
               {/* step 3 */}
               {delegateState.step3 && (
-                <div className="step_content">
-                  <div className="image_area row">
-                    <div className="col-12 text-center watch-img-sec">
-                      <img
-                        className="img-fluid"
-                        src="../../images/progrs-img-2.png"
-                      />
+                <div className="step_content fl-box">
+                  <div className='ax-top'>
+                    <div className="image_area row">
+                      <div className="col-12 text-center watch-img-sec">
+                        <img
+                          className="img-fluid img-wdth"
+                          src="../../images/progrs-img-2.png"
+                        />
+                      </div>
+                    </div>
+                    <div className="mid_text row">
+                      <div className="col-12 text-center">
+                        <h4>Transaction in progress</h4>
+                      </div>
+                      <div className="col-12 text-center">
+                        <p>
+                          Ethereum transactions can take longer time to complete
+                          based upon network congestion. Please wait for increase
+                          the gas price of the transaction
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  <div className="mid_text row">
-                    <div className="col-12 text-center">
-                      <h4>Transaction in progress</h4>
-                    </div>
-                    <div className="col-12 text-center">
-                      <p>
-                        Ethereum transactions can take longer time to complete
-                        based upon network congestion. Please wait for increase
-                        the gas price of the transaction
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="pop_btns_area row form-control mt-5">
-                    <div className="col-12">
-                      {/* <button onClick={()=>{
-                        setdelegateState({
-                          step0: false,
-                          step1: false,
-                          step2: false,
-                          step3: false,
-                          step4: true,
-                          title: "Delegate",
-                        });
-                        
-                      }}> */}
-                      <a
-                        className="btn primary-btn d-flex align-items-center"
-                        href="javascript:void(0)"
-                      >
-                        <span>View on Ethereum</span>
-                      </a>
-                      {/* </button> */}
+                  <div className='ax-bottom'>
+                    <div className="pop_btns_area row form-control mt-3">
+                      <div className="col-12">
+                        {/* <button onClick={()=>{
+                          setdelegateState({
+                            step0: false,
+                            step1: false,
+                            step2: false,
+                            step3: false,
+                            step4: true,
+                            title: "Delegate",
+                          });
+                          
+                        }}> */}
+                        <a
+                          className="btn primary-btn d-flex align-items-center"
+                          href="javascript:void(0)"
+                        >
+                          <span>View on Ethereum</span>
+                        </a>
+                        {/* </button> */}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -296,38 +320,41 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
 
               {/* step 4 */}
               {delegateState.step4 && (
-                <div className="step_content">
-                  <div className="image_area row">
-                    <div className="col-12 text-center watch-img-sec">
-                      <img
-                        className="img-fluid"
-                        src="../../images/cmpete-step.png"
-                      />
+                <div className="step_content fl-box">
+                  <div className='ax-top'>
+                    <div className="image_area row">
+                      <div className="col-12 text-center watch-img-sec">
+                        <img
+                          className="img-fluid img-wdth"
+                          src="../../images/cmpete-step.png"
+                        />
+                      </div>
+                    </div>
+                    <div className="mid_text row">
+                      <div className="col-12 text-center">
+                        <h4>Delegation completed</h4>
+                      </div>
+                      <div className="col-12 text-center">
+                        <p>
+                          Your SHIBA tokens are staked successfully on validator
+                          Tarus Validator. Your delegation will take-1 mintue to
+                          reflect in your account.
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  <div className="mid_text row">
-                    <div className="col-12 text-center">
-                      <h4>Delegation completed</h4>
-                    </div>
-                    <div className="col-12 text-center">
-                      <p>
-                        Your SHIBA tokens are staked successfully on validator
-                        Tarus Validator. Your delegation will take-1 mintue to
-                        reflect in your account.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="pop_btns_area row form-control mt-5">
-                    <div className="col-12">
-                      <button onClick={()=>setdelegatepop(false)}>
-                        <a
-                          className="btn primary-btn d-flex align-items-center"
-                          href="javascript:void(0)"
-                        >
-                          <span>View on Ethereum</span>
-                        </a>
-                      </button>
+                  <div className='ax-bottom'>
+                    <div className="pop_btns_area row form-control mt-3">
+                      <div className="col-12">
+                        <button className='w-100' onClick={()=>setdelegatepop(false)}>
+                          <a
+                            className="btn primary-btn d-flex align-items-center"
+                            href="javascript:void(0)"
+                          >
+                            <span>View on Ethereum</span>
+                          </a>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
