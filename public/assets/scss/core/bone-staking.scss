@@ -78,7 +78,7 @@
 .grid-contain{
     border:1px solid $grey-color;
     padding: 20px;
-    margin-top: 70px;
+    // margin-top: 70px;
     @media #{$max-xl}{
         margin-top: 50px;
     }
@@ -337,4 +337,11 @@
             }
         }
     }
+}
+
+.rpt_row{
+    margin-bottom: 15px;
+}
+.rpt_row:last-child{
+    margin-bottom: 0px;
 }

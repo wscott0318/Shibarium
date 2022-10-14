@@ -358,7 +358,7 @@ export default function DelegatorAccount() {
                             {/* step 2 */}
                             <div className="step_content d-none">
                                 <div className="image_area row">
-                                    <div className="col-12 text-center watch-img-sec">
+                                    <div className="col-12 text-center watch-img-sec redu_img">
                                         <img className="img-fluid" src="../../images/progrs-img-2.png" />
                                     </div>
                                 </div>
@@ -379,7 +379,7 @@ export default function DelegatorAccount() {
                             {/* step 3 */}
                             <div className="step_content d-none">
                                 <div className="image_area row">
-                                    <div className="col-12 text-center watch-img-sec">
+                                    <div className="col-12 text-center watch-img-sec redu_img">
                                         <img className="img-fluid" src="../../images/progrs-img.png" />
                                     </div>
                                 </div>
@@ -407,7 +407,7 @@ export default function DelegatorAccount() {
                             {/* step 4 */}
                             <div className="step_content d-none">
                                 <div className="image_area row">
-                                    <div className="col-12 text-center watch-img-sec">
+                                    <div className="col-12 text-center watch-img-sec redu_img">
                                         <img className="img-fluid" src="../../images/progrs-img-2.png" />
                                     </div>
                                 </div>
@@ -428,7 +428,7 @@ export default function DelegatorAccount() {
                             {/* step 5 */}
                             <div className="step_content d-none">
                                 <div className="image_area row">
-                                    <div className="col-12 text-center watch-img-sec">
+                                    <div className="col-12 text-center watch-img-sec redu_img">
                                         <img className="img-fluid" src="../../images/cmpete-step.png" />
                                     </div>
                                 </div>
