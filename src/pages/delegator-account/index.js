@@ -271,7 +271,7 @@ export default function DelegatorAccount() {
                     <>
                         <div className="cmn_modal val_popups">
                             <form>
-                                <div className="only_text"> 
+                                <div className="only_text">
                                     <p className="text-center">Are you sure you want to unbound?</p>
                                 </div>
                                 <div className="pop_btns_area row mr-top-50 form-control">
@@ -319,23 +319,54 @@ export default function DelegatorAccount() {
                                     <div className="step-title">
                                         Completed
                                     </div>
-                                </li> 
+                                </li>
                             </ul>
-
-                             {/* step 1 */}
+                            {/* added by vivek */}
+                            <div className="step_content">
+                                <div className="info-box my-3">
+                                    <div className="d-flex align-items-center justify-content-start">
+                                        <div>
+                                            <span className="user-icon"></span>
+                                        </div>
+                                        <div className="fw-700">
+                                            <span className="vertical-align ft-22">Val 3</span>
+                                            <p>
+                                                <span className="light-text">100% Performance - 13% Commission</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="form-field position-relative two-fld max-group">
+                                    <div className="mid-chain w-100">
+                                        <input className="w-100" type="text" placeholder="0.00" />
+                                    </div>
+                                    <div className="rt-chain">
+                                        <span className="orange-txt fw-bold">MAX</span>
+                                    </div>
+                                </div>
+                                <p className="inpt_fld_hlpr_txt">
+                                    <span>
+                                        <span>$ 0.00</span>
+                                    </span>
+                                    <span>Balance: 00.00 BONE</span>
+                                </p>
+                            </div>
+                            {/* added by vivek */}
+                            
+                            {/* step 1 */}
                             <div className="step_content">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec">
-                                        <img className="img-fluid" src="../../images/progrs-img-2.png" /> 
+                                        <img className="img-fluid" src="../../images/progrs-img-2.png" />
                                     </div>
                                 </div>
-                                <div className="mid_text row">                                   
+                                <div className="mid_text row">
                                     <div className="col-12 text-center"><h4>Transaction in progress</h4></div>
-                                    <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction</p></div>                                    
+                                    <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction</p></div>
                                 </div>
-                                 
+
                                 <div className="pop_btns_area row form-control mt-5">
-                                    <div className="col-12">                                         
+                                    <div className="col-12">
                                         <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
                                             <span>View on Etherscan</span>
                                         </a>
@@ -347,12 +378,12 @@ export default function DelegatorAccount() {
                             <div className="step_content">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec">
-                                         <img className="img-fluid" src="../../images/progrs-img.png" />
-                                     </div>
+                                        <img className="img-fluid" src="../../images/progrs-img.png" />
+                                    </div>
                                 </div>
                                 <div className="mid_text row">
-                                     <div className="col-12 text-center"><h4>Buy Voucher</h4></div>
-                                    <div className="col-12 text-center"><p>Completing this transaction will stake your Burn tokens and you will start earning rewards for the upcoming checkpoints.</p></div>                                    
+                                    <div className="col-12 text-center"><h4>Buy Voucher</h4></div>
+                                    <div className="col-12 text-center"><p>Completing this transaction will stake your Burn tokens and you will start earning rewards for the upcoming checkpoints.</p></div>
                                 </div>
                                 <div className="fees_text">
                                     <div className="icon_name">
@@ -363,7 +394,7 @@ export default function DelegatorAccount() {
                                     </div>
                                 </div>
                                 <div className="pop_btns_area row form-control mt-5">
-                                    <div className="col-12"> 
+                                    <div className="col-12">
                                         <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
                                             <span>Buy Voucher</span>
                                         </a>
@@ -375,16 +406,16 @@ export default function DelegatorAccount() {
                             <div className="step_content">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec">
-                                        <img className="img-fluid" src="../../images/progrs-img-2.png" /> 
+                                        <img className="img-fluid" src="../../images/progrs-img-2.png" />
                                     </div>
                                 </div>
-                                <div className="mid_text row">                                   
+                                <div className="mid_text row">
                                     <div className="col-12 text-center"><h4>Transaction in progress</h4></div>
-                                    <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction</p></div>                                    
+                                    <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction</p></div>
                                 </div>
-                                
+
                                 <div className="pop_btns_area row form-control mt-5">
-                                    <div className="col-12">                                        
+                                    <div className="col-12">
                                         <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
                                             <span>View on Ethereum</span>
                                         </a>
@@ -396,16 +427,16 @@ export default function DelegatorAccount() {
                             <div className="step_content">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec">
-                                         <img className="img-fluid" src="../../images/cmpete-step.png" /> 
+                                        <img className="img-fluid" src="../../images/cmpete-step.png" />
                                     </div>
                                 </div>
-                                <div className="mid_text row">                                   
+                                <div className="mid_text row">
                                     <div className="col-12 text-center"><h4>Delegation completed</h4></div>
                                     <div className="col-12 text-center"><p>Your SHIBA tokens are staked successfully on validator Tarus Validator. Your delegation will take-1 mintue to reflect in your account.</p></div>
                                 </div>
-                                
+
                                 <div className="pop_btns_area row form-control mt-5">
-                                    <div className="col-12">                                        
+                                    <div className="col-12">
                                         <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
                                             <span>View on Ethereum</span>
                                         </a>
@@ -439,7 +470,7 @@ export default function DelegatorAccount() {
                                     <div className="del-bott">
                                         <h4 className="mb-3">Stake Claimed </h4>
                                         <p>
-                                            Your claim stake Transaction is successful. The Transaction might 
+                                            Your claim stake Transaction is successful. The Transaction might
                                             take 1-2 minutes to be updated in your account.
                                         </p>
                                         <Link href="javascript:void(0)">

@@ -305,35 +305,6 @@ export default function Account() {
                         </div>
                         </li> */}
                             </ul>
-                            <div className="step_content">
-                                <div className="info-box my-3">
-                                    <div className="d-flex align-items-center justify-content-start">
-                                        <div>
-                                            <span className="user-icon"></span>
-                                        </div>
-                                        <div className="fw-700">
-                                            <span className="vertical-align ft-22">Val 3</span>
-                                            <p>
-                                                <span className="light-text">100% Performance - 13% Commission</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="form-field position-relative two-fld max-group">
-                                    <div className="mid-chain w-100">
-                                        <input className="w-100" type="text" placeholder="0.00" />
-                                    </div>
-                                    <div className="rt-chain">
-                                        <span className="orange-txt fw-bold">MAX</span>
-                                    </div>
-                                </div>
-                                <p className="inpt_fld_hlpr_txt">
-                                    <span>
-                                        <span>$ 0.00</span>
-                                    </span>
-                                    <span>Balance: 00.00 BONE</span>
-                                </p>
-                            </div>
                             <div className="step_content d-none">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec">
