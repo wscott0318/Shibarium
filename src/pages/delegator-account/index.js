@@ -321,7 +321,7 @@ export default function DelegatorAccount() {
                                     </div>
                                 </li>
                             </ul>
-                            {/* added by vivek */}
+                            {/* step 1 */}
                             <div className="step_content">
                                 <div className="info-box my-3">
                                     <div className="d-flex align-items-center justify-content-start">
@@ -357,9 +357,8 @@ export default function DelegatorAccount() {
                                     </div>
                                 </div>
                             </div>
-                            {/* added by vivek */}
                             
-                            {/* step 1 */}
+                            {/* step 2 */}
                             <div className="step_content d-none">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec">
@@ -380,7 +379,7 @@ export default function DelegatorAccount() {
                                 </div>
                             </div>
 
-                            {/* step 2 */}
+                            {/* step 3 */}
                             <div className="step_content d-none">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec">
@@ -408,7 +407,7 @@ export default function DelegatorAccount() {
                                 </div>
                             </div>
 
-                            {/* step 3 */}
+                            {/* step 4 */}
                             <div className="step_content d-none">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec">
@@ -429,7 +428,7 @@ export default function DelegatorAccount() {
                                 </div>
                             </div>
 
-                            {/* step 4 */}
+                            {/* step 5 */}
                             <div className="step_content d-none">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec">
