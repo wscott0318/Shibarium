@@ -115,6 +115,18 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
             <div className="heading-sec">
               <h2 className="sub-head">All Validators</h2>
             </div>
+            <div className="d-flex align-items-center btns-space tab-btns">
+                <div className="me-3">
+                  <p onClick={() => setIsActiveTab(true)} className={`btn black-btn ff-mos ${isActiveTab ? "btn-active" : ""}`} title="">
+                    <span>ACTIVE</span>
+                    </p>
+                </div>
+                <div>
+                  <p onClick={() => setIsActiveTab(true)} className={`btn black-btn ff-mos ${!isActiveTab ? "btn-active" : ""}`} title="">
+                  <span>INACTIVE</span>
+                  </p>
+                </div>
+              </div>
             <div className="filter-row">
               <div className="left-section">
                 <input
