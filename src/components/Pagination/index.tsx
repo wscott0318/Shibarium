@@ -36,41 +36,68 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
     let lastPage = paginationRange[paginationRange.length - 1]
 
     return (
-       <>
+      <>
         <div className="row">
-        <div className="col-md-4 d-flex align-items-center">
-        {totalCount > 1 && <span className="fw-700 text-white">Showing {((currentPage-1)*pageSize)+1 }-{totalCount>pageSize ? ((currentPage)*pageSize): totalCount } of {totalCount}</span>}
-    </div>
-    <div className="col-md-8">
-        <div className="cus-pagination">
-            <ul className="pagination justify-content-end">
-            <li className={`page-item ${currentPage ===1 ? 'disabled':''}`} >
-                                <a  className="page-link" href="#"  onClick={onPrevious}>
-                                    <span>Previous</span>
-                                </a>
-                            </li>
-                            {paginationRange.map((pageNumber: any) => {
-                                if (pageNumber === DOTS) {
-                                    return <li key={pageNumber} className="pagination-item dots">&#8230;</li>;
-                                }
-                                return (
-                                    <li key={pageNumber} className={`page-item ${pageNumber === currentPage ? 'active':''}`} onClick={() => onPageChange(pageNumber)}>
-                                        <a className="page-link" href="#">
-                                            <span>{pageNumber}</span>
-                                        </a>
-                                    </li>)
-                            }
-                            )}
+          <div className="col-md-4 d-flex align-items-center">
+            {totalCount > 1 && (
+              <span className="fw-700 text-white">
+                Showing {(currentPage - 1) * pageSize + 1}-
+                {totalCount > pageSize ? currentPage * pageSize : totalCount} of{" "}
+                {totalCount}
+              </span>
+            )}
+          </div>
+          <div className="col-md-8">
+            <div className="cus-pagination">
+              <ul className="pagination justify-content-end">
+                <li
+                  className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                >
+                  <a
+                    className="page-link"
+                    href="javascript: void(0)"
+                    onClick={onPrevious}
+                  >
+                    <span>Previous</span>
+                  </a>
+                </li>
+                {paginationRange.map((pageNumber: any) => {
+                  if (pageNumber === DOTS) {
+                    return (
+                      <li key={pageNumber} className="pagination-item dots">
+                        &#8230;
+                      </li>
+                    );
+                  }
+                  return (
+                    <li
+                      key={pageNumber}
+                      className={`page-item ${
+                        pageNumber === currentPage ? "active" : ""
+                      }`}
+                      onClick={() => onPageChange(pageNumber)}
+                    >
+                      <a className="page-link" href="javascript: void(0)">
+                        <span>{pageNumber}</span>
+                      </a>
+                    </li>
+                  );
+                })}
 
-                            <li className={`page-item ${currentPage === lastPage ? 'disabled':''}`} onClick={onNext}>
-                                <a className="page-link" href="#">
-                                    <span>Next</span>
-                                </a>
-                            </li>
-            </ul>
+                <li
+                  className={`page-item ${
+                    currentPage === lastPage ? "disabled" : ""
+                  }`}
+                  onClick={onNext}
+                >
+                  <a className="page-link" href="javascript: void(0)">
+                    <span>Next</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-    </div>
-</div>
         {/* <div className="text-center pagination-sec">
             <div className="row align-items-center">
                 <div className="col-lg-7 col-md-12 cus-pagination ms-auto">
@@ -107,8 +134,8 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
                 </div>
             </div>
         </div> */}
-       </>
-    )
+      </>
+    );
 }
 export const DOTS = '...';
 
