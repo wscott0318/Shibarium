@@ -25,7 +25,41 @@ const Checkpoints:React.FC<Props> = ({ allCheckpoints,boneUsdValue }) => {
     }
     return (
         <>
-        <h1>validators-details checkpoints</h1>
+            <div className="h-auto p-4 mb-4 cus-card mb-lg-5">
+                                    
+                                    <h3 className="mb-2 mb-sm-4">Checkpoints</h3>
+                                    <div className="cmn_dasdrd_table">
+                                        <div className="table-responsive">
+                                            <table className="table table-borderless">
+                                            <thead>
+                                                <tr>
+                                                <th>Checkpoint</th>
+                                                <th>Start block number</th>
+                                                <th>End block number</th>
+                                                <th>Result</th>
+                                                <th>Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                { checkpoints.map((checkpoint: any, i:any) =>
+                                                <tr>
+                                                <td>
+                                                    <NumberFormat displayType='text' thousandSeparator value={checkpoint.checkpointNumber} />
+                                                </td>
+                                                <td>{checkpoint.startBlock}</td>
+                                                <td>{checkpoint.endBlock}</td>
+                                                <td><span><img src="../../images/green-tick2.png"></img></span>
+                                                <span>
+                                                {checkpoint.signed? 'Success': 'Not completed'}
+                                                    </span></td>
+                                                <td><TimeAgo datetime={checkpoint.timestamp*1000} /></td>
+                                                </tr>)}             
+                                            </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={allCheckpoints.length || 1} currentPage={pageIndex} />
+                                </div>
         </>
     
     )
