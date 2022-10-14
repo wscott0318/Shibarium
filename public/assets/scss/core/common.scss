@@ -2312,11 +2312,17 @@ background: $body-bg;
 .watch-img-sec{
     .img-wdth{
         max-width: 100px;
+        @media #{$max-xl} {
+            max-width: 80px;
+        }
     }
 }
 .del-pop{
     .modal-content{
         height: 605px;
+        @media #{$max-xl} {
+            height: 570px;
+        }
     }
     .cmn_modal{
         height: 100%;
