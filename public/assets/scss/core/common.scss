@@ -104,6 +104,7 @@
 // common space closed
 
 // form scss start
+
 .form-field{
     &.dark-input{
         background-color: $body-bg-800;
@@ -2300,4 +2301,9 @@ background: $body-bg;
 }
 .btn-rspc{
     margin: 0 10px 10px 0;
+}
+.max-group{
+    &.form-field{
+        background-color:$body-bg-800;
+    }
 }
