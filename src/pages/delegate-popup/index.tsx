@@ -245,7 +245,7 @@ let schema = yup.object().shape({
   balance: yup.string().required("Balance is required"),
 });
 const [balance, setBalance] = useState();
-const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
+const { values, errors, handleBlur, handleChange, handleSubmit, touched,setFieldValue } =
   useFormik({
     initialValues: initialValues,
     validationSchema: schema,
