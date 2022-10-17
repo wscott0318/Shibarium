@@ -32,7 +32,7 @@ const Rewards = () => {
                   Calculate Your Delegation Rewards With BONE Staking
                 </h4>
                 <div className="input-wrap mb-4">
-                  <p className="mb-2 light-text fw-600">
+                  <p className="mb-2 light-text fw-600 ff-mos">
                     How much BONE will you delegate?
                   </p>
                   <div className="input-box">
@@ -54,25 +54,25 @@ const Rewards = () => {
                       alt=""
                     />
                   </div>
-                  <div className="row">
+                  <div className="row ff-mos">
                     <div className="col-sm-6 col-12 text-sm-start text-center rt-border">
-                      <h6 className="fw-600 light-text mb-2 mb-sm-4">
-                        <span className="ms-2 align">
+                      <h6 className="fw-600 light-text mb-2 mb-sm-4 ff-mos">
+                        <span className="ms-2 align ff-mos">
                           Current Shiba Tokens Staked %
                         </span>
                       </h6>
-                      <h2 className="light-text low-font-wt mb-2 mb-sm-0">
-                        <span>101233%</span>
+                      <h2 className="light-text low-font-wt mb-2 mb-sm-0 ff-mos">
+                        <span className="ff-mos">101233%</span>
                       </h2>
                     </div>
                     <div className="col-sm-6 col-12 text-sm-start text-center left-space">
                       <h6 className="fw-600 light-text mb-2 mb-sm-4">
-                        <span className="ms-2 align">
+                        <span className="ms-2 align ff-mos">
                           Projected Shiba Tokens Staked
                         </span>
                       </h6>
                       <h2 className="light-text low-font-wt mb-2 mb-sm-0">
-                        <span>2936975.6985</span>
+                        <span className="ff-mos">2936975.6985</span>
                       </h2>
                     </div>
                   </div>
@@ -110,23 +110,23 @@ const Rewards = () => {
                       <span className="trs-3">!</span>
                     </div>
                     <div className="fwb dark-text">
-                      <span className="trs-2">Important Note:</span>
+                      <span className="trs-2 ff-mos">Important Note:</span>
                     </div>
                   </div>
                   <div className="content-wrap">
-                    <p className="dark-text mb-sm-3 mb-2">
+                    <p className="dark-text mb-sm-3 mb-2 ff-mos">
                       All reward figures given here are indicative. Actual rewards
                       earned will depend on the actual total locked supply in the
                       network at each checkpoint. This is expected to vary
                       significantly as more SHIBA tokens get locked in the staking
                       contracts.
                     </p>
-                    <p className="dark-text mb-sm-3 mb-2">
+                    <p className="dark-text mb-sm-3 mb-2 ff-mos">
                       Please refer to this article for more details on the staking
                       economics. Broadly speaking, the target locked supply in 30%
                       of the SHIBA token circulating supply.
                     </p>
-                    <p className="dark-text mb-sm-3 mb-2">
+                    <p className="dark-text mb-sm-3 mb-2 ff-mos">
                       Rewards will be higher to begin with, and will keep
                       decreasing as the locked supply % goes up. This change in
                       locked supply is captured at every checkpoint, and rewards
@@ -170,10 +170,10 @@ const Rewards = () => {
                       </div>
                       <div className="card-content">
                         <h2 className="fwb mb-0 trs-6">
-                          <span className="trs-3">1363952.0236</span>
+                          <span className="trs-3 ff-mos">1363952.0236</span>
                         </h2>
                         <div className="hr"></div>
-                        <span className="light-text">
+                        <span className="light-text ff-mos">
                           Absolute Reward (for 365 days)
                         </span>
                       </div>
@@ -190,10 +190,10 @@ const Rewards = () => {
                       </div>
                       <div className="card-content">
                         <h2 className="fwb mb-0 trs-6">
-                          <span className="trs-3">~5639.26585%</span>
+                          <span className="trs-3 ff-mos">~5639.26585%</span>
                         </h2>
                         <div className="hr"></div>
-                        <span className="light-text">Absolute Reward %</span>
+                        <span className="light-text ff-mos">Absolute Reward %</span>
                       </div>
                     </li>
                     <li className="card-list-item">
@@ -208,10 +208,10 @@ const Rewards = () => {
                       </div>
                       <div className="card-content">
                         <h2 className="fwb mb-0 trs-6">
-                          <span className="trs-3">~253.69358%</span>
+                          <span className="trs-3 ff-mos">~253.69358%</span>
                         </h2>
                         <div className="hr"></div>
-                        <span className="light-text">Annual Reward % (APR)</span>
+                        <span className="light-text ff-mos">Annual Reward % (APR)</span>
                       </div>
                     </li>
                     <li className="card-list-item">
@@ -226,10 +226,10 @@ const Rewards = () => {
                       </div>
                       <div className="card-content">
                         <h2 className="fwb mb-0 trs-6">
-                          <span className="trs-3">~25 Mins</span>
+                          <span className="trs-3 ff-mos">~25 Mins</span>
                         </h2>
                         <div className="hr"></div>
-                        <span className="light-text">Reward Frequency</span>
+                        <span className="light-text ff-mos">Reward Frequency</span>
                       </div>
                     </li>
                     <li className="card-list-item">
@@ -244,21 +244,21 @@ const Rewards = () => {
                       </div>
                       <div className="card-content">
                         <h2 className="fwb mb-0 trs-6">
-                          <span className="trs-3">0.03658% </span>
+                          <span className="trs-3 ff-mos">0.03658% </span>
                         </h2>
                         <div className="hr"></div>
-                        <span className="light-text">Your Network Share</span>
+                        <span className="light-text ff-mos">Your Network Share</span>
                       </div>
                     </li>
                   </ul>
                   <div className="sid-card-footer primary-bg2">
                     <h2 className="text-white">
-                      <span className="trs-6">
+                      <span className="trs-6 ff-mos">
                         6,698,789,231{" "}
-                        <span className="text-100 fw-600">Shiba Tokens</span>
+                        <span className="text-100 fw-600 ff-mos">Shiba Tokens</span>
                       </span>
                     </h2>
-                    <span className="text-100 text-white">
+                    <span className="text-100 text-white ff-mos">
                       Calculating Supply
                     </span>
                   </div>
