@@ -6,6 +6,8 @@ import Link from 'next/link';
 import CommonModal from 'pages/components/CommonModel';
 import DelegatePopup from 'pages/delegate-popup';
 import React, { useState } from 'react';
+import { useFormik } from "formik";
+import * as yup from "yup";
 // @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 
@@ -28,8 +30,23 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
       step4:false,
       title: "Delegate",
     });
-    console.log(validatorsList)
-
+    console.log(validatorsList);
+    const initialValues = {
+      balance: "",
+    };
+    let schema = yup.object().shape({
+      balance: yup.number().positive().required("Balance is required"),
+    });
+    const [balance,setBalance] = useState();
+    const { values, errors, handleBlur, handleChange, handleSubmit,touched } =
+      useFormik({
+        initialValues: initialValues,
+        validationSchema: schema,
+        onSubmit: (values) => {
+          console.log("Value", values);
+        },
+      });
+      console.log("Balance",values.balance)
     return (
       <>
         {/* <DelegatePopup show={modalShow} data={selectedRow}
@@ -63,11 +80,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                   </div>
                   <div className="step-title">Delegate</div>
                 </li>
-                <li
-                  className={`step ${
-                    (delegateState.step4) && "active"
-                  }`}
-                >
+                <li className={`step ${delegateState.step4 && "active"}`}>
                   <div className="step-ico">
                     <img
                       className="img-fluid"
@@ -80,76 +93,93 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
               </ul>
               {/* added by vivek */}
               {delegateState.step0 && (
-                <div className="step_content fl-box">
-                  <div className="ax-top">
-                    <div className="info-box my-3">
-                      <div className="d-flex align-items-center justify-content-start">
-                        <div>
-                          <span className="user-icon"></span>
+                <form onSubmit={handleSubmit}>
+                  <div className="step_content fl-box">
+                    <div className="ax-top">
+                      <div className="info-box my-3">
+                        <div className="d-flex align-items-center justify-content-start">
+                          <div>
+                            <span className="user-icon"></span>
+                          </div>
+                          <div className="fw-700">
+                            <span className="vertical-align ft-22">Val 3</span>
+                            <p>
+                              <span className="light-text">
+                                100% Performance - 13% Commission
+                              </span>
+                            </p>
+                          </div>
                         </div>
-                        <div className="fw-700">
-                          <span className="vertical-align ft-22">Val 3</span>
-                          <p>
-                            <span className="light-text">
-                              100% Performance - 13% Commission
-                            </span>
-                          </p>
+                      </div>
+                      <div className="form-field position-relative two-fld max-group extr_pd_remove">
+                        <div className="mid-chain w-100">
+                          <input
+                            className="w-100"
+                            type="number"
+                            placeholder="0.00"
+                            name="balance"
+                            value={values.balance}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                        </div>
+                        <div className="rt-chain">
+                          <span className="orange-txt fw-bold">MAX</span>
                         </div>
                       </div>
+                      {errors.balance && touched.balance && (
+                        <p className="primary-text error">{errors.balance}</p>
+                      )}
+
+                      <p className="inpt_fld_hlpr_txt mt-3 text-pop-right">
+                        <span>$ 0.00 </span>
+                        <span className="text-right">
+                          Available Balance: 00.00 BONE
+                        </span>
+                      </p>
                     </div>
-                    <div className="form-field position-relative two-fld max-group extr_pd_remove">
-                      <div className="mid-chain w-100">
-                        <input
-                          className="w-100"
-                          type="text"
-                          placeholder="0.00"
-                        />
-                      </div>
-                      <div className="rt-chain">
-                        <span className="orange-txt fw-bold">MAX</span>
-                      </div>
-                    </div>
-                    <p className="inpt_fld_hlpr_txt mt-3 text-pop-right">
-                      <span>$ 0.00 </span>
-                      <span className="text-right">
-                        Available Balance: 00.00 BONE
-                      </span>
-                    </p>
-                  </div>
-                  <div className="ax-bottom">
-                    <div className="pop_btns_area row form-control mt-5">
-                      <div className="col-12">
-                        <button
-                          className="w-100"
-                          onClick={() => {
-                            setdelegateState({
-                              ...delegateState,
-                              step0: false,
-                              step1: true,
-                            });
-                            setTimeout(() => {
+                    <div className="ax-bottom">
+                      <div className="pop_btns_area row form-control mt-5">
+                        <div className="col-12">
+                          <button
+                            className="w-100"
+                            type="submit"
+                            value="submit"
+                            onClick={
+                                () => {
+                              if(+values.balance > 0)
+                              {
                               setdelegateState({
+                                ...delegateState,
                                 step0: false,
-                                step1: false,
-                                step2: true,
-                                step3: false,
-                                step4: false,
-                                title: "Delegate",
+                                step1: true,
                               });
-                            }, 2000);
-                          }}
-                        >
-                          <a
-                            className="btn primary-btn d-flex align-items-center"
-                            href="javascript:void(0)"
+                              setTimeout(() => {
+                                setdelegateState({
+                                  step0: false,
+                                  step1: false,
+                                  step2: true,
+                                  step3: false,
+                                  step4: false,
+                                  title: "Delegate",
+                                });
+                              }, 2000);
+                            }
+                          }
+                          }
                           >
-                            <span>View on Etherscan</span>
-                          </a>
-                        </button>
+                            <a
+                              className="btn primary-btn d-flex align-items-center"
+                              href="javascript:void(0)"
+                            >
+                              <span>View on Etherscan</span>
+                            </a>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </form>
               )}
               {/* added by vivek */}
 
