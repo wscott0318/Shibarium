@@ -2335,8 +2335,19 @@ background: $body-bg;
     .watch-img-sec{
         height: 180px;
     }
+    .text-pop-right{
+        font-size: 16px;
+    }
 }
-
+.bg-clr{
+    .mid-chain{
+        input{
+            background: $body-bg-800;
+            color: $white;
+        }
+    }
+    
+}
 .fl-box {
     display: flex;
     justify-content: space-between;
