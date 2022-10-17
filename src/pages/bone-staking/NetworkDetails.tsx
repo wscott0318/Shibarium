@@ -97,12 +97,12 @@ function NetworkDetails() {
 
         <section className="card-section">
           <div className="container">
-            <div className="heading-sec"><h2 className="sub-head">Network Overview</h2></div>
+            <div className="heading-sec"><h2 className="sub-head ff-mos">Network Overview</h2></div>
            <div className="grid-contain">
           {
           Object.keys(networkDetails).length ? 
            
-              <div className="row">
+              <div className="row ff-mos">
                 <div className="col-md-6 col-xl-4 col-custum">
                   <div className="cus-box">
                     <div className="head-sec">

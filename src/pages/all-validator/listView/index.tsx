@@ -364,7 +364,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
             </div>
           </>
         </CommonModal>
-        <div className="cmn_dasdrd_table">
+        <div className="cmn_dasdrd_table ff-mos">
           <div className="table-responsive">
             <table className="table table-borderless">
               <thead>

@@ -2415,3 +2415,8 @@ background: $body-bg;
         animation: shimmer 5s linear infinite forwards;
     }
 }
+.font-up{
+    .pagination, .text-white{
+        font-family: "MADE Okine Sans PERSONAL USE" !important;
+    }
+}

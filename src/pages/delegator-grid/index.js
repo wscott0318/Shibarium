@@ -25,7 +25,7 @@ export default function DelegatorGrid() {
         </section>
         <section className="mt-lg-5 mt-sm-4 mt-3">
           <div className="container">
-            <div className='filter-sec'>
+            <div className='filter-sec ff-mos'>
                 <div className='row align-items-center'>
                     <div className='col-md-5 col-12 mb-sm-4 mb-lg-0 mb-4'>
                         <div className='search-box d-inline-block position-relative w-100'>
@@ -74,8 +74,8 @@ export default function DelegatorGrid() {
         </section>
         <section>
           <div className="container">
-            <div className='grid-sec'>
-                  <div className='row side-cover'>
+            <div className='grid-sec ff-mos'>
+                  <div className='row side-cover ff-mos'>
                       <div className='col-xl-3 col-sm-6 col-12 side-space'>
                           <div className='box'>
                               <div className='box-head'>
