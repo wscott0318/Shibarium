@@ -2,11 +2,11 @@ import { ChainId } from "@shibarium/core-sdk";
 
 export const BONE_ID = 'bone-shibaswap';
 
-export const API_BASE_URL = 'http://3.23.193.130:3000/api/v1/'
+export const API_BASE_URL = 'http://3.143.204.35:3000/api/v1/'
 /**
  * Staking APi BASE URL
  */
-export const STAKING_API_BASE_URL = 'http://3.23.193.130:3000/api/v1/'
+export const STAKING_API_BASE_URL = 'http://3.143.204.35:3000/api/v1/'
 
 /**
  *Using for Transaction via Metamask
