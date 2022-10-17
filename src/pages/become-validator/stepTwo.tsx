@@ -1,10 +1,31 @@
 import { useFormik } from "formik";
 import React, {useState} from "react";
 import * as yup from "yup";
+import Web3 from "web3";
 
 function StepTwo({stepState,stepHandler}:any) {
 
   const [imageData, setImageData] = useState<any>("");
+  const [validation, setValidation] = useState({
+    image: false,
+    address: false
+  })
+
+  
+  const verifyAddress = (address: any) => {
+    let result = Web3.utils.isAddress(address)
+    return result
+  }
+
+  const callAPI = (values: any) => {
+    if(imageData && verifyAddress(values.address)){
+      setValidation({image: false, address: false})
+    } else if (!imageData && verifyAddress(values.address)) {
+      setValidation((pre:any) => ({...pre, image: true}))
+    } else if (imageData && !verifyAddress(values.address)){
+      setValidation((pre:any) => ({...pre, address: true})) 
+    }
+  }
 
   const initialValues = {
     validatorname:"",
@@ -26,8 +47,11 @@ function StepTwo({stepState,stepHandler}:any) {
     validationSchema:schema,
     onSubmit: (values) => {
       console.log("Value", values);
+      callAPI(values)
     },
   });
+
+
   return (
     // <>
     <form onSubmit={handleSubmit}>
@@ -62,12 +86,14 @@ function StepTwo({stepState,stepHandler}:any) {
                     type="file"
                     className="input-file"
                     accept="image/*"
+                    // @ts-ignore
                     onChange={(e) => setImageData(e.target.files[0])}
                   />
                   <a href="#!" className="form-control">
                     Upload
                   </a>
                 </div>
+                {validation.image ? <p className="primary-text error">image is required</p> : null}
               </div>
             </div>
           </div>
@@ -121,6 +147,7 @@ function StepTwo({stepState,stepHandler}:any) {
               />
             </div>
             {touched.address &&  errors.address ? <p className="primary-text error">{errors.address}</p> : null}
+            {validation.address ? <p className="primary-text error">enter a valid address</p> : null}
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">

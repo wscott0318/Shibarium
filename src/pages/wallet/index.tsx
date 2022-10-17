@@ -83,7 +83,7 @@ export default function Wallet() {
 
   console.log(selectedToken)
 
-  const varifyAccount = (address: any) => {
+  const verifyAddress = (address: any) => {
     let result = Web3.utils.isAddress(address)
     setIsValidAddress(result)
     return result
@@ -129,7 +129,7 @@ export default function Wallet() {
 
   const handleChange = (e: any) => {
     setSenderAdress(e.target.value)
-    const isValid = varifyAccount(e.target.value)
+    const isValid = verifyAddress(e.target.value)
     console.log(isValid)
   }
 
