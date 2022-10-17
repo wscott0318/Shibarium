@@ -2334,6 +2334,12 @@ background: $body-bg;
     }
     .watch-img-sec{
         height: 180px;
+        @media #{$max-md} {
+            height: 150px;
+        }
+        @media #{$max-xxsm}{
+            height: 130px;
+        }
     }
     .text-pop-right{
         font-size: 16px;

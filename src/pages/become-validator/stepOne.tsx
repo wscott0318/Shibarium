@@ -22,7 +22,7 @@ function StepOne({stepHandler,stepState}:any) {
             </div>
             <div className="trs-3">
               <h6 className="fw-600 ff-mos">Ansible</h6>
-              <p className="ft-14 fw-600">
+              <p className="ft-14 fw-600 ff-mos">
                 Your Ansible playbooks for setting up Shiba Validator node
               </p>
             </div>
@@ -49,10 +49,10 @@ function StepOne({stepHandler,stepState}:any) {
             </div>
           </div>
         </div>
-        <p className="ft-14 fw-600 top-btm-spacelg">
+        <p className="ft-14 fw-600 top-btm-spacelg ff-mos">
           Queries? If you face any trouble during installation or syncing, do
           share your queries in this{" "}
-          <a href="#!;" className="fw-600 link-color" title="">
+          <a href="#!;" className="fw-600 link-color ff-mos" title="">
             forum
           </a>{" "}
           or on our{" "}
@@ -63,7 +63,7 @@ function StepOne({stepHandler,stepState}:any) {
         <div className="btn-wrap col-sm-3 mt-4 ">
           <button
             type="button"
-            className="btn primary-btn w-100"
+            className="btn primary-btn w-100 ff-mos"
             onClick={stepHandler}
           >
             <span className="ff-mos">{!stepState.step4 ? "Next" : "Save"}</span>

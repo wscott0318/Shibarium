@@ -63,8 +63,8 @@ function StepTwo({stepState,stepHandler}:any) {
     <form onSubmit={handleSubmit}>
       <div className="progress-tab">
         <div className="mb-4 mb-xl-5">
-          <h5 className="fwb fw-700 mb-2">Add node details</h5>
-          <p className="">
+          <h5 className="fwb fw-700 mb-2 ff-mos">Add node details</h5>
+          <p className="ff-mos">
             Please provide your node details for better recognizability
           </p>
         </div>
@@ -95,13 +95,13 @@ function StepTwo({stepState,stepHandler}:any) {
                     // @ts-ignore
                     onChange={(e) => setImageData(e.target.files[0])}
                   />
-                  <a href="#!" className="form-control">
+                  <a href="#!" className="form-control ff-mos">
                     Upload
                   </a>
                 </div>
               </div>
             </div>
-            {validation.image ? <p className="primary-text error">image is required</p> : null}
+            {validation.image ? <p className="primary-text error ff-mos">image is required</p> : null}
           </div>
 
           <div className="col-sm-6 form-grid">
@@ -136,7 +136,7 @@ function StepTwo({stepState,stepHandler}:any) {
                 onBlur={handleBlur}
               />
             </div>
-           {touched.website && errors.website ? <p className="primary-text error">{errors.website}</p> : null}
+           {touched.website && errors.website ? <p className="primary-text error ff-mos">{errors.website}</p> : null}
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -153,8 +153,8 @@ function StepTwo({stepState,stepHandler}:any) {
                 onBlur={handleBlur}
               />
             </div>
-            {touched.address &&  errors.address ? <p className="primary-text error">{errors.address}</p> : null}
-            {validation.address ? <p className="primary-text error">enter a valid address</p> : null}
+            {touched.address &&  errors.address ? <p className="primary-text error ff-mos">{errors.address}</p> : null}
+            {validation.address ? <p className="primary-text error ff-mos">enter a valid address</p> : null}
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -171,7 +171,7 @@ function StepTwo({stepState,stepHandler}:any) {
                 onBlur={handleBlur}
               />
             </div>
-            {touched.publickey && errors.publickey ?  <p className="primary-text error">{errors.publickey}</p> : null}
+            {touched.publickey && errors.publickey ?  <p className="primary-text error ff-mos">{errors.publickey}</p> : null}
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -188,7 +188,7 @@ function StepTwo({stepState,stepHandler}:any) {
                 onBlur={handleBlur}
               />
             </div>
-            {touched.commission && errors.commission ?  <p className="primary-text error">{errors.commission}</p> : null}
+            {touched.commission && errors.commission ?  <p className="primary-text error ff-mos">{errors.commission}</p> : null}
           </div>
         </div>
         <div className="btn-wrap col-sm-3 mt-4 ">

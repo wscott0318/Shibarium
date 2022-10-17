@@ -6,7 +6,7 @@ function StepFour({activInput,handleEdit,stepState,stepHandler}:any) {
         <div className="progress-tab">
           <div className="mb-4 mb-xl-5">
             <h5 className="fw-700 mb-2 ff-mos">Check complete detail</h5>
-            <p>Please confirm your details and submit</p>
+            <p className="ff-mos">Please confirm your details and submit</p>
           </div>
           <div className="row">
             <div className="col-sm-6 form-grid">
@@ -29,7 +29,7 @@ function StepFour({activInput,handleEdit,stepState,stepHandler}:any) {
                 <label htmlFor="" className="form-label d-block ff-mos">
                   Signer’s address
                 </label>
-                <label htmlFor="" className="form-value">
+                <label htmlFor="" className="form-value ff-mos">
                   01d2tyke2866633dlpwqs3900371
                 </label>
               </div>
@@ -41,7 +41,7 @@ function StepFour({activInput,handleEdit,stepState,stepHandler}:any) {
                     Validator name
                   </label>
                   <a
-                    className="primary-text trs-3"
+                    className="primary-text trs-3 ff-mos"
                     href="#!"
                     onClick={() => handleEdit("name")}
                   >
@@ -49,7 +49,7 @@ function StepFour({activInput,handleEdit,stepState,stepHandler}:any) {
                   </a>
                 </div>
                 <div className="input-wrap">
-                  <label htmlFor="" className="form-value">
+                  <label htmlFor="" className="form-value ff-mos">
                     Dark Knight Ventures
                   </label>
                   {activInput.name ? (
@@ -78,7 +78,7 @@ function StepFour({activInput,handleEdit,stepState,stepHandler}:any) {
                 <label htmlFor="" className="form-label d-block ff-mos">
                   Signer’s public key
                 </label>
-                <label htmlFor="" className="form-value">
+                <label htmlFor="" className="form-value ff-mos">
                   01d2tyke2866633dlpwqs3900371
                 </label>
               </div>
@@ -90,7 +90,7 @@ function StepFour({activInput,handleEdit,stepState,stepHandler}:any) {
                     Website
                   </label>
                   <a
-                    className="primary-text trs-3"
+                    className="primary-text trs-3 ff-mos"
                     href="#!"
                     onClick={() => handleEdit("website")}
                   >
@@ -98,7 +98,7 @@ function StepFour({activInput,handleEdit,stepState,stepHandler}:any) {
                   </a>
                 </div>
                 <div className="input-wrap">
-                  <label htmlFor="" className="form-value">
+                  <label htmlFor="" className="form-value ff-mos">
                     https://knightventures.com
                   </label>
                   {activInput.website ? (
@@ -126,7 +126,7 @@ function StepFour({activInput,handleEdit,stepState,stepHandler}:any) {
                 <label htmlFor="" className="form-label d-block ff-mos">
                   Stake amount
                 </label>
-                <label htmlFor="" className="form-value">
+                <label htmlFor="" className="form-value ff-mos">
                   1269.36
                 </label>
               </div>
@@ -138,7 +138,7 @@ function StepFour({activInput,handleEdit,stepState,stepHandler}:any) {
                     Comission in %
                   </label>
                   <a
-                    className="primary-text trs-3"
+                    className="primary-text trs-3 ff-mos"
                     href="#!"
                     onClick={() => handleEdit("comission")}
                   >
@@ -146,7 +146,7 @@ function StepFour({activInput,handleEdit,stepState,stepHandler}:any) {
                   </a>
                 </div>
                 <div className="input-wrap">
-                  <label htmlFor="" className="form-value">
+                  <label htmlFor="" className="form-value ff-mos">
                     10
                   </label>
                   {activInput.comission ? (
@@ -173,7 +173,7 @@ function StepFour({activInput,handleEdit,stepState,stepHandler}:any) {
           <div className="btn-wrap col-sm-3 mt-4 ">
             <button
               type="button"
-              className="btn primary-btn w-100"
+              className="btn primary-btn w-100 ff-mos"
               onClick={stepHandler}
             >
               <span className="ff-mos">

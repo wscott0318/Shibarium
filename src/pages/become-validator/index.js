@@ -109,7 +109,7 @@ const Rewards = () => {
                   <li className="step-list active completed">
                     <p className="light-text fw-700 ff-mos">Setup Node</p>
                     <div className="step-blk step-float">
-                      <span className="fw-700 step-num">1</span>
+                      <span className="fw-700 step-num ff-mos">1</span>
                       <img
                         className="img-fluid tick-img"
                         src="../../images/green-tick.png"
@@ -125,7 +125,7 @@ const Rewards = () => {
                   >
                     <p className="light-text fw-600 ff-mos">Add Node Detail</p>
                     <div className="step-blk step-float">
-                      <span className="fw-700 step-num">2</span>
+                      <span className="fw-700 step-num ff-mos">2</span>
                       <img
                         className="img-fluid tick-img"
                         src="../../images/green-tick.png"
@@ -141,7 +141,7 @@ const Rewards = () => {
                   >
                     <p className="light-text fw-600 ff-mos">Add Your Stake</p>
                     <div className="step-blk step-float">
-                      <span className="fw-700 step-num">3</span>
+                      <span className="fw-700 step-num ff-mos">3</span>
                       <img
                         className="img-fluid tick-img"
                         src="../../images/green-tick.png"
@@ -157,7 +157,7 @@ const Rewards = () => {
                   >
                     <p className="light-text fw-600 ff-mos">Completed</p>
                     <div className="step-blk step-float">
-                      <span className="fw-700 step-num">4</span>
+                      <span className="fw-700 step-num ff-mos">4</span>
                       <img
                         className="img-fluid tick-img"
                         src="../../images/green-tick.png"
