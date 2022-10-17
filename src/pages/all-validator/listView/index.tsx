@@ -49,8 +49,8 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
       console.log("Balance",values.balance)
     return (
       <>
-        {/* <DelegatePopup show={modalShow} data={selectedRow}
-                onHide={() => setModalShow(false)} /> */}
+        <DelegatePopup show={modalShow} data={selectedRow}
+                onHide={() => setModalShow(false)} />
         <CommonModal
           title={delegateState.title}
           show={showdelegatepop}
