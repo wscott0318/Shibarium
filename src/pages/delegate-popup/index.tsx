@@ -27,6 +27,15 @@ import CommonModal from 'pages/components/CommonModel';
 import { useFormik } from "formik";
 import * as yup from "yup";
 
+const initialModalState = {
+  step0: true,
+  step1: false,
+  step2: false,
+  step3: false,
+  step4:false,
+  title: "Delegate",
+}
+
 const DelegatePopup: React.FC<any> = ({
   data,
   onHide,
@@ -45,14 +54,7 @@ const DelegatePopup: React.FC<any> = ({
   const { account, chainId = 1, library } = useActiveWeb3React();
   const web3 = useLocalWeb3();
 
-  const [delegateState, setdelegateState] = useState({
-    step0: true,
-    step1: false,
-    step2: false,
-    step3: false,
-    step4:false,
-    title: "Delegate",
-  });
+  const [delegateState, setdelegateState] = useState(initialModalState);
 
   const walletBalance =
     chainId === ChainId.SHIBARIUM
@@ -124,6 +126,7 @@ const DelegatePopup: React.FC<any> = ({
     }, 1000);
     setStep(2);
   };
+
   const buyVouchers = async () => {
     const requestBody = {
       validatorAddress: data.owner,
@@ -235,9 +238,10 @@ const DelegatePopup: React.FC<any> = ({
   };
 
   console.log(data);
-const initialValues = {
-  balance: "",
-};
+  const initialValues = {
+    balance: "",
+  };
+
 let schema = yup.object().shape({
   balance: yup.string().required("Balance is required"),
 });
@@ -250,13 +254,19 @@ const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
       console.log("Value", values);
     },
   });
+
+  const handleClose = () => {
+    setdelegateState(initialModalState)
+    setdelegatepop(false)
+  }
+
 console.log("Balance", values.balance);
   return (
     <>
       <CommonModal
         title={delegateState.title}
         show={showdelegatepop}
-        setShow={setdelegatepop}
+        setShow={handleClose}
         externalCls="stak-pop del-pop"
       >
         <>
@@ -342,7 +352,7 @@ console.log("Balance", values.balance);
                         /> 
                          </span>
                       <span className="text-right">
-                        Available Balance: {walletBalance?.toFixed(8)} BONE
+                          Balance: {walletBalance?.toFixed(8)} BONE
                       </span>
                     </p>
                   </div>
