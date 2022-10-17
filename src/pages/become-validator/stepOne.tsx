@@ -1,5 +1,5 @@
 
-function StepOne() {
+function StepOne({stepHandler,stepState}:any) {
   return (
     <>
       <div className="progress-tab">
@@ -60,6 +60,15 @@ function StepOne() {
             Validator Discord channel.
           </a>
         </p>
+        <div className="btn-wrap col-sm-3 mt-4 ">
+          <button
+            type="button"
+            className="btn primary-btn w-100"
+            onClick={stepHandler}
+          >
+            <span className="ff-mos">{!stepState.step4 ? "Next" : "Save"}</span>
+          </button>
+        </div>
       </div>
     </>
   );

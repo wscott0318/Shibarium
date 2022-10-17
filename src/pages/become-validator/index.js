@@ -170,16 +170,22 @@ const Rewards = () => {
               </div>
               <div className="col-lg-8">
                 {/* step 1 start*/}
-                {stepState.step1 && <StepOne/>}
+                {stepState.step1 && (
+                  <StepOne stepHandler={stepHandler} stepState={stepState} />
+                )}
                 {/* step 1 end */}
 
                 {/* step 2  start */}
-                {stepState.step2 && <StepTwo/>}
+                {stepState.step2 && (
+                  <StepTwo stepHandler={stepHandler} stepState={stepState} />
+                )}
                 {/* step 2 end */}
 
                 {/* step 3 start */}
 
-                {stepState.step3 && <StepThree/>}
+                {stepState.step3 && (
+                  <StepThree stepHandler={stepHandler} stepState={stepState} />
+                )}
 
                 {/* step 3 end */}
 
@@ -188,20 +194,23 @@ const Rewards = () => {
                   <StepFour
                     activInput={activInput}
                     handleEdit={handleEdit}
+                    stepHandler={stepHandler}
+                    stepState={stepState}
                   />
                 )}
 
                 {/* step 4 end */}
-                <div className="btn-wrap col-sm-3 mt-4 ">
+                {/* <div className="btn-wrap col-sm-3 mt-4 ">
                   <button
                     type="button"
                     className="btn primary-btn w-100"
                     onClick={stepHandler}
                   >
-                    {/* <span className="ff-mos">Save</span> */}
-                    <span className="ff-mos">{!stepState.step4 ? "Next" : "Save"}</span>
+                    <span className="ff-mos">
+                      {!stepState.step4 ? "Next" : "Save"}
+                    </span>
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
