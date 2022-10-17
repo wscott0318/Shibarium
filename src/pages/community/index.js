@@ -101,7 +101,7 @@ export default function community() {
                         <br/>
                         <div className="row">
                             <div className="col-md-6 col-sm-6 col-xs-12">
-                                <h3 className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2">Where does it come from?</h3>
+                                <h3 className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 ff-mos">Where does it come from?</h3>
                                 <p className="ff-mos">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, 
                         looked up one of the more obscure Latin words, consectetur </p>
                                 <ul className="text-list mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 ff-mos">
