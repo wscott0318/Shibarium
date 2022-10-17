@@ -1,10 +1,12 @@
 import { useFormik } from "formik";
+import React, {useState} from "react";
 import * as yup from "yup";
 
 function StepTwo({stepState,stepHandler}:any) {
 
+  const [imageData, setImageData] = useState<any>("");
+
   const initialValues = {
-    image:"",
     validatorname:"",
     publickey:"",
     address:"",
@@ -12,15 +14,14 @@ function StepTwo({stepState,stepHandler}:any) {
     commission:""
   };
   let schema = yup.object().shape({
-    image: yup.string().required(),
-    validatorname: yup.string().required(),
-    publickey: yup.string().email().required(),
-    address: yup.number().required(),
-    website: yup.string().url().required(),
-    commission: yup.number().required().positive().integer(),
+    validatorname: yup.string().required("validator name is required"),
+    publickey: yup.string().required("public key is required"),
+    address: yup.string().required("address is required"),
+    website: yup.string().required("website is required"),
+    commission: yup.string().required("commission is required"),
   });
 
-  const {values,errors,handleBlur,handleChange,handleSubmit} = useFormik({
+  const {values,errors,handleBlur,handleChange,handleSubmit, touched} = useFormik({
     initialValues: initialValues,
     validationSchema:schema,
     onSubmit: (values) => {
@@ -47,8 +48,8 @@ function StepTwo({stepState,stepHandler}:any) {
                 <div className="file-icons">
                   <img
                     src={
-                      values.image
-                        ? values.image
+                      imageData
+                        ? URL.createObjectURL(imageData)
                         : "../../assets/images/file-icon.png"
                     }
                     alt=""
@@ -60,17 +61,14 @@ function StepTwo({stepState,stepHandler}:any) {
                   <input
                     type="file"
                     className="input-file"
-                    name="image"
-                    value={values.image}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
+                    accept="image/*"
+                    onChange={(e) => setImageData(e.target.files[0])}
                   />
                   <a href="#!" className="form-control">
                     Upload
                   </a>
                 </div>
               </div>
-              <p className="error">{errors.image}</p>
             </div>
           </div>
           <div className="col-sm-6 form-grid">
@@ -88,7 +86,7 @@ function StepTwo({stepState,stepHandler}:any) {
                 onBlur={handleBlur}
               />
             </div>
-            <p className="error">{errors.validatorname}</p>
+            {touched.validatorname && errors.validatorname ? <p className="primary-text error">{errors.validatorname}</p> : null}
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -105,7 +103,7 @@ function StepTwo({stepState,stepHandler}:any) {
                 onBlur={handleBlur}
               />
             </div>
-            <p className="error">{errors.website}</p>
+           {touched.website && errors.website ? <p className="primary-text error">{errors.website}</p> : null}
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -122,7 +120,7 @@ function StepTwo({stepState,stepHandler}:any) {
                 onBlur={handleBlur}
               />
             </div>
-            <p className="error">{errors.address}</p>
+            {touched.address &&  errors.address ? <p className="primary-text error">{errors.address}</p> : null}
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -139,7 +137,7 @@ function StepTwo({stepState,stepHandler}:any) {
                 onBlur={handleBlur}
               />
             </div>
-            <p className="error">{errors.publickey}</p>
+            {touched.publickey && errors.publickey ?  <p className="primary-text error">{errors.publickey}</p> : null}
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -156,7 +154,7 @@ function StepTwo({stepState,stepHandler}:any) {
                 onBlur={handleBlur}
               />
             </div>
-            <p className="error">{errors.commission}</p>
+            {touched.commission && errors.commission ?  <p className="primary-text error">{errors.commission}</p> : null}
           </div>
         </div>
         <div className="btn-wrap col-sm-3 mt-4 ">
