@@ -10,9 +10,14 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
     const [modalShow, setModalShow] = React.useState(false);
     const [selectedRow, setSelectedRow] = useState({});
     const [userType, setUserType] = useUserType()
+    const [showdelegatepop, setdelegatepop] = useState(false);
 
     return (
        <>
+       <DelegatePopup
+          showdelegatepop={showdelegatepop}
+          setdelegatepop={setdelegatepop}
+        />
        <div className="container">
             <div className='grid-sec'>
             {validatorsList && validatorsList.length ?
@@ -50,7 +55,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                                       </div>
                                   </div>
                                   <div className='text-center mt-3'>
-                                      <button type="button" onClick={() => setModalShow(true)} className='btn primary-btn  light-text w-100'><span>Delegate</span></button> 
+                                      <button type="button" onClick={() => setdelegatepop(true)} className='btn primary-btn  light-text w-100'><span>Delegate</span></button> 
                                   </div>
                               </div>
                           </div>
