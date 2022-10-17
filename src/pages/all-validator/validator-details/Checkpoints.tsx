@@ -58,7 +58,7 @@ const Checkpoints:React.FC<Props> = ({ allCheckpoints,boneUsdValue }) => {
                                             </table>
                                         </div>
                                     </div>
-                                    <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={allCheckpoints.length || 1} currentPage={pageIndex} />
+                                    <div className='mt-sm-4 mt-3'><Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={allCheckpoints.length || 1} currentPage={pageIndex} /></div>
                                 </div>
         </>
     

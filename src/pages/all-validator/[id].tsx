@@ -62,7 +62,7 @@ export default function ValidatorDetails() {
     
     return (
         <>
-            <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg">
+            <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg font-up">
             <Header />
             <StakingHeader />
             <section className='py-4 top_bnr_area dark-bg py-lg-5'>
@@ -77,7 +77,7 @@ export default function ValidatorDetails() {
                                         <span className='text-white trs-3'>{validatorInfo?.name}</span>
                                     </h4>
                                     {/* <Link href="https://linktr.ee/DeFiMatic"> */}
-                                        <a className='primary-text'>
+                                        <a className='primary-text ff-mos'>
                                           https://linktr.ee/DeFiMatic
                                         </a>
                                     {/* </Link> */}
@@ -86,21 +86,21 @@ export default function ValidatorDetails() {
                             <div className='col-sm-7 col-lg-7 col-xl-8'>
                                 <div className="mb-4 cus-panel h-100">
                                     <div className="panel-header">
-                                        <h4 className='mb-0 fw-600 trs-3'>Validator Info</h4>
+                                        <h4 className='mb-0 fw-600 trs-3 ff-mos'>Validator Info</h4>
                                         {validatorInfo?.uptimePercent === 0 ? 
                                          <div className='badge-md primary-bg'>
-                                            <span className='trs-1'>Inactive</span>
+                                            <span className='trs-1 ff-mos'>Inactive</span>
                                         </div>
                                         :
                                         <div className='badge-md success-bg'>
-                                            <span className='trs-1'>Active</span>
+                                            <span className='trs-1 ff-mos'>Active</span>
                                         </div>
                                         }   
                                     </div>
                                     <div className="pb-0 panel-body">
                                         <ul className='mb-0 info-list list-unstyled'>
                                             <li className='info-data-lst'>
-                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Supply</h6>
+                                                <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Supply</h6>
                                                 <p className='mb-0 trs-3'>
                                                 <NumberFormat displayType='text' thousandSeparator value={totalSupply.toFixed(8)} /> BONE
                                                 </p>
@@ -112,26 +112,26 @@ export default function ValidatorDetails() {
                                                 </p>
                                             </li> */}
                                             <li className='info-data-lst'>
-                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Owner address</h6>
-                                                <p className='mb-0 trs-3'>
+                                                <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Owner address</h6>
+                                                <p className='mb-0 trs-3 ff-mos'>
                                                 {validatorInfo?.owner}
                                                 </p>
                                             </li>
                                             <li className='info-data-lst'>
-                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Signer address</h6>
-                                                <p className='mb-0 trs-3 primary-text'>
+                                                <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Signer address</h6>
+                                                <p className='mb-0 trs-3 primary-text ff-mos'>
                                                 {validatorInfo?.signer}
                                                 </p>
                                             </li>
                                             <li className='info-data-lst'>
-                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Commission Rate</h6>
-                                                <p className='mb-0 trs-3'>
+                                                <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Commission Rate</h6>
+                                                <p className='mb-0 trs-3 ff-mos'>
                                                 {validatorInfo?.commissionPercent}% 
                                                 </p>
                                             </li>
                                             <li className='info-data-lst'>
-                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Condition</h6>
-                                                <p className="mb-0 trs-3 fw-600 up-text">
+                                                <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Condition</h6>
+                                                <p className="mb-0 trs-3 fw-600 up-text ff-mos">
                                                 {validatorInfo?.uptimePercent >=90 ? `Good` : validatorInfo?.uptimePercent <90 && validatorInfo?.uptimePercent >=70 ?`Okay`:'Bad'}
                                                 </p>
                                             </li>
@@ -149,16 +149,16 @@ export default function ValidatorDetails() {
                             <div className="col-lg-12 detail">
                                 <div className="mb-4 cus-panel dark-Bg mb-lg-5">
                                     <div className="panel-header">
-                                        <h4 className='fwb trs-3 fw-600'>Voting Power test</h4>
+                                        <h4 className='fwb trs-3 fw-600 ff-mos'>Voting Power test</h4>
                                     </div>
                                     <div className="panel-body">
                                         <div className='flex-wrap mb-4 d-flex align-items-center'>
                                             <div className='data-btn me-3'>
-                                                <span className='trs-6'>
+                                                <span className='trs-6 ff-mos'>
                                                 <NumberFormat displayType='text' thousandSeparator value={(validatorInfo?.selfStake/Math.pow(10,18)).toFixed(4)} /> 
                                                 </span>
                                             </div>
-                                            <div className='text'>
+                                            <div className='text ff-mos'>
                                                {validatorInfo?.votingPower ? <span>(~{(+validatorInfo?.votingPower).toFixed(2) || 0}%)</span> : null }
                                             </div>
                                         </div>
@@ -167,20 +167,20 @@ export default function ValidatorDetails() {
                                         </div>
                                         <ul className='mb-0 info-list list-unstyled'>
                                             <li className='info-data-lst'>
-                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Check point</h6>
-                                                <p className='mb-0 trs-3'>
+                                                <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Check point</h6>
+                                                <p className='mb-0 trs-3 ff-mos'>
                                                 {lastBlock?.checkpointNumber}
                                                 </p>
                                             </li>
                                             <li className='info-data-lst'>
-                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Voting Power</h6>
-                                                <p className='mb-0 trs-3'>
+                                                <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Voting Power</h6>
+                                                <p className='mb-0 trs-3 ff-mos'>
                                                 <NumberFormat displayType='text' thousandSeparator value={(validatorInfo?.selfStake/Math.pow(10,18)).toFixed(8)} />
                                                 </p>
                                             </li>
                                             <li className='info-data-lst'>
-                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Voting Power %</h6>
-                                                {validatorInfo?.votingPower ? <p className='mb-0 trs-3 primary-text'>
+                                                <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Voting Power %</h6>
+                                                {validatorInfo?.votingPower ? <p className='mb-0 trs-3 primary-text ff-mos'>
                                                    {(+validatorInfo?.votingPower).toFixed(2) || 0}%
                                                 </p> : null }
                                             </li>

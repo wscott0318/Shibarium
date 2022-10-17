@@ -305,7 +305,7 @@ console.log("Balance", values.balance);
             </ul>
             {/* added by vivek */}
             {delegateState.step0 && (
-              <form onSubmit={handleSubmit}>
+              <form className="h-100" onSubmit={handleSubmit}>
                 <div className="step_content fl-box">
                   <div className="ax-top">
                     <div className="info-box my-3">
@@ -323,7 +323,7 @@ console.log("Balance", values.balance);
                         </div>
                       </div>
                     </div>
-                    <div className="form-field position-relative two-fld max-group extr_pd_remove">
+                    <div className="form-field position-relative two-fld max-group extr_pd_remove bg-clr">
                       <div className="mid-chain w-100">
                         <input
                           className="w-100"
