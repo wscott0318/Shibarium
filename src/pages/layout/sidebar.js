@@ -51,18 +51,18 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
       isSelected: router.asPath == "/withdraw" ? true : false,
       img: "../../images/sidebar/bridge.png",
     },
-    {
-      name: "Swap token",
-      route: "/swap-token",
-      isSelected: router.asPath == "/swap-token" ? true : false,
-      img: "../../images/sidebar/swap.png",
-    },
-    {
-      name: "Gas token",
-      route: "/gas-token",
-      isSelected: router.asPath == "/gas-token" ? true : false,
-      img: "../../images/sidebar/gas-toke.png",
-    },
+    // {
+    //   name: "Swap token",
+    //   route: "/swap-token",
+    //   isSelected: router.asPath == "/swap-token" ? true : false,
+    //   img: "../../images/sidebar/swap.png",
+    // },
+    // {
+    //   name: "Gas token",
+    //   route: "/gas-token",
+    //   isSelected: router.asPath == "/gas-token" ? true : false,
+    //   img: "../../images/sidebar/gas-toke.png",
+    // },
   ];
 
   useEffect(() => {
@@ -80,12 +80,12 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
       isSelected: false,
       img: "../../images/sidebar/faq.png",
     },
-    {
-      name: "Developer Tools",
-      route: "",
-      isSelected: false,
-      img: "../../images/sidebar/tools.png",
-    },
+    // {
+    //   name: "Developer Tools",
+    //   route: "",
+    //   isSelected: false,
+    //   img: "../../images/sidebar/tools.png",
+    // },
     {
       name: "Faucet",
       route: "/faucet",

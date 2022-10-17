@@ -8,7 +8,7 @@ function StepTwo({stepState,stepHandler}:any) {
   const [imageData, setImageData] = useState<any>("");
   const [validation, setValidation] = useState({
     image: false,
-    address: false
+    address: false,
   })
 
   
@@ -18,12 +18,18 @@ function StepTwo({stepState,stepHandler}:any) {
   }
 
   const callAPI = (values: any) => {
+    console.log("call API called")
     if(imageData && verifyAddress(values.address)){
       setValidation({image: false, address: false})
+      console.log("1")
     } else if (!imageData && verifyAddress(values.address)) {
-      setValidation((pre:any) => ({...pre, image: true}))
+      setValidation({address:false, image: true})
+      console.log("2")
     } else if (imageData && !verifyAddress(values.address)){
-      setValidation((pre:any) => ({...pre, address: true})) 
+      setValidation({image:false, address: true}) 
+      console.log("3")
+    } else {
+      setValidation({image: true, address:true})
     }
   }
 
@@ -38,8 +44,8 @@ function StepTwo({stepState,stepHandler}:any) {
     validatorname: yup.string().required("validator name is required"),
     publickey: yup.string().required("public key is required"),
     address: yup.string().required("address is required"),
-    website: yup.string().required("website is required"),
-    commission: yup.string().required("commission is required"),
+    website: yup.string().required("website is required").matches(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/, "enter a vaild url"),
+    commission: yup.string().required("commission is required").matches(/^(?:100(?:[.,]00?)?|\d?\d(?:[.,]\d\d?)?)$/, "enter vaild percentage"),
   });
 
   const {values,errors,handleBlur,handleChange,handleSubmit, touched} = useFormik({
@@ -93,10 +99,11 @@ function StepTwo({stepState,stepHandler}:any) {
                     Upload
                   </a>
                 </div>
-                {validation.image ? <p className="primary-text error">image is required</p> : null}
               </div>
             </div>
+            {validation.image ? <p className="primary-text error">image is required</p> : null}
           </div>
+
           <div className="col-sm-6 form-grid">
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
