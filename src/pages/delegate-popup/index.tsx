@@ -246,7 +246,7 @@ let schema = yup.object().shape({
   balance: yup.string().required("Balance is required"),
 });
 const [balance, setBalance] = useState();
-const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
+const { values, errors, handleBlur, handleChange, handleSubmit, touched,setFieldValue } =
   useFormik({
     initialValues: initialValues,
     validationSchema: schema,
@@ -258,6 +258,7 @@ const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
   const handleClose = () => {
     setdelegateState(initialModalState)
     setdelegatepop(false)
+    setFieldValue("balance","0")
   }
 
 console.log("Balance", values.balance);
@@ -314,10 +315,13 @@ console.log("Balance", values.balance);
                           <span className="user-icon"></span>
                         </div>
                         <div className="fw-700">
-                          <span className="vertical-align ft-22">{data.name}</span>
+                          <span className="vertical-align ft-22">
+                            {data.name}
+                          </span>
                           <p>
                             <span className="light-text">
-                              100% Performance - {data.commissionPercent}% Commission
+                              100% Performance - {data.commissionPercent}%
+                              Commission
                             </span>
                           </p>
                         </div>
@@ -340,19 +344,19 @@ console.log("Balance", values.balance);
                     </div>
                     {errors.balance && touched.balance ? (
                       <p className="primary-text error">{errors.balance}</p>
-                    ) : null }
+                    ) : null}
 
                     <p className="inpt_fld_hlpr_txt mt-3 text-pop-right">
                       <span>
-                      <NumberFormat
-                      value={(walletBalance * boneUSDValue).toFixed(4)}
-                      displayType={"text"}
-                      thousandSeparator={true}
-                      prefix={"$ "}
-                        /> 
-                         </span>
+                        <NumberFormat
+                          value={(walletBalance * boneUSDValue).toFixed(4)}
+                          displayType={"text"}
+                          thousandSeparator={true}
+                          prefix={"$ "}
+                        />
+                      </span>
                       <span className="text-right">
-                          Balance: {walletBalance?.toFixed(8)} BONE
+                        Balance: {walletBalance?.toFixed(8)} BONE
                       </span>
                     </p>
                   </div>
@@ -590,10 +594,7 @@ console.log("Balance", values.balance);
                 <div className="ax-bottom">
                   <div className="pop_btns_area row form-control mt-3">
                     <div className="col-12">
-                      <button
-                        className="w-100"
-                        onClick={() => setdelegatepop(false)}
-                      >
+                      <button className="w-100" onClick={() => {handleClose()}}>
                         <a
                           className="btn primary-btn d-flex align-items-center"
                           href="javascript:void(0)"
