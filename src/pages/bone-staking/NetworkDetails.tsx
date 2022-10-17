@@ -87,7 +87,7 @@ function NetworkDetails() {
 
   const cardShimmerEffects = () => {
     return (
-      <ShimmerTitle line={3} gap={10} variant="primary" />
+      <ShimmerTitle line={3} gap={10} className="cus-shimer"  variant="primary" />
     )
   }
 
