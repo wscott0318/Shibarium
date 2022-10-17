@@ -17,6 +17,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
        <DelegatePopup
           showdelegatepop={showdelegatepop}
           setdelegatepop={setdelegatepop}
+          data={selectedRow}
         />
        <div className="container">
             <div className='grid-sec'>
@@ -55,7 +56,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                                       </div>
                                   </div>
                                   <div className='text-center mt-3'>
-                                      <button type="button" onClick={() => setdelegatepop(true)} className='btn primary-btn  light-text w-100'><span>Delegate</span></button> 
+                                      <button type="button" onClick={() => {setdelegatepop(true); setSelectedRow(validator)}} className='btn primary-btn  light-text w-100'><span>Delegate</span></button> 
                                   </div>
                               </div>
                           </div>
