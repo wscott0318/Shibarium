@@ -1,5 +1,5 @@
 
-function StepFour({activInput,handleEdit}:any) {
+function StepFour({activInput,handleEdit,stepState,stepHandler}:any) {
         
     return (
       <>
@@ -169,6 +169,17 @@ function StepFour({activInput,handleEdit}:any) {
                 </div>
               </div>
             </div>
+          </div>
+          <div className="btn-wrap col-sm-3 mt-4 ">
+            <button
+              type="button"
+              className="btn primary-btn w-100"
+              onClick={stepHandler}
+            >
+              <span className="ff-mos">
+                Save
+              </span>
+            </button>
           </div>
         </div>
       </>
