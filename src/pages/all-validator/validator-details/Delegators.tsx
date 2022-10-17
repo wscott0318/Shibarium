@@ -28,7 +28,7 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
                                     <h3 className="mb-2 mb-sm-4">Delegator</h3>
                                     <div className="cmn_dasdrd_table dt-table">
                                         <div className="table-responsive">
-                                            <table className="table table-borderless">
+                                            <table className="table table-borderless ff-mos">
                                             <thead>
                                                 <tr>
                                                 <th>Accounts</th>
@@ -53,7 +53,7 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
                                             </table>
                                         </div>
                                     </div>
-                                    <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={allDelegators.length || 1} currentPage={pageIndex} />
+                                    <div className='mt-sm-4 mt-3'><Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={allDelegators.length || 1} currentPage={pageIndex} /></div>
                                 </div>
         </>
     )
