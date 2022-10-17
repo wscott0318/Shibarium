@@ -41,7 +41,7 @@ export default function delegator() {
 
         <section className="table-section top-pad bottom-pad">
           <div className="container">
-            <div className="filter-row mb-md-5 mb-sm-4 mb-3">
+            <div className="filter-row mb-md-5 mb-sm-4 mb-3 ff-mos">
               <div className="left-section">
                 <input className="custum-search w-100" type="search " placeholder="Search by validator name, id" />
               </div>

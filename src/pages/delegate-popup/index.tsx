@@ -32,8 +32,6 @@ const DelegatePopup: React.FC<any> = ({
   onHide,
   showdelegatepop,
   setdelegatepop,
-  setdelegateState,
-  delegateState,
   ...props
 }: any) => {
   const [step, setStep] = useState<number>(1);
@@ -46,6 +44,15 @@ const DelegatePopup: React.FC<any> = ({
   const [toastMassage, setToastMassage] = useState("");
   const { account, chainId = 1, library } = useActiveWeb3React();
   const web3 = useLocalWeb3();
+
+  const [delegateState, setdelegateState] = useState({
+    step0: true,
+    step1: false,
+    step2: false,
+    step3: false,
+    step4:false,
+    title: "Delegate",
+  });
 
   const walletBalance =
     chainId === ChainId.SHIBARIUM
@@ -232,7 +239,7 @@ const initialValues = {
   balance: "",
 };
 let schema = yup.object().shape({
-  balance: yup.number().positive().required("Balance is required"),
+  balance: yup.string().required("Balance is required"),
 });
 const [balance, setBalance] = useState();
 const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
@@ -297,10 +304,10 @@ console.log("Balance", values.balance);
                           <span className="user-icon"></span>
                         </div>
                         <div className="fw-700">
-                          <span className="vertical-align ft-22">Val 3</span>
+                          <span className="vertical-align ft-22">{data.name}</span>
                           <p>
                             <span className="light-text">
-                              100% Performance - 13% Commission
+                              100% Performance - {data.commissionPercent}% Commission
                             </span>
                           </p>
                         </div>
@@ -310,7 +317,6 @@ console.log("Balance", values.balance);
                       <div className="mid-chain w-100">
                         <input
                           className="w-100"
-                          type="number"
                           placeholder="0.00"
                           name="balance"
                           value={values.balance}
@@ -322,14 +328,21 @@ console.log("Balance", values.balance);
                         <span className="orange-txt fw-bold">MAX</span>
                       </div>
                     </div>
-                    {errors.balance && touched.balance && (
+                    {errors.balance && touched.balance ? (
                       <p className="primary-text error">{errors.balance}</p>
-                    )}
+                    ) : null }
 
                     <p className="inpt_fld_hlpr_txt mt-3 text-pop-right">
-                      <span>$ 0.00 </span>
+                      <span>
+                      <NumberFormat
+                      value={(walletBalance * boneUSDValue).toFixed(4)}
+                      displayType={"text"}
+                      thousandSeparator={true}
+                      prefix={"$ "}
+                        /> 
+                         </span>
                       <span className="text-right">
-                        Available Balance: 00.00 BONE
+                        Available Balance: {walletBalance?.toFixed(8)} BONE
                       </span>
                     </p>
                   </div>
@@ -364,7 +377,7 @@ console.log("Balance", values.balance);
                             className="btn primary-btn d-flex align-items-center"
                             href="javascript:void(0)"
                           >
-                            <span>View on Etherscan</span>
+                            <span>Continue</span>
                           </a>
                         </button>
                       </div>

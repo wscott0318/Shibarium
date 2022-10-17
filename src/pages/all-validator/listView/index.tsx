@@ -19,14 +19,6 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
       )
     }
     const [showdelegatepop, setdelegatepop] = useState(false);
-    const [delegateState, setdelegateState] = useState({
-      step0: true,
-      step1: false,
-      step2: false,
-      step3: false,
-      step4:false,
-      title: "Delegate",
-    });
     console.log(validatorsList);
     
     return (
@@ -34,10 +26,8 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
         <DelegatePopup
           showdelegatepop={showdelegatepop}
           setdelegatepop={setdelegatepop}
-          delegateState={delegateState}
-          setdelegateState={setdelegateState}
+          data={selectedRow}
         />
-
         <div className="cmn_dasdrd_table">
           <div className="table-responsive">
             <table className="table table-borderless">
@@ -80,14 +70,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       <button
                         onClick={() => {
                           setdelegatepop(true);
-                          setdelegateState({
-                            step0: true,
-                            step1: false,
-                            step2: false,
-                            step3: false,
-                            step4: false,
-                            title: "Delegate",
-                          });
+                          setSelectedRow(x)
                         }}
                       >
                         DELEGATE

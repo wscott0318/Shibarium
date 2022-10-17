@@ -20,7 +20,7 @@ const routeCheck = (x:string) => {
                 <li className="nav-item">
                   <button onClick={() => routeHandler("/bone-staking")}>
                     <a
-                      className={`nav-link ${
+                      className={`nav-link ff-mos ${
                         routeCheck("bone-staking") && "active"
                       }`}
                       href="javascript:void(0);"
@@ -32,7 +32,7 @@ const routeCheck = (x:string) => {
                 <li className="nav-item">
                   <button onClick={() => routeHandler("/all-validator")}>
                     <a
-                      className={`nav-link ${
+                      className={`nav-link ff-mos ${
                         routeCheck("all-validator") && "active"
                       }`}
                       href="javascript:void(0);"
@@ -44,7 +44,7 @@ const routeCheck = (x:string) => {
                 <li className="nav-item">
                   <button onClick={() => routeHandler("/my-account")}>
                     <a
-                      className={`nav-link ${
+                      className={`nav-link ff-mos ${
                         routeCheck("my-account") && "active"
                       }`}
                       href="javascript:void(0);"

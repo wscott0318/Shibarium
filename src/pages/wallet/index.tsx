@@ -33,6 +33,7 @@ import NumberFormat from 'react-number-format';
 import { useSearchFilter } from "app/hooks/useSearchFilter";
 import {dynamicChaining} from "../../web3/DynamicChaining"; 
 import Pagination from 'app/components/Pagination';
+// @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 
