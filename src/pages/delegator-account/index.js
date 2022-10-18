@@ -45,7 +45,7 @@ export default function DelegatorAccount() {
     //  console.log('account---------------', account)
     return (
         <>
-            <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space">
+            <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space ffms-inherit">
                 <Header />
                 <StakingHeader />
 
@@ -521,7 +521,7 @@ export default function DelegatorAccount() {
                                             Unbound
                                         </button>
                                     </div>
-                                    <br />   <br />   <br />
+                                    {/* <br />   <br />   <br />
                                     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                                         <button onClick={() => setallinonepop(true)} className="btn grey-btn w-100 d-block">
                                             All in one popup btn
@@ -536,7 +536,7 @@ export default function DelegatorAccount() {
                                         <button onClick={() => setClaimpop(true)} className="btn grey-btn w-100 d-block">
                                             Stake Claim
                                         </button>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
