@@ -14,11 +14,13 @@ import {getUserType} from "../../services/apis/user/userApi";
 import UserAccount from "./UserAccount";
 import DelegatorAccount from "./DelegatorAccount";
 import ValidatorAccount from "./ValidatorAccount";
+import LoadingSpinner from 'pages/components/Loading';
 
 export default function MyAcount() {
   const { account, chainId = 1 } = useActiveWeb3React();
 
   const [userType, setUserType] = useState('')
+  const [loading, setLoading] = useState(true)
 
   const getUsertypeAPI = (accountAddress) => {
     try {
@@ -26,14 +28,16 @@ export default function MyAcount() {
         if (res.data && res.data.data) {
           let ut = res.data.data.userType;
           console.log(ut)
-          setUserType(ut)
+          setUserType(ut) 
+          setLoading(false)
         }
       }).catch(e => {
         // console.log(e);
-        setUserType('NA')
+        setUserType('NA') 
+        setLoading(false)
       })
     } catch (error) {
-
+      setLoading(false)
     }
   }
 

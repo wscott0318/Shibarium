@@ -2364,9 +2364,16 @@ background: $body-bg;
         input{
             background: $body-bg-800;
             color: $white;
+            
         }
+        
+        
     }
     
+}
+input:-internal-autofill-selected {
+    background-image: none !important;
+    background-color:$body-bg-800 !important;
 }
 .fl-box {
     display: flex;
