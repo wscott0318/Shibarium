@@ -166,7 +166,7 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
           </div>
           <ul className="side-menu">
             {renderTopList.map((x) => (
-              <li className="side-menu-item">
+              <li className="side-menu-item" key={x.name}>
                 <button
                   className={
                     x.isSelected
@@ -189,7 +189,7 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
         <div className="sidebar-bottom-menu">
           <ul className="side-menu">
             {renderBottomList.map((x) => (
-              <li className="side-menu-item">
+              <li className="side-menu-item" key={x.name}>
                 <button
                   className={
                     x.isSelected

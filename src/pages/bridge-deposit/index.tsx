@@ -135,12 +135,12 @@ export default function Deposit() {
             {/* <div className="cmn_modal">
                     <h4 className="pop_main_h text-center">Send</h4>
                      <form>
-                        <div class="form-group">                        
-                          <input type="text" class="form-control cmn_inpt_fld"  placeholder="Reciver address"/>
+                        <div className="form-group">                        
+                          <input type="text" className="form-control cmn_inpt_fld"  placeholder="Reciver address"/>
                         </div>
-                        <div class="form-group">  
+                        <div className="form-group">  
                           <label>Enter a valid reciver address on Shibarium Mainnet</label>                      
-                          <input type="text" class="form-control cmn_inpt_fld"  placeholder="0.00"/>
+                          <input type="text" className="form-control cmn_inpt_fld"  placeholder="0.00"/>
                           <p className="inpt_fld_hlpr_txt">
                             <span>0.00$</span>
                             <b>Available Balance: 0.00 SHIB</b>

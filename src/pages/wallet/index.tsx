@@ -749,6 +749,7 @@ export default function Wallet() {
                           ? tokenModalList.map((x: any) => (
                               <div
                                 className="tokn-row"
+                                key={x.parentName}
                                 onClick={() => {
                                   setSelectedToken(x);
                                   setSendModal({
@@ -887,7 +888,7 @@ export default function Wallet() {
                       <tbody>
                         {slicedTokenFilteredList.length ? (
                           slicedTokenFilteredList.map((x: any) => (
-                            <tr>
+                            <tr key={x.parentName}>
                               <td colSpan={2}>
                                 <span>
                                   <img src="../../images/shiba-round-icon.png" />

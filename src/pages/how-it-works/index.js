@@ -20,7 +20,7 @@ export default function HowitWorks() {
                         <h1 className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 ff-mos">Web Wallet Usage Guide</h1>
                         <p className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 ff-mos">What follows is a set of instructions to deposit and withdraw funds using Shibarium's network. For performing those actions, you need to connect a wallet to Shibarium's environment.
                         In this tutorial, we used Metamask, but Shibarium is integrated with other wallets such as Coinbase, Bitski, Venly and WalletConnect.</p>
-                        <div class="cus-alerbox">
+                        <div className="cus-alerbox">
                         <div className="d-flex align-items-center">
                             <div className="d-inline-block me-2">
                                 <img width="20" height="20" className="img-fluid" src="../../images/alert-icon.png" alt="check-icon"/>
@@ -50,7 +50,7 @@ export default function HowitWorks() {
                             <div><img  className="img-fluid" src="../../images/500x500.png" alt="check-icon"/></div>
                         </div>
                         <br/>
-                        <div class="cus-alerbox">
+                        <div className="cus-alerbox">
                         <div className="d-flex align-items-center">
                             <div className="d-inline-block me-2">
                                 <img width="20" height="20" className="img-fluid" src="../../images/bulb.png" alt="check-icon"/>
