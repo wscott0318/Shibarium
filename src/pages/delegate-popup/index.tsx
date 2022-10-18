@@ -26,6 +26,8 @@ import ERC20 from "../../ABI/ERC20Abi.json"
 import CommonModal from 'pages/components/CommonModel';
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { addTransaction , finalizeTransaction} from "../../state/transactions/actions";
+import {useAppDispatch} from "../../state/hooks"
 
 const initialModalState = {
   step0: true,
@@ -52,6 +54,8 @@ const DelegatePopup: React.FC<any> = ({
   const [toastMassage, setToastMassage] = useState("");
   const { account, chainId = 1, library } = useActiveWeb3React();
   const web3 = useLocalWeb3();
+
+  const dispatch = useAppDispatch()
 
   const [delegateState, setdelegateState] = useState(initialModalState);
 
@@ -200,28 +204,64 @@ const DelegatePopup: React.FC<any> = ({
         await instance.methods
           .buyVoucher(amount, _minSharesToMint)
           .send({ from: walletAddress })
-          .then((res: any) => {
-            console.log(res);
-            setTnxCompleted(true);
-            setToastMassage(res?.data?.message);
-            setMsgType("success");
+          .on('transactionHash', (res: any) => {
+            dispatch(
+              addTransaction({
+                hash: res,
+                from: account,
+                chainId,
+                summary: `${res}`,
+              })
+            )
             const link = getExplorerLink(
               chainId,
-              res.transactionHash,
+              res,
               "transaction"
             );
             setExplorerLink(link);
+            setdelegateState({
+              step0:false,
+              step1:false,
+              step2: true,
+              step3:false,
+              title:'Transaction Process'
+            })
+            })
+            .on('receipt', (res: any) => {
+              dispatch(
+                finalizeTransaction({
+                  hash: res.transactionHash,
+                  chainId,
+                  receipt: {
+                    to: res.to,
+                    from: res.from,
+                    contractAddress: res.contractAddress,
+                    transactionIndex: res.transactionIndex,
+                    blockHash: res.blockHash,
+                    transactionHash: res.transactionHash,
+                    blockNumber: res.blockNumber,
+                    status: 1
+                  }
+                })
+              )
+              const link = getExplorerLink(
+                chainId,
+                res.transactionHash,
+                "transaction"
+              );
+              setExplorerLink(link);
+              setdelegateState({
+                step0:false,
+                step1:false,
+                step2: false,
+                step3:true,
+                title:'Transaction Done'
+              })
+            })
+          .on('error', (err: any) => {
+            setdelegateState(initialModalState)
+            setdelegatepop(false)
           })
-          .catch((err: any) => {
-            console.log(err);
-            setToastMassage("Something went wrong");
-            setMsgType("error");
-            setTnxCompleted(true);
-            setStep(2);
-            if (err.code === 4001) {
-              console.log("User desined this transaction! ");
-            }
-          });
       }
     }
     // buyVoucher(requestBody).then(res =>{
@@ -246,7 +286,7 @@ let schema = yup.object().shape({
 });
 const [balance, setBalance] = useState();
 
-const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
+const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, touched } =
   useFormik({
     initialValues: initialValues,
     validationSchema: schema,
@@ -265,6 +305,7 @@ const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
   const handleClose = () => {
     setdelegateState(initialModalState)
     setdelegatepop(false)
+    setFieldValue("balance","")
   }
 
 console.log("Balance", values.balance);
@@ -321,10 +362,13 @@ console.log("Balance", values.balance);
                           <span className="user-icon"></span>
                         </div>
                         <div className="fw-700">
-                          <span className="vertical-align ft-22">{data.name}</span>
+                          <span className="vertical-align ft-22">
+                            {data.name}
+                          </span>
                           <p>
                             <span className="light-text">
-                              100% Performance - {data.commissionPercent}% Commission
+                              100% Performance - {data.commissionPercent}%
+                              Commission
                             </span>
                           </p>
                         </div>
@@ -347,19 +391,19 @@ console.log("Balance", values.balance);
                     </div>
                     {errors.balance && touched.balance ? (
                       <p className="primary-text error">{errors.balance}</p>
-                    ) : null }
+                    ) : null}
 
                     <p className="inpt_fld_hlpr_txt mt-3 text-pop-right">
                       <span>
-                      <NumberFormat
-                      value={(walletBalance * boneUSDValue).toFixed(4)}
-                      displayType={"text"}
-                      thousandSeparator={true}
-                      prefix={"$ "}
-                        /> 
-                         </span>
+                        <NumberFormat
+                          value={(walletBalance * boneUSDValue).toFixed(4)}
+                          displayType={"text"}
+                          thousandSeparator={true}
+                          prefix={"$ "}
+                        />
+                      </span>
                       <span className="text-right">
-                          Balance: {walletBalance?.toFixed(8)} BONE
+                        Balance: {walletBalance?.toFixed(8)} BONE
                       </span>
                     </p>
                   </div>
@@ -469,9 +513,10 @@ console.log("Balance", values.balance);
                     <div className="col-12">
                       <a
                         className="btn primary-btn d-flex align-items-center"
-                        href="javascript:void(0)"
+                        target='_blank'
+                        href={explorerLink}
                       >
-                        <span>View on Etherscan</span>
+                        <span>View on Block Explorer</span>
                       </a>
                     </div>
                   </div>
@@ -509,15 +554,13 @@ console.log("Balance", values.balance);
                 <div className="ax-bottom">
                   <div className="pop_btns_area row form-control mt-3">
                     <div className="col-12">
-                      <button
-                        className="w-100"
-                        onClick={() => setdelegatepop(false)}
-                      >
+                      <button className="w-100">
                         <a
                           className="btn primary-btn d-flex align-items-center"
-                          href="javascript:void(0)"
+                          target="_blank"
+                          href={explorerLink}
                         >
-                          <span>View on Ethereum</span>
+                          <span>View on Block Explorer</span>
                         </a>
                       </button>
                     </div>

@@ -35,6 +35,7 @@ import {dynamicChaining} from "../../web3/DynamicChaining";
 import Pagination from 'app/components/Pagination';
 // @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
+import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 
 const sendInitialState = {
   step0: true,
@@ -279,9 +280,9 @@ export default function Wallet() {
     }
   }
   
-  const cardShimmerEffects = (lines:any, gaps:any) => {
-    return <ShimmerTitle line={lines} gap={gaps} variant="primary" />;
-  };
+  // const cardShimmerEffects = (lines:any, gaps:any) => {
+  //   return <ShimmerTitle line={lines} gap={gaps} variant="primary" />;
+  // };
 
   return (
     <>
@@ -868,7 +869,7 @@ export default function Wallet() {
                 <div className="cmn_dasdrd_table mb-3 mb-sm-4">
                   <div className="table-responsive">
                     <table className="table table-borderless mb-0">
-                      <thead>
+                      {slicedTokenFilteredList.length && <thead>
                         <tr>
                           <th colSpan={2}>Name</th>
                           <th>Balance</th>
@@ -882,74 +883,60 @@ export default function Wallet() {
                             />
                           </th>
                         </tr>
-                      </thead>
+                      </thead>}
                       <tbody>
-                        {slicedTokenFilteredList.length
-                          ? slicedTokenFilteredList.map((x: any) => (
-                              <tr>
-                                <td colSpan={2}>
-                                  <span>
-                                    <img src="../../images/shiba-round-icon.png" />
-                                  </span>
-                                  <b>{x.parentSymbol}</b> - {x.parentName}
-                                </td>
-                                <td>
-                                  {(x.balance || 0).toFixed(4)} -{" "}
-                                  <NumberFormat
-                                    thousandSeparator
-                                    displayType={"text"}
-                                    prefix="$ "
-                                    value={(
-                                      (x.balance || 0) * boneUSDValue
-                                    ).toFixed(2)}
-                                  />
-                                </td>
-                                <td>
-                                  <Link href="javascript:void(0)">
-                                    <a className="px-0">Deposit</a>
-                                  </Link>
-                                </td>
-                                <td>
-                                  <div className="row mx-0">
-                                    <div className="col-6 px-0">
-                                      <Link href="javascript:void(0)">
-                                        <a className=" px-0">Withdraw</a>
-                                      </Link>
-                                    </div>
-                                    <div className="col-6 px-0">
-                                      <Link href="javascript:void(0)">
-                                        <a className=" px-0">Send</a>
-                                      </Link>
-                                    </div>
+                        {slicedTokenFilteredList.length ? (
+                          slicedTokenFilteredList.map((x: any) => (
+                            <tr>
+                              <td colSpan={2}>
+                                <span>
+                                  <img src="../../images/shiba-round-icon.png" />
+                                </span>
+                                <b>{x.parentSymbol}</b> - {x.parentName}
+                              </td>
+                              <td>
+                                {(x.balance || 0).toFixed(4)} -{" "}
+                                <NumberFormat
+                                  thousandSeparator
+                                  displayType={"text"}
+                                  prefix="$ "
+                                  value={(
+                                    (x.balance || 0) * boneUSDValue
+                                  ).toFixed(2)}
+                                />
+                              </td>
+                              <td>
+                                <Link href="javascript:void(0)">
+                                  <a className="px-0">Deposit</a>
+                                </Link>
+                              </td>
+                              <td>
+                                <div className="row mx-0">
+                                  <div className="col-6 px-0">
+                                    <Link href="javascript:void(0)">
+                                      <a className=" px-0">Withdraw</a>
+                                    </Link>
                                   </div>
-                                </td>
-                              </tr>
-                            ))
-                          : [...Array(3)].map((x) => (
-                              <tr className="pt-2">
-                                <td colSpan={2}>{cardShimmerEffects(1, 1)}</td>
-                                <td>{cardShimmerEffects(1, 1)}</td>
-                                <td>{cardShimmerEffects(1, 1)}</td>
-                                <td>
-                                  <div className="row mx-0">
-                                    <div className="col-6 px-0">
-                                      {/* <Link href="javascript:void(0)"> */}
-                                        <div className=" px-0">
-                                          {cardShimmerEffects(1, 1)}
-                                        </div>
-                                      {/* </Link> */}
-                                    </div>
-                                    <div className="col-6 px-0">
-                                      {/* <Link href="javascript:void(0)"> */}
-                                        <div className=" px-0">
-                                          {cardShimmerEffects(1, 1)}
-                                        </div>
-                                      {/* </Link> */}
-                                    </div>
+                                  <div className="col-6 px-0">
+                                    <Link href="javascript:void(0)">
+                                      <a className=" px-0">Send</a>
+                                    </Link>
                                   </div>
-                                </td>
-                              </tr>
-                            ))}
+                                </div>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={10}>
+                              <DynamicShimmer
+                                type={"table"}
+                                rows={3}
+                                cols={5}
+                              />
+                            </td>
+                          </tr>
+                        )}
                         {searchKey.length && !tokenFilteredList.length && (
                           <tr>
                             <td colSpan={6}>
