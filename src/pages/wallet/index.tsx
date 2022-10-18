@@ -4,7 +4,7 @@ import React, { useState, useEffect, useContext } from "react";
 
 import { Button, Container, Nav, Navbar, NavDropdown, DropdownButton, Dropdown, Modal } from 'react-bootstrap';
 // @ts-ignore
-import { useRouter } from "next/dist/client/router";
+import { useRouter } from "next/router";
 import Popup from "../components/PopUp";
 import { ChainId } from "@shibarium/core-sdk";
 import Web3 from "web3";
@@ -36,6 +36,7 @@ import Pagination from 'app/components/Pagination';
 // @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
+import Router from "next/router";
 
 const sendInitialState = {
   step0: true,
@@ -279,6 +280,18 @@ export default function Wallet() {
       return false
     }
   }
+  const [sendToken,setSendToken] = useState('');
+  const sendTokenWithRoute = () => {
+    // Router.push(
+    //   {
+    //     pathname: "/withdraw",
+    //     query: { sendToken: sendToken },
+    //   },
+    //   "/withdraw"
+    // );
+    Router.push(`/withdraw?token=${sendToken}`, "withdraw");
+  }
+  console.log("Router data for send",sendToken)
   
   // const cardShimmerEffects = (lines:any, gaps:any) => {
   //   return <ShimmerTitle line={lines} gap={gaps} variant="primary" />;
@@ -907,9 +920,14 @@ export default function Wallet() {
                                 />
                               </td>
                               <td>
-                                <Link href="/">
+                                {/* <Link href="/"> */}
+                                <button onClick={async ()=>{
+                                  setSendToken(`${x.parentName}`)
+                                  await sendTokenWithRoute();
+                                }}>
                                   <a className="px-0">Deposit</a>
-                                </Link>
+                                  </button>
+                                {/* </Link> */}
                               </td>
                               <td>
                                 <div className="row mx-0">
