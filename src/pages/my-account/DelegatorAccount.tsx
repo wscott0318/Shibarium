@@ -1,12 +1,14 @@
-import React, {useEffect, useState} from 'react'
-import {getDelegatorData} from "../../services/apis/user/userApi"
-import { useActiveWeb3React } from "../../services/web3"
+import React, {useEffect, useState} from 'react';
+import {getDelegatorData} from "../../services/apis/user/userApi";
+import { useActiveWeb3React } from "../../services/web3";
+import LoadingSpinner from 'pages/components/Loading';
 
 const delegatorAccount = () => {
     const { account, chainId = 1 } = useActiveWeb3React();
     const [delegationsList, setDelegationsList] = useState([]);
     const [selectedRow, setSelectedRow] = useState<any>({});
     const [stakeMore, setStakeMoreModal] = useState(false);
+    const [loading, setLoading] = useState(true)
     const [restakeModal, setRestakeModal] = useState({
         value1: false,
         value2: false,
@@ -36,13 +38,16 @@ const delegatorAccount = () => {
             console.log(res.data)
             let sortedData = res.data.data.validators.sort((a:any, b:any) => parseInt(b.stake) - parseInt(a.stake))
             setDelegationsList(sortedData)
+            setLoading(false)
            }
          }).catch((e :any)=>{
            console.log(e);
           //  setUserType('NA')
+          setLoading(false)
          })
         } catch (error) {
          console.log(error)
+         setLoading(false)
         }
        }
 
@@ -83,8 +88,10 @@ const delegatorAccount = () => {
       
 
   return (
-    <>     <div className='row'>
-                {delegationsList.length ? 
+    <>    
+        {loading && <LoadingSpinner />}
+     <div className='row'>
+                {!loading && delegationsList.length ? 
                     delegationsList.map((item: any) => 
                     <div className="col-lg-4 col-md-6 col-12 bs-col">
                     <div className="border-sec">
