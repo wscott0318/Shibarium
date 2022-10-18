@@ -2501,3 +2501,18 @@ background: $body-bg;
         align-items: center;
     } 
 }
+.table-fix{
+    .table-responsive{
+        height: 425px;
+        @media #{$max-xxl}{
+            height: 345px;
+        }
+        @media #{$max-xl}{
+            height: 305px;
+        }
+        @media #{$max-lg}{
+            height: 275px;
+        }
+        
+    }
+}

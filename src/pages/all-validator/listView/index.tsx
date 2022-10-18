@@ -28,7 +28,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
           setdelegatepop={setdelegatepop}
           data={selectedRow}
         />
-        <div className="cmn_dasdrd_table ffms-inherit">
+        <div className="cmn_dasdrd_table ffms-inherit table-fix">
           <div className="table-responsive">
             <table className="table table-borderless">
               <thead>
@@ -36,9 +36,9 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                   <th>Name</th>
                   <th>Voting Power</th>
                   <th>Self</th>
-                  <th className="text-center">Commission</th>
+                  <th className="">Commission</th>
                   <th>Uptime</th>
-                  <th></th>
+                  <th className="text-start">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -66,7 +66,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                     <td>{+x.selfPercent.toFixed(2)}%</td>
                     <td>{x.commissionPercent}%</td>
                     <td>{x.uptimePercent.toFixed(2)}%</td>
-                    <td>
+                    <td className='text-start'>
                       <button
                         onClick={() => {
                           setdelegatepop(true);
