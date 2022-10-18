@@ -263,7 +263,7 @@ export default function differentchainbridge() {
                         <div className="pop-top">
                             <div className="cnfrm_box dark-bg-800">
                                 <div className="top_overview col-12">
-                                    <div className='img-flexible'><img class="img-fluid d-inline-block" src="../../images/shib-borderd-icon.png" alt="" /></div>
+                                    <div className='img-flexible'><img className="img-fluid d-inline-block" src="../../images/shib-borderd-icon.png" alt="" /></div>
                                     <h6>1000 SHIB</h6>
                                     <p>2000.00$</p>
                                 </div>
@@ -274,7 +274,7 @@ export default function differentchainbridge() {
                                 </div>
                                 <div className="text-center box-block">
                                     <div className="d-inline-block arow-block right-arrow">
-                                        {/* <img class="img-fluid" src="../../images/white-arrow.png" alt="" /> */}
+                                        {/* <img className="img-fluid" src="../../images/white-arrow.png" alt="" /> */}
                                         <div className="scrolldown-container">
                                         <div className="scrolldown-btn">
                                           <svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="80px" viewBox="0 0 50 80" enableBackground="new 0 0 50 80" xmlSpace="preserve">
@@ -398,7 +398,7 @@ export default function differentchainbridge() {
                     <div className="sec-search ng-16">
                       <div className="position-relative search-row">
                         <input type="text" className="w-100" placeholder="Search token or token address" />
-                        <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
+                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
                       </div>
                     </div>
                     <div className="token-sec">
@@ -423,7 +423,7 @@ export default function differentchainbridge() {
                     <div className="token-listwrap">
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -437,7 +437,7 @@ export default function differentchainbridge() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/red-bone.png" alt="" />
+                            <img className="img-fluid" src="../../images/red-bone.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -451,7 +451,7 @@ export default function differentchainbridge() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -465,7 +465,7 @@ export default function differentchainbridge() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -479,7 +479,7 @@ export default function differentchainbridge() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -493,7 +493,7 @@ export default function differentchainbridge() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -507,7 +507,7 @@ export default function differentchainbridge() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -521,7 +521,7 @@ export default function differentchainbridge() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -535,7 +535,7 @@ export default function differentchainbridge() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -549,7 +549,7 @@ export default function differentchainbridge() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -596,13 +596,13 @@ export default function differentchainbridge() {
                     <div className="sec-search sec-search-secondry">
                       <div className="position-relative search-row">
                         <input type="text" className="w-100" placeholder="Add list by https://" />
-                        <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
+                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
                       </div>
                     </div>
                     <div className="token-listwrap list-ht">
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -611,10 +611,10 @@ export default function differentchainbridge() {
                               </div>
                               <div>
                                 <h6 className="fw-bold">
-                                  <label class="toggle">
+                                  <label className="toggle">
                                     <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                    <span className="slider"></span>
+                                    <span className="labels" data-on="ON" data-off="OFF"></span>
                                   </label>
                                 </h6>
                               </div>
@@ -622,7 +622,7 @@ export default function differentchainbridge() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/red-bone.png" alt="" />
+                              <img className="img-fluid" src="../../images/red-bone.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -631,10 +631,10 @@ export default function differentchainbridge() {
                               </div>
                               <div>
                                 <h6 className="fw-bold">
-                                  <label class="toggle">
+                                  <label className="toggle">
                                     <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                    <span className="slider"></span>
+                                    <span className="labels" data-on="ON" data-off="OFF"></span>
                                   </label>
                                 </h6>
                               </div>
@@ -642,7 +642,7 @@ export default function differentchainbridge() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                              <img className="img-fluid" src="../../images/etharium.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -651,10 +651,10 @@ export default function differentchainbridge() {
                               </div>
                               <div>
                                 <h6 className="fw-bold">
-                                  <label class="toggle">
+                                  <label className="toggle">
                                     <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                    <span className="slider"></span>
+                                    <span className="labels" data-on="ON" data-off="OFF"></span>
                                   </label>
                                 </h6>
                               </div>
@@ -662,7 +662,7 @@ export default function differentchainbridge() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                              <img className="img-fluid" src="../../images/etharium.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -671,10 +671,10 @@ export default function differentchainbridge() {
                               </div>
                               <div>
                                 <h6 className="fw-bold">
-                                  <label class="toggle">
+                                  <label className="toggle">
                                     <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                    <span className="slider"></span>
+                                    <span className="labels" data-on="ON" data-off="OFF"></span>
                                   </label>
                                 </h6>
                               </div>
@@ -682,7 +682,7 @@ export default function differentchainbridge() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                              <img className="img-fluid" src="../../images/etharium.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -691,10 +691,10 @@ export default function differentchainbridge() {
                               </div>
                               <div>
                                 <h6 className="fw-bold">
-                                  <label class="toggle">
+                                  <label className="toggle">
                                     <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                    <span className="slider"></span>
+                                    <span className="labels" data-on="ON" data-off="OFF"></span>
                                   </label>
                                 </h6>
                               </div>
@@ -702,7 +702,7 @@ export default function differentchainbridge() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                              <img className="img-fluid" src="../../images/etharium.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -711,10 +711,10 @@ export default function differentchainbridge() {
                               </div>
                               <div>
                                 <h6 className="fw-bold">
-                                  <label class="toggle">
+                                  <label className="toggle">
                                     <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                    <span className="slider"></span>
+                                    <span className="labels" data-on="ON" data-off="OFF"></span>
                                   </label>
                                 </h6>
                               </div>
@@ -722,7 +722,7 @@ export default function differentchainbridge() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                              <img className="img-fluid" src="../../images/etharium.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -731,10 +731,10 @@ export default function differentchainbridge() {
                               </div>
                               <div>
                                 <h6 className="fw-bold">
-                                  <label class="toggle">
+                                  <label className="toggle">
                                     <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                    <span className="slider"></span>
+                                    <span className="labels" data-on="ON" data-off="OFF"></span>
                                   </label>
                                 </h6>
                               </div>
@@ -742,7 +742,7 @@ export default function differentchainbridge() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                              <img className="img-fluid" src="../../images/etharium.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -751,10 +751,10 @@ export default function differentchainbridge() {
                               </div>
                               <div>
                                 <h6 className="fw-bold">
-                                  <label class="toggle">
+                                  <label className="toggle">
                                     <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                    <span className="slider"></span>
+                                    <span className="labels" data-on="ON" data-off="OFF"></span>
                                   </label>
                                 </h6>
                               </div>
@@ -804,7 +804,7 @@ export default function differentchainbridge() {
                           });
                         }}>
                         <input type="text" className="w-100" placeholder="Enter Token Address" />
-                        <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
+                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
                       </div>
                     </div>
                     </div>
@@ -844,14 +844,14 @@ export default function differentchainbridge() {
                     <div className="sec-search sec-search-secondry">
                       <div className="position-relative search-row">
                         <input type="text" className="w-100" placeholder="Enter Token Address" />
-                        <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
+                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
                       </div>
                     </div>
                     </div>
                     <div className="h-100">
                         <div className="two-col position-relative">
                           <div className="left-sec-img">
-                            <div><img  class="img-fluid" src="../../images/alert.png" alt="" /></div>
+                            <div><img  className="img-fluid" src="../../images/alert.png" alt="" /></div>
                           </div>
                           <p className="text-block">Anyone can create a token, including creating FAKE version of existing tokens. Interact with any new token carefully.</p>
                         </div>
@@ -943,7 +943,7 @@ export default function differentchainbridge() {
                     <div className="sec-search sec-search-secondry">
                       <div className="position-relative search-row">
                         <input type="text" className="w-100" placeholder="Add list by https://" />
-                        <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
+                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
                       </div>
                     </div>
                     </div>
@@ -970,7 +970,7 @@ export default function differentchainbridge() {
                         <div className="token-listwrap usr-listht">
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -987,14 +987,14 @@ export default function differentchainbridge() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1011,14 +1011,14 @@ export default function differentchainbridge() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1035,14 +1035,14 @@ export default function differentchainbridge() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1059,14 +1059,14 @@ export default function differentchainbridge() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1083,14 +1083,14 @@ export default function differentchainbridge() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1107,14 +1107,14 @@ export default function differentchainbridge() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1131,14 +1131,14 @@ export default function differentchainbridge() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1155,8 +1155,8 @@ export default function differentchainbridge() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
@@ -1188,7 +1188,7 @@ export default function differentchainbridge() {
                     <div className="sec-search ng-16">
                       <div className="position-relative search-row">
                         <input type="text" className="w-100" placeholder="Search token or token address" />
-                        <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
+                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
                       </div>
                     </div>
                     <div className="token-sec">
@@ -1213,7 +1213,7 @@ export default function differentchainbridge() {
                     <div className="token-listwrap">
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -1227,7 +1227,7 @@ export default function differentchainbridge() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/red-bone.png" alt="" />
+                            <img className="img-fluid" src="../../images/red-bone.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -1241,7 +1241,7 @@ export default function differentchainbridge() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -1255,7 +1255,7 @@ export default function differentchainbridge() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -1269,7 +1269,7 @@ export default function differentchainbridge() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -1283,7 +1283,7 @@ export default function differentchainbridge() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -1297,7 +1297,7 @@ export default function differentchainbridge() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/red-bone.png" alt="" />
+                            <img className="img-fluid" src="../../images/red-bone.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -1311,7 +1311,7 @@ export default function differentchainbridge() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -1325,7 +1325,7 @@ export default function differentchainbridge() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -1339,7 +1339,7 @@ export default function differentchainbridge() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -1386,13 +1386,13 @@ export default function differentchainbridge() {
                     <div className="sec-search sec-search-secondry">
                       <div className="position-relative search-row">
                         <input type="text" className="w-100" placeholder="Add list by https://" />
-                        <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
+                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
                       </div>
                     </div>
                     <div className="token-listwrap list-ht">
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1401,10 +1401,10 @@ export default function differentchainbridge() {
                               </div>
                               <div>
                                 <h6 className="fw-bold">
-                                  <label class="toggle">
+                                  <label className="toggle">
                                     <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                    <span className="slider"></span>
+                                    <span className="labels" data-on="ON" data-off="OFF"></span>
                                   </label>
                                 </h6>
                               </div>
@@ -1412,7 +1412,7 @@ export default function differentchainbridge() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/red-bone.png" alt="" />
+                              <img className="img-fluid" src="../../images/red-bone.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1421,10 +1421,10 @@ export default function differentchainbridge() {
                               </div>
                               <div>
                                 <h6 className="fw-bold">
-                                  <label class="toggle">
+                                  <label className="toggle">
                                     <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                    <span className="slider"></span>
+                                    <span className="labels" data-on="ON" data-off="OFF"></span>
                                   </label>
                                 </h6>
                               </div>
@@ -1432,7 +1432,7 @@ export default function differentchainbridge() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                              <img className="img-fluid" src="../../images/etharium.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1441,10 +1441,10 @@ export default function differentchainbridge() {
                               </div>
                               <div>
                                 <h6 className="fw-bold">
-                                  <label class="toggle">
+                                  <label className="toggle">
                                     <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                    <span className="slider"></span>
+                                    <span className="labels" data-on="ON" data-off="OFF"></span>
                                   </label>
                                 </h6>
                               </div>
@@ -1452,7 +1452,7 @@ export default function differentchainbridge() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1461,10 +1461,10 @@ export default function differentchainbridge() {
                               </div>
                               <div>
                                 <h6 className="fw-bold">
-                                  <label class="toggle">
+                                  <label className="toggle">
                                     <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                    <span className="slider"></span>
+                                    <span className="labels" data-on="ON" data-off="OFF"></span>
                                   </label>
                                 </h6>
                               </div>
@@ -1472,7 +1472,7 @@ export default function differentchainbridge() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/red-bone.png" alt="" />
+                              <img className="img-fluid" src="../../images/red-bone.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1481,10 +1481,10 @@ export default function differentchainbridge() {
                               </div>
                               <div>
                                 <h6 className="fw-bold">
-                                  <label class="toggle">
+                                  <label className="toggle">
                                     <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                    <span className="slider"></span>
+                                    <span className="labels" data-on="ON" data-off="OFF"></span>
                                   </label>
                                 </h6>
                               </div>
@@ -1492,7 +1492,7 @@ export default function differentchainbridge() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/etharium.png" alt="" />
+                              <img className="img-fluid" src="../../images/etharium.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1501,10 +1501,10 @@ export default function differentchainbridge() {
                               </div>
                               <div>
                                 <h6 className="fw-bold">
-                                  <label class="toggle">
+                                  <label className="toggle">
                                     <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                    <span className="slider"></span>
+                                    <span className="labels" data-on="ON" data-off="OFF"></span>
                                   </label>
                                 </h6>
                               </div>
@@ -1512,7 +1512,7 @@ export default function differentchainbridge() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1521,10 +1521,10 @@ export default function differentchainbridge() {
                               </div>
                               <div>
                                 <h6 className="fw-bold">
-                                  <label class="toggle">
+                                  <label className="toggle">
                                     <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                    <span className="slider"></span>
+                                    <span className="labels" data-on="ON" data-off="OFF"></span>
                                   </label>
                                 </h6>
                               </div>
@@ -1532,7 +1532,7 @@ export default function differentchainbridge() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/red-bone.png" alt="" />
+                              <img className="img-fluid" src="../../images/red-bone.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1541,10 +1541,10 @@ export default function differentchainbridge() {
                               </div>
                               <div>
                                 <h6 className="fw-bold">
-                                  <label class="toggle">
+                                  <label className="toggle">
                                     <input type="checkbox" />
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="ON" data-off="OFF"></span>
+                                    <span className="slider"></span>
+                                    <span className="labels" data-on="ON" data-off="OFF"></span>
                                   </label>
                                 </h6>
                               </div>
@@ -1595,7 +1595,7 @@ export default function differentchainbridge() {
                           });
                         }}>
                         <input type="text" className="w-100" placeholder="Enter Token Address" />
-                        <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
+                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
                       </div>
                     </div>
                     </div>
@@ -1635,14 +1635,14 @@ export default function differentchainbridge() {
                     <div className="sec-search sec-search-secondry">
                       <div className="position-relative search-row">
                         <input type="text" className="w-100" placeholder="Enter Token Address" />
-                        <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
+                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
                       </div>
                     </div>
                     </div>
                     <div className="h-100">
                         <div className="two-col position-relative">
                           <div className="left-sec-img">
-                            <div><img  class="img-fluid" src="../../images/alert.png" alt="" /></div>
+                            <div><img  className="img-fluid" src="../../images/alert.png" alt="" /></div>
                           </div>
                           <p className="text-block">Anyone can create a token, including creating FAKE version of existing tokens. Interact with any new token carefully.</p>
                         </div>
@@ -1734,7 +1734,7 @@ export default function differentchainbridge() {
                     <div className="sec-search sec-search-secondry">
                       <div className="position-relative search-row">
                         <input type="text" className="w-100" placeholder="Add list by https://" />
-                        <div className="search-icon"><img width="20" height="21" class="img-fluid" src="../../images/search.png" alt="" /></div>
+                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
                       </div>
                     </div>
                     </div>
@@ -1761,7 +1761,7 @@ export default function differentchainbridge() {
                         <div className="token-listwrap usr-listht">
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1778,14 +1778,14 @@ export default function differentchainbridge() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1802,14 +1802,14 @@ export default function differentchainbridge() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1826,14 +1826,14 @@ export default function differentchainbridge() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1850,14 +1850,14 @@ export default function differentchainbridge() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1874,14 +1874,14 @@ export default function differentchainbridge() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1898,14 +1898,14 @@ export default function differentchainbridge() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1922,14 +1922,14 @@ export default function differentchainbridge() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img class="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1946,8 +1946,8 @@ export default function differentchainbridge() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img class="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img class="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
