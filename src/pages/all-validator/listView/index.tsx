@@ -28,7 +28,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
           setdelegatepop={setdelegatepop}
           data={selectedRow}
         />
-        <div className="cmn_dasdrd_table">
+        <div className="cmn_dasdrd_table ffms-inherit">
           <div className="table-responsive">
             <table className="table table-borderless">
               <thead>
