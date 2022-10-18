@@ -112,3 +112,120 @@
         width: 130px;
     }
 }
+
+// my account scss
+.btn-grp {
+    display: grid;
+    grid-template-columns: auto auto;
+    margin-left: -5px;
+    margin-right: -5px;
+    .btn-grp-lst{
+        margin-top: 12px;
+        padding-left: 5px;  
+        padding-right: 5px;
+        .btn-small{
+            margin-right: 0;
+            width: 100%;
+        }
+        
+        .elipse-btn {
+            max-width: 60px;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+    }
+}
+.height-fx{
+    min-height: 24px;
+}
+.spin-outer {
+    height: 90px;
+}
+
+.btn-group{
+    margin-right: 12px;
+    margin-bottom: 12px;
+    &:last-child{
+        margin-right: 0;
+    }
+}
+
+.data-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+.border-sec {
+    border: 1px solid $white;
+    height: 100%;
+}
+
+.info-row {
+    font-size: 16px;
+    @media #{$max-xl}{
+        font-size: 14px;
+    }
+}
+.info-block {
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    @media #{$max-xsm}{
+        flex-direction: column;
+    }
+}
+.grid-info{
+    @media #{$max-xsm}{
+        text-align: center;
+    }
+}
+.image-blk{
+    margin-right: 12px;
+    max-width: 60px;
+    @media #{$max-xsm}{
+        margin-bottom: 12px;
+        margin-right: 0;
+    }
+}
+.block-container {
+    display: flex;
+    justify-content: space-between;
+}
+.cus-width{
+    width:50%;
+}
+.top-sec {
+    margin: 20px 0;
+}
+.orange-color{
+    color:$primary;
+}
+.button-block {
+    margin: 65px 0 60px;
+    @media #{$max-lg}{
+        margin: 50px 0 30px;
+    }
+    @media #{$max-md}{
+        margin: 40px 0 30px;
+    }
+    @media #{$max-sm}{
+        margin: 30px 0 30px;
+    }
+}
+.add-sec {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 20px 0 15px;
+}
