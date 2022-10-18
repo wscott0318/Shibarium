@@ -66,9 +66,9 @@ export default function Header() {
     if (!isAuthenticated) {
       // authenticate()
     }
-    if (account && user) {
+    if (account) {
 
-      getUsertype(account)
+      getUsertypeAPI(account)
     }
   }, [account, user])
   useEffect(() => {
@@ -78,7 +78,7 @@ export default function Header() {
       localStorage.removeItem('isLoggedIn')
   }, [account]);
 
-  const getUsertype = (accountAddress) => {
+  const getUsertypeAPI = (accountAddress) => {
     try {
       getUserType(accountAddress.toLowerCase()).then(res => {
         if (res.data && res.data.data) {
