@@ -126,7 +126,7 @@ function Web3StatusInner() {
           </div>
         ) : (
           <div className="flex items-center gap-2">
-            <div>{ENSName || shortenAddress(account)}</div>
+            <div className='btn-fonts'>{ENSName || shortenAddress(account)}</div>
             <Davatar
               size={20}
               address={account}

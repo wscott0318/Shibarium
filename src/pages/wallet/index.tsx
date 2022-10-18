@@ -869,7 +869,7 @@ export default function Wallet() {
                 <h2>Assets on Shibarium</h2>
                 <div className="cmn_dasdrd_table mb-3 mb-sm-4">
                   <div className="table-responsive">
-                    <table className="table table-borderless mb-0">
+                    <table className="table table-borderless mb-0 smb-0">
                       {slicedTokenFilteredList.length && <thead>
                         <tr>
                           <th colSpan={2}>Name</th>

@@ -119,7 +119,7 @@ function StepTwo({stepState,stepHandler}:any) {
                 onBlur={handleBlur}
               />
             </div>
-            {touched.validatorname && errors.validatorname ? <p className="primary-text error">{errors.validatorname}</p> : null}
+            {touched.validatorname && errors.validatorname ? <p className="primary-text error ff-mos">{errors.validatorname}</p> : null}
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">

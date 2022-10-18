@@ -127,6 +127,7 @@
     }
     @media #{$max-xl}{
         font-size: 14px;
+        height: 100%;
     }
 }
 .rt-chain {
@@ -1633,6 +1634,12 @@
             line-height:15px ;
             
         }
+        &:focus{
+            box-shadow: none;
+        }
+        &:hover{
+            box-shadow: none;
+        }
     }
 }
 /** become a validator step style end **/
@@ -1776,6 +1783,9 @@
     }
 }
 .dropdwn-sec {
+    .dropdown-menu{
+        width: 100%;
+    }
     @media #{$max-sm} {
         display: flex;
         flex-direction: column;
@@ -2311,6 +2321,7 @@ background: $body-bg;
         background-color:$body-bg-800;
     }
 }
+
 .watch-img-sec{
     .img-wdth{
         max-width: 100px;
@@ -2344,7 +2355,9 @@ background: $body-bg;
     }
     .text-pop-right{
         font-size: 16px;
+        
     }
+    
 }
 .bg-clr{
     .mid-chain{
@@ -2386,6 +2399,17 @@ background: $body-bg;
             padding-right: 30px !important;
             height: 100%;
             cursor: pointer;
+            @media #{$max-xxl}{
+                font-size: 16px;
+                padding: 10px 22px !important;
+            }
+            @media #{$max-xl}{
+                font-size: 14px;
+            }
+            @media #{$max-xsm}{
+                padding: 10px !important;
+                font-size: 12px;
+            }
         }
         .flex{
             flex-direction: row-reverse;
@@ -2425,6 +2449,7 @@ background: $body-bg;
     margin: 0 auto;
     text-align: center;
     background-color: rgba(0,0,0,0.8);
+    z-index: 999;
 }
 
 .cus-shimer{
@@ -2438,3 +2463,41 @@ background: $body-bg;
         font-family: "MADE Okine Sans PERSONAL USE" !important;
     }
 } 
+.smb-0{
+    .shimmer-title {
+        margin-bottom: 0;
+    }
+}
+
+.inner-btn{
+    .btn-fonts{
+        font-family: 'MADE Okine Sans PERSONAL USE' !important;
+    }
+}
+
+.field-grid{
+    .res-align{
+        .form-field{
+            @media #{$max-sm}{
+                justify-content: unset;
+            }
+            
+        }
+    } 
+}
+.lft-spc{
+    @media #{$max-sm}{
+        margin-left: auto;
+    }
+}
+.right-spacing{
+    @media #{$max-sm}{
+        margin-right: 13px;
+    }
+}
+.button-wrap{
+    @media #{$max-md}{
+        display: flex;
+        align-items: center;
+    } 
+}

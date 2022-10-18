@@ -319,7 +319,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
         externalCls="stak-pop del-pop"
       >
         <>
-          <div className="cmn_modal vali_deli_popups">
+          <div className="cmn_modal vali_deli_popups ffms-inherit">
             <ul className="stepper mt-3 del-step">
               <li className="step active">
                 <div className="step-ico">
