@@ -270,7 +270,7 @@ export default function Account() {
 
                 >
                     <>
-                        <div className="cmn_modal vali_deli_popups">
+                        <div className="cmn_modal vali_deli_popups ">
                             <ul className="stepper mt-3 del-step">
                                 <li className="step active">
                                     <div className="step-ico">
@@ -341,7 +341,6 @@ export default function Account() {
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
                     </>
