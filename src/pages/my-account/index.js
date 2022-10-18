@@ -10,38 +10,44 @@ import  CommonModal from "../components/CommonModel";
 import Header from "../layout/header";
 import StakingHeader from '../staking-header'
 import { useRouter } from "next/router";
+import {getUserType} from "../../services/apis/user/userApi";
+import UserAccount from "./UserAccount";
+import DelegatorAccount from "./DelegatorAccount";
+import ValidatorAccount from "./ValidatorAccount";
+
 export default function MyAcount() {
-  // const {account}=useContext(ProjectContext)
-
-  // const { active,deactivate } = useWeb3React()
-  // const [accountsAddress, setAccountsAddress] = useState("");
-  // useEffect(() => {
-  //   setAccountsAddress(localStorage.getItem("accounts"));
-  //   console.log('chainId',chainId)
-  //   console.log('account-home',account)
-  // },[account]);
   const { account, chainId = 1 } = useActiveWeb3React();
-//   const [showvalidatorpop, setvalidatorpop] = useState(false);
-//   const [showcommissionpop, setcommissionpop] = useState(false);
-//   const [showwithdrawpop, setwithdrawpop] = useState(false);
-//   const [showunboundpop, setunboundpop] = useState(false);
-//   const [showallinonepop, setallinonepop] = useState(false);
+
+  const [userType, setUserType] = useState('')
+
+  const getUsertypeAPI = (accountAddress) => {
+    try {
+      getUserType(accountAddress.toLowerCase()).then(res => {
+        if (res.data && res.data.data) {
+          let ut = res.data.data.userType;
+          console.log(ut)
+          setUserType(ut)
+        }
+      }).catch(e => {
+        // console.log(e);
+        setUserType('NA')
+      })
+    } catch (error) {
+
+    }
+  }
+
+
+  useEffect(() => {
+    if(account) {
+      getUsertypeAPI(account)
+    }
+  },[account])
+
+
+
   
-  /**
-   * 
-    useEffect(()=>{
-      let userDetails = localStorage.getItem('ShibariumUser');
-      userDetails = userDetails ? JSON.parse(userDetails)?.objectId: ''
-      if (!userDetails && active) {
-        deactivate()
-      }
 
-    },[active])
-  */
-
- 
-
-  //  console.log('account---------------', account)
   const router = useRouter();
   return (
     <>
@@ -54,34 +60,15 @@ export default function MyAcount() {
                     <h1 className="ff-mos">My Account</h1>
                 </div>                
             </section> 
+            {
+              userType === 'Delegator' ?
+              <DelegatorAccount /> :
+              userType === 'NA' ? 
+              <UserAccount /> :
+              <ValidatorAccount />
+            }
 
-            <section className="mid_cnt_area ff-mos">
-                <div className="container">
-                    <div className="col-xl-11 col-lg-12 side-auto">
-                        <h4 className="ff-mos">Ethereum Wallet Balance</h4>
-                        <h3 className="ff-mos"><b>0 Bone</b></h3>
-                        <h4 className="ff-mos">$0.00</h4>        
-                        <div className="btns_sec val_all_bts row">
-                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space"> 
-                                <button  onClick={()=>{
-                                    router.push('/become-validator')
-                                  }} className="btn grey-btn w-100 d-block ff-mos">
-                                    Become a Validator
-                                </button>
-                            </div>
-                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">                        
-                                <button onClick={()=>{
-                                  router.push('/all-validator')
-                                }} className="btn primary-btn w-100 d-block ff-mos">
-                                    Become a Delegator
-                                </button> 
-                            </div>
-                            
-                            
-                        </div>
-                    </div>
-                </div>                
-            </section>
+       
 
       </main> 
     </>
