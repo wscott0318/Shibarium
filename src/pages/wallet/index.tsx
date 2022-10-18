@@ -907,19 +907,19 @@ export default function Wallet() {
                                 />
                               </td>
                               <td>
-                                <Link href="javascript:void(0)">
+                                <Link href="/">
                                   <a className="px-0">Deposit</a>
                                 </Link>
                               </td>
                               <td>
                                 <div className="row mx-0">
                                   <div className="col-6 px-0">
-                                    <Link href="javascript:void(0)">
+                                    <Link href="/">
                                       <a className=" px-0">Withdraw</a>
                                     </Link>
                                   </div>
                                   <div className="col-6 px-0">
-                                    <Link href="javascript:void(0)">
+                                    <Link href="/">
                                       <a className=" px-0">Send</a>
                                     </Link>
                                   </div>

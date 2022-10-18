@@ -98,7 +98,7 @@ const DelegatePopup: React.FC<any> = ({
     setTnxCompleted(false);
     onHide();
   };
-  
+
   const approveHandler = () => {
     if (!amount || !(amount > 0)) {
       setToastMassage("Amount must be greater than 0");
@@ -150,7 +150,7 @@ const DelegatePopup: React.FC<any> = ({
         fromExponential(+requestBody.amount * Math.pow(10, 18))
       );
       if (+requestBody.amount > allowance) {
-        console.log("need Approval");
+        console.log("need Approval", amount);
         let approvalAmount = web3.utils.toBN(
           fromExponential(1000 * Math.pow(10, 18))
         );
@@ -197,7 +197,7 @@ const DelegatePopup: React.FC<any> = ({
             setStep(2);
           });
       } else {
-        console.log("No approval needed");
+        console.log("No approval needed", amount);
         let instance = new web3.eth.Contract(
           ValidatorShareABI,
           requestBody.validatorAddress
@@ -277,7 +277,7 @@ const DelegatePopup: React.FC<any> = ({
     //   setTnxCompleted(true);setStep(2)})
   };
 
-  console.log(data);
+  // console.log(data);
   const initialValues = {
     balance: "",
   };
@@ -309,7 +309,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
     setFieldValue("balance","")
   }
 
-console.log("Balance", values.balance);
+// console.log("Balance", values.balance);
   return (
     <>
       <CommonModal
