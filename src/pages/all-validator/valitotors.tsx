@@ -119,12 +119,12 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
             <div className="d-flex align-items-center btns-space tab-btns">
                 <div className="me-3">
                   <p onClick={() => setIsActiveTab(true)} className={`btn black-btn ff-mos ${isActiveTab ? "btn-active" : ""}`} title="">
-                    <span>ACTIVE</span>
+                    <span>Active</span>
                     </p>
                 </div>
                 <div>
                   <p onClick={() => setIsActiveTab(false)} className={`btn black-btn ff-mos ${!isActiveTab ? "btn-active" : ""}`} title="">
-                  <span>INACTIVE</span>
+                  <span>Inactive</span>
                   </p>
                 </div>
               </div>
@@ -163,7 +163,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                         <Dropdown.Item onClick={() => onSort('Voting Power', 'totalStaked','number')}>
                           Voting Power
                         </Dropdown.Item>
-                        <Dropdown.Item onClick={() => onSort('Uptime', 'uptimePercent','number')}>
+                        <Dropdown.Item className="ff-mos" onClick={()  => onSort('Uptime', 'uptimePercent','number')}>
                           Uptime
                         </Dropdown.Item>
                       </Dropdown.Menu>

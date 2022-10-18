@@ -43,7 +43,7 @@ function StepOne({stepHandler,stepState}:any) {
             </div>
             <div className="trs-3">
               <h6 className="fw-600 ff-mos">Binaries</h6>
-              <p className="ft-14 fw-600">
+              <p className="ft-14 fw-600 ff-mos">
                 Build from Source to setup your validator node.
               </p>
             </div>

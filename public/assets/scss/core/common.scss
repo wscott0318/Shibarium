@@ -1633,6 +1633,12 @@
             line-height:15px ;
             
         }
+        &:focus{
+            box-shadow: none;
+        }
+        &:hover{
+            box-shadow: none;
+        }
     }
 }
 /** become a validator step style end **/
@@ -2425,6 +2431,7 @@ background: $body-bg;
     margin: 0 auto;
     text-align: center;
     background-color: rgba(0,0,0,0.8);
+    z-index: 999;
 }
 
 .cus-shimer{
@@ -2438,3 +2445,18 @@ background: $body-bg;
         font-family: "MADE Okine Sans PERSONAL USE" !important;
     }
 } 
+.smb-0{
+    .shimmer-title {
+        margin-bottom: 0;
+    }
+}
+
+.inner-btn{
+    .btn-fonts{
+        font-family: 'MADE Okine Sans PERSONAL USE' !important;
+    }
+}
+
+
+
+

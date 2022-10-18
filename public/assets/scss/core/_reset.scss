@@ -41,6 +41,32 @@ body{
 .ff-mos{
     font-family: 'MADE Okine Sans PERSONAL USE' !important;
 }
+.ffms-inherit{
+    font-family: 'MADE Okine Sans PERSONAL USE' !important;
+    .no-record{
+        font-family: 'MADE Okine Sans PERSONAL USE' !important;
+    }
+    p,h1,h2,h3,h5,h6,span,label{
+        font-family: 'MADE Okine Sans PERSONAL USE' !important;
+    }
+    b,a,div,section,button{
+        font-family: 'MADE Okine Sans PERSONAL USE' !important;
+    }
+    ul,li,ol{
+        font-family: 'MADE Okine Sans PERSONAL USE' !important;
+    }
+    table{
+        thead,tbody,th,td,tr,span{
+            font-family: 'MADE Okine Sans PERSONAL USE' !important;
+        }
+    }
+    form,input{
+        font-family: 'MADE Okine Sans PERSONAL USE' !important;
+    }
+    ::placeholder{
+        font-family: 'MADE Okine Sans PERSONAL USE' !important;
+    }
+}
 
 h1, h2, h3, h4, h5, h6 {
     font-weight: 400;

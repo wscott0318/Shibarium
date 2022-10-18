@@ -867,7 +867,7 @@ export default function Wallet() {
                 <h2>Assets on Shibarium</h2>
                 <div className="cmn_dasdrd_table mb-3 mb-sm-4">
                   <div className="table-responsive">
-                    <table className="table table-borderless mb-0">
+                    <table className="table table-borderless mb-0 smb-0">
                       <thead>
                         <tr>
                           <th colSpan={2}>Name</th>
@@ -931,17 +931,17 @@ export default function Wallet() {
                                 <td>{cardShimmerEffects(1, 1)}</td>
                                 <td>{cardShimmerEffects(1, 1)}</td>
                                 <td>
-                                  <div className="row mx-0">
-                                    <div className="col-6 px-0">
+                                  <div className="row">
+                                    <div className="col-6">
                                       {/* <Link href="javascript:void(0)"> */}
-                                        <div className=" px-0">
+                                        <div className="">
                                           {cardShimmerEffects(1, 1)}
                                         </div>
                                       {/* </Link> */}
                                     </div>
-                                    <div className="col-6 px-0">
+                                    <div className="col-6">
                                       {/* <Link href="javascript:void(0)"> */}
-                                        <div className=" px-0">
+                                        <div className="">
                                           {cardShimmerEffects(1, 1)}
                                         </div>
                                       {/* </Link> */}
