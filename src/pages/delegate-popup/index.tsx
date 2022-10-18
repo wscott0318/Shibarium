@@ -316,7 +316,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
         title={delegateState.title}
         show={showdelegatepop}
         setShow={handleClose}
-        externalCls="stak-pop del-pop"
+        externalCls="stak-pop del-pop ffms-inherit"
       >
         <>
           <div className="cmn_modal vali_deli_popups">
@@ -445,10 +445,10 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                   </div>
                   <div className="mid_text row">
                     <div className="col-12 text-center">
-                      <h4>Buy Voucher</h4>
+                      <h4 className='ff-mos'>Buy Voucher</h4>
                     </div>
                     <div className="col-12 text-center">
-                      <p>
+                      <p className='ff-mos'>
                         Completing this transaction will stake your Burn tokens
                         and you will start earning rewards for the upcoming
                         checkpoints.
@@ -457,10 +457,10 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                   </div>
                   <div className="fees_text">
                     <div className="icon_name">
-                      <span>Estimated transaction fee</span>
+                      <span className='ff-mos'>Estimated transaction fee</span>
                     </div>
                     <div className="">
-                      <p>$10.00</p>
+                      <p className='ff-mos'>$10.00</p>
                     </div>
                   </div>
                 </div>
@@ -498,10 +498,10 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                   </div>
                   <div className="mid_text row">
                     <div className="col-12 text-center">
-                      <h4>Transaction in progress</h4>
+                      <h4 className='ff-mos'>Transaction in progress</h4>
                     </div>
                     <div className="col-12 text-center">
-                      <p>
+                      <p className='ff-mos'>
                         Ethereum transactions can take longer time to complete
                         based upon network congestion. Please wait for increase
                         the gas price of the transaction
@@ -541,10 +541,10 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                   </div>
                   <div className="mid_text row">
                     <div className="col-12 text-center">
-                      <h4>Delegation Submitted </h4>
+                      <h4 className='ff-mos'>Delegation Submitted </h4>
                     </div>
                     <div className="col-12 text-center">
-                      <p>
+                      <p className='ff-mos'>
                         Your SHIBA tokens are staked successfully on validator
                         Tarus Validator. Your delegation will take-1 mintue to
                         reflect in your account.
