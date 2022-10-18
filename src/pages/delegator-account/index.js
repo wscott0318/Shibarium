@@ -136,7 +136,7 @@ export default function DelegatorAccount() {
                                         <div className="del-top">
                                             <div className="del-img">
                                                 <span>
-                                                    <span class="spinner-border text-secondary pop-spiner"></span>
+                                                    <span className="spinner-border text-secondary pop-spiner"></span>
                                                 </span>
                                             </div>
                                         </div>
@@ -465,7 +465,7 @@ export default function DelegatorAccount() {
                                     <div className="del-top">
                                         <div className="del-img">
                                             {/* <span>
-                                                <span class="spinner-border text-secondary pop-spiner"></span>
+                                                <span className="spinner-border text-secondary pop-spiner"></span>
                                             </span> */}
                                         </div>
                                     </div>
