@@ -98,6 +98,7 @@ const DelegatePopup: React.FC<any> = ({
     setTnxCompleted(false);
     onHide();
   };
+  
   const approveHandler = () => {
     if (!amount || !(amount > 0)) {
       setToastMassage("Amount must be greater than 0");
