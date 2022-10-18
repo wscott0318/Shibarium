@@ -19,7 +19,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
           setdelegatepop={setdelegatepop}
           data={selectedRow}
         />
-       <div className="container">
+       <div className="container ffms-inherit">
             <div className='grid-sec'>
             {validatorsList && validatorsList.length ?
                   <div className='row side-cover'>
