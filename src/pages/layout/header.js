@@ -224,9 +224,14 @@ const [scroll, setScroll] = useState(false);
                     Separated link
                   </NavDropdown.Item>
                 </NavDropdown>
-                <Nav.Item>
+                <Nav.Item className="button-wrap">
+                <Link href={'/'}>
+                    <a className='d-md-none launch-btn'>
+                      <img className="img-fluid" src="../../images/launch-app.png" alt="" width={30} />
+                    </a>
+                </Link>
                 <Link href={ account ? "/wallet" : "/login"}>
-                    <a className='btn primary-btn ff-mos'>Launch App</a>
+                    <a className='btn primary-btn ff-mos d-none d-md-flex'>Launch App</a>
                   </Link>
                 </Nav.Item>
                 <Nav.Item className="btn-status">
