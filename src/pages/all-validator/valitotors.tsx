@@ -114,7 +114,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     <section className="table-section pb-4 pb-lg-5">
           <div className="container">
             <div className="heading-sec">
-              <h2 className="sub-head">All Validators</h2>
+              <h2 className="sub-head ff-mos">All Validators</h2>
             </div>
             <div className="d-flex align-items-center btns-space tab-btns">
                 <div className="me-3">
@@ -128,7 +128,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                   </p>
                 </div>
               </div>
-            <div className="filter-row">
+            <div className="filter-row ff-mos">
               <div className="left-section">
                 <input
                  className="custum-search w-100" 

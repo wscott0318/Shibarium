@@ -224,6 +224,7 @@
     "i": "^0.3.7",
     "moralis": "1.5.4",
     "moralis-v1": "^1.11.0",
+    "next-connect": "^0.13.0",
     "react-bootstrap": "^2.5.0",
     "react-copy-to-clipboard": "^5.1.0",
     "react-google-recaptcha": "^2.1.0",
