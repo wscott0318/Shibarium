@@ -83,8 +83,8 @@ const delegatorAccount = () => {
       
 
   return (
-    <>
-    {   delegationsList.length ? 
+    <>     <div className='row'>
+                {delegationsList.length ? 
                     delegationsList.map((item: any) => 
                     <div className="col-lg-4 col-md-6 col-12 bs-col">
                     <div className="border-sec">
@@ -147,6 +147,7 @@ const delegatorAccount = () => {
                         No Record Found
                     </p>
                    }
+                    </div>
     </>
   )
 }
