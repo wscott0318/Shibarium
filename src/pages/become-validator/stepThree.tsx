@@ -19,7 +19,7 @@ function StepThree({stepState,stepHandler}:any) {
                   className="mb-3 form-control"
                   placeholder="i.e Dark Knight Ventures"
                 />
-                <label htmlFor="" className="form-label">
+                <label htmlFor="" className="form-label ff-mos">
                   Minimum: 1000 BONE
                 </label>
               </div>
@@ -28,7 +28,7 @@ function StepThree({stepState,stepHandler}:any) {
           <div className="btn-wrap col-sm-3 mt-4 ">
             <button
               type="button"
-              className="btn primary-btn w-100"
+              className="btn primary-btn w-100 ff-mos"
               onClick={stepHandler}
             >
               <span className="ff-mos">

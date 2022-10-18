@@ -77,6 +77,9 @@
     @media #{$max-md} {
          width: 100px;
     }
+    @media #{$max-xxsm}{
+        width:60px;
+    }
 }
 .vali_deli_popups  .pop_btns_area a {
     justify-content: center;
