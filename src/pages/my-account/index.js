@@ -65,11 +65,9 @@ export default function MyAcount() {
                 </div>                
             </section> 
             {
-              userType === 'Delegator' ?
-              <DelegatorAccount /> :
               userType === 'NA' ? 
               <UserAccount /> :
-              <ValidatorAccount />
+              <ValidatorAccount userType={userType} />
             }
 
        
