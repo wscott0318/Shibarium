@@ -32,7 +32,6 @@ const initialModalState = {
   step1: false,
   step2: false,
   step3: false,
-  step4:false,
   title: "Delegate",
 }
 
@@ -131,7 +130,7 @@ const DelegatePopup: React.FC<any> = ({
     const requestBody = {
       validatorAddress: data.owner,
       delegatorAddress: account,
-      amount: amount,
+      amount: values.balance,
     };
     setTnxCompleted(false);
     console.log(requestBody);
@@ -246,12 +245,20 @@ let schema = yup.object().shape({
   balance: yup.string().required("Balance is required"),
 });
 const [balance, setBalance] = useState();
+
 const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
   useFormik({
     initialValues: initialValues,
     validationSchema: schema,
     onSubmit: (values) => {
       console.log("Value", values);
+      setdelegateState({
+        step0:false,
+        step1:true,
+        step2: false,
+        step3:false,
+        title:"Buy Voucher"
+      })
     },
   });
 
@@ -292,7 +299,7 @@ console.log("Balance", values.balance);
                 </div>
                 <div className="step-title">Delegate</div>
               </li>
-              <li className={`step ${delegateState.step4 && "active"}`}>
+              <li className={`step ${delegateState.step3 && "active"}`}>
                 <div className="step-ico">
                   <img
                     className="img-fluid"
@@ -363,25 +370,6 @@ console.log("Balance", values.balance);
                           className="w-100"
                           type="submit"
                           value="submit"
-                          onClick={() => {
-                            if (+values.balance > 0) {
-                              setdelegateState({
-                                ...delegateState,
-                                step0: false,
-                                step1: true,
-                              });
-                              setTimeout(() => {
-                                setdelegateState({
-                                  step0: false,
-                                  step1: false,
-                                  step2: true,
-                                  step3: false,
-                                  step4: false,
-                                  title: "Delegate",
-                                });
-                              }, 2000);
-                            }
-                          }}
                         >
                           <a
                             className="btn primary-btn d-flex align-items-center"
@@ -398,8 +386,61 @@ console.log("Balance", values.balance);
             )}
             {/* added by vivek */}
 
+             {/* step 2 */}
+             {delegateState.step1 && (
+              <div className="step_content fl-box">
+                <div className="ax-top">
+                  <div className="image_area row">
+                    <div className="col-12 text-center watch-img-sec">
+                      <img
+                        className="img-fluid img-wdth"
+                        src="../../images/progrs-img.png"
+                      />
+                    </div>
+                  </div>
+                  <div className="mid_text row">
+                    <div className="col-12 text-center">
+                      <h4>Buy Voucher</h4>
+                    </div>
+                    <div className="col-12 text-center">
+                      <p>
+                        Completing this transaction will stake your Burn tokens
+                        and you will start earning rewards for the upcoming
+                        checkpoints.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="fees_text">
+                    <div className="icon_name">
+                      <span>Estimated transaction fee</span>
+                    </div>
+                    <div className="">
+                      <p>$10.00</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="ax-bottom">
+                  <div className="pop_btns_area row form-control">
+                    <div className="col-12">
+                      <button
+                        className="w-100"
+                        onClick={() => buyVouchers()}
+                      >
+                        <a
+                          className="btn primary-btn d-flex align-items-center"
+                          href="javascript:void(0)"
+                        >
+                          <span>Buy Voucher</span>
+                        </a>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* step 1 */}
-            {delegateState.step1 && (
+            {delegateState.step2 && (
               <div className="step_content fl-box">
                 <div className="ax-top">
                   <div className="image_area row">
@@ -438,132 +479,10 @@ console.log("Balance", values.balance);
               </div>
             )}
 
-            {/* step 2 */}
-            {delegateState.step2 && (
-              <div className="step_content fl-box">
-                <div className="ax-top">
-                  <div className="image_area row">
-                    <div className="col-12 text-center watch-img-sec">
-                      <img
-                        className="img-fluid img-wdth"
-                        src="../../images/progrs-img.png"
-                      />
-                    </div>
-                  </div>
-                  <div className="mid_text row">
-                    <div className="col-12 text-center">
-                      <h4>Buy Voucher</h4>
-                    </div>
-                    <div className="col-12 text-center">
-                      <p>
-                        Completing this transaction will stake your Burn tokens
-                        and you will start earning rewards for the upcoming
-                        checkpoints.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="fees_text">
-                    <div className="icon_name">
-                      <span>Estimated transaction fee</span>
-                    </div>
-                    <div className="">
-                      <p>$10.00</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="ax-bottom">
-                  <div className="pop_btns_area row form-control">
-                    <div className="col-12">
-                      <button
-                        className="w-100"
-                        onClick={() => {
-                          setdelegateState({
-                            step0: false,
-                            step1: false,
-                            step2: false,
-                            step3: true,
-                            step4: false,
-                            title: "Delegate",
-                          });
-                          setTimeout(() => {
-                            setdelegateState({
-                              step0: false,
-                              step1: false,
-                              step2: false,
-                              step3: false,
-                              step4: true,
-                              title: "Delegate",
-                            });
-                          }, 2000);
-                        }}
-                      >
-                        <a
-                          className="btn primary-btn d-flex align-items-center"
-                          href="javascript:void(0)"
-                        >
-                          <span>Buy Voucher</span>
-                        </a>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+           
 
             {/* step 3 */}
             {delegateState.step3 && (
-              <div className="step_content fl-box">
-                <div className="ax-top">
-                  <div className="image_area row">
-                    <div className="col-12 text-center watch-img-sec">
-                      <img
-                        className="img-fluid img-wdth"
-                        src="../../images/progrs-img-2.png"
-                      />
-                    </div>
-                  </div>
-                  <div className="mid_text row">
-                    <div className="col-12 text-center">
-                      <h4>Transaction in progress</h4>
-                    </div>
-                    <div className="col-12 text-center">
-                      <p>
-                        Ethereum transactions can take longer time to complete
-                        based upon network congestion. Please wait for increase
-                        the gas price of the transaction
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="ax-bottom">
-                  <div className="pop_btns_area row form-control mt-3">
-                    <div className="col-12">
-                      {/* <button onClick={()=>{
-                          setdelegateState({
-                            step0: false,
-                            step1: false,
-                            step2: false,
-                            step3: false,
-                            step4: true,
-                            title: "Delegate",
-                          });
-                          
-                        }}> */}
-                      <a
-                        className="btn primary-btn d-flex align-items-center"
-                        href="javascript:void(0)"
-                      >
-                        <span>View on Ethereum</span>
-                      </a>
-                      {/* </button> */}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* step 4 */}
-            {delegateState.step4 && (
               <div className="step_content fl-box">
                 <div className="ax-top">
                   <div className="image_area row">
@@ -576,7 +495,7 @@ console.log("Balance", values.balance);
                   </div>
                   <div className="mid_text row">
                     <div className="col-12 text-center">
-                      <h4>Delegation completed</h4>
+                      <h4>Delegation Submitted </h4>
                     </div>
                     <div className="col-12 text-center">
                       <p>
