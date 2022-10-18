@@ -26,13 +26,14 @@ import ERC20 from "../../ABI/ERC20Abi.json"
 import CommonModal from 'pages/components/CommonModel';
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { addTransaction , finalizeTransaction} from "../../state/transactions/actions";
+import {useAppDispatch} from "../../state/hooks"
 
 const initialModalState = {
   step0: true,
   step1: false,
   step2: false,
   step3: false,
-  step4:false,
   title: "Delegate",
 }
 
@@ -53,6 +54,8 @@ const DelegatePopup: React.FC<any> = ({
   const [toastMassage, setToastMassage] = useState("");
   const { account, chainId = 1, library } = useActiveWeb3React();
   const web3 = useLocalWeb3();
+
+  const dispatch = useAppDispatch()
 
   const [delegateState, setdelegateState] = useState(initialModalState);
 
@@ -95,6 +98,7 @@ const DelegatePopup: React.FC<any> = ({
     setTnxCompleted(false);
     onHide();
   };
+
   const approveHandler = () => {
     if (!amount || !(amount > 0)) {
       setToastMassage("Amount must be greater than 0");
@@ -131,7 +135,7 @@ const DelegatePopup: React.FC<any> = ({
     const requestBody = {
       validatorAddress: data.owner,
       delegatorAddress: account,
-      amount: amount,
+      amount: values.balance,
     };
     setTnxCompleted(false);
     console.log(requestBody);
@@ -146,7 +150,7 @@ const DelegatePopup: React.FC<any> = ({
         fromExponential(+requestBody.amount * Math.pow(10, 18))
       );
       if (+requestBody.amount > allowance) {
-        console.log("need Approval");
+        console.log("need Approval", amount);
         let approvalAmount = web3.utils.toBN(
           fromExponential(1000 * Math.pow(10, 18))
         );
@@ -193,7 +197,7 @@ const DelegatePopup: React.FC<any> = ({
             setStep(2);
           });
       } else {
-        console.log("No approval needed");
+        console.log("No approval needed", amount);
         let instance = new web3.eth.Contract(
           ValidatorShareABI,
           requestBody.validatorAddress
@@ -201,28 +205,64 @@ const DelegatePopup: React.FC<any> = ({
         await instance.methods
           .buyVoucher(amount, _minSharesToMint)
           .send({ from: walletAddress })
-          .then((res: any) => {
-            console.log(res);
-            setTnxCompleted(true);
-            setToastMassage(res?.data?.message);
-            setMsgType("success");
+          .on('transactionHash', (res: any) => {
+            dispatch(
+              addTransaction({
+                hash: res,
+                from: account,
+                chainId,
+                summary: `${res}`,
+              })
+            )
             const link = getExplorerLink(
               chainId,
-              res.transactionHash,
+              res,
               "transaction"
             );
             setExplorerLink(link);
+            setdelegateState({
+              step0:false,
+              step1:false,
+              step2: true,
+              step3:false,
+              title:'Transaction Process'
+            })
+            })
+            .on('receipt', (res: any) => {
+              dispatch(
+                finalizeTransaction({
+                  hash: res.transactionHash,
+                  chainId,
+                  receipt: {
+                    to: res.to,
+                    from: res.from,
+                    contractAddress: res.contractAddress,
+                    transactionIndex: res.transactionIndex,
+                    blockHash: res.blockHash,
+                    transactionHash: res.transactionHash,
+                    blockNumber: res.blockNumber,
+                    status: 1
+                  }
+                })
+              )
+              const link = getExplorerLink(
+                chainId,
+                res.transactionHash,
+                "transaction"
+              );
+              setExplorerLink(link);
+              setdelegateState({
+                step0:false,
+                step1:false,
+                step2: false,
+                step3:true,
+                title:'Transaction Done'
+              })
+            })
+          .on('error', (err: any) => {
+            setdelegateState(initialModalState)
+            setdelegatepop(false)
           })
-          .catch((err: any) => {
-            console.log(err);
-            setToastMassage("Something went wrong");
-            setMsgType("error");
-            setTnxCompleted(true);
-            setStep(2);
-            if (err.code === 4001) {
-              console.log("User desined this transaction! ");
-            }
-          });
       }
     }
     // buyVoucher(requestBody).then(res =>{
@@ -237,7 +277,7 @@ const DelegatePopup: React.FC<any> = ({
     //   setTnxCompleted(true);setStep(2)})
   };
 
-  console.log(data);
+  // console.log(data);
   const initialValues = {
     balance: "",
   };
@@ -246,21 +286,30 @@ let schema = yup.object().shape({
   balance: yup.string().required("Balance is required"),
 });
 const [balance, setBalance] = useState();
-const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
+
+const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, touched } =
   useFormik({
     initialValues: initialValues,
     validationSchema: schema,
     onSubmit: (values) => {
       console.log("Value", values);
+      setdelegateState({
+        step0:false,
+        step1:true,
+        step2: false,
+        step3:false,
+        title:"Buy Voucher"
+      })
     },
   });
 
   const handleClose = () => {
     setdelegateState(initialModalState)
     setdelegatepop(false)
+    setFieldValue("balance","")
   }
 
-console.log("Balance", values.balance);
+// console.log("Balance", values.balance);
   return (
     <>
       <CommonModal
@@ -292,7 +341,7 @@ console.log("Balance", values.balance);
                 </div>
                 <div className="step-title">Delegate</div>
               </li>
-              <li className={`step ${delegateState.step4 && "active"}`}>
+              <li className={`step ${delegateState.step3 && "active"}`}>
                 <div className="step-ico">
                   <img
                     className="img-fluid"
@@ -314,10 +363,13 @@ console.log("Balance", values.balance);
                           <span className="user-icon"></span>
                         </div>
                         <div className="fw-700">
-                          <span className="vertical-align ft-22">{data.name}</span>
+                          <span className="vertical-align ft-22">
+                            {data.name}
+                          </span>
                           <p>
                             <span className="light-text">
-                              100% Performance - {data.commissionPercent}% Commission
+                              100% Performance - {data.commissionPercent}%
+                              Commission
                             </span>
                           </p>
                         </div>
@@ -340,19 +392,19 @@ console.log("Balance", values.balance);
                     </div>
                     {errors.balance && touched.balance ? (
                       <p className="primary-text error">{errors.balance}</p>
-                    ) : null }
+                    ) : null}
 
                     <p className="inpt_fld_hlpr_txt mt-3 text-pop-right">
                       <span>
-                      <NumberFormat
-                      value={(walletBalance * boneUSDValue).toFixed(4)}
-                      displayType={"text"}
-                      thousandSeparator={true}
-                      prefix={"$ "}
-                        /> 
-                         </span>
+                        <NumberFormat
+                          value={(walletBalance * boneUSDValue).toFixed(4)}
+                          displayType={"text"}
+                          thousandSeparator={true}
+                          prefix={"$ "}
+                        />
+                      </span>
                       <span className="text-right">
-                          Balance: {walletBalance?.toFixed(8)} BONE
+                        Balance: {walletBalance?.toFixed(8)} BONE
                       </span>
                     </p>
                   </div>
@@ -363,25 +415,6 @@ console.log("Balance", values.balance);
                           className="w-100"
                           type="submit"
                           value="submit"
-                          onClick={() => {
-                            if (+values.balance > 0) {
-                              setdelegateState({
-                                ...delegateState,
-                                step0: false,
-                                step1: true,
-                              });
-                              setTimeout(() => {
-                                setdelegateState({
-                                  step0: false,
-                                  step1: false,
-                                  step2: true,
-                                  step3: false,
-                                  step4: false,
-                                  title: "Delegate",
-                                });
-                              }, 2000);
-                            }
-                          }}
                         >
                           <a
                             className="btn primary-btn d-flex align-items-center"
@@ -398,48 +431,8 @@ console.log("Balance", values.balance);
             )}
             {/* added by vivek */}
 
-            {/* step 1 */}
-            {delegateState.step1 && (
-              <div className="step_content fl-box">
-                <div className="ax-top">
-                  <div className="image_area row">
-                    <div className="col-12 text-center watch-img-sec">
-                      <img
-                        className="img-fluid img-wdth"
-                        src="../../images/progrs-img-2.png"
-                      />
-                    </div>
-                  </div>
-                  <div className="mid_text row">
-                    <div className="col-12 text-center">
-                      <h4>Transaction in progress</h4>
-                    </div>
-                    <div className="col-12 text-center">
-                      <p>
-                        Ethereum transactions can take longer time to complete
-                        based upon network congestion. Please wait for increase
-                        the gas price of the transaction
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="ax-bottom">
-                  <div className="pop_btns_area row form-control mt-3">
-                    <div className="col-12">
-                      <a
-                        className="btn primary-btn d-flex align-items-center"
-                        href="javascript:void(0)"
-                      >
-                        <span>View on Etherscan</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* step 2 */}
-            {delegateState.step2 && (
+             {/* step 2 */}
+             {delegateState.step1 && (
               <div className="step_content fl-box">
                 <div className="ax-top">
                   <div className="image_area row">
@@ -476,26 +469,7 @@ console.log("Balance", values.balance);
                     <div className="col-12">
                       <button
                         className="w-100"
-                        onClick={() => {
-                          setdelegateState({
-                            step0: false,
-                            step1: false,
-                            step2: false,
-                            step3: true,
-                            step4: false,
-                            title: "Delegate",
-                          });
-                          setTimeout(() => {
-                            setdelegateState({
-                              step0: false,
-                              step1: false,
-                              step2: false,
-                              step3: false,
-                              step4: true,
-                              title: "Delegate",
-                            });
-                          }, 2000);
-                        }}
+                        onClick={() => buyVouchers()}
                       >
                         <a
                           className="btn primary-btn d-flex align-items-center"
@@ -510,8 +484,8 @@ console.log("Balance", values.balance);
               </div>
             )}
 
-            {/* step 3 */}
-            {delegateState.step3 && (
+            {/* step 1 */}
+            {delegateState.step2 && (
               <div className="step_content fl-box">
                 <div className="ax-top">
                   <div className="image_area row">
@@ -538,32 +512,23 @@ console.log("Balance", values.balance);
                 <div className="ax-bottom">
                   <div className="pop_btns_area row form-control mt-3">
                     <div className="col-12">
-                      {/* <button onClick={()=>{
-                          setdelegateState({
-                            step0: false,
-                            step1: false,
-                            step2: false,
-                            step3: false,
-                            step4: true,
-                            title: "Delegate",
-                          });
-                          
-                        }}> */}
                       <a
                         className="btn primary-btn d-flex align-items-center"
-                        href="javascript:void(0)"
+                        target='_blank'
+                        href={explorerLink}
                       >
-                        <span>View on Ethereum</span>
+                        <span>View on Block Explorer</span>
                       </a>
-                      {/* </button> */}
                     </div>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* step 4 */}
-            {delegateState.step4 && (
+           
+
+            {/* step 3 */}
+            {delegateState.step3 && (
               <div className="step_content fl-box">
                 <div className="ax-top">
                   <div className="image_area row">
@@ -576,7 +541,7 @@ console.log("Balance", values.balance);
                   </div>
                   <div className="mid_text row">
                     <div className="col-12 text-center">
-                      <h4>Delegation completed</h4>
+                      <h4>Delegation Submitted </h4>
                     </div>
                     <div className="col-12 text-center">
                       <p>
@@ -590,15 +555,13 @@ console.log("Balance", values.balance);
                 <div className="ax-bottom">
                   <div className="pop_btns_area row form-control mt-3">
                     <div className="col-12">
-                      <button
-                        className="w-100"
-                        onClick={() => setdelegatepop(false)}
-                      >
+                      <button className="w-100">
                         <a
                           className="btn primary-btn d-flex align-items-center"
-                          href="javascript:void(0)"
+                          target="_blank"
+                          href={explorerLink}
                         >
-                          <span>View on Ethereum</span>
+                          <span>View on Block Explorer</span>
                         </a>
                       </button>
                     </div>

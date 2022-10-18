@@ -86,7 +86,7 @@ export default function Withdraw() {
                       <div className="top_overview col-12">
                         <div className="img-flexible">
                           <img
-                            class="img-fluid d-inline-block"
+                            className="img-fluid d-inline-block"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -99,7 +99,7 @@ export default function Withdraw() {
                       <div className="text-center box-block">
                         <div className="d-inline-block img-flexible">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -121,7 +121,7 @@ export default function Withdraw() {
                       <div className="text-center box-block">
                         <div className="d-inline-block img-flexible">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/shib-borderd-icon.png"
                             alt=""
                           />
@@ -178,7 +178,7 @@ export default function Withdraw() {
                       <div className="top_overview col-12">
                         <span>
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -191,7 +191,7 @@ export default function Withdraw() {
                       <div className="text-center box-block">
                         <div className="d-inline-block">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -213,7 +213,7 @@ export default function Withdraw() {
                       <div className="text-center box-block">
                         <div className="d-inline-block">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/shib-borderd-icon.png"
                             alt=""
                           />
@@ -227,17 +227,11 @@ export default function Withdraw() {
                       <h4 className="pop-hd-md">Moving funds</h4>
                       <p>
                         It will take up to 10 - 15 minutes to move the funds on
-                        Shibarium Mainnet
+                        Shibarium Mainnet.
                       </p>
                     </div>
                     <div>
-                      <a
-                        className="btn grey-btn w-100"
-                        href="javascript:void(0)"
-                      >
-                        <span className="spinner-border text-secondary pop-spiner"></span>
-                        <span
-                          onClick={() => {
+                      <a onClick={() => {
                             setDepModState({
                               step0: false,
                               step1: false,
@@ -245,6 +239,12 @@ export default function Withdraw() {
                               title: "Transaction Completed",
                             });
                           }}
+                        className="btn grey-btn w-100"
+                        href="javascript:void(0)"
+                      >
+                        <span className="spinner-border text-secondary pop-spiner"></span>
+                        <span
+                          
                         >
                           Continue
                         </span>
@@ -267,7 +267,7 @@ export default function Withdraw() {
                       <div className="top_overview col-12">
                         <span>
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -327,7 +327,7 @@ export default function Withdraw() {
                       <div className="top_overview col-12">
                         <span>
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/red-bone.png"
                             alt=""
                           />
@@ -340,7 +340,7 @@ export default function Withdraw() {
                       <div className="text-center box-block">
                         <div className="d-inline-block">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/shib-borderd-icon.png"
                             alt=""
                           />
@@ -362,7 +362,7 @@ export default function Withdraw() {
                       <div className="text-center box-block">
                         <div className="d-inline-block">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -429,7 +429,7 @@ export default function Withdraw() {
                       <div className="top_overview col-12">
                         <span>
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/red-bone.png"
                             alt=""
                           />
@@ -442,7 +442,7 @@ export default function Withdraw() {
                       <div className="text-center box-block">
                         <div className="d-inline-block">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/shib-borderd-icon.png"
                             alt=""
                           />
@@ -464,7 +464,7 @@ export default function Withdraw() {
                       <div className="text-center box-block">
                         <div className="d-inline-block">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -493,17 +493,11 @@ export default function Withdraw() {
                       <h4 className="pop-hd-md">Moving funds to Ethereum</h4>
                       <p>
                         It will take up to 60 mins to 3 hours to reach the
-                        checkpoint I.
+                        checkpoint.
                       </p>
                     </div>
                     <div>
-                      <a
-                        className="btn grey-btn w-100"
-                        href="javascript:void(0)"
-                      >
-                        <span className="spinner-border text-secondary pop-spiner"></span>
-                        <span
-                          onClick={() =>
+                      <a onClick={() =>
                             setWidModState({
                               step0: false,
                               step1: false,
@@ -513,6 +507,12 @@ export default function Withdraw() {
                               title: "Checkpoint reached",
                             })
                           }
+                        className="btn grey-btn w-100"
+                        href="javascript:void(0)"
+                      >
+                        <span className="spinner-border text-secondary pop-spiner"></span>
+                        <span
+                          
                         >
                           Moving funds
                         </span>
@@ -533,7 +533,7 @@ export default function Withdraw() {
                       <div className="top_overview col-12">
                         <span>
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/red-bone.png"
                             alt=""
                           />
@@ -591,7 +591,7 @@ export default function Withdraw() {
                       <div className="top_overview col-12">
                         <span>
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/red-bone.png"
                             alt=""
                           />
@@ -604,7 +604,7 @@ export default function Withdraw() {
                       <div className="text-center box-block">
                         <div className="d-inline-block">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -626,7 +626,7 @@ export default function Withdraw() {
                       <div className="text-center box-block">
                         <div className="d-inline-block">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -653,16 +653,10 @@ export default function Withdraw() {
                   <div className="pop-bottom">
                     <div className="text-section">
                       <h4 className="pop-hd-md">Withdrawing funds</h4>
-                      <p>Moving funds to your Ethereum Account</p>
+                      <p>Moving funds to your Ethereum Account.</p>
                     </div>
                     <div>
-                      <a
-                        className="btn grey-btn w-100"
-                        href="javascript:void(0)"
-                      >
-                        <span className="spinner-border text-secondary pop-spiner"></span>
-                        <span
-                          onClick={() =>
+                      <a onClick={() =>
                             setWidModState({
                               step0: false,
                               step1: false,
@@ -672,6 +666,12 @@ export default function Withdraw() {
                               title: "Withdraw Complete",
                             })
                           }
+                        className="btn grey-btn w-100"
+                        href="javascript:void(0)"
+                      >
+                        <span className="spinner-border text-secondary pop-spiner"></span>
+                        <span
+                          
                         >
                           Moving funds
                         </span>
@@ -692,7 +692,7 @@ export default function Withdraw() {
                       <div className="top_overview col-12">
                         <span>
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/red-bone.png"
                             alt=""
                           />
@@ -769,7 +769,7 @@ export default function Withdraw() {
                           <img
                             width="20"
                             height="21"
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/search.png"
                             alt=""
                           />
@@ -805,7 +805,7 @@ export default function Withdraw() {
                       <div className="tokn-row">
                         <div className="cryoto-box">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/shib-borderd-icon.png"
                             alt=""
                           />
@@ -823,7 +823,7 @@ export default function Withdraw() {
                       <div className="tokn-row">
                         <div className="cryoto-box">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/red-bone.png"
                             alt=""
                           />
@@ -841,7 +841,7 @@ export default function Withdraw() {
                       <div className="tokn-row">
                         <div className="cryoto-box">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -859,7 +859,7 @@ export default function Withdraw() {
                       <div className="tokn-row">
                         <div className="cryoto-box">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -877,7 +877,7 @@ export default function Withdraw() {
                       <div className="tokn-row">
                         <div className="cryoto-box">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -895,7 +895,7 @@ export default function Withdraw() {
                       <div className="tokn-row">
                         <div className="cryoto-box">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -913,7 +913,7 @@ export default function Withdraw() {
                       <div className="tokn-row">
                         <div className="cryoto-box">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -931,7 +931,7 @@ export default function Withdraw() {
                       <div className="tokn-row">
                         <div className="cryoto-box">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -949,7 +949,7 @@ export default function Withdraw() {
                       <div className="tokn-row">
                         <div className="cryoto-box">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -967,7 +967,7 @@ export default function Withdraw() {
                       <div className="tokn-row">
                         <div className="cryoto-box">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -1036,7 +1036,7 @@ export default function Withdraw() {
                           <img
                             width="20"
                             height="21"
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/search.png"
                             alt=""
                           />
@@ -1047,7 +1047,7 @@ export default function Withdraw() {
                       <div className="tokn-row">
                         <div className="cryoto-box">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/shib-borderd-icon.png"
                             alt=""
                           />
@@ -1059,11 +1059,11 @@ export default function Withdraw() {
                           </div>
                           <div>
                             <h6 className="fw-bold">
-                              <label class="toggle">
+                              <label className="toggle">
                                 <input type="checkbox" />
-                                <span class="slider"></span>
+                                <span className="slider"></span>
                                 <span
-                                  class="labels"
+                                  className="labels"
                                   data-on="ON"
                                   data-off="OFF"
                                 ></span>
@@ -1075,7 +1075,7 @@ export default function Withdraw() {
                       <div className="tokn-row">
                         <div className="cryoto-box">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/red-bone.png"
                             alt=""
                           />
@@ -1087,11 +1087,11 @@ export default function Withdraw() {
                           </div>
                           <div>
                             <h6 className="fw-bold">
-                              <label class="toggle">
+                              <label className="toggle">
                                 <input type="checkbox" />
-                                <span class="slider"></span>
+                                <span className="slider"></span>
                                 <span
-                                  class="labels"
+                                  className="labels"
                                   data-on="ON"
                                   data-off="OFF"
                                 ></span>
@@ -1103,7 +1103,7 @@ export default function Withdraw() {
                       <div className="tokn-row">
                         <div className="cryoto-box">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -1115,11 +1115,11 @@ export default function Withdraw() {
                           </div>
                           <div>
                             <h6 className="fw-bold">
-                              <label class="toggle">
+                              <label className="toggle">
                                 <input type="checkbox" />
-                                <span class="slider"></span>
+                                <span className="slider"></span>
                                 <span
-                                  class="labels"
+                                  className="labels"
                                   data-on="ON"
                                   data-off="OFF"
                                 ></span>
@@ -1131,7 +1131,7 @@ export default function Withdraw() {
                       <div className="tokn-row">
                         <div className="cryoto-box">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -1143,11 +1143,11 @@ export default function Withdraw() {
                           </div>
                           <div>
                             <h6 className="fw-bold">
-                              <label class="toggle">
+                              <label className="toggle">
                                 <input type="checkbox" />
-                                <span class="slider"></span>
+                                <span className="slider"></span>
                                 <span
-                                  class="labels"
+                                  className="labels"
                                   data-on="ON"
                                   data-off="OFF"
                                 ></span>
@@ -1159,7 +1159,7 @@ export default function Withdraw() {
                       <div className="tokn-row">
                         <div className="cryoto-box">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -1171,11 +1171,11 @@ export default function Withdraw() {
                           </div>
                           <div>
                             <h6 className="fw-bold">
-                              <label class="toggle">
+                              <label className="toggle">
                                 <input type="checkbox" />
-                                <span class="slider"></span>
+                                <span className="slider"></span>
                                 <span
-                                  class="labels"
+                                  className="labels"
                                   data-on="ON"
                                   data-off="OFF"
                                 ></span>
@@ -1187,7 +1187,7 @@ export default function Withdraw() {
                       <div className="tokn-row">
                         <div className="cryoto-box">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -1199,11 +1199,11 @@ export default function Withdraw() {
                           </div>
                           <div>
                             <h6 className="fw-bold">
-                              <label class="toggle">
+                              <label className="toggle">
                                 <input type="checkbox" />
-                                <span class="slider"></span>
+                                <span className="slider"></span>
                                 <span
-                                  class="labels"
+                                  className="labels"
                                   data-on="ON"
                                   data-off="OFF"
                                 ></span>
@@ -1215,7 +1215,7 @@ export default function Withdraw() {
                       <div className="tokn-row">
                         <div className="cryoto-box">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -1227,11 +1227,11 @@ export default function Withdraw() {
                           </div>
                           <div>
                             <h6 className="fw-bold">
-                              <label class="toggle">
+                              <label className="toggle">
                                 <input type="checkbox" />
-                                <span class="slider"></span>
+                                <span className="slider"></span>
                                 <span
-                                  class="labels"
+                                  className="labels"
                                   data-on="ON"
                                   data-off="OFF"
                                 ></span>
@@ -1243,7 +1243,7 @@ export default function Withdraw() {
                       <div className="tokn-row">
                         <div className="cryoto-box">
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/etharium.png"
                             alt=""
                           />
@@ -1255,11 +1255,11 @@ export default function Withdraw() {
                           </div>
                           <div>
                             <h6 className="fw-bold">
-                              <label class="toggle">
+                              <label className="toggle">
                                 <input type="checkbox" />
-                                <span class="slider"></span>
+                                <span className="slider"></span>
                                 <span
-                                  class="labels"
+                                  className="labels"
                                   data-on="ON"
                                   data-off="OFF"
                                 ></span>
@@ -1332,7 +1332,7 @@ export default function Withdraw() {
                           <img
                             width="20"
                             height="21"
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/search.png"
                             alt=""
                           />
@@ -1394,7 +1394,7 @@ export default function Withdraw() {
                           <img
                             width="20"
                             height="21"
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/search.png"
                             alt=""
                           />
@@ -1407,7 +1407,7 @@ export default function Withdraw() {
                       <div className="left-sec-img">
                         <div>
                           <img
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/alert.png"
                             alt=""
                           />
@@ -1535,7 +1535,7 @@ export default function Withdraw() {
                           <img
                             width="20"
                             height="21"
-                            class="img-fluid"
+                            className="img-fluid"
                             src="../../images/search.png"
                             alt=""
                           />
@@ -1575,7 +1575,7 @@ export default function Withdraw() {
                         <div className="tokn-row">
                           <div className="cryoto-box">
                             <img
-                              class="img-fluid"
+                              className="img-fluid"
                               src="../../images/shib-borderd-icon.png"
                               alt=""
                             />
@@ -1600,14 +1600,14 @@ export default function Withdraw() {
                                 }}
                               >
                                 <img
-                                  class="img-fluid"
+                                  className="img-fluid"
                                   src="../../images/del.png"
                                   alt=""
                                 />
                               </span>
                               <span>
                                 <img
-                                  class="img-fluid"
+                                  className="img-fluid"
                                   src="../../images/up.png"
                                   alt=""
                                 />
@@ -1618,7 +1618,7 @@ export default function Withdraw() {
                         <div className="tokn-row">
                           <div className="cryoto-box">
                             <img
-                              class="img-fluid"
+                              className="img-fluid"
                               src="../../images/shib-borderd-icon.png"
                               alt=""
                             />
@@ -1643,14 +1643,14 @@ export default function Withdraw() {
                                 }}
                               >
                                 <img
-                                  class="img-fluid"
+                                  className="img-fluid"
                                   src="../../images/del.png"
                                   alt=""
                                 />
                               </span>
                               <span>
                                 <img
-                                  class="img-fluid"
+                                  className="img-fluid"
                                   src="../../images/up.png"
                                   alt=""
                                 />
@@ -1661,7 +1661,7 @@ export default function Withdraw() {
                         <div className="tokn-row">
                           <div className="cryoto-box">
                             <img
-                              class="img-fluid"
+                              className="img-fluid"
                               src="../../images/shib-borderd-icon.png"
                               alt=""
                             />
@@ -1686,14 +1686,14 @@ export default function Withdraw() {
                                 }}
                               >
                                 <img
-                                  class="img-fluid"
+                                  className="img-fluid"
                                   src="../../images/del.png"
                                   alt=""
                                 />
                               </span>
                               <span>
                                 <img
-                                  class="img-fluid"
+                                  className="img-fluid"
                                   src="../../images/up.png"
                                   alt=""
                                 />
@@ -1704,7 +1704,7 @@ export default function Withdraw() {
                         <div className="tokn-row">
                           <div className="cryoto-box">
                             <img
-                              class="img-fluid"
+                              className="img-fluid"
                               src="../../images/shib-borderd-icon.png"
                               alt=""
                             />
@@ -1729,14 +1729,14 @@ export default function Withdraw() {
                                 }}
                               >
                                 <img
-                                  class="img-fluid"
+                                  className="img-fluid"
                                   src="../../images/del.png"
                                   alt=""
                                 />
                               </span>
                               <span>
                                 <img
-                                  class="img-fluid"
+                                  className="img-fluid"
                                   src="../../images/up.png"
                                   alt=""
                                 />
@@ -1747,7 +1747,7 @@ export default function Withdraw() {
                         <div className="tokn-row">
                           <div className="cryoto-box">
                             <img
-                              class="img-fluid"
+                              className="img-fluid"
                               src="../../images/shib-borderd-icon.png"
                               alt=""
                             />
@@ -1772,14 +1772,14 @@ export default function Withdraw() {
                                 }}
                               >
                                 <img
-                                  class="img-fluid"
+                                  className="img-fluid"
                                   src="../../images/del.png"
                                   alt=""
                                 />
                               </span>
                               <span>
                                 <img
-                                  class="img-fluid"
+                                  className="img-fluid"
                                   src="../../images/up.png"
                                   alt=""
                                 />
@@ -1790,7 +1790,7 @@ export default function Withdraw() {
                         <div className="tokn-row">
                           <div className="cryoto-box">
                             <img
-                              class="img-fluid"
+                              className="img-fluid"
                               src="../../images/shib-borderd-icon.png"
                               alt=""
                             />
@@ -1815,14 +1815,14 @@ export default function Withdraw() {
                                 }}
                               >
                                 <img
-                                  class="img-fluid"
+                                  className="img-fluid"
                                   src="../../images/del.png"
                                   alt=""
                                 />
                               </span>
                               <span>
                                 <img
-                                  class="img-fluid"
+                                  className="img-fluid"
                                   src="../../images/up.png"
                                   alt=""
                                 />
@@ -1833,7 +1833,7 @@ export default function Withdraw() {
                         <div className="tokn-row">
                           <div className="cryoto-box">
                             <img
-                              class="img-fluid"
+                              className="img-fluid"
                               src="../../images/shib-borderd-icon.png"
                               alt=""
                             />
@@ -1858,14 +1858,14 @@ export default function Withdraw() {
                                 }}
                               >
                                 <img
-                                  class="img-fluid"
+                                  className="img-fluid"
                                   src="../../images/del.png"
                                   alt=""
                                 />
                               </span>
                               <span>
                                 <img
-                                  class="img-fluid"
+                                  className="img-fluid"
                                   src="../../images/up.png"
                                   alt=""
                                 />
@@ -1876,7 +1876,7 @@ export default function Withdraw() {
                         <div className="tokn-row">
                           <div className="cryoto-box">
                             <img
-                              class="img-fluid"
+                              className="img-fluid"
                               src="../../images/shib-borderd-icon.png"
                               alt=""
                             />
@@ -1901,14 +1901,14 @@ export default function Withdraw() {
                                 }}
                               >
                                 <img
-                                  class="img-fluid"
+                                  className="img-fluid"
                                   src="../../images/del.png"
                                   alt=""
                                 />
                               </span>
                               <span>
                                 <img
-                                  class="img-fluid"
+                                  className="img-fluid"
                                   src="../../images/up.png"
                                   alt=""
                                 />
@@ -2122,7 +2122,7 @@ export default function Withdraw() {
                                 </div>
                               </div>
                               <div className="field-grid row">
-                                <div className="col-sm-5 field-col">
+                                <div className="col-sm-5 field-col res-align">
                                   <div
                                     className="form-field position-relative"
                                     onClick={() => {
@@ -2137,7 +2137,7 @@ export default function Withdraw() {
                                       });
                                     }}
                                   >
-                                    <div className="">
+                                    <div className="right-spacing">
                                       <div>
                                         <img
                                           className="img-fluid"
@@ -2151,7 +2151,7 @@ export default function Withdraw() {
                                         ETH
                                       </span>
                                     </div>
-                                    <div className="">
+                                    <div className="lft-spc">
                                       <div className="arow-outer">
                                         <span className="arrow-down"></span>
                                       </div>
@@ -2278,7 +2278,7 @@ export default function Withdraw() {
                                 </div>
                               </div>
                               <div className="field-grid row">
-                                <div className="col-sm-5 field-col">
+                                <div className="col-sm-5 field-col res-align">
                                   <div
                                     className="form-field position-relative"
                                     onClick={() => {
@@ -2293,7 +2293,7 @@ export default function Withdraw() {
                                       });
                                     }}
                                   >
-                                    <div className="">
+                                    <div className="right-spacing">
                                       <div>
                                         <img
                                           width="24"
@@ -2309,7 +2309,7 @@ export default function Withdraw() {
                                         Bone
                                       </span>
                                     </div>
-                                    <div className="">
+                                    <div className="lft-spc">
                                       <div className="arow-outer">
                                         <span className="arrow-down"></span>
                                       </div>

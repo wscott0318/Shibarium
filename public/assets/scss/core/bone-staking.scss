@@ -143,10 +143,20 @@
     margin-bottom: 20px;
 }
 .left-section {
-    width: 32%;
+    width: 43%;
+    @media #{$max-xl}{
+        padding-bottom: 10px;
+    }
     @media #{$max-md}{
         width: 100%;
         margin-bottom: 15px;
+        padding-bottom: 0;
+    }
+    @media #{$max-lg}{
+        width: 85%;
+    }
+    @media #{$max-sm}{
+        width: 100%;
     }
 }
 .switch-sec, .select-sec, .right-section, .layout-sec{
@@ -210,9 +220,11 @@
 }
 .layout-sec {
     margin-left: 25px;
+    @media #{$max-md}{
+        margin-left: 10px; 
+    }
     @media #{$max-sm}{
-        margin-left: 0;
-        
+        margin-left: 0; 
     }
 }
 .grey-icon{
