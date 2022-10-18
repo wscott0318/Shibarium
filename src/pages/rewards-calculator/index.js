@@ -16,7 +16,7 @@ const Rewards = () => {
   const [proVal, setProVal] = useState(70);
   return (
     <>
-      <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg">
+      <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg ffms-inherit">
       <Header />
       <StakingHeader />
         <section className="top_bnr_area dark-bg darkbg py-4 py-md-5">

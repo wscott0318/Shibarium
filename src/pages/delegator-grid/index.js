@@ -15,7 +15,7 @@ export default function DelegatorGrid() {
     const [modalShow, setModalShow] = React.useState(false);
   return (
     <>
-    <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg delegatorgrid-sec">
+    <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg delegatorgrid-sec ffms-inherit">
       <Header />
       <StakingHeader />
         <section className="top_bnr_area dark-bg darkbg py-4 py-md-5">
