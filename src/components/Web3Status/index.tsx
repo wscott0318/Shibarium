@@ -131,7 +131,7 @@ function Web3StatusInner() {
               size={20}
               address={account}
               defaultComponent={
-                <Image src="https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,c_limit,w_48,q_auto/https://www.shibatoken.com/images/shib-logo.svg" alt="Sushi Chef" width={22} height={22} />
+                <Image src="https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,c_limit,w_48,q_auto/https://www.shibatoken.com/images/shib-logo.svg" alt="shiba" width={22} height={22} />
               }
               style={{ borderRadius: 5 }}
               provider={library}
