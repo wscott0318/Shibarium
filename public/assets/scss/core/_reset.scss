@@ -456,7 +456,7 @@ ul {
         display: inline-block;
         @media #{$max-xsm}{
             padding-right: 10px;
-            max-width: 25px;
+            max-width: 100%;
         }
     }
     .table td a{
