@@ -825,7 +825,7 @@ export default function Wallet() {
                         value={((availBalance || 0) * boneUSDValue).toFixed(2)}
                       />
                     </h1>
-                    <p>shibarium mainnet</p>
+                    <p>Etherium mainnet</p>
                   </div>
                 </div>
                 <div className="bal-col">
@@ -864,7 +864,7 @@ export default function Wallet() {
                   <div className="lrg_btns_area t_a_clm">
                     <Link href="/">
                       <a className="btn white-btn w-100 d-block">
-                        How Shibarium works
+                        Move funds from Ethereum to Shibarium
                       </a>
                     </Link>
 
@@ -884,10 +884,10 @@ export default function Wallet() {
                      <thead>
                         <tr>
                           <th colSpan={2}>Name</th>
-                          <th>Balance</th>
+                          <th>Quantity - Balance</th>
                           <th>Actions</th>
                           <th colSpan={2} className="text-end">
-                            <input
+                            <input className="w-100"
                               value={searchKey}
                               onChange={(e) => handleSearchList(e.target.value)}
                               type="search"
@@ -899,7 +899,7 @@ export default function Wallet() {
                       <tbody>
                         {slicedTokenFilteredList.length ? (
                           slicedTokenFilteredList.map((x: any) => (
-                            <tr key={x.parentName}>
+                            <tr  key={x.parentName}>
                               <td className="fix-td" colSpan={2}>
                                 <span>
                                   <img src="../../images/shiba-round-icon.png" />
@@ -949,18 +949,24 @@ export default function Wallet() {
                             </td>
                           </tr>
                         ) : null }
-                        {searchKey.length && !tokenFilteredList.length ? (
-                          <tr>
-                            <td colSpan={6}>
-                              <p className="p-3 p-sm-4 p-xl-5 text-center">
-                                No record found
-                              </p>
-                            </td>
-                          </tr>
-                        ) : null}
+
                       </tbody>
                     </table>
                   </div>
+                  {searchKey.length && !tokenFilteredList.length ? (
+                          // <tr>
+                          //   <td colSpan={6}>
+                          //     <p className="p-3 p-sm-4 p-xl-5 text-center float-found">
+                          //       No record found
+                          //     </p>
+                          //   </td>
+                          // </tr>
+                          <div className="no-found">
+                              <p className="p-3 p-sm-4 p-xl-5 text-center float-found">
+                                No record found
+                              </p>
+                          </div>
+                        ) : null}
                 </div>
                 <Pagination
                   currentPage={currentPage}
