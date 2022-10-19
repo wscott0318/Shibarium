@@ -4,14 +4,21 @@ import CommonModal from "../components/CommonModel";
 import { useActiveWeb3React } from "../../services/web3";
 import { getDelegatorData } from "../../services/apis/user/userApi"
 import Link from "next/link";
+import LoadingSpinner from 'pages/components/Loading';
+import NumberFormat from 'react-number-format';
+import { Formik, Form, Field} from "formik";
+import * as Yup from "yup";
 
 
-const validatorAccount = ({userType} : {userType : any}) => {
+
+
+const validatorAccount = ({userType, boneUSDValue, availBalance} : {userType : any, boneUSDValue:any, availBalance:any}) => {
     const router = useRouter();
     const [showretakepop, setretakepop] = useState(false);
     const [showcommissionpop, setcommissionpop] = useState(false);
     const [showwithdrawpop, setwithdrawpop] = useState(false);
     const [showunboundpop, setunboundpop] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const { account, chainId = 1 } = useActiveWeb3React();
   const [delegationsList, setDelegationsList] = useState([]);
@@ -40,19 +47,23 @@ const validatorAccount = ({userType} : {userType : any}) => {
   });
 
   const getDelegatorCardData = (accountAddress: any) => {
+    setLoading(true)
     try {
       getDelegatorData(accountAddress.toLowerCase()).then((res: any) => {
         if (res.data) {
           console.log(res.data)
           let sortedData = res.data.data.validators.sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake))
           setDelegationsList(sortedData)
+          setLoading(false)
         }
       }).catch((e: any) => {
         console.log(e);
         //  setUserType('NA')
+        setLoading(false)
       })
     } catch (error) {
       console.log(error)
+      setLoading(false)
     }
   }
 
@@ -60,11 +71,19 @@ const validatorAccount = ({userType} : {userType : any}) => {
     console.log({btn,valAddress, id, stakeAmount})
     switch (btn) {
       case "Restake":
-        setRestakeModal({
-          value2: true,
-          value1: false,
-          address: valAddress
-        });
+        if(userType === 'Validator'){
+          setRestakeModal({
+            value1: true,
+            value2: false,
+            address: valAddress
+          });
+        } else {
+          setRestakeModal({
+            value2: true,
+            value1:  false,
+            address: valAddress
+          });
+        }
         break;
       case "Change Commission Rate":
         setCommiModal({
@@ -87,38 +106,69 @@ const validatorAccount = ({userType} : {userType : any}) => {
   };
 
   useEffect(() => {
-    if (account) {
+    if (account && userType === "Delegator") {
       getDelegatorCardData(account)
     }
   }, [account])
 
+console.log(restakeModal)
 
+const restakeValidation: any = Yup.object({
+  // validatorAddress: Yup.string().required(),
+  amount: Yup.number().min(0).max(availBalance).required("amount is required"),
+  reward: Yup.number().required(),
+
+})
 
     return (
         <>
+        {loading && <LoadingSpinner />}
             <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg">
                 {/* retake popop start */}
                 <CommonModal
                     title={"Retake"}
                     show={restakeModal.value1}
-                    setShow={setretakepop}
+                    setShow={() => setRestakeModal({value1:false, value2: false, address: ''})}
                     externalCls="stak-pop"
                 >
                     <>
-
-
                         <div className="cmn_modal val_popups">
-                            <form>
+                            <Formik
+                            initialValues={{
+                              amount:'',
+                              address: '',
+                              reward: ''
+                            }}
+                            validationSchema={restakeValidation}
+                            onSubmit={(values, actions) => {
+                              console.log(values);
+
+                            }}
+                            >
+                               {
+                              ({ errors, touched ,handleChange, handleBlur, values, handleSubmit }) => (
+                                <>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
                                         <label className="mb-2 mb-md-2 text-white">Enter validator address</label>
-                                        <input type="text" placeholder="Validator address" className="w-100" />
+                                        <input type="text"
+                                         placeholder="Validator address"
+                                          className="w-100"
+                                          value={restakeModal.address}
+                                          />
                                     </div>
                                 </div>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
                                         <label className="mb-2 mb-md-2 text-white">Enter amount</label>
-                                        <input type="text" placeholder="Amount" className="w-100" />
+                                        <input
+                                         type="text" 
+                                         placeholder="Amount"
+                                          className="w-100"
+                                          value={values.amount}
+                                          onChange={handleChange("amount")}
+                                          />
+                                          {touched.amount && errors.amount ? <p className='primary-text pt-1 pl-2'>{errors.amount}</p> : null}
                                     </div>
                                 </div>
                                 <div className="cmn_inpt_row">
@@ -128,9 +178,15 @@ const validatorAccount = ({userType} : {userType : any}) => {
                                     </div>
                                 </div>
                                 <div className="pop_btns_area">
-                                    <div className="form-control"><a className='btn primary-btn w-100' href="javascript:void(0)">Submit</a>  </div>
+                                    <div className="form-control">
+                                      <button className='btn primary-btn w-100'
+                                      onClick={() => handleSubmit()}
+                                      >Submit</button> 
+                                     </div>
                                 </div>
-                            </form>
+                                </>
+                                )}
+                            </Formik>
                         </div>
 
                     </>
@@ -229,21 +285,21 @@ const validatorAccount = ({userType} : {userType : any}) => {
                     <div className="col-xl-12 col-lg-12 side-auto">
                         <div className="val_del_outr">
                             <h4 className="ff-mos">Wallet Balance</h4>
-                            <h3 className="ff-mos"><b>0 Bone</b></h3>
-                            <h4 className="ff-mos">$0.00</h4>
+                            <h3 className="ff-mos"><b>{availBalance.toFixed(4)} {chainId == 7352 ? "Bone" : "Ethereum"}</b></h3>
+                            <h4 className="ff-mos"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></h4>
                             <div className="btns_sec val_all_bts row">
                                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                                    <button onClick={() => setretakepop(true)} className="ff-mos btn black-btn w-100 d-block">
+                                    <button onClick={() => handleModal("Restake", account)} className="ff-mos btn black-btn w-100 d-block">
                                         Restake
                                     </button>
                                 </div>
                                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                                    <button onClick={() => setcommissionpop(true)} className="ff-mos btn black-btn w-100 d-block">
+                                    <button onClick={() => handleModal("Change Commission Rate", account)} className="ff-mos btn black-btn w-100 d-block">
                                         Change Commission Rate
                                     </button>
                                 </div>
                                 <div className="col-xl-3  col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                                    <button onClick={() => setwithdrawpop(true)} className="ff-mos btn black-btn w-100 d-block">
+                                    <button onClick={() => handleModal("Withdraw Rewards", account)} className="ff-mos btn black-btn w-100 d-block">
                                         Withdraw Rewards
                                     </button>
                                 </div>
@@ -321,9 +377,9 @@ const validatorAccount = ({userType} : {userType : any}) => {
                 </div>
               </div>
             )
-            : <p>
+            : !loading ? <p>
               No Record Found
-            </p>
+            </p> : null
           }
         </div>
       </div>
