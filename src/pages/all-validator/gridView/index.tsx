@@ -50,7 +50,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                                       </div>
                                   </div>
                                   <div className='d-flex align-items-center justify-content-between'>
-                                      <div className='fw-600 ft-14'>Comission</div>
+                                      <div className='fw-600 ft-14'>Commission</div>
                                       <div>
                                           <span className='warning-color fw-600 ft-14'>{validator.commissionPercent}%</span>
                                       </div>
