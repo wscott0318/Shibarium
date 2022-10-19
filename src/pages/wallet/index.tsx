@@ -887,7 +887,7 @@ export default function Wallet() {
                           <th>Quantity - Balance</th>
                           <th>Actions</th>
                           <th colSpan={2} className="text-end">
-                            <input className="w-100"
+                            <input className="shib-search"
                               value={searchKey}
                               onChange={(e) => handleSearchList(e.target.value)}
                               type="search"
@@ -901,7 +901,7 @@ export default function Wallet() {
                           slicedTokenFilteredList.map((x: any) => (
                             <tr  key={x.parentName}>
                               <td className="fix-td" colSpan={2}>
-                                <span>
+                                <span className="ms-1">
                                   <img src="../../images/shiba-round-icon.png" />
                                 </span>
                                 <b>{x.parentSymbol}</b> - {x.parentName}
@@ -931,7 +931,7 @@ export default function Wallet() {
                                   </div>
                                   <div className="col-6 px-0">
                                     <Link href="/">
-                                      <a className=" px-0">Send</a>
+                                      <a className=" px-0 me-2">Send</a>
                                     </Link>
                                   </div>
                                 </div>

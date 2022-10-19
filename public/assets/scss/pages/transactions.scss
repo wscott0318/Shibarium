@@ -51,6 +51,9 @@
     font-weight: 700;
     &:first-child{
         font-size: 20px;
+        @media #{$max-lg}{
+            font-size: 14px;
+        }
     }
     @media #{$max-lg}{
         font-size: 14px;
@@ -150,11 +153,11 @@
 .cstm_pagination {
     margin-top: 30px;
     @media #{$max-lg}{
-        margin-top: 20px;
+        // margin-top: 20px;
         margin-bottom: 20px;
     }
     @media #{$max-md}{
-        margin-top: 16px;
+        margin-top: 35px;
         margin-bottom: 16px;
     }
     .row{
@@ -263,7 +266,8 @@
         align-items: center;
         @media #{$max-sm}{
             width: 100%;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            margin-top: 10px;
         }
     }
     .right_block{

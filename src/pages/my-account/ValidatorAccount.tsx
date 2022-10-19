@@ -191,7 +191,7 @@ const callComission = async (value:any) => {
             <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg">
                 {/* retake popop start */}
                 <CommonModal
-                    title={"Retake"}
+                    title={"Restake"}
                     show={restakeModal.value1}
                     setShow={() => setRestakeModal({value1:false, value2: false, address: ''})}
                     externalCls="stak-pop"
@@ -238,9 +238,17 @@ const callComission = async (value:any) => {
                                 </div>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <label className="mb-2 mb-md-2 text-white">Enter stakereward</label>
-                                        <input type="text" placeholder="Stakereward" className="w-100" />
-                                    </div>
+                                        <label className="mb-2 mb-md-2 text-white">Enter Restake reward</label>
+                                        {/* <input type="text" placeholder="Stakereward" className="w-100" /> */}
+                                        <div className='black-sel'>
+                                          <select className="cus-select">
+                                              <option selected>No</option>
+                                              <option>Yes</option>
+                                            </select>
+                                            <span className="arrow-down"></span>  
+                                          </div>
+                                          
+                                      </div>
                                 </div>
                                 <div className="pop_btns_area">
                                     <div className="form-control">
