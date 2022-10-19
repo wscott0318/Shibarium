@@ -2464,6 +2464,9 @@ input:-internal-autofill-selected {
         background: linear-gradient(to right, #f6f6f6 -62%, #f0f0f0 -42%, #596380 60%);
         animation: shimmer 5s linear infinite forwards;
     }
+    .shimmer-table-row{
+        background-color: $black-lite;
+    }
 }
 .font-up{
     .pagination, .text-white, .table{
