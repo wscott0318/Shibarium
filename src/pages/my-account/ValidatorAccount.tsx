@@ -173,7 +173,7 @@ const restakeValidation: any = Yup.object({
                                 </div>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
-                                        <label className="mb-2 mb-md-2 text-white">Enter stakereward</label>
+                                        <label className="mb-2 mb-md-2 text-white">Enter Restake reward</label>
                                         {/* <input type="text" placeholder="Stakereward" className="w-100" /> */}
                                         <div className='black-sel'>
                                           <select className="cus-select">
