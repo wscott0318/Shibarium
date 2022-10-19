@@ -8,6 +8,11 @@ import LoadingSpinner from 'pages/components/Loading';
 import NumberFormat from 'react-number-format';
 import { Formik, Form, Field} from "formik";
 import * as Yup from "yup";
+import proxyManagerABI from "../../ABI/StakeManagerProxy.json";
+import {PROXY_MANAGER} from "../../web3/contractAddresses";
+import Web3 from 'web3';
+import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
+import { useAppDispatch } from "../../state/hooks"
 
 
 
@@ -19,8 +24,11 @@ const validatorAccount = ({userType, boneUSDValue, availBalance} : {userType : a
     const [showwithdrawpop, setwithdrawpop] = useState(false);
     const [showunboundpop, setunboundpop] = useState(false);
     const [loading, setLoading] = useState(false);
+    const dispatch = useAppDispatch()
 
-    const { account, chainId = 1 } = useActiveWeb3React();
+    const { account, chainId = 1,library } = useActiveWeb3React();
+    const lib : any = library
+    const web3: any = new Web3(lib?.provider)
   const [delegationsList, setDelegationsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState<any>({});
   const [stakeMore, setStakeMoreModal] = useState(false);
@@ -122,8 +130,59 @@ const comissionValidation: any = Yup.object({
   comission: Yup.number().min(0).max(100).required("comission is required"),
 })
 
-const callComission = (value:any) => {
-  
+const getValidatorId = async () => {
+  let user = account;
+  if(account){
+    const instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
+    const ID = await instance.methods.getValidatorId(user).call({ from: account });
+    console.log(ID)
+    return ID
+  } else {
+    console.log("account addres not found")
+  }
+}
+
+const callComission = async (value:any) => {
+  let user : any = account
+  console.log("comission called ==> ")
+  let validatorID = await getValidatorId()
+  let instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
+  instance.methods.updateCommissionRate(validatorID, +value.comission).send({ from: account })
+  .on('transactionHash', (res: any) => {
+    console.log(res, "hash")
+    dispatch(
+      addTransaction({
+        hash: res,
+        from: user,
+        chainId,
+        summary: `${res}`,
+      })
+    )
+  }).on('receipt', (res: any) => {
+    console.log(res, "receipt")
+    dispatch(
+      finalizeTransaction({
+        hash: res.transactionHash,
+        chainId,
+        receipt: {
+          to: res.to,
+          from: res.from,
+          contractAddress: res.contractAddress,
+          transactionIndex: res.transactionIndex,
+          blockHash: res.blockHash,
+          transactionHash: res.transactionHash,
+          blockNumber: res.blockNumber,
+          status: 1
+        }
+      })
+    )
+  }).on('error', (res: any) => {
+    console.log(res, "error")
+    if (res.code === 4001) {
+      setCommiModal({value:false, address:''})
+    }
+  })
+
 }
 
     return (
@@ -148,7 +207,6 @@ const callComission = (value:any) => {
                             validationSchema={restakeValidation}
                             onSubmit={(values, actions) => {
                               console.log(values);
-                              callComission(values)
                             }}
                             >
                                {
@@ -217,7 +275,7 @@ const callComission = (value:any) => {
                             validationSchema={comissionValidation}
                             onSubmit={(values, actions) => {
                               console.log(values);
-
+                              callComission(values)
                             }}
                             >
                                {
