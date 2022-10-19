@@ -67,13 +67,13 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                     <td>{x.commissionPercent}%</td>
                     <td>{x.uptimePercent.toFixed(2)}%</td>
                     <td className='text-start'>
-                      <button
+                      <button type='button' className='btn primary-btn w-100'
                         onClick={() => {
                           setdelegatepop(true);
                           setSelectedRow(x)
                         }}
                       >
-                        DELEGATE
+                        Delegate
                       </button>
                     </td>
                   </tr>
