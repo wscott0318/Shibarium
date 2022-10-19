@@ -176,7 +176,7 @@ function StepTwo({stepState,stepHandler}:any) {
           <div className="col-sm-6 form-grid">
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
-                Comission in %
+                Commission in %
               </label>
               <input
                 type="text"
