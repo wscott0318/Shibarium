@@ -2567,11 +2567,29 @@ input:-internal-autofill-selected {
         text-overflow: ellipsis;
     }
 }
-
-
+.black-sel{
+    position: relative;
+    .cus-select{
+        background: $body-bg-800;
+        width: 100%;
+        padding: 15px 20px;
+        color: #fff;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -o-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -webkit-appearance: none;
+        cursor: pointer;
+    }
+    .arrow-down{
+        position: absolute;
+    }
+}
 .progress-tab{
     .error{
         margin-top: 5px;
+        padding-left: 13px;
     }
 }
 .fix-layout{
