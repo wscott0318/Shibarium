@@ -2534,6 +2534,23 @@ input:-internal-autofill-selected {
         text-overflow: ellipsis;
     }
 }
+.mn-ht{
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    @media #{$max-xxl}{
+        min-height: 240px;
+    }
+    @media #{$max-xl}{
+        min-height: 200px;
+    }
+    @media #{$max-lg}{
+        min-height: 160px;
+    }
+    @media #{$max-xsm}{
+        min-height: 120px;
+    }
+}
 .flx{
     display: flex;
     .grey-btn{
