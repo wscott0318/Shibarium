@@ -2364,9 +2364,16 @@ background: $body-bg;
         input{
             background: $body-bg-800;
             color: $white;
+            
         }
+        
+        
     }
     
+}
+input:-internal-autofill-selected {
+    background-image: none !important;
+    background-color:$body-bg-800 !important;
 }
 .fl-box {
     display: flex;
@@ -2513,6 +2520,14 @@ background: $body-bg;
         @media #{$max-lg}{
             height: 275px;
         }
-        
+    } 
+}   
+.fix-value{
+    span{
+        max-width: 100%;
+        width: 330px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
