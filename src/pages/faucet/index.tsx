@@ -53,7 +53,7 @@ export default function faucet() {
       done:false,
       hash:''
     })
-    await axios.get(`http://3.17.79.146:5000/faucet/${account}`)
+    await axios.get(`http://3.17.79.146:5000/api/faucet/${account}`)
     .then((res:any ) => {
       console.log(res.data)
       setModalState({

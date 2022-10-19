@@ -156,11 +156,17 @@ export default function Wallet() {
     const pageSize = 4;
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [slicedTokenFilteredList, setSliceTokenFilteredList] = useState([]);
+
     useEffect(() => {
       if(tokenFilteredList.length){
         const slicedList = tokenFilteredList.slice(0, pageSize);
       setSliceTokenFilteredList(slicedList);
+    } else if (tokenFilteredList.length === 0){
+      setSliceTokenFilteredList([])
+    } else {
+      console.log("check state")
     }
+
     }, [tokenFilteredList]);
 
     const pageChangeHandler = (index: number) => {
@@ -200,6 +206,8 @@ export default function Wallet() {
     }
     
   }
+
+  console.log(tokenList, tokenFilteredList, slicedTokenFilteredList)
 
   const submitTransaction = () => {
     let user: any = account;
@@ -873,7 +881,7 @@ export default function Wallet() {
                 <div className="cmn_dasdrd_table mb-3 mb-sm-4 fix-layout">
                   <div className="table-responsive">
                     <table className="table table-borderless mb-0 smb-0">
-                      {slicedTokenFilteredList.length && <thead>
+                     <thead>
                         <tr>
                           <th colSpan={2}>Name</th>
                           <th>Quantity - Balance</th>
@@ -887,7 +895,7 @@ export default function Wallet() {
                             />
                           </th>
                         </tr>
-                      </thead>}
+                      </thead>
                       <tbody>
                         {slicedTokenFilteredList.length ? (
                           slicedTokenFilteredList.map((x: any) => (
@@ -930,18 +938,18 @@ export default function Wallet() {
                               </td>
                             </tr>
                           ))
-                        ) : (
+                        ) : !searchKey.length && !tokenFilteredList.length  ? (
                           <tr>
-                            <td colSpan={10}>
+                            <td colSpan={6}>
                               <DynamicShimmer
                                 type={"table"}
                                 rows={3}
-                                cols={5}
+                                cols={4}
                               />
                             </td>
                           </tr>
-                        )}
-                        {searchKey.length && !tokenFilteredList.length && (
+                        ) : null }
+                        {searchKey.length && !tokenFilteredList.length ? (
                           <tr>
                             <td colSpan={6}>
                               <p className="p-3 p-sm-4 p-xl-5 text-center">
@@ -949,7 +957,7 @@ export default function Wallet() {
                               </p>
                             </td>
                           </tr>
-                        )}
+                        ) : null}
                       </tbody>
                     </table>
                   </div>

@@ -94,6 +94,9 @@ export default function Header() {
 
     }
   }
+
+  console.log(userType)
+  
   useEffect(() => {
     const { ethereum } = window
     if (ethereum && ethereum.on && !error) {
