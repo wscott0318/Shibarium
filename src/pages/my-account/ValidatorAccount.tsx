@@ -114,11 +114,17 @@ const validatorAccount = ({userType, boneUSDValue, availBalance} : {userType : a
 console.log(restakeModal)
 
 const restakeValidation: any = Yup.object({
-  // validatorAddress: Yup.string().required(),
   amount: Yup.number().min(0).max(availBalance).required("amount is required"),
   reward: Yup.number().required(),
 
 })
+const comissionValidation: any = Yup.object({
+  comission: Yup.number().min(0).max(100).required("comission is required"),
+})
+
+const callComission = (value:any) => {
+  
+}
 
     return (
         <>
@@ -137,12 +143,12 @@ const restakeValidation: any = Yup.object({
                             initialValues={{
                               amount:'',
                               address: '',
-                              reward: ''
+                              reward: 0
                             }}
                             validationSchema={restakeValidation}
                             onSubmit={(values, actions) => {
                               console.log(values);
-
+                              callComission(values)
                             }}
                             >
                                {
@@ -155,6 +161,7 @@ const restakeValidation: any = Yup.object({
                                          placeholder="Validator address"
                                           className="w-100"
                                           value={restakeModal.address}
+                                          readOnly
                                           />
                                     </div>
                                 </div>
@@ -197,31 +204,62 @@ const restakeValidation: any = Yup.object({
                 {/* commission popop start */}
                 <CommonModal
                     title={"Commission"}
-                    show={showcommissionpop}
-                    setShow={setcommissionpop}
+                    show={commiModal.value}
+                    setShow={() => setCommiModal({value: false, address: ''})}
                     externalCls="stak-pop"
                 >
                     <>
+                    <Formik
+                            initialValues={{
+                              address: '',
+                              comission: ''
+                            }}
+                            validationSchema={comissionValidation}
+                            onSubmit={(values, actions) => {
+                              console.log(values);
+
+                            }}
+                            >
+                               {
+                              ({ errors, touched ,handleChange, handleBlur, values, handleSubmit }) => (
                         <div className="cmn_modal val_popups">
-                            <form>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
                                         <label className="mb-2 mb-md-2 text-white">Enter validator address</label>
-                                        <input type="text" placeholder="Validator address" className="w-100" />
+                                        <input 
+                                        type="text"
+                                        placeholder="Validator address"
+                                        className="w-100"
+                                        value={commiModal.address}
+                                        readOnly
+                                        />
                                     </div>
                                 </div>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
                                         <label className="mb-2 mb-md-2 text-white">Enter new commission</label>
-                                        <input type="text" placeholder="New commission" className="w-100" />
+                                        <input 
+                                        type="text" 
+                                        placeholder="New commission" 
+                                        className="w-100" 
+                                        value={values.comission}
+                                        onChange={handleChange("comission")}
+                                        />
+                                        {touched.comission && errors.comission ? <p className='primary-text pt-1 pl-2'>{errors.comission}</p> : null}
                                     </div>
                                 </div>
                                 <div className="pop_btns_area">
-                                    <div className="form-control"><a className='btn primary-btn w-100' href="javascript:void(0)">Submit</a>  </div>
+                                    <div className="form-control">
+                                      <button className='btn primary-btn w-100' 
+                                        type='submit'
+                                        onClick={() => handleSubmit()}
+                                      >Submit
+                                      </button>  
+                                      </div>
                                 </div>
-                            </form>
                         </div>
-
+                            )}
+                      </Formik>
                     </>
                 </CommonModal>
                 {/* commission popop ends */}
