@@ -2508,3 +2508,12 @@ input:-internal-autofill-selected {
         align-items: center;
     } 
 }
+.fix-value{
+    span{
+        max-width: 100%;
+        width: 330px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
