@@ -2552,13 +2552,22 @@ input:-internal-autofill-selected {
         td{
             &:first-child{
                 width: 350px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             &:last-child{
                 width:270px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             width: auto;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
             &.fix-td{
-                height: 40px;
+                height: 62.5px;
             }
         }
     }
