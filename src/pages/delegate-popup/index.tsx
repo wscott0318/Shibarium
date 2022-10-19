@@ -492,7 +492,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                     <div className="col-12 text-center watch-img-sec">
                       <img
                         className="img-fluid img-wdth"
-                        src="../../images/progrs-img-2.png"
+                        src="../../images/progress-loading.gif"
                       />
                     </div>
                   </div>

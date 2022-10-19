@@ -40,7 +40,7 @@ export default function HowitWorks() {
                         <ul className="text-list mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 ff-mos">
                             <li>The Shibarium Wallet for sending, receiving and storing your assets on the Shibarium network.</li>
                             <li>The Shibarium Bridge, for withdrawals and deposits across networks.</li>
-                            <li>Shibarium Staking: your go-to place for staking and getting rewards with your $MATIC.</li>
+                            <li>Shibarium Staking: your go-to place for staking and getting rewards with your BONE.</li>
                             
                         </ul>
                         <p className="ff-mos">Click on the Shibarium Wallet or Shibarium Bridge, and you will see all your token

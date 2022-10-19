@@ -2560,6 +2560,15 @@ input:-internal-autofill-selected {
 .btn-disble{
     opacity: 0.4;
 }
+.left-section{
+    .custum-search{
+        white-space: nowrap; 
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+
 .progress-tab{
     .error{
         margin-top: 5px;
