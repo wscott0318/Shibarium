@@ -56,6 +56,7 @@ const validatorAccount = ({userType} : {userType : any}) => {
   }
 
   const handleModal = (btn: String, valAddress: any, id: any = null, stakeAmount: any = null) => {
+    console.log({btn,valAddress, id, stakeAmount})
     switch (btn) {
       case "Restake":
         setRestakeModal({
@@ -98,7 +99,7 @@ const validatorAccount = ({userType} : {userType : any}) => {
                 {/* retake popop start */}
                 <CommonModal
                     title={"Retake"}
-                    show={showretakepop}
+                    show={restakeModal.value1}
                     setShow={setretakepop}
                     externalCls="stak-pop"
                 >
