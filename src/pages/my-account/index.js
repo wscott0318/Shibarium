@@ -35,11 +35,11 @@ export default function MyAcount() {
                     <h1 className="ff-mos">My Account</h1>
                 </div>                
             </section> 
-            {
-              userType === 'NA' ? 
-              <UserAccount /> :
+            {/* {userType === 'NA' ?  */}
+              <UserAccount />
+               {/* : */}
               <ValidatorAccount userType={userType} />
-            }
+            {/* } */}
       </main> 
     </>
   );

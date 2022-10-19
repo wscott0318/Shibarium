@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import CommonModal from "../components/CommonModel";
 import { useActiveWeb3React } from "../../services/web3";
 import { getDelegatorData } from "../../services/apis/user/userApi"
+import Link from "next/link";
 
 
 const validatorAccount = ({userType} : {userType : any}) => {
