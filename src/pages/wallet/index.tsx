@@ -854,9 +854,12 @@ export default function Wallet() {
                 </div>
                 <div className="bal-col">
                   <div className="lrg_btns_area t_a_clm">
-                    <a href="#" className="btn white-btn w-100 d-block">
-                      Move funds from Ethereum to Shibarium
-                    </a>
+                    <Link href="/">
+                      <a className="btn white-btn w-100 d-block">
+                        How Shibarium works
+                      </a>
+                    </Link>
+
                     <Link href="/how-it-works">
                       <a className="btn white-btn w-100 d-block">
                         How Shibarium works
@@ -867,7 +870,7 @@ export default function Wallet() {
               </div>
               <div className="assets_btm_area">
                 <h2>Assets on Shibarium</h2>
-                <div className="cmn_dasdrd_table mb-3 mb-sm-4">
+                <div className="cmn_dasdrd_table mb-3 mb-sm-4 fix-layout">
                   <div className="table-responsive">
                     <table className="table table-borderless mb-0 smb-0">
                       {slicedTokenFilteredList.length && <thead>
@@ -875,7 +878,7 @@ export default function Wallet() {
                           <th colSpan={2}>Name</th>
                           <th>Balance</th>
                           <th>Actions</th>
-                          <th colSpan={1} className="text-end">
+                          <th colSpan={2} className="text-end">
                             <input
                               value={searchKey}
                               onChange={(e) => handleSearchList(e.target.value)}
@@ -889,13 +892,13 @@ export default function Wallet() {
                         {slicedTokenFilteredList.length ? (
                           slicedTokenFilteredList.map((x: any) => (
                             <tr key={x.parentName}>
-                              <td colSpan={2}>
+                              <td className="fix-td" colSpan={2}>
                                 <span>
                                   <img src="../../images/shiba-round-icon.png" />
                                 </span>
                                 <b>{x.parentSymbol}</b> - {x.parentName}
                               </td>
-                              <td>
+                              <td className="fix-td">
                                 {(x.balance || 0).toFixed(4)} -{" "}
                                 <NumberFormat
                                   thousandSeparator
@@ -906,16 +909,16 @@ export default function Wallet() {
                                   ).toFixed(2)}
                                 />
                               </td>
-                              <td>
+                              <td className="fix-td">
                                 <Link href="/">
                                   <a className="px-0">Deposit</a>
                                 </Link>
                               </td>
-                              <td>
+                              <td className="fix-td" colSpan={2}>
                                 <div className="row mx-0">
                                   <div className="col-6 px-0">
                                     <Link href="/">
-                                      <a className=" px-0">Withdraw</a>
+                                      <a className=" px-0 d-block text-start">Withdraw</a>
                                     </Link>
                                   </div>
                                   <div className="col-6 px-0">

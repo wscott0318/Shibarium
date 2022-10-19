@@ -2517,3 +2517,32 @@ input:-internal-autofill-selected {
         text-overflow: ellipsis;
     }
 }
+.fix-layout{
+    table{
+        table-layout: fixed;
+        border-collapse: collapse;
+        width: 100%;
+        min-height: 343px;
+        th{
+            &:first-child{
+                width: 350px;
+            }
+            &:last-child{
+                width:270px;
+            }
+            width: auto;
+        }
+        td{
+            &:first-child{
+                width: 350px;
+            }
+            &:last-child{
+                width:270px;
+            }
+            width: auto;
+            &.fix-td{
+                height: 40px;
+            }
+        }
+    }
+}
