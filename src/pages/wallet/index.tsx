@@ -864,7 +864,7 @@ export default function Wallet() {
                   <div className="lrg_btns_area t_a_clm">
                     <Link href="/">
                       <a className="btn white-btn w-100 d-block">
-                        How Shibarium works
+                        Move funds from Ethereum to Shibarium
                       </a>
                     </Link>
 

@@ -2535,7 +2535,7 @@ input:-internal-autofill-selected {
     }
 }
 .fix-layout{
-    min-height: 343px;
+    height: 375px;
     position: relative;
     table{
         table-layout: fixed;
@@ -2605,11 +2605,9 @@ input:-internal-autofill-selected {
         }
     }
     .no-found {
-        width: 100%;
-        height: 100%;
         position: absolute;
         top: calc(50% + 35px);
         left: 50%;
-        transform: translate(-50%, calc(-50%));
+        transform: translate(-50%,-50%);
     }
 }
