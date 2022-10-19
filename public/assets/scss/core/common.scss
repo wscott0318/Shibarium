@@ -2535,11 +2535,11 @@ input:-internal-autofill-selected {
     }
 }
 .fix-layout{
+    min-height: 343px;
     table{
         table-layout: fixed;
         border-collapse: collapse;
         width: 100%;
-        min-height: 343px;
         tr{
             height: 62px;
         }
