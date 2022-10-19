@@ -139,13 +139,13 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                  />
               </div>
               <div className="right-section">
-                <div className="switch-sec">
+                {/* <div className="switch-sec">
                   <span className="help-txt fw-600">Show Action Only</span>
                   <label className="switch">
                     <input type="checkbox" />
                     <span className="slider round"></span>
                   </label>
-                </div>
+                </div> */}
                 <div className=" drop-sec dropdwn-sec">
                     <label className="head-xsm fw-600" htmlFor="Auction">
                       <span className="top-low-spc pe-2 align">Sort by</span>

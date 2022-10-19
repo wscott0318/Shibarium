@@ -9,10 +9,13 @@ import NumberFormat from 'react-number-format';
 import { Formik, Form, Field} from "formik";
 import * as Yup from "yup";
 import proxyManagerABI from "../../ABI/StakeManagerProxy.json";
-import {PROXY_MANAGER} from "../../web3/contractAddresses";
+import {BONE, PROXY_MANAGER} from "../../web3/contractAddresses";
 import Web3 from 'web3';
 import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
 import { useAppDispatch } from "../../state/hooks"
+import fromExponential from 'from-exponential';
+import { getAllowanceAmount } from 'web3/commonFunctions';
+import ERC20 from "../../ABI/ERC20Abi.json";
 
 
 
@@ -130,60 +133,176 @@ const comissionValidation: any = Yup.object({
   comission: Yup.number().min(0).max(100).required("comission is required"),
 })
 
-const getValidatorId = async () => {
-  let user = account;
-  if(account){
-    const instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
-    const ID = await instance.methods.getValidatorId(user).call({ from: account });
-    console.log(ID)
-    return ID
-  } else {
-    console.log("account addres not found")
-  }
-}
+        // GET VALIDATOR ID 
+        const getValidatorId = async () => {
+          let user = account;
+          if(account){
+            const instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
+            const ID = await instance.methods.getValidatorId(user).call({ from: account });
+            console.log(ID)
+            return ID
+          } else {
+            console.log("account addres not found")
+          }
+        }
 
-const callComission = async (value:any) => {
-  let user : any = account
-  console.log("comission called ==> ")
-  let validatorID = await getValidatorId()
-  let instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
-  instance.methods.updateCommissionRate(validatorID, +value.comission).send({ from: account })
-  .on('transactionHash', (res: any) => {
-    console.log(res, "hash")
-    dispatch(
-      addTransaction({
-        hash: res,
-        from: user,
-        chainId,
-        summary: `${res}`,
-      })
-    )
-  }).on('receipt', (res: any) => {
-    console.log(res, "receipt")
-    dispatch(
-      finalizeTransaction({
-        hash: res.transactionHash,
-        chainId,
-        receipt: {
-          to: res.to,
-          from: res.from,
-          contractAddress: res.contractAddress,
-          transactionIndex: res.transactionIndex,
-          blockHash: res.blockHash,
-          transactionHash: res.transactionHash,
-          blockNumber: res.blockNumber,
-          status: 1
+      //  COMMISSION CONTRACT 
+      const callComission = async (value:any) => {
+        let user : any = account
+        console.log("comission called ==> ")
+        let validatorID = await getValidatorId()
+        let instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
+        instance.methods.updateCommissionRate(validatorID, +value.comission).send({ from: account })
+        .on('transactionHash', (res: any) => {
+          console.log(res, "hash")
+          dispatch(
+            addTransaction({
+              hash: res,
+              from: user,
+              chainId,
+              summary: `${res}`,
+            })
+          )
+        }).on('receipt', (res: any) => {
+          console.log(res, "receipt")
+          dispatch(
+            finalizeTransaction({
+              hash: res.transactionHash,
+              chainId,
+              receipt: {
+                to: res.to,
+                from: res.from,
+                contractAddress: res.contractAddress,
+                transactionIndex: res.transactionIndex,
+                blockHash: res.blockHash,
+                transactionHash: res.transactionHash,
+                blockNumber: res.blockNumber,
+                status: 1
+              }
+            })
+          )
+        }).on('error', (res: any) => {
+          console.log(res, "error")
+          if (res.code === 4001) {
+            setCommiModal({value:false, address:''})
+          }
+        })
+
+      }
+
+      // RESTAKE AS VALIDATORS
+      const callRestakeValidators = async (values :any) => {
+  if(account) {    
+    let walletAddress : any = account
+    let ID = await getValidatorId()
+    let allowance = await getAllowanceAmount(library,BONE, account, PROXY_MANAGER) || 0
+    let instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
+    const amountWei = web3.utils.toBN(fromExponential((+values.amount * Math.pow(10, 18))));
+    if(+values.amount > +allowance){
+      console.log("need approval")
+        approveAmount(ID, amountWei, values.reward == 0 ? false : true)
+    } else {
+      console.log("no approval needed")
+      instance.methods.restake(ID, amountWei, values.reward == 0 ? false : true).send({ from: walletAddress })
+      .on('transactionHash', (res: any) => {
+        console.log(res, "hash")
+        dispatch(
+          addTransaction({
+            hash: res,
+            from: walletAddress,
+            chainId,
+            summary: `${res}`,
+          })
+        )
+      }).on('receipt', (res: any) => {
+        console.log(res, "receipt")
+        dispatch(
+          finalizeTransaction({
+            hash: res.transactionHash,
+            chainId,
+            receipt: {
+              to: res.to,
+              from: res.from,
+              contractAddress: res.contractAddress,
+              transactionIndex: res.transactionIndex,
+              blockHash: res.blockHash,
+              transactionHash: res.transactionHash,
+              blockNumber: res.blockNumber,
+              status: 1
+            }
+          })
+        )
+      }).on('error', (res: any) => {
+        console.log(res, "error")
+        if (res.code === 4001) {
+          setCommiModal({value:false, address:''})
         }
       })
-    )
-  }).on('error', (res: any) => {
-    console.log(res, "error")
-    if (res.code === 4001) {
-      setCommiModal({value:false, address:''})
+      
     }
-  })
+        } else {
+          console.log("account addres not found")
+        }
+      }
 
-}
+      // Approve BONE
+      const approveAmount = (id:any, amount:any, reward: boolean) => {
+        if(account){
+          let user = account;
+          let amount = web3.utils.toBN(fromExponential(1000 * Math.pow(10, 18)));
+          let instance = new web3.eth.Contract(ERC20, BONE);
+          instance.methods.approve(PROXY_MANAGER,amount).send({ from: user })
+              .then((res: any) => {
+                let instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
+                instance.methods.restake(id, amount, reward).send({ from: user })
+                .on('transactionHash', (res: any) => {
+                  console.log(res, "hash")
+                  dispatch(
+                    addTransaction({
+                      hash: res,
+                      from: user,
+                      chainId,
+                      summary: `${res}`,
+                    })
+                  )
+                }).on('receipt', (res: any) => {
+                  console.log(res, "receipt")
+                  dispatch(
+                    finalizeTransaction({
+                      hash: res.transactionHash,
+                      chainId,
+                      receipt: {
+                        to: res.to,
+                        from: res.from,
+                        contractAddress: res.contractAddress,
+                        transactionIndex: res.transactionIndex,
+                        blockHash: res.blockHash,
+                        transactionHash: res.transactionHash,
+                        blockNumber: res.blockNumber,
+                        status: 1
+                      }
+                    })
+                  )
+                }).on('error', (res: any) => {
+                  console.log(res, "error")
+                  if (res.code === 4001) {
+                    setCommiModal({value:false, address:''})
+                  }
+                })
+              }).catch((err:any) => {
+                console.log(err)
+                if(err.code === 4001){
+                  console.log("User denied this transaction! ")
+                }
+              })
+        }
+    
+      }
+
+      // WITHDRAW REWARDS VALIDATORS 
+      const withdrawRewardValidator = () => {
+        
+      }
 
     return (
         <>
@@ -207,6 +326,7 @@ const callComission = async (value:any) => {
                             validationSchema={restakeValidation}
                             onSubmit={(values, actions) => {
                               console.log(values);
+                              callRestakeValidators(values)
                             }}
                             >
                                {
@@ -241,9 +361,9 @@ const callComission = async (value:any) => {
                                         <label className="mb-2 mb-md-2 text-white">Enter Restake reward</label>
                                         {/* <input type="text" placeholder="Stakereward" className="w-100" /> */}
                                         <div className='black-sel'>
-                                          <select className="cus-select">
-                                              <option selected>No</option>
-                                              <option>Yes</option>
+                                          <select name="reward" id="reward" onChange={handleChange("reward")} className="cus-select">
+                                              <option selected={values.reward === 0} value={0}>No</option>
+                                              <option selected={values.reward === 1} value={1}>Yes</option>
                                             </select>
                                             <span className="arrow-down"></span>  
                                           </div>
@@ -334,23 +454,33 @@ const callComission = async (value:any) => {
                 {/* withdraw popop start */}
                 <CommonModal
                     title={"Withdraw rewards"}
-                    show={showwithdrawpop}
-                    setShow={setwithdrawpop}
+                    show={withdrawModal.value}
+                    setShow={() => setWithdrawModal({value: false, address: ''})}
                     externalCls="stak-pop"
                 >
                     <>
                         <div className="cmn_modal val_popups">
-                            <form>
+                            <>
                                 <div className="cmn_inpt_row">
                                     <div className="form-control">
                                         <label className="mb-2 mb-md-2 text-white">Enter validator address</label>
-                                        <input type="text" placeholder="Validator address" className="w-100" />
+                                        <input
+                                         type="text"
+                                          placeholder="Validator address" 
+                                          className="w-100" 
+                                          value={withdrawModal.address}
+                                          readOnly
+                                          />
                                     </div>
                                 </div>
                                 <div className="pop_btns_area">
-                                    <div className="form-control"><a className='btn primary-btn w-100' href="javascript:void(0)">Submit</a>  </div>
+                                    <div className="form-control">
+                                      <button
+                                      onClick={() => withdrawRewardValidator()}
+                                      className='btn primary-btn w-100'>Submit</button>  
+                                      </div>
                                 </div>
-                            </form>
+                            </>
                         </div>
 
                     </>

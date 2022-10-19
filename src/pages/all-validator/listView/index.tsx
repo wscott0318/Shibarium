@@ -68,6 +68,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                     <td>{x.uptimePercent.toFixed(2)}%</td>
                     <td className='text-start'>
                       <button
+                      disabled={userType === 'Validator'}
                         onClick={() => {
                           setdelegatepop(true);
                           setSelectedRow(x)
