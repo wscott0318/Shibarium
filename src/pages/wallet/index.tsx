@@ -887,7 +887,7 @@ export default function Wallet() {
                           <th>Quantity - Balance</th>
                           <th>Actions</th>
                           <th colSpan={2} className="text-end">
-                            <input className="w-100"
+                            <input className="shib-search"
                               value={searchKey}
                               onChange={(e) => handleSearchList(e.target.value)}
                               type="search"

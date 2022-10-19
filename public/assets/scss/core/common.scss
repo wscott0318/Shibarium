@@ -1130,9 +1130,9 @@
         height:100%;
     }
     .modal-content{
-        height:520px;
+        height:550px;
         @media #{$max-sm}{
-            height:470px;
+            height:490px;
         }
         .token-listwrap {
             max-height: 250px;
@@ -2532,6 +2532,12 @@ input:-internal-autofill-selected {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+}
+.shib-search{
+    width: 100%;
+    @media #{$max-lg}{
+        width: auto;
     }
 }
 .fix-layout{
