@@ -87,9 +87,12 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                           display: "flex",
                           justifyContent: "center",
                           padding: "3rem",
+                          flexDirection: "column",
+                          alignItems: "center",
                         }}
                       >
-                        No Record Found.
+                        <img src="../../images/no-record.png"/>
+                        <div>No Record Found.</div>
                       </div>
                     </td>
                   </tr>

@@ -84,6 +84,11 @@
         }
     }
 }
+.step_no b:last-child{
+    @media #{$max-lg}{
+        font-weight: 600px;
+    }
+}
 .cont_sec{
     background-color:$body-bg-800;
     padding: 15px;

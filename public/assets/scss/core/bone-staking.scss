@@ -139,8 +139,8 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    margin-top: 25px;
-    margin-bottom: 20px;
+    margin-top: 34px;
+    margin-bottom: 26px;
     align-items: center;
 }
 .left-section {
@@ -357,4 +357,9 @@
 }
 .rpt_row:last-child{
     margin-bottom: 0px;
+}
+.active-inactive{
+    .grid-sec {
+        min-height: 265px;
+    }
 }

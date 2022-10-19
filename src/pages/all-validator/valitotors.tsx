@@ -111,7 +111,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
    <>
     
 {loading && <LoadingSpinner />}
-    <section className="table-section pb-4 pb-lg-5">
+    <section className="table-section pb-4 pb-lg-5 active-inactive">
           <div className="container">
             <div className="heading-sec">
               <h2 className="sub-head ff-mos">All Validators</h2>
@@ -181,8 +181,6 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                 </div>
               </div>
             </div>
-          
-
             {isListView ? (
             <ListView loading={loading}  searchKey={searchKey} validatorsList={validators} />
           ) : (
