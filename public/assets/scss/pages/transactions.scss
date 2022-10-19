@@ -51,6 +51,9 @@
     font-weight: 700;
     &:first-child{
         font-size: 20px;
+        @media #{$max-lg}{
+            font-size: 14px;
+        }
     }
     @media #{$max-lg}{
         font-size: 14px;
@@ -79,6 +82,11 @@
         @media #{$max-lg}{
             font-size: 14px;
         }
+    }
+}
+.step_no b:last-child{
+    @media #{$max-lg}{
+        font-weight: 600px;
     }
 }
 .cont_sec{
