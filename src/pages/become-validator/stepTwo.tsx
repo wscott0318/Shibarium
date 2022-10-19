@@ -191,7 +191,10 @@ function StepTwo({stepState,stepHandler}:any) {
             {touched.commission && errors.commission ?  <p className="primary-text error ff-mos">{errors.commission}</p> : null}
           </div>
         </div>
-        <div className="btn-wrap col-sm-3 mt-4 ">
+        <div className="btn-wrap col-sm-5 mt-4 flx">
+          <button type="button" className="btn grey-btn w-100">
+            <span className="ff-mos">{!stepState.step4 ? "Back" : "Save"}</span>
+          </button>
           <button
             type="submit"
             value="submit"
