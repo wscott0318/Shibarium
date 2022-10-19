@@ -2575,11 +2575,16 @@ input:-internal-autofill-selected {
     }
 }
 .fix-layout{
-    min-height: 343px;
+    height: 375px;
+    position: relative;
     table{
         table-layout: fixed;
         border-collapse: collapse;
         width: 100%;
+        @media #{$max-lg}{
+            table-layout: unset;
+            width: unset;
+        }
         tr{
             height: 62px;
         }
@@ -2607,7 +2612,6 @@ input:-internal-autofill-selected {
         
         td{
             &:first-child{
-
                 width: 400px;
                 white-space: nowrap;
                 overflow: hidden;
@@ -2640,5 +2644,11 @@ input:-internal-autofill-selected {
                 height: auto;
             }
         }
+    }
+    .no-found {
+        position: absolute;
+        top: calc(50% + 35px);
+        left: 50%;
+        transform: translate(-50%,-50%);
     }
 }
