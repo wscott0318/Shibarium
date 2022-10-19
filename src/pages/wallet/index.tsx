@@ -809,7 +809,7 @@ export default function Wallet() {
               <div className="assets_top_area bal-row">
                 <div className="bal-col">
                   <div className="main_net_amnt t_a_clm h-100">
-                    <h1>
+                    <h1 className="fix-value">
                       <NumberFormat
                         thousandSeparator
                         displayType={"text"}

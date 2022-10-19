@@ -38,6 +38,7 @@ body{
         font-size: 14px;
     }
 }
+
 .ff-mos{
     font-family: 'MADE Okine Sans PERSONAL USE' !important;
 }
@@ -70,6 +71,7 @@ body{
         font-family: 'MADE Okine Sans PERSONAL USE';
     }
 }
+// override font faimly
 
 h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
@@ -86,10 +88,10 @@ b{
 h1 {
     font-size: 48px;
     @media #{$max-xxl}{
-        font-size: 42px;
+        font-size: 38px;
     }
     @media #{$max-lg}{
-        font-size: 38px;
+        font-size: 36px;
     }
     @media #{$max-md}{
         font-size: 34px;
