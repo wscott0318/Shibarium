@@ -942,6 +942,9 @@
     }
     .word-wrap{
         word-break: break-word;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
  }
  .qr-wrap{
