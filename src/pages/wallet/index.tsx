@@ -962,7 +962,10 @@ export default function Wallet() {
                           //   </td>
                           // </tr>
                           <div className="no-found">
-                              <p className="p-3 p-sm-4 p-xl-5 text-center float-found">
+                              <div className="no-found-img">
+                                <img className="img-fluid" src="../../images/no-record.png"/>
+                              </div>
+                              <p className="float-found">
                                 No record found
                               </p>
                           </div>
