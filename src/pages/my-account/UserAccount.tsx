@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from "next/link";
 
-const userAccount = () => {
+const userAccount = ({boneUSDValue} : {boneUSDValue : any}) => {
   return (
     <section className="mid_cnt_area">
                     <div className="container">
