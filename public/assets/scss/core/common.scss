@@ -2464,6 +2464,9 @@ input:-internal-autofill-selected {
         background: linear-gradient(to right, #f6f6f6 -62%, #f0f0f0 -42%, #596380 60%);
         animation: shimmer 5s linear infinite forwards;
     }
+    .shimmer-table-row{
+        background-color: $black-lite;
+    }
 }
 .font-up{
     .pagination, .text-white, .table{
@@ -2508,6 +2511,20 @@ input:-internal-autofill-selected {
         align-items: center;
     } 
 }
+.table-fix{
+    .table-responsive{
+        height: 425px;
+        @media #{$max-xxl}{
+            height: 345px;
+        }
+        @media #{$max-xl}{
+            height: 305px;
+        }
+        @media #{$max-lg}{
+            height: 275px;
+        }
+    } 
+}   
 .fix-value{
     span{
         max-width: 100%;
@@ -2515,5 +2532,43 @@ input:-internal-autofill-selected {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+}
+.fix-layout{
+    table{
+        table-layout: fixed;
+        border-collapse: collapse;
+        width: 100%;
+        min-height: 343px;
+        th{
+            &:first-child{
+                width: 350px;
+            }
+            &:last-child{
+                width:270px;
+            }
+            width: auto;
+        }
+        td{
+            &:first-child{
+                width: 350px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            &:last-child{
+                width:270px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            width: auto;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            &.fix-td{
+                height: 62.5px;
+            }
+        }
     }
 }

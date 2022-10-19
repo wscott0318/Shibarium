@@ -5,7 +5,7 @@ import { ShimmerTable } from "react-shimmer-effects";
 function DynamicShimmer({type,rows,cols}:any) {
   if(type === "table")
   {
-    return <ShimmerTable row={rows} col={cols} />;
+    return <div className='cus-shimer'><ShimmerTable row={rows} col={cols} /></div>;
   } else {
     return (
     null
