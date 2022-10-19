@@ -2226,9 +2226,12 @@ const handleSearchList = (key) => {
                     </div>
                     <div className="sub-buttons-sec row">
                       <div className="col-lg-6 mb-3 mb-lg-0">
-                        <button type="button" className="btn white-btn w-100">
+                        {/* <button type="button" className="btn white-btn w-100">
                           How Shibarium Works
-                        </button>
+                        </button> */}
+                        <Link href="how-it-works" >
+                          <span className="btn white-btn w-100">How Shibarium Works</span>
+                        </Link>
                       </div>
                       <div className="col-lg-6">
                         <button
