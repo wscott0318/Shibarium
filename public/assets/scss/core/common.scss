@@ -2464,6 +2464,9 @@ input:-internal-autofill-selected {
         background: linear-gradient(to right, #f6f6f6 -62%, #f0f0f0 -42%, #596380 60%);
         animation: shimmer 5s linear infinite forwards;
     }
+    .shimmer-table-row{
+        background-color: $black-lite;
+    }
 }
 .font-up{
     .pagination, .text-white, .table{
@@ -2508,6 +2511,20 @@ input:-internal-autofill-selected {
         align-items: center;
     } 
 }
+.table-fix{
+    .table-responsive{
+        height: 425px;
+        @media #{$max-xxl}{
+            height: 345px;
+        }
+        @media #{$max-xl}{
+            height: 305px;
+        }
+        @media #{$max-lg}{
+            height: 275px;
+        }
+    } 
+}   
 .fix-value{
     span{
         max-width: 100%;
