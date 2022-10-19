@@ -115,14 +115,14 @@ const delegatorAccount = () => {
                         <div className="text-center">
                           <div>Your Stake</div>
                           <div className="fw-bold">{(parseInt(item.stake) / 10 ** 18).toFixed(4)}</div>
-                          {/* <div>$0</div> */}
+                          {/* {/ <div>$0</div> /} */}
                         </div>
                       </div>
                       <div className="cus-width">
                         <div className="text-center">
                           <div>Reward</div>
                           <div className="fw-bold orange-color">{(parseInt(item.reward) / 10 ** 18).toFixed(4)}</div>
-                          {/* <div>$0</div> */}
+                          {/* {/ <div>$0</div> /} */}
                         </div>
                       </div>
                     </div>
