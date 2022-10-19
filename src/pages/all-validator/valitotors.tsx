@@ -171,12 +171,12 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                   </div>
                 <div className="layout-sec">
                   <div onClick={() => setListView(true)}  className={isListView ? "list blk-active" : "list"}>
-                    <p className="d-inline-block"><img className="white-icon" src="../../images/list-white.png" /></p>
-                    <p className="d-inline-block"><img className="grey-icon" src="../../images/list-grey.png" /></p>
+                    <p className="mb-0"><img className="white-icon" src="../../images/list-white.png" /></p>
+                    <p className="mb-0"><img className="grey-icon" src="../../images/list-grey.png" /></p>
                   </div>
                   <div onClick={() => setListView(false)}  className={!isListView ? "cus-grid blk-active" : "cus-grid"}>
-                    <p className="d-inline-block"><img className="white-icon" src="../../images/grid-white.png" /></p>
-                    <p className="d-inline-block"><img className="grey-icon" src="../../images/grid-grey.png" /></p>
+                    <p className="mb-0"><img className="white-icon" src="../../images/grid-white.png" /></p>
+                    <p className="mb-0"><img className="grey-icon" src="../../images/grid-grey.png" /></p>
                   </div>
                 </div>
               </div>
