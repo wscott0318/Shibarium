@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import Link from "next/link";
 
 const userAccount = () => {
   return (
@@ -11,14 +12,19 @@ const userAccount = () => {
                             <h4 className="ff-mos">$0.00</h4>
                             <div className="btns_sec val_all_bts row">
                                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                                    <button className="ff-mos btn black-btn w-100 d-block">
+                                    <Link href='all-validator'>
+                                    <a className="ff-mos btn black-btn w-100 d-block">
                                         Become a Delegator
-                                    </button>
+                                    </a>
+                                    </Link>
+                                    
                                 </div>
                                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                                    <button  className="ff-mos btn black-btn w-100 d-block">
+                                    <Link href='become-validator'>
+                                    <a  className="ff-mos btn black-btn w-100 d-block">
                                         Become a Validator
-                                    </button>
+                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
