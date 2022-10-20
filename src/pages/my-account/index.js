@@ -40,7 +40,7 @@ export default function MyAcount() {
           <StakingHeader />
             <section className="top_bnr_area dark-bg mn-ht">
                 <div className="container">
-                    <h1 className="ff-mos">My Account</h1>
+                    <div className="section-info"><h1 className="ff-mos">My Account</h1></div>
                 </div>                
             </section> 
             {userType === 'NA' ? 

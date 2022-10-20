@@ -21,7 +21,9 @@ const InnerHeader = () => {
   const [offset, setOffset] = useState(0);
   const [accountAddress, setAccountAddress] = useState("")
   const [userQrCode, setUserQrCode] = useState(false);
+
   const toggleNetworkModal = useNetworkModalToggle();
+  
   useEffect(() => {
     setAccountAddress(localStorage.getItem('accounts'))
     const onScroll = () => setOffset(window.pageYOffset);
@@ -75,17 +77,16 @@ const InnerHeader = () => {
             </div>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="ms-auto">
-                <AppHeader />
-
+              <Nav className="ms-auto align-items-center">
+                  <AppHeader />
                 {/* <Nav.Item>
-                              <Link href={'javascript:void(0)'}>
-                                <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
-                                  <img className="img-fluid me-2" src="../../images/meta-icon.png" alt="meta-img"/>
-                                  <span>0x21A...48A5</span>
-                                </a>
-                              </Link>
-                            </Nav.Item> */}
+                  <Link href={'javascript:void(0)'}>
+                    <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
+                      <img className="img-fluid me-2" src="../../images/meta-icon.png" alt="meta-img"/>
+                      <span>0x21A...48A5</span>
+                    </a>
+                  </Link>
+                </Nav.Item> */}
                 <Nav.Item className="d-flex align-items-center">
                   <Link href={'javascript:void(0)'}>
                     <a className='d-md-none swap-btn'>
