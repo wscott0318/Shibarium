@@ -21,7 +21,9 @@ const InnerHeader = () => {
   const [offset, setOffset] = useState(0);
   const [accountAddress, setAccountAddress] = useState("")
   const [userQrCode, setUserQrCode] = useState(false);
+
   const toggleNetworkModal = useNetworkModalToggle();
+  
   useEffect(() => {
     setAccountAddress(localStorage.getItem('accounts'))
     const onScroll = () => setOffset(window.pageYOffset);
