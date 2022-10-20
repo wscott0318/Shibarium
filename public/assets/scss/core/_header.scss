@@ -278,9 +278,24 @@
     }
 }
 .header-overide{
+    .btn-status{
+        .bg-dark-1000{
+            @media #{$max-xsm}{
+                padding: 5px 8px !important;
+            } 
+        }
+    }
     .dot-icon {
         @media #{$max-lg}{
             max-width: 20px;
+        }
+    }
+    .dd-ico{
+        padding-right: 5px;
+    }
+    .dot-icon{
+        @media #{$max-xsm}{
+            display: none;
         }
     }
     .navbar-nav .dropdown-menu{
@@ -292,6 +307,7 @@
         .dropdown-item{
             @media #{$max-xxsm}{
                 margin: 5px 0;
+                padding: 5px 0;
             } 
         }
         @media #{$max-md}{
@@ -307,9 +323,14 @@
         }
         @media #{$max-xxsm}{
             left: 0;
-            width: 100%;
+            width: 215px;
             padding: 7px;
         }
     }
-    
+    .navbar-brand{
+        
+        @media #{$max-xsm}{
+            max-width: 70px;
+        }
+    }
 }

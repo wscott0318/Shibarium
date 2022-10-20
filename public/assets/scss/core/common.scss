@@ -2576,7 +2576,19 @@ input:-internal-autofill-selected {
     }
 }
 .top_bnr_area.mn-ht {
-    min-height: 399px;
+    min-height: 280px;
+    @media #{$max-xxl}{
+        min-height: 240px;
+    }
+    @media #{$max-xl}{
+        min-height: 200px;
+    }
+    @media #{$max-lg}{
+        min-height: 160px;
+    }
+    @media #{$max-xsm}{
+        min-height: 120px;
+    }
 }
 .flx{
     display: flex;
