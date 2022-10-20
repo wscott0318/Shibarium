@@ -169,8 +169,13 @@
         top: 100%;
         @media #{$max-lg}{
             top: 100%;
-            right: 100%;
+            right: 0;
             left: auto;
+        }
+        @media #{$max-md}{
+            left: 0;
+            right: auto;
+            
         }
     }
     
@@ -272,4 +277,39 @@
         }
     }
 }
-
+.header-overide{
+    .dot-icon {
+        @media #{$max-lg}{
+            max-width: 20px;
+        }
+    }
+    .navbar-nav .dropdown-menu{
+        span{
+            @media #{$max-xxsm}{
+                font-size: 12px;
+            } 
+        }
+        .dropdown-item{
+            @media #{$max-xxsm}{
+                margin: 5px 0;
+            } 
+        }
+        @media #{$max-md}{
+            left: 0;
+            right: auto;
+            top: 100%;
+        }
+        @media #{$max-xsm}{
+            left: -20px;
+            right: auto;
+            top: 100%;
+            width: 230px;
+        }
+        @media #{$max-xxsm}{
+            left: 0;
+            width: 100%;
+            padding: 7px;
+        }
+    }
+    
+}
