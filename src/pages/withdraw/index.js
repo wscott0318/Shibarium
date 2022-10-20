@@ -870,7 +870,7 @@ const handleSearchList = (key) => {
                           href="javascript:void(0);"
                           className="orange-txt"
                         >
-                          Support
+                          Support.
                         </a>
                       </p>
                     </div>
