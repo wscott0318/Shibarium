@@ -28,13 +28,13 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
           setdelegatepop={setdelegatepop}
           data={selectedRow}
         />
-        <div className="cmn_dasdrd_table ffms-inherit table-fix">
+        <div className="cmn_dasdrd_table ffms-inherit table-fix ">
           <div className="table-responsive">
-            <table className="table table-borderless">
+            <table className="table table-borderless fxd-layout tbl-mob">
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Voting Power</th>
+                  <th className='fx-wdth'>Voting Power</th>
                   <th>Self</th>
                   <th className="">Commission</th>
                   <th>Uptime</th>
