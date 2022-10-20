@@ -19,7 +19,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
           setdelegatepop={setdelegatepop}
           data={selectedRow}
         />
-       <div className="container">
+       <div className="container ffms-inherit">
             <div className='grid-sec'>
             {validatorsList && validatorsList.length ?
                   <div className='row side-cover'>
@@ -50,7 +50,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                                       </div>
                                   </div>
                                   <div className='d-flex align-items-center justify-content-between'>
-                                      <div className='fw-600 ft-14'>Comission</div>
+                                      <div className='fw-600 ft-14'>Commission</div>
                                       <div>
                                           <span className='warning-color fw-600 ft-14'>{validator.commissionPercent}%</span>
                                       </div>
@@ -63,7 +63,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                       </div>
                     )}
                   </div>
-                  : <div style={{display:'flex',justifyContent:'center',padding: '3rem'}}>No Record Found.</div>
+                  : <div className='no-record' style={{display:'flex',justifyContent:'center',padding: '3rem'}}>No Record Found.</div>
                 } 
             </div>
           </div>

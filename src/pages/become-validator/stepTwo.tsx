@@ -119,7 +119,7 @@ function StepTwo({stepState,stepHandler}:any) {
                 onBlur={handleBlur}
               />
             </div>
-            {touched.validatorname && errors.validatorname ? <p className="primary-text error">{errors.validatorname}</p> : null}
+            {touched.validatorname && errors.validatorname ? <p className="primary-text error ff-mos">{errors.validatorname}</p> : null}
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -176,7 +176,7 @@ function StepTwo({stepState,stepHandler}:any) {
           <div className="col-sm-6 form-grid">
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
-                Comission in %
+                Commission in %
               </label>
               <input
                 type="text"
@@ -191,7 +191,10 @@ function StepTwo({stepState,stepHandler}:any) {
             {touched.commission && errors.commission ?  <p className="primary-text error ff-mos">{errors.commission}</p> : null}
           </div>
         </div>
-        <div className="btn-wrap col-sm-3 mt-4 ">
+        <div className="btn-wrap col-sm-5 mt-4 flx">
+          <button type="button" className="btn grey-btn w-100">
+            <span className="ff-mos">{!stepState.step4 ? "Back" : "Save"}</span>
+          </button>
           <button
             type="submit"
             value="submit"

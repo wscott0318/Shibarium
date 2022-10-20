@@ -135,7 +135,7 @@
     background: #E9E9EC;
     font-size: 16px;
     color: #596380;
-    padding: 8px 25px;
+    padding: 10px 25px;
 }
 .t_a_clm{
     // flex: 1;
@@ -218,6 +218,13 @@
     padding: 12px 20px;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
+    p{
+     &:nth-child(2){
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+     }   
+    }
 }
 .cnfrm_check_box {
     color: $body-text;

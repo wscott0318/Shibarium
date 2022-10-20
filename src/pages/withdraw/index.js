@@ -321,17 +321,11 @@ const handleSearchList = (key) => {
                       <h4 className="pop-hd-md">Moving funds</h4>
                       <p>
                         It will take up to 10 - 15 minutes to move the funds on
-                        Shibarium Mainnet
+                        Shibarium Mainnet.
                       </p>
                     </div>
                     <div>
-                      <a
-                        className="btn grey-btn w-100"
-                        href="javascript:void(0)"
-                      >
-                        <span className="spinner-border text-secondary pop-spiner"></span>
-                        <span
-                          onClick={() => {
+                      <a onClick={() => {
                             setDepModState({
                               step0: false,
                               step1: false,
@@ -339,6 +333,12 @@ const handleSearchList = (key) => {
                               title: "Transaction Completed",
                             });
                           }}
+                        className="btn grey-btn w-100"
+                        href="javascript:void(0)"
+                      >
+                        <span className="spinner-border text-secondary pop-spiner"></span>
+                        <span
+                          
                         >
                           Continue
                         </span>
@@ -627,17 +627,11 @@ const handleSearchList = (key) => {
                       <h4 className="pop-hd-md">Moving funds to Ethereum</h4>
                       <p>
                         It will take up to 60 mins to 3 hours to reach the
-                        checkpoint I.
+                        checkpoint.
                       </p>
                     </div>
                     <div>
-                      <a
-                        className="btn grey-btn w-100"
-                        href="javascript:void(0)"
-                      >
-                        <span className="spinner-border text-secondary pop-spiner"></span>
-                        <span
-                          onClick={() =>
+                      <a onClick={() =>
                             setWidModState({
                               step0: false,
                               step1: false,
@@ -647,6 +641,12 @@ const handleSearchList = (key) => {
                               title: "Checkpoint reached",
                             })
                           }
+                        className="btn grey-btn w-100"
+                        href="javascript:void(0)"
+                      >
+                        <span className="spinner-border text-secondary pop-spiner"></span>
+                        <span
+                          
                         >
                           Moving funds
                         </span>
@@ -807,16 +807,10 @@ const handleSearchList = (key) => {
                   <div className="pop-bottom">
                     <div className="text-section">
                       <h4 className="pop-hd-md">Withdrawing funds</h4>
-                      <p>Moving funds to your Ethereum Account</p>
+                      <p>Moving funds to your Ethereum Account.</p>
                     </div>
                     <div>
-                      <a
-                        className="btn grey-btn w-100"
-                        href="javascript:void(0)"
-                      >
-                        <span className="spinner-border text-secondary pop-spiner"></span>
-                        <span
-                          onClick={() =>
+                      <a onClick={() =>
                             setWidModState({
                               step0: false,
                               step1: false,
@@ -826,6 +820,12 @@ const handleSearchList = (key) => {
                               title: "Withdraw Complete",
                             })
                           }
+                        className="btn grey-btn w-100"
+                        href="javascript:void(0)"
+                      >
+                        <span className="spinner-border text-secondary pop-spiner"></span>
+                        <span
+                          
                         >
                           Moving funds
                         </span>
@@ -2232,9 +2232,12 @@ const handleSearchList = (key) => {
                     </div>
                     <div className="sub-buttons-sec row">
                       <div className="col-lg-6 mb-3 mb-lg-0">
-                        <button type="button" className="btn white-btn w-100">
+                        {/* <button type="button" className="btn white-btn w-100">
                           How Shibarium Works
-                        </button>
+                        </button> */}
+                        <Link href="how-it-works" >
+                          <span className="btn white-btn w-100">How Shibarium Works</span>
+                        </Link>
                       </div>
                       <div className="col-lg-6">
                         <button
@@ -2311,7 +2314,7 @@ const handleSearchList = (key) => {
                                 </div>
                               </div>
                               <div className="field-grid row">
-                                <div className="col-sm-5 field-col">
+                                <div className="col-sm-5 field-col res-align">
                                   <div
                                     className="form-field position-relative"
                                     onClick={() => {
@@ -2326,7 +2329,7 @@ const handleSearchList = (key) => {
                                       });
                                     }}
                                   >
-                                    <div className="">
+                                    <div className="right-spacing">
                                       <div>
                                         <img
                                           className="img-fluid"
@@ -2340,7 +2343,7 @@ const handleSearchList = (key) => {
                                         ETH
                                       </span>
                                     </div>
-                                    <div className="">
+                                    <div className="lft-spc">
                                       <div className="arow-outer">
                                         <span className="arrow-down"></span>
                                       </div>
@@ -2467,7 +2470,7 @@ const handleSearchList = (key) => {
                                 </div>
                               </div>
                               <div className="field-grid row">
-                                <div className="col-sm-5 field-col">
+                                <div className="col-sm-5 field-col res-align">
                                   <div
                                     className="form-field position-relative"
                                     onClick={() => {
@@ -2482,7 +2485,7 @@ const handleSearchList = (key) => {
                                       });
                                     }}
                                   >
-                                    <div className="">
+                                    <div className="right-spacing">
                                       <div>
                                         <img
                                           width="24"
@@ -2498,7 +2501,7 @@ const handleSearchList = (key) => {
                                         Bone
                                       </span>
                                     </div>
-                                    <div className="">
+                                    <div className="lft-spc">
                                       <div className="arow-outer">
                                         <span className="arrow-down"></span>
                                       </div>

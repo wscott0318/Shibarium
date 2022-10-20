@@ -13,10 +13,10 @@ import Header from "../layout/header";
 const Delegatorvalidator = () => {
     return (
         <>
-            <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg">
+            <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg ffms-inherit">
             <Header />
             <StakingHeader />
-            <section className="top_bnr_area dark-bg darkbg py-4 py-md-5">
+            <section className="top_bnr_area dark-bg darkbg py-4 py-md-5 ffms-inherit">
                 <div className="container">
                     <h1 className="text-white trs-6 fw-500 ff-mos">Delegator and Validator</h1>
                 </div>
@@ -24,7 +24,7 @@ const Delegatorvalidator = () => {
             {/* banner section end */}
 
             {/* featurs section start */}
-            <section className="shiba-features position-relative">
+            <section className="shiba-features position-relative ffms-inherit">
                 <div className='floating-img'>
                     <img className='img-fluid' src="../../assets/images/bone-xsm.png" alt="bone-img" />
                 </div>
@@ -135,7 +135,7 @@ const Delegatorvalidator = () => {
             {/* features section end */}
 
             {/* path section start */}
-            <section className='path-section'>
+            <section className='path-section ffms-inherit'>
                 <div className="float-bottom-left">
                     <img className='img-fluid' src="../../assets/images/shape-left-btm.png" alt="shape-img" />
                 </div>

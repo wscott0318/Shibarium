@@ -66,9 +66,9 @@ export default function Header() {
     if (!isAuthenticated) {
       // authenticate()
     }
-    if (account && user) {
+    if (account) {
 
-      getUsertype(account)
+      getUsertypeAPI(account)
     }
   }, [account, user])
   useEffect(() => {
@@ -78,7 +78,7 @@ export default function Header() {
       localStorage.removeItem('isLoggedIn')
   }, [account]);
 
-  const getUsertype = (accountAddress) => {
+  const getUsertypeAPI = (accountAddress) => {
     try {
       getUserType(accountAddress.toLowerCase()).then(res => {
         if (res.data && res.data.data) {
@@ -94,6 +94,9 @@ export default function Header() {
 
     }
   }
+
+  console.log(userType)
+  
   useEffect(() => {
     const { ethereum } = window
     if (ethereum && ethereum.on && !error) {
@@ -224,12 +227,17 @@ const [scroll, setScroll] = useState(false);
                     Separated link
                   </NavDropdown.Item>
                 </NavDropdown>
-                <Nav.Item>
+                <Nav.Item className="button-wrap">
+                <Link href={'/'}>
+                    <a className='d-md-none launch-btn'>
+                      <img className="img-fluid" src="../../images/launch-app.png" alt="" width={30} />
+                    </a>
+                </Link>
                 <Link href={ account ? "/wallet" : "/login"}>
-                    <a className='btn primary-btn ff-mos'>Launch App</a>
+                    <a className='btn primary-btn ff-mos d-none d-md-flex'>Launch App</a>
                   </Link>
                 </Nav.Item>
-                <Nav.Item className="btn-status">
+                <Nav.Item className="btn-status inner-btn">
                     {account ? <Web3Status /> : null}
                     
                 </Nav.Item>

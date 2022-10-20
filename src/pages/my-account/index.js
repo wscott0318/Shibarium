@@ -1,88 +1,53 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import React, { useState, useEffect, useContext } from "react";
-// import { validators, validatorsList } from "../service/validator";
 import { useWeb3React } from "@web3-react/core";
-import ProjectContext from "../../context/ProjectContext";
-import Footer from "../../pages/footer/index"
 import { useActiveWeb3React } from "../../services/web3"
 import  CommonModal from "../components/CommonModel";
 import Header from "../layout/header";
 import StakingHeader from '../staking-header'
 import { useRouter } from "next/router";
+import { useUserType } from "../../state/user/hooks";
+import UserAccount from "./UserAccount";
+import DelegatorAccount from "./DelegatorAccount";
+import ValidatorAccount from "./ValidatorAccount";
+import LoadingSpinner from 'pages/components/Loading';
+import { getBoneUSDValue } from "../../services/apis/validator/index";
+import { ChainId } from "@shibarium/core-sdk";
+import { BONE_ID, ENV_CONFIGS } from '../../config/constant';
+import {useEthBalance} from '../../hooks/useEthBalance';
+import {useTokenBalance} from '../../hooks/useTokenBalance';
+
+
 export default function MyAcount() {
-  // const {account}=useContext(ProjectContext)
-
-  // const { active,deactivate } = useWeb3React()
-  // const [accountsAddress, setAccountsAddress] = useState("");
-  // useEffect(() => {
-  //   setAccountsAddress(localStorage.getItem("accounts"));
-  //   console.log('chainId',chainId)
-  //   console.log('account-home',account)
-  // },[account]);
   const { account, chainId = 1 } = useActiveWeb3React();
-//   const [showvalidatorpop, setvalidatorpop] = useState(false);
-//   const [showcommissionpop, setcommissionpop] = useState(false);
-//   const [showwithdrawpop, setwithdrawpop] = useState(false);
-//   const [showunboundpop, setunboundpop] = useState(false);
-//   const [showallinonepop, setallinonepop] = useState(false);
-  
-  /**
-   * 
-    useEffect(()=>{
-      let userDetails = localStorage.getItem('ShibariumUser');
-      userDetails = userDetails ? JSON.parse(userDetails)?.objectId: ''
-      if (!userDetails && active) {
-        deactivate()
-      }
-
-    },[active])
-  */
-
- 
-
-  //  console.log('account---------------', account)
+  const [userType, setUserType] = useUserType();
+  const [boneUSDValue,setBoneUSDValue] = useState(0);
   const router = useRouter();
+  const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(ENV_CONFIGS[chainId].BONE);
+
+
+  useEffect(() => {
+    getBoneUSDValue(BONE_ID).then(res=>{
+      setBoneUSDValue(res.data.data.price);
+    })
+  },[account])
+
   return (
     <>
       <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space">
           <Header />
           <StakingHeader />
-
-            <section className="top_bnr_area dark-bg">
+            <section className="top_bnr_area dark-bg mn-ht">
                 <div className="container">
                     <h1 className="ff-mos">My Account</h1>
                 </div>                
             </section> 
-
-            <section className="mid_cnt_area ff-mos">
-                <div className="container">
-                    <div className="col-xl-11 col-lg-12 side-auto">
-                        <h4 className="ff-mos">Ethereum Wallet Balance</h4>
-                        <h3 className="ff-mos"><b>0 Bone</b></h3>
-                        <h4 className="ff-mos">$0.00</h4>        
-                        <div className="btns_sec val_all_bts row">
-                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space"> 
-                                <button  onClick={()=>{
-                                    router.push('/become-validator')
-                                  }} className="btn grey-btn w-100 d-block ff-mos">
-                                    Become a Validator
-                                </button>
-                            </div>
-                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">                        
-                                <button onClick={()=>{
-                                  router.push('/all-validator')
-                                }} className="btn primary-btn w-100 d-block ff-mos">
-                                    Become a Delegator
-                                </button> 
-                            </div>
-                            
-                            
-                        </div>
-                    </div>
-                </div>                
-            </section>
-
+            {userType === 'NA' ? 
+              <UserAccount boneUSDValue={boneUSDValue} availBalance={availBalance}/>
+               :
+              <ValidatorAccount userType={userType} boneUSDValue={boneUSDValue} availBalance={availBalance}/>
+            }
       </main> 
     </>
   );

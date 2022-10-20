@@ -38,14 +38,45 @@ body{
         font-size: 14px;
     }
 }
+
 .ff-mos{
     font-family: 'MADE Okine Sans PERSONAL USE' !important;
 }
+.ffms-inherit{
+    font-family: 'MADE Okine Sans PERSONAL USE';
+    .no-record{
+        font-family: 'MADE Okine Sans PERSONAL USE';
+    }
+    .h1,.h2,.h3,.h4,.h5,.h6{
+        font-family: 'MADE Okine Sans PERSONAL USE';
+    }
+    p,h1,h2,h3,h4,h5,h6,span,label{
+        font-family: 'MADE Okine Sans PERSONAL USE';
+    }
+    b,a,div,section,button{
+        font-family: 'MADE Okine Sans PERSONAL USE';
+    }
+    ul,li,ol{
+        font-family: 'MADE Okine Sans PERSONAL USE';
+    }
+    table{
+        thead,tbody,th,td,tr,span{
+            font-family: 'MADE Okine Sans PERSONAL USE';
+        }
+    }
+    form,input{
+        font-family: 'MADE Okine Sans PERSONAL USE';
+    }
+    ::placeholder{
+        font-family: 'MADE Okine Sans PERSONAL USE';
+    }
+}
+// override font faimly
 
 h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
     margin-bottom: 0;
-    font-family: 'Open Sans' !important;
+    font-family: 'Open Sans';
     line-height: 1.2;
 }
 b{
@@ -57,10 +88,10 @@ b{
 h1 {
     font-size: 48px;
     @media #{$max-xxl}{
-        font-size: 42px;
+        font-size: 38px;
     }
     @media #{$max-lg}{
-        font-size: 38px;
+        font-size: 36px;
     }
     @media #{$max-md}{
         font-size: 34px;
@@ -138,7 +169,7 @@ p{
     color:rgba(14, 14, 14, 0.89);
     color:rgba($white, 0.89);
     margin-bottom: 8px;
-    font-family: 'Open Sans' !important;
+    font-family: 'Open Sans';
     &:last-child {
         margin-bottom: 0;
     }

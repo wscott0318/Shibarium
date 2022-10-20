@@ -76,7 +76,7 @@ export const Allvalidator: React.FC = () => {
  }
   return (
     <>
-      <div className="main-content dark-bg-800 full-vh top-space font-up">
+      <div className="main-content dark-bg-800 full-vh top-space font-up ffms-inherit">
         <StakingHeader />
         {/* banner section start */}
         <section className="inner-banner dark-bg">
@@ -102,7 +102,7 @@ export const Allvalidator: React.FC = () => {
         </section>
         {/* banner section closed */}
 
-        <div ref={myRef} className="container">
+        <div ref={myRef} className="container ffms-inherit vivek">
            <Valitotors withStatusFilter={true} />
           </div>
       </div>

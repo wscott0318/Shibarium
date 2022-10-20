@@ -24,11 +24,13 @@
         }
         @media #{$max-md}{
             max-width: 120px;
+            padding-top: 15px;
+            padding-bottom: 15px;
         }
         @media #{$max-sm}{
             max-width: 110px;
-            padding-top: 10px;
-            padding-bottom: 10px;
+            // padding-top: 10px;
+            // padding-bottom: 10px;
         }
     }   
     
@@ -259,4 +261,11 @@
 
 .z-50 {
     z-index: 999;
+}
+.launch-btn{
+    img{
+        @media #{$max-xxsm}{
+            width:26px;
+        } 
+    }
 }

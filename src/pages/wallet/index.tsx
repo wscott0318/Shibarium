@@ -157,11 +157,17 @@ export default function Wallet() {
     const pageSize = 4;
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [slicedTokenFilteredList, setSliceTokenFilteredList] = useState([]);
+
     useEffect(() => {
       if(tokenFilteredList.length){
         const slicedList = tokenFilteredList.slice(0, pageSize);
       setSliceTokenFilteredList(slicedList);
+    } else if (tokenFilteredList.length === 0){
+      setSliceTokenFilteredList([])
+    } else {
+      console.log("check state")
     }
+
     }, [tokenFilteredList]);
 
     const pageChangeHandler = (index: number) => {
@@ -201,6 +207,8 @@ export default function Wallet() {
     }
     
   }
+
+  console.log(tokenList, tokenFilteredList, slicedTokenFilteredList)
 
   const submitTransaction = () => {
     let user: any = account;
@@ -822,7 +830,7 @@ export default function Wallet() {
               <div className="assets_top_area bal-row">
                 <div className="bal-col">
                   <div className="main_net_amnt t_a_clm h-100">
-                    <h1>
+                    <h1 className="fix-value">
                       <NumberFormat
                         thousandSeparator
                         displayType={"text"}
@@ -830,7 +838,7 @@ export default function Wallet() {
                         value={((availBalance || 0) * boneUSDValue).toFixed(2)}
                       />
                     </h1>
-                    <p>shibarium mainnet</p>
+                    <p>Etherium mainnet</p>
                   </div>
                 </div>
                 <div className="bal-col">
@@ -867,9 +875,12 @@ export default function Wallet() {
                 </div>
                 <div className="bal-col">
                   <div className="lrg_btns_area t_a_clm">
-                    <a href="#" className="btn white-btn w-100 d-block">
-                      Move funds from Ethereum to Shibarium
-                    </a>
+                    <Link href="/">
+                      <a className="btn white-btn w-100 d-block">
+                        Move funds from Ethereum to Shibarium
+                      </a>
+                    </Link>
+
                     <Link href="/how-it-works">
                       <a className="btn white-btn w-100 d-block">
                         How Shibarium works
@@ -880,16 +891,16 @@ export default function Wallet() {
               </div>
               <div className="assets_btm_area">
                 <h2>Assets on Shibarium</h2>
-                <div className="cmn_dasdrd_table mb-3 mb-sm-4">
+                <div className="cmn_dasdrd_table mb-3 mb-sm-4 fix-layout">
                   <div className="table-responsive">
-                    <table className="table table-borderless mb-0">
-                      {slicedTokenFilteredList.length && <thead>
+                    <table className="table table-borderless mb-0 smb-0">
+                     <thead>
                         <tr>
                           <th colSpan={2}>Name</th>
-                          <th>Balance</th>
+                          <th>Quantity - Balance</th>
                           <th>Actions</th>
-                          <th colSpan={1} className="text-end">
-                            <input
+                          <th colSpan={2} className="text-end">
+                            <input className="shib-search"
                               value={searchKey}
                               onChange={(e) => handleSearchList(e.target.value)}
                               type="search"
@@ -897,18 +908,18 @@ export default function Wallet() {
                             />
                           </th>
                         </tr>
-                      </thead>}
+                      </thead>
                       <tbody>
                         {slicedTokenFilteredList.length ? (
                           slicedTokenFilteredList.map((x: any) => (
-                            <tr key={x.parentName}>
-                              <td colSpan={2}>
-                                <span>
+                            <tr  key={x.parentName}>
+                              <td className="fix-td" colSpan={2}>
+                                <span className="ms-1">
                                   <img src="../../images/shiba-round-icon.png" />
                                 </span>
                                 <b>{x.parentSymbol}</b> - {x.parentName}
                               </td>
-                              <td>
+                              <td className="fix-td">
                                 {(x.balance || 0).toFixed(4)} -{" "}
                                 <NumberFormat
                                   thousandSeparator
@@ -919,55 +930,60 @@ export default function Wallet() {
                                   ).toFixed(2)}
                                 />
                               </td>
-                              <td>
-                                {/* <Link href="/"> */}
-                                <button onClick={async ()=>{
-                                  setSendToken(`${x.parentName}`)
-                                  await sendTokenWithRoute();
-                                }}>
+
+                              <td className="fix-td">
+                                <Link href="/withdraw">
                                   <a className="px-0">Deposit</a>
-                                  </button>
-                                {/* </Link> */}
+                                </Link>
                               </td>
-                              <td>
+                              <td className="fix-td" colSpan={2}>
                                 <div className="row mx-0">
                                   <div className="col-6 px-0">
                                     <Link href="/">
-                                      <a className=" px-0">Withdraw</a>
+                                      <a className=" px-0 d-block text-start">Withdraw</a>
                                     </Link>
                                   </div>
                                   <div className="col-6 px-0">
                                     <Link href="/">
-                                      <a className=" px-0">Send</a>
+                                      <a className=" px-0 me-2">Send</a>
                                     </Link>
                                   </div>
                                 </div>
                               </td>
                             </tr>
                           ))
-                        ) : (
+                        ) : !searchKey.length && !tokenFilteredList.length  ? (
                           <tr>
-                            <td colSpan={10}>
+                            <td colSpan={6}>
                               <DynamicShimmer
                                 type={"table"}
                                 rows={3}
-                                cols={5}
+                                cols={4}
                               />
                             </td>
                           </tr>
-                        )}
-                        {searchKey.length && !tokenFilteredList.length && (
-                          <tr>
-                            <td colSpan={6}>
-                              <p className="p-3 p-sm-4 p-xl-5 text-center">
-                                No record found
-                              </p>
-                            </td>
-                          </tr>
-                        )}
+                        ) : null }
+
                       </tbody>
                     </table>
                   </div>
+                  {searchKey.length && !tokenFilteredList.length ? (
+                          // <tr>
+                          //   <td colSpan={6}>
+                          //     <p className="p-3 p-sm-4 p-xl-5 text-center float-found">
+                          //       No record found
+                          //     </p>
+                          //   </td>
+                          // </tr>
+                          <div className="no-found">
+                              <div className="no-found-img">
+                                <img className="img-fluid" src="../../images/no-record.png"/>
+                              </div>
+                              <p className="float-found">
+                                No record found
+                              </p>
+                          </div>
+                        ) : null}
                 </div>
                 <Pagination
                   currentPage={currentPage}

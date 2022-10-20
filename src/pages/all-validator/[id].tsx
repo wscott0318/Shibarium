@@ -62,7 +62,7 @@ export default function ValidatorDetails() {
     
     return (
         <>
-            <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg font-up">
+            <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg font-up ffms-inherit">
             <Header />
             <StakingHeader />
             <section className='py-4 top_bnr_area dark-bg py-lg-5'>
@@ -74,7 +74,7 @@ export default function ValidatorDetails() {
                                     <img className='img-fluid' src={validatorInfo?.logoUrl === 'PLACEHOLDER'? "../../assets/images/fundbaron.png":validatorInfo?.logoUrl} alt="fundborn-img" width={120} />
                                     </div>
                                     <h4 className='py-2 mt-2'>
-                                        <span className='text-white trs-3'>{validatorInfo?.name}</span>
+                                        <span className='text-white trs-3 ff-mos'>{validatorInfo?.name}</span>
                                     </h4>
                                     {/* <Link href="https://linktr.ee/DeFiMatic"> */}
                                         <a className='primary-text ff-mos'>
@@ -101,7 +101,7 @@ export default function ValidatorDetails() {
                                         <ul className='mb-0 info-list list-unstyled'>
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Supply</h6>
-                                                <p className='mb-0 trs-3'>
+                                                <p className='mb-0 trs-3 ff-mos'>
                                                 <NumberFormat displayType='text' thousandSeparator value={totalSupply.toFixed(8)} /> BONE
                                                 </p>
                                             </li>

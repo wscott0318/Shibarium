@@ -43,7 +43,7 @@ function StepOne({stepHandler,stepState}:any) {
             </div>
             <div className="trs-3">
               <h6 className="fw-600 ff-mos">Binaries</h6>
-              <p className="ft-14 fw-600">
+              <p className="ft-14 fw-600 ff-mos">
                 Build from Source to setup your validator node.
               </p>
             </div>
@@ -60,7 +60,10 @@ function StepOne({stepHandler,stepState}:any) {
             Validator Discord channel.
           </a>
         </p>
-        <div className="btn-wrap col-sm-3 mt-4 ">
+        <div className="btn-wrap col-sm-5 mt-4 flx">
+          <button type="button" className="btn grey-btn w-100 btn-disble">
+            <span className="ff-mos">{!stepState.step4 ? "Back" : "Save"}</span>
+          </button>
           <button
             type="button"
             className="btn primary-btn w-100 ff-mos"

@@ -111,7 +111,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
    <>
     
 {loading && <LoadingSpinner />}
-    <section className="table-section pb-4 pb-lg-5">
+    <section className="table-section pb-4 pb-lg-5 active-inactive">
           <div className="container">
             <div className="heading-sec">
               <h2 className="sub-head ff-mos">All Validators</h2>
@@ -119,12 +119,12 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
             <div className="d-flex align-items-center btns-space tab-btns">
                 <div className="me-3">
                   <p onClick={() => setIsActiveTab(true)} className={`btn black-btn ff-mos ${isActiveTab ? "btn-active" : ""}`} title="">
-                    <span>ACTIVE</span>
+                    <span>Active</span>
                     </p>
                 </div>
                 <div>
                   <p onClick={() => setIsActiveTab(false)} className={`btn black-btn ff-mos ${!isActiveTab ? "btn-active" : ""}`} title="">
-                  <span>INACTIVE</span>
+                  <span>Inactive</span>
                   </p>
                 </div>
               </div>
@@ -139,13 +139,13 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                  />
               </div>
               <div className="right-section">
-                <div className="switch-sec">
+                {/* <div className="switch-sec">
                   <span className="help-txt fw-600">Show Action Only</span>
                   <label className="switch">
                     <input type="checkbox" />
                     <span className="slider round"></span>
                   </label>
-                </div>
+                </div> */}
                 <div className=" drop-sec dropdwn-sec">
                     <label className="head-xsm fw-600" htmlFor="Auction">
                       <span className="top-low-spc pe-2 align">Sort by</span>
@@ -163,7 +163,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                         <Dropdown.Item onClick={() => onSort('Voting Power', 'totalStaked','number')}>
                           Voting Power
                         </Dropdown.Item>
-                        <Dropdown.Item onClick={() => onSort('Uptime', 'uptimePercent','number')}>
+                        <Dropdown.Item className="ff-mos" onClick={()  => onSort('Uptime', 'uptimePercent','number')}>
                           Uptime
                         </Dropdown.Item>
                       </Dropdown.Menu>
@@ -181,8 +181,6 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                 </div>
               </div>
             </div>
-          
-
             {isListView ? (
             <ListView loading={loading}  searchKey={searchKey} validatorsList={validators} />
           ) : (

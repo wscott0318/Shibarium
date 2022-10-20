@@ -56,11 +56,12 @@ const BoneStaking = () => {
   const [modalShow, setModalShow] = useState(false);
   const router = useRouter();
   // const {user} = useMoralis();
-  // console.log(user)
+  console.log(userType)
+
   const [show, setShow] = React.useState();
   return (
     <>
-      <div className="main-content dark-bg-800 full-vh top-space font-up">
+      <div className="main-content dark-bg-800 full-vh top-space font-up ffms-inherit">
         <StakingHeader />
         {/* banner section start */}
         <section className="inner-banner dark-bg">
@@ -69,7 +70,7 @@ const BoneStaking = () => {
               <div className="row align-items-center">
                 <div className="col-md-7 col-sm-12 ff-mos">
                   <h1 className="ff-mos">Start Earning Rewards with <br /><span className="white-bg">Shibarium Staking</span></h1>
-                  <div className="btns-sec btn-width">
+                  {userType === 'Validator' ? null : <div className="btns-sec btn-width">
                     <div className="btns-wrap ">
                        <button onClick={()=>{
                         router.push('/become-validator')
@@ -80,12 +81,12 @@ const BoneStaking = () => {
                         router.push('/all-validator')
                        }} className="btn  white-btn">Become a Delegator</button>
                     </div>
-                    <div className="btns-wrap">
+                   {userType === "Delegator" ? null : <div className="btns-wrap">
                       <button onClick={()=>{
                         router.push('/choose-your-path')
                        }} className="btn grey-btn">Choose Your Path</button>
-                    </div>
-                  </div>
+                    </div>}
+                  </div>}
                 </div>
                 <div className="col-md-5 col-sm-12 m-hide">
                   <div className="shib-img-sec text-end">
