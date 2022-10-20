@@ -2175,9 +2175,9 @@ const handleSearchList = (key) => {
                           Delegation/Staking takes place on Ethereum. Do not
                           deposit funds to Shibarium for this purpose. To
                           delegate or stake please visit the{" "}
-                          <a className="orange-txt" href="javascript:void(0);">
+                          {/* <a className="orange-txt" href="javascript:void(0);">
                             Staking UI
-                          </a>
+                          </a> */}
                         </p>
                       </div>
                     }
