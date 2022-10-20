@@ -28,7 +28,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
           setdelegatepop={setdelegatepop}
           data={selectedRow}
         />
-        <div className="cmn_dasdrd_table ffms-inherit table-fix ">
+        <div className="cmn_dasdrd_table ffms-inherit table-fix block-fix">
           <div className="table-responsive">
             <table className="table table-borderless fxd-layout tbl-mob">
               <thead>
@@ -79,26 +79,17 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                     </td>
                   </tr>
                 ))}
-                {validatorsList.length === 0 && (
-                  <tr>
-                    <td colSpan={6}>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          padding: "3rem",
-                          flexDirection: "column",
-                          alignItems: "center",
-                        }}
-                      >
-                        <img src="../../images/no-record.png"/>
-                        <div>No Record Found.</div>
-                      </div>
-                    </td>
-                  </tr>
-                )}
+                
               </tbody>
             </table>
+          </div>
+          <div className='no-found'>
+              {validatorsList.length === 0 && (
+                  <div>
+                    <div><img src="../../images/no-record.png"/></div>
+                    <p className='text-center'>No Record Found.</p>
+                  </div>
+              )}
           </div>
         </div>
       </>

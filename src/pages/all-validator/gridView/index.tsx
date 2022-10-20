@@ -20,7 +20,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
           data={selectedRow}
         />
        <div className="container ffms-inherit">
-            <div className='grid-sec'>
+            <div className='grid-sec block-fix'>
             {validatorsList && validatorsList.length ?
                   <div className='row side-cover'>
                     {validatorsList.map((validator: any) => 
@@ -63,7 +63,13 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                       </div>
                     )}
                   </div>
-                  : <div className='no-record' style={{display:'flex',justifyContent:'center',padding: '3rem'}}>No Record Found.</div>
+                //   : <div className='no-record' style={{display:'flex',justifyContent:'center',padding: '3rem'}}>No Record Found.</div>
+                      : <div className='no-found'>
+                          <div>
+                            <div><img src="../../images/no-record.png"/></div>
+                            <p className='text-center'>No Record Found.</p>
+                          </div>
+                        </div>
                 } 
             </div>
           </div>

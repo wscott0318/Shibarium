@@ -2461,7 +2461,16 @@ input:-internal-autofill-selected {
     background-color: rgba(0,0,0,0.8);
     z-index: 999;
 }
-
+.block-fix{
+    position: relative;
+    .no-found{
+        position: absolute;
+        top: calc(50% + 35px);
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+}
 .cus-shimer{
     .shimmer{
         background: linear-gradient(to right, #f6f6f6 -62%, #f0f0f0 -42%, #596380 60%);
