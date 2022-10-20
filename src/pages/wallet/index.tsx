@@ -880,7 +880,7 @@ export default function Wallet() {
                 <h2>Assets on Shibarium</h2>
                 <div className="cmn_dasdrd_table mb-3 mb-sm-4 fix-layout">
                   <div className="table-responsive">
-                    <table className="table table-borderless mb-0 smb-0">
+                    <table className="table table-borderless mb-0 smb-0 fxd-layout">
                      <thead>
                         <tr>
                           <th colSpan={2}>Name</th>
@@ -965,8 +965,8 @@ export default function Wallet() {
                               <div className="no-found-img">
                                 <img className="img-fluid" src="../../images/no-record.png"/>
                               </div>
-                              <p className="float-found">
-                                No record found
+                              <p className="float-found text-center">
+                                No Record Found
                               </p>
                           </div>
                         ) : null}
