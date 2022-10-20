@@ -2469,6 +2469,7 @@ input:-internal-autofill-selected {
     }
     .shimmer-table-row{
         background-color: $black-lite;
+        padding: 21px 0;
     }
 }
 .font-up{
@@ -2575,6 +2576,29 @@ input:-internal-autofill-selected {
         white-space: nowrap; 
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+}
+.fxd-layout{
+    table-layout: fixed;
+    width: 100%;
+}
+.fx-wdth{
+    width: 270px;
+    @media #{$max-xxl}{
+        width: 250px;
+    }
+    @media #{$max-xl}{
+        width: 230px;
+    }
+    @media #{$max-lg}{
+        width: 200px;
+    }
+    
+}
+.tbl-mob {
+   
+    @media #{$max-lg}{
+        width: 900px;
     }
 }
 .black-sel{

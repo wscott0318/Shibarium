@@ -80,7 +80,7 @@ const InnerHeader = () => {
                   <NavDropdown className="light-text dd-ico" title="App" id="">
                     <NavDropdown.Item href="/wallet">
                       <h6 className="fw-600 light-text left-border">
-                        Shibarium Wallet
+                        Wallet
                       </h6>
                       <span className="light-text">
                         Send and receive crypto assets on Shibarium network
@@ -88,7 +88,7 @@ const InnerHeader = () => {
                     </NavDropdown.Item>
                     <NavDropdown.Item href="/withdraw">
                       <h6 className="fw-600 light-text left-border">
-                        Shibarium Bridge
+                        Bridge
                       </h6>
                       <span className="light-text">
                         Deposit and withdraw between networks
