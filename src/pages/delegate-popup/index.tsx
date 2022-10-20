@@ -28,6 +28,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { addTransaction , finalizeTransaction} from "../../state/transactions/actions";
 import {useAppDispatch} from "../../state/hooks"
+import {VALIDATORSHARE} from "../../web3/contractAddresses";
 
 const initialModalState = {
   step0: true,
@@ -133,7 +134,7 @@ const DelegatePopup: React.FC<any> = ({
 
   const buyVouchers = async () => {
     const requestBody = {
-      validatorAddress: data.owner,
+      validatorAddress: data.contractAddress,
       delegatorAddress: account,
       amount: values.balance,
     };

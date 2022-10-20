@@ -918,7 +918,7 @@ export default function Wallet() {
                                 />
                               </td>
                               <td className="fix-td">
-                                <Link href="/">
+                                <Link href="/withdraw">
                                   <a className="px-0">Deposit</a>
                                 </Link>
                               </td>
