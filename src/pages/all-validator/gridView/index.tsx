@@ -19,7 +19,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
           setdelegatepop={setdelegatepop}
           data={selectedRow}
         />
-       <div className="container ffms-inherit">
+       <div className="ffms-inherit">
             <div className='grid-sec'>
             {validatorsList && validatorsList.length ?
                   <div className='row side-cover'>
@@ -41,7 +41,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                                           <NumberFormat displayType='text'  thousandSeparator value={(validator.totalStaked/Math.pow(10,18)).toFixed(8)} /> BONE Staked</span></p>
                                       </div>
                                   </div>
-                              </div>
+                              </div> 
                               <div className='box-body'>
                                   <div className='d-flex align-items-center justify-content-between'>
                                       <div className='fw-600 ft-14'>Performance</div>
