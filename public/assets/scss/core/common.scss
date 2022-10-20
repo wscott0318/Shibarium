@@ -2469,7 +2469,10 @@ input:-internal-autofill-selected {
     }
     .shimmer-table-row{
         background-color: $black-lite;
-        padding: 21px 0;
+        padding: 19px 0;
+    }
+    .shimmer-table-row--header{
+        margin-bottom: 17px
     }
 }
 .font-up{
