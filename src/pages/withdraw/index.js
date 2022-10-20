@@ -5,7 +5,8 @@ import React, { useState, useEffect, useContext } from "react";
 
 import { Button, Container, Nav, Navbar, NavDropdown,Dropdown ,Modal} from 'react-bootstrap';
 
-import { useRouter } from "next/dist/client/router";
+// import { useRouter } from "next/dist/client/router";
+import {useRouter} from "next/router";
 import Popup from "../components/PopUp";
 // import { useWeb3React } from '@web3-react/core'
 // import { Web3Provider } from '@ethersproject/providers'
@@ -38,6 +39,9 @@ export default function Withdraw() {
   const handleMenuState = () => {
     setMenuState(!menuState);
   }
+  const router = useRouter();
+  console.log("Router data in",router.query.token);
+  
   const [withModalState, setWidModState] = useState({
     step0: true,
     step1: false,
@@ -103,6 +107,8 @@ const handleSearchList = (key) => {
           setTokenModalList(tokenList);
         }
       }
+
+      
   
   return (
     <>
