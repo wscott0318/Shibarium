@@ -47,16 +47,19 @@ export default function Home() {
                   <h1 className='banner-title mb-3 ff-mos'>
                     Shibarium world bridge, trade, swap
                   </h1>
-                  {/* tolltip test */}
-                  <div className="cus-tooltip d-inline-block">
-                    <div className="tool-ico">
-                      !
-                    </div>
-                    <div className="tool-desc">
-                      Validator's Staking Address
-                    </div>
-                  </div>
-                  {/* tooltip test */}
+
+                    {/* tolltip test start*/}
+                    
+                      {/* <div className="cus-tooltip d-inline-block">
+                        <div className="tool-ico">
+                          !
+                        </div>
+                        <div className="tool-desc">
+                          Lorem, ipsum.
+                        </div>
+                      </div> */}
+                    {/* tooltip test end*/}
+
                   <p className='banner-desc ff-mos'>
                     Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum. Sed nemo autem aut dolores quaerat ut repudiandae recusandae qui facilis
                   </p>
