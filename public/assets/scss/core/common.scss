@@ -2233,7 +2233,7 @@ background: $body-bg;
 
 .stak-pop {
     &::before{
-        content: '';
+        content:none;
         position: absolute;
         width: 100%;
         height: 100%;
@@ -2282,6 +2282,7 @@ background: $body-bg;
         margin-right: 0;
     }
 }
+
 .cus-pagination{
     @media #{$max-xsm} {
         margin-top: 10px;
