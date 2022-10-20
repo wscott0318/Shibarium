@@ -95,9 +95,10 @@ const Rewards = () => {
         {/* <StakingHeader /> */}
         <section className="top_bnr_area dark-bg darkbg py-4 py-md-5 mn-ht">
           <div className="container">
-            <h1 className="text-white trs-6 fw-500 ff-mos">
+          <div className="section-info"><h1 className="text-white trs-6 fw-500 ff-mos">
               Become a validator
             </h1>
+            </div>
           </div>
         </section>
         {/*  Rewards section start */}
