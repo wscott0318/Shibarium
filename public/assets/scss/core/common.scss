@@ -2233,7 +2233,7 @@ background: $body-bg;
 
 .stak-pop {
     &::before{
-        content:none;
+        content:"";
         position: absolute;
         width: 100%;
         height: 100%;
