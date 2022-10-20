@@ -2233,7 +2233,7 @@ background: $body-bg;
 
 .stak-pop {
     &::before{
-        content: '';
+        content:"";
         position: absolute;
         width: 100%;
         height: 100%;
@@ -2282,6 +2282,7 @@ background: $body-bg;
         margin-right: 0;
     }
 }
+
 .cus-pagination{
     @media #{$max-xsm} {
         margin-top: 10px;
@@ -2574,6 +2575,9 @@ input:-internal-autofill-selected {
         min-height: 120px;
     }
 }
+.top_bnr_area.mn-ht {
+    min-height: 399px;
+}
 .flx{
     display: flex;
     .grey-btn{
@@ -2715,4 +2719,10 @@ input:-internal-autofill-selected {
         left: 50%;
         transform: translate(-50%,-50%);
     }
+}
+.precent-td {
+    display: block;
+    width: 70%;
+    text-align: center;
+    padding-right: 0;
 }
