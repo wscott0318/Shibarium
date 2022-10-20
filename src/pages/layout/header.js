@@ -21,6 +21,7 @@ import ShibaSidebar from "pages/token-sidebar";
 import { useMoralis } from "react-moralis";
 import { MORALIS_APP_ID, MORALIS_SERVER_URL } from "../../config/constant"
 import { login } from "app/functions/login";
+import AppHeader from "../inner-header/AppHeader";
 // import { injected } from "app/config/wallets";
 
 export default function Header() {
@@ -215,7 +216,7 @@ const [scroll, setScroll] = useState(false);
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="ms-auto">
+              <Nav className="ms-auto align-items-center">
                 <NavDropdown className="d-none" title="Dropdown" id="basic-nav-dropdown">
                   <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.2">
@@ -227,6 +228,7 @@ const [scroll, setScroll] = useState(false);
                     Separated link
                   </NavDropdown.Item>
                 </NavDropdown>
+                <AppHeader />
                 <Nav.Item className="button-wrap">
                 <Link href={'/'}>
                     <a className='d-md-none launch-btn'>
