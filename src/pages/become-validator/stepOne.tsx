@@ -1,5 +1,18 @@
+import { useEffect, useState } from "react";
 
 function StepOne({stepHandler,stepState}:any) {
+  const [check,setCheck] = useState({
+    ansible:false,
+    binary:false
+  }) 
+  useEffect(() => {
+    setCheck({
+      ansible: false,
+      binary: false,
+    });
+  }, [])
+  
+  
   return (
     <>
       <div className="progress-tab">
@@ -7,7 +20,15 @@ function StepOne({stepHandler,stepState}:any) {
         <p className="mb-0 fw-700 ff-mos">
           You can setup your node using any of the options from below
         </p>
-        <div className="box-alert top-space-lg">
+        <div
+          className="box-alert top-space-lg"
+          onClick={() => {
+            setCheck({
+              ansible: true,
+              binary: false,
+            });
+          }}
+        >
           <div className="d-flex align-items-center">
             <div>
               <div className="circle-box lt-warning me-3">
@@ -28,7 +49,15 @@ function StepOne({stepHandler,stepState}:any) {
             </div>
           </div>
         </div>
-        <div className="mt-4 box-alert box-active">
+        <div
+          className="mt-4 box-alert box-active"
+          onClick={() => {
+            setCheck({
+              ansible: false,
+              binary: true,
+            });
+          }}
+        >
           <div className="d-flex align-items-center">
             <div>
               <div className="circle-box lt-white me-3">
@@ -61,15 +90,20 @@ function StepOne({stepHandler,stepState}:any) {
           </a>
         </p>
         <div className="btn-wrap col-sm-5 mt-4 flx">
-          <button type="button" className="btn grey-btn w-100 btn-disble">
-            <span className="ff-mos">{!stepState.step4 ? "Back" : "Save"}</span>
+          <button
+            type="button"
+            className="btn grey-btn w-100"
+            onClick={() => stepHandler("back")}
+          >
+            <span className="ff-mos">Back</span>
           </button>
           <button
             type="button"
             className="btn primary-btn w-100 ff-mos"
-            onClick={stepHandler}
+            onClick={() => stepHandler("next")}
+            disabled={!(check.binary || check.ansible)}
           >
-            <span className="ff-mos">{!stepState.step4 ? "Next" : "Save"}</span>
+            <span className="ff-mos">Next</span>
           </button>
         </div>
       </div>

@@ -1,62 +1,89 @@
 import { useFormik } from "formik";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import * as yup from "yup";
 import Web3 from "web3";
 
-function StepTwo({stepState,stepHandler}:any) {
-
+function StepTwo({
+  stepState,
+  stepHandler,
+  becomeValidateData,
+  setBecomeValidateData,
+}: any) {
   const [imageData, setImageData] = useState<any>("");
   const [validation, setValidation] = useState({
     image: false,
     address: false,
-  })
+  });
 
-  
   const verifyAddress = (address: any) => {
-    let result = Web3.utils.isAddress(address)
-    return result
-  }
+    let result = Web3.utils.isAddress(address);
+    return result;
+  };
 
   const callAPI = (values: any) => {
-    console.log("call API called")
-    if(imageData && verifyAddress(values.address)){
-      setValidation({image: false, address: false})
-      console.log("1")
+    console.log("call API called");
+    if (imageData && verifyAddress(values.address)) {
+      setValidation({ image: false, address: false });
+      console.log("1");
     } else if (!imageData && verifyAddress(values.address)) {
-      setValidation({address:false, image: true})
-      console.log("2")
-    } else if (imageData && !verifyAddress(values.address)){
-      setValidation({image:false, address: true}) 
-      console.log("3")
+      setValidation({ address: false, image: true });
+      console.log("2");
+    } else if (imageData && !verifyAddress(values.address)) {
+      setValidation({ image: false, address: true });
+      console.log("3");
     } else {
-      setValidation({image: true, address:true})
+      setValidation({ image: true, address: true });
     }
-  }
-
-  const initialValues = {
-    validatorname:"",
-    publickey:"",
-    address:"",
-    website:"",
-    commission:""
   };
+
+  const [initialValues, setInitialValues] = useState({
+    validatorname: "",
+    publickey: "",
+    address: "",
+    website: "",
+    commission: "",
+  });
+  console.log("Become Validate Data in Step Two", becomeValidateData);
+  useEffect(() => {
+    if(becomeValidateData)
+    {
+      setInitialValues(becomeValidateData)
+      setBecomeValidateData(becomeValidateData)
+      setValues(becomeValidateData)
+    }
+  }, [])
+  
   let schema = yup.object().shape({
     validatorname: yup.string().required("validator name is required"),
     publickey: yup.string().required("public key is required"),
     address: yup.string().required("address is required"),
-    website: yup.string().required("website is required").matches(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/, "enter a vaild url"),
-    commission: yup.string().required("commission is required").matches(/^(?:100(?:[.,]00?)?|\d?\d(?:[.,]\d\d?)?)$/, "enter vaild percentage"),
+    website: yup
+      .string()
+      .required("website is required")
+      .matches(
+        /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/,
+        "enter a vaild url"
+      ),
+    commission: yup
+      .string()
+      .required("commission is required")
+      .matches(
+        /^(?:100(?:[.,]00?)?|\d?\d(?:[.,]\d\d?)?)$/,
+        "enter vaild percentage"
+      ),
   });
 
-  const {values,errors,handleBlur,handleChange,handleSubmit, touched} = useFormik({
-    initialValues: initialValues,
-    validationSchema:schema,
-    onSubmit: (values) => {
-      console.log("Value", values);
-      callAPI(values)
-    },
-  });
+  const { values, errors, handleBlur, handleChange, handleSubmit, touched,setValues } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: schema,
+      onSubmit: (values) => {
+        console.log("Value", values);
+        callAPI(values);
+      },
+    });
 
+  console.log("Error", errors);
 
   return (
     // <>
@@ -101,7 +128,9 @@ function StepTwo({stepState,stepHandler}:any) {
                 </div>
               </div>
             </div>
-            {validation.image ? <p className="primary-text error ff-mos">image is required</p> : null}
+            {validation.image ? (
+              <p className="primary-text error ff-mos">image is required</p>
+            ) : null}
           </div>
 
           <div className="col-sm-6 form-grid">
@@ -119,7 +148,11 @@ function StepTwo({stepState,stepHandler}:any) {
                 onBlur={handleBlur}
               />
             </div>
-            {touched.validatorname && errors.validatorname ? <p className="primary-text error ff-mos">{errors.validatorname}</p> : null}
+            {touched.validatorname && errors.validatorname ? (
+              <p className="primary-text error ff-mos">
+                {errors.validatorname}
+              </p>
+            ) : null}
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -136,7 +169,9 @@ function StepTwo({stepState,stepHandler}:any) {
                 onBlur={handleBlur}
               />
             </div>
-           {touched.website && errors.website ? <p className="primary-text error ff-mos">{errors.website}</p> : null}
+            {touched.website && errors.website ? (
+              <p className="primary-text error ff-mos">{errors.website}</p>
+            ) : null}
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -153,8 +188,12 @@ function StepTwo({stepState,stepHandler}:any) {
                 onBlur={handleBlur}
               />
             </div>
-            {touched.address &&  errors.address ? <p className="primary-text error ff-mos">{errors.address}</p> : null}
-            {validation.address ? <p className="primary-text error ff-mos">enter a valid address</p> : null}
+            {touched.address && errors.address ? (
+              <p className="primary-text error ff-mos">{errors.address}</p>
+            ) : null}
+            {validation.address ? (
+              <p className="primary-text error ff-mos">enter a valid address</p>
+            ) : null}
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -171,7 +210,9 @@ function StepTwo({stepState,stepHandler}:any) {
                 onBlur={handleBlur}
               />
             </div>
-            {touched.publickey && errors.publickey ?  <p className="primary-text error ff-mos">{errors.publickey}</p> : null}
+            {touched.publickey && errors.publickey ? (
+              <p className="primary-text error ff-mos">{errors.publickey}</p>
+            ) : null}
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -188,20 +229,34 @@ function StepTwo({stepState,stepHandler}:any) {
                 onBlur={handleBlur}
               />
             </div>
-            {touched.commission && errors.commission ?  <p className="primary-text error ff-mos">{errors.commission}</p> : null}
+            {touched.commission && errors.commission ? (
+              <p className="primary-text error ff-mos">{errors.commission}</p>
+            ) : null}
           </div>
         </div>
         <div className="btn-wrap col-sm-5 mt-4 flx">
-          <button type="button" className="btn grey-btn w-100">
-            <span className="ff-mos">{!stepState.step4 ? "Back" : "Save"}</span>
+          <button
+            type="button"
+            className="btn grey-btn w-100"
+            onClick={() => stepHandler("back")}
+          >
+            <span className="ff-mos">Back</span>
           </button>
           <button
             type="submit"
             value="submit"
             className="btn primary-btn w-100"
-            // onClick={stepHandler}
+            onClick={() => {
+              if (
+                Object.keys(errors).length === 0 &&
+                Object.getPrototypeOf(errors) === Object.prototype
+              ) {
+                setBecomeValidateData(values)
+                stepHandler("next");
+              }
+            }}
           >
-            <span className="ff-mos">{!stepState.step4 ? "Next" : "Save"}</span>
+            <span className="ff-mos">Next</span>
           </button>
         </div>
       </div>

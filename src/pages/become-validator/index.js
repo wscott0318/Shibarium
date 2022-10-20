@@ -31,6 +31,14 @@ const Rewards = () => {
     step3:false,
     step4:false,
   })
+  const [becomeValidateData,setBecomeValidateData] = useState({
+    validatorname: "",
+    publickey: "",
+    address: "",
+    website: "",
+    commission: "",
+  });
+  console.log("Become Validate Data in Parent",becomeValidateData)
   
   const handleEdit = (value) => {
     switch (value) {
@@ -63,8 +71,10 @@ const Rewards = () => {
     }
   };
 
-  const stepHandler = () => {
-    if(stepState.step1)
+  const stepHandler = (type) => {
+    if(type==="next")
+    {
+      if(stepState.step1)
     {
       setStepState({
         ...stepState,
@@ -86,6 +96,30 @@ const Rewards = () => {
         step4: true,
       });
     }
+  }
+  else if( type === "back")
+  {
+    if (stepState.step4) {
+      setStepState({
+        ...stepState,
+        step4: false,
+        step3: true,
+      });
+    } else if (stepState.step3) {
+      setStepState({
+        ...stepState,
+        step3: false,
+        step2: true,
+      });
+    }
+    if (stepState.step2) {
+      setStepState({
+        ...stepState,
+        step2: false,
+        step1: true,
+      });
+    }
+  }
   }
 
   return (
@@ -177,7 +211,12 @@ const Rewards = () => {
 
                 {/* step 2  start */}
                 {stepState.step2 && (
-                  <StepTwo stepHandler={stepHandler} stepState={stepState} />
+                  <StepTwo
+                    stepHandler={stepHandler}
+                    stepState={stepState}
+                    becomeValidateData={becomeValidateData}
+                    setBecomeValidateData={setBecomeValidateData}
+                  />
                 )}
                 {/* step 2 end */}
 
