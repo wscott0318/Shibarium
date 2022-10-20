@@ -28,17 +28,17 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
           setdelegatepop={setdelegatepop}
           data={selectedRow}
         />
-        <div className="cmn_dasdrd_table ffms-inherit table-fix">
+        <div className="cmn_dasdrd_table ffms-inherit table-fix block-fix">
           <div className="table-responsive">
-            <table className="table table-borderless">
+            <table className="table table-borderless fxd-layout tbl-mob">
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Voting Power</th>
+                  <th className='fx-wdth'>Voting Power</th>
                   <th>Self</th>
                   <th className="">Commission</th>
                   <th>Uptime</th>
-                  <th className="text-start">Action</th>
+                  <th className="text-center">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -64,41 +64,32 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       {(+x.votingPowerPercent || 0).toFixed(2)}%)
                     </td>
                     <td>{+x.selfPercent.toFixed(2)}%</td>
-                    <td>{x.commissionPercent}%</td>
+                    <td><span className='precent-td'>{x.commissionPercent}%</span></td>
                     <td>{x.uptimePercent.toFixed(2)}%</td>
                     <td className='text-start'>
-                      <button
+                      <button className='btn primary-btn w-100'
                       disabled={userType === 'Validator'}
                         onClick={() => {
                           setdelegatepop(true);
                           setSelectedRow(x)
                         }}
                       >
-                        DELEGATE
+                        Delegate
                       </button>
                     </td>
                   </tr>
                 ))}
-                {validatorsList.length === 0 && (
-                  <tr>
-                    <td colSpan={6}>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          padding: "3rem",
-                          flexDirection: "column",
-                          alignItems: "center",
-                        }}
-                      >
-                        <img src="../../images/no-record.png"/>
-                        <div>No Record Found.</div>
-                      </div>
-                    </td>
-                  </tr>
-                )}
+                
               </tbody>
             </table>
+          </div>
+          <div className='no-found'>
+              {validatorsList.length === 0 && (
+                  <div>
+                    <div><img src="../../images/no-record.png"/></div>
+                    <p className='text-center'>No Record Found.</p>
+                  </div>
+              )}
           </div>
         </div>
       </>

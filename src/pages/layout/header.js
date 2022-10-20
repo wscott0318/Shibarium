@@ -216,7 +216,7 @@ const [scroll, setScroll] = useState(false);
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="ms-auto">
+              <Nav className="ms-auto align-items-center">
                 <NavDropdown className="d-none" title="Dropdown" id="basic-nav-dropdown">
                   <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.2">
@@ -228,9 +228,7 @@ const [scroll, setScroll] = useState(false);
                     Separated link
                   </NavDropdown.Item>
                 </NavDropdown>
-                <Nav.Item>
                 <AppHeader />
-                </Nav.Item>
                 <Nav.Item className="button-wrap">
                 <Link href={'/'}>
                     <a className='d-md-none launch-btn'>

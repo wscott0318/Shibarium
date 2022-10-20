@@ -456,7 +456,7 @@ ul {
         display: inline-block;
         @media #{$max-xsm}{
             padding-right: 10px;
-            max-width: 25px;
+            max-width: 100%;
         }
     }
     .table td a{
@@ -648,8 +648,12 @@ label{
     font-size: 16px;
 }
 
-body.modal-open {
-    padding-left: 0 !important;   
+body {
+    // padding-left: 0 !important;   
+    // padding-right: 0 !important;
+}
+.modal{
+    padding-right: 0 !important;
 }
 .whitespace-nowrap {
     white-space: pre-wrap;

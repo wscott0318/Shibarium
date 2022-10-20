@@ -229,17 +229,17 @@
     }
 }
 .grey-icon{
-    display: inline-block;
+    display: block;
 }
 .list, .cus-grid{
     background: $white;
     border-radius: 6px;
     width: 36px;
     height: 32px;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 30px;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     .white-icon{
         display: none;
     }
@@ -250,7 +250,7 @@
         display: none;
     }
     .white-icon{
-        display: inline-block;
+        display: block;
     }
 }
 .cus-grid {
@@ -360,6 +360,6 @@
 }
 .active-inactive{
     .grid-sec {
-        min-height: 265px;
+        min-height: 427px;
     }
 }
