@@ -32,7 +32,7 @@ export default function Home() {
     },[active])
   */
 
- 
+
 
   //  console.log('account---------------', account)
   return (
@@ -47,14 +47,24 @@ export default function Home() {
                   <h1 className='banner-title mb-3 ff-mos'>
                     Shibarium world bridge, trade, swap
                   </h1>
+                  {/* tolltip test */}
+                  <div className="cus-tooltip d-inline-block">
+                    <div className="tool-ico">
+                      !
+                    </div>
+                    <div className="tool-desc">
+                      Validator's Staking Address
+                    </div>
+                  </div>
+                  {/* tooltip test */}
                   <p className='banner-desc ff-mos'>
                     Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum. Sed nemo autem aut dolores quaerat ut repudiandae recusandae qui facilis
                   </p>
                   <div className='banner-btn'>
                     <div className="btn-col">
-                    <Link href={account ? '/wallet' : '/login'}>
-                    <a className="btn primary-btn w-100 d-block ff-mos">Launch App</a>
-                    </Link>
+                      <Link href={account ? '/wallet' : '/login'}>
+                        <a className="btn primary-btn w-100 d-block ff-mos">Launch App</a>
+                      </Link>
                     </div>
                     <div className="btn-col">
                       {/* <a className="btn secondary-btn w-100 d-block ff-mos" href="javascript:void(0)">Develop</a> */}
@@ -145,48 +155,48 @@ export default function Home() {
 
           {/* about section statrt */}
           <section className='about-section bottom-pad'>
-              <div className="container">
-                  <div className="primary-card rad-25 p-25">
-                      <div className="row abt-row align-items-center justify-content-center">
-                          <div className="col-lg-6 col-md-7 col-sm-8 order-2 order-md-1 abt-col">
-                              <div className="abt-item">
-                                  <h3 className='abt-title mb-3 ff-mos'>Built by developers, for developers</h3>
-                                  <p className='abt-desc ff-mos'>
-                                      Shibarium combines the best of Ethereum and sovereign blockchains into a full-fledged multi-chain system.
-                                  </p>
-                                  <ul className='abt-list mb-3'>
-                                      <li className='abt-lst-item ff-mos'>
-                                          <div className="check-icon">
-                                            <img className="img-fluid" src="../../images/tick.png" alt="tick-icon"/>
-                                          </div>
-                                          It is able to fully benefit from Ethereum’s network effects
-                                      </li>
-                                      <li className='abt-lst-item ff-mos'>
-                                          <div className="check-icon">
-                                            <img className="img-fluid" src="../../images/tick.png" alt="tick-icon"/>
-                                          </div>
-                                          It is inherently more secure
-                                      </li>
-                                      <li className='abt-lst-item ff-mos'>
-                                          <div className="check-icon">
-                                            <img className="img-fluid" src="../../images/tick.png" alt="tick-icon"/>
-                                          </div>
-                                          It is more open and powerful
-                                      </li>
-                                  </ul>
-                                  <Link href="/all-validator">
-                                    <a href="javascript:void(0)" className='btn secondary-btn ff-mos'>First Step</a>
-                                  </Link>
-                              </div>
+            <div className="container">
+              <div className="primary-card rad-25 p-25">
+                <div className="row abt-row align-items-center justify-content-center">
+                  <div className="col-lg-6 col-md-7 col-sm-8 order-2 order-md-1 abt-col">
+                    <div className="abt-item">
+                      <h3 className='abt-title mb-3 ff-mos'>Built by developers, for developers</h3>
+                      <p className='abt-desc ff-mos'>
+                        Shibarium combines the best of Ethereum and sovereign blockchains into a full-fledged multi-chain system.
+                      </p>
+                      <ul className='abt-list mb-3'>
+                        <li className='abt-lst-item ff-mos'>
+                          <div className="check-icon">
+                            <img className="img-fluid" src="../../images/tick.png" alt="tick-icon" />
                           </div>
-                          <div className="col-lg-6 col-md-5 col-sm-8 abt-col order-1 order-md-2 text-center mb-4 mb-md-0">
-                              <div className='shib-img'>
-                                  <img className='img-fluid mx-auto' src="../../images/steps.png" alt="" />
-                              </div>
+                          It is able to fully benefit from Ethereum’s network effects
+                        </li>
+                        <li className='abt-lst-item ff-mos'>
+                          <div className="check-icon">
+                            <img className="img-fluid" src="../../images/tick.png" alt="tick-icon" />
                           </div>
-                      </div>
+                          It is inherently more secure
+                        </li>
+                        <li className='abt-lst-item ff-mos'>
+                          <div className="check-icon">
+                            <img className="img-fluid" src="../../images/tick.png" alt="tick-icon" />
+                          </div>
+                          It is more open and powerful
+                        </li>
+                      </ul>
+                      <Link href="/all-validator">
+                        <a href="javascript:void(0)" className='btn secondary-btn ff-mos'>First Step</a>
+                      </Link>
+                    </div>
                   </div>
+                  <div className="col-lg-6 col-md-5 col-sm-8 abt-col order-1 order-md-2 text-center mb-4 mb-md-0">
+                    <div className='shib-img'>
+                      <img className='img-fluid mx-auto' src="../../images/steps.png" alt="" />
+                    </div>
+                  </div>
+                </div>
               </div>
+            </div>
           </section>
           {/* about section end */}
 
@@ -200,9 +210,9 @@ export default function Home() {
                 <div className="col-md-6 col-sm-8 cus-col">
                   <div className="cus-card card-flex">
                     <Link href="/become-validator">
-                    <a  className='icon-top'>
-                      <img className='img-fluid' src="../../images/arrow-top.png" alt="" />
-                    </a>
+                      <a className='icon-top'>
+                        <img className='img-fluid' src="../../images/arrow-top.png" alt="" />
+                      </a>
                     </Link>
                     <div className='card-item'>
                       <h3 className='mb-2 ff-mos'>Validators</h3>
@@ -222,7 +232,7 @@ export default function Home() {
                 <div className="col-md-6 col-sm-8 cus-col">
                   <div className="cus-card card-flex">
                     <Link href="/all-validator">
-                      <a  className='icon-top'>
+                      <a className='icon-top'>
                         <img className='img-fluid' src="../../images/arrow-top.png" alt="" />
                       </a>
                     </Link>
@@ -300,7 +310,7 @@ export default function Home() {
                         </a>
                       </Link>
                     </h4>
-                    
+
                     <p className="ff-mos">
                       Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum.
                     </p>
@@ -385,10 +395,10 @@ export default function Home() {
               </ul>
             </div>
           </section>
-          
-            {/* shib social section End*/ }
-                
-            <Footer />
+
+          {/* shib social section End*/}
+
+          <Footer />
         </div>
       </main>
 
