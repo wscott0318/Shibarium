@@ -12,6 +12,9 @@ import { shortenAddress } from "../../functions";
 import QrModal from "pages/components/QrModal";
 import NetworkModel from "../../modals/NetworkModal";
 import { useNetworkModalToggle } from "../../state/application/hooks";
+import AppHeader from "./AppHeader";
+
+
 const InnerHeader = () => {
   const router = useRouter();
   const [show, setShow] = useState();
@@ -72,53 +75,16 @@ const InnerHeader = () => {
             </div>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="ms-auto">
-                <Dropdown className="nav-item d-flex align-items-center cus-dd app-drop">
-                  <div className="dot-icon" id="basic-nav-dropdown">
-                    <img src="../../images/menu-icon.png" alt="" />
-                  </div>
-                  <NavDropdown className="light-text dd-ico" title="App" id="">
-                    <NavDropdown.Item href="/wallet">
-                      <h6 className="fw-600 light-text left-border">
-                        Shibarium Wallet
-                      </h6>
-                      <span className="light-text">
-                        Send and receive crypto assets on Shibarium network
-                      </span>
-                    </NavDropdown.Item>
-                    <NavDropdown.Item href="/withdraw">
-                      <h6 className="fw-600 light-text left-border">
-                        Shibarium Bridge
-                      </h6>
-                      <span className="light-text">
-                        Deposit and withdraw between networks
-                      </span>
-                    </NavDropdown.Item>
-                    <NavDropdown.Item href="/bone-staking">
-                      <h6 className="fw-600 light-text left-border">Staking</h6>
-                      <span className="light-text">
-                        Stake shiba and earn rewards
-                      </span>
-                    </NavDropdown.Item>
-                    {/* <NavDropdown.Item href="#action/3.3">
-                    <h6 className="fw-600 light-text left-border">
-                      Widget Dashboard
-                    </h6>
-                    <span className="light-text">
-                      Manage all your Shibarium wallet widgets at one place
-                    </span>
-                  </NavDropdown.Item> */}
-                  </NavDropdown>
-                </Dropdown>
-
+              <Nav className="ms-auto align-items-center">
+                  <AppHeader />
                 {/* <Nav.Item>
-                              <Link href={'javascript:void(0)'}>
-                                <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
-                                  <img className="img-fluid me-2" src="../../images/meta-icon.png" alt="meta-img"/>
-                                  <span>0x21A...48A5</span>
-                                </a>
-                              </Link>
-                            </Nav.Item> */}
+                  <Link href={'javascript:void(0)'}>
+                    <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
+                      <img className="img-fluid me-2" src="../../images/meta-icon.png" alt="meta-img"/>
+                      <span>0x21A...48A5</span>
+                    </a>
+                  </Link>
+                </Nav.Item> */}
                 <Nav.Item className="d-flex align-items-center">
                   <Link href={'javascript:void(0)'}>
                     <a className='d-md-none swap-btn'>
@@ -263,38 +229,6 @@ const InnerHeader = () => {
           </Container>
         </Navbar>
       </header>
-      {/* retake popop start */}
-      {/* <CommonModal title={"Retake"} show={showScanpop} setShow={setScanpop}>
-        <>
-          <div className="cmn_modal">
-            <div className="qr-wrap">
-              <div className="scan-wrap">
-                <img
-                  className="img-fluid mx-auto"
-                  src="../../images/qr.png"
-                  alt="qr-img"
-                  width={200}
-                />
-              </div>
-              <div className="mt-4 text-center lite-color">Wallet address </div>
-              <div className="text-center word-wrap">
-                0x993E8794Ca03F520c4A8A30F7C0f44f6B57C1D93
-              </div>
-            </div>
-            <div className="text-center footer-sec modal-footer">
-              <button className="btn primary-btn w-100">
-                <div className="">
-                  <div className="flex items-center gap-1 cursor-pointer">
-                    {" "}
-                    Copy address{" "}
-                  </div>
-                </div>
-              </button>
-            </div>
-          </div>
-        </>
-      </CommonModal> */}
-      {/* retake popop ends */}
     </>
   );
 };

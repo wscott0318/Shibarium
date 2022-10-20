@@ -31,7 +31,7 @@ export default function Web3Connect({ color = 'gray', size = 'sm', className = '
       className='login_cnt_row'>
       <span className='login_icon'><img className='img-fluid' src="../../images/fox-icon.png" alt="login-logo" /></span>
       <div className='login_cnt_row_name'>    
-          <b>Metamask Wallet</b>
+          <b>Connect Wallet</b>
           <p>Connect using Browser wallet</p> 
       </div>
       <span className='white_arw'><img className='img-fluid' src="../../images/white-arrow.png" alt="white-arrow" /></span>
