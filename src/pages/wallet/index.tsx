@@ -930,7 +930,6 @@ export default function Wallet() {
                                   ).toFixed(2)}
                                 />
                               </td>
-
                               <td className="fix-td">
                                 <Link href="/withdraw">
                                   <a className="px-0">Deposit</a>
