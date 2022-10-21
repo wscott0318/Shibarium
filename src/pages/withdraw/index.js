@@ -32,6 +32,9 @@ import {getTokenBalance } from "../../hooks/useTokenBalance";
 
 export default function Withdraw() {
   const [menuState, setMenuState] = useState(false);
+   const [selectedToken, setSelectedToken] = useState(
+     JSON.parse(localStorage.getItem("depositToken"))
+   );
   const [showDepositModal, setDepositModal] = useState(false);
   const [showWithdrawModal, setWithdrawModal] = useState(false);
   const [showTokenModal, setTokenModal] = useState(false);
@@ -41,6 +44,7 @@ export default function Withdraw() {
   }
   const router = useRouter();
   console.log("Router data in",router.query.token);
+  console.log("Selected TOken in Withdraw",selectedToken)
   
   const [withModalState, setWidModState] = useState({
     step0: true,
@@ -325,23 +329,20 @@ const handleSearchList = (key) => {
                       </p>
                     </div>
                     <div>
-                      <a onClick={() => {
-                            setDepModState({
-                              step0: false,
-                              step1: false,
-                              step2: true,
-                              title: "Transaction Completed",
-                            });
-                          }}
+                      <a
+                        onClick={() => {
+                          setDepModState({
+                            step0: false,
+                            step1: false,
+                            step2: true,
+                            title: "Transaction Completed",
+                          });
+                        }}
                         className="btn grey-btn w-100"
                         href="javascript:void(0)"
                       >
                         <span className="spinner-border text-secondary pop-spiner"></span>
-                        <span
-                          
-                        >
-                          Continue
-                        </span>
+                        <span>Continue</span>
                       </a>
                     </div>
                   </div>
@@ -631,25 +632,22 @@ const handleSearchList = (key) => {
                       </p>
                     </div>
                     <div>
-                      <a onClick={() =>
-                            setWidModState({
-                              step0: false,
-                              step1: false,
-                              step2: true,
-                              step3: false,
-                              step4: false,
-                              title: "Checkpoint reached",
-                            })
-                          }
+                      <a
+                        onClick={() =>
+                          setWidModState({
+                            step0: false,
+                            step1: false,
+                            step2: true,
+                            step3: false,
+                            step4: false,
+                            title: "Checkpoint reached",
+                          })
+                        }
                         className="btn grey-btn w-100"
                         href="javascript:void(0)"
                       >
                         <span className="spinner-border text-secondary pop-spiner"></span>
-                        <span
-                          
-                        >
-                          Moving funds
-                        </span>
+                        <span>Moving funds</span>
                       </a>
                     </div>
                   </div>
@@ -810,25 +808,22 @@ const handleSearchList = (key) => {
                       <p>Moving funds to your Ethereum Account.</p>
                     </div>
                     <div>
-                      <a onClick={() =>
-                            setWidModState({
-                              step0: false,
-                              step1: false,
-                              step2: false,
-                              step3: false,
-                              step4: true,
-                              title: "Withdraw Complete",
-                            })
-                          }
+                      <a
+                        onClick={() =>
+                          setWidModState({
+                            step0: false,
+                            step1: false,
+                            step2: false,
+                            step3: false,
+                            step4: true,
+                            title: "Withdraw Complete",
+                          })
+                        }
                         className="btn grey-btn w-100"
                         href="javascript:void(0)"
                       >
                         <span className="spinner-border text-secondary pop-spiner"></span>
-                        <span
-                          
-                        >
-                          Moving funds
-                        </span>
+                        <span>Moving funds</span>
                       </a>
                     </div>
                   </div>
@@ -918,8 +913,8 @@ const handleSearchList = (key) => {
                           type="text"
                           className="w-100"
                           placeholder="Search token or token address"
-                          onChange={(e)=>{
-                            handleSearchList(e.target.value)
+                          onChange={(e) => {
+                            handleSearchList(e.target.value);
                           }}
                         />
                         <div className="search-icon">
@@ -961,10 +956,7 @@ const handleSearchList = (key) => {
                     <div className="token-listwrap">
                       {tokenModalList
                         ? tokenModalList.map((x) => (
-                            <div
-                              className="tokn-row"
-                              key={x.parentName}
-                            >
+                            <div className="tokn-row" key={x.parentName}>
                               <div className="cryoto-box">
                                 <img
                                   className="img-fluid"
@@ -2235,8 +2227,10 @@ const handleSearchList = (key) => {
                         {/* <button type="button" className="btn white-btn w-100">
                           How Shibarium Works
                         </button> */}
-                        <Link href="how-it-works" >
-                          <span className="btn white-btn w-100">How Shibarium Works</span>
+                        <Link href="how-it-works">
+                          <span className="btn white-btn w-100">
+                            How Shibarium Works
+                          </span>
                         </Link>
                       </div>
                       <div className="col-lg-6">
@@ -2340,7 +2334,9 @@ const handleSearchList = (key) => {
                                     </div>
                                     <div className="lite-color">
                                       <span className="lite-color fw-bold">
-                                        ETH
+                                        {selectedToken.parentName
+                                          ? selectedToken.parentName
+                                          : "Select Token"}
                                       </span>
                                     </div>
                                     <div className="lft-spc">
@@ -2464,7 +2460,7 @@ const handleSearchList = (key) => {
                                       Balance:
                                     </span>
                                     <span className="fld-txt lite-color">
-                                      100 BONE
+                                      {selectedToken.balance && selectedToken.balance} {selectedToken.parentName && selectedToken.parentName}
                                     </span>
                                   </div>
                                 </div>
@@ -2498,7 +2494,9 @@ const handleSearchList = (key) => {
                                     </div>
                                     <div className="lite-color">
                                       <span className="lite-color fw-bold">
-                                        Bone
+                                        {selectedToken.parentName
+                                          ? selectedToken.parentName
+                                          : "Select Token"}
                                       </span>
                                     </div>
                                     <div className="lft-spc">

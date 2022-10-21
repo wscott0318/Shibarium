@@ -289,15 +289,9 @@ export default function Wallet() {
     }
   }
   const [sendToken,setSendToken] = useState('');
-  const sendTokenWithRoute = () => {
-    // Router.push(
-    //   {
-    //     pathname: "/withdraw",
-    //     query: { sendToken: sendToken },
-    //   },
-    //   "/withdraw"
-    // );
-    Router.push(`/withdraw?token=${sendToken}`, "withdraw");
+  const sendTokenWithRoute = async (x:any) => {
+    localStorage.setItem("depositToken",JSON.stringify(x))
+    await Router.push(`/withdraw`);
   }
   console.log("Router data for send",sendToken)
   
@@ -932,9 +926,11 @@ export default function Wallet() {
                                 />
                               </td>
                               <td className="fix-td">
-                                <Link href="/withdraw">
+                                {/* <Link href="/withdraw"> */}
+                                <button onClick={()=>sendTokenWithRoute(x)}>
                                   <a className="px-0">Deposit</a>
-                                </Link>
+                                </button>
+                                {/* </Link> */}
                               </td>
                               <td className="fix-td" colSpan={2}>
                                 <div className="row mx-0">
