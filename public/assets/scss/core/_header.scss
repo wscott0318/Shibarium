@@ -278,13 +278,6 @@
     }
 }
 .header-overide{
-    .btn-status{
-        .bg-dark-1000{
-            @media #{$max-xsm}{
-                padding: 5px 8px !important;
-            } 
-        }
-    }
     .dot-icon {
         @media #{$max-lg}{
             max-width: 20px;

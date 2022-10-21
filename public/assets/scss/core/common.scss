@@ -2823,9 +2823,6 @@ input:-internal-autofill-selected {
             padding: 10px;
             font-size: 14px;
         }
-        @media #{$max-xxl}{
-            
-        }
     }
     .arrow-down{
         right:0;
@@ -2838,4 +2835,17 @@ input:-internal-autofill-selected {
 .logo-wrap {
     display: flex;
     align-items: center;
+}
+.lg-rt {
+    padding-left: 11px;
+    @media #{$max-xsm}{
+          display: none;  
+    }
+}
+.lg-lft{
+    img{
+        @media #{$max-xsm}{
+            max-width: 35px;
+      } 
+    }
 }

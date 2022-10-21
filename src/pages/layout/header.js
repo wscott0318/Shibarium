@@ -212,7 +212,11 @@ const [scroll, setScroll] = useState(false);
         <Navbar className='py-0'>
           <Container>
             <Navbar.Brand href="/">
-              <img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} />
+              {/* <img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} /> */}
+              <div className="logo-wrap">
+                <div className="lg-lft"><img className='img-fluid' src="../../images/shibarium-logo.png" alt="site-logo" width={50} /></div>
+                <div className="lg-rt"><img className='img-fluid' src="../../images/shib-text.png" alt="site-logo" width={150} /></div>
+              </div>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
