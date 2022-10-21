@@ -55,6 +55,7 @@ const InnerHeader = () => {
     deactivate();
     await router.push("/home");
   }
+  const [selectNet, setSelectNet] = useState("Shibarium Mainnet")
 
   return (
     <>
@@ -67,7 +68,7 @@ const InnerHeader = () => {
             address={account}
           />
         )}
-        <NetworkModel/>
+        <NetworkModel />
         <Navbar className="py-0" variant="dark">
           <Container>
             <div className="left-widget">
@@ -81,7 +82,7 @@ const InnerHeader = () => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto align-items-center">
-                  <AppHeader />
+                <AppHeader />
                 {/* <Nav.Item>
                   <Link href={'javascript:void(0)'}>
                     <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
@@ -91,9 +92,14 @@ const InnerHeader = () => {
                   </Link>
                 </Nav.Item> */}
                 <Nav.Item className="d-flex align-items-center">
-                  <Link href={'javascript:void(0)'}>
-                    <a className='d-md-none swap-btn'>
-                      <img className="img-fluid" src="../../images/switch-icon.png" alt="" width={30} />
+                  <Link href={"javascript:void(0)"}>
+                    <a className="d-md-none swap-btn">
+                      <img
+                        className="img-fluid"
+                        src="../../images/switch-icon.png"
+                        alt=""
+                        width={30}
+                      />
                     </a>
                   </Link>
                   {/* <button onClick={toggleNetworkModal}>
@@ -113,13 +119,42 @@ const InnerHeader = () => {
                     </a>
                   </button> */}
                   {/* New button switch to nerwork start */}
-                  <div className="hd-sel position-relative d-none d-md-flex">
-                    <select class="form-select primary-btn" aria-label="Default select example">
-                      <option selected>Shibarium Mainnet</option>
-                      <option value="1">Shibarium Testnet</option>
-                    </select>
-                    <span class="arrow-down"></span>
-                  </div>
+                  {/* <div className="hd-sel position-relative d-none d-md-flex"> */}
+                    {/* <select
+                      class="form-select primary-btn"
+                      aria-label="Default select example"
+                    > */}
+                      <NavDropdown
+                        className="form-select primary-btn innerDivBgBlack"
+                        title={selectNet}
+                        id=""
+                      >
+                        <NavDropdown.Item
+                          // disabled={user ? false : true}
+                          onClick={() => setSelectNet("Shibarium Mainnet")}
+                        >
+                          <h6 className="fw-600 light-text left-border">
+                            Mainnet
+                          </h6>
+                          <span className="light-text">
+                            Switch to Shibarium Mainnet
+                          </span>
+                        </NavDropdown.Item>
+                        <NavDropdown.Item
+                          // disabled={user ? false : true}
+                          onClick={() => setSelectNet("Shibarium Testnet")}
+                        >
+                          <h6 className="fw-600 light-text left-border">
+                            Testnet
+                          </h6>
+                          <span className="light-text">
+                            Switch to Shibarium Testnet
+                          </span>
+                        </NavDropdown.Item>
+                      </NavDropdown>
+                    {/* </select> */}
+                    {/* <span class="arrow-down"></span> */}
+                  {/* </div> */}
                   {/* New button switch to nerwork end */}
                 </Nav.Item>
                 <Nav.Item className="btn-status">
@@ -145,7 +180,9 @@ const InnerHeader = () => {
                               <span>Account 0xe78</span>
                             </div>
                             <div>
-                              <span>{userType === 'NA' ? "User" : userType}</span>
+                              <span>
+                                {userType === "NA" ? "User" : userType}
+                              </span>
                             </div>
                             <div>
                               <span className="grey-txt">
