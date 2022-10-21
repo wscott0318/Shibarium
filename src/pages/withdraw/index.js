@@ -81,7 +81,7 @@ export default function Withdraw() {
         x.balance = await getTokenBalance(lib, account, x.parentContract);
       });
       setTokenList(list);
-      setTokenFilteredList(list);
+      // setTokenFilteredList(list);
       setTokenModalList(list);
     });
   };

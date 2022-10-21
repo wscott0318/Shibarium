@@ -102,7 +102,7 @@ const InnerHeader = () => {
                       />
                     </a>
                   </Link>
-                  <button onClick={toggleNetworkModal}>
+                  {/* <button onClick={toggleNetworkModal}>
                     <a
                       className="d-none btn primary-btn d-md-flex align-items-center"
                       href="javascript:void(0)"
@@ -118,6 +118,7 @@ const InnerHeader = () => {
                       />
                     </a>
                   </button> */}
+                  
                   {/* New button switch to nerwork start */}
                   {/* <div className="hd-sel position-relative d-none d-md-flex"> */}
                     {/* <select
