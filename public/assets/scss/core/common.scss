@@ -2835,3 +2835,91 @@ input:-internal-autofill-selected {
 .innerDivBgBlack > div {
     background-color: black !important;
 }
+.logo-wrap {
+    display: flex;
+    align-items: center;
+}
+.lg-rt {
+    padding-left: 12px;
+    @media #{$max-sm}{
+        display: none;
+    }
+}
+.main-header.header-overide{
+    .navbar-brand{
+        @media #{$max-lg}{
+            max-width: 170px;
+        }
+    }
+}
+.lg-lft{
+    img{
+       @media #{$max-sm}{
+            max-width: 35px;
+        }
+    }
+}
+.hd-sel{
+    font-size: 18px;
+    padding: 11px 22px;
+    border: none;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -o-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -moz-border-radius: 10px;
+    font-weight: 600;
+    background: $primary-gradient;
+    color: $white;
+    position: relative;
+    .dropdown-toggle{
+        padding: 0;
+    }
+    .dropdown-menu{
+        background: $body-bg-secondry !important;
+        padding: 20px;
+        color: $white;
+        position: absolute;
+        top: 100%;
+        max-width: 230px;
+        .dropdown-item{
+            border-bottom:1px solid rgba($color: $white, $alpha: 0.2);
+            padding: 12px 0px;
+            margin: 10px 0;
+            &:first-child{
+                margin-top: 0;
+                padding-top: 0;
+            }
+            &:last-child{
+                margin-bottom: 0;
+                padding-bottom: 0;
+                border: 0;
+            }
+            &:hover{
+                background:transparent;
+                color:$white;
+            }
+        }
+        span{
+            font-size: 14px;
+            font-weight: 400;
+        }
+        .left-border{
+            position: relative;
+            padding-left: 12px;
+            &::before{
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                height: 100%;
+                width: 3px;
+                background: $primary;
+                -webkit-transform: translateY(0);
+                transform: translateY(0);
+            }
+        }
+    }
+     
+}

@@ -126,7 +126,7 @@ const InnerHeader = () => {
                       aria-label="Default select example"
                     > */}
                       <NavDropdown
-                        className="form-select primary-btn innerDivBgBlack"
+                        className="form-select innerDivBgBlack hd-sel"
                         title={selectNet}
                         id=""
                       >
