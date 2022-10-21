@@ -2872,8 +2872,15 @@ input:-internal-autofill-selected {
     background: $primary-gradient;
     color: $white;
     position: relative;
+    width: 240px;
+    .nav-link{
+        &:focus{
+            color:$white;
+        }
+    }
     .dropdown-toggle{
         padding: 0;
+        font-size: 18px;
     }
     .dropdown-menu{
         background: $body-bg-secondry !important;
@@ -2881,7 +2888,7 @@ input:-internal-autofill-selected {
         color: $white;
         position: absolute;
         top: 100%;
-        max-width: 230px;
+        width: 100%;
         .dropdown-item{
             border-bottom:1px solid rgba($color: $white, $alpha: 0.2);
             padding: 12px 0px;
