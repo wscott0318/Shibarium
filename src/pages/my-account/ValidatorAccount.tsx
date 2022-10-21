@@ -333,7 +333,7 @@ const comissionValidation: any = Yup.object({
                 })
               )
               let link = getExplorerLink(chainId, res, 'transaction')
-                  setCommiModal({value: false, address:''})
+                  setWithdrawModal({value: false, address:''})
                   setHashLink(link)
                   setTransactionState({state: true, title:'Submitted'})
             }).on('receipt', (res: any) => {
@@ -357,12 +357,17 @@ const comissionValidation: any = Yup.object({
             }).on('error', (res: any) => {
               console.log(res, "error")
               if (res.code === 4001) {
-                setCommiModal({value:false, address:''})
+                setWithdrawModal({value:false, address:''})
               }
             })
           } else {
             console.log("account not connected")
           }
+      }
+
+      // UNBOUND VALIDATOR 
+      const unboundValidator = () => {
+        console.log("unBound validator called=>")
       }
 
     return (
@@ -563,8 +568,12 @@ const comissionValidation: any = Yup.object({
                                     <p className="text-center">Are you sure you want to unbound?</p>
                                 </div>
                                 <div className="pop_btns_area row mr-top-50 form-control">
-                                    <div className="col-6"><a className='btn blue-btn w-100 dark-bg-800 text-white' href="javascript:void(0)">Cancel</a>  </div>
-                                    <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Confirm</a>  </div>
+                                    <div className="col-6">
+                                      <button onClick={() => setunboundpop(false)} className='btn blue-btn w-100 dark-bg-800 text-white' >Cancel</button> 
+                                       </div>
+                                    <div  className="col-6">
+                                      <button onClick={() => unboundValidator()} className='btn primary-btn w-100' >Confirm</button>  
+                                      </div>
                                 </div>
                             </form>
                         </div>
