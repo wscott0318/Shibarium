@@ -251,7 +251,7 @@ const comissionValidation: any = Yup.object({
             }).on('error', (res: any) => {
               console.log(res, "error")
               if (res.code === 4001) {
-                setCommiModal({value:false, address:''})
+                setRestakeModal({value1: false,value2: false, address:''})
               }
             })
             
@@ -366,9 +366,56 @@ const comissionValidation: any = Yup.object({
       }
 
       // UNBOUND VALIDATOR 
-      const unboundValidator = () => {
-        console.log("unBound validator called=>")
-      }
+      const unboundValidator =  async () => {
+        if(account) {    
+          setTransactionState({state: true, title:'Pending'})
+          let walletAddress : any = account
+          let ID = await getValidatorId()
+          let instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
+            instance.methods.restake(ID).send({ from: walletAddress })
+            .on('transactionHash', (res: any) => {
+              console.log(res, "hash")
+              dispatch(
+                addTransaction({
+                  hash: res,
+                  from: walletAddress,
+                  chainId,
+                  summary: `${res}`,
+                })
+              )
+              // getActiveTransaction
+              let link = getExplorerLink(chainId, res, 'transaction')
+              setTransactionState({state: true, title:'Submitted'})
+              setHashLink(link)
+              setunboundpop(false)
+            }).on('receipt', (res: any) => {
+              console.log(res, "receipt")
+              dispatch(
+                finalizeTransaction({
+                  hash: res.transactionHash,
+                  chainId,
+                  receipt: {
+                    to: res.to,
+                    from: res.from,
+                    contractAddress: res.contractAddress,
+                    transactionIndex: res.transactionIndex,
+                    blockHash: res.blockHash,
+                    transactionHash: res.transactionHash,
+                    blockNumber: res.blockNumber,
+                    status: 1
+                  }
+                })
+              )
+            }).on('error', (res: any) => {
+              console.log(res, "error")
+              if (res.code === 4001) {
+                setunboundpop(false)
+                    }
+                  })
+              } else {
+                console.log("account addres not found")
+              }
+            }
 
     return (
         <>
@@ -569,10 +616,10 @@ const comissionValidation: any = Yup.object({
                                 </div>
                                 <div className="pop_btns_area row mr-top-50 form-control">
                                     <div className="col-6">
-                                      <button onClick={() => setunboundpop(false)} className='btn blue-btn w-100 dark-bg-800 text-white' >Cancel</button> 
+                                      <button onClick={(e) => {e.preventDefault(); setunboundpop(false)}} className='btn blue-btn w-100 dark-bg-800 text-white' >Cancel</button> 
                                        </div>
                                     <div  className="col-6">
-                                      <button onClick={() => unboundValidator()} className='btn primary-btn w-100' >Confirm</button>  
+                                      <button onClick={(e) => {e.preventDefault(); unboundValidator()}} className='btn primary-btn w-100' >Confirm</button>  
                                       </div>
                                 </div>
                             </form>
