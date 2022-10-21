@@ -90,13 +90,13 @@ function StepOne({stepHandler,stepState}:any) {
           </a>
         </p>
         <div className="btn-wrap col-sm-5 mt-4 flx">
-          <button
+          {/* <button
             type="button"
             className="btn grey-btn w-100"
             onClick={() => stepHandler("back")}
           >
             <span className="ff-mos">Back</span>
-          </button>
+          </button> */}
           <button
             type="button"
             className="btn primary-btn w-100 ff-mos"
