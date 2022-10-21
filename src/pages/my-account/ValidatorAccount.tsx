@@ -549,7 +549,7 @@ const comissionValidation: any = Yup.object({
                     </div>
                 </section>
                     :
-                <section className='del-grid-section top-pad bottom-pad ffms-inherit'>
+                <section className='del-grid-section bottom-pad ffms-inherit'>
       <div className="container">
         <div className='row'>
           {delegationsList.length ?
