@@ -2812,3 +2812,27 @@ input:-internal-autofill-selected {
     }
     
 }
+.hd-sel{
+    select{
+        border: none;
+        font-size: 18px;
+        padding: 11px 22px;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -o-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -moz-border-radius: 10px;
+        option{
+            background: $body-bg-secondry;
+            color:$white;
+            padding: 10px;
+        }
+    }
+    .arrow-down{
+        right:0;
+        border-width: 0 2px 2px 0;
+        padding: 4px;
+        right: 8px;
+        top: 17px;
+    }
+}
