@@ -91,7 +91,7 @@ const InnerHeader = () => {
                       <img className="img-fluid" src="../../images/switch-icon.png" alt="" width={30} />
                     </a>
                   </Link>
-                  <button onClick={toggleNetworkModal}>
+                  {/* <button onClick={toggleNetworkModal}>
                     <a
                       className="d-none btn primary-btn d-md-flex align-items-center"
                       href="javascript:void(0)"
@@ -106,7 +106,16 @@ const InnerHeader = () => {
                         width={12}
                       />
                     </a>
-                  </button>
+                  </button> */}
+                  {/* New button switch to nerwork start */}
+                  <div className="hd-sel position-relative">
+                    <select class="form-select primary-btn" aria-label="Default select example">
+                      <option selected>Shibarium Mainnet</option>
+                      <option value="1">Shibarium Testnet</option>
+                    </select>
+                    <span class="arrow-down"></span>
+                  </div>
+                  {/* New button switch to nerwork end */}
                 </Nav.Item>
                 <Nav.Item className="btn-status">
                   <Web3Status />
