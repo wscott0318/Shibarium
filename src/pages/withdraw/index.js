@@ -76,22 +76,13 @@ export default function Withdraw() {
 
   const getTokensList = () => {
     getWalletTokenList().then((res) => {
-      let list = res.data.message.pos;
+      let list = res.data.message.tokens;
       list.forEach(async (x) => {
         x.balance = await getTokenBalance(lib, account, x.parentContract);
       });
-      setTokenList((pre) => [...pre, ...list]);
-      // setTokenFilteredList((pre) => [...pre, ...list]);
-      setTokenModalList((pre) => [...pre, ...list]);
-    });
-    getWalletTokenList().then((res) => {
-      let list = res.data.message.pos;
-      list.forEach(async (x) => {
-        x.balance = await getTokenBalance(lib, account, x.parentContract);
-      });
-      setTokenList((pre) => [...pre, ...list]);
-      // setTokenFilteredList((pre) => [...pre, ...list]);
-      setTokenModalList((pre) => [...pre, ...list]);
+      setTokenList(list);
+      setTokenFilteredList(list);
+      setTokenModalList(list);
     });
   };
   useEffect(() => {

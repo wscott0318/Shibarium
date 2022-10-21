@@ -2832,20 +2832,6 @@ input:-internal-autofill-selected {
         top: 17px;
     }
 }
-.logo-wrap {
-    display: flex;
-    align-items: center;
-}
-.lg-rt {
-    padding-left: 11px;
-    @media #{$max-xsm}{
-          display: none;  
-    }
-}
-.lg-lft{
-    img{
-        @media #{$max-xsm}{
-            max-width: 35px;
-      } 
-    }
+.innerDivBgBlack > div {
+    background-color: black !important;
 }
