@@ -50,14 +50,14 @@ export default function Home() {
 
                     {/* tolltip test start*/}
                     
-                      <div className="cus-tooltip d-inline-block">
+                      {/* <div className="cus-tooltip d-inline-block">
                         <div className="tool-ico">
                           !
                         </div>
                         <div className="tool-desc">
                           Lorem, ipsum.
                         </div>
-                      </div>
+                      </div> */}
                     {/* tooltip test end*/}
 
                   <p className='banner-desc ff-mos'>
