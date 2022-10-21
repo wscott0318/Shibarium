@@ -2817,15 +2817,14 @@ input:-internal-autofill-selected {
         border: none;
         font-size: 18px;
         padding: 11px 22px;
-        border-radius: 10px;
-        -webkit-border-radius: 10px;
-        -o-border-radius: 10px;
-        -ms-border-radius: 10px;
-        -moz-border-radius: 10px;
         option{
             background: $body-bg-secondry;
             color:$white;
             padding: 10px;
+            font-size: 14px;
+        }
+        @media #{$max-xxl}{
+            
         }
     }
     .arrow-down{
@@ -2835,4 +2834,8 @@ input:-internal-autofill-selected {
         right: 8px;
         top: 17px;
     }
+}
+.logo-wrap {
+    display: flex;
+    align-items: center;
 }
