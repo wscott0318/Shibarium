@@ -1792,7 +1792,7 @@
     @media #{$max-sm} {
         display: flex;
         flex-direction: column;
-        margin-bottom: 20px;
+        
     }
     .head-xsm{
         @media #{$max-sm} {
@@ -2233,7 +2233,7 @@ background: $body-bg;
 
 .stak-pop {
     &::before{
-        content:none;
+        content:"";
         position: absolute;
         width: 100%;
         height: 100%;
@@ -2576,7 +2576,19 @@ input:-internal-autofill-selected {
     }
 }
 .top_bnr_area.mn-ht {
-    min-height: 399px;
+    min-height: 280px;
+    @media #{$max-xxl}{
+        min-height: 240px;
+    }
+    @media #{$max-xl}{
+        min-height: 200px;
+    }
+    @media #{$max-lg}{
+        min-height: 160px;
+    }
+    @media #{$max-xsm}{
+        min-height: 120px;
+    }
 }
 .flx{
     display: flex;
@@ -2725,4 +2737,78 @@ input:-internal-autofill-selected {
     width: 70%;
     text-align: center;
     padding-right: 0;
+}
+.cus-tooltip {
+    position: relative;
+    padding-left: 8px;
+    .tool-ico {
+        width: 25px;
+        height: 25px;
+        background:$primary;
+        border-radius: 100%;
+        text-align: center;
+        line-height: 30px;
+        font-size: 22px;
+        font-weight: bold;
+        @media #{$max-md}{
+            width: 20px;
+            height: 20px;
+            line-height: 25px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        ~ .tool-desc{
+            display:none;
+            position: absolute;
+            background-color: #fff;
+            width: 250px;
+            max-width: max-content;
+            top: 0;
+            left: 100%;
+            bottom: auto;
+            color: #000;
+            font-size: 16px;
+            padding: 4px 8px;
+            margin-top: -8px;
+            margin-left: 12px;
+            border: 1px solid #f06700;
+            background-color: rgb(245, 244, 244);
+            box-shadow: 0.602px 0.799px 18px 0px rgba(241, 125, 2, 0.45);
+            border-radius: 6px;
+            opacity: 0;
+            @media #{$max-sm}{
+                font-size: 12px;
+                padding: 4px;
+                width: 250px;
+                top: 40px;
+                left: -40px;
+                bottom: auto;
+                font-weight: 600;
+            }
+            &::before {
+                content: '';
+                border: solid;
+                border-color: #fff transparent;
+                border-width: 20px 10px 0 10px;
+                left: -12px;
+                top: 6px;
+                position: absolute;
+                bottom: auto;
+                transform:rotate(90deg);
+                @media #{$max-sm}{
+                    top: -15px;
+                    left: 35px;
+                    bottom: auto;
+                    transform: rotate(180deg);
+                }
+            }
+        }
+        &:hover{
+            ~ .tool-desc{
+                display:block;
+                opacity: 1;
+            }   
+        }
+    }
+    
 }

@@ -208,7 +208,7 @@ const [scroll, setScroll] = useState(false);
 
   return (
     <>
-      <header className={scroll ? 'main-header sticky-header' : 'main-header'}>
+      <header className={scroll ? 'main-header header-overide sticky-header' : 'main-header header-overide'}>
         <Navbar className='py-0'>
           <Container>
             <Navbar.Brand href="/">
