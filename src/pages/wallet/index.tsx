@@ -93,8 +93,8 @@ export default function Wallet() {
   }
 
   const getTokensList = () => {
-    getWalletTokenList('pos').then(res => {
-      let list = res.data.data.tokenList
+    getWalletTokenList().then(res => {
+      let list = res.data.message.pos;
       list.forEach(async (x: any) => {
         x.balance = await getTokenBalance(lib, account, x.parentContract)
       })
@@ -102,8 +102,8 @@ export default function Wallet() {
       setTokenFilteredList((pre:any[]) => ([...pre, ...list]))
       setTokenModalList((pre:any[]) => ([...pre, ...list]))
     })
-    getWalletTokenList('plasma').then(async (res: any) => {
-      let list = res.data.data.tokenList
+    getWalletTokenList().then(async (res: any) => {
+      let list = res.data.message.plasma;
       list.forEach(async (x: any) => {
         x.balance = await getTokenBalance(lib, account, x.parentContract)
       })

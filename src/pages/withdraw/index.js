@@ -74,8 +74,8 @@ export default function Withdraw() {
     const { chainId = 1, account, library } = useActiveWeb3React();
     const lib = library;
   const getTokensList = () => {
-    getWalletTokenList("pos").then((res) => {
-      let list = res.data.data.tokenList;
+    getWalletTokenList().then((res) => {
+      let list = res.data.message.pos;
       list.forEach(async (x) => {
         x.balance = await getTokenBalance(lib, account, x.parentContract);
       });
@@ -83,8 +83,8 @@ export default function Withdraw() {
       // setTokenFilteredList((pre) => [...pre, ...list]);
       setTokenModalList((pre) => [...pre, ...list]);
     });
-    getWalletTokenList("plasma").then(async (res) => {
-      let list = res.data.data.tokenList;
+    getWalletTokenList().then((res) => {
+      let list = res.data.message.pos;
       list.forEach(async (x) => {
         x.balance = await getTokenBalance(lib, account, x.parentContract);
       });

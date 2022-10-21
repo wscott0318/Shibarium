@@ -22,8 +22,8 @@ export function getBoneUSDValue(coinId:string){
     return http.get(`coins/rate/${coinId}`)
 }
 
-export function getWalletTokenList(coinId:string){
-    return http.get(`tokens/list/${coinId}`)
+export function getWalletTokenList(){
+    return http.get(`tokens/getList`)
 }
 
 
