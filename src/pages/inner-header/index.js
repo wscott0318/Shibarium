@@ -108,7 +108,7 @@ const InnerHeader = () => {
                     </a>
                   </button> */}
                   {/* New button switch to nerwork start */}
-                  <div className="hd-sel position-relative">
+                  <div className="hd-sel position-relative d-none d-md-flex">
                     <select class="form-select primary-btn" aria-label="Default select example">
                       <option selected>Shibarium Mainnet</option>
                       <option value="1">Shibarium Testnet</option>
