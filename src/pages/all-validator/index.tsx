@@ -64,7 +64,7 @@ export const Allvalidator: React.FC = () => {
       </button>
       <button
         onClick={() => {
-          router.push("/delegator-validator");
+          router.push("/choose-your-path");
         }}
         className="btn primary-btn btn-rspc ff-mos"
       >

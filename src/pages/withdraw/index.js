@@ -69,6 +69,7 @@ export default function Withdraw() {
     const [modalKeyword, setmodalKeyword] = useState("");
     const { chainId = 1, account, library } = useActiveWeb3React();
     const lib = library;
+
   const getTokensList = () => {
     getWalletTokenList("pos").then((res) => {
       let list = res.data.data.tokenList;
@@ -90,8 +91,12 @@ export default function Withdraw() {
     });
   };
   useEffect(() => {
-    getTokensList();
-  }, [])
+    if(account) {
+      getTokensList();
+    } else {
+      router.push('/')
+    }
+  }, [account])
   
 const handleSearchList = (key) => {
       setmodalKeyword(key);
