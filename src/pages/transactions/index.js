@@ -183,7 +183,7 @@ export default function Transaction() {
                     <div className="col-12 text-center">
                       <p className="mb-0">
                         Bridging funds from Shibarium Chain to Ethereum Chain the
-                        transaction will take from 60 min to 3 hrs
+                        transaction will take from 60 min to 3 hrs.
                       </p>
                     </div>
                   </div>
@@ -283,7 +283,7 @@ export default function Transaction() {
                     </div>
                     <div className="col-12 text-center">
                       <p className="mb-0">
-                        Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5
+                        Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5.
                       </p>
                     </div>
                   </div>
@@ -383,7 +383,7 @@ export default function Transaction() {
                     </div>
                     <div className="col-12 text-center">
                       <p className="mb-0">
-                        Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5
+                        Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5.
                       </p>
                     </div>
                   </div>
@@ -486,7 +486,7 @@ export default function Transaction() {
                     </div>
                     <div className="col-12 text-center">
                       <p className="mb-0">
-                        Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5
+                        Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5.
                       </p>
                     </div>
                   </div>

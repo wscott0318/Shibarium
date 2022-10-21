@@ -13,6 +13,7 @@ import QrModal from "pages/components/QrModal";
 import NetworkModel from "../../modals/NetworkModal";
 import { useNetworkModalToggle } from "../../state/application/hooks";
 import AppHeader from "./AppHeader";
+import { useUserType} from "../../state/user/hooks"
 
 
 const InnerHeader = () => {
@@ -21,6 +22,8 @@ const InnerHeader = () => {
   const [offset, setOffset] = useState(0);
   const [accountAddress, setAccountAddress] = useState("")
   const [userQrCode, setUserQrCode] = useState(false);
+
+  const [userType, setUserType] = useUserType();
 
   const toggleNetworkModal = useNetworkModalToggle();
   
@@ -131,6 +134,9 @@ const InnerHeader = () => {
                           <div className="top-txt">
                             <div>
                               <span>Account 0xe78</span>
+                            </div>
+                            <div>
+                              <span>{userType === 'NA' ? "User" : userType}</span>
                             </div>
                             <div>
                               <span className="grey-txt">

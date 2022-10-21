@@ -4,7 +4,6 @@ import React, { useState, useEffect, useContext } from "react";
 
 import { Button, Container, Nav, Navbar, NavDropdown, DropdownButton, Dropdown, Modal } from 'react-bootstrap';
 // @ts-ignore
-import { useRouter } from "next/router";
 import Popup from "../components/PopUp";
 import { ChainId } from "@shibarium/core-sdk";
 import Web3 from "web3";
@@ -12,6 +11,7 @@ import CommonModal , {CommonModalNew} from "../components/CommonModel";
 import InnerHeader from "../../pages/inner-header";
 // @ts-ignore
 import Link from 'next/link'
+import { useRouter } from "next/router";
 import {
   NoEthereumProviderError,
   UserRejectedRequestError as UserRejectedRequestErrorInjected
@@ -123,6 +123,8 @@ export default function Wallet() {
         setBoneUSDValue(res.data.data.price);
       })
       getTokensList()
+    } else {
+      router.push('/')
     }
 
   }, [account])

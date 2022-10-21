@@ -73,6 +73,7 @@ export default function Withdraw() {
     const [modalKeyword, setmodalKeyword] = useState("");
     const { chainId = 1, account, library } = useActiveWeb3React();
     const lib = library;
+
   const getTokensList = () => {
     getWalletTokenList().then((res) => {
       let list = res.data.message.pos;
@@ -94,8 +95,12 @@ export default function Withdraw() {
     });
   };
   useEffect(() => {
-    getTokensList();
-  }, [])
+    if(account) {
+      getTokensList();
+    } else {
+      router.push('/')
+    }
+  }, [account])
   
 const handleSearchList = (key) => {
       setmodalKeyword(key);
@@ -871,7 +876,7 @@ const handleSearchList = (key) => {
                           href="javascript:void(0);"
                           className="orange-txt"
                         >
-                          Support
+                          Support.
                         </a>
                       </p>
                     </div>
@@ -2173,9 +2178,9 @@ const handleSearchList = (key) => {
                           Delegation/Staking takes place on Ethereum. Do not
                           deposit funds to Shibarium for this purpose. To
                           delegate or stake please visit the{" "}
-                          <a className="orange-txt" href="javascript:void(0);">
+                          {/* <a className="orange-txt" href="javascript:void(0);">
                             Staking UI
-                          </a>
+                          </a> */}
                         </p>
                       </div>
                     }
