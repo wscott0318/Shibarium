@@ -16,18 +16,23 @@ import { useAppDispatch } from "../../state/hooks"
 import fromExponential from 'from-exponential';
 import { getAllowanceAmount } from 'web3/commonFunctions';
 import ERC20 from "../../ABI/ERC20Abi.json";
+import { getExplorerLink } from 'app/functions';
+import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 
 
 
 
 const validatorAccount = ({userType, boneUSDValue, availBalance} : {userType : any, boneUSDValue:any, availBalance:any}) => {
     const router = useRouter();
-    const [showretakepop, setretakepop] = useState(false);
-    const [showcommissionpop, setcommissionpop] = useState(false);
-    const [showwithdrawpop, setwithdrawpop] = useState(false);
     const [showunboundpop, setunboundpop] = useState(false);
     const [loading, setLoading] = useState(false);
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
+
+    const [transactionState, setTransactionState] = useState({
+      state: false,
+      title:'',
+    }) 
+    const [hashLink, setHashLink] = useState('')
 
     const { account, chainId = 1,library } = useActiveWeb3React();
     const lib : any = library
@@ -148,6 +153,7 @@ const comissionValidation: any = Yup.object({
 
       //  COMMISSION CONTRACT 
       const callComission = async (value:any) => {
+        setTransactionState({state: true, title:'Pending'})
         let user : any = account
         console.log("comission called ==> ")
         let validatorID = await getValidatorId()
@@ -163,6 +169,10 @@ const comissionValidation: any = Yup.object({
               summary: `${res}`,
             })
           )
+          let link = getExplorerLink(chainId, res, 'transaction')
+              setCommiModal({value: false, address:''})
+              setHashLink(link)
+              setTransactionState({state: true, title:'Submitted'})
         }).on('receipt', (res: any) => {
           console.log(res, "receipt")
           dispatch(
@@ -192,54 +202,60 @@ const comissionValidation: any = Yup.object({
 
       // RESTAKE AS VALIDATORS
       const callRestakeValidators = async (values :any) => {
-  if(account) {    
-    let walletAddress : any = account
-    let ID = await getValidatorId()
-    let allowance = await getAllowanceAmount(library,BONE, account, PROXY_MANAGER) || 0
-    let instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
-    const amountWei = web3.utils.toBN(fromExponential((+values.amount * Math.pow(10, 18))));
-    if(+values.amount > +allowance){
-      console.log("need approval")
-        approveAmount(ID, amountWei, values.reward == 0 ? false : true)
-    } else {
-      console.log("no approval needed")
-      instance.methods.restake(ID, amountWei, values.reward == 0 ? false : true).send({ from: walletAddress })
-      .on('transactionHash', (res: any) => {
-        console.log(res, "hash")
-        dispatch(
-          addTransaction({
-            hash: res,
-            from: walletAddress,
-            chainId,
-            summary: `${res}`,
-          })
-        )
-      }).on('receipt', (res: any) => {
-        console.log(res, "receipt")
-        dispatch(
-          finalizeTransaction({
-            hash: res.transactionHash,
-            chainId,
-            receipt: {
-              to: res.to,
-              from: res.from,
-              contractAddress: res.contractAddress,
-              transactionIndex: res.transactionIndex,
-              blockHash: res.blockHash,
-              transactionHash: res.transactionHash,
-              blockNumber: res.blockNumber,
-              status: 1
-            }
-          })
-        )
-      }).on('error', (res: any) => {
-        console.log(res, "error")
-        if (res.code === 4001) {
-          setCommiModal({value:false, address:''})
-        }
-      })
-      
-    }
+        if(account) {    
+          setTransactionState({state: true, title:'Pending'})
+          let walletAddress : any = account
+          let ID = await getValidatorId()
+          let allowance = await getAllowanceAmount(library,BONE, account, PROXY_MANAGER) || 0
+          let instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
+          const amountWei = web3.utils.toBN(fromExponential((+values.amount * Math.pow(10, 18))));
+          if(+values.amount > +allowance){
+            console.log("need approval")
+              approveAmount(ID, amountWei, values.reward == 0 ? false : true)
+          } else {
+            console.log("no approval needed")
+            instance.methods.restake(ID, amountWei, values.reward == 0 ? false : true).send({ from: walletAddress })
+            .on('transactionHash', (res: any) => {
+              console.log(res, "hash")
+              dispatch(
+                addTransaction({
+                  hash: res,
+                  from: walletAddress,
+                  chainId,
+                  summary: `${res}`,
+                })
+              )
+              // getActiveTransaction
+              let link = getExplorerLink(chainId, res, 'transaction')
+              setTransactionState({state: true, title:'Submitted'})
+              setHashLink(link)
+              setRestakeModal({value1: false,value2: false, address:''})
+            }).on('receipt', (res: any) => {
+              console.log(res, "receipt")
+              dispatch(
+                finalizeTransaction({
+                  hash: res.transactionHash,
+                  chainId,
+                  receipt: {
+                    to: res.to,
+                    from: res.from,
+                    contractAddress: res.contractAddress,
+                    transactionIndex: res.transactionIndex,
+                    blockHash: res.blockHash,
+                    transactionHash: res.transactionHash,
+                    blockNumber: res.blockNumber,
+                    status: 1
+                  }
+                })
+              )
+            }).on('error', (res: any) => {
+              console.log(res, "error")
+              if (res.code === 4001) {
+                setCommiModal({value:false, address:''})
+              }
+            })
+            
+          }
         } else {
           console.log("account addres not found")
         }
@@ -300,8 +316,53 @@ const comissionValidation: any = Yup.object({
       }
 
       // WITHDRAW REWARDS VALIDATORS 
-      const withdrawRewardValidator = () => {
-        
+      const withdrawRewardValidator = async () => {
+        setTransactionState({state: true, title: 'Pending'})
+          if(account) {
+            let walletAddress = account
+            let instance = new web3.eth.Contract(ValidatorShareABI, withdrawModal.address);
+            await instance.methods.withdrawRewards().send({ from: walletAddress })
+            .on('transactionHash', (res: any) => {
+              console.log(res, "hash")
+              dispatch(
+                addTransaction({
+                  hash: res,
+                  from: walletAddress,
+                  chainId,
+                  summary: `${res}`,
+                })
+              )
+              let link = getExplorerLink(chainId, res, 'transaction')
+                  setCommiModal({value: false, address:''})
+                  setHashLink(link)
+                  setTransactionState({state: true, title:'Submitted'})
+            }).on('receipt', (res: any) => {
+              console.log(res, "receipt")
+              dispatch(
+                finalizeTransaction({
+                  hash: res.transactionHash,
+                  chainId,
+                  receipt: {
+                    to: res.to,
+                    from: res.from,
+                    contractAddress: res.contractAddress,
+                    transactionIndex: res.transactionIndex,
+                    blockHash: res.blockHash,
+                    transactionHash: res.transactionHash,
+                    blockNumber: res.blockNumber,
+                    status: 1
+                  }
+                })
+              )
+            }).on('error', (res: any) => {
+              console.log(res, "error")
+              if (res.code === 4001) {
+                setCommiModal({value:false, address:''})
+              }
+            })
+          } else {
+            console.log("account not connected")
+          }
       }
 
     return (
@@ -512,6 +573,41 @@ const comissionValidation: any = Yup.object({
                 </CommonModal>
                 {/* unbound popop ends */}
 
+
+                {/* pending & submit modal start */}
+
+                <CommonModal
+                title={transactionState.title}
+                show={transactionState.state}
+                setShow={() => setTransactionState({state: false, title: 'Pending'})}
+                externalCls="faucet-pop">
+                        <div className="popmodal-body tokn-popup no-ht trans-mod">
+                            <div className="pop-block">
+                      <div className="pop-top">
+                        <div className='dark-bg-800 h-100 status-sec'>
+                          <span>
+                            <div><img width="224" height="224" className="img-fluid" src="../../images/Ellipse.png" alt="" /></div>
+                          </span>
+                        </div>
+                      </div>
+                      <div className="pop-bottom">
+                      {/* <p className='elip-text mt-3'>{transactionState.hash}</p> */}
+                        <div className='staus-btn'>
+                          <button
+                          type='button'
+                          className='btn primary-btn w-100'
+                          disabled={hashLink ? false  : true }
+                          onClick={() => window.open(hashLink)}
+                          >
+                            View on Block Explorer</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Transaction Pending popup version 2 end*/}
+                    </CommonModal>
+                {/* pending & submit modal end */}
+
                 {
                     userType === "Validator" ?
                 <section className="mid_cnt_area">
@@ -519,7 +615,7 @@ const comissionValidation: any = Yup.object({
                     <div className="col-xl-12 col-lg-12 side-auto">
                         <div className="val_del_outr">
                             <h4 className="ff-mos">Wallet Balance</h4>
-                            <h3 className="ff-mos"><b>{availBalance.toFixed(4)} {chainId == 7352 ? "Bone" : "Ethereum"}</b></h3>
+                            <h3 className="ff-mos"><b>{availBalance.toFixed(4)} Bone</b></h3>
                             <h4 className="ff-mos"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></h4>
                             <div className="btns_sec val_all_bts row">
                                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
