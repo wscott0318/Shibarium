@@ -896,13 +896,14 @@ export default function Wallet() {
                 <div className="cmn_dasdrd_table mb-3 mb-sm-4 fix-layout">
                   <div className="table-responsive">
                     <table className="table table-borderless mb-0 smb-0 fxd-layout">
-                     <thead>
+                      <thead>
                         <tr>
                           <th colSpan={2}>Name</th>
                           <th>Quantity - Balance</th>
                           <th>Actions</th>
                           <th colSpan={2} className="text-end">
-                            <input className="shib-search"
+                            <input
+                              className="shib-search"
                               value={searchKey}
                               onChange={(e) => handleSearchList(e.target.value)}
                               type="search"
@@ -914,7 +915,7 @@ export default function Wallet() {
                       <tbody>
                         {slicedTokenFilteredList.length ? (
                           slicedTokenFilteredList.map((x: any) => (
-                            <tr  key={x.parentName}>
+                            <tr key={x.parentName}>
                               <td className="fix-td" colSpan={2}>
                                 <span className="ms-1">
                                   <img src="../../images/shiba-round-icon.png" />
@@ -932,7 +933,6 @@ export default function Wallet() {
                                   ).toFixed(2)}
                                 />
                               </td>
-
                               <td className="fix-td">
                                 <Link href="/withdraw">
                                   <a className="px-0">Deposit</a>
@@ -942,19 +942,26 @@ export default function Wallet() {
                                 <div className="row mx-0">
                                   <div className="col-6 px-0">
                                     <Link href="/">
-                                      <a className=" px-0 d-block text-start">Withdraw</a>
+                                      <a className=" px-0 d-block text-start">
+                                        Withdraw
+                                      </a>
                                     </Link>
                                   </div>
                                   <div className="col-6 px-0">
-                                    <Link href="/">
+                                    {/* <Link href="/"> */}
+                                    <button onClick={()=>{
+                                      setSelectedToken(x);
+                                      setSenderModal(true);
+                                      }}>
                                       <a className=" px-0 me-2">Send</a>
-                                    </Link>
+                                    </button>
+                                    {/* </Link> */}
                                   </div>
                                 </div>
                               </td>
                             </tr>
                           ))
-                        ) : !searchKey.length && !tokenFilteredList.length  ? (
+                        ) : !searchKey.length && !tokenFilteredList.length ? (
                           <tr>
                             <td colSpan={6}>
                               <DynamicShimmer
@@ -964,28 +971,28 @@ export default function Wallet() {
                               />
                             </td>
                           </tr>
-                        ) : null }
-
+                        ) : null}
                       </tbody>
                     </table>
                   </div>
                   {searchKey.length && !tokenFilteredList.length ? (
-                          // <tr>
-                          //   <td colSpan={6}>
-                          //     <p className="p-3 p-sm-4 p-xl-5 text-center float-found">
-                          //       No record found
-                          //     </p>
-                          //   </td>
-                          // </tr>
-                          <div className="no-found">
-                              <div className="no-found-img">
-                                <img className="img-fluid" src="../../images/no-record.png"/>
-                              </div>
-                              <p className="float-found text-center">
-                                No Record Found
-                              </p>
-                          </div>
-                        ) : null}
+                    // <tr>
+                    //   <td colSpan={6}>
+                    //     <p className="p-3 p-sm-4 p-xl-5 text-center float-found">
+                    //       No record found
+                    //     </p>
+                    //   </td>
+                    // </tr>
+                    <div className="no-found">
+                      <div className="no-found-img">
+                        <img
+                          className="img-fluid"
+                          src="../../images/no-record.png"
+                        />
+                      </div>
+                      <p className="float-found text-center">No Record Found</p>
+                    </div>
+                  ) : null}
                 </div>
                 <Pagination
                   currentPage={currentPage}
