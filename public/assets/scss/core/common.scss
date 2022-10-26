@@ -2551,6 +2551,12 @@ input:-internal-autofill-selected {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        @media #{$max-xsm}{
+            width: 260px;
+        }
+        @media #{$max-xxsm}{
+            width: 240px;
+        }
     }
 }
 .shib-search{
@@ -2682,8 +2688,8 @@ input:-internal-autofill-selected {
             }
             &:last-child{
                 width: 400px;
-                @media #{$max-xxl}{
-                    width:300px;
+                @media #{$max-exl}{
+                    width:270px;
                 }
                 @media (min-width:2500px){
                     width: auto;
@@ -2710,8 +2716,8 @@ input:-internal-autofill-selected {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 width: 400px;
-                @media #{$max-xxl}{
-                    width:300px;
+                @media #{$max-exl}{
+                    width:270px;
                 }
                 @media (min-width:2500px){
                     width: auto;
