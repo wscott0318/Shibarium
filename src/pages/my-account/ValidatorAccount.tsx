@@ -16,18 +16,24 @@ import { useAppDispatch } from "../../state/hooks"
 import fromExponential from 'from-exponential';
 import { getAllowanceAmount } from 'web3/commonFunctions';
 import ERC20 from "../../ABI/ERC20Abi.json";
+import { getExplorerLink } from 'app/functions';
+import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
+import DelegatePopup from 'pages/delegate-popup';
 
 
 
 
 const validatorAccount = ({userType, boneUSDValue, availBalance} : {userType : any, boneUSDValue:any, availBalance:any}) => {
     const router = useRouter();
-    const [showretakepop, setretakepop] = useState(false);
-    const [showcommissionpop, setcommissionpop] = useState(false);
-    const [showwithdrawpop, setwithdrawpop] = useState(false);
     const [showunboundpop, setunboundpop] = useState(false);
     const [loading, setLoading] = useState(false);
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
+
+    const [transactionState, setTransactionState] = useState({
+      state: false,
+      title:'',
+    }) 
+    const [hashLink, setHashLink] = useState('')
 
     const { account, chainId = 1,library } = useActiveWeb3React();
     const lib : any = library
@@ -58,11 +64,12 @@ const validatorAccount = ({userType, boneUSDValue, availBalance} : {userType : a
   });
 
   const getDelegatorCardData = (accountAddress: any) => {
+    console.log(" card data ", accountAddress)
     setLoading(true)
     try {
       getDelegatorData(accountAddress.toLowerCase()).then((res: any) => {
         if (res.data) {
-          console.log(res.data)
+          console.log(res.data, "delegator card data")
           let sortedData = res.data.data.validators.sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake))
           setDelegationsList(sortedData)
           setLoading(false)
@@ -120,9 +127,9 @@ const validatorAccount = ({userType, boneUSDValue, availBalance} : {userType : a
     if (account && userType === "Delegator") {
       getDelegatorCardData(account)
     }
-  }, [account])
+  }, [account, userType])
 
-console.log(restakeModal)
+// console.log(restakeModal)
 
 const restakeValidation: any = Yup.object({
   amount: Yup.number().min(0).max(availBalance).required("amount is required"),
@@ -148,6 +155,7 @@ const comissionValidation: any = Yup.object({
 
       //  COMMISSION CONTRACT 
       const callComission = async (value:any) => {
+        setTransactionState({state: true, title:'Pending'})
         let user : any = account
         console.log("comission called ==> ")
         let validatorID = await getValidatorId()
@@ -163,6 +171,10 @@ const comissionValidation: any = Yup.object({
               summary: `${res}`,
             })
           )
+          let link = getExplorerLink(chainId, res, 'transaction')
+              setCommiModal({value: false, address:''})
+              setHashLink(link)
+              setTransactionState({state: true, title:'Submitted'})
         }).on('receipt', (res: any) => {
           console.log(res, "receipt")
           dispatch(
@@ -192,54 +204,60 @@ const comissionValidation: any = Yup.object({
 
       // RESTAKE AS VALIDATORS
       const callRestakeValidators = async (values :any) => {
-  if(account) {    
-    let walletAddress : any = account
-    let ID = await getValidatorId()
-    let allowance = await getAllowanceAmount(library,BONE, account, PROXY_MANAGER) || 0
-    let instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
-    const amountWei = web3.utils.toBN(fromExponential((+values.amount * Math.pow(10, 18))));
-    if(+values.amount > +allowance){
-      console.log("need approval")
-        approveAmount(ID, amountWei, values.reward == 0 ? false : true)
-    } else {
-      console.log("no approval needed")
-      instance.methods.restake(ID, amountWei, values.reward == 0 ? false : true).send({ from: walletAddress })
-      .on('transactionHash', (res: any) => {
-        console.log(res, "hash")
-        dispatch(
-          addTransaction({
-            hash: res,
-            from: walletAddress,
-            chainId,
-            summary: `${res}`,
-          })
-        )
-      }).on('receipt', (res: any) => {
-        console.log(res, "receipt")
-        dispatch(
-          finalizeTransaction({
-            hash: res.transactionHash,
-            chainId,
-            receipt: {
-              to: res.to,
-              from: res.from,
-              contractAddress: res.contractAddress,
-              transactionIndex: res.transactionIndex,
-              blockHash: res.blockHash,
-              transactionHash: res.transactionHash,
-              blockNumber: res.blockNumber,
-              status: 1
-            }
-          })
-        )
-      }).on('error', (res: any) => {
-        console.log(res, "error")
-        if (res.code === 4001) {
-          setCommiModal({value:false, address:''})
-        }
-      })
-      
-    }
+        if(account) {    
+          setTransactionState({state: true, title:'Pending'})
+          let walletAddress : any = account
+          let ID = await getValidatorId()
+          let allowance = await getAllowanceAmount(library,BONE, account, PROXY_MANAGER) || 0
+          let instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
+          const amountWei = web3.utils.toBN(fromExponential((+values.amount * Math.pow(10, 18))));
+          if(+values.amount > +allowance){
+            console.log("need approval")
+              approveAmount(ID, amountWei, values.reward == 0 ? false : true)
+          } else {
+            console.log("no approval needed")
+            instance.methods.restake(ID, amountWei, values.reward == 0 ? false : true).send({ from: walletAddress })
+            .on('transactionHash', (res: any) => {
+              console.log(res, "hash")
+              dispatch(
+                addTransaction({
+                  hash: res,
+                  from: walletAddress,
+                  chainId,
+                  summary: `${res}`,
+                })
+              )
+              // getActiveTransaction
+              let link = getExplorerLink(chainId, res, 'transaction')
+              setTransactionState({state: true, title:'Submitted'})
+              setHashLink(link)
+              setRestakeModal({value1: false,value2: false, address:''})
+            }).on('receipt', (res: any) => {
+              console.log(res, "receipt")
+              dispatch(
+                finalizeTransaction({
+                  hash: res.transactionHash,
+                  chainId,
+                  receipt: {
+                    to: res.to,
+                    from: res.from,
+                    contractAddress: res.contractAddress,
+                    transactionIndex: res.transactionIndex,
+                    blockHash: res.blockHash,
+                    transactionHash: res.transactionHash,
+                    blockNumber: res.blockNumber,
+                    status: 1
+                  }
+                })
+              )
+            }).on('error', (res: any) => {
+              console.log(res, "error")
+              if (res.code === 4001) {
+                setRestakeModal({value1: false,value2: false, address:''})
+              }
+            })
+            
+          }
         } else {
           console.log("account addres not found")
         }
@@ -300,13 +318,170 @@ const comissionValidation: any = Yup.object({
       }
 
       // WITHDRAW REWARDS VALIDATORS 
-      const withdrawRewardValidator = () => {
-        
+      const withdrawRewardValidator = async () => {
+        setTransactionState({state: true, title: 'Pending'})
+          if(account) {
+            let walletAddress = account
+            let instance = new web3.eth.Contract(ValidatorShareABI, withdrawModal.address);
+            await instance.methods.withdrawRewards().send({ from: walletAddress })
+            .on('transactionHash', (res: any) => {
+              console.log(res, "hash")
+              dispatch(
+                addTransaction({
+                  hash: res,
+                  from: walletAddress,
+                  chainId,
+                  summary: `${res}`,
+                })
+              )
+              let link = getExplorerLink(chainId, res, 'transaction')
+                  setWithdrawModal({value: false, address:''})
+                  setHashLink(link)
+                  setTransactionState({state: true, title:'Submitted'})
+            }).on('receipt', (res: any) => {
+              console.log(res, "receipt")
+              dispatch(
+                finalizeTransaction({
+                  hash: res.transactionHash,
+                  chainId,
+                  receipt: {
+                    to: res.to,
+                    from: res.from,
+                    contractAddress: res.contractAddress,
+                    transactionIndex: res.transactionIndex,
+                    blockHash: res.blockHash,
+                    transactionHash: res.transactionHash,
+                    blockNumber: res.blockNumber,
+                    status: 1
+                  }
+                })
+              )
+            }).on('error', (res: any) => {
+              console.log(res, "error")
+              if (res.code === 4001) {
+                setWithdrawModal({value:false, address:''})
+              }
+            })
+          } else {
+            console.log("account not connected")
+          }
+      }
+
+      // UNBOUND VALIDATOR 
+      const unboundValidator =  async () => {
+        if(account) {    
+          setTransactionState({state: true, title:'Pending'})
+          let walletAddress : any = account
+          let ID = await getValidatorId()
+          let instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
+            instance.methods.unstake(ID).send({ from: walletAddress })
+            .on('transactionHash', (res: any) => {
+              console.log(res, "hash")
+              dispatch(
+                addTransaction({
+                  hash: res,
+                  from: walletAddress,
+                  chainId,
+                  summary: `${res}`,
+                })
+              )
+              // getActiveTransaction
+              let link = getExplorerLink(chainId, res, 'transaction')
+              setTransactionState({state: true, title:'Submitted'})
+              setHashLink(link)
+              setunboundpop(false)
+            }).on('receipt', (res: any) => {
+              console.log(res, "receipt")
+              dispatch(
+                finalizeTransaction({
+                  hash: res.transactionHash,
+                  chainId,
+                  receipt: {
+                    to: res.to,
+                    from: res.from,
+                    contractAddress: res.contractAddress,
+                    transactionIndex: res.transactionIndex,
+                    blockHash: res.blockHash,
+                    transactionHash: res.transactionHash,
+                    blockNumber: res.blockNumber,
+                    status: 1
+                  }
+                })
+              )
+            }).on('error', (res: any) => {
+              console.log(res, "error")
+              if (res.code === 4001) {
+                setunboundpop(false)
+                    }
+                  })
+              } else {
+                console.log("account addres not found")
+              }
+            }
+
+      // restake DELEGATOR 
+      const restakeDelegator = () => {
+        console.log("withdraw Reward Delegator called")
+        if(account) {    
+          setTransactionState({state: true, title:'Pending'})
+          let walletAddress : any = account
+          let instance = new web3.eth.Contract(ValidatorShareABI, restakeModal.address);
+            instance.methods.restake().send({ from: walletAddress })
+            .on('transactionHash', (res: any) => {
+              console.log(res, "hash")
+              dispatch(
+                addTransaction({
+                  hash: res,
+                  from: walletAddress,
+                  chainId,
+                  summary: `${res}`,
+                })
+              )
+              // getActiveTransaction
+              let link = getExplorerLink(chainId, res, 'transaction')
+              setTransactionState({state: true, title:'Submitted'})
+              setHashLink(link)
+              setRestakeModal({value1: false, value2: false, address: ''})
+              
+            }).on('receipt', (res: any) => {
+              console.log(res, "receipt")
+              dispatch(
+                finalizeTransaction({
+                  hash: res.transactionHash,
+                  chainId,
+                  receipt: {
+                    to: res.to,
+                    from: res.from,
+                    contractAddress: res.contractAddress,
+                    transactionIndex: res.transactionIndex,
+                    blockHash: res.blockHash,
+                    transactionHash: res.transactionHash,
+                    blockNumber: res.blockNumber,
+                    status: 1
+                  }
+                })
+              )
+              getDelegatorCardData(walletAddress)
+            }).on('error', (res: any) => {
+              console.log(res, "error")
+              setRestakeModal({value1: false, value2: false, address: ''})
+              if (res.code === 4001) {
+                setRestakeModal({value1: false, value2: false, address: ''})
+                    }
+                  })
+              } else {
+                console.log("account addres not found")
+              }
       }
 
     return (
         <>
         {loading && <LoadingSpinner />}
+        <DelegatePopup 
+        data={selectedRow}
+        showdelegatepop={stakeMore}
+        setdelegatepop={() => setStakeMoreModal(false)}
+        />
             <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg">
                 {/* retake popop start */}
                 <CommonModal
@@ -486,6 +661,41 @@ const comissionValidation: any = Yup.object({
                     </>
                 </CommonModal>
                 {/* withdraw popop ends */}
+                {/* withdraw popop start */}
+                <CommonModal
+                    title={"Restake"}
+                    show={restakeModal.value2}
+                    setShow={() => setRestakeModal({value1: false, value2: false, address: ''})}
+                    externalCls="stak-pop"
+                >
+                    <>
+                        <div className="cmn_modal val_popups">
+                            <>
+                                <div className="cmn_inpt_row">
+                                    <div className="form-control">
+                                        <label className="mb-2 mb-md-2 text-white">validator address</label>
+                                        <input
+                                         type="text"
+                                          placeholder="Validator address" 
+                                          className="w-100" 
+                                          value={restakeModal.address}
+                                          readOnly
+                                          />
+                                    </div>
+                                </div>
+                                <div className="pop_btns_area">
+                                    <div className="form-control">
+                                      <button
+                                      onClick={() => restakeDelegator()}
+                                      className='btn primary-btn w-100'>Submit</button>  
+                                      </div>
+                                </div>
+                            </>
+                        </div>
+
+                    </>
+                </CommonModal>
+                {/* withdraw popop ends */}
 
 
                 {/* unbound popop start */}
@@ -502,8 +712,12 @@ const comissionValidation: any = Yup.object({
                                     <p className="text-center">Are you sure you want to unbound?</p>
                                 </div>
                                 <div className="pop_btns_area row mr-top-50 form-control">
-                                    <div className="col-6"><a className='btn blue-btn w-100 dark-bg-800 text-white' href="javascript:void(0)">Cancel</a>  </div>
-                                    <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Confirm</a>  </div>
+                                    <div className="col-6">
+                                      <button onClick={(e) => {e.preventDefault(); setunboundpop(false)}} className='btn blue-btn w-100 dark-bg-800 text-white' >Cancel</button> 
+                                       </div>
+                                    <div  className="col-6">
+                                      <button onClick={(e) => {e.preventDefault(); unboundValidator()}} className='btn primary-btn w-100' >Confirm</button>  
+                                      </div>
                                 </div>
                             </form>
                         </div>
@@ -512,6 +726,41 @@ const comissionValidation: any = Yup.object({
                 </CommonModal>
                 {/* unbound popop ends */}
 
+
+                {/* pending & submit modal start */}
+
+                <CommonModal
+                title={transactionState.title}
+                show={transactionState.state}
+                setShow={() => setTransactionState({state: false, title: 'Pending'})}
+                externalCls="faucet-pop">
+                        <div className="popmodal-body tokn-popup no-ht trans-mod">
+                            <div className="pop-block">
+                      <div className="pop-top">
+                        <div className='dark-bg-800 h-100 status-sec'>
+                          <span>
+                            <div><img width="224" height="224" className="img-fluid" src="../../images/Ellipse.png" alt="" /></div>
+                          </span>
+                        </div>
+                      </div>
+                      <div className="pop-bottom">
+                      {/* <p className='elip-text mt-3'>{transactionState.hash}</p> */}
+                        <div className='staus-btn'>
+                          <button
+                          type='button'
+                          className='btn primary-btn w-100'
+                          disabled={hashLink ? false  : true }
+                          onClick={() => window.open(hashLink)}
+                          >
+                            View on Block Explorer</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Transaction Pending popup version 2 end*/}
+                    </CommonModal>
+                {/* pending & submit modal end */}
+
                 {
                     userType === "Validator" ?
                 <section className="mid_cnt_area">
@@ -519,7 +768,7 @@ const comissionValidation: any = Yup.object({
                     <div className="col-xl-12 col-lg-12 side-auto">
                         <div className="val_del_outr">
                             <h4 className="ff-mos">Wallet Balance</h4>
-                            <h3 className="ff-mos"><b>{availBalance.toFixed(4)} {chainId == 7352 ? "Bone" : "Ethereum"}</b></h3>
+                            <h3 className="ff-mos"><b>{availBalance.toFixed(4)} Bone</b></h3>
                             <h4 className="ff-mos"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></h4>
                             <div className="btns_sec val_all_bts row">
                                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
@@ -549,7 +798,7 @@ const comissionValidation: any = Yup.object({
                     </div>
                 </section>
                     :
-                <section className='del-grid-section top-pad bottom-pad ffms-inherit'>
+                <section className='del-grid-section bottom-pad ffms-inherit'>
       <div className="container">
         <div className='row'>
           {delegationsList.length ?
@@ -603,7 +852,7 @@ const comissionValidation: any = Yup.object({
                         <button onClick={() => handleModal('Unbound', item.validatorAddress, item.contractAddress, (parseInt(item.stake) / 10 ** 18).toFixed(4))} className="btn black-btn btn-small">Unbound</button>
                       </li>
                       <li className="btn-grp-lst">
-                        <button disabled={parseInt(item.commission) == 0} onClick={() => { setSelectedRow({ owner: item.contractAddress, commissionPercent: item.commission, name: item.name }); setStakeMoreModal(true); }} className="btn black-btn btn-small">Stake More</button>
+                        <button disabled={parseInt(item.commission) == 0} onClick={() => { setSelectedRow({ owner: item.contractAddress, contractAddress: item.contractAddress, commissionPercent: item.commission, name: item.name }); setStakeMoreModal(true); }} className="btn black-btn btn-small">Stake More</button>
                       </li>
 
                     </ul>
@@ -611,7 +860,7 @@ const comissionValidation: any = Yup.object({
                 </div>
               </div>
             )
-            : !loading ? <p>
+            : !loading && !delegationsList.length ? <p>
               No Record Found
             </p> : null
           }

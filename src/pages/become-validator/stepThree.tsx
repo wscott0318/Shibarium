@@ -25,14 +25,23 @@ function StepThree({stepState,stepHandler}:any) {
               </div>
             </div>
           </div>
-          <div className="btn-wrap col-sm-3 mt-4 ">
+          <div className="btn-wrap col-sm-5 mt-4 flx">
             <button
               type="button"
-              className="btn primary-btn w-100 ff-mos"
-              onClick={stepHandler}
+              className="btn grey-btn w-100"
+              onClick={()=>stepHandler("back")}
             >
               <span className="ff-mos">
-                {!stepState.step4 ? "Next" : "Save"}
+                Back
+              </span>
+            </button>
+            <button
+              type="button"
+              className="btn primary-btn w-100"
+              onClick={()=>stepHandler("next")}
+            >
+              <span className="ff-mos">
+                Next
               </span>
             </button>
           </div>

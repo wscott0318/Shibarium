@@ -90,8 +90,12 @@ const DelegatePopup: React.FC<any> = ({
       });
   }, []);
 
-  const useMax = () => {
-    setAmount(walletBalance);
+  const useMax = (e :any) => {
+    e.preventDefault()
+    // setAmount(walletBalance);
+    setFieldValue("balance",walletBalance)
+    console.log("called");
+    
   };
   const closeModal = (e: any) => {
     setStep(1);
@@ -280,7 +284,7 @@ const DelegatePopup: React.FC<any> = ({
 
   // console.log(data);
   const initialValues = {
-    balance: "",
+    balance: '',
   };
 
 let schema = yup.object().shape({
@@ -382,14 +386,15 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                           className="w-100"
                           placeholder="0.00"
                           name="balance"
+                          autoComplete="off"
                           value={values.balance}
                           onChange={handleChange}
                           onBlur={handleBlur}
                         />
                       </div>
-                      <div className="rt-chain">
+                      <button onClick={(e) => useMax(e)} className="rt-chain">
                         <span className="orange-txt fw-bold">MAX</span>
-                      </div>
+                      </button>
                     </div>
                     {errors.balance && touched.balance ? (
                       <p className="primary-text error">{errors.balance}</p>
@@ -456,14 +461,14 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                       </p>
                     </div>
                   </div>
-                  <div className="fees_text">
+                  {/* <div className="fees_text">
                     <div className="icon_name">
                       <span className='ff-mos'>Estimated transaction fee</span>
                     </div>
                     <div className="">
                       <p className='ff-mos'>$10.00</p>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="ax-bottom">
                   <div className="pop_btns_area row form-control">

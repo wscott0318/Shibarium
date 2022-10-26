@@ -4,7 +4,6 @@ import React, { useState, useEffect, useContext } from "react";
 
 import { Button, Container, Nav, Navbar, NavDropdown, DropdownButton, Dropdown, Modal } from 'react-bootstrap';
 // @ts-ignore
-import { useRouter } from "next/dist/client/router";
 import Popup from "../components/PopUp";
 import { ChainId } from "@shibarium/core-sdk";
 import Web3 from "web3";
@@ -12,6 +11,7 @@ import CommonModal , {CommonModalNew} from "../components/CommonModel";
 import InnerHeader from "../../pages/inner-header";
 // @ts-ignore
 import Link from 'next/link'
+import { useRouter } from "next/router";
 import {
   NoEthereumProviderError,
   UserRejectedRequestError as UserRejectedRequestErrorInjected
@@ -19,7 +19,6 @@ import {
 import Sidebar from "../layout/sidebar"
 import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
-import { useMoralis } from "react-moralis";
 import { useEthBalance } from "../../hooks/useEthBalance";
 import { useTokenBalance, getTokenBalance } from '../../hooks/useTokenBalance';
 import { BONE_ID, ENV_CONFIGS } from '../../config/constant';
@@ -36,6 +35,7 @@ import Pagination from 'app/components/Pagination';
 // @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
+import Router from "next/router";
 
 const sendInitialState = {
   step0: true,
@@ -92,24 +92,14 @@ export default function Wallet() {
   }
 
   const getTokensList = () => {
-    getWalletTokenList('pos').then(res => {
-      let list = res.data.data.tokenList
+    getWalletTokenList().then(res => {
+      let list = res.data.message.tokens;
       list.forEach(async (x: any) => {
         x.balance = await getTokenBalance(lib, account, x.parentContract)
       })
-      setTokenList((pre:any[]) => ([...pre, ...list]))
-      setTokenFilteredList((pre:any[]) => ([...pre, ...list]))
-      setTokenModalList((pre:any[]) => ([...pre, ...list]))
-    })
-    getWalletTokenList('plasma').then(async (res: any) => {
-      let list = res.data.data.tokenList
-      list.forEach(async (x: any) => {
-        x.balance = await getTokenBalance(lib, account, x.parentContract)
-      })
-      setTokenList((pre:any[]) => ([...pre, ...list]))
-      setTokenFilteredList((pre:any[]) => ([...pre, ...list]))
-      setTokenModalList((pre:any[]) => ([...pre, ...list]))
-
+      setTokenList(list)
+      setTokenFilteredList(list)
+      setTokenModalList(list)
     })
   }
 
@@ -122,6 +112,8 @@ export default function Wallet() {
         setBoneUSDValue(res.data.data.price);
       })
       getTokensList()
+    } else {
+      router.push('/')
     }
 
   }, [account])
@@ -287,6 +279,15 @@ export default function Wallet() {
       return false
     }
   }
+  const [sendToken,setSendToken] = useState('');
+
+  const sendTokenWithRoute = async (x:any, type: any = "deposit") => {
+    console.log("Router data for send", x)
+    localStorage.setItem("depositToken",JSON.stringify(x))
+    localStorage.setItem("bridgeType",type)
+    await Router.push(`/withdraw`);
+  }
+
   
   // const cardShimmerEffects = (lines:any, gaps:any) => {
   //   return <ShimmerTitle line={lines} gap={gaps} variant="primary" />;
@@ -389,7 +390,7 @@ export default function Wallet() {
                     </div>
                     <p className="pop_btm_txt text-center">
                       If you want to send funds between chains visit{" "}
-                      <a href="#">Shibarium Bridge</a>
+                      <p style={{cursor: "pointer"}} className='primary-text' onClick={() => sendTokenWithRoute(selectedToken)} >Shibarium Bridge test</p>
                     </p>
                   </div>
                 </div>
@@ -415,8 +416,7 @@ export default function Wallet() {
                           <div className="error-msg">
                             {!isValidAddress && senderAddress && (
                               <label className="mb-0 red-txt">
-                                Enter a valid receiver address on Shibarium
-                                Mainnet
+                                Enter a valid receiver address
                               </label>
                             )}
                           </div>
@@ -501,10 +501,10 @@ export default function Wallet() {
                                 ).toFixed(2)}
                               />
                             </span>
-                            <span>
+                            <span style={{ cursor : 'pointer'}} onClick={() => setSendAmount(selectedToken.balance)}>
                               Balance:{" "}
                               {selectedToken.balance
-                                ? selectedToken.balance.toFixed(4)
+                                ? selectedToken.balance
                                 : "00.00"}{" "}
                               {selectedToken.parentSymbol
                                 ? selectedToken.parentSymbol
@@ -551,7 +551,7 @@ export default function Wallet() {
                   <div className="pop-bottom">
                     <p className="pop_btm_txt text-center">
                       If you want to send funds between chains visit{" "}
-                      <a href="#">Shibarium Bridge</a>
+                      <p style={{cursor: "pointer"}} className='primary-text' onClick={() => sendTokenWithRoute(selectedToken)} >Shibarium Bridge</p>
                     </p>
                   </div>
                 </div>
@@ -639,7 +639,7 @@ export default function Wallet() {
                     </div>
                     <p className="pop_btm_txt text-center">
                       If you want to send funds between chains visit{" "}
-                      <a href="#">Shibarium Bridge</a>
+                      <p style={{cursor: "pointer"}} className='primary-text' onClick={() => sendTokenWithRoute(selectedToken)} >Shibarium Bridge</p>
                     </p>
                   </div>
                 </div>
@@ -786,7 +786,7 @@ export default function Wallet() {
                                   <div>
                                     <h6 className="fw-bold">
                                       {x.balance
-                                        ? x.balance.toFixed(4)
+                                        ? x.balance
                                         : "00.00"}
                                     </h6>
                                   </div>
@@ -868,8 +868,8 @@ export default function Wallet() {
                       </a>
                     </Link>
 
-                    <Link href="/how-it-works">
-                      <a className="btn white-btn w-100 d-block">
+                    <Link  href="/how-it-works">
+                      <a target="_blank" className="btn white-btn w-100 d-block">
                         How Shibarium works
                       </a>
                     </Link>
@@ -881,13 +881,14 @@ export default function Wallet() {
                 <div className="cmn_dasdrd_table mb-3 mb-sm-4 fix-layout">
                   <div className="table-responsive">
                     <table className="table table-borderless mb-0 smb-0 fxd-layout">
-                     <thead>
+                      <thead>
                         <tr>
                           <th colSpan={2}>Name</th>
                           <th>Quantity - Balance</th>
                           <th>Actions</th>
                           <th colSpan={2} className="text-end">
-                            <input className="shib-search"
+                            <input
+                              className="shib-search"
                               value={searchKey}
                               onChange={(e) => handleSearchList(e.target.value)}
                               type="search"
@@ -899,7 +900,7 @@ export default function Wallet() {
                       <tbody>
                         {slicedTokenFilteredList.length ? (
                           slicedTokenFilteredList.map((x: any) => (
-                            <tr  key={x.parentName}>
+                            <tr key={x.parentName}>
                               <td className="fix-td" colSpan={2}>
                                 <span className="ms-1">
                                   <img src="../../images/shiba-round-icon.png" />
@@ -907,7 +908,7 @@ export default function Wallet() {
                                 <b>{x.parentSymbol}</b> - {x.parentName}
                               </td>
                               <td className="fix-td">
-                                {(x.balance || 0).toFixed(4)} -{" "}
+                                {(x.balance || "0.00")} -{" "}
                                 <NumberFormat
                                   thousandSeparator
                                   displayType={"text"}
@@ -918,27 +919,36 @@ export default function Wallet() {
                                 />
                               </td>
                               <td className="fix-td">
-                                <Link href="/withdraw">
-                                  <a className="px-0">Deposit</a>
-                                </Link>
+                                {/* <Link href="/withdraw"> */}
+                                <button className="d-block w-100" onClick={()=>sendTokenWithRoute(x)}>
+                                  <a className="px-0 d-block">Deposit</a>
+                                </button>
+                                {/* </Link> */}
                               </td>
                               <td className="fix-td" colSpan={2}>
                                 <div className="row mx-0">
                                   <div className="col-6 px-0">
-                                    <Link href="/">
-                                      <a className=" px-0 d-block text-start">Withdraw</a>
-                                    </Link>
+                                  <button className="d-block w-100" onClick={()=>sendTokenWithRoute(x, "withdraw")}>
+                                      <a className=" px-0 d-block text-start">
+                                        Withdraw
+                                      </a>
+                                    </button>
                                   </div>
                                   <div className="col-6 px-0">
-                                    <Link href="/">
+                                    {/* <Link href="/"> */}
+                                    <button className="d-block w-100" onClick={()=>{
+                                      setSelectedToken(x);
+                                      setSenderModal(true);
+                                      }}>
                                       <a className=" px-0 me-2">Send</a>
-                                    </Link>
+                                    </button>
+                                    {/* </Link> */}
                                   </div>
                                 </div>
                               </td>
                             </tr>
                           ))
-                        ) : !searchKey.length && !tokenFilteredList.length  ? (
+                        ) : !searchKey.length && !tokenFilteredList.length ? (
                           <tr>
                             <td colSpan={6}>
                               <DynamicShimmer
@@ -948,28 +958,28 @@ export default function Wallet() {
                               />
                             </td>
                           </tr>
-                        ) : null }
-
+                        ) : null}
                       </tbody>
                     </table>
                   </div>
                   {searchKey.length && !tokenFilteredList.length ? (
-                          // <tr>
-                          //   <td colSpan={6}>
-                          //     <p className="p-3 p-sm-4 p-xl-5 text-center float-found">
-                          //       No record found
-                          //     </p>
-                          //   </td>
-                          // </tr>
-                          <div className="no-found">
-                              <div className="no-found-img">
-                                <img className="img-fluid" src="../../images/no-record.png"/>
-                              </div>
-                              <p className="float-found text-center">
-                                No Record Found
-                              </p>
-                          </div>
-                        ) : null}
+                    // <tr>
+                    //   <td colSpan={6}>
+                    //     <p className="p-3 p-sm-4 p-xl-5 text-center float-found">
+                    //       No record found
+                    //     </p>
+                    //   </td>
+                    // </tr>
+                    <div className="no-found">
+                      <div className="no-found-img">
+                        <img
+                          className="img-fluid"
+                          src="../../images/no-record.png"
+                        />
+                      </div>
+                      <p className="float-found text-center">No Record Found</p>
+                    </div>
+                  ) : null}
                 </div>
                 <Pagination
                   currentPage={currentPage}

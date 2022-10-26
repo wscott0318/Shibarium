@@ -19,13 +19,10 @@ import { Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
 import { RouteGuard } from "../utils/RouteGaurd";
 
-import { MoralisProvider, useMoralis } from "react-moralis";
-
 // import Web3ProviderNetwork from '../components/Web3ProviderNetwork';
 import Web3ReactManager from '../components/Web3ReactManager';
 import getLibrary from '../functions/getLibrary'
 import dynamic from "next/dynamic";
-import { MORALIS_APP_ID, MORALIS_SERVER_URL } from "app/config/constant";
 import ComponentRouters from "./routes";
 // import Header from "app/components/Header";
 
@@ -54,8 +51,6 @@ const Web3ProviderNetwork = dynamic(() => import('../components/Web3ProviderNetw
 function MyApp({ Component, pageProps }:any) {
   const router = useRouter();
   const [isSideNav, setIsSideNav] = useState(false);
-  // const {user} = useMoralis();
-  // console.log("component", pageProps);
   const routeWithoutHeader = ['/login']
 
   // useEffect(() => {
@@ -65,7 +60,6 @@ function MyApp({ Component, pageProps }:any) {
   
   return (
     <ProjectContext>
-      <MoralisProvider appId={MORALIS_APP_ID} serverUrl={MORALIS_SERVER_URL}>
         <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
           <Web3ReactProvider getLibrary={getLibrary}>
             <Web3ProviderNetwork getLibrary={getLibrary}>
@@ -79,7 +73,6 @@ function MyApp({ Component, pageProps }:any) {
             </Web3ProviderNetwork>
           </Web3ReactProvider>
         </I18nProvider>
-      </MoralisProvider>
     </ProjectContext>
   );
 }

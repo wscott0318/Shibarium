@@ -13,6 +13,7 @@ import QrModal from "pages/components/QrModal";
 import NetworkModel from "../../modals/NetworkModal";
 import { useNetworkModalToggle } from "../../state/application/hooks";
 import AppHeader from "./AppHeader";
+import { useUserType} from "../../state/user/hooks"
 
 
 const InnerHeader = () => {
@@ -21,7 +22,11 @@ const InnerHeader = () => {
   const [offset, setOffset] = useState(0);
   const [accountAddress, setAccountAddress] = useState("")
   const [userQrCode, setUserQrCode] = useState(false);
+
+  const [userType, setUserType] = useUserType();
+
   const toggleNetworkModal = useNetworkModalToggle();
+  
   useEffect(() => {
     setAccountAddress(localStorage.getItem('accounts'))
     const onScroll = () => setOffset(window.pageYOffset);
@@ -50,6 +55,7 @@ const InnerHeader = () => {
     deactivate();
     await router.push("/home");
   }
+  const [selectNet, setSelectNet] = useState("Shibarium Mainnet")
 
   return (
     <>
@@ -62,7 +68,7 @@ const InnerHeader = () => {
             address={account}
           />
         )}
-        <NetworkModel/>
+        <NetworkModel />
         <Navbar className="py-0" variant="dark">
           <Container>
             <div className="left-widget">
@@ -76,7 +82,7 @@ const InnerHeader = () => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto align-items-center">
-                  <AppHeader />
+                <AppHeader />
                 {/* <Nav.Item>
                   <Link href={'javascript:void(0)'}>
                     <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
@@ -86,12 +92,17 @@ const InnerHeader = () => {
                   </Link>
                 </Nav.Item> */}
                 <Nav.Item className="d-flex align-items-center">
-                  <Link href={'javascript:void(0)'}>
-                    <a className='d-md-none swap-btn'>
-                      <img className="img-fluid" src="../../images/switch-icon.png" alt="" width={30} />
+                  <Link href={"javascript:void(0)"}>
+                    <a className="d-md-none swap-btn">
+                      <img
+                        className="img-fluid"
+                        src="../../images/switch-icon.png"
+                        alt=""
+                        width={30}
+                      />
                     </a>
                   </Link>
-                  <button onClick={toggleNetworkModal}>
+                  {/* <button onClick={toggleNetworkModal}>
                     <a
                       className="d-none btn primary-btn d-md-flex align-items-center"
                       href="javascript:void(0)"
@@ -106,7 +117,35 @@ const InnerHeader = () => {
                         width={12}
                       />
                     </a>
-                  </button>
+                  </button> */}
+                  
+                  {/* New button switch to nerwork start */}
+                  {/* <div className="hd-sel position-relative d-none d-md-flex"> */}
+                    {/* <select
+                      class="form-select primary-btn"
+                      aria-label="Default select example"
+                    > */}
+                      <NavDropdown
+                        className="form-select innerDivBgBlack hd-sel"
+                        title={selectNet}
+                        id=""
+                      >
+                        <NavDropdown.Item
+                          // disabled={user ? false : true}
+                          onClick={() => setSelectNet("Shibarium Mainnet")}
+                        >
+                          <h6 className="fw-600 light-text left-border">
+                            Mainnet
+                          </h6>
+                          <span className="light-text">
+                            Switch Network
+                          </span>
+                        </NavDropdown.Item>
+                      </NavDropdown>
+                    {/* </select> */}
+                    {/* <span class="arrow-down"></span> */}
+                  {/* </div> */}
+                  {/* New button switch to nerwork end */}
                 </Nav.Item>
                 <Nav.Item className="btn-status">
                   <Web3Status />
@@ -129,6 +168,11 @@ const InnerHeader = () => {
                           <div className="top-txt">
                             <div>
                               <span>Account 0xe78</span>
+                            </div>
+                            <div>
+                              <span>
+                                {userType === "NA" ? "User" : userType}
+                              </span>
                             </div>
                             <div>
                               <span className="grey-txt">

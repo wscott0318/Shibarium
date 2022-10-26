@@ -18,8 +18,6 @@ import { getUserType } from "app/services/apis/user/userApi";
 import { useUserType } from "app/state/user/hooks";
 // import { UserType } from "../../enums/UserType";
 import ShibaSidebar from "pages/token-sidebar";
-import { useMoralis } from "react-moralis";
-import { MORALIS_APP_ID, MORALIS_SERVER_URL } from "../../config/constant"
 import { login } from "app/functions/login";
 import AppHeader from "../inner-header/AppHeader";
 // import { injected } from "app/config/wallets";
@@ -34,44 +32,12 @@ export default function Header() {
   const [dblock, setDblock] = useState(false);
   const [userType, setUserType] = useUserType();
 
-  const { authenticate, isAuthenticated, User, user, logout, Moralis, ...restMoralisObj } = useMoralis();
-  // console.log({authenticate, isAuthenticated,User, user,logout,Moralis})
-
   useEffect(() => {
-    if (!account) logout().then();
-    localStorage.setItem("ShibariumUser", JSON.stringify(user || []))
-  }, [user, account]);
-
-
-  async function loginNew() {
-    if (!isAuthenticated) {
-
-      await authenticate({ signingMessage: "Log in using Moralis" })
-        .then(function (user) {
-          console.log("logged in user:", user);
-          console.log(user.get("ethAddress"));
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
-  }
-
-  async function logOut() {
-    await Moralis.User.logOut()
-    console.log('logged out')
-  }
-
-  useEffect(() => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn")
-    if (!isAuthenticated) {
-      // authenticate()
-    }
     if (account) {
-
       getUsertypeAPI(account)
     }
-  }, [account, user])
+  }, [account])
+  
   useEffect(() => {
     if (account)
       localStorage.setItem('isLoggedIn', true)
@@ -110,12 +76,12 @@ export default function Header() {
         // if (library) {
         //   sign(account)
         // }
-        authenticate()
+        // authenticate()
       }
       const handleAccountsChanged = async (accounts) => {
         if (accounts.length > 0) {
           // if (library) {
-          authenticate()
+          // authenticate()
         }
         // activate(injected)
       }
@@ -166,38 +132,6 @@ export default function Header() {
     }
   };
 
-  const removeDblockClass = (e) => {
-    if (toggleRef.current === e.target) {
-      setDblock(false);
-    }
-  };
-
-  const handleToggleIcon = () => {
-    setDblock(!dblock);
-  };
-
-  const LogoutMetamask = async () => {
-    await logout()
-    router.push("/home");
-    handleAccount("")
-    deactivate()
-    // localStorage.removeItem('isLoggedIn')
-  };
-  // const sign = (publicAddress) => {
-  //   let web3 = new Web3(library?.provider)
-  //   if (publicAddress && web3 && web3.eth && web3.eth.personal) {
-  //     web3.eth.personal.sign(
-  //       'Welcome to Shibarium',
-  //       publicAddress,
-  //       () => { }
-  //     )
-  //   }
-  // }
-
- const handleScrollToElement = (event) => {
-    console.log(event)
-}
-
 const [scroll, setScroll] = useState(false);
 
   useEffect(() => {
@@ -212,7 +146,11 @@ const [scroll, setScroll] = useState(false);
         <Navbar className='py-0'>
           <Container>
             <Navbar.Brand href="/">
-              <img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} />
+              {/* <img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} /> */}
+              <div className="logo-wrap">
+                <div className="lg-lft"><img className='img-fluid' src="../../images/shibarium-logo.png" alt="site-logo" width={50} /></div>
+                <div className="lg-rt"><img className='img-fluid' src="../../images/shib-text.png" alt="site-logo" width={150} /></div>
+              </div>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">

@@ -2,19 +2,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect, useContext } from "react";
-
 import { Button, Container, Nav, Navbar, NavDropdown,Dropdown ,Modal} from 'react-bootstrap';
-
-import { useRouter } from "next/dist/client/router";
+import {useRouter} from "next/router";
 import Popup from "../components/PopUp";
-// import { useWeb3React } from '@web3-react/core'
-// import { Web3Provider } from '@ethersproject/providers'
-// import  ProjectContext  from "../../context/ProjectContext";
-// import { useAccount } from "../../../hooks/web3hooks";
-// import { walletConnector } from "../../utils/connectors";
-// import Web3 from "web3";
+import NumberFormat from 'react-number-format';
 import  CommonModal from "../components/CommonModel";
-import InnerHeader from "../../pages/inner-header";
+import InnerHeader from "../inner-header";
 import Link from 'next/link'
 import {
   NoEthereumProviderError,
@@ -22,22 +15,60 @@ import {
 } from '@web3-react/injected-connector'
 import Sidebar  from "../layout/sidebar"
 import Web3Status from "app/components/Web3Status";
-import { useActiveWeb3React } from "app/services/web3";
-import { useMoralis } from "react-moralis";
 import {
   getWalletTokenList
 } from "../../services/apis/validator/index";
 import {getTokenBalance } from "../../hooks/useTokenBalance";
+import {getBoneUSDValue} from "../../services/apis/validator/index";
+import { useActiveWeb3React } from "../../services/web3"
+import { BONE_ID, ENV_CONFIGS } from '../../config/constant';
+import { Formik, Form, Field} from "formik";
+import * as Yup from "yup";
+import depositManagerABI from "../../ABI/depositManagerABI.json"
+import { DEPOSIT_MANAGER_PROXY } from "web3/contractAddresses";
+import Web3 from "web3";
+import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
+import { useAppDispatch } from "../../state/hooks";
+import fromExponential from 'from-exponential';
+import { getExplorerLink } from 'app/functions';
+import { getAllowanceAmount } from "web3/commonFunctions";
+import ERC20 from "../../ABI/ERC20Abi.json"
 
 export default function Withdraw() {
+
+
+  const { chainId = 1, account, library } = useActiveWeb3React();
+  const lib : any = library;
+  const web3: any = new Web3(lib?.provider)
+  const dispatch = useAppDispatch();
+
+  const bridgeType : string = localStorage.getItem("bridgeType") || "deposit"
+
   const [menuState, setMenuState] = useState(false);
+   const [selectedToken, setSelectedToken] = useState(
+     JSON.parse(localStorage.getItem("depositToken") || "{}")
+   );
   const [showDepositModal, setDepositModal] = useState(false);
   const [showWithdrawModal, setWithdrawModal] = useState(false);
   const [showTokenModal, setTokenModal] = useState(false);
-  const [dWState,setDWState] = useState(false);
+  const [depositTokenInput, setDepositTokenInput] = useState('');
+  const [dWState,setDWState] = useState(bridgeType === "deposit" ? true : false);
+  const [boneUSDValue,setBoneUSDValue] = useState(0);
+  const [hashLink, setHashLink] = useState('')
+
   const handleMenuState = () => {
     setMenuState(!menuState);
   }
+  const router = useRouter();
+
+  
+
+  useEffect(() => {
+    getBoneUSDValue(BONE_ID).then(res=>{
+      setBoneUSDValue(res.data.data.price);
+    })
+  },[account])
+  
   const [withModalState, setWidModState] = useState({
     step0: true,
     step1: false,
@@ -63,33 +94,27 @@ export default function Withdraw() {
     const [tokenModalList, setTokenModalList] = useState ([]);
     const [tokenList, setTokenList] = useState([]);
     const [modalKeyword, setmodalKeyword] = useState("");
-    const { chainId = 1, account, library } = useActiveWeb3React();
-    const lib = library;
+
   const getTokensList = () => {
-    getWalletTokenList("pos").then((res) => {
-      let list = res.data.data.tokenList;
-      list.forEach(async (x) => {
+    getWalletTokenList().then((res) => {
+      let list = res.data.message.tokens;
+      list.forEach(async (x :any) => {
         x.balance = await getTokenBalance(lib, account, x.parentContract);
       });
-      setTokenList((pre) => [...pre, ...list]);
-      // setTokenFilteredList((pre) => [...pre, ...list]);
-      setTokenModalList((pre) => [...pre, ...list]);
-    });
-    getWalletTokenList("plasma").then(async (res) => {
-      let list = res.data.data.tokenList;
-      list.forEach(async (x) => {
-        x.balance = await getTokenBalance(lib, account, x.parentContract);
-      });
-      setTokenList((pre) => [...pre, ...list]);
-      // setTokenFilteredList((pre) => [...pre, ...list]);
-      setTokenModalList((pre) => [...pre, ...list]);
+      setTokenList(list);
+      // setTokenFilteredList(list);
+      setTokenModalList(list);
     });
   };
   useEffect(() => {
-    getTokensList();
-  }, [])
+    if(account) {
+      getTokensList();
+    } else {
+      router.push('/')
+    }
+  }, [account])
   
-const handleSearchList = (key) => {
+const handleSearchList = (key :any) => {
       setmodalKeyword(key);
       if (key.length) {
         let newData = tokenList.filter((name) => {
@@ -103,6 +128,215 @@ const handleSearchList = (key) => {
           setTokenModalList(tokenList);
         }
       }
+
+
+      const handleTokenSelect = (token:any) => {
+        console.log(token)
+        setSelectedToken(token)
+        setTokenModal(false)
+      }
+
+      const handleMax = () => {
+        setDepositTokenInput(selectedToken.balance)
+      }
+
+      const depositValidations: any = Yup.object({
+        depositAmount: Yup.number().min(0).max(selectedToken.balance).required("amount is required"), 
+      })
+
+
+      const approvalForDeposit = (amount : any, token : any, contract:any) => {
+        let user: any = account
+        const amountWei = web3.utils.toBN(fromExponential((1000 * Math.pow(10, 18))));
+        let instance = new web3.eth.Contract(ERC20, token);
+        instance.methods.approve(contract ,amountWei).send({ from: user })
+        .on('transactionHash', (res: any) => {
+          console.log(res, "hash")
+          dispatch(
+            addTransaction({
+              hash: res,
+              from: user,
+              chainId,
+              summary: `${res}`,
+            })
+          )
+        }).on('receipt', (res: any) => {
+          console.log(res, "receipt")
+          dispatch(
+            finalizeTransaction({
+              hash: res.transactionHash,
+              chainId,
+              receipt: {
+                to: res.to,
+                from: res.from,
+                contractAddress: res.contractAddress,
+                transactionIndex: res.transactionIndex,
+                blockHash: res.blockHash,
+                transactionHash: res.transactionHash,
+                blockNumber: res.blockNumber,
+                status: 1
+              }
+            })
+          )
+          // call deposit contract 
+          let instance = new web3.eth.Contract(depositManagerABI, DEPOSIT_MANAGER_PROXY);
+          instance.methods.depositERC20(selectedToken.parentContract, amount).send({ from: account })
+          .on('transactionHash', (res: any) => {
+            console.log(res, "hash")
+            dispatch(
+              addTransaction({
+                hash: res,
+                from: user,
+                chainId,
+                summary: `${res}`,
+              })
+            )
+            let link = getExplorerLink(chainId, res, 'transaction')
+                setHashLink(link)
+                setDepModState({
+                  step0: false,
+                  step1: false,
+                  step2: true,
+                  title: "Transaction Submitted",
+                });
+                setDepositTokenInput('');
+          }).on('receipt', (res: any) => {
+            console.log(res, "receipt")
+            dispatch(
+              finalizeTransaction({
+                hash: res.transactionHash,
+                chainId,
+                receipt: {
+                  to: res.to,
+                  from: res.from,
+                  contractAddress: res.contractAddress,
+                  transactionIndex: res.transactionIndex,
+                  blockHash: res.blockHash,
+                  transactionHash: res.transactionHash,
+                  blockNumber: res.blockNumber,
+                  status: 1
+                }
+              })
+            )
+            setDepositModal(false);
+          }).on('error', (res: any) => {
+            console.log(res, "error")
+            if (res.code === 4001) {
+              setDepModState({
+                step0: true,
+                step1: false,
+                step2: false,
+                title: "Confirm deposit",
+              });
+              setDepositModal(false);
+            }
+          })
+          //deposit contract ends
+
+
+        }).on('error', (res: any) => {
+          console.log(res, "error")
+          if (res.code === 4001) {
+            setDepModState({
+              step0: true,
+              step1: false,
+              step2: false,
+              title: "Confirm deposit",
+            });
+            setDepositModal(false);
+          }
+        })
+      }
+
+      const callDepositModal = (values:any) => {
+        setDepositTokenInput(values.depositAmount)
+        {
+          setDepModState({
+            step0: true,
+            step1: false,
+            step2: false,
+            title: "Confirm deposit",
+          });
+          setDepositModal(true);
+        }
+      }
+
+      const callDepositContract = async () => {
+        if(account){
+        setDepModState({
+          step0: false,
+          step1: true,
+          step2: false,
+          title: "Transaction Pending",
+        });
+        let user :any = account
+        const amountWei = web3.utils.toBN(fromExponential((+depositTokenInput * Math.pow(10, 18))));
+        let allowance = await getAllowanceAmount(library,selectedToken.parentContract, account, DEPOSIT_MANAGER_PROXY) || 0
+
+        if(+depositTokenInput > +allowance) {
+          console.log("need approval")
+          approvalForDeposit(amountWei, selectedToken.parentContract , DEPOSIT_MANAGER_PROXY)
+        } else {
+          console.log("no approval needed")
+          let instance = new web3.eth.Contract(depositManagerABI, DEPOSIT_MANAGER_PROXY);
+          instance.methods.depositERC20(selectedToken.parentContract, amountWei).send({ from: account })
+          .on('transactionHash', (res: any) => {
+            console.log(res, "hash")
+            dispatch(
+              addTransaction({
+                hash: res,
+                from: user,
+                chainId,
+                summary: `${res}`,
+              })
+            )
+            let link = getExplorerLink(chainId, res, 'transaction')
+                setHashLink(link)
+                setDepModState({
+                  step0: false,
+                  step1: false,
+                  step2: true,
+                  title: "Transaction Submitted",
+                });
+                setDepositTokenInput('');
+          }).on('receipt', (res: any) => {
+            console.log(res, "receipt")
+            dispatch(
+              finalizeTransaction({
+                hash: res.transactionHash,
+                chainId,
+                receipt: {
+                  to: res.to,
+                  from: res.from,
+                  contractAddress: res.contractAddress,
+                  transactionIndex: res.transactionIndex,
+                  blockHash: res.blockHash,
+                  transactionHash: res.transactionHash,
+                  blockNumber: res.blockNumber,
+                  status: 1
+                }
+              })
+            )
+            setDepositModal(false);
+          }).on('error', (res: any) => {
+            console.log(res, "error")
+            if (res.code === 4001) {
+              setDepModState({
+                step0: true,
+                step1: false,
+                step2: false,
+                title: "Confirm deposit",
+              });
+              setDepositModal(false);
+            }
+          })
+        }
+
+      } else {
+        console.log("account not found")
+      }
+      }
+      
   
   return (
     <>
@@ -139,8 +373,8 @@ const handleSearchList = (key) => {
                             alt=""
                           />
                         </div>
-                        <h6>100 ETH</h6>
-                        <p>500.00$</p>
+                        <h6>{depositTokenInput+" "+selectedToken.parentName}</h6>
+                        <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+depositTokenInput || 0) * boneUSDValue).toFixed(2)} /></p>
                       </div>
                     </div>
                     <div className="pop-grid">
@@ -217,14 +451,7 @@ const handleSearchList = (key) => {
                     <div>
                       <a
                         className="btn primary-btn w-100"
-                        onClick={() => {
-                          setDepModState({
-                            step0: false,
-                            step1: true,
-                            step2: false,
-                            title: "Transaction Pending",
-                          });
-                        }}
+                        onClick={() => callDepositContract()}
                       >
                         Continue
                       </a>
@@ -319,23 +546,20 @@ const handleSearchList = (key) => {
                       </p>
                     </div>
                     <div>
-                      <a onClick={() => {
-                            setDepModState({
-                              step0: false,
-                              step1: false,
-                              step2: true,
-                              title: "Transaction Completed",
-                            });
-                          }}
+                      <a
+                        onClick={() => {
+                          setDepModState({
+                            step0: false,
+                            step1: false,
+                            step2: true,
+                            title: "Transaction Completed",
+                          });
+                        }}
                         className="btn grey-btn w-100"
                         href="javascript:void(0)"
                       >
                         <span className="spinner-border text-secondary pop-spiner"></span>
-                        <span
-                          
-                        >
-                          Continue
-                        </span>
+                        <span>Continue</span>
                       </a>
                     </div>
                   </div>
@@ -381,9 +605,9 @@ const handleSearchList = (key) => {
                     <div>
                       <a
                         className="btn primary-btn w-100"
-                        onClick={() => setDepositModal(false)}
+                        onClick={() => window.open(hashLink)}
                       >
-                        View on Shibascan
+                        View on Block Explorer
                       </a>
                     </div>
                   </div>
@@ -625,25 +849,22 @@ const handleSearchList = (key) => {
                       </p>
                     </div>
                     <div>
-                      <a onClick={() =>
-                            setWidModState({
-                              step0: false,
-                              step1: false,
-                              step2: true,
-                              step3: false,
-                              step4: false,
-                              title: "Checkpoint reached",
-                            })
-                          }
+                      <a
+                        onClick={() =>
+                          setWidModState({
+                            step0: false,
+                            step1: false,
+                            step2: true,
+                            step3: false,
+                            step4: false,
+                            title: "Checkpoint reached",
+                          })
+                        }
                         className="btn grey-btn w-100"
                         href="javascript:void(0)"
                       >
                         <span className="spinner-border text-secondary pop-spiner"></span>
-                        <span
-                          
-                        >
-                          Moving funds
-                        </span>
+                        <span>Moving funds</span>
                       </a>
                     </div>
                   </div>
@@ -804,25 +1025,22 @@ const handleSearchList = (key) => {
                       <p>Moving funds to your Ethereum Account.</p>
                     </div>
                     <div>
-                      <a onClick={() =>
-                            setWidModState({
-                              step0: false,
-                              step1: false,
-                              step2: false,
-                              step3: false,
-                              step4: true,
-                              title: "Withdraw Complete",
-                            })
-                          }
+                      <a
+                        onClick={() =>
+                          setWidModState({
+                            step0: false,
+                            step1: false,
+                            step2: false,
+                            step3: false,
+                            step4: true,
+                            title: "Withdraw Complete",
+                          })
+                        }
                         className="btn grey-btn w-100"
                         href="javascript:void(0)"
                       >
                         <span className="spinner-border text-secondary pop-spiner"></span>
-                        <span
-                          
-                        >
-                          Moving funds
-                        </span>
+                        <span>Moving funds</span>
                       </a>
                     </div>
                   </div>
@@ -912,8 +1130,8 @@ const handleSearchList = (key) => {
                           type="text"
                           className="w-100"
                           placeholder="Search token or token address"
-                          onChange={(e)=>{
-                            handleSearchList(e.target.value)
+                          onChange={(e) => {
+                            handleSearchList(e.target.value);
                           }}
                         />
                         <div className="search-icon">
@@ -953,12 +1171,9 @@ const handleSearchList = (key) => {
                       </div>
                     </div>
                     <div className="token-listwrap">
-                      {tokenModalList
-                        ? tokenModalList.map((x) => (
-                            <div
-                              className="tokn-row"
-                              key={x.parentName}
-                            >
+                      {tokenModalList.length
+                        ? tokenModalList.map((x :any) => (
+                            <div className="tokn-row" key={x.parentName} onClick={() => handleTokenSelect(x)}>
                               <div className="cryoto-box">
                                 <img
                                   className="img-fluid"
@@ -973,7 +1188,7 @@ const handleSearchList = (key) => {
                                 </div>
                                 <div>
                                   <h6 className="fw-bold">
-                                    {x.balance ? x.balance.toFixed(4) : "00.00"}
+                                    {x.balance ? x.balance : "00.00"}
                                   </h6>
                                 </div>
                               </div>
@@ -985,186 +1200,6 @@ const handleSearchList = (key) => {
                           no record found
                         </p>
                       ) : null}
-                      {/* <div className="tokn-row">
-                        <div className="cryoto-box">
-                          <img
-                            className="img-fluid"
-                            src="../../images/shib-borderd-icon.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="tkn-grid">
-                          <div>
-                            <h6 className="fw-bold">SHIB</h6>
-                            <p>Shibatoken</p>
-                          </div>
-                          <div>
-                            <h6 className="fw-bold">1000</h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="tokn-row">
-                        <div className="cryoto-box">
-                          <img
-                            className="img-fluid"
-                            src="../../images/red-bone.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="tkn-grid">
-                          <div>
-                            <h6 className="fw-bold">BONE</h6>
-                            <p>Bone Token</p>
-                          </div>
-                          <div>
-                            <h6 className="fw-bold">1000</h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="tokn-row">
-                        <div className="cryoto-box">
-                          <img
-                            className="img-fluid"
-                            src="../../images/etharium.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="tkn-grid">
-                          <div>
-                            <h6 className="fw-bold">ETH</h6>
-                            <p>Ethereum</p>
-                          </div>
-                          <div>
-                            <h6 className="fw-bold">1000</h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="tokn-row">
-                        <div className="cryoto-box">
-                          <img
-                            className="img-fluid"
-                            src="../../images/etharium.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="tkn-grid">
-                          <div>
-                            <h6 className="fw-bold">ETH</h6>
-                            <p>Ethereum</p>
-                          </div>
-                          <div>
-                            <h6 className="fw-bold">1000</h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="tokn-row">
-                        <div className="cryoto-box">
-                          <img
-                            className="img-fluid"
-                            src="../../images/etharium.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="tkn-grid">
-                          <div>
-                            <h6 className="fw-bold">ETH</h6>
-                            <p>Ethereum</p>
-                          </div>
-                          <div>
-                            <h6 className="fw-bold">1000</h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="tokn-row">
-                        <div className="cryoto-box">
-                          <img
-                            className="img-fluid"
-                            src="../../images/etharium.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="tkn-grid">
-                          <div>
-                            <h6 className="fw-bold">ETH</h6>
-                            <p>Ethereum</p>
-                          </div>
-                          <div>
-                            <h6 className="fw-bold">1000</h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="tokn-row">
-                        <div className="cryoto-box">
-                          <img
-                            className="img-fluid"
-                            src="../../images/etharium.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="tkn-grid">
-                          <div>
-                            <h6 className="fw-bold">ETH</h6>
-                            <p>Ethereum</p>
-                          </div>
-                          <div>
-                            <h6 className="fw-bold">1000</h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="tokn-row">
-                        <div className="cryoto-box">
-                          <img
-                            className="img-fluid"
-                            src="../../images/etharium.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="tkn-grid">
-                          <div>
-                            <h6 className="fw-bold">ETH</h6>
-                            <p>Ethereum</p>
-                          </div>
-                          <div>
-                            <h6 className="fw-bold">1000</h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="tokn-row">
-                        <div className="cryoto-box">
-                          <img
-                            className="img-fluid"
-                            src="../../images/etharium.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="tkn-grid">
-                          <div>
-                            <h6 className="fw-bold">ETH</h6>
-                            <p>Ethereum</p>
-                          </div>
-                          <div>
-                            <h6 className="fw-bold">1000</h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="tokn-row">
-                        <div className="cryoto-box">
-                          <img
-                            className="img-fluid"
-                            src="../../images/etharium.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="tkn-grid">
-                          <div>
-                            <h6 className="fw-bold">ETH</h6>
-                            <p>Ethereum</p>
-                          </div>
-                          <div>
-                            <h6 className="fw-bold">1000</h6>
-                          </div>
-                        </div>
-                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -2229,13 +2264,15 @@ const handleSearchList = (key) => {
                         {/* <button type="button" className="btn white-btn w-100">
                           How Shibarium Works
                         </button> */}
-                        <Link href="how-it-works" >
-                          <span className="btn white-btn w-100">How Shibarium Works</span>
+                        <Link href="how-it-works">
+                          <a target="_blank" className="btn white-btn w-100">
+                            How Shibarium Works
+                          </a>
                         </Link>
                       </div>
                       <div className="col-lg-6">
                         <button
-                          type="button w-100"
+                          // type="button w-100"
                           className="btn white-btn w-100"
                         >
                           FAQs
@@ -2272,153 +2309,166 @@ const handleSearchList = (key) => {
                   {/* Deposit tab content section start */}
                   {dWState && (
                     <div className="tab-content-sec h-100">
-                      <form className="h-100">
-                        <div className="sec-wrapper">
-                          <div className="wrap-top">
-                            <div className="botom-spcing">
-                              <div>
-                                <label className="mb-2 mb-xxl-3 mb-md-2">
-                                  From
-                                </label>
-                                <div className="form-field position-relative">
-                                  <div className="icon-chain">
+
+                            <Formik
+                            initialValues={{
+                              depositAmount:''
+                            }}
+                            validationSchema={depositValidations}
+                            onSubmit={(values, actions) => {
+                              console.log(values);
+                              callDepositModal(values)
+                            }}
+                            >
+                               {
+                              ({ errors, touched ,handleChange, handleBlur, values, handleSubmit }) => (
+
+                            <div className="h-100">
+                              <div className="sec-wrapper">
+                                <div className="wrap-top">
+                                  <div className="botom-spcing">
                                     <div>
-                                      <img
-                                        className="img-fluid"
-                                        src="../../images/eth.png"
-                                        alt=""
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="mid-chain">
-                                    <input
-                                      className="w-100"
-                                      type="text"
-                                      placeholder="Ethereum chain"
-                                    />
-                                  </div>
-                                  <div className="rt-chain">
-                                    <span className="fld-head lite-color">
-                                      Balance:
-                                    </span>
-                                    <span className="fld-txt lite-color">
-                                      100.00ETH
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="field-grid row">
-                                <div className="col-sm-5 field-col res-align">
-                                  <div
-                                    className="form-field position-relative"
-                                    onClick={() => {
-                                      setTokenModal(true);
-                                      setTokenState({
-                                        step0: true,
-                                        step1: false,
-                                        step2: false,
-                                        step3: false,
-                                        step4: false,
-                                        title: "Select a Token",
-                                      });
-                                    }}
-                                  >
-                                    <div className="right-spacing">
-                                      <div>
-                                        <img
-                                          className="img-fluid"
-                                          src="../../images/eth.png"
-                                          alt=""
-                                        />
+                                      <label className="mb-2 mb-xxl-3 mb-md-2">
+                                        From
+                                      </label>
+                                      <div className="form-field position-relative">
+                                        <div className="icon-chain">
+                                          <div>
+                                            <img
+                                              className="img-fluid"
+                                              src="../../images/eth.png"
+                                              alt=""
+                                            />
+                                          </div>
+                                        </div>
+                                        <div className="mid-chain">
+                                          <input
+                                            className="w-100"
+                                            type="text"
+                                            placeholder="Ethereum chain"
+                                          />
+                                        </div>
+                                        <div className="rt-chain">
+                                          <span className="fld-head lite-color">
+                                            Balance:
+                                          </span>
+                                          <span className="fld-txt lite-color">
+                                            {selectedToken.balance+" "+selectedToken.parentName}
+                                          </span>
+                                        </div>
                                       </div>
                                     </div>
-                                    <div className="lite-color">
-                                      <span className="lite-color fw-bold">
-                                        ETH
-                                      </span>
+                                    <div className="field-grid row">
+                                      <div className="col-sm-5 field-col res-align">
+                                        <div
+                                          className="form-field position-relative"
+                                          onClick={() => {
+                                            setTokenModal(true);
+                                            setTokenState({
+                                              step0: true,
+                                              step1: false,
+                                              step2: false,
+                                              step3: false,
+                                              step4: false,
+                                              title: "Select a Token",
+                                            });
+                                          }}
+                                        >
+                                          <div className="right-spacing">
+                                            <div>
+                                              <img
+                                                className="img-fluid"
+                                                src="../../images/eth.png"
+                                                alt=""
+                                              />
+                                            </div>
+                                          </div>
+                                          <div className="lite-color">
+                                            <span className="lite-color fw-bold">
+                                              {selectedToken.parentName
+                                                ? selectedToken.parentName
+                                                : "Select Token"}
+                                            </span>
+                                          </div>
+                                          <div className="lft-spc">
+                                            <div className="arow-outer">
+                                              <span className="arrow-down"></span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-sm-7 field-col">
+                                        <div className="form-field position-relative two-fld">
+                                          <div className="mid-chain w-100">
+                                            <input
+                                              className="w-100"
+                                              type="text"
+                                              placeholder="0.00"
+                                              value={values.depositAmount}
+                                              onChange={handleChange("depositAmount")}
+                                            />
+                                          </div>
+                                          <div className="rt-chain" onClick={() => handleMax()}>
+                                            <span className="orange-txt fw-bold">
+                                              MAX
+                                            </span>
+                                          </div>
+                                        </div>
+                                        {touched.depositAmount && errors.depositAmount ? <p className="primary-text pt-0 pl-2">{errors.depositAmount}</p> : null} 
+                                      </div>
                                     </div>
-                                    <div className="lft-spc">
-                                      <div className="arow-outer">
-                                        <span className="arrow-down"></span>
+                                  </div>
+                                  <div className="botom-spcing">
+                                    <div>
+                                      <label className="mb-2 mb-xxl-3 mb-md-2">
+                                        To
+                                      </label>
+                                      <div className="form-field position-relative">
+                                        <div className="icon-chain">
+                                          <div>
+                                            <img
+                                              width="22"
+                                              height="22"
+                                              className="img-fluid"
+                                              src="../../images/shiba-round-icon.png"
+                                              alt=""
+                                            />
+                                          </div>
+                                        </div>
+                                        <div className="mid-chain">
+                                          <input
+                                            className="w-100"
+                                            type="text"
+                                            placeholder="Shibarium chain"
+                                          />
+                                        </div>
+                                        <div className="rt-chain">
+                                          <span className="fld-head lite-color">
+                                            Balance:
+                                          </span>
+                                          <span className="fld-txt lite-color">
+                                            100.00ETH
+                                          </span>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                                <div className="col-sm-7 field-col">
-                                  <div className="form-field position-relative two-fld">
-                                    <div className="mid-chain w-100">
-                                      <input
-                                        className="w-100"
-                                        type="text"
-                                        placeholder="0.00"
-                                      />
-                                    </div>
-                                    <div className="rt-chain">
-                                      <span className="orange-txt fw-bold">
-                                        MAX
-                                      </span>
-                                    </div>
+                                <div className="wrap-bottom">
+                                  <div className="btn-modify">
+                                    <button
+                                      onClick={() =>handleSubmit()}
+                                      type="button"
+                                      className="btn primary-btn w-100"
+                                    >
+                                      Transfer
+                                    </button>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                            <div className="botom-spcing">
-                              <div>
-                                <label className="mb-2 mb-xxl-3 mb-md-2">
-                                  To
-                                </label>
-                                <div className="form-field position-relative">
-                                  <div className="icon-chain">
-                                    <div>
-                                      <img
-                                        width="22"
-                                        height="22"
-                                        className="img-fluid"
-                                        src="../../images/shiba-round-icon.png"
-                                        alt=""
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="mid-chain">
-                                    <input
-                                      className="w-100"
-                                      type="text"
-                                      placeholder="Shibarium chain"
-                                    />
-                                  </div>
-                                  <div className="rt-chain">
-                                    <span className="fld-head lite-color">
-                                      Balance:
-                                    </span>
-                                    <span className="fld-txt lite-color">
-                                      100.00ETH
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="wrap-bottom">
-                            <div className="btn-modify">
-                              <button
-                                onClick={() => {
-                                  setDepModState({
-                                    step0: true,
-                                    step1: false,
-                                    step2: false,
-                                    title: "Confirm deposit",
-                                  });
-                                  setDepositModal(true);
-                                }}
-                                type="button"
-                                className="btn primary-btn w-100"
-                              >
-                                Transfer
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
+                                    )}
+                            </Formik>
                     </div>
                   )}
                   {/* Deposit tab content section end */}
@@ -2458,7 +2508,7 @@ const handleSearchList = (key) => {
                                       Balance:
                                     </span>
                                     <span className="fld-txt lite-color">
-                                      100 BONE
+                                      {selectedToken.balance && selectedToken.balance} {selectedToken.parentName && selectedToken.parentName}
                                     </span>
                                   </div>
                                 </div>
@@ -2492,7 +2542,9 @@ const handleSearchList = (key) => {
                                     </div>
                                     <div className="lite-color">
                                       <span className="lite-color fw-bold">
-                                        Bone
+                                        {selectedToken.parentName
+                                          ? selectedToken.parentName
+                                          : "Select Token"}
                                       </span>
                                     </div>
                                     <div className="lft-spc">

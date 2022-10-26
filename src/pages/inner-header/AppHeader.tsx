@@ -1,7 +1,11 @@
 import React from 'react';
 import { Dropdown, Navbar, NavDropdown, Container, Nav } from "react-bootstrap";
+import { useActiveWeb3React } from 'app/services/web3';
 
 const AppHeader = () => {
+  const { chainId = 1, account, library } = useActiveWeb3React();
+  const user :any = account
+  
   return (
     < div className='shib-dropdown'>
       <Dropdown className="nav-item d-flex align-items-center cus-dd app-drop">
@@ -9,7 +13,7 @@ const AppHeader = () => {
           <img src="../../images/menu-icon.png" alt="" />
         </div>
         <NavDropdown className="light-text dd-ico" title="App" id="">
-          <NavDropdown.Item href="/wallet">
+          <NavDropdown.Item href={account ? "/wallet" : "/login"}>
             <h6 className="fw-600 light-text left-border">
               Wallet
             </h6>
@@ -17,7 +21,7 @@ const AppHeader = () => {
               Send and receive crypto assets on Shibarium network
             </span>
           </NavDropdown.Item>
-          <NavDropdown.Item href="/withdraw">
+          <NavDropdown.Item href={account ? "/withdraw" : "/login"}>
             <h6 className="fw-600 light-text left-border">
               Bridge
             </h6>
