@@ -138,18 +138,7 @@ const InnerHeader = () => {
                             Mainnet
                           </h6>
                           <span className="light-text">
-                            Switch to Shibarium Mainnet
-                          </span>
-                        </NavDropdown.Item>
-                        <NavDropdown.Item
-                          // disabled={user ? false : true}
-                          onClick={() => setSelectNet("Shibarium Testnet")}
-                        >
-                          <h6 className="fw-600 light-text left-border">
-                            Testnet
-                          </h6>
-                          <span className="light-text">
-                            Switch to Shibarium Testnet
+                            Switch Network
                           </span>
                         </NavDropdown.Item>
                       </NavDropdown>

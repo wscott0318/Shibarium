@@ -19,7 +19,6 @@ import {
 import Sidebar from "../layout/sidebar"
 import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
-import { useMoralis } from "react-moralis";
 import { useEthBalance } from "../../hooks/useEthBalance";
 import { useTokenBalance, getTokenBalance } from '../../hooks/useTokenBalance';
 import { BONE_ID, ENV_CONFIGS } from '../../config/constant';

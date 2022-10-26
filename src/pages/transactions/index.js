@@ -21,16 +21,12 @@ import {
 import Sidebar from "../layout/sidebar"
 import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
-import { useMoralis } from "react-moralis";
 // import Web3Status from "app/components/Web3Status";  
 import InnerHeader from "../../pages/inner-header";
 
 export default function Transaction() {
   const router = useRouter()
   const [onlyPending, setOnlyPending] = useState(false);
-  // const { authenticate, isAuthenticated, user,} = useMoralis();
-
-  // const {handleAccount}=useContext(ProjectContext)
   const [showSendModal, setSendModal] = useState({
     step0: true,
     step1: false,
