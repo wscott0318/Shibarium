@@ -86,8 +86,8 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
           <div className='no-found'>
               {validatorsList.length === 0 && (
                   <div>
-                    <div><img src="../../images/no-record.png"/></div>
-                    <p className='text-center'>No Record Found.</p>
+                    <div className='text-center'><img src="../../images/no-record.png"/></div>
+                    {/* <p className='text-center'>No Record Found.</p> */}
                   </div>
               )}
           </div>
