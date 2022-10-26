@@ -154,9 +154,12 @@
             max-width: 20px;
         }
     }
-    // .shib-dropdown {
-    //     margin-right: 20px;
-    // }
+    .shib-dropdown {
+        margin-right: 20px;
+        @media #{$max-xsm}{
+            margin-right: 10px;
+        }
+    }
     .px-4 {
         @media #{$max-sm}{
             padding-right: 0.5rem !important;
