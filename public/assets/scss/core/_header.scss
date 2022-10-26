@@ -146,6 +146,7 @@
     .dot-icon{
         max-width: 30px;
         // margin-right: 20px;
+        margin-right: 5px;
         @media #{$max-lg}{
             max-width: 20px;
         }
