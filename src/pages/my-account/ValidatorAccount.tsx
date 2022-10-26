@@ -18,6 +18,7 @@ import { getAllowanceAmount } from 'web3/commonFunctions';
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { getExplorerLink } from 'app/functions';
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
+import DelegatePopup from 'pages/delegate-popup';
 
 
 
@@ -63,11 +64,12 @@ const validatorAccount = ({userType, boneUSDValue, availBalance} : {userType : a
   });
 
   const getDelegatorCardData = (accountAddress: any) => {
+    console.log(" card data ", accountAddress)
     setLoading(true)
     try {
       getDelegatorData(accountAddress.toLowerCase()).then((res: any) => {
         if (res.data) {
-          console.log(res.data)
+          console.log(res.data, "delegator card data")
           let sortedData = res.data.data.validators.sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake))
           setDelegationsList(sortedData)
           setLoading(false)
@@ -125,9 +127,9 @@ const validatorAccount = ({userType, boneUSDValue, availBalance} : {userType : a
     if (account && userType === "Delegator") {
       getDelegatorCardData(account)
     }
-  }, [account])
+  }, [account, userType])
 
-console.log(restakeModal)
+// console.log(restakeModal)
 
 const restakeValidation: any = Yup.object({
   amount: Yup.number().min(0).max(availBalance).required("amount is required"),
@@ -372,7 +374,7 @@ const comissionValidation: any = Yup.object({
           let walletAddress : any = account
           let ID = await getValidatorId()
           let instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
-            instance.methods.restake(ID).send({ from: walletAddress })
+            instance.methods.unstake(ID).send({ from: walletAddress })
             .on('transactionHash', (res: any) => {
               console.log(res, "hash")
               dispatch(
@@ -417,9 +419,69 @@ const comissionValidation: any = Yup.object({
               }
             }
 
+      // restake DELEGATOR 
+      const restakeDelegator = () => {
+        console.log("withdraw Reward Delegator called")
+        if(account) {    
+          setTransactionState({state: true, title:'Pending'})
+          let walletAddress : any = account
+          let instance = new web3.eth.Contract(ValidatorShareABI, restakeModal.address);
+            instance.methods.restake().send({ from: walletAddress })
+            .on('transactionHash', (res: any) => {
+              console.log(res, "hash")
+              dispatch(
+                addTransaction({
+                  hash: res,
+                  from: walletAddress,
+                  chainId,
+                  summary: `${res}`,
+                })
+              )
+              // getActiveTransaction
+              let link = getExplorerLink(chainId, res, 'transaction')
+              setTransactionState({state: true, title:'Submitted'})
+              setHashLink(link)
+              setRestakeModal({value1: false, value2: false, address: ''})
+              
+            }).on('receipt', (res: any) => {
+              console.log(res, "receipt")
+              dispatch(
+                finalizeTransaction({
+                  hash: res.transactionHash,
+                  chainId,
+                  receipt: {
+                    to: res.to,
+                    from: res.from,
+                    contractAddress: res.contractAddress,
+                    transactionIndex: res.transactionIndex,
+                    blockHash: res.blockHash,
+                    transactionHash: res.transactionHash,
+                    blockNumber: res.blockNumber,
+                    status: 1
+                  }
+                })
+              )
+              getDelegatorCardData(walletAddress)
+            }).on('error', (res: any) => {
+              console.log(res, "error")
+              setRestakeModal({value1: false, value2: false, address: ''})
+              if (res.code === 4001) {
+                setRestakeModal({value1: false, value2: false, address: ''})
+                    }
+                  })
+              } else {
+                console.log("account addres not found")
+              }
+      }
+
     return (
         <>
         {loading && <LoadingSpinner />}
+        <DelegatePopup 
+        data={selectedRow}
+        showdelegatepop={stakeMore}
+        setdelegatepop={() => setStakeMoreModal(false)}
+        />
             <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg">
                 {/* retake popop start */}
                 <CommonModal
@@ -599,6 +661,41 @@ const comissionValidation: any = Yup.object({
                     </>
                 </CommonModal>
                 {/* withdraw popop ends */}
+                {/* withdraw popop start */}
+                <CommonModal
+                    title={"Restake"}
+                    show={restakeModal.value2}
+                    setShow={() => setRestakeModal({value1: false, value2: false, address: ''})}
+                    externalCls="stak-pop"
+                >
+                    <>
+                        <div className="cmn_modal val_popups">
+                            <>
+                                <div className="cmn_inpt_row">
+                                    <div className="form-control">
+                                        <label className="mb-2 mb-md-2 text-white">validator address</label>
+                                        <input
+                                         type="text"
+                                          placeholder="Validator address" 
+                                          className="w-100" 
+                                          value={restakeModal.address}
+                                          readOnly
+                                          />
+                                    </div>
+                                </div>
+                                <div className="pop_btns_area">
+                                    <div className="form-control">
+                                      <button
+                                      onClick={() => restakeDelegator()}
+                                      className='btn primary-btn w-100'>Submit</button>  
+                                      </div>
+                                </div>
+                            </>
+                        </div>
+
+                    </>
+                </CommonModal>
+                {/* withdraw popop ends */}
 
 
                 {/* unbound popop start */}
@@ -755,7 +852,7 @@ const comissionValidation: any = Yup.object({
                         <button onClick={() => handleModal('Unbound', item.validatorAddress, item.contractAddress, (parseInt(item.stake) / 10 ** 18).toFixed(4))} className="btn black-btn btn-small">Unbound</button>
                       </li>
                       <li className="btn-grp-lst">
-                        <button disabled={parseInt(item.commission) == 0} onClick={() => { setSelectedRow({ owner: item.contractAddress, commissionPercent: item.commission, name: item.name }); setStakeMoreModal(true); }} className="btn black-btn btn-small">Stake More</button>
+                        <button disabled={parseInt(item.commission) == 0} onClick={() => { setSelectedRow({ owner: item.contractAddress, contractAddress: item.contractAddress, commissionPercent: item.commission, name: item.name }); setStakeMoreModal(true); }} className="btn black-btn btn-small">Stake More</button>
                       </li>
 
                     </ul>
@@ -763,7 +860,7 @@ const comissionValidation: any = Yup.object({
                 </div>
               </div>
             )
-            : !loading ? <p>
+            : !loading && !delegationsList.length ? <p>
               No Record Found
             </p> : null
           }

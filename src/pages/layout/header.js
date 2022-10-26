@@ -43,19 +43,7 @@ export default function Header() {
   }, [user, account]);
 
 
-  async function loginNew() {
-    if (!isAuthenticated) {
 
-      await authenticate({ signingMessage: "Log in using Moralis" })
-        .then(function (user) {
-          console.log("logged in user:", user);
-          console.log(user.get("ethAddress"));
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
-  }
 
   async function logOut() {
     await Moralis.User.logOut()
@@ -110,12 +98,12 @@ export default function Header() {
         // if (library) {
         //   sign(account)
         // }
-        authenticate()
+        // authenticate()
       }
       const handleAccountsChanged = async (accounts) => {
         if (accounts.length > 0) {
           // if (library) {
-          authenticate()
+          // authenticate()
         }
         // activate(injected)
       }

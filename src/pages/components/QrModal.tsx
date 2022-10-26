@@ -40,9 +40,9 @@ const QrModal:React.FC<props> = ({show,setShow, title,address})=> {
             size={250}
              removeQrCodeBehindLogo={true}
              value={address} 
-             logoWidth={50}
+             logoWidth={30}
              bgColor='#fff' fgColor='#0C0F17' 
-             logoHeight={50}  
+             logoHeight={30}  
             // logoImage={QrLogo}
             // logoImage='https://www.thewistle.com/wp-content/uploads/2021/07/Shiba-Token-1.jpg'
             logoImage='../../images/shib-borderd-icon.png'

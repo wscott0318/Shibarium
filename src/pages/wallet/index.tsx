@@ -281,11 +281,14 @@ export default function Wallet() {
     }
   }
   const [sendToken,setSendToken] = useState('');
-  const sendTokenWithRoute = async (x:any) => {
+
+  const sendTokenWithRoute = async (x:any, type: any = "deposit") => {
+    console.log("Router data for send", x)
     localStorage.setItem("depositToken",JSON.stringify(x))
+    localStorage.setItem("bridgeType",type)
     await Router.push(`/withdraw`);
   }
-  console.log("Router data for send",sendToken)
+
   
   // const cardShimmerEffects = (lines:any, gaps:any) => {
   //   return <ShimmerTitle line={lines} gap={gaps} variant="primary" />;
@@ -388,7 +391,7 @@ export default function Wallet() {
                     </div>
                     <p className="pop_btm_txt text-center">
                       If you want to send funds between chains visit{" "}
-                      <a href="#">Shibarium Bridge</a>
+                      <p style={{cursor: "pointer"}} className='primary-text' onClick={() => sendTokenWithRoute(selectedToken)} >Shibarium Bridge test</p>
                     </p>
                   </div>
                 </div>
@@ -414,8 +417,7 @@ export default function Wallet() {
                           <div className="error-msg">
                             {!isValidAddress && senderAddress && (
                               <label className="mb-0 red-txt">
-                                Enter a valid receiver address on Shibarium
-                                Mainnet
+                                Enter a valid receiver address
                               </label>
                             )}
                           </div>
@@ -500,10 +502,10 @@ export default function Wallet() {
                                 ).toFixed(2)}
                               />
                             </span>
-                            <span>
+                            <span style={{ cursor : 'pointer'}} onClick={() => setSendAmount(selectedToken.balance)}>
                               Balance:{" "}
                               {selectedToken.balance
-                                ? selectedToken.balance.toFixed(4)
+                                ? selectedToken.balance
                                 : "00.00"}{" "}
                               {selectedToken.parentSymbol
                                 ? selectedToken.parentSymbol
@@ -550,7 +552,7 @@ export default function Wallet() {
                   <div className="pop-bottom">
                     <p className="pop_btm_txt text-center">
                       If you want to send funds between chains visit{" "}
-                      <a href="#">Shibarium Bridge</a>
+                      <p style={{cursor: "pointer"}} className='primary-text' onClick={() => sendTokenWithRoute(selectedToken)} >Shibarium Bridge</p>
                     </p>
                   </div>
                 </div>
@@ -638,7 +640,7 @@ export default function Wallet() {
                     </div>
                     <p className="pop_btm_txt text-center">
                       If you want to send funds between chains visit{" "}
-                      <a href="#">Shibarium Bridge</a>
+                      <p style={{cursor: "pointer"}} className='primary-text' onClick={() => sendTokenWithRoute(selectedToken)} >Shibarium Bridge</p>
                     </p>
                   </div>
                 </div>
@@ -785,7 +787,7 @@ export default function Wallet() {
                                   <div>
                                     <h6 className="fw-bold">
                                       {x.balance
-                                        ? x.balance.toFixed(4)
+                                        ? x.balance
                                         : "00.00"}
                                     </h6>
                                   </div>
@@ -867,8 +869,8 @@ export default function Wallet() {
                       </a>
                     </Link>
 
-                    <Link href="/how-it-works">
-                      <a className="btn white-btn w-100 d-block">
+                    <Link  href="/how-it-works">
+                      <a target="_blank" className="btn white-btn w-100 d-block">
                         How Shibarium works
                       </a>
                     </Link>
@@ -907,7 +909,7 @@ export default function Wallet() {
                                 <b>{x.parentSymbol}</b> - {x.parentName}
                               </td>
                               <td className="fix-td">
-                                {(x.balance || 0).toFixed(4)} -{" "}
+                                {(x.balance || "0.00")} -{" "}
                                 <NumberFormat
                                   thousandSeparator
                                   displayType={"text"}
@@ -927,11 +929,11 @@ export default function Wallet() {
                               <td className="fix-td" colSpan={2}>
                                 <div className="row mx-0">
                                   <div className="col-6 px-0">
-                                    <Link href="/">
+                                  <button onClick={()=>sendTokenWithRoute(x, "withdraw")}>
                                       <a className=" px-0 d-block text-start">
                                         Withdraw
                                       </a>
-                                    </Link>
+                                    </button>
                                   </div>
                                   <div className="col-6 px-0">
                                     {/* <Link href="/"> */}

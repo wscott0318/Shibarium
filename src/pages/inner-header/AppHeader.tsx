@@ -13,7 +13,7 @@ const AppHeader = () => {
           <img src="../../images/menu-icon.png" alt="" />
         </div>
         <NavDropdown className="light-text dd-ico" title="App" id="">
-          <NavDropdown.Item disabled={user ? false : true} href="/wallet">
+          <NavDropdown.Item href={account ? "/wallet" : "/login"}>
             <h6 className="fw-600 light-text left-border">
               Wallet
             </h6>
@@ -21,7 +21,7 @@ const AppHeader = () => {
               Send and receive crypto assets on Shibarium network
             </span>
           </NavDropdown.Item>
-          <NavDropdown.Item disabled={user ? false : true} href="/withdraw">
+          <NavDropdown.Item href={account ? "/withdraw" : "/login"}>
             <h6 className="fw-600 light-text left-border">
               Bridge
             </h6>

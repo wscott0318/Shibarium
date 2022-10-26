@@ -386,6 +386,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                           className="w-100"
                           placeholder="0.00"
                           name="balance"
+                          autoComplete="off"
                           value={values.balance}
                           onChange={handleChange}
                           onBlur={handleBlur}
