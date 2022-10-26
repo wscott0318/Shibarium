@@ -17,13 +17,8 @@ import {
 import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
 
-import { useMoralis } from "react-moralis";
-
 export default function Login() {
   const router = useRouter()
-  // const { authenticate, isAuthenticated, user,} = useMoralis();
-
-  // const {handleAccount}=useContext(ProjectContext)
   const [showInsModal, setShowInsModal] = useState(false);
  
   const { account } = useActiveWeb3React()

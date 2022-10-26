@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Dropdown, Navbar, Container, Nav } from "react-bootstrap";
+import { Dropdown, Navbar, Container, Nav, DropdownButton } from "react-bootstrap";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
 
@@ -52,6 +52,22 @@ const routeCheck = (x:string) => {
                       My Account
                     </a>
                   </button>
+                </li>
+                <li className="nav-item">
+                  <DropdownButton id="dropdown-item-button" title="">
+                    <Dropdown.Item
+                      as="button"
+                      onClick={() => router.push("/unbond-history")}
+                    >
+                      Unbound History
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      as="button"
+                      onClick={() => router.push("/reward-history")}
+                    >
+                      Reward History
+                    </Dropdown.Item>
+                  </DropdownButton>
                 </li>
               </ul>
             </div>

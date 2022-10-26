@@ -19,7 +19,6 @@ import {
 import Sidebar from "../layout/sidebar"
 import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
-import { useMoralis } from "react-moralis";
 import { useEthBalance } from "../../hooks/useEthBalance";
 import { useTokenBalance, getTokenBalance } from '../../hooks/useTokenBalance';
 import { BONE_ID, ENV_CONFIGS } from '../../config/constant';
@@ -90,6 +89,16 @@ export default function Wallet() {
     let result = Web3.utils.isAddress(address)
     setIsValidAddress(result)
     return result
+  }
+
+  const getNetworkName = () => {
+    if(chainId == 1){
+      return "Etherium Mainnet"
+    } else if (chainId == 5){
+      return "Goerli Testnet"
+    } else {
+      return "Shibarium Mainnet"
+    }
   }
 
   const getTokensList = () => {
@@ -355,7 +364,7 @@ export default function Wallet() {
                           width={16}
                         />
                       </div>
-                      Sending funds to unsupported exchanges will lead to
+                      Sending funds to <a href="#" className="text-primary"> unsupported exchanges</a> will lead to
                       permanent loss of funds.
                     </p>
                   </div>
@@ -826,7 +835,7 @@ export default function Wallet() {
                         value={((availBalance || 0) * boneUSDValue).toFixed(2)}
                       />
                     </h1>
-                    <p>Etherium mainnet</p>
+                    <p>{getNetworkName()}</p>
                   </div>
                 </div>
                 <div className="bal-col">
@@ -878,7 +887,7 @@ export default function Wallet() {
                 </div>
               </div>
               <div className="assets_btm_area">
-                <h2>Assets on Shibarium</h2>
+                <h2>Assets on {getNetworkName()}</h2>
                 <div className="cmn_dasdrd_table mb-3 mb-sm-4 fix-layout">
                   <div className="table-responsive">
                     <table className="table table-borderless mb-0 smb-0 fxd-layout">
@@ -921,15 +930,15 @@ export default function Wallet() {
                               </td>
                               <td className="fix-td">
                                 {/* <Link href="/withdraw"> */}
-                                <button onClick={()=>sendTokenWithRoute(x)}>
-                                  <a className="px-0">Deposit</a>
+                                <button className="d-block w-100" onClick={()=>sendTokenWithRoute(x)}>
+                                  <a className="px-0 d-block">Deposit</a>
                                 </button>
                                 {/* </Link> */}
                               </td>
                               <td className="fix-td" colSpan={2}>
                                 <div className="row mx-0">
                                   <div className="col-6 px-0">
-                                  <button onClick={()=>sendTokenWithRoute(x, "withdraw")}>
+                                  <button className="d-block w-100" onClick={()=>sendTokenWithRoute(x, "withdraw")}>
                                       <a className=" px-0 d-block text-start">
                                         Withdraw
                                       </a>
@@ -937,7 +946,7 @@ export default function Wallet() {
                                   </div>
                                   <div className="col-6 px-0">
                                     {/* <Link href="/"> */}
-                                    <button onClick={()=>{
+                                    <button className="d-block w-100" onClick={()=>{
                                       setSelectedToken(x);
                                       setSenderModal(true);
                                       }}>
