@@ -249,8 +249,8 @@
             margin: 0px 0;
             @media #{$max-md}{
                 white-space: normal;
+                padding: 12px 0 !important;
             }
-           
         }
         .dropdown-item:hover {
             background: #000;
@@ -294,6 +294,9 @@
                 background:$primary;
                 -webkit-transform: translateY(0px);
                 transform: translateY(0px);
+                @media #{$max-md}{
+                    top: 0;
+                }
             }
         }
     }
