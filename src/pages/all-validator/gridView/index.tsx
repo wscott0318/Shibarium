@@ -67,7 +67,6 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                       : <div className='no-found'>
                           <div>
                             <div><img src="../../images/no-record.png"/></div>
-                            <p className='text-center'>No Record Found.</p>
                           </div>
                         </div>
                 } 
