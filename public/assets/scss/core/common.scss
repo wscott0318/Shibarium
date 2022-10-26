@@ -175,11 +175,13 @@
 .cus-dd{
     .dropdown-menu{
         background: $body-bg-secondry;
-        padding: 20px;
+        // padding: 20px;
         color:$white;
         right: 0;
         left: auto;
         top: 35px;
+        margin: 0;
+        padding: 0;
         // @media #{$max-xl}{
         //     right: -30px;
         // }

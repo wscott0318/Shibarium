@@ -353,7 +353,7 @@ export default function Wallet() {
                           width={16}
                         />
                       </div>
-                      Sending funds to unsupported exchanges will lead to
+                      Sending funds to <a href="#" className="text-primary"> unsupported exchanges</a> will lead to
                       permanent loss of funds.
                     </p>
                   </div>
