@@ -91,6 +91,16 @@ export default function Wallet() {
     return result
   }
 
+  const getNetworkName = () => {
+    if(chainId == 1){
+      return "Etherium Mainnet"
+    } else if (chainId == 5){
+      return "Goerli Testnet"
+    } else {
+      return "Shibarium Mainnet"
+    }
+  }
+
   const getTokensList = () => {
     getWalletTokenList().then(res => {
       let list = res.data.message.tokens;
@@ -825,7 +835,7 @@ export default function Wallet() {
                         value={((availBalance || 0) * boneUSDValue).toFixed(2)}
                       />
                     </h1>
-                    <p>Etherium mainnet</p>
+                    <p>{getNetworkName()}</p>
                   </div>
                 </div>
                 <div className="bal-col">
@@ -877,7 +887,7 @@ export default function Wallet() {
                 </div>
               </div>
               <div className="assets_btm_area">
-                <h2>Assets on Shibarium</h2>
+                <h2>Assets on {getNetworkName()}</h2>
                 <div className="cmn_dasdrd_table mb-3 mb-sm-4 fix-layout">
                   <div className="table-responsive">
                     <table className="table table-borderless mb-0 smb-0 fxd-layout">
