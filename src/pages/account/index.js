@@ -10,7 +10,6 @@ import {UserType} from '../../enums/UserType'
 import { BONE_ID, ENV_CONFIGS } from '../../config/constant';
 import {useEthBalance} from '../../hooks/useEthBalance';
 import {useTokenBalance} from '../../hooks/useTokenBalance';
-import { useERC20Balances } from "react-moralis";
 import { ChainId } from "@shibarium/core-sdk";
 import { getDelegatorData } from "../../services/apis/user/userApi";
 import fromExponential from 'from-exponential';

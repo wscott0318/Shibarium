@@ -17,7 +17,6 @@ import ReactGA from 'react-ga'
 
 import Option from './Option'
 import PendingView from './PendingView'
-import { useMoralis } from 'react-moralis'
 import { login } from 'app/functions/login'
 
 enum WALLET_VIEWS {
@@ -43,7 +42,6 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
   const activePrevious = usePrevious(active)
   const connectorPrevious = usePrevious(connector)
 
-  const { authenticate, isAuthenticated, user,logout } = useMoralis();
 
     // const login = async () => {
     //   if (!isAuthenticated) {
@@ -93,7 +91,6 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
   }, [])
 
   const handleDeactivate = useCallback(async() => {
-await logout()
     deactivate()
     setWalletView(WALLET_VIEWS.ACCOUNT)
   }, [deactivate])
@@ -131,7 +128,7 @@ await logout()
           } else {
             setPendingError(true)
           }
-        }).then(()=>login(authenticate,isAuthenticated)) 
+        }).then(()=>login()) 
     },
     [activate]
   )
