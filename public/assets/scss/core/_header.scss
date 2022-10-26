@@ -60,10 +60,6 @@
             margin-bottom: 0px;
             margin-right: 0;
         }
-        @media #{$max-xxsm}{
-            margin-right: 10px;
-        }
-
     }
     .bg-dark-1000{
         background-color: $primary;
