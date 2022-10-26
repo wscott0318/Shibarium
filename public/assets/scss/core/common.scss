@@ -2680,8 +2680,8 @@ input:-internal-autofill-selected {
             }
             &:last-child{
                 width: 400px;
-                @media #{$max-exl}{
-                    width:270px;
+                @media #{$max-xxl}{
+                    width:300px;
                 }
                 @media (min-width:2500px){
                     width: auto;
@@ -2708,8 +2708,8 @@ input:-internal-autofill-selected {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 width: 400px;
-                @media #{$max-exl}{
-                    width:270px;
+                @media #{$max-xxl}{
+                    width:300px;
                 }
                 @media (min-width:2500px){
                     width: auto;
