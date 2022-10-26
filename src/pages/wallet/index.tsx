@@ -354,7 +354,7 @@ export default function Wallet() {
                           width={16}
                         />
                       </div>
-                      Sending funds to unsupported exchanges will lead to
+                      Sending funds to <a href="#" className="text-primary"> unsupported exchanges</a> will lead to
                       permanent loss of funds.
                     </p>
                   </div>
@@ -920,15 +920,15 @@ export default function Wallet() {
                               </td>
                               <td className="fix-td">
                                 {/* <Link href="/withdraw"> */}
-                                <button onClick={()=>sendTokenWithRoute(x)}>
-                                  <a className="px-0">Deposit</a>
+                                <button className="d-block w-100" onClick={()=>sendTokenWithRoute(x)}>
+                                  <a className="px-0 d-block">Deposit</a>
                                 </button>
                                 {/* </Link> */}
                               </td>
                               <td className="fix-td" colSpan={2}>
                                 <div className="row mx-0">
                                   <div className="col-6 px-0">
-                                  <button onClick={()=>sendTokenWithRoute(x, "withdraw")}>
+                                  <button className="d-block w-100" onClick={()=>sendTokenWithRoute(x, "withdraw")}>
                                       <a className=" px-0 d-block text-start">
                                         Withdraw
                                       </a>
@@ -936,7 +936,7 @@ export default function Wallet() {
                                   </div>
                                   <div className="col-6 px-0">
                                     {/* <Link href="/"> */}
-                                    <button onClick={()=>{
+                                    <button className="d-block w-100" onClick={()=>{
                                       setSelectedToken(x);
                                       setSenderModal(true);
                                       }}>
