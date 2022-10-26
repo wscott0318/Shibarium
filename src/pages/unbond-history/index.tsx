@@ -18,6 +18,7 @@ import fromExponential from "from-exponential";
 import Header from "pages/layout/header";
 import StakingHeader from "pages/staking-header";
 import Pagination from "app/components/Pagination";
+import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 
 
 export default function Unbond() {
@@ -289,97 +290,108 @@ export default function Unbond() {
                       </tr>
                     </tbody> */}
                     <tbody>
-                      {slicedList.length
-                        ? slicedList.map((value: any) => (
-                            <tr key={value.unbondStartedTxHash}>
-                              <td>
-                                <div className="d-flex align-items-center">
-                                  <div className="coin-img me-2">
-                                    <img
-                                      className="img-fluid"
-                                      src="../../assets/images/bear.png"
-                                      alt="coin"
-                                      width={50}
-                                      height={50}
-                                    />
-                                  </div>
-                                  <span className="tb-data align">
-                                    {value.validatorName}
-                                  </span>
+                      {slicedList.length ? (
+                        slicedList.map((value: any) => (
+                          <tr key={value.unbondStartedTxHash}>
+                            <td>
+                              <div className="d-flex align-items-center">
+                                <div className="coin-img me-2">
+                                  <img
+                                    className="img-fluid"
+                                    src="../../assets/images/bear.png"
+                                    alt="coin"
+                                    width={50}
+                                    height={50}
+                                  />
                                 </div>
-                              </td>
-                              <td>
                                 <span className="tb-data align">
-                                  {parseInt(value.amount) / 10 ** 18} Bone
+                                  {value.validatorName}
                                 </span>
-                                {/* <p className="mb-0 fs-12 mute-text">$8.2</p> */}
-                              </td>
-                              <td>
-                                {value.completed ? (
-                                  <>
-                                    <div className="align-items-center">
-                                      <span className="tb-data align up-text">
-                                        Success
-                                      </span>
-                                      <p className="mb-0 fs-12 primary-text mt-1">
-                                        Claimed
-                                      </p>
-                                    </div>
-                                  </>
-                                ) : value.remainingEpoch > 0 ? (
-                                  <>
-                                    <div className="">
-                                      <span className="d-block align up-text mb-1">
-                                        Wait for <b>{value.remainingEpoch}</b>{" "}
-                                        checkpoints
-                                      </span>
-                                      <button
-                                        className="primary-badge px-2"
-                                        type="button"
-                                        disabled={true}
-                                        onClick={() => setClamNowModals({})}
-                                        //  className="mb-0 fs-12 "
-                                      >
-                                        Claim Now
-                                      </button>
-                                    </div>
-                                  </>
-                                ) : (
-                                  <>
-                                    <div className="">
-                                      <span className="d-block align up-text mb-1">
-                                        Unbound period completed
-                                      </span>
-                                      <button
-                                        className="primary-badge px-2"
-                                        type="button"
-                                        onClick={() =>
-                                          setClamNowModals({
-                                            data: value,
-                                            confirm: true,
-                                            progress: false,
-                                            completed: false,
-                                          })
-                                        }
-                                        //  className="mb-0 fs-12 "
-                                      >
-                                        Claim Now
-                                      </button>
-                                    </div>
-                                  </>
-                                )}
-                              </td>
-                              <td className="text-start">
-                                <span className="tb-data align">
-                                  {value.unbondStartedTimeStampFormatted}
-                                </span>
-                              </td>
-                            </tr>
-                          ))
-                        : null}
+                              </div>
+                            </td>
+                            <td>
+                              <span className="tb-data align">
+                                {parseInt(value.amount) / 10 ** 18} Bone
+                              </span>
+                              {/* <p className="mb-0 fs-12 mute-text">$8.2</p> */}
+                            </td>
+                            <td>
+                              {value.completed ? (
+                                <>
+                                  <div className="align-items-center">
+                                    <span className="tb-data align up-text">
+                                      Success
+                                    </span>
+                                    <p className="mb-0 fs-12 primary-text mt-1">
+                                      Claimed
+                                    </p>
+                                  </div>
+                                </>
+                              ) : value.remainingEpoch > 0 ? (
+                                <>
+                                  <div className="">
+                                    <span className="d-block align up-text mb-1">
+                                      Wait for <b>{value.remainingEpoch}</b>{" "}
+                                      checkpoints
+                                    </span>
+                                    <button
+                                      className="primary-badge px-2"
+                                      type="button"
+                                      disabled={true}
+                                      onClick={() => setClamNowModals({})}
+                                      //  className="mb-0 fs-12 "
+                                    >
+                                      Claim Now
+                                    </button>
+                                  </div>
+                                </>
+                              ) : (
+                                <>
+                                  <div className="">
+                                    <span className="d-block align up-text mb-1">
+                                      Unbound period completed
+                                    </span>
+                                    <button
+                                      className="primary-badge px-2"
+                                      type="button"
+                                      onClick={() =>
+                                        setClamNowModals({
+                                          data: value,
+                                          confirm: true,
+                                          progress: false,
+                                          completed: false,
+                                        })
+                                      }
+                                      //  className="mb-0 fs-12 "
+                                    >
+                                      Claim Now
+                                    </button>
+                                  </div>
+                                </>
+                              )}
+                            </td>
+                            <td className="text-start">
+                              <span className="tb-data align">
+                                {value.unbondStartedTimeStampFormatted}
+                              </span>
+                            </td>
+                          </tr>
+                        ))
+                      ) : list.length && !slicedList.length ? (
+                        <tr>
+                          <td colSpan={6}>
+                            <DynamicShimmer type={"table"} rows={3} cols={4} />
+                          </td>
+                        </tr>
+                      ) : null}
                     </tbody>
                   </table>
                 </div>
+                {!list.length ? (
+                  <p className="py-3 py-md-4 py-lg-5 text-center">
+                    No record found
+                  </p>
+                ) : null}
               </div>
               <Pagination
                 currentPage={currentPage}
