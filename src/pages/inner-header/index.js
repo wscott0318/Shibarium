@@ -87,7 +87,7 @@ const InnerHeader = () => {
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto align-items-center">
                 <AppHeader />
-                <Nav.Item className="d-flex align-items-center">
+                <Nav.Item className="d-flex align-items-center cus_dropdown">
                   <Link href={"javascript:void(0)"}>
                     <a className="d-md-none swap-btn">
                       <img
