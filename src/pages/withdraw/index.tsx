@@ -2208,8 +2208,7 @@ const handleSearchList = (key :any) => {
                         </div>
                         <p className="row-description">
                           Delegation/Staking takes place on Ethereum. Do not
-                          deposit funds to Shibarium for this purpose. To
-                          delegate or stake please visit the{" "}
+                          deposit funds to Shibarium for this purpose.{" "}
                           {/* <a className="orange-txt" href="javascript:void(0);">
                             Staking UI
                           </a> */}
@@ -2361,7 +2360,7 @@ const handleSearchList = (key :any) => {
                                     <div className="field-grid row">
                                       <div className="col-sm-5 field-col res-align">
                                         <div
-                                          className="form-field position-relative"
+                                          className="form-field position-relative fix-coin-field"
                                           onClick={() => {
                                             setTokenModal(true);
                                             setTokenState({
@@ -2516,7 +2515,7 @@ const handleSearchList = (key :any) => {
                               <div className="field-grid row">
                                 <div className="col-sm-5 field-col res-align">
                                   <div
-                                    className="form-field position-relative"
+                                    className="form-field position-relative fix-coin-field"
                                     onClick={() => {
                                       setTokenModal(true);
                                       setTokenState({

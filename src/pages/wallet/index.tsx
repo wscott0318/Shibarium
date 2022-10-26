@@ -987,7 +987,7 @@ export default function Wallet() {
                           src="../../images/no-record.png"
                         />
                       </div>
-                      <p className="float-found text-center">No Record Found</p>
+                      {/* <p className="float-found text-center">No Record Found</p */}
                     </div>
                   ) : null}
                 </div>

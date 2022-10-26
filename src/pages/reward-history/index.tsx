@@ -8,6 +8,7 @@ import { useActiveWeb3React } from '../../services/web3'
 import Header from "pages/layout/header";
 import StakingHeader from "pages/staking-header";
 import Pagination from "app/components/Pagination";
+import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 
 export default function Unbond() {
 
@@ -80,7 +81,7 @@ export default function Unbond() {
                       </tr>
                     </thead>
                     <tbody>
-                      {slicedList.length &&
+                      {slicedList.length ?
                         slicedList.map((value: any) => (
                           <tr>
                             <td>
@@ -122,10 +123,21 @@ export default function Unbond() {
                               </span>
                             </td>
                           </tr>
-                        ))}
+                        ))  : list.length && !slicedList.length ? (
+                        <tr>
+                          <td colSpan={6}>
+                            <DynamicShimmer type={"table"} rows={3} cols={4} />
+                          </td>
+                        </tr>
+                      ) : null}
                     </tbody>
                   </table>
                 </div>
+                {!list.length ? (
+                  <p className="py-3 py-md-4 py-lg-5 text-center">
+                    No record found
+                  </p>
+                ) : null}
               </div>
               <Pagination
                 currentPage={currentPage}

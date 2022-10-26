@@ -106,13 +106,13 @@ h1 {
 h2 {
     font-size: 40px;
     @media #{$max-xxl}{
-        font-size: 36px;
+        font-size: 30px;
     }
     @media #{$max-xl}{
-        font-size: 32px;
+        font-size: 28px;
     }
     @media #{$max-lg}{
-        font-size: 28px;
+        font-size: 26px;
     }
     @media #{$max-md}{
         font-size: 26px;
