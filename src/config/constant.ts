@@ -12,9 +12,6 @@ export const STAKING_API_BASE_URL = 'https://dev-staking-api-1.hailshiba.com/api
  *Using for Transaction via Metamask
  */
 
-export const MORALIS_SERVER_URL="https://7q5upqnuqufz.usemoralis.com:2053/server";
-export const MORALIS_APP_ID="IjZ7Ik5VKdXUOkKOpOZT3OowA5FqXLBu0zemJwbB";
-
 export const SHIBARIUM_CHAIN_ID = ChainId.SHIBARIUM; 
 export const ENV_CONFIGS ={
     [ChainId.SHIBARIUM]:{

@@ -15,8 +15,6 @@ import { useUserType, useUserOpenMev } from "../../state/user/hooks";
 import { UserType } from "../../enums/UserType";
 import NetworkDetails from './NetworkDetails';
 import Footer from "../footer/index";
-// import { useMoralis } from "react-moralis";
-// import BannerCard from './bannerCard'
 import StakingHeader from '../staking-header'
 import ValidatorsCard from "../all-validator/valitotors";
  
@@ -55,7 +53,6 @@ const BoneStaking = () => {
 
   const [modalShow, setModalShow] = useState(false);
   const router = useRouter();
-  // const {user} = useMoralis();
   console.log(userType)
 
   const [show, setShow] = React.useState();

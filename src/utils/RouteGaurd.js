@@ -1,16 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-// import { useMoralis } from 'react-moralis';
-// import { useActiveWeb3React } from 'app/services/web3';
 
 export { RouteGuard };
 
-function RouteGuard({ children,user }) {
+function RouteGuard({ children }) {
    
     const router = useRouter();
     const [authorized, setAuthorized] = useState(false);
-    // const {logout} = useMoralis();
-    // const {deactivate} = useActiveWeb3React()
     useEffect(() => {
       
         authCheck(router.asPath);

@@ -21,12 +21,9 @@ import {
 import Sidebar  from "../layout/sidebar"
 import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
-import { useMoralis } from "react-moralis";
 
 export default function Deposit() {
   const router = useRouter()
-  // const { authenticate, isAuthenticated, user,} = useMoralis();
-
   // const {handleAccount}=useContext(ProjectContext)
   const [showSendModal, setSendModal] = useState(false);
   const [menuState, setMenuState] = useState(false);
