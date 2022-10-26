@@ -36,7 +36,7 @@ const InnerHeader = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const { account, connector, library,deactivate } = useWeb3React()
+  const { account,chainId = 1,  connector, library,deactivate } = useWeb3React()
   const { ENSName } = useENSName(account ?? undefined);
   const [showScanpop, setScanpop] = useState(false);
 
@@ -56,6 +56,16 @@ const InnerHeader = () => {
     await router.push("/home");
   }
   const [selectNet, setSelectNet] = useState("Shibarium Mainnet")
+
+  const getNetworkName = () => {
+    if(chainId == 1){
+      return "Etherium Mainnet"
+    } else if (chainId == 5){
+      return "Goerli Testnet"
+    } else {
+      return "Shibarium Mainnet"
+    }
+  }
 
   return (
     <>
@@ -90,12 +100,12 @@ const InnerHeader = () => {
                   </Link>
                       <NavDropdown
                         className="form-select innerDivBgBlack hd-sel"
-                        title={selectNet}
+                        title={getNetworkName()}
                         id=""
                       >
                         <NavDropdown.Item
                           // disabled={user ? false : true}
-                          onClick={() => setSelectNet("Shibarium Mainnet")}
+                          onClick={() => toggleNetworkModal()}
                         >
                           <h6 className="fw-600 light-text left-border">
                             Switch Network
