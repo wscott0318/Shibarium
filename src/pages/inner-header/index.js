@@ -36,7 +36,7 @@ const InnerHeader = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const { account, connector, library,deactivate } = useWeb3React()
+  const { account,chainId = 1,  connector, library,deactivate } = useWeb3React()
   const { ENSName } = useENSName(account ?? undefined);
   const [showScanpop, setScanpop] = useState(false);
 
@@ -57,6 +57,16 @@ const InnerHeader = () => {
   }
   const [selectNet, setSelectNet] = useState("Shibarium Mainnet")
 
+  const getNetworkName = () => {
+    if(chainId == 1){
+      return "Etherium Mainnet"
+    } else if (chainId == 5){
+      return "Goerli Testnet"
+    } else {
+      return "Shibarium Mainnet"
+    }
+  }
+
   return (
     <>
       <header className="inner-header">
@@ -72,25 +82,11 @@ const InnerHeader = () => {
         <Navbar className="py-0" variant="dark">
           <Container>
             <div className="left-widget">
-              {/* <Navbar.Brand className="nav-logo">
-                <img className="img-fluid" src="../../images/logo.png" alt="logo" width={120} />
-              </Navbar.Brand> */}
-              {/* <Navbar.Brand onClick={() => handleMenuState(true)} className="menu-btn">
-                <img className="img-fluid" src="../../images/menu.svg" alt="" />
-              </Navbar.Brand> */}
             </div>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto align-items-center">
                 <AppHeader />
-                {/* <Nav.Item>
-                  <Link href={'javascript:void(0)'}>
-                    <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
-                      <img className="img-fluid me-2" src="../../images/meta-icon.png" alt="meta-img"/>
-                      <span>0x21A...48A5</span>
-                    </a>
-                  </Link>
-                </Nav.Item> */}
                 <Nav.Item className="d-flex align-items-center">
                   <Link href={"javascript:void(0)"}>
                     <a className="d-md-none swap-btn">
@@ -102,58 +98,28 @@ const InnerHeader = () => {
                       />
                     </a>
                   </Link>
-                  {/* <button onClick={toggleNetworkModal}>
-                    <a
-                      className="d-none btn primary-btn d-md-flex align-items-center"
-                      href="javascript:void(0)"
-                    >
-                      <span className="d-none d-sm-inline-block">
-                        Switch Network
-                      </span>
-                      <img
-                        className="img-fluid d-sm-none"
-                        src="../../images/meta-icon.png"
-                        alt="img=icon"
-                        width={12}
-                      />
-                    </a>
-                  </button> */}
-                  
-                  {/* New button switch to nerwork start */}
-                  {/* <div className="hd-sel position-relative d-none d-md-flex"> */}
-                    {/* <select
-                      class="form-select primary-btn"
-                      aria-label="Default select example"
-                    > */}
                       <NavDropdown
                         className="form-select innerDivBgBlack hd-sel"
-                        title={selectNet}
+                        title={getNetworkName()}
                         id=""
                       >
                         <NavDropdown.Item
                           // disabled={user ? false : true}
-                          onClick={() => setSelectNet("Shibarium Mainnet")}
+                          onClick={() => toggleNetworkModal()}
                         >
                           <h6 className="fw-600 light-text left-border">
-                            Mainnet
+                            Switch Network
                           </h6>
                           <span className="light-text">
-                            Switch Network
+                            Switch to other Network
                           </span>
                         </NavDropdown.Item>
                       </NavDropdown>
-                    {/* </select> */}
-                    {/* <span class="arrow-down"></span> */}
-                  {/* </div> */}
-                  {/* New button switch to nerwork end */}
                 </Nav.Item>
                 <Nav.Item className="btn-status">
                   <Web3Status />
                   <Dropdown className="nav-item d-flex align-items-center cus-dd mob-drop">
                     <div className="dot-icon" id="basic-nav-dropdown">
-                      {/* <div class="drop-chev">
-                      <img className="img-fluid" src="../../images/chev-drop.png" alt="chev-ico"/>
-                    </div> */}
                     </div>
                     <NavDropdown className="me-3">
                       <div className="drop-head">
@@ -182,7 +148,6 @@ const InnerHeader = () => {
                           </div>
                           <div className="botom-txt">
                             <div className="code-txt">
-                              {/* <span className="key">0xe7832a34576B9A23b98B7cE8ef83B1a8D9D229f0</span> */}
                               <span className="key">{ENSName || account}</span>
                             </div>
                             <div className="copy-blk">
@@ -261,10 +226,6 @@ const InnerHeader = () => {
                           </div>
                         </div>
                       </NavDropdown.Item>
-                      {/* <NavDropdown.Divider />
-                                <NavDropdown.Item href="#action/3.4">
-                                  Separated link
-                                </NavDropdown.Item> */}
                     </NavDropdown>
                   </Dropdown>
                 </Nav.Item>

@@ -53,6 +53,30 @@ const routeCheck = (x:string) => {
                     </a>
                   </button>
                 </li>
+                <li className="nav-item">
+                  <button onClick={() => routeHandler("/unbond-history")}>
+                    <a
+                      className={`nav-link ff-mos ${
+                        routeCheck("unbond-history") && "active"
+                      }`}
+                      href="javascript:void(0);"
+                    >
+                      Unbound History
+                    </a>
+                  </button>
+                </li>
+                <li className="nav-item">
+                  <button onClick={() => routeHandler("/reward-history")}>
+                    <a
+                      className={`nav-link ff-mos ${
+                        routeCheck("reward-history") && "active"
+                      }`}
+                      href="javascript:void(0);"
+                    >
+                      Reward History
+                    </a>
+                  </button>
+                </li>
               </ul>
             </div>
           </div>
