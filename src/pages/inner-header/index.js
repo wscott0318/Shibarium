@@ -133,7 +133,7 @@ const InnerHeader = () => {
                         <div className="head-txt">
                           <div className="top-txt">
                             <div>
-                              <span>Account 0xe78</span>
+                              <span>Account</span>
                             </div>
                             <div>
                               <span>

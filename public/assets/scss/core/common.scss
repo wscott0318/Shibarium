@@ -2940,3 +2940,13 @@ input:-internal-autofill-selected {
         display: none;
     } 
 }
+
+.fix-coin-field{
+    .lite-color{
+        width: 100px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        display: block;
+    }
+}
