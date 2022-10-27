@@ -3081,10 +3081,11 @@ input:-internal-autofill-selected {
             border-left: 0;
             width: 10px;
             height: 10px;
-            top: 40%;
+            top: 50%;
             position: absolute;
             right: 5px;
             left: auto;
+            margin-top: -3px;
         }
     }
 }
