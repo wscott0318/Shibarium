@@ -214,9 +214,7 @@
      margin-top: 15px;
      .field-col{
          &:first-child{
-            @media #{$max-md}{
-                padding-right: 0;
-            }
+            
             @media #{$max-sm}{
                 padding-right: 12px;
                 margin-bottom: 12px;

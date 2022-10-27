@@ -63,7 +63,7 @@ useEffect(() => {
                   </button>
                 </li>
                 <li className="nav-item">
-                  <DropdownButton className="dd-style" id="dropdown-item-button" title={"History"}>
+                  <DropdownButton className="dd-style cus-arw" id="dropdown-item-button" title={"History"}>
                     <Dropdown.Item
                       as="button"
                       onClick={() => {
