@@ -249,7 +249,7 @@
     .nav-link.active {
         color:$white !important;
     }
-
+    
     .dropdown-menu{
         right: 0;
         @media #{$max-sm}{
@@ -307,7 +307,7 @@
                 content: "";
                 position: absolute;
                 left: 0;
-                top:4px;
+                top:0;
                 bottom: 0;
                 height: 100%;
                 width: 3px;
@@ -470,4 +470,7 @@
             }
         }
     } 
+}
+.navbar-nav .show > .nav-link, .navbar-nav .nav-link.active{
+    color: $white;       
 }
