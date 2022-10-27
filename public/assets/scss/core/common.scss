@@ -122,7 +122,7 @@
     border-radius: 10px;
     font-size: 16px;
     @media #{$max-xxl}{
-        padding: 10px 20px;
+        padding: 10px 16px;
         font-size: 16px;
     }
     @media #{$max-xl}{
@@ -2954,6 +2954,23 @@ input:-internal-autofill-selected {
         display: none;
     } 
 }
+.leading-5 {
+    font-size: 19px !important;
+}
+.grid-flow-row-dense button span {
+    width: 50px !important;
+}
+.grid-flow-row-dense button span img {
+    width: 100% !important;
+}
+.rounded  span {
+    width: 50px !important;
+}
+.rounded  span img {
+    width: 100% !important;
+}
+
+
 
 .fix-coin-field{
     .lite-color{
