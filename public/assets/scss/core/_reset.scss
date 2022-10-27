@@ -787,3 +787,19 @@ body {
 }
 
    
+// override scss
+.login-dialog-container.v-card[data-v-6030e440] {
+    background: $body-bg-800 !important;
+}
+
+.login-dialog-container.v-card .login-header[data-v-6030e440] {
+    background: $body-bg-800 !important;
+    border-bottom: 1px solid rgba($white,0.89) !important;
+}
+.login-dialog-container.v-card .footer-links[data-v-6030e440] {
+    background:$body-bg-800 !important;
+}
+.login-btn[data-v-5acd22a6] {
+    background:$body-bg;
+    border: 1px solid rgba($white,0.89);
+}
