@@ -207,7 +207,7 @@ const NetworkModal: FC = () => {
 
   return (
     <HeadlessUiModal.Controlled isOpen={networkModalOpen} onDismiss={toggleNetworkModal}>
-      <div className="flex flex-col gap-4" style={{maxHeight:'90vh', overflow: 'auto'}}>
+      <div className="flex flex-col gap-4 wallet-network" style={{maxHeight:'90vh', overflow: 'auto'}}>
         <HeadlessUiModal.Header header={`Select a network`} onClose={toggleNetworkModal} />
         <div className="grid grid-flow-row-dense grid-cols-1 gap-4 overflow-y-auto md:grid-cols-2">
           {[
