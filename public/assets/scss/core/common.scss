@@ -3102,26 +3102,7 @@ input:-internal-autofill-selected {
             position: absolute;
             right: 5px;
             left: auto;
-            margin-top: -3px;
-        }
-    }
-}
-
-
-.cus-arw{
-    .btn{
-        &::after{
-            -webkit-transform: translateY(-50%);
-            transform: translateY(-50%) rotate(45deg);
-            border: 2px solid;
-            border-top: 0;
-            border-left: 0;
-            width: 10px;
-            height: 10px;
-            top: 40%;
-            position: absolute;
-            right: 5px;
-            left: auto;
+            margin-top: -2px;
         }
     }
 }
