@@ -305,7 +305,7 @@ export default function Account() {
                         </div>
                         </li> */}
                             </ul>
-                            <div className="step_content d-none">
+                            <div className="step_content">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec">
                                         {/* <img className="img-fluid" src="../../images/progrs-img-2.png" /> */}
