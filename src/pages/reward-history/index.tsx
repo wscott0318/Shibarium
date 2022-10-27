@@ -69,7 +69,7 @@ export default function Unbond() {
 
           <section className="mid_cnt_area">
             <div className="container">
-              <div className="cmn_dasdrd_table">
+              <div className="cmn_dasdrd_table block-fix table-fix">
                 <div className="table-responsive">
                   <table className="table table-borderless">
                     <thead>
@@ -134,9 +134,13 @@ export default function Unbond() {
                   </table>
                 </div>
                 {!list.length ? (
-                  <p className="py-3 py-md-4 py-lg-5 text-center">
-                    No record found
-                  </p>
+                  <div className="no-found">
+                  <div>
+                    <div className="text-center">
+                      <img src="../../images/no-record.png"/>
+                    </div>
+                  </div>
+                </div>
                 ) : null}
               </div>
               <Pagination

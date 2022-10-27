@@ -231,6 +231,25 @@
 
 
 .app-drop {
+    position: relative;
+    .dot-icon {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .dd-ico{
+        .dropdown-toggle{
+            padding-left: 38px;
+            @media #{$max-xsm}{
+                padding-left: 0;
+            }
+        }
+    }
+    .nav-link.active {
+        color:$white !important;
+    }
+
     .dropdown-menu{
         right: 0;
         @media #{$max-sm}{
@@ -283,6 +302,7 @@
         .left-border {
             position: relative;
             padding-left: 12px;
+            margin-bottom: 5px;
             &::before {
                 content: "";
                 position: absolute;
