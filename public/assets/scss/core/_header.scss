@@ -283,6 +283,7 @@
         .left-border {
             position: relative;
             padding-left: 12px;
+            margin-bottom: 5px;
             &::before {
                 content: "";
                 position: absolute;

@@ -3013,3 +3013,12 @@ input:-internal-autofill-selected {
         font-family: "MADE Okine Sans PERSONAL USE";
     }
 }
+.app-drop{
+    .dropdown-menu{
+        .dropdown-item{
+            &:focus{
+                background: $body-bg-secondry;
+            }
+        }
+    }
+}  
