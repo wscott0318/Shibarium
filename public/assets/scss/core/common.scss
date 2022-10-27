@@ -2982,3 +2982,10 @@ input:-internal-autofill-selected {
 .wid-overide{
     max-width: 38rem !important;
 }
+.buttons-fix{
+    .btn{
+        @media #{$min-xxl}{
+            padding: 11px 12px;
+        } 
+    }
+}

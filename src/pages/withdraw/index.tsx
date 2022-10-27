@@ -2258,7 +2258,7 @@ const handleSearchList = (key :any) => {
                         <p className="lite-color fw-bold">$10.00</p>
                       </div>
                     </div>
-                    <div className="sub-buttons-sec row">
+                    <div className="sub-buttons-sec row buttons-fix">
                       <div className="col-lg-6 mb-3 mb-lg-0">
                         {/* <button type="button" className="btn white-btn w-100">
                           How Shibarium Works
