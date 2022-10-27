@@ -242,7 +242,7 @@
         .dropdown-toggle{
             padding-left: 38px;
             @media #{$max-xsm}{
-                padding-left: 0;
+                padding-left: 28px;
             }
             &::after{
                 content: none;

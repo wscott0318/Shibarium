@@ -3101,6 +3101,11 @@ input:-internal-autofill-selected {
             right: 5px;
             left: auto;
             margin-top: -2px;
+            @media #{$max-xsm}{
+                width: 8px;
+                height: 8px;
+                right: 0;
+            }
         }
     }
 }
