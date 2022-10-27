@@ -65,7 +65,7 @@ const validatorAccount = ({userType, boneUSDValue, availBalance} : {userType : a
 
   const getDelegatorCardData = (accountAddress: any) => {
     console.log(" card data ", accountAddress)
-    setLoading(true)
+    setLoading(false)
     try {
       getDelegatorData(accountAddress.toLowerCase()).then((res: any) => {
         if (res.data) {
@@ -798,7 +798,7 @@ const comissionValidation: any = Yup.object({
                     </div>
                 </section>
                     :
-                <section className='del-grid-section bottom-pad ffms-inherit position-relative'>
+                <section className='del-grid-section bottom-pad ffms-inherit full-ht'>
       <div className="container">
         <div className='row'>
           {delegationsList.length ?
@@ -860,8 +860,8 @@ const comissionValidation: any = Yup.object({
                 </div>
               </div>
             )
-            : !loading && !delegationsList.length ? <div className='no-fount-txt'>
-              <p>No Record Found</p>
+            : !loading && !delegationsList.length ? <div className='txt-emp'>
+              <div className='no-fount-txt'>No Record Found</div>
             </div> : null
           }
         </div>

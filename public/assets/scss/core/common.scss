@@ -2995,4 +2995,20 @@ input:-internal-autofill-selected {
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+    
+}
+.full-ht{
+    height: 100vh;
+}
+.txt-emp{
+    position: relative;
+    min-height: 100vh;
+    @media #{$max-sm}{
+        min-height: auto;
+    }
+}
+.staking-header{
+    .btn{
+        font-family: "MADE Okine Sans PERSONAL USE";
+    }
 }
