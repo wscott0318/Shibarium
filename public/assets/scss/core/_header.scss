@@ -244,6 +244,9 @@
             @media #{$max-xsm}{
                 padding-left: 0;
             }
+            &::after{
+                content: none;
+            }
         }
     }
     .nav-link.active {

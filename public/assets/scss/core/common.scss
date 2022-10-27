@@ -1847,6 +1847,9 @@
     -ms-border-radius: 4px;
     -moz-border-radius: 4px;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .box-head {
     background: $body-bg-800;
@@ -3081,11 +3084,6 @@ input:-internal-autofill-selected {
     .walletconnect-connect__button__text {
         color: rgba($white,0.89) !important;
     }
-}
-
-.login-dialog-container.v-card .login-header[data-v-6030e440] {
-    background: var(--v-torusGray4-base);
-    border-bottom: 1px solid #f3f3f4;
 }
 
 .cus-arw{
