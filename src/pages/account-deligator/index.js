@@ -26,6 +26,8 @@ export default function Account() {
     const [showallinonepop, setallinonepop] = useState(false);
     const [showUnboundpop, setUnboundpop] = useState(false);
     const [showClaimpop, setClaimpop] = useState(false);
+
+
     return (
         <>
             <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space">
@@ -43,7 +45,7 @@ export default function Account() {
                         <div className="cmn_modal">
                             <form action="">
                                 {/* Unbond popup first start */}
-                                <div className="del-tab-content d-none">
+                                <div className="del-tab-content">
                                     <div className="pb-3 pb-sm-4">
                                         <h3>Are your sure you want to unbond?</h3>
                                     </div>
@@ -89,7 +91,7 @@ export default function Account() {
                                 {/* Unbond popup first end */}
 
                                 {/* Unbond popup second start */}
-                                <div className="del-tab-content text-center del-height d-none">
+                                <div className="del-tab-content text-center del-height">
                                     <div className="del-flex h-100">
                                         <div className="del-top">
                                             <div className="del-img">
@@ -139,7 +141,7 @@ export default function Account() {
                                 {/* Unbond popup third end */}
 
                                 {/* Unbond popup fourth start */}
-                                <div className="del-tab-content d-none">
+                                <div className="del-tab-content">
                                     <div className="pb-3 pb-sm-4">
                                         <h3 className="mb-3 text-center">Your unbonding period is complete. you claim your stake now .</h3>
                                         <p className="lite-text text-center lite-color fw-600">

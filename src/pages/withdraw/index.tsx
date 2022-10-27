@@ -2352,7 +2352,7 @@ const handleSearchList = (key :any) => {
                                             Balance:
                                           </span>
                                           <span className="fld-txt lite-color">
-                                            {selectedToken.balance+" "+selectedToken.parentName}
+                                            {selectedToken.balance ? (selectedToken?.balance+" "+selectedToken?.parentName) : "00.00"}
                                           </span>
                                         </div>
                                       </div>
@@ -2507,7 +2507,7 @@ const handleSearchList = (key :any) => {
                                       Balance:
                                     </span>
                                     <span className="fld-txt lite-color">
-                                      {selectedToken.balance && selectedToken.balance} {selectedToken.parentName && selectedToken.parentName}
+                                    {selectedToken.balance ? (selectedToken?.balance+" "+selectedToken?.parentName) : "00.00"}
                                     </span>
                                   </div>
                                 </div>
