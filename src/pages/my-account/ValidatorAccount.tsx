@@ -798,7 +798,7 @@ const comissionValidation: any = Yup.object({
                     </div>
                 </section>
                     :
-                <section className='del-grid-section bottom-pad ffms-inherit'>
+                <section className='del-grid-section bottom-pad ffms-inherit position-relative'>
       <div className="container">
         <div className='row'>
           {delegationsList.length ?
@@ -860,9 +860,9 @@ const comissionValidation: any = Yup.object({
                 </div>
               </div>
             )
-            : !loading && !delegationsList.length ? <p>
-              No Record Found
-            </p> : null
+            : !loading && !delegationsList.length ? <div className='no-fount-txt'>
+              <p>No Record Found</p>
+            </div> : null
           }
         </div>
       </div>
