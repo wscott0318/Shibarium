@@ -83,6 +83,9 @@
             height: 100%;
             .dropdown-menu{
                 right: calc(100% - 18px);
+                @media #{$max-md}{
+                    left:auto;
+                }
             }
             .dropdown-toggle::after {
                 content: "";
