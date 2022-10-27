@@ -33,7 +33,7 @@
             // padding-bottom: 10px;
         }
     }   
-    
+     
 }
 .nav-link{
     font-size: 16px;
@@ -83,6 +83,9 @@
             height: 100%;
             .dropdown-menu{
                 right: calc(100% - 18px);
+                @media #{$max-md}{
+                    left:auto;
+                }
             }
             .dropdown-toggle::after {
                 content: "";
@@ -280,6 +283,7 @@
         .left-border {
             position: relative;
             padding-left: 12px;
+            margin-bottom: 5px;
             &::before {
                 content: "";
                 position: absolute;
@@ -322,7 +326,7 @@
         .dropdown-item{
             @media #{$max-xxsm}{
                 margin: 5px 0;
-                padding: 5px 0;
+                // padding: 5px 0;
             } 
         }
         @media #{$max-md}{
@@ -388,4 +392,63 @@
 }
 .me-3  .dropdown-menu{
     padding: 15px;
+}
+.header-overide{
+    .btn-status{
+        position: relative;
+    }
+    .btn-status{
+        .dropdown{
+            .dropdown-toggle{
+                &::after{
+                    content: "";
+                    position: absolute;
+                    top: 50%;
+                    -webkit-transform: translateY(-50%);
+                    transform: translateY(-50%) rotate(45deg);
+                    right: 18px;
+                    width: 10px;
+                    height: 10px;
+                    border: 2px solid;
+                    border-top: 0;
+                    border-left: 0;
+                    margin-top: -4px;
+                    color: #fff;
+                    @media #{$max-xxl}{
+                        right: 13px;
+                        height: 8px;
+                        width: 8px;
+                    }
+                }
+            }
+            .dropdown-menu{
+                @media #{$max-md}{
+                    left: auto;
+                    right: calc(100% - 18px);
+                }
+            }
+        }
+        .bg-dark-1000{
+            @media #{$max-xsm}{
+                padding: 10px 22px !important;
+            }
+        }
+    }  
+}
+.main-header.header-overide{
+    .btn-status{
+        .dropdown{
+            position: absolute;
+            top: 50%;
+            right: -11px;
+            z-index: 99;
+            background: transparent;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+            height: 100%;
+            &::after{
+                content: none;
+            }
+        }
+    } 
 }

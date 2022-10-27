@@ -20,6 +20,7 @@ import { useUserType } from "app/state/user/hooks";
 import ShibaSidebar from "pages/token-sidebar";
 import { login } from "app/functions/login";
 import AppHeader from "../inner-header/AppHeader";
+import useENSName from "app/hooks/useENSName";
 // import { injected } from "app/config/wallets";
 
 export default function Header() {
@@ -37,7 +38,15 @@ export default function Header() {
       getUsertypeAPI(account)
     }
   }, [account])
-  
+  const { ENSName } = useENSName(account ?? undefined);
+  const copyAddress = () => {
+    navigator.clipboard.writeText(account);
+  };
+
+  const logoutHandler = async () => {
+    deactivate();
+    await router.push("/home");
+  };
   useEffect(() => {
     if (account)
       localStorage.setItem('isLoggedIn', true)
@@ -178,7 +187,127 @@ const [scroll, setScroll] = useState(false);
                   </Link>
                 </Nav.Item>
                 <Nav.Item className="btn-status inner-btn">
-                    {account ? <Web3Status /> : null}
+                    {account ? 
+                    <>
+                    <Web3Status />
+                      <Dropdown className="nav-item d-flex align-items-center cus-dd mob-drop">
+                        <div className="dot-icon" id="basic-nav-dropdown"></div>
+                        <NavDropdown className="me-3">
+                          <div className="drop-head">
+                            <div className="head-brand">
+                              <img
+                                className="mx-auto img-fluid"
+                                src="../../images/Shib-Logo.png"
+                                alt=""
+                              />
+                            </div>
+                            <div className="head-txt">
+                              <div className="top-txt">
+                                <div>
+                                  <span>Account 0xe78</span>
+                                </div>
+                                <div>
+                                  <span>
+                                    {userType === "NA" ? "User" : userType}
+                                  </span>
+                                </div>
+                                <div>
+                                  <span className="grey-txt">
+                                    Shibarium Mainnet
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="botom-txt">
+                                <div className="code-txt">
+                                  <span className="key">
+                                    {ENSName || account}
+                                  </span>
+                                </div>
+                                <div className="copy-blk">
+                                  {/* <button> */}
+                                  <a href="javascript:void(0);" title="Copy">
+                                    <img
+                                      src="../../images/copy.png"
+                                      alt=""
+                                      onClick={copyAddress}
+                                    />
+                                  </a>
+                                  {/* </button> */}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <NavDropdown.Item
+                            href="javascript:void(0)"
+                            onClick={() => setUserQrCode(true)}
+                          >
+                            <div className="custum-row">
+                              <div className="lft-img">
+                                <img
+                                  src="../../images/recive-icon.png"
+                                  alt=""
+                                />
+                              </div>
+                              <div className="center-txt">
+                                <span>Receive Funds</span>
+                              </div>
+                              <div className="rt-image">
+                                <img src="../../images/rt-arow.png" alt="" />
+                              </div>
+                            </div>
+                          </NavDropdown.Item>
+                          <NavDropdown.Item
+                            href={`https://etherscan.io/address/${account}`}
+                            target="blank"
+                          >
+                            <div className="custum-row">
+                              <div className="lft-img">
+                                <img src="../../images/graph.png" alt="" />
+                              </div>
+                              <div className="center-txt">
+                                <span>View on Etherscan</span>
+                              </div>
+                              <div className="rt-image">
+                                <img src="../../images/rt-arow.png" alt="" />
+                              </div>
+                            </div>
+                          </NavDropdown.Item>
+                          <NavDropdown.Item href="#action/3.3">
+                            <div className="custum-row">
+                              <div className="lft-img">
+                                <img src="../../images/graph.png" alt="" />
+                              </div>
+                              <div className="center-txt">
+                                <span>View on Shibariumscan</span>
+                              </div>
+                              <div className="rt-image">
+                                <img src="../../images/rt-arow.png" alt="" />
+                              </div>
+                            </div>
+                          </NavDropdown.Item>
+                          <NavDropdown.Item href="#action/3.3">
+                            <div className="custum-row mb-0">
+                              <div className="lft-img ps-2">
+                                <img
+                                  src="../../images/back.png"
+                                  alt=""
+                                  onClick={logoutHandler}
+                                />
+                              </div>
+                              <div
+                                className="center-txt"
+                                onClick={logoutHandler}
+                              >
+                                <span>Logout</span>
+                              </div>
+                              <div className="rt-image" onClick={logoutHandler}>
+                                <img src="../../images/rt-arow.png" alt="" />
+                              </div>
+                            </div>
+                          </NavDropdown.Item>
+                        </NavDropdown>
+                      </Dropdown>
+                      </> : null}
                     
                 </Nav.Item>
               </Nav>
