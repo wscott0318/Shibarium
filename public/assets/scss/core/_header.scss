@@ -60,10 +60,6 @@
             margin-bottom: 0px;
             margin-right: 0;
         }
-        @media #{$max-xxsm}{
-            margin-right: 10px;
-        }
-
     }
     .bg-dark-1000{
         background-color: $primary;
@@ -150,6 +146,7 @@
     .dot-icon{
         max-width: 30px;
         // margin-right: 20px;
+        margin-right: 5px;
         @media #{$max-lg}{
             max-width: 20px;
         }
@@ -249,8 +246,8 @@
             margin: 0px 0;
             @media #{$max-md}{
                 white-space: normal;
+                padding: 12px 0 !important;
             }
-           
         }
         .dropdown-item:hover {
             background: #000;
@@ -294,6 +291,9 @@
                 background:$primary;
                 -webkit-transform: translateY(0px);
                 transform: translateY(0px);
+                @media #{$max-md}{
+                    top: 0;
+                }
             }
         }
     }

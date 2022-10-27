@@ -31,7 +31,7 @@
     }
 }
 .left-box{
-    flex: 0 0 600px;
+    flex: 0 0 500px;
     @media #{$max-xxl}{
         min-height: 530px;
         // min-height: auto;
@@ -59,7 +59,7 @@
     }
 }
 .right-box {
-    width: calc(100% - 600px);
+    width: calc(100% - 500px);
     padding-left: 20px;
     margin-top: 30px;
     @media #{$max-xl}{

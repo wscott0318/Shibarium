@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Dropdown, Navbar, Container, Nav } from "react-bootstrap";
+import { Dropdown, Navbar, Container, Nav, DropdownButton } from "react-bootstrap";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
 
@@ -11,6 +11,15 @@ const routeHandler = (x:string) => {
 const routeCheck = (x:string) => {
     return router.asPath.split("/")[1] === x;
 }
+const [history,setHistory] = useState("");
+useEffect(() => {
+  if (routeCheck("unbond-history")) {
+    setHistory("Unbound History");
+  } else if (routeCheck("reward-history")) {
+    setHistory("Reward History");
+  }
+}, [router])
+
     return (
       <>
         <div className="staking-header dark-bg-800">
@@ -54,28 +63,26 @@ const routeCheck = (x:string) => {
                   </button>
                 </li>
                 <li className="nav-item">
-                  <button onClick={() => routeHandler("/unbond-history")}>
-                    <a
-                      className={`nav-link ff-mos ${
-                        routeCheck("unbond-history") && "active"
-                      }`}
-                      href="javascript:void(0);"
+                  <DropdownButton className="dd-style" id="dropdown-item-button" title={"History"}>
+                    <Dropdown.Item
+                      as="button"
+                      onClick={() => {
+                        router.push("/unbond-history");
+                        setHistory("Unbound History");
+                      }}
                     >
                       Unbound History
-                    </a>
-                  </button>
-                </li>
-                <li className="nav-item">
-                  <button onClick={() => routeHandler("/reward-history")}>
-                    <a
-                      className={`nav-link ff-mos ${
-                        routeCheck("reward-history") && "active"
-                      }`}
-                      href="javascript:void(0);"
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      as="button"
+                      onClick={() => {
+                        router.push("/reward-history");
+                        setHistory("Reward History");
+                      }}
                     >
                       Reward History
-                    </a>
-                  </button>
+                    </Dropdown.Item>
+                  </DropdownButton>
                 </li>
               </ul>
             </div>
