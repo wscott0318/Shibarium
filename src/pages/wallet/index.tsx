@@ -93,7 +93,7 @@ export default function Wallet() {
 
   const getNetworkName = () => {
     if(chainId == 1){
-      return "Etherium Mainnet"
+      return "Ethereum Mainnet"
     } else if (chainId == 5){
       return "Goerli Testnet"
     } else {

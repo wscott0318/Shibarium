@@ -2358,7 +2358,7 @@ const handleSearchList = (key :any) => {
                                       </div>
                                     </div>
                                     <div className="field-grid row">
-                                      <div className="col-sm-5 field-col res-align">
+                                      <div className="col-sm-7 field-col res-align">
                                         <div
                                           className="form-field position-relative fix-coin-field"
                                           onClick={() => {
@@ -2396,7 +2396,7 @@ const handleSearchList = (key :any) => {
                                           </div>
                                         </div>
                                       </div>
-                                      <div className="col-sm-7 field-col">
+                                      <div className="col-sm-5 field-col">
                                         <div className="form-field position-relative two-fld">
                                           <div className="mid-chain w-100">
                                             <input
