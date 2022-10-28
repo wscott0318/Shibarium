@@ -19,6 +19,7 @@ import Header from "pages/layout/header";
 import StakingHeader from "pages/staking-header";
 import Pagination from "app/components/Pagination";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
+import CommonModal from "../components/CommonModel";
 
 
 export default function Unbond() {
@@ -228,12 +229,15 @@ export default function Unbond() {
                                       className="primary-badge px-2"
                                       type="button"
                                       onClick={() =>
+                                        {
+                                          console.log("called ===> ")
                                         setClamNowModals({
                                           data: value,
                                           confirm: true,
                                           progress: false,
                                           completed: false,
                                         })
+                                      }
                                       }
                                       //  className="mb-0 fs-12 "
                                     >
@@ -279,6 +283,17 @@ export default function Unbond() {
             </div>
           </section>
         </main>
+
+
+        {/* modal started  */}
+        <CommonModal
+          title={"Retake"}
+          show={claimNowModals.startValue}
+          setShow={setClamNowModals}
+          externalCls=""
+        >
+          
+        </CommonModal>
       </>
     );
 }

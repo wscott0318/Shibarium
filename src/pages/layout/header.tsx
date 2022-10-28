@@ -82,18 +82,18 @@ const [userQrCode, setUserQrCode] = useState(false);
   
 
   // below is the same as componentDidMount and componentDidUnmount
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside, isVisible);
-    return () => {
-      document.removeEventListener("click", handleClickOutside, isVisible);
-    };
-  }, []);
+  // useEffect(() => {
+  //   document.addEventListener("click", handleClickOutside, isVisible);
+  //   return () => {
+  //     document.removeEventListener("click", handleClickOutside, isVisible);
+  //   };
+  // }, []);
 
-  const handleClickOutside = (event : any) => {
-    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-      setIsVisible(false);
-    }
-  };
+  // const handleClickOutside = (event : any) => {
+  //   if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+  //     setIsVisible(false);
+  //   }
+  // };
 
 const [scroll, setScroll] = useState(false);
 
