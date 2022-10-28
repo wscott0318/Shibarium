@@ -21,10 +21,7 @@ import ShibaSidebar from "pages/token-sidebar";
 import { login } from "app/functions/login";
 import AppHeader from "../inner-header/AppHeader";
 import useENSName from "app/hooks/useENSName";
-import QrModal from "pages/components/QrModal";
 // import { injected } from "app/config/wallets";
-import NetworkButton from "pages/inner-header/NetworkButton";
-import { useNetworkModalToggle } from "../../state/application/hooks";
 
 export default function Header() {
   const { chainId, account, active, error, library, activate, deactivate } = useWeb3React()
@@ -36,9 +33,6 @@ export default function Header() {
   const [dblock, setDblock] = useState(false);
   const [userType, setUserType] = useUserType();
 
-  const { asPath } = useRouter()
-  const toggleNetworkModal = useNetworkModalToggle();
-
   useEffect(() => {
     if (account) {
       getUsertypeAPI(account)
@@ -46,8 +40,7 @@ export default function Header() {
   }, [account])
   const { ENSName } = useENSName(account ?? undefined);
   const copyAddress = () => {
-    let user :any = account
-    navigator.clipboard.writeText(user);
+    navigator.clipboard.writeText(account);
   };
 
   const logoutHandler = async () => {
@@ -56,12 +49,12 @@ export default function Header() {
   };
   useEffect(() => {
     if (account)
-      localStorage.setItem('isLoggedIn', "true")
+      localStorage.setItem('isLoggedIn', true)
     else
       localStorage.removeItem('isLoggedIn')
   }, [account]);
 
-  const getUsertypeAPI = (accountAddress : any) => {
+  const getUsertypeAPI = (accountAddress) => {
     try {
       getUserType(accountAddress.toLowerCase()).then(res => {
         if (res.data && res.data.data) {
@@ -77,23 +70,76 @@ export default function Header() {
 
     }
   }
-const [userQrCode, setUserQrCode] = useState(false);
-  console.log(asPath)
+
+  console.log(userType)
   
+  useEffect(() => {
+    const { ethereum } = window
+    if (ethereum && ethereum.on && !error) {
+      console.log({ eth: ethereum.on })
+      const handleConnect = () => {
+        // console.log("Connected");
+        // activate(injected)
+      }
+      const handleChainChanged = (chainId) => {
+        // if (library) {
+        //   sign(account)
+        // }
+        // authenticate()
+      }
+      const handleAccountsChanged = async (accounts) => {
+        if (accounts.length > 0) {
+          // if (library) {
+          // authenticate()
+        }
+        // activate(injected)
+      }
+      const handleNetworkChanged = (networkId) => {
+        // activate(injected)
+        // login(authenticate,isAuthenticated)
+      }
+
+      ethereum.on('connect', handleConnect)
+      ethereum.on('chainChanged', handleChainChanged)
+      ethereum.on('accountsChanged', handleAccountsChanged)
+      ethereum.on('networkChanged', handleNetworkChanged)
+
+      return () => {
+        if (ethereum.removeListener) {
+          ethereum.removeListener('connect', handleConnect)
+          ethereum.removeListener('chainChanged', handleChainChanged)
+          ethereum.removeListener('accountsChanged', handleAccountsChanged)
+          ethereum.removeListener('networkChanged', handleNetworkChanged)
+        }
+      }
+    }
+    // else if(error){
+    //  const errMsg = getErrorMessage(error)
+    //  if (errMsg) {
+    //    setErrorMessage(errMsg)
+    //  }
+    // }
+  }, [active, error, activate]);
+
+
+  function handlClick() {
+    setIsOpen((prev) => !prev);
+  }
+  const toggleRef = useRef();
 
   // below is the same as componentDidMount and componentDidUnmount
-  // useEffect(() => {
-  //   document.addEventListener("click", handleClickOutside, isVisible);
-  //   return () => {
-  //     document.removeEventListener("click", handleClickOutside, isVisible);
-  //   };
-  // }, []);
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, isVisible);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, isVisible);
+    };
+  }, []);
 
-  // const handleClickOutside = (event : any) => {
-  //   if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-  //     setIsVisible(false);
-  //   }
-  // };
+  const handleClickOutside = (event) => {
+    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      setIsVisible(false);
+    }
+  };
 
 const [scroll, setScroll] = useState(false);
 
@@ -103,106 +149,50 @@ const [scroll, setScroll] = useState(false);
     });
   },[])
 
-  
-  const getNetworkName = () => {
-    if(chainId == 1){
-      return "Ethereum Mainnet"
-    } else if (chainId == 5){
-      return "Goerli Testnet"
-    } else {
-      return "Shibarium Mainnet"
-    }
-  }
-
   return (
     <>
-      <header
-        className={
-          scroll
-            ? "main-header header-overide sticky-header"
-            : "main-header header-overide"
-        }
-      >
-        <Navbar className="py-0">
+      <header className={scroll ? 'main-header header-overide sticky-header' : 'main-header header-overide'}>
+        <Navbar className='py-0'>
           <Container>
             <Navbar.Brand href="/">
               {/* <img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} /> */}
               <div className="logo-wrap">
-                <div className="lg-lft">
-                  <img
-                    className="img-fluid"
-                    src="../../images/shibarium-logo.png"
-                    alt="site-logo"
-                    width={50}
-                  />
-                </div>
-                <div className="lg-rt">
-                  <img
-                    className="img-fluid"
-                    src="../../images/shib-text.png"
-                    alt="site-logo"
-                    width={150}
-                  />
-                </div>
+                <div className="lg-lft"><img className='img-fluid' src="../../images/shibarium-logo.png" alt="site-logo" width={50} /></div>
+                <div className="lg-rt"><img className='img-fluid' src="../../images/shib-text.png" alt="site-logo" width={150} /></div>
               </div>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto align-items-center">
-                <NavDropdown
-                  className="d-none"
-                  title="Dropdown"
-                  id="basic-nav-dropdown"
-                >
+                <NavDropdown className="d-none" title="Dropdown" id="basic-nav-dropdown">
                   <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.2">
                     Another action
                   </NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">
-                    Something
-                  </NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="#action/3.4">
                     Separated link
                   </NavDropdown.Item>
                 </NavDropdown>
-                {asPath === "/home" ? null : <AppHeader />}
+                <AppHeader />
                 <Nav.Item className="button-wrap cus_dropdown">
-                  <Link href={"/"}>
-                    <a className="d-md-none launch-btn">
-                      <img
-                        className="img-fluid"
-                        src="../../images/launch-app.png"
-                        alt=""
-                        width={30}
-                      />
+                <Link href={'/'}>
+                    <a className='d-md-none launch-btn'>
+                      <img className="img-fluid" src="../../images/launch-app.png" alt="" width={30} />
                     </a>
                 </Link>
-                <NavDropdown
-                  className="form-select innerDivBgBlack hd-sel hd-sel-over"
-                  title={getNetworkName()}
-                  id=""
-                >
-                  <NavDropdown.Item
-                    // disabled={user ? false : true}
-                    onClick={() => toggleNetworkModal()}
-                  >
-                    <h6 className="fw-600 light-text left-border">
-                      Switch Network home
-                    </h6>
-                    <span className="light-text">
-                      Switch to other Network
-                    </span>
-                  </NavDropdown.Item>
-                </NavDropdown>
+                <Link href={ account ? "/wallet" : "/login"}>
+                    <a className='btn primary-btn ff-mos d-none d-md-flex'>Launch App</a>
+                  </Link>
                 </Nav.Item>
                 <Nav.Item className="btn-status inner-btn">
-                  {account ? (
+                    {account ? 
                     <>
-                      <Web3Status />
+                    <Web3Status />
                       <Dropdown className="nav-item d-flex align-items-center cus-dd mob-drop">
                         <div className="dot-icon" id="basic-nav-dropdown"></div>
-                        <NavDropdown className="me-3" title="">
+                        <NavDropdown className="me-3">
                           <div className="drop-head">
                             <div className="head-brand">
                               <img
@@ -214,14 +204,35 @@ const [scroll, setScroll] = useState(false);
                             <div className="head-txt">
                               <div className="top-txt">
                                 <div>
+                                  <span>Account 0xe78</span>
+                                </div>
+                                <div>
                                   <span>
                                     {userType === "NA" ? "User" : userType}
                                   </span>
                                 </div>
                                 <div>
                                   <span className="grey-txt">
-                                    {getNetworkName()}
+                                    Shibarium Mainnet
                                   </span>
+                                </div>
+                              </div>
+                              <div className="botom-txt">
+                                <div className="code-txt">
+                                  <span className="key">
+                                    {ENSName || account}
+                                  </span>
+                                </div>
+                                <div className="copy-blk">
+                                  {/* <button> */}
+                                  <a href="javascript:void(0);" title="Copy">
+                                    <img
+                                      src="../../images/copy.png"
+                                      alt=""
+                                      onClick={copyAddress}
+                                    />
+                                  </a>
+                                  {/* </button> */}
                                 </div>
                               </div>
                             </div>
@@ -296,22 +307,13 @@ const [scroll, setScroll] = useState(false);
                           </NavDropdown.Item>
                         </NavDropdown>
                       </Dropdown>
-                    </>
-                  ) : null}
+                      </> : null}
+                    
                 </Nav.Item>
               </Nav>
             </Navbar.Collapse>
           </Container>
         </Navbar>
-        {/* QR modal starts */}
-        {account && (
-          <QrModal
-            title={"My QR Code"}
-            show={userQrCode}
-            setShow={setUserQrCode}
-            address={account}
-          />
-        )}
       </header>
     </>
   );

@@ -727,6 +727,35 @@ const comissionValidation: any = Yup.object({
                 {/* unbound popop ends */}
 
 
+                {/* unbound popop DELEGATOR start */}
+                <CommonModal
+                    title={"Unbound"}
+                    show={unboundModal.startValue}
+                    setShow={setunboundpop}
+                    externalCls="stak-pop"
+                >
+                    <>
+                        <div className="cmn_modal val_popups">
+                            <form>
+                                <div className="only_text">
+                                    <p className="text-center">Are you sure you want to unbound?</p>
+                                </div>
+                                <div className="pop_btns_area row mr-top-50 form-control">
+                                    <div className="col-6">
+                                      <button onClick={(e) => {e.preventDefault(); setunboundpop(false)}} className='btn blue-btn w-100 dark-bg-800 text-white' >Cancel</button> 
+                                       </div>
+                                    <div  className="col-6">
+                                      <button onClick={(e) => {e.preventDefault(); unboundValidator()}} className='btn primary-btn w-100' >Confirm</button>  
+                                      </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </>
+                </CommonModal>
+                {/* unbound popop DELEGATOR ends */}
+
+
                 {/* pending & submit modal start */}
 
                 <CommonModal

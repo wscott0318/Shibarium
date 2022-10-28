@@ -138,7 +138,7 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
           onClick={() => handleMenuState(true)}
           className="menu-btn"
         >
-          <img className="img-fluid" src="../../images/menu.svg" alt="" />
+          <img className="img-fluid" src="../../images/menu.png" alt="" />
         </Navbar.Brand>
       </div>
       <sidebar

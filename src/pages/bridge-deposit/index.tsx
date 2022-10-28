@@ -165,7 +165,7 @@ export default function Deposit() {
                   >
                     <img
                       className="img-fluid"
-                      src="../../images/menu.svg"
+                      src="../../images/menu.png"
                       alt=""
                     />
                   </Navbar.Brand>
