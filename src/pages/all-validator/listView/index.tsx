@@ -45,6 +45,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                 {validatorsList.map((x: any, y: any) => (
                   <tr>
                     <td>
+                      <div className='self-align'>
                       <span>
                         <img
                           style={{ height: 24 }}
@@ -58,6 +59,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       <Link href={`/all-validator/${x.signer}`}>
                         <a>{x.name}</a>
                       </Link>
+                      </div>
                     </td>
                     <td>
                       {(x.totalStaked / Math.pow(10, 18)).toFixed(8)} (
