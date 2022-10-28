@@ -245,10 +245,7 @@
                 padding-left: 28px;
             }
             &::after{
-                content: '';
-                @media #{$min-md}{
-                    content: none;
-                }
+                content: none;
             }
         }
     }
@@ -340,8 +337,8 @@
         padding-right: 5px;
     }
     .dot-icon{
-        @media #{$max-md}{
-            display: none;
+        @media #{$max-xsm}{
+            max-width: 20px;
         }
     }
     .navbar-nav .dropdown-menu{
@@ -377,6 +374,14 @@
         
         @media #{$max-xsm}{
             max-width: 70px;
+        }
+    }
+    .btn-status{
+        span{
+            @media #{$max-xxsm}{
+                width: 16px;
+                height: 16px;
+            } 
         }
     }
 }
@@ -457,7 +462,7 @@
         }
         .bg-dark-1000{
             @media #{$max-xsm}{
-                padding: 10px 22px !important;
+                padding: 10px 22px 10px 5px !important;
             }
         }
     }  
