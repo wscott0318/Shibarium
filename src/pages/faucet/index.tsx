@@ -137,7 +137,7 @@ export default function faucet() {
                           </div>
                           <div className="captcha-wrap mt-3 mt-sm-4">
                             <ReCAPTCHA
-                              sitekey='6LdDZXQiAAAAAMN4TDWxug9KDry_OIr4sAGrhvXX'
+                              sitekey='6LcMS3EiAAAAAAcQAZRT75-s2tMFzdhbyus6BSSW'
                               onChange={handleCaptcha}
                               />
                             </div>
