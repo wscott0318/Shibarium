@@ -133,7 +133,7 @@ export default function Unbond() {
                         ))
                       ) : !list.length && !slicedList.length && listLoader ? (
                         <tr>
-                          <td colSpan={6}>
+                          <td colSpan={4}>
                             <DynamicShimmer type={"table"} rows={15} cols={4} />
                           </td>
                         </tr>

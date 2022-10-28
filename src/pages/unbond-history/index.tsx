@@ -196,7 +196,7 @@ export default function Unbond() {
                         <th>Validator Name</th>
                         <th>Amount</th>
                         <th>Status</th>
-                        <th className="text-center">Timestamp</th>
+                        <th className="text-center time-th">Timestamp</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -294,8 +294,8 @@ export default function Unbond() {
                         ))
                       ) : !list.length && !slicedList.length && listLoader ? (
                         <tr>
-                          <td colSpan={6}>
-                            <DynamicShimmer type={"table"} rows={15} cols={4} />
+                          <td colSpan={4}>
+                            <DynamicShimmer type={"table"} rows={13} cols={4} />
                           </td>
                         </tr>
                       ) : null}

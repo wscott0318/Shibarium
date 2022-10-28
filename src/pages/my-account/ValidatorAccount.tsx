@@ -28,6 +28,7 @@ const validatorAccount = ({userType, boneUSDValue, availBalance} : {userType : a
     const [showunboundpop, setunboundpop] = useState(false);
     const [loading, setLoading] = useState(false);
     const dispatch = useAppDispatch();
+    const [unboundInput, setUnboundInput] = useState<any>('');
 
     const [transactionState, setTransactionState] = useState({
       state: false,
@@ -731,27 +732,83 @@ const comissionValidation: any = Yup.object({
                 <CommonModal
                     title={"Unbound"}
                     show={unboundModal.startValue}
-                    setShow={setunboundpop}
+                    setShow={() => setUnboundModal({...unboundModal, startValue : false})}
                     externalCls="stak-pop"
                 >
                     <>
-                        <div className="cmn_modal val_popups">
-                            <form>
-                                <div className="only_text">
-                                    <p className="text-center">Are you sure you want to unbound?</p>
-                                </div>
-                                <div className="pop_btns_area row mr-top-50 form-control">
-                                    <div className="col-6">
-                                      <button onClick={(e) => {e.preventDefault(); setunboundpop(false)}} className='btn blue-btn w-100 dark-bg-800 text-white' >Cancel</button> 
-                                       </div>
-                                    <div  className="col-6">
-                                      <button onClick={(e) => {e.preventDefault(); unboundValidator()}} className='btn primary-btn w-100' >Confirm</button>  
-                                      </div>
-                                </div>
-                            </form>
-                        </div>
+                    {unboundModal.startValue && 
+                     <div>
+                     <div className="center-align mb-4">
+                       <h3>Are you sure you want to unbound?</h3>
+                     </div>
+                     <div className="card">
+                       <div className="row">
+                           <div className="col-sm-6 mb-1">
+                             <h6 className="mb-0">Withdraw Stake</h6>
+                           </div>
+                           <div className="col-sm-6 text-end mb-1">
+                             <h6 className="mb-0">{unboundModal.stakeAmount} Bone</h6>
+                           </div>
+                       </div>
+                       {/* old input */}
+                       <div className="form-group float-group">
+                         <input
+                         value={unboundInput}
+                         onChange={(e) => setUnboundInput(e.target.value)}
+                         type="number" 
+                         className="form-control" placeholder="Enter amount" 
+                         />
+                         <span
+                           className="primary-text over-text fw-600"
+                           style={{ cursor: "pointer" }}
+                           onClick={() => setUnboundInput(unboundModal.stakeAmount)}
+                           >
+                           MAX
+                         </span>
+                       </div>
+                       <div className="card-primary dark-text p-2">
+                           Your Funds will be locked for <a href="" target='#' className="primary-text">checkpoints</a>
+                       </div>
+                     </div>
+                     {/* <div className="d-flex justify-content-between align-items-center">
+                       <div className="mt-2">
+                         $3.359 Gas Fee
+                       </div>
+                       <div className="mt-2 text-end">
+                         <img className="img-fluid" src="../../assets/images/arrow-right-white.png" alt="img-fluid" width={6} />
+                       </div>
+                     </div> */}
+                     <button
+                     onClick={undefined}
+                     disabled={unboundInput ? false : true}
+                     type="button" className="btn warning-btn mt-3 mt-sm-4 w-100">Confirm Unbound</button>
+                   </div>
+                  }
 
-                    </>
+                  {unboundModal.progressValue && <div className="del-tab-content text-center del-height">
+                    <div className="del-flex h-100">
+                        <div className="del-top">
+                            <div className="del-img">
+                                <span>
+                                    <span className="spinner-border text-secondary pop-spiner"></span>
+                                </span>
+                                </div>
+                            </div>
+                            <div className="del-bott">
+                                <h4 className="mb-3">Transaction in progress </h4>
+                                <p>
+                                    Ethereum transaction can take upto 5 minute to complete.
+                                    Please wait or increase the gas in meta mask.
+                                </p>
+                                <Link href="javascript:void(0)">
+                                    <a className="btn primary-text">
+                                        View on Ethersacan
+                                    </a>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>}
+                  </>
                 </CommonModal>
                 {/* unbound popop DELEGATOR ends */}
 
