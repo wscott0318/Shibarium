@@ -30,14 +30,14 @@ const Checkpoints:React.FC<Props> = ({ allCheckpoints,boneUsdValue }) => {
                                     <h3 className="mb-2 mb-sm-4">Checkpoints</h3>
                                     <div className="cmn_dasdrd_table">
                                         <div className="table-responsive">
-                                            <table className="table table-borderless">
+                                            <table className="table table-borderless table-dem">
                                             <thead>
                                                 <tr>
                                                 <th>Checkpoint</th>
                                                 <th>Start block number</th>
                                                 <th>End block number</th>
                                                 <th>Result</th>
-                                                <th>Time</th>
+                                                <th className=''><div className='tb-txt'>Time</div></th>
                                                 </tr>
                                             </thead>
                                             <tbody>

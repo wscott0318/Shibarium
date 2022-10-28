@@ -167,7 +167,7 @@ const [scroll, setScroll] = useState(false);
                   </NavDropdown.Item>
                 </NavDropdown>
                 {asPath === "/home" ? null : <AppHeader />}
-                <Nav.Item className="button-wrap">
+                <Nav.Item className="button-wrap cus_dropdown">
                   <Link href={"/"}>
                     <a className="d-md-none launch-btn">
                       <img
