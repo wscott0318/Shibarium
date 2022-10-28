@@ -252,7 +252,7 @@ export default function Unbond() {
                             </td>
                           </tr>
                         ))
-                      ) : list.length && !slicedList.length ? (
+                      ) : !list.length && !slicedList.length && listLoader ? (
                         <tr>
                           <td colSpan={6}>
                             <DynamicShimmer type={"table"} rows={3} cols={4} />
@@ -262,11 +262,11 @@ export default function Unbond() {
                     </tbody>
                   </table>
                 </div>
-                {!list.length ? (
+                {!listLoader && !list.length && !slicedList.length ? (
                   <div className="no-found">
                     <div>
                       <div className="text-center">
-                        <img src="../../images/no-record.png"/>
+                        <img src="../../images/no-record.png" />
                       </div>
                     </div>
                   </div>
