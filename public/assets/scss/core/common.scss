@@ -943,10 +943,7 @@
         display: inline-block;
     }
     .word-wrap{
-        word-break: break-word;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        font-size: 14px;
     }
  }
  .qr-wrap{
