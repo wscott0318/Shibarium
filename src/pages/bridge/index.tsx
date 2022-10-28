@@ -2167,7 +2167,7 @@ const handleSearchList = (key :any) => {
                       <div className="txt-row">
                         <div className="row-hd">Withdraw Overview:</div>
                         <p className="row-description">
-                          The deposit process consists of three transactions.
+                          The Withdraw process consists of three transactions.
                         </p>
                       </div>
                     )}
@@ -2358,7 +2358,7 @@ const handleSearchList = (key :any) => {
                                       </div>
                                     </div>
                                     <div className="field-grid row">
-                                      <div className="col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-3 mb-lg-0 field-col res-align">
+                                      <div className="col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-3 mb-lg-0  res-align">
                                         <div
                                           className="form-field position-relative fix-coin-field h-100"
                                           onClick={() => {
@@ -2513,7 +2513,7 @@ const handleSearchList = (key :any) => {
                                 </div>
                               </div>
                               <div className="field-grid row">
-                                <div className="col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-3 mb-lg-0 field-col res-align">
+                                <div className="col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-3 mb-lg-0  res-align">
                                   <div
                                     className="form-field position-relative fix-coin-field h-100"
                                     onClick={() => {

@@ -24,7 +24,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
             {validatorsList && validatorsList.length ?
                   <div className='row side-cover'>
                     {validatorsList.map((validator: any) => 
-                      <div className='col-xl-3 col-sm-6 col-12 side-space'>
+                      <div className='col-xl-3 col-sm-6 col-12 side-space mb-sm-4 mb-4'>
                           <div className='box'>
                               <div className='box-head'>
                                   <div className='d-flex align-items-center justify-content-start'>
