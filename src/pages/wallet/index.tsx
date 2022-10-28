@@ -57,6 +57,8 @@ export default function Wallet() {
   const web3: any = new Web3(lib?.provider)
   const dispatch = useAppDispatch()
 
+  const [listLoader, setListLoader] = useState(true)
+
   const [senderAddress, setSenderAdress] = useState('');
   const [userQrCode, setUserQrCode] = useState(false)
   const [isValidAddress, setIsValidAddress] = useState(false)
@@ -102,6 +104,8 @@ export default function Wallet() {
   }
 
   const getTokensList = () => {
+    console.log("token list called ==> ")
+    setListLoader(true)
     getWalletTokenList().then(res => {
       let list = res.data.message.tokens;
       list.forEach(async (x: any) => {
@@ -110,6 +114,7 @@ export default function Wallet() {
       setTokenList(list)
       setTokenFilteredList(list)
       setTokenModalList(list)
+      setListLoader(false)
     })
   }
 
@@ -958,7 +963,7 @@ export default function Wallet() {
                               </td>
                             </tr>
                           ))
-                        ) : !searchKey.length && !tokenFilteredList.length ? (
+                        ) : listLoader && !searchKey.length && !tokenFilteredList.length ? (
                           <tr>
                             <td colSpan={6}>
                               <DynamicShimmer

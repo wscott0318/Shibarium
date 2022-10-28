@@ -18,16 +18,17 @@ export default function Unbond() {
     const [listLoader, setListLoader] = useState(true);
     const pageSize = 10;
     const [currentPage, setCurrentPage] = useState<number>(1);
+
     const getRewardsList = (account :any) => {
         unbondRewards(account).then((res: any) => {
             if(res.status == 200) {
                 console.log(res.data.result);
                 setList(res.data.result)
-                setListLoader(false)
+                // setListLoader(false)
             }
         }).catch((err : any) => {
             console.log(err);
-            setListLoader(false)
+            // setListLoader(false)
         })
     }
 
