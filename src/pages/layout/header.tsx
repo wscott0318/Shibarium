@@ -21,6 +21,7 @@ import ShibaSidebar from "pages/token-sidebar";
 import { login } from "app/functions/login";
 import AppHeader from "../inner-header/AppHeader";
 import useENSName from "app/hooks/useENSName";
+import QrModal from "pages/components/QrModal";
 // import { injected } from "app/config/wallets";
 import NetworkButton from "pages/inner-header/NetworkButton";
 import { useNetworkModalToggle } from "../../state/application/hooks";
@@ -76,7 +77,7 @@ export default function Header() {
 
     }
   }
-
+const [userQrCode, setUserQrCode] = useState(false);
   console.log(asPath)
   
 
@@ -115,25 +116,51 @@ const [scroll, setScroll] = useState(false);
 
   return (
     <>
-      <header className={scroll ? 'main-header header-overide sticky-header' : 'main-header header-overide'}>
-        <Navbar className='py-0'>
+      <header
+        className={
+          scroll
+            ? "main-header header-overide sticky-header"
+            : "main-header header-overide"
+        }
+      >
+        <Navbar className="py-0">
           <Container>
             <Navbar.Brand href="/">
               {/* <img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} /> */}
               <div className="logo-wrap">
-                <div className="lg-lft"><img className='img-fluid' src="../../images/shibarium-logo.png" alt="site-logo" width={50} /></div>
-                <div className="lg-rt"><img className='img-fluid' src="../../images/shib-text.png" alt="site-logo" width={150} /></div>
+                <div className="lg-lft">
+                  <img
+                    className="img-fluid"
+                    src="../../images/shibarium-logo.png"
+                    alt="site-logo"
+                    width={50}
+                  />
+                </div>
+                <div className="lg-rt">
+                  <img
+                    className="img-fluid"
+                    src="../../images/shib-text.png"
+                    alt="site-logo"
+                    width={150}
+                  />
+                </div>
               </div>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto align-items-center">
-                <NavDropdown className="d-none" title="Dropdown" id="basic-nav-dropdown">
+                <NavDropdown
+                  className="d-none"
+                  title="Dropdown"
+                  id="basic-nav-dropdown"
+                >
                   <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.2">
                     Another action
                   </NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.3">
+                    Something
+                  </NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="#action/3.4">
                     Separated link
@@ -141,9 +168,14 @@ const [scroll, setScroll] = useState(false);
                 </NavDropdown>
                 {asPath === "/home" ? null : <AppHeader />}
                 <Nav.Item className="button-wrap">
-                <Link href={'/'}>
-                    <a className='d-md-none launch-btn'>
-                      <img className="img-fluid" src="../../images/launch-app.png" alt="" width={30} />
+                  <Link href={"/"}>
+                    <a className="d-md-none launch-btn">
+                      <img
+                        className="img-fluid"
+                        src="../../images/launch-app.png"
+                        alt=""
+                        width={30}
+                      />
                     </a>
                 </Link>
                 <NavDropdown
@@ -165,9 +197,9 @@ const [scroll, setScroll] = useState(false);
                 </NavDropdown>
                 </Nav.Item>
                 <Nav.Item className="btn-status inner-btn">
-                    {account ? 
+                  {account ? (
                     <>
-                    <Web3Status />
+                      <Web3Status />
                       <Dropdown className="nav-item d-flex align-items-center cus-dd mob-drop">
                         <div className="dot-icon" id="basic-nav-dropdown"></div>
                         <NavDropdown className="me-3" title="">
@@ -264,13 +296,22 @@ const [scroll, setScroll] = useState(false);
                           </NavDropdown.Item>
                         </NavDropdown>
                       </Dropdown>
-                      </> : null}
-                    
+                    </>
+                  ) : null}
                 </Nav.Item>
               </Nav>
             </Navbar.Collapse>
           </Container>
         </Navbar>
+        {/* QR modal starts */}
+        {account && (
+          <QrModal
+            title={"My QR Code"}
+            show={userQrCode}
+            setShow={setUserQrCode}
+            address={account}
+          />
+        )}
       </header>
     </>
   );
