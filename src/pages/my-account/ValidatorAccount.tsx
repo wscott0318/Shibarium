@@ -65,7 +65,7 @@ const validatorAccount = ({userType, boneUSDValue, availBalance} : {userType : a
 
   const getDelegatorCardData = (accountAddress: any) => {
     console.log(" card data ", accountAddress)
-    setLoading(false)
+    setLoading(true)
     try {
       getDelegatorData(accountAddress.toLowerCase()).then((res: any) => {
         if (res.data) {
