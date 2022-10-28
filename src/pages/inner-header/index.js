@@ -14,6 +14,7 @@ import NetworkModel from "../../modals/NetworkModal";
 import { useNetworkModalToggle } from "../../state/application/hooks";
 import AppHeader from "./AppHeader";
 import { useUserType} from "../../state/user/hooks"
+import NetworkButton from "./NetworkButton";
 
 
 const InnerHeader = () => {
@@ -98,23 +99,8 @@ const InnerHeader = () => {
                       />
                     </a>
                   </Link>
-                  <NavDropdown
-                    className="form-select innerDivBgBlack hd-sel hd-sel-over"
-                    title={getNetworkName()}
-                    id=""
-                  >
-                    <NavDropdown.Item
-                      // disabled={user ? false : true}
-                      onClick={() => toggleNetworkModal()}
-                    >
-                      <h6 className="fw-600 light-text left-border">
-                        Switch Network
-                      </h6>
-                      <span className="light-text">
-                        Switch to other Network
-                      </span>
-                    </NavDropdown.Item>
-                  </NavDropdown>
+                  
+                <NetworkButton /> 
                 </Nav.Item>
                 <Nav.Item className="btn-status">
                   <Web3Status />
