@@ -260,11 +260,11 @@ export default function Unbond() {
                     </tbody>
                   </table>
                 </div>
-                {!list.length ? (
+                {!listLoader && !list.length && !slicedList.length ? (
                   <div className="no-found">
                     <div>
                       <div className="text-center">
-                        <img src="../../images/no-record.png"/>
+                        <img src="../../images/no-record.png" />
                       </div>
                     </div>
                   </div>

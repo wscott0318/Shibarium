@@ -21,8 +21,8 @@ export default function Unbond() {
     const getRewardsList = (account :any) => {
         unbondRewards(account).then((res: any) => {
             if(res.status == 200) {
-                console.log(res.data.data.result)
-                setList(res.data.data.result)
+                console.log(res.data.result);
+                setList(res.data.result)
                 setListLoader(false)
             }
         }).catch((err : any) => {
@@ -55,6 +55,10 @@ export default function Unbond() {
         }
     },[account])
 
+    const formatTimeStamp = (val:any) => {
+      return new Date(Number(val)).toLocaleString();
+    }
+
     return (
       <>
         <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space font-up ffms-inherit">
@@ -81,9 +85,9 @@ export default function Unbond() {
                       </tr>
                     </thead>
                     <tbody>
-                      {slicedList.length ?
+                      {slicedList.length ? (
                         slicedList.map((value: any) => (
-                          <tr>
+                        <tr>
                             <td>
                               <div className="d-flex align-items-center">
                                 <div className="coin-img me-2">
@@ -119,11 +123,12 @@ export default function Unbond() {
                             </td>
                             <td>
                               <span className="tb-data align">
-                                {value.timestampFormatted}
+                                {formatTimeStamp(value.timestamp)}
                               </span>
                             </td>
                           </tr>
-                        ))  : !list.length && !slicedList.length && listLoader ? (
+                        ))
+                      ) : !list.length && !slicedList.length && listLoader ? (
                         <tr>
                           <td colSpan={6}>
                             <DynamicShimmer type={"table"} rows={3} cols={4} />
@@ -136,12 +141,12 @@ export default function Unbond() {
 
                 {!listLoader && !list.length && !slicedList.length ? (
                   <div className="no-found">
-                  <div>
-                    <div className="text-center">
-                      <img src="../../images/no-record.png"/>
+                    <div>
+                      <div className="text-center">
+                        <img src="../../images/no-record.png" />
+                      </div>
                     </div>
                   </div>
-                </div>
                 ) : null}
               </div>
               <Pagination
