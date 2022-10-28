@@ -2982,6 +2982,32 @@ input:-internal-autofill-selected {
     display: flex;
     align-items: center;
 }
+.tbl-adj{
+    .table{
+        width: 100%;
+        table-layout: fixed;
+        text-align: left;
+    }
+    .table-responsive{
+        height: 1100px;
+        @media #{$max-xxl}{
+            height: 930px;
+        }
+        @media #{$max-xl}{
+            height: 830px;
+        }
+        @media #{$max-lg}{
+            height: 790px;
+        }
+        @media #{$max-md}{
+            height: 750px;
+        }
+        
+    }
+}
+
+
+
 .fix-coin-field{
     .lite-color{
         width: 100px;

@@ -139,19 +139,19 @@ export default function Unbond() {
 
     return (
       <>
-        <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space">
+        <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space ffms-inherit">
           <Header />
           <StakingHeader />
 
           <section className="top_bnr_area dark-bg">
             <div className="container">
-              <h1>Your Unbound History</h1>
+              <h1 className="ff-mos">Your Unbound History</h1>
             </div>
           </section>
 
           <section className="mid_cnt_area">
             <div className="container">
-              <div className="cmn_dasdrd_table block-fix table-fix">
+              <div className="cmn_dasdrd_table block-fix tbl-adj">
                 <div className="table-responsive">
                   <table className="table table-borderless">
                     <thead>
@@ -159,7 +159,7 @@ export default function Unbond() {
                         <th>Validator Name</th>
                         <th>Amount</th>
                         <th>Status</th>
-                        <th>Timestamp</th>
+                        <th className="text-center">Timestamp</th>
                       </tr>
                     </thead>
                     {/* <tbody>
@@ -304,9 +304,11 @@ export default function Unbond() {
                                     height={50}
                                   />
                                 </div>
-                                <span className="tb-data align">
+                                <div>
+                                <span className="tb-data ">
                                   {value.validatorName}
                                 </span>
+                                </div>
                               </div>
                             </td>
                             <td>
@@ -397,12 +399,14 @@ export default function Unbond() {
                   </div>
                 ) : null}
               </div>
+              <div className="mt-sm-4 mt-3">
               <Pagination
                 currentPage={currentPage}
                 pageSize={pageSize}
                 totalCount={list.length}
                 onPageChange={pageChangeHandler}
               />
+              </div>
             </div>
           </section>
         </main>
