@@ -225,9 +225,8 @@
      }
     .form-field{
         display: flex;
-        justify-content: space-between;
         cursor: pointer;
-        padding-right: 55px;
+        
     }
     .arrow-down{
         color:$body-bg;
@@ -236,6 +235,7 @@
         position:initial;
     }
 }
+
 .arow-outer {
     width: 22px;
     height: 22px;
