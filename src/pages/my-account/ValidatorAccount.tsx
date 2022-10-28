@@ -740,43 +740,46 @@ const comissionValidation: any = Yup.object({
                 >
                     <>
                     {unboundModal.startValue && 
-                     <div>
+                     <div className='.cmn_modal del-tab-content'>
                      <div className="center-align mb-4">
-                       <h3>Are you sure you want to unbound?</h3>
+                       <h4>Are you sure you want to unbound?</h4>
                      </div>
-                     <div className="card">
-                       <div className="row">
-                           <div className="col-sm-6 mb-1">
-                             <h6>Withdraw Stake</h6>
-                           </div>
-                           <div >
-                             <h6>{unboundModal.stakeAmount} Bone</h6>
-                           </div>
-                       </div>
+                     <div className="dark-bg-800 p-2 p-sm-3">
+                       
                        {/* old input */}
                        <div className="form-group float-group">
-                         <input
-                         value={unboundInput}
-                         onChange={(e) => setUnboundInput(e.target.value)}
-                         type="number" 
-                         className="form-control" placeholder="Enter amount" 
-                         />
-                         <span
-                           className="primary-text over-text fw-600"
-                           style={{ cursor: "pointer" }}
-                           onClick={() => setUnboundInput(unboundModal.stakeAmount)}
-                           >
-                           MAX
-                         </span>
+                          <div className="d-flex justify-content-between flex-wrap">
+                                <h6 className='mb-1 fs-14'>Withdraw Stake</h6>
+                                <h6 className='mb-1 fs-14'>{unboundModal.stakeAmount} Bone</h6>
+                          </div>
+                          <div className="cmn_inpt_row max-input">
+                            <div className="max-input">
+                              <input
+                              value={unboundInput}
+                              onChange={(e) => setUnboundInput(e.target.value)}
+                              type="number" 
+                              className="w-100 dark-bg form-control" placeholder="Enter amount" 
+                              />
+                              <span
+                              className="primary-text over-text fw-600"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => setUnboundInput(unboundModal.stakeAmount)}
+                              >
+                              MAX
+                            </span>
+                         </div>
+                          </div>
                        </div>
-                       <div className="card-primary dark-text p-2">
-                           Your Funds will be locked for <a href="" target='#' className="primary-text">checkpoints</a>
+                       <div className="white-label p-2">
+                         <p className="mb-0">
+                           Your Funds will be locked for <a href="" target='#' className="dark-text primary-text">checkpoints</a>
+                           </p>
                        </div>
                      </div>
                      <button
                      onClick={undefined}
                      disabled={unboundInput ? false : true}
-                     type="button" className="btn warning-btn mt-3 mt-sm-4 w-100">Confirm Unbound</button>
+                     type="button" className="btn primary-btn mt-3 mt-sm-4 w-100">Confirm Unbound</button>
                    </div>
                   }
 
