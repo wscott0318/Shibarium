@@ -77,7 +77,7 @@ export default function Header() {
 
     }
   }
-
+const [userQrCode, setUserQrCode] = useState(false);
   console.log(asPath)
   
 
