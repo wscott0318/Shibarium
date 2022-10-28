@@ -295,7 +295,7 @@ export default function Wallet() {
     console.log("Router data for send", x)
     localStorage.setItem("depositToken",JSON.stringify(x))
     localStorage.setItem("bridgeType",type)
-    await Router.push(`/withdraw`);
+    await Router.push(`/bridge`);
   }
 
   
