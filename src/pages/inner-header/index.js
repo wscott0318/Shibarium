@@ -104,7 +104,7 @@ const InnerHeader = () => {
                 </Nav.Item>
                 <Nav.Item className="btn-status">
                   <Web3Status />
-                  <Dropdown className="nav-item d-flex align-items-center cus-dd mob-drop">
+                  <Dropdown className="nav-item d-flex align-items-center cus-dd mob-drop drop-cus">
                     <div className="dot-icon" id="basic-nav-dropdown">
                     </div>
                     <NavDropdown className="me-3">
