@@ -32,7 +32,8 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
                                             <thead>
                                                 <tr>
                                                 <th>Accounts</th>
-                                                <th>Bone Staked</th>
+                                                <th>Amount</th>
+                                                <th>USD Price</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -43,6 +44,8 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
                                                         <span className="amt-value pe-1">
                                                         <NumberFormat displayType='text' thousandSeparator value={(item.stake/Math.pow(10,18))} />
                                                         </span>
+                                                    </td>
+                                                    <td>
                                                         <span className="amt-txt pe-1">
                                                         <NumberFormat displayType='text' prefix='$ ' thousandSeparator value={(item.stake/Math.pow(10,18) * boneUsdValue).toFixed(2)} />
                                                         </span>

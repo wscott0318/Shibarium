@@ -14,6 +14,7 @@ import NetworkModel from "../../modals/NetworkModal";
 import { useNetworkModalToggle } from "../../state/application/hooks";
 import AppHeader from "./AppHeader";
 import { useUserType} from "../../state/user/hooks"
+import NetworkButton from "./NetworkButton";
 
 
 const InnerHeader = () => {
@@ -98,23 +99,8 @@ const InnerHeader = () => {
                       />
                     </a>
                   </Link>
-                  <NavDropdown
-                    className="form-select innerDivBgBlack hd-sel hd-sel-over"
-                    title={getNetworkName()}
-                    id=""
-                  >
-                    <NavDropdown.Item
-                      // disabled={user ? false : true}
-                      onClick={() => toggleNetworkModal()}
-                    >
-                      <h6 className="fw-600 light-text left-border">
-                        Switch Network
-                      </h6>
-                      <span className="light-text">
-                        Switch to other Network
-                      </span>
-                    </NavDropdown.Item>
-                  </NavDropdown>
+
+                <NetworkButton /> 
                 </Nav.Item>
                 <Nav.Item className="btn-status">
                   <Web3Status />
@@ -133,33 +119,14 @@ const InnerHeader = () => {
                         <div className="head-txt">
                           <div className="top-txt">
                             <div>
-                              <span>Account</span>
-                            </div>
-                            <div>
                               <span>
                                 {userType === "NA" ? "User" : userType}
                               </span>
                             </div>
                             <div>
                               <span className="grey-txt">
-                                Shibarium Mainnet
+                                {getNetworkName()}
                               </span>
-                            </div>
-                          </div>
-                          <div className="botom-txt">
-                            <div className="code-txt">
-                              <span className="key">{ENSName || account}</span>
-                            </div>
-                            <div className="copy-blk">
-                              {/* <button> */}
-                              <a href="javascript:void(0);" title="Copy">
-                                <img
-                                  src="../../images/copy.png"
-                                  alt=""
-                                  onClick={copyAddress}
-                                />
-                              </a>
-                              {/* </button> */}
                             </div>
                           </div>
                         </div>

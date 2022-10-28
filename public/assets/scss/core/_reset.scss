@@ -104,18 +104,15 @@ h1 {
     }
 }
 h2 {
-    font-size: 40px;
+    font-size: 32px;
     @media #{$max-xxl}{
-        font-size: 30px;
-    }
-    @media #{$max-xl}{
         font-size: 28px;
     }
-    @media #{$max-lg}{
+    @media #{$max-xl}{
         font-size: 26px;
     }
-    @media #{$max-md}{
-        font-size: 26px;
+    @media #{$max-lg}{
+        font-size: 24px;
     }
 }
 
@@ -312,6 +309,12 @@ ul {
     }
     @media #{$max-xxsm}{
         padding: 6px 15px;
+    }
+}
+.hover-btn{
+    color: $primary;
+    &:hover{
+        color: rgba($primary, 0.89) !important;
     }
 }
 

@@ -149,7 +149,7 @@ export default function ValidatorDetails() {
                             <div className="col-lg-12 detail">
                                 <div className="mb-4 cus-panel dark-Bg mb-lg-5">
                                     <div className="panel-header">
-                                        <h4 className='fwb trs-3 fw-600 ff-mos'>Voting Power test</h4>
+                                        <h4 className='fwb trs-3 fw-600 ff-mos'>Voting Power</h4>
                                     </div>
                                     <div className="panel-body">
                                         <div className='flex-wrap mb-4 d-flex align-items-center'>

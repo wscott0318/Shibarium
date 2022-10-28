@@ -12,6 +12,7 @@ const routeCheck = (x:string) => {
     return router.asPath.split("/")[1] === x;
 }
 const [history,setHistory] = useState("");
+
 useEffect(() => {
   if (routeCheck("unbond-history")) {
     setHistory("Unbound History");
@@ -27,7 +28,7 @@ useEffect(() => {
             <div className="lft-sec">
               <ul className="lft-links ms-auto">
                 <li className="nav-item">
-                  <button onClick={() => routeHandler("/bone-staking")}>
+                  <Link href="/bone-staking" passHref>
                     <a
                       className={`nav-link ff-mos ${
                         routeCheck("bone-staking") && "active"
@@ -36,10 +37,10 @@ useEffect(() => {
                     >
                       Overview
                     </a>
-                  </button>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <button onClick={() => routeHandler("/all-validator")}>
+                  <Link href="/all-validator" passHref>
                     <a
                       className={`nav-link ff-mos ${
                         routeCheck("all-validator") && "active"
@@ -48,10 +49,10 @@ useEffect(() => {
                     >
                       All Validators
                     </a>
-                  </button>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <button onClick={() => routeHandler("/my-account")}>
+                  <Link href="/my-account" passHref>
                     <a
                       className={`nav-link ff-mos ${
                         routeCheck("my-account") && "active"
@@ -60,27 +61,31 @@ useEffect(() => {
                     >
                       My Account
                     </a>
-                  </button>
+                  </Link>
                 </li>
                 <li className="nav-item">
                   <DropdownButton className="dd-style cus-arw" id="dropdown-item-button" title={"History"}>
                     <Dropdown.Item
-                      as="button"
-                      onClick={() => {
-                        router.push("/unbond-history");
-                        setHistory("Unbound History");
-                      }}
+                      // as="button"
+                      // onClick={() => {
+                      //   router.push("/unbond-history");
+                      //   setHistory("Unbound History");
+                      // }}
                     >
+                       <Link href="/unbond-history" passHref>
                       Unbound History
+                      </Link>
                     </Dropdown.Item>
                     <Dropdown.Item
-                      as="button"
-                      onClick={() => {
-                        router.push("/reward-history");
-                        setHistory("Reward History");
-                      }}
+                      // as="button"
+                      // onClick={() => {
+                      //   router.push("/reward-history");
+                      //   setHistory("Reward History");
+                      // }}
                     >
+                      <Link href="/reward-history" passHref>
                       Reward History
+                      </Link>
                     </Dropdown.Item>
                   </DropdownButton>
                 </li>
