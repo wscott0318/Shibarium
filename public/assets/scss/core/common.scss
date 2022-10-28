@@ -3005,6 +3005,25 @@ input:-internal-autofill-selected {
         
     }
 }
+.drop-cus{
+    .head-brand{
+        img{
+            max-width: 40px;
+        }
+    }
+    .drop-head {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        padding-bottom: 20px;
+    }
+    .head-txt{
+        padding-left: 60px;
+        .top-txt{
+            margin-bottom: 0;
+        }
+    }
+}
 
 
 
