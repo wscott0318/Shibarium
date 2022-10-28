@@ -245,7 +245,10 @@
                 padding-left: 28px;
             }
             &::after{
-                content: none;
+                content: '';
+                @media #{$min-md}{
+                    content: none;
+                }
             }
         }
     }
@@ -337,7 +340,7 @@
         padding-right: 5px;
     }
     .dot-icon{
-        @media #{$max-xsm}{
+        @media #{$max-md}{
             display: none;
         }
     }
