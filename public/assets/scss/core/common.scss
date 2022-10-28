@@ -2363,9 +2363,10 @@ background: $body-bg;
     }
     .text-pop-right{
         font-size: 16px;
-        
     }
-    
+    .form-field{
+        height:auto;
+    }
 }
 .bg-clr{
     .mid-chain{
@@ -3013,6 +3014,7 @@ input:-internal-autofill-selected {
         align-items: center;
         flex-wrap: wrap;
         padding-bottom: 20px;
+        padding-top: 10px;
     }
     .head-txt{
         padding-left: 60px;
@@ -3105,6 +3107,10 @@ input:-internal-autofill-selected {
 // .wallet-network .rounded  span img {
 //     width: 100% !important;
 // }
+
+
+
+
 .table-dem{
     table-layout: fixed;
     width: 100%;
@@ -3191,7 +3197,7 @@ input:-internal-autofill-selected {
             @media #{$max-xsm}{
                 width: 8px;
                 height: 8px;
-                right: 0;
+                right: -1px;
             }
         }
     }
