@@ -931,7 +931,7 @@ export default function Wallet() {
                               <td className="fix-td">
                                 {/* <Link href="/withdraw"> */}
                                 <button className="d-block w-100" onClick={()=>sendTokenWithRoute(x)}>
-                                  <a className="px-0 d-block">Deposit</a>
+                                  <a className="px-0 d-block hover-btn">Deposit</a>
                                 </button>
                                 {/* </Link> */}
                               </td>
@@ -939,18 +939,18 @@ export default function Wallet() {
                                 <div className="row mx-0">
                                   <div className="col-6 px-0">
                                   <button className="d-block w-100" onClick={()=>sendTokenWithRoute(x, "withdraw")}>
-                                      <a className=" px-0 d-block text-start">
+                                      <a className=" px-0 d-block text-start hover-btn">
                                         Withdraw
                                       </a>
                                     </button>
                                   </div>
                                   <div className="col-6 px-0">
                                     {/* <Link href="/"> */}
-                                    <button className="d-block w-100" onClick={()=>{
+                                    <button className="d-block w-100 text-end" onClick={()=>{
                                       setSelectedToken(x);
                                       setSenderModal(true);
                                       }}>
-                                      <a className=" px-0 me-2">Send</a>
+                                      <a className=" px-0 me-2 hover-btn">Send</a>
                                     </button>
                                     {/* </Link> */}
                                   </div>
