@@ -3218,3 +3218,16 @@ input:-internal-autofill-selected {
     color: #fff;
     /* border-left: 0.3em solid transparent; */
 }
+
+.wallet-network{
+    .cursor-default {
+        border-color: $primary !important;
+        .text-base {
+            color: $primary !important;
+        }
+    }
+}
+
+.time-th{
+    width: 314px;
+}
