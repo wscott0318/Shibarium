@@ -3029,19 +3029,25 @@ input:-internal-autofill-selected {
 
 .fix-coin-field{
     .lite-color{
-        width: 100px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        display: block;
-        @media #{$max-xxl}{
-            width: 80px;
-        }
-        @media #{$max-xl}{
-            width: 100px;
-        }
+        // width: 100px;
+        // overflow: hidden;
+        // white-space: nowrap;
+        // text-overflow: ellipsis;
+        // display: block;
+        // @media #{$max-xxl}{
+        //     width: 80px;
+        // }
+        // @media #{$max-xl}{
+        //     width: 100px;
+        // }
     }
     .lft-spc{
+        position: absolute;
+        right: 15px;
+        left: auto;
+        top: 50%;
+        transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
         .arow-outer{
             @media #{$max-xxl}{
                 width: 17px;
@@ -3077,7 +3083,14 @@ input:-internal-autofill-selected {
 // .wallet-network .rounded  span img {
 //     width: 100% !important;
 // }
-
+.table-dem{
+    table-layout: fixed;
+    width: 100%;
+}
+.tb-txt {
+    margin: 0 auto;
+    width: calc(100% - 70px);
+}
 .wid-overide{
     max-width: 38rem !important;
 }
