@@ -69,7 +69,7 @@ export default function Unbond() {
 
           <section className="mid_cnt_area">
             <div className="container">
-              <div className="cmn_dasdrd_table block-fix table-fix">
+              <div className="cmn_dasdrd_table block-fix tbl-adj">
                 <div className="table-responsive">
                   <table className="table table-borderless">
                     <thead>
@@ -77,7 +77,7 @@ export default function Unbond() {
                         <th>Validator Name</th>
                         <th>Amount</th>
                         <th>Status</th>
-                        <th>Timestamp</th>
+                        <th className="text-center">Timestamp</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -95,9 +95,11 @@ export default function Unbond() {
                                     height={50}
                                   />
                                 </div>
-                                <span className="tb-data align">
+                                <div>
+                                <span className="tb-data">
                                   {value.validatorId}
                                 </span>
+                                </div>
                               </div>
                             </td>
                             <td>
@@ -143,12 +145,14 @@ export default function Unbond() {
                 </div>
                 ) : null}
               </div>
+              <div className="mt-sm-4 mt-3">
               <Pagination
                 currentPage={currentPage}
                 pageSize={pageSize}
                 totalCount={list.length}
                 onPageChange={pageChangeHandler}
               />
+              </div>
             </div>
           </section>
         </main>
