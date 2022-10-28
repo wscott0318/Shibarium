@@ -151,7 +151,7 @@ export default function Unbond() {
 
           <section className="mid_cnt_area">
             <div className="container">
-              <div className="cmn_dasdrd_table">
+              <div className="cmn_dasdrd_table block-fix table-fix">
                 <div className="table-responsive">
                   <table className="table table-borderless">
                     <thead>
@@ -162,133 +162,6 @@ export default function Unbond() {
                         <th>Timestamp</th>
                       </tr>
                     </thead>
-                    {/* <tbody>
-                      <tr>
-                        <td>
-                          <span>
-                            <img src="../../images/shiba-round-icon.png" />
-                          </span>
-                          <b>DeFIMatic</b>
-                        </td>
-                        <td>
-                          <b>10 Bone</b>
-                          <p>$8.2</p>
-                        </td>
-                        <td>
-                          <span className="text-green">
-                            Success <p>claimed</p>
-                          </span>
-                        </td>
-                        <td>
-                          <p>22/08/2022, 15:28:37</p>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td>
-                          <span>
-                            <img src="../../images/shiba-round-icon.png" />
-                          </span>
-                          <b>DeFIMatic</b>
-                        </td>
-                        <td>
-                          <b>10 Bone</b>
-                          <p>$8.2</p>
-                        </td>
-                        <td>
-                          <span className="text-green">
-                            Success <p>claimed</p>
-                          </span>
-                        </td>
-                        <td>
-                          <p>22/08/2022, 15:28:37</p>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td>
-                          <span>
-                            <img src="../../images/shiba-round-icon.png" />
-                          </span>
-                          <b>DeFIMatic</b>
-                        </td>
-                        <td>
-                          <b>10 Bone</b>
-                          <p>$8.2</p>
-                        </td>
-                        <td>
-                          <span className="text-green">
-                            Success <p>claimed</p>
-                          </span>
-                        </td>
-                        <td>
-                          <p>22/08/2022, 15:28:37</p>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td>
-                          <span>
-                            <img src="../../images/shiba-round-icon.png" />
-                          </span>
-                          <b>DeFIMatic</b>
-                        </td>
-                        <td>
-                          <b>10 Bone</b>
-                          <p>$8.2</p>
-                        </td>
-                        <td>
-                          <span className="text-green">
-                            Success <p>claimed</p>
-                          </span>
-                        </td>
-                        <td>
-                          <p>22/08/2022, 15:28:37</p>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td>
-                          <span>
-                            <img src="../../images/shiba-round-icon.png" />
-                          </span>
-                          <b>DeFIMatic</b>
-                        </td>
-                        <td>
-                          <b>10 Bone</b>
-                          <p>$8.2</p>
-                        </td>
-                        <td>
-                          <span className="text-green">
-                            Success <p>claimed</p>
-                          </span>
-                        </td>
-                        <td>
-                          <p>22/08/2022, 15:28:37</p>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td>
-                          <span>
-                            <img src="../../images/shiba-round-icon.png" />
-                          </span>
-                          <b>DeFIMatic</b>
-                        </td>
-                        <td>
-                          <b>10 Bone</b>
-                          <p>$8.2</p>
-                        </td>
-                        <td>
-                          <span className="text-green">
-                            Success <p>claimed</p>
-                          </span>
-                        </td>
-                        <td>
-                          <p>22/08/2022, 15:28:37</p>
-                        </td>
-                      </tr>
-                    </tbody> */}
                     <tbody>
                       {slicedList.length ? (
                         slicedList.map((value: any) => (
@@ -387,10 +260,14 @@ export default function Unbond() {
                     </tbody>
                   </table>
                 </div>
-                {!listLoader && !list.length && !slicedList.length ? (
-                  <p className="py-3 py-md-4 py-lg-5 text-center">
-                    No record found
-                  </p>
+                {!list.length ? (
+                  <div className="no-found">
+                    <div>
+                      <div className="text-center">
+                        <img src="../../images/no-record.png"/>
+                      </div>
+                    </div>
+                  </div>
                 ) : null}
               </div>
               <Pagination

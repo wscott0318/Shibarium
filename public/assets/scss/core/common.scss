@@ -122,7 +122,7 @@
     border-radius: 10px;
     font-size: 16px;
     @media #{$max-xxl}{
-        padding: 10px 20px;
+        padding: 10px 16px;
         font-size: 16px;
     }
     @media #{$max-xl}{
@@ -1847,6 +1847,9 @@
     -ms-border-radius: 4px;
     -moz-border-radius: 4px;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .box-head {
     background: $body-bg-800;
@@ -2954,6 +2957,23 @@ input:-internal-autofill-selected {
         display: none;
     } 
 }
+// .leading-5 {
+//     font-size: 19px !important;
+// }
+// .grid-flow-row-dense button span {
+//     width: 50px !important;
+// }
+// .grid-flow-row-dense button span img {
+//     width: 100% !important;
+// }
+// .rounded  span {
+//     width: 50px !important;
+// }
+// .rounded  span img {
+//     width: 100% !important;
+// }
+
+
 
 .fix-coin-field{
     .lite-color{
@@ -2962,7 +2982,33 @@ input:-internal-autofill-selected {
         white-space: nowrap;
         text-overflow: ellipsis;
         display: block;
+        @media #{$max-xxl}{
+            width: 80px;
+        }
+        @media #{$max-xl}{
+            width: 100px;
+        }
     }
+    .lft-spc{
+        .arow-outer{
+            @media #{$max-xxl}{
+                width: 17px;
+                height: 17px;
+                line-height: 11px;
+                position: absolute;
+                right: 8px;
+                top: 13px;
+            }
+        }
+    }
+}
+.fix-coin-field.form-field{
+    @media #{$max-xxl}{
+       padding: 10px 5px;
+    } 
+    @media #{$max-lg}{
+        padding: 10px 15px;
+     }
 }
 .wallet-network .leading-5 {
     font-size: 18px !important;
@@ -3011,5 +3057,60 @@ input:-internal-autofill-selected {
 .staking-header{
     .btn{
         font-family: "MADE Okine Sans PERSONAL USE";
+    }
+}
+.app-drop{
+    .dropdown-menu{
+        .dropdown-item{
+            &:focus{
+                background: $body-bg-secondry;
+            }
+        }
+    }
+}  
+
+
+.walletconnect-modal__base {
+    background:$body-bg-800 !important;
+    .walletconnect-modal__mobile__toggle {
+        background:$body-bg !important;
+    }
+    .walletconnect-modal__mobile__toggle_selector {
+        background: $body-bg-800 !important;
+    }
+    .walletconnect-qrcode__text {
+        color: rgba($white,0.89) !important;
+    }
+    .walletconnect-connect__button__text {
+        color: rgba($white,0.89) !important;
+    }
+}
+
+.cus-arw{
+    .btn{
+        &::after{
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%) rotate(45deg);
+            border: 2px solid;
+            border-top: 0;
+            border-left: 0;
+            width: 10px;
+            height: 10px;
+            top: 50%;
+            position: absolute;
+            right: 5px;
+            left: auto;
+            margin-top: -2px;
+            @media #{$max-xsm}{
+                width: 8px;
+                height: 8px;
+                right: 0;
+            }
+        }
+    }
+}
+.wrk-cnt{
+    @media #{$max-sm}{
+        text-align: justify;
     }
 }

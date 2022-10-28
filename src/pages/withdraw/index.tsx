@@ -2352,13 +2352,13 @@ const handleSearchList = (key :any) => {
                                             Balance:
                                           </span>
                                           <span className="fld-txt lite-color">
-                                            {selectedToken.balance+" "+selectedToken.parentName}
+                                            {selectedToken.balance ? (selectedToken?.balance+" "+selectedToken?.parentName) : "00.00"}
                                           </span>
                                         </div>
                                       </div>
                                     </div>
                                     <div className="field-grid row">
-                                      <div className="col-sm-5 field-col res-align">
+                                      <div className="col-lg-5 col-sm-12 mb-sm-3 mb-3 mb-lg-0 field-col res-align">
                                         <div
                                           className="form-field position-relative fix-coin-field"
                                           onClick={() => {
@@ -2396,7 +2396,7 @@ const handleSearchList = (key :any) => {
                                           </div>
                                         </div>
                                       </div>
-                                      <div className="col-sm-7 field-col">
+                                      <div className="col-lg-7 col-sm-12 field-col">
                                         <div className="form-field position-relative two-fld">
                                           <div className="mid-chain w-100">
                                             <input
@@ -2507,13 +2507,13 @@ const handleSearchList = (key :any) => {
                                       Balance:
                                     </span>
                                     <span className="fld-txt lite-color">
-                                      {selectedToken.balance && selectedToken.balance} {selectedToken.parentName && selectedToken.parentName}
+                                    {selectedToken.balance ? (selectedToken?.balance+" "+selectedToken?.parentName) : "00.00"}
                                     </span>
                                   </div>
                                 </div>
                               </div>
                               <div className="field-grid row">
-                                <div className="col-sm-5 field-col res-align">
+                                <div className="col-lg-5 col-sm-12 mb-sm-3 mb-3 mb-lg-0 field-col res-align">
                                   <div
                                     className="form-field position-relative fix-coin-field"
                                     onClick={() => {
@@ -2553,7 +2553,7 @@ const handleSearchList = (key :any) => {
                                     </div>
                                   </div>
                                 </div>
-                                <div className="col-sm-7 field-col">
+                                <div className="col-lg-7 col-sm-12 field-col">
                                   <div className="form-field position-relative two-fld">
                                     <div className="mid-chain w-100">
                                       <input

@@ -93,7 +93,7 @@ export default function Wallet() {
 
   const getNetworkName = () => {
     if(chainId == 1){
-      return "Etherium Mainnet"
+      return "Ethereum Mainnet"
     } else if (chainId == 5){
       return "Goerli Testnet"
     } else {
@@ -895,7 +895,7 @@ export default function Wallet() {
                         <tr>
                           <th colSpan={2}>Name</th>
                           <th>Quantity - Balance</th>
-                          <th>Actions</th>
+                          <th className="text-center">Actions</th>
                           <th colSpan={2} className="text-end">
                             <input
                               className="shib-search"
@@ -917,7 +917,7 @@ export default function Wallet() {
                                 </span>
                                 <b>{x.parentSymbol}</b> - {x.parentName}
                               </td>
-                              <td className="fix-td">
+                              <td className="fix-td d-flex align-items-center">
                                 {(x.balance || "0.00")} -{" "}
                                 <NumberFormat
                                   thousandSeparator
