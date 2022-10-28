@@ -9,6 +9,8 @@ import Header from "pages/layout/header";
 import StakingHeader from "pages/staking-header";
 import Pagination from "app/components/Pagination";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
+import { useRouter } from "next/router";
+import { useUserType } from "../../state/user/hooks";
 
 export default function Unbond() {
 
@@ -17,6 +19,7 @@ export default function Unbond() {
     const [slicedList, setSlicedList] = useState([]);
     const [listLoader, setListLoader] = useState(true);
     const pageSize = 10;
+    const [userType, setUserType] = useUserType();
     const [currentPage, setCurrentPage] = useState<number>(1);
     const getRewardsList = (account :any) => {
         unbondRewards(account).then((res: any) => {
@@ -54,10 +57,16 @@ export default function Unbond() {
             getRewardsList(account)
         }
     },[account])
-
+    
     const formatTimeStamp = (val:any) => {
       return new Date(Number(val)).toLocaleString();
     }
+     const router = useRouter();
+     useEffect(() => {
+       if (userType !== "Delegator") {
+         router.back();
+       }
+     }, [userType]);
 
     return (
       <>

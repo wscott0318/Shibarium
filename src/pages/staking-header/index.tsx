@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Dropdown, Navbar, Container, Nav, DropdownButton } from "react-bootstrap";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
-
+import { useUserType } from "../../state/user/hooks";
 const StakingHeader = () => {
 const router = useRouter();
 const routeHandler = (x:string) => {
@@ -12,6 +12,7 @@ const routeCheck = (x:string) => {
     return router.asPath.split("/")[1] === x;
 }
 const [history,setHistory] = useState("");
+const [userType, setUserType] = useUserType();
 
 useEffect(() => {
   if (routeCheck("unbond-history")) {
@@ -20,6 +21,7 @@ useEffect(() => {
     setHistory("Reward History");
   }
 }, [router])
+
 
     return (
       <>
@@ -63,7 +65,9 @@ useEffect(() => {
                     </a>
                   </Link>
                 </li>
-                <li className="nav-item">
+                {
+                  userType === 'Delegator' &&
+                  <li className="nav-item">
                   <DropdownButton className="dd-style cus-arw" id="dropdown-item-button" title={"History"}>
                     <Dropdown.Item
                       // as="button"
@@ -88,7 +92,7 @@ useEffect(() => {
                       </Link>
                     </Dropdown.Item>
                   </DropdownButton>
-                </li>
+                </li>}
               </ul>
             </div>
           </div>

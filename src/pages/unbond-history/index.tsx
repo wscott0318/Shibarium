@@ -20,6 +20,8 @@ import StakingHeader from "pages/staking-header";
 import Pagination from "app/components/Pagination";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import CommonModal from "../components/CommonModel";
+import { useUserType } from "../../state/user/hooks";
+import { useRouter } from "next/router";
 
 
 export default function Unbond() {
@@ -35,7 +37,7 @@ export default function Unbond() {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const lib: any = library
     const web3: any = new Web3(lib?.provider)
-
+    const [userType, setUserType] = useUserType();
     const getValidatorContractAddress = async (validatorID:any) => {
         let user = account;
         if(account){
@@ -136,7 +138,12 @@ export default function Unbond() {
             completed: false,
         }))
     }
-    console.log("List",list)
+    const router = useRouter();
+    useEffect(() => {
+      if (userType !== "Delegator") {
+        router.back();
+      }
+    }, [userType]);
 
     return (
       <>
