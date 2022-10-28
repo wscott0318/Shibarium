@@ -29,13 +29,14 @@
         @media #{$max-xl}{
             padding: 0 6px;
         }
+        @media #{$max-lg}{
+            margin-bottom: 12px;
+        }
         @media #{$max-md}{
             flex:0 0 50%;
-            margin-bottom: 12px;
         }
         @media #{$max-sm}{
             flex:0 0 100%;
-            margin-bottom: 12px;
         }
     }
     .main_net_amnt{
