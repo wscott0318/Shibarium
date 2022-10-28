@@ -44,7 +44,7 @@ export default function unbondHistoryNew() {
 
             <section className="top_bnr_area dark-bg">
                 <div className="container">
-                    <h1>Your Unbound History</h1>
+                    <h1 className="ff-mos">Your Unbound History</h1>
                 </div>                
             </section> 
 
