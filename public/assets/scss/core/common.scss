@@ -3188,16 +3188,16 @@ input:-internal-autofill-selected {
             border: 2px solid;
             border-top: 0;
             border-left: 0;
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             top: 50%;
             position: absolute;
             right: 5px;
             left: auto;
             margin-top: -2px;
             @media #{$max-xsm}{
-                width: 8px;
-                height: 8px;
+                width: 7px;
+                height: 7px;
                 right: 0;
             }
         }
