@@ -124,6 +124,9 @@ const validatorAccount = ({userType, boneUSDValue, availBalance} : {userType : a
     }
   };
 
+
+  console.log(unboundModal)
+
   useEffect(() => {
     if (account && userType === "Delegator") {
       getDelegatorCardData(account)
@@ -744,10 +747,10 @@ const comissionValidation: any = Yup.object({
                      <div className="card">
                        <div className="row">
                            <div className="col-sm-6 mb-1">
-                             <h6 className="mb-0">Withdraw Stake</h6>
+                             <h6>Withdraw Stake</h6>
                            </div>
-                           <div className="col-sm-6 text-end mb-1">
-                             <h6 className="mb-0">{unboundModal.stakeAmount} Bone</h6>
+                           <div >
+                             <h6>{unboundModal.stakeAmount} Bone</h6>
                            </div>
                        </div>
                        {/* old input */}
@@ -770,14 +773,6 @@ const comissionValidation: any = Yup.object({
                            Your Funds will be locked for <a href="" target='#' className="primary-text">checkpoints</a>
                        </div>
                      </div>
-                     {/* <div className="d-flex justify-content-between align-items-center">
-                       <div className="mt-2">
-                         $3.359 Gas Fee
-                       </div>
-                       <div className="mt-2 text-end">
-                         <img className="img-fluid" src="../../assets/images/arrow-right-white.png" alt="img-fluid" width={6} />
-                       </div>
-                     </div> */}
                      <button
                      onClick={undefined}
                      disabled={unboundInput ? false : true}
