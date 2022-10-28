@@ -150,43 +150,6 @@ export default function Unbond() {
         <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space ffms-inherit">
           <Header />
           <StakingHeader />
-      
-        {/* modal started  */}
-        <CommonModal
-          title={"Retake"}
-          show={claimNowModals.startValue}
-          setShow={setClamNowModals}
-          externalCls=""
-        >
-          <div className="del-tab-content">
-              <div className="pb-3 pb-sm-4">
-                  <h3 className="mb-3 text-center">Your unbonding period is complete. you claim your stake now .</h3>
-                  <p className="lite-text text-center lite-color fw-600">
-                      Your stake will be transferred to
-                      <span className="d-block">0x804879077878887hshcbdb8799989hdh2</span>
-                  </p>
-              </div>
-              <div className="dark-bg-800 p-2 p-sm-3 text-center">
-                  <p className="lite-color fw-600">Stake to claim</p>
-                  <h3>10 Bone</h3>
-                  <p className="lite-color fw-600">$8.17</p>
-              </div>
-              <div className="arrow-block mt-2 mt-sm-3">
-                  <p>$3.359 Gas Fee</p>
-                  <div className="arrow-float">
-                      <img className="img-fluid" src="../../images/rt-arow.png" alt="arrow" width={8} />
-                  </div>
-              </div>
-              <div className="button-wrap mt-3">
-                  <button type="button" className="btn primary-btn w-100">Confirm Unbond</button>
-              </div>
-          </div>
-        </CommonModal>
-        
-
-
-
-
           <section className="top_bnr_area dark-bg">
             <div className="container">
               <h1 className="ff-mos">Your Unbound History</h1>
@@ -257,7 +220,12 @@ export default function Unbond() {
                                       className="primary-badge px-2"
                                       type="button"
                                       disabled={true}
-                                      onClick={() => setClamNowModals({})}
+                                      onClick={() => setClamNowModals({
+                                        data: value,
+                                        confirm: true,
+                                        progress: false,
+                                        completed: false,
+                                    })}
                                       //  className="mb-0 fs-12 "
                                     >
                                       Claim Now
@@ -331,7 +299,40 @@ export default function Unbond() {
           </section>
         </main>
 
-
+                     {/* modal started  */}
+        <CommonModal
+          title={"Retake"}
+          show={claimNowModals.confirm}
+          setShow={setClamNowModals}
+          externalCls=""
+        >
+          <div className="del-tab-content">
+              <div className="pb-3 pb-sm-4">
+                  <h3 className="mb-3 text-center">Your unbonding period is complete. you claim your stake now .</h3>
+                  <p className="lite-text text-center lite-color fw-600">
+                      Your stake will be transferred to
+                      <span className="d-block">{account}</span>
+                  </p>
+              </div>
+              <div className="dark-bg-800 p-2 p-sm-3 text-center">
+                  <p className="lite-color fw-600">Stake to claim</p>
+                  <h3>{parseInt(claimNowModals.data.amount) / 10**18 } Bone</h3>
+                  {/* <p className="lite-color fw-600">$8.17</p> */}
+              </div>
+              {/* <div className="arrow-block mt-2 mt-sm-3">
+                  <p>$3.359 Gas Fee</p>
+                  <div className="arrow-float">
+                      <img className="img-fluid" src="../../images/rt-arow.png" alt="arrow" width={8} />
+                  </div>
+              </div> */}
+              <div className="button-wrap mt-3">
+                  <button type="button" 
+                  className="btn primary-btn w-100"
+                  onClick={() => unboundClaimAPI()}
+                  >Confirm Unbond</button>
+              </div>
+          </div>
+        </CommonModal>
       </>
     );
 }
