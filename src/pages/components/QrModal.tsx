@@ -48,7 +48,7 @@ const QrModal:React.FC<props> = ({show,setShow, title,address})=> {
             logoImage='../../images/shib-borderd-icon.png'
             />
           </div>
-          <div className='mt-4 text-center lite-color'>Wallet address </div>
+          <div className='mt-3 text-center lite-color'>Wallet address </div>
           <div  className='text-center word-wrap'>{address}</div>
         </div>
         <div>

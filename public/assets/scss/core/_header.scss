@@ -138,10 +138,10 @@
                 font-size: 16px;
             }
             @media #{$max-lg}{
-                font-size: 14px;
+                font-size: 12px;
             }
             @media #{$max-xsm}{
-                padding: 8px 7px !important;
+                padding:6px !important;
                 padding-right: 20px !important;
             }
         }
@@ -157,7 +157,7 @@
     .shib-dropdown {
         margin-right: 20px;
         @media #{$max-xsm}{
-            margin-right: 10px;
+            margin-right: 0px;
         }
     }
     .px-4 {
@@ -283,8 +283,10 @@
             border:0
         }
         .dropdown-item:first-child:hover{
-            border-bottom-left-radius: 0.375rem;
-            border-bottom-right-radius: 0.375rem;
+            border-top-left-radius: 0.375rem;
+            border-top-right-radius: 0.375rem;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
         }
         .dropdown-item:first-child{
             margin-top: 0;
