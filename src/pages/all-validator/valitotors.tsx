@@ -9,6 +9,8 @@ import Pagination from 'app/components/Pagination';
 import LoadingSpinner from 'pages/components/Loading';
 // @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
+import { queryProvider } from 'Apollo/client';
+import { allValidatorsQuery } from 'Apollo/queries';
 
 const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) => {
     const pageSize = 4;
@@ -32,6 +34,14 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     }, [searchResult])
   
     console.log(validators)
+
+    const fetchValidators = async () => {
+      const validators = await queryProvider.query({
+        query: allValidatorsQuery(),
+      })
+
+      console.log(validators, " graphQL query ==== >")
+    }
 
     // useEffect(() => {
     //   if(isActiveTab){
@@ -73,6 +83,8 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
         .catch((err) => {
           setLoading(false)
         });
+
+        fetchValidators()
     }, []);
 
     useEffect(() => {

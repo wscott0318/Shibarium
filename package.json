@@ -140,7 +140,7 @@
     "fuse.js": "^6.4.6",
     "graphql": "^15.5.3",
     "graphql-request": "^3.5.0",
-    "graphql-tag": "^2.12.5",
+    "graphql-tag": "^2.12.6",
     "husky": "^7.0.0",
     "identity-obj-proxy": "^3.0.0",
     "ioredis": "^4.27.7",
@@ -212,6 +212,7 @@
     "not op_mini all"
   ],
   "dependencies": {
+    "@apollo/client": "^3.7.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@material-ui/core": "^4.12.4",
     "@sentry/utils": "^7.15.0",
