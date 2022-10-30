@@ -179,7 +179,7 @@
         color:$white;
         right: 0;
         left: auto;
-        top: 35px;
+        top: 50px;
         margin: 0;
         padding: 0;
         // @media #{$max-xl}{
@@ -2865,7 +2865,7 @@ input:-internal-autofill-selected {
 .lg-lft{
     img{
        @media #{$max-sm}{
-            max-width: 35px;
+            max-width: 25px;
         }
     }
 }
@@ -2988,13 +2988,13 @@ input:-internal-autofill-selected {
     .table-responsive{
         height: 1100px;
         @media #{$max-xxl}{
-            height: 930px;
+            height: 945px;
         }
         @media #{$max-xl}{
             height: 830px;
         }
         @media #{$max-lg}{
-            height: 790px;
+            height: 795px;
         }
         @media #{$max-md}{
             height: 750px;
@@ -3013,12 +3013,19 @@ input:-internal-autofill-selected {
         align-items: center;
         flex-wrap: wrap;
         padding-bottom: 20px;
+        margin-bottom: 20px;
     }
     .head-txt{
         padding-left: 60px;
+        @media #{$max-md}{
+            padding-left:0;
+        }
         .top-txt{
             margin-bottom: 0;
         }
+    }
+    .custum-row{
+        margin-bottom: 15px;
     }
 }
 
@@ -3181,16 +3188,16 @@ input:-internal-autofill-selected {
             border: 2px solid;
             border-top: 0;
             border-left: 0;
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             top: 50%;
             position: absolute;
             right: 5px;
             left: auto;
             margin-top: -2px;
             @media #{$max-xsm}{
-                width: 8px;
-                height: 8px;
+                width: 7px;
+                height: 7px;
                 right: 0;
             }
         }
@@ -3225,5 +3232,35 @@ input:-internal-autofill-selected {
         .text-base {
             color: $primary !important;
         }
+    }
+}
+
+.max-input{
+    position: relative;
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+    }
+    ::placeholder{
+        color: $white;
+    }
+    .form-control{
+        padding: 10px 12px;
+        padding-right: 45px;
+        color: rgba($white,0.89);
+        &:focus{
+            box-shadow: none;
+        }
+        @media #{$max-sm}{
+            padding: 8px 12px;
+        }
+        
+    }
+    .over-text {
+        position: absolute;
+        top: 50%;
+        right: 12px;
+        transform: translateY(-50%);
     }
 }

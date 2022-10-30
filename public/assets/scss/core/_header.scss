@@ -338,7 +338,7 @@
     }
     .dot-icon{
         @media #{$max-xsm}{
-            display: none;
+            max-width: 20px;
         }
     }
     .navbar-nav .dropdown-menu{
@@ -374,6 +374,14 @@
         
         @media #{$max-xsm}{
             max-width: 70px;
+        }
+    }
+    .btn-status{
+        span{
+            @media #{$max-xxsm}{
+                width: 16px;
+                height: 16px;
+            } 
         }
     }
 }
@@ -454,7 +462,7 @@
         }
         .bg-dark-1000{
             @media #{$max-xsm}{
-                padding: 10px 22px !important;
+                padding: 10px 22px 10px 5px !important;
             }
         }
     }  
