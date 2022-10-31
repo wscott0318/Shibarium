@@ -177,24 +177,24 @@ const [scroll, setScroll] = useState(false);
                         width={30}
                       />
                     </a>
-                </Link>
-                <NavDropdown
-                  className="form-select innerDivBgBlack hd-sel hd-sel-over"
-                  title={getNetworkName()}
-                  id=""
-                >
-                  <NavDropdown.Item
-                    // disabled={user ? false : true}
-                    onClick={() => toggleNetworkModal()}
+                  </Link>
+                  <NavDropdown
+                    className={`form-select innerDivBgBlack hd-sel hd-sel-over`}
+                    title={getNetworkName()}
+                    id=""
                   >
-                    <h6 className="fw-600 light-text left-border">
-                      Switch Network home
-                    </h6>
-                    <span className="light-text">
-                      Switch to other Network
-                    </span>
-                  </NavDropdown.Item>
-                </NavDropdown>
+                    <NavDropdown.Item
+                      // disabled={user ? false : true}
+                      onClick={() => toggleNetworkModal()}
+                    >
+                      <h6 className="fw-600 light-text left-border">
+                        Switch Network
+                      </h6>
+                      <span className="light-text">
+                        Switch to other Network
+                      </span>
+                    </NavDropdown.Item>
+                  </NavDropdown>
                 </Nav.Item>
                 <Nav.Item className="btn-status inner-btn">
                   {account ? (

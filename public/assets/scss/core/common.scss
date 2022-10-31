@@ -2845,6 +2845,12 @@ input:-internal-autofill-selected {
 .innerDivBgBlack > div {
     background-color: black !important;
 }
+.innerDivBgBlack > a {
+    line-height: 1.25rem;
+    font-family: "MADE Okine Sans PERSONAL USE" !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+}
 .logo-wrap {
     display: flex;
     align-items: center;
