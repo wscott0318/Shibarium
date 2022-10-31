@@ -22,6 +22,8 @@ import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import CommonModal from "../components/CommonModel";
 import { useUserType } from "../../state/user/hooks";
 import { useRouter } from "next/router";
+import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
+import { useAppDispatch } from "../../state/hooks"
 
 
 export default function Unbond() {
@@ -32,6 +34,7 @@ export default function Unbond() {
     const [slicedList, setSlicedList] = useState([]);
     const [ confirm, setConfirm] = useState(false);
     const [transactionLink, setTransactionLink] = useState('')
+    const dispatch = useAppDispatch();
     // const {account,chainId=1} = useActiveWeb3React()
     const pageSize = 10;
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -71,7 +74,6 @@ export default function Unbond() {
     }
     // console.log(claimNowModals)
     const unboundClaimAPI = async () => {
-        setClamNowModals((pre:any) => ({...pre, progress: true, confirm: false}))
         let data = {
             delegatorAddress: account,
             validatorId: claimNowModals?.data?.validatorId,
@@ -82,30 +84,51 @@ export default function Unbond() {
         if(account){
             let walletAddress = account
             let instance = new web3.eth.Contract(ValidatorShareABI, validatorContract);
-            await instance.methods.unstakeClaimTokens_new(data.unbondNonce).send({ from: walletAddress }).then((res:any) => {
-              console.log(res)
+            await instance.methods.unstakeClaimTokens_new(data.unbondNonce).send({ from: walletAddress })
+            .on('transactionHash', (res: any) => {
+              console.log(res, "hash")
+              dispatch(
+                addTransaction({
+                  hash: res,
+                  from: walletAddress,
+                  chainId,
+                  summary: `${res}`,
+                })
+              )
               const link = getExplorerLink(chainId , res.transactionHash,'transaction')
-            setTransactionLink(link)
-            console.log(link)
-            setClamNowModals({
+              setTransactionLink(link)
+              console.log(link)
+              setClamNowModals((pre:any) => ({...pre, progress: true, confirm: false}))
+            }).on('receipt', (res: any) => {
+              console.log(res, "receipt")
+              dispatch(
+                finalizeTransaction({
+                  hash: res.transactionHash,
+                  chainId,
+                  receipt: {
+                    to: res.to,
+                    from: res.from,
+                    contractAddress: res.contractAddress,
+                    transactionIndex: res.transactionIndex,
+                    blockHash: res.blockHash,
+                    transactionHash: res.transactionHash,
+                    blockNumber: res.blockNumber,
+                    status: 1
+                  }
+                })
+              )
+              getUnboundHistory(account)
+            }).on('error', (res: any) => {
+              console.log(res, "error")
+              setClamNowModals({
                 data:{},
                 confirm: false,
                 progress:false,
                 completed:true
             })
-            getUnboundHistory(account)
-            }).catch((err:any) => {
-              console.log(err)
-              setClamNowModals({
-                        data:{},
-                        confirm: false,
-                        progress:false,
-                        completed:true
-                    })
-              if(err.code === 4001){
+              if (res.code === 4001) {
                 console.log("User desined this transaction! ")
               }
-               
             })
           }
         console.log(validatorContract)
