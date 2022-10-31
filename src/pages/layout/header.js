@@ -23,9 +23,12 @@ import AppHeader from "../inner-header/AppHeader";
 import useENSName from "app/hooks/useENSName";
 // import { injected } from "app/config/wallets";
 import { useNetworkModalToggle } from "../../state/application/hooks";
+import { useActiveWeb3React } from "../../services/web3";
+import NetworkModel from "../../modals/NetworkModal";
 
 export default function Header() {
-  const { chainId, account, active, error, library, activate, deactivate } = useWeb3React()
+  const {account, active, error, library, activate, deactivate } = useWeb3React();
+  const { chainId } = useActiveWeb3React();
   const { handleAccount } = useContext(ProjectContext)
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -141,6 +144,7 @@ const toggleNetworkModal = useNetworkModalToggle();
       setIsVisible(false);
     }
   };
+  if (!chainId) return null;
 const getNetworkName = () => {
   if (chainId == 1) {
     return "Ethereum Mainnet";
@@ -150,6 +154,7 @@ const getNetworkName = () => {
     return "Shibarium Mainnet";
   }
 };
+
 const [scroll, setScroll] = useState(false);
 
   useEffect(() => {
@@ -248,7 +253,7 @@ const [scroll, setScroll] = useState(false);
                     >
                       <NavDropdown.Item
                         // disabled={user ? false : true}
-                        onClick={() => toggleNetworkModal()}
+                        onClick={toggleNetworkModal}
                       >
                         <h6 className="fw-600 light-text left-border">
                           Switch Network
@@ -367,6 +372,7 @@ const [scroll, setScroll] = useState(false);
             </Navbar.Collapse>
           </Container>
         </Navbar>
+        <NetworkModel />
       </header>
     </>
   );
