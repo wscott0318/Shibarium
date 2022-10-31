@@ -27,11 +27,11 @@ export default function Unbond() {
             if(res.status == 200) {
                 console.log(res.data.result);
                 setList(res.data.result)
-                // setListLoader(false)
+                setListLoader(false)
             }
         }).catch((err : any) => {
             console.log(err);
-            // setListLoader(false)
+            setListLoader(false)
         })
     }
 
@@ -143,7 +143,7 @@ export default function Unbond() {
                       ) : !list.length && !slicedList.length && listLoader ? (
                         <tr>
                           <td colSpan={4}>
-                            <DynamicShimmer type={"table"} rows={15} cols={4} />
+                            <DynamicShimmer type={"table"} rows={13} cols={4} />
                           </td>
                         </tr>
                       ) : null}

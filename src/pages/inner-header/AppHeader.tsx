@@ -45,7 +45,7 @@ const AppHeader = () => {
                 Send and receive crypto assets on Shibarium network
               </span>
             </NavDropdown.Item>
-            <NavDropdown.Item href={account ? "/bridge" : "/login"}>
+            {/* <NavDropdown.Item href={account ? "/bridge" : "/login"}>
               <h6
                 className={
                   title === "Bridge"
@@ -58,7 +58,7 @@ const AppHeader = () => {
               <span className="light-text">
                 Deposit and withdraw between networks
               </span>
-            </NavDropdown.Item>
+            </NavDropdown.Item> */}
             <NavDropdown.Item href="/bone-staking">
               <h6
                 className={

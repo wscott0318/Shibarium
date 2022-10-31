@@ -86,10 +86,10 @@ export default function Wallet() {
 
   useEffect(() => {
     if(tokenFilteredList.length) {
-     let obj = tokenFilteredList.filter((x:any) => x.parentSymbol === 'BONE').map((y:any) => y)[0] 
+     let obj = tokenFilteredList.filter((x:any) => x.parentSymbol === 'BoneToken').map((y:any) => y)[0] 
      setSelectedToken(obj) 
     }
-  },[tokenFilteredList])
+  },[tokenFilteredList, tokenList])
 
   console.log(selectedToken)
 
@@ -117,8 +117,6 @@ export default function Wallet() {
       list.forEach(async (x: any) => {
         x.balance = await getTokenBalance(lib, account, x.parentContract)
       })
-      let sortedData = list.sort(function (a : any, b : any) {  return +a.balance - +b.balance})
-      console.log(sortedData)
       setTokenList(list)
       setTokenFilteredList(list)
       setTokenModalList(list)
@@ -506,7 +504,7 @@ export default function Wallet() {
                                 <label className="mb-0">Select token</label>
                               ) : (sendAmount &&
                                   +sendAmount > selectedToken.balance) ||
-                                selectedToken.balance <= 0 ? (
+                                selectedToken?.balance <= 0 ? (
                                 <label className="primary-text mb-0">
                                   Insufficient balance
                                 </label>
@@ -520,7 +518,7 @@ export default function Wallet() {
                                 displayType={"text"}
                                 prefix="$ "
                                 value={(
-                                  (selectedToken.balance || 0) * boneUSDValue
+                                  (selectedToken?.balance || 0) * boneUSDValue
                                 ).toFixed(2)}
                               />
                             </span>
