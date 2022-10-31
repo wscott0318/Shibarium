@@ -278,35 +278,14 @@ const [scroll, setScroll] = useState(false);
                             <div className="head-txt">
                               <div className="top-txt">
                                 <div>
-                                  <span>Account 0xe78</span>
-                                </div>
-                                <div>
                                   <span>
                                     {userType === "NA" ? "User" : userType}
                                   </span>
                                 </div>
                                 <div>
                                   <span className="grey-txt">
-                                    Shibarium Mainnet
+                                    {getNetworkName()}
                                   </span>
-                                </div>
-                              </div>
-                              <div className="botom-txt">
-                                <div className="code-txt">
-                                  <span className="key">
-                                    {ENSName || account}
-                                  </span>
-                                </div>
-                                <div className="copy-blk">
-                                  {/* <button> */}
-                                  <a href="javascript:void(0);" title="Copy">
-                                    <img
-                                      src="../../images/copy.png"
-                                      alt=""
-                                      onClick={copyAddress}
-                                    />
-                                  </a>
-                                  {/* </button> */}
                                 </div>
                               </div>
                             </div>
