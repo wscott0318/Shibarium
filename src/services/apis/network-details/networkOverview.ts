@@ -24,3 +24,6 @@ export function getCheckpointInterval(){
 export function getNetworkOverviewData(){
     return http.get(`networkDetail/info `)
 }
+export function registerValidator(data :any){
+    return http.post(`/validators/valInfo`, data)
+}
