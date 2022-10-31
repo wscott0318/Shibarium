@@ -57,8 +57,6 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   });
   const [unboundModal, setUnboundModal] = useState({
     startValue: false,
-    progressValue: false,
-    comfirmValue: false,
     address: '',
     id: '',
     stakeAmount: 0
@@ -478,6 +476,78 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     }
   }
 
+  // unbound DELEGATOR 
+  const unboundDelegator = async () => {
+    console.log(unboundModal)
+    setUnboundModal({
+      ...unboundModal, startValue: false
+    })
+    setUnboundModal((preVal:any) => ({...preVal, startValue:false}))
+    setTransactionState({ state: true, title: 'Unbound Pending' })
+    console.log("called ===>")
+    let data = {
+      delegatorAddress: account,
+      validatorId: unboundModal.id,
+      amount: unboundInput
+    }
+    console.log(data.validatorId)
+    if(account){
+  
+      let walletAddress = account
+      let amount = web3.utils.toBN(fromExponential(+unboundInput * Math.pow(10, 18)));
+      let instance = new web3.eth.Contract(ValidatorShareABI, data.validatorId);
+      await instance.methods.sellVoucher_new(amount, amount).send({ from: walletAddress })
+      .on('transactionHash', (res: any) => {
+        console.log(res, "hash")
+        dispatch(
+          addTransaction({
+            hash: res,
+            from: walletAddress,
+            chainId,
+            summary: `${res}`,
+          })
+        )
+        // getActiveTransaction
+        let link = getExplorerLink(chainId, res, 'transaction')
+        setTransactionState({ state: true, title: 'Transaction Submitted' })
+        setHashLink(link)
+        setUnboundModal({
+          startValue: false,
+          address: '',
+          id: '',
+          stakeAmount: 0
+        })
+        setUnboundInput('')
+      }).on('receipt', (res: any) => {
+        console.log(res, "receipt")
+        dispatch(
+          finalizeTransaction({
+            hash: res.transactionHash,
+            chainId,
+            receipt: {
+              to: res.to,
+              from: res.from,
+              contractAddress: res.contractAddress,
+              transactionIndex: res.transactionIndex,
+              blockHash: res.blockHash,
+              transactionHash: res.transactionHash,
+              blockNumber: res.blockNumber,
+              status: 1
+            }
+          })
+        )
+        getDelegatorCardData(walletAddress)
+      }).on('error', (res: any) => {
+        console.log(res, "error")
+        setUnboundInput('')
+         setUnboundModal((preVal:any) => ({...preVal,progressValue: false, comfirmValue: true}))
+        if (res.code === 4001) {
+            console.log("user Denied")    
+        }
+      })
+  }
+}
+
   return (
     <>
       {loading && <LoadingSpinner />}
@@ -665,6 +735,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
           </>
         </CommonModal>
         {/* withdraw popop ends */}
+
         {/* withdraw popop start */}
         <CommonModal
           title={"Restake"}
@@ -770,42 +841,18 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                       </div>
                     </div>
                   </div>
-                  <div className="white-label p-2">
+                  <div className="p-2">
                     <p className="mb-0">
-                      Your Funds will be locked for <a href="" target='#' className="dark-text primary-text">checkpoints</a>
+                      Your Funds will be locked for <p className="dark-text primary-text">checkpoints</p>
                     </p>
                   </div>
                 </div>
                 <button
-                  onClick={undefined}
+                  onClick={() => unboundDelegator()}
                   disabled={unboundInput ? false : true}
                   type="button" className="btn primary-btn mt-3 mt-sm-4 w-100">Confirm Unbound</button>
               </div>
             }
-
-            {unboundModal.progressValue && <div className="del-tab-content text-center del-height">
-              <div className="del-flex h-100">
-                <div className="del-top">
-                  <div className="del-img">
-                    <span>
-                      <span className="spinner-border text-secondary pop-spiner"></span>
-                    </span>
-                  </div>
-                </div>
-                <div className="del-bott">
-                  <h4 className="mb-3">Transaction in progress </h4>
-                  <p>
-                    Ethereum transaction can take upto 5 minute to complete.
-                    Please wait or increase the gas in meta mask.
-                  </p>
-                  <Link href="javascript:void(0)">
-                    <a className="btn primary-text">
-                      View on Ethersacan
-                    </a>
-                  </Link>
-                </div>
-              </div>
-            </div>}
           </>
         </CommonModal>
         {/* unbound popop DELEGATOR ends */}

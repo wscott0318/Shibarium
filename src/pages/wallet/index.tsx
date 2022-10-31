@@ -45,6 +45,12 @@ const sendInitialState = {
   showTokens: false
 }
 
+export const SortData = (a: any, b: any) => { 
+  return (a > b)
+    ? 1 : ((b > a)
+     ? -1 : 0); 
+  }
+
 export default function Wallet() {
 
   const router = useRouter()
@@ -111,6 +117,8 @@ export default function Wallet() {
       list.forEach(async (x: any) => {
         x.balance = await getTokenBalance(lib, account, x.parentContract)
       })
+      let sortedData = list.sort(function (a : any, b : any) {  return +a.balance - +b.balance})
+      console.log(sortedData)
       setTokenList(list)
       setTokenFilteredList(list)
       setTokenModalList(list)

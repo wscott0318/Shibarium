@@ -251,7 +251,7 @@ const [scroll, setScroll] = useState(false);
                         onClick={() => toggleNetworkModal()}
                       >
                         <h6 className="fw-600 light-text left-border">
-                          Switch Network home
+                          Switch Network
                         </h6>
                         <span className="light-text">
                           Switch to other Network
