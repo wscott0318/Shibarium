@@ -22,6 +22,7 @@ import { login } from "app/functions/login";
 import AppHeader from "../inner-header/AppHeader";
 import useENSName from "app/hooks/useENSName";
 // import { injected } from "app/config/wallets";
+import { useNetworkModalToggle } from "../../state/application/hooks";
 
 export default function Header() {
   const { chainId, account, active, error, library, activate, deactivate } = useWeb3React()
@@ -70,7 +71,7 @@ export default function Header() {
 
     }
   }
-
+const toggleNetworkModal = useNetworkModalToggle();
   console.log(userType)
   
   useEffect(() => {
@@ -140,7 +141,15 @@ export default function Header() {
       setIsVisible(false);
     }
   };
-
+const getNetworkName = () => {
+  if (chainId == 1) {
+    return "Ethereum Mainnet";
+  } else if (chainId == 5) {
+    return "Goerli Testnet";
+  } else {
+    return "Shibarium Mainnet";
+  }
+};
 const [scroll, setScroll] = useState(false);
 
   useEffect(() => {
@@ -151,45 +160,110 @@ const [scroll, setScroll] = useState(false);
 
   return (
     <>
-      <header className={scroll ? 'main-header header-overide sticky-header' : 'main-header header-overide'}>
-        <Navbar className='py-0'>
+      <header
+        className={
+          scroll
+            ? "main-header header-overide sticky-header"
+            : "main-header header-overide"
+        }
+      >
+        <Navbar className="py-0">
           <Container>
             <Navbar.Brand href="/">
               {/* <img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} /> */}
               <div className="logo-wrap">
-                <div className="lg-lft"><img className='img-fluid' src="../../images/shibarium-logo.png" alt="site-logo" width={50} /></div>
-                <div className="lg-rt"><img className='img-fluid' src="../../images/shib-text.png" alt="site-logo" width={150} /></div>
+                <div className="lg-lft">
+                  <img
+                    className="img-fluid"
+                    src="../../images/shibarium-logo.png"
+                    alt="site-logo"
+                    width={50}
+                  />
+                </div>
+                <div className="lg-rt">
+                  <img
+                    className="img-fluid"
+                    src="../../images/shib-text.png"
+                    alt="site-logo"
+                    width={150}
+                  />
+                </div>
               </div>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto align-items-center">
-                <NavDropdown className="d-none" title="Dropdown" id="basic-nav-dropdown">
+                <NavDropdown
+                  className="d-none"
+                  title="Dropdown"
+                  id="basic-nav-dropdown"
+                >
                   <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.2">
                     Another action
                   </NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.3">
+                    Something
+                  </NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="#action/3.4">
                     Separated link
                   </NavDropdown.Item>
                 </NavDropdown>
                 <AppHeader />
-                <Nav.Item className="button-wrap cus_dropdown">
-                <Link href={'/'}>
-                    <a className='d-md-none launch-btn'>
-                      <img className="img-fluid" src="../../images/launch-app.png" alt="" width={30} />
-                    </a>
-                </Link>
-                <Link href={ account ? "/wallet" : "/login"}>
-                    <a className='btn primary-btn ff-mos d-none d-md-flex'>Launch App</a>
-                  </Link>
-                </Nav.Item>
+                {!account ? (
+                  <Nav.Item className="button-wrap cus_dropdown">
+                    <Link href={"/"}>
+                      <a className="d-md-none launch-btn">
+                        <img
+                          className="img-fluid"
+                          src="../../images/launch-app.png"
+                          alt=""
+                          width={30}
+                        />
+                      </a>
+                    </Link>
+                    <Link href={account ? "/wallet" : "/login"}>
+                      <a className="btn primary-btn ff-mos d-none d-md-flex">
+                        Launch App
+                      </a>
+                    </Link>
+                  </Nav.Item>
+                ) : (
+                  <Nav.Item className="button-wrap cus_dropdown">
+                    <Link href={"/"}>
+                      <a className="d-md-none launch-btn">
+                        <img
+                          className="img-fluid"
+                          src="../../images/launch-app.png"
+                          alt=""
+                          width={30}
+                        />
+                      </a>
+                    </Link>
+                    <NavDropdown
+                      className="form-select innerDivBgBlack hd-sel hd-sel-over"
+                      title={getNetworkName()}
+                      id=""
+                    >
+                      <NavDropdown.Item
+                        // disabled={user ? false : true}
+                        onClick={() => toggleNetworkModal()}
+                      >
+                        <h6 className="fw-600 light-text left-border">
+                          Switch Network home
+                        </h6>
+                        <span className="light-text">
+                          Switch to other Network
+                        </span>
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                  </Nav.Item>
+                )}
                 <Nav.Item className="btn-status inner-btn">
-                    {account ? 
+                  {account ? (
                     <>
-                    <Web3Status />
+                      <Web3Status />
                       <Dropdown className="nav-item d-flex align-items-center cus-dd mob-drop">
                         <div className="dot-icon" id="basic-nav-dropdown"></div>
                         <NavDropdown className="me-3">
@@ -307,8 +381,8 @@ const [scroll, setScroll] = useState(false);
                           </NavDropdown.Item>
                         </NavDropdown>
                       </Dropdown>
-                      </> : null}
-                    
+                    </>
+                  ) : null}
                 </Nav.Item>
               </Nav>
             </Navbar.Collapse>
