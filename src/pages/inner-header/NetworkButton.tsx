@@ -21,7 +21,7 @@ const NetworkButton = () => {
   return (
     <div> 
     <NavDropdown
-    className="form-select innerDivBgBlack hd-sel hd-sel-over"
+    className="form-select hd-sel hd-sel-over"
     title={getNetworkName()}
     id=""
   >
