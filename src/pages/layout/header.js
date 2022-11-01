@@ -25,6 +25,8 @@ import useENSName from "app/hooks/useENSName";
 import { useActiveWeb3React } from "../../services/web3";
 import NetworkModel from "../../modals/NetworkModal";
 import NetworkSwitchDropdown from "../inner-header/NetworkSwitchDropdown"
+import QrModal from "pages/components/QrModal";
+
 export default function Header() {
   const {chainId,account, active, error, library, activate, deactivate } = useWeb3React();
   const { handleAccount } = useContext(ProjectContext)
@@ -34,7 +36,7 @@ export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
   const [dblock, setDblock] = useState(false);
   const [userType, setUserType] = useUserType();
-
+  const [userQrCode, setUserQrCode] = useState(false);
   useEffect(() => {
     if (account) {
       getUsertypeAPI(account)
@@ -161,6 +163,14 @@ const getNetworkName = () => {
 };
   return (
     <>
+      {account && (
+        <QrModal
+          title={"Restake"}
+          show={userQrCode}
+          setShow={setUserQrCode}
+          address={account}
+        />
+      )}
       <header
         className={
           scroll
@@ -231,7 +241,7 @@ const getNetworkName = () => {
                     </Link>
                   </Nav.Item>
                 ) : (
-                  <NetworkSwitchDropdown/>
+                  <NetworkSwitchDropdown />
                   // <Nav.Item className="button-wrap cus_dropdown">
                   //   <Link href={"/"}>
                   //     <a className="d-md-none launch-btn">
