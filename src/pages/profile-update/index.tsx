@@ -32,7 +32,7 @@ export default function ProfileUpdate() {
                 <section className="rewards-section">
                     <div className="container">
                         <div className="row">
-                            <div className="col-lg-8 mx-auto cus-card-800">
+                            <div className="col-lg-8 mx-auto cus-card-800 py-3 py-sm-4 py-md-5">
                                 <form>
                                     <div className="progress-tab">
                                         <div className="mb-4 mb-xl-5">
