@@ -131,6 +131,19 @@ const InnerHeader = () => {
                           </div>
                         </div>
                       </div>
+                      <NavDropdown.Item>
+                        <div className="custum-row">
+                          <div className="lft-img prof-icon">
+                            <img className="img-fluid" src="../../images/file-icon.png" alt="profile" width={24} />
+                          </div>
+                          <div className="center-txt">
+                            <span>Profile</span>
+                          </div>
+                          <div className="rt-image">
+                            <img src="../../images/rt-arow.png" alt="" />
+                          </div>
+                        </div>
+                      </NavDropdown.Item>
                       <NavDropdown.Item
                         href="javascript:void(0)"
                         onClick={() => setUserQrCode(true)}

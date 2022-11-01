@@ -181,9 +181,9 @@ export default function Unbond() {
 
           <section className="mid_cnt_area">
             <div className="container">
-              <div className="cmn_dasdrd_table block-fix tbl-adj">
+              <div className="cmn_dasdrd_table block-fix">
                 <div className="table-responsive">
-                  <table className="table table-borderless">
+                  <table className="table table-borderless fix-tabl-layout text-start">
                     <thead>
                       <tr>
                         <th>Validator Name</th>
@@ -283,8 +283,8 @@ export default function Unbond() {
                                 </>
                               )}
                             </td>
-                            <td className="text-start">
-                              <span className="tb-data align">
+                            <td className="text-end">
+                              <span className="tb-data align pe-0">
                                 {value.unbondStartedTimeStampFormatted}
                               </span>
                             </td>
@@ -324,14 +324,14 @@ export default function Unbond() {
 
                      {/* modal started  */}
         <CommonModal
-          title={"Retake"}
+          title={"Restake"}
           show={claimNowModals.confirm}
           setShow={setClamNowModals}
           externalCls=""
         >
           <div className="del-tab-content">
               <div className="pb-3 pb-sm-4">
-                  <h3 className="mb-3 text-center">Your unbonding period is complete. you claim your stake now .</h3>
+                  <h5 className="mb-3 text-center">Your unbonding period is complete. you claim your stake now .</h5>
                   <p className="lite-text text-center lite-color fw-600">
                       Your stake will be transferred to
                       <span className="d-block">{account}</span>

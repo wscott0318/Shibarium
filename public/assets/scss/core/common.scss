@@ -947,6 +947,12 @@
     }
     .word-wrap{
         font-size: 14px;
+        @media #{$max-sm}{
+            font-size: 12px;
+        }
+        @media #{$max-xsm}{
+            font-size: 10px;
+        }
     }
  }
  .qr-wrap{
@@ -1073,6 +1079,13 @@
         }
     }
     
+}
+.fix-tabl-layout{
+    width: 100%;
+    table-layout: fixed;
+    @media #{$max-lg}{
+        table-layout: unset;
+    }
 }
 .tokn-popup.no-ht.trans-mod{
     .pop-bottom{

@@ -365,5 +365,12 @@
 .active-inactive{
     .grid-sec {
         min-height: 427px;
+        position: relative;
+        .no-found {
+            position: absolute;
+            top: calc(50% + 35px);
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
     }
 }

@@ -32,7 +32,7 @@ export default function Account() {
                 <StakingHeader />
                 {/* retake popop start */}
                 <CommonModal
-                    title={"Retake"}
+                    title={"Restake"}
                     show={showretakepop}
                     setShow={setretakepop}
                     externalCls="stak-pop"
