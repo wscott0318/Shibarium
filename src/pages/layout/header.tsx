@@ -24,7 +24,7 @@ import useENSName from "app/hooks/useENSName";
 import QrModal from "pages/components/QrModal";
 // import { injected } from "app/config/wallets";
 import NetworkButton from "pages/inner-header/NetworkButton";
-import { useNetworkModalToggle } from "../../state/application/hooks";
+import NetworkSwitchDropdown from "pages/inner-header/NetworkSwitchDropdown";
 
 export default function Header() {
   const { chainId, account, active, error, library, activate, deactivate } = useWeb3React()
@@ -37,7 +37,6 @@ export default function Header() {
   const [userType, setUserType] = useUserType();
 
   const { asPath } = useRouter()
-  const toggleNetworkModal = useNetworkModalToggle();
 
   useEffect(() => {
     if (account) {
@@ -103,16 +102,6 @@ const [scroll, setScroll] = useState(false);
     });
   },[])
 
-  
-  const getNetworkName = () => {
-    if(chainId == 1){
-      return "Ethereum Mainnet"
-    } else if (chainId == 5){
-      return "Goerli Testnet"
-    } else {
-      return "Shibarium Mainnet"
-    }
-  }
 
   return (
     <>
@@ -167,7 +156,7 @@ const [scroll, setScroll] = useState(false);
                   </NavDropdown.Item>
                 </NavDropdown>
                 {asPath === "/home" ? null : <AppHeader />}
-                <Nav.Item className="button-wrap cus_dropdown">
+                {/* <Nav.Item className="button-wrap cus_dropdown">
                   <Link href={"/"}>
                     <a className="d-md-none launch-btn">
                       <img
@@ -195,7 +184,8 @@ const [scroll, setScroll] = useState(false);
                       </span>
                     </NavDropdown.Item>
                   </NavDropdown>
-                </Nav.Item>
+                </Nav.Item> */}
+                <NetworkSwitchDropdown/>
                 <Nav.Item className="btn-status inner-btn">
                   {account ? (
                     <>
