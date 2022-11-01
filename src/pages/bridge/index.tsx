@@ -2348,10 +2348,10 @@ const handleSearchList = (key :any) => {
                                           />
                                         </div>
                                         <div className="rt-chain">
-                                          <span className="fld-head lite-color">
+                                          <span className="fld-head lite-800">
                                             Balance:
                                           </span>
-                                          <span className="fld-txt lite-color">
+                                          <span className="fld-txt lite-800">
                                             {selectedToken.balance ? (selectedToken?.balance+" "+selectedToken?.parentName) : "00.00"}
                                           </span>
                                         </div>
@@ -2382,8 +2382,8 @@ const handleSearchList = (key :any) => {
                                               />
                                             </div>
                                           </div>
-                                          <div className="lite-color">
-                                            <span className="lite-color fw-bold">
+                                          <div className="lite-800">
+                                            <span className="lite-800 fw-bold">
                                               {selectedToken.parentName
                                                 ? selectedToken.parentName
                                                 : "Select Token"}
@@ -2442,10 +2442,10 @@ const handleSearchList = (key :any) => {
                                           />
                                         </div>
                                         <div className="rt-chain">
-                                          <span className="fld-head lite-color">
+                                          <span className="fld-head lite-800">
                                             Balance:
                                           </span>
-                                          <span className="fld-txt lite-color">
+                                          <span className="fld-txt lite-800">
                                             00.00
                                           </span>
                                         </div>
@@ -2503,10 +2503,10 @@ const handleSearchList = (key :any) => {
                                     />
                                   </div>
                                   <div className="rt-chain">
-                                    <span className="fld-head lite-color">
+                                    <span className="fld-head lite-800">
                                       Balance:
                                     </span>
-                                    <span className="fld-txt lite-color">
+                                    <span className="fld-txt lite-800">
                                     {selectedToken.balance ? (selectedToken?.balance+" "+selectedToken?.parentName) : "00.00"}
                                     </span>
                                   </div>
@@ -2539,8 +2539,8 @@ const handleSearchList = (key :any) => {
                                         />
                                       </div>
                                     </div>
-                                    <div className="lite-color">
-                                      <span className="lite-color fw-bold">
+                                    <div className="lite-800">
+                                      <span className="lite-800 fw-bold">
                                         {selectedToken.parentName
                                           ? selectedToken.parentName
                                           : "Select Token"}
@@ -2594,10 +2594,10 @@ const handleSearchList = (key :any) => {
                                     />
                                   </div>
                                   <div className="rt-chain">
-                                    <span className="fld-head lite-color">
+                                    <span className="fld-head lite-800">
                                       Balance:
                                     </span>
-                                    <span className="fld-txt lite-color">
+                                    <span className="fld-txt lite-800">
                                       00.00
                                     </span>
                                   </div>
