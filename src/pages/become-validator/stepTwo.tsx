@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import React, {useEffect, useState} from "react";
 import * as yup from "yup";
 import Web3 from "web3";
+import { registerValidator } from "services/apis/network-details/networkOverview";
 
 function StepTwo({
   stepState,
@@ -20,7 +21,7 @@ function StepTwo({
     return result;
   };
 
-  const callAPI = (values: any) => {
+  const callAPI = async (values: any) => {
     console.log("call API called");
     if (imageData && verifyAddress(values.address)) {
       setValidation({ image: false, address: false });
@@ -41,9 +42,14 @@ function StepTwo({
     data.append("signerAddress", values.address);
     data.append("website", values.website);
     data.append("commission", values.commission);
-    data.append("img", imageData, imageData.name);
+    // data.append("img", imageData.image, imageData.name);
 
-    
+    await registerValidator(data).then((res :any) => {
+      console.log(res)
+    }).catch((err:any) => {
+      console.log(err)
+    })
+
   };
 
   const [initialValues, setInitialValues] = useState({
@@ -116,11 +122,11 @@ function StepTwo({
                   <img
                     src={
                       imageData
-                        ? URL.createObjectURL(imageData)
+                        ? URL.createObjectURL(imageData.image)
                         : "../../assets/images/file-icon.png"
                     }
                     alt=""
-                    className="img-fluid"
+                    className="img-fluid" // 200kb 
                     width={22}
                   />
                 </div>
@@ -130,7 +136,7 @@ function StepTwo({
                     className="input-file"
                     accept="image/*"
                     // @ts-ignore
-                    onChange={(e) => setImageData(e.target.files[0])}
+                    onChange={(e) => setImageData({image: e.target.files[0], name: e.target.files[0].name})}
                   />
                   <a href="#!" className="form-control ff-mos">
                     Upload
@@ -256,15 +262,15 @@ function StepTwo({
             type="submit"
             value="submit"
             className="btn primary-btn w-100"
-            onClick={() => {
-              if (
-                Object.keys(errors).length === 0 &&
-                Object.getPrototypeOf(errors) === Object.prototype
-              ) {
-                setBecomeValidateData(values)
-                stepHandler("next");
-              }
-            }}
+            // onClick={() => {
+            //   if (
+            //     Object.keys(errors).length === 0 &&
+            //     Object.getPrototypeOf(errors) === Object.prototype
+            //   ) {
+            //     setBecomeValidateData(values)
+            //     stepHandler("next");
+            //   }
+            // }}
           >
             <span className="ff-mos">Next</span>
           </button>
