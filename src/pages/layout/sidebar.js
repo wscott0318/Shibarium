@@ -39,18 +39,18 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
       isSelected: router.asPath == "/wallet" ? true : false,
       img: "../../images/sidebar/wallet.png",
     },
-    // {
-    //   name: "Transactions",
-    //   route: "/transactions",
-    //   isSelected: router.asPath == "/transactions" ? true : false,
-    //   img: "../../images/sidebar/transaction.png",
-    // },
-    // {
-    //   name: "Bridge",
-    //   route: "/withdraw",
-    //   isSelected: router.asPath == "/withdraw" ? true : false,
-    //   img: "../../images/sidebar/bridge.png",
-    // },
+    {
+      name: "Transactions",
+      route: "/transactions",
+      isSelected: router.asPath == "/transactions" ? true : false,
+      img: "../../images/sidebar/transaction.png",
+    },
+    {
+      name: "Bridge",
+      route: "/bridge",
+      isSelected: router.asPath == "/bridge" ? true : false,
+      img: "../../images/sidebar/bridge.png",
+    },
     // {
     //   name: "Swap token",
     //   route: "/swap-token",

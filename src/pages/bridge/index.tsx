@@ -478,8 +478,8 @@ const handleSearchList = (key :any) => {
                             alt=""
                           />
                         </span>
-                        <h6>100 ETH</h6>
-                        <p>500.00$</p>
+                        <h6>{depositTokenInput+" "+selectedToken.parentName}</h6>
+                        <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+depositTokenInput || 0) * boneUSDValue).toFixed(2)} /></p>
                       </div>
                     </div>
                     <div className="pop-grid">
@@ -584,8 +584,8 @@ const handleSearchList = (key :any) => {
                             alt=""
                           />
                         </span>
-                        <h6>100 ETH</h6>
-                        <p>500.00$</p>
+                        <h6>{depositTokenInput+" "+selectedToken.parentName}</h6>
+                        <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+depositTokenInput || 0) * boneUSDValue).toFixed(2)} /></p>
                       </div>
                     </div>
                     <div className="pop-action">
@@ -2446,7 +2446,7 @@ const handleSearchList = (key :any) => {
                                             Balance:
                                           </span>
                                           <span className="fld-txt lite-color">
-                                            100.00ETH
+                                            00.00
                                           </span>
                                         </div>
                                       </div>
@@ -2598,7 +2598,7 @@ const handleSearchList = (key :any) => {
                                       Balance:
                                     </span>
                                     <span className="fld-txt lite-color">
-                                      100.00ETH
+                                      00.00
                                     </span>
                                   </div>
                                 </div>
