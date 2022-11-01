@@ -983,7 +983,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                 <button disabled={parseInt(item.commission) == 0} onClick={() => handleModal('Restake', item.contractAddress)} className="btn grey-btn btn-small">Restake</button>
                               </li>
                               <li className="btn-grp-lst">
-                                <button onClick={() => handleModal('Withdraw Rewards', item.contractAddress)} className="btn black-btn btn-small">Withdraw Rewards zeba</button>
+                                <button onClick={() => handleModal('Withdraw Rewards', item.contractAddress)} className="btn black-btn btn-small">Withdraw Rewards</button>
                               </li></>)}
                               
 
