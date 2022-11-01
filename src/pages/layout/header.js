@@ -219,7 +219,7 @@ const [scroll, setScroll] = useState(false);
                 {!account ? (
                   <Nav.Item className="button-wrap cus_dropdown">
                     <Link href={"/"}>
-                      <a className="d-md-none launch-btn">
+                      <a className="d-sm-none launch-btn">
                         <img
                           className="img-fluid"
                           src="../../images/launch-app.png"
@@ -237,7 +237,7 @@ const [scroll, setScroll] = useState(false);
                 ) : (
                   <Nav.Item className="button-wrap cus_dropdown">
                     <Link href={"/"}>
-                      <a className="d-md-none launch-btn">
+                      <a className="d-sm-none launch-btn">
                         <img
                           className="img-fluid"
                           src="../../images/launch-app.png"
@@ -247,7 +247,7 @@ const [scroll, setScroll] = useState(false);
                       </a>
                     </Link>
                     <NavDropdown
-                      className="form-select innerDivBgBlack hd-sel hd-sel-over"
+                      className="form-select d-none d-sm-flex innerDivBgBlack hd-sel hd-sel-over"
                       title={getNetworkName()}
                       id=""
                     >

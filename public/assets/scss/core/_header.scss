@@ -81,29 +81,34 @@
             background: transparent;
             transform: translateY(-50%);
             height: 100%;
+            width: 40px;
             .dropdown-menu{
-                right: calc(100% - 18px);
+                right: calc(100% - 41px);
                 @media #{$max-md}{
                     left:auto;
                 }
             }
-            .dropdown-toggle::after {
-                content: "";
-                position: absolute;
-                top: 50%;
-                -webkit-transform: translateY(-50%);
-                transform: translateY(-50%) rotate(45deg);
-                right: 18px;
-                width: 10px;
-                height: 10px;
-                border: 2px solid;
-                border-top: 0;
-                border-left: 0;
-                margin-top: -3px;
-                @media #{$max-xsm}{
-                    right: 8px;
-                    height: 8px;
-                    width: 8px;
+            .dropdown-toggle{
+                width: 100%;
+                height: 100%;
+                &::after {
+                    content: "";
+                    position: absolute;
+                    top: 50%;
+                    -webkit-transform: translateY(-50%);
+                    transform: translateY(-50%) rotate(45deg);
+                    right: 18px;
+                    width: 10px;
+                    height: 10px;
+                    border: 2px solid;
+                    border-top: 0;
+                    border-left: 0;
+                    margin-top: -3px;
+                    @media #{$max-xsm}{
+                        right: 8px;
+                        height: 8px;
+                        width: 8px;
+                    }
                 }
             }
         }
@@ -403,6 +408,10 @@
             border-top: 0;
             border-left: 0;
             margin-top: -3px;
+            @media #{$max-xxl}{
+                width: 8px;
+                height: 8px;
+            }
         }
     }
     
@@ -470,6 +479,8 @@
 .main-header.header-overide{
     .btn-status{
         .dropdown{
+            width: 30px;
+            height: 100%;
             position: absolute;
             top: 50%;
             right: -11px;
@@ -478,6 +489,13 @@
             -webkit-transform: translateY(-50%);
             transform: translateY(-50%);
             height: 100%;
+            @media #{$max-xxl}{
+                right: -8px;
+            }
+            .dropdown-toggle{
+                width: 100%;
+                height: 100%;
+            }
             &::after{
                 content: none;
             }

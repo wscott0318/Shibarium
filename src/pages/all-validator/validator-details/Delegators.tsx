@@ -46,10 +46,10 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
                                                         </span>
                                                     </td>
                                                     <td>
-                                                        <span className="amt-txt pe-1">
+                                                        <span className="amt-txt pe-1 span-child">
                                                         <NumberFormat displayType='text' prefix='$ ' thousandSeparator value={(item.stake/Math.pow(10,18) * boneUsdValue).toFixed(2)} />
                                                         </span>
-                                                        </td>
+                                                    </td>
                                                 </tr>
                                             ))}
                                             </tbody>

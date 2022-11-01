@@ -20,7 +20,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
           data={selectedRow}
         />
        <div className="ffms-inherit">
-            <div className='grid-sec fix-layout'>
+            <div className='grid-sec'>
             {validatorsList && validatorsList.length ?
                   <div className='row side-cover'>
                     {validatorsList.map((validator: any) => 
