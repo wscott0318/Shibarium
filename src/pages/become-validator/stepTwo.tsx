@@ -34,6 +34,16 @@ function StepTwo({
     } else {
       setValidation({ image: true, address: true });
     }
+
+    var data = new FormData();
+    data.append("validatorName", values.validatorname);
+    data.append("public_key", values.publickey);
+    data.append("signerAddress", values.address);
+    data.append("website", values.website);
+    data.append("commission", values.commission);
+    data.append("img", imageData, imageData.name);
+
+    
   };
 
   const [initialValues, setInitialValues] = useState({
@@ -83,7 +93,7 @@ function StepTwo({
       },
     });
 
-  console.log("Error", errors);
+  console.log("image", imageData.name);
 
   return (
     // <>
