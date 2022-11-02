@@ -19,6 +19,10 @@ const Rewards = () => {
   const refName = useRef();
   const refWebsite = useRef();
   const refComission = useRef();
+
+  
+  const { chainId = 1, account, library } = useActiveWeb3React();
+  const userAddress = account
   const [activInput, setActivInput] = useState({
     name: false,
     website: false,
@@ -34,7 +38,7 @@ const Rewards = () => {
   const [becomeValidateData,setBecomeValidateData] = useState({
     validatorname: "",
     publickey: "",
-    address: "",
+    address: userAddress,
     website: "",
     commission: "",
   });

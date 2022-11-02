@@ -7,82 +7,40 @@ import React, { useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format';
 // @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
+import { PROXY_MANAGER } from 'web3/contractAddresses';
+import proxyManagerABI from "../../ABI/StakeManagerProxy.json"
+import axios from "axios";
 
 function NetworkDetails() {
-  // const [totalValidators, setTotalValidators] = useState<number>(0)
-  // const [totalStake, setTotalStake] = useState<number>(0)
-  // const [totalRewardDistributed, setTotalRewardDistributed] = useState<number>(0)
-  // const [lastCheckpoint, setLastCheckpoint] = useState<any>({});
-  // const [heimdallHeight, setHeimdallHeight] = useState<number>(0);
-  // const [heimdallHeight, setHeimdallHeight] = useState<number>(0);
+
   const [boneUSDValue, setBoneUSDValue] = useState<number>(0);
-  const [latestBlock, setLatestBlock] = useState<number>(0)
-  // const [checkpointInterval, setCheckpointInterval] = useState<string>('')
+  const [latestBlock, setLatestBlock] = useState<number>(0);
+
+  const [totalStake, setTotalStake] = useState(0);
   const [networkDetails, setNetworkDetails] = useState<any>({})
   const { account } = useActiveWeb3React()
-  //const web3 = useLocalWeb3();
   const web3 = L1Block();
+
   useEffect(() => {
     try {
       getNetworkOverviewData().then((res: any) => {
-
         setNetworkDetails(res.data && res.data.data && res.data.data.networkDetail ? res.data.data.networkDetail : {})
       }).catch((e) => {
-
       })
-
       getBoneUSDValue(BONE_ID).then((res: any) => {
         setBoneUSDValue(res.data.data.price);
       })
-      //       getValidatorCount().then((res:any)=>{
-      //           if(res &&  res.data && res.data.data){
-      //               setTotalValidators(res.data.data.validatorCount);
-      //           }
-      //       }).catch((error:any)=>{
-      //           console.log(error)
-      //       })
-      //       getTotalStake().then((res:any)=>{
-      //           if(res &&  res.data && res.data.data){
-      //               setTotalStake(res.data.data.totalStakeFormatted);
-      //           }
-      //       }).catch((error:any)=>{
-      //           console.log(error)
-      //       })
-      //       getTotalRewardDistributed().then((res:any)=>{
-      //           if(res &&  res.data && res.data.data){
-      //               setTotalRewardDistributed(res.data.data.totalReward);
-      //           }
-      //       }).catch((error:any)=>{
-      //           console.log(error)
-      //       })
-
-      //       getHeimdallHeight().then((res:any)=>{
-      //         if(res &&  res.data && res.data.data){
-      //           setHeimdallHeight(res.data.data.height);
-      //         }
-      //     }).catch((error:any)=>{
-      //         console.log(error)
-      //     })
-      //     getLastCheckpoint().then((res:any)=>{
-      //       if(res &&  res.data && res.data.data){
-      //         setLastCheckpoint(res.data.data);
-      //       }
-      //   }).catch((error:any)=>{
-      //       console.log(error)
-      //   })
-      //   getCheckpointInterval().then((res:any)=>{
-      //     if(res &&  res.data && res.data.data){
-      //         setCheckpointInterval(res.data.data.interval);
-      //     }
-      // }).catch((error:any)=>{
-      //     console.log(error)
-      // })
       web3?.eth?.getBlockNumber().then((lastBlock: number) => {
         setLatestBlock(lastBlock)
       })
     } catch (error) {
       console.log(error)
     }
+
+    if(account) {
+      getTotalStakes()
+    }
+    getHeimdallBlockHeight()
   }, [account])
 
   const cardShimmerEffects = () => {
@@ -90,6 +48,29 @@ function NetworkDetails() {
       <ShimmerTitle line={3} gap={10} className="cus-shimer"  variant="primary" />
     )
   }
+
+    // GET VALIDATOR ID 
+    const getTotalStakes = async () => {
+      let user = account;
+      if (account) {
+        const instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
+        const ID = await instance.methods.validatorState().call({ from: account });
+        let stake = +ID.amount / 10 ** 18
+        setTotalStake(stake)
+        return ID
+      } else {
+        console.log("account addres not found")
+      }
+    }
+
+    const getHeimdallBlockHeight = async () => {
+      let url = "http://3.145.82.137:26657/status"
+      await axios.get(url).then((res :any) => {
+        console.log(res, "getHeimdallBlockHeight")
+      }).catch((error :any) => {
+        console.log(error)
+      })
+    }
 
   return (
     <>
@@ -122,12 +103,12 @@ function NetworkDetails() {
                     <div className="head-sec">
                       <div className="top-head">
                         <span>
-                        <NumberFormat thousandSeparator displayType={"text"} value={(+networkDetails?.totalStakeFormatted || 0).toFixed(8)} /> BONE
+                        <NumberFormat thousandSeparator displayType={"text"} value={(+totalStake || 0).toFixed(8)} /> BONE
                         </span>
                       </div>
                       <div className="mid-head">
                         <span>
-                        <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={+(((+networkDetails?.totalStakeFormatted) * boneUSDValue).toFixed(2))} />
+                        <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={+(((+totalStake) * boneUSDValue).toFixed(2))} />
                         </span>
                       </div>
                     </div>

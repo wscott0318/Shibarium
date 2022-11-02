@@ -19,6 +19,8 @@ import ERC20 from "../../ABI/ERC20Abi.json";
 import { getExplorerLink } from 'app/functions';
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import DelegatePopup from 'pages/delegate-popup';
+import { queryProvider } from 'Apollo/client';
+import { StakeAmount } from 'Apollo/queries';
 
 
 
@@ -42,6 +44,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   const [delegationsList, setDelegationsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState<any>({});
   const [stakeMore, setStakeMoreModal] = useState(false);
+  const [stakeAmounts, setStakeAmounts] = useState<any>([])
   const [restakeModal, setRestakeModal] = useState({
     value1: false,
     value2: false,
@@ -62,16 +65,23 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     stakeAmount: 0
   });
 
-  const getDelegatorCardData = (accountAddress: any) => {
+  const getDelegatorCardData = async (accountAddress: any) => {
     console.log(" card data ", accountAddress)
     setLoading(true)
     try {
       getDelegatorData(accountAddress.toLowerCase()).then((res: any) => {
         if (res.data) {
-          console.log(res.data, "delegator card data")
+          let newArray :any = []
+          // console.log(res.data, "delegator card data")
           let sortedData = res.data.data.validators.sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake))
+            sortedData.forEach(async (x:any) => {
+              let stakeData = await getStakeAmountDelegator(+(x.id), JSON.stringify(accountAddress.toLowerCase()))
+              // console.log(stakeData, "delegator card data")
+              // setStakeAmounts([...stakeAmounts, stakeData])
+            })
           setDelegationsList(sortedData)
           setLoading(false)
+          console.log(newArray)
         }
       }).catch((e: any) => {
         console.log(e);
@@ -83,6 +93,8 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       setLoading(false)
     }
   }
+
+  console.log(stakeAmounts)
 
   const handleModal = (btn: String, valAddress: any, id: any = null, stakeAmount: any = null) => {
     console.log({ btn, valAddress, id, stakeAmount })
@@ -482,7 +494,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     setUnboundModal({
       ...unboundModal, startValue: false
     })
-    setUnboundModal((preVal:any) => ({...preVal, startValue:false}))
+    setUnboundModal((preVal: any) => ({ ...preVal, startValue: false }))
     setTransactionState({ state: true, title: 'Unbound Pending' })
     console.log("called ===>")
     let data = {
@@ -491,62 +503,69 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       amount: unboundInput
     }
     console.log(data.validatorId)
-    if(account){
-  
+    if (account) {
+
       let walletAddress = account
       let amount = web3.utils.toBN(fromExponential(+unboundInput * Math.pow(10, 18)));
       let instance = new web3.eth.Contract(ValidatorShareABI, data.validatorId);
       await instance.methods.sellVoucher_new(amount, amount).send({ from: walletAddress })
-      .on('transactionHash', (res: any) => {
-        console.log(res, "hash")
-        dispatch(
-          addTransaction({
-            hash: res,
-            from: walletAddress,
-            chainId,
-            summary: `${res}`,
+        .on('transactionHash', (res: any) => {
+          console.log(res, "hash")
+          dispatch(
+            addTransaction({
+              hash: res,
+              from: walletAddress,
+              chainId,
+              summary: `${res}`,
+            })
+          )
+          // getActiveTransaction
+          let link = getExplorerLink(chainId, res, 'transaction')
+          setTransactionState({ state: true, title: 'Transaction Submitted' })
+          setHashLink(link)
+          setUnboundModal({
+            startValue: false,
+            address: '',
+            id: '',
+            stakeAmount: 0
           })
-        )
-        // getActiveTransaction
-        let link = getExplorerLink(chainId, res, 'transaction')
-        setTransactionState({ state: true, title: 'Transaction Submitted' })
-        setHashLink(link)
-        setUnboundModal({
-          startValue: false,
-          address: '',
-          id: '',
-          stakeAmount: 0
+          setUnboundInput('')
+        }).on('receipt', (res: any) => {
+          console.log(res, "receipt")
+          dispatch(
+            finalizeTransaction({
+              hash: res.transactionHash,
+              chainId,
+              receipt: {
+                to: res.to,
+                from: res.from,
+                contractAddress: res.contractAddress,
+                transactionIndex: res.transactionIndex,
+                blockHash: res.blockHash,
+                transactionHash: res.transactionHash,
+                blockNumber: res.blockNumber,
+                status: 1
+              }
+            })
+          )
+          getDelegatorCardData(walletAddress)
+        }).on('error', (res: any) => {
+          console.log(res, "error")
+          setUnboundInput('')
+          setUnboundModal((preVal: any) => ({ ...preVal, progressValue: false, comfirmValue: true }))
+          if (res.code === 4001) {
+            console.log("user Denied")
+          }
         })
-        setUnboundInput('')
-      }).on('receipt', (res: any) => {
-        console.log(res, "receipt")
-        dispatch(
-          finalizeTransaction({
-            hash: res.transactionHash,
-            chainId,
-            receipt: {
-              to: res.to,
-              from: res.from,
-              contractAddress: res.contractAddress,
-              transactionIndex: res.transactionIndex,
-              blockHash: res.blockHash,
-              transactionHash: res.transactionHash,
-              blockNumber: res.blockNumber,
-              status: 1
-            }
-          })
-        )
-        getDelegatorCardData(walletAddress)
-      }).on('error', (res: any) => {
-        console.log(res, "error")
-        setUnboundInput('')
-         setUnboundModal((preVal:any) => ({...preVal,progressValue: false, comfirmValue: true}))
-        if (res.code === 4001) {
-            console.log("user Denied")    
-        }
-      })
+    }
   }
-}
+
+  const getStakeAmountDelegator = async (id: any, account:any) => {
+      const validators = await queryProvider.query({
+        query: StakeAmount(id, account),
+      })
+      return validators.data.delegator
+  }
 
   return (
     <>
@@ -974,26 +993,17 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
                             <ul className="btn-grp">
 
-                              {(parseInt(item.reward) / 10 ** 18) < 1 ? (<><li className="btn-grp-lst">
-                                <button disabled className="btn grey-btn btn-small">Restake</button>
+                              <li className="btn-grp-lst">
+                                <button disabled={parseInt(item.commission) == 0 || (parseInt(item.reward) / 10 ** 18) < 1} onClick={() => handleModal('Restake', item.contractAddress)} className="btn grey-btn btn-small">Restake</button>
                               </li>
                               <li className="btn-grp-lst">
-                                <button disabled className="btn black-btn btn-small">Withdraw Rewards</button>
-                              </li></>):(<><li className="btn-grp-lst">
-                                <button disabled={parseInt(item.commission) == 0} onClick={() => handleModal('Restake', item.contractAddress)} className="btn grey-btn btn-small">Restake</button>
+                                <button disabled={(parseInt(item.reward) / 10 ** 18) < 1} onClick={() => handleModal('Withdraw Rewards', item.contractAddress)} className="btn black-btn btn-small">Withdraw Rewards</button>
                               </li>
-                              <li className="btn-grp-lst">
-                                <button onClick={() => handleModal('Withdraw Rewards', item.contractAddress)} className="btn black-btn btn-small">Withdraw Rewards</button>
-                              </li></>)}
-                              
 
-                              
-                              {(parseInt(item.stake) / 10 ** 18) <1?(<li className="btn-grp-lst">
-                                <button disabled className="btn black-btn btn-small">Unbound</button>
-                              </li>) : <li className="btn-grp-lst">
-                                <button onClick={() => handleModal('Unbound', item.validatorAddress, item.contractAddress, (parseInt(item.stake) / 10 ** 18).toFixed(4))} className="btn black-btn btn-small">Unbound</button>
-                              </li> }
-                              
+                              <li className="btn-grp-lst">
+                                <button disabled={(parseInt(item.stake) / 10 ** 18) < 1} onClick={() => handleModal('Unbound', item.validatorAddress, item.contractAddress, (parseInt(item.stake) / 10 ** 18).toFixed(4))} className="btn black-btn btn-small">Unbound</button>
+                              </li>
+
                               <li className="btn-grp-lst">
                                 <button disabled={parseInt(item.commission) == 0} onClick={() => { setSelectedRow({ owner: item.contractAddress, contractAddress: item.contractAddress, commissionPercent: item.commission, name: item.name }); setStakeMoreModal(true); }} className="btn black-btn btn-small">Stake More</button>
                               </li>

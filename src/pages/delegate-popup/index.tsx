@@ -551,8 +551,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                     </div>
                     <div className="col-12 text-center">
                       <p className='ff-mos'>
-                        Your SHIBA tokens are staked successfully on validator
-                        Tarus Validator. Your delegation will take-1 mintue to
+                        Your SHIBA tokens are staked successfully on validator. Your delegation will take 4-5 mintues to
                         reflect in your account.
                       </p>
                     </div>

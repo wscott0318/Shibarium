@@ -3,7 +3,8 @@ import React, {useEffect, useState} from "react";
 import * as yup from "yup";
 import Web3 from "web3";
 import { registerValidator } from "services/apis/network-details/networkOverview";
-import { useActiveWeb3React } from "../../services/web3"
+import { useActiveWeb3React } from "../../services/web3";
+import LoadingSpinner from 'pages/components/Loading';
 
 function StepTwo({
   stepState,
@@ -11,11 +12,16 @@ function StepTwo({
   becomeValidateData,
   setBecomeValidateData,
 }: any) {
+
+  const { chainId = 1, account, library } = useActiveWeb3React();
+  const userAddress :any  = account
   const [imageData, setImageData] = useState<any>("");
   const [validation, setValidation] = useState({
     image: false,
     address: false,
   });
+
+  const [apiLoading, setApiLoading] = useState(false)
 
   const verifyAddress = (address: any) => {
     let result = Web3.utils.isAddress(address);
@@ -24,6 +30,7 @@ function StepTwo({
 
   const callAPI = async (values: any) => {
     console.log("call API called");
+    setApiLoading(true)
     if (imageData && verifyAddress(values.address)) {
       setValidation({ image: false, address: false });
       console.log("1");
@@ -43,12 +50,16 @@ function StepTwo({
     data.append("signerAddress", values.address);
     data.append("website", values.website);
     data.append("commission", values.commission);
-    // data.append("img", imageData.image, imageData.name);
+    data.append("img", imageData.image);
 
     await registerValidator(data).then((res :any) => {
       console.log(res)
+      setApiLoading(false)
+            setBecomeValidateData(values)
+            stepHandler("next");
     }).catch((err:any) => {
       console.log(err)
+      setApiLoading(false)
     })
 
   };
@@ -56,12 +67,12 @@ function StepTwo({
   const [initialValues, setInitialValues] = useState({
     validatorname: "",
     publickey: "",
-    address: "",
+    address: userAddress,
     website: "",
     commission: "",
   });
-  
-  console.log("Become Validate Data in Step Two", becomeValidateData);
+
+  // console.log("Become Validate Data in Step Two", initialValues);
   useEffect(() => {
     if(becomeValidateData)
     {
@@ -74,7 +85,7 @@ function StepTwo({
   let schema = yup.object().shape({
     validatorname: yup.string().required("validator name is required"),
     publickey: yup.string().required("public key is required"),
-    address: yup.string().required("address is required"),
+    // address: yup.string().required("address is required"),
     website: yup
       .string()
       .required("website is required")
@@ -101,11 +112,12 @@ function StepTwo({
       },
     });
 
-  console.log("image", imageData.name);
+  // console.log("image", imageData.image.size);
 
   return (
     // <>
     <form onSubmit={handleSubmit}>
+      {apiLoading && <LoadingSpinner />}
       <div className="progress-tab">
         <div className="mb-4 mb-xl-5">
           <h5 className="fwb fw-700 mb-2 ff-mos">Add node details</h5>
@@ -201,14 +213,12 @@ function StepTwo({
                 className="form-control"
                 placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
                 name="address"
+                readOnly={true}
                 value={values.address}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
             </div>
-            {touched.address && errors.address ? (
-              <p className="primary-text error ff-mos">{errors.address}</p>
-            ) : null}
             {validation.address ? (
               <p className="primary-text error ff-mos">enter a valid address</p>
             ) : null}

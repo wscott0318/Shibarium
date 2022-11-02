@@ -27,3 +27,6 @@ export function getNetworkOverviewData(){
 export function registerValidator(data :any){
     return http.post(`/validators/valInfo`, data)
 }
+export function updateValidator(data :any){
+    return http.put(`/validators/update`, data)
+}

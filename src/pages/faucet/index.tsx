@@ -21,7 +21,7 @@ export default function faucet() {
   const [menuState, setMenuState] = useState(false);
   const captchaRef = useRef<any>(null)
   const [modalState, setModalState] = useState({
-    pending: true, 
+    pending: true,
     done: false,
     hash: ''
   })
@@ -50,37 +50,40 @@ export default function faucet() {
     setSwapModal(true)
     setModalState({
       pending: true,
-      done:false,
-      hash:''
+      done: false,
+      hash: ''
     })
     await axios.get(`http://3.17.79.146:5000/api/faucet/${account}`)
-    .then((res:any ) => {
-      console.log(res.data)
-      setModalState({
-        pending: false,
-        done:true,
-        hash:res.data.transectionHash
+      .then((res: any) => {
+        console.log(res.data)
+        setModalState({
+          pending: false,
+          done: true,
+          hash: res.data.transectionHash
+        })
+      }).catch((err) => {
+        console.log(err)
+        setModalState({
+          pending: false,
+          done: true,
+          hash: ''
+        })
       })
-    }).catch((err) => {
-      console.log(err)
-      setModalState({
-        pending: false,
-        done:true,
-        hash:''
-      })
-    })
   }
 
-  const handleCaptcha = (e :any) =>{
-    e.preventDefault();
-   console.log("receptcha event ", e )
-}
+  const [clickedCaptcha, setClickedCaptcha] = useState(false)
 
+  const handleCaptcha = (e: any) => {
+  
+    console.log("receptcha event ", e)
+    setClickedCaptcha(true);
+  }
+  
   return (
     <>
       <main className="main-content">
-        
-      <Sidebar
+
+        <Sidebar
           handleMenuState={handleMenuState}
           onClickOutside={() => {
             setMenuState(false);
@@ -91,11 +94,10 @@ export default function faucet() {
         <div className="cmn_dashbord_main_outr">
           <InnerHeader />
 
-          
           <div className='swap-card cus-card-800'>
             <div className="swp-header">
               <div className='swp-left-col mb-3 mb-lg-3 mb-xl-4'>
-              <h2 className="mb-4">Faucet</h2>
+                <h2 className="mb-4">Faucet</h2>
                 <h6 className='mb-2'>
                   Get Gas Coin
                 </h6>
@@ -120,27 +122,30 @@ export default function faucet() {
                               <div className="form-field dark-input">
                                 <div className="mid-chain w-100 position-relative">
                                   <input
-                                   className="w-100"
+                                    className="w-100"
                                     type="text"
                                     placeholder="Insert a custom value"
                                     disabled
                                     // @ts-ignore
                                     value={account}
-                                     />
+                                  />
                                   {/* <a href="javascript:void(0);" className="orange-btn">Paste</a> */}
                                 </div>
                               </div>
                             </div>
                           </div>
+
                           <div>
-                            <button onClick={() => callFaucetAPI()} type="button" className="btn primary-btn w-100">Submit</button>
+                            <button disabled={!clickedCaptcha} onClick={() => callFaucetAPI()} type="button" className="btn primary-btn w-100">Submit</button>
                           </div>
-                          <div className="captcha-wrap mt-3 mt-sm-4">
+
+                          <div className="captcha-wrap mt-3 mt-sm-4" >
                             <ReCAPTCHA
                               sitekey='6LdDZXQiAAAAAPUZI155WAGKKhM1vACSu05hOLGP'
                               onChange={handleCaptcha}
-                              />
-                            </div>
+                              onExpired={()=>setClickedCaptcha(false)}
+                            />
+                          </div>
                         </form>
                       </div>
                     </div>
@@ -159,7 +164,7 @@ export default function faucet() {
         show={showSwapModal}
         setShow={setSwapModal}
         externalCls="faucet-pop">
-      <div className="popmodal-body tokn-popup no-ht trans-mod">
+        <div className="popmodal-body tokn-popup no-ht trans-mod">
           <div className="pop-block">
             <div className="pop-top">
               <div className='dark-bg-800 h-100 status-sec'>
@@ -169,12 +174,12 @@ export default function faucet() {
               </div>
             </div>
             <div className="pop-bottom">
-            <p className='elip-text mt-3'>{modalState.hash}</p>
+              <p className='elip-text mt-3'>{modalState.hash}</p>
               <div className='staus-btn'>
                 <button
-                 type='button'
-                className='btn primary-btn w-100'
-                disabled={modalState.hash ? false  : true }
+                  type='button'
+                  className='btn primary-btn w-100'
+                  disabled={modalState.hash ? false : true}
                 >
                   View on Shibascan</button>
               </div>
