@@ -83,9 +83,9 @@ export default function Unbond() {
 
           <section className="mid_cnt_area">
             <div className="container">
-              <div className="cmn_dasdrd_table block-fix tbl-adj">
+              <div className="cmn_dasdrd_table block-fix">
                 <div className="table-responsive">
-                  <table className="table table-borderless">
+                  <table className="table table-borderless fix-tabl-layout text-start">
                     <thead>
                       <tr>
                         <th>Validator Name</th>

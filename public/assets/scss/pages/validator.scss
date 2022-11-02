@@ -182,6 +182,7 @@
     padding: 0 15px;
     @media #{$max-xsm}{
         flex-direction: column;
+        align-items:self-start;
     }
 }
 .grid-info{

@@ -69,7 +69,7 @@ export default function ValidatorDetails() {
                     <div className="container">
                         <div className="row">
                             <div className="mb-4 col-sm-5 col-lg-5 col-xl-4 mb-sm-0">
-                                <div className="text-center shib-card card h-100">
+                                <div className="text-center shib-card card h-100 p-3">
                                     <div className='image-wrap'>
                                     <img className='img-fluid' src={validatorInfo?.logoUrl === 'PLACEHOLDER'? "../../assets/images/fundbaron.png":validatorInfo?.logoUrl} alt="fundborn-img" width={120} />
                                     </div>
@@ -77,9 +77,9 @@ export default function ValidatorDetails() {
                                         <span className='text-white trs-3 ff-mos'>{validatorInfo?.name}</span>
                                     </h4>
                                     {/* <Link href="https://linktr.ee/DeFiMatic"> */}
-                                        <a className='primary-text ff-mos'>
+                                        {/* <a className='primary-text ff-mos'>
                                           https://linktr.ee/DeFiMatic
-                                        </a>
+                                        </a> */}
                                     {/* </Link> */}
                                 </div>
                             </div>
