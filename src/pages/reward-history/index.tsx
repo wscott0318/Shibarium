@@ -26,8 +26,13 @@ export default function Unbond() {
         unbondRewards(account).then((res: any) => {
             if(res.status == 200) {
                 console.log(res.data.result);
-                const reversed = res.data.result.reverse();
-                setList(reversed);
+                
+                const decOrder = res.data.result.sort(
+                  (a: any, b: any) =>
+                    Date.parse(b.unbondStartedTimeStampFormatted) -
+                    Date.parse(a.unbondStartedTimeStampFormatted)
+                );
+                setList(decOrder);
                 setListLoader(false)
             }
         }).catch((err : any) => {

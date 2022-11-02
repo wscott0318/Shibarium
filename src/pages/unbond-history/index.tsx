@@ -64,8 +64,8 @@ export default function Unbond() {
         unbondsHistory(account).then(res => {
             if(res.status == 200) {
                 console.log(res.data.data.result)
-                const reversed = res.data.data.result.reverse();
-                setList(reversed)
+                const decOrder = res.data.data.result.sort((a:any,b:any) => Date.parse(b.unbondStartedTimeStampFormatted) - Date.parse(a.unbondStartedTimeStampFormatted));
+                setList(decOrder)
                 setListLoader(false)
             }
         }).catch(err => {
