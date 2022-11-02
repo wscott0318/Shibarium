@@ -22,13 +22,13 @@ import { login } from "app/functions/login";
 import AppHeader from "../inner-header/AppHeader";
 import useENSName from "app/hooks/useENSName";
 // import { injected } from "app/config/wallets";
+import { useNetworkModalToggle } from "../../state/application/hooks";
 import { useActiveWeb3React } from "../../services/web3";
 import NetworkModel from "../../modals/NetworkModal";
-import NetworkSwitchDropdown from "../inner-header/NetworkSwitchDropdown"
-import QrModal from "pages/components/QrModal";
 
 export default function Header() {
-  const {chainId,account, active, error, library, activate, deactivate } = useWeb3React();
+  const {account, active, error, library, activate, deactivate } = useWeb3React();
+  const { chainId } = useActiveWeb3React();
   const { handleAccount } = useContext(ProjectContext)
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +36,7 @@ export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
   const [dblock, setDblock] = useState(false);
   const [userType, setUserType] = useUserType();
-  const [userQrCode, setUserQrCode] = useState(false);
+
   useEffect(() => {
     if (account) {
       getUsertypeAPI(account)
@@ -74,6 +74,7 @@ export default function Header() {
 
     }
   }
+const toggleNetworkModal = useNetworkModalToggle();
   console.log(userType)
   
   useEffect(() => {
@@ -143,15 +144,7 @@ export default function Header() {
       setIsVisible(false);
     }
   };
-
-
-const [scroll, setScroll] = useState(false);
-
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      setScroll(window.scrollY > 50);
-    });
-  },[])
+  if (!chainId) return null;
 const getNetworkName = () => {
   if (chainId == 1) {
     return "Ethereum Mainnet";
@@ -161,16 +154,17 @@ const getNetworkName = () => {
     return "Shibarium Mainnet";
   }
 };
+
+const [scroll, setScroll] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      setScroll(window.scrollY > 50);
+    });
+  },[])
+
   return (
     <>
-      {account && (
-        <QrModal
-          title={"Restake"}
-          show={userQrCode}
-          setShow={setUserQrCode}
-          address={account}
-        />
-      )}
       <header
         className={
           scroll
@@ -241,7 +235,35 @@ const getNetworkName = () => {
                     </Link>
                   </Nav.Item>
                 ) : (
-                  <NetworkSwitchDropdown />                 
+                  <Nav.Item className="button-wrap cus_dropdown">
+                    <Link href={"/"}>
+                      <a className="d-md-none launch-btn">
+                        <img
+                          className="img-fluid"
+                          src="../../images/switch-icon.png"
+                          alt=""
+                          width={30}
+                        />
+                      </a>
+                    </Link>
+                    <NavDropdown
+                      className="form-select d-none d-md-flex innerDivBgBlack hd-sel hd-sel-over"
+                      title={getNetworkName()}
+                      id=""
+                    >
+                      <NavDropdown.Item
+                        // disabled={user ? false : true}
+                        onClick={toggleNetworkModal}
+                      >
+                        <h6 className="fw-600 light-text left-border">
+                          Switch Network
+                        </h6>
+                        <span className="light-text">
+                          Switch to other Network
+                        </span>
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                  </Nav.Item>
                 )}
                 <Nav.Item className="btn-status inner-btn">
                   {account ? (
@@ -276,7 +298,7 @@ const getNetworkName = () => {
                           <NavDropdown.Item>
                             <div className="custum-row">
                               <div className="lft-img prof-icon">
-                                <img className="img-fluid" src="../../images/profile-round.png" alt="profile" width={32} />
+                                <img className="img-fluid" src="../../images/file-icon.png" alt="profile" width={24} />
                               </div>
                               <Link href="profile-update"  passHref>
                                 <span className="center-txt">Profile</span>

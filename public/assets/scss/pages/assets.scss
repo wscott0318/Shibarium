@@ -238,8 +238,11 @@
         background-color: transparent;
     }
     .form-check {
-        padding-left: 26px;
+        padding-left: 28px;
         position: relative;
+        @media #{$max-xl}{
+            padding-left: 35px;
+        }
     }
     input {
         padding: 10px;
