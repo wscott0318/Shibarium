@@ -2695,7 +2695,7 @@ input:-internal-autofill-selected {
         width: 100%;
         @media #{$max-lg}{
             table-layout: unset;
-            width: unset;
+            width: 100%;
         }
         tr{
             height: 62px;

@@ -949,7 +949,7 @@ export default function Wallet() {
                                 </button>
                                 {/* </Link> */}
                               </td>
-                              <td className="fix-td" colSpan={2}>
+                              <td className="fix-td tb-wdth" colSpan={2}>
                                 <div className="row mx-0">
                                   <div className="col-6 px-0">
                                   <button className="d-block w-100" onClick={()=>sendTokenWithRoute(x, "withdraw")}>
