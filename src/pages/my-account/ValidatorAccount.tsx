@@ -975,7 +975,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                             <ul className="btn-grp">
 
                               <li className="btn-grp-lst">
-                                <button disabled={parseInt(item.commission) == 0 && (parseInt(item.reward) / 10 ** 18) < 1} onClick={() => handleModal('Restake', item.contractAddress)} className="btn grey-btn btn-small">Restake</button>
+                                <button disabled={parseInt(item.commission) == 0 || (parseInt(item.reward) / 10 ** 18) < 1} onClick={() => handleModal('Restake', item.contractAddress)} className="btn grey-btn btn-small">Restake</button>
                               </li>
                               <li className="btn-grp-lst">
                                 <button disabled={(parseInt(item.reward) / 10 ** 18) < 1} onClick={() => handleModal('Withdraw Rewards', item.contractAddress)} className="btn black-btn btn-small">Withdraw Rewards</button>
