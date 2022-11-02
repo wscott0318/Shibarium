@@ -135,11 +135,10 @@ export default function faucet() {
                             </div>
                           </div>
 
-                          {clickedCaptcha ? <div>
-                            <button onClick={() => callFaucetAPI()} type="button" className="btn primary-btn w-100">Submit</button>
-                          </div> : <div>
-                            <button disabled type="button" className="btn primary-btn w-100">Submit</button>
-                          </div>}
+                          <div>
+                            <button disabled={!clickedCaptcha} onClick={() => callFaucetAPI()} type="button" className="btn primary-btn w-100">Submit</button>
+                          </div>
+
                           <div className="captcha-wrap mt-3 mt-sm-4" >
                             <ReCAPTCHA
                               sitekey='6LdDZXQiAAAAAPUZI155WAGKKhM1vACSu05hOLGP'
