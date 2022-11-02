@@ -1152,13 +1152,13 @@
         height:100%;
     }
     .modal-content{
-        height:550px;
+        height:555px;
         // height: 590px;
         @media #{$max-sm}{
-            height:490px;
+            height:580px;
         }
         .token-listwrap {
-            max-height: 250px;
+            max-height: 255px;
         }
     }
 }
@@ -2695,7 +2695,7 @@ input:-internal-autofill-selected {
         width: 100%;
         @media #{$max-lg}{
             table-layout: unset;
-            width: unset;
+            width: 100%;
         }
         tr{
             height: 62px;
@@ -2713,13 +2713,13 @@ input:-internal-autofill-selected {
             &:last-child{
                 width: 400px;
                 @media #{$max-exl}{
-                    width:270px;
+                    width:350px;
                 }
                 @media (min-width:2500px){
                     width: auto;
                 }
             }
-            width: auto;
+            // width: auto;
         }
         
         td{
@@ -2754,6 +2754,15 @@ input:-internal-autofill-selected {
             &.fix-td{
                 // height: 62.5px;
                 height: auto;
+                &.tb-wdth{
+                   
+                    @media #{$max-lg}{
+                        padding-left: 70px;
+                    }
+                    @media #{$max-md}{
+                        padding-left: 15px;
+                    }
+                }
             }
         }
     }
@@ -3272,7 +3281,17 @@ input:-internal-autofill-selected {
         }
     }
 }
-
+.cmn_dasdrd_table.cmn-tb{
+    .table{
+        td{
+            span{
+                @media #{$max-md}{
+                    padding-right: 25px;
+                } 
+            }
+        }
+    }
+}
 .max-input{
     position: relative;
     input[type=number]::-webkit-inner-spin-button, 
@@ -3305,6 +3324,27 @@ input:-internal-autofill-selected {
 .span-child{
     span{
         padding-right: 0 !important;
+    }
+}
+.fix-coin-field.form-field{
+    @media #{$max-xl}{
+        height: auto;
+    }
+}
+.field-col{
+    .form-field{
+        @media #{$max-xl}{
+            height: auto;
+        } 
+    }
+}
+.walet-tb{
+    .table{
+        .shib-search{
+            @media #{$max-md}{
+               width: 130px;
+            }
+        }
     }
 }
 
@@ -3348,4 +3388,14 @@ input:-internal-autofill-selected {
             max-width: 170px;
         }
     }
+}
+
+// 
+.th-flex-col {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.table-th {
+    margin-right: 50px;
 }

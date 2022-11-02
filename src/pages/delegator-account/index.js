@@ -364,7 +364,7 @@ export default function DelegatorAccount() {
                                 </div>
                                 <div className="mid_text row">
                                     <div className="col-12 text-center"><h4>Transaction in progress</h4></div>
-                                    <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction</p></div>
+                                    <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction.</p></div>
                                 </div>
 
                                 <div className="pop_btns_area row form-control mt-5">
@@ -413,7 +413,7 @@ export default function DelegatorAccount() {
                                 </div>
                                 <div className="mid_text row">
                                     <div className="col-12 text-center"><h4>Transaction in progress</h4></div>
-                                    <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction</p></div>
+                                    <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction.</p></div>
                                 </div>
 
                                 <div className="pop_btns_area row form-control mt-5">

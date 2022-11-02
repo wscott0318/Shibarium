@@ -320,7 +320,7 @@ export default function Account() {
                                     {/* <div className="col-12 text-center"><h4>Buy Voucher</h4></div> */}
                                     {/* <div className="col-12 text-center"><p>Completing this transaction will stake your Burn tokens and you will start earning rewards for the upcoming checkpoints.</p></div> */}
                                     {/* <div className="col-12 text-center"><h4>Transaction in progress</h4></div>
-                            <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction</p></div> */}
+                            <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction.</p></div> */}
                                     <div className="col-12 text-center"><h4>Delegation completed</h4></div>
                                     <div className="col-12 text-center"><p>Your SHIBA tokens are staked successfully on validator. Your delegation will take 4-5 mintues to reflect in your account.</p></div>
                                 </div>

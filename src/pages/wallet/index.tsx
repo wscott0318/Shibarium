@@ -906,22 +906,29 @@ export default function Wallet() {
               </div>
               <div className="assets_btm_area">
                 <h2>Assets on {getNetworkName()}</h2>
-                <div className="cmn_dasdrd_table mb-3 mb-sm-4 fix-layout">
+                <div className="cmn_dasdrd_table mb-3 mb-sm-4 fix-layout walet-tb">
                   <div className="table-responsive">
                     <table className="table table-borderless mb-0 smb-0 fxd-layout">
                       <thead>
                         <tr>
                           <th colSpan={2}>Name</th>
-                          <th>Quantity - Balance</th>
-                          <th className="text-center">Actions</th>
-                          <th colSpan={2} className="text-end">
-                            <input
-                              className="shib-search"
-                              value={searchKey}
-                              onChange={(e) => handleSearchList(e.target.value)}
-                              type="search"
-                              placeholder="Search"
-                            />
+                          <th className="text-center">Quantity - Balance</th>
+                          {/* <th className="text-center"></th> */}
+                          <th colSpan={2} className="th-wrap-col">
+                            <div className="th-flex-col">
+                              <div className="table-th">
+                                <span>Actions</span>
+                              </div>
+                              <div className="table-search">
+                                <input
+                                  className="shib-search"
+                                  value={searchKey}
+                                  onChange={(e) => handleSearchList(e.target.value)}
+                                  type="search"
+                                  placeholder="Search"
+                                />
+                              </div>
+                            </div>
                           </th>
                         </tr>
                       </thead>
@@ -936,12 +943,12 @@ export default function Wallet() {
                                 <b>{x.parentSymbol}</b> - {x.parentName}
                               </td>
                               <td className="fix-td">
-                                <div className="d-flex align-items-center">
+                                <div className="d-flex align-items-center justify-content-center">
                                   <span>
                                     {(x.balance || "0.00")} -{" "}
                                   </span>
                                   <span>
-                                  <NumberFormat
+                                    <NumberFormat
                                     thousandSeparator
                                     displayType={"text"}
                                     prefix="$ "
@@ -952,23 +959,23 @@ export default function Wallet() {
                                   </span>
                                 </div>
                               </td>
-                              <td className="fix-td">
-                                {/* <Link href="/withdraw"> */}
-                                <button className="d-block w-100" onClick={()=>sendTokenWithRoute(x)}>
-                                  <a className="px-0 d-block hover-btn">Deposit</a>
-                                </button>
-                                {/* </Link> */}
-                              </td>
                               <td className="fix-td" colSpan={2}>
                                 <div className="row mx-0">
-                                  <div className="col-6 px-0">
+                                  <div className="col-4 px-0">
+                                      {/* <Link href="/withdraw"> */}
+                                      <button className="d-block w-100" onClick={()=>sendTokenWithRoute(x)}>
+                                        <a className="px-0 d-block hover-btn text-start">Deposit</a>
+                                      </button>
+                                      {/* </Link> */}
+                                  </div>
+                                  <div className="col-4 px-0">
                                   <button className="d-block w-100" onClick={()=>sendTokenWithRoute(x, "withdraw")}>
-                                      <a className=" px-0 d-block text-start hover-btn">
+                                      <a className=" px-0 d-block text-center hover-btn">
                                         Withdraw
                                       </a>
                                     </button>
                                   </div>
-                                  <div className="col-6 px-0">
+                                  <div className="col-4 px-0">
                                     {/* <Link href="/"> */}
                                     <button className="d-block w-100 text-end" onClick={()=>{
                                       setSelectedToken(x);
