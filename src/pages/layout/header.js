@@ -241,36 +241,7 @@ const getNetworkName = () => {
                     </Link>
                   </Nav.Item>
                 ) : (
-                  <NetworkSwitchDropdown />
-                  // <Nav.Item className="button-wrap cus_dropdown">
-                  //   <Link href={"/"}>
-                  //     <a className="d-md-none launch-btn">
-                  //       <img
-                  //         className="img-fluid"
-                  //         src="../../images/launch-app.png"
-                  //         alt=""
-                  //         width={30}
-                  //       />
-                  //     </a>
-                  //   </Link>
-                  //   <NavDropdown
-                  //     className="form-select innerDivBgBlack hd-sel hd-sel-over"
-                  //     title={getNetworkName()}
-                  //     id=""
-                  //   >
-                  //     <NavDropdown.Item
-                  //       // disabled={user ? false : true}
-                  //       onClick={toggleNetworkModal}
-                  //     >
-                  //       <h6 className="fw-600 light-text left-border">
-                  //         Switch Network
-                  //       </h6>
-                  //       <span className="light-text">
-                  //         Switch to other Network
-                  //       </span>
-                  //     </NavDropdown.Item>
-                  //   </NavDropdown>
-                  // </Nav.Item>
+                  <NetworkSwitchDropdown />                 
                 )}
                 <Nav.Item className="btn-status inner-btn">
                   {account ? (

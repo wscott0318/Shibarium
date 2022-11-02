@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import * as yup from "yup";
 import Web3 from "web3";
 import { registerValidator } from "services/apis/network-details/networkOverview";
+import { useActiveWeb3React } from "../../services/web3"
 
 function StepTwo({
   stepState,
