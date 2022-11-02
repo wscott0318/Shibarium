@@ -914,7 +914,7 @@ export default function Wallet() {
                           <th colSpan={2}>Name</th>
                           <th className="text-center">Quantity - Balance</th>
                           {/* <th className="text-center"></th> */}
-                          <th colSpan={2} className="th-wrap-col">
+                          <th colSpan={3} className="th-wrap-col">
                             <div className="th-flex-col">
                               <div className="table-th">
                                 <span>Actions</span>
@@ -959,7 +959,7 @@ export default function Wallet() {
                                   </span>
                                 </div>
                               </td>
-                              <td className="fix-td" colSpan={2}>
+                              <td className="fix-td" colSpan={3}>
                                 <div className="row mx-0">
                                   <div className="col-4 px-0">
                                       {/* <Link href="/withdraw"> */}
@@ -995,7 +995,7 @@ export default function Wallet() {
                               <DynamicShimmer
                                 type={"table"}
                                 rows={3}
-                                cols={4}
+                                cols={3}
                               />
                             </td>
                           </tr>

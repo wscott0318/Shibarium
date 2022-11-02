@@ -21,6 +21,7 @@ export default function ErrorPage() {
                         {/* <div className="image-wrap mb-4">
                             <img className="img-fluid" src="../../images/error.gif" alt="error-img" width={400} />
                         </div> */}
+                        <h2 className="mb-3">Page not found</h2>
                         <Link href="/">
                             <a className="btn primary-btn">Return To Home</a>
                         </Link>
