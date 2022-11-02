@@ -163,7 +163,7 @@ const InnerHeader = () => {
                           </div>
                         </div>
                       </NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.3">
+                      <NavDropdown.Item href="javascript:void(0)">
                         <div className="custum-row">
                           <div className="lft-img">
                             <img src="../../images/graph.png" alt="" />
@@ -176,7 +176,7 @@ const InnerHeader = () => {
                           </div>
                         </div>
                       </NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.3">
+                      <NavDropdown.Item href="javascript:void(0)">
                         <div className="custum-row mb-0">
                           <div className="lft-img ps-2">
                             <img
