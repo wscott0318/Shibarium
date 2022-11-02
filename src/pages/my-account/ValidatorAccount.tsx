@@ -70,8 +70,12 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     try {
       getDelegatorData(accountAddress.toLowerCase()).then((res: any) => {
         if (res.data) {
-          console.log(res.data, "delegator card data")
+          // console.log(res.data, "delegator card data")
           let sortedData = res.data.data.validators.sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake))
+            sortedData.forEach((x:any) => {
+              let stakeData = getStakeAmountDelegator(x.id, JSON.stringify(account.toLowerCase()))
+              console.log(stakeData, "delegator card data")
+            })
           setDelegationsList(sortedData)
           setLoading(false)
         }
@@ -131,7 +135,6 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     if (account && userType === "Delegator") {
       getDelegatorCardData(account)
     }
-    getStakeAmountDelegator()
   }, [account, userType])
 
   // console.log(restakeModal)
