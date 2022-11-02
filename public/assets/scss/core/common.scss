@@ -2713,13 +2713,13 @@ input:-internal-autofill-selected {
             &:last-child{
                 width: 400px;
                 @media #{$max-exl}{
-                    width:270px;
+                    width:350px;
                 }
                 @media (min-width:2500px){
                     width: auto;
                 }
             }
-            width: auto;
+            // width: auto;
         }
         
         td{
@@ -3388,4 +3388,14 @@ input:-internal-autofill-selected {
             max-width: 170px;
         }
     }
+}
+
+// 
+.th-flex-col {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.table-th {
+    margin-right: 50px;
 }
