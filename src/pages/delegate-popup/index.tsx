@@ -380,7 +380,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                         </div>
                       </div>
                     </div>
-                    <div className="form-field position-relative two-fld max-group extr_pd_remove bg-clr">
+                    <div className="form-field position-relative two-fld max-group extr_pd_remove bg-clr h-auto">
                       <div className="mid-chain w-100">
                         <input
                           className="w-100"
@@ -400,7 +400,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                       <p className="primary-text error">{errors.balance}</p>
                     ) : null}
 
-                    <p className="inpt_fld_hlpr_txt mt-3 text-pop-right">
+                    <p className="inpt_fld_hlpr_txt mt-3 text-pop-right d-flex flex-wrap">
                       <span>
                         <NumberFormat
                           value={(walletBalance * boneUSDValue).toFixed(4)}

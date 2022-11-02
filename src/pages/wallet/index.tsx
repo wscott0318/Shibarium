@@ -36,6 +36,7 @@ import Pagination from 'app/components/Pagination';
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import Router from "next/router";
+import { getExplorerLink } from "app/functions";
 
 const sendInitialState = {
   step0: true,
@@ -64,6 +65,7 @@ export default function Wallet() {
   const dispatch = useAppDispatch()
 
   const [listLoader, setListLoader] = useState(true)
+  const [hashLink, setHashLink] = useState('')
 
   const [senderAddress, setSenderAdress] = useState('');
   const [userQrCode, setUserQrCode] = useState(false)
@@ -245,6 +247,8 @@ export default function Wallet() {
             summary: `${res}`,
           })
         )
+        let link = getExplorerLink(chainId, res, 'transaction')
+        setHashLink(link)
       }).on('receipt', (res: any) => {
         console.log(res, "response")
         dispatch(
@@ -708,9 +712,9 @@ export default function Wallet() {
                       <div className="col-12">
                         <button
                           className="btn primary-btn w-100"
-                          onClick={() => handleCloseModal()}
+                          onClick={() => window.open(hashLink)}
                         >
-                          Close
+                          View on Block Explorer
                         </button>
                       </div>
                     </div>
@@ -931,16 +935,22 @@ export default function Wallet() {
                                 </span>
                                 <b>{x.parentSymbol}</b> - {x.parentName}
                               </td>
-                              <td className="fix-td d-flex align-items-center">
-                                {(x.balance || "0.00")} -{" "}
-                                <NumberFormat
-                                  thousandSeparator
-                                  displayType={"text"}
-                                  prefix="$ "
-                                  value={(
-                                    (x.balance || 0) * boneUSDValue
-                                  ).toFixed(2)}
-                                />
+                              <td className="fix-td">
+                                <div className="d-flex align-items-center">
+                                  <span>
+                                    {(x.balance || "0.00")} -{" "}
+                                  </span>
+                                  <span>
+                                  <NumberFormat
+                                    thousandSeparator
+                                    displayType={"text"}
+                                    prefix="$ "
+                                    value={(
+                                      (x.balance || 0) * boneUSDValue
+                                    ).toFixed(2)}
+                                  />
+                                  </span>
+                                </div>
                               </td>
                               <td className="fix-td">
                                 {/* <Link href="/withdraw"> */}

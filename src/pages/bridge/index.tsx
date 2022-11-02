@@ -141,7 +141,7 @@ const handleSearchList = (key :any) => {
       }
 
       const depositValidations: any = Yup.object({
-        depositAmount: Yup.number().min(0).max(selectedToken.balance).required("amount is required"), 
+        amount: Yup.number().typeError("only digits are allowed").min(0).max(selectedToken.balance).typeError("amount must be less or equal to you current balance").required("amount is required"), 
       })
 
 
@@ -249,7 +249,7 @@ const handleSearchList = (key :any) => {
       }
 
       const callDepositModal = (values:any) => {
-        setDepositTokenInput(values.depositAmount)
+        setDepositTokenInput(values.amount)
         {
           setDepModState({
             step0: true,
@@ -478,8 +478,8 @@ const handleSearchList = (key :any) => {
                             alt=""
                           />
                         </span>
-                        <h6>100 ETH</h6>
-                        <p>500.00$</p>
+                        <h6>{depositTokenInput+" "+selectedToken.parentName}</h6>
+                        <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+depositTokenInput || 0) * boneUSDValue).toFixed(2)} /></p>
                       </div>
                     </div>
                     <div className="pop-grid">
@@ -584,8 +584,8 @@ const handleSearchList = (key :any) => {
                             alt=""
                           />
                         </span>
-                        <h6>100 ETH</h6>
-                        <p>500.00$</p>
+                        <h6>{depositTokenInput+" "+selectedToken.parentName}</h6>
+                        <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+depositTokenInput || 0) * boneUSDValue).toFixed(2)} /></p>
                       </div>
                     </div>
                     <div className="pop-action">
@@ -2311,7 +2311,7 @@ const handleSearchList = (key :any) => {
 
                             <Formik
                             initialValues={{
-                              depositAmount:''
+                              amount:''
                             }}
                             validationSchema={depositValidations}
                             onSubmit={(values, actions) => {
@@ -2348,10 +2348,10 @@ const handleSearchList = (key :any) => {
                                           />
                                         </div>
                                         <div className="rt-chain">
-                                          <span className="fld-head lite-color">
+                                          <span className="fld-head lite-800">
                                             Balance:
                                           </span>
-                                          <span className="fld-txt lite-color">
+                                          <span className="fld-txt lite-800">
                                             {selectedToken.balance ? (selectedToken?.balance+" "+selectedToken?.parentName) : "00.00"}
                                           </span>
                                         </div>
@@ -2382,8 +2382,8 @@ const handleSearchList = (key :any) => {
                                               />
                                             </div>
                                           </div>
-                                          <div className="lite-color">
-                                            <span className="lite-color fw-bold">
+                                          <div className="lite-800">
+                                            <span className="lite-800 fw-bold">
                                               {selectedToken.parentName
                                                 ? selectedToken.parentName
                                                 : "Select Token"}
@@ -2403,8 +2403,8 @@ const handleSearchList = (key :any) => {
                                               className="w-100"
                                               type="text"
                                               placeholder="0.00"
-                                              value={values.depositAmount}
-                                              onChange={handleChange("depositAmount")}
+                                              value={values.amount}
+                                              onChange={handleChange("amount")}
                                             />
                                           </div>
                                           <div className="rt-chain" onClick={() => handleMax()}>
@@ -2413,7 +2413,7 @@ const handleSearchList = (key :any) => {
                                             </span>
                                           </div>
                                         </div>
-                                        {touched.depositAmount && errors.depositAmount ? <p className="primary-text pt-0 pl-2">{errors.depositAmount}</p> : null} 
+                                        {touched.amount && errors.amount ? <p className="primary-text pt-0 pl-2">{errors.amount}</p> : null} 
                                       </div>
                                     </div>
                                   </div>
@@ -2442,11 +2442,11 @@ const handleSearchList = (key :any) => {
                                           />
                                         </div>
                                         <div className="rt-chain">
-                                          <span className="fld-head lite-color">
+                                          <span className="fld-head lite-800">
                                             Balance:
                                           </span>
-                                          <span className="fld-txt lite-color">
-                                            100.00ETH
+                                          <span className="fld-txt lite-800">
+                                            00.00
                                           </span>
                                         </div>
                                       </div>
@@ -2503,10 +2503,10 @@ const handleSearchList = (key :any) => {
                                     />
                                   </div>
                                   <div className="rt-chain">
-                                    <span className="fld-head lite-color">
+                                    <span className="fld-head lite-800">
                                       Balance:
                                     </span>
-                                    <span className="fld-txt lite-color">
+                                    <span className="fld-txt lite-800">
                                     {selectedToken.balance ? (selectedToken?.balance+" "+selectedToken?.parentName) : "00.00"}
                                     </span>
                                   </div>
@@ -2539,8 +2539,8 @@ const handleSearchList = (key :any) => {
                                         />
                                       </div>
                                     </div>
-                                    <div className="lite-color">
-                                      <span className="lite-color fw-bold">
+                                    <div className="lite-800">
+                                      <span className="lite-800 fw-bold">
                                         {selectedToken.parentName
                                           ? selectedToken.parentName
                                           : "Select Token"}
@@ -2594,11 +2594,11 @@ const handleSearchList = (key :any) => {
                                     />
                                   </div>
                                   <div className="rt-chain">
-                                    <span className="fld-head lite-color">
+                                    <span className="fld-head lite-800">
                                       Balance:
                                     </span>
-                                    <span className="fld-txt lite-color">
-                                      100.00ETH
+                                    <span className="fld-txt lite-800">
+                                      00.00
                                     </span>
                                   </div>
                                 </div>

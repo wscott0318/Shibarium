@@ -163,7 +163,8 @@
     li{
         width: 50%;
         .tb-link{
-            color:$grey-color;
+            // color:$grey-color;
+            color: $black-800;
             text-align: center;
             width: 100%;
             border-radius: 8px;
@@ -204,6 +205,9 @@
 .mid-chain{
     input{
         background: $grey-color-800;
+    }
+    ::placeholder{
+        color: $black-800;
     }
 }
 .fld-txt{
@@ -246,7 +250,7 @@
 }
 .two-fld{
     .mid-chain{
-        padding: 0 10% 0 0;
+        padding: 0 40px 0 0;
     }
 }
 // .btn-modify{

@@ -17,6 +17,7 @@ import { useUserType} from "../../state/user/hooks"
 import NetworkButton from "./NetworkButton";
 
 
+
 const InnerHeader = () => {
   const router = useRouter();
   const [show, setShow] = useState();
@@ -131,6 +132,19 @@ const InnerHeader = () => {
                           </div>
                         </div>
                       </div>
+                      <NavDropdown.Item>
+                        <div className="custum-row">
+                          <div className="lft-img prof-icon">
+                            <img className="img-fluid" src="../../images/profile-round.png" alt="profile" width={32} />
+                          </div>
+                          <Link href="/profile-update"  passHref>
+                            <span className="center-txt">Profile</span>
+                          </Link>
+                          <div className="rt-image">
+                            <img src="../../images/rt-arow.png" alt="" />
+                          </div>
+                        </div>
+                      </NavDropdown.Item>
                       <NavDropdown.Item
                         href="javascript:void(0)"
                         onClick={() => setUserQrCode(true)}

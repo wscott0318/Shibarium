@@ -47,7 +47,7 @@ export default function ValidatorAccount() {
                 <StakingHeader />
                 {/* retake popop start */}
                 <CommonModal
-                    title={"Retake"}
+                    title={"Restake"}
                     show={showretakepop}
                     setShow={setretakepop}
                     externalCls="stak-pop"

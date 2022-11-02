@@ -2,6 +2,9 @@ import { useFormik } from "formik";
 import React, {useEffect, useState} from "react";
 import * as yup from "yup";
 import Web3 from "web3";
+import { registerValidator } from "services/apis/network-details/networkOverview";
+import { useActiveWeb3React } from "../../services/web3";
+import LoadingSpinner from 'pages/components/Loading';
 
 function StepTwo({
   stepState,
@@ -9,19 +12,25 @@ function StepTwo({
   becomeValidateData,
   setBecomeValidateData,
 }: any) {
+
+  const { chainId = 1, account, library } = useActiveWeb3React();
+  const userAddress :any  = account
   const [imageData, setImageData] = useState<any>("");
   const [validation, setValidation] = useState({
     image: false,
     address: false,
   });
 
+  const [apiLoading, setApiLoading] = useState(false)
+
   const verifyAddress = (address: any) => {
     let result = Web3.utils.isAddress(address);
     return result;
   };
 
-  const callAPI = (values: any) => {
+  const callAPI = async (values: any) => {
     console.log("call API called");
+    setApiLoading(true)
     if (imageData && verifyAddress(values.address)) {
       setValidation({ image: false, address: false });
       console.log("1");
@@ -41,19 +50,29 @@ function StepTwo({
     data.append("signerAddress", values.address);
     data.append("website", values.website);
     data.append("commission", values.commission);
-    data.append("img", imageData, imageData.name);
+    data.append("img", imageData.image);
 
-    
+    await registerValidator(data).then((res :any) => {
+      console.log(res)
+      setApiLoading(false)
+            setBecomeValidateData(values)
+            stepHandler("next");
+    }).catch((err:any) => {
+      console.log(err)
+      setApiLoading(false)
+    })
+
   };
 
   const [initialValues, setInitialValues] = useState({
     validatorname: "",
     publickey: "",
-    address: "",
+    address: userAddress,
     website: "",
     commission: "",
   });
-  console.log("Become Validate Data in Step Two", becomeValidateData);
+
+  // console.log("Become Validate Data in Step Two", initialValues);
   useEffect(() => {
     if(becomeValidateData)
     {
@@ -66,7 +85,7 @@ function StepTwo({
   let schema = yup.object().shape({
     validatorname: yup.string().required("validator name is required"),
     publickey: yup.string().required("public key is required"),
-    address: yup.string().required("address is required"),
+    // address: yup.string().required("address is required"),
     website: yup
       .string()
       .required("website is required")
@@ -93,11 +112,12 @@ function StepTwo({
       },
     });
 
-  console.log("image", imageData.name);
+  // console.log("image", imageData.image.size);
 
   return (
     // <>
     <form onSubmit={handleSubmit}>
+      {apiLoading && <LoadingSpinner />}
       <div className="progress-tab">
         <div className="mb-4 mb-xl-5">
           <h5 className="fwb fw-700 mb-2 ff-mos">Add node details</h5>
@@ -116,11 +136,11 @@ function StepTwo({
                   <img
                     src={
                       imageData
-                        ? URL.createObjectURL(imageData)
+                        ? URL.createObjectURL(imageData.image)
                         : "../../assets/images/file-icon.png"
                     }
                     alt=""
-                    className="img-fluid"
+                    className="img-fluid" // 200kb 
                     width={22}
                   />
                 </div>
@@ -130,7 +150,7 @@ function StepTwo({
                     className="input-file"
                     accept="image/*"
                     // @ts-ignore
-                    onChange={(e) => setImageData(e.target.files[0])}
+                    onChange={(e) => setImageData({image: e.target.files[0], name: e.target.files[0].name})}
                   />
                   <a href="#!" className="form-control ff-mos">
                     Upload
@@ -193,14 +213,12 @@ function StepTwo({
                 className="form-control"
                 placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
                 name="address"
+                readOnly={true}
                 value={values.address}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
             </div>
-            {touched.address && errors.address ? (
-              <p className="primary-text error ff-mos">{errors.address}</p>
-            ) : null}
             {validation.address ? (
               <p className="primary-text error ff-mos">enter a valid address</p>
             ) : null}
@@ -256,15 +274,15 @@ function StepTwo({
             type="submit"
             value="submit"
             className="btn primary-btn w-100"
-            onClick={() => {
-              if (
-                Object.keys(errors).length === 0 &&
-                Object.getPrototypeOf(errors) === Object.prototype
-              ) {
-                setBecomeValidateData(values)
-                stepHandler("next");
-              }
-            }}
+            // onClick={() => {
+            //   if (
+            //     Object.keys(errors).length === 0 &&
+            //     Object.getPrototypeOf(errors) === Object.prototype
+            //   ) {
+            //     setBecomeValidateData(values)
+            //     stepHandler("next");
+            //   }
+            // }}
           >
             <span className="ff-mos">Next</span>
           </button>

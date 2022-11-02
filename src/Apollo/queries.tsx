@@ -25,3 +25,13 @@ export const allValidatorsQuery = () => {
 `
 return gql(queryString)
 }
+export const StakeAmount = (id:any, account :any) => {
+    const queryString = `query pools {
+      delegator(id: "delegator:${id}:0x993e8794ca03f520c4a8a30f7c0f44f6b57c1d93") {
+        tokens
+        validatorId
+      }
+    }
+`
+return gql(queryString)
+}
