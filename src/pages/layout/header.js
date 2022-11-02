@@ -300,9 +300,9 @@ const [scroll, setScroll] = useState(false);
                               <div className="lft-img prof-icon">
                                 <img className="img-fluid" src="../../images/file-icon.png" alt="profile" width={24} />
                               </div>
-                              <div className="center-txt">
-                                <span>Profile</span>
-                              </div>
+                              <Link href="profile-update"  passHref>
+                                <span className="center-txt">Profile</span>
+                              </Link>
                               <div className="rt-image">
                                 <img src="../../images/rt-arow.png" alt="" />
                               </div>
@@ -356,7 +356,7 @@ const [scroll, setScroll] = useState(false);
                               </div>
                             </div>
                           </NavDropdown.Item>
-                          <NavDropdown.Item href="#action/3.3">
+                          <NavDropdown.Item href="javascript:void(0)">
                             <div className="custum-row mb-0">
                               <div className="lft-img ps-2">
                                 <img

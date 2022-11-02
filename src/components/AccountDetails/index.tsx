@@ -61,6 +61,8 @@ const AccountDetails: FC<AccountDetailsProps> = ({
   };
   return (
     <div className="space-y-3">
+      {/* <img src="../../../public/assets/images/icons/assets.jpg"  width={48}
+                      height={48} /> */}
       <div className="space-y-3">
         <HeadlessUiModal.Header
           header={`Account`}
@@ -89,12 +91,14 @@ const AccountDetails: FC<AccountDetailsProps> = ({
                   // @ts-ignore TYPE NEEDS FIXING
                   address={account}
                   defaultComponent={
-                    <Image
-                      src="../../public/images/metamask_icon.png"
-                      alt="Sushi Chef"
-                      width={48}
-                      height={48}
-                    />
+                    // <Image
+                    //   src="../../public/images/metamask_icon.png"
+                    //   alt="Sushi Chef"
+                    //   width={48}
+                    //   height={48}
+                    // />
+                    <img className="white-icon" src="../../images/metamask_icon.png" width={48}
+                     height={48}/>
                   }
                   provider={library}
                 />

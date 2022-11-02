@@ -15,7 +15,7 @@ import { useNetworkModalToggle } from "../../state/application/hooks";
 import AppHeader from "./AppHeader";
 import { useUserType} from "../../state/user/hooks"
 import NetworkButton from "./NetworkButton";
-
+import { useActiveWeb3React } from "app/services/web3";
 
 
 const InnerHeader = () => {
@@ -38,7 +38,7 @@ const InnerHeader = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const { account,chainId = 1,  connector, library,deactivate } = useWeb3React()
+  const { account,  connector, library,deactivate } = useWeb3React()
   const { ENSName } = useENSName(account ?? undefined);
   const [showScanpop, setScanpop] = useState(false);
 
@@ -58,6 +58,8 @@ const InnerHeader = () => {
     await router.push("/home");
   }
   const [selectNet, setSelectNet] = useState("Shibarium Mainnet")
+  const { chainId } = useActiveWeb3React();
+  if (!chainId) return null;
 
   const getNetworkName = () => {
     if(chainId == 1){
@@ -91,6 +93,7 @@ const InnerHeader = () => {
                 <AppHeader />
                 <Nav.Item className="d-flex align-items-center cus_dropdown">
                   <Link href={"javascript:void(0)"}>
+                    <button onClick={toggleNetworkModal} >
                     <a className="d-md-none swap-btn">
                       <img
                         className="img-fluid"
@@ -99,6 +102,7 @@ const InnerHeader = () => {
                         width={30}
                       />
                     </a>
+                    </button>
                   </Link>
 
                 <NetworkButton /> 
@@ -137,8 +141,8 @@ const InnerHeader = () => {
                           <div className="lft-img prof-icon">
                             <img className="img-fluid" src="../../images/profile-round.png" alt="profile" width={32} />
                           </div>
-                          <Link href="/profile-update"  passHref>
-                            <span className="center-txt">Profile</span>
+                          <Link href="profile-update"  passHref>
+                                <span className="center-txt">Profile</span>
                           </Link>
                           <div className="rt-image">
                             <img src="../../images/rt-arow.png" alt="" />
@@ -177,7 +181,7 @@ const InnerHeader = () => {
                           </div>
                         </div>
                       </NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.3">
+                      <NavDropdown.Item href="javascript:void(0)">
                         <div className="custum-row">
                           <div className="lft-img">
                             <img src="../../images/graph.png" alt="" />
@@ -190,7 +194,7 @@ const InnerHeader = () => {
                           </div>
                         </div>
                       </NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.3">
+                      <NavDropdown.Item href="javascript:void(0)">
                         <div className="custum-row mb-0">
                           <div className="lft-img ps-2">
                             <img

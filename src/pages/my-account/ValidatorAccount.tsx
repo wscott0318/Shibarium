@@ -77,7 +77,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
             sortedData.forEach(async (x:any) => {
               let stakeData = await getStakeAmountDelegator(+(x.id), JSON.stringify(accountAddress.toLowerCase()))
               // console.log(stakeData, "delegator card data")
-              // setStakeAmounts([...stakeAmounts, stakeData])
+              setStakeAmounts((pre :any) => ([...pre, stakeData]))
             })
           setDelegationsList(sortedData)
           setLoading(false)
@@ -567,6 +567,11 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       return validators.data.delegator
   }
 
+  const getStake = (id : String) => {
+    let item = stakeAmounts.length ? stakeAmounts.filter((x:any) => x.validatorId === id)[0]?.tokens : 0
+    return item > 0 ? (parseInt(item) / 10 ** 18).toFixed(4) : "00.00"
+  } 
+
   return (
     <>
       {loading && <LoadingSpinner />}
@@ -978,14 +983,15 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                               <div className="cus-width">
                                 <div className="text-center">
                                   <div>Your Stake</div>
-                                  <div className="fw-bold">{(parseInt(item.stake) / 10 ** 18).toFixed(4)}</div>
+                                  <div className="fw-bold">{getStake(item.id)}</div>
+                                  {/* <div className="fw-bold">{stakeAmounts?.filter((x:any) => x.validatorId === item.id)[0]?.tokens}</div> */}
                                   {/* {/ <div>$0</div> /} */}
                                 </div>
                               </div>
                               <div className="cus-width">
                                 <div className="text-center">
                                   <div>Reward</div>
-                                  <div className="fw-bold orange-color">{(parseInt(item.reward) / 10 ** 18).toFixed(4)}</div>
+                                  <div className="fw-bold orange-color">{ item.reward > 0 ? (parseInt(item.reward) / 10 ** 18).toFixed(4) : "00.00"}</div>
                                   {/* {/ <div>$0</div> /} */}
                                 </div>
                               </div>

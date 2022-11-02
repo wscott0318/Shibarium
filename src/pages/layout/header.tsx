@@ -185,7 +185,7 @@ const [scroll, setScroll] = useState(false);
                     </NavDropdown.Item>
                   </NavDropdown>
                 </Nav.Item> */}
-                <NetworkSwitchDropdown/>
+                <NetworkSwitchDropdown />
                 <Nav.Item className="btn-status inner-btn">
                   {account ? (
                     <>
@@ -251,7 +251,7 @@ const [scroll, setScroll] = useState(false);
                               </div>
                             </div>
                           </NavDropdown.Item>
-                          <NavDropdown.Item href="#action/3.3">
+                          <NavDropdown.Item href="javascript:void(0)">
                             <div className="custum-row">
                               <div className="lft-img">
                                 <img src="../../images/graph.png" alt="" />
@@ -264,7 +264,7 @@ const [scroll, setScroll] = useState(false);
                               </div>
                             </div>
                           </NavDropdown.Item>
-                          <NavDropdown.Item href="#action/3.3">
+                          <NavDropdown.Item href="javascript:void(0)">
                             <div className="custum-row mb-0">
                               <div className="lft-img ps-2">
                                 <img

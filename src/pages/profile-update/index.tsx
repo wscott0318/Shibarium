@@ -57,9 +57,8 @@ export default function ProfileUpdate() {
 
         var data = new FormData();
         data.append("_validatorName", values.validatorname);
-        data.append("_public_key", values.address);
+        data.append("signer_Address", values.address);
         data.append("_website", values.website);
-        // data.append("commission", values.commission);
         data.append("img", imageData.image);
     
         await updateValidator(data).then((res :any) => {
