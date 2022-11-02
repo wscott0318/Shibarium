@@ -33,7 +33,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                                     </div>
                                       <div className='fw-600'>
                                           <span className='vertical-align'>
-                                          <Link href={`/all-validator/${validator.signer}`}>
+                                          <Link href={`/all-validator/${validator.signer}`} passHref>
                                             {validator.name}
                                           </Link>
                                           </span>

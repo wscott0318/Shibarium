@@ -89,7 +89,7 @@ const InnerHeader = () => {
               <Nav className="ms-auto align-items-center">
                 <AppHeader />
                 <Nav.Item className="d-flex align-items-center cus_dropdown">
-                  <Link href={"javascript:void(0)"}>
+                  <Link href={"javascript:void(0)"} passHref>
                     <a className="d-md-none swap-btn">
                       <img
                         className="img-fluid"

@@ -158,7 +158,7 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
                 alt="close-icon"
               />
             </span>
-            <Link href="/home">
+            <Link href="/home" passHref>
               <a className="sidelogo-link" href="javascript:void(0)">
                 <img className="img-fluid" src="../../images/logo.png" alt="" />
               </a>

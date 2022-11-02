@@ -46,7 +46,7 @@ export default function ecosystem() {
                                 Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos
                                 asperiores illum.
                                 </p>
-                                <Link href="/swap-token">
+                                <Link href="/swap-token" passHref>
                                 <a className='link'><span>Learn More</span>
                                     <img className='img-fluid' src="../../images/link-arrow.png" alt="arrow-icon" />
                                 </a>
@@ -65,7 +65,7 @@ export default function ecosystem() {
                                 Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos
                                 asperiores illum.
                                 </p>
-                                <Link href="/withdraw">
+                                <Link href="/withdraw" passHref>
                                 <a className='link ff-mos'><span>Learn More</span>
                                     <img className='img-fluid' src="../../images/link-arrow.png" alt="arrow-icon" />
                                 </a>
@@ -175,7 +175,7 @@ export default function ecosystem() {
                                     <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                                     </div>
                                     <h4 className='shib-title mb-2 ff-mos'>
-                                    <Link href="javascript:void(0)">
+                                    <Link href="javascript:void(0)" passHref>
                                         <a>
                                         Lorem Ipsum
                                         </a>
@@ -192,7 +192,7 @@ export default function ecosystem() {
                                     <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                                     </div>
                                     <h4 className='shib-title mb-2 ff-mos'>
-                                    <Link href="javascript:void(0)">
+                                    <Link href="javascript:void(0)" passHref>
                                         <a>
                                         Lorem Ipsum
                                         </a>
@@ -209,7 +209,7 @@ export default function ecosystem() {
                                     <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                                     </div>
                                     <h4 className='shib-title mb-2 ff-mos'>
-                                    <Link href="javascript:void(0)">
+                                    <Link href="javascript:void(0)" passHref>
                                         <a>
                                         Lorem Ipsum
                                         </a>
@@ -227,7 +227,7 @@ export default function ecosystem() {
                                     <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                                     </div>
                                     <h4 className='shib-title mb-2 ff-mos'>
-                                    <Link href="javascript:void(0)">
+                                    <Link href="javascript:void(0)" passHref>
                                         <a>
                                         Secure the Network
                                         </a>

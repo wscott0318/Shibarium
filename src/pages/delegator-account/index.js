@@ -120,7 +120,7 @@ export default function DelegatorAccount() {
                                                 The Inbonding process has been initiated. Please come back after
                                                 checkpoints and click on "Claim Stake".
                                             </p>
-                                            <Link href="javascript:void(0)">
+                                            <Link href="javascript:void(0)" passHref>
                                                 <a className="btn primary-text">
                                                     View on Ethersacan
                                                 </a>
@@ -146,7 +146,7 @@ export default function DelegatorAccount() {
                                                 Ethereum transaction can take upto 5 minute to complete.
                                                 Please wait or increase the gas in meta mask.
                                             </p>
-                                            <Link href="javascript:void(0)">
+                                            <Link href="javascript:void(0)" passHref>
                                                 <a className="btn primary-text">
                                                     View on Ethersacan
                                                 </a>
@@ -475,7 +475,7 @@ export default function DelegatorAccount() {
                                             Your claim stake Transaction is successful. The Transaction might
                                             take 1-2 minutes to be updated in your account.
                                         </p>
-                                        <Link href="javascript:void(0)">
+                                        <Link href="javascript:void(0)" passHref>
                                             <a className="btn primary-text">
                                                 View on Ethersacan
                                             </a>

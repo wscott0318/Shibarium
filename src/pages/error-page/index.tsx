@@ -19,7 +19,7 @@ export default function ErrorPage() {
                             <span className="fade-in" id="digit3">4</span>
                         </h1>
                         <h3 className="fadeIn mb-3">Page  Not Found</h3>
-                        <Link href="/">
+                        <Link href="/" passHref>
                             <a className="btn primary-btn">Return To Home</a>
                         </Link>
                     </div>
