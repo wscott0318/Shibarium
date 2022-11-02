@@ -45,22 +45,11 @@ export default function ProfileUpdate() {
         } else {
           setValidation({ image: true, address: true });
         }
-    
-//         curl --location --request PUT 'http://18.216.5.132:3000/api/v1/validators/update' \
-// --form '_public_key="0x123456"' \
-// --form '_validatorName="abc"' \
-// --form '_website="google.com"' \
-// --form '_img=@"/C:/Users/a8571/OneDrive/Pictures/Screenshots/abc5.png"'
-
-
-
-
         var data = new FormData();
         data.append("_validatorName", values.validatorname);
         data.append("signer_Address", values.address);
         data.append("_website", values.website);
-        data.append("img", imageData.image);
-    
+        data.append("_img", imageData.image);
         await updateValidator(data).then((res :any) => {
           console.log(res)
         }).catch((err:any) => {
@@ -90,8 +79,10 @@ export default function ProfileUpdate() {
           callAPI(values);
         },
       });
-  
-    console.log("image", imageData.name);
+
+      useEffect(() => {
+
+      },[])
 
     return (
         <>
