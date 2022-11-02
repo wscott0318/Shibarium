@@ -960,7 +960,7 @@
  }
  .qr-wrap{
     background: $body-bg-800;
-    padding: 25px 15px 25px 15px;
+    padding: 25px 15px 20px 15px;
     border-radius: 10px;
     margin-top: 15px;
     @media #{$max-xxl}{
@@ -3076,7 +3076,9 @@ input:-internal-autofill-selected {
     }
 }
 
-
+.txt-wrp {
+    word-break: break-word;
+}
 
 .fix-coin-field{
     .lite-color{
