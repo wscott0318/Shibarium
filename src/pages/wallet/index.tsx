@@ -931,16 +931,22 @@ export default function Wallet() {
                                 </span>
                                 <b>{x.parentSymbol}</b> - {x.parentName}
                               </td>
-                              <td className="fix-td d-flex align-items-center">
-                                {(x.balance || "0.00")} -{" "}
-                                <NumberFormat
-                                  thousandSeparator
-                                  displayType={"text"}
-                                  prefix="$ "
-                                  value={(
-                                    (x.balance || 0) * boneUSDValue
-                                  ).toFixed(2)}
-                                />
+                              <td className="fix-td">
+                                <div className="d-flex align-items-center">
+                                  <span>
+                                    {(x.balance || "0.00")} -{" "}
+                                  </span>
+                                  <span>
+                                    <NumberFormat
+                                    thousandSeparator
+                                    displayType={"text"}
+                                    prefix="$ "
+                                    value={(
+                                      (x.balance || 0) * boneUSDValue
+                                    ).toFixed(2)}
+                                  />
+                                  </span>
+                                </div>
                               </td>
                               <td className="fix-td">
                                 {/* <Link href="/withdraw"> */}
