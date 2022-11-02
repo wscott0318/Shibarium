@@ -39,9 +39,9 @@ import Router from "next/router";
 import { getExplorerLink } from "app/functions";
 
 const sendInitialState = {
-  step0: true,
+  step0: false,
   step1: false,
-  step2: false,
+  step2: true,
   step3: false,
   showTokens: false
 }
@@ -353,7 +353,7 @@ export default function Wallet() {
                 : "Submitted"
             }
             showClose={false}
-            show={senderModal}
+            show={true}
             setShow={handleCloseModal}
             externalCls="dark-modal-100 walet-ht"
             setSendModal={setSendModal}
@@ -631,7 +631,7 @@ export default function Wallet() {
                           address
                         </label>
                         { !verifyAmount &&
-                          <p className="primary-text">Please select the checkbox then proceed</p>
+                          <p className="primary-text mt-2 mt-sm-3">Please select the checkbox then proceed</p>
                         }
                       </div>
                     </div>
