@@ -1152,13 +1152,13 @@
         height:100%;
     }
     .modal-content{
-        height:550px;
+        height:555px;
         // height: 590px;
         @media #{$max-sm}{
-            height:490px;
+            height:495px;
         }
         .token-listwrap {
-            max-height: 250px;
+            max-height: 255px;
         }
     }
 }
@@ -2754,6 +2754,12 @@ input:-internal-autofill-selected {
             &.fix-td{
                 // height: 62.5px;
                 height: auto;
+                &.tb-wdth{
+                    padding-left: 70px;
+                    @media #{$max-md}{
+                        padding-left: 15px;
+                    }
+                }
             }
         }
     }

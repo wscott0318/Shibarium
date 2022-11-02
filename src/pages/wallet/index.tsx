@@ -38,9 +38,9 @@ import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import Router from "next/router";
 
 const sendInitialState = {
-  step0: true,
+  step0: false,
   step1: false,
-  step2: false,
+  step2: true,
   step3: false,
   showTokens: false
 }
@@ -349,7 +349,7 @@ export default function Wallet() {
                 : "Submitted"
             }
             showClose={false}
-            show={senderModal}
+            show={true}
             setShow={handleCloseModal}
             externalCls="dark-modal-100 walet-ht"
             setSendModal={setSendModal}
@@ -951,14 +951,14 @@ export default function Wallet() {
                               </td>
                               <td className="fix-td tb-wdth" colSpan={2}>
                                 <div className="row mx-0">
-                                  <div className="col-6 px-0">
+                                  <div className="col-sm-4 col-lg-6 px-0">
                                   <button className="d-block w-100" onClick={()=>sendTokenWithRoute(x, "withdraw")}>
                                       <a className=" px-0 d-block text-start hover-btn">
                                         Withdraw
                                       </a>
                                     </button>
                                   </div>
-                                  <div className="col-6 px-0">
+                                  <div className="col-sm-8 col-lg-6 px-0">
                                     {/* <Link href="/"> */}
                                     <button className="d-block w-100 text-end" onClick={()=>{
                                       setSelectedToken(x);
