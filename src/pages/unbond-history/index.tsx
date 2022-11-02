@@ -64,7 +64,8 @@ export default function Unbond() {
         unbondsHistory(account).then(res => {
             if(res.status == 200) {
                 console.log(res.data.data.result)
-                setList(res.data.data.result)
+                const reversed = res.data.data.result.reverse();
+                setList(reversed)
                 setListLoader(false)
             }
         }).catch(err => {
@@ -167,7 +168,7 @@ export default function Unbond() {
         router.back();
       }
     }, [userType]);
-
+    
     return (
       <>
         <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space ffms-inherit">
@@ -194,102 +195,104 @@ export default function Unbond() {
                     </thead>
                     <tbody>
                       {slicedList.length ? (
-                        slicedList.map((value: any) => (
-                          <tr key={value.unbondStartedTxHash}>
-                            <td>
-                              <div className="d-flex align-items-center">
-                                <div className="coin-img me-2">
-                                  <img
-                                    className="img-fluid"
-                                    src="../../assets/images/bear.png"
-                                    alt="coin"
-                                    width={50}
-                                    height={50}
-                                  />
+                        slicedList
+                          .reverse()
+                          .map((value: any) => (
+                            <tr key={value.unbondStartedTxHash}>
+                              <td>
+                                <div className="d-flex align-items-center">
+                                  <div className="coin-img me-2">
+                                    <img
+                                      className="img-fluid"
+                                      src="../../assets/images/bear.png"
+                                      alt="coin"
+                                      width={50}
+                                      height={50}
+                                    />
+                                  </div>
+                                  <div>
+                                    <span className="tb-data ">
+                                      {value.validatorName}
+                                    </span>
+                                  </div>
                                 </div>
-                                <div>
-                                <span className="tb-data ">
-                                  {value.validatorName}
+                              </td>
+                              <td>
+                                <span className="tb-data align">
+                                  {parseInt(value.amount) / 10 ** 18} Bone
                                 </span>
-                                </div>
-                              </div>
-                            </td>
-                            <td>
-                              <span className="tb-data align">
-                                {parseInt(value.amount) / 10 ** 18} Bone
-                              </span>
-                              {/* <p className="mb-0 fs-12 mute-text">$8.2</p> */}
-                            </td>
-                            <td>
-                              {value.completed ? (
-                                <>
-                                  <div className="align-items-center">
-                                    <span className="tb-data align up-text">
-                                      Success
-                                    </span>
-                                    <p className="mb-0 fs-12 primary-text mt-1">
-                                      Claimed
-                                    </p>
-                                  </div>
-                                </>
-                              ) : value.remainingEpoch > 0 ? (
-                                <>
-                                  <div className="">
-                                    <span className="d-block align up-text mb-1">
-                                      Wait for <b>{value.remainingEpoch}</b>{" "}
-                                      checkpoints
-                                    </span>
-                                    <button
-                                      className="primary-badge px-2"
-                                      type="button"
-                                      disabled={true}
-                                      onClick={() => setClamNowModals({
-                                        data: value,
-                                        confirm: true,
-                                        progress: false,
-                                        completed: false,
-                                    })}
-                                      //  className="mb-0 fs-12 "
-                                    >
-                                      Claim Now
-                                    </button>
-                                  </div>
-                                </>
-                              ) : (
-                                <>
-                                  <div className="">
-                                    <span className="d-block align up-text mb-1">
-                                      Unbound period completed
-                                    </span>
-                                    <button
-                                      className="primary-badge px-2"
-                                      type="button"
-                                      onClick={() =>
-                                        {
-                                          console.log("called ===> ")
-                                        setClamNowModals({
-                                          data: value,
-                                          confirm: true,
-                                          progress: false,
-                                          completed: false,
-                                        })
-                                      }
-                                      }
-                                      //  className="mb-0 fs-12 "
-                                    >
-                                      Claim Now
-                                    </button>
-                                  </div>
-                                </>
-                              )}
-                            </td>
-                            <td className="text-start">
-                              <span className="tb-data align">
-                                {value.unbondStartedTimeStampFormatted}
-                              </span>
-                            </td>
-                          </tr>
-                        ))
+                                {/* <p className="mb-0 fs-12 mute-text">$8.2</p> */}
+                              </td>
+                              <td>
+                                {value.completed ? (
+                                  <>
+                                    <div className="align-items-center">
+                                      <span className="tb-data align up-text">
+                                        Success
+                                      </span>
+                                      <p className="mb-0 fs-12 primary-text mt-1">
+                                        Claimed
+                                      </p>
+                                    </div>
+                                  </>
+                                ) : value.remainingEpoch > 0 ? (
+                                  <>
+                                    <div className="">
+                                      <span className="d-block align up-text mb-1">
+                                        Wait for <b>{value.remainingEpoch}</b>{" "}
+                                        checkpoints
+                                      </span>
+                                      <button
+                                        className="primary-badge px-2"
+                                        type="button"
+                                        disabled={true}
+                                        onClick={() =>
+                                          setClamNowModals({
+                                            data: value,
+                                            confirm: true,
+                                            progress: false,
+                                            completed: false,
+                                          })
+                                        }
+                                        //  className="mb-0 fs-12 "
+                                      >
+                                        Claim Now
+                                      </button>
+                                    </div>
+                                  </>
+                                ) : (
+                                  <>
+                                    <div className="">
+                                      <span className="d-block align up-text mb-1">
+                                        Unbound period completed
+                                      </span>
+                                      <button
+                                        className="primary-badge px-2"
+                                        type="button"
+                                        onClick={() => {
+                                          console.log("called ===> ");
+                                          setClamNowModals({
+                                            data: value,
+                                            confirm: true,
+                                            progress: false,
+                                            completed: false,
+                                          });
+                                        }}
+                                        //  className="mb-0 fs-12 "
+                                      >
+                                        Claim Now
+                                      </button>
+                                    </div>
+                                  </>
+                                )}
+                              </td>
+                              <td className="text-start">
+                                <span className="tb-data align">
+                                  {value.unbondStartedTimeStampFormatted}
+                                </span>
+                              </td>
+                            </tr>
+                          ))
                       ) : !list.length && !slicedList.length && listLoader ? (
                         <tr>
                           <td colSpan={4}>
@@ -311,18 +314,18 @@ export default function Unbond() {
                 ) : null}
               </div>
               <div className="mt-sm-4 mt-3">
-              <Pagination
-                currentPage={currentPage}
-                pageSize={pageSize}
-                totalCount={list.length}
-                onPageChange={pageChangeHandler}
-              />
+                <Pagination
+                  currentPage={currentPage}
+                  pageSize={pageSize}
+                  totalCount={list.length}
+                  onPageChange={pageChangeHandler}
+                />
               </div>
             </div>
           </section>
         </main>
 
-                     {/* modal started  */}
+        {/* modal started  */}
         <CommonModal
           title={"Retake"}
           show={claimNowModals.confirm}
@@ -330,30 +333,35 @@ export default function Unbond() {
           externalCls=""
         >
           <div className="del-tab-content">
-              <div className="pb-3 pb-sm-4">
-                  <h3 className="mb-3 text-center">Your unbonding period is complete. you claim your stake now .</h3>
-                  <p className="lite-text text-center lite-color fw-600">
-                      Your stake will be transferred to
-                      <span className="d-block">{account}</span>
-                  </p>
-              </div>
-              <div className="dark-bg-800 p-2 p-sm-3 text-center">
-                  <p className="lite-color fw-600">Stake to claim</p>
-                  <h3>{parseInt(claimNowModals.data.amount) / 10**18 } Bone</h3>
-                  {/* <p className="lite-color fw-600">$8.17</p> */}
-              </div>
-              {/* <div className="arrow-block mt-2 mt-sm-3">
+            <div className="pb-3 pb-sm-4">
+              <h3 className="mb-3 text-center">
+                Your unbonding period is complete. you claim your stake now .
+              </h3>
+              <p className="lite-text text-center lite-color fw-600">
+                Your stake will be transferred to
+                <span className="d-block">{account}</span>
+              </p>
+            </div>
+            <div className="dark-bg-800 p-2 p-sm-3 text-center">
+              <p className="lite-color fw-600">Stake to claim</p>
+              <h3>{parseInt(claimNowModals.data.amount) / 10 ** 18} Bone</h3>
+              {/* <p className="lite-color fw-600">$8.17</p> */}
+            </div>
+            {/* <div className="arrow-block mt-2 mt-sm-3">
                   <p>$3.359 Gas Fee</p>
                   <div className="arrow-float">
                       <img className="img-fluid" src="../../images/rt-arow.png" alt="arrow" width={8} />
                   </div>
               </div> */}
-              <div className="button-wrap mt-3">
-                  <button type="button" 
-                  className="btn primary-btn w-100"
-                  onClick={() => unboundClaimAPI()}
-                  >Confirm Unbond</button>
-              </div>
+            <div className="button-wrap mt-3">
+              <button
+                type="button"
+                className="btn primary-btn w-100"
+                onClick={() => unboundClaimAPI()}
+              >
+                Confirm Unbond
+              </button>
+            </div>
           </div>
         </CommonModal>
       </>

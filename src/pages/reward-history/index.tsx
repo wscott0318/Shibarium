@@ -26,7 +26,8 @@ export default function Unbond() {
         unbondRewards(account).then((res: any) => {
             if(res.status == 200) {
                 console.log(res.data.result);
-                setList(res.data.result)
+                const reversed = res.data.result.reverse();
+                setList(reversed);
                 setListLoader(false)
             }
         }).catch((err : any) => {
@@ -96,7 +97,7 @@ export default function Unbond() {
                     </thead>
                     <tbody>
                       {slicedList.length ? (
-                        slicedList.map((value: any) => (
+                        slicedList.reverse().map((value: any) => (
                         <tr>
                             <td>
                               <div className="d-flex align-items-center">
