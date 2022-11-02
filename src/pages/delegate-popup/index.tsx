@@ -510,7 +510,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                       <p className='ff-mos'>
                         Ethereum transactions can take longer time to complete
                         based upon network congestion. Please wait for increase
-                        the gas price of the transaction
+                        the gas price of the transaction.
                       </p>
                     </div>
                   </div>

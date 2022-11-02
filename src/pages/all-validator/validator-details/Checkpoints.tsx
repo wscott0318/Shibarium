@@ -28,7 +28,7 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue }) => {
             <div className="h-auto p-4 mb-4 cus-card mb-lg-5">
 
                 <h3 className="mb-2 mb-sm-4">Checkpoints</h3>
-                <div className="cmn_dasdrd_table">
+                <div className="cmn_dasdrd_table cmn-tb">
                     <div className="table-responsive">
                         <table className="table table-borderless">
                             <thead>

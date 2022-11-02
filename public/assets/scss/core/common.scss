@@ -3272,7 +3272,17 @@ input:-internal-autofill-selected {
         }
     }
 }
-
+.cmn_dasdrd_table.cmn-tb{
+    .table{
+        td{
+            span{
+                @media #{$max-md}{
+                    padding-right: 25px;
+                } 
+            }
+        }
+    }
+}
 .max-input{
     position: relative;
     input[type=number]::-webkit-inner-spin-button, 
@@ -3317,5 +3327,14 @@ input:-internal-autofill-selected {
         @media #{$max-xl}{
             height: auto;
         } 
+    }
+}
+.walet-tb{
+    .table{
+        .shib-search{
+            @media #{$max-md}{
+               width: 130px;
+            }
+        }
     }
 }

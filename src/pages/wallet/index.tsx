@@ -902,7 +902,7 @@ export default function Wallet() {
               </div>
               <div className="assets_btm_area">
                 <h2>Assets on {getNetworkName()}</h2>
-                <div className="cmn_dasdrd_table mb-3 mb-sm-4 fix-layout">
+                <div className="cmn_dasdrd_table mb-3 mb-sm-4 fix-layout walet-tb">
                   <div className="table-responsive">
                     <table className="table table-borderless mb-0 smb-0 fxd-layout">
                       <thead>
