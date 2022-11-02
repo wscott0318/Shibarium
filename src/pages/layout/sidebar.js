@@ -40,8 +40,8 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
       img: "../../images/sidebar/wallet.png",
     },
     {
-      name: "Transactions",
-      route: "/transactions",
+      name: "Staking",
+      route: "/bone-staking",
       isSelected: router.asPath == "/transactions" ? true : false,
       img: "../../images/sidebar/transaction.png",
     },

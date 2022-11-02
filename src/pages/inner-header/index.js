@@ -17,6 +17,7 @@ import { useUserType} from "../../state/user/hooks"
 import NetworkButton from "./NetworkButton";
 
 
+
 const InnerHeader = () => {
   const router = useRouter();
   const [show, setShow] = useState();
@@ -134,11 +135,11 @@ const InnerHeader = () => {
                       <NavDropdown.Item>
                         <div className="custum-row">
                           <div className="lft-img prof-icon">
-                            <img className="img-fluid" src="../../images/file-icon.png" alt="profile" width={24} />
+                            <img className="img-fluid" src="../../images/profile-round.png" alt="profile" width={32} />
                           </div>
-                          <div className="center-txt">
-                            <span>Profile</span>
-                          </div>
+                          <Link href="/profile-update"  passHref>
+                            <span className="center-txt">Profile</span>
+                          </Link>
                           <div className="rt-image">
                             <img src="../../images/rt-arow.png" alt="" />
                           </div>

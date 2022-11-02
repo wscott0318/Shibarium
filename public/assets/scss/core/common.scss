@@ -319,6 +319,9 @@
     margin-bottom: 25px;
     display: flex;
     align-items: center;
+    &:hover{
+        color: $primary
+    }
 }
 .key {
     width: 400px;
@@ -957,7 +960,7 @@
  }
  .qr-wrap{
     background: $body-bg-800;
-    padding: 25px 15px 15px 15px;
+    padding: 25px 15px 25px 15px;
     border-radius: 10px;
     margin-top: 15px;
     @media #{$max-xxl}{

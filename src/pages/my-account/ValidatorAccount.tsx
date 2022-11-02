@@ -973,15 +973,27 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                             </div>
 
                             <ul className="btn-grp">
+
+                              {(parseInt(item.reward) / 10 ** 18) < 1 ? (<><li className="btn-grp-lst">
+                                <button disabled className="btn grey-btn btn-small">Restake</button>
+                              </li>
                               <li className="btn-grp-lst">
+                                <button disabled className="btn black-btn btn-small">Withdraw Rewards</button>
+                              </li></>):(<><li className="btn-grp-lst">
                                 <button disabled={parseInt(item.commission) == 0} onClick={() => handleModal('Restake', item.contractAddress)} className="btn grey-btn btn-small">Restake</button>
                               </li>
                               <li className="btn-grp-lst">
                                 <button onClick={() => handleModal('Withdraw Rewards', item.contractAddress)} className="btn black-btn btn-small">Withdraw Rewards</button>
-                              </li>
-                              <li className="btn-grp-lst">
+                              </li></>)}
+                              
+
+                              
+                              {(parseInt(item.stake) / 10 ** 18) <1?(<li className="btn-grp-lst">
+                                <button disabled className="btn black-btn btn-small">Unbound</button>
+                              </li>) : <li className="btn-grp-lst">
                                 <button onClick={() => handleModal('Unbound', item.validatorAddress, item.contractAddress, (parseInt(item.stake) / 10 ** 18).toFixed(4))} className="btn black-btn btn-small">Unbound</button>
-                              </li>
+                              </li> }
+                              
                               <li className="btn-grp-lst">
                                 <button disabled={parseInt(item.commission) == 0} onClick={() => { setSelectedRow({ owner: item.contractAddress, contractAddress: item.contractAddress, commissionPercent: item.commission, name: item.name }); setStakeMoreModal(true); }} className="btn black-btn btn-small">Stake More</button>
                               </li>
