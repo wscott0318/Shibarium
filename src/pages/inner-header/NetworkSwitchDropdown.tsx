@@ -23,7 +23,7 @@ const NetworkSwitchDropdown = () => {
       };
   return (
     <Nav.Item className="button-wrap cus_dropdown">
-      <Link href={"/"}>
+      <Link href={"/wallet"}>
         <a className="d-md-none launch-btn">
           <img
             className="img-fluid"

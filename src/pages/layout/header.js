@@ -224,8 +224,8 @@ const getNetworkName = () => {
                 <AppHeader />
                 {!account ? (
                   <Nav.Item className="button-wrap cus_dropdown">
-                    <Link href={"/"}>
-                      <a className="d-sm-none launch-btn">
+                    <Link href={"/wallet"}>
+                      <a className="d-md-none launch-btn">
                         <img
                           className="img-fluid"
                           src="../../images/launch-app.png"

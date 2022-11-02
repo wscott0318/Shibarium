@@ -9,7 +9,6 @@ import { clearAllTransactions } from '../../state/transactions/actions'
 import Image from 'next/image'
 import React, { FC, useCallback, useMemo } from 'react'
 import { ExternalLink as LinkIcon } from 'react-feather'
-
 import Button from '../Button'
 import ExternalLink from '../ExternalLink'
 import Typography from '../Typography'
@@ -63,15 +62,26 @@ const AccountDetails: FC<AccountDetailsProps> = ({
   return (
     <div className="space-y-3">
       <div className="space-y-3">
-        <HeadlessUiModal.Header header={`Account`} onClose={toggleWalletModal} />
+        <HeadlessUiModal.Header
+          header={`Account`}
+          onClose={toggleWalletModal}
+        />
         <HeadlessUiModal.BorderedContent className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
             {connectorName}
-            <Button variant="outlined" color="blue" size="xs" onClick={logoutHandler}>
-              <span className='trs-2'>{`Disconnect`}</span>
+            <Button
+              variant="outlined"
+              color="blue"
+              size="xs"
+              onClick={logoutHandler}
+            >
+              <span className="trs-2">{`Disconnect`}</span>
             </Button>
           </div>
-          <div id="web3-account-identifier-row" className="flex flex-col justify-center gap-4">
+          <div
+            id="web3-account-identifier-row"
+            className="flex flex-col justify-center gap-4"
+          >
             <div className="flex items-center gap-4">
               <div className="overflow-hidden rounded-full">
                 <Davatar
@@ -79,7 +89,12 @@ const AccountDetails: FC<AccountDetailsProps> = ({
                   // @ts-ignore TYPE NEEDS FIXING
                   address={account}
                   defaultComponent={
-                    <Image src="https://app.sushi.com/images/chef.svg" alt="Sushi Chef" width={48} height={48} />
+                    <Image
+                      src="../../public/images/metamask_icon.png"
+                      alt="Sushi Chef"
+                      width={48}
+                      height={48}
+                    />
                   }
                   provider={library}
                 />
@@ -93,17 +108,20 @@ const AccountDetails: FC<AccountDetailsProps> = ({
                 <ExternalLink
                   color="blue"
                   startIcon={<LinkIcon size={16} />}
-                  href={chainId && getExplorerLink(chainId, ENSName || account, 'address')}
+                  href={
+                    chainId &&
+                    getExplorerLink(chainId, ENSName || account, "address")
+                  }
                 >
                   <Typography variant="xs" weight={700}>
-                    <span className='trs-3'>{`View on explorer`}</span>
+                    <span className="trs-3">{`View on explorer`}</span>
                   </Typography>
                 </ExternalLink>
               )}
               {account && (
                 <Copy toCopy={account}>
                   <Typography variant="xs" weight={700}>
-                    <span className='trs-3'>{`Copy Address`}</span>
+                    <span className="trs-3">{`Copy Address`}</span>
                   </Typography>
                 </Copy>
               )}
@@ -115,8 +133,13 @@ const AccountDetails: FC<AccountDetailsProps> = ({
             <Typography variant="xs" weight={700} className="text-secondary">
               {`Recent Transactions`}
             </Typography>
-            <Button variant="outlined" color="blue" size="xs" onClick={clearAllTransactionsCallback}>
-              <span className='trs-2'>{`Clear all`}</span>
+            <Button
+              variant="outlined"
+              color="blue"
+              size="xs"
+              onClick={clearAllTransactionsCallback}
+            >
+              <span className="trs-2">{`Clear all`}</span>
             </Button>
           </div>
           <div className="flex flex-col divide-y divide-dark-800">
@@ -131,14 +154,14 @@ const AccountDetails: FC<AccountDetailsProps> = ({
               </>
             ) : (
               <Typography variant="xs" weight={700} className="text-secondary">
-                {`Your transactions will appear test here...`}
+                {`Your transactions will appear here...`}
               </Typography>
             )}
           </div>
         </HeadlessUiModal.BorderedContent>
       </div>
     </div>
-  )
+  );
 }
 
 export default AccountDetails
