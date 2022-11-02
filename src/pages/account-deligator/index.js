@@ -173,7 +173,7 @@ export default function Account() {
 
                 {/* retake popop start */}
                 <CommonModal
-                    title={"Retake"}
+                    title={"Restake"}
                     show={showvalidatorpop}
                     setShow={setvalidatorpop}
 
