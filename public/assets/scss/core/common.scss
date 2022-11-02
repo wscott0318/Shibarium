@@ -319,6 +319,9 @@
     margin-bottom: 25px;
     display: flex;
     align-items: center;
+    &:hover{
+        color: $primary
+    }
 }
 .key {
     width: 400px;
