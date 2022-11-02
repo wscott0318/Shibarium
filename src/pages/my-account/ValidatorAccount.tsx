@@ -19,6 +19,8 @@ import ERC20 from "../../ABI/ERC20Abi.json";
 import { getExplorerLink } from 'app/functions';
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import DelegatePopup from 'pages/delegate-popup';
+import { queryProvider } from 'Apollo/client';
+import { StakeAmount } from 'Apollo/queries';
 
 
 
@@ -129,6 +131,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     if (account && userType === "Delegator") {
       getDelegatorCardData(account)
     }
+    getStakeAmountDelegator()
   }, [account, userType])
 
   // console.log(restakeModal)
@@ -547,6 +550,13 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       })
   }
 }
+
+  const getStakeAmountDelegator = async (id: any, account:any) => {
+      const validators = await queryProvider.query({
+        query: StakeAmount(id, account),
+      })
+      console.log(validators, " graphQL query ==== >")
+  }
 
   return (
     <>
