@@ -200,7 +200,10 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
               <ValidatorGrid searchKey={searchKey} validatorsList={validators} />
             </div>
           )}
-          <div className='mt-sm-4 mt-3'><Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={searchKey ? searchResult.length : validatorsByStatus.length || 1} currentPage={currentPage} /></div>
+         { isListView && !loading && <div className='mt-sm-4 mt-3'>
+            <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={searchKey ? searchResult.length : validatorsByStatus.length || 1} currentPage={currentPage} />
+          </div>
+          }
           </div>
         </section>
    </>
