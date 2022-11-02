@@ -78,7 +78,7 @@ export default function faucet() {
     console.log("receptcha event ", e)
     setClickedCaptcha(true);
   }
-
+  
   return (
     <>
       <main className="main-content">
@@ -143,6 +143,7 @@ export default function faucet() {
                             <ReCAPTCHA
                               sitekey='6LdDZXQiAAAAAPUZI155WAGKKhM1vACSu05hOLGP'
                               onChange={handleCaptcha}
+                              onExpired={()=>setClickedCaptcha(false)}
                             />
                           </div>
                         </form>

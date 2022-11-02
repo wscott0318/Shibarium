@@ -482,7 +482,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     setUnboundModal({
       ...unboundModal, startValue: false
     })
-    setUnboundModal((preVal:any) => ({...preVal, startValue:false}))
+    setUnboundModal((preVal: any) => ({ ...preVal, startValue: false }))
     setTransactionState({ state: true, title: 'Unbound Pending' })
     console.log("called ===>")
     let data = {
@@ -491,62 +491,62 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       amount: unboundInput
     }
     console.log(data.validatorId)
-    if(account){
-  
+    if (account) {
+
       let walletAddress = account
       let amount = web3.utils.toBN(fromExponential(+unboundInput * Math.pow(10, 18)));
       let instance = new web3.eth.Contract(ValidatorShareABI, data.validatorId);
       await instance.methods.sellVoucher_new(amount, amount).send({ from: walletAddress })
-      .on('transactionHash', (res: any) => {
-        console.log(res, "hash")
-        dispatch(
-          addTransaction({
-            hash: res,
-            from: walletAddress,
-            chainId,
-            summary: `${res}`,
+        .on('transactionHash', (res: any) => {
+          console.log(res, "hash")
+          dispatch(
+            addTransaction({
+              hash: res,
+              from: walletAddress,
+              chainId,
+              summary: `${res}`,
+            })
+          )
+          // getActiveTransaction
+          let link = getExplorerLink(chainId, res, 'transaction')
+          setTransactionState({ state: true, title: 'Transaction Submitted' })
+          setHashLink(link)
+          setUnboundModal({
+            startValue: false,
+            address: '',
+            id: '',
+            stakeAmount: 0
           })
-        )
-        // getActiveTransaction
-        let link = getExplorerLink(chainId, res, 'transaction')
-        setTransactionState({ state: true, title: 'Transaction Submitted' })
-        setHashLink(link)
-        setUnboundModal({
-          startValue: false,
-          address: '',
-          id: '',
-          stakeAmount: 0
+          setUnboundInput('')
+        }).on('receipt', (res: any) => {
+          console.log(res, "receipt")
+          dispatch(
+            finalizeTransaction({
+              hash: res.transactionHash,
+              chainId,
+              receipt: {
+                to: res.to,
+                from: res.from,
+                contractAddress: res.contractAddress,
+                transactionIndex: res.transactionIndex,
+                blockHash: res.blockHash,
+                transactionHash: res.transactionHash,
+                blockNumber: res.blockNumber,
+                status: 1
+              }
+            })
+          )
+          getDelegatorCardData(walletAddress)
+        }).on('error', (res: any) => {
+          console.log(res, "error")
+          setUnboundInput('')
+          setUnboundModal((preVal: any) => ({ ...preVal, progressValue: false, comfirmValue: true }))
+          if (res.code === 4001) {
+            console.log("user Denied")
+          }
         })
-        setUnboundInput('')
-      }).on('receipt', (res: any) => {
-        console.log(res, "receipt")
-        dispatch(
-          finalizeTransaction({
-            hash: res.transactionHash,
-            chainId,
-            receipt: {
-              to: res.to,
-              from: res.from,
-              contractAddress: res.contractAddress,
-              transactionIndex: res.transactionIndex,
-              blockHash: res.blockHash,
-              transactionHash: res.transactionHash,
-              blockNumber: res.blockNumber,
-              status: 1
-            }
-          })
-        )
-        getDelegatorCardData(walletAddress)
-      }).on('error', (res: any) => {
-        console.log(res, "error")
-        setUnboundInput('')
-         setUnboundModal((preVal:any) => ({...preVal,progressValue: false, comfirmValue: true}))
-        if (res.code === 4001) {
-            console.log("user Denied")    
-        }
-      })
+    }
   }
-}
 
   return (
     <>
@@ -974,26 +974,17 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
                             <ul className="btn-grp">
 
-                              {(parseInt(item.reward) / 10 ** 18) < 1 ? (<><li className="btn-grp-lst">
-                                <button disabled className="btn grey-btn btn-small">Restake</button>
+                              <li className="btn-grp-lst">
+                                <button disabled={parseInt(item.commission) == 0 && (parseInt(item.reward) / 10 ** 18) < 1} onClick={() => handleModal('Restake', item.contractAddress)} className="btn grey-btn btn-small">Restake</button>
                               </li>
                               <li className="btn-grp-lst">
-                                <button disabled className="btn black-btn btn-small">Withdraw Rewards</button>
-                              </li></>):(<><li className="btn-grp-lst">
-                                <button disabled={parseInt(item.commission) == 0} onClick={() => handleModal('Restake', item.contractAddress)} className="btn grey-btn btn-small">Restake</button>
+                                <button disabled={(parseInt(item.reward) / 10 ** 18) < 1} onClick={() => handleModal('Withdraw Rewards', item.contractAddress)} className="btn black-btn btn-small">Withdraw Rewards</button>
                               </li>
-                              <li className="btn-grp-lst">
-                                <button onClick={() => handleModal('Withdraw Rewards', item.contractAddress)} className="btn black-btn btn-small">Withdraw Rewards</button>
-                              </li></>)}
-                              
 
-                              
-                              {(parseInt(item.stake) / 10 ** 18) <1?(<li className="btn-grp-lst">
-                                <button disabled className="btn black-btn btn-small">Unbound</button>
-                              </li>) : <li className="btn-grp-lst">
-                                <button onClick={() => handleModal('Unbound', item.validatorAddress, item.contractAddress, (parseInt(item.stake) / 10 ** 18).toFixed(4))} className="btn black-btn btn-small">Unbound</button>
-                              </li> }
-                              
+                              <li className="btn-grp-lst">
+                                <button disabled={(parseInt(item.stake) / 10 ** 18) < 1} onClick={() => handleModal('Unbound', item.validatorAddress, item.contractAddress, (parseInt(item.stake) / 10 ** 18).toFixed(4))} className="btn black-btn btn-small">Unbound</button>
+                              </li>
+
                               <li className="btn-grp-lst">
                                 <button disabled={parseInt(item.commission) == 0} onClick={() => { setSelectedRow({ owner: item.contractAddress, contractAddress: item.contractAddress, commissionPercent: item.commission, name: item.name }); setStakeMoreModal(true); }} className="btn black-btn btn-small">Stake More</button>
                               </li>
