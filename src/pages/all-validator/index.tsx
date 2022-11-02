@@ -42,13 +42,13 @@ export const Allvalidator: React.FC = () => {
     if (userType === UserType.Delegator) {
       return (
         <div className="btns-wrap">
-          <Link href="#all-validators-section">
+          <a href="#all-validators-section">
             <button
               className="btn primary-btn btn-rspc ff-mos"
             >
               Become a delegator
             </button>
-          </Link>
+          </a>
         </div>
       )
     } else if (userType === UserType.NA) {
