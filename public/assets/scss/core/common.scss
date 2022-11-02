@@ -3304,3 +3304,15 @@ input:-internal-autofill-selected {
         padding-right: 0 !important;
     }
 }
+.fix-coin-field.form-field{
+    @media #{$max-xl}{
+        height: auto;
+    }
+}
+.field-col{
+    .form-field{
+        @media #{$max-xl}{
+            height: auto;
+        } 
+    }
+}

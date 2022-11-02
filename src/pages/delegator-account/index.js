@@ -190,7 +190,7 @@ export default function DelegatorAccount() {
 
                 {/* retake popop start */}
                 <CommonModal
-                    title={"Retake"}
+                    title={"Restake"}
                     show={showvalidatorpop}
                     setShow={setvalidatorpop}
                     externalCls="stak-pop"

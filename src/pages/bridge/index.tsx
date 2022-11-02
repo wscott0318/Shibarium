@@ -2360,7 +2360,7 @@ const handleSearchList = (key :any) => {
                                     <div className="field-grid row">
                                       <div className="col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-3 mb-lg-0  res-align">
                                         <div
-                                          className="form-field position-relative fix-coin-field h-100"
+                                          className="form-field position-relative fix-coin-field"
                                           onClick={() => {
                                             setTokenModal(true);
                                             setTokenState({
@@ -2397,7 +2397,7 @@ const handleSearchList = (key :any) => {
                                         </div>
                                       </div>
                                       <div className="col-lg-6 col-xxl-7 col-sm-12 field-col">
-                                        <div className="form-field position-relative two-fld h-100">
+                                        <div className="form-field position-relative two-fld">
                                           <div className="mid-chain w-100">
                                             <input
                                               className="w-100"
