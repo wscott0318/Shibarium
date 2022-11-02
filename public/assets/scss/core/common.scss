@@ -1155,7 +1155,7 @@
         height:555px;
         // height: 590px;
         @media #{$max-sm}{
-            height:495px;
+            height:500px;
         }
         .token-listwrap {
             max-height: 255px;
@@ -2755,7 +2755,10 @@ input:-internal-autofill-selected {
                 // height: 62.5px;
                 height: auto;
                 &.tb-wdth{
-                    padding-left: 70px;
+                   
+                    @media #{$max-lg}{
+                        padding-left: 70px;
+                    }
                     @media #{$max-md}{
                         padding-left: 15px;
                     }

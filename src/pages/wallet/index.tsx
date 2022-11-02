@@ -38,9 +38,9 @@ import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import Router from "next/router";
 
 const sendInitialState = {
-  step0: false,
+  step0: true,
   step1: false,
-  step2: true,
+  step2: false,
   step3: false,
   showTokens: false
 }
@@ -349,7 +349,7 @@ export default function Wallet() {
                 : "Submitted"
             }
             showClose={false}
-            show={true}
+            show={senderModal}
             setShow={handleCloseModal}
             externalCls="dark-modal-100 walet-ht"
             setSendModal={setSendModal}
@@ -931,22 +931,16 @@ export default function Wallet() {
                                 </span>
                                 <b>{x.parentSymbol}</b> - {x.parentName}
                               </td>
-                              <td className="fix-td">
-                                <div className="d-flex align-items-center">
-                                  <span>
-                                    {(x.balance || "0.00")} -{" "}
-                                  </span>
-                                  <span>
-                                  <NumberFormat
-                                    thousandSeparator
-                                    displayType={"text"}
-                                    prefix="$ "
-                                    value={(
-                                      (x.balance || 0) * boneUSDValue
-                                    ).toFixed(2)}
-                                  />
-                                  </span>
-                                </div>
+                              <td className="fix-td d-flex align-items-center">
+                                {(x.balance || "0.00")} -{" "}
+                                <NumberFormat
+                                  thousandSeparator
+                                  displayType={"text"}
+                                  prefix="$ "
+                                  value={(
+                                    (x.balance || 0) * boneUSDValue
+                                  ).toFixed(2)}
+                                />
                               </td>
                               <td className="fix-td">
                                 {/* <Link href="/withdraw"> */}
