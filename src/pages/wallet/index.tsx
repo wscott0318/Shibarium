@@ -626,6 +626,9 @@ export default function Wallet() {
                           <a href="#">unsupported excange</a> or incorrect
                           address
                         </label>
+                        { !verifyAmount &&
+                          <p className="primary-text">Please select the checkbox then proceed</p>
+                        }
                       </div>
                     </div>
                   </div>

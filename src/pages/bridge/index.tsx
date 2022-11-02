@@ -141,7 +141,7 @@ const handleSearchList = (key :any) => {
       }
 
       const depositValidations: any = Yup.object({
-        depositAmount: Yup.number().min(0).max(selectedToken.balance).required("amount is required"), 
+        amount: Yup.number().typeError("only digits are allowed").min(0).max(selectedToken.balance).typeError("amount must be less or equal to you current balance").required("amount is required"), 
       })
 
 
@@ -249,7 +249,7 @@ const handleSearchList = (key :any) => {
       }
 
       const callDepositModal = (values:any) => {
-        setDepositTokenInput(values.depositAmount)
+        setDepositTokenInput(values.amount)
         {
           setDepModState({
             step0: true,
@@ -2311,7 +2311,7 @@ const handleSearchList = (key :any) => {
 
                             <Formik
                             initialValues={{
-                              depositAmount:''
+                              amount:''
                             }}
                             validationSchema={depositValidations}
                             onSubmit={(values, actions) => {
@@ -2403,8 +2403,8 @@ const handleSearchList = (key :any) => {
                                               className="w-100"
                                               type="text"
                                               placeholder="0.00"
-                                              value={values.depositAmount}
-                                              onChange={handleChange("depositAmount")}
+                                              value={values.amount}
+                                              onChange={handleChange("amount")}
                                             />
                                           </div>
                                           <div className="rt-chain" onClick={() => handleMax()}>
@@ -2413,7 +2413,7 @@ const handleSearchList = (key :any) => {
                                             </span>
                                           </div>
                                         </div>
-                                        {touched.depositAmount && errors.depositAmount ? <p className="primary-text pt-0 pl-2">{errors.depositAmount}</p> : null} 
+                                        {touched.amount && errors.amount ? <p className="primary-text pt-0 pl-2">{errors.amount}</p> : null} 
                                       </div>
                                     </div>
                                   </div>

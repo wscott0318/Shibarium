@@ -19,11 +19,12 @@ import WarningBtn from "../components/WarningBtn";
 import Footer from "../../pages/footer/index";
 import StakingHeader from '../staking-header'
 import { useRouter } from "next/router";
+import { NodeNextRequest } from "next/dist/server/base-http/node";
 export const Allvalidator: React.FC = () => {
   const [userType, setUserType] = useUserType();
   const myRef = useRef<any>(null)
   const router = useRouter();
-  const executeScroll = () => myRef.current.scrollIntoView()    
+  const executeScroll = () => myRef.current.scrollIntoView()
 
   // useEffect(() => {
   //   let filtered = []
@@ -37,43 +38,42 @@ export const Allvalidator: React.FC = () => {
 
   console.log(userType)
 
- const renderButtons = () => {
-  if(userType === UserType.Delegator){
-    return (
-      <div className="btns-wrap">
-        <button
-          onClick={() => {
-            router.push("/become-validator");
-          }}
-          className="btn primary-btn btn-rspc ff-mos"
-        >
-          Become a delegator
-        </button>
-      </div>
-    )
-  } else if (userType === UserType.NA) {
-    return (
-      <div className="btns-wrap">
-      <button
-        onClick={() => {
-          router.push("/become-validator");
-        }}
-        className="btn primary-btn btn-rspc ff-mos"
-      >
-        Become a Validator
-      </button>
-      <button
-        onClick={() => {
-          router.push("/choose-your-path");
-        }}
-        className="btn primary-btn btn-rspc ff-mos"
-      >
-        Choose Your Path
-      </button>
-    </div>
-    )
+  const renderButtons = () => {
+    if (userType === UserType.Delegator) {
+      return (
+        <div className="btns-wrap">
+          <Link href="#all-validators-section">
+            <button
+              className="btn primary-btn btn-rspc ff-mos"
+            >
+              Become a delegator
+            </button>
+          </Link>
+        </div>
+      )
+    } else if (userType === UserType.NA) {
+      return (
+        <div className="btns-wrap">
+          <button
+            onClick={() => {
+              router.push("/become-validator");
+            }}
+            className="btn primary-btn btn-rspc ff-mos"
+          >
+            Become a Validator
+          </button>
+          <button
+            onClick={() => {
+              router.push("/choose-your-path");
+            }}
+            className="btn primary-btn btn-rspc ff-mos"
+          >
+            Choose Your Path
+          </button>
+        </div>
+      )
+    }
   }
- }
   return (
     <>
       <div className="main-content dark-bg-800 full-vh top-space font-up ffms-inherit">
@@ -102,9 +102,9 @@ export const Allvalidator: React.FC = () => {
         </section>
         {/* banner section closed */}
 
-        <div ref={myRef} className=" ffms-inherit">
-           <Valitotors withStatusFilter={true} />
-          </div>
+        <div id="all-validators-section" ref={myRef} className=" ffms-inherit">
+          <Valitotors withStatusFilter={true} />
+        </div>
       </div>
     </>
   );
