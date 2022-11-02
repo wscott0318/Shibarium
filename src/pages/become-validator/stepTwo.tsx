@@ -60,6 +60,7 @@ function StepTwo({
     website: "",
     commission: "",
   });
+  
   console.log("Become Validate Data in Step Two", becomeValidateData);
   useEffect(() => {
     if(becomeValidateData)
