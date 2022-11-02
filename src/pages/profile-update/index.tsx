@@ -96,9 +96,12 @@ export default function ProfileUpdate() {
 
     return (
         <>
-            <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg ffms-inherit">
+            <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg ffms-inherit oh position-relative">
             <Header />
-                <section className="top_bnr_area dark-bg darkbg py-4 py-md-5">
+            <div className="shape bottom-right">
+                        <img className="img-fluid" src="../../images/shape3.png" alt="shape-img" />
+                    </div>
+                <section className="top_bnr_area dark-bg darkbg py-0">
                     <div className="container">
                         <div className="section-info ps-0 position-relative">
                             <div className="row align-items-center">
@@ -107,7 +110,7 @@ export default function ProfileUpdate() {
                                 </div>
                                 <div className="col-md-6">
                                     <div className="banner-image">
-                                        <img className="img-fluid ms-auto" src="../../images/shiba-img.png" width={350} alt="banner-img" />
+                                        <img className="img-fluid ms-auto" src="../../images/banner.png" width={450} alt="banner-img" />
                                     </div>
                                 </div>
                             </div>
@@ -115,9 +118,13 @@ export default function ProfileUpdate() {
                         </div>
                     </div>
                 </section>
-                <section className="rewards-section">
+                <section className="profile-section position-relative oh">
+                    <div className="shape shap-top-left">
+                        <img className="img-fluid" src="../../images/shape1.png" alt="shape-img" />
+                    </div>
+                    
                     <div className="container">
-                        <div className="row">
+                        <div className="row mx-0 position-relative">
                             <div className="col-lg-8 mx-auto cus-card-800 py-3 py-sm-4 py-md-5">
                                 <form onSubmit={handleSubmit}>
                                     <div className="progress-tab">

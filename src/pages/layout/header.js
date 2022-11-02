@@ -276,10 +276,10 @@ const getNetworkName = () => {
                           <NavDropdown.Item>
                             <div className="custum-row">
                               <div className="lft-img prof-icon">
-                                <img className="img-fluid" src="../../images/file-icon.png" alt="profile" width={24} />
+                                <img className="img-fluid" src="../../images/profile-round.png" alt="profile" width={32} />
                               </div>
-                              <Link href="update-profile" className="center-txt" passHref>
-                                <span>Profile</span>
+                              <Link href="update-profile"  passHref>
+                                <span className="center-txt">Profile</span>
                               </Link>
                               <div className="rt-image">
                                 <img src="../../images/rt-arow.png" alt="" />

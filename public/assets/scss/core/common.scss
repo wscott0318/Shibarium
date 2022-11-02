@@ -319,6 +319,9 @@
     margin-bottom: 25px;
     display: flex;
     align-items: center;
+    &:hover{
+        color: $primary
+    }
 }
 .key {
     width: 400px;
@@ -1650,7 +1653,7 @@
         background:$grey-color-800;
         padding: 10px;
         &::placeholder{
-            color:$black-800;
+            color:rgba($black-800,0.80);
             line-height:15px ;
             
         }
@@ -3302,5 +3305,47 @@ input:-internal-autofill-selected {
 .span-child{
     span{
         padding-right: 0 !important;
+    }
+}
+
+.oh{
+    overflow: hidden;
+}
+
+.profile-section{
+    padding-top: 100px;
+    padding-bottom: 100px;
+    @media #{$max-lg}{
+        padding-top: 75px;
+        padding-bottom: 75px;
+    }
+    @media #{$max-xsm}{
+        padding-top: 65px;
+        padding-bottom: 65px;
+    }
+}
+.shape{
+    position: absolute;
+    &.shap-top-left {
+        top: 0;
+        left: 0;
+        max-width: 224px;
+        @media #{$max-xl}{
+            max-width: 200px;
+        }
+        @media #{$max-sm}{
+            max-width: 170px;
+        }
+    }
+    &.bottom-right {
+        bottom: 0;
+        right: 0;
+        max-width: 240px;
+        @media #{$max-xl}{
+            max-width: 200px;
+        }
+        @media #{$max-sm}{
+            max-width: 170px;
+        }
     }
 }
