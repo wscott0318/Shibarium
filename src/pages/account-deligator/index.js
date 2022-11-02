@@ -143,10 +143,10 @@ export default function Account() {
                                 {/* Unbond popup fourth start */}
                                 <div className="del-tab-content">
                                     <div className="pb-3 pb-sm-4">
-                                        <h3 className="mb-3 text-center">Your unbonding period is complete. you claim your stake now .</h3>
+                                        <h3 className="mb-3 text-center">Your unbounding period is complete. you can claim your stake now.</h3>
                                         <p className="lite-text text-center lite-color fw-600">
                                             Your stake will be transferred to
-                                            <span className="d-block">0x804879077878887hshcbdb8799989hdh2</span>
+                                            <span className="d-block txt-wrp">0x804879077878887hshcbdb8799989hdh2</span>
                                         </p>
                                     </div>
                                     <div className="dark-bg-800 p-2 p-sm-3 text-center">
