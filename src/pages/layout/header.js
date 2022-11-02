@@ -278,7 +278,7 @@ const getNetworkName = () => {
                               <div className="lft-img prof-icon">
                                 <img className="img-fluid" src="../../images/profile-round.png" alt="profile" width={32} />
                               </div>
-                              <Link href="update-profile"  passHref>
+                              <Link href="profile-update"  passHref>
                                 <span className="center-txt">Profile</span>
                               </Link>
                               <div className="rt-image">
