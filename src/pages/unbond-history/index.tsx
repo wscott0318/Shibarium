@@ -334,9 +334,9 @@ export default function Unbond() {
         >
           <div className="del-tab-content">
             <div className="pb-3 pb-sm-4">
-              <h3 className="mb-3 text-center">
+              <h5 className="mb-3 text-center">
                 Your unbonding period is complete. you claim your stake now .
-              </h3>
+              </h5>
               <p className="lite-text text-center lite-color fw-600">
                 Your stake will be transferred to
                 <span className="d-block">{account}</span>
