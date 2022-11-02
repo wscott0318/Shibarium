@@ -44,6 +44,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   const [delegationsList, setDelegationsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState<any>({});
   const [stakeMore, setStakeMoreModal] = useState(false);
+  const [stakeAmounts, setStakeAmounts] = useState<any>([])
   const [restakeModal, setRestakeModal] = useState({
     value1: false,
     value2: false,
@@ -64,20 +65,23 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     stakeAmount: 0
   });
 
-  const getDelegatorCardData = (accountAddress: any) => {
+  const getDelegatorCardData = async (accountAddress: any) => {
     console.log(" card data ", accountAddress)
     setLoading(true)
     try {
       getDelegatorData(accountAddress.toLowerCase()).then((res: any) => {
         if (res.data) {
+          let newArray :any = []
           // console.log(res.data, "delegator card data")
           let sortedData = res.data.data.validators.sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake))
-            sortedData.forEach((x:any) => {
-              let stakeData = getStakeAmountDelegator(x.id, JSON.stringify(account.toLowerCase()))
-              console.log(stakeData, "delegator card data")
+            sortedData.forEach(async (x:any) => {
+              let stakeData = await getStakeAmountDelegator(+(x.id), JSON.stringify(accountAddress.toLowerCase()))
+              // console.log(stakeData, "delegator card data")
+              // setStakeAmounts([...stakeAmounts, stakeData])
             })
           setDelegationsList(sortedData)
           setLoading(false)
+          console.log(newArray)
         }
       }).catch((e: any) => {
         console.log(e);
@@ -89,6 +93,8 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       setLoading(false)
     }
   }
+
+  console.log(stakeAmounts)
 
   const handleModal = (btn: String, valAddress: any, id: any = null, stakeAmount: any = null) => {
     console.log({ btn, valAddress, id, stakeAmount })
@@ -558,7 +564,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       const validators = await queryProvider.query({
         query: StakeAmount(id, account),
       })
-      console.log(validators, " graphQL query ==== >")
+      return validators.data.delegator
   }
 
   return (
