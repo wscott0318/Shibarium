@@ -66,7 +66,7 @@ export default function Unbond() {
     },[account])
     
     const formatTimeStamp = (val:any) => {
-      return new Date(Number(val)).toLocaleString();
+      return new Date(Number(val*1000)).toLocaleString();
     }
      const router = useRouter();
      useEffect(() => {
