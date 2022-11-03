@@ -298,7 +298,7 @@ const [scroll, setScroll] = useState(false);
                               </div>
                             </div>
                           </div>
-                          <NavDropdown.Item>
+                         {userType === 'Validator' && <NavDropdown.Item>
                             <div className="custum-row">
                               <div className="lft-img prof-icon">
                                 <img
@@ -315,7 +315,7 @@ const [scroll, setScroll] = useState(false);
                                 <img src="../../images/rt-arow.png" alt="" />
                               </div>
                             </div>
-                          </NavDropdown.Item>
+                          </NavDropdown.Item>}
                           <NavDropdown.Item
                             href="javascript:void(0)"
                             onClick={() => setUserQrCode(true)}
