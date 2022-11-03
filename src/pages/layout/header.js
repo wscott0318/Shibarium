@@ -25,6 +25,7 @@ import useENSName from "app/hooks/useENSName";
 import { useNetworkModalToggle } from "../../state/application/hooks";
 import { useActiveWeb3React } from "../../services/web3";
 import NetworkModel from "../../modals/NetworkModal";
+import QrModal from "pages/components/QrModal";
 
 export default function Header() {
   const {account, active, error, library, activate, deactivate } = useWeb3React();
@@ -36,7 +37,7 @@ export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
   const [dblock, setDblock] = useState(false);
   const [userType, setUserType] = useUserType();
-
+const [userQrCode, setUserQrCode] = useState(false);
   useEffect(() => {
     if (account) {
       getUsertypeAPI(account)
@@ -298,9 +299,14 @@ const [scroll, setScroll] = useState(false);
                           <NavDropdown.Item>
                             <div className="custum-row">
                               <div className="lft-img prof-icon">
-                                <img className="img-fluid" src="../../images/file-icon.png" alt="profile" width={24} />
+                                <img
+                                  className="img-fluid"
+                                  src="../../images/file-icon.png"
+                                  alt="profile"
+                                  width={24}
+                                />
                               </div>
-                              <Link href="profile-update"  passHref>
+                              <Link href="profile-update" passHref>
                                 <span className="center-txt">Profile</span>
                               </Link>
                               <div className="rt-image">
@@ -386,6 +392,14 @@ const [scroll, setScroll] = useState(false);
           </Container>
         </Navbar>
         <NetworkModel />
+        {account && (
+          <QrModal
+            title={"My QR Code"}
+            show={userQrCode}
+            setShow={setUserQrCode}
+            address={account}
+          />
+        )}
       </header>
     </>
   );
