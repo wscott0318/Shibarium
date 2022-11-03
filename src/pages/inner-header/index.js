@@ -141,8 +141,8 @@ const InnerHeader = () => {
                           <div className="lft-img prof-icon">
                             <img className="img-fluid" src="../../images/profile-round.png" alt="profile" width={32} />
                           </div>
-                          <Link href="/profile-update"  passHref>
-                            <span className="center-txt">Profile</span>
+                          <Link href="profile-update"  passHref>
+                                <span className="center-txt">Profile</span>
                           </Link>
                           <div className="rt-image">
                             <img src="../../images/rt-arow.png" alt="" />

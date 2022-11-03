@@ -162,7 +162,7 @@ export default function DelegatorAccount() {
                                         <h3 className="mb-3 text-center">Your unbonding period is complete. you claim your stake now .</h3>
                                         <p className="lite-text text-center lite-color fw-600">
                                             Your stake will be transferred to
-                                            <span className="d-block">0x804879077878887hshcbdb8799989hdh2</span>
+                                            <span className="d-block txt-wrp">0x804879077878887hshcbdb8799989hdh2</span>
                                         </p>
                                     </div>
                                     <div className="dark-bg-800 p-2 p-sm-3 text-center">
@@ -364,7 +364,7 @@ export default function DelegatorAccount() {
                                 </div>
                                 <div className="mid_text row">
                                     <div className="col-12 text-center"><h4>Transaction in progress</h4></div>
-                                    <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction</p></div>
+                                    <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction.</p></div>
                                 </div>
 
                                 <div className="pop_btns_area row form-control mt-5">
@@ -413,7 +413,7 @@ export default function DelegatorAccount() {
                                 </div>
                                 <div className="mid_text row">
                                     <div className="col-12 text-center"><h4>Transaction in progress</h4></div>
-                                    <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction</p></div>
+                                    <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction.</p></div>
                                 </div>
 
                                 <div className="pop_btns_area row form-control mt-5">

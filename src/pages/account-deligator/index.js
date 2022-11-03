@@ -143,10 +143,10 @@ export default function Account() {
                                 {/* Unbond popup fourth start */}
                                 <div className="del-tab-content">
                                     <div className="pb-3 pb-sm-4">
-                                        <h3 className="mb-3 text-center">Your unbonding period is complete. you claim your stake now .</h3>
+                                        <h3 className="mb-3 text-center">Your unbounding period is complete. you can claim your stake now.</h3>
                                         <p className="lite-text text-center lite-color fw-600">
                                             Your stake will be transferred to
-                                            <span className="d-block">0x804879077878887hshcbdb8799989hdh2</span>
+                                            <span className="d-block txt-wrp">0x804879077878887hshcbdb8799989hdh2</span>
                                         </p>
                                     </div>
                                     <div className="dark-bg-800 p-2 p-sm-3 text-center">
@@ -320,7 +320,7 @@ export default function Account() {
                                     {/* <div className="col-12 text-center"><h4>Buy Voucher</h4></div> */}
                                     {/* <div className="col-12 text-center"><p>Completing this transaction will stake your Burn tokens and you will start earning rewards for the upcoming checkpoints.</p></div> */}
                                     {/* <div className="col-12 text-center"><h4>Transaction in progress</h4></div>
-                            <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction</p></div> */}
+                            <div className="col-12 text-center"><p>Ethereum transactions can take longer time to complete based  upon network congestion. Please wait for increase the gas price of the transaction.</p></div> */}
                                     <div className="col-12 text-center"><h4>Delegation completed</h4></div>
                                     <div className="col-12 text-center"><p>Your SHIBA tokens are staked successfully on validator. Your delegation will take 4-5 mintues to reflect in your account.</p></div>
                                 </div>
