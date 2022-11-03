@@ -2908,12 +2908,30 @@ input:-internal-autofill-selected {
     display: flex;
     align-items: center;
 }
-.lg-rt {
-    padding-left: 12px;
-    @media #{$max-sm}{
-        display: none;
+.header-overide{
+    .lg-rt {
+        padding-left: 12px;
+        @media #{$max-sm}{
+            padding-left: 5px;
+        }
+        @media #{$max-xxsml}{
+           display: none;
+        }
+        img{
+            @media #{$max-sm}{
+                width: 110px;
+            }
+            @media #{$max-xsm}{
+                width: 80px;
+            }
+            @media #{$max-xsmm}{
+                width: 60px;
+            }
+        }
+        
     }
 }
+
 .main-header.header-overide{
     .navbar-brand{
         @media #{$max-lg}{
@@ -3444,4 +3462,9 @@ input:-internal-autofill-selected {
     .table-responsive{
         min-height: 500px;
     }
+}
+.fix-ele {
+    display: block;
+    text-align: left;
+    padding-left: 50px;
 }

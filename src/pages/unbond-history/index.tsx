@@ -196,7 +196,7 @@ export default function Unbond() {
                         <th>Validator Name</th>
                         <th>Amount</th>
                         <th>Status</th>
-                        <th className="text-center time-th">Timestamp</th>
+                        <th className="text-center time-th"><span className="fix-ele">Timestamp</span></th>
                       </tr>
                     </thead>
                     <tbody>
