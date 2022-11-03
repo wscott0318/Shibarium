@@ -87,6 +87,7 @@ export default function ProfileUpdate() {
         await updateValidator(data).then((res :any) => {
           console.log(res)
           setLoader(false)
+          callValidatorInfo(values.address)
         }).catch((err:any) => {
           console.log(err)
           setLoader(false)
