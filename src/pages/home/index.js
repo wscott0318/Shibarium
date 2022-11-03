@@ -69,7 +69,7 @@ export default function Home() {
                         <a className="btn primary-btn w-100 d-block ff-mos">Launch App</a>
                       </Link>
                     </div>
-                    <div className="btn-col">
+                    <div className="btn-col d-md-block d-none">
                       {/* <a className="btn secondary-btn w-100 d-block ff-mos" href="javascript:void(0)">Develop</a> */}
                     </div>
                   </div>

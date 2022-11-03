@@ -90,7 +90,7 @@
                 margin-right: 0;
             }
             @media #{$max-md}{
-                display: none;
+                margin-right:0; 
             }
         }
     }

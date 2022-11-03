@@ -246,16 +246,6 @@ const [scroll, setScroll] = useState(false);
                         />
                       </a>
                     </Link>
-                    <Link href={"/"}>
-                      <a className="d-md-none launch-btn sw-btn">
-                        <img
-                          className="img-fluid"
-                          src="../../images/launch-app.png"
-                          alt=""
-                          width={30}
-                        />
-                      </a>
-                    </Link>
                     <NavDropdown
                       className="form-select d-none d-md-flex innerDivBgBlack hd-sel hd-sel-over"
                       title={getNetworkName()}
