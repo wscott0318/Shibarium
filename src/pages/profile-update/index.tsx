@@ -5,7 +5,7 @@ import StakingHeader from "pages/staking-header";
 import Link from 'next/link';
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { updateValidator } from "app/services/apis/network-details/networkOverview";
+import { getValidatorInfo, updateValidator } from "app/services/apis/network-details/networkOverview";
 import Web3 from "web3";
 import { useActiveWeb3React } from "app/services/web3";
 
@@ -14,16 +14,36 @@ export default function ProfileUpdate() {
 
     const { chainId = 1, account, library } = useActiveWeb3React();
     const userAccount : any = account
-    const [imageData, setImageData] = useState<any>("");
+    const [imageData, setImageData] = useState<any>('');
+    const [imageURL, setImageURL] = useState<any>('');
     const [validation, setValidation] = useState({
       image: false,
       address: false,
     });
 
+    const callValidatorInfo = async (account: any) => {
+        await getValidatorInfo(account).then((res :any) => {
+            console.log(res.data.message.val_info[0])
+            setImageURL(res.data.message.val_info[0].img)
+            setValues({
+                validatorname: res.data.message.val_info[0].validatorName,
+                address: account,
+                website: res.data.message.val_info[0].website,
+            })
+          }).catch((err:any) => {
+            console.log(err)
+          })
+    }
+    useEffect(() => {
+        if(account) {
+            callValidatorInfo(account)
+        }
+    },[account])
+
     const [initialValues, setInitialValues] = useState({
-        validatorname: "",
+        validatorname: '',
         address: userAccount,
-        website: "",
+        website: '',
       });
 
     const verifyAddress = (address: any) => {
@@ -70,7 +90,7 @@ export default function ProfileUpdate() {
           ),
       });
 
-      const { values, errors, handleBlur, handleChange, handleSubmit, touched,setValues } =
+      const { values, errors, handleBlur, handleChange, handleSubmit, touched, setValues } =
       useFormik({
         initialValues: initialValues,
         validationSchema: schema,
@@ -80,9 +100,6 @@ export default function ProfileUpdate() {
         },
       });
 
-      useEffect(() => {
-
-      },[])
 
     return (
         <>
@@ -95,12 +112,12 @@ export default function ProfileUpdate() {
                     <div className="container">
                         <div className="section-info ps-0 position-relative">
                             <div className="row align-items-center">
-                                <div className="col-md-6 text-center text-md-start">
+                                <div className="col-md-6">
                                     <h1 className="text-white trs-6 fw-500 ff-mos">Update Profile</h1>
                                 </div>
                                 <div className="col-md-6">
                                     <div className="banner-image">
-                                        <img className="img-fluid mx-auto me-md-0 ms-md-auto" src="../../images/banner.png" width={450} alt="banner-img" />
+                                        <img className="img-fluid ms-auto" src="../../images/banner.png" width={450} alt="banner-img" />
                                     </div>
                                 </div>
                             </div>
@@ -129,7 +146,7 @@ export default function ProfileUpdate() {
                                                     <div className="file-wrap">
                                                         <div className="file-icons">
                                                             <img  src={
-                                                                imageData
+                                                                    imageURL ? imageURL : imageData
                                                                     ? URL.createObjectURL(imageData.image)
                                                                     : "../../assets/images/file-icon.png"
                                                                 } alt="" className="img-fluid" width={22} />
@@ -164,12 +181,14 @@ export default function ProfileUpdate() {
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     />
-                                                   {touched.validatorname && errors.validatorname ? (
-                                                    <p className="primary-text error ff-mos">
-                                                        {errors.validatorname}
-                                                    </p>
-                                                    ) : null}
+                                                    {touched.validatorname && errors.validatorname ? (
+                                                <p className="primary-text error ff-mos">
+                                                    {/* @ts-ignore */}
+                                                    {errors.validatorname}
+                                                </p>
+                                                ) : null}
                                                 </div>
+                                                
                                             </div>
                                             <div className="col-sm-6 form-grid">
                                                 <div className="form-group">
@@ -183,10 +202,14 @@ export default function ProfileUpdate() {
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     />
-                                                    {touched.website && errors.website ? (
-                                                    <p className="primary-text error ff-mos">{errors.website}</p>
+                                                         {touched.website && errors.website ? (
+                                                    <p className="primary-text error ff-mos">
+                                                        {/* @ts-ignore */}
+                                                        {errors.website}
+                                                        </p>
                                                     ) : null}
                                                 </div>
+                                        
                                             </div>
                                             <div className="col-sm-6 form-grid">
                                                 <div className="form-group">
