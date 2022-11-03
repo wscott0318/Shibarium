@@ -98,7 +98,7 @@ export default function Login() {
                         <h2>Login</h2>
                          <Web3Status />
                        
-                        <p className='sign_up_optn'>Don’t have a wallet? <a href="#">Download here</a></p>
+                        <p className='sign_up_optn'>Don’t have a wallet? <a target="_blank" href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn">Download here</a></p>
                     </div>
                 </div>
             </div>

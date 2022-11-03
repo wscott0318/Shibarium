@@ -156,7 +156,8 @@ export default function Wallet() {
     setMenuState(!menuState);
   }
 
-  const handleSend = () => {
+  const handleSend = (e :any) => {
+    e.preventDefault()
     console.log("called handleSend")
     if (isValidAddress && sendAmount) {
       setSendModal({
@@ -563,7 +564,7 @@ export default function Wallet() {
                                   ? false
                                   : true
                               }
-                              onClick={() => handleSend()}
+                              onClick={(e) => handleSend(e)}
                               className="btn primary-btn w-100"
                             >
                               Send
@@ -800,7 +801,7 @@ export default function Wallet() {
                                 <div className="cryoto-box">
                                   <img
                                     className="img-fluid"
-                                    src="../../images/shib-borderd-icon.png"
+                                    src={x.logo ? x.logo : "../../images/shib-borderd-icon.png"}
                                     alt=""
                                   />
                                 </div>
@@ -938,7 +939,7 @@ export default function Wallet() {
                             <tr key={x.parentName}>
                               <td className="fix-td" colSpan={2}>
                                 <span className="ms-1">
-                                  <img src="../../images/shiba-round-icon.png" />
+                                  <img src={x.logo ? x.logo : "../../images/shiba-round-icon.png"} />
                                 </span>
                                 <b>{x.parentSymbol}</b> - {x.parentName}
                               </td>
