@@ -515,7 +515,9 @@ export default function Wallet() {
                                 <label className="primary-text mb-0">
                                   Insufficient balance
                                 </label>
-                              ) : null}
+                              ) : sendAmount === "" || +sendAmount <=0  ? <label className="primary-text mb-0">
+                                  Balance Required
+                                </label> : null}
                             </div>
                           </div>
                           <p className="inpt_fld_hlpr_txt">
@@ -562,7 +564,7 @@ export default function Wallet() {
                               disabled={
                                 isValidAddress &&
                                   +sendAmount < selectedToken.balance &&
-                                  selectedToken.balance > 0
+                                  selectedToken.balance > 0 && +sendAmount > 0
                                   ? false
                                   : true
                               }
@@ -1026,12 +1028,12 @@ export default function Wallet() {
                   ) : null}
                 </div>
                 {
-                slicedTokenFilteredList.length && <Pagination
+                slicedTokenFilteredList.length ?<Pagination
                   currentPage={currentPage}
                   pageSize={pageSize}
-                  totalCount={tokenFilteredList.length}
+                totalCount={tokenFilteredList.length} 
                   onPageChange={pageChangeHandler}
-                />
+                />:null
                 }
               </div>
             </div>
