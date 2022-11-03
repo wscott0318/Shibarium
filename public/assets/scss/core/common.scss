@@ -3413,3 +3413,18 @@ input:-internal-autofill-selected {
 .sw-btn{
     padding-left: 12px;
 }
+.box-al{
+    position: relative;
+    .primary-text{
+        position: absolute;
+        bottom: -35px;
+        top: 100%;
+        left: 0;
+        right: auto;
+        transform: translateY(27%);
+        -webkit-transform: translateY(27%);
+        -o-transform: translateY(27%);
+        -ms-transform: translateY(27%);
+        -moz-transform: translateY(27%);
+    }
+}
