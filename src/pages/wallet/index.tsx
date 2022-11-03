@@ -39,9 +39,9 @@ import Router from "next/router";
 import { getExplorerLink } from "app/functions";
 
 const sendInitialState = {
-  step0: false,
+  step0: true,
   step1: false,
-  step2: true,
+  step2: false,
   step3: false,
   showTokens: false
 }
@@ -353,7 +353,7 @@ export default function Wallet() {
                 : "Submitted"
             }
             showClose={false}
-            show={true}
+            show={senderModal}
             setShow={handleCloseModal}
             externalCls="dark-modal-100 walet-ht"
             setSendModal={setSendModal}
