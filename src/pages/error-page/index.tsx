@@ -18,11 +18,8 @@ export default function ErrorPage() {
                             <span className="fade-in" id="digit2">0</span>
                             <span className="fade-in" id="digit3">4</span>
                         </h1>
-                        {/* <div className="image-wrap mb-4">
-                            <img className="img-fluid" src="../../images/error.gif" alt="error-img" width={400} />
-                        </div> */}
-                        <h2 className="mb-3">Page not found</h2>
-                        <Link href="/">
+                        <h3 className="fadeIn mb-3">Page  Not Found</h3>
+                        <Link href="/" passHref>
                             <a className="btn primary-btn">Return To Home</a>
                         </Link>
                     </div>
