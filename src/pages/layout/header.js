@@ -218,7 +218,7 @@ const [scroll, setScroll] = useState(false);
                 <AppHeader />
                 {!account ? (
                   <Nav.Item className="button-wrap cus_dropdown">
-                    <Link href={"/wallet"}>
+                    {/* <Link href={"/wallet"}>
                       <a className="d-md-none launch-btn">
                         <img
                           className="img-fluid"
@@ -227,9 +227,9 @@ const [scroll, setScroll] = useState(false);
                           width={30}
                         />
                       </a>
-                    </Link>
+                    </Link> */}
                     <Link href={account ? "/wallet" : "/login"}>
-                      <a className="btn primary-btn ff-mos d-none d-md-flex">
+                      <a className="btn primary-btn ff-mos">
                         Launch App
                       </a>
                     </Link>
