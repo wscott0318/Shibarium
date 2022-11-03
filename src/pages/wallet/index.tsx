@@ -515,7 +515,9 @@ export default function Wallet() {
                                 <label className="primary-text mb-0">
                                   Insufficient balance
                                 </label>
-                              ) : null}
+                              ) : sendAmount === "" || +sendAmount <=0  ? <label className="primary-text mb-0">
+                                  Balance Required
+                                </label> : null}
                             </div>
                           </div>
                           <p className="inpt_fld_hlpr_txt">
