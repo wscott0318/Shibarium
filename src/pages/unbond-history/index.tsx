@@ -64,8 +64,8 @@ export default function Unbond() {
         unbondsHistory(account).then(res => {
             if(res.status == 200) {
                 console.log(res.data.data.result)
-                const reversed = res.data.data.result.reverse();
-                setList(reversed)
+                const decOrder = res.data.data.result.sort((a:any,b:any) => Date.parse(b.unbondStartedTimeStampFormatted) - Date.parse(a.unbondStartedTimeStampFormatted));
+                setList(decOrder)
                 setListLoader(false)
             }
         }).catch(err => {
@@ -168,6 +168,12 @@ export default function Unbond() {
         router.back();
       }
     }, [userType]);
+
+    const removeGMT = (x:any) => {
+      let lastIndex = x.lastIndexOf(" ");
+      return x.substring(0, lastIndex);
+    };
+    
     
     return (
       <>
@@ -195,104 +201,102 @@ export default function Unbond() {
                     </thead>
                     <tbody>
                       {slicedList.length ? (
-                        slicedList
-                          .reverse()
-                          .map((value: any) => (
-                            <tr key={value.unbondStartedTxHash}>
-                              <td>
-                                <div className="d-flex align-items-center">
-                                  <div className="coin-img me-2">
-                                    <img
-                                      className="img-fluid"
-                                      src="../../assets/images/bear.png"
-                                      alt="coin"
-                                      width={50}
-                                      height={50}
-                                    />
-                                  </div>
-                                  <div>
-                                    <span className="tb-data ">
-                                      {value.validatorName}
-                                    </span>
-                                  </div>
+                        slicedList.reverse().map((value: any) => (
+                          <tr key={value.unbondStartedTxHash}>
+                            <td>
+                              <div className="d-flex align-items-center">
+                                <div className="coin-img me-2">
+                                  <img
+                                    className="img-fluid"
+                                    src="../../assets/images/bear.png"
+                                    alt="coin"
+                                    width={50}
+                                    height={50}
+                                  />
                                 </div>
-                              </td>
-                              <td>
-                                <span className="tb-data align">
-                                  {parseInt(value.amount) / 10 ** 18} Bone
-                                </span>
-                                {/* <p className="mb-0 fs-12 mute-text">$8.2</p> */}
-                              </td>
-                              <td>
-                                {value.completed ? (
-                                  <>
-                                    <div className="align-items-center">
-                                      <span className="tb-data align up-text">
-                                        Success
-                                      </span>
-                                      <p className="mb-0 fs-12 primary-text mt-1">
-                                        Claimed
-                                      </p>
-                                    </div>
-                                  </>
-                                ) : value.remainingEpoch > 0 ? (
-                                  <>
-                                    <div className="">
-                                      <span className="d-block align up-text mb-1">
-                                        Wait for <b>{value.remainingEpoch}</b>{" "}
-                                        checkpoints
-                                      </span>
-                                      <button
-                                        className="primary-badge px-2"
-                                        type="button"
-                                        disabled={true}
-                                        onClick={() =>
-                                          setClamNowModals({
-                                            data: value,
-                                            confirm: true,
-                                            progress: false,
-                                            completed: false,
-                                          })
-                                        }
-                                        //  className="mb-0 fs-12 "
-                                      >
-                                        Claim Now
-                                      </button>
-                                    </div>
-                                  </>
-                                ) : (
-                                  <>
-                                    <div className="">
-                                      <span className="d-block align up-text mb-1">
-                                        Unbound period completed
-                                      </span>
-                                      <button
-                                        className="primary-badge px-2"
-                                        type="button"
-                                        onClick={() => {
-                                          console.log("called ===> ");
-                                          setClamNowModals({
-                                            data: value,
-                                            confirm: true,
-                                            progress: false,
-                                            completed: false,
-                                          });
-                                        }}
-                                        //  className="mb-0 fs-12 "
-                                      >
-                                        Claim Now
-                                      </button>
-                                    </div>
-                                  </>
-                                )}
-                              </td>
-                              <td className="text-start">
-                                <span className="tb-data align">
-                                  {value.unbondStartedTimeStampFormatted}
-                                </span>
-                              </td>
-                            </tr>
-                          ))
+                                <div>
+                                  <span className="tb-data ">
+                                    {value.validatorName}
+                                  </span>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <span className="tb-data align">
+                                {parseInt(value.amount) / 10 ** 18} Bone
+                              </span>
+                              {/* <p className="mb-0 fs-12 mute-text">$8.2</p> */}
+                            </td>
+                            <td>
+                              {value.completed ? (
+                                <>
+                                  <div className="align-items-center">
+                                    <span className="tb-data align up-text">
+                                      Success
+                                    </span>
+                                    <p className="mb-0 fs-12 primary-text mt-1">
+                                      Claimed
+                                    </p>
+                                  </div>
+                                </>
+                              ) : value.remainingEpoch > 0 ? (
+                                <>
+                                  <div className="">
+                                    <span className="d-block align up-text mb-1">
+                                      Wait for <b>{value.remainingEpoch}</b>{" "}
+                                      checkpoints
+                                    </span>
+                                    <button
+                                      className="primary-badge px-2"
+                                      type="button"
+                                      disabled={true}
+                                      onClick={() =>
+                                        setClamNowModals({
+                                          data: value,
+                                          confirm: true,
+                                          progress: false,
+                                          completed: false,
+                                        })
+                                      }
+                                      //  className="mb-0 fs-12 "
+                                    >
+                                      Claim Now
+                                    </button>
+                                  </div>
+                                </>
+                              ) : (
+                                <>
+                                  <div className="">
+                                    <span className="d-block align up-text mb-1">
+                                      Unbound period completed
+                                    </span>
+                                    <button
+                                      className="primary-badge px-2"
+                                      type="button"
+                                      onClick={() => {
+                                        console.log("called ===> ");
+                                        setClamNowModals({
+                                          data: value,
+                                          confirm: true,
+                                          progress: false,
+                                          completed: false,
+                                        });
+                                      }}
+                                      //  className="mb-0 fs-12 "
+                                    >
+                                      Claim Now
+                                    </button>
+                                  </div>
+                                </>
+                              )}
+                            </td>
+                            <td className="text-start">
+                              <span className="tb-data align">
+                                {removeGMT(value.unbondStartedTimeStampFormatted)}
+                              </span>
+                            </td>
+                          </tr>
+                        ))
                       ) : !list.length && !slicedList.length && listLoader ? (
                         <tr>
                           <td colSpan={4}>
@@ -314,12 +318,14 @@ export default function Unbond() {
                 ) : null}
               </div>
               <div className="mt-sm-4 mt-3">
-                <Pagination
-                  currentPage={currentPage}
-                  pageSize={pageSize}
-                  totalCount={list.length}
-                  onPageChange={pageChangeHandler}
-                />
+                {slicedList.length && (
+                  <Pagination
+                    currentPage={currentPage}
+                    pageSize={pageSize}
+                    totalCount={list.length}
+                    onPageChange={pageChangeHandler}
+                  />
+                )}
               </div>
             </div>
           </section>
@@ -335,7 +341,8 @@ export default function Unbond() {
           <div className="del-tab-content">
             <div className="pb-3 pb-sm-4">
               <h5 className="mb-3 text-center">
-              Your unbounding period is complete. you can claim your stake now.
+                Your unbounding period is complete. you can claim your stake
+                now.
               </h5>
               <p className="lite-text text-center lite-color fw-600">
                 Your stake will be transferred to
@@ -344,7 +351,7 @@ export default function Unbond() {
             </div>
             <div className="dark-bg-800 p-2 p-sm-3 text-center">
               <p className="lite-color fw-600">Stake to claim</p>
-              <h3>{parseInt(claimNowModals.data.amount) / 10 ** 18} Bone</h3>
+              <h3>{parseInt(claimNowModals?.data?.amount) / 10 ** 18} Bone</h3>
               {/* <p className="lite-color fw-600">$8.17</p> */}
             </div>
             {/* <div className="arrow-block mt-2 mt-sm-3">

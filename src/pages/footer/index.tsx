@@ -109,21 +109,21 @@ export default function Footer() {
                                     <h6 className='mb-2 ff-mos hd-xs'>General</h6>
                                     <ul className='footer-list'>
                                         <li className='footer-lst-item'>
-                                            <Link href="javascript:void(0)">
+                                            <Link href="javascript:void(0)" passHref>
                                                 <a className="ftr-link ff-mos">
                                                     About
                                                 </a>
                                             </Link>
                                         </li>
                                         <li className='footer-lst-item'>
-                                            <Link href="javascript:void(0)">
+                                            <Link href="javascript:void(0)" passHref>
                                                 <a className="ftr-link ff-mos">
                                                     Blog
                                                 </a>
                                             </Link>
                                         </li>
                                         <li className='footer-lst-item'>
-                                            <Link href="javascript:void(0)">
+                                            <Link href="javascript:void(0)" passHref>
                                                 <a className="ftr-link ff-mos">
                                                     Careers
                                                 </a>

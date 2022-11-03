@@ -78,6 +78,16 @@ export default function Header() {
   }
 const [userQrCode, setUserQrCode] = useState(false);
   console.log(asPath)
+
+  const getNetworkName = () => {
+    if(chainId == 1){
+      return "Ethereum Mainnet"
+    } else if (chainId == 5){
+      return "Goerli Testnet"
+    } else {
+      return "Shibarium Mainnet"
+    }
+  }
   
 
   // below is the same as componentDidMount and componentDidUnmount

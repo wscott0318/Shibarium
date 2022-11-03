@@ -964,7 +964,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                             <div className="info-block">
                               <div className="image-blk">
                                 <div>
-                                  <img className="img-fluid" src={item.logoUrl} width="69" height="70" alt="coin-icon" />
+                                  <img className="img-fluid" src={item.logoUrl ? item.logoUrl : "../../images/Shib-Logo.png" } width="69" height="70" alt="coin-icon" />
                                 </div>
                               </div>
                               <div className="grid-info text-start">

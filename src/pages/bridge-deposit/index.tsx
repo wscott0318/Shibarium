@@ -193,7 +193,7 @@ export default function Deposit() {
                         </NavDropdown>
                       </Dropdown>
                       <Nav.Item>
-                        <Link className="d-none" href={"javascript:void(0)"}>
+                        <Link className="d-none" href={"javascript:void(0)"} passHref>
                           <a
                             className="btn primary-btn d-flex align-items-center"
                             href="javascript:void(0)"

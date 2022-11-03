@@ -56,7 +56,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                           }
                         />
                       </span>
-                      <Link href={`/all-validator/${x.signer}`}>
+                      <Link href={`/all-validator/${x.signer}`} passHref>
                         <a>{x.name}</a>
                       </Link>
                       </div>

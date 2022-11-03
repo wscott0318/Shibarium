@@ -1177,7 +1177,7 @@ const handleSearchList = (key :any) => {
                               <div className="cryoto-box">
                                 <img
                                   className="img-fluid"
-                                  src="../../images/shib-borderd-icon.png"
+                                  src={x.logo ? x.logo : "../../images/shib-borderd-icon.png"}
                                   alt=""
                                 />
                               </div>
@@ -2264,7 +2264,7 @@ const handleSearchList = (key :any) => {
                           How Shibarium Works
                         </button> */}
                         <Link href="how-it-works">
-                          <a target="_blank" className="btn white-btn w-100">
+                          <a target="_blank" className="btn white-btn w-100" passHref>
                             How Shibarium Works
                           </a>
                         </Link>
