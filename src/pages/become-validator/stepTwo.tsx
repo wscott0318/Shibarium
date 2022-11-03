@@ -168,6 +168,7 @@ function StepTwo({
               <label htmlFor="" className="form-label ff-mos">
                 Validator name
               </label>
+
               <input
                 type="text"
                 className="form-control"
@@ -177,12 +178,13 @@ function StepTwo({
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-            </div>
-            {touched.validatorname && errors.validatorname ? (
+              {touched.validatorname && errors.validatorname ? (
               <p className="primary-text error ff-mos">
                 {errors.validatorname}
               </p>
             ) : null}
+            </div>
+            
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -198,10 +200,11 @@ function StepTwo({
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
+              {touched.website && errors.website ? (
+                <p className="primary-text error ff-mos">{errors.website}</p>
+              ) : null}
             </div>
-            {touched.website && errors.website ? (
-              <p className="primary-text error ff-mos">{errors.website}</p>
-            ) : null}
+
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -218,10 +221,10 @@ function StepTwo({
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
+              {validation.address ? (
+                <p className="primary-text error ff-mos">enter a valid address</p>
+                ) : null}
             </div>
-            {validation.address ? (
-              <p className="primary-text error ff-mos">enter a valid address</p>
-            ) : null}
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -237,10 +240,10 @@ function StepTwo({
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
+              {touched.publickey && errors.publickey ? (
+                <p className="primary-text error ff-mos">{errors.publickey}</p>
+              ) : null}
             </div>
-            {touched.publickey && errors.publickey ? (
-              <p className="primary-text error ff-mos">{errors.publickey}</p>
-            ) : null}
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -256,10 +259,10 @@ function StepTwo({
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-            </div>
-            {touched.commission && errors.commission ? (
+              {touched.commission && errors.commission ? (
               <p className="primary-text error ff-mos">{errors.commission}</p>
             ) : null}
+            </div>
           </div>
         </div>
         <div className="btn-wrap col-sm-5 mt-4 flx">

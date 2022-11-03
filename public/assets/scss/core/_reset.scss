@@ -415,6 +415,10 @@ ul {
         opacity: 0.8;
     }
 }
+.form-group{
+    position: relative;
+}
+
 .cmn_dasdrd_table {
     background:$body-bg;
     border-radius: 30px;
@@ -536,6 +540,7 @@ ul {
         padding:9px 20px
     }
 } 
+
 // .mr-top-50{
 //     margin-top: 50px;
 //     @media #{$max-xl}{

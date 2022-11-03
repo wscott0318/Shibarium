@@ -181,13 +181,14 @@ export default function ProfileUpdate() {
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     />
-                                                </div>
-                                                {touched.validatorname && errors.validatorname ? (
+                                                    {touched.validatorname && errors.validatorname ? (
                                                 <p className="primary-text error ff-mos">
                                                     {/* @ts-ignore */}
                                                     {errors.validatorname}
                                                 </p>
                                                 ) : null}
+                                                </div>
+                                                
                                             </div>
                                             <div className="col-sm-6 form-grid">
                                                 <div className="form-group">
@@ -201,13 +202,14 @@ export default function ProfileUpdate() {
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     />
-                                                </div>
-                                                {touched.website && errors.website ? (
+                                                         {touched.website && errors.website ? (
                                                     <p className="primary-text error ff-mos">
                                                         {/* @ts-ignore */}
                                                         {errors.website}
                                                         </p>
                                                     ) : null}
+                                                </div>
+                                        
                                             </div>
                                             <div className="col-sm-6 form-grid">
                                                 <div className="form-group">
