@@ -30,3 +30,6 @@ export function registerValidator(data :any){
 export function updateValidator(data :any){
     return http.put(`/validators/update`, data)
 }
+export function getValidatorInfo(id : string){
+    return http.get(`/validators/getValinfo?signer_Address=${id}`)
+}
