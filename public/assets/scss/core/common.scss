@@ -3274,7 +3274,16 @@ input:-internal-autofill-selected {
     color: #fff;
     /* border-left: 0.3em solid transparent; */
 }
-
+.field-col{
+    position: relative;
+    .primary-text{
+        position: absolute;
+        left: 0;
+        right: auto;
+        top: auto;
+        bottom: -30px;
+    }
+}
 .wallet-network{
     .cursor-default {
         border-color: $primary !important;
