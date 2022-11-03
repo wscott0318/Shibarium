@@ -1028,12 +1028,12 @@ export default function Wallet() {
                   ) : null}
                 </div>
                 {
-                slicedTokenFilteredList.length && <Pagination
+                slicedTokenFilteredList.length ?<Pagination
                   currentPage={currentPage}
                   pageSize={pageSize}
-                  totalCount={tokenFilteredList.length}
+                totalCount={tokenFilteredList.length} 
                   onPageChange={pageChangeHandler}
-                />
+                />:null
                 }
               </div>
             </div>
