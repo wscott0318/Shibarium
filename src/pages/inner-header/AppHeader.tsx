@@ -22,7 +22,7 @@ const AppHeader = () => {
   },[asPath])
 
   console.log(title)
-  if(asPath !== "/home")
+  if(account)
   {
     return (
       <div className="shib-dropdown">

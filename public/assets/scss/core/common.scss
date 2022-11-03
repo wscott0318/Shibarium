@@ -3440,3 +3440,8 @@ input:-internal-autofill-selected {
         -moz-transform: translateY(27%);
     }
 }
+.block-fix{
+    .table-responsive{
+        min-height: 500px;
+    }
+}
