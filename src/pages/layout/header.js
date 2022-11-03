@@ -219,7 +219,7 @@ const [scroll, setScroll] = useState(false);
                 <AppHeader />
                 {!account ? (
                   <Nav.Item className="button-wrap cus_dropdown">
-                    <Link href={"/wallet"}>
+                    <Link href={"/wallet"} passHref>
                       <a className="d-md-none launch-btn">
                         <img
                           className="img-fluid"
@@ -229,7 +229,7 @@ const [scroll, setScroll] = useState(false);
                         />
                       </a>
                     </Link>
-                    <Link href={account ? "/wallet" : "/login"}>
+                    <Link href={account ? "/wallet" : "/login"} passHref>
                       <a className="btn primary-btn ff-mos d-none d-md-flex">
                         Launch App
                       </a>
@@ -237,7 +237,8 @@ const [scroll, setScroll] = useState(false);
                   </Nav.Item>
                 ) : (
                   <Nav.Item className="button-wrap cus_dropdown">
-                    <Link href={"/"}>
+                    {/* <Link href={"/"}> */}
+                    <button onClick={toggleNetworkModal}>
                       <a className="d-md-none launch-btn">
                         <img
                           className="img-fluid"
@@ -246,7 +247,8 @@ const [scroll, setScroll] = useState(false);
                           width={30}
                         />
                       </a>
-                    </Link>
+                    </button>
+                    {/* </Link> */}
                     <NavDropdown
                       className="form-select d-none d-md-flex innerDivBgBlack hd-sel hd-sel-over"
                       title={getNetworkName()}

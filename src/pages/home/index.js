@@ -65,7 +65,7 @@ export default function Home() {
                   </p>
                   <div className='banner-btn'>
                     <div className="btn-col">
-                      <Link href={account ? '/wallet' : '/login'}>
+                      <Link href={account ? '/wallet' : '/login'} passHref>
                         <a className="btn primary-btn w-100 d-block ff-mos">Launch App</a>
                       </Link>
                     </div>
@@ -125,7 +125,7 @@ export default function Home() {
                       Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos
                       asperiores illum.
                     </p>
-                    <Link href="/withdraw">
+                    <Link href="/withdraw" passHref>
                       <a className='link ff-mos'><span>Learn More</span>
                         <img className='img-fluid' src="../../images/link-arrow.png" alt="arrow-icon" />
                       </a>
@@ -187,7 +187,7 @@ export default function Home() {
                           It is more open and powerful
                         </li>
                       </ul>
-                      <Link href="/all-validator">
+                      <Link href="/all-validator" passHref>
                         <a href="javascript:void(0)" className='btn secondary-btn ff-mos'>First Step</a>
                       </Link>
                     </div>
@@ -212,7 +212,7 @@ export default function Home() {
               <div className="row cus-row justify-content-center">
                 <div className="col-md-6 col-sm-8 cus-col">
                   <div className="cus-card card-flex">
-                    <Link href="/become-validator">
+                    <Link href="/become-validator" passHref>
                       <a className='icon-top'>
                         <img className='img-fluid' src="../../images/arrow-top.png" alt="" />
                       </a>
@@ -234,7 +234,7 @@ export default function Home() {
                 </div>
                 <div className="col-md-6 col-sm-8 cus-col">
                   <div className="cus-card card-flex">
-                    <Link href="/all-validator">
+                    <Link href="/all-validator" passHref>
                       <a className='icon-top'>
                         <img className='img-fluid' src="../../images/arrow-top.png" alt="" />
                       </a>
@@ -273,7 +273,7 @@ export default function Home() {
                       <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
                     <h4 className='shib-title mb-2 ff-mos'>
-                      <Link href="/developer-resources">
+                      <Link href="/developer-resources" passHref>
                         <a>
                           Developer Resources
                         </a>
@@ -290,7 +290,7 @@ export default function Home() {
                       <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
                     <h4 className='shib-title mb-2 ff-mos'>
-                      <Link href="/ecosystem">
+                      <Link href="/ecosystem" passHref>
                         <a>
                           Join the Ecosystem
                         </a>
@@ -307,7 +307,7 @@ export default function Home() {
                       <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
                     <h4 className='shib-title mb-2 ff-mos'>
-                      <Link href="/community">
+                      <Link href="/community" passHref>
                         <a>
                           Join the Community
                         </a>
@@ -325,7 +325,7 @@ export default function Home() {
                       <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                     </div>
                     <h4 className='shib-title mb-2 ff-mos'>
-                      <Link href="/secure-network">
+                      <Link href="/secure-network" passHref>
                         <a>
                           Secure the Network
                         </a>
@@ -348,7 +348,7 @@ export default function Home() {
             <div className="container">
               <ul className="shib-row">
                 <li className="shib-col">
-                  <Link href="/">
+                  <Link href="/" passHref>
                     <a className="shib-item">
                       <img className='img-fluid' src="../../images/icons/tw.png" alt="socail-icon" width={24} />
                       <span className="ff-mos">Twitter</span>
@@ -356,7 +356,7 @@ export default function Home() {
                   </Link>
                 </li>
                 <li className="shib-col">
-                  <Link href="javascript:void(0)" className="shib-item">
+                  <Link href="javascript:void(0)" className="shib-item" passHref>
                     <a className="shib-item">
                       <img className='img-fluid' src="../../images/icons/teli.png" alt="socail-icon" width={24} />
                       <span className="ff-mos">Telegram</span>
@@ -364,7 +364,7 @@ export default function Home() {
                   </Link>
                 </li>
                 <li className="shib-col">
-                  <Link href="javascript:void(0)" className="shib-item">
+                  <Link href="javascript:void(0)" className="shib-item" passHref>
                     <a className="shib-item">
                       <img className='img-fluid' src="../../images/icons/discord.png" alt="socail-icon" width={24} />
                       <span className="ff-mos">Discord</span>
@@ -372,7 +372,7 @@ export default function Home() {
                   </Link>
                 </li>
                 <li className="shib-col">
-                  <Link href="javascript:void(0)" className="shib-item">
+                  <Link href="javascript:void(0)" className="shib-item" passHref>
                     <a className="shib-item">
                       <img className='img-fluid' src="../../images/icons/reddit.png" alt="socail-icon" width={24} />
                       <span className="ff-mos">Reddit</span>
@@ -380,7 +380,7 @@ export default function Home() {
                   </Link>
                 </li>
                 <li className="shib-col">
-                  <Link href="javascript:void(0)" className="shib-item">
+                  <Link href="javascript:void(0)" className="shib-item" passHref>
                     <a className="shib-item">
                       <img className='img-fluid' src="../../images/icons/insta.png" alt="socail-icon" width={24} />
                       <span className="ff-mos">Instagram</span>
@@ -388,7 +388,7 @@ export default function Home() {
                   </Link>
                 </li>
                 <li className="shib-col lft-spc">
-                  <Link href="javascript:void(0)" className="shib-item">
+                  <Link href="javascript:void(0)" className="shib-item" passHref>
                     <a className="shib-item">
                       <img className='img-fluid' src="../../images/icons/ether.png" alt="socail-icon" width={24} />
                       <span className="ff-mos">Etherscan</span>

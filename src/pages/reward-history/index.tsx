@@ -168,12 +168,14 @@ export default function Unbond() {
                 ) : null}
               </div>
               <div className="mt-sm-4 mt-3">
-              <Pagination
+              { slicedList.length &&
+                <Pagination
                 currentPage={currentPage}
                 pageSize={pageSize}
                 totalCount={list.length}
                 onPageChange={pageChangeHandler}
               />
+              }
               </div>
             </div>
           </section>

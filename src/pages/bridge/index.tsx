@@ -2264,7 +2264,7 @@ const handleSearchList = (key :any) => {
                           How Shibarium Works
                         </button> */}
                         <Link href="how-it-works">
-                          <a target="_blank" className="btn white-btn w-100">
+                          <a target="_blank" className="btn white-btn w-100" passHref>
                             How Shibarium Works
                           </a>
                         </Link>

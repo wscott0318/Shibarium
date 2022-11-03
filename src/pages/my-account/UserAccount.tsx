@@ -13,7 +13,7 @@ const userAccount = ({boneUSDValue, availBalance} : {boneUSDValue : any, availBa
                             <h4 className="ff-mos"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></h4>
                             <div className="btns_sec val_all_bts row">
                                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                                    <Link href='all-validator'>
+                                    <Link href='all-validator' passHref>
                                     <a className="ff-mos btn black-btn w-100 d-block">
                                         Become a Delegator
                                     </a>
@@ -21,7 +21,7 @@ const userAccount = ({boneUSDValue, availBalance} : {boneUSDValue : any, availBa
                                     
                                 </div>
                                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                                    <Link href='become-validator'>
+                                    <Link href='become-validator' passHref>
                                     <a  className="ff-mos btn black-btn w-100 d-block">
                                         Become a Validator
                                     </a>

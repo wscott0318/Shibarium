@@ -7,7 +7,7 @@ import { Button, Container, Nav, Navbar, NavDropdown, DropdownButton, Dropdown, 
 import Popup from "../components/PopUp";
 import { ChainId } from "@shibarium/core-sdk";
 import Web3 from "web3";
-import CommonModal , {CommonModalNew} from "../components/CommonModel";
+import CommonModal, { CommonModalNew } from "../components/CommonModel";
 import InnerHeader from "../../pages/inner-header";
 // @ts-ignore
 import Link from 'next/link'
@@ -30,7 +30,7 @@ import QrModal from "../components/QrModal";
 import { getBoneUSDValue, getWalletTokenList } from "../../services/apis/validator/index";
 import NumberFormat from 'react-number-format';
 import { useSearchFilter } from "app/hooks/useSearchFilter";
-import {dynamicChaining} from "../../web3/DynamicChaining"; 
+import { dynamicChaining } from "../../web3/DynamicChaining";
 import Pagination from 'app/components/Pagination';
 // @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
@@ -46,17 +46,17 @@ const sendInitialState = {
   showTokens: false
 }
 
-export const SortData = (a: any, b: any) => { 
+export const SortData = (a: any, b: any) => {
   return (a > b)
     ? 1 : ((b > a)
-     ? -1 : 0); 
-  }
+      ? -1 : 0);
+}
 
 export default function Wallet() {
 
   const router = useRouter()
   const { chainId = 1, account, library } = useActiveWeb3React();
-  const id :any = chainId
+  const id: any = chainId
   // console.log(dynamicChaining[id].BONE)
 
   const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(ENV_CONFIGS[chainId].BONE);
@@ -87,11 +87,11 @@ export default function Wallet() {
   const searchResult = useSearchFilter(tokenList, searchKey.trim());
 
   useEffect(() => {
-    if(tokenFilteredList.length) {
-     let obj = tokenFilteredList.filter((x:any) => x.parentSymbol === 'BoneToken').map((y:any) => y)[0] 
-     setSelectedToken(obj) 
+    if (tokenFilteredList.length) {
+      let obj = tokenFilteredList.filter((x: any) => x.parentSymbol === 'BoneToken').map((y: any) => y)[0]
+      setSelectedToken(obj)
     }
-  },[tokenFilteredList, tokenList])
+  }, [tokenFilteredList, tokenList])
 
   console.log(selectedToken)
 
@@ -102,9 +102,9 @@ export default function Wallet() {
   }
 
   const getNetworkName = () => {
-    if(chainId == 1){
+    if (chainId == 1) {
       return "Ethereum Mainnet"
-    } else if (chainId == 5){
+    } else if (chainId == 5) {
       return "Goerli Testnet"
     } else {
       return "Shibarium Mainnet"
@@ -165,62 +165,64 @@ export default function Wallet() {
         step1: false,
         step2: true,
         step3: false,
-        showTokens:false
+        showTokens: false
       })
     }
   }
-    const pageSize = 4;
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const [slicedTokenFilteredList, setSliceTokenFilteredList] = useState([]);
+  const pageSize = 4;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [slicedTokenFilteredList, setSliceTokenFilteredList] = useState([]);
 
-    useEffect(() => {
-      if(tokenFilteredList.length){
-        const slicedList = tokenFilteredList.slice(0, pageSize);
+  useEffect(() => {
+    if (tokenFilteredList.length) {
+      const slicedList = tokenFilteredList.slice(0, pageSize);
       setSliceTokenFilteredList(slicedList);
-    } else if (tokenFilteredList.length === 0){
+    } else if (tokenFilteredList.length === 0) {
       setSliceTokenFilteredList([])
     } else {
       console.log("check state")
     }
 
-    }, [tokenFilteredList]);
+  }, [tokenFilteredList]);
 
-    const pageChangeHandler = (index: number) => {
-      const slicedList = tokenFilteredList.slice(
-        (index - 1) * pageSize,
-        index * pageSize
-      );
-      setSliceTokenFilteredList(slicedList);
-      setCurrentPage(index);
-    };
+  const pageChangeHandler = (index: number) => {
+    const slicedList = tokenFilteredList.sort((a: any, b: any) => {
+      return (b.balance - a.balance);
+    }).slice(
+      (index - 1) * pageSize,
+      index * pageSize
+    );
+    setSliceTokenFilteredList(slicedList);
+    setCurrentPage(index);
+  };
 
-  const handleSearchList = (key:any, type : any ='main') => {
-    if(type === 'modal'){
+  const handleSearchList = (key: any, type: any = 'main') => {
+    if (type === 'modal') {
       setmodalKeyword(key)
     } else {
-      setSearchKey(key)          
+      setSearchKey(key)
     }
-    if(key.length){
+    if (key.length) {
       let newData = tokenList.filter((name: any) => {
         return Object.values(name)
-              .join(" ")
-              .toLowerCase()
-              .includes(key.toLowerCase());
-        });
-        if(type === 'modal'){
-          setTokenModalList(newData)
-        } else {
-          setTokenFilteredList(newData)        
-          pageChangeHandler(currentPage);  
-        }
+          .join(" ")
+          .toLowerCase()
+          .includes(key.toLowerCase());
+      });
+      if (type === 'modal') {
+        setTokenModalList(newData)
+      } else {
+        setTokenFilteredList(newData)
+        pageChangeHandler(currentPage);
+      }
     } else {
-      if(type === 'modal'){
+      if (type === 'modal') {
         setTokenModalList(tokenList)
       } else {
-        setTokenFilteredList(tokenList)     
+        setTokenFilteredList(tokenList)
       }
     }
-    
+
   }
 
   console.log(tokenList, tokenFilteredList, slicedTokenFilteredList)
@@ -238,7 +240,7 @@ export default function Wallet() {
           step1: false,
           step2: false,
           step3: true,
-          showTokens:false
+          showTokens: false
         })
         dispatch(
           addTransaction({
@@ -297,24 +299,24 @@ export default function Wallet() {
   }
 
   const handleSendAmount = () => {
-    if(sendAmount > selectedToken.balance){
+    if (sendAmount > selectedToken.balance) {
       return true
-    } else if (!sendAmount){
+    } else if (!sendAmount) {
       return true
     } else {
       return false
     }
   }
-  const [sendToken,setSendToken] = useState('');
+  const [sendToken, setSendToken] = useState('');
 
-  const sendTokenWithRoute = async (x:any, type: any = "deposit") => {
+  const sendTokenWithRoute = async (x: any, type: any = "deposit") => {
     console.log("Router data for send", x)
-    localStorage.setItem("depositToken",JSON.stringify(x))
-    localStorage.setItem("bridgeType",type)
+    localStorage.setItem("depositToken", JSON.stringify(x))
+    localStorage.setItem("bridgeType", type)
     await Router.push(`/bridge`);
   }
 
-  
+
   // const cardShimmerEffects = (lines:any, gaps:any) => {
   //   return <ShimmerTitle line={lines} gap={gaps} variant="primary" />;
   // };
@@ -346,12 +348,12 @@ export default function Wallet() {
               showSendModal.step0
                 ? "Transferring funds"
                 : showSendModal.step1
-                ? "Send"
-                : showSendModal.step2
-                ? "Confirm Send"
-                : showSendModal.showTokens
-                ? "Select Token"
-                : "Submitted"
+                  ? "Send"
+                  : showSendModal.step2
+                    ? "Confirm Send"
+                    : showSendModal.showTokens
+                      ? "Select Token"
+                      : "Submitted"
             }
             showClose={false}
             show={senderModal}
@@ -416,7 +418,7 @@ export default function Wallet() {
                     </div>
                     <p className="pop_btm_txt text-center">
                       If you want to send funds between chains visit{" "}
-                      <p style={{cursor: "pointer"}} className='primary-text' onClick={() => sendTokenWithRoute(selectedToken)} >Shibarium Bridge test</p>
+                      <p style={{ cursor: "pointer" }} className='primary-text' onClick={() => sendTokenWithRoute(selectedToken)} >Shibarium Bridge test</p>
                     </p>
                   </div>
                 </div>
@@ -504,11 +506,11 @@ export default function Wallet() {
                             </div>
                             <div className="error-msg">
                               {sendAmount &&
-                              +sendAmount > selectedToken.balance &&
-                              !selectedToken ? (
+                                +sendAmount > selectedToken.balance &&
+                                !selectedToken ? (
                                 <label className="mb-0">Select token</label>
                               ) : (sendAmount &&
-                                  +sendAmount > selectedToken.balance) ||
+                                +sendAmount > selectedToken.balance) ||
                                 selectedToken?.balance <= 0 ? (
                                 <label className="primary-text mb-0">
                                   Insufficient balance
@@ -527,7 +529,7 @@ export default function Wallet() {
                                 ).toFixed(2)}
                               />
                             </span>
-                            <span style={{ cursor : 'pointer'}} onClick={() => setSendAmount(selectedToken.balance)}>
+                            <span style={{ cursor: 'pointer' }} onClick={() => setSendAmount(selectedToken.balance)}>
                               Balance:{" "}
                               {selectedToken.balance
                                 ? selectedToken.balance
@@ -559,8 +561,8 @@ export default function Wallet() {
                             <button
                               disabled={
                                 isValidAddress &&
-                                +sendAmount < selectedToken.balance &&
-                                selectedToken.balance > 0
+                                  +sendAmount < selectedToken.balance &&
+                                  selectedToken.balance > 0
                                   ? false
                                   : true
                               }
@@ -577,7 +579,7 @@ export default function Wallet() {
                   <div className="pop-bottom">
                     <p className="pop_btm_txt text-center">
                       If you want to send funds between chains visit{" "}
-                      <p style={{cursor: "pointer"}} className='primary-text' onClick={() => sendTokenWithRoute(selectedToken)} >Shibarium Bridge</p>
+                      <p style={{ cursor: "pointer" }} className='primary-text' onClick={() => sendTokenWithRoute(selectedToken)} >Shibarium Bridge</p>
                     </p>
                   </div>
                 </div>
@@ -631,7 +633,7 @@ export default function Wallet() {
                           <a href="#">unsupported excange</a> or incorrect
                           address
                         </label>
-                        { !verifyAmount &&
+                        {!verifyAmount &&
                           <p className="primary-text mt-2 mt-sm-3">Please select the checkbox then proceed</p>
                         }
                       </div>
@@ -668,7 +670,7 @@ export default function Wallet() {
                     </div>
                     <p className="pop_btm_txt text-center">
                       If you want to send funds between chains visit{" "}
-                      <p style={{cursor: "pointer"}} className='primary-text' onClick={() => sendTokenWithRoute(selectedToken)} >Shibarium Bridge</p>
+                      <p style={{ cursor: "pointer" }} className='primary-text' onClick={() => sendTokenWithRoute(selectedToken)} >Shibarium Bridge</p>
                     </p>
                   </div>
                 </div>
@@ -801,7 +803,7 @@ export default function Wallet() {
                                 <div className="cryoto-box">
                                   <img
                                     className="img-fluid"
-                                    src={x.logo ? x.logo : "../../images/shib-borderd-icon.png"}
+                                    src="../../images/shib-borderd-icon.png"
                                     alt=""
                                   />
                                 </div>
@@ -891,13 +893,13 @@ export default function Wallet() {
                 </div>
                 <div className="bal-col">
                   <div className="lrg_btns_area t_a_clm">
-                    <Link href="/">
+                    <Link href="/" passHref>
                       <a className="btn white-btn w-100 d-block">
                         Move funds from Ethereum to Shibarium
                       </a>
                     </Link>
 
-                    <Link  href="/how-it-works">
+                    <Link href="/how-it-works" passHref>
                       <a target="_blank" className="btn white-btn w-100 d-block">
                         How Shibarium works
                       </a>
@@ -978,10 +980,10 @@ export default function Wallet() {
                                   </div>
                                   <div className="col-4 px-0">
                                     {/* <Link href="/"> */}
-                                    <button className="d-block w-100 text-end" onClick={()=>{
+                                    <button className="d-block w-100 text-end" onClick={() => {
                                       setSelectedToken(x);
                                       setSenderModal(true);
-                                      }}>
+                                    }}>
                                       <a className=" px-0 me-2 hover-btn">Send</a>
                                     </button>
                                     {/* </Link> */}
@@ -1023,12 +1025,14 @@ export default function Wallet() {
                     </div>
                   ) : null}
                 </div>
-                <Pagination
+                {
+                slicedTokenFilteredList.length && <Pagination
                   currentPage={currentPage}
                   pageSize={pageSize}
                   totalCount={tokenFilteredList.length}
                   onPageChange={pageChangeHandler}
                 />
+                }
               </div>
             </div>
             {/* assets section end */}
