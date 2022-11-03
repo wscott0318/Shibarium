@@ -220,7 +220,7 @@ const [scroll, setScroll] = useState(false);
                 {!account ? (
                   <Nav.Item className="button-wrap cus_dropdown">
                     <Link href={"/wallet"} passHref>
-                      <a className="d-md-none launch-btn">
+                      <a className="d-none launch-btn">
                         <img
                           className="img-fluid"
                           src="../../images/launch-app.png"
@@ -228,9 +228,9 @@ const [scroll, setScroll] = useState(false);
                           width={30}
                         />
                       </a>
-                    </Link>
+                    </Link> 
                     <Link href={account ? "/wallet" : "/login"} passHref>
-                      <a className="btn primary-btn ff-mos d-none d-md-flex">
+                      <a className="btn primary-btn ff-mos">
                         Launch App
                       </a>
                     </Link>
@@ -238,15 +238,15 @@ const [scroll, setScroll] = useState(false);
                 ) : (
                   <Nav.Item className="button-wrap cus_dropdown">
                     {/* <Link href={"/"}> */}
-                    <button onClick={toggleNetworkModal}>
-                      <a className="d-md-none launch-btn">
+                    <button onClick={toggleNetworkModal} className="d-md-none launch-btn">
+                      
                         <img
                           className="img-fluid"
                           src="../../images/switch-icon.png"
                           alt=""
                           width={30}
                         />
-                      </a>
+                      
                     </button>
                     {/* </Link> */}
                     <NavDropdown

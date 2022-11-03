@@ -616,7 +616,7 @@ export default function Wallet() {
                       </div>
                     </div>
                     <div className="cnfrm_check_box">
-                      <div className="form-check">
+                      <div className="form-check box-al">
                         <input
                           className="form-check-input"
                           type="checkbox"
@@ -633,8 +633,8 @@ export default function Wallet() {
                           <a href="#">unsupported excange</a> or incorrect
                           address
                         </label>
-                        {!verifyAmount &&
-                          <p className="primary-text mt-2 mt-sm-3">Please select the checkbox then proceed</p>
+                        { !verifyAmount &&
+                          <p className="primary-text">Please select the checkbox then proceed</p>
                         }
                       </div>
                     </div>
