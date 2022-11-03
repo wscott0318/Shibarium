@@ -318,14 +318,14 @@ export default function Unbond() {
                 ) : null}
               </div>
               <div className="mt-sm-4 mt-3">
-                {slicedList.length && (
+                {slicedList.length ?(
                   <Pagination
                     currentPage={currentPage}
                     pageSize={pageSize}
                     totalCount={list.length}
                     onPageChange={pageChangeHandler}
                   />
-                )}
+                ):null}
               </div>
             </div>
           </section>
