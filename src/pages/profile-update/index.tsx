@@ -8,6 +8,9 @@ import * as yup from "yup";
 import { getValidatorInfo, updateValidator } from "app/services/apis/network-details/networkOverview";
 import Web3 from "web3";
 import { useActiveWeb3React } from "app/services/web3";
+import LoadingSpinner from 'pages/components/Loading';
+import { useUserType } from "app/state/user/hooks";
+import { useRouter } from "next/router";
 
 
 export default function ProfileUpdate() {
@@ -16,12 +19,17 @@ export default function ProfileUpdate() {
     const userAccount : any = account
     const [imageData, setImageData] = useState<any>('');
     const [imageURL, setImageURL] = useState<any>('');
+    const [loader, setLoader] = useState(false)
+
+    const [userType, setUserType] = useUserType();
+    const router = useRouter()
     const [validation, setValidation] = useState({
       image: false,
       address: false,
     });
 
     const callValidatorInfo = async (account: any) => {
+        setLoader(true)
         await getValidatorInfo(account).then((res :any) => {
             console.log(res.data.message.val_info[0])
             setImageURL(res.data.message.val_info[0].img)
@@ -30,15 +38,20 @@ export default function ProfileUpdate() {
                 address: account,
                 website: res.data.message.val_info[0].website,
             })
+            setLoader(false)
           }).catch((err:any) => {
             console.log(err)
           })
     }
     useEffect(() => {
-        if(account) {
-            callValidatorInfo(account)
+        if(account && userType) {
+            if(userType === 'Validator') {
+                callValidatorInfo(account)
+            } else {
+                router.push("/")
+            }
         }
-    },[account])
+    },[account, userType])
 
     const [initialValues, setInitialValues] = useState({
         validatorname: '',
@@ -53,13 +66,14 @@ export default function ProfileUpdate() {
 
     const callAPI = async (values: any) => {
         console.log(values , imageData ,"call API called");
-        if (imageData && verifyAddress(values.address)) {
+        setLoader(true)
+        if ((imageData || imageURL) && verifyAddress(values.address)) {
           setValidation({ image: false, address: false });
           console.log("1");
-        } else if (!imageData && verifyAddress(values.address)) {
+        } else if (!(imageData || imageURL) && verifyAddress(values.address)) {
           setValidation({ address: false, image: true });
           console.log("2");
-        } else if (imageData && !verifyAddress(values.address)) {
+        } else if ((imageData || imageURL) && !verifyAddress(values.address)) {
           setValidation({ image: false, address: true });
           console.log("3");
         } else {
@@ -72,8 +86,10 @@ export default function ProfileUpdate() {
         data.append("_img", imageData.image);
         await updateValidator(data).then((res :any) => {
           console.log(res)
+          setLoader(false)
         }).catch((err:any) => {
           console.log(err)
+          setLoader(false)
         })
     
       };
@@ -103,6 +119,7 @@ export default function ProfileUpdate() {
 
     return (
         <>
+        { loader && <LoadingSpinner /> }
             <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg ffms-inherit oh position-relative">
             <Header />
             <div className="shape bottom-right">
@@ -145,10 +162,8 @@ export default function ProfileUpdate() {
                                                     <label className="form-label ff-mos">Validator logo</label>
                                                     <div className="file-wrap">
                                                         <div className="file-icons">
-                                                            <img  src={
-                                                                    imageURL ? imageURL : imageData
-                                                                    ? URL.createObjectURL(imageData.image)
-                                                                    : "../../assets/images/file-icon.png"
+                                                            <img  src={ imageData ? URL.createObjectURL(imageData.image)
+                                                                    : imageURL ? imageURL : "../../assets/images/file-icon.png"
                                                                 } alt="" className="img-fluid" width={22} />
                                                         </div>
                                                         <div className="file-input">
@@ -157,7 +172,7 @@ export default function ProfileUpdate() {
                                                         className="input-file"
                                                         accept="image/*"
                                                         // @ts-ignore
-                                                        onChange={(e) => setImageData({image: e.target.files[0], name: e.target.files[0].name})}
+                                                        onChange={(e) => setImageData({image: e.target.files[0]})}
                                                         />
                                                         <a href="#!" className="form-control ff-mos">
                                                         Upload
