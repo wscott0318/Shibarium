@@ -156,7 +156,8 @@ export default function Wallet() {
     setMenuState(!menuState);
   }
 
-  const handleSend = () => {
+  const handleSend = (e :any) => {
+    e.preventDefault()
     console.log("called handleSend")
     if (isValidAddress && sendAmount) {
       setSendModal({
@@ -565,7 +566,7 @@ export default function Wallet() {
                                   ? false
                                   : true
                               }
-                              onClick={() => handleSend()}
+                              onClick={(e) => handleSend(e)}
                               className="btn primary-btn w-100"
                             >
                               Send
@@ -785,44 +786,44 @@ export default function Wallet() {
                       <div className="token-listwrap">
                         {tokenModalList
                           ? tokenModalList.map((x: any) => (
-                            <div
-                              className="tokn-row"
-                              key={x.parentName}
-                              onClick={() => {
-                                setSelectedToken(x);
-                                setSendModal({
-                                  step0: false,
-                                  step1: true,
-                                  step2: false,
-                                  step3: false,
-                                  showTokens: false,
-                                });
-                              }}
-                            >
-                              <div className="cryoto-box">
-                                <img
-                                  className="img-fluid"
-                                  src="../../images/shib-borderd-icon.png"
-                                  alt=""
-                                />
-                              </div>
-                              <div className="tkn-grid">
-                                <div>
-                                  <h6 className="fw-bold">
-                                    {x.parentSymbol}
-                                  </h6>
-                                  <p>{x.parentName}</p>
+                              <div
+                                className="tokn-row"
+                                key={x.parentName}
+                                onClick={() => {
+                                  setSelectedToken(x);
+                                  setSendModal({
+                                    step0: false,
+                                    step1: true,
+                                    step2: false,
+                                    step3: false,
+                                    showTokens: false,
+                                  });
+                                }}
+                              >
+                                <div className="cryoto-box">
+                                  <img
+                                    className="img-fluid"
+                                    src="../../images/shib-borderd-icon.png"
+                                    alt=""
+                                  />
                                 </div>
-                                <div>
-                                  <h6 className="fw-bold">
-                                    {x.balance
-                                      ? x.balance
-                                      : "00.00"}
-                                  </h6>
+                                <div className="tkn-grid">
+                                  <div>
+                                    <h6 className="fw-bold">
+                                      {x.parentSymbol}
+                                    </h6>
+                                    <p>{x.parentName}</p>
+                                  </div>
+                                  <div>
+                                    <h6 className="fw-bold">
+                                      {x.balance
+                                        ? x.balance
+                                        : "00.00"}
+                                    </h6>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          ))
+                            ))
                           : null}
                         {!tokenModalList.length && modalKeyword ? (
                           <p className="py-3 py-md-4 py-lg-5 text-center">
@@ -940,7 +941,7 @@ export default function Wallet() {
                             <tr key={x.parentName}>
                               <td className="fix-td" colSpan={2}>
                                 <span className="ms-1">
-                                  <img src="../../images/shiba-round-icon.png" />
+                                  <img src={x.logo ? x.logo : "../../images/shiba-round-icon.png"} />
                                 </span>
                                 <b>{x.parentSymbol}</b> - {x.parentName}
                               </td>

@@ -1177,7 +1177,7 @@ const handleSearchList = (key :any) => {
                               <div className="cryoto-box">
                                 <img
                                   className="img-fluid"
-                                  src="../../images/shib-borderd-icon.png"
+                                  src={x.logo ? x.logo : "../../images/shib-borderd-icon.png"}
                                   alt=""
                                 />
                               </div>
