@@ -76,7 +76,7 @@ const InnerHeader = () => {
       <header className="inner-header">
         {account && (
           <QrModal
-            title={"Restake"}
+            title={"My QR Code"}
             show={userQrCode}
             setShow={setUserQrCode}
             address={account}
