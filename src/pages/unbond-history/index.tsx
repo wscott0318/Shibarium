@@ -168,6 +168,12 @@ export default function Unbond() {
         router.back();
       }
     }, [userType]);
+
+    const removeGMT = (x:any) => {
+      let lastIndex = x.lastIndexOf(" ");
+      return x.substring(0, lastIndex);
+    };
+    
     
     return (
       <>
@@ -286,7 +292,7 @@ export default function Unbond() {
                             </td>
                             <td className="text-start">
                               <span className="tb-data align">
-                                {value.unbondStartedTimeStampFormatted}
+                                {removeGMT(value.unbondStartedTimeStampFormatted)}
                               </span>
                             </td>
                           </tr>
@@ -312,8 +318,7 @@ export default function Unbond() {
                 ) : null}
               </div>
               <div className="mt-sm-4 mt-3">
-                {
-                slicedList.length && (
+                {slicedList.length && (
                   <Pagination
                     currentPage={currentPage}
                     pageSize={pageSize}
@@ -346,7 +351,7 @@ export default function Unbond() {
             </div>
             <div className="dark-bg-800 p-2 p-sm-3 text-center">
               <p className="lite-color fw-600">Stake to claim</p>
-              <h3>{parseInt(claimNowModals.data.amount) / 10 ** 18} Bone</h3>
+              <h3>{parseInt(claimNowModals?.data?.amount) / 10 ** 18} Bone</h3>
               {/* <p className="lite-color fw-600">$8.17</p> */}
             </div>
             {/* <div className="arrow-block mt-2 mt-sm-3">
