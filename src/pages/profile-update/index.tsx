@@ -95,12 +95,12 @@ export default function ProfileUpdate() {
                     <div className="container">
                         <div className="section-info ps-0 position-relative">
                             <div className="row align-items-center">
-                                <div className="col-md-6">
+                                <div className="col-md-6 text-center text-md-start">
                                     <h1 className="text-white trs-6 fw-500 ff-mos">Update Profile</h1>
                                 </div>
                                 <div className="col-md-6">
                                     <div className="banner-image">
-                                        <img className="img-fluid ms-auto" src="../../images/banner.png" width={450} alt="banner-img" />
+                                        <img className="img-fluid mx-auto me-md-0 ms-md-auto" src="../../images/banner.png" width={450} alt="banner-img" />
                                     </div>
                                 </div>
                             </div>
@@ -164,12 +164,12 @@ export default function ProfileUpdate() {
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     />
+                                                   {touched.validatorname && errors.validatorname ? (
+                                                    <p className="primary-text error ff-mos">
+                                                        {errors.validatorname}
+                                                    </p>
+                                                    ) : null}
                                                 </div>
-                                                {touched.validatorname && errors.validatorname ? (
-                                                <p className="primary-text error ff-mos">
-                                                    {errors.validatorname}
-                                                </p>
-                                                ) : null}
                                             </div>
                                             <div className="col-sm-6 form-grid">
                                                 <div className="form-group">
@@ -183,10 +183,10 @@ export default function ProfileUpdate() {
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     />
-                                                </div>
-                                                {touched.website && errors.website ? (
+                                                    {touched.website && errors.website ? (
                                                     <p className="primary-text error ff-mos">{errors.website}</p>
                                                     ) : null}
+                                                </div>
                                             </div>
                                             <div className="col-sm-6 form-grid">
                                                 <div className="form-group">

@@ -1664,6 +1664,13 @@
             box-shadow: none;
         }
     }
+    .form-group{
+        .error{
+            position: absolute;
+            left: 0;
+            bottom: -28px;
+        }
+    }
 }
 /** become a validator step style end **/
 
@@ -2393,7 +2400,9 @@ background: $body-bg;
             color: $white;
             
         }
-        
+        ::placeholder{
+            color: rgba($white,0.89);
+        }
         
     }
     
