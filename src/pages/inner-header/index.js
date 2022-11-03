@@ -85,32 +85,31 @@ const InnerHeader = () => {
         <NetworkModel />
         <Navbar className="py-0" variant="dark">
           <Container>
-            <div className="left-widget">
-            </div>
+            <div className="left-widget"></div>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto align-items-center">
                 <AppHeader />
                 <Nav.Item className="d-flex align-items-center cus_dropdown">
-                  <Link href={"javascript:void(0)"} passHref>
-                    <a className="d-md-none swap-btn">
-                      <img
-                        className="img-fluid"
-                        src="../../images/switch-icon.png"
-                        alt=""
-                        width={30}
-                      />
-                    </a>
+                  {/* <Link href={"javascript:void(0)"} passHref> */}
+                    <button onClick={toggleNetworkModal}>
+                      <a className="d-md-none swap-btn">
+                        <img
+                          className="img-fluid"
+                          src="../../images/switch-icon.png"
+                          alt=""
+                          width={30}
+                        />
+                      </a>
                     </button>
-                  </Link>
+                  {/* </Link> */}
 
-                <NetworkButton /> 
+                  <NetworkButton />
                 </Nav.Item>
                 <Nav.Item className="btn-status">
                   <Web3Status />
                   <Dropdown className="nav-item d-flex align-items-center cus-dd mob-drop drop-cus">
-                    <div className="dot-icon" id="basic-nav-dropdown">
-                    </div>
+                    <div className="dot-icon" id="basic-nav-dropdown"></div>
                     <NavDropdown className="me-3">
                       <div className="drop-head">
                         <div className="head-brand">
@@ -138,10 +137,15 @@ const InnerHeader = () => {
                       <NavDropdown.Item>
                         <div className="custum-row">
                           <div className="lft-img prof-icon">
-                            <img className="img-fluid" src="../../images/profile-round.png" alt="profile" width={32} />
+                            <img
+                              className="img-fluid"
+                              src="../../images/profile-round.png"
+                              alt="profile"
+                              width={32}
+                            />
                           </div>
-                          <Link href="profile-update"  passHref>
-                                <span className="center-txt">Profile</span>
+                          <Link href="profile-update" passHref>
+                            <span className="center-txt">Profile</span>
                           </Link>
                           <div className="rt-image">
                             <img src="../../images/rt-arow.png" alt="" />
