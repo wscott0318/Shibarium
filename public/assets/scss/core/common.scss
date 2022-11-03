@@ -2896,6 +2896,9 @@ input:-internal-autofill-selected {
         min-height: 44px;
         display: flex;
         align-items:center;
+        @media #{$min-xxl}{
+            min-height: 48px;
+        }
         @media #{$max-xxl}{
             min-height: 40px;
         }
