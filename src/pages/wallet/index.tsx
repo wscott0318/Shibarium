@@ -564,7 +564,7 @@ export default function Wallet() {
                               disabled={
                                 isValidAddress &&
                                   +sendAmount < selectedToken.balance &&
-                                  selectedToken.balance > 0
+                                  selectedToken.balance > 0 && +sendAmount > 0
                                   ? false
                                   : true
                               }
