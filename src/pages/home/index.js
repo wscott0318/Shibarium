@@ -10,6 +10,9 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
 export default function Home() {
+  
+
+  
   // const {account}=useContext(ProjectContext)
 
   // const { active,deactivate } = useWeb3React()
@@ -38,6 +41,7 @@ export default function Home() {
   return (
     <>
       <main className="main-content">
+      
         {/* Banner section start */}
         <section className="banner-section">
           <div className="container">
