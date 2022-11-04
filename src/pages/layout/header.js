@@ -37,12 +37,14 @@ export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
   const [dblock, setDblock] = useState(false);
   const [userType, setUserType] = useUserType();
-const [userQrCode, setUserQrCode] = useState(false);
+  const [userQrCode, setUserQrCode] = useState(false);
+
   useEffect(() => {
     if (account) {
       getUsertypeAPI(account)
     }
   }, [account])
+
   const { ENSName } = useENSName(account ?? undefined);
   const copyAddress = () => {
     navigator.clipboard.writeText(account);

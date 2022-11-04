@@ -2263,8 +2263,8 @@ const handleSearchList = (key :any) => {
                         {/* <button type="button" className="btn white-btn w-100">
                           How Shibarium Works
                         </button> */}
-                        <Link href="how-it-works">
-                          <a target="_blank" className="btn white-btn w-100" passHref>
+                        <Link href="how-it-works" passHref>
+                          <a target="_blank" className="btn white-btn w-100">
                             How Shibarium Works
                           </a>
                         </Link>
@@ -2352,7 +2352,7 @@ const handleSearchList = (key :any) => {
                                             Balance:
                                           </span>
                                           <span className="fld-txt lite-800">
-                                            {selectedToken.balance ? (selectedToken?.balance+" "+selectedToken?.parentName) : "00.00"}
+                                            {selectedToken.balance ? (selectedToken?.balance) : "00.00"}
                                           </span>
                                         </div>
                                       </div>
@@ -2507,7 +2507,7 @@ const handleSearchList = (key :any) => {
                                       Balance:
                                     </span>
                                     <span className="fld-txt lite-800">
-                                    {selectedToken.balance ? (selectedToken?.balance+" "+selectedToken?.parentName) : "00.00"}
+                                    {selectedToken.balance ? (selectedToken?.balance) : "00.00"}
                                     </span>
                                   </div>
                                 </div>

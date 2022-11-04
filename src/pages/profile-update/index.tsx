@@ -48,7 +48,7 @@ export default function ProfileUpdate() {
             if(userType === 'Validator') {
                 callValidatorInfo(account)
             } else {
-                router.push("/")
+                router.back()
             }
         }
     },[account, userType])
@@ -64,6 +64,8 @@ export default function ProfileUpdate() {
         return result;
       };
 
+
+      console.log(imageData)
     const callAPI = async (values: any) => {
         console.log(values , imageData ,"call API called");
         setLoader(true)

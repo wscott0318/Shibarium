@@ -86,6 +86,8 @@ export default function Unbond() {
         if(account){
             let walletAddress = account
             let instance = new web3.eth.Contract(ValidatorShareABI, validatorContract);
+            let gasLimit = await instance.methods.unstakeClaimTokens_new(data.unbondNonce).estimateGas({ from: walletAddress })
+            console.log(gasLimit + 30000, "gas limit === >")
             await instance.methods.unstakeClaimTokens_new(data.unbondNonce).send({ from: walletAddress })
             .on('transactionHash', (res: any) => {
               console.log(res, "hash")

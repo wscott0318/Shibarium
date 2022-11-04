@@ -159,7 +159,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     let user = account;
     if (account) {
       const instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
-      const ID = await instance.methods.getValidatorId(user).call({ from: account });
+      const ID = await instance.methods.getValidatorId(user).call({ from: account }); // read
       console.log(ID)
       return ID
     } else {
@@ -174,7 +174,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     console.log("comission called ==> ")
     let validatorID = await getValidatorId()
     let instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
-    instance.methods.updateCommissionRate(validatorID, +value.comission).send({ from: account })
+    instance.methods.updateCommissionRate(validatorID, +value.comission).send({ from: account }) // write
       .on('transactionHash', (res: any) => {
         console.log(res, "hash")
         dispatch(
