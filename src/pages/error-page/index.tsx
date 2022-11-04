@@ -13,12 +13,13 @@ export default function ErrorPage() {
                 <Header />
                 <div className="error-container">
                     <div className="text-center">
-                        <h1 className="mb-3">
+                        {/* <h1 className="mb-3">
                             <span className="fade-in" id="digit1">4</span>
                             <span className="fade-in" id="digit2">0</span>
                             <span className="fade-in" id="digit3">4</span>
                         </h1>
-                        <h3 className="fadeIn mb-3">Page  Not Found</h3>
+                        <h3 className="fadeIn mb-3">Page  Not Found</h3> */}
+                        <img className='img-fluid' src="../../images/error-img.gif" alt="404-error" width={600} />
                         <Link href="/" passHref>
                             <a className="btn primary-btn">Return To Home</a>
                         </Link>
