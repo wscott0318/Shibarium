@@ -2330,7 +2330,7 @@ const handleSearchList = (key :any) => {
                                       <label className="mb-2 mb-xxl-3 mb-md-2">
                                         From
                                       </label>
-                                      <div className="form-field position-relative">
+                                      <div className="form-field position-relative txt-fix">
                                         <div className="icon-chain">
                                           <div>
                                             <img
@@ -2422,7 +2422,7 @@ const handleSearchList = (key :any) => {
                                       <label className="mb-2 mb-xxl-3 mb-md-2">
                                         To
                                       </label>
-                                      <div className="form-field position-relative">
+                                      <div className="form-field position-relative txt-fix">
                                         <div className="icon-chain">
                                           <div>
                                             <img
@@ -2483,7 +2483,7 @@ const handleSearchList = (key :any) => {
                                 <label className="mb-2 mb-xxl-3 mb-md-2">
                                   From
                                 </label>
-                                <div className="form-field position-relative">
+                                <div className="form-field position-relative txt-fix">
                                   <div className="icon-chain">
                                     <div>
                                       <img
@@ -2576,7 +2576,7 @@ const handleSearchList = (key :any) => {
                                 <label className="mb-2 mb-xxl-3 mb-md-2">
                                   To
                                 </label>
-                                <div className="form-field position-relative">
+                                <div className="form-field position-relative txt-fix">
                                   <div className="icon-chain">
                                     <div>
                                       <img

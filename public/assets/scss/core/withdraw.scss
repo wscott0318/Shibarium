@@ -198,7 +198,10 @@
     
     }
     @media #{$max-xsmm}{
-        padding: 0 55% 0 25px;
+        padding: 0 46% 0 25px;
+    }
+    @media #{$max-xxxsml}{
+        padding: 0 42% 0 25px;
     }
 }
 
@@ -213,6 +216,32 @@
 .fld-txt{
     color:$body-bg;
     font-weight: 700;
+    @media #{$max-xsmm}{
+        white-space: nowrap; 
+        width: 60px; 
+        overflow: hidden;
+        text-overflow: ellipsis; 
+        vertical-align: text-bottom; 
+        font-size: 12px;  
+    }
+    @media #{$max-xxxsml}{
+        width: 35px;
+    }
+}
+.txt-fix{
+    .rt-chain{
+        @media #{$max-xxsm}{
+            position: initial;
+            display: block;
+            margin: 17px 0 0 0;
+        }
+        .fld-txt{
+            @media #{$max-xxsm}{
+               width: 50%;
+               text-overflow: initial;
+            }
+        }  
+    }
 }
 .field-grid{
      margin-top: 15px;

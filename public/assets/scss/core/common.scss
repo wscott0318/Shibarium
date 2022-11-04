@@ -3468,3 +3468,33 @@ input:-internal-autofill-selected {
     text-align: left;
     padding-left: 50px;
 }
+.web3-fixtxt{
+    .space-x-3{
+        @media #{$max-xsmm}{
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+        .cursor-pointer{
+            @media #{$max-xsmm}{
+                display: block;
+                margin-top: 10px;  
+            }
+        }
+    }
+}
+.mob-wb-btn{
+    @media #{$max-xxsm}{
+        display: inline-block;
+        width: 47%;  
+    }
+}
+.assets_top_area{
+    .main_net_amnt {
+        .fix-value{
+            @media #{$max-xsmm}{
+                margin-bottom: 5px;  
+            }
+        }
+    }
+}
