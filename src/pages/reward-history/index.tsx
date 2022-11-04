@@ -75,6 +75,18 @@ export default function Unbond() {
        }
      }, [userType]);
 
+     var countDecimals = function (value: any) {
+       if (Math.floor(value) === value) return 0;
+       return value.toString().split(".")[1].length || 0;
+     };
+     const fixedDecimals = (num: any) => {
+       if (countDecimals(num) > 3) {
+         return (Math.round(num * 100) / 100).toFixed(6);
+       } else {
+         return num;
+       }
+     };
+
     return (
       <>
         <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space font-up ffms-inherit">
@@ -124,7 +136,7 @@ export default function Unbond() {
                             </td>
                             <td>
                               <span className="tb-data align">
-                                {parseInt(value.rewards) / Math.pow(10, 18)}{" "}
+                                {fixedDecimals(parseInt(value.rewards) / Math.pow(10, 18))}{" "}
                                 Bone
                               </span>
                               {/* <p className="mb-0 fs-12 mute-text">$8.2</p> */}
