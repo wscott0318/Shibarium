@@ -3498,3 +3498,11 @@ input:-internal-autofill-selected {
         }
     }
 }
+
+.Toastify__toast-theme--light {
+    background: #ffeee1 !important;
+    div{
+        color:#000 !important;
+    }
+ }
+
