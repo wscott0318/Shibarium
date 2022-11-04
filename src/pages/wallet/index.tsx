@@ -93,7 +93,7 @@ export default function Wallet() {
     }
   }, [tokenFilteredList, tokenList])
 
-  console.log(selectedToken)
+  // console.log(selectedToken)
 
   const verifyAddress = (address: any) => {
     let result = Web3.utils.isAddress(address)
@@ -112,7 +112,7 @@ export default function Wallet() {
   }
 
   const getTokensList = () => {
-    console.log("token list called ==> ")
+    // console.log("token list called ==> ")
     setListLoader(true)
     getWalletTokenList().then(res => {
       let list = res.data.message.tokens;
@@ -127,7 +127,7 @@ export default function Wallet() {
   }
 
 
-  console.log(tokenList)
+  // console.log(tokenList)
 
   useEffect(() => {
     if (account) {
@@ -147,18 +147,18 @@ export default function Wallet() {
   const handleChange = (e: any) => {
     setSenderAdress(e.target.value)
     const isValid = verifyAddress(e.target.value)
-    console.log(isValid)
+    // console.log(isValid)
   }
 
 
   const handleMenuState = () => {
-    console.log("called click")
+    // console.log("called click")
     setMenuState(!menuState);
   }
 
   const handleSend = (e :any) => {
     e.preventDefault()
-    console.log("called handleSend")
+    // console.log("called handleSend")
     if (isValidAddress && sendAmount) {
       setSendModal({
         step0: false,
@@ -180,7 +180,7 @@ export default function Wallet() {
     } else if (tokenFilteredList.length === 0) {
       setSliceTokenFilteredList([])
     } else {
-      console.log("check state")
+      // console.log("check state")
     }
 
   }, [tokenFilteredList]);
@@ -225,7 +225,7 @@ export default function Wallet() {
 
   }
 
-  console.log(tokenList, tokenFilteredList, slicedTokenFilteredList)
+  // console.log(tokenList, tokenFilteredList, slicedTokenFilteredList)
 
   const submitTransaction = () => {
     let user: any = account;
@@ -233,7 +233,7 @@ export default function Wallet() {
     let instance = new web3.eth.Contract(ERC20, selectedToken.parentContract);
     instance.methods.transfer(senderAddress, amount).send({ from: user })
       .on('transactionHash', (res: any) => {
-        console.log(res, "hash")
+        // console.log(res, "hash")
         setTransactionHash(res)
         setSendModal({
           step0: false,
@@ -253,7 +253,7 @@ export default function Wallet() {
         let link = getExplorerLink(chainId, res, 'transaction')
         setHashLink(link)
       }).on('receipt', (res: any) => {
-        console.log(res, "response")
+        // console.log(res, "response")
         dispatch(
           finalizeTransaction({
             hash: res.transactionHash,
@@ -294,7 +294,7 @@ export default function Wallet() {
   }
 
   const handledropDown = (x: any) => {
-    console.log(x)
+    // console.log(x)
     setSelectedToken(x)
   }
 
@@ -310,7 +310,7 @@ export default function Wallet() {
   const [sendToken, setSendToken] = useState('');
 
   const sendTokenWithRoute = async (x: any, type: any = "deposit") => {
-    console.log("Router data for send", x)
+    // console.log("Router data for send", x)
     localStorage.setItem("depositToken", JSON.stringify(x))
     localStorage.setItem("bridgeType", type)
     await Router.push(`/bridge`);

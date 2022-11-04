@@ -16,6 +16,7 @@ import AppHeader from "./AppHeader";
 import { useUserType} from "../../state/user/hooks"
 import NetworkButton from "./NetworkButton";
 import { useActiveWeb3React } from "app/services/web3";
+import { getUserType } from "app/services/apis/user/userApi";
 
 
 const InnerHeader = () => {
@@ -25,20 +26,19 @@ const InnerHeader = () => {
   const [accountAddress, setAccountAddress] = useState("")
   const [userQrCode, setUserQrCode] = useState(false);
 
+  const { chainId, account } = useActiveWeb3React();
+
   const [userType, setUserType] = useUserType();
 
   const toggleNetworkModal = useNetworkModalToggle();
   
   useEffect(() => {
-    setAccountAddress(localStorage.getItem('accounts'))
-    const onScroll = () => setOffset(window.pageYOffset);
-    // clean up code
-    window.removeEventListener('scroll', onScroll);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+    if(account) {
+      getUsertypeAPI()
+      }
+  }, [account, chainId]);
 
-  const { account,  connector, library,deactivate } = useWeb3React()
+
   const { ENSName } = useENSName(account ?? undefined);
   const [showScanpop, setScanpop] = useState(false);
 
@@ -53,12 +53,29 @@ const InnerHeader = () => {
     navigator.clipboard.writeText(account);
   }
 
+  const getUsertypeAPI = (accountAddress) => {
+    try {
+      getUserType(accountAddress.toLowerCase()).then(res => {
+        if (res.data && res.data.data) {
+          let ut = res.data.data.userType;
+          console.log(ut)
+          setUserType(ut)
+        }
+      }).catch(e => {
+        // console.log(e);
+        setUserType('NA')
+      })
+    } catch (error) {
+
+    }
+  }
+
   const logoutHandler = async () => {
     deactivate();
     await router.push("/home");
   }
   const [selectNet, setSelectNet] = useState("Shibarium Mainnet")
-  const { chainId } = useActiveWeb3React();
+
   if (!chainId) return null;
 
   const getNetworkName = () => {

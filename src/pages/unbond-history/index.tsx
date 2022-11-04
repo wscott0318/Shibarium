@@ -41,6 +41,7 @@ export default function Unbond() {
     const lib: any = library
     const web3: any = new Web3(lib?.provider)
     const [userType, setUserType] = useUserType();
+    
     const getValidatorContractAddress = async (validatorID:any) => {
         let user = account;
         if(account){
@@ -85,6 +86,8 @@ export default function Unbond() {
         if(account){
             let walletAddress = account
             let instance = new web3.eth.Contract(ValidatorShareABI, validatorContract);
+            let gasLimit = await instance.methods.unstakeClaimTokens_new(data.unbondNonce).estimateGas({ from: walletAddress })
+            console.log(gasLimit + 30000, "gas limit === >")
             await instance.methods.unstakeClaimTokens_new(data.unbondNonce).send({ from: walletAddress })
             .on('transactionHash', (res: any) => {
               console.log(res, "hash")
