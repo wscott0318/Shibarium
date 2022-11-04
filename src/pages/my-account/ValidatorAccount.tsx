@@ -64,6 +64,8 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     stakeAmount: 0
   });
 
+  console.log(chainId)
+
   const getDelegatorCardData = async (accountAddress: any) => {
     console.log(" card data ", accountAddress)
     setLoading(true)

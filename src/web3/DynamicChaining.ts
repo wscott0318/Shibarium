@@ -14,4 +14,11 @@ export const dynamicChaining :any  =
     STAKE_MANAGER: "0x98a719bD45c66c3073F6a09d9D75cea9908e6D98",
     DEPOSIT_MANAGER_PROXY: "0xbE8fa34c2ECEe22365B04F570D5C1c31B2D860DD",
    },
+   7352:{ // goerli test net
+    BONE:'',
+    PROXY_MANAGER:"",
+    VALIDATORSHARE: "",
+    STAKE_MANAGER: "",
+    DEPOSIT_MANAGER_PROXY: "",
+   },
 }
