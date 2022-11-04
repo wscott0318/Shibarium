@@ -82,7 +82,7 @@ const AccountDetails: FC<AccountDetailsProps> = ({
           </div>
           <div
             id="web3-account-identifier-row"
-            className="flex flex-col justify-center gap-4"
+            className="flex flex-col justify-center gap-4 web3-fixtxt"
           >
             <div className="flex items-center gap-4">
               <div className="overflow-hidden rounded-full">
@@ -141,6 +141,7 @@ const AccountDetails: FC<AccountDetailsProps> = ({
               variant="outlined"
               color="blue"
               size="xs"
+              className='mob-wb-btn'
               onClick={clearAllTransactionsCallback}
             >
               <span className="trs-2">{`Clear all`}</span>
