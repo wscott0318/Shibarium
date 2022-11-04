@@ -13,8 +13,8 @@ export default function developerResources() {
     
     return (
         <>
-            <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg">
             <Header />
+            <main className="main-content dark-bg-800 full-vh  cmn-input-bg">
                 <div className="py-xxl-5 py-sm-4 py-4 ffms-inherit">
                     <section className="container mb-xxl-5 mb-xl-4 mb-sm-3 mb-3">
                         <div className="d-inline-block me-2">

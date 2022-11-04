@@ -45,9 +45,9 @@ export default function DelegatorAccount() {
     //  console.log('account---------------', account)
     return (
         <>
-            <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space ffms-inherit">
-                <Header />
-                <StakingHeader />
+            <Header />
+            <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh ffms-inherit">
+                {/* <StakingHeader /> */}
 
                 {/** unbound popups start */}
                 <CommonModal

@@ -16,9 +16,9 @@ const Rewards = () => {
   const [proVal, setProVal] = useState(70);
   return (
     <>
-      <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg ffms-inherit">
       <Header />
-      <StakingHeader />
+      <main className="main-content dark-bg-800 full-vh  cmn-input-bg ffms-inherit">
+      {/* <StakingHeader /> */}
         <section className="top_bnr_area dark-bg darkbg py-4 py-md-5">
             <div className="container">
                 <h1 className="text-white trs-6 fw-500 ff-mos">Rewards Calculator</h1>

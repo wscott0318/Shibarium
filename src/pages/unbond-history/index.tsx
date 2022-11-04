@@ -180,9 +180,9 @@ export default function Unbond() {
     
     return (
       <>
-        <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space ffms-inherit">
-          <Header />
-          <StakingHeader />
+      <Header />
+        <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh ffms-inherit">
+          {/* <StakingHeader /> */}
           <section className="top_bnr_area dark-bg">
             <div className="container">
               <h1 className="ff-mos">Your Unbound History</h1>

@@ -42,9 +42,11 @@ export default function ValidatorAccount() {
     //  console.log('account---------------', account)
     return (
         <>
-            <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg">
-                <Header />
-                <StakingHeader />
+            <Header />
+            <main className="main-content dark-bg-800 full-vh  cmn-input-bg">
+                
+                {/* <StakingHeader /> */}
+                
                 {/* retake popop start */}
                 <CommonModal
                     title={"Restake"}

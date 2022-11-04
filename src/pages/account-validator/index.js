@@ -27,9 +27,9 @@ export default function Account() {
 
   return (
     <>
-      <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg">
-                <Header />
-                <StakingHeader />
+    <Header />
+      <main className="main-content dark-bg-800 full-vh  cmn-input-bg staking-main">
+                {/* <StakingHeader /> */}
                 {/* retake popop start */}
                 <CommonModal
                     title={"Restake"}

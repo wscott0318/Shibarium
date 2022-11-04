@@ -62,9 +62,10 @@ export default function ValidatorDetails() {
     
     return (
         <>
-            <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg font-up ffms-inherit">
             <Header />
-            <StakingHeader />
+            <main className="main-content dark-bg-800 full-vh  cmn-input-bg font-up ffms-inherit staking-main">
+            
+            {/* <StakingHeader /> */}
             <section className='py-4 top_bnr_area dark-bg py-lg-5'>
                     <div className="container">
                         <div className="row">

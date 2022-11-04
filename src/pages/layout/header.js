@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { Button, Container, Nav, Navbar, NavDropdown, Dropdown } from 'react-bootstrap';
+import StakingHeader from '../staking-header'
 
 import Link from "next/link";
 import Sidebar from "./sidebar";
@@ -162,7 +163,7 @@ const [scroll, setScroll] = useState(false);
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
-      setScroll(window.scrollY > 50);
+      setScroll(window.scrollY > 1);
     });
   },[])
 
@@ -404,6 +405,7 @@ const [scroll, setScroll] = useState(false);
             address={account}
           />
         )}
+        <StakingHeader />
       </header>
     </>
   );

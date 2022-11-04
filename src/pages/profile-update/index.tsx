@@ -123,7 +123,7 @@ export default function ProfileUpdate() {
     return (
         <>
         { loader && <LoadingSpinner /> }
-            <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg ffms-inherit oh position-relative">
+            <main className="main-content dark-bg-800 full-vh  cmn-input-bg ffms-inherit oh position-relative">
             <Header />
             <div className="shape bottom-right">
                         <img className="img-fluid" src="../../images/shape3.png" alt="shape-img" />

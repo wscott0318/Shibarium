@@ -128,8 +128,9 @@ const Rewards = () => {
 
   return (
     <>
-      <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg ffms-inherit">
-        <Header />
+     <Header />
+      <main className="main-content dark-bg-800 full-vh  cmn-input-bg ffms-inherit staking-main">
+        
         {/* <StakingHeader /> */}
         <section className="top_bnr_area dark-bg darkbg py-4 py-md-5 mn-ht">
           <div className="container">

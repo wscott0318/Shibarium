@@ -35,9 +35,9 @@ export default function MyAcount() {
 
   return (
     <>
-      <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space">
-          <Header />
-          <StakingHeader />
+      <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh">
+          {/* <Header /> */}
+          {/* <StakingHeader /> */}
             <section className="top_bnr_area dark-bg mn-ht">
                 <div className="container">
                     <div className="section-info"><h1 className="ff-mos">My Account</h1></div>
