@@ -51,9 +51,9 @@ export default function ProfileUpdate() {
             if(userType === 'Validator') {
                 callValidatorInfo(account)
             } 
-            // else {
-            //     router.back()
-            // }
+            else {
+                router.back()
+            }
         }
     },[account, userType])
 
@@ -132,7 +132,13 @@ export default function ProfileUpdate() {
     }
 
     const imgSizeCheck = (e: any) => {
-        e.target.files[0].size <= 204800 ? setImageData({ image: e.target.files[0] }) : setImgsize(true)
+        if(e.target.files[0].size <= 204800){
+            setImageData({ image: e.target.files[0] });
+            setImgsize(false)
+        }else{
+            setImgsize(true)
+        }
+        
     }
 
     return (
