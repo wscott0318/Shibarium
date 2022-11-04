@@ -3468,3 +3468,15 @@ input:-internal-autofill-selected {
     text-align: left;
     padding-left: 50px;
 }
+.fld-txt{
+   @media #{$max-xsmm}{
+        white-space: nowrap; 
+        width: 50px; 
+        overflow: hidden;
+        text-overflow: ellipsis; 
+        vertical-align: bottom;   
+    }
+    @media #{$max-xxxsml}{
+        width: 35px;
+    }
+}
