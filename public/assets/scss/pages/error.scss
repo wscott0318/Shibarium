@@ -74,3 +74,12 @@
         opacity: 1;
     }
 }
+.error-container .btn{
+    background-color: $primary;
+    margin-top: 50px;
+    color:$white;
+    &:hover{
+        background-color: $primary;
+         color:$white;
+    }
+}
