@@ -580,7 +580,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         showdelegatepop={stakeMore}
         setdelegatepop={() => setStakeMoreModal(false)}
       />
-      <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg">
+      <div className="main-content dark-bg-800 full-vh top-space cmn-input-bg">
         {/* retake popop start */}
         <CommonModal
           title={"Restake"}
@@ -1027,7 +1027,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
               </div>
             </section>
         }
-      </main>
+      </div>
     </>
   );
 }
