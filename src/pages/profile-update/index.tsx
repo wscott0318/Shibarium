@@ -11,6 +11,8 @@ import { useActiveWeb3React } from "app/services/web3";
 import LoadingSpinner from 'pages/components/Loading';
 import { useUserType } from "app/state/user/hooks";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function ProfileUpdate() {
@@ -27,6 +29,7 @@ export default function ProfileUpdate() {
       image: false,
       address: false,
     });
+    const [imgsize, setImgsize] = useState(false)
 
     const callValidatorInfo = async (account: any) => {
         setLoader(true)
@@ -47,9 +50,10 @@ export default function ProfileUpdate() {
         if(account && userType) {
             if(userType === 'Validator') {
                 callValidatorInfo(account)
-            } else {
-                router.back()
-            }
+            } 
+            // else {
+            //     router.back()
+            // }
         }
     },[account, userType])
 
@@ -90,6 +94,7 @@ export default function ProfileUpdate() {
           console.log(res)
           setLoader(false)
           callValidatorInfo(values.address)
+          notify()
         }).catch((err:any) => {
           console.log(err)
           setLoader(false)
@@ -119,6 +124,16 @@ export default function ProfileUpdate() {
         },
       });
 
+      const notify = () => {
+        // toast("Profile Updated successfully");
+        toast("Profile Updated successfully!", {
+            position: toast.POSITION.BOTTOM_CENTER, autoClose: 5000
+        });
+    }
+
+    const imgSizeCheck = (e: any) => {
+        e.target.files[0].size <= 204800 ? setImageData({ image: e.target.files[0] }) : setImgsize(true)
+    }
 
     return (
         <>
@@ -175,7 +190,7 @@ export default function ProfileUpdate() {
                                                         className="input-file"
                                                         accept="image/*"
                                                         // @ts-ignore
-                                                        onChange={(e) => setImageData({image: e.target.files[0]})}
+                                                        onChange={imgSizeCheck}
                                                         />
                                                         <a href="#!" className="form-control ff-mos">
                                                         Upload
@@ -183,9 +198,10 @@ export default function ProfileUpdate() {
                                                     </div>
                                                     </div>
                                                 </div>
+                                                
                                                 {validation.image ? (
                                                     <p className="primary-text error ff-mos">image is required</p>
-                                                    ) : null}
+                                                ) : imgsize ? <p className="primary-text error ff-mos" >only under 200 kb allowed</p> : null}
                                             </div>
                                             <div className="col-sm-6 form-grid">
                                                 <div className="form-group">
@@ -261,6 +277,7 @@ export default function ProfileUpdate() {
                                             <button type="submit" value="submit" className="btn primary-btn w-100">
                                                 <span className="ff-mos">Update</span>
                                             </button>
+                                            <ToastContainer />
                                         </div>
                                     </div>
                                 </form>
