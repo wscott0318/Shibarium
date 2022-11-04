@@ -19,12 +19,13 @@ export default function ErrorPage() {
                         <h3 className="fadeIn mb-3">Page  Not Found</h3> */}
             <img
               className="img-fluid"
-              src="../../images/error-img.gif"
+              src="../../images/404-img.gif"
               alt="404-error"
               width={600}
             />
+            <h5>Sorry, the page you are looking for could not be found.</h5>
             <Link href="/" passHref>
-              <a className="btn primary-btn">Return To Home</a>
+              <a className="btn">Return To Home</a>
             </Link>
           </div>
         </div>
