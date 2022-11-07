@@ -14,7 +14,7 @@ export default function ecosystem() {
     return (
         <>
             <Header />
-            <main className="main-content dark-bg-800 full-vh cmn-input-bg ffms-inherit">
+            <main className="main-content dark-bg-800 full-vh cmn-input-bg ffms-inherit staking-main">
             
                 <div className="py-xxl-5 py-sm-4 py-4">
                     <section className="container mb-xxl-5 mb-xl-4 mb-sm-3 mb-3">

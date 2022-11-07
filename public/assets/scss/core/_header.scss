@@ -420,10 +420,14 @@ body.modal-open {
             border-top: 0;
             border-left: 0;
             margin-top: -3px;
+            pointer-events: none;
             @media #{$max-xxl}{
                 width: 8px;
                 height: 8px;
             }
+            @media #{$max-xl}{
+                margin-top: -2px;
+             }
         }
     }
     

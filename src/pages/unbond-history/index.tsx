@@ -181,7 +181,7 @@ export default function Unbond() {
     return (
       <>
       <Header />
-        <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh ffms-inherit">
+        <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh ffms-inherit staking-main">
           {/* <StakingHeader /> */}
           <section className="top_bnr_area dark-bg">
             <div className="container">

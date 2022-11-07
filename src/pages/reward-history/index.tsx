@@ -78,7 +78,7 @@ export default function Unbond() {
     return (
       <>
         <Header />
-        <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh font-up ffms-inherit">
+        <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh font-up ffms-inherit staking-main">
           
           {/* <StakingHeader /> */}
 

@@ -2308,7 +2308,11 @@ background: $body-bg;
             opacity: 0.5;
             pointer-events: none;
         }
+        @media #{$max-xsmm} {
+            margin-right: 0;
+        }
     }
+    
     .page-item:last-child {
         margin-right: 0;
     }
@@ -2331,6 +2335,9 @@ background: $body-bg;
             @media #{$max-xsm} {
                 font-size: 14px;
                 padding: 5px 10px;
+            }
+            @media #{$max-xsmm} {
+                font-size: 13px;
             }
            span{
             transition: none;
@@ -2931,6 +2938,23 @@ input:-internal-autofill-selected {
         }
         
     }
+    &:after{
+        @media #{$max-xl}{
+            margin-top: -3px;   
+        }
+    }
+    .hd-sel{
+        .dropdown-toggle{
+            line-height: 16px;
+            @media #{$max-xxl}{
+                line-height: 20px;
+             }
+             @media #{$max-xl}{
+                padding: 11px 40px 11px 22px !important;
+             }
+        }
+    }
+    
 }
 
 .main-header.header-overide{
@@ -2949,7 +2973,8 @@ input:-internal-autofill-selected {
 }
 .hd-sel{
     font-size: 18px;
-    padding: 11px 22px;
+    // padding: 11px 22px;
+    padding: 0;
     border: none;
     border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -2963,11 +2988,11 @@ input:-internal-autofill-selected {
     width: 240px;
     &.hd-sel-over{
         width: 100%;
-        padding-right: 40px;
-        .nav-link {
-            padding-left: 0;
-            padding-right: 0;
-        }
+        // padding-right: 40px;
+        // .nav-link {
+        //     padding-left: 0;
+        //     padding-right: 0;
+        // }
         .dropdown-menu {
             width: 100%;
             min-width: 210px;
@@ -2979,8 +3004,16 @@ input:-internal-autofill-selected {
         }
     }
     .dropdown-toggle{
-        padding: 0;
+        // padding: 0;
+        padding: 11px 40px 11px 22px !important;
         font-size: 18px;
+        
+        
+        @media #{$max-xl}{
+           font-size: 14px;
+           padding: 12px 40px 12px 22px !important;
+        }
+        
     }
     .dropdown-menu{
         background: $body-bg-secondry !important;
@@ -3499,4 +3532,8 @@ input:-internal-autofill-selected {
         }
     }
 }
-
+.col-md-8.cus-space {
+    @media #{$max-xxsm}{
+        padding: 0; 
+    }
+}

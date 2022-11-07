@@ -38,7 +38,7 @@ export default function rewardHistoryNew() {
   //  console.log('account---------------', account)
   return (
     <>
-      <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh  font-up ffms-inherit">
+      <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh  font-up ffms-inherit staking-main">
           {/* <Header /> */}
           {/* <StakingHeader /> */}
 

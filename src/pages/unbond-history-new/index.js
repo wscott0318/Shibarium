@@ -39,7 +39,7 @@ export default function unbondHistoryNew() {
   return (
     <>
     <Header />
-      <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh ">
+      <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh staking-main">
           
           {/* <StakingHeader /> */}
 

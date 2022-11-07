@@ -76,7 +76,7 @@ export const Allvalidator: React.FC = () => {
   }
   return (
     <>
-      <div className="main-content dark-bg-800 full-vh font-up ffms-inherit">
+      <div className="main-content dark-bg-800 full-vh font-up ffms-inherit staking-main">
         {/* <StakingHeader /> */}
         {/* banner section start */}
         <section className="inner-banner dark-bg">

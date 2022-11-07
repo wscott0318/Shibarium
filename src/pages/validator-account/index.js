@@ -43,7 +43,7 @@ export default function ValidatorAccount() {
     return (
         <>
             <Header />
-            <main className="main-content dark-bg-800 full-vh  cmn-input-bg">
+            <main className="main-content dark-bg-800 full-vh  cmn-input-bg staking-main">
                 
                 {/* <StakingHeader /> */}
                 

@@ -16,7 +16,7 @@ export default function DelegatorGrid() {
   return (
     <>
     <Header />
-    <main className="main-content dark-bg-800 full-vh  cmn-input-bg delegatorgrid-sec ffms-inherit">
+    <main className="main-content dark-bg-800 full-vh  cmn-input-bg delegatorgrid-sec ffms-inherit staking-main">
       {/* <StakingHeader /> */}
         <section className="top_bnr_area dark-bg darkbg py-4 py-md-5">
             <div className="container">

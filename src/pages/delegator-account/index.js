@@ -46,7 +46,7 @@ export default function DelegatorAccount() {
     return (
         <>
             <Header />
-            <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh ffms-inherit">
+            <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh ffms-inherit staking-main">
                 {/* <StakingHeader /> */}
 
                 {/** unbound popups start */}
