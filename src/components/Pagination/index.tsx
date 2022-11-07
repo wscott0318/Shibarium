@@ -38,7 +38,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
 
     return (
       <>
-        <div className="row">
+        <div className="row ">
           <div className="col-md-4 d-flex align-items-center">
             {totalCount > 1 && (
               <span className="fw-700 text-white">
@@ -48,7 +48,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
               </span>
             )}
           </div>
-          <div className="col-md-8">
+          <div className="col-md-8 cus-space">
             <div className="cus-pagination">
               <ul className="pagination justify-content-end">
                 <li
