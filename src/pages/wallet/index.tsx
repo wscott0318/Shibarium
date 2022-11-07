@@ -348,12 +348,12 @@ export default function Wallet() {
               showSendModal.step0
                 ? "Transferring funds"
                 : showSendModal.step1
-                  ? "Send"
-                  : showSendModal.step2
-                    ? "Confirm Send"
-                    : showSendModal.showTokens
-                      ? "Select Token"
-                      : "Submitted"
+                ? "Send"
+                : showSendModal.step2
+                ? "Confirm Send"
+                : showSendModal.showTokens
+                ? "Select Token"
+                : "Submitted"
             }
             showClose={false}
             show={senderModal}
@@ -382,8 +382,12 @@ export default function Wallet() {
                           width={16}
                         />
                       </div>
-                      Sending funds to <a href="#" className="text-primary"> unsupported exchanges</a> will lead to
-                      permanent loss of funds.
+                      Sending funds to{" "}
+                      <a href="#" className="text-primary">
+                        {" "}
+                        unsupported exchanges
+                      </a>{" "}
+                      will lead to permanent loss of funds.
                     </p>
                   </div>
                   <div className="pop-bottom">
@@ -416,10 +420,16 @@ export default function Wallet() {
                         </button>
                       </div>
                     </div>
-                    <p className="pop_btm_txt text-center">
+                    <span className="pop_btm_txt text-center d-block">
                       If you want to send funds between chains visit{" "}
-                      <p style={{ cursor: "pointer" }} className='primary-text' onClick={() => sendTokenWithRoute(selectedToken)} >Shibarium Bridge test</p>
-                    </p>
+                      <p
+                        style={{ cursor: "pointer" }}
+                        className="primary-text"
+                        onClick={() => sendTokenWithRoute(selectedToken)}
+                      >
+                        Shibarium Bridge test
+                      </p>
+                    </span>
                   </div>
                 </div>
               )}
@@ -506,18 +516,20 @@ export default function Wallet() {
                             </div>
                             <div className="error-msg">
                               {sendAmount &&
-                                +sendAmount > selectedToken.balance &&
-                                !selectedToken ? (
+                              +sendAmount > selectedToken.balance &&
+                              !selectedToken ? (
                                 <label className="mb-0">Select token</label>
                               ) : (sendAmount &&
-                                +sendAmount > selectedToken.balance) ||
+                                  +sendAmount > selectedToken.balance) ||
                                 selectedToken?.balance <= 0 ? (
                                 <label className="primary-text mb-0">
                                   Insufficient balance
                                 </label>
-                              ) : sendAmount === "" || +sendAmount <=0  ? <label className="primary-text mb-0">
+                              ) : sendAmount === "" || +sendAmount <= 0 ? (
+                                <label className="primary-text mb-0">
                                   Balance Required
-                                </label> : null}
+                                </label>
+                              ) : null}
                             </div>
                           </div>
                           <p className="inpt_fld_hlpr_txt">
@@ -531,7 +543,12 @@ export default function Wallet() {
                                 ).toFixed(2)}
                               />
                             </span>
-                            <span style={{ cursor: 'pointer' }} onClick={() => setSendAmount(selectedToken.balance)}>
+                            <span
+                              style={{ cursor: "pointer" }}
+                              onClick={() =>
+                                setSendAmount(selectedToken.balance)
+                              }
+                            >
                               Balance:{" "}
                               {selectedToken.balance
                                 ? selectedToken.balance
@@ -563,8 +580,9 @@ export default function Wallet() {
                             <button
                               disabled={
                                 isValidAddress &&
-                                  +sendAmount < selectedToken.balance &&
-                                  selectedToken.balance > 0 && +sendAmount > 0
+                                +sendAmount < selectedToken.balance &&
+                                selectedToken.balance > 0 &&
+                                +sendAmount > 0
                                   ? false
                                   : true
                               }
@@ -579,10 +597,16 @@ export default function Wallet() {
                     </form>
                   </div>
                   <div className="pop-bottom">
-                    <p className="pop_btm_txt text-center">
+                    <span className="pop_btm_txt text-center d-block">
                       If you want to send funds between chains visit{" "}
-                      <p style={{ cursor: "pointer" }} className='primary-text' onClick={() => sendTokenWithRoute(selectedToken)} >Shibarium Bridge</p>
-                    </p>
+                      <p
+                        style={{ cursor: "pointer" }}
+                        className="primary-text"
+                        onClick={() => sendTokenWithRoute(selectedToken)}
+                      >
+                        Shibarium Bridge
+                      </p>
+                    </span>
                   </div>
                 </div>
               )}
@@ -635,9 +659,11 @@ export default function Wallet() {
                           <a href="#">unsupported excange</a> or incorrect
                           address
                         </label>
-                        { !verifyAmount &&
-                          <p className="primary-text">Please select the checkbox then proceed</p>
-                        }
+                        {!verifyAmount && (
+                          <p className="primary-text">
+                            Please select the checkbox then proceed
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -670,10 +696,16 @@ export default function Wallet() {
                         </button>
                       </div>
                     </div>
-                    <p className="pop_btm_txt text-center">
+                    <span className="pop_btm_txt text-center d-block">
                       If you want to send funds between chains visit{" "}
-                      <p style={{ cursor: "pointer" }} className='primary-text' onClick={() => sendTokenWithRoute(selectedToken)} >Shibarium Bridge</p>
-                    </p>
+                      <p
+                        style={{ cursor: "pointer" }}
+                        className="primary-text"
+                        onClick={() => sendTokenWithRoute(selectedToken)}
+                      >
+                        Shibarium Bridge
+                      </p>
+                    </span>
                   </div>
                 </div>
               )}
@@ -818,9 +850,7 @@ export default function Wallet() {
                                   </div>
                                   <div>
                                     <h6 className="fw-bold">
-                                      {x.balance
-                                        ? x.balance
-                                        : "00.00"}
+                                      {x.balance ? x.balance : "00.00"}
                                     </h6>
                                   </div>
                                 </div>
@@ -902,7 +932,10 @@ export default function Wallet() {
                     </Link>
 
                     <Link href="/how-it-works" passHref>
-                      <a target="_blank" className="btn white-btn w-100 d-block">
+                      <a
+                        target="_blank"
+                        className="btn white-btn w-100 d-block"
+                      >
                         How Shibarium works
                       </a>
                     </Link>
@@ -928,7 +961,9 @@ export default function Wallet() {
                                 <input
                                   className="shib-search"
                                   value={searchKey}
-                                  onChange={(e) => handleSearchList(e.target.value)}
+                                  onChange={(e) =>
+                                    handleSearchList(e.target.value)
+                                  }
                                   type="search"
                                   placeholder="Search"
                                 />
@@ -943,38 +978,52 @@ export default function Wallet() {
                             <tr key={x.parentName}>
                               <td className="fix-td" colSpan={2}>
                                 <span className="ms-1">
-                                  <img src={x.logo ? x.logo : "../../images/shiba-round-icon.png"} />
+                                  <img
+                                    src={
+                                      x.logo
+                                        ? x.logo
+                                        : "../../images/shiba-round-icon.png"
+                                    }
+                                  />
                                 </span>
                                 <b>{x.parentSymbol}</b> - {x.parentName}
                               </td>
                               <td className="fix-td">
                                 <div className="d-flex align-items-center justify-content-center">
-                                  <span>
-                                    {(x.balance || "0.00")} -{" "}
-                                  </span>
+                                  <span>{x.balance || "0.00"} - </span>
                                   <span>
                                     <NumberFormat
-                                    thousandSeparator
-                                    displayType={"text"}
-                                    prefix="$ "
-                                    value={(
-                                      (x.balance || 0) * boneUSDValue
-                                    ).toFixed(2)}
-                                  />
+                                      thousandSeparator
+                                      displayType={"text"}
+                                      prefix="$ "
+                                      value={(
+                                        (x.balance || 0) * boneUSDValue
+                                      ).toFixed(2)}
+                                    />
                                   </span>
                                 </div>
                               </td>
                               <td className="fix-td" colSpan={3}>
                                 <div className="row mx-0">
                                   <div className="col-4 px-0">
-                                      {/* <Link href="/withdraw"> */}
-                                      <button className="d-block w-100" onClick={()=>sendTokenWithRoute(x)}>
-                                        <a className="px-0 d-block hover-btn text-start">Deposit</a>
-                                      </button>
-                                      {/* </Link> */}
+                                    {/* <Link href="/withdraw"> */}
+                                    <button
+                                      className="d-block w-100"
+                                      onClick={() => sendTokenWithRoute(x)}
+                                    >
+                                      <a className="px-0 d-block hover-btn text-start">
+                                        Deposit
+                                      </a>
+                                    </button>
+                                    {/* </Link> */}
                                   </div>
                                   <div className="col-4 px-0">
-                                  <button className="d-block w-100" onClick={()=>sendTokenWithRoute(x, "withdraw")}>
+                                    <button
+                                      className="d-block w-100"
+                                      onClick={() =>
+                                        sendTokenWithRoute(x, "withdraw")
+                                      }
+                                    >
                                       <a className=" px-0 d-block text-center hover-btn">
                                         Withdraw
                                       </a>
@@ -982,11 +1031,16 @@ export default function Wallet() {
                                   </div>
                                   <div className="col-4 px-0">
                                     {/* <Link href="/"> */}
-                                    <button className="d-block w-100 text-end" onClick={() => {
-                                      setSelectedToken(x);
-                                      setSenderModal(true);
-                                    }}>
-                                      <a className=" px-0 me-2 hover-btn">Send</a>
+                                    <button
+                                      className="d-block w-100 text-end"
+                                      onClick={() => {
+                                        setSelectedToken(x);
+                                        setSenderModal(true);
+                                      }}
+                                    >
+                                      <a className=" px-0 me-2 hover-btn">
+                                        Send
+                                      </a>
                                     </button>
                                     {/* </Link> */}
                                   </div>
@@ -994,7 +1048,9 @@ export default function Wallet() {
                               </td>
                             </tr>
                           ))
-                        ) : listLoader && !searchKey.length && !tokenFilteredList.length ? (
+                        ) : listLoader &&
+                          !searchKey.length &&
+                          !tokenFilteredList.length ? (
                           <tr>
                             <td colSpan={6}>
                               <DynamicShimmer
@@ -1027,14 +1083,14 @@ export default function Wallet() {
                     </div>
                   ) : null}
                 </div>
-                {
-                slicedTokenFilteredList.length ?<Pagination
-                  currentPage={currentPage}
-                  pageSize={pageSize}
-                totalCount={tokenFilteredList.length} 
-                  onPageChange={pageChangeHandler}
-                />:null
-                }
+                {slicedTokenFilteredList.length ? (
+                  <Pagination
+                    currentPage={currentPage}
+                    pageSize={pageSize}
+                    totalCount={tokenFilteredList.length}
+                    onPageChange={pageChangeHandler}
+                  />
+                ) : null}
               </div>
             </div>
             {/* assets section end */}
