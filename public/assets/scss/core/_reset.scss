@@ -16,7 +16,7 @@
 }
   
 html, body {
-    // height: 100%;
+    height: 100%;
     width: 100%;
     font-family: 'Open Sans';
 }
@@ -29,7 +29,7 @@ body{
     margin: 0;
     padding: 0;
     line-height: 1.5;
-    min-height: 100%;
+    // min-height: 100%;
     background-color:$body-bg;
     @media #{$max-xxl}{
         font-size: 16px;
@@ -662,6 +662,9 @@ input{
 }
 label{
     font-size: 16px;
+    @media #{$max-xsm}{
+        font-size: 14px;  
+      }
 }
 
 body {
