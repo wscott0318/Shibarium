@@ -1,19 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useRef, useState } from "react";
-
-import Link from "next/link";
-// import { validators, validatorsList } from "../service/validator";
-import { useWeb3React } from "@web3-react/core";
-import ProjectContext from "../../context/ProjectContext";
-import Footer from "../../pages/footer/index"
+import { getValidatorInfo } from "../../services/apis/network-details/networkOverview";
 import { useActiveWeb3React } from "../../services/web3"
-import CommonModal from "../components/CommonModel";
-import StakingHeader from '../staking-header';
 import Header from "../layout/header";
 import StepOne from "./stepOne";
 import StepTwo from "./stepTwo";
 import StepThree from "./stepThree";
 import StepFour from "./stepFour";
+import { useEffect } from "react";
 
 const Rewards = () => {
   const refName = useRef();
@@ -22,6 +16,12 @@ const Rewards = () => {
 
   
   const { chainId = 1, account, library } = useActiveWeb3React();
+
+
+  useEffect(() => {
+
+  },[account])
+  
   const userAddress = account
   const [activInput, setActivInput] = useState({
     name: false,
@@ -125,6 +125,22 @@ const Rewards = () => {
     }
   }
   }
+
+  const callValidatorInfo = async (account) => {
+    setLoader(true)
+    await getValidatorInfo(account).then((res) => {
+        console.log(res.data.message.val_info[0])
+        setImageURL(res.data.message.val_info[0].img)
+        setValues({
+            validatorname: res.data.message.val_info[0].validatorName,
+            address: account,
+            website: res.data.message.val_info[0].website,
+        })
+        setLoader(false)
+    }).catch((err) => {
+        console.log(err)
+    })
+}
 
   return (
     <>
