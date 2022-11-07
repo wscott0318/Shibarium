@@ -66,7 +66,7 @@ export default function Header() {
       getUserType(accountAddress.toLowerCase()).then(res => {
         if (res.data && res.data.data) {
           let ut = res.data.data.userType;
-          console.log(ut)
+          // console.log(ut)
           setUserType(ut)
         }
       }).catch(e => {
@@ -78,7 +78,7 @@ export default function Header() {
     }
   }
 const toggleNetworkModal = useNetworkModalToggle();
-  console.log(userType)
+  // console.log(userType)
   
   useEffect(() => {
     const { ethereum } = window

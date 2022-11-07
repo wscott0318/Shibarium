@@ -352,7 +352,7 @@ export default function Home() {
             <div className="container">
               <ul className="shib-row">
                 <li className="shib-col">
-                  <Link href="/" passHref>
+                  <Link href="javascript:void(0)" passHref>
                     <a className="shib-item">
                       <img className='img-fluid' src="../../images/icons/tw.png" alt="socail-icon" width={24} />
                       <span className="ff-mos">Twitter</span>

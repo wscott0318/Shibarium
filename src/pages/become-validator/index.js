@@ -42,7 +42,7 @@ const Rewards = () => {
     website: "",
     commission: "",
   });
-  console.log("Become Validate Data in Parent",becomeValidateData)
+  // console.log("Become Validate Data in Parent",becomeValidateData)
   
   const handleEdit = (value) => {
     switch (value) {

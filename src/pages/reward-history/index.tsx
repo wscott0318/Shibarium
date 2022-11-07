@@ -25,7 +25,7 @@ export default function Unbond() {
     const getRewardsList = (account :any) => {
         unbondRewards(account).then((res: any) => {
             if(res.status == 200) {
-                console.log(res.data.result);
+                // console.log(res.data.result);
                 
                 const decOrder = res.data.result.sort(
                   (a: any, b: any) =>
@@ -56,7 +56,7 @@ export default function Unbond() {
       } else if (list.length === 0) {
         setSlicedList([]);
       } else {
-        console.log("check state");
+        // console.log("check state");
       }
     }, [list]);
     useEffect(() => {
@@ -114,8 +114,8 @@ export default function Unbond() {
                     </thead>
                     <tbody>
                       {slicedList.length ? (
-                        slicedList.reverse().map((value: any) => (
-                        <tr>
+                        slicedList.reverse().map((value: any, index: any) => (
+                          <tr key={index}>
                             <td>
                               <div className="d-flex align-items-center">
                                 <div className="coin-img me-2">
@@ -128,15 +128,17 @@ export default function Unbond() {
                                   />
                                 </div>
                                 <div>
-                                <span className="tb-data">
-                                  {value.validatorId}
-                                </span>
+                                  <span className="tb-data">
+                                    {value.validatorId}
+                                  </span>
                                 </div>
                               </div>
                             </td>
                             <td>
                               <span className="tb-data align">
-                                {fixedDecimals(parseInt(value.rewards) / Math.pow(10, 18))}{" "}
+                                {fixedDecimals(
+                                  parseInt(value.rewards) / Math.pow(10, 18)
+                                )}{" "}
                                 Bone
                               </span>
                               {/* <p className="mb-0 fs-12 mute-text">$8.2</p> */}
@@ -180,14 +182,14 @@ export default function Unbond() {
                 ) : null}
               </div>
               <div className="mt-sm-4 mt-3">
-              { slicedList.length ?
-                <Pagination
-                currentPage={currentPage}
-                pageSize={pageSize}
-                totalCount={list.length}
-                onPageChange={pageChangeHandler}
-              /> : null
-              }
+                {slicedList.length ? (
+                  <Pagination
+                    currentPage={currentPage}
+                    pageSize={pageSize}
+                    totalCount={list.length}
+                    onPageChange={pageChangeHandler}
+                  />
+                ) : null}
               </div>
             </div>
           </section>

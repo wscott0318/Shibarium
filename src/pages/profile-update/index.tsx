@@ -69,19 +69,19 @@ export default function ProfileUpdate() {
     };
 
 
-    console.log(imageData)
+    // console.log(imageData)
     const callAPI = async (values: any) => {
-        console.log(values, imageData, "call API called");
+        // console.log(values, imageData, "call API called");
         setLoader(true)
         if ((imageData || imageURL) && verifyAddress(values.address)) {
             setValidation({ image: false, address: false });
-            console.log("1");
+            // console.log("1");
         } else if (!(imageData || imageURL) && verifyAddress(values.address)) {
             setValidation({ address: false, image: true });
-            console.log("2");
+            // console.log("2");
         } else if ((imageData || imageURL) && !verifyAddress(values.address)) {
             setValidation({ image: false, address: true });
-            console.log("3");
+            // console.log("3");
         }
         else {
             setValidation({ image: true, address: true });

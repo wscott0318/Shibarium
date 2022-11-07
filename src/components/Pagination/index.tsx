@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import { NavLink } from 'react-bootstrap';
 
 interface Entites {
     totalCount: number;
@@ -53,13 +54,18 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
                 <li
                   className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
                 >
-                  <a
+                  {/* <a className="page-link" href="#!" onClick={onPrevious}>
+                    <span>Previous</span>
+                  </a> */}
+                  <NavLink
                     className="page-link"
-                    href="javascript: void(0)"
-                    onClick={onPrevious}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onPrevious();
+                    }}
                   >
                     <span>Previous</span>
-                  </a>
+                  </NavLink>
                 </li>
                 {paginationRange.map((pageNumber: any) => {
                   if (pageNumber === DOTS) {
@@ -77,9 +83,15 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
                       }`}
                       onClick={() => onPageChange(pageNumber)}
                     >
-                      <a className="page-link" href="javascript: void(0)">
+                      {/* <a className="page-link" href="#!">
                         <span>{pageNumber}</span>
-                      </a>
+                      </a> */}
+                      <NavLink
+                        className="page-link"
+                        onClick={(e) => e.preventDefault()}
+                      >
+                        <span>{pageNumber}</span>
+                      </NavLink>
                     </li>
                   );
                 })}
@@ -90,9 +102,15 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
                   }`}
                   onClick={onNext}
                 >
-                  <a className="page-link" href="javascript: void(0)">
+                  <NavLink
+                    className="page-link"
+                    onClick={(e) => e.preventDefault()}
+                  >
                     <span>Next</span>
-                  </a>
+                  </NavLink>
+                  {/* <a className="page-link" href="#!">
+                    <span>Next</span>
+                  </a> */}
                 </li>
               </ul>
             </div>

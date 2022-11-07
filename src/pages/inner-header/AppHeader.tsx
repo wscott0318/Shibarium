@@ -21,7 +21,7 @@ const AppHeader = () => {
     } 
   },[asPath])
 
-  console.log(title)
+  // console.log(title)
   if(account)
   {
     return (

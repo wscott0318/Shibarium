@@ -29,17 +29,17 @@ function StepTwo({
   };
 
   const callAPI = async (values: any) => {
-    console.log("call API called");
+    // console.log("call API called");
     setApiLoading(true)
     if (imageData && verifyAddress(values.address)) {
       setValidation({ image: false, address: false });
-      console.log("1");
+      // console.log("1");
     } else if (!imageData && verifyAddress(values.address)) {
       setValidation({ address: false, image: true });
-      console.log("2");
+      // console.log("2");
     } else if (imageData && !verifyAddress(values.address)) {
       setValidation({ image: false, address: true });
-      console.log("3");
+      // console.log("3");
     } else {
       setValidation({ image: true, address: true });
     }
@@ -53,12 +53,12 @@ function StepTwo({
     data.append("img", imageData.image);
 
     await registerValidator(data).then((res :any) => {
-      console.log(res)
+      // console.log(res)
       setApiLoading(false)
             setBecomeValidateData(values)
             stepHandler("next");
     }).catch((err:any) => {
-      console.log(err)
+      // console.log(err)
       setApiLoading(false)
     })
 
@@ -107,7 +107,7 @@ function StepTwo({
       initialValues: initialValues,
       validationSchema: schema,
       onSubmit: (values) => {
-        console.log("Value", values);
+        // console.log("Value", values);
         callAPI(values);
       },
     });

@@ -131,7 +131,7 @@ const handleSearchList = (key :any) => {
 
 
       const handleTokenSelect = (token:any) => {
-        console.log(token)
+        // console.log(token)
         setSelectedToken(token)
         setTokenModal(false)
       }
