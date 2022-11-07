@@ -1,3 +1,11 @@
+body.modal-open {
+    .main-header{
+        padding-right: 17px;
+        @media #{$max-xl}{
+            padding-right: 0;
+        }
+    }
+}
 .main-header {
     position: fixed;
     top: 0;

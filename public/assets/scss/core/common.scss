@@ -3343,8 +3343,15 @@ input:-internal-autofill-selected {
         position: absolute;
         left: 5px;
         right: auto;
-        top: auto;
-        bottom: -30px;
+        top: 100%;
+        transform: translateY(0%);
+        @media #{$max-xxl}{
+            line-height: 22px;
+            font-size: 14px;
+        }
+        @media #{$max-xsmm}{
+            line-height: 19px;
+        }
     }
 }
 .wallet-network{
@@ -3480,15 +3487,17 @@ input:-internal-autofill-selected {
     position: relative;
     .primary-text{
         position: absolute;
-        bottom: -35px;
-        top: 100%;
-        left: 0;
+        bottom: -24px;
+        top: auto;
+        left: 30px;
         right: auto;
-        transform: translateY(27%);
-        -webkit-transform: translateY(27%);
-        -o-transform: translateY(27%);
-        -ms-transform: translateY(27%);
-        -moz-transform: translateY(27%);
+        font-size: 14px;
+        @media #{$max-xl}{
+            left:36px;
+        }
+        @media #{$max-xms}{
+            bottom: -50px;
+        }
     }
 }
 .block-fix{
@@ -3531,8 +3540,46 @@ input:-internal-autofill-selected {
         }
     }
 }
+
+.Toastify__toast-theme--light {
+    background: #ffeee1 !important;
+    div{
+        color:#000 !important;
+    }
+ }
+
 .col-md-8.cus-space {
     @media #{$max-xxsm}{
         padding: 0; 
     }
+}
+.block-fix.tb-ubd{
+    .table-responsive{
+        height: 1080px;
+        overflow-y:hidden;
+        @media #{$max-xxl}{
+            height: 915px;
+        }
+        @media #{$max-xl}{
+            height: 805px;
+        }
+        @media #{$max-lg}{
+            height: 790px;
+        }
+        @media #{$max-md}{
+            height: 735px;
+        }
+    }
+}
+.fx-txt {
+    .grey-txt{
+        white-space: nowrap;
+        width: 105px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        @media #{$max-md}{
+            width: auto;
+        }
+    }
+    
 }
