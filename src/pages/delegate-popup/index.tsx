@@ -5,13 +5,6 @@ import { BONE_ID, ENV_CONFIGS } from 'app/config/constant';
 import { getBoneUSDValue } from 'app/services/apis/validator';
 import NumberFormat from 'react-number-format';
 import { useActiveWeb3React, useLocalWeb3 } from 'app/services/web3';
-import boneAbi from '../../constants/shibariumABIs/BONE_ABI.json'
-// @ts-ignore
-import { useSnackbar } from 'react-simple-snackbar';
-
-import { buyVoucher } from 'app/services/apis/delegator/delegator';
-import { parseUnits } from '@ethersproject/units';
-
 import { getExplorerLink } from 'app/functions';
 import { ChainId } from '@shibarium/core-sdk';
 import ToastNotify from 'pages/components/ToastNotify';
@@ -21,7 +14,6 @@ import Web3 from "web3";
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import fromExponential from 'from-exponential';
 import { getAllowanceAmount } from "../../web3/commonFunctions";
-import { BONE, PROXY_MANAGER } from 'web3/contractAddresses';
 import ERC20 from "../../ABI/ERC20Abi.json"
 import CommonModal from 'pages/components/CommonModel';
 import { useFormik } from "formik";
@@ -29,6 +21,7 @@ import * as yup from "yup";
 import { addTransaction , finalizeTransaction} from "../../state/transactions/actions";
 import {useAppDispatch} from "../../state/hooks"
 import {VALIDATORSHARE} from "../../web3/contractAddresses";
+import { dynamicChaining } from 'web3/DynamicChaining';
 
 const initialModalState = {
   step0: true,
@@ -150,7 +143,7 @@ const DelegatePopup: React.FC<any> = ({
       let walletAddress = account;
       let _minSharesToMint = 1;
       let allowance =
-        (await getAllowanceAmount(lib, BONE, account, PROXY_MANAGER)) || 0;
+        (await getAllowanceAmount(lib, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].PROXY_MANAGER)) || 0;
       let amount = web3.utils.toBN(
         fromExponential(+requestBody.amount * Math.pow(10, 18))
       );
@@ -159,9 +152,9 @@ const DelegatePopup: React.FC<any> = ({
         let approvalAmount = web3.utils.toBN(
           fromExponential(1000 * Math.pow(10, 18))
         );
-        let approvalInstance = new web3.eth.Contract(ERC20, BONE);
+        let approvalInstance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
         approvalInstance.methods
-          .approve(PROXY_MANAGER, approvalAmount)
+          .approve(dynamicChaining[chainId].PROXY_MANAGER, approvalAmount)
           .send({ from: walletAddress })
           .then(async (res: any) => {
             console.log(res);
