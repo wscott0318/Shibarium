@@ -6,7 +6,8 @@ import Web3 from 'web3';
 import { dynamicChaining } from 'web3/DynamicChaining';
 import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
 import proxyManagerABI from "../../ABI/StakeManagerProxy.json";
-import { useAppDispatch } from "../../state/hooks"
+import { useAppDispatch } from "../../state/hooks";
+import fromExponential from 'from-exponential';
 
 function StepThree({stepState,stepHandler}:any) {
 
@@ -22,8 +23,12 @@ function StepThree({stepState,stepHandler}:any) {
   const submitTransaction = (values : any) => {
     // stepHandler("next")  
     let user : any = account
+    let acceptDelegation = true
+    let publicKey = ""
+    let amount = web3.utils.toBN(fromExponential(+values.amount * Math.pow(10, 18)));
+    let heimdallFee = web3.utils.toBN(fromExponential(200 * Math.pow(10, 18)));
     let instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
-    instance.methods.updateCommissionRate(validatorID, +value.comission).send({ from: account }) // write
+    instance.methods.updateCommissionRate(user, amount,heimdallFee, acceptDelegation,  ).send({ from: account }) // write
       .on('transactionHash', (res: any) => {
         console.log(res, "hash")
         dispatch(
