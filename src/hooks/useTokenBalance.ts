@@ -15,7 +15,7 @@ export const useTokenBalance = (address:string)=>{
     
             contract.methods.balanceOf(account).call().then((res:any) => {
                 contract.methods.decimals().call().then((d:number)=>{
-                    setBalance((+res / Math.pow(10, d)));
+                    setBalance(+(+res / Math.pow(10, d)).toFixed(6));
                 }).catch((e:any) =>{});
               }).catch((e:any) =>{});
         } catch (error) {
@@ -36,7 +36,7 @@ export const getTokenBalance = async (library :any, account :any, address :any) 
     
           await  contract.methods.balanceOf(account).call().then(async (res:any) => {
               await  contract.methods.decimals().call().then((d:number)=>{
-                    balance = +(+res / Math.pow(10, d)).toFixed(4)
+                    balance = +(+res / Math.pow(10, d)).toFixed(6)
                     // console.log(res)
                 }).catch((e:any) =>{
                     // console.log(e)
