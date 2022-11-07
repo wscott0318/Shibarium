@@ -60,7 +60,7 @@ const DelegatePopup: React.FC<any> = ({
 
   const getBalanceG = () => {
     web3?.eth?.getBalance().then((lastBlock: number) => {
-      console.log(lastBlock);
+      // console.log(lastBlock);
     });
   };
 
@@ -87,7 +87,7 @@ const DelegatePopup: React.FC<any> = ({
     e.preventDefault()
     // setAmount(walletBalance);
     setFieldValue("balance",walletBalance)
-    console.log("called");
+    // console.log("called");
     
   };
   const closeModal = (e: any) => {
@@ -136,7 +136,7 @@ const DelegatePopup: React.FC<any> = ({
       amount: values.balance,
     };
     setTnxCompleted(false);
-    console.log(requestBody);
+    // console.log(requestBody);
     if (account) {
       let lib: any = library;
       let web3: any = new Web3(lib?.provider);

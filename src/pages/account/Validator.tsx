@@ -96,10 +96,10 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
     if(account){
       const instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
       const ID = await instance.methods.getValidatorId(user).call({ from: account });
-      console.log(ID)
+      // console.log(ID)
       return ID
     } else {
-      console.log("account addres not found")
+      // console.log("account addres not found")
     }
   }
 
@@ -114,13 +114,13 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       instance.methods.approve(PROXY_MANAGER,amount).send({ from: user })
           .then((res: any) => {
             let instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
-            console.log(res)
+            // console.log(res)
             setButtonText({
               validatorReskate: 'Restaking...'
             })
             instance.methods.restake(id, amount, reward).send({ from: user })
             .then((res: any) => {
-              console.log(res)
+              // console.log(res)
               setLoading(false);
               setTranHashCode(res.transactionHash)
               setSuccessMsg("Reskate Done")
@@ -212,7 +212,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
     try {
       getDelegatorData(accountAddress.toLowerCase()).then( (res :any) =>{
        if (res.data ) {
-        console.log(res.data)
+        // console.log(res.data)
         let sortedData = res.data.data.validators.sort((a:any, b:any) => parseInt(b.stake) - parseInt(a.stake))
         setDelegationsList(sortedData)
         getCardsData(res.data.data)
@@ -227,7 +227,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
     }
    }
 
-   console.log(delegationsList)
+  //  console.log(delegationsList)
 
    useEffect(() => {
     if(account){
@@ -251,7 +251,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
     validatorAddress: Yup.string().required(),
   })
 
-  console.log(userType)
+  // console.log(userType)
 
   const retakeFormik: FormikProps<RetakeFormInterface> = useFormik<RetakeFormInterface>({
     initialValues: {
@@ -267,7 +267,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
         amount: values.amount,
         reward: values.reward,
       }
-      console.log(data)
+      // console.log(data)
       if(account) {
       
         let walletAddress = account

@@ -36,7 +36,7 @@ export const Allvalidator: React.FC = () => {
   //   setValidatorsByStatus(filtered)
   // }, [isActiveTab]);
 
-  console.log(userType)
+  // console.log(userType)
 
   const renderButtons = () => {
     if (userType === UserType.Delegator) {

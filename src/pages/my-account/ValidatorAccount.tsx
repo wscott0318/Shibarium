@@ -64,10 +64,10 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     stakeAmount: 0
   });
 
-  console.log(chainId)
+  // console.log(chainId)
 
   const getDelegatorCardData = async (accountAddress: any) => {
-    console.log(" card data ", accountAddress)
+    // console.log(" card data ", accountAddress)
     setLoading(true)
     try {
       getDelegatorData(accountAddress.toLowerCase()).then((res: any) => {
@@ -82,7 +82,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
             })
           setDelegationsList(sortedData)
           setLoading(false)
-          console.log(newArray)
+          // console.log(newArray)
         }
       }).catch((e: any) => {
         console.log(e);
@@ -95,7 +95,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     }
   }
 
-  console.log(stakeAmounts)
+  // console.log(stakeAmounts)
 
   const handleModal = (btn: String, valAddress: any, id: any = null, stakeAmount: any = null) => {
     console.log({ btn, valAddress, id, stakeAmount })
@@ -136,7 +136,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   };
 
 
-  console.log(unboundModal)
+  // console.log(unboundModal)
 
   useEffect(() => {
     if (account && userType === "Delegator") {
@@ -958,8 +958,8 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
               <div className="container">
                 <div className='row'>
                   {delegationsList.length ?
-                    delegationsList.map((item: any) =>
-                      <div className="col-lg-4 col-md-6 col-12 bs-col">
+                    delegationsList.map((item: any,index:any) =>
+                      <div className="col-lg-4 col-md-6 col-12 bs-col" key={index}>
                         <div className="border-sec">
                           <div className="top-sec">
                             <div className="info-block">

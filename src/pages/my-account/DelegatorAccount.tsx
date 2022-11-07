@@ -33,7 +33,7 @@ const delegatorAccount = () => {
     try {
       getDelegatorData(accountAddress.toLowerCase()).then((res: any) => {
         if (res.data) {
-          console.log(res.data)
+          // console.log(res.data)
           let sortedData = res.data.data.validators.sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake))
           setDelegationsList(sortedData)
         }

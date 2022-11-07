@@ -47,7 +47,7 @@ export default function Unbond() {
         if(account){
           const instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
           const ID = await instance.methods.getValidatorContract(validatorID).call({ from: account });
-          console.log(ID)
+          // console.log(ID)
           return ID
         } else {
           console.log("account addres not found")
@@ -64,13 +64,13 @@ export default function Unbond() {
     const getUnboundHistory = (account : any) => {
         unbondsHistory(account).then(res => {
             if(res.status == 200) {
-                console.log(res.data.data.result)
+                // console.log(res.data.data.result)
                 const decOrder = res.data.data.result.sort((a:any,b:any) => Date.parse(b.unbondStartedTimeStampFormatted) - Date.parse(a.unbondStartedTimeStampFormatted));
                 setList(decOrder)
                 setListLoader(false)
             }
         }).catch(err => {
-            console.log(err);
+            // console.log(err);
             setListLoader(false)
         })
     }
@@ -81,16 +81,16 @@ export default function Unbond() {
             validatorId: claimNowModals?.data?.validatorId,
             unbondNonce: claimNowModals?.data?.nonce
         }
-        console.log(data)
+        // console.log(data)
         let validatorContract = await getValidatorContractAddress(data.validatorId)
         if(account){
             let walletAddress = account
             let instance = new web3.eth.Contract(ValidatorShareABI, validatorContract);
             let gasLimit = await instance.methods.unstakeClaimTokens_new(data.unbondNonce).estimateGas({ from: walletAddress })
-            console.log(gasLimit + 30000, "gas limit === >")
+            // console.log(gasLimit + 30000, "gas limit === >")
             await instance.methods.unstakeClaimTokens_new(data.unbondNonce).send({ from: walletAddress })
             .on('transactionHash', (res: any) => {
-              console.log(res, "hash")
+              // console.log(res, "hash")
               dispatch(
                 addTransaction({
                   hash: res,
@@ -101,10 +101,10 @@ export default function Unbond() {
               )
               const link = getExplorerLink(chainId , res.transactionHash,'transaction')
               setTransactionLink(link)
-              console.log(link)
+              // console.log(link)
               setClamNowModals((pre:any) => ({...pre, progress: true, confirm: false}))
             }).on('receipt', (res: any) => {
-              console.log(res, "receipt")
+              // console.log(res, "receipt")
               dispatch(
                 finalizeTransaction({
                   hash: res.transactionHash,
@@ -123,7 +123,7 @@ export default function Unbond() {
               )
               getUnboundHistory(account)
             }).on('error', (res: any) => {
-              console.log(res, "error")
+              // console.log(res, "error")
               setClamNowModals({
                 data:{},
                 confirm: false,
@@ -131,11 +131,11 @@ export default function Unbond() {
                 completed:true
             })
               if (res.code === 4001) {
-                console.log("User desined this transaction! ")
+                // console.log("User desined this transaction! ")
               }
             })
           }
-        console.log(validatorContract)
+        // console.log(validatorContract)
     }
     const pageChangeHandler = (index: number) => {
       const slicedList = list.slice((index - 1) * pageSize, index * pageSize);
@@ -149,7 +149,7 @@ export default function Unbond() {
       } else if (list.length === 0) {
         setSlicedList([]);
       } else {
-        console.log("check state");
+        // console.log("check state");
       }
     }, [list]);
     useEffect(() => {
@@ -290,7 +290,7 @@ export default function Unbond() {
                                       className="primary-badge px-2"
                                       type="button"
                                       onClick={() => {
-                                        console.log("called ===> ");
+                                        // console.log("called ===> ");
                                         setClamNowModals({
                                           data: value,
                                           confirm: true,
