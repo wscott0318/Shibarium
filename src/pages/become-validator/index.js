@@ -9,19 +9,30 @@ import StepThree from "./stepThree";
 import StepFour from "./stepFour";
 import { useEffect } from "react";
 
-const Rewards = () => {
-  const refName = useRef();
-  const refWebsite = useRef();
-  const refComission = useRef();
 
-  
+const Rewards = () => {
+
   const { chainId = 1, account, library } = useActiveWeb3React();
+  const [loader, setLoader] = useState(false);
+  const [ nodeExist, setNodeExist] = useState({});
 
 
   useEffect(() => {
-
+    if(account) {
+      callValidatorInfo(account)
+    }
+    if(Object.values(nodeExist).length){
+      setStepState({
+        step1:false,
+        step2:false,
+        step3:true,
+        step4:false,
+      })
+    }
   },[account])
-  
+
+  console.log(nodeExist, "api call ===> ")
+
   const userAddress = account
   const [activInput, setActivInput] = useState({
     name: false,
@@ -30,9 +41,9 @@ const Rewards = () => {
   });
 
   const [stepState,setStepState]=useState({
-    step1:true,
+    step1:false,
     step2:false,
-    step3:false,
+    step3:true,
     step4:false,
   })
   const [becomeValidateData,setBecomeValidateData] = useState({
@@ -127,19 +138,17 @@ const Rewards = () => {
   }
 
   const callValidatorInfo = async (account) => {
+    console.log("api called ====> ")
     setLoader(true)
     await getValidatorInfo(account).then((res) => {
         console.log(res.data.message.val_info[0])
-        setImageURL(res.data.message.val_info[0].img)
-        setValues({
-            validatorname: res.data.message.val_info[0].validatorName,
-            address: account,
-            website: res.data.message.val_info[0].website,
-        })
+        setNodeExist(res.data.message.val_info[0])
         setLoader(false)
     }).catch((err) => {
         console.log(err)
+        setLoader(false)
     })
+
 }
 
   return (
