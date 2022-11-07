@@ -3571,3 +3571,15 @@ input:-internal-autofill-selected {
         }
     }
 }
+.fx-txt {
+    .grey-txt{
+        white-space: nowrap;
+        width: 105px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        @media #{$max-md}{
+            width: auto;
+        }
+    }
+    
+}
