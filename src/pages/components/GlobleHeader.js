@@ -13,7 +13,7 @@ const GlobleHeader = ({tab}) => {
     const [userType, setUserType] = useUserType();
     const handleActiveTab = (index) => {
       if(index === 3) {
-        console.log(index)
+        // console.log(index)
       } else {
         tab.filter((elm) => {
           if (elm.id == index) {
