@@ -184,7 +184,7 @@ export default function ProfileUpdate() {
                                 <form onSubmit={handleSubmit}>
                                     <div className="progress-tab">
                                         <div className="mb-4 mb-xl-5">
-                                            <h5 className="fwb fw-700 mb-2 ff-mos">Add node details</h5>
+                                            <h5 className="fwb fw-700 mb-2 ff-mos">Update node details</h5>
                                             <p className="ff-mos">Please provide your node details for better recognizability</p>
                                         </div>
                                         <div className="row">
