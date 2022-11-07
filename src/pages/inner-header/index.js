@@ -143,7 +143,7 @@ const InnerHeader = () => {
                                 {userType === "NA" ? "User" : userType}
                               </span>
                             </div>
-                            <div>
+                            <div className="fx-txt">
                               <span className="grey-txt">
                                 {getNetworkName()}
                               </span>
