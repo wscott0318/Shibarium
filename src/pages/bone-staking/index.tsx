@@ -53,7 +53,7 @@ const BoneStaking = () => {
 
   const [modalShow, setModalShow] = useState(false);
   const router = useRouter();
-  console.log(userType)
+  // console.log(userType)
 
   const [show, setShow] = React.useState();
   return (

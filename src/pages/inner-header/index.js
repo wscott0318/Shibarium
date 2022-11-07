@@ -26,7 +26,8 @@ const InnerHeader = () => {
   const [accountAddress, setAccountAddress] = useState("")
   const [userQrCode, setUserQrCode] = useState(false);
 
-  const { chainId, account } = useActiveWeb3React();
+  const {account, active, error, library, activate, deactivate } = useWeb3React();
+  const { chainId } = useActiveWeb3React();
 
   const [userType, setUserType] = useUserType();
 
@@ -34,7 +35,7 @@ const InnerHeader = () => {
   
   useEffect(() => {
     if(account) {
-      getUsertypeAPI()
+      getUsertypeAPI(account)
       }
   }, [account, chainId]);
 
@@ -58,7 +59,7 @@ const InnerHeader = () => {
       getUserType(accountAddress.toLowerCase()).then(res => {
         if (res.data && res.data.data) {
           let ut = res.data.data.userType;
-          console.log(ut)
+          // console.log(ut)
           setUserType(ut)
         }
       }).catch(e => {

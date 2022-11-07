@@ -54,7 +54,7 @@ const AccountDetails: FC<AccountDetailsProps> = ({
     if (chainId) dispatch(clearAllTransactions({ chainId }))
   }, [dispatch, chainId])
 
-  console.log({pendingTransactions})
+  // console.log({pendingTransactions})
   const logoutHandler = async () => {
     deactivate();
     await router.push("/home");

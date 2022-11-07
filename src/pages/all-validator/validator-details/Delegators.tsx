@@ -6,6 +6,7 @@ interface Props{
     allDelegators:any[];
     boneUsdValue:number;
 }
+
 const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
     const pageSize = 4;
     const [delegators, setDelegators] = useState<any[]>([]);

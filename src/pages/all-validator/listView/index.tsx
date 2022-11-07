@@ -19,7 +19,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
       )
     }
     const [showdelegatepop, setdelegatepop] = useState(false);
-    console.log(validatorsList);
+    // console.log(validatorsList);
     
     return (
       <>
@@ -43,7 +43,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
               </thead>
               <tbody>
                 {validatorsList.map((x: any, y: any) => (
-                  <tr>
+                  <tr key={y}>
                     <td>
                       <div className='self-align'>
                       <span>
