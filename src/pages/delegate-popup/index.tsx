@@ -157,7 +157,7 @@ const DelegatePopup: React.FC<any> = ({
           .approve(dynamicChaining[chainId].PROXY_MANAGER, approvalAmount)
           .send({ from: walletAddress })
           .then(async (res: any) => {
-            console.log(res);
+            // console.log(res);
             let instance = new web3.eth.Contract(
               ValidatorShareABI,
               requestBody.validatorAddress
