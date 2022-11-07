@@ -139,7 +139,7 @@ export default function ProfileUpdate() {
     }
 
     const imgSizeCheck = (e: any) => {
-        if (e.target.files[0].size <= 204800) {
+        if (e.target.files[0]?.size <= 204800) {
             setImageData({ image: e.target.files[0] });
             setImgsize(false)
         } else {
