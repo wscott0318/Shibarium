@@ -185,7 +185,7 @@ export default function ProfileUpdate() {
                                     <div className="progress-tab">
                                         <div className="mb-4 mb-xl-5">
                                             <h5 className="fwb fw-700 mb-2 ff-mos">Update node details</h5>
-                                            <p className="ff-mos">Please provide your node details for better recognizability</p>
+                                            <p className="ff-mos">You can update your node details for better recognizability</p>
                                         </div>
                                         <div className="row">
                                             <div className="col-sm-6 form-grid">
