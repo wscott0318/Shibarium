@@ -511,22 +511,27 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                         onClick={() => buyVouchers()}
                         disabled={loader}
                       >
-                        <a
-                          className="btn primary-btn d-flex align-items-center"
-                          href="javascript:void(0)"
-                        >
-                          <span>Buy Voucher</span>
-                        </a>
-                        {
-                          loader && 
-                          <Spinner
-                          as="span"
-                          animation="border"
-                          size="sm"
-                          role="status"
-                          aria-hidden="true"
-                        />
-                        }
+                        {loader ? (
+                          <a
+                            className="btn primary-btn d-flex align-items-center crsrDefault"
+                            href="javascript:void(0)"
+                          >
+                            <Spinner
+                              as="span"
+                              animation="border"
+                              size="sm"
+                              role="status"
+                              aria-hidden="true"
+                            />
+                          </a>
+                        ) : (
+                          <a
+                            className="btn primary-btn d-flex align-items-center"
+                            href="javascript:void(0)"
+                          >
+                            <span>Buy Voucher</span>
+                          </a>
+                        )}
                       </button>
                     </div>
                   </div>
