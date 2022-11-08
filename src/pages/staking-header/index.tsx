@@ -22,6 +22,7 @@ useEffect(() => {
   }
 }, [router])
 
+console.log("usertype",userType)
 
     return (
       <>
@@ -65,11 +66,14 @@ useEffect(() => {
                     </a>
                   </Link>
                 </li>
-                {/* {
-                  userType === 'Delegator' && */}
+                {
+                  (userType === 'Delegator' || userType === "Validator") &&
                   <li className="nav-item">
                   <DropdownButton className="dd-style cus-arw" id="dropdown-item-button" title={"History"}>
-                    <Dropdown.Item
+                    
+                      {
+                        userType !== "Validator" &&
+                        <Dropdown.Item
                       // as="button"
                       // onClick={() => {
                       //   router.push("/unbond-history");
@@ -80,6 +84,7 @@ useEffect(() => {
                       Unbound History
                       </Link>
                     </Dropdown.Item>
+                    }
                     <Dropdown.Item
                       // as="button"
                       // onClick={() => {
@@ -92,8 +97,7 @@ useEffect(() => {
                       </Link>
                     </Dropdown.Item>
                   </DropdownButton>
-                </li>
-                {/* } */}
+                </li>}
               </ul>
             </div>
           </div>
