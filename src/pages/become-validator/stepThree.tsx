@@ -21,48 +21,49 @@ function StepThree({stepState,stepHandler}:any) {
   })
 
   const submitTransaction = (values : any) => {
-    // stepHandler("next")  
-    let user : any = account
-    let acceptDelegation = true
-    let publicKey = ""
-    let amount = web3.utils.toBN(fromExponential(+values.amount * Math.pow(10, 18)));
-    let heimdallFee = web3.utils.toBN(fromExponential(200 * Math.pow(10, 18)));
-    let instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
-    instance.methods.updateCommissionRate(user, amount,heimdallFee, acceptDelegation,  ).send({ from: account }) // write
-      .on('transactionHash', (res: any) => {
-        console.log(res, "hash")
-        dispatch(
-          addTransaction({
-            hash: res,
-            from: user,
-            chainId,
-            summary: `${res}`,
-          })
-        )
-      }).on('receipt', (res: any) => {
-        console.log(res, "receipt")
-        dispatch(
-          finalizeTransaction({
-            hash: res.transactionHash,
-            chainId,
-            receipt: {
-              to: res.to,
-              from: res.from,
-              contractAddress: res.contractAddress,
-              transactionIndex: res.transactionIndex,
-              blockHash: res.blockHash,
-              transactionHash: res.transactionHash,
-              blockNumber: res.blockNumber,
-              status: 1
-            }
-          })
-        )
-      }).on('error', (res: any) => {
-        console.log(res, "error")
-        if (res.code === 4001) {
+    stepHandler("next")  
+    // setBecomeValidateData(values)
+    // let user : any = account
+    // let acceptDelegation = true
+    // let publicKey = ""
+    // let amount = web3.utils.toBN(fromExponential(+values.amount * Math.pow(10, 18)));
+    // let heimdallFee = web3.utils.toBN(fromExponential(200 * Math.pow(10, 18)));
+    // let instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
+    // instance.methods.updateCommissionRate(user, amount,heimdallFee, acceptDelegation,  ).send({ from: account }) // write
+    //   .on('transactionHash', (res: any) => {
+    //     console.log(res, "hash")
+    //     dispatch(
+    //       addTransaction({
+    //         hash: res,
+    //         from: user,
+    //         chainId,
+    //         summary: `${res}`,
+    //       })
+    //     )
+    //   }).on('receipt', (res: any) => {
+    //     console.log(res, "receipt")
+    //     dispatch(
+    //       finalizeTransaction({
+    //         hash: res.transactionHash,
+    //         chainId,
+    //         receipt: {
+    //           to: res.to,
+    //           from: res.from,
+    //           contractAddress: res.contractAddress,
+    //           transactionIndex: res.transactionIndex,
+    //           blockHash: res.blockHash,
+    //           transactionHash: res.transactionHash,
+    //           blockNumber: res.blockNumber,
+    //           status: 1
+    //         }
+    //       })
+    //     )
+    //   }).on('error', (res: any) => {
+    //     console.log(res, "error")
+    //     if (res.code === 4001) {
 
-        }
-      })
+    //     }
+    //   })
 
   }
 

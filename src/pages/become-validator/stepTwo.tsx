@@ -44,23 +44,27 @@ function StepTwo({
       setValidation({ image: true, address: true });
     }
 
-    var data = new FormData();
-    data.append("validatorName", values.validatorname);
-    data.append("public_key", values.publickey);
-    data.append("signerAddress", values.address);
-    data.append("website", values.website);
-    data.append("commission", values.commission);
-    data.append("img", imageData.image);
-
-    await registerValidator(data).then((res :any) => {
-      // console.log(res)
-      setApiLoading(false)
+            setApiLoading(false)
             setBecomeValidateData(values)
             stepHandler("next");
-    }).catch((err:any) => {
-      // console.log(err)
-      setApiLoading(false)
-    })
+
+    // var data = new FormData();
+    // data.append("validatorName", values.validatorname);
+    // data.append("public_key", values.publickey);
+    // data.append("signerAddress", values.address);
+    // data.append("website", values.website);
+    // data.append("commission", values.commission);
+    // data.append("img", imageData.image);
+
+    // await registerValidator(data).then((res :any) => {
+    //   // console.log(res)
+    //   setApiLoading(false)
+    //         setBecomeValidateData(values)
+    //         stepHandler("next");
+    // }).catch((err:any) => {
+    //   // console.log(err)
+    //   setApiLoading(false)
+    // })
 
   };
 
