@@ -76,7 +76,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
           // console.log(res.data, "delegator card data")
           let sortedData = res.data.data.validators.sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake))
             sortedData.forEach(async (x:any) => {
-              let stakeData = await getStakeAmountDelegator(+(x.id), JSON.stringify(accountAddress.toLowerCase()))
+              let stakeData = await getStakeAmountDelegator(+(x.id), (accountAddress.toLowerCase()))
               // console.log(stakeData, "delegator card data")
               setStakeAmounts((pre :any) => ([...pre, stakeData]))
             })
@@ -374,7 +374,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
           )
         }).on('error', (res: any) => {
           console.log(res, "error")
-          setTransactionState({ state: false, title: 'Pending' })
+            setTransactionState({ state: false, title: 'Pending' })
           if (res.code === 4001) {
             setWithdrawModal({ value: false, address: '' })
           }
