@@ -10,7 +10,7 @@ export default function delegator() {
   return (
     <>
       <div className="main-content dark-bg-800 full-vh">
-        <StakingHeader />
+        {/* <StakingHeader /> */}
         {/* banner section start */}
         <section className="inner-banner dark-bg">
           <div className="container">

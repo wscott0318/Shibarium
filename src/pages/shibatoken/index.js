@@ -12,7 +12,7 @@ export default function ShibaToken() {
     <>
       <Header />
       <ShibaSidebar />
-      <main className='main-content shib-content shiba-token dark-bg-800 full-vh top-space'>
+      <main className='main-content shib-content shiba-token dark-bg-800 full-vh '>
         <div className='heading-sec'>
           <h3 className='fw-700 mb-2'>Burn BONE Token</h3>
           <div className='fs-23'>Trigger and watch BONE tokens get burned with EIP-1559</div>

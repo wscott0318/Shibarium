@@ -21,7 +21,7 @@ function StepOne({stepHandler,stepState}:any) {
           You can setup your node using any of the options from below
         </p>
         <div
-          className="box-alert top-space-lg"
+          className="box-alert -lg"
           onClick={() => {
             setCheck({
               ansible: true,

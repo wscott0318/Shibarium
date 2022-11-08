@@ -30,9 +30,9 @@ export default function Account() {
 
     return (
         <>
-            <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space">
-                <Header />
-                <StakingHeader />
+            <Header />
+            <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh staking-main">
+                {/* <StakingHeader /> */}
 
                 {/** unbound popups start */}
                 <CommonModal

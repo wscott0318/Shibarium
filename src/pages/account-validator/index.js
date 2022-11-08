@@ -28,6 +28,19 @@ export default function Account() {
 
   return (
     <>
+<<<<<<< HEAD
+    <Header />
+      <main className="main-content dark-bg-800 full-vh  cmn-input-bg staking-main">
+                {/* <StakingHeader /> */}
+                {/* retake popop start */}
+                <CommonModal
+                    title={"Restake"}
+                    show={showretakepop}
+                    setShow={setretakepop}
+                    externalCls="stak-pop"
+                >
+                    <>
+=======
       <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg">
         <Header />
         <StakingHeader />
@@ -96,6 +109,7 @@ export default function Account() {
           </>
         </CommonModal>
         {/* retake popop ends */}
+>>>>>>> dadcbbdaacded023c6b568e6504a9297bfef5589
 
         {/* commission popop start */}
         <CommonModal

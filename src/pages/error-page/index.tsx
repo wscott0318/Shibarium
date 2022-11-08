@@ -9,8 +9,9 @@ export default function ErrorPage() {
 
     return (
         <>
-            <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space ffms-inherit">
-                <Header />
+            <Header />
+            <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh  ffms-inherit">
+                
                 <div className="error-container">
                     <div className="text-center">
                         {/* <h1 className="mb-3">
