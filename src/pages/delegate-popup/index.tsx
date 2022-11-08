@@ -130,6 +130,18 @@ const DelegatePopup: React.FC<any> = ({
     setStep(2);
   };
 
+  const currentGasPrice = async () => {
+    let value;
+    await web3.eth.getGasPrice()
+    .then((res) => {
+        value = parseInt(res * 1.1);
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+    return value
+  }
+
   
   const buyVouchers = async () => {
     setLoader(true);
@@ -242,9 +254,23 @@ const DelegatePopup: React.FC<any> = ({
           ValidatorShareABI,
           requestBody.validatorAddress
         );
-        await instance.methods
-          .buyVoucher(amount, _minSharesToMint)
-          .send({ from: walletAddress })
+
+
+
+       let gasFee =  await instance.methods.buyVoucher(amount, _minSharesToMint).estimateGas({from: walletAddress})
+       let encodedAbi =  await instance.methods.buyVoucher(amount, _minSharesToMint).encodeABI()
+       let CurrentgasPrice : any = await currentGasPrice()
+       
+          console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+
+          await web3.eth.sendTransaction({
+            from: walletAddress,
+            to: requestBody.validatorAddress,
+            gas: (parseInt(gasFee) + 30000).toString(),
+            gasPrice: CurrentgasPrice,
+            // value : web3.utils.toHex(combinedFees),
+            data: encodedAbi
+          })
           .on('transactionHash', (res: any) => {
             setLoader(false)
             dispatch(

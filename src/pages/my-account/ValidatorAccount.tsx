@@ -142,7 +142,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     if (account && userType === "Delegator") {
       getDelegatorCardData(account)
     }
-  }, [account, userType])
+  }, [account, userType, chainId])
 
   // console.log(restakeModal)
 
