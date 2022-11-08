@@ -99,7 +99,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       // console.log(ID)
       return ID
     } else {
-      // console.log("account addres not found")
+      console.log("account addres not found")
     }
   }
 
@@ -251,7 +251,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
     validatorAddress: Yup.string().required(),
   })
 
-  // console.log(userType)
+  console.log(userType)
 
   const retakeFormik: FormikProps<RetakeFormInterface> = useFormik<RetakeFormInterface>({
     initialValues: {
@@ -288,7 +288,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           })
         instance.methods.restake(ID, amountWei, values.reward == 0 ? false : true).send({ from: walletAddress })
               .then((res: any) => {
-                console.log(res)
+                // console.log(res)
                 setLoading(false);
                 setTranHashCode(res.transactionHash)
                 setSuccessMsg("Reskate Done")
@@ -340,19 +340,19 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       delegatorAddress: account ? account : ''
     },
     onSubmit: async (values) => {
-     console.log(values)
+    //  console.log(values)
       setLoading(true);
       let dataToSend = {
         validatorAddress: restakeModal?.address || 'test',
       delegatorAddress: account ? account : ''
       }
-      console.log(dataToSend.validatorAddress)
+      // console.log(dataToSend.validatorAddress)
       if(account){
       
         let walletAddress = account
         let instance = new web3.eth.Contract(ValidatorShareABI, dataToSend.validatorAddress);
         await instance.methods.restake().send({ from: walletAddress }).then((res:any) => {
-          console.log(res)
+          // console.log(res)
           setLoading(false);
           setTranHashCode(res.transactionHash)
           setSuccessMsg("Reskate Done")
@@ -456,13 +456,13 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
           errorWithdrawMessage(err)
         })
       }else if(userType === UserType.Delegator){
-        console.log(withdrawModal.address)
+        // console.log(withdrawModal.address)
         if(account){
           
           let walletAddress = account
           let instance = new web3.eth.Contract(ValidatorShareABI, withdrawModal.address);
           await instance.methods.withdrawRewards().send({ from: walletAddress }).then((res:any) => {
-            console.log(res)
+            // console.log(res)
             setLoading(false);
             setTranHashCode(res.transactionHash)
             setSuccessMsg("Withdrawal Done")
@@ -497,16 +497,16 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       validatorId: unboundModal.id,
       amount: unboundInput
     }
-    console.log(data.validatorId)
+    // console.log(data.validatorId)
     if(account){
   
       let walletAddress = account
       let amount = web3.utils.toBN(fromExponential(+unboundInput * Math.pow(10, 18)));
       let instance = new web3.eth.Contract(ValidatorShareABI, data.validatorId);
       await instance.methods.sellVoucher_new(amount, amount).send({ from: walletAddress }).then((res:any) => {
-        console.log(res)
+        // console.log(res)
         const link = getExplorerLink(chainId , res.transactionHash,'transaction')
-          console.log(link)
+          // console.log(link)
           setTransactionLink(link)
           setUnboundModal((preVal:any) => ({...preVal,progressValue: false, comfirmValue: true}))
           setUnboundInput('')

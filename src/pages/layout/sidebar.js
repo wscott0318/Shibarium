@@ -141,7 +141,7 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
           <img className="img-fluid" src="../../images/menu.png" alt="" />
         </Navbar.Brand>
       </div>
-      <sidebar
+      <div
         className={menuState ? "sidebar sidebar-active" : "sidebar"}
         ref={wrapperRef}
       >
@@ -209,7 +209,7 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
             ))}
           </ul>
         </div>
-      </sidebar>
+      </div>
       {/* sidebar end */}
     </>
   );

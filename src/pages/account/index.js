@@ -39,7 +39,7 @@ export default function Account() {
   // },[library,account]);
   // const { chainId, account, active, error, library, activate, deactivate } = useWeb3React()
 
-console.log(availBalance, chainId)
+// console.log(availBalance, chainId)
 
   const getCardsData = (data) => {
     setTopCardShimmer(true)
@@ -67,7 +67,7 @@ console.log(availBalance, chainId)
     )
   }
 
-  console.log(topCardsShimmer)
+  // console.log(topCardsShimmer)
 
   const renderTopCards = () => {
     if(userType  === UserType.Validator  || userType  === UserType.NA ) {

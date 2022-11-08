@@ -22,6 +22,7 @@ import { addTransaction , finalizeTransaction} from "../../state/transactions/ac
 import {useAppDispatch} from "../../state/hooks"
 import {VALIDATORSHARE} from "../../web3/contractAddresses";
 import { dynamicChaining } from 'web3/DynamicChaining';
+import { Spinner } from 'react-bootstrap';
 
 const initialModalState = {
   step0: true,
@@ -52,7 +53,7 @@ const DelegatePopup: React.FC<any> = ({
   const dispatch = useAppDispatch()
 
   const [delegateState, setdelegateState] = useState(initialModalState);
-
+  const [loader,setLoader] = useState(false);
   const walletBalance =
     chainId === ChainId.SHIBARIUM
       ? useEthBalance()
@@ -129,8 +130,9 @@ const DelegatePopup: React.FC<any> = ({
     setStep(2);
   };
 
+  
   const buyVouchers = async () => {
-    // setLoader(true)
+    setLoader(true);
     const requestBody = {
       validatorAddress: data.contractAddress,
       delegatorAddress: account,
@@ -158,7 +160,7 @@ const DelegatePopup: React.FC<any> = ({
           .approve(dynamicChaining[chainId].PROXY_MANAGER, approvalAmount)
           .send({ from: walletAddress })
           .then(async (res: any) => {
-            console.log(res);
+            // console.log(res);
             let instance = new web3.eth.Contract(
               ValidatorShareABI,
               requestBody.validatorAddress
@@ -167,7 +169,7 @@ const DelegatePopup: React.FC<any> = ({
               .buyVoucher(amount, _minSharesToMint)
               .send({ from: walletAddress })
               .on('transactionHash', (res: any) => {
-                // setLoader(false)
+                setLoader(false);
                 dispatch(
                   addTransaction({
                     hash: res,
@@ -220,6 +222,7 @@ const DelegatePopup: React.FC<any> = ({
                     step3:true,
                     title:'Transaction Done'
                   })
+                  window.location.reload();
                 })
               .on('error', (err: any) => {
                 setdelegateState(initialModalState)
@@ -243,7 +246,7 @@ const DelegatePopup: React.FC<any> = ({
           .buyVoucher(amount, _minSharesToMint)
           .send({ from: walletAddress })
           .on('transactionHash', (res: any) => {
-            // setLoder(false)
+            setLoader(false)
             dispatch(
               addTransaction({
                 hash: res,
@@ -296,6 +299,7 @@ const DelegatePopup: React.FC<any> = ({
                 step3:true,
                 title:'Transaction Done'
               })
+              window.location.reload();
             })
           .on('error', (err: any) => {
             setdelegateState(initialModalState)
@@ -311,11 +315,17 @@ const DelegatePopup: React.FC<any> = ({
   };
 
 let schema = yup.object().shape({
-  balance: yup.string().required("Balance is required"),
+  balance: yup
+    .number().typeError("Only digits are allowed")
+    .max(
+      parseFloat(walletBalance?.toFixed(8)),
+      "Entered value cannot be greater than Balance"
+    ).positive("Balance cannot be negative")
+    .required("Balance is required"),
 });
 const [balance, setBalance] = useState();
 
-const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, touched } =
+const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, touched,setValues } =
   useFormik({
     initialValues: initialValues,
     validationSchema: schema,
@@ -330,11 +340,15 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
       })
     },
   });
-
+  useEffect(() => {
+    if (!showdelegatepop) {
+      setLoader(false);
+      setValues(initialValues);
+    }
+  }, [showdelegatepop]);
   const handleClose = () => {
     setdelegateState(initialModalState)
     setdelegatepop(false)
-    setFieldValue("balance","")
   }
 
 // console.log("Balance", values.balance);
@@ -440,11 +454,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                   <div className="ax-bottom">
                     <div className="pop_btns_area row form-control mt-5">
                       <div className="col-12">
-                        <button
-                          className="w-100"
-                          type="submit"
-                          value="submit"
-                        >
+                        <button className="w-100" type="submit" value="submit">
                           <a
                             className="btn primary-btn d-flex align-items-center"
                             href="javascript:void(0)"
@@ -460,8 +470,8 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
             )}
             {/* added by vivek */}
 
-             {/* step 2 */}
-             {delegateState.step1 && (
+            {/* step 2 */}
+            {delegateState.step1 && (
               <div className="step_content fl-box">
                 <div className="ax-top">
                   <div className="image_area row">
@@ -474,10 +484,10 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                   </div>
                   <div className="mid_text row">
                     <div className="col-12 text-center">
-                      <h4 className='ff-mos'>Buy Voucher</h4>
+                      <h4 className="ff-mos">Buy Voucher</h4>
                     </div>
                     <div className="col-12 text-center">
-                      <p className='ff-mos'>
+                      <p className="ff-mos">
                         Completing this transaction will stake your Burn tokens
                         and you will start earning rewards for the upcoming
                         checkpoints.
@@ -499,13 +509,29 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                       <button
                         className="w-100"
                         onClick={() => buyVouchers()}
+                        disabled={loader}
                       >
-                        <a
-                          className="btn primary-btn d-flex align-items-center"
-                          href="javascript:void(0)"
-                        >
-                          <span>Buy Voucher</span>
-                        </a>
+                        {loader ? (
+                          <a
+                            className="btn primary-btn d-flex align-items-center crsrDefault"
+                            href="javascript:void(0)"
+                          >
+                            <Spinner
+                              as="span"
+                              animation="border"
+                              size="sm"
+                              role="status"
+                              aria-hidden="true"
+                            />
+                          </a>
+                        ) : (
+                          <a
+                            className="btn primary-btn d-flex align-items-center"
+                            href="javascript:void(0)"
+                          >
+                            <span>Buy Voucher</span>
+                          </a>
+                        )}
                       </button>
                     </div>
                   </div>
@@ -527,10 +553,10 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                   </div>
                   <div className="mid_text row">
                     <div className="col-12 text-center">
-                      <h4 className='ff-mos'>Transaction in progress</h4>
+                      <h4 className="ff-mos">Transaction in progress</h4>
                     </div>
                     <div className="col-12 text-center">
-                      <p className='ff-mos'>
+                      <p className="ff-mos">
                         Ethereum transactions can take longer time to complete
                         based upon network congestion. Please wait for increase
                         the gas price of the transaction.
@@ -543,7 +569,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                     <div className="col-12">
                       <a
                         className="btn primary-btn d-flex align-items-center"
-                        target='_blank'
+                        target="_blank"
                         href={explorerLink}
                       >
                         <span>View on Block Explorer</span>
@@ -553,8 +579,6 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                 </div>
               </div>
             )}
-
-           
 
             {/* step 3 */}
             {delegateState.step3 && (
@@ -570,12 +594,13 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                   </div>
                   <div className="mid_text row">
                     <div className="col-12 text-center">
-                      <h4 className='ff-mos'>Delegation Submitted </h4>
+                      <h4 className="ff-mos">Delegation Submitted </h4>
                     </div>
                     <div className="col-12 text-center">
-                      <p className='ff-mos'>
-                        Your SHIBA tokens are staked successfully on validator. Your delegation will take 4-5 mintues to
-                        reflect in your account.
+                      <p className="ff-mos">
+                        Your SHIBA tokens are staked successfully on validator.
+                        Your delegation will take 4-5 mintues to reflect in your
+                        account.
                       </p>
                     </div>
                   </div>
