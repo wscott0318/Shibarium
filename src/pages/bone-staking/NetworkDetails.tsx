@@ -40,7 +40,7 @@ function NetworkDetails() {
     if(account) {
       getTotalStakes()
     }
-    getHeimdallBlockHeight()
+    // getHeimdallBlockHeight()
   }, [account])
 
   const cardShimmerEffects = () => {
