@@ -65,8 +65,8 @@ useEffect(() => {
                     </a>
                   </Link>
                 </li>
-                {
-                  userType === 'Delegator' &&
+                {/* {
+                  userType === 'Delegator' && */}
                   <li className="nav-item">
                   <DropdownButton className="dd-style cus-arw" id="dropdown-item-button" title={"History"}>
                     <Dropdown.Item
@@ -92,7 +92,8 @@ useEffect(() => {
                       </Link>
                     </Dropdown.Item>
                   </DropdownButton>
-                </li>}
+                </li>
+                {/* } */}
               </ul>
             </div>
           </div>

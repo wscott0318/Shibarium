@@ -46,7 +46,7 @@ const Rewards = () => {
     step3:false,
     step4:false,
   })
-  const [becomeValidateData,setBecomeValidateData] = useState({
+  const [becomeValidateData , setBecomeValidateData] = useState({
     validatorname: "",
     publickey: "",
     address: userAddress,

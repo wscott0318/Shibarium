@@ -69,11 +69,11 @@ export default function Unbond() {
       return new Date(Number(val*1000)).toLocaleString();
     }
      const router = useRouter();
-     useEffect(() => {
-       if (userType !== "Delegator") {
-         router.back();
-       }
-     }, [userType]);
+    //  useEffect(() => {
+    //    if (userType !== "Delegator") {
+    //      router.back();
+    //    }
+    //  }, [userType]);
 
      var countDecimals = function (value: any) {
        if (Math.floor(value) === value) return 0;

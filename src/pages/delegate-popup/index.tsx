@@ -130,6 +130,7 @@ const DelegatePopup: React.FC<any> = ({
   };
 
   const buyVouchers = async () => {
+    // setLoader(true)
     const requestBody = {
       validatorAddress: data.contractAddress,
       delegatorAddress: account,
@@ -165,27 +166,65 @@ const DelegatePopup: React.FC<any> = ({
             await instance.methods
               .buyVoucher(amount, _minSharesToMint)
               .send({ from: walletAddress })
-              .then((res: any) => {
-                setTnxCompleted(true);
-                setToastMassage(res?.data?.message);
-                setMsgType("success");
+              .on('transactionHash', (res: any) => {
+                // setLoader(false)
+                dispatch(
+                  addTransaction({
+                    hash: res,
+                    from: account,
+                    chainId,
+                    summary: `${res}`,
+                  })
+                )
                 const link = getExplorerLink(
                   chainId,
-                  res.transactionHash,
+                  res,
                   "transaction"
                 );
                 setExplorerLink(link);
+                setdelegateState({
+                  step0:false,
+                  step1:false,
+                  step2: true,
+                  step3:false,
+                  title:'Transaction Process'
+                })
+                })
+                .on('receipt', (res: any) => {
+                  dispatch(
+                    finalizeTransaction({
+                      hash: res.transactionHash,
+                      chainId,
+                      receipt: {
+                        to: res.to,
+                        from: res.from,
+                        contractAddress: res.contractAddress,
+                        transactionIndex: res.transactionIndex,
+                        blockHash: res.blockHash,
+                        transactionHash: res.transactionHash,
+                        blockNumber: res.blockNumber,
+                        status: 1
+                      }
+                    })
+                  )
+                  const link = getExplorerLink(
+                    chainId,
+                    res.transactionHash,
+                    "transaction"
+                  );
+                  setExplorerLink(link);
+                  setdelegateState({
+                    step0:false,
+                    step1:false,
+                    step2: false,
+                    step3:true,
+                    title:'Transaction Done'
+                  })
+                })
+              .on('error', (err: any) => {
+                setdelegateState(initialModalState)
+                setdelegatepop(false)
               })
-              .catch((err: any) => {
-                console.log(err);
-                setToastMassage("Something went wrong");
-                setMsgType("error");
-                setTnxCompleted(true);
-                setStep(2);
-                if (err.code === 4001) {
-                  console.log("User desined this transaction! ");
-                }
-              });
           })
           .catch((err: any) => {
             console.log(err);
@@ -204,6 +243,7 @@ const DelegatePopup: React.FC<any> = ({
           .buyVoucher(amount, _minSharesToMint)
           .send({ from: walletAddress })
           .on('transactionHash', (res: any) => {
+            // setLoder(false)
             dispatch(
               addTransaction({
                 hash: res,
@@ -263,16 +303,6 @@ const DelegatePopup: React.FC<any> = ({
           })
       }
     }
-    // buyVoucher(requestBody).then(res =>{
-    //   setTnxCompleted(true)
-    //   setToastMassage(res?.data?.message);
-    //   setMsgType('success')
-    //   const link = getExplorerLink(chainId,res?.data?.data?.transactionHash,'transaction')
-    //   setExplorerLink(link)
-    // }).catch((e)=>{
-    //   setToastMassage(e?.response?.data?.message);
-    //   setMsgType('error')
-    //   setTnxCompleted(true);setStep(2)})
   };
 
   // console.log(data);
