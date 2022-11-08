@@ -333,6 +333,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   }
 
   // WITHDRAW REWARDS VALIDATORS 
+  
   const withdrawRewardValidator = async () => {
     setTransactionState({ state: true, title: 'Pending' })
     if (account) {
@@ -373,6 +374,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
           )
         }).on('error', (res: any) => {
           console.log(res, "error")
+          setTransactionState({ state: false, title: 'Pending' })
           if (res.code === 4001) {
             setWithdrawModal({ value: false, address: '' })
           }
@@ -928,17 +930,17 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                     <h4 className="ff-mos"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></h4>
                     <div className="btns_sec val_all_bts row">
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                        <button onClick={() => handleModal("Restake", account)} className="ff-mos btn black-btn w-100 d-block">
+                        <button onClick={() => handleModal("Restake", "0xB82B2803dD7AB24eD183b2bF7f233b9E6033Fb21")} className="ff-mos btn black-btn w-100 d-block">
                           Restake
                         </button>
                       </div>
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                        <button onClick={() => handleModal("Change Commission Rate", account)} className="ff-mos btn black-btn w-100 d-block">
+                        <button onClick={() => handleModal("Change Commission Rate", "0xB82B2803dD7AB24eD183b2bF7f233b9E6033Fb21")} className="ff-mos btn black-btn w-100 d-block">
                           Change Commission Rate
                         </button>
                       </div>
                       <div className="col-xl-3  col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                        <button onClick={() => handleModal("Withdraw Rewards", account)} className="ff-mos btn black-btn w-100 d-block">
+                        <button onClick={() => handleModal("Withdraw Rewards", "0xB82B2803dD7AB24eD183b2bF7f233b9E6033Fb21")} className="ff-mos btn black-btn w-100 d-block">
                           Withdraw Rewards
                         </button>
                       </div>
