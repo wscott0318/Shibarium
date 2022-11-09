@@ -9,6 +9,7 @@ function StepFour({ activInput, handleEdit, stepState, stepHandler , becomeValid
  const [imageData , setImageData] = useState<any>({})
  const [stakeamount , setStakeamount] = useState('')
 
+
   
  function urltoFile(url : any, filename : any, mimeType : any){
   console.log(filename,url,mimeType,"the file name is here")

@@ -145,7 +145,6 @@ export default function ProfileUpdate() {
         } else {
             setImgsize(true)
         }
-
     }
 
     return (

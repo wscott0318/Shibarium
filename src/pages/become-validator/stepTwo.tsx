@@ -21,7 +21,7 @@ function StepTwo({
     image: false,
     address: false,
   });
-
+  const [imageSize , setImageSize ] = useState(false)
   const [apiLoading, setApiLoading] = useState(false)
 
   const verifyAddress = (address: any) => {
@@ -112,6 +112,7 @@ function StepTwo({
       validationSchema: schema,
       onSubmit: (values) => {
         // console.log("Value", values);
+
         callAPI(values);
       },
     });
@@ -127,12 +128,18 @@ function StepTwo({
 
 
   const onImageChange = (event: any) => {
+    if (event.target.files[0]?.size <= 204800) {
+      setImageData({ image: event.target.files[0],path : URL.createObjectURL(event.target.files[0]), name: event.target.files[0].name, type: event.target.files[0].type })
+      setImageSize(false)
+  } else {
+      setImageSize(true)
+  }
     console.log(event.target.files[0])
-    setImageData({ image: event.target.files[0],path : URL.createObjectURL(event.target.files[0]), name: event.target.files[0].name, type: event.target.files[0].type })
-    const file = event.target.files[0];
-    getBase64(file).then((base64: any) => {
-      setImageDemo(base64);
-    });
+     
+    // const file = event.target.files[0];
+    // getBase64(file).then((base64: any) => {
+    //   setImageDemo(base64);
+    // });
 
   }
 
@@ -142,6 +149,12 @@ function StepTwo({
     localStorage.setItem('imageData', JSON.stringify(imageData));
     console.log(imageData,"this is my img")
   }, [imageData]);
+
+  
+  useEffect(() => {
+    localStorage.getItem('imageData');
+    console.log(imageData,"this is my img")
+  }, []);
 
   
 
@@ -199,7 +212,7 @@ function StepTwo({
             </div>
             {validation.image ? (
               <p className="primary-text error ff-mos">image is required</p>
-            ) : null}
+            ) : imageSize ? <p className="primary-text error ff-mos" >only under 200 kb allowed</p> : null}
           </div>
 
           <div className="col-sm-6 form-grid">
