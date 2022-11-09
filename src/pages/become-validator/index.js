@@ -15,7 +15,7 @@ const Rewards = () => {
   const { chainId = 1, account, library } = useActiveWeb3React();
   const [loader, setLoader] = useState(false);
   const [ nodeExist, setNodeExist] = useState({});
-
+const [ editNsave , setEditNsave] = useState(false)
 
   useEffect(() => {
     if(account) {
@@ -90,6 +90,7 @@ const Rewards = () => {
       default:
         break;
     }
+setEditNsave(!editNsave)
   };
 
   const stepHandler = (type) => {
@@ -273,6 +274,7 @@ const Rewards = () => {
                     stepHandler={stepHandler}
                     stepState={stepState}
                     becomeValidateData={becomeValidateData}
+                    editNsave = {editNsave}
                   />
                 )}
 

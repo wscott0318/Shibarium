@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import * as yup from "yup";
 
 
-function StepFour({ activInput, handleEdit, stepState, stepHandler , becomeValidateData}: any) {
+function StepFour({ activInput, handleEdit, stepState, stepHandler , becomeValidateData , editNsave}: any) {
 
  console.log("becaome validate dataa",becomeValidateData)
  const [imageData , setImageData] = useState<any>({})
@@ -110,7 +110,7 @@ useEffect(() => {
                   href="#!"
                   onClick={() => {handleEdit("name")}}
                 >
-                  Edit
+                  {editNsave && activInput.name?"Save" :"Edit"}
                 </a>
               </div>
               <div className="input-wrap">
@@ -172,7 +172,7 @@ useEffect(() => {
                   href="#!"
                   onClick={() => {handleEdit("website")}}
                 >
-                  Edit
+                  {editNsave && activInput.website?"Save" :"Edit"}
                 </a>
               </div>
               <div className="input-wrap">
@@ -233,7 +233,7 @@ useEffect(() => {
                   href="#!"
                   onClick={() => handleEdit("comission")}
                 >
-                  {handleEdit?(<>Edit</>):(<>Save</>)}
+                 {editNsave && activInput.comission ?"Save" :"Edit"}
                 </a>
               </div>
               <div className="input-wrap">
