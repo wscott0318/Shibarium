@@ -377,4 +377,7 @@
 
 .staking-main {
     padding-top: 109px;
+    @media #{$max-xsm} {
+        padding-top: 240px;
+    }
 }
