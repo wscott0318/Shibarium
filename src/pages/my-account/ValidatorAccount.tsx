@@ -74,7 +74,8 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         if (res.data) {
           let newArray :any = []
           // console.log(res.data, "delegator card data")
-          let sortedData = res.data.data.validators.sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake))
+          let sortedData = res.data.data.validators.filter((x:any) => parseInt(x.stake) > 0).sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake))
+          // here 
             sortedData.forEach(async (x:any) => {
               let stakeData = await getStakeAmountDelegator(+(x.id), (accountAddress.toLowerCase()))
               // console.log(stakeData, "delegator card data")
