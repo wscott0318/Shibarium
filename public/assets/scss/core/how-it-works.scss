@@ -27,3 +27,9 @@
     margin-bottom: 15px;
     position: relative;
 }
+.wrk-cnt {
+    padding-top: 110px;
+    @media #{$max-xsm}{
+        padding-top: 220px;
+    }
+}
