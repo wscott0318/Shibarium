@@ -11,7 +11,7 @@ import {
   NavDropdown,
   MenuItem,
 } from "react-bootstrap";
-import Sidebar from "../layout/sidebar";
+import Sidebar from "../layout/Sidebar";
 
 export default function Dashboard() {
   const [isDeposit, setIsDeposit] = useState(true);
