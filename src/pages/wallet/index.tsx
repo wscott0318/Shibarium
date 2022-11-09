@@ -115,7 +115,10 @@ export default function Wallet() {
     // console.log("token list called ==> ")
     setListLoader(true)
     getWalletTokenList().then(res => {
-      let list = res.data.message.tokens;
+      let list = res.data.message.tokens
+      // .sort((a: any, b: any) => {
+      //   return (parseInt(b.balance) - parseInt(a.balance));
+      // });
       list.forEach(async (x: any) => {
         x.balance = await getTokenBalance(lib, account, x.parentContract)
       })

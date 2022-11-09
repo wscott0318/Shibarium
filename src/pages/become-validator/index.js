@@ -52,7 +52,13 @@ const Rewards = () => {
     address: userAddress,
     website: "",
     commission: "",
+    imageData : {
+      image : "",
+      name : "",
+      type : "",
+    }
   });
+  
   // console.log("Become Validate Data in Parent",becomeValidateData)
   
   const handleEdit = (value) => {
@@ -266,6 +272,7 @@ const Rewards = () => {
                     handleEdit={handleEdit}
                     stepHandler={stepHandler}
                     stepState={stepState}
+                    becomeValidateData={becomeValidateData}
                   />
                 )}
 

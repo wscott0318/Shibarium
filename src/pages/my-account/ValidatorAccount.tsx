@@ -971,7 +971,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                               <div className="grid-info text-start">
                                 <div className="fw-bold">{item.name}</div>
                                 <div className="info-row">
-                                  <span><span className="fw-bold">{parseInt(item.checkpointSignedPercent).toFixed(2)}%</span> Checkpoints Signed</span>
+                                  <span><span className="fw-bold">{parseInt(item.checkpointSignedPercent).toFixed(2)}%</span> Checkpoints Signed </span>
                                 </div>
                                 <div className="info-row">
                                   <span><span className="fw-bold">{item.commission}%</span> Commission</span>
@@ -1012,7 +1012,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                               </li>
 
                               <li className="btn-grp-lst">
-                                <button disabled={parseInt(item.commission) == 0} onClick={() => { setSelectedRow({ owner: item.contractAddress, contractAddress: item.contractAddress, commissionPercent: item.commission, name: item.name }); setStakeMoreModal(true); }} className="btn black-btn btn-small">Stake More</button>
+                                <button disabled={parseInt(item.commission) == 0 || parseInt(item.checkpointSignedPercent) < 85} onClick={() => { setSelectedRow({ owner: item.contractAddress, contractAddress: item.contractAddress, commissionPercent: item.commission, name: item.name }); setStakeMoreModal(true); }} className="btn black-btn btn-small">Stake More</button>
                               </li>
 
                             </ul>

@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import * as yup from "yup";
 import Web3 from "web3";
 import { registerValidator } from "services/apis/network-details/networkOverview";
@@ -14,8 +14,9 @@ function StepTwo({
 }: any) {
 
   const { chainId = 1, account, library } = useActiveWeb3React();
-  const userAddress :any  = account
+  const userAddress: any = account
   const [imageData, setImageData] = useState<any>("");
+  const [imageDemo, setImageDemo] = useState<any>('')
   const [validation, setValidation] = useState({
     image: false,
     address: false,
@@ -44,9 +45,9 @@ function StepTwo({
       setValidation({ image: true, address: true });
     }
 
-            setApiLoading(false)
-            setBecomeValidateData(values)
-            stepHandler("next");
+    setApiLoading(false)
+    setBecomeValidateData(values)
+    stepHandler("next");
 
     // var data = new FormData();
     // data.append("validatorName", values.validatorname);
@@ -78,14 +79,13 @@ function StepTwo({
 
   // console.log("Become Validate Data in Step Two", initialValues);
   useEffect(() => {
-    if(becomeValidateData)
-    {
+    if (becomeValidateData) {
       setInitialValues(becomeValidateData)
       setBecomeValidateData(becomeValidateData)
       setValues(becomeValidateData)
     }
   }, [])
-  
+
   let schema = yup.object().shape({
     validatorname: yup.string().required("validator name is required"),
     publickey: yup.string().required("public key is required"),
@@ -106,7 +106,7 @@ function StepTwo({
       ),
   });
 
-  const { values, errors, handleBlur, handleChange, handleSubmit, touched,setValues } =
+  const { values, errors, handleBlur, handleChange, handleSubmit, touched, setValues } =
     useFormik({
       initialValues: initialValues,
       validationSchema: schema,
@@ -116,7 +116,41 @@ function StepTwo({
       },
     });
 
-  // console.log("image", imageData.image.size);
+  const getBase64 = (file: any) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+      reader.readAsDataURL(file);
+    });
+  }
+
+
+  const onImageChange = (event: any) => {
+    console.log(event.target.files[0])
+    setImageData({ image: event.target.files[0],path : URL.createObjectURL(event.target.files[0]), name: event.target.files[0].name, type: event.target.files[0].type })
+    const file = event.target.files[0];
+    getBase64(file).then((base64: any) => {
+      setImageDemo(base64);
+    });
+
+  }
+
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    localStorage.setItem('imageData', JSON.stringify(imageData));
+    console.log(imageData,"this is my img")
+  }, [imageData]);
+
+  
+
+  // useEffect(() => {
+  //   let obj2 = values;
+  //   obj2.imageData = JSON.stringify(imageDemo);
+  //   setBecomeValidateData(obj2);
+  // }, [imageData])
+  // console.log("image", imageData);
 
   return (
     // <>
@@ -154,7 +188,8 @@ function StepTwo({
                     className="input-file"
                     accept="image/*"
                     // @ts-ignore
-                    onChange={(e) => setImageData({image: e.target.files[0], name: e.target.files[0].name})}
+                    // onChange={(e) => setImageData({image: e.target.files[0], name: e.target.files[0].name})}
+                    onChange={onImageChange}
                   />
                   <a href="#!" className="form-control ff-mos">
                     Upload
@@ -183,12 +218,12 @@ function StepTwo({
                 onBlur={handleBlur}
               />
               {touched.validatorname && errors.validatorname ? (
-              <p className="primary-text error ff-mos">
-                {errors.validatorname}
-              </p>
-            ) : null}
+                <p className="primary-text error ff-mos">
+                  {errors.validatorname}
+                </p>
+              ) : null}
             </div>
-            
+
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -227,7 +262,7 @@ function StepTwo({
               />
               {validation.address ? (
                 <p className="primary-text error ff-mos">enter a valid address</p>
-                ) : null}
+              ) : null}
             </div>
           </div>
           <div className="col-sm-6 form-grid">
@@ -264,8 +299,8 @@ function StepTwo({
                 onBlur={handleBlur}
               />
               {touched.commission && errors.commission ? (
-              <p className="primary-text error ff-mos">{errors.commission}</p>
-            ) : null}
+                <p className="primary-text error ff-mos">{errors.commission}</p>
+              ) : null}
             </div>
           </div>
         </div>
@@ -281,15 +316,15 @@ function StepTwo({
             type="submit"
             value="submit"
             className="btn primary-btn w-100"
-            // onClick={() => {
-            //   if (
-            //     Object.keys(errors).length === 0 &&
-            //     Object.getPrototypeOf(errors) === Object.prototype
-            //   ) {
-            //     setBecomeValidateData(values)
-            //     stepHandler("next");
-            //   }
-            // }}
+          // onClick={() => {
+          //   if (
+          //     Object.keys(errors).length === 0 &&
+          //     Object.getPrototypeOf(errors) === Object.prototype
+          //   ) {
+          //     setBecomeValidateData(values)
+          //     stepHandler("next");
+          //   }
+          // }}
           >
             <span className="ff-mos">Next</span>
           </button>
