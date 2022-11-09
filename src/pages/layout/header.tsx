@@ -310,7 +310,7 @@ const [scroll, setScroll] = useState(false);
             address={account}
           />
         )}
-        { router.asPath !== '/home' && <StakingHeader />}
+        { (router.asPath !== '/home' && router.asPath !== '/faq') && <StakingHeader />}
       </header>
     </>
   );

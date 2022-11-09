@@ -1,0 +1,113 @@
+/** faq- style start **/
+.fq-baner{
+    background: url('../../../images/faq-banner.jpg') no-repeat;
+    background-size: 100%;
+    @media #{$max-md}{
+        background: none;
+        background-color: $body-bg;
+    }
+}
+.hd-sc {
+    padding: 115px 0px 115px 75px;
+    @media #{$max-xxl}{
+        padding: 100px 0px 100px 75px;
+    }
+    @media #{$max-xl}{
+        padding: 80px 0px 80px 75px;
+    }
+    @media #{$max-md}{
+        padding: 60px 0px 60px 15px;
+    }
+    @media #{$max-xsmm}{
+        padding: 50px 0px 50px 15px;
+    }
+}
+.accor-sec{
+    padding-top: 110px;
+    @media #{$max-xxl}{
+        padding-top: 90px;
+    }
+    @media #{$max-xl}{
+        padding-top: 70px;
+    }
+    @media #{$max-lg}{
+        padding-top: 50px;
+    }
+    @media #{$max-md}{
+        padding-top: 20px;
+    }
+}
+.accor-sec{
+    .accordion-item{
+        background: transparent;
+        border-width: 0 0 1px 0;
+        border-color: $lt-blk;
+        border-radius: 0;
+        -webkit-border-radius: 0;
+        -o-border-radius: 0;
+        -ms-border-radius: 0;
+        -moz-border-radius: 0;
+    }
+    .accordion-header{
+        .accordion-button{
+            background: transparent;
+            color: $white;
+            font-size: 20px;
+            box-shadow: none;
+            padding-left: 0px;
+            padding-top: 25px;
+            padding-bottom: 25px;
+            @media #{$max-lg}{
+               font-size: 18px;  
+            }
+            @media #{$max-xsmm}{
+                padding-top: 20px;
+                padding-bottom: 20px; 
+            }
+            &:focus{
+                box-shadow: none;
+                border-radius: 0;
+                -webkit-border-radius: 0;
+                -o-border-radius: 0;
+                -ms-border-radius: 0;
+                -moz-border-radius: 0;
+            }
+            &::after{
+                content: none;
+            }
+        }
+    }
+    .accordion-body{
+        color: $ltwh-txt;
+        padding: 5px 0px 15px 35px;
+        p{
+            font-weight: 300;
+        }
+    }
+    .acc-head {
+        display: inline-block;
+        width: 100%;
+        padding-left: 20px;
+    }
+}
+
+.plus-icon, .minus-icon{
+    display: inline-block;
+}
+.accordion-item{
+    .plus-icon{
+        display: inline-block;
+    }
+    .minus-icon{
+        display: none;
+    }
+}
+.acc-active.accordion-item{
+    .plus-icon{
+        display: none;
+    }
+    .minus-icon{
+        display: inline-block;
+    }
+}
+/** faq- style end **/
