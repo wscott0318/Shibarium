@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect,useState } from "react";
-import Sidebar from "../layout/Sidebar";
+import Sidebar from "../layout/sidebar";
 import ImportantPopup from "../important-popup";
 import SendPopup from "../send-popup";
 import BalanceTable from "./balance-table";
