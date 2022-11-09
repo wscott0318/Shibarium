@@ -3,7 +3,7 @@
 import React from 'react'
 import Header from '../layout/header'
 import { Container, Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
-import Sidebar from '../layout/Sidebar';
+import Sidebar from '../layout/sidebar';
 import ImportantPopup from '../important-popup'
 import SendPopup from '../send-popup'
 export default function login() {

@@ -9,7 +9,7 @@ import CommonModal from "../components/CommonModel";
 import Header from "../layout/header";
 import StakingHeader from '../staking-header'
 import InnerHeader from "../../pages/inner-header";
-import Sidebar from "../layout/Sidebar"
+import Sidebar from "../layout/sidebar"
 import axios from "axios";
 import { useActiveWeb3React } from "app/services/web3";
 import ReCAPTCHA from "react-google-recaptcha";
