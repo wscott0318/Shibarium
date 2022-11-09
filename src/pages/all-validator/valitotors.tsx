@@ -33,14 +33,14 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
       setValidators(sortAgain)
     }, [searchResult])
   
-    console.log(validators)
+    // console.log(validators)
 
     const fetchValidators = async () => {
       const validators = await queryProvider.query({
         query: allValidatorsQuery(),
       })
 
-      console.log(validators, " graphQL query ==== >")
+      // console.log(validators, " graphQL query ==== >")
     }
 
     // useEffect(() => {
@@ -68,7 +68,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
               res.data.data.validatorsList,
               (e) => e.uptimePercent !== 0
             );
-            console.log(activeList)
+            // console.log(activeList)
             if (withStatusFilter) {
                 setValidatorsByStatus(activeList);
                 const slicedList = activeList.slice(0, pageSize)
@@ -98,7 +98,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     }, [isActiveTab]);
   
     const pageChangeHandler = (index: number) => {
-      console.log(index)
+      // console.log(index)
       const slicedList = validatorsByStatus.slice((index - 1) * pageSize, (index * pageSize))
       setValidators(slicedList)
       setCurrentPage(index)

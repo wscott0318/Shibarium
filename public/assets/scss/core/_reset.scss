@@ -418,7 +418,12 @@ ul {
 .form-group{
     position: relative;
 }
-
+// .staking-main{
+//     padding-top: 117px;
+// }
+.top-space{
+    
+}
 .cmn_dasdrd_table {
     background:$body-bg;
     border-radius: 30px;
@@ -671,9 +676,9 @@ body {
     // padding-left: 0 !important;   
     // padding-right: 0 !important;
 }
-.modal{
-    padding-right: 0 !important;
-}
+// .modal{
+//     padding-right: 0 !important;
+// }
 .whitespace-nowrap {
     white-space: pre-wrap;
     word-break: break-all;
@@ -832,8 +837,3 @@ body {
     background:$body-bg;
     border: 1px solid rgba($white,0.89);
 }
-
-// body.modal-open {
-//     padding-right: 0!important;
-//     overflow-y: scroll !important;
-// }

@@ -13,8 +13,8 @@ export default function HowitWorks() {
     
     return (
         <>
-            <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg ffms-inherit wrk-cnt">
             <Header />
+            <main className="main-content dark-bg-800 full-vh cmn-input-bg ffms-inherit wrk-cnt">
                 <div className="py-xxl-5 py-sm-4 py-4">
                     <section className="container mb-xxl-5 mb-xl-4 mb-sm-3 mb-3">
                         <h1 className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 ff-mos">Web Wallet Usage Guide</h1>

@@ -30,7 +30,7 @@ function RouteGuard({ children }) {
   async  function authCheck(url) {
         let isLoggedIn = localStorage.getItem('ShibariumUser');
         isLoggedIn = isLoggedIn ? JSON.parse(isLoggedIn)?.objectId: ''
-        console.log("isLoggedIn", isLoggedIn);
+        // console.log("isLoggedIn", isLoggedIn);
         // redirect to login page if accessing a private page and not logged in 
         const publicPaths = ['/dashboard','/balance','/account'];
         const path = url.split('?')[0];

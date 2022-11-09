@@ -69,19 +69,19 @@ export default function ProfileUpdate() {
     };
 
 
-    console.log(imageData)
+    // console.log(imageData)
     const callAPI = async (values: any) => {
-        console.log(values, imageData, "call API called");
+        // console.log(values, imageData, "call API called");
         setLoader(true)
         if ((imageData || imageURL) && verifyAddress(values.address)) {
             setValidation({ image: false, address: false });
-            console.log("1");
+            // console.log("1");
         } else if (!(imageData || imageURL) && verifyAddress(values.address)) {
             setValidation({ address: false, image: true });
-            console.log("2");
+            // console.log("2");
         } else if ((imageData || imageURL) && !verifyAddress(values.address)) {
             setValidation({ image: false, address: true });
-            console.log("3");
+            // console.log("3");
         }
         else {
             setValidation({ image: true, address: true });
@@ -139,7 +139,7 @@ export default function ProfileUpdate() {
     }
 
     const imgSizeCheck = (e: any) => {
-        if (e.target.files[0].size <= 204800) {
+        if (e.target.files[0]?.size <= 204800) {
             setImageData({ image: e.target.files[0] });
             setImgsize(false)
         } else {
@@ -184,8 +184,8 @@ export default function ProfileUpdate() {
                                 <form onSubmit={handleSubmit}>
                                     <div className="progress-tab">
                                         <div className="mb-4 mb-xl-5">
-                                            <h5 className="fwb fw-700 mb-2 ff-mos">Add node details</h5>
-                                            <p className="ff-mos">Please provide your node details for better recognizability</p>
+                                            <h5 className="fwb fw-700 mb-2 ff-mos">Update node details</h5>
+                                            <p className="ff-mos">You can update/edit your node details for better recognizability</p>
                                         </div>
                                         <div className="row">
                                             <div className="col-sm-6 form-grid">

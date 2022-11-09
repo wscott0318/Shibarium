@@ -11,7 +11,7 @@ import { isDesktop, isMobile } from 'react-device-detect';
 const ComponentRouters=({Component, pageProps}:any)=> {
     const router = useRouter();
     // const orientation = useScreenOrientation()
-    console.log(router.asPath);
+    // console.log(router.asPath);
   return (
     <RouteGuard>
       {router.asPath === "/home" ||

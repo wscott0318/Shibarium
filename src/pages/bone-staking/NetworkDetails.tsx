@@ -40,7 +40,7 @@ function NetworkDetails() {
     if(account) {
       getTotalStakes()
     }
-    getHeimdallBlockHeight()
+    // getHeimdallBlockHeight()
   }, [account])
 
   const cardShimmerEffects = () => {
@@ -207,8 +207,8 @@ function NetworkDetails() {
              :
              <div className="row">
                {
-                 [...Array(7)].map((x :any) => 
-                 <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
+                 [...Array(7)].map((x :any,index:any) => 
+                 <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col" key={index}>
                  <div className="bs-card card">
                    {cardShimmerEffects()}
                  </div>

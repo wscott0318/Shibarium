@@ -38,9 +38,10 @@ export default function unbondHistoryNew() {
   //  console.log('account---------------', account)
   return (
     <>
-      <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh top-space">
-          <Header />
-          <StakingHeader />
+    <Header />
+      <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh staking-main">
+          
+          {/* <StakingHeader /> */}
 
             <section className="top_bnr_area dark-bg">
                 <div className="container">

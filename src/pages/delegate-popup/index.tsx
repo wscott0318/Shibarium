@@ -22,6 +22,8 @@ import { addTransaction , finalizeTransaction} from "../../state/transactions/ac
 import {useAppDispatch} from "../../state/hooks"
 import {VALIDATORSHARE} from "../../web3/contractAddresses";
 import { dynamicChaining } from 'web3/DynamicChaining';
+import { Spinner } from 'react-bootstrap';
+import { currentGasPrice } from "../../web3/commonFunctions"; 
 
 const initialModalState = {
   step0: true,
@@ -52,7 +54,7 @@ const DelegatePopup: React.FC<any> = ({
   const dispatch = useAppDispatch()
 
   const [delegateState, setdelegateState] = useState(initialModalState);
-
+  const [loader,setLoader] = useState(false);
   const walletBalance =
     chainId === ChainId.SHIBARIUM
       ? useEthBalance()
@@ -60,7 +62,7 @@ const DelegatePopup: React.FC<any> = ({
 
   const getBalanceG = () => {
     web3?.eth?.getBalance().then((lastBlock: number) => {
-      console.log(lastBlock);
+      // console.log(lastBlock);
     });
   };
 
@@ -87,7 +89,7 @@ const DelegatePopup: React.FC<any> = ({
     e.preventDefault()
     // setAmount(walletBalance);
     setFieldValue("balance",walletBalance)
-    console.log("called");
+    // console.log("called");
     
   };
   const closeModal = (e: any) => {
@@ -129,14 +131,18 @@ const DelegatePopup: React.FC<any> = ({
     setStep(2);
   };
 
+
+
+  
   const buyVouchers = async () => {
+    setLoader(true);
     const requestBody = {
       validatorAddress: data.contractAddress,
       delegatorAddress: account,
       amount: values.balance,
     };
     setTnxCompleted(false);
-    console.log(requestBody);
+    // console.log(requestBody);
     if (account) {
       let lib: any = library;
       let web3: any = new Web3(lib?.provider);
@@ -157,7 +163,7 @@ const DelegatePopup: React.FC<any> = ({
           .approve(dynamicChaining[chainId].PROXY_MANAGER, approvalAmount)
           .send({ from: walletAddress })
           .then(async (res: any) => {
-            console.log(res);
+            // console.log(res);
             let instance = new web3.eth.Contract(
               ValidatorShareABI,
               requestBody.validatorAddress
@@ -165,27 +171,66 @@ const DelegatePopup: React.FC<any> = ({
             await instance.methods
               .buyVoucher(amount, _minSharesToMint)
               .send({ from: walletAddress })
-              .then((res: any) => {
-                setTnxCompleted(true);
-                setToastMassage(res?.data?.message);
-                setMsgType("success");
+              .on('transactionHash', (res: any) => {
+                setLoader(false);
+                dispatch(
+                  addTransaction({
+                    hash: res,
+                    from: account,
+                    chainId,
+                    summary: `${res}`,
+                  })
+                )
                 const link = getExplorerLink(
                   chainId,
-                  res.transactionHash,
+                  res,
                   "transaction"
                 );
                 setExplorerLink(link);
+                setdelegateState({
+                  step0:false,
+                  step1:false,
+                  step2: true,
+                  step3:false,
+                  title:'Transaction Process'
+                })
+                })
+                .on('receipt', (res: any) => {
+                  dispatch(
+                    finalizeTransaction({
+                      hash: res.transactionHash,
+                      chainId,
+                      receipt: {
+                        to: res.to,
+                        from: res.from,
+                        contractAddress: res.contractAddress,
+                        transactionIndex: res.transactionIndex,
+                        blockHash: res.blockHash,
+                        transactionHash: res.transactionHash,
+                        blockNumber: res.blockNumber,
+                        status: 1
+                      }
+                    })
+                  )
+                  const link = getExplorerLink(
+                    chainId,
+                    res.transactionHash,
+                    "transaction"
+                  );
+                  setExplorerLink(link);
+                  setdelegateState({
+                    step0:false,
+                    step1:false,
+                    step2: false,
+                    step3:true,
+                    title:'Transaction Done'
+                  })
+                  window.location.reload();
+                })
+              .on('error', (err: any) => {
+                setdelegateState(initialModalState)
+                setdelegatepop(false)
               })
-              .catch((err: any) => {
-                console.log(err);
-                setToastMassage("Something went wrong");
-                setMsgType("error");
-                setTnxCompleted(true);
-                setStep(2);
-                if (err.code === 4001) {
-                  console.log("User desined this transaction! ");
-                }
-              });
           })
           .catch((err: any) => {
             console.log(err);
@@ -200,10 +245,32 @@ const DelegatePopup: React.FC<any> = ({
           ValidatorShareABI,
           requestBody.validatorAddress
         );
-        await instance.methods
-          .buyVoucher(amount, _minSharesToMint)
-          .send({ from: walletAddress })
+
+
+
+       let gasFee =  await instance.methods.buyVoucher(amount, _minSharesToMint).estimateGas({from: walletAddress})
+       let encodedAbi =  await instance.methods.buyVoucher(amount, _minSharesToMint).encodeABI()
+       let CurrentgasPrice : any = await currentGasPrice(web3)
+       
+          console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+          console.log({
+            from: walletAddress,
+            to: requestBody.validatorAddress,
+            gas: (parseInt(gasFee) + 30000).toString(),
+            gasPrice: CurrentgasPrice,
+            // value : web3.utils.toHex(combinedFees),
+            data: encodedAbi
+          })
+          await web3.eth.sendTransaction({
+            from: walletAddress,
+            to: requestBody.validatorAddress,
+            gas: (parseInt(gasFee) + 30000).toString(),
+            gasPrice: CurrentgasPrice,
+            // value : web3.utils.toHex(combinedFees),
+            data: encodedAbi
+          })
           .on('transactionHash', (res: any) => {
+            setLoader(false)
             dispatch(
               addTransaction({
                 hash: res,
@@ -256,6 +323,7 @@ const DelegatePopup: React.FC<any> = ({
                 step3:true,
                 title:'Transaction Done'
               })
+              window.location.reload();
             })
           .on('error', (err: any) => {
             setdelegateState(initialModalState)
@@ -263,16 +331,6 @@ const DelegatePopup: React.FC<any> = ({
           })
       }
     }
-    // buyVoucher(requestBody).then(res =>{
-    //   setTnxCompleted(true)
-    //   setToastMassage(res?.data?.message);
-    //   setMsgType('success')
-    //   const link = getExplorerLink(chainId,res?.data?.data?.transactionHash,'transaction')
-    //   setExplorerLink(link)
-    // }).catch((e)=>{
-    //   setToastMassage(e?.response?.data?.message);
-    //   setMsgType('error')
-    //   setTnxCompleted(true);setStep(2)})
   };
 
   // console.log(data);
@@ -281,11 +339,17 @@ const DelegatePopup: React.FC<any> = ({
   };
 
 let schema = yup.object().shape({
-  balance: yup.string().required("Balance is required"),
+  balance: yup
+    .number().typeError("Only digits are allowed")
+    .max(
+      parseFloat(walletBalance?.toFixed(8)),
+      "Entered value cannot be greater than Balance"
+    ).positive("Balance cannot be negative")
+    .required("Balance is required"),
 });
 const [balance, setBalance] = useState();
 
-const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, touched } =
+const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, touched,setValues } =
   useFormik({
     initialValues: initialValues,
     validationSchema: schema,
@@ -300,11 +364,15 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
       })
     },
   });
-
+  useEffect(() => {
+    if (!showdelegatepop) {
+      setLoader(false);
+      setValues(initialValues);
+    }
+  }, [showdelegatepop]);
   const handleClose = () => {
     setdelegateState(initialModalState)
     setdelegatepop(false)
-    setFieldValue("balance","")
   }
 
 // console.log("Balance", values.balance);
@@ -410,11 +478,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                   <div className="ax-bottom">
                     <div className="pop_btns_area row form-control mt-5">
                       <div className="col-12">
-                        <button
-                          className="w-100"
-                          type="submit"
-                          value="submit"
-                        >
+                        <button className="w-100" type="submit" value="submit">
                           <a
                             className="btn primary-btn d-flex align-items-center"
                             href="javascript:void(0)"
@@ -430,8 +494,8 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
             )}
             {/* added by vivek */}
 
-             {/* step 2 */}
-             {delegateState.step1 && (
+            {/* step 2 */}
+            {delegateState.step1 && (
               <div className="step_content fl-box">
                 <div className="ax-top">
                   <div className="image_area row">
@@ -444,10 +508,10 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                   </div>
                   <div className="mid_text row">
                     <div className="col-12 text-center">
-                      <h4 className='ff-mos'>Buy Voucher</h4>
+                      <h4 className="ff-mos">Buy Voucher</h4>
                     </div>
                     <div className="col-12 text-center">
-                      <p className='ff-mos'>
+                      <p className="ff-mos">
                         Completing this transaction will stake your Burn tokens
                         and you will start earning rewards for the upcoming
                         checkpoints.
@@ -469,13 +533,29 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                       <button
                         className="w-100"
                         onClick={() => buyVouchers()}
+                        disabled={loader}
                       >
-                        <a
-                          className="btn primary-btn d-flex align-items-center"
-                          href="javascript:void(0)"
-                        >
-                          <span>Buy Voucher</span>
-                        </a>
+                        {loader ? (
+                          <a
+                            className="btn primary-btn d-flex align-items-center crsrDefault"
+                            href="javascript:void(0)"
+                          >
+                            <Spinner
+                              as="span"
+                              animation="border"
+                              size="sm"
+                              role="status"
+                              aria-hidden="true"
+                            />
+                          </a>
+                        ) : (
+                          <a
+                            className="btn primary-btn d-flex align-items-center"
+                            href="javascript:void(0)"
+                          >
+                            <span>Buy Voucher</span>
+                          </a>
+                        )}
                       </button>
                     </div>
                   </div>
@@ -497,10 +577,10 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                   </div>
                   <div className="mid_text row">
                     <div className="col-12 text-center">
-                      <h4 className='ff-mos'>Transaction in progress</h4>
+                      <h4 className="ff-mos">Transaction in progress</h4>
                     </div>
                     <div className="col-12 text-center">
-                      <p className='ff-mos'>
+                      <p className="ff-mos">
                         Ethereum transactions can take longer time to complete
                         based upon network congestion. Please wait for increase
                         the gas price of the transaction.
@@ -513,7 +593,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                     <div className="col-12">
                       <a
                         className="btn primary-btn d-flex align-items-center"
-                        target='_blank'
+                        target="_blank"
                         href={explorerLink}
                       >
                         <span>View on Block Explorer</span>
@@ -523,8 +603,6 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                 </div>
               </div>
             )}
-
-           
 
             {/* step 3 */}
             {delegateState.step3 && (
@@ -540,12 +618,13 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                   </div>
                   <div className="mid_text row">
                     <div className="col-12 text-center">
-                      <h4 className='ff-mos'>Delegation Submitted </h4>
+                      <h4 className="ff-mos">Delegation Submitted </h4>
                     </div>
                     <div className="col-12 text-center">
-                      <p className='ff-mos'>
-                        Your SHIBA tokens are staked successfully on validator. Your delegation will take 4-5 mintues to
-                        reflect in your account.
+                      <p className="ff-mos">
+                        Your SHIBA tokens are staked successfully on validator.
+                        Your delegation will take 4-5 mintues to reflect in your
+                        account.
                       </p>
                     </div>
                   </div>

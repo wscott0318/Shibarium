@@ -64,25 +64,26 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     stakeAmount: 0
   });
 
-  console.log(chainId)
+  // console.log(chainId)
 
   const getDelegatorCardData = async (accountAddress: any) => {
-    console.log(" card data ", accountAddress)
+    // console.log(" card data ", accountAddress)
     setLoading(true)
     try {
       getDelegatorData(accountAddress.toLowerCase()).then((res: any) => {
         if (res.data) {
           let newArray :any = []
           // console.log(res.data, "delegator card data")
-          let sortedData = res.data.data.validators.sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake))
+          let sortedData = res.data.data.validators.filter((x:any) => parseInt(x.stake) > 0).sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake))
+          // here 
             sortedData.forEach(async (x:any) => {
-              let stakeData = await getStakeAmountDelegator(+(x.id), JSON.stringify(accountAddress.toLowerCase()))
+              let stakeData = await getStakeAmountDelegator(+(x.id), (accountAddress.toLowerCase()))
               // console.log(stakeData, "delegator card data")
               setStakeAmounts((pre :any) => ([...pre, stakeData]))
             })
           setDelegationsList(sortedData)
           setLoading(false)
-          console.log(newArray)
+          // console.log(newArray)
         }
       }).catch((e: any) => {
         console.log(e);
@@ -95,7 +96,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     }
   }
 
-  console.log(stakeAmounts)
+  // console.log(stakeAmounts)
 
   const handleModal = (btn: String, valAddress: any, id: any = null, stakeAmount: any = null) => {
     console.log({ btn, valAddress, id, stakeAmount })
@@ -136,13 +137,13 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   };
 
 
-  console.log(unboundModal)
+  // console.log(unboundModal)
 
   useEffect(() => {
     if (account && userType === "Delegator") {
       getDelegatorCardData(account)
     }
-  }, [account, userType])
+  }, [account, userType, chainId])
 
   // console.log(restakeModal)
 
@@ -333,6 +334,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   }
 
   // WITHDRAW REWARDS VALIDATORS 
+  
   const withdrawRewardValidator = async () => {
     setTransactionState({ state: true, title: 'Pending' })
     if (account) {
@@ -373,6 +375,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
           )
         }).on('error', (res: any) => {
           console.log(res, "error")
+            setTransactionState({ state: false, title: 'Pending' })
           if (res.code === 4001) {
             setWithdrawModal({ value: false, address: '' })
           }
@@ -581,7 +584,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         showdelegatepop={stakeMore}
         setdelegatepop={() => setStakeMoreModal(false)}
       />
-      <div className="main-content dark-bg-800 full-vh top-space cmn-input-bg">
+      <div className="main-content dark-bg-800 full-vh  cmn-input-bg">
         {/* retake popop start */}
         <CommonModal
           title={"Restake"}
@@ -928,17 +931,17 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                     <h4 className="ff-mos"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></h4>
                     <div className="btns_sec val_all_bts row">
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                        <button onClick={() => handleModal("Restake", account)} className="ff-mos btn black-btn w-100 d-block">
+                        <button onClick={() => handleModal("Restake", "0xB82B2803dD7AB24eD183b2bF7f233b9E6033Fb21")} className="ff-mos btn black-btn w-100 d-block">
                           Restake
                         </button>
                       </div>
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                        <button onClick={() => handleModal("Change Commission Rate", account)} className="ff-mos btn black-btn w-100 d-block">
+                        <button onClick={() => handleModal("Change Commission Rate", "0xB82B2803dD7AB24eD183b2bF7f233b9E6033Fb21")} className="ff-mos btn black-btn w-100 d-block">
                           Change Commission Rate
                         </button>
                       </div>
                       <div className="col-xl-3  col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                        <button onClick={() => handleModal("Withdraw Rewards", account)} className="ff-mos btn black-btn w-100 d-block">
+                        <button onClick={() => handleModal("Withdraw Rewards", "0xB82B2803dD7AB24eD183b2bF7f233b9E6033Fb21")} className="ff-mos btn black-btn w-100 d-block">
                           Withdraw Rewards
                         </button>
                       </div>
@@ -954,12 +957,12 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
               </div>
             </section>
             :
-            <section className='del-grid-section bottom-pad ffms-inherit'>
+            <section className='del-grid-section bottom-pad ffms-inherit top-pad'>
               <div className="container">
                 <div className='row'>
                   {delegationsList.length ?
-                    delegationsList.map((item: any) =>
-                      <div className="col-lg-4 col-md-6 col-12 bs-col">
+                    delegationsList.map((item: any,index:any) =>
+                      <div className="col-lg-4 col-md-6 col-12 bs-col" key={index}>
                         <div className="border-sec">
                           <div className="top-sec">
                             <div className="info-block">

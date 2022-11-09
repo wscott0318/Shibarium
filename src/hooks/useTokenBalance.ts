@@ -31,7 +31,7 @@ export const getTokenBalance = async (library :any, account :any, address :any) 
     // console.log({library,account, address})
     if (library && account && address) {
         try {      
-            const web3:any = new Web3(library?.provider);
+            const web3:any = new Web3(library?.provider); // 
             const contract = new web3.eth.Contract(ERC20_ABI,address);
     
           await  contract.methods.balanceOf(account).call().then(async (res:any) => {

@@ -13,7 +13,7 @@ import {
   NoEthereumProviderError,
   UserRejectedRequestError as UserRejectedRequestErrorInjected
 } from '@web3-react/injected-connector'
-import Sidebar  from "../layout/sidebar"
+import Sidebar  from "../layout/Sidebar"
 import Web3Status from "app/components/Web3Status";
 import {
   getWalletTokenList
@@ -131,7 +131,7 @@ const handleSearchList = (key :any) => {
 
 
       const handleTokenSelect = (token:any) => {
-        console.log(token)
+        // console.log(token)
         setSelectedToken(token)
         setTokenModal(false)
       }
