@@ -20,6 +20,7 @@ import DelegatePopup from 'pages/delegate-popup';
 import { queryProvider } from 'Apollo/client';
 import { StakeAmount } from 'Apollo/queries';
 import { dynamicChaining } from 'web3/DynamicChaining';
+import { getValidatorsDetail } from 'app/services/apis/validator';
 
 
 
@@ -576,6 +577,29 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     return item > 0 ? (parseInt(item) / 10 ** 18).toFixed(4) : "00.00"
   } 
 
+  const [validatorInfo, setValidatorInfo] = useState<any>();
+  useEffect(() => {
+    getValidatorsDetail(`${account}`)
+      .then((res) => {
+        setValidatorInfo(res?.data?.data?.validatorSet.validatorInfo);
+      })
+      .catch((error: any) => {
+        console.log("error", error);
+      });
+    
+  }, []);
+
+  useEffect(() => {
+    getValidatorsDetail(`${account}`)
+      .then((res) => {
+        setValidatorInfo(res?.data?.data?.validatorSet.validatorInfo);
+      })
+      .catch((error: any) => {
+        console.log("error", error);
+      });
+  }, [account])
+  
+
   return (
     <>
       {loading && <LoadingSpinner />}
@@ -589,150 +613,193 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         <CommonModal
           title={"Restake"}
           show={restakeModal.value1}
-          setShow={() => setRestakeModal({ value1: false, value2: false, address: '' })}
+          setShow={() =>
+            setRestakeModal({ value1: false, value2: false, address: "" })
+          }
           externalCls="stak-pop"
         >
           <>
             <div className="cmn_modal val_popups">
               <Formik
                 initialValues={{
-                  amount: '',
-                  address: '',
-                  reward: 0
+                  amount: "",
+                  address: "",
+                  reward: 0,
                 }}
                 validationSchema={restakeValidation}
                 onSubmit={(values, actions) => {
                   console.log(values);
-                  callRestakeValidators(values)
+                  callRestakeValidators(values);
                 }}
               >
-                {
-                  ({ errors, touched, handleChange, handleBlur, values, handleSubmit }) => (
-                    <>
-                      <div className="cmn_inpt_row">
-                        <div className="form-control">
-                          <label className="mb-2 mb-md-2 text-white">Enter validator address</label>
-                          <input type="text"
-                            placeholder="Validator address"
-                            className="w-100"
-                            value={restakeModal.address}
-                            readOnly
-                          />
-                        </div>
-                      </div>
-                      <div className="cmn_inpt_row">
-                        <div className="form-control">
-                          <label className="mb-2 mb-md-2 text-white">Enter amount</label>
-                          <input
-                            type="text"
-                            placeholder="Amount"
-                            className="w-100"
-                            value={values.amount}
-                            onChange={handleChange("amount")}
-                          />
-                          {touched.amount && errors.amount ? <p className='primary-text pt-1 pl-2'>{errors.amount}</p> : null}
-                        </div>
-                      </div>
-                      <div className="cmn_inpt_row">
-                        <div className="form-control">
-                          <label className="mb-2 mb-md-2 text-white">Enter Restake reward</label>
-                          {/* <input type="text" placeholder="Stakereward" className="w-100" /> */}
-                          <div className='black-sel'>
-                            <select name="reward" id="reward" onChange={handleChange("reward")} className="cus-select">
-                              <option selected={values.reward === 0} value={0}>No</option>
-                              <option selected={values.reward === 1} value={1}>Yes</option>
-                            </select>
-                            <span className="arrow-down"></span>
-                          </div>
-
-                        </div>
-                      </div>
-                      <div className="pop_btns_area">
-                        <div className="form-control">
-                          <button className='btn primary-btn w-100'
-                            onClick={() => handleSubmit()}
-                          >Submit</button>
-                        </div>
-                      </div>
-                    </>
-                  )}
-              </Formik>
-            </div>
-
-          </>
-        </CommonModal>
-        {/* retake popop ends */}
-
-
-        {/* commission popop start */}
-        <CommonModal
-          title={"Commission"}
-          show={commiModal.value}
-          setShow={() => setCommiModal({ value: false, address: '' })}
-          externalCls="stak-pop"
-        >
-          <>
-            <Formik
-              initialValues={{
-                address: '',
-                comission: ''
-              }}
-              validationSchema={comissionValidation}
-              onSubmit={(values, actions) => {
-                console.log(values);
-                callComission(values)
-              }}
-            >
-              {
-                ({ errors, touched, handleChange, handleBlur, values, handleSubmit }) => (
-                  <div className="cmn_modal val_popups">
+                {({
+                  errors,
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  values,
+                  handleSubmit,
+                }) => (
+                  <>
                     <div className="cmn_inpt_row">
                       <div className="form-control">
-                        <label className="mb-2 mb-md-2 text-white">Enter validator address</label>
+                        <label className="mb-2 mb-md-2 text-white">
+                          Enter validator address
+                        </label>
                         <input
                           type="text"
                           placeholder="Validator address"
                           className="w-100"
-                          value={commiModal.address}
+                          value={restakeModal.address}
                           readOnly
                         />
                       </div>
                     </div>
                     <div className="cmn_inpt_row">
                       <div className="form-control">
-                        <label className="mb-2 mb-md-2 text-white">Enter new commission</label>
+                        <label className="mb-2 mb-md-2 text-white">
+                          Enter amount
+                        </label>
                         <input
                           type="text"
-                          placeholder="New commission"
+                          placeholder="Amount"
                           className="w-100"
-                          value={values.comission}
-                          onChange={handleChange("comission")}
+                          value={values.amount}
+                          onChange={handleChange("amount")}
                         />
-                        {touched.comission && errors.comission ? <p className='primary-text pt-1 pl-2'>{errors.comission}</p> : null}
+                        {touched.amount && errors.amount ? (
+                          <p className="primary-text pt-1 pl-2">
+                            {errors.amount}
+                          </p>
+                        ) : null}
+                      </div>
+                    </div>
+                    <div className="cmn_inpt_row">
+                      <div className="form-control">
+                        <label className="mb-2 mb-md-2 text-white">
+                          Enter Restake reward
+                        </label>
+                        {/* <input type="text" placeholder="Stakereward" className="w-100" /> */}
+                        <div className="black-sel">
+                          <select
+                            name="reward"
+                            id="reward"
+                            onChange={handleChange("reward")}
+                            className="cus-select"
+                          >
+                            <option selected={values.reward === 0} value={0}>
+                              No
+                            </option>
+                            <option selected={values.reward === 1} value={1}>
+                              Yes
+                            </option>
+                          </select>
+                          <span className="arrow-down"></span>
+                        </div>
                       </div>
                     </div>
                     <div className="pop_btns_area">
                       <div className="form-control">
-                        <button className='btn primary-btn w-100'
-                          type='submit'
+                        <button
+                          className="btn primary-btn w-100"
                           onClick={() => handleSubmit()}
-                        >Submit
+                        >
+                          Submit
                         </button>
                       </div>
                     </div>
-                  </div>
+                  </>
                 )}
+              </Formik>
+            </div>
+          </>
+        </CommonModal>
+        {/* retake popop ends */}
+
+        {/* commission popop start */}
+        <CommonModal
+          title={"Commission"}
+          show={commiModal.value}
+          setShow={() => setCommiModal({ value: false, address: "" })}
+          externalCls="stak-pop"
+        >
+          <>
+            <Formik
+              initialValues={{
+                address: "",
+                comission: "",
+              }}
+              validationSchema={comissionValidation}
+              onSubmit={(values, actions) => {
+                console.log(values);
+                callComission(values);
+              }}
+            >
+              {({
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                values,
+                handleSubmit,
+              }) => (
+                <div className="cmn_modal val_popups">
+                  <div className="cmn_inpt_row">
+                    <div className="form-control">
+                      <label className="mb-2 mb-md-2 text-white">
+                        Enter validator address
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Validator address"
+                        className="w-100"
+                        value={commiModal.address}
+                        readOnly
+                      />
+                    </div>
+                  </div>
+                  <div className="cmn_inpt_row">
+                    <div className="form-control">
+                      <label className="mb-2 mb-md-2 text-white">
+                        Enter new commission
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="New commission"
+                        className="w-100"
+                        value={values.comission}
+                        onChange={handleChange("comission")}
+                      />
+                      {touched.comission && errors.comission ? (
+                        <p className="primary-text pt-1 pl-2">
+                          {errors.comission}
+                        </p>
+                      ) : null}
+                    </div>
+                  </div>
+                  <div className="pop_btns_area">
+                    <div className="form-control">
+                      <button
+                        className="btn primary-btn w-100"
+                        type="submit"
+                        onClick={() => handleSubmit()}
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </Formik>
           </>
         </CommonModal>
         {/* commission popop ends */}
 
-
         {/* withdraw popop start */}
         <CommonModal
           title={"Withdraw rewards"}
           show={withdrawModal.value}
-          setShow={() => setWithdrawModal({ value: false, address: '' })}
+          setShow={() => setWithdrawModal({ value: false, address: "" })}
           externalCls="stak-pop"
         >
           <>
@@ -740,7 +807,9 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
               <>
                 <div className="cmn_inpt_row">
                   <div className="form-control">
-                    <label className="mb-2 mb-md-2 text-white">Enter validator address</label>
+                    <label className="mb-2 mb-md-2 text-white">
+                      Enter validator address
+                    </label>
                     <input
                       type="text"
                       placeholder="Validator address"
@@ -754,12 +823,14 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                   <div className="form-control">
                     <button
                       onClick={() => withdrawRewardValidator()}
-                      className='btn primary-btn w-100'>Submit</button>
+                      className="btn primary-btn w-100"
+                    >
+                      Submit
+                    </button>
                   </div>
                 </div>
               </>
             </div>
-
           </>
         </CommonModal>
         {/* withdraw popop ends */}
@@ -768,7 +839,9 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         <CommonModal
           title={"Restake"}
           show={restakeModal.value2}
-          setShow={() => setRestakeModal({ value1: false, value2: false, address: '' })}
+          setShow={() =>
+            setRestakeModal({ value1: false, value2: false, address: "" })
+          }
           externalCls="stak-pop"
         >
           <>
@@ -776,7 +849,9 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
               <>
                 <div className="cmn_inpt_row">
                   <div className="form-control">
-                    <label className="mb-2 mb-md-2 text-white">validator address</label>
+                    <label className="mb-2 mb-md-2 text-white">
+                      validator address
+                    </label>
                     <input
                       type="text"
                       placeholder="Validator address"
@@ -790,16 +865,17 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                   <div className="form-control">
                     <button
                       onClick={() => restakeDelegator()}
-                      className='btn primary-btn w-100'>Submit</button>
+                      className="btn primary-btn w-100"
+                    >
+                      Submit
+                    </button>
                   </div>
                 </div>
               </>
             </div>
-
           </>
         </CommonModal>
         {/* withdraw popop ends */}
-
 
         {/* unbound popop start */}
         <CommonModal
@@ -812,44 +888,63 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
             <div className="cmn_modal val_popups">
               <form>
                 <div className="only_text">
-                  <p className="text-center">Are you sure you want to unbound?</p>
+                  <p className="text-center">
+                    Are you sure you want to unbound?
+                  </p>
                 </div>
                 <div className="pop_btns_area row mr-top-50 form-control">
                   <div className="col-6">
-                    <button onClick={(e) => { e.preventDefault(); setunboundpop(false) }} className='btn blue-btn w-100 dark-bg-800 text-white' >Cancel</button>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setunboundpop(false);
+                      }}
+                      className="btn blue-btn w-100 dark-bg-800 text-white"
+                    >
+                      Cancel
+                    </button>
                   </div>
                   <div className="col-6">
-                    <button onClick={(e) => { e.preventDefault(); unboundValidator() }} className='btn primary-btn w-100' >Confirm</button>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        unboundValidator();
+                      }}
+                      className="btn primary-btn w-100"
+                    >
+                      Confirm
+                    </button>
                   </div>
                 </div>
               </form>
             </div>
-
           </>
         </CommonModal>
         {/* unbound popop ends */}
-
 
         {/* unbound popop DELEGATOR start */}
         <CommonModal
           title={"Unbound"}
           show={unboundModal.startValue}
-          setShow={() => setUnboundModal({ ...unboundModal, startValue: false })}
+          setShow={() =>
+            setUnboundModal({ ...unboundModal, startValue: false })
+          }
           externalCls="stak-pop"
         >
           <>
-            {unboundModal.startValue &&
-              <div className='.cmn_modal del-tab-content'>
+            {unboundModal.startValue && (
+              <div className=".cmn_modal del-tab-content">
                 <div className="center-align mb-4">
                   <h4>Are you sure you want to unbound?</h4>
                 </div>
                 <div className="dark-bg-800 p-2 p-sm-3">
-
                   {/* old input */}
                   <div className="form-group float-group">
                     <div className="d-flex justify-content-between flex-wrap">
-                      <h6 className='mb-1 fs-14'>Withdraw Stake</h6>
-                      <h6 className='mb-1 fs-14'>{unboundModal.stakeAmount} Bone</h6>
+                      <h6 className="mb-1 fs-14">Withdraw Stake</h6>
+                      <h6 className="mb-1 fs-14">
+                        {unboundModal.stakeAmount} Bone
+                      </h6>
                     </div>
                     <div className="cmn_inpt_row max-input">
                       <div className="max-input">
@@ -857,12 +952,15 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                           value={unboundInput}
                           onChange={(e) => setUnboundInput(e.target.value)}
                           type="number"
-                          className="w-100 dark-bg form-control" placeholder="Enter amount"
+                          className="w-100 dark-bg form-control"
+                          placeholder="Enter amount"
                         />
                         <span
                           className="primary-text over-text fw-600"
                           style={{ cursor: "pointer" }}
-                          onClick={() => setUnboundInput(unboundModal.stakeAmount)}
+                          onClick={() =>
+                            setUnboundInput(unboundModal.stakeAmount)
+                          }
                         >
                           MAX
                         </span>
@@ -871,47 +969,63 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                   </div>
                   <div className="p-2">
                     <p className="mb-0">
-                      Your Funds will be locked for <p className="dark-text primary-text">checkpoints</p>
+                      Your Funds will be locked for{" "}
+                      <p className="dark-text primary-text">checkpoints</p>
                     </p>
                   </div>
                 </div>
                 <button
                   onClick={() => unboundDelegator()}
                   disabled={unboundInput ? false : true}
-                  type="button" className="btn primary-btn mt-3 mt-sm-4 w-100">Confirm Unbound</button>
+                  type="button"
+                  className="btn primary-btn mt-3 mt-sm-4 w-100"
+                >
+                  Confirm Unbound
+                </button>
               </div>
-            }
+            )}
           </>
         </CommonModal>
         {/* unbound popop DELEGATOR ends */}
-
 
         {/* pending & submit modal start */}
 
         <CommonModal
           title={transactionState.title}
           show={transactionState.state}
-          setShow={() => setTransactionState({ state: false, title: 'Pending' })}
-          externalCls="faucet-pop">
+          setShow={() =>
+            setTransactionState({ state: false, title: "Pending" })
+          }
+          externalCls="faucet-pop"
+        >
           <div className="popmodal-body tokn-popup no-ht trans-mod">
             <div className="pop-block">
               <div className="pop-top">
-                <div className='dark-bg-800 h-100 status-sec'>
+                <div className="dark-bg-800 h-100 status-sec">
                   <span>
-                    <div><img width="224" height="224" className="img-fluid" src="../../images/Ellipse.png" alt="" /></div>
+                    <div>
+                      <img
+                        width="224"
+                        height="224"
+                        className="img-fluid"
+                        src="../../images/Ellipse.png"
+                        alt=""
+                      />
+                    </div>
                   </span>
                 </div>
               </div>
               <div className="pop-bottom">
                 {/* <p className='elip-text mt-3'>{transactionState.hash}</p> */}
-                <div className='staus-btn'>
+                <div className="staus-btn">
                   <button
-                    type='button'
-                    className='btn primary-btn w-100'
+                    type="button"
+                    className="btn primary-btn w-100"
                     disabled={hashLink ? false : true}
                     onClick={() => window.open(hashLink)}
                   >
-                    View on Block Explorer</button>
+                    View on Block Explorer
+                  </button>
                 </div>
               </div>
             </div>
@@ -920,117 +1034,245 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         </CommonModal>
         {/* pending & submit modal end */}
 
-        {
-          userType === "Validator" ?
-            <section className="mid_cnt_area">
-              <div className="container">
-                <div className="col-xl-12 col-lg-12 side-auto">
-                  <div className="val_del_outr">
-                    <h4 className="ff-mos">Wallet Balance</h4>
-                    <h3 className="ff-mos"><b>{availBalance.toFixed(4)} Bone</b></h3>
-                    <h4 className="ff-mos"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></h4>
-                    <div className="btns_sec val_all_bts row">
-                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                        <button onClick={() => handleModal("Restake", "0xB82B2803dD7AB24eD183b2bF7f233b9E6033Fb21")} className="ff-mos btn black-btn w-100 d-block">
-                          Restake
-                        </button>
-                      </div>
-                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                        <button onClick={() => handleModal("Change Commission Rate", "0xB82B2803dD7AB24eD183b2bF7f233b9E6033Fb21")} className="ff-mos btn black-btn w-100 d-block">
-                          Change Commission Rate
-                        </button>
-                      </div>
-                      <div className="col-xl-3  col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                        <button onClick={() => handleModal("Withdraw Rewards", "0xB82B2803dD7AB24eD183b2bF7f233b9E6033Fb21")} className="ff-mos btn black-btn w-100 d-block">
-                          Withdraw Rewards
-                        </button>
-                      </div>
-                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                        <button onClick={() => setunboundpop(true)} className="ff-mos btn black-btn w-100 d-block">
-                          Unbound
-                        </button>
-                      </div>
-
+        {userType === "Validator" ? (
+          <section className="mid_cnt_area">
+            <div className="container">
+              <div className="col-xl-12 col-lg-12 side-auto">
+                <div className="val_del_outr">
+                  <h4 className="ff-mos">Wallet Balance</h4>
+                  <h3 className="ff-mos">
+                    <b>{availBalance.toFixed(4)} Bone</b>
+                  </h3>
+                  <h4 className="ff-mos">
+                    <NumberFormat
+                      thousandSeparator
+                      displayType={"text"}
+                      prefix="$ "
+                      value={((availBalance || 0) * boneUSDValue).toFixed(2)}
+                    />
+                  </h4>
+                  <h4 className="ff-mos">
+                    Commission Percentage - {validatorInfo?.commissionPercent}
+                  </h4>
+                  <h4>
+                    Rewards -{" "}
+                    {(
+                      (Number(fromExponential(validatorInfo?.totalRewards)) -
+                        Number(fromExponential(validatorInfo?.claimedReward))) /
+                      Math.pow(10, 18)
+                    ).toFixed(8)}
+                  </h4>
+                  <div className="btns_sec val_all_bts row">
+                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
+                      <button
+                        onClick={() =>
+                          handleModal(
+                            "Restake",
+                            "0xB82B2803dD7AB24eD183b2bF7f233b9E6033Fb21"
+                          )
+                        }
+                        className="ff-mos btn black-btn w-100 d-block"
+                      >
+                        Restake
+                      </button>
+                    </div>
+                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
+                      <button
+                        onClick={() =>
+                          handleModal(
+                            "Change Commission Rate",
+                            "0xB82B2803dD7AB24eD183b2bF7f233b9E6033Fb21"
+                          )
+                        }
+                        className="ff-mos btn black-btn w-100 d-block"
+                      >
+                        Change Commission Rate
+                      </button>
+                    </div>
+                    <div className="col-xl-3  col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
+                      <button
+                        onClick={() =>
+                          handleModal(
+                            "Withdraw Rewards",
+                            "0xB82B2803dD7AB24eD183b2bF7f233b9E6033Fb21"
+                          )
+                        }
+                        className="ff-mos btn black-btn w-100 d-block"
+                      >
+                        Withdraw Rewards
+                      </button>
+                    </div>
+                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                      <button
+                        onClick={() => setunboundpop(true)}
+                        className="ff-mos btn black-btn w-100 d-block"
+                      >
+                        Unbound
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
-            </section>
-            :
-            <section className='del-grid-section bottom-pad ffms-inherit top-pad'>
-              <div className="container">
-                <div className='row'>
-                  {delegationsList.length ?
-                    delegationsList.map((item: any,index:any) =>
-                      <div className="col-lg-4 col-md-6 col-12 bs-col" key={index}>
-                        <div className="border-sec">
-                          <div className="top-sec">
-                            <div className="info-block">
-                              <div className="image-blk">
-                                <div>
-                                  <img className="img-fluid" src={item.logoUrl ? item.logoUrl : "../../images/Shib-Logo.png" } width="69" height="70" alt="coin-icon" />
-                                </div>
-                              </div>
-                              <div className="grid-info text-start">
-                                <div className="fw-bold">{item.name}</div>
-                                <div className="info-row">
-                                  <span><span className="fw-bold">{parseInt(item.checkpointSignedPercent).toFixed(2)}%</span> Checkpoints Signed</span>
-                                </div>
-                                <div className="info-row">
-                                  <span><span className="fw-bold">{item.commission}%</span> Commission</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="mid-sec bs-card h-auto">
-                            <div className="block-container">
-                              <div className="cus-width">
-                                <div className="text-center">
-                                  <div>Your Stake</div>
-                                  <div className="fw-bold">{getStake(item.id)}</div>
-                                  {/* <div className="fw-bold">{stakeAmounts?.filter((x:any) => x.validatorId === item.id)[0]?.tokens}</div> */}
-                                  {/* {/ <div>$0</div> /} */}
-                                </div>
-                              </div>
-                              <div className="cus-width">
-                                <div className="text-center">
-                                  <div>Reward</div>
-                                  <div className="fw-bold orange-color">{ item.reward > 0 ? (parseInt(item.reward) / 10 ** 18).toFixed(4) : "00.00"}</div>
-                                  {/* {/ <div>$0</div> /} */}
-                                </div>
+            </div>
+          </section>
+        ) : (
+          <section className="del-grid-section bottom-pad ffms-inherit top-pad">
+            <div className="container">
+              <div className="row">
+                {delegationsList.length ? (
+                  delegationsList.map((item: any, index: any) => (
+                    <div
+                      className="col-lg-4 col-md-6 col-12 bs-col"
+                      key={index}
+                    >
+                      <div className="border-sec">
+                        <div className="top-sec">
+                          <div className="info-block">
+                            <div className="image-blk">
+                              <div>
+                                <img
+                                  className="img-fluid"
+                                  src={
+                                    item.logoUrl
+                                      ? item.logoUrl
+                                      : "../../images/Shib-Logo.png"
+                                  }
+                                  width="69"
+                                  height="70"
+                                  alt="coin-icon"
+                                />
                               </div>
                             </div>
-
-                            <ul className="btn-grp">
-
-                              <li className="btn-grp-lst">
-                                <button disabled={parseInt(item.commission) == 0 || (parseInt(item.reward) / 10 ** 18) < 1} onClick={() => handleModal('Restake', item.contractAddress)} className="btn grey-btn btn-small">Restake</button>
-                              </li>
-                              <li className="btn-grp-lst">
-                                <button disabled={(parseInt(item.reward) / 10 ** 18) < 1} onClick={() => handleModal('Withdraw Rewards', item.contractAddress)} className="btn black-btn btn-small">Withdraw Rewards</button>
-                              </li>
-
-                              <li className="btn-grp-lst">
-                                <button disabled={(parseInt(item.stake) / 10 ** 18) < 1} onClick={() => handleModal('Unbound', item.validatorAddress, item.contractAddress, (parseInt(item.stake) / 10 ** 18).toFixed(4))} className="btn black-btn btn-small">Unbound</button>
-                              </li>
-
-                              <li className="btn-grp-lst">
-                                <button disabled={parseInt(item.commission) == 0} onClick={() => { setSelectedRow({ owner: item.contractAddress, contractAddress: item.contractAddress, commissionPercent: item.commission, name: item.name }); setStakeMoreModal(true); }} className="btn black-btn btn-small">Stake More</button>
-                              </li>
-
-                            </ul>
+                            <div className="grid-info text-start">
+                              <div className="fw-bold">{item.name}</div>
+                              <div className="info-row">
+                                <span>
+                                  <span className="fw-bold">
+                                    {parseInt(
+                                      item.checkpointSignedPercent
+                                    ).toFixed(2)}
+                                    %
+                                  </span>{" "}
+                                  Checkpoints Signed
+                                </span>
+                              </div>
+                              <div className="info-row">
+                                <span>
+                                  <span className="fw-bold">
+                                    {item.commission}%
+                                  </span>{" "}
+                                  Commission
+                                </span>
+                              </div>
+                            </div>
                           </div>
                         </div>
+                        <div className="mid-sec bs-card h-auto">
+                          <div className="block-container">
+                            <div className="cus-width">
+                              <div className="text-center">
+                                <div>Your Stake</div>
+                                <div className="fw-bold">
+                                  {getStake(item.id)}
+                                </div>
+                                {/* <div className="fw-bold">{stakeAmounts?.filter((x:any) => x.validatorId === item.id)[0]?.tokens}</div> */}
+                                {/* {/ <div>$0</div> /} */}
+                              </div>
+                            </div>
+                            <div className="cus-width">
+                              <div className="text-center">
+                                <div>Reward</div>
+                                <div className="fw-bold orange-color">
+                                  {item.reward > 0
+                                    ? (
+                                        parseInt(item.reward) /
+                                        10 ** 18
+                                      ).toFixed(4)
+                                    : "00.00"}
+                                </div>
+                                {/* {/ <div>$0</div> /} */}
+                              </div>
+                            </div>
+                          </div>
+
+                          <ul className="btn-grp">
+                            <li className="btn-grp-lst">
+                              <button
+                                disabled={
+                                  parseInt(item.commission) == 0 ||
+                                  parseInt(item.reward) / 10 ** 18 < 1
+                                }
+                                onClick={() =>
+                                  handleModal("Restake", item.contractAddress)
+                                }
+                                className="btn grey-btn btn-small"
+                              >
+                                Restake
+                              </button>
+                            </li>
+                            <li className="btn-grp-lst">
+                              <button
+                                disabled={parseInt(item.reward) / 10 ** 18 < 1}
+                                onClick={() =>
+                                  handleModal(
+                                    "Withdraw Rewards",
+                                    item.contractAddress
+                                  )
+                                }
+                                className="btn black-btn btn-small"
+                              >
+                                Withdraw Rewards
+                              </button>
+                            </li>
+
+                            <li className="btn-grp-lst">
+                              <button
+                                disabled={parseInt(item.stake) / 10 ** 18 < 1}
+                                onClick={() =>
+                                  handleModal(
+                                    "Unbound",
+                                    item.validatorAddress,
+                                    item.contractAddress,
+                                    (parseInt(item.stake) / 10 ** 18).toFixed(4)
+                                  )
+                                }
+                                className="btn black-btn btn-small"
+                              >
+                                Unbound
+                              </button>
+                            </li>
+
+                            <li className="btn-grp-lst">
+                              <button
+                                disabled={parseInt(item.commission) == 0}
+                                onClick={() => {
+                                  setSelectedRow({
+                                    owner: item.contractAddress,
+                                    contractAddress: item.contractAddress,
+                                    commissionPercent: item.commission,
+                                    name: item.name,
+                                  });
+                                  setStakeMoreModal(true);
+                                }}
+                                className="btn black-btn btn-small"
+                              >
+                                Stake More
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
-                    )
-                    : !loading && !delegationsList.length ? <div className='txt-emp'>
-                      <div className='no-fount-txt'>No Record Found</div>
-                    </div> : null
-                  }
-                </div>
+                    </div>
+                  ))
+                ) : !loading && !delegationsList.length ? (
+                  <div className="txt-emp">
+                    <div className="no-fount-txt">No Record Found</div>
+                  </div>
+                ) : null}
               </div>
-            </section>
-        }
+            </div>
+          </section>
+        )}
       </div>
     </>
   );
