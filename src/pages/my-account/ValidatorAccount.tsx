@@ -1036,12 +1036,12 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         {/* pending & submit modal end */}
 
         {userType === "Validator" ? (
-          <section className="mid_cnt_area">
+          <section className="mid_cnt_area acct">
             <div className="container">
               <div className="col-xl-12 col-lg-12 side-auto">
                 <div className="val_del_outr">
-                  <h4 className="ff-mos">Wallet Balance</h4>
-                  <h3 className="ff-mos">
+                  {/* <h4 className="ff-mos">Wallet Balance</h4> */}
+                  {/* <h3 className="ff-mos">
                     <b>{availBalance.toFixed(4)} Bone</b>
                   </h3>
                   <h4 className="ff-mos">
@@ -1054,16 +1054,131 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                   </h4>
                   <h4 className="ff-mos">
                     Commission Percentage - {validatorInfo?.commissionPercent}
-                  </h4>
-                  <h4>
+                  </h4> */}
+                  {/* <h4>
                     Rewards -{" "}
                     {(
                       (Number(fromExponential(validatorInfo?.totalRewards)) -
                         Number(fromExponential(validatorInfo?.claimedReward))) /
                       Math.pow(10, 18)
                     ).toFixed(8)}
-                  </h4>
-                  <div className="btns_sec val_all_bts row">
+                  </h4> */}
+                  {/* grid sec start */}
+                  
+                    <div className="row ff-mos">
+                      <div className="col-md-6 col-xl-4 col-custum">
+                        <div className="cus-box">
+                          <div className="head-sec">
+                            <div className="top-head">
+                              <span>0.0000</span>BONE
+                            </div>
+                            <div className="mid-head">
+                              <span>$ 0.00</span>
+                            </div>
+                          </div>
+
+                          <div className="botom-sec">
+                            <div className="botom-headsec">
+                              <span className="ff-mos">Wallet Balance</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-6 col-xl-4 col-custum">
+                        <div className="cus-box">
+                          <div className="head-sec">
+                            <div className="top-head">
+                              <span>0.0000</span>BONE
+                            </div>
+                            <div className="mid-head">
+                              <span>$ 0.00</span>
+                            </div>
+                          </div>
+
+                          <div className="botom-sec">
+                            <div className="botom-headsec">
+                              <span className="ff-mos">Wallet Balance</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-6 col-xl-4 col-custum">
+                        <div className="cus-box">
+                          <div className="head-sec">
+                            <div className="top-head">
+                              <span>0.0000</span>BONE
+                            </div>
+                            <div className="mid-head">
+                              <span>$ 0.00</span>
+                            </div>
+                          </div>
+
+                          <div className="botom-sec">
+                            <div className="botom-headsec">
+                              <span className="ff-mos">Wallet Balance</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-6 col-xl-4 mob-margin col-custum">
+                        <div className="cus-box">
+                          <div className="head-sec">
+                            <div className="top-head">
+                              <span>0.0000</span>BONE
+                            </div>
+                            <div className="mid-head">
+                              <span>$ 0.00</span>
+                            </div>
+                          </div>
+
+                          <div className="botom-sec">
+                            <div className="botom-headsec">
+                              <span className="ff-mos">Wallet Balance</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-6 col-xl-4 mob-margin col-custum">
+                        <div className="cus-box">
+                          <div className="head-sec">
+                            <div className="top-head">
+                              <span>0.0000</span>BONE
+                            </div>
+                            <div className="mid-head">
+                              <span>$ 0.00</span>
+                            </div>
+                          </div>
+
+                          <div className="botom-sec">
+                            <div className="botom-headsec">
+                              <span className="ff-mos">Wallet Balance</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-6 col-xl-4 mob-margin col-custum">
+                        <div className="cus-box">
+                          <div className="head-sec">
+                            <div className="top-head">
+                              <span>0.0000</span>BONE
+                            </div>
+                            <div className="mid-head">
+                              <span>$ 0.00</span>
+                            </div>
+                          </div>
+
+                          <div className="botom-sec">
+                            <div className="botom-headsec">
+                              <span className="ff-mos">Wallet Balance</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  
+                  {/* grid sec end */}
+                  <div className="btns_sec val_all_bts row mt-3">
                     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
                       <button
                         onClick={() =>
