@@ -281,7 +281,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   }
 
   // Approve BONE
-  const approveAmount = (id: any, amount: any, reward: boolean) => {
+  const approveAmount = (id: any, amounts: any, reward: boolean) => {
     if (account) {
       let user = account;
       let amount = web3.utils.toBN(fromExponential(1000 * Math.pow(10, 18)));
@@ -289,7 +289,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       instance.methods.approve(dynamicChaining[chainId].PROXY_MANAGER, amount).send({ from: user })
         .then((res: any) => {
           let instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
-          instance.methods.restake(id, amount, reward).send({ from: user })
+          instance.methods.restake(id, amounts, reward).send({ from: user })
             .on('transactionHash', (res: any) => {
               console.log(res, "hash")
               dispatch(
