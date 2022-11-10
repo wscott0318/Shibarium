@@ -75,15 +75,6 @@ const DelegatePopup: React.FC<any> = ({
     }
   }, [account]);
 
-  useEffect(() => {
-    const url =
-      "https://ethgasstation.info/api/ethgasAPI.json?api-key=b1a28ddf8de1f32ead44643566e38dba07687ea6e456e3d9a7d1de290466";
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        setExpectedGas(data.fastest * 21000 * Math.pow(10, -9));
-      });
-  }, []);
 
   const useMax = (e :any) => {
     e.preventDefault()
@@ -159,19 +150,35 @@ const DelegatePopup: React.FC<any> = ({
           fromExponential(1000 * Math.pow(10, 18))
         );
         let approvalInstance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
-        approvalInstance.methods
-          .approve(dynamicChaining[chainId].PROXY_MANAGER, approvalAmount)
-          .send({ from: walletAddress })
-          .then(async (res: any) => {
+       let gasFee =  await approvalInstance.methods.approve(dynamicChaining[chainId].PROXY_MANAGER, approvalAmount).estimateGas({from: walletAddress})
+       let encodedAbi =  await approvalInstance.methods.approve(dynamicChaining[chainId].PROXY_MANAGER, approvalAmount).encodeABI()
+       let CurrentgasPrice : any = await currentGasPrice(web3)
+          console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+          await web3.eth.sendTransaction({
+            from: walletAddress,
+            to: dynamicChaining[chainId].BONE,
+            gas: (parseInt(gasFee) + 30000).toString(),
+            gasPrice: CurrentgasPrice,
+            // value : web3.utils.toHex(combinedFees),
+            data: encodedAbi
+          }).then(async (res: any) => {
             // console.log(res);
             let instance = new web3.eth.Contract(
               ValidatorShareABI,
               requestBody.validatorAddress
-            );
-            await instance.methods
-              .buyVoucher(amount, _minSharesToMint)
-              .send({ from: walletAddress })
-              .on('transactionHash', (res: any) => {
+            );   
+       let gasFee =  await instance.methods.buyVoucher(amount, _minSharesToMint).estimateGas({from: walletAddress})
+       let encodedAbi =  await instance.methods.buyVoucher(amount, _minSharesToMint).encodeABI()
+       let CurrentgasPrice : any = await currentGasPrice(web3)
+          console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+          await web3.eth.sendTransaction({
+            from: walletAddress,
+            to: requestBody.validatorAddress,
+            gas: (parseInt(gasFee) + 30000).toString(),
+            gasPrice: CurrentgasPrice,
+            // value : web3.utils.toHex(combinedFees),
+            data: encodedAbi
+          }).on('transactionHash', (res: any) => {
                 setLoader(false);
                 dispatch(
                   addTransaction({
@@ -245,22 +252,10 @@ const DelegatePopup: React.FC<any> = ({
           ValidatorShareABI,
           requestBody.validatorAddress
         );
-
-
-
        let gasFee =  await instance.methods.buyVoucher(amount, _minSharesToMint).estimateGas({from: walletAddress})
        let encodedAbi =  await instance.methods.buyVoucher(amount, _minSharesToMint).encodeABI()
        let CurrentgasPrice : any = await currentGasPrice(web3)
-       
           console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
-          console.log({
-            from: walletAddress,
-            to: requestBody.validatorAddress,
-            gas: (parseInt(gasFee) + 30000).toString(),
-            gasPrice: CurrentgasPrice,
-            // value : web3.utils.toHex(combinedFees),
-            data: encodedAbi
-          })
           await web3.eth.sendTransaction({
             from: walletAddress,
             to: requestBody.validatorAddress,

@@ -15,7 +15,7 @@ const Rewards = () => {
   const { chainId = 1, account, library } = useActiveWeb3React();
   const [loader, setLoader] = useState(false);
   const [ nodeExist, setNodeExist] = useState({});
-
+const [ editNsave , setEditNsave] = useState(false)
 
   useEffect(() => {
     if(account) {
@@ -52,7 +52,13 @@ const Rewards = () => {
     address: userAddress,
     website: "",
     commission: "",
+    imageData : {
+      image : "",
+      name : "",
+      type : "",
+    }
   });
+  
   // console.log("Become Validate Data in Parent",becomeValidateData)
   
   const handleEdit = (value) => {
@@ -84,6 +90,7 @@ const Rewards = () => {
       default:
         break;
     }
+setEditNsave(!editNsave)
   };
 
   const stepHandler = (type) => {
@@ -266,6 +273,8 @@ const Rewards = () => {
                     handleEdit={handleEdit}
                     stepHandler={stepHandler}
                     stepState={stepState}
+                    becomeValidateData={becomeValidateData}
+                    editNsave = {editNsave}
                   />
                 )}
 

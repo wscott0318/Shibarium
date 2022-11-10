@@ -578,6 +578,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   } 
 
   const [validatorInfo, setValidatorInfo] = useState<any>();
+
   useEffect(() => {
     getValidatorsDetail(`${account}`)
       .then((res) => {
@@ -795,7 +796,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         </CommonModal>
         {/* commission popop ends */}
 
-        {/* withdraw popop start */}
+        {/* withdraw delegator popop start */}
         <CommonModal
           title={"Withdraw rewards"}
           show={withdrawModal.value}
@@ -1068,7 +1069,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         onClick={() =>
                           handleModal(
                             "Restake",
-                            "0xB82B2803dD7AB24eD183b2bF7f233b9E6033Fb21"
+                            account
                           )
                         }
                         className="ff-mos btn black-btn w-100 d-block"
@@ -1081,7 +1082,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         onClick={() =>
                           handleModal(
                             "Change Commission Rate",
-                            "0xB82B2803dD7AB24eD183b2bF7f233b9E6033Fb21"
+                            account
                           )
                         }
                         className="ff-mos btn black-btn w-100 d-block"
@@ -1094,7 +1095,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         onClick={() =>
                           handleModal(
                             "Withdraw Rewards",
-                            "0xB82B2803dD7AB24eD183b2bF7f233b9E6033Fb21"
+                            account
                           )
                         }
                         className="ff-mos btn black-btn w-100 d-block"
