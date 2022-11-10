@@ -111,8 +111,7 @@ function StepTwo({
       initialValues: initialValues,
       validationSchema: schema,
       onSubmit: (values) => {
-        // console.log("Value", values);
-
+      //console.log("Value", values);
         callAPI(values);
       },
     });
@@ -151,12 +150,17 @@ function StepTwo({
   }, [imageData]);
 
   
-  useEffect(() => {
-    localStorage.getItem('imageData');
-    console.log(imageData,"this is my img")
-  }, []);
+  // useEffect(() => {
+  //   localStorage.getItem('imageData');
+  //   console.log(imageData,"this is my img")
+  // }, []);
 
-  
+  // useEffect(() => {
+  //   const imageData = JSON.parse(localStorage.getItem('imageData') || "{}") ;
+  //   if (imageData) {
+  //     setImageData(JSON.parse(imageData));
+  //   }
+  // },[])
 
   // useEffect(() => {
   //   let obj2 = values;
