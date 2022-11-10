@@ -58,6 +58,7 @@ function StepThree({stepState,stepHandler}:any) {
             }
           })
         )
+        let instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
         await instance.methods.stakeFor(user, data.amount ,data.heimdallFee, data.acceptDelegation, data.publicKey )
         .send({ from: account }) // write
           .on('transactionHash', (res: any) => {
@@ -137,9 +138,6 @@ function StepThree({stepState,stepHandler}:any) {
       approveAmount(data)
     } else {
       let instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
-    
-    
-    
     // let gasFee =  await instance.methods.stakeFor(user, amount,heimdallFee, acceptDelegation,publicKey ).estimateGas({from: user})
     // let encodedAbi =  await instance.methods.stakeFor(user, amount,heimdallFee, acceptDelegation,publicKey ).encodeABI()
     // let CurrentgasPrice : any = await currentGasPrice(web3)
@@ -156,6 +154,7 @@ function StepThree({stepState,stepHandler}:any) {
     .send({ from: account }) // write
       .on('transactionHash', (res: any) => {
         console.log(res, "hash")
+        stepHandler("next");
         dispatch(
           addTransaction({
             hash: res,

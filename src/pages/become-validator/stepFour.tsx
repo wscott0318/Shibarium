@@ -47,14 +47,13 @@ function StepFour({ activInput, handleEdit, stepState, stepHandler, becomeValida
     data.append("website", values.website);
     data.append("commission", values.commission);
     data.append("img", values.image);
-
+    notifySuccess()
     await registerValidator(data).then((res: any) => {
       console.log("this is eresss",res)
       setApiLoading(false)
       notifySuccess()
       // setBecomeValidateData(values)
       // stepHandler("next");
-      
     }).catch((err: any) => {
       console.log(err)
       notifyError()
