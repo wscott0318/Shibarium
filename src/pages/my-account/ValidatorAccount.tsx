@@ -1200,7 +1200,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                             <li className="btn-grp-lst">
                               <button
                                 disabled={
-                                  parseInt(item.commission) == 0 ||
+                                  parseInt(item.commission) == 0 || item.checkpointSignedPercent < 85 ||
                                   parseInt(item.reward) / 10 ** 18 < 1
                                 }
                                 onClick={() =>
@@ -1245,7 +1245,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
                             <li className="btn-grp-lst">
                               <button
-                                disabled={parseInt(item.commission) == 0}
+                                disabled={parseInt(item.commission) == 0 || item.checkpointSignedPercent < 85}
                                 onClick={() => {
                                   setSelectedRow({
                                     owner: item.contractAddress,
