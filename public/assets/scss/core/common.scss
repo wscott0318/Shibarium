@@ -2703,6 +2703,13 @@ input:-internal-autofill-selected {
         padding-left: 13px;
     }
 }
+.staking-main{
+    .progress-tab{
+        .error{
+            padding-left: 0;
+        }
+    }
+}
 .fix-layout{
     height: 375px;
     position: relative;
