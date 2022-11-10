@@ -132,6 +132,7 @@ useEffect(() => {
                    
                     {touched.validatorname && errors.validatorname ? (
               <p className="primary-text error ff-mos">
+                {/* @ts-ignore */}
                 {errors.validatorname}
               </p>
             ) : null}
@@ -194,6 +195,7 @@ useEffect(() => {
                  
                   {touched.website && errors.website ? (
                     <p className="primary-text error ff-mos">
+                         {/* @ts-ignore */}
                       {errors.website}
                     </p>
                   ) : null}
@@ -254,6 +256,7 @@ useEffect(() => {
                   
                   {touched.commission && errors.commission ? (
               <p className="primary-text error ff-mos">
+                   {/* @ts-ignore */}
                 {errors.commission}
               </p>
             ) : null}</>
