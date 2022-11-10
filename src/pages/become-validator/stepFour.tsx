@@ -51,20 +51,35 @@ function StepFour({ activInput, handleEdit, stepState, stepHandler, becomeValida
     await registerValidator(data).then((res: any) => {
       console.log("this is eresss",res)
       setApiLoading(false)
+      notifySuccess()
       // setBecomeValidateData(values)
       // stepHandler("next");
-      notify()
+      
     }).catch((err: any) => {
       console.log(err)
+      notifyError()
       setApiLoading(false)
     })
   };
 
-  const notify = () => {
-    toast("Profile Updated successfully");
-    // toast("Profile Updated successfully!", {
-    //     position: toast.POSITION.BOTTOM_CENTER, autoClose: 3000
+
+  const notifyError = () => {
+    // toast("Profile Updated successfully");
+    // toast("Updated successfully!", {
+    //     position: toast.POSITION.BOTTOM_CENTER, autoClose: 2000
     // });
+    toast.error('Error In Updating !', {
+      position: toast.POSITION.BOTTOM_LEFT ,autoClose: 2000
+  });
+  }
+  const notifySuccess = () => {
+    // toast("Profile Updated successfully");
+    // toast("Updated successfully!", {
+    //     position: toast.POSITION.BOTTOM_CENTER, autoClose: 2000
+    // });
+    toast.success('Updated successfully !', {
+      position: toast.POSITION.BOTTOM_CENTER ,autoClose: 2000
+  });
   }
   const onImageChange = (event: any) => {
     if (event.target.files[0]?.size <= 204800) {
@@ -81,8 +96,10 @@ function StepFour({ activInput, handleEdit, stepState, stepHandler, becomeValida
       validationSchema: validatorSchema,
       onSubmit: (values) => {
         // console.log("Value", values);
-        callAPI(values);
         
+      
+        callAPI(values);
+       
       },
     });
   return (
