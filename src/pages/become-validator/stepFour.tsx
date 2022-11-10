@@ -6,6 +6,7 @@ import LoadingSpinner from 'pages/components/Loading';
 import { registerValidator } from "services/apis/network-details/networkOverview";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { validatorSchema } from "./stepTwo"
 
 function StepFour({ activInput, handleEdit, stepState, stepHandler, becomeValidateData, setBecomeValidateData, editNsave }: any) {
 
@@ -76,30 +77,10 @@ function StepFour({ activInput, handleEdit, stepState, stepHandler, becomeValida
   }
   }
 
-  let schema = yup.object().shape({
-    validatorname: yup.string().required("validator name is required"),
-    publickey: yup.string().required("public key is required"),
-    // address: yup.string().required("address is required"),
-    website: yup
-      .string()
-      .required("website is required")
-      .matches(
-        /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/,
-        "enter a vaild url"
-      ),
-    commission: yup
-      .string()
-      .required("commission is required")
-      .matches(
-        /^(?:100(?:[.,]00?)?|\d?\d(?:[.,]\d\d?)?)$/,
-        "enter vaild percentage"
-      ),
-  });
-
   const { values, errors, handleBlur, handleChange, handleSubmit, touched, setValues } =
     useFormik({
       initialValues: becomeValidateData,
-      validationSchema: schema,
+      validationSchema: validatorSchema,
       onSubmit: (values) => {
         // console.log("Value", values);
         callAPI(values);
@@ -137,13 +118,11 @@ function StepFour({ activInput, handleEdit, stepState, stepHandler, becomeValida
                     type="file"
                     className="input-file"
                     accept="image/*"
-                    // @ts-ignore
-                    // onChange={(e) => setImageData({image: e.target.files[0], name: e.target.files[0].name})}
                     onChange={onImageChange}
                   />
-                  <a href="#!" className="form-control ff-mos">
-                    Upload
-                  </a>
+                   <p  className="form-control ff-mos">
+                   {imageData ? "Change": "Upload"}
+                  </p>
                 </div>
               </div>
             </div>
