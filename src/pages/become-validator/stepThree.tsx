@@ -8,6 +8,8 @@ import { addTransaction, finalizeTransaction } from 'app/state/transactions/acti
 import proxyManagerABI from "../../ABI/StakeManagerProxy.json";
 import { useAppDispatch } from "../../state/hooks";
 import fromExponential from 'from-exponential';
+import { currentGasPrice, getAllowanceAmount } from "web3/commonFunctions";
+import ERC20 from "../../ABI/ERC20Abi.json";
 
 function StepThree({stepState,stepHandler}:any) {
 
@@ -20,50 +22,190 @@ function StepThree({stepState,stepHandler}:any) {
     amount: yup.number().typeError("only digits are allowed").min(1000).required("comission is required"),
   })
 
-  const submitTransaction = (values : any) => {
-    stepHandler("next")  
-    // setBecomeValidateData(values)
-    // let user : any = account
-    // let acceptDelegation = true
-    // let publicKey = ""
-    // let amount = web3.utils.toBN(fromExponential(+values.amount * Math.pow(10, 18)));
-    // let heimdallFee = web3.utils.toBN(fromExponential(200 * Math.pow(10, 18)));
-    // let instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
-    // instance.methods.updateCommissionRate(user, amount,heimdallFee, acceptDelegation,  ).send({ from: account }) // write
-    //   .on('transactionHash', (res: any) => {
-    //     console.log(res, "hash")
-    //     dispatch(
-    //       addTransaction({
-    //         hash: res,
-    //         from: user,
-    //         chainId,
-    //         summary: `${res}`,
-    //       })
-    //     )
-    //   }).on('receipt', (res: any) => {
-    //     console.log(res, "receipt")
-    //     dispatch(
-    //       finalizeTransaction({
-    //         hash: res.transactionHash,
-    //         chainId,
-    //         receipt: {
-    //           to: res.to,
-    //           from: res.from,
-    //           contractAddress: res.contractAddress,
-    //           transactionIndex: res.transactionIndex,
-    //           blockHash: res.blockHash,
-    //           transactionHash: res.transactionHash,
-    //           blockNumber: res.blockNumber,
-    //           status: 1
-    //         }
-    //       })
-    //     )
-    //   }).on('error', (res: any) => {
-    //     console.log(res, "error")
-    //     if (res.code === 4001) {
 
-    //     }
-    //   })
+  const  approveAmount = (data :any) => {
+    if (account) {
+      let user = account;
+      let amount = web3.utils.toBN(fromExponential(10000 * Math.pow(10, 18)));
+      let instance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
+      instance.methods.approve(dynamicChaining[chainId].PROXY_MANAGER, amount)
+      .send({ from: user })
+      .on('transactionHash', (res: any) => {
+        console.log(res, "hash")
+        dispatch(
+          addTransaction({
+            hash: res,
+            from: user,
+            chainId,
+            summary: `${res}`,
+          })
+        )
+      }).on('receipt', async (res: any) => {
+        console.log(res, "receipt")
+        dispatch(
+          finalizeTransaction({
+            hash: res.transactionHash,
+            chainId,
+            receipt: {
+              to: res.to,
+              from: res.from,
+              contractAddress: res.contractAddress,
+              transactionIndex: res.transactionIndex,
+              blockHash: res.blockHash,
+              transactionHash: res.transactionHash,
+              blockNumber: res.blockNumber,
+              status: 1
+            }
+          })
+        )
+        await instance.methods.stakeFor(user, data.amount ,data.heimdallFee, data.acceptDelegation, data.publicKey )
+        .send({ from: account }) // write
+          .on('transactionHash', (res: any) => {
+            console.log(res, "hash")
+            dispatch(
+              addTransaction({
+                hash: res,
+                from: user,
+                chainId,
+                summary: `${res}`,
+              })
+            )
+          }).on('receipt', (res: any) => {
+            console.log(res, "receipt")
+            dispatch(
+              finalizeTransaction({
+                hash: res.transactionHash,
+                chainId,
+                receipt: {
+                  to: res.to,
+                  from: res.from,
+                  contractAddress: res.contractAddress,
+                  transactionIndex: res.transactionIndex,
+                  blockHash: res.blockHash,
+                  transactionHash: res.transactionHash,
+                  blockNumber: res.blockNumber,
+                  status: 1
+                }
+              })
+            )
+          }).on('error', (res: any) => {
+            console.log(res, "error")
+            dispatch(
+              finalizeTransaction({
+                hash: res.transactionHash,
+                chainId,
+                receipt: {
+                  to: res.to,
+                  from: res.from,
+                  contractAddress: res.contractAddress,
+                  transactionIndex: res.transactionIndex,
+                  blockHash: res.blockHash,
+                  transactionHash: res.transactionHash,
+                  blockNumber: res.blockNumber,
+                  status: 0
+                }
+              })
+            )
+            if (res.code === 4001) {
+    
+            }
+          })
+      }).on('error', (res: any) => {
+        console.log(res, "error")
+        if (res.code === 4001) {
+
+        }
+      })
+    } else {
+      console.log("account not connected ====> ")
+    }
+  }
+
+  const submitTransaction = async (values : any) => {
+    // stepHandler("next")  
+    console.log("called contract ===> ")
+    let user : any = account
+    let allowance : any = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, user, dynamicChaining[chainId].PROXY_MANAGER)
+    let amount = web3.utils.toBN(fromExponential(+values.amount * Math.pow(10, 18)));
+    let acceptDelegation = true
+    let publicKey = "0x040ef89e54996ee859c6c47fd3fe0bbfac9d1256937fdb86da5a1a7a0441ebe3c8b86b6448fe60b4bbca0933f70f403afd1ab973c1ab82497698dc95183b314b9d"
+    let heimdallFee = web3.utils.toBN(fromExponential(2 * Math.pow(10, 18)));
+
+    if(allowance < +values.amount) {
+      console.log("need approval ")
+      let data = {acceptDelegation, publicKey, heimdallFee, amount}
+      approveAmount(data)
+    } else {
+      let instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
+    
+    
+    
+    // let gasFee =  await instance.methods.stakeFor(user, amount,heimdallFee, acceptDelegation,publicKey ).estimateGas({from: user})
+    // let encodedAbi =  await instance.methods.stakeFor(user, amount,heimdallFee, acceptDelegation,publicKey ).encodeABI()
+    // let CurrentgasPrice : any = await currentGasPrice(web3)
+    //    console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+    //    await web3.eth.sendTransaction({
+    //      from: user,
+    //      to: dynamicChaining[chainId].PROXY_MANAGER,
+    //      gas: (parseInt(gasFee) + 30000).toString(),
+    //      gasPrice: CurrentgasPrice,
+    //      // value : web3.utils.toHex(combinedFees),
+    //      data: encodedAbi
+    //    })
+    await instance.methods.stakeFor(user, amount,heimdallFee, acceptDelegation,publicKey )
+    .send({ from: account }) // write
+      .on('transactionHash', (res: any) => {
+        console.log(res, "hash")
+        dispatch(
+          addTransaction({
+            hash: res,
+            from: user,
+            chainId,
+            summary: `${res}`,
+          })
+        )
+      }).on('receipt', (res: any) => {
+        console.log(res, "receipt")
+        dispatch(
+          finalizeTransaction({
+            hash: res.transactionHash,
+            chainId,
+            receipt: {
+              to: res.to,
+              from: res.from,
+              contractAddress: res.contractAddress,
+              transactionIndex: res.transactionIndex,
+              blockHash: res.blockHash,
+              transactionHash: res.transactionHash,
+              blockNumber: res.blockNumber,
+              status: 1
+            }
+          })
+        )
+      }).on('error', (res: any) => {
+        console.log(res, "error")
+        dispatch(
+          finalizeTransaction({
+            hash: res.transactionHash,
+            chainId,
+            receipt: {
+              to: res.to,
+              from: res.from,
+              contractAddress: res.contractAddress,
+              transactionIndex: res.transactionIndex,
+              blockHash: res.blockHash,
+              transactionHash: res.transactionHash,
+              blockNumber: res.blockNumber,
+              status: 0
+            }
+          })
+        )
+        if (res.code === 4001) {
+
+        }
+      })
+    }
+    
 
   }
 
@@ -76,7 +218,6 @@ function StepThree({stepState,stepHandler}:any) {
     onSubmit: (values) => {
       console.log("Value", values);
       submitTransaction(values);
-      localStorage.setItem('stakeamount', values.amount);
     },
   });
 

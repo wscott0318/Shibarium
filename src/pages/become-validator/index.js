@@ -15,23 +15,7 @@ const Rewards = () => {
   const { chainId = 1, account, library } = useActiveWeb3React();
   const [loader, setLoader] = useState(false);
   const [ nodeExist, setNodeExist] = useState({});
-const [ editNsave , setEditNsave] = useState(false)
-
-  useEffect(() => {
-    if(account) {
-      callValidatorInfo(account)
-    }
-    if(Object.values(nodeExist).length){
-      setStepState({
-        step1:false,
-        step2:false,
-        step3:true,
-        step4:false,
-      })
-    }
-  },[account])
-
-  console.log(nodeExist, "api call ===> ")
+  const [ editNsave , setEditNsave] = useState(false)
 
   const userAddress = account
   const [activInput, setActivInput] = useState({
@@ -52,11 +36,7 @@ const [ editNsave , setEditNsave] = useState(false)
     address: userAddress,
     website: "",
     commission: "",
-    imageData : {
-      image : "",
-      name : "",
-      type : "",
-    }
+    image: {}
   });
   
   // console.log("Become Validate Data in Parent",becomeValidateData)
