@@ -88,11 +88,11 @@ export default function Deposit() {
         <CommonModal
           title={"Transferring funds"}
           show={showSendModal}
-          setShow={setSendModal}
+          setshow={setSendModal}
           externalCls=""
         >
           {/* step 1 */}
-          <>
+          <>Continue
             {/* transferring funds popop start */}
 
             <div className="cmn_modal">
@@ -107,14 +107,14 @@ export default function Deposit() {
               </p>
               <div className="pop_btns_area row">
                 <div className="col-6">
-                  <a className="btn blue-btn w-100" href="javascript:void(0)">
+                  <a className="btn blue-btn w-100" href="/">
                     Cancel
                   </a>{" "}
                 </div>
                 <div className="col-6">
                   <a
                     className="btn primary-btn w-100"
-                    href="javascript:void(0)"
+                    href="/"
                   >
                     Continue
                   </a>{" "}
@@ -143,8 +143,8 @@ export default function Deposit() {
                             <b>Available Balance: 0.00 SHIB</b>
                           </p>
                           <div className="pop_btns_area mr-top-50 row">
-                              <div className="col-6"><a className='btn blue-btn w-100' href="javascript:void(0)">Back</a>  </div>
-                              <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Send</a>  </div>
+                              <div className="col-6"><a className='btn blue-btn w-100' href="/">Back</a>  </div>
+                              <div className="col-6"><a className='btn primary-btn w-100' href="/">Send</a>  </div>
                           </div>
                         </div>
                      </form>
@@ -193,10 +193,10 @@ export default function Deposit() {
                         </NavDropdown>
                       </Dropdown>
                       <Nav.Item>
-                        <Link className="d-none" href={"javascript:void(0)"} passHref>
+                        <Link className="d-none" href={"/"} passHref>
                           <a
                             className="btn primary-btn d-flex align-items-center"
-                            href="javascript:void(0)"
+                            href="/"
                           >
                             <img
                               className="img-fluid me-2"

@@ -225,7 +225,7 @@ const [scroll, setScroll] = useState(false);
                             </div>
                           </NavDropdown.Item>}
                           <NavDropdown.Item
-                            href="javascript:void(0)"
+                            href="/"
                             onClick={() => setUserQrCode(true)}
                           >
                             <div className="custum-row">
@@ -272,7 +272,7 @@ const [scroll, setScroll] = useState(false);
                               </div>
                             </div>
                           </NavDropdown.Item>
-                          <NavDropdown.Item href="javascript:void(0)">
+                          <NavDropdown.Item href="/">
                             <div className="custum-row mb-0">
                               <div className="lft-img ps-2">
                                 <img
@@ -306,7 +306,7 @@ const [scroll, setScroll] = useState(false);
           <QrModal
             title={"My QR Code"}
             show={userQrCode}
-            setShow={setUserQrCode}
+            setshow={setUserQrCode}
             address={account}
           />
         )}

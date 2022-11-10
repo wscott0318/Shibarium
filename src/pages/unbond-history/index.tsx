@@ -351,7 +351,7 @@ export default function Unbond() {
         <CommonModal
           title={"Restake"}
           show={claimNowModals.confirm}
-          setShow={setClamNowModals}
+          setshow={setClamNowModals}
           externalCls=""
         >
           <div className="del-tab-content">

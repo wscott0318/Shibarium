@@ -7,19 +7,19 @@ import { QRCode } from 'react-qrcode-logo';
 
 interface props{
     show:boolean;
-    setShow: React.Dispatch<React.SetStateAction<boolean>>
+    setshow: React.Dispatch<React.SetStateAction<boolean>>
     title:string;
     address:string
 }
 
-const QrModal:React.FC<props> = ({show,setShow, title,address})=> {
-  const abc = {show,setShow, title,address};
+const QrModal:React.FC<props> = ({show,setshow, title,address})=> {
+  const abc = {show,setshow, title,address};
   return (
     <Modal
     {...abc}
     centered
     show={show}
-    onHide={() => setShow(false)}
+    onHide={() => setshow(false)}
     backdrop="static"
     keyboard={false}
     className="shib-popup"

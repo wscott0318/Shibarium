@@ -342,7 +342,7 @@ const handleSearchList = (key :any) => {
     <>
       <main className="main-content">
         <Sidebar
-          handleMenuState={handleMenuState}
+          handleMenuState={handleMenuState}CommonModal
           onClickOutside={() => {
             setMenuState(false);
           }}
@@ -353,7 +353,7 @@ const handleSearchList = (key :any) => {
         <CommonModal
           title={depModalState.title}
           show={showDepositModal}
-          setShow={setDepositModal}
+          setshow={setDepositModal}
           externalCls="dark-modal-100 bridge-ht"
         >
           {/* Deposit popups start */}
@@ -556,7 +556,7 @@ const handleSearchList = (key :any) => {
                           });
                         }}
                         className="btn grey-btn w-100"
-                        href="javascript:void(0)"
+                        href="/"
                       >
                         <span className="spinner-border text-secondary pop-spiner"></span>
                         <span>Continue</span>
@@ -591,7 +591,7 @@ const handleSearchList = (key :any) => {
                     <div className="pop-action">
                       <a
                         className="btn primary-btn w-100 w-100"
-                        href="javascript:void(0)"
+                        href="/"
                       >
                         ETHEREUM MAINNET
                       </a>
@@ -625,7 +625,7 @@ const handleSearchList = (key :any) => {
         <CommonModal
           title={withModalState.title}
           show={showWithdrawModal}
-          setShow={setWithdrawModal}
+          setshow={setWithdrawModal}
           externalCls="dark-modal-100 bridge-ht2"
         >
           {/* Withdraw tab popups start */}
@@ -861,7 +861,7 @@ const handleSearchList = (key :any) => {
                           })
                         }
                         className="btn grey-btn w-100"
-                        href="javascript:void(0)"
+                        href="/"
                       >
                         <span className="spinner-border text-secondary pop-spiner"></span>
                         <span>Moving funds</span>
@@ -894,7 +894,7 @@ const handleSearchList = (key :any) => {
                     <div className="pop-action">
                       <a
                         className="btn primary-btn w-100 w-100"
-                        href="javascript:void(0)"
+                        href="/"
                       >
                         ETHEREUM MAINNET
                       </a>
@@ -1037,7 +1037,7 @@ const handleSearchList = (key :any) => {
                           })
                         }
                         className="btn grey-btn w-100"
-                        href="javascript:void(0)"
+                        href="/"
                       >
                         <span className="spinner-border text-secondary pop-spiner"></span>
                         <span>Moving funds</span>
@@ -1070,7 +1070,7 @@ const handleSearchList = (key :any) => {
                     <div className="pop-action">
                       <a
                         className="btn primary-btn w-100 w-100"
-                        href="javascript:void(0)"
+                        href="/"
                       >
                         TRANSFER COMPLETE
                       </a>
@@ -1085,7 +1085,7 @@ const handleSearchList = (key :any) => {
                         problems contact our{" "}
                         <a
                           title="Support"
-                          href="javascript:void(0);"
+                          href="/;"
                           className="orange-txt"
                         >
                           Support.
@@ -1114,7 +1114,7 @@ const handleSearchList = (key :any) => {
         <CommonModal
           title={"Select token"}
           show={showTokenModal}
-          setShow={setTokenModal}
+          setshow={setTokenModal}
           externalCls="tkn-ht"
         >
           {/* Token popups start */}
@@ -1689,7 +1689,7 @@ const handleSearchList = (key :any) => {
                     <div className="">
                       <a
                         className="btn primary-btn w-100"
-                        href="javascript:void(0)"
+                        href="/"
                         onClick={() => {
                           setTokenState({
                             step0: false,
@@ -2209,7 +2209,7 @@ const handleSearchList = (key :any) => {
                         <p className="row-description">
                           Delegation/Staking takes place on Ethereum. Do not
                           deposit funds to Shibarium for this purpose.{" "}
-                          {/* <a className="orange-txt" href="javascript:void(0);">
+                          {/* <a className="orange-txt" href="/;">
                             Staking UI
                           </a> */}
                         </p>

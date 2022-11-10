@@ -55,7 +55,7 @@ const BoneStaking = () => {
   const router = useRouter();
   // console.log(userType)
 
-  const [show, setShow] = React.useState();
+  const [show, setshow] = React.useState();
   return (
     <>
       <div className="main-content dark-bg-800 full-vh  font-up ffms-inherit staking-main">

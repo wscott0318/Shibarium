@@ -343,7 +343,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
       <CommonModal
         title={delegateState.title}
         show={showdelegatepop}
-        setShow={handleClose}
+        setshow={handleClose}
         externalCls="stak-pop del-pop ffms-inherit"
       >
         <>
@@ -447,7 +447,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                         >
                           <a
                             className="btn primary-btn d-flex align-items-center"
-                            href="javascript:void(0)"
+                            href="/"
                           >
                             <span>Continue</span>
                           </a>
@@ -502,7 +502,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                       >
                         <a
                           className="btn primary-btn d-flex align-items-center"
-                          href="javascript:void(0)"
+                          href="/"
                         >
                           <span>Buy Voucher</span>
                         </a>

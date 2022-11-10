@@ -35,7 +35,7 @@ useEffect(() => {
                       className={`nav-link ff-mos ${
                         routeCheck("bone-staking") && "active"
                       }`}
-                      href="javascript:void(0);"
+                      href="/"
                     >
                       Overview
                     </a>
@@ -47,7 +47,7 @@ useEffect(() => {
                       className={`nav-link ff-mos ${
                         routeCheck("all-validator") && "active"
                       }`}
-                      href="javascript:void(0);"
+                      href="/"
                     >
                       All Validators
                     </a>
@@ -59,7 +59,7 @@ useEffect(() => {
                       className={`nav-link ff-mos ${
                         routeCheck("my-account") && "active"
                       }`}
-                      href="javascript:void(0);"
+                      href="/"
                     >
                       My Account
                     </a>

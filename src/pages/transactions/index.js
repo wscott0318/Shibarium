@@ -115,7 +115,7 @@ export default function Transaction() {
         <CommonModal
           title={showSendModal.title}
           show={showModal}
-          setShow={setShowModal}
+          setshow={setShowModal}
           externalCls="dark-modal-100 pop-fix"
         >
           <>
@@ -196,7 +196,7 @@ export default function Transaction() {
                     <div className="col-12">
                       <a
                         className="btn grey-btn d-flex align-items-center"
-                        href="javascript:void(0)"
+                        href="/"
                         onClick={() =>
                           setSendModal({
                             step0: false,
@@ -305,7 +305,7 @@ export default function Transaction() {
                             })
                           }
                         className="btn primary-btn d-flex align-items-center"
-                        href="javascript:void(0)"
+                        href="/"
                       >
                         <span
                           
@@ -396,7 +396,7 @@ export default function Transaction() {
                     <div className="col-12">
                       <a
                         className="btn grey-btn d-flex align-items-center"
-                        href="javascript:void(0)"
+                        href="/"
                         onClick={() => {
                           setSendModal({
                             step0: false,
@@ -499,7 +499,7 @@ export default function Transaction() {
                     <div className="col-12">
                       <a onClick={() => setShowModal(false)}
                         className="btn primary-btn d-block"
-                        href="javascript:void(0)"
+                        href="/"
                       >
                         <span className="d-block">Confirm</span>
                       </a>
