@@ -13,10 +13,9 @@ function StepTwo({
   setBecomeValidateData,
 }: any) {
 
-  const { chainId = 1, account, library } = useActiveWeb3React();
+  const { account } = useActiveWeb3React();
   const userAddress: any = account
   const [imageData, setImageData] = useState<any>("");
-  const [imageDemo, setImageDemo] = useState<any>('')
   const [validation, setValidation] = useState({
     image: false,
     address: false,
@@ -46,27 +45,10 @@ function StepTwo({
     }
 
     setApiLoading(false)
+    values.image = imageData
+    console.log(values)
     setBecomeValidateData(values)
     stepHandler("next");
-
-    // var data = new FormData();
-    // data.append("validatorName", values.validatorname);
-    // data.append("public_key", values.publickey);
-    // data.append("signerAddress", values.address);
-    // data.append("website", values.website);
-    // data.append("commission", values.commission);
-    // data.append("img", imageData.image);
-
-    // await registerValidator(data).then((res :any) => {
-    //   // console.log(res)
-    //   setApiLoading(false)
-    //         setBecomeValidateData(values)
-    //         stepHandler("next");
-    // }).catch((err:any) => {
-    //   // console.log(err)
-    //   setApiLoading(false)
-    // })
-
   };
 
   const [initialValues, setInitialValues] = useState({
@@ -116,58 +98,15 @@ function StepTwo({
       },
     });
 
-  const getBase64 = (file: any) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
-      reader.readAsDataURL(file);
-    });
-  }
-
-
   const onImageChange = (event: any) => {
     if (event.target.files[0]?.size <= 204800) {
-      setImageData({ image: event.target.files[0],path : URL.createObjectURL(event.target.files[0]), name: event.target.files[0].name, type: event.target.files[0].type })
+      setImageData(event.target.files[0])
       setImageSize(false)
   } else {
       setImageSize(true)
   }
-    console.log(event.target.files[0])
-     
-    // const file = event.target.files[0];
-    // getBase64(file).then((base64: any) => {
-    //   setImageDemo(base64);
-    // });
-
+    // console.log(event.target.files[0])
   }
-
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    localStorage.setItem('imageData', JSON.stringify(imageData));
-    console.log(imageData,"this is my img")
-  }, [imageData]);
-
-  
-  // useEffect(() => {
-  //   localStorage.getItem('imageData');
-  //   console.log(imageData,"this is my img")
-  // }, []);
-
-  // useEffect(() => {
-  //   const imageData = JSON.parse(localStorage.getItem('imageData') || "{}") ;
-  //   if (imageData) {
-  //     setImageData(JSON.parse(imageData));
-  //   }
-  // },[])
-
-  // useEffect(() => {
-  //   let obj2 = values;
-  //   obj2.imageData = JSON.stringify(imageDemo);
-  //   setBecomeValidateData(obj2);
-  // }, [imageData])
-  // console.log("image", imageData);
 
   return (
     // <>
@@ -191,7 +130,7 @@ function StepTwo({
                   <img
                     src={
                       imageData
-                        ? URL.createObjectURL(imageData.image)
+                        ? URL.createObjectURL(imageData)
                         : "../../assets/images/file-icon.png"
                     }
                     alt=""

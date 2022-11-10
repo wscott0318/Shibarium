@@ -76,7 +76,6 @@ function StepThree({stepState,stepHandler}:any) {
     onSubmit: (values) => {
       console.log("Value", values);
       submitTransaction(values);
-      localStorage.setItem('stakeamount', values.amount);
     },
   });
 

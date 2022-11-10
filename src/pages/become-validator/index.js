@@ -19,7 +19,7 @@ const [ editNsave , setEditNsave] = useState(false)
 
   useEffect(() => {
     if(account) {
-      callValidatorInfo(account)
+      // callValidatorInfo(account)
     }
     if(Object.values(nodeExist).length){
       setStepState({
@@ -31,7 +31,7 @@ const [ editNsave , setEditNsave] = useState(false)
     }
   },[account])
 
-  console.log(nodeExist, "api call ===> ")
+  // console.log(nodeExist, "api call ===> ")
 
   const userAddress = account
   const [activInput, setActivInput] = useState({
@@ -52,11 +52,7 @@ const [ editNsave , setEditNsave] = useState(false)
     address: userAddress,
     website: "",
     commission: "",
-    imageData : {
-      image : "",
-      name : "",
-      type : "",
-    }
+    image: {}
   });
   
   // console.log("Become Validate Data in Parent",becomeValidateData)
