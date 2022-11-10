@@ -10,9 +10,7 @@ import { validatorSchema } from "./stepTwo"
 
 function StepFour({ activInput, handleEdit, stepState, stepHandler, becomeValidateData, setBecomeValidateData, editNsave }: any) {
 
-  console.log("becaome validate dataa", becomeValidateData)
   const [imageData, setImageData] = useState<any>(becomeValidateData?.image)
-  const [stakeamount, setStakeamount] = useState('')
   const [imageSize , setImageSize ] = useState(false)
   const [apiLoading, setApiLoading] = useState(false)
   const [validation, setValidation] = useState({
