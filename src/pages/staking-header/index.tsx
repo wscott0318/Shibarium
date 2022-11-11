@@ -31,7 +31,7 @@ console.log("usertype",userType)
             <div className="lft-sec">
               <ul className="lft-links ms-auto">
                 <li className="nav-item">
-                  <Link href="/bone-staking" passHref>
+                  <Link href="bone-staking" passHref>
                     <a
                       className={`nav-link ff-mos ${
                         routeCheck("bone-staking") && "active"
@@ -43,7 +43,7 @@ console.log("usertype",userType)
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link href="/all-validator" passHref>
+                  <Link href="all-validator" passHref>
                     <a
                       className={`nav-link ff-mos ${
                         routeCheck("all-validator") && "active"
@@ -55,7 +55,7 @@ console.log("usertype",userType)
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link href="/my-account" passHref>
+                  <Link href="my-account" passHref>
                     <a
                       className={`nav-link ff-mos ${
                         routeCheck("my-account") && "active"
