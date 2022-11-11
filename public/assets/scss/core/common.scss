@@ -3654,3 +3654,13 @@ input:-internal-autofill-selected {
         }
     }
 }
+.rewards-section{
+    .progress-tab{
+        input{
+            &::placeholder{
+                color:$lt-black;
+            }
+        }
+    }
+    
+}
