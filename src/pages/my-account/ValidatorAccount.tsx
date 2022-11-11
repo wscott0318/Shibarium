@@ -21,6 +21,7 @@ import { queryProvider } from 'Apollo/client';
 import { StakeAmount } from 'Apollo/queries';
 import { dynamicChaining } from 'web3/DynamicChaining';
 import { getValidatorsDetail } from 'app/services/apis/validator';
+import { tokenDecimal } from 'web3/commonFunctions';
 
 
 
@@ -574,7 +575,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
   const getStake = (id : String) => {
     let item = stakeAmounts.length ? stakeAmounts.filter((x:any) => x.validatorId === id)[0]?.tokens : 0
-    return item > 0 ? (parseInt(item) / 10 ** 18).toFixed(4) : "00.00"
+    return item > 0 ? (parseInt(item) / 10 ** 18).toFixed(tokenDecimal) : "00.00"
   } 
 
   const [validatorInfo, setValidatorInfo] = useState<any>();
@@ -604,7 +605,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     (Number(fromExponential(validatorInfo?.totalRewards)) -
       Number(fromExponential(validatorInfo?.claimedReward))) /
     Math.pow(10, 18)
-  ).toFixed(8) : "00.00"  
+  ).toFixed(tokenDecimal) : "00.00"  
 
   return (
     <>
@@ -1077,14 +1078,14 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>{availBalance.toFixed(4)}</span> BONE
+                              <span>{availBalance.toFixed(tokenDecimal)}</span> BONE
                             </div>
                             <div className="mid-head">
                               <span><NumberFormat
                                 thousandSeparator
                                 displayType={"text"}
                                 prefix="$ "
-                                value={((availBalance || 0) * boneUSDValue).toFixed(2)}
+                                value={((availBalance || 0) * boneUSDValue).toFixed(tokenDecimal)}
                               /></span>
                             </div>
                           </div>
@@ -1126,7 +1127,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                 thousandSeparator
                                 displayType={"text"}
                                 prefix="$ "
-                                value={(+rewardBalance * boneUSDValue).toFixed(6)}
+                                value={(+rewardBalance * boneUSDValue).toFixed(tokenDecimal)}
                               />
                               </span>
                             </div>
@@ -1143,7 +1144,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>{validatorInfo?.totalRewards ? (parseInt(validatorInfo?.totalRewards) / Math.pow(10, 18)).toFixed(6) : "00.00"} </span> BONE
+                              <span>{validatorInfo?.totalRewards ? (parseInt(validatorInfo?.totalRewards) / Math.pow(10, 18)).toFixed(tokenDecimal) : "00.00"} </span> BONE
                             </div>
                             <div className="mid-head">
                               <span>
@@ -1151,7 +1152,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                 thousandSeparator
                                 displayType={"text"}
                                 prefix="$ "
-                                value={(+(parseInt(validatorInfo?.totalRewards) / Math.pow(10, 18)).toFixed(6) * boneUSDValue).toFixed(2)}
+                                value={(+(parseInt(validatorInfo?.totalRewards) / Math.pow(10, 18)).toFixed(tokenDecimal) * boneUSDValue).toFixed(tokenDecimal)}
                               />
                               </span>
                             </div>
@@ -1292,7 +1293,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                   <span className="fw-bold">
                                     {parseInt(
                                       item.checkpointSignedPercent
-                                    ).toFixed(2)}
+                                    ).toFixed(tokenDecimal)}
                                     %
                                   </span>{" "}
                                   Checkpoints Signed
@@ -1329,7 +1330,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                     ? (
                                         parseInt(item.reward) /
                                         10 ** 18
-                                      ).toFixed(4)
+                                      ).toFixed(tokenDecimal)
                                     : "00.00"}
                                 </div>
                                 {/* {/ <div>$0</div> /} */}
@@ -1386,7 +1387,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                     "Unbound",
                                     item.validatorAddress,
                                     item.contractAddress,
-                                    (parseInt(item.stake) / 10 ** 18).toFixed(4)
+                                    (parseInt(item.stake) / 10 ** 18).toFixed(tokenDecimal)
                                   )
                                 }
                                 className="btn black-btn btn-small tool-ico"

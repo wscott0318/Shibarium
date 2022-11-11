@@ -10,6 +10,7 @@ import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 import { PROXY_MANAGER } from 'web3/contractAddresses';
 import proxyManagerABI from "../../ABI/StakeManagerProxy.json"
 import axios from "axios";
+import { tokenDecimal } from 'web3/commonFunctions';
 
 function NetworkDetails() {
 
@@ -103,12 +104,12 @@ function NetworkDetails() {
                     <div className="head-sec">
                       <div className="top-head">
                         <span>
-                        <NumberFormat thousandSeparator displayType={"text"} value={(+totalStake || 0).toFixed(8)} /> BONE
+                        <NumberFormat thousandSeparator displayType={"text"} value={(+totalStake || 0).toFixed(tokenDecimal)} /> BONE
                         </span>
                       </div>
                       <div className="mid-head">
                         <span>
-                        <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={+(((+totalStake) * boneUSDValue).toFixed(2))} />
+                        <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={+(((+totalStake) * boneUSDValue).toFixed(tokenDecimal))} />
                         </span>
                       </div>
                     </div>
@@ -124,12 +125,12 @@ function NetworkDetails() {
                     <div className="head-sec">
                       <div className="top-head">
                         <span>
-                        <NumberFormat thousandSeparator displayType={"text"}value={(+networkDetails?.totalReward || 0).toFixed(8)} /> BONE
+                        <NumberFormat thousandSeparator displayType={"text"}value={(+networkDetails?.totalReward || 0).toFixed(tokenDecimal)} /> BONE
                         </span>
                       </div>
                       <div className="mid-head">
                         <span>
-                        <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((networkDetails?.totalReward || 0) * boneUSDValue).toFixed(2)} />
+                        <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((networkDetails?.totalReward || 0) * boneUSDValue).toFixed(tokenDecimal)} />
                         </span>
                       </div>
                     </div>

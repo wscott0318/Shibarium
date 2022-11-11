@@ -19,6 +19,7 @@ import NumberFormat from 'react-number-format';
 import { useUserType } from '../../state/user/hooks';
 import { User } from "react-feather";
 import { dynamicChaining } from "web3/DynamicChaining";
+import { tokenDecimal } from 'web3/commonFunctions';
 
 export default function Account() {
   // const [availBalance, setAvailBalance] = useState(0);
@@ -75,8 +76,8 @@ export default function Account() {
       return (
       <div className="cardMain text-center cardUser">
             <h5 className="mb-2">Wallet balance</h5>
-            <h3 className="fw-700">{availBalance.toFixed(4)} {chainId == 7352 ? "Bone" : "Ethereum"}</h3>
-            <h6 className="fw-600 primary-text"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></h6>
+            <h3 className="fw-700">{availBalance.toFixed(tokenDecimal)} {chainId == 7352 ? "Bone" : "Ethereum"}</h3>
+            <h6 className="fw-600 primary-text"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(tokenDecimal)} /></h6>
       </div>
       )
     } else if (userType === UserType.Delegator){
@@ -106,10 +107,10 @@ export default function Account() {
                   <div className="bs-card card">
                       <div className="bs-data-col">
                         <h3 className="fwb upertxt font-xs">{chainId == 7352 ? "BONE" : "ETHEREUM"} WALLET BALANCE</h3>
-                        <p className="mb-0 d-block fw-600 upertxt">{availBalance.toFixed(4)}</p>
+                        <p className="mb-0 d-block fw-600 upertxt">{availBalance.toFixed(tokenDecimal)}</p>
                       </div>
                       <div className="bs-data-col">
-                        <p className="mb-0 d-block fw-600  border_before"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(2)} /></p>
+                        <p className="mb-0 d-block fw-600  border_before"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((availBalance || 0) * boneUSDValue).toFixed(tokenDecimal)} /></p>
                       </div>
                   </div>
               </div>
@@ -117,10 +118,10 @@ export default function Account() {
                 <div className="bs-card card">
                   <div className="bs-data-col">
                     <h4 className="fwb font-xs upertxt height-fx">Your Stake </h4>
-                    <p className="mb-0 d-block fw-600 upertxt">{(fromExponential(cardsData?.totalStake)/Math.pow(10,18)).toFixed(8)}</p>
+                    <p className="mb-0 d-block fw-600 upertxt">{(fromExponential(cardsData?.totalStake)/Math.pow(10,18)).toFixed(tokenDecimal)}</p>
                   </div>
                   <div className="bs-data-col">
-                    <p className="mb-0 d-block fw-600 border_before"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={(((cardsData?.totalStake)/Math.pow(10,18) || 0) * boneUSDValue).toFixed(2)} /></p>
+                    <p className="mb-0 d-block fw-600 border_before"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={(((cardsData?.totalStake)/Math.pow(10,18) || 0) * boneUSDValue).toFixed(tokenDecimal)} /></p>
                   </div>
                 </div>
               </div>
@@ -136,10 +137,10 @@ export default function Account() {
                   <div className="bs-card card">
                       <div className="bs-data-col">
                         <h4 className="fwb upertxt font-xs height-fx">Unclaimed Rewards</h4>
-                        <p className="mb-0 d-block fw-600 upertxt">{(fromExponential(cardsData?.unclaimedRewards)/Math.pow(10,18)).toFixed(8)}</p>
+                        <p className="mb-0 d-block fw-600 upertxt">{(fromExponential(cardsData?.unclaimedRewards)/Math.pow(10,18)).toFixed(tokenDecimal)}</p>
                       </div>
                       <div className="bs-data-col">
-                        <p className="mb-0 d-block fw-600 border_before"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={(((cardsData?.unclaimedRewards)/Math.pow(10,18) || 0) * boneUSDValue).toFixed(2)} /></p>
+                        <p className="mb-0 d-block fw-600 border_before"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={(((cardsData?.unclaimedRewards)/Math.pow(10,18) || 0) * boneUSDValue).toFixed(tokenDecimal)} /></p>
                         {/* <span className="mb-0 mt-2">$null</span> */}
                       </div>
                   </div>

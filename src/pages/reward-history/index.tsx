@@ -11,6 +11,7 @@ import Pagination from "app/components/Pagination";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import { useRouter } from "next/router";
 import { useUserType } from "../../state/user/hooks";
+import { tokenDecimal } from "web3/commonFunctions";
 
 export default function Unbond() {
 
@@ -81,7 +82,7 @@ export default function Unbond() {
      };
      const fixedDecimals = (num: any) => {
        if (countDecimals(num) > 3) {
-         return (Math.round(num * 100) / 100).toFixed(6);
+         return (Math.round(num * 100) / 100).toFixed(tokenDecimal);
        } else {
          return num;
        }

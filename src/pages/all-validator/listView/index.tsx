@@ -5,6 +5,7 @@ import { useUserType } from 'app/state/user/hooks';
 import Link from 'next/link';
 import DelegatePopup from 'pages/delegate-popup';
 import React, { useState } from 'react';
+import { tokenDecimal } from 'web3/commonFunctions';
 // @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 
@@ -62,12 +63,12 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       </div>
                     </td>
                     <td>
-                      {(x.totalStaked / Math.pow(10, 18)).toFixed(8)} (
-                      {(+x.votingPowerPercent || 0).toFixed(2)}%)
+                      {(x.totalStaked / Math.pow(10, 18)).toFixed(tokenDecimal)} (
+                      {(+x.votingPowerPercent || 0).toFixed(tokenDecimal)}%)
                     </td>
-                    <td>{+x.selfPercent.toFixed(2)}%</td>
+                    <td>{+x.selfPercent.toFixed(tokenDecimal)}%</td>
                     <td><span className='precent-td'>{x.commissionPercent}%</span></td>
-                    <td>{x.uptimePercent.toFixed(2)}%</td>
+                    <td>{x.uptimePercent.toFixed(tokenDecimal)}%</td>
                     <td className='text-start'>
                       <button className='btn primary-btn w-100'
                       disabled={userType === 'Validator'}

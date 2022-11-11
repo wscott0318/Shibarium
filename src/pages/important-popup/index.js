@@ -10,6 +10,7 @@ import Web3 from 'web3'
 import LoadingSpinner from "pages/components/Loading";
 import ConfirmPopUp from "pages/components/ConfirmPopUp";
 import { dynamicChaining } from "web3/DynamicChaining";
+import { tokenDecimal } from "web3/commonFunctions";
 
 
 export default function ImportantPopup(props) {
@@ -34,7 +35,7 @@ const transferToken = () => {
     setLoading(true)
     const web3 = new Web3(library?.provider);
     const contract = new web3.eth.Contract(ERC20_ABI, tokenAddress);
-    const amt = web3.utils.toBN((+amount).toFixed(10) * Math.pow(10, 18));
+    const amt = web3.utils.toBN((+amount).toFixed(tokenDecimal) * Math.pow(10, 18));
     const txData = {
       from: account,
       to: tokenAddress,
