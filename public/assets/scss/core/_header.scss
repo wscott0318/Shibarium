@@ -1,6 +1,12 @@
 body.modal-open {
     .main-header{
         padding-right: 17px;
+        @media #{$min-xxxl}{
+            padding-right: 19px;
+        }
+        @media #{$max-xxl}{
+            padding-right: 14px;
+        }
         @media #{$max-xl}{
             padding-right: 0;
         }

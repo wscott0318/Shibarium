@@ -3644,3 +3644,13 @@ input:-internal-autofill-selected {
         }
     }
 }
+.profile{
+    .section-info{
+        @media #{$max-md}{
+            padding: 60px 0 0;
+        }
+        @media #{$max-xsm}{
+            padding: 160px 0 0;
+        }
+    }
+}
