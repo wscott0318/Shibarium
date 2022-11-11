@@ -241,7 +241,7 @@ setEditNsave(!editNsave)
                 {/* step 3 start */}
 
                 {stepState.step3 && (
-                  <StepThree stepHandler={stepHandler} stepState={stepState} />
+                  <StepThree becomeValidateData={becomeValidateData} stepHandler={stepHandler} stepState={stepState} />
                 )}
 
                 {/* step 3 end */}

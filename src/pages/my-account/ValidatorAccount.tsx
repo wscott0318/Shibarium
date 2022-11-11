@@ -1070,10 +1070,15 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>0.0000</span>BONE
+                              <span>{availBalance.toFixed(4)}</span>BONE
                             </div>
                             <div className="mid-head">
-                              <span>$ 0.00</span>
+                              <span><NumberFormat
+                                thousandSeparator
+                                displayType={"text"}
+                                prefix="$ "
+                                value={((availBalance || 0) * boneUSDValue).toFixed(2)}
+                              /></span>
                             </div>
                           </div>
 
@@ -1088,16 +1093,16 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>0.0000</span>BONE
+                            {validatorInfo?.commissionPercent}
                             </div>
                             <div className="mid-head">
-                              <span>$ 0.00</span>
+                              <span>some info here...</span>
                             </div>
                           </div>
 
                           <div className="botom-sec">
                             <div className="botom-headsec">
-                              <span className="ff-mos">Wallet Balance</span>
+                              <span className="ff-mos">Commission Percentage</span>
                             </div>
                           </div>
                         </div>
@@ -1106,16 +1111,27 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>0.0000</span>BONE
+                            {(
+                      (Number(fromExponential(validatorInfo?.totalRewards)) -
+                        Number(fromExponential(validatorInfo?.claimedReward))) /
+                      Math.pow(10, 18)
+                    ).toFixed(8)}
                             </div>
                             <div className="mid-head">
-                              <span>$ 0.00</span>
+                              <span>
+                              {/* <NumberFormat
+                                thousandSeparator
+                                displayType={"text"}
+                                prefix="$ "
+                                value={(Number(fromExponential(validatorInfo?.totalRewards)) -Number(fromExponential(validatorInfo?.claimedReward))) / Math.pow(10, 18)).toFixed(8)  * boneUSDValue}
+                              /> */}
+                              </span>
                             </div>
                           </div>
 
                           <div className="botom-sec">
                             <div className="botom-headsec">
-                              <span className="ff-mos">Wallet Balance</span>
+                              <span className="ff-mos">Reward Balance</span>
                             </div>
                           </div>
                         </div>
@@ -1124,16 +1140,23 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>0.0000</span>BONE
+                              <span>00.00</span>BONE
                             </div>
                             <div className="mid-head">
-                              <span>$ 0.00</span>
+                              <span>
+                              {/* <NumberFormat
+                                thousandSeparator
+                                displayType={"text"}
+                                prefix="$ "
+                                value={((+validatorInfo?.totalRewards || 0) * boneUSDValue).toFixed(2)}
+                              /> */}
+                              </span>
                             </div>
                           </div>
 
                           <div className="botom-sec">
                             <div className="botom-headsec">
-                              <span className="ff-mos">Wallet Balance</span>
+                              <span className="ff-mos">Total Rewards</span>
                             </div>
                           </div>
                         </div>
