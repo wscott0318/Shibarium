@@ -37,6 +37,7 @@ import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import Router from "next/router";
 import { getExplorerLink } from "app/functions";
+import CommingSoon from "../../components/coming-soon";
 
 const sendInitialState = {
   step0: true,
