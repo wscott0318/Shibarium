@@ -11,7 +11,7 @@ import fromExponential from 'from-exponential';
 import { currentGasPrice, getAllowanceAmount } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 
-function StepThree({stepState,stepHandler}:any) {
+function StepThree({becomeValidateData, stepState,stepHandler}:any) {
 
   const { account, chainId = 1, library } = useActiveWeb3React();
   const lib: any = library
@@ -59,7 +59,7 @@ function StepThree({stepState,stepHandler}:any) {
           })
         )
         let instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
-        await instance.methods.stakeFor(user, data.amount ,data.heimdallFee, data.acceptDelegation, data.publicKey )
+        await instance.methods.stakeFor(user, data.amount ,data.heimdallFee, data.acceptDelegation, data.key )
         .send({ from: account }) // write
           .on('transactionHash', (res: any) => {
             console.log(res, "hash")
@@ -129,17 +129,17 @@ function StepThree({stepState,stepHandler}:any) {
     let allowance : any = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, user, dynamicChaining[chainId].PROXY_MANAGER)
     let amount = web3.utils.toBN(fromExponential(+values.amount * Math.pow(10, 18)));
     let acceptDelegation = true
-    let publicKey = "0x040ef89e54996ee859c6c47fd3fe0bbfac9d1256937fdb86da5a1a7a0441ebe3c8b86b6448fe60b4bbca0933f70f403afd1ab973c1ab82497698dc95183b314b9d"
+    // let becomeValidateData.publickey = "0x040ef89e54996ee859c6c47fd3fe0bbfac9d1256937fdb86da5a1a7a0441ebe3c8b86b6448fe60b4bbca0933f70f403afd1ab973c1ab82497698dc95183b314b9d"
     let heimdallFee = web3.utils.toBN(fromExponential(2 * Math.pow(10, 18)));
 
     if(allowance < +values.amount) {
       console.log("need approval ")
-      let data = {acceptDelegation, publicKey, heimdallFee, amount}
+      let data = {acceptDelegation, key : becomeValidateData.publickey, heimdallFee, amount}
       approveAmount(data)
     } else {
       let instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
-    // let gasFee =  await instance.methods.stakeFor(user, amount,heimdallFee, acceptDelegation,publicKey ).estimateGas({from: user})
-    // let encodedAbi =  await instance.methods.stakeFor(user, amount,heimdallFee, acceptDelegation,publicKey ).encodeABI()
+    // let gasFee =  await instance.methods.stakeFor(user, amount,heimdallFee, acceptDelegation,becomeValidateData.publickey ).estimateGas({from: user})
+    // let encodedAbi =  await instance.methods.stakeFor(user, amount,heimdallFee, acceptDelegation,becomeValidateData.publickey ).encodeABI()
     // let CurrentgasPrice : any = await currentGasPrice(web3)
     //    console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
     //    await web3.eth.sendTransaction({
@@ -150,7 +150,7 @@ function StepThree({stepState,stepHandler}:any) {
     //      // value : web3.utils.toHex(combinedFees),
     //      data: encodedAbi
     //    })
-    await instance.methods.stakeFor(user, amount,heimdallFee, acceptDelegation,publicKey )
+    await instance.methods.stakeFor(user, amount,heimdallFee, acceptDelegation,becomeValidateData.publickey )
     .send({ from: account }) // write
       .on('transactionHash', (res: any) => {
         console.log(res, "hash")
