@@ -4,8 +4,7 @@ import { Web3Provider } from '@ethersproject/providers'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { useWeb3React } from '@web3-react/core'
 import { injected } from '../../config/wallets'
-import { NetworkContextName } from '../../constants'
-import { shortenAddress } from '../../functions'
+import { shortenAddress } from '../../components/AccountDetails/format'
 import useENSName from '../../hooks/useENSName'
 import WalletModal from '../../modals/WalletModal'
 import { useWalletModalToggle } from '../../state/application/hooks'
@@ -17,7 +16,7 @@ import React, { useMemo } from 'react'
 import Loader from '../Loader'
 import Web3Connect from '../Web3Connect'
 
-// we want the latest one to come first, so return negative if a is after b
+// we want the latest one to comgie first, so return negative if a is after b
 function newTransactionsFirst(a: TransactionDetails, b: TransactionDetails) {
   return b.addedTime - a.addedTime
 }
@@ -152,7 +151,7 @@ function Web3StatusInner() {
 
 export default function Web3Status() {
   const { active, account } = useWeb3React()
-  const contextNetwork = useWeb3React(NetworkContextName)
+  const contextNetwork = useWeb3React('NETWORK')
 
   const { ENSName } = useENSName(account ?? undefined)
 

@@ -10,7 +10,7 @@ import ModalContent, {
 import ModalError, { ModalActionErrorProps } from './Error'
 import ModalHeader, { ModalHeaderProps } from './Header'
 import SubmittedModalContent, { SubmittedModalContentProps } from './SubmittedModalContent'
-import { classNames } from '../../functions'
+import { classNames } from '../../functions/className'
 import { cloneElement, FC, isValidElement, ReactNode, useCallback, useMemo, useState } from 'react'
 import React, { Fragment } from 'react'
 
@@ -22,8 +22,6 @@ const MAX_WIDTH_CLASS_MAPPING = {
   '2xl': 'lg:max-w-2xl',
   '3xl': 'lg:max-w-3xl',
 }
-
-import useDesktopMediaQuery from '../../hooks/useDesktopMediaQuery'
 
 interface TriggerProps {
   open: boolean
@@ -105,7 +103,7 @@ const HeadlessUiModalControlled: FC<ControlledModalProps> = ({
   maxWidth = 'lg',
   unmount,
 }) => {
-  const isDesktop = useDesktopMediaQuery()
+
   return (
     <Transition appear show={isOpen} as={Fragment} afterLeave={afterLeave} unmount={unmount}>
       <Dialog as="div" className="fixed z-50 inset-0" onClose={onDismiss} unmount={unmount}>
@@ -122,7 +120,7 @@ const HeadlessUiModalControlled: FC<ControlledModalProps> = ({
           >
             <Dialog.Overlay
               className={classNames(
-                isDesktop ? 'backdrop-blur-[10px]  bg-[rgb(0,0,0,0.4)]' : ' bg-[rgb(0,0,0,0.8)]',
+                 'backdrop-blur-[10px]  bg-[rgb(0,0,0,0.4)]',
                 'fixed inset-0 filter'
               )}
             />
@@ -146,9 +144,9 @@ const HeadlessUiModalControlled: FC<ControlledModalProps> = ({
             <div
               className={classNames(
                 transparent ? '' : 'bg-dark-900 border border-dark-800',
-                isDesktop ? MAX_WIDTH_CLASS_MAPPING[maxWidth] : '',
-                isDesktop ? `w-full` : 'w-[85vw] max-h-[85vh] overflow-y-auto mx-auto',
-                'inline-block align-bottom rounded-xl text-left overflow-hidden transform p-4 wid-overide'
+                '',
+                'w-[85vw] max-h-[85vh] overflow-y-auto mx-auto',
+                
               )}
             >
               {children}

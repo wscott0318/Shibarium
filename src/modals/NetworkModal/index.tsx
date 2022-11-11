@@ -1,9 +1,7 @@
 
 import { ChainId } from '@shibarium/core-sdk'
 import HeadlessUiModal from '../../components/Modal/HeadlessUIModal'
-import Typography from '../../components/Typography'
-import { NETWORK_ICON, NETWORK_LABEL } from '../../config/networks'
-import { classNames } from '../../functions'
+import { NETWORK_ICON, NETWORK_LABEL } from './networks'
 import { useActiveWeb3React } from '../../services/web3'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useNetworkModalToggle } from '../../state/application/hooks'
@@ -11,7 +9,6 @@ import { useModalOpen, useNetworkModalToggle } from '../../state/application/hoo
 import cookie from 'cookie-cutter'
 import Image from 'next/image'
 import React, { FC } from 'react'
-// import { SHIBARIUM_CHAINID } from 'app/constants'
 
 export const SUPPORTED_NETWORKS: {
   [chainId in ChainId]?: {
@@ -243,9 +240,9 @@ const NetworkModal: FC = () => {
                     width="32px"
                     height="32px"
                   />
-                  <Typography weight={700} className="text-high-emphesis">
+                  <p className="text-high-emphesis">
                     {NETWORK_LABEL[key]}
-                  </Typography>
+                  </p>
                 </div>
               )
             }
@@ -275,15 +272,13 @@ const NetworkModal: FC = () => {
                     // handle other "switch" errors
                   }
                 }}
-                className={classNames(
-                  'bg-[rgba(0,0,0,0.2)] focus:outline-none flex items-center gap-4 w-full px-4 py-3 rounded border border-dark-700 hover:border-blue'
-                )}
+                className=""
               >
                 {/*@ts-ignore TYPE NEEDS FIXING*/}
                 <Image src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md" width="32px" height="32px" />
-                <Typography weight={700} className="text-high-emphesis">
+                <p className="text-high-emphesis">
                   {NETWORK_LABEL[key]}
-                </Typography>
+                </p>
               </button>
             )
           })}

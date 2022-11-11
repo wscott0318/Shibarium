@@ -1,4 +1,3 @@
-import { classNames } from '../../functions'
 import React, { FC, HTMLProps, useCallback } from 'react'
 import ReactGA from 'react-ga'
 
@@ -48,13 +47,7 @@ const ExternalLink: FC<ExternalLinkProps> = ({
       rel={rel}
       href={href}
       onClick={handleClick}
-      className={classNames(
-        'text-baseline whitespace-nowrap',
-        // @ts-ignore TYPE NEEDS FIXING
-        COLOR[color],
-        (startIcon || endIcon) && 'space-x-1 flex items-center justify-center',
-        className
-      )}
+      className=''
       {...rest}
     >
       {startIcon && startIcon}

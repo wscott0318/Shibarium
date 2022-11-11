@@ -1,5 +1,4 @@
-import Typography from '../../components/Typography'
-import { classNames } from '../../functions'
+import { classNames } from '../../functions/className'
 import React, { FC } from 'react'
 
 export interface ModalActionErrorProps {
@@ -11,9 +10,9 @@ const ModalError: FC<ModalActionErrorProps> = ({ className = '', children }) => 
   if (!children) return <></>
 
   return (
-    <Typography variant="xs" weight={700} className={classNames('text-center text-red', className)}>
+    <p className={classNames('text-center text-red', className)}>
       {children}
-    </Typography>
+    </p>
   )
 }
 

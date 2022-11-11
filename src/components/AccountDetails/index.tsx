@@ -1,8 +1,8 @@
 import Davatar from '@davatar/react'
 import { HeadlessUiModal } from '../../components/Modal'
-import { injected, SUPPORTED_WALLETS } from '../../config/wallets'
+import { injected, SUPPORTED_WALLETS } from '../../modals/WalletModal/wallets'
 import { getExplorerLink } from '../../functions/explorer'
-import { shortenAddress } from '../../functions/format'
+import { shortenAddress } from './format'
 import { useActiveWeb3React } from '../../services/web3'
 import { useAppDispatch } from '../../state/hooks'
 import { clearAllTransactions } from '../../state/transactions/actions'
@@ -11,7 +11,6 @@ import React, { FC, useCallback, useMemo } from 'react'
 import { ExternalLink as LinkIcon } from 'react-feather'
 import Button from '../Button'
 import ExternalLink from '../ExternalLink'
-import Typography from '../Typography'
 import Copy from './Copy'
 import Transaction from './Transaction'
 import { useRouter } from 'next/router'
@@ -44,9 +43,9 @@ const AccountDetails: FC<AccountDetailsProps> = ({
       )
       .map((k) => SUPPORTED_WALLETS[k].name)[0]
     return (
-      <Typography variant="xs" weight={700} className="text-secondary">
+      <p className="text-secondary">
         Connected with {name}
-      </Typography>
+      </p>
     )
   }, [connector])
 
@@ -103,9 +102,9 @@ const AccountDetails: FC<AccountDetailsProps> = ({
                   provider={library}
                 />
               </div>
-              <Typography weight={700} variant="lg" className="text-white">
+              <p  className="text-white">
                 {ENSName ? ENSName : account && shortenAddress(account)}
-              </Typography>
+              </p>
             </div>
             <div className="flex items-center gap-2 space-x-3">
               {chainId && account && (
@@ -117,16 +116,16 @@ const AccountDetails: FC<AccountDetailsProps> = ({
                     getExplorerLink(chainId, ENSName || account, "address")
                   }
                 >
-                  <Typography variant="xs" weight={700}>
+                  <p>
                     <span className="trs-3">{`View on explorer`}</span>
-                  </Typography>
+                  </p>
                 </ExternalLink>
               )}
               {account && (
                 <Copy toCopy={account}>
-                  <Typography variant="xs" weight={700}>
+                  <p>
                     <span className="trs-3">{`Copy Address`}</span>
-                  </Typography>
+                  </p>
                 </Copy>
               )}
             </div>
@@ -134,9 +133,9 @@ const AccountDetails: FC<AccountDetailsProps> = ({
         </HeadlessUiModal.BorderedContent>
         <HeadlessUiModal.BorderedContent className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <Typography variant="xs" weight={700} className="text-secondary">
+            <p className="text-secondary">
               {`Recent Transactions`}
-            </Typography>
+            </p>
             <Button
               variant="outlined"
               color="blue"
@@ -158,9 +157,9 @@ const AccountDetails: FC<AccountDetailsProps> = ({
                 ))}
               </>
             ) : (
-              <Typography variant="xs" weight={700} className="text-secondary">
+              <p className="text-secondary">
                 {`Your transactions will appear here...`}
-              </Typography>
+              </p>
             )}
           </div>
         </HeadlessUiModal.BorderedContent>

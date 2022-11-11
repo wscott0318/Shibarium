@@ -1,7 +1,7 @@
 import { useActiveWeb3React } from "app/services/web3"
 import { useEffect, useState } from "react"
 import Web3 from 'web3';
-import { ERC20_ABI } from "app/constants/abis/erc20";
+import ERC20_ABI from "../ABI/ERC20Abi.json";
 import { tokenDecimal } from "web3/commonFunctions";
 
 export const useTokenBalance = (address:string)=>{

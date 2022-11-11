@@ -3,8 +3,6 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { Zero } from '@ethersproject/constants'
 import { Formatter } from '@ethersproject/providers'
 import { ChainId } from '@shibarium/core-sdk'
-import useDebounce from '../../hooks/useDebounce'
-import useIsWindowVisible from '../../hooks/useIsWindowVisible'
 import { useActiveWeb3React } from '../../services/web3'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -47,7 +45,7 @@ export default function Updater(): null {
     }
   }, [chainId, library])
 
-  const windowVisible = useIsWindowVisible()
+  // const windowVisible = useIsWindowVisible()
 
   const [state, setState] = useState<{
     chainId: number | undefined
@@ -89,7 +87,7 @@ export default function Updater(): null {
 
   // attach/detach listeners
   useEffect(() => {
-    if (!library || !chainId || !windowVisible) return undefined
+    if (!library || !chainId ) return undefined
 
     setState({ chainId, blockNumber: null, blockTimestamp: null })
 
@@ -102,24 +100,10 @@ export default function Updater(): null {
     return () => {
       library.removeListener('block', onBlock)
     }
-  }, [dispatch, chainId, library, windowVisible, blockCallback, onBlock])
+  }, [dispatch, chainId, library,  blockCallback, onBlock])
 
-  const debouncedState = useDebounce(state, 100)
+  // const debouncedState = useDebounce(state, 100)
 
-  useEffect(() => {
-    if (!debouncedState.chainId || !debouncedState.blockNumber || !windowVisible) return
-    dispatch(updateBlockNumber({ chainId: debouncedState.chainId, blockNumber: debouncedState.blockNumber }))
-  }, [windowVisible, dispatch, debouncedState.blockNumber, debouncedState.chainId])
-
-  useEffect(() => {
-    if (!debouncedState.chainId || !debouncedState.blockTimestamp || !windowVisible) return
-    dispatch(updateBlockTimestamp({ chainId: debouncedState.chainId, blockTimestamp: debouncedState.blockTimestamp }))
-  }, [windowVisible, dispatch, debouncedState.blockTimestamp, debouncedState.chainId])
-
-  useEffect(() => {
-    // @ts-ignore TYPE NEEDS FIXING
-    dispatch(updateChainId({ chainId: debouncedState.chainId in ChainId ? debouncedState.chainId ?? null : null }))
-  }, [dispatch, debouncedState.chainId])
 
   // useEffect(() => {
   //   if (!account || !library?.provider?.request || !library?.provider?.isMetaMask) {
