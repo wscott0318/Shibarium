@@ -882,7 +882,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         <CommonModal
           title={"Unbound"}
           show={showunboundpop}
-          setShow={setunboundpop}
+          setshow={setunboundpop}
           externalCls="stak-pop"
         >
           <>

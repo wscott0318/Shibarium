@@ -27,14 +27,14 @@ export default function HowitWorks() {
                             </div>
                             <span className="fw-700 ff-mos">NOTE</span>
                         </div>
-                        <p className="mt-2 ff-mos">Please refer to <a className="underline" href="javascript:void(0);">this guide</a> to learn how to connect Shibarium to Metamask.</p>
+                        <p className="mt-2 ff-mos">Please refer to <a className="underline" href="/;">this guide</a> to learn how to connect Shibarium to Metamask.</p>
                         </div>
                     </section>
 
                     <section className="container mb-xxl-5 mb-xl-4 mb-sm-3 mb-3">
                         <h3 className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 ff-mos">Logging into the Shibarium Wallet Suite</h3>
-                        <p className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 ff-mos">To log into the Shibarium Wallet Suite you need to access the following URL: <a className="underline" href="javascript:void(0);">https://wallet.Shibarium.technology/.</a></p>
-                        <p className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 ff-mos">To log into the testnet version of Shibarium Wallet Suite, you need to access the following URL: <a className="underline" href="javascript:void(0);">https://wallet-dev.Shibarium.technology/.</a></p>
+                        <p className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 ff-mos">To log into the Shibarium Wallet Suite you need to access the following URL: <a className="underline" href="/;">https://wallet.Shibarium.technology/.</a></p>
+                        <p className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 ff-mos">To log into the testnet version of Shibarium Wallet Suite, you need to access the following URL: <a className="underline" href="/;">https://wallet-dev.Shibarium.technology/.</a></p>
                         <p className="mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 ff-mos">Once you connect your account with the Web Wallet, you will be taken to 
                         the landing page with various means on how to transact with the web wallet. Shibarium POS chain currently offers the following services:</p>
                         <ul className="text-list mb-xxl-4 mb-xl-3 mb-sm-2 mb-2 ff-mos">

@@ -48,7 +48,7 @@ export default function Gastoken() {
                   <div className="swp-right-col mb-3 mb-lg-3 mb-xl-4">
                     <ul className="swp-icon">
                       <li>
-                        <a href="javascript:void(0)">
+                        <a href="/">
                           <img
                             className="img-fluid"
                             src="../../images/faq.png"
@@ -241,7 +241,7 @@ export default function Gastoken() {
         <CommonModal
           title={"Review Swap"}
           show={showSwapModal}
-          setShow={setSwapModal}
+          setshow={setSwapModal}
           externalCls="review-ht"
         >
           {showSwapModal && swapState.step0 && (
@@ -313,7 +313,7 @@ export default function Gastoken() {
                     <div>
                       <a
                         className="btn primary-btn w-100"
-                        href="javascript:void(0)"
+                        href="/"
                         onClick={() => {
                           setSwapState({
                             step0: false,
@@ -412,7 +412,7 @@ export default function Gastoken() {
           <CommonModal
                 title={'Select Token'}
                 show={showTokenModal}
-                setShow={setTokenModal}
+                setshow={setTokenModal}
                 externalCls="tkn-ht"
             >
                {/* Token popups start */}     
@@ -927,7 +927,7 @@ export default function Gastoken() {
                       </div>
                       <div className="pop-bottom">
                         <div className="" >
-                          <a className='btn primary-btn w-100' href="javascript:void(0)" onClick={() => {
+                          <a className='btn primary-btn w-100' href="/" onClick={() => {
                             setTokenState({
                               step0: false,
                               step1: false,

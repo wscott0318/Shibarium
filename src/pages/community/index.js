@@ -85,7 +85,7 @@ export default function community() {
                                 Lorem ipsum sdolor sit amet. Ut asperiores tenetur et natus laudantium eos
                                 asperiores illum.
                                 </p>
-                                <a href="javascript:void(0)" className='link'><span>Learn More</span>
+                                <a href="/" className='link'><span>Learn More</span>
                                 <img className='img-fluid' src="../../images/link-arrow.png" alt="arrow-icon" />
                                 </a>
                             </div>
@@ -173,7 +173,7 @@ export default function community() {
                                     <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                                     </div>
                                     <h4 className='shib-title mb-2 ff-mos'>
-                                    <Link href="javascript:void(0)" passHref>
+                                    <Link href="/" passHref>
                                         <a>
                                         Lorem Ipsum
                                         </a>
@@ -190,7 +190,7 @@ export default function community() {
                                     <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                                     </div>
                                     <h4 className='shib-title mb-2 ff-mos'>
-                                    <Link href="javascript:void(0)" passHref>
+                                    <Link href="/" passHref>
                                         <a>
                                         Lorem Ipsum
                                         </a>
@@ -207,7 +207,7 @@ export default function community() {
                                     <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                                     </div>
                                     <h4 className='shib-title mb-2 ff-mos'>
-                                    <Link href="javascript:void(0)" passHref>
+                                    <Link href="/" passHref>
                                         <a>
                                         Lorem Ipsum
                                         </a>
@@ -225,7 +225,7 @@ export default function community() {
                                     <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
                                     </div>
                                     <h4 className='shib-title mb-2 ff-mos'>
-                                    <Link href="javascript:void(0)" passHref>
+                                    <Link href="/" passHref>
                                         <a>
                                         Secure the Network
                                         </a>

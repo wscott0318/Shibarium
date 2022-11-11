@@ -53,7 +53,7 @@ export default function DelegatorAccount() {
                 <CommonModal
                     title={"Unbound"}
                     show={showUnboundpop}
-                    setShow={setUnboundpop}
+                    setshow={setUnboundpop}
                     externalCls="stak-pop"
                 >
                     <>
@@ -120,7 +120,7 @@ export default function DelegatorAccount() {
                                                 The Inbonding process has been initiated. Please come back after
                                                 checkpoints and click on "Claim Stake".
                                             </p>
-                                            <Link href="javascript:void(0)" passHref>
+                                            <Link href="/" passHref>
                                                 <a className="btn primary-text">
                                                     View on Ethersacan
                                                 </a>
@@ -146,7 +146,7 @@ export default function DelegatorAccount() {
                                                 Ethereum transaction can take upto 5 minute to complete.
                                                 Please wait or increase the gas in meta mask.
                                             </p>
-                                            <Link href="javascript:void(0)" passHref>
+                                            <Link href="/" passHref>
                                                 <a className="btn primary-text">
                                                     View on Ethersacan
                                                 </a>
@@ -192,7 +192,7 @@ export default function DelegatorAccount() {
                 <CommonModal
                     title={"Restake"}
                     show={showvalidatorpop}
-                    setShow={setvalidatorpop}
+                    setshow={setvalidatorpop}
                     externalCls="stak-pop"
                 >
                     <>
@@ -217,7 +217,7 @@ export default function DelegatorAccount() {
                                     </div>
                                 </div>
                                 <div className="pop_btns_area">
-                                    <div className="form-control"><a className='btn primary-btn w-100' href="javascript:void(0)">Submit</a>  </div>
+                                    <div className="form-control"><a className='btn primary-btn w-100' href="/">Submit</a>  </div>
                                 </div>
                             </form>
                         </div>
@@ -229,7 +229,7 @@ export default function DelegatorAccount() {
                 <CommonModal
                     title={"Withdraw Rewards"}
                     show={showwithdrawpop}
-                    setShow={setwithdrawpop}
+                    setshow={setwithdrawpop}
                     externalCls="stak-pop"
                 >
                     <>
@@ -248,7 +248,7 @@ export default function DelegatorAccount() {
                                     </div>
                                 </div>
                                 <div className="pop_btns_area">
-                                    <div className="form-control"><a className='btn primary-btn w-100' href="javascript:void(0)">Submit</a>  </div>
+                                    <div className="form-control"><a className='btn primary-btn w-100' href="/">Submit</a>  </div>
                                 </div>
                             </form>
                         </div>
@@ -262,7 +262,7 @@ export default function DelegatorAccount() {
                 <CommonModal
                     title={"Unbound"}
                     show={showunboundpop}
-                    setShow={setunboundpop}
+                    setshow={setunboundpop}
                     externalCls="stak-pop"
                 >
                     <>
@@ -272,8 +272,8 @@ export default function DelegatorAccount() {
                                     <p className="text-center">Are you sure you want to unbound?</p>
                                 </div>
                                 <div className="pop_btns_area row mr-top-50 form-control">
-                                    <div className="col-6"><a className='btn dark-bg-800 text-white w-100' href="javascript:void(0)">Cancel</a>  </div>
-                                    <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Confirm</a>  </div>
+                                    <div className="col-6"><a className='btn dark-bg-800 text-white w-100' href="/">Cancel</a>  </div>
+                                    <div className="col-6"><a className='btn primary-btn w-100' href="/">Confirm</a>  </div>
                                 </div>
                             </form>
                         </div>
@@ -287,7 +287,7 @@ export default function DelegatorAccount() {
                 <CommonModal
                     title={"Delegate"}
                     show={showallinonepop}
-                    setShow={setallinonepop}
+                    setshow={setallinonepop}
                     externalCls="stak-pop"
                 >
                     <>
@@ -348,7 +348,7 @@ export default function DelegatorAccount() {
 
                                 <div className="pop_btns_area row form-control mt-5">
                                     <div className="col-12">
-                                        <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
+                                        <a className='btn primary-btn d-flex align-items-center' href="/">
                                             <span>View on Etherscan</span>
                                         </a>
                                     </div>
@@ -369,7 +369,7 @@ export default function DelegatorAccount() {
 
                                 <div className="pop_btns_area row form-control mt-5">
                                     <div className="col-12">
-                                        <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
+                                        <a className='btn primary-btn d-flex align-items-center' href="/">
                                             <span>View on Etherscan</span>
                                         </a>
                                     </div>
@@ -397,7 +397,7 @@ export default function DelegatorAccount() {
                                 </div>
                                 <div className="pop_btns_area row form-control mt-5">
                                     <div className="col-12">
-                                        <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
+                                        <a className='btn primary-btn d-flex align-items-center' href="/">
                                             <span>Buy Voucher</span>
                                         </a>
                                     </div>
@@ -418,7 +418,7 @@ export default function DelegatorAccount() {
 
                                 <div className="pop_btns_area row form-control mt-5">
                                     <div className="col-12">
-                                        <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
+                                        <a className='btn primary-btn d-flex align-items-center' href="/">
                                             <span>View on Ethereum</span>
                                         </a>
                                     </div>
@@ -439,7 +439,7 @@ export default function DelegatorAccount() {
 
                                 <div className="pop_btns_area row form-control mt-5">
                                     <div className="col-12">
-                                        <a className='btn primary-btn d-flex align-items-center' href="javascript:void(0)">
+                                        <a className='btn primary-btn d-flex align-items-center' href="/">
                                             <span>View on Ethereum</span>
                                         </a>
                                     </div>
@@ -455,7 +455,7 @@ export default function DelegatorAccount() {
                 <CommonModal
                     title={"claim Stake"}
                     show={showClaimpop}
-                    setShow={setClaimpop}
+                    setshow={setClaimpop}
                     externalCls="stak-pop"
                 >
                     <>
@@ -475,7 +475,7 @@ export default function DelegatorAccount() {
                                             Your claim stake Transaction is successful. The Transaction might
                                             take 1-2 minutes to be updated in your account.
                                         </p>
-                                        <Link href="javascript:void(0)" passHref>
+                                        <Link href="/" passHref>
                                             <a className="btn primary-text">
                                                 View on Ethersacan
                                             </a>

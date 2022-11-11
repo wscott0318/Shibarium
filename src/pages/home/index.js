@@ -74,7 +74,7 @@ export default function Home() {
                       </Link>
                     </div>
                     <div className="btn-col">
-                      {/* <a className="btn secondary-btn w-100 d-block ff-mos" href="javascript:void(0)">Develop</a> */}
+                      {/* <a className="btn secondary-btn w-100 d-block ff-mos" href="/">Develop</a> */}
                     </div>
                   </div>
                 </div>
@@ -149,7 +149,7 @@ export default function Home() {
                       Lorem ipsum sdolor sit amet. Ut asperiores tenetur et natus laudantium eos
                       asperiores illum.
                     </p>
-                    <a href="javascript:void(0)" className='link'><span>Learn More</span>
+                    <a href="/" className='link'><span>Learn More</span>
                       <img className='img-fluid' src="../../images/link-arrow.png" alt="arrow-icon" />
                     </a>
                   </div>
@@ -192,7 +192,7 @@ export default function Home() {
                         </li>
                       </ul>
                       <Link href="/all-validator" passHref>
-                        <a href="javascript:void(0)" className='btn secondary-btn ff-mos'>First Step</a>
+                        <a href="/" className='btn secondary-btn ff-mos'>First Step</a>
                       </Link>
                     </div>
                   </div>
@@ -226,7 +226,7 @@ export default function Home() {
                       <p>
                         Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum.
                       </p>
-                      <a className='primary-gradient-text d-flex align-items-center' href="javascript:void(0)">
+                      <a className='primary-gradient-text d-flex align-items-center' href="/">
                         <span className='me-2 ff-mos'>Set up a node</span>
                         <img className='img-fluid' src="../../images/top-arrow-prim.png" alt="img-fluid" />
                       </a>
@@ -248,7 +248,7 @@ export default function Home() {
                       <p className="ff-mos">
                         Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos asperiores illum.
                       </p>
-                      <a className='primary-gradient-text d-flex align-items-center' href="javascript:void(0)">
+                      <a className='primary-gradient-text d-flex align-items-center' href="/">
                         <span className='me-2 ff-mos'>Set up a node</span>
                         <img className='img-fluid' src="../../images/top-arrow-prim.png" alt="img-fluid" />
                       </a>
@@ -352,7 +352,7 @@ export default function Home() {
             <div className="container">
               <ul className="shib-row">
                 <li className="shib-col">
-                  <Link href="javascript:void(0)" passHref>
+                  <Link href="/" passHref>
                     <a className="shib-item">
                       <img className='img-fluid' src="../../images/icons/tw.png" alt="socail-icon" width={24} />
                       <span className="ff-mos">Twitter</span>
@@ -360,7 +360,7 @@ export default function Home() {
                   </Link>
                 </li>
                 <li className="shib-col">
-                  <Link href="javascript:void(0)" className="shib-item" passHref>
+                  <Link href="/" className="shib-item" passHref>
                     <a className="shib-item">
                       <img className='img-fluid' src="../../images/icons/teli.png" alt="socail-icon" width={24} />
                       <span className="ff-mos">Telegram</span>
@@ -368,7 +368,7 @@ export default function Home() {
                   </Link>
                 </li>
                 <li className="shib-col">
-                  <Link href="javascript:void(0)" className="shib-item" passHref>
+                  <Link href="/" className="shib-item" passHref>
                     <a className="shib-item">
                       <img className='img-fluid' src="../../images/icons/discord.png" alt="socail-icon" width={24} />
                       <span className="ff-mos">Discord</span>
@@ -376,7 +376,7 @@ export default function Home() {
                   </Link>
                 </li>
                 <li className="shib-col">
-                  <Link href="javascript:void(0)" className="shib-item" passHref>
+                  <Link href="/" className="shib-item" passHref>
                     <a className="shib-item">
                       <img className='img-fluid' src="../../images/icons/reddit.png" alt="socail-icon" width={24} />
                       <span className="ff-mos">Reddit</span>
@@ -384,7 +384,7 @@ export default function Home() {
                   </Link>
                 </li>
                 <li className="shib-col">
-                  <Link href="javascript:void(0)" className="shib-item" passHref>
+                  <Link href="/" className="shib-item" passHref>
                     <a className="shib-item">
                       <img className='img-fluid' src="../../images/icons/insta.png" alt="socail-icon" width={24} />
                       <span className="ff-mos">Instagram</span>
@@ -392,7 +392,7 @@ export default function Home() {
                   </Link>
                 </li>
                 <li className="shib-col lft-spc">
-                  <Link href="javascript:void(0)" className="shib-item" passHref>
+                  <Link href="/" className="shib-item" passHref>
                     <a className="shib-item">
                       <img className='img-fluid' src="../../images/icons/ether.png" alt="socail-icon" width={24} />
                       <span className="ff-mos">Etherscan</span>

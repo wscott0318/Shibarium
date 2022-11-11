@@ -162,7 +162,7 @@ export default function faucet() {
       <CommonModal
         title={modalState.pending ? "Pending" : 'Done'}
         show={showSwapModal}
-        setShow={setSwapModal}
+        setshow={setSwapModal}
         externalCls="faucet-pop">
         <div className="popmodal-body tokn-popup no-ht trans-mod">
           <div className="pop-block">

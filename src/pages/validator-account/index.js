@@ -51,7 +51,7 @@ export default function ValidatorAccount() {
                 <CommonModal
                     title={"Restake"}
                     show={showretakepop}
-                    setShow={setretakepop}
+                    setshow={setretakepop}
                     externalCls="stak-pop"
                 >
                     <>
@@ -78,7 +78,7 @@ export default function ValidatorAccount() {
                                     </div>
                                 </div>
                                 <div className="pop_btns_area">
-                                    <div className="form-control"><a className='btn primary-btn w-100' href="javascript:void(0)">Submit</a>  </div>
+                                    <div className="form-control"><a className='btn primary-btn w-100' href="/">Submit</a>  </div>
                                 </div>
                             </form>
                         </div>
@@ -92,7 +92,7 @@ export default function ValidatorAccount() {
                 <CommonModal
                     title={"Commission"}
                     show={showcommissionpop}
-                    setShow={setcommissionpop}
+                    setshow={setcommissionpop}
                     externalCls="stak-pop"
                 >
                     <>
@@ -111,7 +111,7 @@ export default function ValidatorAccount() {
                                     </div>
                                 </div>
                                 <div className="pop_btns_area">
-                                    <div className="form-control"><a className='btn primary-btn w-100' href="javascript:void(0)">Submit</a>  </div>
+                                    <div className="form-control"><a className='btn primary-btn w-100' href="/">Submit</a>  </div>
                                 </div>
                             </form>
                         </div>
@@ -125,7 +125,7 @@ export default function ValidatorAccount() {
                 <CommonModal
                     title={"Withdraw rewards"}
                     show={showwithdrawpop}
-                    setShow={setwithdrawpop}
+                    setshow={setwithdrawpop}
                     externalCls="stak-pop"
                 >
                     <>
@@ -138,7 +138,7 @@ export default function ValidatorAccount() {
                                     </div>
                                 </div>
                                 <div className="pop_btns_area">
-                                    <div className="form-control"><a className='btn primary-btn w-100' href="javascript:void(0)">Submit</a>  </div>
+                                    <div className="form-control"><a className='btn primary-btn w-100' href="/">Submit</a>  </div>
                                 </div>
                             </form>
                         </div>
@@ -152,7 +152,7 @@ export default function ValidatorAccount() {
                 <CommonModal
                     title={"Unbound"}
                     show={showunboundpop}
-                    setShow={setunboundpop}
+                    setshow={setunboundpop}
                     externalCls="stak-pop"
                 >
                     <>
@@ -162,8 +162,8 @@ export default function ValidatorAccount() {
                                     <p className="text-center">Are you sure you want to unbound?</p>
                                 </div>
                                 <div className="pop_btns_area row mr-top-50 form-control">
-                                    <div className="col-6"><a className='btn blue-btn w-100 dark-bg-800 text-white' href="javascript:void(0)">Cancel</a>  </div>
-                                    <div className="col-6"><a className='btn primary-btn w-100' href="javascript:void(0)">Confirm</a>  </div>
+                                    <div className="col-6"><a className='btn blue-btn w-100 dark-bg-800 text-white' href="/">Cancel</a>  </div>
+                                    <div className="col-6"><a className='btn primary-btn w-100' href="/">Confirm</a>  </div>
                                 </div>
                             </form>
                         </div>
