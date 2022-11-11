@@ -353,7 +353,7 @@ const handleSearchList = (key :any) => {
         <CommonModal
           title={depModalState.title}
           show={showDepositModal}
-          setShow={setDepositModal}
+          setshow={setDepositModal}
           externalCls="dark-modal-100 bridge-ht"
         >
           {/* Deposit popups start */}
@@ -625,7 +625,7 @@ const handleSearchList = (key :any) => {
         <CommonModal
           title={withModalState.title}
           show={showWithdrawModal}
-          setShow={setWithdrawModal}
+          setshow={setWithdrawModal}
           externalCls="dark-modal-100 bridge-ht2"
         >
           {/* Withdraw tab popups start */}
@@ -1114,7 +1114,7 @@ const handleSearchList = (key :any) => {
         <CommonModal
           title={"Select token"}
           show={showTokenModal}
-          setShow={setTokenModal}
+          setshow={setTokenModal}
           externalCls="tkn-ht"
         >
           {/* Token popups start */}

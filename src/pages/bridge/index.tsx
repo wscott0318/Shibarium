@@ -333,7 +333,7 @@ const handleSearchList = (key :any) => {
     <>
       <main className="main-content">
         <Sidebar
-          handleMenuState={handleMenuState}CommonModal
+          handleMenuState={handleMenuState}
           onClickOutside={() => {
             setMenuState(false);
           }}

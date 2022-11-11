@@ -9,6 +9,10 @@ import { useActiveWeb3React } from "../../services/web3"
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
+export const config = {
+  unstable_runtimeJS: false,
+};
+
 export default function Home() {
   
 
