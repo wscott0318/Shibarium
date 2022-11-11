@@ -1336,20 +1336,26 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
                           <ul className="btn-grp">
                             <li className="btn-grp-lst">
-                              <button
-                                disabled={
-                                  parseInt(item.commission) == 0 || item.checkpointSignedPercent < 85 ||
-                                  parseInt(item.reward) / 10 ** 18 < 1
-                                }
-                                onClick={() =>
-                                  handleModal("Restake", item.contractAddress)
-                                }
-                                className="btn grey-btn btn-small"
-                              >
-                                Restake
-                              </button>
+                              <div className='cus-tooltip d-inline-block'>
+                                <button
+                                  disabled={
+                                    parseInt(item.commission) == 0 || item.checkpointSignedPercent < 85 ||
+                                    parseInt(item.reward) / 10 ** 18 < 1
+                                  }
+                                  onClick={() =>
+                                    handleModal("Restake", item.contractAddress)
+                                  }
+                                  className="btn grey-btn btn-small tool-ico"
+                                >
+                                  Restake
+                                </button>
+                                <div className="tool-desc">
+                                  Lorem, ipsum.
+                                </div>
+                              </div>
                             </li>
                             <li className="btn-grp-lst">
+                            <div className='cus-tooltip d-inline-block'>
                               <button
                                 disabled={parseInt(item.reward) / 10 ** 18 < 1}
                                 onClick={() =>
@@ -1358,13 +1364,18 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                     item.contractAddress
                                   )
                                 }
-                                className="btn black-btn btn-small"
+                                className="btn black-btn btn-small tool-ico"
                               >
                                 Withdraw Rewards
                               </button>
+                                <div className="tool-desc">
+                                  Lorem, ipsum.
+                                </div>
+                              </div>
                             </li>
 
                             <li className="btn-grp-lst">
+                            <div className='cus-tooltip d-inline-block'>
                               <button
                                 disabled={parseInt(item.stake) / 10 ** 18 < 1}
                                 onClick={() =>
@@ -1375,13 +1386,18 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                     (parseInt(item.stake) / 10 ** 18).toFixed(4)
                                   )
                                 }
-                                className="btn black-btn btn-small"
+                                className="btn black-btn btn-small tool-ico"
                               >
                                 Unbound
                               </button>
+                                <div className="tool-desc">
+                                  Lorem, ipsum.
+                                </div>
+                              </div>
                             </li>
 
                             <li className="btn-grp-lst">
+                            <div className='cus-tooltip d-inline-block'>
                               <button
                                 disabled={parseInt(item.commission) == 0 || item.checkpointSignedPercent < 85}
                                 onClick={() => {
@@ -1393,10 +1409,14 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                   });
                                   setStakeMoreModal(true);
                                 }}
-                                className="btn black-btn btn-small"
+                                className="btn black-btn btn-small tool-ico"
                               >
                                 Stake More
                               </button>
+                                <div className="tool-desc">
+                                  Lorem, ipsum.
+                                </div>
+                              </div>
                             </li>
                           </ul>
                         </div>
