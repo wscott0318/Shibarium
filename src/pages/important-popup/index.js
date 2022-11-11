@@ -9,6 +9,7 @@ import { ERC20_ABI } from "app/constants/abis/erc20";
 import Web3 from 'web3'
 import LoadingSpinner from "pages/components/Loading";
 import ConfirmPopUp from "pages/components/ConfirmPopUp";
+import { dynamicChaining } from "web3/DynamicChaining";
 
 
 export default function ImportantPopup(props) {
@@ -19,7 +20,7 @@ export default function ImportantPopup(props) {
 
   const [loading, setLoading] = useState(false)
   const [recieverAddress, setRecieverAddress] = useState('');
-  const [tokenAddress, setTokenAddress] = useState(ENV_CONFIGS[chainId].BONE);
+  const [tokenAddress, setTokenAddress] = useState(dynamicChaining[chainId].BONE);
   const [amount, setAmount] = useState();
   const [confirm, setConfirm] = useState(false)
 const [tranHashCode, setTranHashCode] = useState('')

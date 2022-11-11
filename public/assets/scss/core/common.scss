@@ -3613,3 +3613,26 @@ input:-internal-autofill-selected {
         background:$bg-clr;
     }
 }
+.cmng-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 80px);
+}
+.image-sec{
+    img{
+        max-width: 300px;
+        @media #{$max-xxl}{
+            max-width: 270px;
+        }
+        @media #{$max-xl}{
+            max-width: 230px;
+        }
+        @media #{$max-lg}{
+            max-width: 200px;
+        }
+        @media #{$max-xsm}{
+            max-width: 150px;
+        }
+    }
+}
