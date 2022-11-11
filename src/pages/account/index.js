@@ -18,6 +18,7 @@ import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 import NumberFormat from 'react-number-format';
 import { useUserType } from '../../state/user/hooks';
 import { User } from "react-feather";
+import { dynamicChaining } from "web3/DynamicChaining";
 
 export default function Account() {
   // const [availBalance, setAvailBalance] = useState(0);
@@ -26,8 +27,8 @@ export default function Account() {
   const [cardsData, setCardsData] = useState({});
   const { chainId , account} = useActiveWeb3React();
   const [ topCardsShimmer, setTopCardShimmer] = useState(false);
-  const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(ENV_CONFIGS[chainId].BONE);
-  // const boneBalance = useTokenBalance(ENV_CONFIGS[chainId].BONE);
+  const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
+
 
   // useEffect(() => {
   //   if (library&&account) {

@@ -5,6 +5,7 @@ import { useActiveWeb3React } from "app/services/web3"
 import { useEffect, useState } from "react"
 import { useEthBalance } from "./useEthBalance";
 import { useTokenBalance } from "./useTokenBalance";
+import { dynamicChaining } from "web3/DynamicChaining";
 
 export const useBoneBalance = ()=>{
     const {account,chainId =1} = useActiveWeb3React()
@@ -12,7 +13,7 @@ export const useBoneBalance = ()=>{
     const [balance, setBalance] = useState(0)
     let walletBalance = 0;
     try {
-        walletBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(ENV_CONFIGS[chainId].BONE);
+        walletBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
         
     } catch (error) {
         
