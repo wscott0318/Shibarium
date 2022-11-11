@@ -76,7 +76,7 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
   const bottomList = [
     {
       name: "FAQs",
-      route: "",
+      route: "/faq",
       isSelected: false,
       img: "../../images/sidebar/faq.png",
     },
