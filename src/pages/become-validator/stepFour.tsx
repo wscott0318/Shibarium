@@ -47,13 +47,14 @@ function StepFour({ activInput, handleEdit, stepState, stepHandler, becomeValida
     data.append("website", values.website);
     data.append("commission", values.commission);
     data.append("img", values.image);
-    notifySuccess()
+
     await registerValidator(data).then((res: any) => {
       console.log("this is eresss",res)
       setApiLoading(false)
       notifySuccess()
       // setBecomeValidateData(values)
       // stepHandler("next");
+      
     }).catch((err: any) => {
       console.log(err)
       notifyError()
@@ -61,14 +62,13 @@ function StepFour({ activInput, handleEdit, stepState, stepHandler, becomeValida
     })
   };
 
-
   const notifyError = () => {
     // toast("Profile Updated successfully");
     // toast("Updated successfully!", {
     //     position: toast.POSITION.BOTTOM_CENTER, autoClose: 2000
     // });
     toast.error('Error In Updating !', {
-      position: toast.POSITION.BOTTOM_LEFT ,autoClose: 2000
+      position: toast.POSITION.BOTTOM_CENTER ,autoClose: 3000
   });
   }
   const notifySuccess = () => {
@@ -77,7 +77,7 @@ function StepFour({ activInput, handleEdit, stepState, stepHandler, becomeValida
     //     position: toast.POSITION.BOTTOM_CENTER, autoClose: 2000
     // });
     toast.success('Updated successfully !', {
-      position: toast.POSITION.BOTTOM_CENTER ,autoClose: 2000
+      position: toast.POSITION.BOTTOM_CENTER ,autoClose: 3000
   });
   }
   const onImageChange = (event: any) => {
@@ -95,10 +95,7 @@ function StepFour({ activInput, handleEdit, stepState, stepHandler, becomeValida
       validationSchema: validatorSchema,
       onSubmit: (values) => {
         // console.log("Value", values);
-        
-      
         callAPI(values);
-       
       },
     });
   return (
@@ -122,6 +119,7 @@ function StepFour({ activInput, handleEdit, stepState, stepHandler, becomeValida
                 <div className="file-icons">
                   <img
                     src={imageData ? URL.createObjectURL(imageData) : values.image ? URL.createObjectURL(values.image) : "../../assets/images/file-icon.png"}
+                    //  src={ "../../assets/images/file-icon.png"}
                     alt=""
                     className="img-fluid" // 200kb 
                     width={22}

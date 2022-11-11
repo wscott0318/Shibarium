@@ -2,6 +2,8 @@ import Pagination from 'app/components/Pagination';
 import React, { useEffect, useState } from 'react'
 import { Nav } from 'react-bootstrap'
 import NumberFormat from 'react-number-format';
+import { tokenDecimal } from 'web3/commonFunctions';
+
 interface Props{
     allDelegators:any[];
     boneUsdValue:number;
@@ -48,7 +50,7 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
                                                     </td>
                                                     <td>
                                                         <span className="amt-txt pe-1 span-child">
-                                                        <NumberFormat displayType='text' prefix='$ ' thousandSeparator value={(item.stake/Math.pow(10,18) * boneUsdValue).toFixed(2)} />
+                                                        <NumberFormat displayType='text' prefix='$ ' thousandSeparator value={(item.stake/Math.pow(10,18) * boneUsdValue).toFixed(tokenDecimal)} />
                                                         </span>
                                                     </td>
                                                 </tr>

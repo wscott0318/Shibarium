@@ -33,6 +33,7 @@ import fromExponential from 'from-exponential';
 import { getExplorerLink } from 'app/functions';
 import { getAllowanceAmount } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json"
+import { tokenDecimal } from "web3/commonFunctions";
 
 export default function Withdraw() {
 
@@ -374,7 +375,7 @@ const handleSearchList = (key :any) => {
                           />
                         </div>
                         <h6>{depositTokenInput+" "+selectedToken.parentName}</h6>
-                        <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+depositTokenInput || 0) * boneUSDValue).toFixed(2)} /></p>
+                        <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+depositTokenInput || 0) * boneUSDValue).toFixed(tokenDecimal)} /></p>
                       </div>
                     </div>
                     <div className="pop-grid">
@@ -479,7 +480,7 @@ const handleSearchList = (key :any) => {
                           />
                         </span>
                         <h6>{depositTokenInput+" "+selectedToken.parentName}</h6>
-                        <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+depositTokenInput || 0) * boneUSDValue).toFixed(2)} /></p>
+                        <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+depositTokenInput || 0) * boneUSDValue).toFixed(tokenDecimal)} /></p>
                       </div>
                     </div>
                     <div className="pop-grid">
@@ -585,7 +586,7 @@ const handleSearchList = (key :any) => {
                           />
                         </span>
                         <h6>{depositTokenInput+" "+selectedToken.parentName}</h6>
-                        <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+depositTokenInput || 0) * boneUSDValue).toFixed(2)} /></p>
+                        <p><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((+depositTokenInput || 0) * boneUSDValue).toFixed(tokenDecimal)} /></p>
                       </div>
                     </div>
                     <div className="pop-action">

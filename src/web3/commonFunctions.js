@@ -29,3 +29,8 @@ export const currentGasPrice = async (web3) => {
     return value
   }
 
+//   export default tokenDecimal = ()=>{
+//     let tokenDecimal=6;
+//   }
+
+export const tokenDecimal = 6
