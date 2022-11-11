@@ -2703,6 +2703,13 @@ input:-internal-autofill-selected {
         padding-left: 13px;
     }
 }
+.staking-main{
+    .progress-tab{
+        .error{
+            padding-left: 0;
+        }
+    }
+}
 .fix-layout{
     height: 375px;
     position: relative;
@@ -2799,15 +2806,16 @@ input:-internal-autofill-selected {
 .cus-tooltip {
     position: relative;
     padding-left: 8px;
+    width: 100%;
     .tool-ico {
-        width: 25px;
-        height: 25px;
-        background:$primary;
-        border-radius: 100%;
-        text-align: center;
-        line-height: 30px;
-        font-size: 22px;
-        font-weight: bold;
+        // width: 25px;
+        // height: 25px;
+        // background:$primary;
+        // border-radius: 100%;
+        // text-align: center;
+        // line-height: 30px;
+        // font-size: 22px;
+        // font-weight: bold;
         @media #{$max-md}{
             width: 20px;
             height: 20px;
@@ -2865,11 +2873,13 @@ input:-internal-autofill-selected {
             ~ .tool-desc{
                 display:block;
                 opacity: 1;
+                z-index: 1;
             }   
         }
     }
     
 }
+
 .hd-sel{
     select{
         border: none;
@@ -3612,4 +3622,14 @@ display: none !important;
         padding: 50px 20px 40px;
     }
 }
-
+.mid-sec{
+    .black-btn{
+        background:$bg-clr;
+    }
+    .btn.grey-btn:disabled{
+        background:$grey-color;
+    }
+    .btn.black-btn:disabled{
+        background:$bg-clr;
+    }
+}

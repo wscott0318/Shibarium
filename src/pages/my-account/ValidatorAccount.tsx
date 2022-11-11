@@ -1070,10 +1070,15 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>0.0000</span>BONE
+                              <span>{availBalance.toFixed(4)}</span>BONE
                             </div>
                             <div className="mid-head">
-                              <span>$ 0.00</span>
+                              <span><NumberFormat
+                                thousandSeparator
+                                displayType={"text"}
+                                prefix="$ "
+                                value={((availBalance || 0) * boneUSDValue).toFixed(2)}
+                              /></span>
                             </div>
                           </div>
 
@@ -1088,16 +1093,16 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>0.0000</span>BONE
+                            {validatorInfo?.commissionPercent}
                             </div>
                             <div className="mid-head">
-                              <span>$ 0.00</span>
+                              <span>some info here...</span>
                             </div>
                           </div>
 
                           <div className="botom-sec">
                             <div className="botom-headsec">
-                              <span className="ff-mos">Wallet Balance</span>
+                              <span className="ff-mos">Commission Percentage</span>
                             </div>
                           </div>
                         </div>
@@ -1106,16 +1111,27 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>0.0000</span>BONE
+                            {(
+                      (Number(fromExponential(validatorInfo?.totalRewards)) -
+                        Number(fromExponential(validatorInfo?.claimedReward))) /
+                      Math.pow(10, 18)
+                    ).toFixed(8)}
                             </div>
                             <div className="mid-head">
-                              <span>$ 0.00</span>
+                              <span>
+                              {/* <NumberFormat
+                                thousandSeparator
+                                displayType={"text"}
+                                prefix="$ "
+                                value={(Number(fromExponential(validatorInfo?.totalRewards)) -Number(fromExponential(validatorInfo?.claimedReward))) / Math.pow(10, 18)).toFixed(8)  * boneUSDValue}
+                              /> */}
+                              </span>
                             </div>
                           </div>
 
                           <div className="botom-sec">
                             <div className="botom-headsec">
-                              <span className="ff-mos">Wallet Balance</span>
+                              <span className="ff-mos">Reward Balance</span>
                             </div>
                           </div>
                         </div>
@@ -1124,16 +1140,23 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>0.0000</span>BONE
+                              <span>00.00</span>BONE
                             </div>
                             <div className="mid-head">
-                              <span>$ 0.00</span>
+                              <span>
+                              {/* <NumberFormat
+                                thousandSeparator
+                                displayType={"text"}
+                                prefix="$ "
+                                value={((+validatorInfo?.totalRewards || 0) * boneUSDValue).toFixed(2)}
+                              /> */}
+                              </span>
                             </div>
                           </div>
 
                           <div className="botom-sec">
                             <div className="botom-headsec">
-                              <span className="ff-mos">Wallet Balance</span>
+                              <span className="ff-mos">Total Rewards</span>
                             </div>
                           </div>
                         </div>
@@ -1313,20 +1336,26 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
                           <ul className="btn-grp">
                             <li className="btn-grp-lst">
-                              <button
-                                disabled={
-                                  parseInt(item.commission) == 0 || item.checkpointSignedPercent < 85 ||
-                                  parseInt(item.reward) / 10 ** 18 < 1
-                                }
-                                onClick={() =>
-                                  handleModal("Restake", item.contractAddress)
-                                }
-                                className="btn grey-btn btn-small"
-                              >
-                                Restake
-                              </button>
+                              <div className='cus-tooltip d-inline-block'>
+                                <button
+                                  disabled={
+                                    parseInt(item.commission) == 0 || item.checkpointSignedPercent < 85 ||
+                                    parseInt(item.reward) / 10 ** 18 < 1
+                                  }
+                                  onClick={() =>
+                                    handleModal("Restake", item.contractAddress)
+                                  }
+                                  className="btn grey-btn btn-small tool-ico"
+                                >
+                                  Restake
+                                </button>
+                                <div className="tool-desc">
+                                  Lorem, ipsum.
+                                </div>
+                              </div>
                             </li>
                             <li className="btn-grp-lst">
+                            <div className='cus-tooltip d-inline-block'>
                               <button
                                 disabled={parseInt(item.reward) / 10 ** 18 < 1}
                                 onClick={() =>
@@ -1335,13 +1364,18 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                     item.contractAddress
                                   )
                                 }
-                                className="btn black-btn btn-small"
+                                className="btn black-btn btn-small tool-ico"
                               >
                                 Withdraw Rewards
                               </button>
+                                <div className="tool-desc">
+                                  Lorem, ipsum.
+                                </div>
+                              </div>
                             </li>
 
                             <li className="btn-grp-lst">
+                            <div className='cus-tooltip d-inline-block'>
                               <button
                                 disabled={parseInt(item.stake) / 10 ** 18 < 1}
                                 onClick={() =>
@@ -1352,13 +1386,18 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                     (parseInt(item.stake) / 10 ** 18).toFixed(4)
                                   )
                                 }
-                                className="btn black-btn btn-small"
+                                className="btn black-btn btn-small tool-ico"
                               >
                                 Unbound
                               </button>
+                                <div className="tool-desc">
+                                  Lorem, ipsum.
+                                </div>
+                              </div>
                             </li>
 
                             <li className="btn-grp-lst">
+                            <div className='cus-tooltip d-inline-block'>
                               <button
                                 disabled={parseInt(item.commission) == 0 || item.checkpointSignedPercent < 85}
                                 onClick={() => {
@@ -1370,10 +1409,14 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                   });
                                   setStakeMoreModal(true);
                                 }}
-                                className="btn black-btn btn-small"
+                                className="btn black-btn btn-small tool-ico"
                               >
                                 Stake More
                               </button>
+                                <div className="tool-desc">
+                                  Lorem, ipsum.
+                                </div>
+                              </div>
                             </li>
                           </ul>
                         </div>
