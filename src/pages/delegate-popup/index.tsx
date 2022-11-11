@@ -58,7 +58,7 @@ const DelegatePopup: React.FC<any> = ({
   const walletBalance =
     chainId === ChainId.SHIBARIUM
       ? useEthBalance()
-      : useTokenBalance(ENV_CONFIGS[chainId].BONE);
+      : useTokenBalance(dynamicChaining[chainId].BONE);
 
   const getBalanceG = () => {
     web3?.eth?.getBalance().then((lastBlock: number) => {

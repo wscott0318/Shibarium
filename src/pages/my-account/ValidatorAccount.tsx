@@ -599,7 +599,12 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         console.log("error", error);
       });
   }, [account])
-  
+
+  const rewardBalance = validatorInfo?.totalRewards ? (
+    (Number(fromExponential(validatorInfo?.totalRewards)) -
+      Number(fromExponential(validatorInfo?.claimedReward))) /
+    Math.pow(10, 18)
+  ).toFixed(8) : "00.00"  
 
   return (
     <>
@@ -610,7 +615,9 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         setdelegatepop={() => setStakeMoreModal(false)}
       />
       <div className="main-content dark-bg-800 full-vh  cmn-input-bg">
-        {/* retake popop start */}
+
+
+        {/* retake popop start VALIDATOR*/}
         <CommonModal
           title={"Restake"}
           show={restakeModal.value1}
@@ -1070,7 +1077,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>{availBalance.toFixed(4)}</span>BONE
+                              <span>{availBalance.toFixed(4)}</span> BONE
                             </div>
                             <div className="mid-head">
                               <span><NumberFormat
@@ -1096,7 +1103,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                             {validatorInfo?.commissionPercent}
                             </div>
                             <div className="mid-head">
-                              <span>some info here...</span>
+                              {/* <span>some info here...</span> */}
                             </div>
                           </div>
 
@@ -1111,20 +1118,16 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                            {(
-                      (Number(fromExponential(validatorInfo?.totalRewards)) -
-                        Number(fromExponential(validatorInfo?.claimedReward))) /
-                      Math.pow(10, 18)
-                    ).toFixed(8)}
+                            {rewardBalance} BONE
                             </div>
                             <div className="mid-head">
                               <span>
-                              {/* <NumberFormat
+                              <NumberFormat
                                 thousandSeparator
                                 displayType={"text"}
                                 prefix="$ "
-                                value={(Number(fromExponential(validatorInfo?.totalRewards)) -Number(fromExponential(validatorInfo?.claimedReward))) / Math.pow(10, 18)).toFixed(8)  * boneUSDValue}
-                              /> */}
+                                value={(+rewardBalance * boneUSDValue).toFixed(6)}
+                              />
                               </span>
                             </div>
                           </div>
@@ -1140,16 +1143,16 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>00.00</span>BONE
+                              <span>{validatorInfo?.totalRewards ? (parseInt(validatorInfo?.totalRewards) / Math.pow(10, 18)).toFixed(6) : "00.00"} </span> BONE
                             </div>
                             <div className="mid-head">
                               <span>
-                              {/* <NumberFormat
+                              <NumberFormat
                                 thousandSeparator
                                 displayType={"text"}
                                 prefix="$ "
-                                value={((+validatorInfo?.totalRewards || 0) * boneUSDValue).toFixed(2)}
-                              /> */}
+                                value={(+(parseInt(validatorInfo?.totalRewards) / Math.pow(10, 18)).toFixed(6) * boneUSDValue).toFixed(2)}
+                              />
                               </span>
                             </div>
                           </div>

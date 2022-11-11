@@ -17,6 +17,7 @@ import { ChainId } from "@shibarium/core-sdk";
 import { BONE_ID, ENV_CONFIGS } from '../../config/constant';
 import {useEthBalance} from '../../hooks/useEthBalance';
 import {useTokenBalance} from '../../hooks/useTokenBalance';
+import { dynamicChaining } from "web3/DynamicChaining";
 
 
 export default function MyAcount() {
@@ -24,7 +25,7 @@ export default function MyAcount() {
   const [userType, setUserType] = useUserType();
   const [boneUSDValue,setBoneUSDValue] = useState(0);
   const router = useRouter();
-  const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(ENV_CONFIGS[chainId].BONE);
+  const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
 
 
   useEffect(() => {
