@@ -21,7 +21,7 @@ import { getUserType } from "app/services/apis/user/userApi";
 
 const InnerHeader = () => {
   const router = useRouter();
-  const [show, setShow] = useState();
+  const [show, setshow] = useState();
   const [offset, setOffset] = useState(0);
   const [accountAddress, setAccountAddress] = useState("")
   const [userQrCode, setUserQrCode] = useState(false);
@@ -96,7 +96,7 @@ const InnerHeader = () => {
           <QrModal
             title={"My QR Code"}
             show={userQrCode}
-            setShow={setUserQrCode}
+            setshow={setUserQrCode}
             address={account}
           />
         )}
@@ -109,7 +109,7 @@ const InnerHeader = () => {
               <Nav className="ms-auto align-items-center">
                 <AppHeader />
                 <Nav.Item className="d-flex align-items-center cus_dropdown">
-                  {/* <Link href={"javascript:void(0)"} passHref> */}
+                  {/* <Link href={"/"} passHref> */}
                     <button onClick={toggleNetworkModal}>
                       <a className="d-md-none swap-btn">
                         <img
@@ -171,7 +171,7 @@ const InnerHeader = () => {
                         </div>
                       </NavDropdown.Item>}
                       <NavDropdown.Item
-                        href="javascript:void(0)"
+                        href="/"
                         onClick={() => setUserQrCode(true)}
                       >
                         <div className="custum-row">
@@ -202,7 +202,7 @@ const InnerHeader = () => {
                           </div>
                         </div>
                       </NavDropdown.Item>
-                      <NavDropdown.Item href="javascript:void(0)">
+                      <NavDropdown.Item href="/">
                         <div className="custum-row">
                           <div className="lft-img">
                             <img src="../../images/graph.png" alt="" />
@@ -215,7 +215,7 @@ const InnerHeader = () => {
                           </div>
                         </div>
                       </NavDropdown.Item>
-                      <NavDropdown.Item href="javascript:void(0)">
+                      <NavDropdown.Item href="/">
                         <div className="custum-row mb-0">
                           <div className="lft-img ps-2">
                             <img

@@ -341,7 +341,7 @@ export default function Wallet() {
           <QrModal
             title={"My QR Code"}
             show={userQrCode}
-            setShow={setUserQrCode}
+            setshow={setUserQrCode}
             address={account}
           />
         )}
@@ -361,7 +361,7 @@ export default function Wallet() {
             }
             showClose={false}
             show={senderModal}
-            setShow={handleCloseModal}
+            setshow={handleCloseModal}
             externalCls="dark-modal-100 walet-ht"
             setSendModal={setSendModal}
             setSenderModal={setSenderModal}

@@ -76,7 +76,7 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
   const bottomList = [
     {
       name: "FAQs",
-      route: "",
+      route: "/faq",
       isSelected: false,
       img: "../../images/sidebar/faq.png",
     },
@@ -159,7 +159,7 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
               />
             </span>
             <Link href="/home" passHref>
-              <a className="sidelogo-link" href="javascript:void(0)">
+              <a className="sidelogo-link" href="/">
                 <img className="img-fluid" src="../../images/logo.png" alt="" />
               </a>
             </Link>

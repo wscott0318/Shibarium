@@ -66,12 +66,12 @@ export default function delegator() {
                 </div>
                 <div className="layout-sec">
                   <div className="list blk-active">
-                    <a href="javascript:void(0);"><img className="white-icon" src="../../images/list-white.png" /></a>
-                    <a href="javascript:void(0);"><img className="grey-icon" src="../../images/list-grey.png" /></a>
+                    <a href="/;"><img className="white-icon" src="../../images/list-white.png" /></a>
+                    <a href="/;"><img className="grey-icon" src="../../images/list-grey.png" /></a>
                   </div>
                   <div className="cus-grid">
-                    <a href="javascript:void(0);"><img className="white-icon" src="../../images/grid-white.png" /></a>
-                    <a href="javascript:void(0);"><img className="grey-icon" src="../../images/grid-grey.png" /></a>
+                    <a href="/;"><img className="white-icon" src="../../images/grid-white.png" /></a>
+                    <a href="/;"><img className="grey-icon" src="../../images/grid-grey.png" /></a>
                   </div>
                 </div>
               </div>
@@ -97,28 +97,28 @@ export default function delegator() {
                       <td>0.0000 - 0.00$</td>
                       <td><a href="#">Deposit</a></td>
                       <td><a href="#">Whitdraw</a></td>
-                      <td><a className="sm-btn primary-btn" href="javascript:void(0);">Delegate</a></td>
+                      <td><a className="sm-btn primary-btn" href="/;">Delegate</a></td>
                     </tr>
                     <tr>
                       <td><span><img src="../../images/matic-round-icon.png" /></span><b>MATIC</b> - Shibarium</td>
                       <td>0.0000 - 0.00$</td>
                       <td><a href="#">Deposit</a></td>
                       <td><a href="#">Whitdraw</a></td>
-                      <td><a className="sm-btn primary-btn" href="javascript:void(0);">Delegate</a></td>
+                      <td><a className="sm-btn primary-btn" href="/;">Delegate</a></td>
                     </tr>
                     <tr>
                       <td><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
                       <td>0.0000 - 0.00$</td>
                       <td><a href="#">Deposit</a></td>
                       <td><a href="#">Whitdraw</a></td>
-                      <td><a className="sm-btn primary-btn" href="javascript:void(0);">Delegate</a></td>
+                      <td><a className="sm-btn primary-btn" href="/;">Delegate</a></td>
                     </tr>
                     <tr>
                       <td><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
                       <td>0.0000 - 0.00$</td>
                       <td><a href="#">Deposit</a></td>
                       <td><a href="#">Whitdraw</a></td>
-                      <td><a className="sm-btn primary-btn" href="javascript:void(0);">Delegate</a></td>
+                      <td><a className="sm-btn primary-btn" href="/;">Delegate</a></td>
                     </tr>
                   </tbody>
                 </table>

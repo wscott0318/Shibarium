@@ -14,7 +14,7 @@ export default function Footer() {
                     <div className="top-footer">
                         <div className="row align-items-center py-3 py-md-4">
                             <div className="col-6">
-                                <a className='footer-logo' href="javascript:void(0)">
+                                <a className='footer-logo' href="/">
                                     <img className='img-fluid' src="../../images/footer-logo.png" alt="footer-logo" />
                                 </a>
                             </div>
@@ -42,22 +42,22 @@ export default function Footer() {
                                     <h6 className='mb-3 uc ff-mos hd-xs'>Shib</h6>
                                     <ul className='footer-list'>
                                         <li className='footer-lst-item'>
-                                            <a className="ftr-link ff-mos" href="javascript:void(0)">
+                                            <a className="ftr-link ff-mos" href="/">
                                                 Shiba Inu Token Website
                                             </a>
                                         </li>
                                         <li className='footer-lst-item'>
-                                            <a className="ftr-link ff-mos" href="javascript:void(0)">
+                                            <a className="ftr-link ff-mos" href="/">
                                                 ShibaSwap DEX
                                             </a>
                                         </li>
                                         <li className='footer-lst-item'>
-                                            <a className="ftr-link ff-mos" href="javascript:void(0)">
+                                            <a className="ftr-link ff-mos" href="/">
                                                 SHIB - The Metaverse
                                             </a>
                                         </li>
                                         <li className='footer-lst-item'>
-                                            <a className="ftr-link ff-mos" href="javascript:void(0)">
+                                            <a className="ftr-link ff-mos" href="/">
                                                 Shiba Inu Blog
                                             </a>
                                         </li>
@@ -69,17 +69,17 @@ export default function Footer() {
                                     <h6 className='mb-3 uc ff-mos hd-xs'>Shib</h6>
                                     <ul className='footer-list'>
                                        <li className='footer-lst-item'>
-                                            <a className="ftr-link ff-mos" href="javascript:void(0)">
+                                            <a className="ftr-link ff-mos" href="/">
                                                 SHIBOSHIS NFTs
                                             </a>
                                         </li>
                                         <li className='footer-lst-item'>
-                                            <a className="ftr-link ff-mos" href="javascript:void(0)">
+                                            <a className="ftr-link ff-mos" href="/">
                                                 Certik ShibaSwap Audit
                                             </a>
                                         </li>
                                         <li className='footer-lst-item'>
-                                            <a className="ftr-link ff-mos" href="javascript:void(0)">
+                                            <a className="ftr-link ff-mos" href="/">
                                                 Shiba Inu Woof Paper V2
                                             </a>
                                         </li>
@@ -92,12 +92,12 @@ export default function Footer() {
                                     <h6 className='mb-3 uc ff-mos hd-xs'>Metaverse</h6>
                                     <ul className='footer-list'>
                                         <li className='footer-lst-item'>
-                                            <a className="ftr-link ff-mos" href="javascript:void(0)">
+                                            <a className="ftr-link ff-mos" href="/">
                                                 SHIB The Metaverse Reddit
                                             </a>
                                         </li>
                                         <li className='footer-lst-item'>
-                                            <a className="ftr-link ff-mos" href="javascript:void(0)">
+                                            <a className="ftr-link ff-mos" href="/">
                                                 The Third Floor x SHIB The Metaverse
                                             </a>
                                         </li>
@@ -109,21 +109,21 @@ export default function Footer() {
                                     <h6 className='mb-2 ff-mos hd-xs'>General</h6>
                                     <ul className='footer-list'>
                                         <li className='footer-lst-item'>
-                                            <Link href="javascript:void(0)" passHref>
+                                            <Link href="/" passHref>
                                                 <a className="ftr-link ff-mos">
                                                     About
                                                 </a>
                                             </Link>
                                         </li>
                                         <li className='footer-lst-item'>
-                                            <Link href="javascript:void(0)" passHref>
+                                            <Link href="/" passHref>
                                                 <a className="ftr-link ff-mos">
                                                     Blog
                                                 </a>
                                             </Link>
                                         </li>
                                         <li className='footer-lst-item'>
-                                            <Link href="javascript:void(0)" passHref>
+                                            <Link href="/" passHref>
                                                 <a className="ftr-link ff-mos">
                                                     Careers
                                                 </a>

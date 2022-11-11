@@ -67,12 +67,12 @@ export default function differentchainbridge() {
                                 <div className='swp-right-col mb-3 mb-lg-3 mb-xl-4'>
                                     <ul className='swp-icon'>
                                         <li>
-                                            <a href="javascript:void(0)" onClick={() => setSlippageModal(true)}>
+                                            <a href="/" onClick={() => setSlippageModal(true)}>
                                                 <img className='img-fluid' src="../../images/setting.png" alt="icon-img" width={25} height="25" />
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)">
+                                            <a href="/">
                                                 <img className='img-fluid' src="../../images/faq.png" alt="icon-img" width={25} height="25" />
                                             </a>
                                         </li>
@@ -222,22 +222,22 @@ export default function differentchainbridge() {
             <CommonModal
                 title={"Set Slippage"}
                 show={showSlippageModal}
-                setShow={setSlippageModal}
+                setshow={setSlippageModal}
             >
                 <div className='modal-body fix-vh d-flex flex-column justify-content-between mt-0'>
                     <div className="top-area">
                         <ul className='badges-list'>
                             <li className='badges-lst-item'>
-                                <a href="javascript:void(0)" className="btn bage-bg d-block text-center">1 %</a>
+                                <a href="/" className="btn bage-bg d-block text-center">1 %</a>
                             </li>
                             <li className='badges-lst-item'>
-                                <a href="javascript:void(0)" className="btn bage-bg d-block text-center active">2 %</a>
+                                <a href="/" className="btn bage-bg d-block text-center active">2 %</a>
                             </li>
                             <li className='badges-lst-item'>
-                                <a href="javascript:void(0)" className="btn bage-bg d-block text-center">5 %</a>
+                                <a href="/" className="btn bage-bg d-block text-center">5 %</a>
                             </li>
                             <li className='badges-lst-item'>
-                                <a href="javascript:void(0)" className="btn bage-bg d-block text-center">Insert custom slippage</a>
+                                <a href="/" className="btn bage-bg d-block text-center">Insert custom slippage</a>
                             </li>
                         </ul>
                     </div>
@@ -255,7 +255,7 @@ export default function differentchainbridge() {
             <CommonModal
                 title={"Review Swap"}
                 show={showSwapModal}
-                setShow={setSwapModal}
+                setshow={setSwapModal}
                 externalCls="review-ht"
             >
                 {showSwapModal && swapState.step0 && <div className="popmodal-body no-ht">
@@ -311,7 +311,7 @@ export default function differentchainbridge() {
                             </div>
                             <div className='btn-wrap'>
                             <div>
-                              <a className='btn primary-btn w-100' href="javascript:void(0)" onClick={()=>{
+                              <a className='btn primary-btn w-100' href="/" onClick={()=>{
                                 setSwapState({
                                     step0:false,
                                     step1:true,
@@ -386,7 +386,7 @@ export default function differentchainbridge() {
             <CommonModal
                 title={tokenState.title}
                 show={showTokenModal}
-                setShow={setTokenModal}
+                setshow={setTokenModal}
                 externalCls="tkn-ht"
             >
                {/* Token popups start */}     
@@ -901,7 +901,7 @@ export default function differentchainbridge() {
                     </div>
                     <div className="pop-bottom">
                       <div className="" >
-                        <a className='btn primary-btn w-100' href="javascript:void(0)" onClick={() => {
+                        <a className='btn primary-btn w-100' href="/" onClick={() => {
                           setTokenState({
                             step0: false,
                             step1: false,
@@ -1176,7 +1176,7 @@ export default function differentchainbridge() {
             <CommonModal
                 title={token2State.title}
                 show={showToken2Modal}
-                setShow={setToken2Modal}
+                setshow={setToken2Modal}
                 externalCls="tkn-ht"
             >
                {/* Token popups start */}     
@@ -1692,7 +1692,7 @@ export default function differentchainbridge() {
                     </div>
                     <div className="pop-bottom">
                       <div className="" >
-                        <a className='btn primary-btn w-100' href="javascript:void(0)" onClick={() => {
+                        <a className='btn primary-btn w-100' href="/" onClick={() => {
                               setToken2State({
                                 step0: false,
                                 step1: false,

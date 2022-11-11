@@ -36,7 +36,7 @@ console.log("usertype",userType)
                       className={`nav-link ff-mos ${
                         routeCheck("bone-staking") && "active"
                       }`}
-                      href="javascript:void(0);"
+                      href="/"
                     >
                       Overview
                     </a>
@@ -48,7 +48,7 @@ console.log("usertype",userType)
                       className={`nav-link ff-mos ${
                         routeCheck("all-validator") && "active"
                       }`}
-                      href="javascript:void(0);"
+                      href="/"
                     >
                       All Validators
                     </a>
@@ -60,7 +60,7 @@ console.log("usertype",userType)
                       className={`nav-link ff-mos ${
                         routeCheck("my-account") && "active"
                       }`}
-                      href="javascript:void(0);"
+                      href="/"
                     >
                       My Account
                     </a>

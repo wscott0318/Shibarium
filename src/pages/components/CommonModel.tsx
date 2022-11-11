@@ -5,14 +5,14 @@ import { Modal } from 'react-bootstrap'
 
 interface props{
     show:boolean;
-    setShow: React.Dispatch<React.SetStateAction<boolean>>
+    setshow: React.Dispatch<React.SetStateAction<boolean>>
     title:string;
     externalCls:string;
     children:React.ReactNode;
 }
 interface propsNew {
   show: boolean;
-  setShow: any;
+  setshow: any;
   title: any;
   externalCls: string;
   children: React.ReactNode;
@@ -20,15 +20,15 @@ interface propsNew {
   setSendModal: any;
   setSenderModal:any;
 }
-const CommonModal:React.FC<props> = ({show,setShow, title,externalCls,children})=> {
-  const abc = {show,setShow, title,externalCls,children};
+const CommonModal:React.FC<props> = ({show,setshow, title,externalCls,children})=> {
+  const abc = {show,setshow, title,externalCls,children};
   return (
     <Modal
     {...abc}
     
     centered
     show={show}
-    onHide={() => setShow(false)}
+    onHide={() => setshow(false)}
     backdrop="static"
     keyboard={false}
     className={`shib-popup ${externalCls}`}
@@ -62,7 +62,7 @@ const CommonModal:React.FC<props> = ({show,setShow, title,externalCls,children})
 
 export const CommonModalNew: React.FC<propsNew> = ({
   show,
-  setShow = null,
+  setshow = null,
   title,
   externalCls,
   children,
@@ -72,7 +72,7 @@ export const CommonModalNew: React.FC<propsNew> = ({
 }) => {
   const abc = {
     show,
-    setShow,
+    setshow,
     title,
     children,
     externalCls,
@@ -97,7 +97,7 @@ export const CommonModalNew: React.FC<propsNew> = ({
       {...abc}
       centered
       show={show}
-      onHide={() => setShow()}
+      onHide={() => setshow()}
       backdrop="static"
       keyboard={false}
       className={`shib-popup ${externalCls}`}

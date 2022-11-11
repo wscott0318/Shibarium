@@ -622,7 +622,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         <CommonModal
           title={"Restake"}
           show={restakeModal.value1}
-          setShow={() =>
+          setshow={() =>
             setRestakeModal({ value1: false, value2: false, address: "" })
           }
           externalCls="stak-pop"
@@ -729,7 +729,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         <CommonModal
           title={"Commission"}
           show={commiModal.value}
-          setShow={() => setCommiModal({ value: false, address: "" })}
+          setshow={() => setCommiModal({ value: false, address: "" })}
           externalCls="stak-pop"
         >
           <>
@@ -808,7 +808,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         <CommonModal
           title={"Withdraw rewards"}
           show={withdrawModal.value}
-          setShow={() => setWithdrawModal({ value: false, address: "" })}
+          setshow={() => setWithdrawModal({ value: false, address: "" })}
           externalCls="stak-pop"
         >
           <>
@@ -848,7 +848,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         <CommonModal
           title={"Restake"}
           show={restakeModal.value2}
-          setShow={() =>
+          setshow={() =>
             setRestakeModal({ value1: false, value2: false, address: "" })
           }
           externalCls="stak-pop"
@@ -890,7 +890,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         <CommonModal
           title={"Unbound"}
           show={showunboundpop}
-          setShow={setunboundpop}
+          setshow={setunboundpop}
           externalCls="stak-pop"
         >
           <>
@@ -935,7 +935,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         <CommonModal
           title={"Unbound"}
           show={unboundModal.startValue}
-          setShow={() =>
+          setshow={() =>
             setUnboundModal({ ...unboundModal, startValue: false })
           }
           externalCls="stak-pop"
@@ -1002,7 +1002,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         <CommonModal
           title={transactionState.title}
           show={transactionState.state}
-          setShow={() =>
+          setshow={() =>
             setTransactionState({ state: false, title: "Pending" })
           }
           externalCls="faucet-pop"

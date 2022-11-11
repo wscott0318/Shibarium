@@ -31,4 +31,4 @@ const ComponentRouters=({Component, pageProps}:any)=> {
   );
 }
 
-export default ComponentRouters
+export default ComponentRouters;

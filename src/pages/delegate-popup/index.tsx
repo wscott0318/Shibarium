@@ -377,7 +377,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
       <CommonModal
         title={delegateState.title}
         show={showdelegatepop}
-        setShow={handleClose}
+        setshow={handleClose}
         externalCls="stak-pop del-pop ffms-inherit"
       >
         <>
@@ -477,7 +477,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                         <button className="w-100" type="submit" value="submit">
                           <a
                             className="btn primary-btn d-flex align-items-center"
-                            href="javascript:void(0)"
+                            href="/"
                           >
                             <span>Continue</span>
                           </a>
