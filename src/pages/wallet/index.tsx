@@ -59,7 +59,7 @@ export default function Wallet() {
   const id: any = chainId
   // console.log(dynamicChaining[id].BONE)
 
-  const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(ENV_CONFIGS[chainId].BONE);
+  const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
   const lib: any = library
   const web3: any = new Web3(lib?.provider)
   const dispatch = useAppDispatch()
