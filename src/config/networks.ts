@@ -23,6 +23,7 @@ const Moonriver = 'https://raw.githubusercontent.com/sushiswap/icons/master/netw
 const Fuse = 'https://raw.githubusercontent.com/sushiswap/icons/master/network/fuse.jpg'
 const Telos = 'https://raw.githubusercontent.com/sushiswap/icons/master/network/telos.jpg'
 const Shibarium = 'https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,c_limit,w_48,q_auto/https://www.shibatoken.com/images/shib-logo.svg'
+const Puppy_net = 'https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,c_limit,w_48,q_auto/https://www.shibatoken.com/images/shib-logo.svg'
 
 export const NETWORK_ICON = {
   [ChainId.ETHEREUM]: Mainnet,
@@ -54,6 +55,7 @@ export const NETWORK_ICON = {
   [ChainId.FUSE]: Fuse,
   [ChainId.TELOS]: Telos,
   [ChainId.SHIBARIUM]: Shibarium,
+  [ChainId.PUPPY_NET]: Puppy_net,
 }
 // enum SHIBARIUM{
 //   SHIBARIUM = SHIBARIUM_CHAINID
@@ -90,4 +92,5 @@ export const NETWORK_LABEL: { [chainId in ChainId]?: string } = {
   [ChainId.FUSE]: 'Fuse',
   [ChainId.TELOS]: 'Telos EVM',
   [ChainId.SHIBARIUM]: "Shibarium",
+  [ChainId.PUPPY_NET]: "Puppy Net",
 }

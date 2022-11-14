@@ -15,6 +15,7 @@ import { useNetworkModalToggle } from "../../state/application/hooks";
 import { useActiveWeb3React } from "../../services/web3";
 import NetworkModel from "../../modals/NetworkModal";
 import QrModal from "pages/components/QrModal";
+import { getNetworkName } from "web3/commonFunctions";
 
 export default function Header() {
   
@@ -54,15 +55,6 @@ export default function Header() {
   }
 const toggleNetworkModal = useNetworkModalToggle();
 
-const getNetworkName = () => {
-  if (chainId == 1) {
-    return "Ethereum Mainnet";
-  } else if (chainId == 5) {
-    return "Goerli Testnet";
-  } else {
-    return "Shibarium Mainnet";
-  }
-};
 
 const [scroll, setScroll] = useState(false);
 
@@ -159,7 +151,7 @@ const [scroll, setScroll] = useState(false);
                     {/* </Link> */}
                     <NavDropdown
                       className="form-select d-none d-md-flex innerDivBgBlack hd-sel hd-sel-over"
-                      title={getNetworkName()}
+                      title={getNetworkName(chainId)}
                       id=""
                     >
                       <NavDropdown.Item
@@ -200,7 +192,7 @@ const [scroll, setScroll] = useState(false);
                                 </div>
                                 <div>
                                   <span className="grey-txt">
-                                    {getNetworkName()}
+                                    {getNetworkName(chainId)}
                                   </span>
                                 </div>
                               </div>

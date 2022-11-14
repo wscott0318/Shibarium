@@ -102,15 +102,7 @@ export default function Wallet() {
     return result
   }
 
-  const getNetworkName = () => {
-    if (chainId == 1) {
-      return "Ethereum Mainnet"
-    } else if (chainId == 5) {
-      return "Goerli Testnet"
-    } else {
-      return "Shibarium Mainnet"
-    }
-  }
+
 
   const getTokensList = () => {
     // console.log("token list called ==> ")
