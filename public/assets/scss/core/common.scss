@@ -3552,12 +3552,32 @@ input:-internal-autofill-selected {
     }
 }
 
+.Toastify__toast {
+    height: 0.5rem !important;
+}
+
 .Toastify__toast-theme--light {
-    background: #ffeee1 !important;
+    background: #596380 !important;
+    color: white;
+    font-weight: 500 !important;
     div{
-        color:#000 !important;
+        color:white !important;
     }
+    
  }
+
+ .Toastify__progress-bar--success {
+    background: #F06500  !important;
+}
+
+.Toastify__toast-icon svg path{
+display: none !important;
+
+}
+
+// .Toastify__close-button svg path{
+// fill: yellow !important;
+// }
 
 .col-md-8.cus-space {
     @media #{$max-xxsm}{

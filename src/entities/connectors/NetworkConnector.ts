@@ -32,8 +32,8 @@ class MiniRpcProvider implements AsyncSendable {
   public readonly isMetaMask: false = false
   public readonly chainId: number
   public readonly url: string
-  public readonly host: string
-  public readonly path: string
+  // public readonly host: string
+  // public readonly path: string
   public readonly batchWaitTimeMs: number
 
   private nextId = 1
@@ -43,9 +43,9 @@ class MiniRpcProvider implements AsyncSendable {
   constructor(chainId: number, url: string, batchWaitTimeMs?: number) {
     this.chainId = chainId
     this.url = url
-    const parsed = new URL(url)
-    this.host = parsed.host
-    this.path = parsed.pathname
+    // const parsed = new URL(url)
+    // this.host = parsed.host
+    // this.path = parsed.pathname
     // how long to wait to batch calls
     this.batchWaitTimeMs = batchWaitTimeMs ?? 50
   }

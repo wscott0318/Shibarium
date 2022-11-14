@@ -8,7 +8,9 @@ import Footer from "../../pages/footer/index"
 import { useActiveWeb3React } from "../../services/web3"
 import  CommonModal from "../components/CommonModel";
 import Header from "../layout/header";
+import { tokenDecimal } from "web3/commonFunctions";
 import StakingHeader from '../staking-header'
+
 export default function unbondHistoryNew() {
   // const {account}=useContext(ProjectContext)
 

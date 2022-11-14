@@ -2,6 +2,7 @@
 
 import { getAddress } from '@ethersproject/address'
 import { BigNumberish } from '@ethersproject/bignumber'
+import { tokenDecimal } from 'web3/commonFunctions'
 import { formatUnits } from '@ethersproject/units'
 import { Currency, CurrencyAmount, Fraction, JSBI, Price } from '@shibarium/core-sdk'
 // @ts-ignore TYPE NEEDS FIXING
@@ -72,7 +73,7 @@ export function formatPercent(percentString) {
   if (percent < 0 && percent > -0.0001) {
     return '< 0.0001%'
   }
-  const fixedPercent = percent.toFixed(2)
+  const fixedPercent = percent.toFixed(tokenDecimal)
   if (fixedPercent === '0.00') {
     return '0%'
   }
@@ -118,7 +119,7 @@ export const formatNumber = (number: any, usd = false, scale = true, decimals = 
 
   if (usd) {
     if (num < 0.1) {
-      return '$' + Number(parseFloat(String(num)).toFixed(4))
+      return '$' + Number(parseFloat(String(num)).toFixed(tokenDecimal))
     } else {
       const usdString = priceFormatter.format(num)
       return '$' + usdString.slice(1, usdString.length)
@@ -135,16 +136,16 @@ export function formatNumberScale(number: any, usd = false) {
   const num = parseFloat(number)
   const wholeNumberLength = String(Math.floor(num)).length
 
-  if (wholeNumberLength >= 13) return (usd ? '$' : '') + (num / Math.pow(10, 12)).toFixed(1) + 'T'
-  if (wholeNumberLength >= 10) return (usd ? '$' : '') + (num / Math.pow(10, 9)).toFixed(1) + 'B'
-  if (wholeNumberLength >= 7) return (usd ? '$' : '') + (num / Math.pow(10, 6)).toFixed(1) + 'M'
-  if (wholeNumberLength >= 4) return (usd ? '$' : '') + (num / Math.pow(10, 3)).toFixed(1) + 'K'
+  if (wholeNumberLength >= 13) return (usd ? '$' : '') + (num / Math.pow(10, 12)).toFixed(tokenDecimal) + 'T'
+  if (wholeNumberLength >= 10) return (usd ? '$' : '') + (num / Math.pow(10, 9)).toFixed(tokenDecimal) + 'B'
+  if (wholeNumberLength >= 7) return (usd ? '$' : '') + (num / Math.pow(10, 6)).toFixed(tokenDecimal) + 'M'
+  if (wholeNumberLength >= 4) return (usd ? '$' : '') + (num / Math.pow(10, 3)).toFixed(tokenDecimal) + 'K'
 
   if (num < 0.0001 && num > 0) {
     return usd ? '< $0.0001' : '< 0.0001'
   }
 
-  return (usd ? '$' : '') + num.toFixed(2)
+  return (usd ? '$' : '') + num.toFixed(tokenDecimal)
 }
 
 export function escapeRegExp(string: string): string {

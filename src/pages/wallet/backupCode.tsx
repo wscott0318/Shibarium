@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect, useContext } from "react";
-
+import { tokenDecimal } from "web3/commonFunctions";
 import { Button, Container, Nav, Navbar, NavDropdown, DropdownButton, Dropdown, Modal } from 'react-bootstrap';
 // @ts-ignore
 import Popup from "../components/PopUp";
@@ -536,7 +536,7 @@ export default function Wallet() {
                                 prefix="$ "
                                 value={(
                                   (selectedToken?.balance || 0) * boneUSDValue
-                                ).toFixed(2)}
+                                ).toFixed(tokenDecimal)}
                               />
                             </span>
                             <span
@@ -625,7 +625,7 @@ export default function Wallet() {
                             displayType={"text"}
                             prefix="$ "
                             value={((+sendAmount || 0) * boneUSDValue).toFixed(
-                              2
+                              tokenDecimal
                             )}
                           />
                         </p>
@@ -723,7 +723,7 @@ export default function Wallet() {
                             displayType={"text"}
                             prefix="$ "
                             value={((+sendAmount || 0) * boneUSDValue).toFixed(
-                              2
+                              tokenDecimal
                             )}
                           />
                         </p>

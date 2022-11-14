@@ -41,3 +41,5 @@ export const currentGasPrice = async (web3) => {
       return "Shibarium Mainnet"
     }
   }
+
+  export const tokenDecimal = 6
