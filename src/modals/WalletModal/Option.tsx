@@ -1,5 +1,5 @@
 import Typography from '../../components/Typography'
-import { classNames } from '../../functions'
+import { classNames } from '../../functions/className'
 import Image from 'next/image'
 import React from 'react'
 

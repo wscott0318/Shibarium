@@ -6,8 +6,8 @@ import { useBlockNumber } from '../../state/application/hooks'
 import { useAppDispatch, useAppSelector } from '../../state/hooks'
 import { useEffect, useMemo } from 'react'
 
-import { addMulticallListeners, ListenerOptions, removeMulticallListeners } from './actions'
-import { Call, parseCallKey, toCallKey } from './utils'
+import { addMulticallListeners, ListenerOptions, removeMulticallListeners } from '../../state/multicall/actions'
+import { Call, parseCallKey, toCallKey } from '../../state/multicall/utils'
 
 export interface Result extends ReadonlyArray<any> {
   readonly [key: string]: any

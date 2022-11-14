@@ -5,7 +5,7 @@ import { BONE_ID, ENV_CONFIGS } from 'app/config/constant';
 import { getBoneUSDValue } from 'app/services/apis/validator';
 import NumberFormat from 'react-number-format';
 import { useActiveWeb3React, useLocalWeb3 } from 'app/services/web3';
-import { getExplorerLink } from 'app/functions';
+import { getExplorerLink } from 'app/functions/explorer';
 import { ChainId } from '@shibarium/core-sdk';
 import ToastNotify from 'pages/components/ToastNotify';
 import { useTokenBalance } from 'app/hooks/useTokenBalance';

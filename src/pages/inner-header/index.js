@@ -8,7 +8,7 @@ import GlobleHeader from "../components/GlobleHeader";
 import Web3Status from "app/components/Web3Status";
 import CommonModal from "../components/CommonModel";
 import { useWeb3React } from "@web3-react/core";
-import { shortenAddress } from "../../functions";
+import { shortenAddress } from "../../functions/format";
 import QrModal from "pages/components/QrModal";
 import NetworkModel from "../../modals/NetworkModal";
 import { useNetworkModalToggle } from "../../state/application/hooks";

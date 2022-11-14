@@ -101,7 +101,7 @@ export default function Account() {
           return (
           <div className="row justify-content-center networkCard ">
               <div className="col-lg-12 mb-3">
-                <h3 className="mb-0 mb-3 text-white fwb">Staking Overview</h3>
+                <h3 className="mb-0 ,mb-3 text-white fwb">Staking Overview</h3>
               </div>
               <div className="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 col-xl-3 bs-col">
                   <div className="bs-card card">

@@ -2,8 +2,8 @@ import { isAddress } from '@ethersproject/address'
 import { namehash } from '@ethersproject/hash'
 import { useMemo } from 'react'
 import { useSingleCallResult } from './useSingleCallResult'
-import { useENSRegistrarContract, useENSResolverContract } from './useContract'
-import useDebounce from './useDebounce'
+import { useENSRegistrarContract, useENSResolverContract } from '../../hooks/useContract'
+import useDebounce from '../../hooks/useDebounce'
 
 export function isZero(hexNumberString: string): boolean {
     return /^0x0*$/.test(hexNumberString)
