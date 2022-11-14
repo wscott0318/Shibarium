@@ -11,6 +11,7 @@ import { PROXY_MANAGER } from 'web3/contractAddresses';
 import proxyManagerABI from "../../ABI/StakeManagerProxy.json"
 import axios from "axios";
 import { tokenDecimal } from 'web3/commonFunctions';
+import { useWeb3React } from '@web3-react/core'
 
 function NetworkDetails() {
 
@@ -19,8 +20,10 @@ function NetworkDetails() {
 
   const [totalStake, setTotalStake] = useState(0);
   const [networkDetails, setNetworkDetails] = useState<any>({})
-  const { account } = useActiveWeb3React()
+  const { account , library, chainId } = useWeb3React()
   const web3 = L1Block();
+
+  console.log(account,chainId, library, "web3 instance ===> ")
 
   useEffect(() => {
     try {
@@ -41,7 +44,7 @@ function NetworkDetails() {
     if(account) {
       getTotalStakes()
     }
-    // getHeimdallBlockHeight()
+
   }, [account])
 
   const cardShimmerEffects = () => {

@@ -478,7 +478,7 @@
         color: $body-bg;
         border-color: $body-bg;
         border-width: 0 2px 2px 0;
-        top:18px;
+        top:17px;
         @media #{$max-xxl}{
             top:16px;
         }
@@ -2816,13 +2816,13 @@ input:-internal-autofill-selected {
         // line-height: 30px;
         // font-size: 22px;
         // font-weight: bold;
-        @media #{$max-md}{
-            width: 20px;
-            height: 20px;
-            line-height: 25px;
-            font-size: 14px;
-            font-weight: bold;
-        }
+        // @media #{$max-md}{
+        //     width: 20px;
+        //     height: 20px;
+        //     line-height: 25px;
+        //     font-size: 14px;
+        //     font-weight: bold;
+        // }
         ~ .tool-desc{
             display:none;
             position: absolute;
@@ -3620,6 +3620,9 @@ display: none !important;
 .acct{
     .val_del_outr{
         padding: 50px 20px 40px;
+        @media #{$max-xsm}{
+            padding: 30px 20px;
+        }
     }
 }
 .mid-sec{
@@ -3631,6 +3634,11 @@ display: none !important;
     }
     .btn.black-btn:disabled{
         background:$bg-clr;
+    }
+    .btn{
+        @media #{$max-xxsm}{
+            padding: 6px 12px;
+        } 
     }
 }
 .cmng-container{
@@ -3655,4 +3663,24 @@ display: none !important;
             max-width: 150px;
         }
     }
+}
+.profile{
+    .section-info{
+        @media #{$max-md}{
+            padding: 60px 0 0;
+        }
+        @media #{$max-xsm}{
+            padding: 160px 0 0;
+        }
+    }
+}
+.rewards-section{
+    .progress-tab{
+        input{
+            &::placeholder{
+                color:$lt-black;
+            }
+        }
+    }
+    
 }
