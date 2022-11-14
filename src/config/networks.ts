@@ -1,4 +1,4 @@
-import { ChainId } from '@shibarium/core-sdk'
+import { ChainId } from 'shibarium-chains'
 // import { SHIBARIUM_CHAINID } from 'app/constants'
 
 const Arbitrum = 'https://raw.githubusercontent.com/sushiswap/icons/master/network/arbitrum.jpg'

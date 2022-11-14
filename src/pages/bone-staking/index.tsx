@@ -17,6 +17,7 @@ import NetworkDetails from './NetworkDetails';
 import Footer from "../footer/index";
 import StakingHeader from '../staking-header'
 import ValidatorsCard from "../all-validator/valitotors";
+import { ChainId } from "shibarium-chains";
  
 const BoneStaking = () => {
   // const [validators, setValidators] = useState([]);
@@ -53,7 +54,7 @@ const BoneStaking = () => {
 
   const [modalShow, setModalShow] = useState(false);
   const router = useRouter();
-  // console.log(userType)
+  console.log(ChainId, " testing new package ====> ")
 
   const [show, setShow] = React.useState();
   return (

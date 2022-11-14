@@ -24,7 +24,7 @@ import { CommonModalNew } from "../components/CommonModel";
 import { TailSpin } from "react-loader-spinner";
 import { unboundNew } from "../../services/apis/delegator/index"
 import { getExplorerLink } from 'app/functions';
-import { ChainId } from '@shibarium/core-sdk';
+import { ChainId } from 'shibarium-chains';
 import TriggerExample from "../../components/Icon/TooltipBootstrap"
 import Web3 from "web3";
 import { Web3Provider } from "@ethersproject/providers";

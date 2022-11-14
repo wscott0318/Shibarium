@@ -1,4 +1,4 @@
-import { ChainId } from '@shibarium/core-sdk'
+import { ChainId } from 'shibarium-chains'
 import { createStore, Store } from 'redux'
 
 import { addPopup, ApplicationModal, removePopup, setOpenModal, updateBlockNumber } from './actions'
