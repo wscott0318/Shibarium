@@ -54,7 +54,7 @@ const BoneStaking = () => {
 
   const [modalShow, setModalShow] = useState(false);
   const router = useRouter();
-  console.log(ChainId, " testing new package ====> ")
+  // console.log(ChainId, " testing new package ====> ")
 
   const [show, setShow] = React.useState();
   return (

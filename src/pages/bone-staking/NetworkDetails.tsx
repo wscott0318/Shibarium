@@ -23,7 +23,7 @@ function NetworkDetails() {
   const { account , library, chainId } = useWeb3React()
   const web3 = L1Block();
 
-  console.log(account,chainId, library, "web3 instance ===> ")
+  // console.log(account,chainId, library, "web3 instance ===> ")
 
   useEffect(() => {
     try {
