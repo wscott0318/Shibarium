@@ -1,7 +1,7 @@
 
 import { ChainId } from '@shibarium/core-sdk'
 import HeadlessUiModal from '../../components/Modal/HeadlessUIModal'
-import { NETWORK_ICON, NETWORK_LABEL } from './networks'
+import { NETWORK_ICON, NETWORK_LABEL } from '../../config/networks'
 import { useActiveWeb3React } from '../../services/web3'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useNetworkModalToggle } from '../../state/application/hooks'

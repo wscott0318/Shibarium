@@ -1,49 +1,17 @@
 import { ChainId, Token } from '@shibarium/core-sdk'
 
-export const USDC = new Token(ChainId.AVALANCHE, '0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664', 6, 'USDC', 'USD Coin')
-export const DAI = new Token(
-  ChainId.AVALANCHE,
-  '0xd586E7F844cEa2F87f50152665BCbc2C279D8d70',
-  18,
-  'DAI',
-  'Dai Stablecoin'
-)
-export const USDT = new Token(ChainId.AVALANCHE, '0xc7198437980c041c805A1EDcbA50c1Ce5db95118', 6, 'USDT', 'Tether USD')
-export const WBTC = new Token(
-  ChainId.AVALANCHE,
-  '0x50b7545627a5162F82A992c33b87aDc75187B218',
-  8,
-  'WBTC',
-  'Wrapped Bitcoin'
-)
-export const WETH = new Token(
-  ChainId.AVALANCHE,
-  '0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB',
-  18,
-  'WETH',
-  'Wrapped Ether'
-)
-export const ICE = new Token(ChainId.AVALANCHE, '0x4e1581f01046efdd7a1a2cdb0f82cdd7f71f2e59', 18, 'ICE', 'Ice Token')
+export const DAI = new Token(ChainId.BSC, '0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3', 18, 'DAI', 'Dai Stablecoin')
+export const USD = new Token(ChainId.BSC, '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', 18, 'BUSD', 'Binance USD')
+export const USDC = new Token(ChainId.BSC, '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d', 18, 'USDC', 'USD Coin')
+export const USDT = new Token(ChainId.BSC, '0x55d398326f99059fF775485246999027B3197955', 18, 'USDT', 'Tether USD')
+export const BTCB = new Token(ChainId.BSC, '0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c', 18, 'BTCB', 'Bitcoin')
+export const WETH = new Token(ChainId.BSC, '0x2170Ed0880ac9A755fd29B2688956BD959F933F8', 18, 'WETH', 'Wrapped Ether')
 export const MIM = new Token(
-  ChainId.AVALANCHE,
-  '0x130966628846BFd36ff31a822705796e8cb8C18D',
+  ChainId.BSC,
+  '0xfE19F0B51438fd612f6FD59C1dbB3eA319f433Ba',
   18,
   'MIM',
   'Magic Internet Money'
 )
-export const SPELL = new Token(
-  ChainId.AVALANCHE,
-  '0xCE1bFFBD5374Dac86a2893119683F4911a2F7814',
-  18,
-  'SPELL',
-  'Spell Token'
-)
-export const TIME = new Token(ChainId.AVALANCHE, '0xb54f16fB19478766A268F172C9480f8da1a7c9C3', 9, 'TIME', 'Time')
-
-export const WMEMO = new Token(
-  ChainId.AVALANCHE,
-  '0x0da67235dD5787D67955420C84ca1cEcd4E5Bb3b',
-  18,
-  'WMEMO',
-  'Wrapped MEMO'
-)
+export const ICE = new Token(ChainId.BSC, '0xf16e81dce15B08F326220742020379B855B87DF9', 18, 'ICE', 'IceToken')
+export const SPELL = new Token(ChainId.BSC, '0x9Fe28D11ce29E340B7124C493F59607cbAB9ce48', 18, 'SPELL', 'SpellToken')

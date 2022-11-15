@@ -1,3 +1,4 @@
+import { classNames } from '../../functions'
 import React, { FC, ReactNode } from 'react'
 
 import Dots from '../Dots'
@@ -98,7 +99,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...rest}
         ref={ref}
         disabled={disabled || loading}
-        className={(
+        className={classNames(
           VARIANT[variant]['default'],
           // @ts-ignore TYPE NEEDS FIXING
           VARIANT[variant][color],
@@ -109,7 +110,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           fullWidth ? 'w-full' : '',
           'font-bold flex items-center justify-center gap-1',
           className
-    )}
+        )}
       >
         {loading ? (
           <Loader stroke="currentColor" />

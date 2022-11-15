@@ -1,6 +1,7 @@
 import { createWeb3ReactRoot } from '@web3-react/core'
+import { NetworkContextName } from '../../constants'
 
-const Web3ReactRoot = createWeb3ReactRoot('NETWORK')
+const Web3ReactRoot = createWeb3ReactRoot(NetworkContextName)
 
 // @ts-ignore TYPE NEEDS FIXING
 function Web3ProviderNetwork({ children, getLibrary }) {

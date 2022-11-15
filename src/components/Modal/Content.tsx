@@ -1,4 +1,4 @@
-import { classNames } from '../../functions/className'
+import { classNames } from '../../functions'
 import React, { FC, HTMLProps } from 'react'
 
 export interface ModalContentProps {

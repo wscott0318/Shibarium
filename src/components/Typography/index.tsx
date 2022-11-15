@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import { classNames } from '../../functions/className'
+import { classNames } from '../../functions'
 import React, { FC, forwardRef } from 'react'
 
 export type TypographyWeight = 400 | 500 | 700

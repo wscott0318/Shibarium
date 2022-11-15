@@ -4,9 +4,7 @@ import schema from '@uniswap/token-lists/src/tokenlist.schema.json'
 import Ajv from 'ajv'
 
 import { DEFAULT_LIST_OF_LISTS } from '../config/token-lists'
-import { contenthashToUri } from './convert/contenthashToUri'
-import { uriToHttp } from './convert/uriToHttp'
-
+import { contenthashToUri, uriToHttp } from './convert'
 import { parseENSAddress } from './ens'
 
 const tokenListValidator = new Ajv({ allErrors: true }).compile(schema)

@@ -1,5 +1,5 @@
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
-import { classNames } from '../../functions/className'
+import { classNames } from '../../functions'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import React from 'react'
 import { Activity } from 'react-feather';
