@@ -46,7 +46,7 @@ export default function ProfileUpdate() {
                   </div>
                 </div>
                 <div className="accor-sec">
-                  <Accordion defaultActiveKey={[current]} flush>
+                  <Accordion activeKey={[current]} flush>
                     <Accordion.Item
                       eventKey="0"
                       className={`${current === "0" && "acc-active"}`}
