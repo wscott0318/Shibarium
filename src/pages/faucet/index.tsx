@@ -32,6 +32,7 @@ export default function faucet() {
     setMenuState(!menuState);
   }
 
+  console.log(chainId, account, library)
   const handleTopdoG = () => {
     // console.log("handleTopdoG");
     setIsTopdoG(true);
