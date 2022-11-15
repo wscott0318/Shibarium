@@ -7,8 +7,19 @@ import { useActiveWeb3React } from "../../services/web3";
 import LoadingSpinner from 'pages/components/Loading';
 
 export const validatorSchema = yup.object().shape({
-  validatorname: yup.string().required("validator name is required").matches(/^[a-zA-Z0-9]+$/,"Entered wrong charactor "),
-  publickey: yup.string().required("public key is required"),
+  validatorname: yup
+    .string()
+    .required("validator name is required")
+    .matches(/^[a-zA-Z0-9]+$/, "Entered wrong charactor "),
+  publickey: yup
+    .string()
+    .notOneOf(
+      [yup.ref("address"), null],
+      "Signer's address & public key should not match"
+    )
+    .matches(/^0x/, "should only start with 0x")
+    .matches(/^[A-Za-z0-9 ]+$/,'no special characters allowed')
+    .required("public key is required"),
   website: yup
     .string()
     .url()
@@ -19,7 +30,7 @@ export const validatorSchema = yup.object().shape({
     ),
   commission: yup
     .string()
-    
+
     .required("commission is required")
     .matches(
       /^(?:100(?:[.,]00?)?|\d?\d(?:[.,]\d\d?)?)$/,
