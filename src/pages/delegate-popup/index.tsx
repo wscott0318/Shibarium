@@ -449,7 +449,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                           onBlur={handleBlur}
                         />
                       </div>
-                      <button onClick={(e) => useMax(e)} className="rt-chain">
+                      <button disabled={walletBalance > 0 ? false : true} onClick={(e) => useMax(e)} className="rt-chain">
                         <span className="orange-txt fw-bold">MAX</span>
                       </button>
                     </div>
