@@ -3,6 +3,7 @@ import { useNetworkModalToggle } from 'app/state/application/hooks';
 import Link from 'next/link';
 import React from 'react'
 import { Nav, NavDropdown } from 'react-bootstrap';
+import { getNetworkName } from 'web3/commonFunctions';
 
 const NetworkSwitchDropdown = () => {
 
@@ -12,15 +13,7 @@ const NetworkSwitchDropdown = () => {
 
       if (!chainId) return null;
       
-      const getNetworkName = () => {
-        if (chainId == 1) {
-          return "Ethereum Mainnet";
-        } else if (chainId == 5) {
-          return "Goerli Testnet";
-        } else {
-          return "Shibarium Mainnet";
-        }
-      };
+
   return (
     <Nav.Item className="button-wrap cus_dropdown">
       <Link href={"/wallet"} passHref>
@@ -35,7 +28,7 @@ const NetworkSwitchDropdown = () => {
       </Link>
       <NavDropdown
         className="form-select innerDivBgBlack hd-sel hd-sel-over"
-        title={getNetworkName()}
+        title={getNetworkName(chainId)}
         id=""
       >
         <NavDropdown.Item

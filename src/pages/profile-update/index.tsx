@@ -110,10 +110,11 @@ export default function ProfileUpdate() {
     };
 
     let schema = yup.object().shape({
-        validatorname: yup.string().required("validator name is required"),
+        validatorname: yup.string().required("validator name is required").matches(/^[a-zA-Z0-9]+$/,"Entered wrong charactor"),
         address: yup.string().required("address is required"),
         website: yup
             .string()
+            .url()
             .required("website is required")
             .matches(
                 /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/,
@@ -150,7 +151,7 @@ export default function ProfileUpdate() {
     return (
         <>
             {loader && <LoadingSpinner />}
-            <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg ffms-inherit oh position-relative">
+            <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg ffms-inherit oh position-relative profile">
                 <Header />
                 <div className="shape bottom-right">
                     <img className="img-fluid" src="../../images/shape3.png" alt="shape-img" />
