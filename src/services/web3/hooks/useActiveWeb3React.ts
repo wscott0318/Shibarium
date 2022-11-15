@@ -1,7 +1,8 @@
 import { Web3Provider } from '@ethersproject/providers'
-import { ChainId } from '@shibarium/core-sdk'
+import { ChainId } from 'shibarium-chains'
 import { useWeb3React } from '@web3-react/core'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
+
 
 export function useActiveWeb3React(): Web3ReactContextInterface<Web3Provider> & {
   chainId?: ChainId

@@ -29,8 +29,17 @@ export const currentGasPrice = async (web3) => {
     return value
   }
 
-//   export default tokenDecimal = ()=>{
-//     let tokenDecimal=6;
-//   }
 
-export const tokenDecimal = 6
+  export const getNetworkName = (ID) => {
+    if(ID == 1){
+      return "Ethereum Mainnet"
+    } else if (ID == 5){
+      return "Goerli Testnet"
+    } else if (ID == 417) {
+      return "Puppy Net"
+    } else {
+      return "Shibarium Mainnet"
+    }
+  }
+
+  export const tokenDecimal = 6

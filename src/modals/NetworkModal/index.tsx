@@ -1,5 +1,6 @@
 
-import { ChainId } from '@shibarium/core-sdk'
+// import { ChainId } from 'shibarium-chains'
+import { ChainId } from "shibarium-chains";
 import HeadlessUiModal from '../../components/Modal/HeadlessUIModal'
 import { NETWORK_ICON, NETWORK_LABEL } from '../../config/networks'
 import { useActiveWeb3React } from '../../services/web3'
@@ -44,6 +45,17 @@ export const SUPPORTED_NETWORKS: {
     },
     rpcUrls: ['https://rpcapi.fantom.network'],
     blockExplorerUrls: ['https://ftmscan.com'],
+  },
+  [ChainId.PUPPY_NET]: {
+    chainId: '0x1a1',
+    chainName: 'Puppy Net',
+    nativeCurrency: {
+      name: 'BONE',
+      symbol: 'BONE',
+      decimals: 18,
+    },
+    rpcUrls: ['https://43.205.237.125:8545'],
+    blockExplorerUrls: [''],
   },
   [ChainId.BSC]: {
     chainId: '0x38',
@@ -211,6 +223,8 @@ const NetworkModal: FC = () => {
             ChainId.SHIBARIUM,
             ChainId.GÖRLI,
             ChainId.ETHEREUM,
+            ChainId.PUPPY_NET,
+            
             // ChainId.MATIC,
             // ChainId.BSC,
             // ChainId.ARBITRUM,
