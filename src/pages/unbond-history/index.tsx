@@ -4,7 +4,7 @@ import InnerHeader from "../inner-header";
 import { useWeb3React } from "@web3-react/core";
 import Web3 from "web3";
 import { unbondsHistory, unboundClaim } from "../../services/apis/delegator";
-import { useActiveWeb3React } from '../../services/web3'
+import { useActiveWeb3React} from '../../services/web3'
 import { parse } from "path";
 import { getExplorerLink } from 'app/functions'
 import ConfirmPopUp from "../components/ConfirmPopUp";
@@ -24,7 +24,7 @@ import { useUserType } from "../../state/user/hooks";
 import { useRouter } from "next/router";
 import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
 import { useAppDispatch } from "../../state/hooks"
-
+import { tokenDecimal } from "web3/commonFunctions";
 
 export default function Unbond() {
 
@@ -183,7 +183,7 @@ export default function Unbond() {
     const fixedDecimals = (num: any) => {
       if(countDecimals(num) > 3)
       {
-        return (Math.round(num * 100) / 100).toFixed(6);
+        return (Math.round(num * 100) / 100).toFixed(tokenDecimal);
       }
       else {
         return num

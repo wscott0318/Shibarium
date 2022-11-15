@@ -6,7 +6,7 @@ import { getBoneUSDValue } from 'app/services/apis/validator';
 import NumberFormat from 'react-number-format';
 import { useActiveWeb3React, useLocalWeb3 } from 'app/services/web3';
 import { getExplorerLink } from 'app/functions';
-import { ChainId } from '@shibarium/core-sdk';
+import { ChainId } from 'shibarium-chains';
 import ToastNotify from 'pages/components/ToastNotify';
 import { useTokenBalance } from 'app/hooks/useTokenBalance';
 import {L1Block} from "app/hooks/L1Block";
@@ -24,6 +24,7 @@ import {VALIDATORSHARE} from "../../web3/contractAddresses";
 import { dynamicChaining } from 'web3/DynamicChaining';
 import { Spinner } from 'react-bootstrap';
 import { currentGasPrice } from "../../web3/commonFunctions"; 
+import { tokenDecimal } from '../../web3/commonFunctions';
 
 const initialModalState = {
   step0: true,
@@ -337,7 +338,7 @@ let schema = yup.object().shape({
   balance: yup
     .number().typeError("Only digits are allowed")
     .max(
-      parseFloat(walletBalance?.toFixed(8)),
+      parseFloat(walletBalance?.toFixed(tokenDecimal)),
       "Entered value cannot be greater than Balance"
     ).positive("Balance cannot be negative")
     .required("Balance is required"),
@@ -459,14 +460,14 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                     <p className="inpt_fld_hlpr_txt mt-3 text-pop-right d-flex flex-wrap">
                       <span>
                         <NumberFormat
-                          value={(walletBalance * boneUSDValue).toFixed(4)}
+                          value={(walletBalance * boneUSDValue).toFixed(tokenDecimal)}
                           displayType={"text"}
                           thousandSeparator={true}
                           prefix={"$ "}
                         />
                       </span>
                       <span className="text-right">
-                        Balance: {walletBalance?.toFixed(8)} BONE
+                        Balance: {walletBalance?.toFixed(tokenDecimal)} BONE
                       </span>
                     </p>
                   </div>

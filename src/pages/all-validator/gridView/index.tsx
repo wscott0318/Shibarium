@@ -5,6 +5,7 @@ import Link from 'next/link';
 import React, { useState } from 'react'
 import NumberFormat from 'react-number-format';
 import DelegatePopup from '../../delegate-popup';
+import { tokenDecimal } from 'web3/commonFunctions';
 
 export default function ValidatorGrid({ validatorsList, searchKey }: { validatorsList: any, searchKey: any }) {
     const [modalShow, setModalShow] = React.useState(false);
@@ -38,7 +39,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                                           </Link>
                                           </span>
                                           <p><span className='ft-14 light-text'>
-                                          <NumberFormat displayType='text'  thousandSeparator value={(validator.totalStaked/Math.pow(10,18)).toFixed(8)} /> BONE Staked</span></p>
+                                          <NumberFormat displayType='text'  thousandSeparator value={(validator.totalStaked/Math.pow(10,18)).toFixed(tokenDecimal)} /> BONE Staked</span></p>
                                       </div>
                                   </div>
                               </div> 
@@ -46,7 +47,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                                   <div className='d-flex align-items-center justify-content-between'>
                                       <div className='fw-600 ft-14'>Performance</div>
                                       <div>
-                                          <span className='warning-color fw-600 ft-14'>{(validator.uptimePercent).toFixed(2)}%</span>
+                                          <span className='warning-color fw-600 ft-14'>{(validator.uptimePercent).toFixed(tokenDecimal)}%</span>
                                       </div>
                                   </div>
                                   <div className='d-flex align-items-center justify-content-between'>

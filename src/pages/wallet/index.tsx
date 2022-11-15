@@ -58,9 +58,9 @@ export default function Wallet() {
   const router = useRouter()
   const { chainId = 1, account, library } = useActiveWeb3React();
   const id: any = chainId
-  // console.log(dynamicChaining[id].BONE)
+  console.log(chainId,account, "chainID")
 
-  const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
+  // const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
   const lib: any = library
   const web3: any = new Web3(lib?.provider)
   const dispatch = useAppDispatch()
@@ -102,15 +102,7 @@ export default function Wallet() {
     return result
   }
 
-  const getNetworkName = () => {
-    if (chainId == 1) {
-      return "Ethereum Mainnet"
-    } else if (chainId == 5) {
-      return "Goerli Testnet"
-    } else {
-      return "Shibarium Mainnet"
-    }
-  }
+
 
   const getTokensList = () => {
     // console.log("token list called ==> ")

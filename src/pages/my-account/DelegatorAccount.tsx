@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getDelegatorData } from "../../services/apis/user/userApi"
 import { useActiveWeb3React } from "../../services/web3"
+import { tokenDecimal } from 'web3/commonFunctions'
 
 const delegatorAccount = () => {
   const { account, chainId = 1 } = useActiveWeb3React();
@@ -101,7 +102,7 @@ const delegatorAccount = () => {
                       <div className="grid-info text-start">
                         <div className="fw-bold">{item.name}</div>
                         <div className="info-row">
-                          <span><span className="fw-bold">{parseInt(item.checkpointSignedPercent).toFixed(2)}%</span> Checkpoints Signed</span>
+                          <span><span className="fw-bold">{parseInt(item.checkpointSignedPercent).toFixed(tokenDecimal)}%</span> Checkpoints Signed</span>
                         </div>
                         <div className="info-row">
                           <span><span className="fw-bold">{item.commission}%</span> Commission</span>
@@ -114,14 +115,14 @@ const delegatorAccount = () => {
                       <div className="cus-width">
                         <div className="text-center">
                           <div>Your Stake</div>
-                          <div className="fw-bold">{(parseInt(item.stake) / 10 ** 18).toFixed(4)}</div>
+                          <div className="fw-bold">{(parseInt(item.stake) / 10 ** 18).toFixed(tokenDecimal)}</div>
                           {/* {/ <div>$0</div> /} */}
                         </div>
                       </div>
                       <div className="cus-width">
                         <div className="text-center">
                           <div>Reward</div>
-                          <div className="fw-bold orange-color">{(parseInt(item.reward) / 10 ** 18).toFixed(4)}</div>
+                          <div className="fw-bold orange-color">{(parseInt(item.reward) / 10 ** 18).toFixed(tokenDecimal)}</div>
                           {/* {/ <div>$0</div> /} */}
                         </div>
                       </div>
@@ -135,7 +136,7 @@ const delegatorAccount = () => {
                         <button onClick={() => handleModal('Withdraw Rewards', item.contractAddress)} className="btn black-btn btn-small">Withdraw Rewards</button>
                       </li>
                       <li className="btn-grp-lst">
-                        <button onClick={() => handleModal('Unbound', item.validatorAddress, item.contractAddress, (parseInt(item.stake) / 10 ** 18).toFixed(4))} className="btn black-btn btn-small">Unbound</button>
+                        <button onClick={() => handleModal('Unbound', item.validatorAddress, item.contractAddress, (parseInt(item.stake) / 10 ** 18).toFixed(tokenDecimal))} className="btn black-btn btn-small">Unbound</button>
                       </li>
                       <li className="btn-grp-lst">
                         <button disabled={parseInt(item.commission) == 0} onClick={() => { setSelectedRow({ owner: item.contractAddress, commissionPercent: item.commission, name: item.name }); setStakeMoreModal(true); }} className="btn black-btn btn-small">Stake More</button>

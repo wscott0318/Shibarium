@@ -17,6 +17,7 @@ import { useUserType} from "../../state/user/hooks"
 import NetworkButton from "./NetworkButton";
 import { useActiveWeb3React } from "app/services/web3";
 import { getUserType } from "app/services/apis/user/userApi";
+import { getNetworkName } from "web3/commonFunctions";
 
 
 const InnerHeader = () => {
@@ -79,15 +80,7 @@ const InnerHeader = () => {
 
   if (!chainId) return null;
 
-  const getNetworkName = () => {
-    if(chainId == 1){
-      return "Ethereum Mainnet"
-    } else if (chainId == 5){
-      return "Goerli Testnet"
-    } else {
-      return "Shibarium Mainnet"
-    }
-  }
+
 
   return (
     <>
@@ -146,7 +139,7 @@ const InnerHeader = () => {
                             </div>
                             <div className="fx-txt">
                               <span className="grey-txt">
-                                {getNetworkName()}
+                                {getNetworkName(chainId)}
                               </span>
                             </div>
                           </div>

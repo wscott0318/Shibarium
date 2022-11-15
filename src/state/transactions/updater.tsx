@@ -1,4 +1,4 @@
-import { ChainId } from '@shibarium/core-sdk'
+import { ChainId } from 'shibarium-chains'
 import { retry, RetryableError, RetryOptions } from '../../functions/retry'
 // import { routingInfo } from '../../hooks/useBestTridentTrade'
 import { useActiveWeb3React } from '../../services/web3'

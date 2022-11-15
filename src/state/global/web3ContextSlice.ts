@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { ChainId } from '@shibarium/core-sdk'
+import { ChainId } from 'shibarium-chains'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
 import { AppState } from '../../state'
 

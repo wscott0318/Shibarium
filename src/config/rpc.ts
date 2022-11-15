@@ -1,4 +1,5 @@
-import { ChainId } from '@shibarium/core-sdk'
+// import { ChainId } from 'shibarium-chains'
+import { ChainId } from "shibarium-chains";
 // import { SHIBARIUM_CHAINID } from 'app/constants'
 
 const RPC = {
@@ -32,7 +33,7 @@ const RPC = {
   [ChainId.MOONRIVER]: 'https://rpc.moonriver.moonbeam.network',
   [ChainId.TELOS]: 'https://mainnet.telos.net/evm',
   [ChainId.SHIBARIUM]: 'https://3.145.115.238:8545',
-  [ChainId.PUPPY_NET]: 'http://43.205.237.125:8545',
+  [ChainId.PUPPY_NET]: 'https://43.205.237.125:8545',
 }
 
 export default RPC

@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { ChainId } from '@shibarium/core-sdk'
+import { ChainId } from 'shibarium-chains'
 
 import {
   addTransaction,

@@ -16,6 +16,7 @@ import NumberFormat from 'react-number-format';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Delegators from './validator-details/Delegators';
 import Checkpoints from './validator-details/Checkpoints';
+import { tokenDecimal } from "web3/commonFunctions";
 
 
 export default function ValidatorDetails() {
@@ -103,7 +104,7 @@ export default function ValidatorDetails() {
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Supply</h6>
                                                 <p className='mb-0 trs-3 ff-mos'>
-                                                <NumberFormat displayType='text' thousandSeparator value={totalSupply.toFixed(8)} /> BONE
+                                                <NumberFormat displayType='text' thousandSeparator value={totalSupply.toFixed(tokenDecimal)} /> BONE
                                                 </p>
                                             </li>
                                             {/* <li className='info-data-lst'>
@@ -156,15 +157,15 @@ export default function ValidatorDetails() {
                                         <div className='flex-wrap mb-4 d-flex align-items-center'>
                                             <div className='data-btn me-3'>
                                                 <span className='trs-6 ff-mos'>
-                                                <NumberFormat displayType='text' thousandSeparator value={(validatorInfo?.selfStake/Math.pow(10,18)).toFixed(4)} /> 
+                                                <NumberFormat displayType='text' thousandSeparator value={(validatorInfo?.selfStake/Math.pow(10,18)).toFixed(tokenDecimal)} /> 
                                                 </span>
                                             </div>
                                             <div className='text ff-mos'>
-                                               {validatorInfo?.votingPower ? <span>(~{(+validatorInfo?.votingPower).toFixed(2) || 0}%)</span> : null }
+                                               {validatorInfo?.votingPower ? <span>(~{(+validatorInfo?.votingPower).toFixed(tokenDecimal) || 0}%)</span> : null }
                                             </div>
                                         </div>
                                         <div className="mb-3 progress-line">
-                                            <ProgressBar now={+(+validatorInfo?.votingPower).toFixed(2) || 0}/>
+                                            <ProgressBar now={+(+validatorInfo?.votingPower).toFixed(tokenDecimal) || 0}/>
                                         </div>
                                         <ul className='mb-0 info-list list-unstyled'>
                                             <li className='info-data-lst'>
@@ -176,13 +177,13 @@ export default function ValidatorDetails() {
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Voting Power</h6>
                                                 <p className='mb-0 trs-3 ff-mos'>
-                                                <NumberFormat displayType='text' thousandSeparator value={(validatorInfo?.selfStake/Math.pow(10,18)).toFixed(8)} />
+                                                <NumberFormat displayType='text' thousandSeparator value={(validatorInfo?.selfStake/Math.pow(10,18)).toFixed(tokenDecimal)} />
                                                 </p>
                                             </li>
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Voting Power %</h6>
                                                 {validatorInfo?.votingPower ? <p className='mb-0 trs-3 primary-text ff-mos'>
-                                                   {(+validatorInfo?.votingPower).toFixed(2) || 0}%
+                                                   {(+validatorInfo?.votingPower).toFixed(tokenDecimal) || 0}%
                                                 </p> : null }
                                             </li>
                                         </ul>
