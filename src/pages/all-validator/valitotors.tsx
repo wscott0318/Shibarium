@@ -57,7 +57,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     // },[isActiveTab])
 
     useEffect(() => {
-      setLoading(true)
+      setLoading(false)
       validatorsList()
         .then((res) => {
           setLoading(false)
