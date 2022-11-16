@@ -198,7 +198,7 @@ body.modal-open {
     .navbar-nav .dropdown-menu {
         position: absolute;
         top: 100%;
-        margin-top: 8px;
+        // margin-top: 8px;
         @media #{$max-lg}{
             top: 100%;
             right: 0;
