@@ -1207,19 +1207,25 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                   {/* grid sec end */}
                   <div className="btns_sec val_all_bts row mt-3">
                     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                      <button
-                        onClick={() =>
-                          handleModal(
-                            "Restake",
-                            account
-                          )
-                        }
-                        className="ff-mos btn black-btn w-100 d-block"
-                      >
-                        Restake
-                      </button>
+                      <div className='cus-tooltip d-inline-block ps-0'>
+                        <button
+                          onClick={() =>
+                            handleModal(
+                              "Restake",
+                              account
+                            )
+                          }
+                          className="ff-mos btn black-btn w-100 d-block tool-ico"
+                        >
+                          Restake
+                        </button>
+                        <div className="tool-desc">
+                          Lorem, ipsum.
+                        </div>
+                      </div>
                     </div>
                     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
+                    <div className='cus-tooltip d-inline-block ps-0'>
                       <button
                         onClick={() =>
                           handleModal(
@@ -1227,12 +1233,17 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                             account
                           )
                         }
-                        className="ff-mos btn black-btn w-100 d-block"
+                        className="ff-mos btn black-btn w-100 d-block tool-ico"
                       >
                         Change Commission Rate
                       </button>
+                      <div className="tool-desc">
+                        Lorem, ipsum.
+                      </div>
+                      </div>
                     </div>
                     <div className="col-xl-3  col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
+                    <div className='cus-tooltip d-inline-block ps-0'>
                       <button
                         onClick={() =>
                           handleModal(
@@ -1240,18 +1251,27 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                             account
                           )
                         }
-                        className="ff-mos btn black-btn w-100 d-block"
+                        className="ff-mos btn black-btn w-100 d-block tool-ico"
                       >
                         Withdraw Rewards
                       </button>
+                      <div className="tool-desc">
+                        Lorem, ipsum.
+                      </div>
+                      </div>
                     </div>
                     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                    <div className='cus-tooltip d-inline-block ps-0'>
                       <button
                         onClick={() => setunboundpop(true)}
-                        className="ff-mos btn black-btn w-100 d-block"
+                        className="ff-mos btn black-btn w-100 d-block tool-ico"
                       >
                         Unbound
                       </button>
+                      <div className="tool-desc">
+                        Lorem, ipsum.
+                      </div>
+                      </div>
                     </div>
                   </div>
                 </div>
