@@ -218,7 +218,7 @@ const NetworkModal: FC = () => {
     <HeadlessUiModal.Controlled isOpen={networkModalOpen} onDismiss={toggleNetworkModal}>
       <div className="flex flex-col gap-4 wallet-network" style={{maxHeight:'90vh', overflow: 'auto'}}>
         <HeadlessUiModal.Header header={`Select a network`} onClose={toggleNetworkModal} />
-        <div className="grid grid-flow-row-dense grid-cols-1 gap-4 overflow-y-auto md:grid-cols-2">
+        <div className="grid grid-flow-row-dense grid-cols-1 gap-4 overflow-y-auto md:grid-cols-2 net-block">
           {[
             ChainId.SHIBARIUM,
             ChainId.GÖRLI,
@@ -244,7 +244,7 @@ const NetworkModal: FC = () => {
               return (
                 <div
                   key={i}
-                  className="bg-[rgba(0,0,0,0.2)] focus:outline-none flex items-center gap-4 w-full px-4 py-3 rounded border border-purple cursor-default"
+                  className="bg-[rgba(0,0,0,0.2)] focus:outline-none flex items-center gap-4 w-full px-4 py-3 rounded border border-purple cursor-default txt-color"
                 >
                   <Image
                     // @ts-ignore TYPE NEEDS FIXING

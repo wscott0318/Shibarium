@@ -15,17 +15,27 @@ const userAccount = ({boneUSDValue, availBalance} : {boneUSDValue : any, availBa
                             <div className="btns_sec val_all_bts row">
                                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
                                     <Link href='all-validator' passHref>
-                                    <a className="ff-mos btn black-btn w-100 d-block">
-                                        Become a Delegator
-                                    </a>
+                                    <div className="cus-tooltip d-inline-block ps-0">
+                                        <a className="ff-mos btn black-btn w-100 d-block tool-ico">
+                                            Become a Delegator
+                                        </a>
+                                        <div className="tool-desc">
+                                            Lorem, ipsum.
+                                        </div>
+                                    </div>
                                     </Link>
                                     
                                 </div>
                                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
                                     <Link href='become-validator' passHref>
-                                    <a  className="ff-mos btn black-btn w-100 d-block">
-                                        Become a Validator
-                                    </a>
+                                    <div className="cus-tooltip d-inline-block ps-0">
+                                        <a  className="ff-mos btn black-btn w-100 d-block tool-ico">
+                                            Become a Validator
+                                        </a>
+                                        <div className="tool-desc">
+                                            Lorem, ipsum.
+                                        </div>
+                                    </div>
                                     </Link>
                                 </div>
                             </div>

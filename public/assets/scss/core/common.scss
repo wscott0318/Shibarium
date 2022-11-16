@@ -2838,10 +2838,15 @@ input:-internal-autofill-selected {
             margin-top: -8px;
             margin-left: 12px;
             border: 1px solid #f06700;
-            background-color: rgb(245, 244, 244);
+            background-color: #fff;
             box-shadow: 0.602px 0.799px 18px 0px rgba(241, 125, 2, 0.45);
             border-radius: 6px;
             opacity: 0;
+            @media #{$max-xxl}{
+                top: -36px;
+                left:10%;
+                font-size: 14px;
+            }
             @media #{$max-sm}{
                 font-size: 12px;
                 padding: 4px;
@@ -2861,8 +2866,15 @@ input:-internal-autofill-selected {
                 position: absolute;
                 bottom: auto;
                 transform:rotate(90deg);
+                @media #{$max-xxl}{
+                    transform:rotate(0deg);
+                    -webkit-transform:rotate(0deg);
+                    border-width: 13px 10px 0 10px;
+                    left: 40%;
+                    top: 29px;
+                }
                 @media #{$max-sm}{
-                    top: -15px;
+                    top: -13px;
                     left: 35px;
                     bottom: auto;
                     transform: rotate(180deg);
@@ -2964,7 +2976,15 @@ input:-internal-autofill-selected {
              }
         }
     }
-    
+    .hd-sel-over{
+        .nav-link{
+            white-space: nowrap; 
+            width: 190px; 
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+    }
 }
 
 .main-header.header-overide{
@@ -3602,17 +3622,43 @@ display: none !important;
         }
     }
 }
-.fx-txt {
-    .grey-txt{
-        white-space: nowrap;
-        width: 105px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        @media #{$max-md}{
-            width: auto;
+.header-overide{
+    .fx-txt {
+        .grey-txt{
+            white-space: nowrap;
+            width: 105px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            @media #{$max-md}{
+                width: auto;
+            }
+        }
+        
+    }
+}
+.net-block{
+    button{
+        display: flex;
+        width: 100%;
+        align-items: center;
+        border: 1px solid $white;
+        border-radius: 7px;
+        -webkit-border-radius: 7px;
+        -o-border-radius: 7px;
+        -ms-border-radius: 7px;
+        -moz-border-radius: 7px;
+        padding: 16px;
+        font-weight: 700;
+        .text-high-emphesis{
+            padding-left: 10px;
         }
     }
-    
+    .txt-color{
+        .text-high-emphesis{
+            color: $primary;
+            font-weight: 700;
+        }
+    }
 }
 .crsrDefault {
     cursor: default !important;
