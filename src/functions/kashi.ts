@@ -1,5 +1,5 @@
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber'
-import { USD } from '@shibarium/core-sdk'
+import { USD } from 'shibarium-chains'
 import {
   FACTOR_PRECISION,
   FULL_UTILIZATION_MINUS_MAX,

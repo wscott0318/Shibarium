@@ -1,4 +1,4 @@
-import { ChainId, Token } from '@shibarium/core-sdk'
+import { ChainId, Token } from 'shibarium-chains'
 
 export const WETH = new Token(ChainId.TELOS, '0xfA9343C3897324496A05fC75abeD6bAC29f8A40f', 18, 'WETH', 'Wrapped Ether')
 export const WBTC = new Token(ChainId.TELOS, '0xf390830DF829cf22c53c8840554B98eafC5dCBc2', 8, 'WBTC', 'Wrapped Bitcoin')

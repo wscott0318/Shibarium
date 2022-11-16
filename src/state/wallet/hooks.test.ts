@@ -1,4 +1,4 @@
-import { CurrencyAmount, Token } from '@shibarium/core-sdk'
+import { CurrencyAmount, Token } from 'shibarium-chains'
 
 import { serializeBalancesMap } from './hooks'
 

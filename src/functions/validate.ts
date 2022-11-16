@@ -2,7 +2,7 @@
 
 import { getAddress } from '@ethersproject/address'
 import { BigNumber } from '@ethersproject/bignumber'
-import { Token } from '@shibarium/core-sdk'
+import { Token } from 'shibarium-chains'
 // import { TokenAddressMap } from '../state/lists/hooks'
 
 /**

@@ -3,7 +3,7 @@
 import { getAddress } from '@ethersproject/address'
 import { BigNumberish } from '@ethersproject/bignumber'
 import { formatUnits } from '@ethersproject/units'
-import { Currency, CurrencyAmount, Fraction, JSBI, Price } from '@shibarium/core-sdk'
+import { Currency, CurrencyAmount, Fraction, JSBI, Price } from 'shibarium-chains'
 // @ts-ignore TYPE NEEDS FIXING
 import Numeral from 'numeral'
 

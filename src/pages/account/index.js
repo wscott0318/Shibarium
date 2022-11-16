@@ -10,7 +10,7 @@ import {UserType} from '../../enums/UserType'
 import { BONE_ID } from '../../config/constant';
 import {useEthBalance} from '../../hooks/useEthBalance';
 import {useTokenBalance} from '../../hooks/useTokenBalance';
-import { ChainId } from "@shibarium/core-sdk";
+import { ChainId } from "shibarium-chains";
 import { getDelegatorData } from "../../services/apis/user/userApi";
 import fromExponential from 'from-exponential';
 // @ts-ignore
