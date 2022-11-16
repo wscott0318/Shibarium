@@ -342,7 +342,7 @@ const handleSearchList = (key :any) => {
         console.log("account not found")
       }
       }
-// console.log("tokenModalList",tokenModalList)
+
         const addTokenHandler = async () => {
           if(newToken.length)
           {
@@ -371,7 +371,21 @@ const handleSearchList = (key :any) => {
                 });
               }
               else if(tokenState.step3 && !isAlreadyPresent) {
-                  
+                console.log("tokenModalList",tokenModalList);
+                const obj = {
+                  parentContract: String(newToken),
+                  childContract: String(newToken),
+                  parentName:"BONE2",
+                  parentSymbol:"BONE2"
+                };
+                localStorage.setItem('newToken',JSON.stringify(obj));
+                let newAddedToken = JSON.parse(localStorage.getItem('newToken'));
+                let updatedArray = [...tokenModalList,newAddedToken];
+                setTokenModalList(updatedArray); 
+                  toast.success("BONE2 successfully added.", {
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    autoClose: 3000,
+                  });
               }
             }
           }
@@ -1865,14 +1879,15 @@ const handleSearchList = (key :any) => {
                         className="btn primary-btn w-100"
                         href="javascript:void(0)"
                         onClick={() => {
-                          setTokenState({
-                            step0: false,
-                            step1: false,
-                            step2: false,
-                            step3: false,
-                            step4: true,
-                            title: "Manage Token",
-                          });
+                          // setTokenState({
+                          //   step0: false,
+                          //   step1: false,
+                          //   step2: false,
+                          //   step3: false,
+                          //   step4: true,
+                          //   title: "Manage Token",
+                          // });
+                          addTokenHandler()
                         }}
                       >
                         Add Token
