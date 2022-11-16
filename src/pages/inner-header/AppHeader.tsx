@@ -3,11 +3,15 @@ import { Dropdown, Navbar, NavDropdown, Container, Nav } from "react-bootstrap";
 import { useActiveWeb3React } from 'app/services/web3';
 import { useRouter } from "next/router";
 
+
+
 const AppHeader = () => {
   const { chainId = 1, account, library } = useActiveWeb3React();
   const user :any = account
   const { asPath } = useRouter()
   const [title, setTitle] = useState("")
+  const router = useRouter()
+
 
   useEffect(() => {
     if(asPath){
@@ -15,7 +19,7 @@ const AppHeader = () => {
         setTitle("Wallet")
       } else if (asPath === '/bridge'){
         setTitle("Bridge")
-      } else {
+      } else { 
         setTitle("Staking")
       }
     } 
@@ -31,7 +35,7 @@ const AppHeader = () => {
             <img src="../../images/menu-icon.png" alt="" />
           </div>
           <NavDropdown className="light-text dd-ico" title={title} id="">
-            <NavDropdown.Item href={account ? "wallet" : "login"}>
+            <NavDropdown.Item onClick={()=>router.push('/wallet', '/wallet', { shallow: true })}>
               <h6
                 className={
                   title === "Wallet"
@@ -45,7 +49,7 @@ const AppHeader = () => {
                 Send and receive crypto assets on Shibarium network
               </span>
             </NavDropdown.Item>
-            <NavDropdown.Item href={account ? "bridge" : "login"}>
+            <NavDropdown.Item onClick={()=>router.push('/bridge', '/bridge', { shallow: true })}>
               <h6
                 className={
                   title === "Bridge"
@@ -59,7 +63,7 @@ const AppHeader = () => {
                 Deposit and withdraw between networks
               </span>
             </NavDropdown.Item>
-            <NavDropdown.Item href="bone-staking">
+            <NavDropdown.Item onClick={()=>router.push('/bone-staking', '/bone-staking', { shallow: true })}>
               <h6
                 className={
                   title === "Staking"
