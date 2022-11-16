@@ -3,7 +3,7 @@
 import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
-import { ChainId, ROUTER_ADDRESS } from '@shibarium/core-sdk'
+import { ChainId, ROUTER_ADDRESS } from 'shibarium-chains'
 import IUniswapV2Router02ABI from '../constants/abis/uniswap-v2-router-02.json'
 import IUniswapV2Router02NoETHABI from '../constants/abis/uniswap-v2-router-02-no-eth.json'
 import { isAddress } from '../functions/validate'
