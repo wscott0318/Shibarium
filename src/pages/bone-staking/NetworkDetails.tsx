@@ -7,11 +7,12 @@ import React, { useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format';
 // @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
-import { PROXY_MANAGER } from 'web3/contractAddresses';
 import proxyManagerABI from "../../ABI/StakeManagerProxy.json"
 import axios from "axios";
 import { tokenDecimal } from 'web3/commonFunctions';
 import { useWeb3React } from '@web3-react/core'
+import { dynamicChaining } from 'web3/DynamicChaining';
+
 
 function NetworkDetails() {
 
@@ -20,8 +21,9 @@ function NetworkDetails() {
 
   const [totalStake, setTotalStake] = useState(0);
   const [networkDetails, setNetworkDetails] = useState<any>({})
-  const { account , library, chainId } = useWeb3React()
+  const { account , library, chainId = 1} = useWeb3React()
   const web3 = L1Block();
+
 
   // console.log(account,chainId, library, "web3 instance ===> ")
 
@@ -57,10 +59,11 @@ function NetworkDetails() {
     const getTotalStakes = async () => {
       let user = account;
       if (account) {
-        const instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
+        const instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
         const ID = await instance.methods.validatorState().call({ from: account });
         let stake = +ID.amount / 10 ** 18
         setTotalStake(stake)
+        console.log(stake, ID, "Total stake")
         return ID
       } else {
         console.log("account addres not found")

@@ -100,10 +100,10 @@ const chains: ChainObject = {
     link: 'https://goerli.etherscan.io',
     builder: explorers.etherscan,
   },
-  // [ChainId.PUPPY_NET]: {
-  //   link: 'https://goerli.etherscan.io',
-  //   builder: explorers.etherscan,
-  // },
+  [ChainId.PUPPY_NET]: {
+    link: 'https://goerli.etherscan.io',
+    builder: explorers.etherscan,
+  },
   [ChainId.KOVAN]: {
     link: 'https://kovan.etherscan.io',
     builder: explorers.etherscan,
