@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import { useEthBalance } from "../../hooks/useEthBalance";
-import { BONE_ID, ENV_CONFIGS } from 'app/config/constant';
+import { BONE_ID } from 'app/config/constant';
 import { getBoneUSDValue } from 'app/services/apis/validator';
 import NumberFormat from 'react-number-format';
 import { useActiveWeb3React, useLocalWeb3 } from 'app/services/web3';
@@ -97,26 +97,7 @@ const DelegatePopup: React.FC<any> = ({
       setMsgType("error");
       return;
     }
-    // if ((amount > walletBalance)) {
-    //   setToastMassage(`Enter smaller amount, max allowed: ${walletBalance.toFixed(4)} BONE`);
-    //   setMsgType('error')
-    //   return;
-    // }
     setTnxCompleted(false);
-    // if (web3) {
-    //   const currentChain: ChainId = chainId || ChainId.SHIBARIUM;
-    //   const bone = new web3.eth.Contract(boneAbi, ENV_CONFIGS[currentChain].BONE);
-    //   //  const val = web3.utils.toBN(amount*Math.pow(10,18))
-    //   const val = parseUnits(amount.toString(), 18)
-    //   web3.eth.sendTransaction({
-    //     from: account,
-    //     to: ENV_CONFIGS[currentChain].BONE,
-    //     data: bone.methods.approve(ENV_CONFIGS[currentChain].STAKE_MANAGER, val).encodeABI()
-    //   }).then((res: any) => {
-    //     // setStep(2)
-    //     setTnxCompleted(true)
-    //   }).catch((e: any) => { console.log(e); setStep(1); })
-    // }
     setTimeout(() => {
       setTnxCompleted(true);
     }, 1000);

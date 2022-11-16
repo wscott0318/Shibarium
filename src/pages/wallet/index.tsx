@@ -21,7 +21,7 @@ import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
 import { useEthBalance } from "../../hooks/useEthBalance";
 import { useTokenBalance, getTokenBalance } from '../../hooks/useTokenBalance';
-import { BONE_ID, ENV_CONFIGS } from '../../config/constant';
+import { BONE_ID } from '../../config/constant';
 import ERC20 from "../../ABI/ERC20Abi.json";
 import fromExponential from "from-exponential";
 import { useAppDispatch } from "../../state/hooks"

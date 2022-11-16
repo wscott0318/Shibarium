@@ -1,6 +1,5 @@
 
 import { ChainId } from "@shibarium/core-sdk";
-import { ENV_CONFIGS } from "app/config/constant";
 import { useActiveWeb3React } from "app/services/web3"
 import { useEffect, useState } from "react"
 import { useEthBalance } from "./useEthBalance";

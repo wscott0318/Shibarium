@@ -7,7 +7,7 @@ import Web3 from "web3";
 import { getBoneUSDValue } from "../../services/apis/validator/index";
 import { useActiveWeb3React } from "app/services/web3";
 import {UserType} from '../../enums/UserType'
-import { BONE_ID, ENV_CONFIGS } from '../../config/constant';
+import { BONE_ID } from '../../config/constant';
 import {useEthBalance} from '../../hooks/useEthBalance';
 import {useTokenBalance} from '../../hooks/useTokenBalance';
 import { ChainId } from "@shibarium/core-sdk";

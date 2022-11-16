@@ -14,7 +14,7 @@ import ValidatorAccount from "./ValidatorAccount";
 import LoadingSpinner from 'pages/components/Loading';
 import { getBoneUSDValue } from "../../services/apis/validator/index";
 import { ChainId } from "@shibarium/core-sdk";
-import { BONE_ID, ENV_CONFIGS } from '../../config/constant';
+import { BONE_ID } from '../../config/constant';
 import {useEthBalance} from '../../hooks/useEthBalance';
 import {useTokenBalance} from '../../hooks/useTokenBalance';
 import { dynamicChaining } from "web3/DynamicChaining";
