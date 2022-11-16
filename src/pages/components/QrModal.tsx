@@ -1,7 +1,6 @@
 import CopyHelper from 'app/components/AccountDetails/Copy';
 import React from 'react'
 import { Modal } from 'react-bootstrap'
-// import QRCode from "react-qr-code";
 import { QRCode } from 'react-qrcode-logo';
 // import QrLogo from "../../images/shiba-round-icon.png"
 
