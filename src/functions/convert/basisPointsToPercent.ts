@@ -1,4 +1,4 @@
-import { JSBI, Percent } from '@shibarium/core-sdk'
+import { JSBI, Percent } from 'shibarium-chains'
 
 // converts a basis points value to a sdk percent
 export function basisPointsToPercent(num: number): Percent {

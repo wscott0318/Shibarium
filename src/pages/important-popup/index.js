@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { ENV_CONFIGS, SHIBARIUM_CHAIN_ID } from "app/config/constant";
+import { SHIBARIUM_CHAIN_ID } from "app/config/constant";
 import { useActiveWeb3React } from "app/services/web3";
 import { useTokenBalance } from "app/hooks/useTokenBalance";
 // import { useTokenPrice } from "app/hooks/useTokenPrice";

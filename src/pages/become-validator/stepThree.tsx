@@ -128,7 +128,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
     let user : any = account
     let allowance : any = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, user, dynamicChaining[chainId].PROXY_MANAGER)
     let amount = web3.utils.toBN(fromExponential(+values.amount * Math.pow(10, 18)));
-    let acceptDelegation = true
+    let acceptDelegation = 1
     // let becomeValidateData.publickey = "0x040ef89e54996ee859c6c47fd3fe0bbfac9d1256937fdb86da5a1a7a0441ebe3c8b86b6448fe60b4bbca0933f70f403afd1ab973c1ab82497698dc95183b314b9d"
     let heimdallFee = web3.utils.toBN(fromExponential(2 * Math.pow(10, 18)));
 

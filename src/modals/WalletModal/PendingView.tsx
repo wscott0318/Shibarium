@@ -4,7 +4,7 @@ import Button from '../../components/Button'
 import Dots from '../../components/Dots'
 import { HeadlessUiModal } from '../../components/Modal'
 import Typography from '../../components/Typography'
-import { injected, SUPPORTED_WALLETS } from '../../config/wallets'
+import { injected, SUPPORTED_WALLETS } from './wallets'
 import Lottie from 'lottie-react'
 import React, { FC } from 'react'
 

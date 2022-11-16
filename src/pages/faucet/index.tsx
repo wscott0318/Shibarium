@@ -32,6 +32,7 @@ export default function faucet() {
     setMenuState(!menuState);
   }
 
+  console.log(chainId, account, library)
   const handleTopdoG = () => {
     // console.log("handleTopdoG");
     setIsTopdoG(true);
@@ -53,7 +54,7 @@ export default function faucet() {
       done: false,
       hash: ''
     })
-    await axios.get(`http://3.17.79.146:5000/api/faucet/${account}`)
+    await axios.get(`https://dev-faucet.hailshiba.com/api/faucet/${account}`)
       .then((res: any) => {
         console.log(res.data)
         setModalState({

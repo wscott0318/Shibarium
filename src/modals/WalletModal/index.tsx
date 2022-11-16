@@ -5,10 +5,9 @@ import AccountDetails from '../../components/AccountDetails'
 import Button from '../../components/Button'
 import ExternalLink from '../../components/ExternalLink'
 import HeadlessUiModal from '../../components/Modal/HeadlessUIModal'
-import Typography from '../../components/Typography'
-import { injected, SUPPORTED_WALLETS } from '../../config/wallets'
-import { OVERLAY_READY } from '../../entities/connectors/FortmaticConnector'
-import usePrevious from '../../hooks/usePrevious'
+import { injected, SUPPORTED_WALLETS } from './wallets'
+import { OVERLAY_READY } from './FormaticConnector';
+import usePrevious from './usePrevious'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useWalletModalToggle } from '../../state/application/hooks'
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react'
@@ -17,7 +16,6 @@ import ReactGA from 'react-ga'
 
 import Option from './Option'
 import PendingView from './PendingView'
-import { login } from 'app/functions/login'
 
 enum WALLET_VIEWS {
   OPTIONS,
@@ -43,21 +41,6 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
   const connectorPrevious = usePrevious(connector)
 
 
-    // const login = async () => {
-    //   if (!isAuthenticated) {
-
-    //     await authenticate({signingMessage: "Log in to Shibarium" })
-    //       .then(function (user) {
-    //         console.log("logged in user:", user);
-    //         console.log(user!.get("ethAddress"));
-    //       })
-    //       .catch(function (error) {
-    //         console.log(error);
-    //       });
-    //   }
-    // }
-  
-  // close on connection, when logged out before
   useEffect(() => {
     if (account && !previousAccount && walletModalOpen) toggleWalletModal()
   }, [account, previousAccount, toggleWalletModal, walletModalOpen])
@@ -128,7 +111,7 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
           } else {
             setPendingError(true)
           }
-        }).then(()=>login()) 
+        }).then((res :any )=>console.log(res)) 
     },
     [activate]
   )
@@ -224,11 +207,11 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
             header={error instanceof UnsupportedChainIdError ? 'Wrong Network' :'Error connecting'}
           />
           <HeadlessUiModal.BorderedContent>
-            <Typography variant="xs" weight={700}>
+            <p>
               {error instanceof UnsupportedChainIdError
                 ? `Please connect to the appropriate Ethereum network.`
                 : `Error connecting. Try refreshing the page.`}
-            </Typography>
+            </p>
           </HeadlessUiModal.BorderedContent>
           <Button color="red" onClick={handleDeactivate}>
             {`Disconnect`}
@@ -263,14 +246,14 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
             <div className="grid grid-cols-1 gap-4 overflow-y-auto md:grid-cols-2">{options}</div>
           )}
           <div className="flex justify-center">
-            <Typography variant="xs" className="text-secondary" component="span">
+            <p className="text-secondary">
               {`New to Ethereum?`}{' '}
-              <Typography variant="xs" className="text-blue" component="span">
+              <p className="text-blue">
                 <ExternalLink href="https://ethereum.org/wallets/" color="blue">
                   {`Learn more about wallets`}
                 </ExternalLink>
-              </Typography>
-            </Typography>
+              </p>
+            </p>
           </div>
         </div>
       )}

@@ -1,4 +1,4 @@
-import { NATIVE } from '@shibarium/core-sdk'
+import { NATIVE } from 'shibarium-chains'
 import Container from 'app/components/Container'
 import { NAV_CLASS } from 'app/components/Header/styles'
 import useMenu from 'app/components/Header/useMenu'

@@ -1,5 +1,5 @@
 import { parseUnits } from '@ethersproject/units'
-import { Currency, CurrencyAmount, JSBI } from '@shibarium/core-sdk'
+import { Currency, CurrencyAmount, JSBI } from 'shibarium-chains'
 
 export function parseBalance(value: string, decimals = 18) {
   return parseUnits(value || '0', decimals)

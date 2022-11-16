@@ -1,5 +1,5 @@
 import { Interface } from '@ethersproject/abi'
-import { Currency, CurrencyAmount, JSBI, NATIVE, Token } from '@shibarium/core-sdk'
+import { Currency, CurrencyAmount, JSBI, NATIVE, Token } from 'shibarium-chains'
 import ERC20_ABI from '../../constants/abis/erc20.json'
 import { isAddress } from '../../functions/validate'
 import { useAllTokens } from '../../hooks/Tokens'

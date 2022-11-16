@@ -17,7 +17,7 @@ import { Provider as ReduxProvider } from 'react-redux'
 
 import { Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
-import { RouteGuard } from "../utils/RouteGaurd";
+// import { RouteGuard } from "../utils/RouteGaurd";
 
 // import Web3ProviderNetwork from '../components/Web3ProviderNetwork';
 import Web3ReactManager from '../components/Web3ReactManager';

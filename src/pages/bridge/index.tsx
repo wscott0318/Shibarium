@@ -21,7 +21,7 @@ import {
 import {getTokenBalance } from "../../hooks/useTokenBalance";
 import {getBoneUSDValue} from "../../services/apis/validator/index";
 import { useActiveWeb3React } from "../../services/web3"
-import { BONE_ID, ENV_CONFIGS } from '../../config/constant';
+import { BONE_ID } from '../../config/constant';
 import { Formik, Form, Field} from "formik";
 import * as Yup from "yup";
 import depositManagerABI from "../../ABI/depositManagerABI.json"

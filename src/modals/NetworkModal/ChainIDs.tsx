@@ -1,7 +1,12 @@
 export const ChainId = {
-    ETHEREUM: 1,
-    GÖRLI: 5,  
-    SHIBARIUM: 117, // main net 
-    SHIBARIUM_PUPPYNET: 217, // test net
-    SHIBARIUM_PUPPYDEV: 417 // dev env
+    1:"ETHEREUM",
+    5:"GÖRLI",
+    4354:"SHIBARIUM_TESTNET",
+    7352:"SHIBARIUM",
+    417:"PUPPYNET",
+    ETHEREUM:1,
+    GÖRLI:5,
+    SHIBARIUM:7352,
+    SHIBARIUM_TESTNET:4354,
+    PUPPYNET:417
 }
