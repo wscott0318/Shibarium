@@ -22,20 +22,8 @@
         padding: 50px 0px 50px 15px;
     }
 }
-.accor-sec{
-    padding-top: 110px;
-    @media #{$max-xxl}{
-        padding-top: 90px;
-    }
-    @media #{$max-xl}{
-        padding-top: 70px;
-    }
-    @media #{$max-lg}{
-        padding-top: 50px;
-    }
-    @media #{$max-md}{
-        padding-top: 20px;
-    }
+.sec-acc {
+    padding-top: 40px;
 }
 .accor-sec{
     .accordion-item{
@@ -109,5 +97,15 @@
     .minus-icon{
         display: inline-block;
     }
+}
+.head-fq {
+    margin-bottom: 45px;
+    color:$orange-drk;
+    @media #{$max-xxl}{
+        margin-bottom: 30px;  
+     }
+     @media #{$max-xl}{
+        margin-bottom: 15px;  
+     }
 }
 /** faq- style end **/
