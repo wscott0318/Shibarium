@@ -19,46 +19,36 @@ import StakingHeader from '../staking-header'
 import ValidatorsCard from "../all-validator/valitotors";
 import { ChainId } from "shibarium-chains";
 import { useActiveWeb3React } from "../../services/web3"
+import proxyManagerABI from "../../ABI/StakeManagerProxy.json";
+import { dynamicChaining } from 'web3/DynamicChaining';
+import { useWeb3React } from '@web3-react/core'
+import Web3 from "web3";
  
 const BoneStaking = () => {
-  // const [validators, setValidators] = useState([]);
+
   const [userType, setUserType] = useUserType();
-
-  // const [isValidator, setIsValidator] = useState(false);
-  // const [isDelegator, setIsDelegator] = useState(false);
-  // useEffect(()=>{
-  //   setTimeout(() => {
-  //     usss('Delegator')
-  //   }, 4000);
-  //   let accounts=localStorage.getItem('accounts')
-  //   if(accounts=="0x14d76811453183669C4561eF25f57401414DEEfB"){
-  //     setIsDelegator(false)
-  //     setIsValidator(true)
-  //   }else if(accounts=="0xa9f576E15106eb5861ed4AC2793C010999ab0e7D"){
-  //     setIsValidator(false)
-  //     setIsDelegator(true)
-  //   }else{
-  //     setIsValidator(false)
-  //     setIsDelegator(false)
-  //   }
-  // })
-
-  // useEffect(() => {
-  //   validatorsList()
-  //     .then((res) => {
-  //       if (res.status == 200) {
-  //         setValidators(res.data.data.validatorsList);
-  //       }
-  //     })
-  //     .catch((err) => {});
-  // }, []);
-
-  const [modalShow, setModalShow] = useState(false);
+  const { account , library, chainId = 1} = useWeb3React()
   const router = useRouter();
-  console.log(ChainId, " testing new package ====> ")
-  const { chainId = 1, account, library } = useActiveWeb3React();
+  const [valCount, setValCount] = useState(0);
+  const [valMaxCount, setValMaxCount] = useState(0);
+    
+  useEffect(() => {
+    if(account){
+      getValCount()
+    }
 
-  const [show, setshow] = React.useState();
+  }, [account])
+
+  const getValCount = async () => {
+    const lib: any = library;
+    const web3: any = new Web3(lib?.provider);
+    let instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId]?.PROXY_MANAGER);
+        const valCount = await instance.methods.currentValidatorSetSize().call({from:account});
+        const validatorThreshold = await  instance.methods.validatorThreshold().call({from:account});
+        setValCount(valCount)
+        setValMaxCount(validatorThreshold)
+  }
+  
   return (
     <>
       <div className="main-content dark-bg-800 full-vh  font-up ffms-inherit staking-main">
@@ -72,7 +62,7 @@ const BoneStaking = () => {
                   <h1 className="ff-mos">Start Earning Rewards with <br /><span className="white-bg">Shibarium Staking</span></h1>
                   {userType === 'Validator' ? null : <div className="btns-sec btn-width">
                     <div className="btns-wrap ">
-                       <button onClick={()=>{
+                       <button disabled={valCount <= valMaxCount ? false : true} onClick={()=>{
                         router.push('/become-validator')
                        }} className="btn primary-btn">Become a Validator</button>
                     </div>
@@ -98,7 +88,7 @@ const BoneStaking = () => {
           </div>
         </section>
         {/* banner section closed */}
-        <NetworkDetails />
+        <NetworkDetails valCount={valCount} />
         {/* ValidatorsCard starts  */}
         <ValidatorsCard />
         {/* ValidatorsCard ends  */}

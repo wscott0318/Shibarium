@@ -21,7 +21,7 @@ export const currentGasPrice = async (web3) => {
     let value;
     await web3.eth.getGasPrice()
     .then((res) => {
-        value = parseInt(res * 2.1);
+        value = parseInt(res * 1.1);
     })
     .catch((err) => {
       console.log(err)
@@ -43,3 +43,17 @@ export const currentGasPrice = async (web3) => {
   }
 
   export const tokenDecimal = 6
+
+  export const toFixedNull = 2
+  export const toFixedPrecent = 2
+
+  export const web3Decimals = 18
+
+  export const addDecimalValue = (value) => {
+    let num = value % 1;
+    if(num > 0){
+      return value.toFixed(tokenDecimal)
+    } else {
+      return value.toFixed(toFixedNull)
+    }
+  }
