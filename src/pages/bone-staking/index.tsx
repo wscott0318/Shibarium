@@ -62,7 +62,7 @@ const BoneStaking = () => {
                   <h1 className="ff-mos">Start Earning Rewards with <br /><span className="white-bg">Shibarium Staking</span></h1>
                   {userType === 'Validator' ? null : <div className="btns-sec btn-width">
                     <div className="btns-wrap ">
-                       <button disabled={valCount <= valMaxCount ? false : true} onClick={()=>{
+                       <button disabled={+valCount <= +valMaxCount ? false : true} onClick={()=>{
                         router.push('/become-validator')
                        }} className="btn primary-btn">Become a Validator</button>
                     </div>
