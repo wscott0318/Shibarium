@@ -18,6 +18,7 @@ import Footer from "../footer/index";
 import StakingHeader from '../staking-header'
 import ValidatorsCard from "../all-validator/valitotors";
 import { ChainId } from "shibarium-chains";
+import { useActiveWeb3React } from "../../services/web3"
  
 const BoneStaking = () => {
   // const [validators, setValidators] = useState([]);
@@ -55,6 +56,7 @@ const BoneStaking = () => {
   const [modalShow, setModalShow] = useState(false);
   const router = useRouter();
   console.log(ChainId, " testing new package ====> ")
+  const { chainId = 1, account, library } = useActiveWeb3React();
 
   const [show, setshow] = React.useState();
   return (

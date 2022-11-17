@@ -13,7 +13,7 @@ import { queryProvider } from 'Apollo/client';
 import { allValidatorsQuery } from 'Apollo/queries';
 
 const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) => {
-    const pageSize = 4;
+    const pageSize = 10;
 
     const [loading, setLoading] = useState<boolean>(true);
     const [validatorsByStatus, setValidatorsByStatus] = useState<any[]>([]);
@@ -55,6 +55,8 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     //   }
    
     // },[isActiveTab])
+
+    console.log(allValidators, "list ")
 
     useEffect(() => {
       setLoading(false)

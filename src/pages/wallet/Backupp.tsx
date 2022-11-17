@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect, useContext } from "react";
-import { tokenDecimal } from "web3/commonFunctions";
+
 import { Button, Container, Nav, Navbar, NavDropdown, DropdownButton, Dropdown, Modal } from 'react-bootstrap';
 // @ts-ignore
 import Popup from "../components/PopUp";
 import { ChainId } from "shibarium-chains";
 import Web3 from "web3";
 import CommonModal, { CommonModalNew } from "../components/CommonModel";
-import InnerHeader from "../../pages/inner-header";
+import InnerHeader from "../inner-header";
 // @ts-ignore
 import Link from 'next/link'
 import { useRouter } from "next/router";
@@ -37,7 +37,7 @@ import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import Router from "next/router";
 import { getExplorerLink } from "app/functions";
-import CommingSoon from "../../components/coming-soon";
+import { currentGasPrice } from "web3/commonFunctions";
 
 const sendInitialState = {
   step0: true,
@@ -102,7 +102,15 @@ export default function Wallet() {
     return result
   }
 
-
+  const getNetworkName = () => {
+    if (chainId == 1) {
+      return "Ethereum Mainnet"
+    } else if (chainId == 5) {
+      return "Goerli Testnet"
+    } else {
+      return "Shibarium Mainnet"
+    }
+  }
 
   const getTokensList = () => {
     // console.log("token list called ==> ")
@@ -223,12 +231,24 @@ export default function Wallet() {
 
   // console.log(tokenList, tokenFilteredList, slicedTokenFilteredList)
 
-  const submitTransaction = () => {
+  const submitTransaction = async () => {
     let user: any = account;
     let amount = web3.utils.toBN(fromExponential(+sendAmount * Math.pow(10, 18)));
-    let instance = new web3.eth.Contract(ERC20, selectedToken.parentContract);
+    let instance = new web3.eth.Contract(ERC20, '0x5063b1215bbF268ab00a5F47cDeC0A4783c3Ab58');
     instance.methods.transfer(senderAddress, amount).send({ from: user })
-      .on('transactionHash', (res: any) => {
+
+    let gasFee =  await instance.methods.transfer(senderAddress, amount).estimateGas({from: user})
+    let encodedAbi =  await instance.methods.transfer(senderAddress, amount).encodeABI()
+    let CurrentgasPrice : any = await currentGasPrice(web3)
+       console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+       await web3.eth.sendTransaction({
+         from: user,
+         to: '0x5063b1215bbF268ab00a5F47cDeC0A4783c3Ab58',
+         gas: (parseInt(gasFee) + 30000).toString(),
+         gasPrice: CurrentgasPrice,
+         // value : web3.utils.toHex(combinedFees),
+         data: encodedAbi
+       }).on('transactionHash', (res: any) => {
         // console.log(res, "hash")
         setTransactionHash(res)
         setSendModal({
@@ -536,7 +556,7 @@ export default function Wallet() {
                                 prefix="$ "
                                 value={(
                                   (selectedToken?.balance || 0) * boneUSDValue
-                                ).toFixed(tokenDecimal)}
+                                ).toFixed(2)}
                               />
                             </span>
                             <span
@@ -574,14 +594,14 @@ export default function Wallet() {
                           </div>
                           <div className="col-6 active-btn">
                             <button
-                              disabled={
-                                isValidAddress &&
-                                +sendAmount < selectedToken.balance &&
-                                selectedToken.balance > 0 &&
-                                +sendAmount > 0
-                                  ? false
-                                  : true
-                              }
+                              // disabled={
+                              //   isValidAddress &&
+                              //   +sendAmount < selectedToken.balance &&
+                              //   selectedToken.balance > 0 &&
+                              //   +sendAmount > 0
+                              //     ? false
+                              //     : true
+                              // }
                               onClick={(e) => handleSend(e)}
                               className="btn primary-btn w-100"
                             >
@@ -625,7 +645,7 @@ export default function Wallet() {
                             displayType={"text"}
                             prefix="$ "
                             value={((+sendAmount || 0) * boneUSDValue).toFixed(
-                              tokenDecimal
+                              2
                             )}
                           />
                         </p>
@@ -723,7 +743,7 @@ export default function Wallet() {
                             displayType={"text"}
                             prefix="$ "
                             value={((+sendAmount || 0) * boneUSDValue).toFixed(
-                              tokenDecimal
+                              2
                             )}
                           />
                         </p>
@@ -870,9 +890,226 @@ export default function Wallet() {
         <section className="assets-section">
           <div className="cmn_dashbord_main_outr">
             <InnerHeader />
+            {/* assets section start */}
+            <div className="assets_outr">
+              <h2>My Balance</h2>
+              <div className="assets_top_area bal-row">
+                <div className="bal-col">
+                  <div className="main_net_amnt t_a_clm h-100">
+                    <h1 className="fix-value">
+                      <NumberFormat
+                        thousandSeparator
+                        displayType={"text"}
+                        prefix="$ "
+                        value={((availBalance || 0) * boneUSDValue).toFixed(2)}
+                      />
+                    </h1>
+                    <p>{getNetworkName()}</p>
+                  </div>
+                </div>
+                <div className="bal-col">
+                  <div className="btns_area t_a_clm h-100">
+                    <button
+                      type="button"
+                      onClick={() => setUserQrCode(true)}
+                      className="btn grey-btn w-100 d-flex align-items-center justify-content-center"
+                    >
+                      <span className="me-2">
+                        <img
+                          className="btn-img"
+                          src="../../images/recive-icon.png"
+                          alt="recive"
+                        />
+                      </span>
+                      Receive
+                    </button>
 
-            <CommingSoon />
-      
+                    <button
+                      onClick={() => setSenderModal(true)}
+                      className="btn grey-btn w-100 d-flex align-items-center justify-content-center"
+                    >
+                      <span className="me-2">
+                        <img
+                          className="btn-img"
+                          src="../../images/send-icon.png"
+                          alt="recive"
+                        />
+                      </span>
+                      Send
+                    </button>
+                  </div>
+                </div>
+                <div className="bal-col">
+                  <div className="lrg_btns_area t_a_clm">
+                    <Link href="/" passHref>
+                      <a className="btn white-btn w-100 d-block">
+                        Move funds from Ethereum to Shibarium
+                      </a>
+                    </Link>
+
+                    <Link href="/how-it-works" passHref>
+                      <a
+                        target="_blank"
+                        className="btn white-btn w-100 d-block"
+                      >
+                        How Shibarium works
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+              <div className="assets_btm_area">
+                <h2>Assets on {getNetworkName()}</h2>
+                <div className="cmn_dasdrd_table mb-3 mb-sm-4 fix-layout walet-tb">
+                  <div className="table-responsive">
+                    <table className="table table-borderless mb-0 smb-0 fxd-layout">
+                      <thead>
+                        <tr>
+                          <th colSpan={2}>Name</th>
+                          <th className="text-center">Quantity - Balance</th>
+                          {/* <th className="text-center"></th> */}
+                          <th colSpan={3} className="th-wrap-col">
+                            <div className="th-flex-col">
+                              <div className="table-th">
+                                <span>Actions</span>
+                              </div>
+                              <div className="table-search">
+                                <input
+                                  className="shib-search"
+                                  value={searchKey}
+                                  onChange={(e) =>
+                                    handleSearchList(e.target.value)
+                                  }
+                                  type="search"
+                                  placeholder="Search"
+                                />
+                              </div>
+                            </div>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {slicedTokenFilteredList.length ? (
+                          slicedTokenFilteredList.map((x: any) => (
+                            <tr key={x.parentName}>
+                              <td className="fix-td" colSpan={2}>
+                                <span className="ms-1">
+                                  <img
+                                    src={
+                                      x.logo
+                                        ? x.logo
+                                        : "../../images/shiba-round-icon.png"
+                                    }
+                                  />
+                                </span>
+                                <b>{x.parentSymbol}</b>
+                              </td>
+                              <td className="fix-td">
+                                <div className="d-flex align-items-center justify-content-center">
+                                  <span>{x.balance || "0.00"} - </span>
+                                  <span>
+                                    <NumberFormat
+                                      thousandSeparator
+                                      displayType={"text"}
+                                      prefix="$ "
+                                      value={(
+                                        (x.balance || 0) * boneUSDValue
+                                      ).toFixed(2)}
+                                    />
+                                  </span>
+                                </div>
+                              </td>
+                              <td className="fix-td" colSpan={3}>
+                                <div className="row mx-0">
+                                  <div className="col-4 px-0">
+                                    {/* <Link href="/withdraw"> */}
+                                    <button
+                                      className="d-block w-100"
+                                      onClick={() => sendTokenWithRoute(x)}
+                                    >
+                                      <a className="px-0 d-block hover-btn text-start">
+                                        Deposit
+                                      </a>
+                                    </button>
+                                    {/* </Link> */}
+                                  </div>
+                                  <div className="col-4 px-0">
+                                    <button
+                                      className="d-block w-100"
+                                      onClick={() =>
+                                        sendTokenWithRoute(x, "withdraw")
+                                      }
+                                    >
+                                      <a className=" px-0 d-block text-center hover-btn">
+                                        Withdraw
+                                      </a>
+                                    </button>
+                                  </div>
+                                  <div className="col-4 px-0">
+                                    {/* <Link href="/"> */}
+                                    <button
+                                      className="d-block w-100 text-end"
+                                      onClick={() => {
+                                        setSelectedToken(x);
+                                        setSenderModal(true);
+                                      }}
+                                    >
+                                      <a className=" px-0 me-2 hover-btn">
+                                        Send
+                                      </a>
+                                    </button>
+                                    {/* </Link> */}
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          ))
+                        ) : listLoader &&
+                          !searchKey.length &&
+                          !tokenFilteredList.length ? (
+                          <tr>
+                            <td colSpan={6}>
+                              <DynamicShimmer
+                                type={"table"}
+                                rows={3}
+                                cols={3}
+                              />
+                            </td>
+                          </tr>
+                        ) : null}
+                      </tbody>
+                    </table>
+                  </div>
+                  {searchKey.length && !tokenFilteredList.length ? (
+                    // <tr>
+                    //   <td colSpan={6}>
+                    //     <p className="p-3 p-sm-4 p-xl-5 text-center float-found">
+                    //       No record found
+                    //     </p>
+                    //   </td>
+                    // </tr>
+                    <div className="no-found">
+                      <div className="no-found-img">
+                        <img
+                          className="img-fluid"
+                          src="../../images/no-record.png"
+                        />
+                      </div>
+                      {/* <p className="float-found text-center">No Record Found</p */}
+                    </div>
+                  ) : null}
+                </div>
+                {slicedTokenFilteredList.length ? (
+                  <Pagination
+                    currentPage={currentPage}
+                    pageSize={pageSize}
+                    totalCount={tokenFilteredList.length}
+                    onPageChange={pageChangeHandler}
+                  />
+                ) : null}
+              </div>
+            </div>
+            {/* assets section end */}
           </div>
         </section>
       </main>

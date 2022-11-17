@@ -4,7 +4,7 @@
 const linguiConfig = require('./lingui.config.js')
 const defaultTheme = require('tailwindcss/defaultTheme')
 
-const { ChainId } = require('@shibarium/core-sdk')
+const { ChainId } = require('shibarium-chains')
 
 const { locales, sourceLocale } = linguiConfig
 const { screens } = defaultTheme

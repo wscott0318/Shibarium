@@ -183,7 +183,7 @@ const [scroll, setScroll] = useState(false);
                                 alt=""
                               />
                             </div>
-                            <div className="head-txt">
+                            <div className="head-txt fx-txt">
                               <div className="top-txt">
                                 <div>
                                   <span>

@@ -8,7 +8,7 @@ import Popup from "../components/PopUp";
 import { ChainId } from "shibarium-chains";
 import Web3 from "web3";
 import CommonModal, { CommonModalNew } from "../components/CommonModel";
-import InnerHeader from "../../pages/inner-header";
+import InnerHeader from "../inner-header";
 // @ts-ignore
 import Link from 'next/link'
 import { useRouter } from "next/router";
