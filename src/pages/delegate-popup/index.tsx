@@ -115,12 +115,14 @@ const DelegatePopup: React.FC<any> = ({
       amount: values.balance,
     };
     setTnxCompleted(false);
-    // console.log(requestBody);
+    console.log(requestBody);
     if (account) {
       let lib: any = library;
       let web3: any = new Web3(lib?.provider);
       let walletAddress = account;
-      let _minSharesToMint = 1;
+      let _minSharesToMint = web3.utils.toBN(
+        fromExponential(1 * Math.pow(10, 18))
+      );
       let allowance =
         (await getAllowanceAmount(lib, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].PROXY_MANAGER)) || 0;
       let amount = web3.utils.toBN(
@@ -234,19 +236,20 @@ const DelegatePopup: React.FC<any> = ({
           ValidatorShareABI,
           requestBody.validatorAddress
         );
-       let gasFee =  await instance.methods.buyVoucher(amount, _minSharesToMint).estimateGas({from: walletAddress})
-       let encodedAbi =  await instance.methods.buyVoucher(amount, _minSharesToMint).encodeABI()
-       let CurrentgasPrice : any = await currentGasPrice(web3)
-          console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
-          await web3.eth.sendTransaction({
-            from: walletAddress,
-            to: requestBody.validatorAddress,
-            gas: (parseInt(gasFee) + 30000).toString(),
-            gasPrice: CurrentgasPrice,
-            // value : web3.utils.toHex(combinedFees),
-            data: encodedAbi
-          })
-          .on('transactionHash', (res: any) => {
+      //  let gasFee =  await instance.methods.buyVoucher(amount, _minSharesToMint).estimateGas({from: walletAddress})
+      //  let encodedAbi =  await instance.methods.buyVoucher(amount, _minSharesToMint).encodeABI()
+      //  let CurrentgasPrice : any = await currentGasPrice(web3)
+          // console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+          // await web3.eth.sendTransaction({
+          //   from: walletAddress,
+          //   to: requestBody.validatorAddress,
+          //   gas: (parseInt(gasFee) + 30000).toString(),
+          //   gasPrice: CurrentgasPrice,
+          //   // value : web3.utils.toHex(combinedFees),
+          //   data: encodedAbi
+          // })
+          console.log({amount, _minSharesToMint})
+          await instance.methods.buyVoucher(amount, _minSharesToMint).send({from : walletAddress}).on('transactionHash', (res: any) => {
             setLoader(false)
             dispatch(
               addTransaction({
