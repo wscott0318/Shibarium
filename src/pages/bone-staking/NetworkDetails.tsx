@@ -12,12 +12,14 @@ import axios from "axios";
 import { addDecimalValue, tokenDecimal } from 'web3/commonFunctions';
 import { useWeb3React } from '@web3-react/core'
 import { dynamicChaining } from 'web3/DynamicChaining';
+import Web3 from 'web3';
 
 
-function NetworkDetails() {
+function NetworkDetails({valCount} : any) {
 
   const [boneUSDValue, setBoneUSDValue] = useState<number>(0);
   const [latestBlock, setLatestBlock] = useState<number>(0);
+
 
   const [totalStake, setTotalStake] = useState(0);
   const [networkDetails, setNetworkDetails] = useState<any>({})
@@ -63,13 +65,13 @@ function NetworkDetails() {
     console.log(valFromContract, "address ===> ")
   }
 
-  test()
+  // test()
 
     // GET VALIDATOR ID 
     const getTotalStakes = async () => {
       let user = account;
       if (account) {
-        const instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
+        const instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId]?.PROXY_MANAGER);
         const ID = await instance.methods.validatorState().call({ from: account });
         let stake = +ID.amount / 10 ** 18
         setTotalStake(stake)
@@ -89,6 +91,11 @@ function NetworkDetails() {
       })
     }
 
+
+
+
+
+
   return (
     <>
         {/* card-section */}
@@ -105,7 +112,7 @@ function NetworkDetails() {
                   <div className="cus-box">
                     <div className="head-sec">
                       <div className="top-head">
-                        <span>{networkDetails?.validatorCount}</span>
+                        <span>{valCount}</span>
                       </div>
                     </div>
                     <div className="botom-sec">
