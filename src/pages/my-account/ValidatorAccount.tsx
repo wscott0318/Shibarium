@@ -12,7 +12,7 @@ import Web3 from 'web3';
 import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
 import { useAppDispatch } from "../../state/hooks"
 import fromExponential from 'from-exponential';
-import { getAllowanceAmount } from 'web3/commonFunctions';
+import { addDecimalValue, getAllowanceAmount } from 'web3/commonFunctions';
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { getExplorerLink } from 'app/functions';
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
@@ -575,7 +575,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
   const getStake = (id : String) => {
     let item = stakeAmounts.length ? stakeAmounts.filter((x:any) => x.validatorId === id)[0]?.tokens : 0
-    return item > 0 ? (parseInt(item) / 10 ** 18).toFixed(tokenDecimal) : "00.00"
+    return item > 0 ? (parseInt(item) / 10 ** 18).toFixed(tokenDecimal) : "0.00"
   } 
 
   const [validatorInfo, setValidatorInfo] = useState<any>();
@@ -605,7 +605,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     (Number(fromExponential(validatorInfo?.totalRewards)) -
       Number(fromExponential(validatorInfo?.claimedReward))) /
     Math.pow(10, 18)
-  ).toFixed(tokenDecimal) : "00.00"  
+  ).toFixed(tokenDecimal) : "0.00"  
 
   return (
     <>
@@ -1078,14 +1078,14 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>{availBalance.toFixed(tokenDecimal)}</span> BONE
+                              <span>{addDecimalValue(availBalance)}</span> BONE
                             </div>
                             <div className="mid-head">
                               <span><NumberFormat
                                 thousandSeparator
                                 displayType={"text"}
                                 prefix="$ "
-                                value={((availBalance || 0) * boneUSDValue).toFixed(tokenDecimal)}
+                                value={addDecimalValue((availBalance || 0) * boneUSDValue)}
                               /></span>
                             </div>
                           </div>
@@ -1127,7 +1127,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                 thousandSeparator
                                 displayType={"text"}
                                 prefix="$ "
-                                value={(+rewardBalance * boneUSDValue).toFixed(tokenDecimal)}
+                                value={addDecimalValue(+rewardBalance * boneUSDValue)}
                               />
                               </span>
                             </div>
@@ -1144,7 +1144,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>{validatorInfo?.totalRewards ? (parseInt(validatorInfo?.totalRewards) / Math.pow(10, 18)).toFixed(tokenDecimal) : "00.00"} </span> BONE
+                              <span>{validatorInfo?.totalRewards ? (parseInt(validatorInfo?.totalRewards) / Math.pow(10, 18)).toFixed(tokenDecimal) : "0.00"} </span> BONE
                             </div>
                             <div className="mid-head">
                               <span>
@@ -1351,7 +1351,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                         parseInt(item.reward) /
                                         10 ** 18
                                       ).toFixed(tokenDecimal)
-                                    : "00.00"}
+                                    : "0.00"}
                                 </div>
                                 {/* {/ <div>$0</div> /} */}
                               </div>
