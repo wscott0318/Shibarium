@@ -5,29 +5,19 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Dropdown, Navbar, Container, Nav } from "react-bootstrap";
 import { useRouter } from "next/router";
-import InnerHeader from "../inner-header";
-import DelegatePopup from "../delegate-popup";
-import Link from "next/link";
-import BorderBtn from "../components/BorderBtn";
-import WarningBtn from "../components/WarningBtn";
-import Valitotors from "../all-validator/valitotors";
 import { useUserType, useUserOpenMev } from "../../state/user/hooks";
 import { UserType } from "../../enums/UserType";
 import NetworkDetails from './NetworkDetails';
-import Footer from "../footer/index";
-import StakingHeader from '../staking-header'
 import ValidatorsCard from "../all-validator/valitotors";
-import { ChainId } from "shibarium-chains";
 import { useActiveWeb3React } from "../../services/web3"
 import proxyManagerABI from "../../ABI/StakeManagerProxy.json";
 import { dynamicChaining } from 'web3/DynamicChaining';
-import { useWeb3React } from '@web3-react/core'
 import Web3 from "web3";
  
 const BoneStaking = () => {
 
   const [userType, setUserType] = useUserType();
-  const { account , library, chainId = 1} = useWeb3React()
+  const { account , library, chainId = 1} = useActiveWeb3React()
   const router = useRouter();
   const [valCount, setValCount] = useState(0);
   const [valMaxCount, setValMaxCount] = useState(0);
