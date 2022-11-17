@@ -379,9 +379,9 @@ const handleSearchList = (key :any) => {
                   parentSymbol:"BONE2"
                 };
                 localStorage.setItem('newToken',JSON.stringify(obj));
-                let newAddedToken = JSON.parse(localStorage.getItem('newToken'));
-                let updatedArray = [...tokenModalList,newAddedToken];
-                setTokenModalList(updatedArray); 
+                // let newAddedToken = JSON.parse(localStorage.getItem('newToken'));
+                // let updatedArray = [...tokenModalList,newAddedToken];
+                // setTokenModalList(updatedArray); 
                   toast.success("BONE2 successfully added.", {
                     position: toast.POSITION.BOTTOM_CENTER,
                     autoClose: 3000,
