@@ -9,7 +9,7 @@ import NumberFormat from 'react-number-format';
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 import proxyManagerABI from "../../ABI/StakeManagerProxy.json"
 import axios from "axios";
-import { tokenDecimal } from 'web3/commonFunctions';
+import { addDecimalValue, tokenDecimal } from 'web3/commonFunctions';
 import { useWeb3React } from '@web3-react/core'
 import { dynamicChaining } from 'web3/DynamicChaining';
 
@@ -110,7 +110,7 @@ function NetworkDetails() {
                     <div className="head-sec">
                       <div className="top-head">
                         <span>
-                        <NumberFormat thousandSeparator displayType={"text"} value={(+totalStake || 0).toFixed(tokenDecimal)} /> BONE
+                        <NumberFormat thousandSeparator displayType={"text"} value={addDecimalValue(+totalStake || 0)} /> BONE
                         </span>
                       </div>
                       <div className="mid-head">
@@ -131,12 +131,12 @@ function NetworkDetails() {
                     <div className="head-sec">
                       <div className="top-head">
                         <span>
-                        <NumberFormat thousandSeparator displayType={"text"}value={(+networkDetails?.totalReward || 0).toFixed(tokenDecimal)} /> BONE
+                        <NumberFormat thousandSeparator displayType={"text"}value={addDecimalValue(+networkDetails?.totalReward || 0)} /> BONE
                         </span>
                       </div>
                       <div className="mid-head">
                         <span>
-                        <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={((networkDetails?.totalReward || 0) * boneUSDValue).toFixed(tokenDecimal)} />
+                        <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={addDecimalValue((networkDetails?.totalReward || 0) * boneUSDValue)} />
                         </span>
                       </div>
                     </div>

@@ -43,3 +43,17 @@ export const currentGasPrice = async (web3) => {
   }
 
   export const tokenDecimal = 6
+
+  export const toFixedNull = 2
+  export const toFixedPrecent = 2
+
+  export const web3Decimals = 18
+
+  export const addDecimalValue = (value) => {
+    let num = value % 1;
+    if(num > 0){
+      return value.toFixed(tokenDecimal)
+    } else {
+      return value.toFixed(toFixedNull)
+    }
+  }

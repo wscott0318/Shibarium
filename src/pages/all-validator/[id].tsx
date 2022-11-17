@@ -16,7 +16,7 @@ import NumberFormat from 'react-number-format';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Delegators from './validator-details/Delegators';
 import Checkpoints from './validator-details/Checkpoints';
-import { tokenDecimal } from "web3/commonFunctions";
+import { addDecimalValue, tokenDecimal } from "web3/commonFunctions";
 
 
 export default function ValidatorDetails() {
@@ -104,7 +104,7 @@ export default function ValidatorDetails() {
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Supply</h6>
                                                 <p className='mb-0 trs-3 ff-mos'>
-                                                <NumberFormat displayType='text' thousandSeparator value={totalSupply.toFixed(tokenDecimal)} /> BONE
+                                                <NumberFormat displayType='text' thousandSeparator value={addDecimalValue(totalSupply)} /> BONE
                                                 </p>
                                             </li>
                                             {/* <li className='info-data-lst'>
