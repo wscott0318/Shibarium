@@ -58,7 +58,7 @@ function NetworkDetails() {
 
   const test = async () => {
     let instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
-    console.log(instance, "added ====> instance ")
+    // console.log(instance, "added ====> instance ")
     const valFromContract = await instance.methods.validators(9).call({from : account})
     console.log(valFromContract, "address ===> ")
   }
