@@ -37,6 +37,8 @@ import { tokenDecimal } from "web3/commonFunctions";
 import { useWeb3React } from "@web3-react/core";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import addTokenAbi from "../../ABI/custom-token-abi.json"
+import { AbiItem } from "web3-utils";
 
 export default function Withdraw() {
 
@@ -119,6 +121,13 @@ export default function Withdraw() {
     //   router.push('/')
     // }
   }, [account])
+  // useEffect(() => {
+  //   let newAddedToken = JSON.parse(localStorage.getItem("newToken"));
+  //   let updatedArray = [...tokenModalList, newAddedToken];
+  //   addNewToken(updatedArray); 
+  //   console.log('newToken',newToken);
+  // }, [])
+  
   
 const handleSearchList = (key :any) => {
       setmodalKeyword(key);
@@ -343,122 +352,104 @@ const handleSearchList = (key :any) => {
       }
       }
 
+      // useEffect(() => {
+      //   const isValidAddress = web3.utils.isAddress(String(newToken));
+      //   if(isValidAddress){
+      //      let contractInstance = new web3.eth.Contract(
+      //        addTokenAbi,
+      //        String(newToken)
+      //      );
+      //   contractInstance.methods
+      //         .symbol()
+      //         .call({ from: account })
+      //         .then((token:any) =>      console.log("result", token))
+      //         .catch((err:any)=>console.log(err));
+      //   }
+      // }, [newToken])
+      
+
         const addTokenHandler = async () => {
-          if(newToken.length)
-          {
-            const checkArray = tokenModalList.map((st:any)=>st.parentContract);
-            
-            const isAlreadyPresent = checkArray.includes(String(newToken));
-        
-            if (isAlreadyPresent) {
-              toast.error("Address already exists !", {
-                position: toast.POSITION.BOTTOM_CENTER,
-                autoClose: 3000,
-              });
-            } else {
-              if(tokenState.step2){
-                toast.success("Address can be added !", {
-                position: toast.POSITION.BOTTOM_CENTER,
-                autoClose: 3000,
-              });
-                setTokenState({
-                  step0: false,
-                  step1: false,
-                  step2: false,
-                  step3: true,
-                  step4: false,
-                  title: "Manage Token",
-                });
-              }
-              else if(tokenState.step3 && !isAlreadyPresent) {
-                console.log("tokenModalList",tokenModalList);
-                const obj = {
-                  parentContract: String(newToken),
-                  childContract: String(newToken),
-                  parentName:"BONE2",
-                  parentSymbol:"BONE2"
-                };
-                localStorage.setItem('newToken',JSON.stringify(obj));
-                let newAddedToken = JSON.parse(localStorage.getItem('newToken'));
-                let updatedArray = [...tokenModalList,newAddedToken];
-                setTokenModalList(updatedArray); 
-                  toast.success("BONE2 successfully added.", {
-                    position: toast.POSITION.BOTTOM_CENTER,
-                    autoClose: 3000,
-                  });
-              }
-            }
-          }
-          else {
-            toast.error("First add token address to be added !", {
-              position: toast.POSITION.BOTTOM_CENTER,
-              autoClose: 3000,
+          console.log("account",account);
+          const isValidAddress = await web3.utils.isAddress(String(newToken));
+          console.log("isValidAddress",isValidAddress);
+          if (isValidAddress && newToken.length) {
+            toast.success("Address is valid", {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 600,
+            });
+            const contractInstance = new web3.eth.Contract(
+              addTokenAbi,
+              String(newToken)
+            );
+            // let result = await contractInstance.methods
+            //   .symbol()
+            //   .call({ from: account })
+            //   .then((token:any) => token)
+            //   .catch((err:any)=>console.log(err));
+            await contractInstance.methods.symbol()
+            .call({ from: String(account) })
+            .then((token: any) => console.log("result", token))
+              .catch((err: any) => console.log(err));
+          } else if (!isValidAddress && newToken !== "") {
+            toast.error("Invalid Address", {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 600,
             });
           }
-          // try {
-            // let web3 = new Web3(window.web3.currentProvider: string);
-            // const alreadyIndex = tokenModalList.findIndex(
-            //   (el: any) => el.parentContract === contract
-            // );
-            // if (alreadyIndex !== -1) {
-            //   console.log("Exists already");
-            // }
-            // else {
-            //   console.log("Can be added");
-            // }
+           
+          
+          
+          // if(newToken.length)
+          // {
+          //   const checkArray = tokenModalList.map((st:any)=>st.parentContract);
             
-            // if (alreadyIndex !== -1) {
-              // Toast.fire({
-              //   icon: "error",
-              //   text: "This token already exists.",
-              // });
-              // setIsAlreadyTokenExist(true);
-              // setIsWrongToken(false);
-            //   return;
-            // } else {
-              // setIsAlreadyTokenExist(false);
-            // }
-
-            // const isValidAddress = await web3.utils.isAddress(contract);
-            // if (!isValidAddress) {
-            //   // Toast.fire({
-            //   //   icon: "error",
-            //   //   text: "Invalid Token Address",
-            //   // });
-            //   // setIsWrongToken(true);
-            //   // setIsAlreadyTokenExist(false);
-            //   return;
-            // } else {
-            //   // setIsWrongToken(false);
-            // }
-
-            // const contractInstance = new web3.eth.Contract(
-            //   addTokenAbi as AbiItem[],
-            //   contract
-            // );
-            // const response = await contractInstance.methods.symbol().call();
-            // if (response) {
-            //   const chainList = await getDefaultChain();
-            //   const newToken = {
-            //     address: contract,
-            //     name: response,
-            //     label: response,
-            //     image: '',
-            //     decimals: 18,
-            //     custom: true,
-            //     addedByMe: true,
-            //     chain: chainList,
-            //   };
-
-              // setAddedToken(newToken);
-            // }
-          // } catch (error) {
-            // Toast.fire({
-            //   icon: "error",
-            //   text: "Seems like your contract address is incorrect.",
-            // });
-
-            // setIsWrongToken(true);
+          //   const isAlreadyPresent = checkArray.includes(String(newToken));
+        
+          //   if (isAlreadyPresent) {
+          //     toast.error("Address already exists !", {
+          //       position: toast.POSITION.BOTTOM_CENTER,
+          //       autoClose: 3000,
+          //     });
+          //   } else {
+          //     if(tokenState.step2){
+          //       toast.success("Address can be added !", {
+          //       position: toast.POSITION.BOTTOM_CENTER,
+          //       autoClose: 3000,
+          //     });
+          //       setTokenState({
+          //         step0: false,
+          //         step1: false,
+          //         step2: false,
+          //         step3: true,
+          //         step4: false,
+          //         title: "Manage Token",
+          //       });
+          //     }
+          //     else if(tokenState.step3 && !isAlreadyPresent) {
+          //       console.log("tokenModalList",tokenModalList);
+          //       const obj = {
+          //         parentContract: String(newToken),
+          //         childContract: String(newToken),
+          //         parentName:"BONE2",
+          //         parentSymbol:"BONE2"
+          //       };
+          //       localStorage.setItem('newToken',JSON.stringify(obj));
+          //       let newAddedToken = JSON.parse(localStorage.getItem('newToken'));
+          //       let updatedArray = [...tokenModalList,newAddedToken];
+          //       setTokenModalList(updatedArray); 
+          //         toast.success("BONE2 successfully added.", {
+          //           position: toast.POSITION.BOTTOM_CENTER,
+          //           autoClose: 3000,
+          //         });
+          //     }
+          //   }
+          // }
+          // else {
+          //   // if(newToken === '')
+          //   // toast.error("Please add token address to be added !", {
+          //   //   position: toast.POSITION.BOTTOM_CENTER,
+          //   //   autoClose: 3000,
+          //   // });
           // }
         };
 
@@ -468,6 +459,9 @@ const handleSearchList = (key :any) => {
           addNewToken('');
         }
       }, [showTokenModal])
+      useEffect(()=>{
+        addTokenHandler();
+      },[newToken])
       
   console.log('showTokenModal',showTokenModal)
   return (
@@ -1731,6 +1725,7 @@ const handleSearchList = (key :any) => {
                           placeholder="Enter Token Address"
                           onChange={(e: any) => {
                             addNewToken(e.target.value);
+                            // addTokenHandler();
                           }}
                         />
                         <div className="search-icon">

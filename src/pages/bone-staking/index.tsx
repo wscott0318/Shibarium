@@ -19,6 +19,9 @@ import StakingHeader from '../staking-header'
 import ValidatorsCard from "../all-validator/valitotors";
 import { ChainId } from "shibarium-chains";
 import { useActiveWeb3React } from "../../services/web3"
+import proxyManagerABI from "../../ABI/StakeManagerProxy.json";
+import { dynamicChaining } from 'web3/DynamicChaining';
+import Web3 from "web3";
  
 const BoneStaking = () => {
   // const [validators, setValidators] = useState([]);
@@ -57,6 +60,24 @@ const BoneStaking = () => {
   const router = useRouter();
   console.log(ChainId, " testing new package ====> ")
   const { chainId = 1, account, library } = useActiveWeb3React();
+  const lib: any = library;
+  const web3: any = new Web3(lib?.provider);
+  const [validBtn, setValidBtn] = useState(false);
+  useEffect(() => {
+    let instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId]?.PROXY_MANAGER);
+
+        const xyz = instance.methods.currentValidatorSetSize().call({from:account});
+        const abc = instance.methods.validatorThreshold().call({from:account});
+        console.log("xyz",xyz);
+        console.log("abc",abc)
+          if(xyz === abc){
+            setValidBtn(true);
+          }
+            else if(xyz !== abc){
+            setValidBtn(false);
+          }
+  }, [])
+  
 
   const [show, setshow] = React.useState();
   return (
@@ -72,7 +93,7 @@ const BoneStaking = () => {
                   <h1 className="ff-mos">Start Earning Rewards with <br /><span className="white-bg">Shibarium Staking</span></h1>
                   {userType === 'Validator' ? null : <div className="btns-sec btn-width">
                     <div className="btns-wrap ">
-                       <button onClick={()=>{
+                       <button disabled={!validBtn} onClick={()=>{
                         router.push('/become-validator')
                        }} className="btn primary-btn">Become a Validator</button>
                     </div>

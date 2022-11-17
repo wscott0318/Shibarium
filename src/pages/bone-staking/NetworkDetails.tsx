@@ -59,7 +59,7 @@ function NetworkDetails() {
     const getTotalStakes = async () => {
       let user = account;
       if (account) {
-        const instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
+        const instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId]?.PROXY_MANAGER);
         const ID = await instance.methods.validatorState().call({ from: account });
         let stake = +ID.amount / 10 ** 18
         setTotalStake(stake)
