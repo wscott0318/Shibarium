@@ -11,8 +11,8 @@ import ConfirmPopUp from "../components/ConfirmPopUp";
 import LoadingSpinner from "../components/Loading";
 import { CommonModalNew } from "../components/CommonModel";
 import { TailSpin } from "react-loader-spinner";
-import { PROXY_MANAGER } from "web3/contractAddresses";
-import proxyManagerABI from "../../ABI/StakeManagerProxy.json";
+import { STAKE_MANAGER_PROXY } from "web3/contractAddresses";
+import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import fromExponential from "from-exponential";
 import Header from "pages/layout/header";
@@ -45,7 +45,7 @@ export default function Unbond() {
     const getValidatorContractAddress = async (validatorID:any) => {
         let user = account;
         if(account){
-          const instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
+          const instance = new web3.eth.Contract(stakeManagerProxyABI, STAKE_MANAGER_PROXY);
           const ID = await instance.methods.getValidatorContract(validatorID).call({ from: account });
           // console.log(ID)
           return ID

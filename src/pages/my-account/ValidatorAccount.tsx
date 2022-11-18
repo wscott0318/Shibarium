@@ -7,7 +7,7 @@ import LoadingSpinner from 'pages/components/Loading';
 import NumberFormat from 'react-number-format';
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import proxyManagerABI from "../../ABI/StakeManagerProxy.json";
+import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import Web3 from 'web3';
 import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
 import { useAppDispatch } from "../../state/hooks"
@@ -67,6 +67,13 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   });
 
   // console.log(chainId)
+
+
+  const getValidatorContract = async (id:any) => {
+      let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
+      const valFromContract = await instance.methods.validators(+id).call({from : account})
+      console.log(valFromContract, "address ===> ")
+  }
 
   const getDelegatorCardData = async (accountAddress: any) => {
     // console.log(" card data ", accountAddress)
@@ -162,7 +169,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   const getValidatorId = async () => {
     let user = account;
     if (account) {
-      const instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
+      const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
       const ID = await instance.methods.getValidatorId(user).call({ from: account }); // read
       console.log(ID)
       return ID
@@ -177,7 +184,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     let user: any = account
     console.log("comission called ==> ")
     let validatorID = await getValidatorId()
-    let instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
+    let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
     instance.methods.updateCommissionRate(validatorID, +value.comission).send({ from: account }) // write
       .on('transactionHash', (res: any) => {
         console.log(res, "hash")
@@ -226,14 +233,14 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       setTransactionState({ state: true, title: 'Pending' })
       let walletAddress: any = account
       let ID = await getValidatorId()
-      let allowance = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].PROXY_MANAGER) || 0
-      let instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
+      let allowance = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].STAKE_MANAGER_PROXY) || 0
+      let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
       const amountWei = web3.utils.toBN(fromExponential((+values.amount * Math.pow(10, 18))));
       if (+values.amount > +allowance) {
         console.log("need approval")
         approveAmount(ID, amountWei, values.reward == 0 ? false : true)
       } else {
-        console.log("no approval needed")
+        console.log(ID, "no approval needed")
         instance.methods.restake(ID, amountWei, values.reward == 0 ? false : true).send({ from: walletAddress })
           .on('transactionHash', (res: any) => {
             console.log(res, "hash")
@@ -287,9 +294,9 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       let user = account;
       let amount = web3.utils.toBN(fromExponential(1000 * Math.pow(10, 18)));
       let instance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
-      instance.methods.approve(dynamicChaining[chainId].PROXY_MANAGER, amount).send({ from: user })
+      instance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, amount).send({ from: user })
         .then((res: any) => {
-          let instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
+          let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
           instance.methods.restake(id, amounts, reward).send({ from: user })
             .on('transactionHash', (res: any) => {
               console.log(res, "hash")
@@ -393,7 +400,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       setTransactionState({ state: true, title: 'Pending' })
       let walletAddress: any = account
       let ID = await getValidatorId()
-      let instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
+      let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
       instance.methods.unstake(ID).send({ from: walletAddress })
         .on('transactionHash', (res: any) => {
           console.log(res, "hash")
@@ -1169,7 +1176,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>0.0000</span>BONE
+                              <span>0.00</span> BONE
                             </div>
                             <div className="mid-head">
                               <span>$ 0.00</span>
@@ -1187,7 +1194,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>0.0000</span>BONE
+                              <span>0.00</span> BONE
                             </div>
                             <div className="mid-head">
                               <span>$ 0.00</span>

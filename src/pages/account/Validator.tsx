@@ -29,8 +29,8 @@ import TriggerExample from "../../components/Icon/TooltipBootstrap"
 import Web3 from "web3";
 import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
-import proxyManagerABI from "../../ABI/StakeManagerProxy.json";
-import {PROXY_MANAGER} from "../../web3/contractAddresses";
+import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
+import {STAKE_MANAGER_PROXY} from "../../web3/contractAddresses";
 import fromExponential from 'from-exponential';
 import {BONE} from "../../web3/contractAddresses";
 import ERC20 from "../../ABI/ERC20Abi.json";
@@ -94,7 +94,7 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
   const getValidatorId = async () => {
     let user = account;
     if(account){
-      const instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
+      const instance = new web3.eth.Contract(stakeManagerProxyABI, STAKE_MANAGER_PROXY);
       const ID = await instance.methods.getValidatorId(user).call({ from: account });
       // console.log(ID)
       return ID
@@ -111,9 +111,9 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       let user = account;
       let amount = web3.utils.toBN(fromExponential(1000 * Math.pow(10, 18)));
       let instance = new web3.eth.Contract(ERC20, BONE);
-      instance.methods.approve(PROXY_MANAGER,amount).send({ from: user })
+      instance.methods.approve(STAKE_MANAGER_PROXY,amount).send({ from: user })
           .then((res: any) => {
-            let instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
+            let instance = new web3.eth.Contract(stakeManagerProxyABI, STAKE_MANAGER_PROXY);
             // console.log(res)
             setButtonText({
               validatorReskate: 'Restaking...'
@@ -272,8 +272,8 @@ const ValidatorAccount = ({ balance, boneUSDValue, userType, getCardsData }: Wal
       
         let walletAddress = account
         let ID = await getValidatorId()
-        let allowance = await getAllowanceAmount(library,BONE, account, PROXY_MANAGER) || 0
-        let instance = new web3.eth.Contract(proxyManagerABI, PROXY_MANAGER);
+        let allowance = await getAllowanceAmount(library,BONE, account, STAKE_MANAGER_PROXY) || 0
+        let instance = new web3.eth.Contract(stakeManagerProxyABI, STAKE_MANAGER_PROXY);
         const amountWei = web3.utils.toBN(fromExponential((+values.amount * Math.pow(10, 18))));
         if(+values.amount > +allowance){
           console.log("need approval")

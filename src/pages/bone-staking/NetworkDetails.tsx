@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format';
 // @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
-import proxyManagerABI from "../../ABI/StakeManagerProxy.json"
+import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json"
 import axios from "axios";
 import { addDecimalValue, tokenDecimal } from 'web3/commonFunctions';
 import { useWeb3React } from '@web3-react/core'
@@ -59,7 +59,7 @@ function NetworkDetails({valCount} : any) {
 
 
   const test = async () => {
-    let instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId].PROXY_MANAGER);
+    let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
     // console.log(instance, "added ====> instance ")
     const valFromContract = await instance.methods.validators(9).call({from : account})
     console.log(valFromContract, "address ===> ")
@@ -71,7 +71,7 @@ function NetworkDetails({valCount} : any) {
     const getTotalStakes = async () => {
       let user = account;
       if (account) {
-        const instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId]?.PROXY_MANAGER);
+        const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId]?.STAKE_MANAGER_PROXY);
         const ID = await instance.methods.validatorState().call({ from: account });
         let stake = +ID.amount / 10 ** 18
         setTotalStake(stake)

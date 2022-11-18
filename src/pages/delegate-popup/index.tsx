@@ -9,7 +9,6 @@ import { getExplorerLink } from 'app/functions/explorer';
 import { ChainId } from 'shibarium-chains';
 import ToastNotify from 'pages/components/ToastNotify';
 import { useTokenBalance } from 'app/hooks/useTokenBalance';
-import {L1Block} from "app/hooks/L1Block";
 import Web3 from "web3";
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import fromExponential from 'from-exponential';
@@ -20,7 +19,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { addTransaction , finalizeTransaction} from "../../state/transactions/actions";
 import {useAppDispatch} from "../../state/hooks"
-import {VALIDATORSHARE} from "../../web3/contractAddresses";
+import {VALIDATOR_SHARE} from "../../web3/contractAddresses";
 import { dynamicChaining } from 'web3/DynamicChaining';
 import { Spinner } from 'react-bootstrap';
 import { currentGasPrice } from "../../web3/commonFunctions"; 
@@ -124,7 +123,7 @@ const DelegatePopup: React.FC<any> = ({
         fromExponential(1 * Math.pow(10, 18))
       );
       let allowance =
-        (await getAllowanceAmount(lib, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].PROXY_MANAGER)) || 0;
+        (await getAllowanceAmount(lib, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].STAKE_MANAGER_PROXY)) || 0;
       let amount = web3.utils.toBN(
         fromExponential(+requestBody.amount * Math.pow(10, 18))
       );
@@ -134,8 +133,8 @@ const DelegatePopup: React.FC<any> = ({
           fromExponential(1000 * Math.pow(10, 18))
         );
         let approvalInstance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
-       let gasFee =  await approvalInstance.methods.approve(dynamicChaining[chainId].PROXY_MANAGER, approvalAmount).estimateGas({from: walletAddress})
-       let encodedAbi =  await approvalInstance.methods.approve(dynamicChaining[chainId].PROXY_MANAGER, approvalAmount).encodeABI()
+       let gasFee =  await approvalInstance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, approvalAmount).estimateGas({from: walletAddress})
+       let encodedAbi =  await approvalInstance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, approvalAmount).encodeABI()
        let CurrentgasPrice : any = await currentGasPrice(web3)
           console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
           await web3.eth.sendTransaction({

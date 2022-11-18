@@ -10,7 +10,7 @@ import { UserType } from "../../enums/UserType";
 import NetworkDetails from './NetworkDetails';
 import ValidatorsCard from "../all-validator/valitotors";
 import { useActiveWeb3React } from "../../services/web3"
-import proxyManagerABI from "../../ABI/StakeManagerProxy.json";
+import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { dynamicChaining } from 'web3/DynamicChaining';
 import Web3 from "web3";
  
@@ -32,7 +32,7 @@ const BoneStaking = () => {
   const getValCount = async () => {
     const lib: any = library;
     const web3: any = new Web3(lib?.provider);
-    let instance = new web3.eth.Contract(proxyManagerABI, dynamicChaining[chainId]?.PROXY_MANAGER);
+    let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId]?.STAKE_MANAGER_PROXY);
         const valCount = await instance.methods.currentValidatorSetSize().call({from:account});
         const validatorThreshold = await  instance.methods.validatorThreshold().call({from:account});
         setValCount(valCount)
