@@ -352,9 +352,9 @@ const handleSearchList = (key :any) => {
             const checkArray = tokenModalList.map(
               (st: any) => st?.parentContract
             );
-            let localtoken = JSON.parse(localStorage.getItem("newToken") || "[]");
-            let localtokenarray = localtoken.map((st:any)=>st.parentContract);
-            const isalreadypresent = checkArray.some((item : any) => localtokenarray.includes(item));
+            // let localtoken = JSON.parse(localStorage.getItem("newToken") || "[]");
+            let localtokenarray = localTokens.map((st:any)=>st.parentContract);
+            const isalreadypresent = checkArray.some((item : any) => localtokenarray.includes(newToken));
             if (isalreadypresent) {
               toast.error("Address already exists !", {
                 position: toast.POSITION.BOTTOM_CENTER,
@@ -381,19 +381,21 @@ const handleSearchList = (key :any) => {
                 parentName: name,
                 parentSymbol: symbol,
               };
-              localStorage.setItem("newToken", JSON.stringify([obj]));
-              let newAddedToken = JSON.parse(
-                localStorage.getItem("newToken") || "[]"
-              );
-              let updatedArray = [
-                ...tokenModalList,
-                newAddedToken[newAddedToken.length - 1],
-              ];
-              setTokenModalList(updatedArray);
-              setLocalTokens([
-                ...localTokens,
-                newAddedToken[newAddedToken.length - 1],
-              ]);
+              setLocalTokens([...localTokens,obj])
+              // localStorage.setItem("newToken", JSON.stringify(localTokens));
+              setTokenModalList([...tokenModalList,localTokens])
+              // let newAddedToken = JSON.parse(
+              //   localStorage.getItem("newToken") || "[]"
+              // );
+              // let updatedArray = [
+              //   ...tokenModalList,
+              //   newAddedToken[newAddedToken.length - 1],
+              // ];
+              // setTokenModalList(updatedArray);
+              // setLocalTokens([
+              //   ...localTokens,
+              //   newAddedToken[newAddedToken.length - 1],
+              // ]);
               toast.success(`${name} successfully added.`, {
                 position: toast.POSITION.BOTTOM_CENTER,
                 autoClose: 3000,
@@ -449,54 +451,96 @@ const handleSearchList = (key :any) => {
             title: "Manage Token",
           });
         }
+        if(tokenState.step4 && isValidAddress)
+        {
+          toast.success("Address is valid", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 600,
+          });
+          setTokenState({
+            step0: false,
+            step1: false,
+            step2: false,
+            step3: true,
+            step4: false,
+            title: "Manage Token",
+          });
+        }
+        const checkArray = tokenModalList.map((st: any) => st?.parentContract);
+        // let localtoken = JSON.parse(localStorage.getItem("newToken") || "[]");
+        let localtokenarray = localTokens.map((st: any) => st.parentContract);
+        const isalreadypresent = checkArray.some((item: any) =>
+          localtokenarray.includes(newToken)
+        );
+        if(isalreadypresent && newToken.length > 0)
+        {
+          toast.error("Address is already present", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 600,
+          });
+        }
       }, [newToken])
+
+      useEffect(() => {
+        if(showTokenModal)
+        {
+          localStorage.setItem("newToken", JSON.stringify(localTokens));
+          setTokenModalList([...tokenModalList, ...localTokens]);
+        }
+      }, [localTokens])
+     
+      useEffect(() => {
+        console.log("initial page load");
+        let customTokens = JSON.parse(localStorage.getItem('newToken'));
+        if(customTokens !== null)
+        {
+          setLocalTokens(customTokens);
+          let updatedArray = [...tokenModalList, ...customTokens];
+          setTokenModalList(updatedArray);
+        }
+        else if (customTokens === null) {
+          console.log("nothing");
+        }
+          
+      }, [])
+      
 
     
    const clearAllCustomTokens = () => {
     setLocalTokens([]);
     localStorage.setItem("newToken","[]");
    }
-   console.log("tokenmodallist",tokenModalList)
+
+   console.log("tokenmodallist",tokenModalList);
+
    const spliceCustomToken = (index:any) => {
     let incomingObject = localTokens[index];
     const filteredModallist = tokenModalList.filter((ss:any)=>{
       return ss.parentContract !== incomingObject.parentContract
     });
-    setTokenModalList([...filteredModallist]);
-    const spliced = localTokens.splice(0,index);
-    setLocalTokens(spliced);
-    localStorage.setItem("newToken",JSON.stringify(spliced))
-    
-    
+    setTokenModalList(filteredModallist);
    }
-   useEffect(() => {
-    // let checkToken = JSON.parse(localStorage.getItem("newToken") || "[]");
-    // code below is to check whether the local token is already present in the tokenModallist
-    // const isalready = arrayContainsObject(tokenModalList, checkToken);
-    // const localindexes = checkToken && checkToken.map((st:any)=>st.parentContract);
-    const checkArray = tokenModalList.map((st: any) => st?.parentContract);
-    let localtoken : any = JSON.parse(localStorage.getItem("newToken") || "[]");
-    let localtokenarray = localtoken.map((st: any) => st.parentContract);
-    const isalreadypresent = checkArray.some((item :any) =>
-      localtokenarray.includes(item)
-    );
-    // let isalready = JSON.stringify(tokenModalList).includes(
-    //   JSON.stringify(checkToken)
-    // );
-    if (
-      showTokenModal &&
-    !isalreadypresent &&
-      localtoken !== null 
-    ) {
-      let updatedArray = [...tokenModalList, ...localtoken];
-      const uniqueTokenArray = [
-        ...updatedArray
-          .reduce((map, obj) => map.set(map.parentContract, obj), new Map())
-          .values(),
-      ];
-      setTokenModalList([...tokenModalList, ...uniqueTokenArray]);
-    }
-   }, [localTokens,tokenModalList])
+  //  useEffect(() => {
+  //   const checkArray = tokenModalList.map((st: any) => st?.parentContract);
+  //   let localtoken : any = JSON.parse(localStorage.getItem("newToken") || "[]");
+  //   let localtokenarray = localtoken.map((st: any) => st.parentContract);
+  //   const isalreadypresent = checkArray.some((item :any) =>
+  //     localtokenarray.includes(item)
+  //   );
+  //   if (
+  //     showTokenModal &&
+  //   !isalreadypresent &&
+  //     localtoken !== null 
+  //   ) {
+  //     let updatedArray = [...tokenModalList, ...localtoken];
+  //     const uniqueTokenArray = [
+  //       ...updatedArray
+  //         .reduce((map, obj) => map.set(map.parentContract, obj), new Map())
+  //         .values(),
+  //     ];
+  //     setTokenModalList([...tokenModalList, ...uniqueTokenArray]);
+  //   }
+  //  }, [localTokens,tokenModalList])
    
    const [tempToken,setTempToken] = useState<any>({});
       
@@ -2099,6 +2143,9 @@ const handleSearchList = (key :any) => {
                           type="text"
                           className="w-100"
                           placeholder="Add list by https://"
+                          onChange={(e) => addNewToken(e.target.value)}
+                          autoFocus={newToken.length > 0}
+                          value={newToken ? newToken : ""}
                         />
                         <div className="search-icon">
                           <img
