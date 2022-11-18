@@ -917,7 +917,7 @@ export default function Wallet() {
                       <span className="me-2">
                         <img
                           className="btn-img"
-                          src="../../images/recive-icon.png"
+                          src="../../assets/images/recive-icon.png"
                           alt="recive"
                         />
                       </span>
@@ -931,7 +931,7 @@ export default function Wallet() {
                       <span className="me-2">
                         <img
                           className="btn-img"
-                          src="../../images/send-icon.png"
+                          src="../../assets/images/send-icon.png"
                           alt="recive"
                         />
                       </span>
@@ -998,7 +998,7 @@ export default function Wallet() {
                                     src={
                                       x.logo
                                         ? x.logo
-                                        : "../../images/shiba-round-icon.png"
+                                        : "../../assets/images/shiba-round-icon.png"
                                     }
                                   />
                                 </span>
@@ -1092,7 +1092,7 @@ export default function Wallet() {
                       <div className="no-found-img">
                         <img
                           className="img-fluid"
-                          src="../../images/no-record.png"
+                          src="../../assets/images/no-record.png"
                         />
                       </div>
                       {/* <p className="float-found text-center">No Record Found</p */}
