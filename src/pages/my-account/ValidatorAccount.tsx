@@ -12,7 +12,7 @@ import Web3 from 'web3';
 import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
 import { useAppDispatch } from "../../state/hooks"
 import fromExponential from 'from-exponential';
-import { addDecimalValue, getAllowanceAmount } from 'web3/commonFunctions';
+import { addDecimalValue, currentGasPrice, getAllowanceAmount, web3Decimals } from 'web3/commonFunctions';
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { getExplorerLink } from 'app/functions';
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
@@ -184,9 +184,20 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     let user: any = account
     console.log("comission called ==> ")
     let validatorID = await getValidatorId()
-    let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-    instance.methods.updateCommissionRate(validatorID, +value.comission).send({ from: account }) // write
-      .on('transactionHash', (res: any) => {
+    let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);      
+    let gasFee =  await instance.methods.updateCommissionRate(validatorID, +value.comission).estimateGas({from: user})
+    let encodedAbi =  await instance.methods.updateCommissionRate(validatorID, +value.comission).encodeABI()
+    let CurrentgasPrice : any = await currentGasPrice(web3)
+       console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
+       await web3.eth.sendTransaction({
+         from: user,
+         to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
+         gas: (parseInt(gasFee) + 30000).toString(),
+         gasPrice: CurrentgasPrice,
+         // value : web3.utils.toHex(combinedFees),
+         data: encodedAbi
+       })
+    .on('transactionHash', (res: any) => {
         console.log(res, "hash")
         dispatch(
           addTransaction({
@@ -220,6 +231,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         )
       }).on('error', (res: any) => {
         console.log(res, "error")
+        setTransactionState({state: false, title :''})
         if (res.code === 4001) {
           setCommiModal({ value: false, address: '' })
         }
@@ -235,13 +247,25 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       let ID = await getValidatorId()
       let allowance = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].STAKE_MANAGER_PROXY) || 0
       let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
+
       const amountWei = web3.utils.toBN(fromExponential((+values.amount * Math.pow(10, 18))));
       if (+values.amount > +allowance) {
         console.log("need approval")
         approveAmount(ID, amountWei, values.reward == 0 ? false : true)
       } else {
         console.log(ID, "no approval needed")
-        instance.methods.restake(ID, amountWei, values.reward == 0 ? false : true).send({ from: walletAddress })
+        let gasFee =  await instance.methods.restake(ID, amountWei, values.reward == 0 ? false : true).estimateGas({from: walletAddress})
+        let encodedAbi =  await instance.methods.restake(ID, amountWei, values.reward == 0 ? false : true).encodeABI()
+        let CurrentgasPrice : any = await currentGasPrice(web3)
+           console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
+           await web3.eth.sendTransaction({
+             from: walletAddress,
+             to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
+             gas: (parseInt(gasFee) + 30000).toString(),
+             gasPrice: CurrentgasPrice,
+             // value : web3.utils.toHex(combinedFees),
+             data: encodedAbi
+           })
           .on('transactionHash', (res: any) => {
             console.log(res, "hash")
             dispatch(
@@ -275,8 +299,11 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                 }
               })
             )
+            setHashLink('')
+            setTransactionState({ state: false, title: '' })
           }).on('error', (res: any) => {
             console.log(res, "error")
+            setTransactionState({ state: false, title: '' })
             if (res.code === 4001) {
               setRestakeModal({ value1: false, value2: false, address: '' })
             }
@@ -289,14 +316,27 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   }
 
   // Approve BONE
-  const approveAmount = (id: any, amounts: any, reward: boolean) => {
+  const approveAmount = async (id: any, amounts: any, reward: boolean) => {
     if (account) {
       let user = account;
       let amount = web3.utils.toBN(fromExponential(1000 * Math.pow(10, 18)));
       let instance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
       instance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, amount).send({ from: user })
-        .then((res: any) => {
+        .then(async (res: any) => {
           let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
+          let gasFee =  await instance.methods.restake(id, amounts, reward).estimateGas({from: user})
+        let encodedAbi =  await instance.methods.restake(id, amounts, reward).encodeABI()
+        let CurrentgasPrice : any = await currentGasPrice(web3)
+           console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
+           await web3.eth.sendTransaction({
+             from: user,
+             to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
+             gas: (parseInt(gasFee) + 30000).toString(),
+             gasPrice: CurrentgasPrice,
+             // value : web3.utils.toHex(combinedFees),
+             data: encodedAbi
+           })
+
           instance.methods.restake(id, amounts, reward).send({ from: user })
             .on('transactionHash', (res: any) => {
               console.log(res, "hash")
@@ -349,7 +389,18 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     if (account) {
       let walletAddress = account
       let instance = new web3.eth.Contract(ValidatorShareABI, withdrawModal.address);
-      await instance.methods.withdrawRewards().send({ from: walletAddress })
+      let gasFee =  await instance.methods.withdrawRewards().estimateGas({from: walletAddress})
+      let encodedAbi =  await instance.methods.withdrawRewards().encodeABI()
+      let CurrentgasPrice : any = await currentGasPrice(web3)
+         console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
+         await web3.eth.sendTransaction({
+           from: walletAddress,
+           to:  withdrawModal.address,
+           gas: (parseInt(gasFee) + 30000).toString(),
+           gasPrice: CurrentgasPrice,
+           // value : web3.utils.toHex(combinedFees),
+           data: encodedAbi
+         })
         .on('transactionHash', (res: any) => {
           console.log(res, "hash")
           dispatch(
@@ -401,7 +452,18 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       let walletAddress: any = account
       let ID = await getValidatorId()
       let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-      instance.methods.unstake(ID).send({ from: walletAddress })
+      let gasFee =  await instance.methods.unstake(ID).estimateGas({from: walletAddress})
+      let encodedAbi =  await instance.methods.unstake(ID).encodeABI()
+      let CurrentgasPrice : any = await currentGasPrice(web3)
+         console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
+         await web3.eth.sendTransaction({
+           from: walletAddress,
+           to:  dynamicChaining[chainId].STAKE_MANAGER_PROXY,
+           gas: (parseInt(gasFee) + 30000).toString(),
+           gasPrice: CurrentgasPrice,
+           // value : web3.utils.toHex(combinedFees),
+           data: encodedAbi
+         })
         .on('transactionHash', (res: any) => {
           console.log(res, "hash")
           dispatch(
@@ -435,8 +497,11 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
               }
             })
           )
+          setTransactionState({ state: false, title: '' })
+          setHashLink('')
         }).on('error', (res: any) => {
           console.log(res, "error")
+          setTransactionState({ state: false, title: '' })
           if (res.code === 4001) {
             setunboundpop(false)
           }
@@ -447,13 +512,24 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   }
 
   // restake DELEGATOR 
-  const restakeDelegator = () => {
+  const restakeDelegator = async () => {
     console.log("withdraw Reward Delegator called")
     if (account) {
       setTransactionState({ state: true, title: 'Pending' })
       let walletAddress: any = account
       let instance = new web3.eth.Contract(ValidatorShareABI, restakeModal.address);
-      instance.methods.restake().send({ from: walletAddress })
+      let gasFee =  await instance.methods.restake().estimateGas({from: walletAddress})
+      let encodedAbi =  await instance.methods.restake().encodeABI()
+      let CurrentgasPrice : any = await currentGasPrice(web3)
+         console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
+         await web3.eth.sendTransaction({
+           from: walletAddress,
+           to:  restakeModal.address,
+           gas: (parseInt(gasFee) + 30000).toString(),
+           gasPrice: CurrentgasPrice,
+           // value : web3.utils.toHex(combinedFees),
+           data: encodedAbi
+         })
         .on('transactionHash', (res: any) => {
           console.log(res, "hash")
           dispatch(

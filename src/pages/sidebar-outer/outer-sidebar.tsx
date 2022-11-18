@@ -17,7 +17,7 @@ import { useRouter } from 'next/router'
 
 
 export default function SidebarOuter({ menuState, handleMenuState, onClickOutside }:any) {
-    const wrapperRef2 = useRef(null);
+    const wrapperRef2 = useRef<any>(null);
     const [isVisible, setIsVisible] = useState(true);
     const router = useRouter();
   

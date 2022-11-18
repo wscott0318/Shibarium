@@ -24,7 +24,7 @@ import { useUserType } from "../../state/user/hooks";
 import { useRouter } from "next/router";
 import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
 import { useAppDispatch } from "../../state/hooks"
-import { tokenDecimal } from "web3/commonFunctions";
+import { currentGasPrice, tokenDecimal } from "web3/commonFunctions";
 
 export default function Unbond() {
 
@@ -86,9 +86,18 @@ export default function Unbond() {
         if(account){
             let walletAddress = account
             let instance = new web3.eth.Contract(ValidatorShareABI, validatorContract);
-            let gasLimit = await instance.methods.unstakeClaimTokens_new(data.unbondNonce).estimateGas({ from: walletAddress })
-            // console.log(gasLimit + 30000, "gas limit === >")
-            await instance.methods.unstakeClaimTokens_new(data.unbondNonce).send({ from: walletAddress })
+            let gasFee =  await instance.methods.unstakeClaimTokens_new(data.unbondNonce).estimateGas({from: walletAddress})
+            let encodedAbi =  await instance.methods.unstakeClaimTokens_new(data.unbondNonce).encodeABI()
+            let CurrentgasPrice : any = await currentGasPrice(web3)
+            console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+            await web3.eth.sendTransaction({
+              from: walletAddress,
+              to: validatorContract,
+              gas: (parseInt(gasFee) + 30000).toString(),
+              gasPrice: CurrentgasPrice,
+              // value : web3.utils.toHex(combinedFees),
+              data: encodedAbi
+            })
             .on('transactionHash', (res: any) => {
               // console.log(res, "hash")
               dispatch(
