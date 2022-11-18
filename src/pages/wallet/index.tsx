@@ -503,7 +503,7 @@ export default function Wallet() {
                                     <div className="drop-chev">
                                       <img
                                         className="img-fluid"
-                                        src="../../images/chev-drop.png"
+                                        src="../../assets/images/chev-drop.png"
                                         alt="chev-ico"
                                       />
                                     </div>
@@ -511,7 +511,7 @@ export default function Wallet() {
                                       <div className="drop-ico">
                                         <img
                                           className="img-fluid"
-                                          src="../../images/shiba-round-icon.png"
+                                          src="../../assets/images/shiba-round-icon.png"
                                           alt="icon"
                                           width={24}
                                         />
