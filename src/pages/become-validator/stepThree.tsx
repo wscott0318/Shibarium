@@ -60,7 +60,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
         )
         let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
         await instance.methods.stakeFor(user, data.amount ,data.heimdallFee, data.acceptDelegation, data.key )
-        .send({ from: account }) // write
+        .send({ from: account }) 
           .on('transactionHash', (res: any) => {
             console.log(res, "hash")
             dispatch(
