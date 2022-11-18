@@ -498,6 +498,7 @@ const handleSearchList = (key :any) => {
     }
    }, [localTokens,tokenModalList])
    
+   const [tempToken,setTempToken] = useState<any>({});
       
   console.log('localToken',localTokens)
   return (
@@ -1778,9 +1779,72 @@ const handleSearchList = (key :any) => {
                       </div>
                     </div>
                   </div>
-                  <div className="pop-mid">
+                  {/* <div className="pop-mid">
                     <div className="center-content">
                       <p>Custom token not found Add your first custom token</p>
+                    </div>
+                  </div> */}
+                  <div className="pop-bottom pt-0">
+                    <div className="">
+                      <div className="grid-block">
+                        <div className="blk-width">
+                          <div>{localTokens.length} Token Found</div>
+                          <p className="lite-color">
+                            Token stored in your browser
+                          </p>
+                        </div>
+                        <div className="blk-width btn-sm">
+                          <button
+                            type="button"
+                            className="btn primary-btn w-100"
+                            onClick={clearAllCustomTokens}
+                          >
+                            Clear All
+                          </button>
+                        </div>
+                      </div>
+                      <div className="token-listwrap usr-listht">
+                        {localTokens.map((x: any, index: any) => (
+                          <div className="tokn-row" key={x.parentContract}>
+                            <div className="cryoto-box">
+                              <img
+                                className="img-fluid"
+                                src={
+                                  x.logo
+                                    ? x.logo
+                                    : "../../images/shib-borderd-icon.png"
+                                }
+                                alt=""
+                              />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">{x.parentSymbol}</h6>
+                                <p>{x.parentName}</p>
+                              </div>
+                              <div>
+                                <span
+                                  className="me-4"
+                                  onClick={() => spliceCustomToken(index)}
+                                >
+                                  <img
+                                    className="img-fluid"
+                                    src="../../images/del.png"
+                                    alt=""
+                                  />
+                                </span>
+                                <span>
+                                  <img
+                                    className="img-fluid"
+                                    src="../../images/up.png"
+                                    alt=""
+                                  />
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1843,7 +1907,7 @@ const handleSearchList = (key :any) => {
                       </div>
                     </div>
                   </div>
-                  <div className="h-100">
+                  {/* <div className="h-100">
                     <div className="two-col position-relative">
                       <div className="left-sec-img">
                         <div>
@@ -1905,6 +1969,69 @@ const handleSearchList = (key :any) => {
                         <div className="right-side data">
                           <p>18</p>
                         </div>
+                      </div>
+                    </div>
+                  </div> */}
+                  <div className="pop-bottom pt-0">
+                    <div className="">
+                      <div className="grid-block">
+                        <div className="blk-width">
+                          <div>{localTokens.length} Token Found</div>
+                          <p className="lite-color">
+                            Token stored in your browser
+                          </p>
+                        </div>
+                        <div className="blk-width btn-sm">
+                          <button
+                            type="button"
+                            className="btn primary-btn w-100"
+                            onClick={clearAllCustomTokens}
+                          >
+                            Clear All
+                          </button>
+                        </div>
+                      </div>
+                      <div className="token-listwrap usr-listht">
+                        {localTokens.map((x: any, index: any) => (
+                          <div className="tokn-row" key={x.parentContract}>
+                            <div className="cryoto-box">
+                              <img
+                                className="img-fluid"
+                                src={
+                                  x.logo
+                                    ? x.logo
+                                    : "../../images/shib-borderd-icon.png"
+                                }
+                                alt=""
+                              />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">{x.parentSymbol}</h6>
+                                <p>{x.parentName}</p>
+                              </div>
+                              <div>
+                                <span
+                                  className="me-4"
+                                  onClick={() => spliceCustomToken(index)}
+                                >
+                                  <img
+                                    className="img-fluid"
+                                    src="../../images/del.png"
+                                    alt=""
+                                  />
+                                </span>
+                                <span>
+                                  <img
+                                    className="img-fluid"
+                                    src="../../images/up.png"
+                                    alt=""
+                                  />
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -2005,7 +2132,7 @@ const handleSearchList = (key :any) => {
                         </div>
                       </div>
                       <div className="token-listwrap usr-listht">
-                        {localTokens.map((x: any,index:any) => (
+                        {localTokens.map((x: any, index: any) => (
                           <div className="tokn-row" key={x.parentContract}>
                             <div className="cryoto-box">
                               <img
@@ -2024,7 +2151,10 @@ const handleSearchList = (key :any) => {
                                 <p>{x.parentName}</p>
                               </div>
                               <div>
-                                <span className="me-4" onClick={()=>spliceCustomToken(index)}>
+                                <span
+                                  className="me-4"
+                                  onClick={() => spliceCustomToken(index)}
+                                >
                                   <img
                                     className="img-fluid"
                                     src="../../images/del.png"
