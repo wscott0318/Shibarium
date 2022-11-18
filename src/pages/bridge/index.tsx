@@ -98,10 +98,10 @@ export default function Withdraw() {
     step4: false,
     title: "Select a Token",
   });
-    const [tokenModalList, setTokenModalList] = useState ([]);
+    const [tokenModalList, setTokenModalList] = useState<any>([]);
     const [tokenList, setTokenList] = useState([]);
     const [modalKeyword, setmodalKeyword] = useState("");
-  const [localTokens,setLocalTokens]=useState([]);
+  const [localTokens,setLocalTokens]=useState<any>([]);
   const getTokensList = () => {
     getWalletTokenList().then((res) => {
       let list = res.data.message.tokens;
@@ -354,7 +354,7 @@ const handleSearchList = (key :any) => {
             );
             let localtoken = JSON.parse(localStorage.getItem("newToken") || "[]");
             let localtokenarray = localtoken.map((st:any)=>st.parentContract);
-            const isalreadypresent = checkArray.some((item) => localtokenarray.includes(item));
+            const isalreadypresent = checkArray.some((item : any) => localtokenarray.includes(item));
             if (isalreadypresent) {
               toast.error("Address already exists !", {
                 position: toast.POSITION.BOTTOM_CENTER,
@@ -475,9 +475,9 @@ const handleSearchList = (key :any) => {
     // const isalready = arrayContainsObject(tokenModalList, checkToken);
     // const localindexes = checkToken && checkToken.map((st:any)=>st.parentContract);
     const checkArray = tokenModalList.map((st: any) => st?.parentContract);
-    let localtoken = JSON.parse(localStorage.getItem("newToken") || "[]");
+    let localtoken : any = JSON.parse(localStorage.getItem("newToken") || "[]");
     let localtokenarray = localtoken.map((st: any) => st.parentContract);
-    const isalreadypresent = checkArray.some((item) =>
+    const isalreadypresent = checkArray.some((item :any) =>
       localtokenarray.includes(item)
     );
     // let isalready = JSON.stringify(tokenModalList).includes(
@@ -485,10 +485,8 @@ const handleSearchList = (key :any) => {
     // );
     if (
       showTokenModal &&
-      !isalreadypresent &&
-      localtoken !== null &&
-      localtoken !== {} &&
-      localtoken === []
+    !isalreadypresent &&
+      localtoken !== null 
     ) {
       let updatedArray = [...tokenModalList, ...localtoken];
       const uniqueTokenArray = [

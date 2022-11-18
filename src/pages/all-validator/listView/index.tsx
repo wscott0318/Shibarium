@@ -68,7 +68,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                     </td>
                     <td>{+x.selfPercent.toFixed(tokenDecimal)}%</td>
                     <td><span className='precent-td'>{x.commissionPercent}%</span></td>
-                    <td>{x.uptimePercent.toFixed(toFixedPrecent)}%</td>
+                    <td>{x.uptimePercent?.toFixed(toFixedPrecent)}%</td>
                     <td className='text-start'>
                       <button className='btn primary-btn w-100'
                       disabled={userType === 'Validator'}

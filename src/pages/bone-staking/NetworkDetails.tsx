@@ -65,7 +65,7 @@ function NetworkDetails({valCount} : any) {
     console.log(valFromContract, "address ===> ")
   }
 
-  // test()
+  test()
 
     // GET VALIDATOR ID 
     const getTotalStakes = async () => {
@@ -75,10 +75,10 @@ function NetworkDetails({valCount} : any) {
         const ID = await instance.methods.validatorState().call({ from: account });
         let stake = +ID.amount / 10 ** 18
         setTotalStake(stake)
-        console.log(stake, ID, "Total stake")
+        // console.log(stake, ID, "Total stake")
         return ID
       } else {
-        console.log("account addres not found")
+        // console.log("account addres not found")
       }
     }
 

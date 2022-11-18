@@ -1303,7 +1303,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                           Restake
                         </button>
                         <div className="tool-desc">
-                          Lorem, ipsum.
+                          Restake
                         </div>
                       </div>
                     </div>
@@ -1321,7 +1321,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         Change Commission Rate
                       </button>
                       <div className="tool-desc">
-                        Lorem, ipsum.
+                      Change your commission rate 
                       </div>
                       </div>
                     </div>
@@ -1339,7 +1339,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         Withdraw Rewards
                       </button>
                       <div className="tool-desc">
-                        Lorem, ipsum.
+                      Withdraw rewards
                       </div>
                       </div>
                     </div>
@@ -1352,7 +1352,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         Unbound
                       </button>
                       <div className="tool-desc">
-                        Lorem, ipsum.
+                        unbound
                       </div>
                       </div>
                     </div>

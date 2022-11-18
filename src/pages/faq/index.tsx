@@ -19,6 +19,7 @@ import SidebarOuter from "pages/sidebar-outer/outer-sidebar";
 export default function ProfileUpdate() {
 
    const [current, setCurrent] = useState('0');
+   const [faqType, setFaqType] = useState('0');
    const [menuState, setMenuState] = useState(false);
    const checkCurrent = (x:any) => {
         if(current === x)
@@ -29,6 +30,10 @@ export default function ProfileUpdate() {
             setCurrent(x)
         }
    }
+   useEffect(() => {
+     setCurrent('0')
+   }, [faqType])
+   
    const handleMenuState = () => {
     // console.log("called click")
     setMenuState(!menuState);
@@ -54,10 +59,14 @@ export default function ProfileUpdate() {
                   onClickOutside={() => {
                     setMenuState(false);
                   }}
+                  faqType={faqType}
+                  setFaqType={setFaqType}
                   menuState={menuState}
                 />
                 {/* Technical faq section start */}
-                <div className="accor-sec right-sec">
+                {
+                  faqType === '0' &&
+                  <div className="accor-sec right-sec">
                   <h3 className="head-fq">Technical FAQ</h3>
                   <Accordion activeKey={[current]} flush>
                     <Accordion.Item
@@ -218,10 +227,11 @@ export default function ProfileUpdate() {
                     </Accordion.Item>
                   </Accordion>
                 </div>
+                }
                 {/* Technical faq section end */}
 
                 {/* Delegator faq section start */}
-                {/* <div className="accor-sec right-sec">
+                { faqType === '1' && <div className="accor-sec right-sec">
                   <h3 className="head-fq">Delegator FAQ</h3>
                   <Accordion activeKey={[current]} flush>
                     <Accordion.Item
@@ -381,11 +391,11 @@ export default function ProfileUpdate() {
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
-                </div> */}
+                </div> }
                 {/* Delegator faq section end */}
 
                 {/* Validator faq section start */}
-                {/* <div className="accor-sec right-sec">
+                {faqType === '2' && <div className="accor-sec right-sec">
                   <h3 className="head-fq">Validator FAQ</h3>
                   <Accordion activeKey={[current]} flush>
                     <Accordion.Item
@@ -545,11 +555,11 @@ export default function ProfileUpdate() {
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
-                </div> */}
+                </div> }
                 {/* Validator faq section end */}
 
                 {/* Staking faq section start */}
-                {/* <div className="accor-sec right-sec">
+                {faqType === '3' &&  <div className="accor-sec right-sec">
                   <h3 className="head-fq">Staking FAQ</h3>
                   <Accordion activeKey={[current]} flush>
                     <Accordion.Item
@@ -709,11 +719,11 @@ export default function ProfileUpdate() {
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
-                </div> */}
+                </div> }
                 {/* Staking faq section end */}
 
                 {/* Wallet faq section start */}
-                {/* <div className="accor-sec right-sec">
+                {faqType === '4' && <div className="accor-sec right-sec">
                   <h3 className="head-fq">Wallet FAQ</h3>
                   <Accordion activeKey={[current]} flush>
                     <Accordion.Item
@@ -873,7 +883,7 @@ export default function ProfileUpdate() {
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
-                </div> */}
+                </div> }
                 {/* Wallet faq section end */}
               </div>
             </div>
