@@ -170,7 +170,7 @@ export default function faucet() {
             <div className="pop-top">
               <div className='dark-bg-800 h-100 status-sec'>
                 <span>
-                  <div><img width="224" height="224" className="img-fluid" src="../../images/Ellipse.png" alt="" /></div>
+                  <div><img width="224" height="224" className="img-fluid" src="../../assets/images/Ellipse.png" alt="" /></div>
                 </span>
               </div>
             </div>

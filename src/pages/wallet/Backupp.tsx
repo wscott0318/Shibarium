@@ -394,7 +394,7 @@ export default function Wallet() {
                       <div className="image-wrap d-inline-block me-2">
                         <img
                           className="img-fluid"
-                          src="../../images/i-info-icon.png"
+                          src="../../assets/images/i-info-icon.png"
                           width={16}
                         />
                       </div>
@@ -503,7 +503,7 @@ export default function Wallet() {
                                     <div className="drop-chev">
                                       <img
                                         className="img-fluid"
-                                        src="../../images/chev-drop.png"
+                                        src="../../assets/images/chev-drop.png"
                                         alt="chev-ico"
                                       />
                                     </div>
@@ -511,7 +511,7 @@ export default function Wallet() {
                                       <div className="drop-ico">
                                         <img
                                           className="img-fluid"
-                                          src="../../images/shiba-round-icon.png"
+                                          src="../../assets/images/shiba-round-icon.png"
                                           alt="icon"
                                           width={24}
                                         />
@@ -636,7 +636,7 @@ export default function Wallet() {
                     <div className="cnfrm_box dark-bg mt-0">
                       <div className="top_overview col-12">
                         <span>
-                          <img src="../../images/shib-borderd-icon.png" />
+                          <img src="../../assets/images/shib-borderd-icon.png" />
                         </span>
                         <h6 className="fw-700">{sendAmount} BONE</h6>
                         <p className="fw-600">
@@ -734,7 +734,7 @@ export default function Wallet() {
                     <div className="cnfrm_box dark-bg mt-0">
                       <div className="top_overview col-12">
                         <span>
-                          <img src="../../images/shib-borderd-icon.png" />
+                          <img src="../../assets/images/shib-borderd-icon.png" />
                         </span>
                         <h6 className="fw-700">{sendAmount} BONE</h6>
                         <p>
@@ -797,7 +797,7 @@ export default function Wallet() {
                               width="20"
                               height="21"
                               className="img-fluid"
-                              src="../../images/search.png"
+                              src="../../assets/images/search.png"
                               alt=""
                             />
                           </div>
@@ -853,7 +853,7 @@ export default function Wallet() {
                                 <div className="cryoto-box">
                                   <img
                                     className="img-fluid"
-                                    src="../../images/shib-borderd-icon.png"
+                                    src="../../assets/images/shib-borderd-icon.png"
                                     alt=""
                                   />
                                 </div>
@@ -917,7 +917,7 @@ export default function Wallet() {
                       <span className="me-2">
                         <img
                           className="btn-img"
-                          src="../../images/recive-icon.png"
+                          src="../../assets/images/recive-icon.png"
                           alt="recive"
                         />
                       </span>
@@ -931,7 +931,7 @@ export default function Wallet() {
                       <span className="me-2">
                         <img
                           className="btn-img"
-                          src="../../images/send-icon.png"
+                          src="../../assets/images/send-icon.png"
                           alt="recive"
                         />
                       </span>
@@ -998,7 +998,7 @@ export default function Wallet() {
                                     src={
                                       x.logo
                                         ? x.logo
-                                        : "../../images/shiba-round-icon.png"
+                                        : "../../assets/images/shiba-round-icon.png"
                                     }
                                   />
                                 </span>
@@ -1092,7 +1092,7 @@ export default function Wallet() {
                       <div className="no-found-img">
                         <img
                           className="img-fluid"
-                          src="../../images/no-record.png"
+                          src="../../assets/images/no-record.png"
                         />
                       </div>
                       {/* <p className="float-found text-center">No Record Found</p */}

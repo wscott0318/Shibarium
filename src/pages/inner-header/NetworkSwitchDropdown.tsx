@@ -20,7 +20,7 @@ const NetworkSwitchDropdown = () => {
         <a className="d-md-none launch-btn">
           <img
             className="img-fluid"
-            src="../../images/launch-app.png"
+            src="../../assets/images/launch-app.png"
             alt=""
             width={30}
           />

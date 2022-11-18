@@ -32,7 +32,7 @@ const AppHeader = () => {
       <div className="shib-dropdown">
         <Dropdown className="nav-item d-flex align-items-center cus-dd app-drop">
           <div className="dot-icon" id="basic-nav-dropdown">
-            <img src="../../images/menu-icon.png" alt="" />
+            <img src="../../assets/images/menu-icon.png" alt="" />
           </div>
           <NavDropdown className="light-text dd-ico" title={title} id="">
             <NavDropdown.Item onClick={()=>router.push('/wallet', '/wallet', { shallow: true })}>

@@ -496,7 +496,7 @@ const handleSearchList = (key :any) => {
                         <div className="img-flexible">
                           <img
                             className="img-fluid d-inline-block"
-                            src="../../images/etharium.png"
+                            src="../../assets/images/etharium.png"
                             alt=""
                           />
                         </div>
@@ -520,7 +520,7 @@ const handleSearchList = (key :any) => {
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src="../../images/etharium.png"
+                            src="../../assets/images/etharium.png"
                             alt=""
                           />
                         </div>
@@ -562,7 +562,7 @@ const handleSearchList = (key :any) => {
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src="../../images/shib-borderd-icon.png"
+                            src="../../assets/images/shib-borderd-icon.png"
                             alt=""
                           />
                         </div>
@@ -574,7 +574,7 @@ const handleSearchList = (key :any) => {
                         <div className="coin-sec">
                           <img
                             className="img-fluid"
-                            src="../../images/eth.png"
+                            src="../../assets/images/eth.png"
                             alt=""
                           />
                         </div>
@@ -612,7 +612,7 @@ const handleSearchList = (key :any) => {
                         <span>
                           <img
                             className="img-fluid"
-                            src="../../images/etharium.png"
+                            src="../../assets/images/etharium.png"
                             alt=""
                           />
                         </span>
@@ -636,7 +636,7 @@ const handleSearchList = (key :any) => {
                         <div className="d-inline-block">
                           <img
                             className="img-fluid"
-                            src="../../images/etharium.png"
+                            src="../../assets/images/etharium.png"
                             alt=""
                           />
                         </div>
@@ -678,7 +678,7 @@ const handleSearchList = (key :any) => {
                         <div className="d-inline-block">
                           <img
                             className="img-fluid"
-                            src="../../images/shib-borderd-icon.png"
+                            src="../../assets/images/shib-borderd-icon.png"
                             alt=""
                           />
                         </div>
@@ -729,7 +729,7 @@ const handleSearchList = (key :any) => {
                         <span>
                           <img
                             className="img-fluid"
-                            src="../../images/etharium.png"
+                            src="../../assets/images/etharium.png"
                             alt=""
                           />
                         </span>
@@ -800,7 +800,7 @@ const handleSearchList = (key :any) => {
                         <span>
                           <img
                             className="img-fluid"
-                            src="../../images/red-bone.png"
+                            src="../../assets/images/red-bone.png"
                             alt=""
                           />
                         </span>
@@ -813,7 +813,7 @@ const handleSearchList = (key :any) => {
                         <div className="d-inline-block">
                           <img
                             className="img-fluid"
-                            src="../../images/shib-borderd-icon.png"
+                            src="../../assets/images/shib-borderd-icon.png"
                             alt=""
                           />
                         </div>
@@ -855,7 +855,7 @@ const handleSearchList = (key :any) => {
                         <div className="d-inline-block">
                           <img
                             className="img-fluid"
-                            src="../../images/etharium.png"
+                            src="../../assets/images/etharium.png"
                             alt=""
                           />
                         </div>
@@ -869,7 +869,7 @@ const handleSearchList = (key :any) => {
                             width="24"
                             height="24"
                             className="img-fluid"
-                            src="../../images/red-bone.png"
+                            src="../../assets/images/red-bone.png"
                             alt=""
                           />
                         </div>
@@ -922,7 +922,7 @@ const handleSearchList = (key :any) => {
                         <span>
                           <img
                             className="img-fluid"
-                            src="../../images/red-bone.png"
+                            src="../../assets/images/red-bone.png"
                             alt=""
                           />
                         </span>
@@ -935,7 +935,7 @@ const handleSearchList = (key :any) => {
                         <div className="d-inline-block">
                           <img
                             className="img-fluid"
-                            src="../../images/shib-borderd-icon.png"
+                            src="../../assets/images/shib-borderd-icon.png"
                             alt=""
                           />
                         </div>
@@ -977,7 +977,7 @@ const handleSearchList = (key :any) => {
                         <div className="d-inline-block">
                           <img
                             className="img-fluid"
-                            src="../../images/etharium.png"
+                            src="../../assets/images/etharium.png"
                             alt=""
                           />
                         </div>
@@ -989,7 +989,7 @@ const handleSearchList = (key :any) => {
                         <div className="coin-sec">
                           <img
                             className="img-fluid"
-                            src="../../images/eth.png"
+                            src="../../assets/images/eth.png"
                             alt=""
                           />
                         </div>
@@ -1043,7 +1043,7 @@ const handleSearchList = (key :any) => {
                         <span>
                           <img
                             className="img-fluid"
-                            src="../../images/red-bone.png"
+                            src="../../assets/images/red-bone.png"
                             alt=""
                           />
                         </span>
@@ -1101,7 +1101,7 @@ const handleSearchList = (key :any) => {
                         <span>
                           <img
                             className="img-fluid"
-                            src="../../images/red-bone.png"
+                            src="../../assets/images/red-bone.png"
                             alt=""
                           />
                         </span>
@@ -1114,7 +1114,7 @@ const handleSearchList = (key :any) => {
                         <div className="d-inline-block">
                           <img
                             className="img-fluid"
-                            src="../../images/etharium.png"
+                            src="../../assets/images/etharium.png"
                             alt=""
                           />
                         </div>
@@ -1156,7 +1156,7 @@ const handleSearchList = (key :any) => {
                         <div className="d-inline-block">
                           <img
                             className="img-fluid"
-                            src="../../images/etharium.png"
+                            src="../../assets/images/etharium.png"
                             alt=""
                           />
                         </div>
@@ -1168,7 +1168,7 @@ const handleSearchList = (key :any) => {
                         <div className="coin-sec">
                           <img
                             className="img-fluid"
-                            src="../../images/eth.png"
+                            src="../../assets/images/eth.png"
                             alt=""
                           />
                         </div>
@@ -1219,7 +1219,7 @@ const handleSearchList = (key :any) => {
                         <span>
                           <img
                             className="img-fluid"
-                            src="../../images/red-bone.png"
+                            src="../../assets/images/red-bone.png"
                             alt=""
                           />
                         </span>
@@ -1299,7 +1299,7 @@ const handleSearchList = (key :any) => {
                             width="20"
                             height="21"
                             className="img-fluid"
-                            src="../../images/search.png"
+                            src="../../assets/images/search.png"
                             alt=""
                           />
                         </div>
@@ -1344,7 +1344,7 @@ const handleSearchList = (key :any) => {
                                   src={
                                     x.logo
                                       ? x.logo
-                                      : "../../images/shib-borderd-icon.png"
+                                      : "../../assets/images/shib-borderd-icon.png"
                                   }
                                   alt=""
                                 />
@@ -1423,7 +1423,7 @@ const handleSearchList = (key :any) => {
                             width="20"
                             height="21"
                             className="img-fluid"
-                            src="../../images/search.png"
+                            src="../../assets/images/search.png"
                             alt=""
                           />
                         </div>
@@ -1434,7 +1434,7 @@ const handleSearchList = (key :any) => {
                         <div className="cryoto-box">
                           <img
                             className="img-fluid"
-                            src="../../images/shib-borderd-icon.png"
+                            src="../../assets/images/shib-borderd-icon.png"
                             alt=""
                           />
                         </div>
@@ -1462,7 +1462,7 @@ const handleSearchList = (key :any) => {
                         <div className="cryoto-box">
                           <img
                             className="img-fluid"
-                            src="../../images/red-bone.png"
+                            src="../../assets/images/red-bone.png"
                             alt=""
                           />
                         </div>
@@ -1490,7 +1490,7 @@ const handleSearchList = (key :any) => {
                         <div className="cryoto-box">
                           <img
                             className="img-fluid"
-                            src="../../images/etharium.png"
+                            src="../../assets/images/etharium.png"
                             alt=""
                           />
                         </div>
@@ -1518,7 +1518,7 @@ const handleSearchList = (key :any) => {
                         <div className="cryoto-box">
                           <img
                             className="img-fluid"
-                            src="../../images/etharium.png"
+                            src="../../assets/images/etharium.png"
                             alt=""
                           />
                         </div>
@@ -1546,7 +1546,7 @@ const handleSearchList = (key :any) => {
                         <div className="cryoto-box">
                           <img
                             className="img-fluid"
-                            src="../../images/etharium.png"
+                            src="../../assets/images/etharium.png"
                             alt=""
                           />
                         </div>
@@ -1574,7 +1574,7 @@ const handleSearchList = (key :any) => {
                         <div className="cryoto-box">
                           <img
                             className="img-fluid"
-                            src="../../images/etharium.png"
+                            src="../../assets/images/etharium.png"
                             alt=""
                           />
                         </div>
@@ -1602,7 +1602,7 @@ const handleSearchList = (key :any) => {
                         <div className="cryoto-box">
                           <img
                             className="img-fluid"
-                            src="../../images/etharium.png"
+                            src="../../assets/images/etharium.png"
                             alt=""
                           />
                         </div>
@@ -1630,7 +1630,7 @@ const handleSearchList = (key :any) => {
                         <div className="cryoto-box">
                           <img
                             className="img-fluid"
-                            src="../../images/etharium.png"
+                            src="../../assets/images/etharium.png"
                             alt=""
                           />
                         </div>
@@ -1733,7 +1733,7 @@ const handleSearchList = (key :any) => {
                             width="20"
                             height="21"
                             className="img-fluid"
-                            src="../../images/search.png"
+                            src="../../assets/images/search.png"
                             alt=""
                           />
                         </div>
@@ -1796,7 +1796,7 @@ const handleSearchList = (key :any) => {
                             width="20"
                             height="21"
                             className="img-fluid"
-                            src="../../images/search.png"
+                            src="../../assets/images/search.png"
                             alt=""
                           />
                         </div>
@@ -1809,7 +1809,7 @@ const handleSearchList = (key :any) => {
                         <div>
                           <img
                             className="img-fluid"
-                            src="../../images/alert.png"
+                            src="../../assets/images/alert.png"
                             alt=""
                           />
                         </div>
@@ -1938,7 +1938,7 @@ const handleSearchList = (key :any) => {
                             width="20"
                             height="21"
                             className="img-fluid"
-                            src="../../images/search.png"
+                            src="../../assets/images/search.png"
                             alt=""
                           />
                         </div>
@@ -1978,7 +1978,7 @@ const handleSearchList = (key :any) => {
                           <div className="cryoto-box">
                             <img
                               className="img-fluid"
-                              src="../../images/shib-borderd-icon.png"
+                              src="../../assets/images/shib-borderd-icon.png"
                               alt=""
                             />
                           </div>
@@ -2003,14 +2003,14 @@ const handleSearchList = (key :any) => {
                               >
                                 <img
                                   className="img-fluid"
-                                  src="../../images/del.png"
+                                  src="../../assets/images/del.png"
                                   alt=""
                                 />
                               </span>
                               <span>
                                 <img
                                   className="img-fluid"
-                                  src="../../images/up.png"
+                                  src="../../assets/images/up.png"
                                   alt=""
                                 />
                               </span>
@@ -2021,7 +2021,7 @@ const handleSearchList = (key :any) => {
                           <div className="cryoto-box">
                             <img
                               className="img-fluid"
-                              src="../../images/shib-borderd-icon.png"
+                              src="../../assets/images/shib-borderd-icon.png"
                               alt=""
                             />
                           </div>
@@ -2046,14 +2046,14 @@ const handleSearchList = (key :any) => {
                               >
                                 <img
                                   className="img-fluid"
-                                  src="../../images/del.png"
+                                  src="../../assets/images/del.png"
                                   alt=""
                                 />
                               </span>
                               <span>
                                 <img
                                   className="img-fluid"
-                                  src="../../images/up.png"
+                                  src="../../assets/images/up.png"
                                   alt=""
                                 />
                               </span>
@@ -2064,7 +2064,7 @@ const handleSearchList = (key :any) => {
                           <div className="cryoto-box">
                             <img
                               className="img-fluid"
-                              src="../../images/shib-borderd-icon.png"
+                              src="../../assets/images/shib-borderd-icon.png"
                               alt=""
                             />
                           </div>
@@ -2089,14 +2089,14 @@ const handleSearchList = (key :any) => {
                               >
                                 <img
                                   className="img-fluid"
-                                  src="../../images/del.png"
+                                  src="../../assets/images/del.png"
                                   alt=""
                                 />
                               </span>
                               <span>
                                 <img
                                   className="img-fluid"
-                                  src="../../images/up.png"
+                                  src="../../assets/images/up.png"
                                   alt=""
                                 />
                               </span>
@@ -2107,7 +2107,7 @@ const handleSearchList = (key :any) => {
                           <div className="cryoto-box">
                             <img
                               className="img-fluid"
-                              src="../../images/shib-borderd-icon.png"
+                              src="../../assets/images/shib-borderd-icon.png"
                               alt=""
                             />
                           </div>
@@ -2132,14 +2132,14 @@ const handleSearchList = (key :any) => {
                               >
                                 <img
                                   className="img-fluid"
-                                  src="../../images/del.png"
+                                  src="../../assets/images/del.png"
                                   alt=""
                                 />
                               </span>
                               <span>
                                 <img
                                   className="img-fluid"
-                                  src="../../images/up.png"
+                                  src="../../assets/images/up.png"
                                   alt=""
                                 />
                               </span>
@@ -2150,7 +2150,7 @@ const handleSearchList = (key :any) => {
                           <div className="cryoto-box">
                             <img
                               className="img-fluid"
-                              src="../../images/shib-borderd-icon.png"
+                              src="../../assets/images/shib-borderd-icon.png"
                               alt=""
                             />
                           </div>
@@ -2175,14 +2175,14 @@ const handleSearchList = (key :any) => {
                               >
                                 <img
                                   className="img-fluid"
-                                  src="../../images/del.png"
+                                  src="../../assets/images/del.png"
                                   alt=""
                                 />
                               </span>
                               <span>
                                 <img
                                   className="img-fluid"
-                                  src="../../images/up.png"
+                                  src="../../assets/images/up.png"
                                   alt=""
                                 />
                               </span>
@@ -2193,7 +2193,7 @@ const handleSearchList = (key :any) => {
                           <div className="cryoto-box">
                             <img
                               className="img-fluid"
-                              src="../../images/shib-borderd-icon.png"
+                              src="../../assets/images/shib-borderd-icon.png"
                               alt=""
                             />
                           </div>
@@ -2218,14 +2218,14 @@ const handleSearchList = (key :any) => {
                               >
                                 <img
                                   className="img-fluid"
-                                  src="../../images/del.png"
+                                  src="../../assets/images/del.png"
                                   alt=""
                                 />
                               </span>
                               <span>
                                 <img
                                   className="img-fluid"
-                                  src="../../images/up.png"
+                                  src="../../assets/images/up.png"
                                   alt=""
                                 />
                               </span>
@@ -2236,7 +2236,7 @@ const handleSearchList = (key :any) => {
                           <div className="cryoto-box">
                             <img
                               className="img-fluid"
-                              src="../../images/shib-borderd-icon.png"
+                              src="../../assets/images/shib-borderd-icon.png"
                               alt=""
                             />
                           </div>
@@ -2261,14 +2261,14 @@ const handleSearchList = (key :any) => {
                               >
                                 <img
                                   className="img-fluid"
-                                  src="../../images/del.png"
+                                  src="../../assets/images/del.png"
                                   alt=""
                                 />
                               </span>
                               <span>
                                 <img
                                   className="img-fluid"
-                                  src="../../images/up.png"
+                                  src="../../assets/images/up.png"
                                   alt=""
                                 />
                               </span>
@@ -2279,7 +2279,7 @@ const handleSearchList = (key :any) => {
                           <div className="cryoto-box">
                             <img
                               className="img-fluid"
-                              src="../../images/shib-borderd-icon.png"
+                              src="../../assets/images/shib-borderd-icon.png"
                               alt=""
                             />
                           </div>
@@ -2304,14 +2304,14 @@ const handleSearchList = (key :any) => {
                               >
                                 <img
                                   className="img-fluid"
-                                  src="../../images/del.png"
+                                  src="../../assets/images/del.png"
                                   alt=""
                                 />
                               </span>
                               <span>
                                 <img
                                   className="img-fluid"
-                                  src="../../images/up.png"
+                                  src="../../assets/images/up.png"
                                   alt=""
                                 />
                               </span>
@@ -2382,7 +2382,7 @@ const handleSearchList = (key :any) => {
                           <span className="icon-image">
                             <img
                               className="img-fluid"
-                              src="../../images/i-info-icon.png"
+                              src="../../assets/images/i-info-icon.png"
                               alt=""
                             />
                           </span>
@@ -2413,7 +2413,7 @@ const handleSearchList = (key :any) => {
                             className="img-fluid"
                             width="20"
                             height="20"
-                            src="../../images/red-bone.png"
+                            src="../../assets/images/red-bone.png"
                             alt=""
                           />
                         </div>
@@ -2430,7 +2430,7 @@ const handleSearchList = (key :any) => {
                         <div className="coin-sec">
                           <img
                             className="img-fluid"
-                            src="../../images/eth.png"
+                            src="../../assets/images/eth.png"
                             alt=""
                           />
                         </div>
@@ -2523,7 +2523,7 @@ const handleSearchList = (key :any) => {
                                         <div>
                                           <img
                                             className="img-fluid"
-                                            src="../../images/eth.png"
+                                            src="../../assets/images/eth.png"
                                             alt=""
                                           />
                                         </div>
@@ -2567,7 +2567,7 @@ const handleSearchList = (key :any) => {
                                           <div>
                                             <img
                                               className="img-fluid"
-                                              src="../../images/eth.png"
+                                              src="../../assets/images/eth.png"
                                               alt=""
                                             />
                                           </div>
@@ -2626,7 +2626,7 @@ const handleSearchList = (key :any) => {
                                             width="22"
                                             height="22"
                                             className="img-fluid"
-                                            src="../../images/shiba-round-icon.png"
+                                            src="../../assets/images/shiba-round-icon.png"
                                             alt=""
                                           />
                                         </div>
@@ -2687,7 +2687,7 @@ const handleSearchList = (key :any) => {
                                         width="22"
                                         height="22"
                                         className="img-fluid"
-                                        src="../../images/shiba-round-icon.png"
+                                        src="../../assets/images/shiba-round-icon.png"
                                         alt=""
                                       />
                                     </div>
@@ -2733,7 +2733,7 @@ const handleSearchList = (key :any) => {
                                           width="24"
                                           height="24"
                                           className="img-fluid"
-                                          src="../../images/red-bone.png"
+                                          src="../../assets/images/red-bone.png"
                                           alt=""
                                         />
                                       </div>
@@ -2780,7 +2780,7 @@ const handleSearchList = (key :any) => {
                                     <div>
                                       <img
                                         className="img-fluid"
-                                        src="../../images/eth.png"
+                                        src="../../assets/images/eth.png"
                                         alt=""
                                       />
                                     </div>

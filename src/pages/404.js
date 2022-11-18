@@ -19,7 +19,7 @@ export default function ErrorPage() {
                         <h3 className="fadeIn mb-3">Page  Not Found</h3> */}
             <img
               className="img-fluid"
-              src="../../images/404-img.gif"
+              src="../../assets/images/404-img.gif"
               alt="404-error"
               width={600}
             />

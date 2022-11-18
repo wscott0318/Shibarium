@@ -1,7 +1,7 @@
 import React,{useState} from "react";
 import { Modal } from "react-bootstrap";
 import CopyToClipboard from "react-copy-to-clipboard";
-// import copy-wht-icon from "../../images/copy-wht-icon.png"
+// import copy-wht-icon from "../../assets/images/copy-wht-icon.png"
 
  const ConfirmPopUp = (props) => {
     const [isCopied, setIsCopied] = useState(false);

@@ -1024,7 +1024,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         width="224"
                         height="224"
                         className="img-fluid"
-                        src="../../images/Ellipse.png"
+                        src="../../assets/images/Ellipse.png"
                         alt=""
                       />
                     </div>
@@ -1305,7 +1305,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                   src={
                                     item.logoUrl
                                       ? item.logoUrl
-                                      : "../../images/Shib-Logo.png"
+                                      : "../../assets/images/Shib-Logo.png"
                                   }
                                   width="69"
                                   height="70"

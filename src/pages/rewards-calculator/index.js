@@ -143,7 +143,7 @@ const Rewards = () => {
                     <div className="imgae-wrap">
                       <img
                         className="img-fluid"
-                        src="../../images/reward-calculator.png"
+                        src="../../assets/images/reward-calculator.png"
                         alt="reward-img"
                       />
                     </div>
@@ -154,7 +154,7 @@ const Rewards = () => {
                   <div className="shib-img text-center pt-4">
                     <img
                       className="img-fluid m-auto"
-                      src="../../images/shib-img-2.png"
+                      src="../../assets/images/shib-img-2.png"
                       alt="shiba-img"
                       width={200}
                     />
@@ -219,7 +219,7 @@ const Rewards = () => {
                         <div className="icon-wrap">
                           <img
                             className="img-fluid"
-                            src="../../assets/images/watch.png"
+                            src="../../assets/images/watch-clk.png"
                             alt="reward-img"
                           />
                         </div>
@@ -237,7 +237,7 @@ const Rewards = () => {
                         <div className="icon-wrap">
                           <img
                             className="img-fluid"
-                            src="../../assets/images/watch.png"
+                            src="../../assets/images/watch-clk.png"
                             alt="reward-img"
                           />
                         </div>

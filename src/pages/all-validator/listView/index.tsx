@@ -53,7 +53,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                           src={
                             x.logoUrl
                               ? x.logoUrl
-                              : "../../images/shiba-round-icon.png"
+                              : "../../assets/images/shiba-round-icon.png"
                           }
                         />
                       </span>
@@ -89,7 +89,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
           <div className='no-found'>
               {validatorsList.length === 0 && (
                   <div>
-                    <div className='text-center'><img src="../../images/no-record.png"/></div>
+                    <div className='text-center'><img src="../../assets/images/no-record.png"/></div>
                     {/* <p className='text-center'>No Record Found.</p> */}
                   </div>
               )}

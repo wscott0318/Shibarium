@@ -59,12 +59,12 @@ export default function DelegatorGrid() {
                         </div>
                         <div className='d-inline-flex mob-btns'>
                             <div className='view-blk me-2 view-active'>
-                                <img className="grey-image" src="../../images/grid-grey-2.png" width={26} height={19} alt=""></img>
-                                <img className="white-image" src="../../images/grid-white-2.png" width={26} height={19} alt=""></img>
+                                <img className="grey-image" src="../../assets/images/grid-grey-2.png" width={26} height={19} alt=""></img>
+                                <img className="white-image" src="../../assets/images/grid-white-2.png" width={26} height={19} alt=""></img>
                             </div>
                             <div className='view-blk'>
-                                <img className="grey-image" src="../../images/list-grey-2.png" width={26} height={19} alt=""></img>
-                                <img className="white-image" src="../../images/list-white-2.png" width={26} height={19} alt=""></img>
+                                <img className="grey-image" src="../../assets/images/list-grey-2.png" width={26} height={19} alt=""></img>
+                                <img className="white-image" src="../../assets/images/list-white-2.png" width={26} height={19} alt=""></img>
                             </div>
                         </div>
                     </div>

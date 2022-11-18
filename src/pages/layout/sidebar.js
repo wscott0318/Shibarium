@@ -37,31 +37,31 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
       name: "Wallet",
       route: "/wallet",
       isSelected: router.asPath == "/wallet" ? true : false,
-      img: "../../images/sidebar/wallet.png",
+      img: "../../assets/images/sidebar/wallet.png",
     },
     {
       name: "Staking",
       route: "/bone-staking",
       isSelected: router.asPath == "/transactions" ? true : false,
-      img: "../../images/sidebar/transaction.png",
+      img: "../../assets/images/sidebar/transaction.png",
     },
     {
       name: "Bridge",
       route: "/bridge",
       isSelected: router.asPath == "/bridge" ? true : false,
-      img: "../../images/sidebar/bridge.png",
+      img: "../../assets/images/sidebar/bridge.png",
     },
     // {
     //   name: "Swap token",
     //   route: "/swap-token",
     //   isSelected: router.asPath == "/swap-token" ? true : false,
-    //   img: "../../images/sidebar/swap.png",
+    //   img: "../../assets/images/sidebar/swap.png",
     // },
     // {
     //   name: "Gas token",
     //   route: "/gas-token",
     //   isSelected: router.asPath == "/gas-token" ? true : false,
-    //   img: "../../images/sidebar/gas-toke.png",
+    //   img: "../../assets/images/sidebar/gas-toke.png",
     // },
   ];
 
@@ -78,25 +78,25 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
       name: "FAQs",
       route: "/faq",
       isSelected: false,
-      img: "../../images/sidebar/faq.png",
+      img: "../../assets/images/sidebar/faq.png",
     },
     // {
     //   name: "Developer Tools",
     //   route: "",
     //   isSelected: false,
-    //   img: "../../images/sidebar/tools.png",
+    //   img: "../../assets/images/sidebar/tools.png",
     // },
     {
       name: "Faucet",
       route: "/faucet",
       isSelected: router.asPath == "/faucet" ? true : false,
-      img: "../../images/sidebar/tools.png",
+      img: "../../assets/images/sidebar/tools.png",
     },
     {
       name: "Support",
       route: "",
       isSelected: false,
-      img: "../../images/sidebar/wallet.png",
+      img: "../../assets/images/sidebar/wallet.png",
     },
   ];
 
@@ -138,7 +138,7 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
           onClick={() => handleMenuState(true)}
           className="menu-btn"
         >
-          <img className="img-fluid" src="../../images/menu.png" alt="" />
+          <img className="img-fluid" src="../../assets/images/menu.png" alt="" />
         </Navbar.Brand>
       </div>
       <div
@@ -154,13 +154,13 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
             >
               <img
                 className="img-fluid"
-                src="../../images/close-icon.png"
+                src="../../assets/images/close-icon.png"
                 alt="close-icon"
               />
             </span>
             <Link href="/home" passHref>
               <a className="sidelogo-link" href="/">
-                <img className="img-fluid" src="../../images/logo.png" alt="" />
+                <img className="img-fluid" src="../../assets/images/logo.png" alt="" />
               </a>
             </Link>
           </div>

@@ -97,7 +97,7 @@ const AccountDetails: FC<AccountDetailsProps> = ({
                     //   width={48}
                     //   height={48}
                     // />
-                    <img className="white-icon" src="../../images/metamask_icon.png" width={48}
+                    <img className="white-icon" src="../../assets/images/metamask_icon.png" width={48}
                      height={48}/>
                   }
                   provider={library}

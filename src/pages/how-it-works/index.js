@@ -23,7 +23,7 @@ export default function HowitWorks() {
                         <div className="cus-alerbox">
                         <div className="d-flex align-items-center">
                             <div className="d-inline-block me-2">
-                                <img width="20" height="20" className="img-fluid" src="../../images/alert-icon.png" alt="check-icon"/>
+                                <img width="20" height="20" className="img-fluid" src="../../assets/images/alert-icon.png" alt="check-icon"/>
                             </div>
                             <span className="fw-700 ff-mos">NOTE</span>
                         </div>
@@ -47,13 +47,13 @@ export default function HowitWorks() {
                         balances on the Shibarium Wallet across the bridges(PoS and Plasma).</p>
                         <br/>
                         <div className="img-section">
-                            <div><img  className="img-fluid" src="../../images/500x500.png" alt="check-icon"/></div>
+                            <div><img  className="img-fluid" src="../../assets/images/500x500.png" alt="check-icon"/></div>
                         </div>
                         <br/>
                         <div className="cus-alerbox">
                         <div className="d-flex align-items-center">
                             <div className="d-inline-block me-2">
-                                <img width="20" height="20" className="img-fluid" src="../../images/bulb.png" alt="check-icon"/>
+                                <img width="20" height="20" className="img-fluid" src="../../assets/images/bulb.png" alt="check-icon"/>
                             </div>
                             <span className="fw-700 ff-mos">METAMASK</span>
                         </div>
@@ -67,7 +67,7 @@ export default function HowitWorks() {
                         <p className="ff-mos">You can either watch the video tutorial below or follow the step-by-step guide.</p>
                         <br/>
                         <div className="img-section">
-                            <div><img className="img-fluid" src="../../images/700x300.png" alt="check-icon"/></div>
+                            <div><img className="img-fluid" src="../../assets/images/700x300.png" alt="check-icon"/></div>
                         </div>
                     </section>
                 </div>

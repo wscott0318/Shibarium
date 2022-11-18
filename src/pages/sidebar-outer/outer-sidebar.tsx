@@ -43,7 +43,7 @@ export default function SidebarOuter({ menuState, handleMenuState, onClickOutsid
       <div className="outrsidebar-toggle"
       onClick={()=>handleMenuState()}
       >
-        <img className="img-fluid" src="../../images/menu.png" width="25" height="25" alt="" />
+        <img className="img-fluid" src="../../assets/images/menu.png" width="25" height="25" alt="" />
       </div>
       <div className={menuState ? "outr-sidebar outrside-active" : "outr-sidebar"}
         ref={wrapperRef2}
@@ -51,7 +51,7 @@ export default function SidebarOuter({ menuState, handleMenuState, onClickOutsid
         <span className="outclose-icon"
         onClick={()=>handleMenuState()}
         >
-              <img className="img-fluid" src="../../images/close-icon.png" width="20" height="20" alt="close-icon"/>
+              <img className="img-fluid" src="../../assets/images/close-icon.png" width="20" height="20" alt="close-icon"/>
         </span>
        <ul className="outr-links">
         <li className="out-navlink out-active">

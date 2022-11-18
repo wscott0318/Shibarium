@@ -370,7 +370,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                 <div className="step-ico">
                   <img
                     className="img-fluid"
-                    src="../../images/tick-yes.png"
+                    src="../../assets/images/tick-yes.png"
                     alt="check-icon"
                   />
                 </div>
@@ -380,7 +380,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                 <div className="step-ico">
                   <img
                     className="img-fluid"
-                    src="../../images/tick-yes.png"
+                    src="../../assets/images/tick-yes.png"
                     alt="check-icon"
                   />
                 </div>
@@ -390,7 +390,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                 <div className="step-ico">
                   <img
                     className="img-fluid"
-                    src="../../images/tick-yes.png"
+                    src="../../assets/images/tick-yes.png"
                     alt="check-icon"
                   />
                 </div>
@@ -481,7 +481,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                     <div className="col-12 text-center watch-img-sec">
                       <img
                         className="img-fluid img-wdth"
-                        src="../../images/progrs-img.png"
+                        src="../../assets/images/progrs-img.png"
                       />
                     </div>
                   </div>
@@ -550,7 +550,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                     <div className="col-12 text-center watch-img-sec">
                       <img
                         className="img-fluid img-wdth"
-                        src="../../images/progress-loading.gif"
+                        src="../../assets/images/progress-loading.gif"
                       />
                     </div>
                   </div>
@@ -591,7 +591,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                     <div className="col-12 text-center watch-img-sec">
                       <img
                         className="img-fluid img-wdth"
-                        src="../../images/cmpete-step.png"
+                        src="../../assets/images/cmpete-step.png"
                       />
                     </div>
                   </div>

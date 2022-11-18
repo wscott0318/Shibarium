@@ -15,7 +15,7 @@ export default function Footer() {
                         <div className="row align-items-center py-3 py-md-4">
                             <div className="col-6">
                                 <a className='footer-logo' href="/">
-                                    <img className='img-fluid' src="../../images/footer-logo.png" alt="footer-logo" />
+                                    <img className='img-fluid' src="../../assets/images/footer-logo.png" alt="footer-logo" />
                                 </a>
                             </div>
                             <div className="col-6 text-end">
