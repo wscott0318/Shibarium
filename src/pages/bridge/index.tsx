@@ -517,7 +517,7 @@ const handleSearchList = (key :any) => {
      
       useEffect(() => {
         console.log("initial page load");
-        let customTokens : any = JSON.parse(localStorage.getItem('newToken'));
+        let customTokens : [] = JSON.parse(localStorage.getItem('newToken') || "[]");
         if(customTokens !== null)
         {
           setLocalTokens(customTokens);
