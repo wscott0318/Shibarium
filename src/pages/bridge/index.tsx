@@ -533,9 +533,15 @@ const handleSearchList = (key :any) => {
 
     
    const clearAllCustomTokens = () => {
+    
+    let checkArray = tokenModalList;
+    let localtokenarray = localTokens.map((st: any) => st.parentContract);
+    const notLocalTokens = checkArray.filter((item: any) =>
+      !localtokenarray.includes(item.parentContract)
+    );
+    setTokenModalList(notLocalTokens);
     setLocalTokens([]);
-    localStorage.setItem("newToken","[]");
-    // setTokenModalList([...tokenModalList]);
+    localStorage.setItem("newToken", "[]");
    }
 
    console.log("tokenmodallist",tokenModalList);
@@ -572,9 +578,6 @@ const handleSearchList = (key :any) => {
   //     setTokenModalList([...tokenModalList, ...uniqueTokenArray]);
   //   }
   //  }, [localTokens,tokenModalList])
-   
-   const [tempToken,setTempToken] = useState<any>({});
-      
   console.log('localToken',localTokens)
   return (
     <>
