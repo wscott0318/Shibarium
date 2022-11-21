@@ -470,7 +470,7 @@ export default function Wallet() {
                           />
                           <div className="error-msg">
                             {!isValidAddress && (
-                              <label className="mb-0 red-txt">
+                              <label className="mb-0 red-txt" style={{color:"#F06500"}}>
                                 {senderAddress?<>Enter a valid receiver address</> : <>receiver address should not be null</>}
                               </label>
                             )}
