@@ -3853,6 +3853,26 @@ display: none !important;
 .er-txt {
     margin-top: -14px;
 }
+.row-st {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+.amt-val{
+    @media #{$min-xxxl}{
+        font-size: 16px;
+    } 
+}
+.blk-dta{
+    label, .amt-val{
+        font-size: 16px;
+        @media #{$min-xxl}{
+            width: auto;
+        }
+    }
+   
+}
 .icn-wrap{
     position: relative;
 }
