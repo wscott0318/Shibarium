@@ -163,7 +163,8 @@ export default function Wallet() {
   const handleSend = (e :any) => {
     e.preventDefault()
     // console.log("called handleSend")
-    if (isValidAddress && sendAmount) {
+    if (isValidAddress && sendAmount && senderAddress) {
+      // console.log("called handleSend")
       setSendModal({
         step0: false,
         step1: false,
@@ -468,9 +469,9 @@ export default function Wallet() {
                             placeholder="Receiver address"
                           />
                           <div className="error-msg">
-                            {!isValidAddress && senderAddress && (
+                            {!isValidAddress && (
                               <label className="mb-0 red-txt">
-                                Enter a valid receiver address
+                                {senderAddress?<>Enter a valid receiver address</> : <>receiver address should not be null</>}
                               </label>
                             )}
                           </div>
