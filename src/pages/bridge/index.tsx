@@ -2203,6 +2203,8 @@ const handleSearchList = (key :any) => {
                           </button>
                         </div>
                       </div>
+                      </div>
+                      </div>
                       <div className="token-listwrap usr-listht">
                         {localTokens.map((x: any, index: any) => (
                           <div className="tokn-row" key={x.parentContract}>
@@ -2552,8 +2554,13 @@ const handleSearchList = (key :any) => {
               </div>
             )}
             {/* new added token with delete action ends */}
-          </>
+          </div>
+          </div>
+          </div>
+            )}
+          
           {/* Token popups end */}
+          </>
         </CommonModal>
         {/* Token popups end */}
         {/* modal code closed */}
