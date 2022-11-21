@@ -104,7 +104,6 @@ export default function Withdraw() {
   const [localTokens, setLocalTokens] = useState<any>(
     JSON.parse(localStorage.getItem("newToken") || "[]")
   );
-  const [tempToken, setTempToken] = useState<any>({});
   const getTokensList = () => {
     getWalletTokenList().then((res) => {
       let list = res.data.message.tokens;
@@ -404,31 +403,6 @@ const handleSearchList = (key :any) => {
           }
         };
 
-  //  useEffect(() => {
-  //    const isValidAddress = web3.utils.isAddress(String(newToken));
-  //    if(isValidAddress && newToken.length >0)
-  //    {
-  //       const contractInstance = new web3.eth.Contract(addTokenAbi, String(newToken));
-  //       let symbol = contractInstance.methods
-  //         .symbol()
-  //         .call({ from: String(account) })
-  //         .then((token: any) => token)
-  //         .catch((err: any) => console.log(err));
-  //       let name = contractInstance.methods
-  //         .name()
-  //         .call({ from: String(account) })
-  //         .then((token: any) => token)
-  //         .catch((err: any) => console.log(err));
-  //       const obj = {
-  //         parentContract: String(newToken),
-  //         childContract: String(newToken),
-  //         parentName: name,
-  //         parentSymbol: symbol,
-  //       };
-  //       setTempToken(obj);
-  //    }
-     
-  //  }, [newToken]);
 
       useEffect(() => {
         if(!showTokenModal)
@@ -557,30 +531,6 @@ const handleSearchList = (key :any) => {
     });
     setTokenModalList(filtered2);
    }
-
-
-   
-  //  useEffect(() => {
-  //   const checkArray = tokenModalList.map((st: any) => st?.parentContract);
-  //   let localtoken : any = JSON.parse(localStorage.getItem("newToken") || "[]");
-  //   let localtokenarray = localtoken.map((st: any) => st.parentContract);
-  //   const isalreadypresent = checkArray.some((item :any) =>
-  //     localtokenarray.includes(item)
-  //   );
-  //   if (
-  //     showTokenModal &&
-  //   !isalreadypresent &&
-  //     localtoken !== null 
-  //   ) {
-  //     let updatedArray = [...tokenModalList, ...localtoken];
-  //     const uniqueTokenArray = [
-  //       ...updatedArray
-  //         .reduce((map, obj) => map.set(map.parentContract, obj), new Map())
-  //         .values(),
-  //     ];
-  //     setTokenModalList([...tokenModalList, ...uniqueTokenArray]);
-  //   }
-  //  }, [localTokens,tokenModalList])
   console.log('localToken',localTokens)
   return (
     <>
@@ -1972,7 +1922,9 @@ const handleSearchList = (key :any) => {
                           type="text"
                           className="w-100"
                           placeholder="Enter Token Address"
-                          onChange={(e) => addNewToken(e.target.value)}
+                          onChange={(e) => {
+                            addNewToken(e.target.value);
+                          }}
                           autoFocus={newToken.length > 0}
                           value={newToken ? newToken : ""}
                         />
@@ -1988,42 +1940,6 @@ const handleSearchList = (key :any) => {
                       </div>
                     </div>
                   </div>
-                 {/* { <div className="tokn-row">
-                    <div className="cryoto-box">
-                      <img
-                        className="img-fluid"
-                        src={
-                          tempToken.logo
-                            ? tempToken.logo
-                            : "../../images/shib-borderd-icon.png"
-                        }
-                        alt=""
-                      />
-                    </div>
-                    <div className="tkn-grid">
-                      <div>
-                        <h6 className="fw-bold">{tempToken.parentSymbol}</h6>
-                        <p>{tempToken.parentName}</p>
-                      </div>
-                      <div>
-                        <span className="me-4">
-                          <img
-                            className="img-fluid"
-                            src="../../images/del.png"
-                            alt=""
-                          />
-                        </span>
-                        <span>
-                          <img
-                            className="img-fluid"
-                            src="../../images/up.png"
-                            alt=""
-                          />
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-            } */}
                   {/* <div className="h-100">
                     <div className="two-col position-relative">
                       <div className="left-sec-img">
@@ -2216,7 +2132,9 @@ const handleSearchList = (key :any) => {
                           type="text"
                           className="w-100"
                           placeholder="Add list by https://"
-                          onChange={(e) => addNewToken(e.target.value)}
+                          onChange={(e) => {
+                            addNewToken(e.target.value);
+                          }}
                           autoFocus={newToken.length > 0}
                           value={newToken ? newToken : ""}
                         />
