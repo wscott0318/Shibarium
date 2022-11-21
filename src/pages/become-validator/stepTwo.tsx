@@ -10,7 +10,7 @@ export const validatorSchema = yup.object().shape({
   validatorname: yup
     .string()
     .required("validator name is required")
-    .matches(/^[a-zA-Z0-9]+$/, "Entered wrong charactor "),
+    .matches(/^[A-Za-z][A-Za-z0-9 ]+$/, "Entered wrong charactor "),
   publickey: yup
     .string()
     .notOneOf(

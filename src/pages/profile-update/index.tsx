@@ -110,7 +110,7 @@ export default function ProfileUpdate() {
     };
 
     let schema = yup.object().shape({
-        validatorname: yup.string().required("validator name is required").matches(/^[a-zA-Z0-9]+$/,"Entered wrong charactor"),
+        validatorname: yup.string().required("validator name is required").matches(/^[A-Za-z][A-Za-z0-9 ]+$/,"Entered wrong charactor"),
         address: yup.string().required("address is required"),
         website: yup
             .string()
