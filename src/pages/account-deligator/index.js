@@ -81,7 +81,7 @@ export default function Account() {
                                     <div className="arrow-block mt-2 mt-sm-3">
                                         <p>$3.359 Gas Fee</p>
                                         <div className="arrow-float">
-                                            <img className="img-fluid" src="../../images/rt-arow.png" alt="arrow" width={8} />
+                                            <img className="img-fluid" src="../../assets/images/rt-arow.png" alt="arrow" width={8} />
                                         </div>
                                     </div>
                                     <div className="button-wrap mt-3">
@@ -95,7 +95,7 @@ export default function Account() {
                                     <div className="del-flex h-100">
                                         <div className="del-top">
                                             <div className="del-img">
-                                                <img className="img-fluid" src="../../images/thumb-up-icon.png" alt="thumb" width={170} />
+                                                <img className="img-fluid" src="../../assets/images/thumb-up-icon.png" alt="thumb" width={170} />
                                             </div>
                                         </div>
                                         <div className="del-bott">
@@ -157,7 +157,7 @@ export default function Account() {
                                     <div className="arrow-block mt-2 mt-sm-3">
                                         <p>$3.359 Gas Fee</p>
                                         <div className="arrow-float">
-                                            <img className="img-fluid" src="../../images/rt-arow.png" alt="arrow" width={8} />
+                                            <img className="img-fluid" src="../../assets/images/rt-arow.png" alt="arrow" width={8} />
                                         </div>
                                     </div>
                                     <div className="button-wrap mt-3">
@@ -276,7 +276,7 @@ export default function Account() {
                             <ul className="stepper mt-3 del-step">
                                 <li className="step active">
                                     <div className="step-ico">
-                                        <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon" />
+                                        <img className="img-fluid" src="../../assets/images/tick-yes.png" alt="check-icon" />
                                     </div>
                                     <div className="step-title">
                                         Approve
@@ -284,7 +284,7 @@ export default function Account() {
                                 </li>
                                 <li className="step">
                                     <div className="step-ico">
-                                        <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon" />
+                                        <img className="img-fluid" src="../../assets/images/tick-yes.png" alt="check-icon" />
                                     </div>
                                     <div className="step-title">
                                         Delegate
@@ -292,7 +292,7 @@ export default function Account() {
                                 </li>
                                 <li className="step">
                                     <div className="step-ico">
-                                        <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon" />
+                                        <img className="img-fluid" src="../../assets/images/tick-yes.png" alt="check-icon" />
                                     </div>
                                     <div className="step-title">
                                         Completed
@@ -300,7 +300,7 @@ export default function Account() {
                                 </li>
                                 {/* <li className="step">
                         <div className="step-ico">
-                            <img className="img-fluid" src="../../images/tick-yes.png" alt="check-icon"/>
+                            <img className="img-fluid" src="../../assets/images/tick-yes.png" alt="check-icon"/>
                         </div>
                         <div className="step-title">
                             Withdraw Completed
@@ -310,9 +310,9 @@ export default function Account() {
                             <div className="step_content">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec">
-                                        {/* <img className="img-fluid" src="../../images/progrs-img-2.png" /> */}
-                                        {/* <img className="img-fluid" src="../../images/progrs-img.png" /> */}
-                                        <img className="img-fluid" src="../../images/cmpete-step.png" />
+                                        {/* <img className="img-fluid" src="../../assets/images/progrs-img-2.png" /> */}
+                                        {/* <img className="img-fluid" src="../../assets/images/progrs-img.png" /> */}
+                                        <img className="img-fluid" src="../../assets/images/cmpete-step.png" />
                                     </div>
                                 </div>
                                 <div className="mid_text row">

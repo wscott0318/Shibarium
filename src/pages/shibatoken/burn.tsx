@@ -71,7 +71,7 @@ function Burn() {
                             <tr>
                                 <td colSpan={4}>
                                     <div className="image-wrap mb-3">
-                                        <img className="img-fluid mx-auto" src="../../images/shib-borderd-icon.png" />
+                                        <img className="img-fluid mx-auto" src="../../assets/images/shib-borderd-icon.png" />
                                     </div>
                                     <p className="mb-0 text-center">No Ongoing Transactions</p>
                                 </td>

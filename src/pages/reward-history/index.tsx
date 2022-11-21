@@ -177,7 +177,7 @@ export default function Unbond() {
                   <div className="no-found">
                     <div>
                       <div className="text-center">
-                        <img src="../../images/no-record.png" />
+                        <img src="../../assets/images/no-record.png" />
                       </div>
                     </div>
                   </div>

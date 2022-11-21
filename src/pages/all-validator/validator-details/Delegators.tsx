@@ -42,7 +42,7 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
                                             <tbody>
                                             {delegators.map((item: any, i:any) => (
                                                 <tr>
-                                                    <td><span><img src="../../images/shiba-round-icon.png" /></span><span className="word-br">{item.address}</span></td>
+                                                    <td><span><img src="../../assets/images/shiba-round-icon.png" /></span><span className="word-br">{item.address}</span></td>
                                                     <td>
                                                         <span className="amt-value pe-1">
                                                         <NumberFormat displayType='text' thousandSeparator value={(item.stake/Math.pow(10,18))} />

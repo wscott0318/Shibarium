@@ -18,7 +18,7 @@ export default function community() {
                 <div className="py-xxl-5 py-sm-4 py-4 ffms-inherit">
                     <section className="container mb-xxl-5 mb-xl-4 mb-sm-3 mb-3">
                         <div className="d-inline-block me-2">
-                            <img className="img-fluid" src="../../images/dummy-banner-3.png" alt="check-icon"/>
+                            <img className="img-fluid" src="../../assets/images/dummy-banner-3.png" alt="check-icon"/>
                         </div>
                         <br/>
                         <br/>
@@ -39,7 +39,7 @@ export default function community() {
                                 <div className='ftrs-head'>
                                 <h3 className='fw-600 ff-mos'>Lorem</h3>
                                 <div className="ftrs-icon">
-                                    <img className='img-fluid' src="../../images/swap.png" alt="" />
+                                    <img className='img-fluid' src="../../assets/images/swap.png" alt="" />
                                 </div>
                                 </div>
                                 <p className='frts-desc ff-mos'>
@@ -48,7 +48,7 @@ export default function community() {
                                 </p>
                                 <Link href="/swap-token" passHref>
                                 <a className='link'><span>Learn More</span>
-                                    <img className='img-fluid' src="../../images/link-arrow.png" alt="arrow-icon" />
+                                    <img className='img-fluid' src="../../assets/images/link-arrow.png" alt="arrow-icon" />
                                 </a>
                                 </Link>
                             </div>
@@ -58,7 +58,7 @@ export default function community() {
                                 <div className='ftrs-head'>
                                 <h3 className='fw-600 ff-mos'>Impsum</h3>
                                 <div className="ftrs-icon">
-                                    <img className='img-fluid' src="../../images/bridge.png" alt="" />
+                                    <img className='img-fluid' src="../../assets/images/bridge.png" alt="" />
                                 </div>
                                 </div>
                                 <p className='frts-desc ff-mos'>
@@ -67,7 +67,7 @@ export default function community() {
                                 </p>
                                 <Link href="/withdraw" passHref>
                                 <a className='link ff-mos'><span>Learn More</span>
-                                    <img className='img-fluid' src="../../images/link-arrow.png" alt="arrow-icon" />
+                                    <img className='img-fluid' src="../../assets/images/link-arrow.png" alt="arrow-icon" />
                                 </a>
                                 </Link>
 
@@ -78,7 +78,7 @@ export default function community() {
                                 <div className='ftrs-head'>
                                 <h3 className='fw-600 ff-mos'>Dummy</h3>
                                 <div className="ftrs-icon">
-                                    <img className='img-fluid' src="../../images/burn.png" alt="" />
+                                    <img className='img-fluid' src="../../assets/images/burn.png" alt="" />
                                 </div>
                                 </div>
                                 <p className='frts-desc ff-mos'>
@@ -86,7 +86,7 @@ export default function community() {
                                 asperiores illum.
                                 </p>
                                 <a href="/" className='link'><span>Learn More</span>
-                                <img className='img-fluid' src="../../images/link-arrow.png" alt="arrow-icon" />
+                                <img className='img-fluid' src="../../assets/images/link-arrow.png" alt="arrow-icon" />
                                 </a>
                             </div>
                             </div>
@@ -114,7 +114,7 @@ export default function community() {
                             </div>
                             <div className="col-md-6 col-sm-6 col-xs-12">
                                 <div className="image-section  static_img">
-                                    <div><img className="img-fluid" src="../../images/500x500-3.png" alt="check-icon"/></div>
+                                    <div><img className="img-fluid" src="../../assets/images/500x500-3.png" alt="check-icon"/></div>
                                 </div>
                             </div>
                         </div>
@@ -136,13 +136,13 @@ export default function community() {
                                             <ul className='abt-list mb-3'>
                                                 <li className='abt-lst-item ff-mos'>
                                                     <div className="check-icon">
-                                                        <img className="img-fluid" src="../../images/tick.png" alt="tick-icon"/>
+                                                        <img className="img-fluid" src="../../assets/images/tick.png" alt="tick-icon"/>
                                                     </div>
                                                     The readable content of a page when looking at its layout.
                                                 </li>
                                                 <li className='abt-lst-item ff-mos'>
                                                     <div className="check-icon">
-                                                        <img className="img-fluid" src="../../images/tick.png" alt="tick-icon"/>
+                                                        <img className="img-fluid" src="../../assets/images/tick.png" alt="tick-icon"/>
                                                     </div>
                                                     Loreum ipsum dummy text of pritinging
                                                 </li> 
@@ -151,7 +151,7 @@ export default function community() {
                                     </div>
                                     <div className="col-lg-6 col-md-5 col-sm-8 abt-col order-1 order-md-2 text-center mb-4 mb-md-0">
                                         <div className='shib-img'>
-                                            <img className='img-fluid mx-auto' src="../../images/steps.png" alt="" />
+                                            <img className='img-fluid mx-auto' src="../../assets/images/steps.png" alt="" />
                                         </div>
                                     </div>
                                 </div>
@@ -170,7 +170,7 @@ export default function community() {
                                 <div className="col-sm-6 col-lg-4 col-xl-3 cus-col">
                                 <div className="shib-item text-center">
                                     <div className="shib-img mb-3">
-                                    <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
+                                    <img className='img-fluid mx-auto' src="../../assets/images/rect-96.png" alt="rect-img" width={96} />
                                     </div>
                                     <h4 className='shib-title mb-2 ff-mos'>
                                     <Link href="/" passHref>
@@ -187,7 +187,7 @@ export default function community() {
                                 <div className="col-sm-6 col-lg-4 col-xl-3 cus-col">
                                 <div className="shib-item text-center">
                                     <div className="shib-img mb-3">
-                                    <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
+                                    <img className='img-fluid mx-auto' src="../../assets/images/rect-96.png" alt="rect-img" width={96} />
                                     </div>
                                     <h4 className='shib-title mb-2 ff-mos'>
                                     <Link href="/" passHref>
@@ -204,7 +204,7 @@ export default function community() {
                                 <div className="col-sm-6 col-lg-4 col-xl-3 cus-col">
                                 <div className="shib-item text-center">
                                     <div className="shib-img mb-3">
-                                    <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
+                                    <img className='img-fluid mx-auto' src="../../assets/images/rect-96.png" alt="rect-img" width={96} />
                                     </div>
                                     <h4 className='shib-title mb-2 ff-mos'>
                                     <Link href="/" passHref>
@@ -222,7 +222,7 @@ export default function community() {
                                 <div className="col-sm-6 col-lg-4 col-xl-3 cus-col ff-mos">
                                 <div className="shib-item text-center">
                                     <div className="shib-img mb-3">
-                                    <img className='img-fluid mx-auto' src="../../images/rect-96.png" alt="rect-img" width={96} />
+                                    <img className='img-fluid mx-auto' src="../../assets/images/rect-96.png" alt="rect-img" width={96} />
                                     </div>
                                     <h4 className='shib-title mb-2 ff-mos'>
                                     <Link href="/" passHref>
@@ -246,7 +246,7 @@ export default function community() {
                         <div className="row">
                             <div className="col-md-7 col-sm-7 col-xs-12">
                                 <div className="image-section  static_img">
-                                    <div><img className="img-fluid" src="../../images/700x300-3.png" alt="check-icon"/></div>
+                                    <div><img className="img-fluid" src="../../assets/images/700x300-3.png" alt="check-icon"/></div>
                                 </div>
                             </div>
                             <div className="col-md-5 col-sm-5 col-xs-12">

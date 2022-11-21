@@ -3850,3 +3850,14 @@ display: none !important;
     }
 }
 /** outer sidebar style end **/
+.icn-wrap{
+    position: relative;
+}
+.icon-block {
+    position: absolute;
+    right: 9px;
+    top: 15px;
+    left: auto;
+    bottom: auto;
+    cursor: pointer;
+}

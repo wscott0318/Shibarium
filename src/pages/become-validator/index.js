@@ -164,7 +164,7 @@ setEditNsave(!editNsave)
                       <span className="fw-700 step-num ff-mos">1</span>
                       <img
                         className="img-fluid tick-img"
-                        src="../../images/green-tick.png"
+                        src="../../assets/images/green-tick.png"
                         alt=""
                         width={20}
                       />
@@ -180,7 +180,7 @@ setEditNsave(!editNsave)
                       <span className="fw-700 step-num ff-mos">2</span>
                       <img
                         className="img-fluid tick-img"
-                        src="../../images/green-tick.png"
+                        src="../../assets/images/green-tick.png"
                         alt=""
                         width={20}
                       />
@@ -196,7 +196,7 @@ setEditNsave(!editNsave)
                       <span className="fw-700 step-num ff-mos">3</span>
                       <img
                         className="img-fluid tick-img"
-                        src="../../images/green-tick.png"
+                        src="../../assets/images/green-tick.png"
                         alt=""
                         width={20}
                       />
@@ -212,7 +212,7 @@ setEditNsave(!editNsave)
                       <span className="fw-700 step-num ff-mos">4</span>
                       <img
                         className="img-fluid tick-img"
-                        src="../../images/green-tick.png"
+                        src="../../assets/images/green-tick.png"
                         alt=""
                         width={20}
                       />

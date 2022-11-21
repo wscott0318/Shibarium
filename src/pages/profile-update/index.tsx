@@ -154,7 +154,7 @@ export default function ProfileUpdate() {
             <main className="main-content dark-bg-800 full-vh top-space cmn-input-bg ffms-inherit oh position-relative profile">
                 <Header />
                 <div className="shape bottom-right">
-                    <img className="img-fluid" src="../../images/shape3.png" alt="shape-img" />
+                    <img className="img-fluid" src="../../assets/images/shape3.png" alt="shape-img" />
                 </div>
                 <section className="top_bnr_area dark-bg darkbg py-0">
                     <div className="container">
@@ -165,7 +165,7 @@ export default function ProfileUpdate() {
                                 </div>
                                 <div className="col-md-6">
                                     <div className="banner-image">
-                                        <img className="img-fluid ms-auto" src="../../images/banner.png" width={450} alt="banner-img" />
+                                        <img className="img-fluid ms-auto" src="../../assets/images/banner.png" width={450} alt="banner-img" />
                                     </div>
                                 </div>
                             </div>
@@ -175,7 +175,7 @@ export default function ProfileUpdate() {
                 </section>
                 <section className="profile-section position-relative oh">
                     <div className="shape shap-top-left">
-                        <img className="img-fluid" src="../../images/shape1.png" alt="shape-img" />
+                        <img className="img-fluid" src="../../assets/images/shape1.png" alt="shape-img" />
                     </div>
 
                     <div className="container">

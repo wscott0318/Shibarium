@@ -336,7 +336,7 @@ export default function Unbond() {
                   <div className="no-found">
                     <div>
                       <div className="text-center">
-                        <img src="../../images/no-record.png" />
+                        <img src="../../assets/images/no-record.png" />
                       </div>
                     </div>
                   </div>
@@ -382,7 +382,7 @@ export default function Unbond() {
             {/* <div className="arrow-block mt-2 mt-sm-3">
                   <p>$3.359 Gas Fee</p>
                   <div className="arrow-float">
-                      <img className="img-fluid" src="../../images/rt-arow.png" alt="arrow" width={8} />
+                      <img className="img-fluid" src="../../assets/images/rt-arow.png" alt="arrow" width={8} />
                   </div>
               </div> */}
             <div className="button-wrap mt-3">

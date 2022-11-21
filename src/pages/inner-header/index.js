@@ -107,7 +107,7 @@ const InnerHeader = () => {
                       <a className="d-md-none swap-btn">
                         <img
                           className="img-fluid"
-                          src="../../images/switch-icon.png"
+                          src="../../assets/images/switch-icon.png"
                           alt=""
                           width={30}
                         />
@@ -126,7 +126,7 @@ const InnerHeader = () => {
                         <div className="head-brand">
                           <img
                             className="mx-auto img-fluid"
-                            src="../../images/Shib-Logo.png"
+                            src="../../assets/images/Shib-Logo.png"
                             alt=""
                           />
                         </div>
@@ -150,7 +150,7 @@ const InnerHeader = () => {
                           <div className="lft-img prof-icon">
                             <img
                               className="img-fluid"
-                              src="../../images/profile-round.png"
+                              src="../../assets/images/profile-round.png"
                               alt="profile"
                               width={32}
                             />
@@ -159,7 +159,7 @@ const InnerHeader = () => {
                             <span className="center-txt">Profile</span>
                           </Link>
                           <div className="rt-image">
-                            <img src="../../images/rt-arow.png" alt="" />
+                            <img src="../../assets/images/rt-arow.png" alt="" />
                           </div>
                         </div>
                       </NavDropdown.Item>}
@@ -169,13 +169,13 @@ const InnerHeader = () => {
                       >
                         <div className="custum-row">
                           <div className="lft-img">
-                            <img src="../../images/recive-icon.png" alt="" />
+                            <img src="../../assets/images/recive-icon.png" alt="" />
                           </div>
                           <div className="center-txt">
                             <span>Receive Funds</span>
                           </div>
                           <div className="rt-image">
-                            <img src="../../images/rt-arow.png" alt="" />
+                            <img src="../../assets/images/rt-arow.png" alt="" />
                           </div>
                         </div>
                       </NavDropdown.Item>
@@ -185,26 +185,26 @@ const InnerHeader = () => {
                       >
                         <div className="custum-row">
                           <div className="lft-img">
-                            <img src="../../images/graph.png" alt="" />
+                            <img src="../../assets/images/graph.png" alt="" />
                           </div>
                           <div className="center-txt">
                             <span>View on Etherscan</span>
                           </div>
                           <div className="rt-image">
-                            <img src="../../images/rt-arow.png" alt="" />
+                            <img src="../../assets/images/rt-arow.png" alt="" />
                           </div>
                         </div>
                       </NavDropdown.Item>
                       <NavDropdown.Item href="/">
                         <div className="custum-row">
                           <div className="lft-img">
-                            <img src="../../images/graph.png" alt="" />
+                            <img src="../../assets/images/graph.png" alt="" />
                           </div>
                           <div className="center-txt">
                             <span>View on Shibariumscan</span>
                           </div>
                           <div className="rt-image">
-                            <img src="../../images/rt-arow.png" alt="" />
+                            <img src="../../assets/images/rt-arow.png" alt="" />
                           </div>
                         </div>
                       </NavDropdown.Item>
@@ -212,7 +212,7 @@ const InnerHeader = () => {
                         <div className="custum-row mb-0">
                           <div className="lft-img ps-2">
                             <img
-                              src="../../images/back.png"
+                              src="../../assets/images/back.png"
                               alt=""
                               onClick={logoutHandler}
                             />
@@ -221,7 +221,7 @@ const InnerHeader = () => {
                             <span>Logout</span>
                           </div>
                           <div className="rt-image" onClick={logoutHandler}>
-                            <img src="../../images/rt-arow.png" alt="" />
+                            <img src="../../assets/images/rt-arow.png" alt="" />
                           </div>
                         </div>
                       </NavDropdown.Item>

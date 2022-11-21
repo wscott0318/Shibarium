@@ -36,7 +36,7 @@ function StepOne({stepHandler,stepState}:any) {
                   className="img-fluid"
                   width="26"
                   height="30"
-                  src="../../images/ansible.png"
+                  src="../../assets/images/ansible.png"
                   alt=""
                 />
               </div>
@@ -65,7 +65,7 @@ function StepOne({stepHandler,stepState}:any) {
                   className="img-fluid"
                   width="26"
                   height="30"
-                  src="../../images/binaries.png"
+                  src="../../assets/images/binaries.png"
                   alt=""
                 />
               </div>

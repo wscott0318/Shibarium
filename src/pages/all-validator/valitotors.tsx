@@ -143,7 +143,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                 </div>
               </div>
             <div className="filter-row ff-mos">
-              <div className="left-section">
+              <div className="left-section icn-wrap">
                 <input
                  className="custum-search w-100" 
                  type="search " 
@@ -151,6 +151,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                  value={searchKey}
                  onChange={(e) => setSearchKey(e.target.value)}
                  />
+                 <div className='icon-block'><img className="white-icon img-fluid" src="../../assets/images/cross-icon.png" /></div>
               </div>
               <div className="right-section">
                 {/* <div className="switch-sec">
@@ -185,12 +186,12 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                   </div>
                 <div className="layout-sec">
                   <div onClick={() => setListView(true)}  className={isListView ? "list blk-active" : "list"}>
-                    <p className="mb-0"><img className="white-icon" src="../../images/list-white.png" /></p>
-                    <p className="mb-0"><img className="grey-icon" src="../../images/list-grey.png" /></p>
+                    <p className="mb-0"><img className="white-icon" src="../../assets/images/list-white.png" /></p>
+                    <p className="mb-0"><img className="grey-icon" src="../../assets/images/list-grey.png" /></p>
                   </div>
                   <div onClick={() => setListView(false)}  className={!isListView ? "cus-grid blk-active" : "cus-grid"}>
-                    <p className="mb-0"><img className="white-icon" src="../../images/grid-white.png" /></p>
-                    <p className="mb-0"><img className="grey-icon" src="../../images/grid-grey.png" /></p>
+                    <p className="mb-0"><img className="white-icon" src="../../assets/images/grid-white.png" /></p>
+                    <p className="mb-0"><img className="grey-icon" src="../../assets/images/grid-grey.png" /></p>
                   </div>
                 </div>
               </div>

@@ -22,7 +22,7 @@ function CompleteBurn() {
                                 </td>
                                 <td>
                                     <div className="d-flex align-items-center">
-                                        <img className="img-fluid me-2" src="../../images/eth.png" alt="eth" width={14} />
+                                        <img className="img-fluid me-2" src="../../assets/images/eth.png" alt="eth" width={14} />
                                         <span>Oxbe..4af0</span>
                                     </div>
                                 </td>
@@ -39,7 +39,7 @@ function CompleteBurn() {
                                 </td>
                                 <td>
                                     <div className="d-flex align-items-center">
-                                        <img className="img-fluid me-2" src="../../images/eth.png" alt="eth" width={14} />
+                                        <img className="img-fluid me-2" src="../../assets/images/eth.png" alt="eth" width={14} />
                                         <span>Oxbe..4af0</span>
                                     </div>
                                 </td>
@@ -56,7 +56,7 @@ function CompleteBurn() {
                                 </td>
                                 <td>
                                     <div className="d-flex align-items-center">
-                                        <img className="img-fluid me-2" src="../../images/eth.png" alt="eth" width={14} />
+                                        <img className="img-fluid me-2" src="../../assets/images/eth.png" alt="eth" width={14} />
                                         <span>Oxbe..4af0</span>
                                     </div>
                                 </td>

@@ -30,7 +30,7 @@ export default function delegator() {
                 </div>
                 <div className="col-md-5 col-sm-12 m-hide">
                   <div className="shib-img-sec text-end">
-                    <img src="../../images/shiba-img.png" />
+                    <img src="../../assets/images/shiba-img.png" />
                   </div>
                 </div>
               </div>
@@ -66,12 +66,12 @@ export default function delegator() {
                 </div>
                 <div className="layout-sec">
                   <div className="list blk-active">
-                    <a href="/;"><img className="white-icon" src="../../images/list-white.png" /></a>
-                    <a href="/;"><img className="grey-icon" src="../../images/list-grey.png" /></a>
+                    <a href="/;"><img className="white-icon" src="../../assets/images/list-white.png" /></a>
+                    <a href="/;"><img className="grey-icon" src="../../assets/images/list-grey.png" /></a>
                   </div>
                   <div className="cus-grid">
-                    <a href="/;"><img className="white-icon" src="../../images/grid-white.png" /></a>
-                    <a href="/;"><img className="grey-icon" src="../../images/grid-grey.png" /></a>
+                    <a href="/;"><img className="white-icon" src="../../assets/images/grid-white.png" /></a>
+                    <a href="/;"><img className="grey-icon" src="../../assets/images/grid-grey.png" /></a>
                   </div>
                 </div>
               </div>
@@ -93,28 +93,28 @@ export default function delegator() {
                   </thead>
                   <tbody>
                     <tr>
-                      <td><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
+                      <td><span><img src="../../assets/images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
                       <td>0.0000 - 0.00$</td>
                       <td><a href="#">Deposit</a></td>
                       <td><a href="#">Whitdraw</a></td>
                       <td><a className="sm-btn primary-btn" href="/;">Delegate</a></td>
                     </tr>
                     <tr>
-                      <td><span><img src="../../images/matic-round-icon.png" /></span><b>MATIC</b> - Shibarium</td>
+                      <td><span><img src="../../assets/images/matic-round-icon.png" /></span><b>MATIC</b> - Shibarium</td>
                       <td>0.0000 - 0.00$</td>
                       <td><a href="#">Deposit</a></td>
                       <td><a href="#">Whitdraw</a></td>
                       <td><a className="sm-btn primary-btn" href="/;">Delegate</a></td>
                     </tr>
                     <tr>
-                      <td><span><img src="../../images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
+                      <td><span><img src="../../assets/images/bnb-round-icon.png" /></span><b>BNB</b> - BNB</td>
                       <td>0.0000 - 0.00$</td>
                       <td><a href="#">Deposit</a></td>
                       <td><a href="#">Whitdraw</a></td>
                       <td><a className="sm-btn primary-btn" href="/;">Delegate</a></td>
                     </tr>
                     <tr>
-                      <td><span><img src="../../images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
+                      <td><span><img src="../../assets/images/shiba-round-icon.png" /></span><b>SHIB</b> - Shibatoken</td>
                       <td>0.0000 - 0.00$</td>
                       <td><a href="#">Deposit</a></td>
                       <td><a href="#">Whitdraw</a></td>

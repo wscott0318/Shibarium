@@ -91,7 +91,7 @@ export default function Login() {
         <section className="login-section">
             <div className="container">
                 <div className='login_h_logo text-center d-none'>
-                    <a href='#' className=''><img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} /></a>
+                    <a href='#' className=''><img className='img-fluid' src="../../assets/images/logo.png" alt="site-logo" width={250} /></a>
                 </div>
                 <div className='login_holder'>
                     <div className='login_outr'>

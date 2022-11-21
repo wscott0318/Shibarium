@@ -76,12 +76,12 @@ const [scroll, setScroll] = useState(false);
         <Navbar className="py-0">
           <Container>
             <Navbar.Brand href="/">
-              {/* <img className='img-fluid' src="../../images/logo.png" alt="site-logo" width={250} /> */}
+              {/* <img className='img-fluid' src="../../assets/images/logo.png" alt="site-logo" width={250} /> */}
               <div className="logo-wrap">
                 <div className="lg-lft">
                   <img
                     className="img-fluid"
-                    src="../../images/shibarium-logo.png"
+                    src="../../assets/images/shibarium-logo.png"
                     alt="site-logo"
                     width={50}
                   />
@@ -89,7 +89,7 @@ const [scroll, setScroll] = useState(false);
                 <div className="lg-rt">
                   <img
                     className="img-fluid"
-                    src="../../images/shib-text.png"
+                    src="../../assets/images/shib-text.png"
                     alt="site-logo"
                     width={150}
                   />
@@ -123,7 +123,7 @@ const [scroll, setScroll] = useState(false);
                       <a className="d-none launch-btn">
                         <img
                           className="img-fluid"
-                          src="../../images/launch-app.png"
+                          src="../../assets/images/launch-app.png"
                           alt=""
                           width={30}
                         />
@@ -142,7 +142,7 @@ const [scroll, setScroll] = useState(false);
                       
                         <img
                           className="img-fluid"
-                          src="../../images/switch-icon.png"
+                          src="../../assets/images/switch-icon.png"
                           alt=""
                           width={30}
                         />
@@ -179,7 +179,7 @@ const [scroll, setScroll] = useState(false);
                             <div className="head-brand">
                               <img
                                 className="mx-auto img-fluid"
-                                src="../../images/Shib-Logo.png"
+                                src="../../assets/images/Shib-Logo.png"
                                 alt=""
                               />
                             </div>
@@ -203,7 +203,7 @@ const [scroll, setScroll] = useState(false);
                               <div className="lft-img prof-icon">
                                 <img
                                   className="img-fluid"
-                                  src="../../images/file-icon.png"
+                                  src="../../assets/images/file-icon.png"
                                   alt="profile"
                                   width={24}
                                 />
@@ -212,7 +212,7 @@ const [scroll, setScroll] = useState(false);
                                 <span className="center-txt">Profile</span>
                               </Link>
                               <div className="rt-image">
-                                <img src="../../images/rt-arow.png" alt="" />
+                                <img src="../../assets/images/rt-arow.png" alt="" />
                               </div>
                             </div>
                           </NavDropdown.Item>}
@@ -223,7 +223,7 @@ const [scroll, setScroll] = useState(false);
                             <div className="custum-row">
                               <div className="lft-img">
                                 <img
-                                  src="../../images/recive-icon.png"
+                                  src="../../assets/images/recive-icon.png"
                                   alt=""
                                 />
                               </div>
@@ -231,7 +231,7 @@ const [scroll, setScroll] = useState(false);
                                 <span>Receive Funds</span>
                               </div>
                               <div className="rt-image">
-                                <img src="../../images/rt-arow.png" alt="" />
+                                <img src="../../assets/images/rt-arow.png" alt="" />
                               </div>
                             </div>
                           </NavDropdown.Item>
@@ -241,26 +241,26 @@ const [scroll, setScroll] = useState(false);
                           >
                             <div className="custum-row">
                               <div className="lft-img">
-                                <img src="../../images/graph.png" alt="" />
+                                <img src="../../assets/images/graph.png" alt="" />
                               </div>
                               <div className="center-txt">
                                 <span>View on Etherscan</span>
                               </div>
                               <div className="rt-image">
-                                <img src="../../images/rt-arow.png" alt="" />
+                                <img src="../../assets/images/rt-arow.png" alt="" />
                               </div>
                             </div>
                           </NavDropdown.Item>
                           <NavDropdown.Item href="#action/3.3">
                             <div className="custum-row">
                               <div className="lft-img">
-                                <img src="../../images/graph.png" alt="" />
+                                <img src="../../assets/images/graph.png" alt="" />
                               </div>
                               <div className="center-txt">
                                 <span>View on Shibariumscan</span>
                               </div>
                               <div className="rt-image">
-                                <img src="../../images/rt-arow.png" alt="" />
+                                <img src="../../assets/images/rt-arow.png" alt="" />
                               </div>
                             </div>
                           </NavDropdown.Item>
@@ -268,7 +268,7 @@ const [scroll, setScroll] = useState(false);
                             <div className="custum-row mb-0">
                               <div className="lft-img ps-2">
                                 <img
-                                  src="../../images/back.png"
+                                  src="../../assets/images/back.png"
                                   alt=""
                                   onClick={logoutHandler}
                                 />
@@ -280,7 +280,7 @@ const [scroll, setScroll] = useState(false);
                                 <span>Logout</span>
                               </div>
                               <div className="rt-image" onClick={logoutHandler}>
-                                <img src="../../images/rt-arow.png" alt="" />
+                                <img src="../../assets/images/rt-arow.png" alt="" />
                               </div>
                             </div>
                           </NavDropdown.Item>

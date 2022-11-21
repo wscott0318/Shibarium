@@ -102,7 +102,7 @@ export default function Deposit() {
                 <p className="sprdt_txt">Supported Excanges</p>
               </div>
               <p className="alert_msg">
-                <img src="../../images/i-info-icon.png" /> Sending funds to
+                <img src="../../assets/images/i-info-icon.png" /> Sending funds to
                 unsupported exchanges will lead to permanent loss of funds.
               </p>
               <div className="pop_btns_area row">
@@ -165,7 +165,7 @@ export default function Deposit() {
                   >
                     <img
                       className="img-fluid"
-                      src="../../images/menu.png"
+                      src="../../assets/images/menu.png"
                       alt=""
                     />
                   </Navbar.Brand>
@@ -174,7 +174,7 @@ export default function Deposit() {
                     <Nav className="ms-auto">
                       <Dropdown className="d-flex align-items-center">
                         <div className="" id="basic-nav-dropdown">
-                          <img src="../../images/menu-icon.png" alt="" />
+                          <img src="../../assets/images/menu-icon.png" alt="" />
                         </div>
                         <NavDropdown className="me-3" title="App">
                           <NavDropdown.Item href="#action/3.1">
@@ -200,7 +200,7 @@ export default function Deposit() {
                           >
                             <img
                               className="img-fluid me-2"
-                              src="../../images/meta-icon.png"
+                              src="../../assets/images/meta-icon.png"
                               alt="meta-img"
                               width={28}
                             />
@@ -224,7 +224,7 @@ export default function Deposit() {
                 <div className="btns_area t_a_clm">
                   <a href="#" className="btn grey-btn w-100 d-block">
                     <span>
-                      <img src="../../images/recive-icon.png" alt="recive" />
+                      <img src="../../assets/images/recive-icon.png" alt="recive" />
                     </span>
                     Receive
                   </a>
@@ -233,7 +233,7 @@ export default function Deposit() {
                     className="btn grey-btn w-100 d-block"
                   >
                     <span>
-                      <img src="../../images/send-icon.png" alt="recive" />
+                      <img src="../../assets/images/send-icon.png" alt="recive" />
                     </span>
                     Send
                   </button>
@@ -267,7 +267,7 @@ export default function Deposit() {
                         <tr>
                           <td>
                             <span>
-                              <img src="../../images/shiba-round-icon.png" />
+                              <img src="../../assets/images/shiba-round-icon.png" />
                             </span>
                             <b>SHIB</b> - Shibatoken
                           </td>
@@ -285,7 +285,7 @@ export default function Deposit() {
                         <tr>
                           <td>
                             <span>
-                              <img src="../../images/matic-round-icon.png" />
+                              <img src="../../assets/images/matic-round-icon.png" />
                             </span>
                             <b>MATIC</b> - Shibarium
                           </td>
@@ -303,7 +303,7 @@ export default function Deposit() {
                         <tr>
                           <td>
                             <span>
-                              <img src="../../images/bnb-round-icon.png" />
+                              <img src="../../assets/images/bnb-round-icon.png" />
                             </span>
                             <b>BNB</b> - BNB
                           </td>
@@ -321,7 +321,7 @@ export default function Deposit() {
                         <tr>
                           <td>
                             <span>
-                              <img src="../../images/shiba-round-icon.png" />
+                              <img src="../../assets/images/shiba-round-icon.png" />
                             </span>
                             <b>SHIB</b> - Shibatoken
                           </td>

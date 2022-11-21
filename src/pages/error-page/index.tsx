@@ -20,7 +20,7 @@ export default function ErrorPage() {
                             <span className="fade-in" id="digit3">4</span>
                         </h1>
                         <h3 className="fadeIn mb-3">Page  Not Found</h3> */}
-                        <img className='img-fluid' src="../../images/404-img.gif" alt="404-error" width={600} />
+                        <img className='img-fluid' src="../../assets/images/404-img.gif" alt="404-error" width={600} />
                         <h5>Sorry, the page you are looking for could not be found.</h5>
                         <Link href="/" passHref>
                             <a className="btn">Return To Home</a>

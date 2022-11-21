@@ -48,7 +48,7 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue }) => {
                                         </td>
                                         <td>{checkpoint.startBlock}</td>
                                         <td>{checkpoint.endBlock}</td>
-                                        <td><span><img src="../../images/green-tick2.png"></img></span>
+                                        <td><span><img src="../../assets/images/green-tick2.png"></img></span>
                                             <span>
                                                 {checkpoint.signed ? 'Success' : 'Not completed'}
                                             </span></td>

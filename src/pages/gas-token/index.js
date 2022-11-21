@@ -51,7 +51,7 @@ export default function Gastoken() {
                         <a href="/">
                           <img
                             className="img-fluid"
-                            src="../../images/faq.png"
+                            src="../../assets/images/faq.png"
                             alt="icon-img"
                             width={25}
                             height="25"
@@ -121,7 +121,7 @@ export default function Gastoken() {
                         </div>
                       </div>
                       <div className="down_arrow">
-                        {/* <img src="../../images/chev-drop.png" alt="icon-img" /> */}
+                        {/* <img src="../../assets/images/chev-drop.png" alt="icon-img" /> */}
                           <div className="scrolldown-container">
                             <div className="scrolldown-btn">
                               <svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="80px" viewBox="0 0 50 80" enableBackground="new 0 0 50 80" xmlSpace="preserve">
@@ -141,7 +141,7 @@ export default function Gastoken() {
                                 <div className="coin-img">
                                   <img
                                     className="img-fluid"
-                                    src="../../images/etharium.png"
+                                    src="../../assets/images/etharium.png"
                                     alt="eth"
                                     width={30}
                                   />
@@ -253,7 +253,7 @@ export default function Gastoken() {
                       <div className="img-flexible">
                         <img
                           className="img-fluid d-inline-block"
-                          src="../../images/shib-borderd-icon.png"
+                          src="../../assets/images/shib-borderd-icon.png"
                           alt=""
                         />
                       </div>
@@ -271,7 +271,7 @@ export default function Gastoken() {
                       <div className="d-inline-block arow-block right-arrow">
                         {/* <img
                           className="img-fluid"
-                          src="../../images/white-arrow.png"
+                          src="../../assets/images/white-arrow.png"
                           alt=""
                         /> */}
                         <div className="scrolldown-container">
@@ -380,7 +380,7 @@ export default function Gastoken() {
                           width="272"
                           height="272"
                           className="img-fluid"
-                          src="../../images/Ellipse.png"
+                          src="../../assets/images/Ellipse.png"
                           alt=""
                         />
                       </div>
@@ -424,7 +424,7 @@ export default function Gastoken() {
                     <div className="sec-search ng-16">
                       <div className="position-relative search-row">
                         <input type="text" className="w-100" placeholder="Search token or token address" />
-                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
+                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../assets/images/search.png" alt="" /></div>
                       </div>
                     </div>
                     <div className="token-sec">
@@ -449,7 +449,7 @@ export default function Gastoken() {
                     <div className="token-listwrap">
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                            <img className="img-fluid" src="../../assets/images/shib-borderd-icon.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -463,7 +463,7 @@ export default function Gastoken() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/red-bone.png" alt="" />
+                            <img className="img-fluid" src="../../assets/images/red-bone.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -477,7 +477,7 @@ export default function Gastoken() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../assets/images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -491,7 +491,7 @@ export default function Gastoken() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../assets/images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -505,7 +505,7 @@ export default function Gastoken() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../assets/images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -519,7 +519,7 @@ export default function Gastoken() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../assets/images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -533,7 +533,7 @@ export default function Gastoken() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../assets/images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -547,7 +547,7 @@ export default function Gastoken() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../assets/images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -561,7 +561,7 @@ export default function Gastoken() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../assets/images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -575,7 +575,7 @@ export default function Gastoken() {
                         </div>
                         <div className="tokn-row">
                           <div className="cryoto-box">
-                            <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                            <img className="img-fluid" src="../../assets/images/etharium.png" alt="" />
                           </div>
                           <div className="tkn-grid">
                             <div>
@@ -622,13 +622,13 @@ export default function Gastoken() {
                     <div className="sec-search sec-search-secondry">
                       <div className="position-relative search-row">
                         <input type="text" className="w-100" placeholder="Add list by https://" />
-                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
+                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../assets/images/search.png" alt="" /></div>
                       </div>
                     </div>
                     <div className="token-listwrap list-ht">
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../assets/images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -648,7 +648,7 @@ export default function Gastoken() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img className="img-fluid" src="../../images/red-bone.png" alt="" />
+                              <img className="img-fluid" src="../../assets/images/red-bone.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -668,7 +668,7 @@ export default function Gastoken() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                              <img className="img-fluid" src="../../assets/images/etharium.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -688,7 +688,7 @@ export default function Gastoken() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                              <img className="img-fluid" src="../../assets/images/etharium.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -708,7 +708,7 @@ export default function Gastoken() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                              <img className="img-fluid" src="../../assets/images/etharium.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -728,7 +728,7 @@ export default function Gastoken() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                              <img className="img-fluid" src="../../assets/images/etharium.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -748,7 +748,7 @@ export default function Gastoken() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                              <img className="img-fluid" src="../../assets/images/etharium.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -768,7 +768,7 @@ export default function Gastoken() {
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img className="img-fluid" src="../../images/etharium.png" alt="" />
+                              <img className="img-fluid" src="../../assets/images/etharium.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -830,7 +830,7 @@ export default function Gastoken() {
                             });
                           }}>
                           <input type="text" className="w-100" placeholder="Enter Token Address" />
-                          <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
+                          <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../assets/images/search.png" alt="" /></div>
                         </div>
                       </div>
                       </div>
@@ -870,14 +870,14 @@ export default function Gastoken() {
                       <div className="sec-search sec-search-secondry">
                         <div className="position-relative search-row">
                           <input type="text" className="w-100" placeholder="Enter Token Address" />
-                          <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
+                          <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../assets/images/search.png" alt="" /></div>
                         </div>
                       </div>
                       </div>
                       <div className="h-100">
                           <div className="two-col position-relative">
                             <div className="left-sec-img">
-                              <div><img  className="img-fluid" src="../../images/alert.png" alt="" /></div>
+                              <div><img  className="img-fluid" src="../../assets/images/alert.png" alt="" /></div>
                             </div>
                             <p className="text-block">Anyone can create a token, including creating FAKE version of existing tokens. Interact with any new token carefully.</p>
                           </div>
@@ -969,7 +969,7 @@ export default function Gastoken() {
                     <div className="sec-search sec-search-secondry">
                       <div className="position-relative search-row">
                         <input type="text" className="w-100" placeholder="Add list by https://" />
-                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../images/search.png" alt="" /></div>
+                        <div className="search-icon"><img width="20" height="21" className="img-fluid" src="../../assets/images/search.png" alt="" /></div>
                       </div>
                     </div>
                     </div>
@@ -996,7 +996,7 @@ export default function Gastoken() {
                         <div className="token-listwrap usr-listht">
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../assets/images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1013,14 +1013,14 @@ export default function Gastoken() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../assets/images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../assets/images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../assets/images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1037,14 +1037,14 @@ export default function Gastoken() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../assets/images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../assets/images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../assets/images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1061,14 +1061,14 @@ export default function Gastoken() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../assets/images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../assets/images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../assets/images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1085,14 +1085,14 @@ export default function Gastoken() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../assets/images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../assets/images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../assets/images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1109,14 +1109,14 @@ export default function Gastoken() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../assets/images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../assets/images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../assets/images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1133,14 +1133,14 @@ export default function Gastoken() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../assets/images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../assets/images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../assets/images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1157,14 +1157,14 @@ export default function Gastoken() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../assets/images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../assets/images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>
                           <div className="tokn-row">
                             <div className="cryoto-box">
-                              <img className="img-fluid" src="../../images/shib-borderd-icon.png" alt="" />
+                              <img className="img-fluid" src="../../assets/images/shib-borderd-icon.png" alt="" />
                             </div>
                             <div className="tkn-grid">
                               <div>
@@ -1181,8 +1181,8 @@ export default function Gastoken() {
                                 step4: false,
                                 title: "Manage Token",
                               });
-                            }}><img className="img-fluid" src="../../images/del.png" alt="" /></span>
-                                <span><img className="img-fluid" src="../../images/up.png" alt="" /></span>
+                            }}><img className="img-fluid" src="../../assets/images/del.png" alt="" /></span>
+                                <span><img className="img-fluid" src="../../assets/images/up.png" alt="" /></span>
                               </div>
                             </div>
                           </div>

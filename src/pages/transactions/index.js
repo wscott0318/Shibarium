@@ -127,7 +127,7 @@ export default function Transaction() {
                     <div className="step-ico">
                       <img
                         className="img-fluid"
-                        src="../../images/tick-yes.png"
+                        src="../../assets/images/tick-yes.png"
                         alt="check-icon"
                       />
                     </div>
@@ -137,7 +137,7 @@ export default function Transaction() {
                     <div className="step-ico">
                       <img
                         className="img-fluid"
-                        src="../../images/tick-yes.png"
+                        src="../../assets/images/tick-yes.png"
                         alt="check-icon"
                       />
                     </div>
@@ -147,7 +147,7 @@ export default function Transaction() {
                     <div className="step-ico">
                       <img
                         className="img-fluid"
-                        src="../../images/tick-yes.png"
+                        src="../../assets/images/tick-yes.png"
                         alt="check-icon"
                       />
                     </div>
@@ -157,7 +157,7 @@ export default function Transaction() {
                     <div className="step-ico">
                       <img
                         className="img-fluid"
-                        src="../../images/tick-yes.png"
+                        src="../../assets/images/tick-yes.png"
                         alt="check-icon"
                       />
                     </div>
@@ -168,7 +168,7 @@ export default function Transaction() {
                   <div className="image_area row">
                     <div className="col-12 text-center watch-img-sec">
                       <div className="set-block">
-                        <img className="img-fluid" src="../../images/watch.png" />
+                        <img className="img-fluid" src="../../assets/images/watch.png" />
                       </div>
                     </div>
                   </div>
@@ -185,7 +185,7 @@ export default function Transaction() {
                   </div>
                   <div className="fees_text">
                     <div className="icon_name">
-                      <img src="../../images/eth-icon.png" />
+                      <img src="../../assets/images/eth-icon.png" />
                       <span>Estimation of GAS fee required</span>
                     </div>
                     <div className="">
@@ -225,7 +225,7 @@ export default function Transaction() {
                     <div className="step-ico">
                       <img
                         className="img-fluid"
-                        src="../../images/tick-yes.png"
+                        src="../../assets/images/tick-yes.png"
                         alt="check-icon"
                       />
                     </div>
@@ -235,7 +235,7 @@ export default function Transaction() {
                     <div className="step-ico">
                       <img
                         className="img-fluid"
-                        src="../../images/tick-yes.png"
+                        src="../../assets/images/tick-yes.png"
                         alt="check-icon"
                       />
                     </div>
@@ -245,7 +245,7 @@ export default function Transaction() {
                     <div className="step-ico">
                       <img
                         className="img-fluid"
-                        src="../../images/tick-yes.png"
+                        src="../../assets/images/tick-yes.png"
                         alt="check-icon"
                       />
                     </div>
@@ -255,7 +255,7 @@ export default function Transaction() {
                     <div className="step-ico">
                       <img
                         className="img-fluid"
-                        src="../../images/tick-yes.png"
+                        src="../../assets/images/tick-yes.png"
                         alt="check-icon"
                       />
                     </div>
@@ -268,7 +268,7 @@ export default function Transaction() {
                       <div className="set-block">
                         <img
                           className="img-fluid"
-                          src="../../images/funds-coin.png"
+                          src="../../assets/images/funds-coin.png"
                         />
                       </div>
                     </div>
@@ -285,7 +285,7 @@ export default function Transaction() {
                   </div>
                   <div className="fees_text">
                     <div className="icon_name">
-                      <img src="../../images/eth-icon.png" />
+                      <img src="../../assets/images/eth-icon.png" />
                       <span>Estimation of GAS fee required</span>
                     </div>
                     <div className="">
@@ -328,7 +328,7 @@ export default function Transaction() {
                     <div className="step-ico">
                       <img
                         className="img-fluid"
-                        src="../../images/tick-yes.png"
+                        src="../../assets/images/tick-yes.png"
                         alt="check-icon"
                       />
                     </div>
@@ -338,7 +338,7 @@ export default function Transaction() {
                     <div className="step-ico">
                       <img
                         className="img-fluid"
-                        src="../../images/tick-yes.png"
+                        src="../../assets/images/tick-yes.png"
                         alt="check-icon"
                       />
                     </div>
@@ -348,7 +348,7 @@ export default function Transaction() {
                     <div className="step-ico">
                       <img
                         className="img-fluid"
-                        src="../../images/tick-yes.png"
+                        src="../../assets/images/tick-yes.png"
                         alt="check-icon"
                       />
                     </div>
@@ -358,7 +358,7 @@ export default function Transaction() {
                     <div className="step-ico">
                       <img
                         className="img-fluid"
-                        src="../../images/tick-yes.png"
+                        src="../../assets/images/tick-yes.png"
                         alt="check-icon"
                       />
                     </div>
@@ -369,7 +369,7 @@ export default function Transaction() {
                   <div className="image_area row">
                     <div className="col-12 text-center">
                       <div className="set-block">
-                        <img className="img-fluid" src="../../images/watch.png" />
+                        <img className="img-fluid" src="../../assets/images/watch.png" />
                       </div>
                     </div>
                   </div>
@@ -385,7 +385,7 @@ export default function Transaction() {
                   </div>
                   <div className="fees_text">
                     <div className="icon_name">
-                      <img src="../../images/eth-icon.png" />
+                      <img src="../../assets/images/eth-icon.png" />
                       <span>Estimation of GAS fee required</span>
                     </div>
                     <div className="">
@@ -428,7 +428,7 @@ export default function Transaction() {
                     <div className="step-ico">
                       <img
                         className="img-fluid"
-                        src="../../images/tick-yes.png"
+                        src="../../assets/images/tick-yes.png"
                         alt="check-icon"
                       />
                     </div>
@@ -438,7 +438,7 @@ export default function Transaction() {
                     <div className="step-ico">
                       <img
                         className="img-fluid"
-                        src="../../images/tick-yes.png"
+                        src="../../assets/images/tick-yes.png"
                         alt="check-icon"
                       />
                     </div>
@@ -448,7 +448,7 @@ export default function Transaction() {
                     <div className="step-ico">
                       <img
                         className="img-fluid"
-                        src="../../images/tick-yes.png"
+                        src="../../assets/images/tick-yes.png"
                         alt="check-icon"
                       />
                     </div>
@@ -458,7 +458,7 @@ export default function Transaction() {
                     <div className="step-ico">
                       <img
                         className="img-fluid"
-                        src="../../images/tick-yes.png"
+                        src="../../assets/images/tick-yes.png"
                         alt="check-icon"
                       />
                     </div>
@@ -471,7 +471,7 @@ export default function Transaction() {
                       <div className="set-block">
                         <img
                           className="img-fluid"
-                          src="../../images/thumb-up-icon.png"
+                          src="../../assets/images/thumb-up-icon.png"
                         />
                       </div>
                     </div>
@@ -488,7 +488,7 @@ export default function Transaction() {
                   </div>
                   <div className="fees_text">
                     <div className="icon_name">
-                      <img src="../../images/eth-icon.png" />
+                      <img src="../../assets/images/eth-icon.png" />
                       <span>Estimation of GAS fee required</span>
                     </div>
                     <div className="">
@@ -566,7 +566,7 @@ export default function Transaction() {
                       <div className="col-md-4 col-sm-6 col-xs-12 bone_count">
                         <span>
                           <img
-                            src="../../images/red-bone.png"
+                            src="../../assets/images/red-bone.png"
                             alt="bones"
                             className="img-fluid"
                           />
@@ -623,7 +623,7 @@ export default function Transaction() {
                             <span>
                               <img
                                 className="img-fluid me-2"
-                                src="../../images/down-arrow.png"
+                                src="../../assets/images/down-arrow.png"
                                 alt="meta-img"
                               />
                             </span>
@@ -636,7 +636,7 @@ export default function Transaction() {
                             <span>
                               <img
                                 className="img-fluid me-2"
-                                src="../../images/red-bone.png"
+                                src="../../assets/images/red-bone.png"
                                 alt="meta-img"
                               />
                             </span>
@@ -652,7 +652,7 @@ export default function Transaction() {
                                 <span>0x1a95....ba496</span>
                                 <a href="#">
                                   <img
-                                    src="../../images/grey-arrow.png"
+                                    src="../../assets/images/grey-arrow.png"
                                     className="img-fluid"
                                   />
                                 </a>
@@ -671,7 +671,7 @@ export default function Transaction() {
                             <span>
                               <img
                                 className="img-fluid me-2"
-                                src="../../images/down-arrow.png"
+                                src="../../assets/images/down-arrow.png"
                                 alt="meta-img"
                               />
                             </span>
@@ -684,7 +684,7 @@ export default function Transaction() {
                             <span>
                               <img
                                 className="img-fluid me-2"
-                                src="../../images/red-bone.png"
+                                src="../../assets/images/red-bone.png"
                                 alt="meta-img"
                               />
                             </span>
@@ -700,7 +700,7 @@ export default function Transaction() {
                                 <span>0x1a95....ba496</span>
                                 <a href="#">
                                   <img
-                                    src="../../images/grey-arrow.png"
+                                    src="../../assets/images/grey-arrow.png"
                                     className="img-fluid"
                                   />
                                 </a>
@@ -719,7 +719,7 @@ export default function Transaction() {
                             <span>
                               <img
                                 className="img-fluid me-2"
-                                src="../../images/down-arrow.png"
+                                src="../../assets/images/down-arrow.png"
                                 alt="meta-img"
                               />
                             </span>
@@ -732,7 +732,7 @@ export default function Transaction() {
                             <span>
                               <img
                                 className="img-fluid me-2"
-                                src="../../images/red-bone.png"
+                                src="../../assets/images/red-bone.png"
                                 alt="meta-img"
                               />
                             </span>
@@ -748,7 +748,7 @@ export default function Transaction() {
                                 <span>0x1a95....ba496</span>
                                 <a href="#">
                                   <img
-                                    src="../../images/grey-arrow.png"
+                                    src="../../assets/images/grey-arrow.png"
                                     className="img-fluid"
                                   />
                                 </a>
@@ -773,7 +773,7 @@ export default function Transaction() {
                     <div className="left_block">
                       <span>
                         <img
-                          src="../../images/download-icon.png"
+                          src="../../assets/images/download-icon.png"
                           className="img-fluid"
                         />
                       </span>

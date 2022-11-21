@@ -55,7 +55,7 @@ export default function Support() {
                             width="15"
                             height="15"
                             className="img-fluid"
-                            src="../../images/plus-icon.png"
+                            src="../../assets/images/plus-icon.png"
                             alt=""
                           />
                         </div>
@@ -64,7 +64,7 @@ export default function Support() {
                             width="15"
                             height="15"
                             className="img-fluid"
-                            src="../../images/minus-icon.png"
+                            src="../../assets/images/minus-icon.png"
                             alt=""
                           />
                         </div>
@@ -94,7 +94,7 @@ export default function Support() {
                             width="15"
                             height="15"
                             className="img-fluid"
-                            src="../../images/plus-icon.png"
+                            src="../../assets/images/plus-icon.png"
                             alt=""
                           />
                         </div>
@@ -103,7 +103,7 @@ export default function Support() {
                             width="15"
                             height="15"
                             className="img-fluid"
-                            src="../../images/minus-icon.png"
+                            src="../../assets/images/minus-icon.png"
                             alt=""
                           />
                         </div>
@@ -133,7 +133,7 @@ export default function Support() {
                             width="15"
                             height="15"
                             className="img-fluid"
-                            src="../../images/plus-icon.png"
+                            src="../../assets/images/plus-icon.png"
                             alt=""
                           />
                         </div>
@@ -142,7 +142,7 @@ export default function Support() {
                             width="15"
                             height="15"
                             className="img-fluid"
-                            src="../../images/minus-icon.png"
+                            src="../../assets/images/minus-icon.png"
                             alt=""
                           />
                         </div>
@@ -172,7 +172,7 @@ export default function Support() {
                             width="15"
                             height="15"
                             className="img-fluid"
-                            src="../../images/plus-icon.png"
+                            src="../../assets/images/plus-icon.png"
                             alt=""
                           />
                         </div>
@@ -181,7 +181,7 @@ export default function Support() {
                             width="15"
                             height="15"
                             className="img-fluid"
-                            src="../../images/minus-icon.png"
+                            src="../../assets/images/minus-icon.png"
                             alt=""
                           />
                         </div>

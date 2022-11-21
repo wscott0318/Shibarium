@@ -93,7 +93,7 @@ export const Allvalidator: React.FC = () => {
                 </div>
                 <div className="col-md-5 col-sm-12 m-hide">
                   <div className="shib-img-sec text-end">
-                    <img src="../../images/meaoth.png" />
+                    <img src="../../assets/images/meaoth.png" />
                   </div>
                 </div>
               </div>
