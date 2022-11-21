@@ -10,6 +10,7 @@ import { useAppDispatch } from "../../state/hooks";
 import fromExponential from 'from-exponential';
 import { currentGasPrice, getAllowanceAmount } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
+import { MAXAMOUNT } from "../../web3/commonFunctions";
 
 function StepThree({becomeValidateData, stepState,stepHandler}:any) {
 
@@ -26,7 +27,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
   const  approveAmount = (data :any) => {
     if (account) {
       let user = account;
-      let amount = web3.utils.toBN(fromExponential(10000 * Math.pow(10, 18)));
+      let amount = web3.utils.toBN(fromExponential(MAXAMOUNT * Math.pow(10, 18)));
       let instance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
       instance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, amount)
       .send({ from: user })

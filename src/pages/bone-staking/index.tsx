@@ -35,6 +35,8 @@ const BoneStaking = () => {
     let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId]?.STAKE_MANAGER_PROXY);
         const valCount = await instance.methods.currentValidatorSetSize().call({from:account});
         const validatorThreshold = await  instance.methods.validatorThreshold().call({from:account});
+        const valInfo = await  instance.methods.validators(account).call({from:account});
+        console.log(valInfo, "val info ===> ")
         setValCount(valCount)
         setValMaxCount(validatorThreshold)
   }

@@ -57,3 +57,5 @@ export const currentGasPrice = async (web3) => {
       return value.toFixed(toFixedNull)
     }
   }
+
+  export const MAXAMOUNT = 10000

@@ -32,7 +32,8 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   const [unboundInput, setUnboundInput] = useState<any>('');
-
+  const [validatorInfo, setValidatorInfo] = useState<any>();
+  const [validatorInfoContract, setValidatorInfoContract] = useState<any>();
   const [transactionState, setTransactionState] = useState({
     state: false,
     title: '',
@@ -69,10 +70,22 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   // console.log(chainId)
 
 
-  const getValidatorContract = async (id:any) => {
+  const getValidatorData = async () => {
+      let valId = await getValidatorId()
       let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-      const valFromContract = await instance.methods.validators(+id).call({from : account})
+      const valFromContract = await instance.methods.validators(+valId).call({from : account})
+      setValidatorInfoContract(valFromContract)
       console.log(valFromContract, "address ===> ")
+  }
+
+  const validatorInfoAPI = () => {
+    getValidatorsDetail(`${account}`)
+    .then((res) => {
+      setValidatorInfo(res?.data?.data?.validatorSet.validatorInfo);
+    })
+    .catch((error: any) => {
+      console.log("error", error);
+    });
   }
 
   const getDelegatorCardData = async (accountAddress: any) => {
@@ -151,6 +164,10 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   useEffect(() => {
     if (account && userType === "Delegator") {
       getDelegatorCardData(account)
+    }
+    if(account && userType === 'Validator') {
+      getValidatorData()
+      validatorInfoAPI()
     }
   }, [account, userType, chainId])
 
@@ -661,28 +678,9 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     return item > 0 ? (parseInt(item) / 10 ** 18).toFixed(tokenDecimal) : "0.00"
   } 
 
-  const [validatorInfo, setValidatorInfo] = useState<any>();
 
-  useEffect(() => {
-    getValidatorsDetail(`${account}`)
-      .then((res) => {
-        setValidatorInfo(res?.data?.data?.validatorSet.validatorInfo);
-      })
-      .catch((error: any) => {
-        console.log("error", error);
-      });
-    
-  }, []);
 
-  useEffect(() => {
-    getValidatorsDetail(`${account}`)
-      .then((res) => {
-        setValidatorInfo(res?.data?.data?.validatorSet.validatorInfo);
-      })
-      .catch((error: any) => {
-        console.log("error", error);
-      });
-  }, [account])
+
 
   const rewardBalance = validatorInfo?.totalRewards ? (
     (Number(fromExponential(validatorInfo?.totalRewards)) -
@@ -1184,7 +1182,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                            {validatorInfo?.commissionPercent}
+                            {validatorInfoContract?.commissionRate} %
                             </div>
                             <div className="mid-head">
                               {/* <span>some info here...</span> */}
@@ -1252,16 +1250,21 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>0.00</span> BONE
+                              <span>{+validatorInfoContract?.amount / 10 ** web3Decimals}</span> BONE
                             </div>
                             <div className="mid-head">
-                              <span>$ 0.00</span>
+                              <span><NumberFormat
+                                thousandSeparator
+                                displayType={"text"}
+                                prefix="$ "
+                                value={(+validatorInfoContract?.amount / 10 ** web3Decimals * boneUSDValue).toFixed(tokenDecimal)}
+                              /></span>
                             </div>
                           </div>
 
                           <div className="botom-sec">
                             <div className="botom-headsec">
-                              <span className="ff-mos">Wallet Balance</span>
+                              <span className="ff-mos">Self Stake</span>
                             </div>
                           </div>
                         </div>
@@ -1279,7 +1282,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
                           <div className="botom-sec">
                             <div className="botom-headsec">
-                              <span className="ff-mos">Wallet Balance</span>
+                              <span className="ff-mos">heimdal Fees</span>
                             </div>
                           </div>
                         </div>
@@ -1458,7 +1461,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                   Restake
                                 </button>
                                 <div className="tool-desc">
-                                  Lorem, ipsum.
+                                  Restake you total rewards
                                 </div>
                               </div>
                             </li>
@@ -1477,7 +1480,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                 Withdraw Rewards
                               </button>
                                 <div className="tool-desc">
-                                  Lorem, ipsum.
+                                  withdraw you total reward
                                 </div>
                               </div>
                             </li>
@@ -1499,7 +1502,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                 Unbound
                               </button>
                                 <div className="tool-desc">
-                                  Lorem, ipsum.
+                                  unbound and withdraw rewards
                                 </div>
                               </div>
                             </li>
@@ -1522,7 +1525,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                 Stake More
                               </button>
                                 <div className="tool-desc">
-                                  Lorem, ipsum.
+                                  stake more
                                 </div>
                               </div>
                             </li>

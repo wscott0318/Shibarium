@@ -58,15 +58,6 @@ function NetworkDetails({valCount} : any) {
   }
 
 
-  const test = async () => {
-    let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-    // console.log(instance, "added ====> instance ")
-    const valFromContract = await instance.methods.validators(9).call({from : account})
-    console.log(valFromContract, "address ===> ")
-  }
-
-  test()
-
     // GET VALIDATOR ID 
     const getTotalStakes = async () => {
       let user = account;
