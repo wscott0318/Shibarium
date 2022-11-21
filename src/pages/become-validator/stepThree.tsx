@@ -421,21 +421,21 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
                 </label>
                 <input
                   type="text"
-                  className="mb-3 form-control"
+                  className="mb-2 form-control"
                   placeholder="00.00"
                   value={values.amount}
                   onChange={handleChange("amount")}
                 />
                 {touched.amount && errors.amount ? <p className="primary-text pt-0 er-txt">{errors.amount}</p> : null} 
                 
-                <div className="row">
-                  <div >
-                  <label htmlFor="" className="form-label ff-mos">
-                  Minimum: {minDeposit} BONE
-                  </label>
+                <div className="row-st">
+                  <div className="blk-dta">
+                    <label htmlFor="" className="form-label ff-mos mb-0">
+                    Minimum: {minDeposit} BONE
+                    </label>
                   </div>
-                  <div >
-                  <p>Availabe balance: {availBalance}</p>
+                  <div className="blk-dta">
+                    <p className="amt-val">Balance: {availBalance}</p>
                   </div>
                 </div>
 
