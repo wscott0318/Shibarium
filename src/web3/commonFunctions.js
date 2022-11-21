@@ -58,4 +58,4 @@ export const currentGasPrice = async (web3) => {
     }
   }
 
-  export const MAXAMOUNT = 10000
+  export const MAXAMOUNT = 100000

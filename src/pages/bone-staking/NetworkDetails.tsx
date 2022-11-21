@@ -13,6 +13,7 @@ import { addDecimalValue, tokenDecimal } from 'web3/commonFunctions';
 import { useWeb3React } from '@web3-react/core'
 import { dynamicChaining } from 'web3/DynamicChaining';
 import Web3 from 'web3';
+import RPC from "../../config/rpc"
 
 
 function NetworkDetails({valCount} : any) {
@@ -72,20 +73,6 @@ function NetworkDetails({valCount} : any) {
         // console.log("account addres not found")
       }
     }
-
-    const getHeimdallBlockHeight = async () => {
-      let url = "http://3.145.82.137:26657/status"
-      await axios.get(url).then((res :any) => {
-        console.log(res, "getHeimdallBlockHeight")
-      }).catch((error :any) => {
-        console.log(error)
-      })
-    }
-
-
-
-
-
 
   return (
     <>

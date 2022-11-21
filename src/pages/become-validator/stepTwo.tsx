@@ -28,14 +28,6 @@ export const validatorSchema = yup.object().shape({
       /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/,
       "enter a vaild url"
     ),
-  commission: yup
-    .string()
-
-    .required("commission is required")
-    .matches(
-      /^(?:100(?:[.,]00?)?|\d?\d(?:[.,]\d\d?)?)$/,
-      "enter vaild percentage"
-    ),
 });
 
 function StepTwo({
@@ -88,7 +80,6 @@ function StepTwo({
     publickey: "",
     address: userAddress,
     website: "",
-    commission: "",
   });
 
   // console.log("Become Validate Data in Step Two", initialValues);
@@ -249,25 +240,6 @@ function StepTwo({
               />
               {touched.publickey && errors.publickey ? (
                 <p className="primary-text error ff-mos">{errors.publickey}</p>
-              ) : null}
-            </div>
-          </div>
-          <div className="col-sm-6 form-grid">
-            <div className="form-group">
-              <label htmlFor="" className="form-label ff-mos">
-                Commission in %
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="10"
-                name="commission"
-                value={values.commission}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              {touched.commission && errors.commission ? (
-                <p className="primary-text error ff-mos">{errors.commission}</p>
               ) : null}
             </div>
           </div>

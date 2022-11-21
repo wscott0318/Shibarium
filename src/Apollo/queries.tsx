@@ -35,3 +35,17 @@ export const StakeAmount = (id:any, account :any) => {
 `
 return gql(queryString)
 }
+export const validatorRewardHistory = (id:any) => {
+    const queryString = `query pools 
+      {
+        validatorClaimRewards(where: {validatorId: 10}) {
+          address
+          amount
+          timestamp
+          transactionHash
+          validatorId
+        }
+    }
+`
+return gql(queryString)
+}

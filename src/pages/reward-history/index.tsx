@@ -11,17 +11,25 @@ import Pagination from "app/components/Pagination";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import { useRouter } from "next/router";
 import { useUserType } from "../../state/user/hooks";
-import { tokenDecimal } from "web3/commonFunctions";
+import { tokenDecimal, web3Decimals } from "web3/commonFunctions";
+import { dynamicChaining } from 'web3/DynamicChaining';
+import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
+import { queryProvider } from "Apollo/client";
+import { validatorRewardHistory } from "Apollo/queries";
+
 
 export default function Unbond() {
 
     const { account, chainId=1 , library} = useActiveWeb3React();
+    const lib: any = library
+    const web3: any = new Web3(lib?.provider)
     const [list, setList] = useState([])
     const [slicedList, setSlicedList] = useState([]);
     const [listLoader, setListLoader] = useState(true);
     const pageSize = 10;
     const [userType, setUserType] = useUserType();
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [validatorData, setValidatorData] = useState<any>([])
 
     const getRewardsList = (account :any) => {
         unbondRewards(account).then((res: any) => {
@@ -40,6 +48,31 @@ export default function Unbond() {
             console.log(err);
             setListLoader(false)
         })
+    }
+
+    const getValidatorId = async () => {
+      let user = account;
+      if (account) {
+        const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
+        const ID = await instance.methods.getValidatorId(user).call({ from: account }); // read
+        console.log(ID)
+        return ID
+      } else {
+        console.log("account addres not found")
+      }
+    }
+
+
+    const validatorReward = async () => {
+      setListLoader(true)
+      let valID = await getValidatorId()
+      const validators = await queryProvider.query({
+        query: validatorRewardHistory(valID),
+      })
+      console.log(validators.data.validatorClaimRewards, "added ===> ")
+      // return validators.data
+      setValidatorData(validators.data.validatorClaimRewards)
+      setListLoader(false)
     }
 
     const pageChangeHandler = (index: number) => {
@@ -63,6 +96,7 @@ export default function Unbond() {
     useEffect(() => {
         if(account){
             getRewardsList(account)
+            validatorReward()
         }
     },[account])
     
@@ -101,6 +135,77 @@ export default function Unbond() {
             </div>
           </section>
 
+          { userType === 'Validator' ? <section className="mid_cnt_area">
+            <div className="container">
+              <div className="cmn_dasdrd_table block-fix">
+                <div className="table-responsive">
+                  <table className="table table-borderless fix-tabl-layout text-start">
+                    <thead>
+                      <tr>
+                        <th>S. No.</th>
+                        <th>Amount</th>
+                        <th className="text-center">Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {validatorData.length ? (
+                        validatorData.map((value: any, index: any) => (
+                          <tr key={index}>
+                            <td>
+                                  <span className="tb-data">
+                                    {index + 1}
+                                  </span>
+                            </td>
+                            <td>
+                              <span className="tb-data align">
+                                {fixedDecimals(
+                                  parseInt(value.amount) / Math.pow(10, web3Decimals)
+                                )}{" "}
+                                Bone
+                              </span>
+                              {/* <p className="mb-0 fs-12 mute-text">$8.2</p> */}
+                            </td>
+                            <td>
+                              <span className="tb-data align">
+                                {formatTimeStamp(value.timestamp)}
+                              </span>
+                            </td>
+                          </tr>
+                        ))
+                      ) : !validatorData.length && !validatorData.length && listLoader ? (
+                        <tr>
+                          <td colSpan={4}>
+                            <DynamicShimmer type={"table"} rows={13} cols={4} />
+                          </td>
+                        </tr>
+                      ) : null}
+                    </tbody>
+                  </table>
+                </div>
+
+                {!listLoader && !validatorData.length && !validatorData.length ? (
+                  <div className="no-found">
+                    <div>
+                      <div className="text-center">
+                        <img src="../../assets/images/no-record.png" />
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+              <div className="mt-sm-4 mt-3">
+                {slicedList.length ? (
+                  <Pagination
+                    currentPage={currentPage}
+                    pageSize={pageSize}
+                    totalCount={list.length}
+                    onPageChange={pageChangeHandler}
+                  />
+                ) : null}
+              </div>
+            </div>
+          </section>
+          :
           <section className="mid_cnt_area">
             <div className="container">
               <div className="cmn_dasdrd_table block-fix">
@@ -110,8 +215,7 @@ export default function Unbond() {
                       <tr>
                         <th>Validator Name</th>
                         <th>Amount</th>
-                        <th>Status</th>
-                        <th className="text-center">Timestamp</th>
+                        <th className="text-center">Time</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -144,16 +248,6 @@ export default function Unbond() {
                                 Bone
                               </span>
                               {/* <p className="mb-0 fs-12 mute-text">$8.2</p> */}
-                            </td>
-                            <td>
-                              <div className="">
-                                <span className="d-block align up-text">
-                                  Success
-                                </span>
-                                <p className="mb-0 fs-12 mt-1 primary-text">
-                                  claimed
-                                </p>
-                              </div>
                             </td>
                             <td>
                               <span className="tb-data align">
@@ -194,7 +288,7 @@ export default function Unbond() {
                 ) : null}
               </div>
             </div>
-          </section>
+          </section>}
         </main>
       </>
     );

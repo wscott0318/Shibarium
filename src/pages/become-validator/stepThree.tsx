@@ -14,6 +14,10 @@ import ERC20 from "../../ABI/ERC20Abi.json";
 import { MAXAMOUNT } from "../../web3/commonFunctions";
 import {useEthBalance} from '../../hooks/useEthBalance';
 import {useTokenBalance} from '../../hooks/useTokenBalance';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import LoadingSpinner from 'pages/components/Loading';
+import { registerValidator } from "services/apis/network-details/networkOverview";
 
 function StepThree({becomeValidateData, stepState,stepHandler}:any) {
 
@@ -21,13 +25,14 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
   const lib: any = library
   const web3: any = new Web3(lib?.provider)
   const dispatch = useAppDispatch();
+  const [apiLoading, setApiLoading] = useState(false)
   
   const [minDeposit ,setMinDeposit] = useState<number>(0);
   const [minHeimdallFee ,setMinHeimdallFee] = useState<number>(0);
   const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
   
   let schema = yup.object().shape({
-    amount: yup.number().typeError("only digits are allowed").min(minDeposit).required("comission is required"),
+    amount: yup.number().typeError("only digits are allowed").min(minDeposit).required("amount is required"),
   })
 
 
@@ -42,8 +47,8 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
     let user = account;
     if (account) {
       const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-      const MinimumFees = await instance.methods.minDeposit().call({ from: account }); // read
-      const MinimumHeimDallFee = await instance.methods.minHeimdallFee().call({ from: account }); // read
+      const MinimumFees = await instance.methods.minDeposit().call({ from: user }); // read
+      const MinimumHeimDallFee = await instance.methods.minHeimdallFee().call({ from: user }); // read
       const fees = +MinimumFees / 10 ** web3Decimals
       const feesHeimdall = +MinimumHeimDallFee / 10 ** web3Decimals
       setMinDeposit(fees)
@@ -120,6 +125,8 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
                 }
               })
             )
+            
+          stepHandler("next");
           }).on('error', (res: any) => {
             console.log(res, "error")
             dispatch(
@@ -155,6 +162,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
 
   const submitTransaction = async (values : any) => {
     // stepHandler("next")  
+    setApiLoading(true)
     console.log("called contract ===> ")
     let user : any = account
     let allowance : any = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, user, dynamicChaining[chainId].STAKE_MANAGER_PROXY)
@@ -185,7 +193,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
     .send({ from: account }) // write
       .on('transactionHash', (res: any) => {
         console.log(res, "hash")
-        stepHandler("next");
+       
         dispatch(
           addTransaction({
             hash: res,
@@ -212,6 +220,8 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
             }
           })
         )
+        
+        stepHandler("next");
       }).on('error', (res: any) => {
         console.log(res, "error")
         dispatch(
@@ -247,9 +257,45 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
     validationSchema: schema,
     onSubmit: (values) => {
       console.log("Value", values);
-      submitTransaction(values);
+      callAPI(values)
     },
   });
+
+  const notifyError = () => {
+    toast.error('Error In Updating !', {
+      position: toast.POSITION.BOTTOM_CENTER ,autoClose: 3000
+  });
+  }
+  const notifySuccess = () => {
+    toast.success('Updated successfully !', {
+      position: toast.POSITION.BOTTOM_CENTER ,autoClose: 3000
+  });
+  }
+
+  const callAPI = async (val :any) => {
+    setApiLoading(true)
+    var data = new FormData();
+    data.append("validatorName", becomeValidateData.validatorname);
+    data.append("public_key", becomeValidateData.publickey);
+    data.append("signerAddress", becomeValidateData.address);
+    data.append("website", becomeValidateData.website);
+    data.append("commission", becomeValidateData.commission);
+    data.append("img", becomeValidateData.image);
+
+    console.log(becomeValidateData, "data")
+
+    await registerValidator(data).then((res: any) => {
+      console.log("this is eresss",res)
+      setApiLoading(false)
+      notifySuccess()
+      submitTransaction(val);
+    }).catch((err: any) => {
+      console.log(err)
+      notifyError()
+      setApiLoading(false)
+      // submitTransaction(values);
+    })
+  };
 
   
 
@@ -263,6 +309,110 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
               Please provide your stake amount detail here
             </p>
           </div>
+          <div className="row">
+          <div className="col-sm-6 form-grid">
+            <div className="form-group">
+              <label htmlFor="" className="form-label ff-mos">
+                Validator logo
+              </label>
+              <div className="file-wrap">
+                <div className="file-icons">
+                  <img
+                    src={
+                      becomeValidateData?.image
+                        ? URL.createObjectURL(becomeValidateData?.image)
+                        : "../../assets/images/file-icon.png"
+                    }
+                    alt=""
+                    className="img-fluid" // 200kb 
+                    width={22}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-sm-6 form-grid">
+            <div className="form-group">
+              <label htmlFor="" className="form-label ff-mos">
+                Validator name
+              </label>
+
+              <input
+                type="text"
+                className="form-control"
+                placeholder="i.e Dark Knight Ventures"
+                name="validatorname"
+                value={becomeValidateData.validatorname}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </div>
+
+          </div>
+          <div className="col-sm-6 form-grid">
+            <div className="form-group">
+              <label htmlFor="" className="form-label ff-mos">
+                Website
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="https://knightventures.com"
+                name="website"
+                value={becomeValidateData.website}
+                readOnly
+              />
+            </div>
+
+          </div>
+          <div className="col-sm-6 form-grid">
+            <div className="form-group">
+              <label htmlFor="" className="form-label ff-mos">
+                Signer’s address
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
+                name="address"
+                readOnly={true}
+                value={becomeValidateData.address}
+              />
+            </div>
+          </div>
+          <div className="col-sm-6 form-grid">
+            <div className="form-group">
+              <label htmlFor="" className="form-label ff-mos">
+                Signer’s Public key
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
+                name="publickey"
+                readOnly={true}
+                value={becomeValidateData.publickey}
+              />
+            </div>
+          </div>
+          <div className="col-sm-6 form-grid">
+            <div className="form-group">
+              <label htmlFor="" className="form-label ff-mos">
+                Heimdall Fees
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="https://knightventures.com"
+                name="website"
+                value={minHeimdallFee}
+                readOnly={true}
+              />
+            </div>
+
+          </div>
+        </div>
           <div className="row">
             <div className="col-sm-6 form-grid">
               <div className="form-group">
@@ -293,66 +443,8 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
             </div>
 
          
-          <div className="col-sm-6 form-grid">
-            <div className="form-group">
-              <label htmlFor="" className="form-label ff-mos">
-                Heimdall Fees
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="https://knightventures.com"
-                name="website"
-                value={minHeimdallFee}
-                readOnly={true}
-              />
-            </div>
-
-          </div>
-          <div className="col-sm-6 form-grid">
-            <div className="form-group">
-              <label htmlFor="" className="form-label ff-mos">
-                Signer’s address
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
-                name="address"
-                readOnly={true}
-                value={becomeValidateData.address}
-              />
-            </div>
-          </div>
-          <div className="col-sm-6 form-grid">
-            <div className="form-group">
-              <label htmlFor="" className="form-label ff-mos">
-                Signer’s Public key
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
-                value={becomeValidateData.publickey}
-                readOnly={true}
-              />
-            </div>
-          </div>
-          <div className="col-sm-6 form-grid">
-            <div className="form-group">
-              <label htmlFor="" className="form-label ff-mos">
-                Accept Delegation
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="delegation"
-                value="Yes"
-                readOnly={true}
-              />
-            </div>
-          </div>
-          
+         
+        
           </div>
           <div className="btn-wrap col-sm-5 mt-4 flx">
             <button

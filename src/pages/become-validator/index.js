@@ -25,9 +25,9 @@ const Rewards = () => {
   });
 
   const [stepState,setStepState]=useState({
-    step1:false,
+    step1:true,
     step2:false,
-    step3:true,
+    step3:false,
     step4:false,
   })
   const [becomeValidateData , setBecomeValidateData] = useState({
@@ -35,7 +35,6 @@ const Rewards = () => {
     publickey: "",
     address: userAddress,
     website: "",
-    commission: "",
     image: {}
   });
   

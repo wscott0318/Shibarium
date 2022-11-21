@@ -33,6 +33,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   const dispatch = useAppDispatch();
   const [unboundInput, setUnboundInput] = useState<any>('');
   const [validatorInfo, setValidatorInfo] = useState<any>();
+  const [validatorTotalReward, setValidatorTotalReward] = useState<any>();
   const [validatorInfoContract, setValidatorInfoContract] = useState<any>();
   const [transactionState, setTransactionState] = useState({
     state: false,
@@ -73,9 +74,12 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   const getValidatorData = async () => {
       let valId = await getValidatorId()
       let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-      const valFromContract = await instance.methods.validators(+valId).call({from : account})
+      const valFromContract =  await instance.methods.validators(+valId).call({from : account})
+      const valReward = await instance.methods.validatorReward(+valId).call({from : account})
+      const reward = addDecimalValue(valReward / Math.pow(10, web3Decimals))
       setValidatorInfoContract(valFromContract)
-      console.log(valFromContract, "address ===> ")
+      setValidatorTotalReward(reward)
+      console.log(valFromContract,valReward, "address ===> ")
   }
 
   const validatorInfoAPI = () => {
@@ -186,8 +190,9 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   const getValidatorId = async () => {
     let user = account;
     if (account) {
+      console.log(user, "account address ")
       const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-      const ID = await instance.methods.getValidatorId(user).call({ from: account }); // read
+      const ID = await instance.methods.getValidatorId(user).call({ from: account }) // read
       console.log(ID)
       return ID
     } else {
@@ -405,14 +410,15 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     setTransactionState({ state: true, title: 'Pending' })
     if (account) {
       let walletAddress = account
-      let instance = new web3.eth.Contract(ValidatorShareABI, withdrawModal.address);
-      let gasFee =  await instance.methods.withdrawRewards().estimateGas({from: walletAddress})
-      let encodedAbi =  await instance.methods.withdrawRewards().encodeABI()
+      let valID = await getValidatorId()
+      let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
+      let gasFee =  await instance.methods.withdrawRewards(valID).estimateGas({from: walletAddress})
+      let encodedAbi =  await instance.methods.withdrawRewards(valID).encodeABI()
       let CurrentgasPrice : any = await currentGasPrice(web3)
          console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
          await web3.eth.sendTransaction({
            from: walletAddress,
-           to:  withdrawModal.address,
+           to:  dynamicChaining[chainId].STAKE_MANAGER_PROXY,
            gas: (parseInt(gasFee) + 30000).toString(),
            gasPrice: CurrentgasPrice,
            // value : web3.utils.toHex(combinedFees),
@@ -1225,7 +1231,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>{validatorInfo?.totalRewards ? (parseInt(validatorInfo?.totalRewards) / Math.pow(10, 18)).toFixed(tokenDecimal) : "0.00"} </span> BONE
+                              <span>{validatorTotalReward} </span> BONE
                             </div>
                             <div className="mid-head">
                               <span>
@@ -1332,11 +1338,9 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                     <div className='cus-tooltip d-inline-block ps-0'>
                       <button
                         onClick={() =>
-                          handleModal(
-                            "Withdraw Rewards",
-                            account
-                          )
+                          withdrawRewardValidator()
                         }
+                        disabled={validatorTotalReward > 0 ? false : true}
                         className="ff-mos btn black-btn w-100 d-block tool-ico"
                       >
                         Withdraw Rewards
