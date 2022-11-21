@@ -8,7 +8,7 @@ import { addTransaction, finalizeTransaction } from 'app/state/transactions/acti
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { useAppDispatch } from "../../state/hooks";
 import fromExponential from 'from-exponential';
-import { currentGasPrice, getAllowanceAmount } from "web3/commonFunctions";
+import { currentGasPrice, getAllowanceAmount, web3Decimals } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { MAXAMOUNT } from "../../web3/commonFunctions";
 
@@ -19,23 +19,31 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
   const web3: any = new Web3(lib?.provider)
   const dispatch = useAppDispatch();
   
+  const [minDeposit ,setMinDeposit] = useState<number>(0);
+  
   let schema = yup.object().shape({
-    amount: yup.number().typeError("only digits are allowed").min(1000).required("comission is required"),
+    amount: yup.number().typeError("only digits are allowed").min(minDeposit).required("comission is required"),
   })
 
-  const [minDeposit,setMinDeposit] = useState('');
+
   useEffect(() => {
-    let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-    let min = instance.methods
-          .minDeposit()
-          .call({ from: String(account) })
-          .then((token: any) => token)
-          .catch((err: any) => console.log(err));
-      
-    console.log("min",min);  
-    let final =  Number(min) / Math.pow(10, 18)
-     console.log("min =>final", final);  
-  }, [])
+    if(account){
+      getMinimunFee()
+    }
+  }, [account])
+
+
+  const getMinimunFee = async () => {
+    let user = account;
+    if (account) {
+      const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
+      const MinimumFees = await instance.methods.minDeposit().call({ from: account }); // read
+      const fees = +MinimumFees / 10 ** web3Decimals
+      setMinDeposit(fees)
+    } else {
+      console.log("account addres not found")
+    }
+  }
   
 
   const  approveAmount = (data :any) => {
@@ -262,7 +270,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
                 />
                 {touched.amount && errors.amount ? <p className="primary-text pt-0 er-txt">{errors.amount}</p> : null} 
                 <label htmlFor="" className="form-label ff-mos">
-                  Minimum: 1000 BONE
+                  Minimum: {minDeposit} BONE
                 </label>
               </div>
             </div>
