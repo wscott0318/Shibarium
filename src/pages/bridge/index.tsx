@@ -104,7 +104,12 @@ export default function Withdraw() {
   const [localTokens, setLocalTokens] = useState<any>(
     JSON.parse(localStorage.getItem("newToken") || "[]")
   );
-  const [tempTokens, setTempTokens] = useState<any>([]);
+  const [tempTokens, setTempTokens] = useState<any>({
+    parentContract: "",
+    childContract: "",
+    parentName: "",
+    parentSymbol: "",
+  });
   const getTokensList = () => {
     getWalletTokenList().then((res) => {
       let list = res.data.message.tokens;
@@ -506,33 +511,62 @@ const handleSearchList = (key :any) => {
         }
       }, [])
   
+      const getTempTokens = async () => {
+        const isValidAddress = web3.utils.isAddress(String(newToken));
+
+        if (
+          isValidAddress &&
+          account &&
+          (tokenState.step2 || tokenState.step3 || tokenState.step4)
+        ) {
+          const contractInstance = new web3.eth.Contract(
+            addTokenAbi,
+            String(newToken)
+          );
+          let symbol: any = await contractInstance.methods
+            .symbol()
+            .call({ from: String(account) })
+            .then((token: any) => token)
+            .catch((err: any) => console.log(err));
+          let name: any = await contractInstance.methods
+            .name()
+            .call({ from: String(account) })
+            .then((token: any) => token)
+            .catch((err: any) => console.log(err));
+          const obj = {
+            parentContract: String(newToken),
+            childContract: String(newToken),
+            parentName: name,
+            parentSymbol: symbol,
+          };
+          const isalreadypresent = localTokens.map((st:any)=>st.parentContract).includes(obj.parentContract)
+          console.log("isalreadypresent", isalreadypresent);
+          if(!isalreadypresent){
+            setTempTokens({
+            parentContract: String(newToken),
+            childContract: String(newToken),
+            parentName: name,
+            parentSymbol: symbol,
+          });
+        }
+        else if (isalreadypresent) {
+          // toast.error("Address is already present", {
+          //   position: toast.POSITION.TOP_RIGHT,
+          //   autoClose: 1500,
+          // });
+          setTempTokens({
+            // parentContract: "",
+            // childContract: "",
+            // parentName: "",
+            // parentSymbol: "",
+          });
+        }
+        }
+        console.log("temptoken", tempTokens);
+      }
+
   useEffect(() => {
-    const isValidAddress = web3.utils.isAddress(String(newToken));
-    if(isValidAddress && account && (tokenState.step2 || tokenState.step3 || tokenState.step4)){
-    const contractInstance = new web3.eth.Contract(
-      addTokenAbi,
-      String(newToken)
-    );
-    let symbol : any = contractInstance.methods
-      .symbol()
-      .call({ from: String(account) })
-      .then((token: any) => token)
-      .catch((err: any) => console.log(err));
-    let name : any = contractInstance.methods
-      .name()
-      .call({ from: String(account) })
-      .then((token: any) => token)
-      .catch((err: any) => console.log(err));
-    const obj = {
-      parentContract: String(newToken),
-      childContract: String(newToken),
-      parentName: name,
-      parentSymbol: symbol,
-    };
-    
-    setTempTokens([obj]);
-  }
-    console.log('temptoken',tempTokens)
+    getTempTokens();
   }, [newToken,tokenState])
       
 
@@ -562,7 +596,8 @@ const handleSearchList = (key :any) => {
     });
     setTokenModalList(filtered2);
    }
-  console.log('localToken',localTokens)
+  console.log('localToken',localTokens);
+  console.log("tokenState 3",tokenState.step3)
   return (
     <>
       <ToastContainer />
@@ -1846,7 +1881,7 @@ const handleSearchList = (key :any) => {
                       <p>Custom token not found Add your first custom token</p>
                     </div>
                   </div> */}
-                  
+
                   <div className="pop-bottom pt-0">
                     <div className="">
                       <div className="grid-block">
@@ -1875,7 +1910,7 @@ const handleSearchList = (key :any) => {
                                 src={
                                   x.logo
                                     ? x.logo
-                                    : "../../images/shib-borderd-icon.png"
+                                    : "../../../assets/images/shib-borderd-icon.png"
                                 }
                                 alt=""
                               />
@@ -1892,14 +1927,14 @@ const handleSearchList = (key :any) => {
                                 >
                                   <img
                                     className="img-fluid"
-                                    src="../../images/del.png"
+                                    src="../../../assets/images/del.png"
                                     alt=""
                                   />
                                 </span>
                                 <span>
                                   <img
                                     className="img-fluid"
-                                    src="../../images/up.png"
+                                    src="../../../assets/images/up.png"
                                     alt=""
                                   />
                                 </span>
@@ -1972,6 +2007,47 @@ const handleSearchList = (key :any) => {
                       </div>
                     </div>
                   </div>
+                  <div className="pop-bottom pt-0">
+                    <div className="">
+                      <div className="grid-block"></div>
+                      <div className="token-listwrap usr-listht">
+                        {JSON.stringify(tempTokens) !== "{}" ? (
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img
+                                className="img-fluid"
+                                src={
+                                  tempTokens?.logo
+                                    ? tempTokens?.logo
+                                    : "../../../assets/images/shib-borderd-icon.png"
+                                }
+                                alt=""
+                              />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">
+                                  {tempTokens.parentSymbol}
+                                </h6>
+                                <p>{tempTokens.parentName}</p>
+                              </div>
+                              <div>
+                                <span onClick={addTokenHandler}>
+                                  <img
+                                    className="img-fluid"
+                                    src="../../../assets/images/up.png"
+                                    alt=""
+                                  />
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    </div>
+                  </div>
                   {/* <div className="h-100">
                     <div className="two-col position-relative">
                       <div className="left-sec-img">
@@ -2037,7 +2113,7 @@ const handleSearchList = (key :any) => {
                       </div>
                     </div>
                   </div> */}
-                  
+
                   <div className="pop-bottom pt-0">
                     <div className="">
                       <div className="grid-block">
@@ -2066,7 +2142,7 @@ const handleSearchList = (key :any) => {
                                 src={
                                   x.logo
                                     ? x.logo
-                                    : "../../images/shib-borderd-icon.png"
+                                    : "../../../assets/images/shib-borderd-icon.png"
                                 }
                                 alt=""
                               />
@@ -2083,14 +2159,14 @@ const handleSearchList = (key :any) => {
                                 >
                                   <img
                                     className="img-fluid"
-                                    src="../../images/del.png"
+                                    src="../../../assets/images/del.png"
                                     alt=""
                                   />
                                 </span>
                                 <span>
                                   <img
                                     className="img-fluid"
-                                    src="../../images/up.png"
+                                    src="../../../assets/images/up.png"
                                     alt=""
                                   />
                                 </span>
@@ -2183,7 +2259,7 @@ const handleSearchList = (key :any) => {
                       </div>
                     </div>
                   </div>
-                 
+
                   <div className="pop-bottom pt-0">
                     <div className="">
                       <div className="grid-block">
@@ -2203,48 +2279,50 @@ const handleSearchList = (key :any) => {
                           </button>
                         </div>
                       </div>
-                      <div className="token-listwrap usr-listht">
-                        {localTokens.map((x: any, index: any) => (
-                          <div className="tokn-row" key={x.parentContract}>
-                            <div className="cryoto-box">
+                    </div>
+                  </div>
+                  <div className="token-listwrap usr-listht">
+                    {localTokens.map((x: any, index: any) => (
+                      <div className="tokn-row" key={x.parentContract}>
+                        <div className="cryoto-box">
+                          <img
+                            className="img-fluid"
+                            src={
+                              x.logo
+                                ? x.logo
+                                : "../../../assets/images/shib-borderd-icon.png"
+                            }
+                            alt=""
+                          />
+                        </div>
+                        <div className="tkn-grid">
+                          <div>
+                            <h6 className="fw-bold">{x.parentSymbol}</h6>
+                            <p>{x.parentName}</p>
+                          </div>
+                          <div>
+                            <span
+                              className="me-4"
+                              onClick={() => spliceCustomToken(index)}
+                            >
                               <img
                                 className="img-fluid"
-                                src={
-                                  x.logo
-                                    ? x.logo
-                                    : "../../images/shib-borderd-icon.png"
-                                }
+                                src="../../../assets/images/del.png"
                                 alt=""
                               />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">{x.parentSymbol}</h6>
-                                <p>{x.parentName}</p>
-                              </div>
-                              <div>
-                                <span
-                                  className="me-4"
-                                  onClick={() => spliceCustomToken(index)}
-                                >
-                                  <img
-                                    className="img-fluid"
-                                    src="../../images/del.png"
-                                    alt=""
-                                  />
-                                </span>
-                                <span>
-                                  <img
-                                    className="img-fluid"
-                                    src="../../images/up.png"
-                                    alt=""
-                                  />
-                                </span>
-                              </div>
-                            </div>
+                            </span>
+                            <span>
+                              <img
+                                className="img-fluid"
+                                src="../../../assets/images/up.png"
+                                alt=""
+                              />
+                            </span>
                           </div>
-                        ))}
-                        {/* <div className="tokn-row">
+                        </div>
+                      </div>
+                    ))}
+                    {/* <div className="tokn-row">
                           <div className="cryoto-box">
                             <img
                               className="img-fluid"
@@ -2552,8 +2630,13 @@ const handleSearchList = (key :any) => {
               </div>
             )}
             {/* new added token with delete action ends */}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Token popups end */}
           </>
-          {/* Token popups end */}
         </CommonModal>
         {/* Token popups end */}
         {/* modal code closed */}
