@@ -101,7 +101,10 @@ export default function Withdraw() {
     const [tokenModalList, setTokenModalList] = useState<any>([]);
     const [tokenList, setTokenList] = useState([]);
     const [modalKeyword, setmodalKeyword] = useState("");
-  const [localTokens,setLocalTokens]=useState<any>([]);
+  const [localTokens, setLocalTokens] = useState<any>(
+    JSON.parse(localStorage.getItem("newToken") || "[]")
+  );
+  const [tempTokens, setTempTokens] = useState<any>([]);
   const getTokensList = () => {
     getWalletTokenList().then((res) => {
       let list = res.data.message.tokens;
@@ -110,7 +113,7 @@ export default function Withdraw() {
       });
       setTokenList(list);
       // setTokenFilteredList(list);
-      setTokenModalList(list);
+      setTokenModalList([...localTokens,...list]);
     });
   };
   useEffect(() => {
@@ -346,15 +349,16 @@ const handleSearchList = (key :any) => {
       }
       }
 
+
         const addTokenHandler = async () => {           
           const isValidAddress = await web3.utils.isAddress(String(newToken));
           if (isValidAddress) {
             const checkArray = tokenModalList.map(
               (st: any) => st?.parentContract
             );
-            let localtoken = JSON.parse(localStorage.getItem("newToken") || "[]");
-            let localtokenarray = localtoken.map((st:any)=>st.parentContract);
-            const isalreadypresent = checkArray.some((item : any) => localtokenarray.includes(item));
+            // let localtoken = JSON.parse(localStorage.getItem("newToken") || "[]");
+            let localtokenarray = localTokens.map((st:any)=>st.parentContract);
+            const isalreadypresent = checkArray.some((item : any) => localtokenarray.includes(newToken));
             if (isalreadypresent) {
               toast.error("Address already exists !", {
                 position: toast.POSITION.BOTTOM_CENTER,
@@ -381,19 +385,8 @@ const handleSearchList = (key :any) => {
                 parentName: name,
                 parentSymbol: symbol,
               };
-              localStorage.setItem("newToken", JSON.stringify([obj]));
-              let newAddedToken = JSON.parse(
-                localStorage.getItem("newToken") || "[]"
-              );
-              let updatedArray = [
-                ...tokenModalList,
-                newAddedToken[newAddedToken.length - 1],
-              ];
-              setTokenModalList(updatedArray);
-              setLocalTokens([
-                ...localTokens,
-                newAddedToken[newAddedToken.length - 1],
-              ]);
+              setLocalTokens([...localTokens,obj])
+              setTokenModalList([...tokenModalList,obj])
               toast.success(`${name} successfully added.`, {
                 position: toast.POSITION.BOTTOM_CENTER,
                 autoClose: 3000,
@@ -410,6 +403,8 @@ const handleSearchList = (key :any) => {
           } else { 
           }
         };
+
+
 
       useEffect(() => {
         if(!showTokenModal)
@@ -449,56 +444,124 @@ const handleSearchList = (key :any) => {
             title: "Manage Token",
           });
         }
+        if(tokenState.step4 && isValidAddress)
+        {
+          toast.success("Address is valid", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 600,
+          });
+          setTokenState({
+            step0: false,
+            step1: false,
+            step2: false,
+            step3: true,
+            step4: false,
+            title: "Manage Token",
+          });
+        }
+        // code below is to check whether tokens are already present or not
+        const checkArray = tokenModalList.map((st: any) => st?.parentContract);
+        let localtokenarray = localTokens.map((st: any) => st.parentContract);
+        const isalreadypresent = checkArray.some((item: any) =>
+          localtokenarray.includes(newToken)
+        );
+        if(isalreadypresent && newToken.length > 0)
+        {
+          toast.error("Address is already present", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 1500,
+          });
+        }
       }, [newToken])
+
+      useEffect(() => {
+        if(showTokenModal)
+        {
+          localStorage.setItem("newToken", JSON.stringify(localTokens));
+          let uniqueObjArray = [
+            ...new Map(
+              localTokens.map((item:any) => [item["parentContract"], item])
+            ).values(),
+          ];
+          let uniqueObjArray2 = [
+            ...new Map(
+              tokenModalList.map((item: any) => [item["parentContract"], item])
+            ).values(),
+          ];
+          let combineArray = [...uniqueObjArray, ...uniqueObjArray2];
+          let finalUniqueArray = [
+            ...new Map(
+              combineArray.map((item: any) => [item["parentContract"], item])
+            ).values(),
+          ];
+          setTokenModalList(finalUniqueArray);
+        }
+      }, [localTokens])
+     
+      useEffect(() => {
+        if(tokenModalList.length > 0){
+          console.log("initial page load");
+          let updatedArray = [...tokenModalList, ...localTokens];
+          setTokenModalList(updatedArray);
+        }
+      }, [])
+  
+  useEffect(() => {
+    const isValidAddress = web3.utils.isAddress(String(newToken));
+    if(isValidAddress && account && (tokenState.step2 || tokenState.step3 || tokenState.step4)){
+    const contractInstance = new web3.eth.Contract(
+      addTokenAbi,
+      String(newToken)
+    );
+    let symbol : any = contractInstance.methods
+      .symbol()
+      .call({ from: String(account) })
+      .then((token: any) => token)
+      .catch((err: any) => console.log(err));
+    let name : any = contractInstance.methods
+      .name()
+      .call({ from: String(account) })
+      .then((token: any) => token)
+      .catch((err: any) => console.log(err));
+    const obj = {
+      parentContract: String(newToken),
+      childContract: String(newToken),
+      parentName: name,
+      parentSymbol: symbol,
+    };
+    
+    setTempTokens([obj]);
+  }
+    console.log('temptoken',tempTokens)
+  }, [newToken,tokenState])
+      
 
     
    const clearAllCustomTokens = () => {
+    
+    let checkArray = tokenModalList;
+    let localtokenarray = localTokens.map((st: any) => st.parentContract);
+    const notLocalTokens = checkArray.filter((item: any) =>
+      !localtokenarray.includes(item.parentContract)
+    );
+    setTokenModalList(notLocalTokens);
     setLocalTokens([]);
-    localStorage.setItem("newToken","[]");
+    localStorage.setItem("newToken", "[]");
    }
-   console.log("tokenmodallist",tokenModalList)
+
+   console.log("tokenmodallist",tokenModalList);
+
    const spliceCustomToken = (index:any) => {
     let incomingObject = localTokens[index];
-    const filteredModallist = tokenModalList.filter((ss:any)=>{
+    const filteredModallist = localTokens.filter((ss:any)=>{
       return ss.parentContract !== incomingObject.parentContract
     });
-    setTokenModalList([...filteredModallist]);
-    const spliced = localTokens.splice(0,index);
-    setLocalTokens(spliced);
-    localStorage.setItem("newToken",JSON.stringify(spliced))
-    
-    
+    setLocalTokens(filteredModallist);
+    const filtered2 = tokenModalList.filter((ss: any) => {
+      return ss.parentContract !== incomingObject.parentContract;
+    });
+    setTokenModalList(filtered2);
    }
-   useEffect(() => {
-    // let checkToken = JSON.parse(localStorage.getItem("newToken") || "[]");
-    // code below is to check whether the local token is already present in the tokenModallist
-    // const isalready = arrayContainsObject(tokenModalList, checkToken);
-    // const localindexes = checkToken && checkToken.map((st:any)=>st.parentContract);
-    const checkArray = tokenModalList.map((st: any) => st?.parentContract);
-    let localtoken : any = JSON.parse(localStorage.getItem("newToken") || "[]");
-    let localtokenarray = localtoken.map((st: any) => st.parentContract);
-    const isalreadypresent = checkArray.some((item :any) =>
-      localtokenarray.includes(item)
-    );
-    // let isalready = JSON.stringify(tokenModalList).includes(
-    //   JSON.stringify(checkToken)
-    // );
-    if (
-      showTokenModal &&
-    !isalreadypresent &&
-      localtoken !== null 
-    ) {
-      let updatedArray = [...tokenModalList, ...localtoken];
-      const uniqueTokenArray = [
-        ...updatedArray
-          .reduce((map, obj) => map.set(map.parentContract, obj), new Map())
-          .values(),
-      ];
-      setTokenModalList([...tokenModalList, ...uniqueTokenArray]);
-    }
-   }, [localTokens,tokenModalList])
-   
-      
   console.log('localToken',localTokens)
   return (
     <>
@@ -1778,9 +1841,73 @@ const handleSearchList = (key :any) => {
                       </div>
                     </div>
                   </div>
-                  <div className="pop-mid">
+                  {/* <div className="pop-mid">
                     <div className="center-content">
                       <p>Custom token not found Add your first custom token</p>
+                    </div>
+                  </div> */}
+                  
+                  <div className="pop-bottom pt-0">
+                    <div className="">
+                      <div className="grid-block">
+                        <div className="blk-width">
+                          <div>{localTokens.length} Token Found</div>
+                          <p className="lite-color">
+                            Token stored in your browser
+                          </p>
+                        </div>
+                        <div className="blk-width btn-sm">
+                          <button
+                            type="button"
+                            className="btn primary-btn w-100"
+                            onClick={clearAllCustomTokens}
+                          >
+                            Clear All
+                          </button>
+                        </div>
+                      </div>
+                      <div className="token-listwrap usr-listht">
+                        {localTokens.map((x: any, index: any) => (
+                          <div className="tokn-row" key={x.parentContract}>
+                            <div className="cryoto-box">
+                              <img
+                                className="img-fluid"
+                                src={
+                                  x.logo
+                                    ? x.logo
+                                    : "../../images/shib-borderd-icon.png"
+                                }
+                                alt=""
+                              />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">{x.parentSymbol}</h6>
+                                <p>{x.parentName}</p>
+                              </div>
+                              <div>
+                                <span
+                                  className="me-4"
+                                  onClick={() => spliceCustomToken(index)}
+                                >
+                                  <img
+                                    className="img-fluid"
+                                    src="../../images/del.png"
+                                    alt=""
+                                  />
+                                </span>
+                                <span>
+                                  <img
+                                    className="img-fluid"
+                                    src="../../images/up.png"
+                                    alt=""
+                                  />
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1827,7 +1954,9 @@ const handleSearchList = (key :any) => {
                           type="text"
                           className="w-100"
                           placeholder="Enter Token Address"
-                          onChange={(e) => addNewToken(e.target.value)}
+                          onChange={(e) => {
+                            addNewToken(e.target.value);
+                          }}
                           autoFocus={newToken.length > 0}
                           value={newToken ? newToken : ""}
                         />
@@ -1843,7 +1972,7 @@ const handleSearchList = (key :any) => {
                       </div>
                     </div>
                   </div>
-                  <div className="h-100">
+                  {/* <div className="h-100">
                     <div className="two-col position-relative">
                       <div className="left-sec-img">
                         <div>
@@ -1905,6 +2034,70 @@ const handleSearchList = (key :any) => {
                         <div className="right-side data">
                           <p>18</p>
                         </div>
+                      </div>
+                    </div>
+                  </div> */}
+                  
+                  <div className="pop-bottom pt-0">
+                    <div className="">
+                      <div className="grid-block">
+                        <div className="blk-width">
+                          <div>{localTokens.length} Token Found</div>
+                          <p className="lite-color">
+                            Token stored in your browser
+                          </p>
+                        </div>
+                        <div className="blk-width btn-sm">
+                          <button
+                            type="button"
+                            className="btn primary-btn w-100"
+                            onClick={clearAllCustomTokens}
+                          >
+                            Clear All
+                          </button>
+                        </div>
+                      </div>
+                      <div className="token-listwrap usr-listht">
+                        {localTokens.map((x: any, index: any) => (
+                          <div className="tokn-row" key={x.parentContract}>
+                            <div className="cryoto-box">
+                              <img
+                                className="img-fluid"
+                                src={
+                                  x.logo
+                                    ? x.logo
+                                    : "../../images/shib-borderd-icon.png"
+                                }
+                                alt=""
+                              />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">{x.parentSymbol}</h6>
+                                <p>{x.parentName}</p>
+                              </div>
+                              <div>
+                                <span
+                                  className="me-4"
+                                  onClick={() => spliceCustomToken(index)}
+                                >
+                                  <img
+                                    className="img-fluid"
+                                    src="../../images/del.png"
+                                    alt=""
+                                  />
+                                </span>
+                                <span>
+                                  <img
+                                    className="img-fluid"
+                                    src="../../images/up.png"
+                                    alt=""
+                                  />
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -1972,6 +2165,11 @@ const handleSearchList = (key :any) => {
                           type="text"
                           className="w-100"
                           placeholder="Add list by https://"
+                          onChange={(e) => {
+                            addNewToken(e.target.value);
+                          }}
+                          autoFocus={newToken.length > 0}
+                          value={newToken ? newToken : ""}
                         />
                         <div className="search-icon">
                           <img
@@ -1985,6 +2183,7 @@ const handleSearchList = (key :any) => {
                       </div>
                     </div>
                   </div>
+                 
                   <div className="pop-bottom pt-0">
                     <div className="">
                       <div className="grid-block">
@@ -2005,50 +2204,47 @@ const handleSearchList = (key :any) => {
                         </div>
                       </div>
                       <div className="token-listwrap usr-listht">
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">SHIB</h6>
-                              <p>Shibatoken</p>
+                        {localTokens.map((x: any, index: any) => (
+                          <div className="tokn-row" key={x.parentContract}>
+                            <div className="cryoto-box">
+                              <img
+                                className="img-fluid"
+                                src={
+                                  x.logo
+                                    ? x.logo
+                                    : "../../images/shib-borderd-icon.png"
+                                }
+                                alt=""
+                              />
                             </div>
-                            <div>
-                              <span
-                                className="me-4"
-                                onClick={() => {
-                                  setTokenState({
-                                    step0: false,
-                                    step1: false,
-                                    step2: true,
-                                    step3: false,
-                                    step4: false,
-                                    title: "Manage Token",
-                                  });
-                                }}
-                              >
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/del.png"
-                                  alt=""
-                                />
-                              </span>
-                              <span>
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/up.png"
-                                  alt=""
-                                />
-                              </span>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">{x.parentSymbol}</h6>
+                                <p>{x.parentName}</p>
+                              </div>
+                              <div>
+                                <span
+                                  className="me-4"
+                                  onClick={() => spliceCustomToken(index)}
+                                >
+                                  <img
+                                    className="img-fluid"
+                                    src="../../images/del.png"
+                                    alt=""
+                                  />
+                                </span>
+                                <span>
+                                  <img
+                                    className="img-fluid"
+                                    src="../../images/up.png"
+                                    alt=""
+                                  />
+                                </span>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="tokn-row">
+                        ))}
+                        {/* <div className="tokn-row">
                           <div className="cryoto-box">
                             <img
                               className="img-fluid"

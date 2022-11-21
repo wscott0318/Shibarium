@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import { useActiveWeb3React } from "../../services/web3";
 import Web3 from 'web3';
@@ -23,6 +23,20 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
     amount: yup.number().typeError("only digits are allowed").min(1000).required("comission is required"),
   })
 
+  const [minDeposit,setMinDeposit] = useState('');
+  useEffect(() => {
+    let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
+    let min = instance.methods
+          .minDeposit()
+          .call({ from: String(account) })
+          .then((token: any) => token)
+          .catch((err: any) => console.log(err));
+      
+    console.log("min",min);  
+    let final =  Number(min) / Math.pow(10, 18)
+     console.log("min =>final", final);  
+  }, [])
+  
 
   const  approveAmount = (data :any) => {
     if (account) {
