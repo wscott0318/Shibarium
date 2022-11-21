@@ -1846,7 +1846,7 @@ const handleSearchList = (key :any) => {
                       <p>Custom token not found Add your first custom token</p>
                     </div>
                   </div> */}
-                  
+
                   <div className="pop-bottom pt-0">
                     <div className="">
                       <div className="grid-block">
@@ -1875,7 +1875,7 @@ const handleSearchList = (key :any) => {
                                 src={
                                   x.logo
                                     ? x.logo
-                                    : "../../images/shib-borderd-icon.png"
+                                    : "../../../assets/images/shib-borderd-icon.png"
                                 }
                                 alt=""
                               />
@@ -1892,14 +1892,14 @@ const handleSearchList = (key :any) => {
                                 >
                                   <img
                                     className="img-fluid"
-                                    src="../../images/del.png"
+                                    src="../../../assets/images/del.png"
                                     alt=""
                                   />
                                 </span>
                                 <span>
                                   <img
                                     className="img-fluid"
-                                    src="../../images/up.png"
+                                    src="../../../assets/images/up.png"
                                     alt=""
                                   />
                                 </span>
@@ -2037,7 +2037,7 @@ const handleSearchList = (key :any) => {
                       </div>
                     </div>
                   </div> */}
-                  
+
                   <div className="pop-bottom pt-0">
                     <div className="">
                       <div className="grid-block">
@@ -2066,7 +2066,7 @@ const handleSearchList = (key :any) => {
                                 src={
                                   x.logo
                                     ? x.logo
-                                    : "../../images/shib-borderd-icon.png"
+                                    : "../../../assets/images/shib-borderd-icon.png"
                                 }
                                 alt=""
                               />
@@ -2083,14 +2083,14 @@ const handleSearchList = (key :any) => {
                                 >
                                   <img
                                     className="img-fluid"
-                                    src="../../images/del.png"
+                                    src="../../../assets/images/del.png"
                                     alt=""
                                   />
                                 </span>
                                 <span>
                                   <img
                                     className="img-fluid"
-                                    src="../../images/up.png"
+                                    src="../../../assets/images/up.png"
                                     alt=""
                                   />
                                 </span>
@@ -2183,7 +2183,7 @@ const handleSearchList = (key :any) => {
                       </div>
                     </div>
                   </div>
-                 
+
                   <div className="pop-bottom pt-0">
                     <div className="">
                       <div className="grid-block">
@@ -2203,50 +2203,50 @@ const handleSearchList = (key :any) => {
                           </button>
                         </div>
                       </div>
-                      </div>
-                      </div>
-                      <div className="token-listwrap usr-listht">
-                        {localTokens.map((x: any, index: any) => (
-                          <div className="tokn-row" key={x.parentContract}>
-                            <div className="cryoto-box">
+                    </div>
+                  </div>
+                  <div className="token-listwrap usr-listht">
+                    {localTokens.map((x: any, index: any) => (
+                      <div className="tokn-row" key={x.parentContract}>
+                        <div className="cryoto-box">
+                          <img
+                            className="img-fluid"
+                            src={
+                              x.logo
+                                ? x.logo
+                                : "../../../assets/images/shib-borderd-icon.png"
+                            }
+                            alt=""
+                          />
+                        </div>
+                        <div className="tkn-grid">
+                          <div>
+                            <h6 className="fw-bold">{x.parentSymbol}</h6>
+                            <p>{x.parentName}</p>
+                          </div>
+                          <div>
+                            <span
+                              className="me-4"
+                              onClick={() => spliceCustomToken(index)}
+                            >
                               <img
                                 className="img-fluid"
-                                src={
-                                  x.logo
-                                    ? x.logo
-                                    : "../../images/shib-borderd-icon.png"
-                                }
+                                src="../../../assets/images/del.png"
                                 alt=""
                               />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">{x.parentSymbol}</h6>
-                                <p>{x.parentName}</p>
-                              </div>
-                              <div>
-                                <span
-                                  className="me-4"
-                                  onClick={() => spliceCustomToken(index)}
-                                >
-                                  <img
-                                    className="img-fluid"
-                                    src="../../images/del.png"
-                                    alt=""
-                                  />
-                                </span>
-                                <span>
-                                  <img
-                                    className="img-fluid"
-                                    src="../../images/up.png"
-                                    alt=""
-                                  />
-                                </span>
-                              </div>
-                            </div>
+                            </span>
+                            <span>
+                              <img
+                                className="img-fluid"
+                                src="../../../assets/images/up.png"
+                                alt=""
+                              />
+                            </span>
                           </div>
-                        ))}
-                        {/* <div className="tokn-row">
+                        </div>
+                      </div>
+                    ))}
+                    {/* <div className="tokn-row">
                           <div className="cryoto-box">
                             <img
                               className="img-fluid"
@@ -2554,12 +2554,12 @@ const handleSearchList = (key :any) => {
               </div>
             )}
             {/* new added token with delete action ends */}
-          </div>
-          </div>
-          </div>
+                  </div>
+                </div>
+              </div>
             )}
-          
-          {/* Token popups end */}
+
+            {/* Token popups end */}
           </>
         </CommonModal>
         {/* Token popups end */}
