@@ -87,7 +87,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
           // here 
             sortedData.forEach(async (x:any) => {
               let stakeData = await getStakeAmountDelegator(+(x.id), (accountAddress.toLowerCase()))
-              // console.log(stakeData, "delegator card data")
+              console.log(stakeData, "delegator card data")
               setStakeAmounts((pre :any) => ([...pre, stakeData]))
             })
           setDelegationsList(sortedData)
@@ -1394,9 +1394,9 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                               <div className="info-row">
                                 <span>
                                   <span className="fw-bold">
-                                    {parseInt(
+                                    {addDecimalValue(parseInt(
                                       item.checkpointSignedPercent
-                                    ).toFixed(tokenDecimal)}
+                                    ))}
                                     %
                                   </span>{" "}
                                   Checkpoints Signed
@@ -1405,7 +1405,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                               <div className="info-row">
                                 <span>
                                   <span className="fw-bold">
-                                    {item.commission}%
+                                    {addDecimalValue(+item.commission)}%
                                   </span>{" "}
                                   Commission
                                 </span>
@@ -1419,7 +1419,8 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                               <div className="text-center">
                                 <div>Your Stake</div>
                                 <div className="fw-bold">
-                                  {getStake(item.id)}
+                                  {/* {getStake(item.id)} */}
+                                  {item.stake / Math.pow(10, web3Decimals)}
                                 </div>
                                 {/* <div className="fw-bold">{stakeAmounts?.filter((x:any) => x.validatorId === item.id)[0]?.tokens}</div> */}
                                 {/* {/ <div>$0</div> /} */}
