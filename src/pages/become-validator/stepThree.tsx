@@ -260,7 +260,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
                   value={values.amount}
                   onChange={handleChange("amount")}
                 />
-                {touched.amount && errors.amount ? <p className="primary-text pt-0 pl-2">{errors.amount}</p> : null} 
+                {touched.amount && errors.amount ? <p className="primary-text pt-0 er-txt">{errors.amount}</p> : null} 
                 <label htmlFor="" className="form-label ff-mos">
                   Minimum: 1000 BONE
                 </label>
