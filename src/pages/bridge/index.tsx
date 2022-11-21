@@ -104,6 +104,7 @@ export default function Withdraw() {
   const [localTokens, setLocalTokens] = useState<any>(
     JSON.parse(localStorage.getItem("newToken") || "[]")
   );
+  const [tempTokens, setTempTokens] = useState<any>([]);
   const getTokensList = () => {
     getWalletTokenList().then((res) => {
       let list = res.data.message.tokens;
@@ -404,6 +405,7 @@ const handleSearchList = (key :any) => {
         };
 
 
+
       useEffect(() => {
         if(!showTokenModal)
         {
@@ -503,6 +505,35 @@ const handleSearchList = (key :any) => {
           setTokenModalList(updatedArray);
         }
       }, [])
+  
+  useEffect(() => {
+    const isValidAddress = web3.utils.isAddress(String(newToken));
+    if(isValidAddress && account && (tokenState.step2 || tokenState.step3 || tokenState.step4)){
+    const contractInstance = new web3.eth.Contract(
+      addTokenAbi,
+      String(newToken)
+    );
+    let symbol : any = contractInstance.methods
+      .symbol()
+      .call({ from: String(account) })
+      .then((token: any) => token)
+      .catch((err: any) => console.log(err));
+    let name : any = contractInstance.methods
+      .name()
+      .call({ from: String(account) })
+      .then((token: any) => token)
+      .catch((err: any) => console.log(err));
+    const obj = {
+      parentContract: String(newToken),
+      childContract: String(newToken),
+      parentName: name,
+      parentSymbol: symbol,
+    };
+    
+    setTempTokens([obj]);
+  }
+    console.log('temptoken',tempTokens)
+  }, [newToken,tokenState])
       
 
     
@@ -1815,6 +1846,7 @@ const handleSearchList = (key :any) => {
                       <p>Custom token not found Add your first custom token</p>
                     </div>
                   </div> */}
+                  
                   <div className="pop-bottom pt-0">
                     <div className="">
                       <div className="grid-block">
@@ -2005,6 +2037,7 @@ const handleSearchList = (key :any) => {
                       </div>
                     </div>
                   </div> */}
+                  
                   <div className="pop-bottom pt-0">
                     <div className="">
                       <div className="grid-block">
@@ -2150,6 +2183,7 @@ const handleSearchList = (key :any) => {
                       </div>
                     </div>
                   </div>
+                 
                   <div className="pop-bottom pt-0">
                     <div className="">
                       <div className="grid-block">
