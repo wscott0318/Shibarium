@@ -1,5 +1,6 @@
 import * as yup from "yup";
 import React, { useEffect, useRef, useState } from "react";
+import { ChainId } from "shibarium-chains";
 import { useFormik } from "formik";
 import { useActiveWeb3React } from "../../services/web3";
 import Web3 from 'web3';
@@ -11,6 +12,8 @@ import fromExponential from 'from-exponential';
 import { currentGasPrice, getAllowanceAmount, web3Decimals } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { MAXAMOUNT } from "../../web3/commonFunctions";
+import {useEthBalance} from '../../hooks/useEthBalance';
+import {useTokenBalance} from '../../hooks/useTokenBalance';
 
 function StepThree({becomeValidateData, stepState,stepHandler}:any) {
 
@@ -20,6 +23,8 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
   const dispatch = useAppDispatch();
   
   const [minDeposit ,setMinDeposit] = useState<number>(0);
+  const [minHeimdallFee ,setMinHeimdallFee] = useState<number>(0);
+  const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
   
   let schema = yup.object().shape({
     amount: yup.number().typeError("only digits are allowed").min(minDeposit).required("comission is required"),
@@ -38,8 +43,11 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
     if (account) {
       const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
       const MinimumFees = await instance.methods.minDeposit().call({ from: account }); // read
+      const MinimumHeimDallFee = await instance.methods.minHeimdallFee().call({ from: account }); // read
       const fees = +MinimumFees / 10 ** web3Decimals
+      const feesHeimdall = +MinimumHeimDallFee / 10 ** web3Decimals
       setMinDeposit(fees)
+      setMinHeimdallFee(feesHeimdall)
     } else {
       console.log("account addres not found")
     }
@@ -153,7 +161,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
     let amount = web3.utils.toBN(fromExponential(+values.amount * Math.pow(10, 18)));
     let acceptDelegation = 1
     // let becomeValidateData.publickey = "0x040ef89e54996ee859c6c47fd3fe0bbfac9d1256937fdb86da5a1a7a0441ebe3c8b86b6448fe60b4bbca0933f70f403afd1ab973c1ab82497698dc95183b314b9d"
-    let heimdallFee = web3.utils.toBN(fromExponential(2 * Math.pow(10, 18)));
+    let heimdallFee = web3.utils.toBN(fromExponential(minHeimdallFee * Math.pow(10, 18)));
 
     if(allowance < +values.amount) {
       console.log("need approval ")
@@ -269,11 +277,82 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
                   onChange={handleChange("amount")}
                 />
                 {touched.amount && errors.amount ? <p className="primary-text pt-0 er-txt">{errors.amount}</p> : null} 
-                <label htmlFor="" className="form-label ff-mos">
+                
+                <div className="row">
+                  <div >
+                  <label htmlFor="" className="form-label ff-mos">
                   Minimum: {minDeposit} BONE
-                </label>
+                  </label>
+                  </div>
+                  <div >
+                  <p>Availabe balance: {availBalance}</p>
+                  </div>
+                </div>
+
               </div>
             </div>
+
+         
+          <div className="col-sm-6 form-grid">
+            <div className="form-group">
+              <label htmlFor="" className="form-label ff-mos">
+                Heimdall Fees
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="https://knightventures.com"
+                name="website"
+                value={minHeimdallFee}
+                readOnly={true}
+              />
+            </div>
+
+          </div>
+          <div className="col-sm-6 form-grid">
+            <div className="form-group">
+              <label htmlFor="" className="form-label ff-mos">
+                Signer’s address
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
+                name="address"
+                readOnly={true}
+                value={becomeValidateData.address}
+              />
+            </div>
+          </div>
+          <div className="col-sm-6 form-grid">
+            <div className="form-group">
+              <label htmlFor="" className="form-label ff-mos">
+                Signer’s Public key
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
+                value={becomeValidateData.publickey}
+                readOnly={true}
+              />
+            </div>
+          </div>
+          <div className="col-sm-6 form-grid">
+            <div className="form-group">
+              <label htmlFor="" className="form-label ff-mos">
+                Accept Delegation
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="delegation"
+                value="Yes"
+                readOnly={true}
+              />
+            </div>
+          </div>
+          
           </div>
           <div className="btn-wrap col-sm-5 mt-4 flx">
             <button
