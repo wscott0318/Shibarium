@@ -101,7 +101,10 @@ export default function Withdraw() {
     const [tokenModalList, setTokenModalList] = useState<any>([]);
     const [tokenList, setTokenList] = useState([]);
     const [modalKeyword, setmodalKeyword] = useState("");
-  const [localTokens,setLocalTokens]=useState<any>([]);
+  const [localTokens, setLocalTokens] = useState<any>(
+    JSON.parse(localStorage.getItem("newToken") || "[]")
+  );
+  const [tempToken, setTempToken] = useState<any>({});
   const getTokensList = () => {
     getWalletTokenList().then((res) => {
       let list = res.data.message.tokens;
@@ -110,7 +113,7 @@ export default function Withdraw() {
       });
       setTokenList(list);
       // setTokenFilteredList(list);
-      setTokenModalList(list);
+      setTokenModalList([...localTokens,...list]);
     });
   };
   useEffect(() => {
@@ -346,6 +349,7 @@ const handleSearchList = (key :any) => {
       }
       }
 
+
         const addTokenHandler = async () => {           
           const isValidAddress = await web3.utils.isAddress(String(newToken));
           if (isValidAddress) {
@@ -382,30 +386,7 @@ const handleSearchList = (key :any) => {
                 parentSymbol: symbol,
               };
               setLocalTokens([...localTokens,obj])
-              // localStorage.setItem("newToken", JSON.stringify(localTokens));
-              // const tokenArray = tokenModalList.map(
-              //   (st: any) => st?.parentContract
-              // );
-              // let localArray = localTokens.map(
-              //   (st: any) => st.parentContract
-              // );
-              // const isalready2 = localArray.some((item: any) =>
-              //   tokenArray.includes(item)
-              // );
-              
               setTokenModalList([...tokenModalList,obj])
-              // let newAddedToken = JSON.parse(
-              //   localStorage.getItem("newToken") || "[]"
-              // );
-              // let updatedArray = [
-              //   ...tokenModalList,
-              //   newAddedToken[newAddedToken.length - 1],
-              // ];
-              // setTokenModalList(updatedArray);
-              // setLocalTokens([
-              //   ...localTokens,
-              //   newAddedToken[newAddedToken.length - 1],
-              // ]);
               toast.success(`${name} successfully added.`, {
                 position: toast.POSITION.BOTTOM_CENTER,
                 autoClose: 3000,
@@ -422,6 +403,32 @@ const handleSearchList = (key :any) => {
           } else { 
           }
         };
+
+  //  useEffect(() => {
+  //    const isValidAddress = web3.utils.isAddress(String(newToken));
+  //    if(isValidAddress && newToken.length >0)
+  //    {
+  //       const contractInstance = new web3.eth.Contract(addTokenAbi, String(newToken));
+  //       let symbol = contractInstance.methods
+  //         .symbol()
+  //         .call({ from: String(account) })
+  //         .then((token: any) => token)
+  //         .catch((err: any) => console.log(err));
+  //       let name = contractInstance.methods
+  //         .name()
+  //         .call({ from: String(account) })
+  //         .then((token: any) => token)
+  //         .catch((err: any) => console.log(err));
+  //       const obj = {
+  //         parentContract: String(newToken),
+  //         childContract: String(newToken),
+  //         parentName: name,
+  //         parentSymbol: symbol,
+  //       };
+  //       setTempToken(obj);
+  //    }
+     
+  //  }, [newToken]);
 
       useEffect(() => {
         if(!showTokenModal)
@@ -516,18 +523,11 @@ const handleSearchList = (key :any) => {
       }, [localTokens])
      
       useEffect(() => {
-        console.log("initial page load");
-        let customTokens : [] = JSON.parse(localStorage.getItem('newToken') || "[]");
-        if(customTokens !== null)
-        {
-          setLocalTokens(customTokens);
-          let updatedArray = [...tokenModalList, ...customTokens];
+        if(tokenModalList.length > 0){
+          console.log("initial page load");
+          let updatedArray = [...tokenModalList, ...localTokens];
           setTokenModalList(updatedArray);
         }
-        else if (customTokens === null) {
-          console.log("nothing");
-        }
-          
       }, [])
       
 
@@ -557,6 +557,9 @@ const handleSearchList = (key :any) => {
     });
     setTokenModalList(filtered2);
    }
+
+
+   
   //  useEffect(() => {
   //   const checkArray = tokenModalList.map((st: any) => st?.parentContract);
   //   let localtoken : any = JSON.parse(localStorage.getItem("newToken") || "[]");
@@ -1985,6 +1988,42 @@ const handleSearchList = (key :any) => {
                       </div>
                     </div>
                   </div>
+                 {/* { <div className="tokn-row">
+                    <div className="cryoto-box">
+                      <img
+                        className="img-fluid"
+                        src={
+                          tempToken.logo
+                            ? tempToken.logo
+                            : "../../images/shib-borderd-icon.png"
+                        }
+                        alt=""
+                      />
+                    </div>
+                    <div className="tkn-grid">
+                      <div>
+                        <h6 className="fw-bold">{tempToken.parentSymbol}</h6>
+                        <p>{tempToken.parentName}</p>
+                      </div>
+                      <div>
+                        <span className="me-4">
+                          <img
+                            className="img-fluid"
+                            src="../../images/del.png"
+                            alt=""
+                          />
+                        </span>
+                        <span>
+                          <img
+                            className="img-fluid"
+                            src="../../images/up.png"
+                            alt=""
+                          />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+            } */}
                   {/* <div className="h-100">
                     <div className="two-col position-relative">
                       <div className="left-sec-img">
