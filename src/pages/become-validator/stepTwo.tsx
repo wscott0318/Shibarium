@@ -7,12 +7,14 @@ import { useActiveWeb3React } from "../../services/web3";
 import LoadingSpinner from 'pages/components/Loading';
 
 export const validatorSchema = yup.object().shape({
-  validatorname: yup
+  name: yup
     .string()
+    .max(14).typeError("name must be less than 15 characters")
     .required("validator name is required")
-    .matches(/^[A-Za-z][A-Za-z0-9 ]+$/, "Entered wrong charactor "),
+    .matches(/^[A-Za-z][A-Za-z0-9 ]+$/, "only alphabets & digits are allowed "),
   publickey: yup
     .string()
+    .max(143)
     .notOneOf(
       [yup.ref("address"), null],
       "Signer's address & public key should not match"
@@ -22,11 +24,11 @@ export const validatorSchema = yup.object().shape({
     .required("public key is required"),
   website: yup
     .string()
-    .url()
+    .url("enter a vaild url with 'https://' or 'http://' at start ")
     .required("website is required")
     .matches(
       /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/,
-      "enter a vaild url"
+      "enter a vaild url with 'https://' or 'http://' at start "
     ),
 });
 
@@ -38,58 +40,53 @@ function StepTwo({
 }: any) {
 
   const { account } = useActiveWeb3React();
-  const userAddress: any = account
-  const [imageData, setImageData] = useState<any>("");
+  const [imageData, setImageData] = useState<any>(becomeValidateData.image ? becomeValidateData.image : "");
   const [validation, setValidation] = useState({
     image: false,
     address: false,
   });
   const [imageSize , setImageSize ] = useState(false)
   const [apiLoading, setApiLoading] = useState(false)
+  const [userAddress, setUserAddres ] = useState(account)
 
-  const verifyAddress = (address: any) => {
-    let result = Web3.utils.isAddress(address);
-    return result;
-  };
+
+  useEffect(() => {
+    if(account) {
+      setUserAddres(account)
+      // setValues('address', account)
+    }
+  }, [account])
 
   const callAPI = async (values: any) => {
     // console.log("call API called");
-    setApiLoading(true)
-    if (imageData && verifyAddress(values.address)) {
-      setValidation({ image: false, address: false });
-      // console.log("1");
-    } else if (!imageData && verifyAddress(values.address)) {
-      setValidation({ address: false, image: true });
-      // console.log("2");
-    } else if (imageData && !verifyAddress(values.address)) {
-      setValidation({ image: false, address: true });
-      // console.log("3");
-    } else {
-      setValidation({ image: true, address: true });
+    if (imageData) {
+      setApiLoading(false)
+      values.image = imageData
+      console.log(values)
+      setBecomeValidateData(values)
+      stepHandler("next");
+      console.log("image vaild");
+     } else {
+      console.log("image not valid");
+     setValidation({address:false, image: true})
     }
-
-    setApiLoading(false)
-    values.image = imageData
-    console.log(values)
-    setBecomeValidateData(values)
-    stepHandler("next");
   };
 
   const [initialValues, setInitialValues] = useState({
-    validatorname: "",
+    name: "",
     publickey: "",
-    address: userAddress,
     website: "",
   });
 
   // console.log("Become Validate Data in Step Two", initialValues);
   useEffect(() => {
-    if (becomeValidateData) {
+    if (account) {
+      console.log(becomeValidateData,Object.values(becomeValidateData), "data ")
       setInitialValues(becomeValidateData)
       setBecomeValidateData(becomeValidateData)
       setValues(becomeValidateData)
     }
-  }, [])
+  }, [account])
 
  
 
@@ -107,6 +104,7 @@ function StepTwo({
     if (event.target.files[0]?.size <= 204800) {
       setImageData(event.target.files[0])
       setImageSize(false)
+      setValidation({address: false, image: false})
   } else {
       setImageSize(true)
   }
@@ -171,14 +169,14 @@ function StepTwo({
                 type="text"
                 className="form-control"
                 placeholder="i.e Dark Knight Ventures"
-                name="validatorname"
-                value={values.validatorname}
+                name="name"
+                value={values.name}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {touched.validatorname && errors.validatorname ? (
+              {touched.name && errors.name ? (
                 <p className="primary-text error ff-mos">
-                  {errors.validatorname}
+                  {errors.name}
                 </p>
               ) : null}
             </div>
@@ -215,7 +213,7 @@ function StepTwo({
                 placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
                 name="address"
                 readOnly={true}
-                value={values.address}
+                value={account || ''}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />

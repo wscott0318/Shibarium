@@ -1,28 +1,26 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useRef, useState } from "react";
-import { getValidatorInfo } from "../../services/apis/network-details/networkOverview";
-import { useActiveWeb3React } from "../../services/web3"
+import React, { useState, useEffect } from "react";
 import Header from "../layout/header";
 import StepOne from "./stepOne";
 import StepTwo from "./stepTwo";
 import StepThree from "./stepThree";
 import StepFour from "./stepFour";
-import { useEffect } from "react";
+import { useUserType } from "../../state/user/hooks";
+import { useRouter } from 'next/router'
 
 
 const Rewards = () => {
 
-  const { chainId = 1, account, library } = useActiveWeb3React();
-  const [loader, setLoader] = useState(false);
-  const [ nodeExist, setNodeExist] = useState({});
-  const [ editNsave , setEditNsave] = useState(false)
+  const [ editNsave , setEditNsave] = useState(false);
+  const [userType, setUserType] = useUserType();
+  const router = useRouter();
 
-  const userAddress = account
   const [activInput, setActivInput] = useState({
     name: false,
     website: false,
     comission: false,
   });
+
 
   const [stepState,setStepState]=useState({
     step1:true,
@@ -31,12 +29,17 @@ const Rewards = () => {
     step4:false,
   })
   const [becomeValidateData , setBecomeValidateData] = useState({
-    validatorname: "",
+    name: "",
     publickey: "",
-    address: userAddress,
     website: "",
-    image: {}
+    image: ''
   });
+
+  useEffect(() => {
+    if(userType === 'Validator') {
+      router.push("/");
+    }
+  },[userType])
   
   // console.log("Become Validate Data in Parent",becomeValidateData)
   
@@ -122,20 +125,6 @@ setEditNsave(!editNsave)
     }
   }
   }
-
-  const callValidatorInfo = async (account) => {
-    console.log("api called ====> ")
-    setLoader(true)
-    await getValidatorInfo(account).then((res) => {
-        console.log(res.data.message.val_info[0])
-        setNodeExist(res.data.message.val_info[0])
-        setLoader(false)
-    }).catch((err) => {
-        console.log(err)
-        setLoader(false)
-    })
-
-}
 
   return (
     <>

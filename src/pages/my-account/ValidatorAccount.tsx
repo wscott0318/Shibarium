@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from "next/router";
 import CommonModal from "../components/CommonModel";
 import { useActiveWeb3React } from "../../services/web3";
-import { getDelegatorData } from "../../services/apis/user/userApi"
+import { getDelegatorData, getUserType } from "../../services/apis/user/userApi"
 import LoadingSpinner from 'pages/components/Loading';
 import NumberFormat from 'react-number-format';
 import { Formik, Form, Field } from "formik";
@@ -40,6 +40,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     title: '',
   })
   const [hashLink, setHashLink] = useState('')
+  const [validatorID, setValidatorID] = useState(1)
 
   const { account, chainId = 1, library } = useActiveWeb3React();
   const lib: any = library
@@ -72,7 +73,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
 
   const getValidatorData = async () => {
-      let valId = await getValidatorId()
+      let valId = validatorID
       let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
       const valFromContract =  await instance.methods.validators(+valId).call({from : account})
       const valReward = await instance.methods.validatorReward(+valId).call({from : account})
@@ -172,6 +173,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     if(account && userType === 'Validator') {
       getValidatorData()
       validatorInfoAPI()
+      getVaiIDFromDB()
     }
   }, [account, userType, chainId])
 
@@ -189,6 +191,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   // GET VALIDATOR ID 
   const getValidatorId = async () => {
     let user = account;
+
     if (account) {
       console.log(user, "account address ")
       const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
@@ -200,15 +203,34 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     }
   }
 
+  const getVaiIDFromDB = async () =>{
+    let accountAddress  : any= account;
+    try {
+      await getUserType(accountAddress.toLowerCase()).then((res : any) => {
+        if (res.data && res.data.data) {
+          let ut = res.data.data.validatorId;
+          console.log(ut)
+          // setUserType(ut)
+          setValidatorID(ut)
+        }
+      }).catch((e:any) => {
+        console.log(e);
+        // setUserType('NA')
+      })
+    } catch (error) {
+
+    }
+  }
+
   //  COMMISSION CONTRACT 
   const callComission = async (value: any) => {
     setTransactionState({ state: true, title: 'Pending' })
     let user: any = account
     console.log("comission called ==> ")
-    let validatorID = await getValidatorId()
+    let valID = validatorID
     let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);      
-    let gasFee =  await instance.methods.updateCommissionRate(validatorID, +value.comission).estimateGas({from: user})
-    let encodedAbi =  await instance.methods.updateCommissionRate(validatorID, +value.comission).encodeABI()
+    let gasFee =  await instance.methods.updateCommissionRate(valID, +value.comission).estimateGas({from: user})
+    let encodedAbi =  await instance.methods.updateCommissionRate(valID, +value.comission).encodeABI()
     let CurrentgasPrice : any = await currentGasPrice(web3)
        console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
        await web3.eth.sendTransaction({
@@ -266,7 +288,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     if (account) {
       setTransactionState({ state: true, title: 'Pending' })
       let walletAddress: any = account
-      let ID = await getValidatorId()
+      let ID = validatorID
       let allowance = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].STAKE_MANAGER_PROXY) || 0
       let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
 
@@ -410,7 +432,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     setTransactionState({ state: true, title: 'Pending' })
     if (account) {
       let walletAddress = account
-      let valID = await getValidatorId()
+      let valID = validatorID
       let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
       let gasFee =  await instance.methods.withdrawRewards(valID).estimateGas({from: walletAddress})
       let encodedAbi =  await instance.methods.withdrawRewards(valID).encodeABI()
@@ -473,7 +495,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     if (account) {
       setTransactionState({ state: true, title: 'Pending' })
       let walletAddress: any = account
-      let ID = await getValidatorId()
+      let ID = validatorID
       let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
       let gasFee =  await instance.methods.unstake(ID).estimateGas({from: walletAddress})
       let encodedAbi =  await instance.methods.unstake(ID).encodeABI()
@@ -738,18 +760,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                 }) => (
                   <>
                     <div className="cmn_inpt_row">
-                      <div className="form-control">
-                        <label className="mb-2 mb-md-2 text-white">
-                          Enter validator address
-                        </label>
-                        <input
-                          type="text"
-                          placeholder="Validator address"
-                          className="w-100"
-                          value={restakeModal.address}
-                          readOnly
-                        />
-                      </div>
+                     
                     </div>
                     <div className="cmn_inpt_row">
                       <div className="form-control">
@@ -768,12 +779,13 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                             {errors.amount}
                           </p>
                         ) : null}
+                       <p className="mt-2 text-white"> balance : <b>{addDecimalValue(availBalance)} </b></p>
                       </div>
                     </div>
                     <div className="cmn_inpt_row">
                       <div className="form-control">
                         <label className="mb-2 mb-md-2 text-white">
-                          Enter Restake reward
+                          Select Restake reward
                         </label>
                         {/* <input type="text" placeholder="Stakereward" className="w-100" /> */}
                         <div className="black-sel">
@@ -841,18 +853,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
               }) => (
                 <div className="cmn_modal val_popups">
                   <div className="cmn_inpt_row">
-                    <div className="form-control">
-                      <label className="mb-2 mb-md-2 text-white">
-                        Enter validator address
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="Validator address"
-                        className="w-100"
-                        value={commiModal.address}
-                        readOnly
-                      />
-                    </div>
+                    
                   </div>
                   <div className="cmn_inpt_row">
                     <div className="form-control">
@@ -1135,31 +1136,6 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
             <div className="container">
               <div className="col-xl-12 col-lg-12 side-auto">
                 <div className="val_del_outr">
-                  {/* <h4 className="ff-mos">Wallet Balance</h4> */}
-                  {/* <h3 className="ff-mos">
-                    <b>{availBalance.toFixed(4)} Bone</b>
-                  </h3>
-                  <h4 className="ff-mos">
-                    <NumberFormat
-                      thousandSeparator
-                      displayType={"text"}
-                      prefix="$ "
-                      value={((availBalance || 0) * boneUSDValue).toFixed(2)}
-                    />
-                  </h4>
-                  <h4 className="ff-mos">
-                    Commission Percentage - {validatorInfo?.commissionPercent}
-                  </h4> */}
-                  {/* <h4>
-                    Rewards -{" "}
-                    {(
-                      (Number(fromExponential(validatorInfo?.totalRewards)) -
-                        Number(fromExponential(validatorInfo?.claimedReward))) /
-                      Math.pow(10, 18)
-                    ).toFixed(8)}
-                  </h4> */}
-                  {/* grid sec start */}
-                  
                     <div className="row ff-mos">
                       <div className="col-md-6 col-xl-4 col-custum">
                         <div className="cus-box">
@@ -1188,7 +1164,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                            {validatorInfoContract?.commissionRate} %
+                            {validatorInfoContract?.commissionRate ? validatorInfoContract?.commissionRate : 0} %
                             </div>
                             <div className="mid-head">
                               {/* <span>some info here...</span> */}

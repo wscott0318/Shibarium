@@ -5,7 +5,7 @@ import Link from 'next/link';
 import React, { useState } from 'react'
 import NumberFormat from 'react-number-format';
 import DelegatePopup from '../../delegate-popup';
-import { tokenDecimal } from 'web3/commonFunctions';
+import { addDecimalValue, toFixedPrecent, tokenDecimal, web3Decimals } from 'web3/commonFunctions';
 
 export default function ValidatorGrid({ validatorsList, searchKey }: { validatorsList: any, searchKey: any }) {
     const [modalShow, setModalShow] = React.useState(false);
@@ -35,19 +35,19 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                                       <div className='fw-600'>
                                           <span className='vertical-align'>
                                           <Link href={`/all-validator/${validator.signer}`} passHref>
-                                            {validator.name}
+                                            {validator?.name}
                                           </Link>
                                           </span>
                                           <p><span className='ft-14 light-text'>
-                                          <NumberFormat displayType='text'  thousandSeparator value={(validator.totalStaked/Math.pow(10,18)).toFixed(tokenDecimal)} /> BONE Staked</span></p>
+                                          <NumberFormat displayType='text'  thousandSeparator value={addDecimalValue(validator.totalStaked/Math.pow(10,web3Decimals))} /> BONE Staked</span></p>
                                       </div>
                                   </div>
                               </div> 
                               <div className='box-body'>
                                   <div className='d-flex align-items-center justify-content-between'>
-                                      <div className='fw-600 ft-14'>Performance</div>
+                                      <div className='fw-600 ft-14'>Uptime</div>
                                       <div>
-                                          <span className='warning-color fw-600 ft-14'>{(validator.uptimePercent).toFixed(tokenDecimal)}%</span>
+                                          <span className='warning-color fw-600 ft-14'>{(validator.uptimePercent).toFixed(toFixedPrecent)}%</span>
                                       </div>
                                   </div>
                                   <div className='d-flex align-items-center justify-content-between'>
@@ -57,7 +57,9 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                                       </div>
                                   </div>
                                   <div className='text-center mt-3'>
-                                      <button type="button" onClick={() => {setdelegatepop(true); setSelectedRow(validator)}} className='btn primary-btn  light-text w-100'><span>Delegate</span></button> 
+                                      <button
+                                       disabled={userType === 'Validator'}
+                                      type="button" onClick={() => {setdelegatepop(true); setSelectedRow(validator)}} className='btn primary-btn  light-text w-100'><span>Delegate</span></button> 
                                   </div>
                               </div>
                           </div>
