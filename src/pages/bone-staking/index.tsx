@@ -36,7 +36,8 @@ const BoneStaking = () => {
         const valCount = await instance.methods.currentValidatorSetSize().call({from:account});
         const validatorThreshold = await  instance.methods.validatorThreshold().call({from:account});
         const valInfo = await  instance.methods.validators(9).call({from:account});
-        console.log(valInfo, "val info ===> ")
+        const valStake = await  instance.methods.validatorStake(9).call({from:account});
+        console.log(valInfo,valStake, "val info ===> ")
         setValCount(valCount)
         setValMaxCount(validatorThreshold)
   }

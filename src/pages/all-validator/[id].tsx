@@ -16,11 +16,15 @@ import NumberFormat from 'react-number-format';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Delegators from './validator-details/Delegators';
 import Checkpoints from './validator-details/Checkpoints';
-import { addDecimalValue, tokenDecimal } from "web3/commonFunctions";
+import { addDecimalValue, tokenDecimal, web3Decimals } from "web3/commonFunctions";
+import Web3 from "web3";
+import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
+import { dynamicChaining } from "web3/DynamicChaining";
 
 
 export default function ValidatorDetails() {
     const pageSize = 4; 
+    const { account , library, chainId = 1} = useActiveWeb3React()
     const [validatorInfo, setValidatorInfo] = useState<any>();
     const [allDelegators, setAllDelegators] = useState([]);
     const [allCheckpoints, setAllCheckpoints] = useState<any>([]);
@@ -43,7 +47,7 @@ export default function ValidatorDetails() {
                 setAllDelegators(res?.data?.data?.validatorSet?.delegators || []);
                 setAllCheckpoints(res?.data?.data?.validatorSet?.checkpoints || [])
                 setLastBlock(res?.data?.data?.validatorSet?.lastBlock );
-                setTotalSupply(+res?.data?.data?.validatorSet?.totalSupply );
+            
 
                 // console.log(res?.data?.data?.validatorSet)
                 setLoading(false);
@@ -58,7 +62,26 @@ export default function ValidatorDetails() {
         getBoneUSDValue(BONE_ID).then(res=>{
             setBoneUsdValue(res.data.data.price);
         })
-      },[])
+
+        if(account) {
+            getTotalSupply(validatorInfo?.id) 
+        }
+
+      },[validatorInfo, account])
+
+
+      const getTotalSupply = async (id :any) => {
+        const lib: any = library;
+        const web3: any = new Web3(lib?.provider);
+        let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId]?.STAKE_MANAGER_PROXY);
+        const valStake = await instance.methods.validators(9).call({from:account});
+    
+        let finalAMount = (+valStake.amount +  +valStake.delegatedAmount) / Math.pow(10, web3Decimals)
+        console.log(valStake, finalAMount,  "data ==> ")
+        setTotalSupply(finalAMount)
+
+        // amount delegatedAmount
+      }
     
     
     return (
