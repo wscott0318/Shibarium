@@ -63,8 +63,8 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       </div>
                     </td>
                     <td>
-                      {addDecimalValue(x.totalstaked / Math.pow(10, web3Decimals))} (
-                      {(+x.votingpowerpercent || 0).toFixed(toFixedPrecent)}%)
+                      {addDecimalValue(x.totalstaked / Math.pow(10, web3Decimals))} 
+                      {/* ({(+x.votingpowerpercent || 0).toFixed(toFixedPrecent)}%) */}
                     </td>
                     <td>{ x.selfpercent ?  addDecimalValue(parseInt(x.selfpercent)) : "0" }%</td>
                     <td><span className='precent-td'>{x.commissionrate}%</span></td>

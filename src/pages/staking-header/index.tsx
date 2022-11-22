@@ -31,39 +31,32 @@ console.log("usertype",userType)
             <div className="lft-sec">
               <ul className="lft-links ms-auto">
                 <li className="nav-item">
-                  <Link href="bone-staking" passHref>
-                    <a
-                      className={`nav-link ff-mos ${
-                        routeCheck("bone-staking") && "active"
-                      }`}
-                      href="/"
+                  <Link href="bone-staking" passHref className={`nav-link ff-mos ${
+                        routeCheck("my-account") && "active"
+                      }`}>
+                    <p
                     >
                       Overview
-                    </a>
+                    </p>
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link href="all-validator" passHref>
-                    <a
-                      className={`nav-link ff-mos ${
-                        routeCheck("all-validator") && "active"
-                      }`}
-                      href="/"
-                    >
-                      All Validators
-                    </a>
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link href="my-account" passHref>
-                    <a
-                      className={`nav-link ff-mos ${
+                  <Link href="all-validator" passHref className={`nav-link ff-mos ${
                         routeCheck("my-account") && "active"
-                      }`}
-                      href="/"
+                      }`}>
+                    <p>
+                      All Validators
+                    </p>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link href="my-account" passHref className={`nav-link ff-mos ${
+                        routeCheck("my-account") && "active"
+                      }`}>
+                    <p
                     >
                       My Account
-                    </a>
+                    </p>
                   </Link>
                 </li>
                 {
@@ -80,7 +73,7 @@ console.log("usertype",userType)
                       //   setHistory("Unbound History");
                       // }}
                     >
-                       <Link href="/unbond-history" passHref>
+                       <Link href="unbond-history" passHref>
                       Unbound History
                       </Link>
                     </Dropdown.Item>
@@ -92,7 +85,7 @@ console.log("usertype",userType)
                       //   setHistory("Reward History");
                       // }}
                     >
-                      <Link href="/reward-history" passHref>
+                      <Link href="reward-history" passHref>
                       Reward History
                       </Link>
                     </Dropdown.Item>
