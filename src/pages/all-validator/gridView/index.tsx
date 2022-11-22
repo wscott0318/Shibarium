@@ -30,12 +30,14 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                               <div className='box-head'>
                                   <div className='d-flex align-items-center justify-content-start'>
                                   <div>
-                                        <span > <img  style={{height:50, width:50}} src={!validator.logoUrl || validator.logoUrl === 'PLACEHOLDER'? "../../assets/images/fundbaron.png":validator.logoUrl} alt="logo" className='me-3'/></span>
+                                        <span > <img  style={{height:50, width:50}} src={validator.logoUrl ? validator.logoUrl : "../../assets/images/shiba-round-icon.png"} alt="logo" className='me-3'/></span>
                                     </div>
                                       <div className='fw-600'>
                                           <span className='vertical-align'>
                                           <Link href={`/all-validator/${validator.signer}`} passHref>
+                                            <p>
                                             {validator?.name}
+                                            </p>
                                           </Link>
                                           </span>
                                           <p><span className='ft-14 light-text'>
@@ -57,9 +59,19 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                                       </div>
                                   </div>
                                   <div className='text-center mt-3'>
+                                  {
+                                      userType === 'Validator' ?
+                                        <Link href={`/all-validator/${validator.signer}`} passHref>
+                                        <p className='btn primary-btn  light-text w-100'>View</p>
+                                      </Link>
+                                      : 
                                       <button
-                                       disabled={userType === 'Validator'}
-                                      type="button" onClick={() => {setdelegatepop(true); setSelectedRow(validator)}} className='btn primary-btn  light-text w-100'><span>Delegate</span></button> 
+                                      disabled={userType === 'Validator'}
+                                      type="button"
+                                      onClick={() => {setdelegatepop(true); setSelectedRow(validator)}}
+                                        className='btn primary-btn  light-text w-100'>
+                                          <span>Delegate</span></button>
+                                      }
                                   </div>
                               </div>
                           </div>
