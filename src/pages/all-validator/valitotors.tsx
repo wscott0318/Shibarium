@@ -11,6 +11,7 @@ import LoadingSpinner from 'pages/components/Loading';
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 import { queryProvider } from 'Apollo/client';
 import { allValidatorsQuery } from 'Apollo/queries';
+import { inActiveCount } from 'web3/commonFunctions';
 
 const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) => {
     const pageSize = 10;
@@ -92,9 +93,9 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     useEffect(() => {
       let filtered = []
       if (isActiveTab) {
-        filtered = allValidators.filter(e => e.uptimePercent >= 10)
+        filtered = allValidators.filter(e => e.uptimePercent >= inActiveCount)
       } else {
-        filtered = allValidators.filter(e => e.uptimePercent <= 10)
+        filtered = allValidators.filter(e => e.uptimePercent <= inActiveCount)
       }
       setValidatorsByStatus(filtered)
     }, [isActiveTab]);

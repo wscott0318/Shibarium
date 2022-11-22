@@ -5,7 +5,7 @@ import { useUserType } from 'app/state/user/hooks';
 import Link from 'next/link';
 import DelegatePopup from 'pages/delegate-popup';
 import React, { useState } from 'react';
-import { addDecimalValue, toFixedPrecent, tokenDecimal, web3Decimals } from 'web3/commonFunctions';
+import { addDecimalValue, inActiveCount, toFixedPrecent, tokenDecimal, web3Decimals } from 'web3/commonFunctions';
 // @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 
@@ -67,7 +67,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       {/* ({(+x.votingpowerpercent || 0).toFixed(toFixedPrecent)}%) */}
                     </td>
                     <td>{ x.selfpercent ?  addDecimalValue(parseInt(x.selfpercent)) : "0" }%</td>
-                    <td><span className='precent-td'>{x.commissionrate}%</span></td>
+                    <td><span className='precent-td'>{x?.commissionrate} %</span></td>
 
                     <td>{x.uptimePercent?.toFixed(toFixedPrecent)}%</td>
 
@@ -79,7 +79,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       </Link>
                       : 
                       <button className='btn primary-btn w-100'
-                      // disabled={userType === 'Validator'}
+                      disabled={x.uptimePercent <= inActiveCount}
                         onClick={() => {
                           setdelegatepop(true);
                           setSelectedRow(x)

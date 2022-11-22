@@ -31,28 +31,21 @@ console.log("usertype",userType)
             <div className="lft-sec">
               <ul className="lft-links ms-auto">
                 <li className="nav-item">
-                  <Link href="bone-staking" passHref className={`nav-link ff-mos ${
-                        routeCheck("my-account") && "active"
-                      }`}>
-                    <p
-                    >
+                  <Link href="bone-staking" passHref>
+                    <p>
                       Overview
                     </p>
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link href="all-validator" passHref className={`nav-link ff-mos ${
-                        routeCheck("my-account") && "active"
-                      }`}>
+                  <Link href="all-validator" passHref>
                     <p>
                       All Validators
                     </p>
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link href="my-account" passHref className={`nav-link ff-mos ${
-                        routeCheck("my-account") && "active"
-                      }`}>
+                  <Link href="my-account" passHref>
                     <p
                     >
                       My Account

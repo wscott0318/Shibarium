@@ -160,9 +160,9 @@ export default function ValidatorDetails() {
                                                 <NumberFormat displayType='text' thousandSeparator value={(validatorInfo?.selfStake/Math.pow(10,18)).toFixed(tokenDecimal)} /> 
                                                 </span>
                                             </div>
-                                            <div className='text ff-mos'>
+                                            {/* <div className='text ff-mos'>
                                                {validatorInfo?.votingPower ? <span>(~{(+validatorInfo?.votingPower).toFixed(tokenDecimal) || 0}%)</span> : null }
-                                            </div>
+                                            </div> */}
                                         </div>
                                         <div className="mb-3 progress-line">
                                             <ProgressBar now={+(+validatorInfo?.votingPower).toFixed(tokenDecimal) || 0}/>
