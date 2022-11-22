@@ -395,7 +395,7 @@ export default function Wallet() {
                       <div className="image-wrap d-inline-block me-2">
                         <img
                           className="img-fluid"
-                          src="../../images/i-info-icon.png"
+                          src="../../assets/images/i-info-icon.png"
                           width={16}
                         />
                       </div>
@@ -637,7 +637,7 @@ export default function Wallet() {
                     <div className="cnfrm_box dark-bg mt-0">
                       <div className="top_overview col-12">
                         <span>
-                          <img src="../../images/shib-borderd-icon.png" />
+                          <img src="../../assets/images/shib-borderd-icon.png" />
                         </span>
                         <h6 className="fw-700">{sendAmount} BONE</h6>
                         <p className="fw-600">
@@ -735,7 +735,7 @@ export default function Wallet() {
                     <div className="cnfrm_box dark-bg mt-0">
                       <div className="top_overview col-12">
                         <span>
-                          <img src="../../images/shib-borderd-icon.png" />
+                          <img src="../../assets/images/shib-borderd-icon.png" />
                         </span>
                         <h6 className="fw-700">{sendAmount} BONE</h6>
                         <p>
@@ -798,7 +798,7 @@ export default function Wallet() {
                               width="20"
                               height="21"
                               className="img-fluid"
-                              src="../../images/search.png"
+                              src="../../assets/images/search.png"
                               alt=""
                             />
                           </div>
@@ -854,7 +854,7 @@ export default function Wallet() {
                                 <div className="cryoto-box">
                                   <img
                                     className="img-fluid"
-                                    src="../../images/shib-borderd-icon.png"
+                                    src="../../assets/images/shib-borderd-icon.png"
                                     alt=""
                                   />
                                 </div>

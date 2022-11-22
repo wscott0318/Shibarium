@@ -245,14 +245,14 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
           ) : (
             <div className="grid grid-cols-1 gap-4 overflow-y-auto md:grid-cols-2">{options}</div>
           )}
-          <div className="flex justify-center">
-            <p className="text-secondary">
+          <div className="pop-txtblk">
+            <p className="text-secondary pe-1">
               {`New to Ethereum?`}{' '}
-              <p className="text-blue">
+            </p>
+            <p className="text-blue">
                 <ExternalLink href="https://ethereum.org/wallets/" color="blue">
                   {`Learn more about wallets`}
                 </ExternalLink>
-              </p>
             </p>
           </div>
         </div>
