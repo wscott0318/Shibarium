@@ -173,7 +173,8 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-fill-color: transparent;
+    // text-fill-color: transparent;
+    -webkit-text-fill-color: transparent;
 }
 /** Cus dd start **/
 .cus-dd{
@@ -3872,6 +3873,11 @@ display: none !important;
         }
     }
    
+}
+.pop-txtblk {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 .icn-wrap{
     position: relative;
