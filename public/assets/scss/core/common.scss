@@ -3874,6 +3874,13 @@ display: none !important;
     }
    
 }
+.actions-btn{
+    .btn{
+        &:disabled{
+            background: $lt-blk;
+        }
+    }
+}
 .pop-txtblk {
     display: flex;
     justify-content: space-between;

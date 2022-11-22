@@ -1297,7 +1297,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                     </div>
                   
                   {/* grid sec end */}
-                  <div className="btns_sec val_all_bts row mt-3">
+                  <div className="btns_sec val_all_bts row mt-3 actions-btn">
                     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
                       <div className='cus-tooltip d-inline-block ps-0'>
                         <button
