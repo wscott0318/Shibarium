@@ -77,10 +77,12 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
       const valFromContract =  await instance.methods.validators(+valId).call({from : account})
       const valReward = await instance.methods.validatorReward(+valId).call({from : account})
+      const dynasty = await instance.methods.dynasty().call({from : account})
+      const validatorStake = await instance.methods.validatorStake(valId).call({from : account})
       const reward = addDecimalValue(valReward / Math.pow(10, web3Decimals))
       setValidatorInfoContract(valFromContract)
       setValidatorTotalReward(reward)
-      console.log(valFromContract,valReward, "address ===> ")
+      console.log(valFromContract, reward,  "dynasty ===> ")
   }
 
   const validatorInfoAPI = () => {
@@ -209,7 +211,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       await getUserType(accountAddress.toLowerCase()).then((res : any) => {
         if (res.data && res.data.data) {
           let ut = res.data.data.validatorId;
-          console.log(ut)
+          console.log(ut, "val id ")
           // setUserType(ut)
           setValidatorID(ut)
         }
@@ -298,8 +300,9 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         approveAmount(ID, amountWei, values.reward == 0 ? false : true)
       } else {
         console.log(ID, "no approval needed")
-        let gasFee =  await instance.methods.restake(ID, amountWei, values.reward == 0 ? false : true).estimateGas({from: walletAddress})
-        let encodedAbi =  await instance.methods.restake(ID, amountWei, values.reward == 0 ? false : true).encodeABI()
+        console.log({ID, amountWei, bool: values.reward})
+        let gasFee =  await instance.methods.restake(ID, amountWei, values.reward == 0 ? 0 : 1).estimateGas({from: walletAddress})
+        let encodedAbi =  await instance.methods.restake(ID, amountWei, values.reward == 0 ? 0 : 1).encodeABI()
         let CurrentgasPrice : any = await currentGasPrice(web3)
            console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
            await web3.eth.sendTransaction({
@@ -1198,7 +1201,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
                           <div className="botom-sec">
                             <div className="botom-headsec">
-                              <span className="ff-mos">Reward Balance</span>
+                              <span className="ff-mos">Withdrawal reward balance</span>
                             </div>
                           </div>
                         </div>
