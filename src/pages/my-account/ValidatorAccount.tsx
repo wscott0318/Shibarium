@@ -40,7 +40,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     title: '',
   })
   const [hashLink, setHashLink] = useState('')
-  const [validatorID, setValidatorID] = useState(1)
+  const [validatorID, setValidatorID] = useState<any>('')
 
   const { account, chainId = 1, library } = useActiveWeb3React();
   const lib: any = library
@@ -72,8 +72,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   // console.log(chainId)
 
 
-  const getValidatorData = async () => {
-      let valId = validatorID
+  const getValidatorData = async (valId :any) => {
       let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
       const valFromContract =  await instance.methods.validators(+valId).call({from : account})
       const valReward = await instance.methods.validatorReward(+valId).call({from : account})
@@ -173,11 +172,13 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       getDelegatorCardData(account)
     }
     if(account && userType === 'Validator') {
-      getValidatorData()
+      if(validatorID) {
+        getValidatorData(validatorID)
+      }
       validatorInfoAPI()
       getVaiIDFromDB()
     }
-  }, [account, userType, chainId])
+  }, [account, userType, chainId, validatorID])
 
   // console.log(restakeModal)
 
@@ -213,7 +214,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
           let ut = res.data.data.validatorId;
           console.log(ut, "val id ")
           // setUserType(ut)
-          setValidatorID(ut)
+          setValidatorID(+ut)
         }
       }).catch((e:any) => {
         console.log(e);
@@ -228,8 +229,8 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   const callComission = async (value: any) => {
     setTransactionState({ state: true, title: 'Pending' })
     let user: any = account
-    console.log("comission called ==> ")
     let valID = validatorID
+    console.log({valID, c:  +value.comission},"comission called ==> ")
     let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);      
     let gasFee =  await instance.methods.updateCommissionRate(valID, +value.comission).estimateGas({from: user})
     let encodedAbi =  await instance.methods.updateCommissionRate(valID, +value.comission).encodeABI()
@@ -1254,24 +1255,58 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-6 col-xl-4 mob-margin col-custum">
+                      <div className="col-md-6 col-xl-4 mob-margin col-custum text-center">
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>0.00</span> BONE
+                              <span>{addDecimalValue(+validatorInfoContract?.delegatedAmount / Math.pow(10, web3Decimals))}</span> BONE
                             </div>
                             <div className="mid-head">
-                              <span>$ 0.00</span>
+                              <span>
+                              <NumberFormat
+                                thousandSeparator
+                                displayType={"text"}
+                                prefix="$ "
+                                value={(addDecimalValue(+validatorInfoContract?.delegatedAmount / Math.pow(10, web3Decimals)) * boneUSDValue).toFixed(tokenDecimal)}
+                              />
+                              </span>
                             </div>
                           </div>
 
                           <div className="botom-sec">
                             <div className="botom-headsec">
-                              <span className="ff-mos">heimdal Fees</span>
+                              <span className="ff-mos">Total Delegators Reward</span>
                             </div>
                           </div>
                         </div>
                       </div>
+                      
+                      <div className="col-md-6 col-xl-4 mob-margin col-custum">
+                        <div className="cus-box">
+                          <div className="head-sec">
+                            <div className="top-head">
+                              <span>{addDecimalValue(+validatorInfoContract?.delegatorsReward / Math.pow(10, web3Decimals))}</span> BONE
+                            </div>
+                            <div className="mid-head">
+                              <span>
+                              <NumberFormat
+                                thousandSeparator
+                                displayType={"text"}
+                                prefix="$ "
+                                value={(addDecimalValue(+validatorInfoContract?.delegatorsReward / Math.pow(10, web3Decimals)) * boneUSDValue).toFixed(tokenDecimal)}
+                              />
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="botom-sec">
+                            <div className="botom-headsec">
+                              <span className="ff-mos">Total Delegators Reward</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
                       
                     </div>
                   
