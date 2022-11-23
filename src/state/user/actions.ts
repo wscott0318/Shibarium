@@ -42,3 +42,7 @@ export const updateUserUseOpenMev = createAction<{
 export const updateUserType = createAction<{
   userType: string
 }>('user/updateUserType')
+
+export const updateValId = createAction<{
+  valId: string
+}>('user/updateUserType')

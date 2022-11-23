@@ -22,7 +22,7 @@ useEffect(() => {
   }
 }, [router])
 
-console.log("usertype",userType)
+console.log("usertype",router.asPath)
 
     return (
       <>
@@ -32,21 +32,21 @@ console.log("usertype",userType)
               <ul className="lft-links ms-auto">
                 <li className="nav-item">
                   <Link href="bone-staking" passHref>
-                    <p>
+                    <p className={`nav-link ff-mos ${router.asPath === '/bone-staking' ? "active" : ""}`} >
                       Overview
                     </p>
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link href="all-validator" passHref>
-                    <p>
+                  <Link href="all-validator"  passHref>
+                    <p className={`nav-link ff-mos ${router.asPath === '/all-validator' ? "active" : ""}`}>
                       All Validators
                     </p>
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link href="my-account" passHref>
-                    <p
+                  <Link href="my-account" className="nav-link ff-mos" passHref>
+                    <p className={`nav-link ff-mos ${router.asPath === '/my-account' ? "active" : ""}`}
                     >
                       My Account
                     </p>

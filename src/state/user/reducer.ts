@@ -15,6 +15,7 @@ import {
   updateUserSingleHopOnly,
   updateUserType,
   updateUserUseOpenMev,
+  updateValId
 } from './actions'
 
 const currentTimestamp = () => new Date().getTime()
@@ -49,6 +50,7 @@ export interface UserState {
   timestamp: number
   URLWarningVisible: boolean
   userType: string
+  valId: string
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -64,7 +66,8 @@ export const initialState: UserState = {
   timestamp: currentTimestamp(),
   URLWarningVisible: true,
   userUseOpenMev: true,
-  userType: 'NA'
+  userType: 'NA',
+  valId:'1'
 }
 
 export default createReducer(initialState, (builder) =>
@@ -128,4 +131,7 @@ export default createReducer(initialState, (builder) =>
     .addCase(updateUserType, (state, action) => {
       state.userType = action.payload.userType
     })
+    // .addCase(updateValId, (state, action) => {
+    //   state.valId = action.payload.valId
+    // })
 )

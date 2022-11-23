@@ -44,6 +44,7 @@ export default function ProfileUpdate() {
             setLoader(false)
         }).catch((err: any) => {
             console.log(err)
+            setLoader(false)
         })
     }
     useEffect(() => {
