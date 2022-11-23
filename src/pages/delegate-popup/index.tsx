@@ -12,7 +12,7 @@ import { useTokenBalance } from 'app/hooks/useTokenBalance';
 import Web3 from "web3";
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import fromExponential from 'from-exponential';
-import { getAllowanceAmount } from "../../web3/commonFunctions";
+import { getAllowanceAmount, toFixedPrecent } from "../../web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json"
 import CommonModal from 'pages/components/CommonModel';
 import { useFormik } from "formik";
@@ -354,7 +354,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
     setdelegatepop(false)
   }
 
-// console.log("Balance", values.balance);
+console.log("Balance", data);
   return (
     <>
       <CommonModal
@@ -413,7 +413,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                           </span>
                           <p>
                             <span className="light-text">
-                              100% Performance - {data.commissionPercent}%
+                              {data?.uptimePercent?.toFixed(toFixedPrecent)}% Performance - {data.commissionrate} %
                               Commission
                             </span>
                           </p>

@@ -208,7 +208,7 @@ const [scroll, setScroll] = useState(false);
                                   width={24}
                                 />
                               </div>
-                              <Link href="profile-update" passHref>
+                              <Link href="/profile-update" passHref>
                                 <span className="center-txt">Profile</span>
                               </Link>
                               <div className="rt-image">

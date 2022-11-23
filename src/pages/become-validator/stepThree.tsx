@@ -297,7 +297,6 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
     data.append("public_key", becomeValidateData.publickey);
     data.append("signerAddress", account || '');
     data.append("website", becomeValidateData.website);
-    data.append("commission", becomeValidateData.commission);
     data.append("img", becomeValidateData.image);
 
     console.log(becomeValidateData, "data")
