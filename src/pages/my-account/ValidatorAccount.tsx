@@ -176,7 +176,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       if(validatorID) {
         getValidatorData(validatorID)
       }
-      validatorInfoAPI()
+      // validatorInfoAPI()
       getVaiIDFromDB()
     }
   }, [account, userType, chainId, validatorID])
@@ -1257,7 +1257,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                            {addDecimalValue(+validatorTotalReward)} BONE
+                             {validatorTotalReward ? addDecimalValue(+validatorTotalReward) : "0.00"} BONE
                             </div>
                             <div className="mid-head">
                               <span>

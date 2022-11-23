@@ -35,11 +35,11 @@ const Rewards = () => {
     image: ''
   });
 
-  useEffect(() => {
-    if(userType === 'Validator') {
-      router.push("/");
-    }
-  },[userType])
+  // useEffect(() => {
+  //   if(userType === 'Validator') {
+  //     router.push("/");
+  //   }
+  // },[userType])
   
   // console.log("Become Validate Data in Parent",becomeValidateData)
   
