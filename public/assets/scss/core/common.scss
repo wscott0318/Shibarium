@@ -3909,3 +3909,9 @@ display: none !important;
     font-weight: 700;
     line-height: 1rem;
 }
+.tb-value{
+    &:hover{
+        color: $primary-two;
+        cursor: pointer;
+    }
+}

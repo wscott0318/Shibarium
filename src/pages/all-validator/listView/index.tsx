@@ -58,7 +58,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                         />
                       </span>
                       <Link href={`/all-validator/${x.signer}`} passHref>
-                        <p>{x.name}</p>
+                        <p className='tb-value'>{x.name}</p>
                       </Link>
                       </div>
                     </td>
