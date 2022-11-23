@@ -51,8 +51,8 @@ const AccountDetails: FC<AccountDetailsProps> = ({
   }, [connector])
 
   const clearAllTransactionsCallback = useCallback(() => {
-    if (chainId) dispatch(clearAllTransactions({ chainId }))
-  }, [dispatch, chainId])
+    if (account && chainId) dispatch(clearAllTransactions({ chainId }))
+  }, [dispatch, chainId, account])
 
   // console.log({pendingTransactions})
   const logoutHandler = async () => {
