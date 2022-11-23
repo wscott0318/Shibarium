@@ -31,21 +31,21 @@ console.log("usertype",router.asPath)
             <div className="lft-sec">
               <ul className="lft-links ms-auto">
                 <li className="nav-item">
-                  <Link href="bone-staking" passHref>
+                  <Link href="/bone-staking" passHref>
                     <p className={`nav-link ff-mos ${router.asPath === '/bone-staking' ? "active" : ""}`} >
                       Overview
                     </p>
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link href="all-validator"  passHref>
+                  <Link href="/all-validator"  passHref>
                     <p className={`nav-link ff-mos ${router.asPath === '/all-validator' ? "active" : ""}`}>
                       All Validators
                     </p>
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link href="my-account" className="nav-link ff-mos" passHref>
+                  <Link href="/my-account" className="nav-link ff-mos" passHref>
                     <p className={`nav-link ff-mos ${router.asPath === '/my-account' ? "active" : ""}`}
                     >
                       My Account
@@ -66,7 +66,7 @@ console.log("usertype",router.asPath)
                       //   setHistory("Unbound History");
                       // }}
                     >
-                       <Link href="unbond-history" passHref>
+                       <Link href="/unbond-history" passHref>
                       Unbound History
                       </Link>
                     </Dropdown.Item>
@@ -78,7 +78,7 @@ console.log("usertype",router.asPath)
                       //   setHistory("Reward History");
                       // }}
                     >
-                      <Link href="reward-history" passHref>
+                      <Link href="/reward-history" passHref>
                       Reward History
                       </Link>
                     </Dropdown.Item>

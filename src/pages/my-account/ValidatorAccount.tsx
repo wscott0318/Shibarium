@@ -26,6 +26,7 @@ import { tokenDecimal } from 'web3/commonFunctions';
 
 
 
+
 const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: any, boneUSDValue: any, availBalance: any }) => {
   const router = useRouter();
   const [showunboundpop, setunboundpop] = useState(false);
@@ -493,6 +494,68 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       console.log("account not connected")
     }
   }
+  // WITHDRAW REWARDS delegator 
+  
+  const withdrawRewardDelegator = async (address :any , id:any) => {
+    setTransactionState({ state: true, title: 'Pending' })
+    if (account) {
+      let walletAddress = account
+      let instance = new web3.eth.Contract(ValidatorShareABI, address);
+      let gasFee =  await instance.methods.withdrawRewards().estimateGas({from: walletAddress})
+      let encodedAbi =  await instance.methods.withdrawRewards().encodeABI()
+      let CurrentgasPrice : any = await currentGasPrice(web3)
+         console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
+         await web3.eth.sendTransaction({
+           from: walletAddress,
+           to:  address,
+           gas: (parseInt(gasFee) + 30000).toString(),
+           gasPrice: CurrentgasPrice,
+           // value : web3.utils.toHex(combinedFees),
+           data: encodedAbi
+         })
+        .on('transactionHash', (res: any) => {
+          console.log(res, "hash")
+          dispatch(
+            addTransaction({
+              hash: res,
+              from: walletAddress,
+              chainId,
+              summary: `${res}`,
+            })
+          )
+          let link = getExplorerLink(chainId, res, 'transaction')
+          setWithdrawModal({ value: false, address: '' })
+          setHashLink(link)
+          setTransactionState({ state: true, title: 'Submitted' })
+        }).on('receipt', (res: any) => {
+          console.log(res, "receipt")
+          dispatch(
+            finalizeTransaction({
+              hash: res.transactionHash,
+              chainId,
+              receipt: {
+                to: res.to,
+                from: res.from,
+                contractAddress: res.contractAddress,
+                transactionIndex: res.transactionIndex,
+                blockHash: res.blockHash,
+                transactionHash: res.transactionHash,
+                blockNumber: res.blockNumber,
+                status: 1
+              }
+            })
+          )
+        }).on('error', (res: any) => {
+          console.log(res, "error")
+            setTransactionState({ state: false, title: 'Pending' })
+          if (res.code === 4001) {
+            setWithdrawModal({ value: false, address: '' })
+          }
+        })
+    } else {
+      console.log("account not connected")
+    }
+  }
 
   // UNBOUND VALIDATOR 
   const unboundValidator = async () => {
@@ -707,7 +770,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
   const getStake = (id : String) => {
     let item = stakeAmounts.length ? stakeAmounts.filter((x:any) => x.validatorId === id)[0]?.tokens : 0
-    return item > 0 ? (parseInt(item) / 10 ** 18).toFixed(tokenDecimal) : "0.00"
+    return item > 0 ? addDecimalValue(parseInt(item) / 10 ** web3Decimals): "0.00"
   } 
 
 
@@ -1103,24 +1166,25 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
             <div className="pop-block">
               <div className="pop-top">
                 <div className="dark-bg-800 h-100 status-sec sec-ht position-relative">
-                  {/* Loader code start */}
-                    <div className='trans-loader d-none'>
+               
+                    {hashLink ?
+                    <span>
+                    <div>
+                      <img
+                        width="224"
+                        height="224"
+                        className="img-fluid"
+                        src="../../assets/images/Ellipse.png"
+                        alt=""
+                      />
+                    </div>
+                  </span> :
+                    <div className='trans-loader'>
                       <span className="spiner-lg">
                         <span className="spinner-border text-secondary pop-spiner"></span>
                       </span>
                     </div>
-                  {/* Loader code start */}
-                    <span>
-                      <div>
-                        <img
-                          width="224"
-                          height="224"
-                          className="img-fluid"
-                          src="../../assets/images/Ellipse.png"
-                          alt=""
-                        />
-                      </div>
-                    </span>
+                    }
                 </div>
               </div>
               <div className="pop-bottom">
@@ -1193,7 +1257,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                            {rewardBalance} BONE
+                            {addDecimalValue(+validatorTotalReward)} BONE
                             </div>
                             <div className="mid-head">
                               <span>
@@ -1201,7 +1265,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                 thousandSeparator
                                 displayType={"text"}
                                 prefix="$ "
-                                value={addDecimalValue(+rewardBalance * boneUSDValue)}
+                                value={addDecimalValue(+validatorTotalReward * boneUSDValue)}
                               />
                               </span>
                             </div>
@@ -1214,7 +1278,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-6 col-xl-4 mob-margin col-custum">
+                      {/* <div className="col-md-6 col-xl-4 mob-margin col-custum">
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
@@ -1226,7 +1290,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                 thousandSeparator
                                 displayType={"text"}
                                 prefix="$ "
-                                value={(+(parseInt(validatorInfo?.totalRewards) / Math.pow(10, 18)).toFixed(tokenDecimal) * boneUSDValue).toFixed(tokenDecimal)}
+                                value={addDecimalValue(+(parseInt(validatorTotalReward) / Math.pow(10, 18)) * boneUSDValue)}
                               />
                               </span>
                             </div>
@@ -1238,12 +1302,12 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="col-md-6 col-xl-4 mob-margin col-custum">
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>{+validatorInfoContract?.amount / 10 ** web3Decimals}</span> BONE
+                              <span>{validatorInfoContract?.amount ? +validatorInfoContract?.amount / 10 ** web3Decimals : "0.00"}</span> BONE
                             </div>
                             <div className="mid-head">
                               <span><NumberFormat
@@ -1266,7 +1330,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>{addDecimalValue(+validatorInfoContract?.delegatedAmount / Math.pow(10, web3Decimals))}</span> BONE
+                              <span>{validatorInfoContract?.delegatedAmount ? addDecimalValue(+validatorInfoContract?.delegatedAmount / Math.pow(10, web3Decimals)) : "0.00"}</span> BONE
                             </div>
                             <div className="mid-head">
                               <span>
@@ -1282,17 +1346,17 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
                           <div className="botom-sec">
                             <div className="botom-headsec">
-                              <span className="ff-mos">Total Delegators Reward</span>
+                              <span className="ff-mos">Total Delegators Amount</span>
                             </div>
                           </div>
                         </div>
                       </div>
-                      
+
                       <div className="col-md-6 col-xl-4 mob-margin col-custum">
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>{addDecimalValue(+validatorInfoContract?.delegatorsReward / Math.pow(10, web3Decimals))}</span> BONE
+                              <span>{validatorInfoContract?.delegatorsReward ? addDecimalValue(+validatorInfoContract?.delegatorsReward / Math.pow(10, web3Decimals)) : "0.00"}</span> BONE
                             </div>
                             <div className="mid-head">
                               <span>
@@ -1361,7 +1425,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         onClick={() =>
                           withdrawRewardValidator()
                         }
-                        disabled={validatorTotalReward > 0 ? false : true}
+                        // disabled={validatorTotalReward > 0 ? false : true}
                         className="ff-mos btn black-btn w-100 d-block tool-ico"
                       >
                         Withdraw Rewards
@@ -1447,8 +1511,8 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                               <div className="text-center">
                                 <div>Your Stake</div>
                                 <div className="fw-bold">
-                                  {/* {getStake(item.id)} */}
-                                  {item.stake / Math.pow(10, web3Decimals)}
+                                  {getStake(item.id)}
+                                  {/* {item.stake / Math.pow(10, web3Decimals)} */}
                                 </div>
                                 {/* <div className="fw-bold">{stakeAmounts?.filter((x:any) => x.validatorId === item.id)[0]?.tokens}</div> */}
                                 {/* {/ <div>$0</div> /} */}
@@ -1458,7 +1522,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                               <div className="text-center">
                                 <div>Reward</div>
                                 <div className="fw-bold orange-color">
-                                  {item.reward > 0
+                                  {+item.reward > 0
                                     ? (
                                         parseInt(item.reward) /
                                         10 ** 18
@@ -1494,11 +1558,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                             <div className='cus-tooltip d-inline-block'>
                               <button
                                 disabled={parseInt(item.reward) / 10 ** 18 < 1}
-                                onClick={() =>
-                                  handleModal(
-                                    "Withdraw Rewards",
-                                    item.contractAddress
-                                  )
+                                onClick={() => withdrawRewardDelegator(item.contractAddress, item.id)
                                 }
                                 className="btn black-btn btn-small tool-ico"
                               >
