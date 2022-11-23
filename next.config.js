@@ -100,6 +100,7 @@ const nextConfig = {
     autoInstrumentServerFunctions: false,
     hideSourceMaps: true,
     transpileClientSDK: true,
+    widenClientFileUpload: true,
   },
 }
 
