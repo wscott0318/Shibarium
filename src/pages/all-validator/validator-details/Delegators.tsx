@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Nav } from 'react-bootstrap'
 import NumberFormat from 'react-number-format';
 import { tokenDecimal } from 'web3/commonFunctions';
-
+import * as Sentry from "@sentry/nextjs";
 interface Props{
     allDelegators:any[];
     boneUsdValue:number;
@@ -20,9 +20,14 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
     }, [allDelegators])
 
     const pageChangeHandler = (index: number) => {
-        const slicedList = allDelegators.slice((index - 1) * pageSize, (index * pageSize))
+        try{
+            const slicedList = allDelegators.slice((index - 1) * pageSize, (index * pageSize))
         setDelegators(slicedList)
         setPageIndex(index)
+        }
+        catch(err:any){
+            Sentry.captureMessage(err);
+        }
     }
     return (
         <>

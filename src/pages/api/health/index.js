@@ -16,5 +16,5 @@ handler.get(async (req, res) => {
     healthcheck.message = error
     res.status(HTTP_STATUS_CODE.SERVICE_UNAVAILABLE).json(errorResponse(error.message.toString()))
   }
-})
+}) 
 export default withSentry(handler)

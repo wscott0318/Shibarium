@@ -17,7 +17,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import Delegators from './validator-details/Delegators';
 import Checkpoints from './validator-details/Checkpoints';
 import { addDecimalValue, tokenDecimal } from "web3/commonFunctions";
-
+import * as Sentry from "@sentry/nextjs";
 
 export default function ValidatorDetails() {
     const pageSize = 4; 
@@ -35,7 +35,7 @@ export default function ValidatorDetails() {
 
     const router = useRouter()
     useEffect(() => {
-        const { id } = router.query;
+        try{const { id } = router.query;
         if (id ) {
             setLoading(true);
             getValidatorsDetail(id.toString()).then((res)=>{
@@ -52,6 +52,10 @@ export default function ValidatorDetails() {
                 setMsgType('error')
                 setLoading(false);
             })
+        }
+        }
+        catch(err:any){
+            Sentry.captureMessage(err);
         }
     }, [])
     useEffect(() => {

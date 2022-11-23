@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Nav } from 'react-bootstrap'
 import NumberFormat from 'react-number-format';
 import TimeAgo from 'timeago-react';
-
+import * as Sentry from "@sentry/nextjs";
 interface Props {
     allCheckpoints: any[];
     boneUsdValue: number;
@@ -19,9 +19,14 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue }) => {
     }, [allCheckpoints])
 
     const pageChangeHandler = (index: number) => {
-        const slicedList = allCheckpoints.slice((index - 1) * pageSize, (index * pageSize))
-        setCheckpoints(slicedList)
-        setPageIndex(index)
+        try{
+            const slicedList = allCheckpoints.slice((index - 1) * pageSize, (index * pageSize))
+            setCheckpoints(slicedList)
+            setPageIndex(index)
+        }
+        catch(err:any){
+          Sentry.captureMessage(err);
+        }
     }
     return (
         <>
