@@ -221,6 +221,7 @@ body.modal-open {
     .nav-link {
         padding: 10px 10px;
         position: relative;
+        cursor: pointer;
         &::before{
             content: '';
             position: absolute;
