@@ -1101,18 +1101,25 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
           <div className="popmodal-body tokn-popup no-ht trans-mod">
             <div className="pop-block">
               <div className="pop-top">
-                <div className="dark-bg-800 h-100 status-sec">
-                  <span>
-                    <div>
-                      <img
-                        width="224"
-                        height="224"
-                        className="img-fluid"
-                        src="../../assets/images/Ellipse.png"
-                        alt=""
-                      />
+                <div className="dark-bg-800 h-100 status-sec sec-ht position-relative">
+                  {/* Loader code start */}
+                    <div className='trans-loader d-none'>
+                      <span className="spiner-lg">
+                        <span className="spinner-border text-secondary pop-spiner"></span>
+                      </span>
                     </div>
-                  </span>
+                  {/* Loader code start */}
+                    <span>
+                      <div>
+                        <img
+                          width="224"
+                          height="224"
+                          className="img-fluid"
+                          src="../../assets/images/Ellipse.png"
+                          alt=""
+                        />
+                      </div>
+                    </span>
                 </div>
               </div>
               <div className="pop-bottom">

@@ -3915,3 +3915,31 @@ display: none !important;
         cursor: pointer;
     }
 }
+.sec-ht {
+    min-height: 320px;
+    @media #{$max-xxl}{
+        min-height: 270px;
+    }
+    @media #{$max-lg}{
+        min-height: 180px;
+    }
+    @media #{$max-md}{
+        min-height: 150px;
+    }
+}
+.tokn-popup{
+    .sec-ht{
+        .spinner-border{
+            @media #{$max-md}{
+                height: 6rem;
+                width: 6rem;
+            }
+        }
+    }
+}
+.trans-loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
