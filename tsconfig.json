@@ -48,7 +48,10 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "downlevelIteration": true,
-    "incremental": true
+    "incremental": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "sourceRoot": "/"
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/hooks/useTokenPrice.js", "src/pages/important-popup/index.js", "src/pages/components/Button.js", "src/pages/swap-token/index.js"],
   "exclude": ["node_modules"]

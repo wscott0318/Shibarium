@@ -1,7 +1,7 @@
 import nextConnect from "next-connect"
 import { HTTP_STATUS_CODE } from "../../../utils/constant"
 import { errorResponse, successResponse } from "../../../utils/response"
-
+import { withSentry } from "@sentry/nextjs";
 const handler = nextConnect()
 
 handler.get(async (req, res) => {
@@ -17,4 +17,4 @@ handler.get(async (req, res) => {
     res.status(HTTP_STATUS_CODE.SERVICE_UNAVAILABLE).json(errorResponse(error.message.toString()))
   }
 })
-export default handler
+export default withSentry(handler)
