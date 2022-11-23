@@ -36,6 +36,7 @@ import {
   updateUserSingleHopOnly,
   updateUserType,
   updateUserUseOpenMev,
+  updateValId
 } from './actions'
 
 function serializeToken(token: Token): SerializedToken {
@@ -400,4 +401,18 @@ export function useUserType(): [string, (newUseUserType: string) => void] {
   )
 
   return [useUserType, setUseUserType]
+}
+
+export function useValId(): [string, (newUseUserType: string) => void] {
+  const dispatch = useAppDispatch()
+
+  // @ts-ignore TYPE NEEDS FIXING
+  const valId = useSelector<AppState, AppState['valId']['setValId']>((state) => state.user.valId)
+
+  const setValId = useCallback(
+    (newValId: string) => dispatch(updateValId({ valId: newValId })),
+    [dispatch]
+  )
+
+  return [valId, setValId]
 }

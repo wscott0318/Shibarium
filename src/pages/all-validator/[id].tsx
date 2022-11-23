@@ -1,13 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link";
 import React, { useState, useEffect, useContext } from "react";
-// import { validators, validatorsList } from "../service/validator";
-import { useWeb3React } from "@web3-react/core";
-import ProjectContext from "../../context/ProjectContext";
-import Footer from "../../pages/footer/index"
 import { useActiveWeb3React } from "../../services/web3"
-import CommonModal from "../components/CommonModel";
-import StakingHeader from '../staking-header';
 import Header from "../layout/header";
 import { useRouter } from "next/router";
 import { getBoneUSDValue, getValidatorsDetail } from 'app/services/apis/validator';
@@ -20,6 +13,7 @@ import { addDecimalValue, tokenDecimal, web3Decimals } from "web3/commonFunction
 import Web3 from "web3";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { dynamicChaining } from "web3/DynamicChaining";
+import LoadingSpinner from 'pages/components/Loading';
 
 
 export default function ValidatorDetails() {
@@ -63,7 +57,7 @@ export default function ValidatorDetails() {
             setBoneUsdValue(res.data.data.price);
         })
 
-        if(account) {
+        if(validatorInfo) {
             getTotalSupply(validatorInfo?.id) 
         }
 
@@ -74,8 +68,7 @@ export default function ValidatorDetails() {
         const lib: any = library;
         const web3: any = new Web3(lib?.provider);
         let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId]?.STAKE_MANAGER_PROXY);
-        const valStake = await instance.methods.validators(9).call({from:account});
-    
+        const valStake = await instance.methods.validators(id).call({from:account});
         let finalAMount = (+valStake.amount +  +valStake.delegatedAmount) / Math.pow(10, web3Decimals)
         console.log(valStake, finalAMount,  "data ==> ")
         setTotalSupply(finalAMount)
@@ -87,6 +80,7 @@ export default function ValidatorDetails() {
     return (
         <>
             <Header />
+            {loading && <LoadingSpinner />}
             <main className="main-content dark-bg-800 full-vh  cmn-input-bg font-up ffms-inherit staking-main">
             
             {/* <StakingHeader /> */}
@@ -180,7 +174,7 @@ export default function ValidatorDetails() {
                                         <div className='flex-wrap mb-4 d-flex align-items-center'>
                                             <div className='data-btn me-3'>
                                                 <span className='trs-6 ff-mos'>
-                                                <NumberFormat displayType='text' thousandSeparator value={(validatorInfo?.selfStake/Math.pow(10,18)).toFixed(tokenDecimal)} /> 
+                                                <NumberFormat displayType='text' thousandSeparator value={addDecimalValue(+validatorInfo?.selfStake /Math.pow(10,web3Decimals))} /> 
                                                 </span>
                                             </div>
                                             {/* <div className='text ff-mos'>
@@ -200,7 +194,7 @@ export default function ValidatorDetails() {
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Voting Power</h6>
                                                 <p className='mb-0 trs-3 ff-mos'>
-                                                <NumberFormat displayType='text' thousandSeparator value={(validatorInfo?.selfStake/Math.pow(10,18)).toFixed(tokenDecimal)} />
+                                                <NumberFormat displayType='text' thousandSeparator value={addDecimalValue(+validatorInfo?.selfStake/Math.pow(10, web3Decimals))} />
                                                 </p>
                                             </li>
                                             {/* <li className='info-data-lst'>
