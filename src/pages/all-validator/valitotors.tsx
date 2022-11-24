@@ -87,7 +87,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
             }
           }
         })
-        .catch((err) => {
+        .catch((err:any) => {
           setLoading(false)
         });
 
