@@ -195,11 +195,6 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
       console.log("account not connected ====> ")
     }
   }
-  catch(err:any){
-    Sentry.captureMessage("New Error " , err);
-  }
-}
-
 
   const submitTransaction = async (values : any) => { 
     try {
@@ -332,7 +327,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
 
       notifySuccess()
       approveAmount()
-      console.log(" test ====> ")
+      console.log(" test ====>")
       submitTransaction(val);
     }).catch((err: any) => {
       console.log(err)
@@ -340,9 +335,6 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
       notifyError()
 
     })
-  } catch(err:any){
-    Sentry.captureMessage("New Error " , err);
-  }
   };
 
   const changeStatus = async () => {
