@@ -38,7 +38,7 @@ import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import Router from "next/router";
 import { getExplorerLink } from "app/functions";
 import CommingSoon from "../../components/coming-soon";
-
+import * as Sentry from "@sentry/nextjs";
 const sendInitialState = {
   step0: true,
   step1: false,
@@ -58,7 +58,7 @@ export default function Wallet() {
   const router = useRouter()
   const { chainId = 1, account, library } = useActiveWeb3React();
   const id: any = chainId
-  console.log(chainId,account, "chainID")
+  console.log(chainId, account, "chainID")
 
   // const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
   const lib: any = library
@@ -97,29 +97,39 @@ export default function Wallet() {
   // console.log(selectedToken)
 
   const verifyAddress = (address: any) => {
-    let result = Web3.utils.isAddress(address)
-    setIsValidAddress(result)
-    return result
+    try {
+      let result = Web3.utils.isAddress(address)
+      setIsValidAddress(result)
+      return result
+    }
+    catch (err: any) {
+      Sentry.captureException("New Error ", err);
+    }
   }
 
 
 
   const getTokensList = () => {
     // console.log("token list called ==> ")
-    setListLoader(true)
-    getWalletTokenList().then(res => {
-      let list = res.data.message.tokens
-      // .sort((a: any, b: any) => {
-      //   return (parseInt(b.balance) - parseInt(a.balance));
-      // });
-      list.forEach(async (x: any) => {
-        x.balance = await getTokenBalance(lib, account, x.parentContract)
+    try {
+      setListLoader(true)
+      getWalletTokenList().then(res => {
+        let list = res.data.message.tokens
+        // .sort((a: any, b: any) => {
+        //   return (parseInt(b.balance) - parseInt(a.balance));
+        // });
+        list.forEach(async (x: any) => {
+          x.balance = await getTokenBalance(lib, account, x.parentContract)
+        })
+        setTokenList(list)
+        setTokenFilteredList(list)
+        setTokenModalList(list)
+        setListLoader(false)
       })
-      setTokenList(list)
-      setTokenFilteredList(list)
-      setTokenModalList(list)
-      setListLoader(false)
-    })
+    }
+    catch (err: any) {
+      Sentry.captureException("New Error ", err);
+    }
   }
 
 
@@ -140,18 +150,22 @@ export default function Wallet() {
     setMenuState(!menuState);
   }
 
-  const handleSend = (e :any) => {
-    setNullAddress(true)
-    e.preventDefault()
-    // console.log("called handleSend")
-    if (isValidAddress && sendAmount) {
-      setSendModal({
-        step0: false,
-        step1: false,
-        step2: true,
-        step3: false,
-        showTokens: false
-      })
+  const handleSend = (e: any) => {
+    try {
+      e.preventDefault()
+      // console.log("called handleSend")
+      if (isValidAddress && sendAmount) {
+        setSendModal({
+          step0: false,
+          step1: false,
+          step2: true,
+          step3: false,
+          showTokens: false
+        })
+      }
+    }
+    catch (err: any) {
+      Sentry.captureException("New Error ", err);
     }
   }
   const pageSize = 4;
@@ -171,43 +185,53 @@ export default function Wallet() {
   }, [tokenFilteredList]);
 
   const pageChangeHandler = (index: number) => {
-    const slicedList = tokenFilteredList.sort((a: any, b: any) => {
-      return (b.balance - a.balance);
-    }).slice(
-      (index - 1) * pageSize,
-      index * pageSize
-    );
-    setSliceTokenFilteredList(slicedList);
-    setCurrentPage(index);
+    try {
+
+      const slicedList = tokenFilteredList.sort((a: any, b: any) => {
+        return (b.balance - a.balance);
+      }).slice(
+        (index - 1) * pageSize,
+        index * pageSize
+      );
+      setSliceTokenFilteredList(slicedList);
+      setCurrentPage(index);
+    }
+    catch (err: any) {
+      Sentry.captureException("New Error ", err);
+    }
   };
 
   const handleSearchList = (key: any, type: any = 'main') => {
-    if (type === 'modal') {
-      setmodalKeyword(key)
-    } else {
-      setSearchKey(key)
-    }
-    if (key.length) {
-      let newData = tokenList.filter((name: any) => {
-        return Object.values(name)
-          .join(" ")
-          .toLowerCase()
-          .includes(key.toLowerCase());
-      });
+    try {
       if (type === 'modal') {
-        setTokenModalList(newData)
+        setmodalKeyword(key)
       } else {
-        setTokenFilteredList(newData)
-        pageChangeHandler(currentPage);
+        setSearchKey(key)
       }
-    } else {
-      if (type === 'modal') {
-        setTokenModalList(tokenList)
+      if (key.length) {
+        let newData = tokenList.filter((name: any) => {
+          return Object.values(name)
+            .join(" ")
+            .toLowerCase()
+            .includes(key.toLowerCase());
+        });
+        if (type === 'modal') {
+          setTokenModalList(newData)
+        } else {
+          setTokenFilteredList(newData)
+          pageChangeHandler(currentPage);
+        }
       } else {
-        setTokenFilteredList(tokenList)
+        if (type === 'modal') {
+          setTokenModalList(tokenList)
+        } else {
+          setTokenFilteredList(tokenList)
+        }
       }
     }
-
+    catch (err: any) {
+      Sentry.captureException("New Error ", err);
+    }
   }
 
   // console.log(tokenList, tokenFilteredList, slicedTokenFilteredList)

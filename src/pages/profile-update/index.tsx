@@ -13,7 +13,7 @@ import { useUserType } from "app/state/user/hooks";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import * as Sentry from "@sentry/nextjs";
 
 export default function ProfileUpdate() {
 
@@ -33,21 +33,26 @@ export default function ProfileUpdate() {
 
     const callValidatorInfo = async (account: any) => {
         setLoader(true)
-        await getValidatorInfo(account).then((res: any) => {
-            console.log(res.data.message.val)
-            setImageURL(res.data.message.val.logoUrl)
-            setValues({
-                validatorname: res.data.message.val.name,
-                address: account,
-                website: res.data.message.val.description,
-                publickey: res.data.message.val.publickey,
-                
+        try {
+            await getValidatorInfo(account).then((res: any) => {
+                console.log(res.data.message.val)
+                setImageURL(res.data.message.val.logoUrl)
+                setValues({
+                    validatorname: res.data.message.val.name,
+                    address: account,
+                    website: res.data.message.val.description,
+                    publickey: res.data.message.val.publickey,
+
+                })
+                setLoader(false)
+            }).catch((err: any) => {
+                console.log(err)
+                setLoader(false)
             })
-            setLoader(false)
-        }).catch((err: any) => {
-            console.log(err)
-            setLoader(false)
-        })
+        }
+        catch (err: any) {
+            Sentry.captureException("New Error ", err);
+        }
     }
     useEffect(() => {
         if (account && userType) {
@@ -64,7 +69,7 @@ export default function ProfileUpdate() {
         validatorname: '',
         address: userAccount,
         website: '',
-        publickey:''
+        publickey: ''
     });
 
     const verifyAddress = (address: any) => {
@@ -77,49 +82,54 @@ export default function ProfileUpdate() {
     const callAPI = async (values: any) => {
         // console.log(values, imageData, "call API called");
         setLoader(true)
-        if ((imageData || imageURL) && verifyAddress(values.address)) {
-            setValidation({ image: false, address: false });
-            // console.log("1");
-        } else if (!(imageData || imageURL) && verifyAddress(values.address)) {
-            setValidation({ address: false, image: true });
-            // console.log("2");
-        } else if ((imageData || imageURL) && !verifyAddress(values.address)) {
-            setValidation({ image: false, address: true });
-            // console.log("3");
+        try {
+            if ((imageData || imageURL) && verifyAddress(values.address)) {
+                setValidation({ image: false, address: false });
+                // console.log("1");
+            } else if (!(imageData || imageURL) && verifyAddress(values.address)) {
+                setValidation({ address: false, image: true });
+                // console.log("2");
+            } else if ((imageData || imageURL) && !verifyAddress(values.address)) {
+                setValidation({ image: false, address: true });
+                // console.log("3");
+            }
+            else {
+                setValidation({ image: true, address: true });
+            }
+            var data = new FormData();
+            data.append("validatorName", values.validatorname);
+            data.append("signerAddress", values.address);
+            data.append("website", values.website);
+            data.append("public_key", values.publickey);
+            data.append("img", imageData.image);
+            if (!imgsize) {
+                await updateValidator(data).then((res: any) => {
+                    console.log(res)
+                    setLoader(false)
+                    callValidatorInfo(values.address)
+                    notify()
+                }).catch((err: any) => {
+                    console.log(err)
+                    setLoader(false)
+                })
+            } else {
+                setLoader(false)
+
+            }
         }
-        else {
-            setValidation({ image: true, address: true });
+        catch (err: any) {
+            Sentry.captureException("New Error ", err);
         }
-        var data = new FormData();
-        data.append("validatorName", values.validatorname);
-        data.append("signerAddress", values.address);
-        data.append("website", values.website);
-        data.append("public_key", values.publickey);
-        data.append("img", imageData.image);
-        if(!imgsize)
-        {
-            await updateValidator(data).then((res: any) => {
-            console.log(res)
-            setLoader(false)
-            callValidatorInfo(values.address)
-            notify()
-        }).catch((err: any) => {
-            console.log(err)
-            setLoader(false)
-        })
-    }else{
-        setLoader(false)
-        
-    }
 
     };
 
     let schema = yup.object().shape({
-        validatorname: yup.string().required("validator name is required").matches(/^[A-Za-z][A-Za-z0-9 ]+$/,"Entered wrong charactor"),
+        validatorname: yup.string().typeError("name is required").max(14).typeError("name must be less than 15 characters").required("validator name is required").matches(/^[A-Za-z][A-Za-z0-9 ]+$/, "Entered wrong charactor"),
         address: yup.string().required("address is required"),
         website: yup
             .string()
-            .url()
+            .typeError("website is required")
+            .url("enter a vaild url with 'https://' or 'http://' at start")
             .required("website is required")
             .matches(
                 /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/,
@@ -145,11 +155,17 @@ export default function ProfileUpdate() {
     }
 
     const imgSizeCheck = (e: any) => {
-        if (e.target.files[0]?.size <= 204800) {
-            setImageData({ image: e.target.files[0] });
-            setImgsize(false)
-        } else {
-            setImgsize(true)
+        try {
+
+            if (e.target.files[0]?.size <= 204800) {
+                setImageData({ image: e.target.files[0] });
+                setImgsize(false)
+            } else {
+                setImgsize(true)
+            }
+        }
+        catch (err: any) {
+            Sentry.captureException("New Error ", err);
         }
     }
 

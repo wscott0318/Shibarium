@@ -13,7 +13,7 @@ import {
 import NavLink from "../components/NavLink";
 import SideNavTab from "../../constants/Resources/sideNavTab";
 import { useRouter } from 'next/router'
-
+import * as Sentry from "@sentry/nextjs";
 
 
 export default function SidebarOuter({
@@ -32,9 +32,14 @@ export default function SidebarOuter({
   };
 
   const handleClickOutside = (event: any) => {
-    if (wrapperRef2.current && !wrapperRef2.current.contains(event.target)) {
+    try {
+      if (wrapperRef2.current && !wrapperRef2.current.contains(event.target)) {
       onClickOutside && onClickOutside();
     }
+  }
+  catch(err:any){
+    Sentry.captureException("New Error " , err);
+  }
   };
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);

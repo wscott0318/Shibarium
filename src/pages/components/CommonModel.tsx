@@ -1,7 +1,7 @@
 import CopyHelper from 'app/components/AccountDetails/Copy';
 import React, { useEffect } from 'react'
 import { Modal } from 'react-bootstrap'
-
+import * as Sentry from "@sentry/nextjs";
 
 interface props{
     show:boolean;
@@ -81,14 +81,19 @@ export const CommonModalNew: React.FC<propsNew> = ({
     setSenderModal,
   };
   const backHandler = () => {
-    if (title === "Select Token") {
-      setSendModal({
-        step0: false,
-        step1: true,
-        step2: false,
-        step3: false,
-        showTokens: false,
-      });
+    try{
+      if (title === "Select Token") {
+        setSendModal({
+          step0: false,
+          step1: true,
+          step2: false,
+          step3: false,
+          showTokens: false,
+        });
+      }
+    }
+    catch(err:any){
+      Sentry.captureMessage("New Error " , err);
     }
   };
 

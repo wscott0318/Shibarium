@@ -57,6 +57,7 @@
     "@next/bundle-analyzer": "^11.1.0",
     "@reduxjs/toolkit": "^1.7.1",
     "@sentry/browser": "^7.15.0",
+    "@sentry/nextjs": "^7.21.0",
     "@sushiswap/default-token-list": "22.6.0",
     "@sushiswap/limit-order-sdk": "1.0.0-canary.49",
     "@sushiswap/miso": "1.0.0-canary.37",

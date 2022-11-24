@@ -5,7 +5,7 @@ import Link from 'next/link';
 import React, { useState } from 'react'
 import NumberFormat from 'react-number-format';
 import DelegatePopup from '../../delegate-popup';
-import { addDecimalValue, toFixedPrecent, tokenDecimal, web3Decimals } from 'web3/commonFunctions';
+import { addDecimalValue, inActiveCount, toFixedPrecent, tokenDecimal, web3Decimals } from 'web3/commonFunctions';
 
 export default function ValidatorGrid({ validatorsList, searchKey }: { validatorsList: any, searchKey: any }) {
     const [modalShow, setModalShow] = React.useState(false);
@@ -66,7 +66,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                                       </Link>
                                       : 
                                       <button
-                                      disabled={userType === 'Validator'}
+                                      disabled={ validator.fundamental === 1 ? true : validator.uptimePercent <= inActiveCount ? true : false}
                                       type="button"
                                       onClick={() => {setdelegatepop(true); setSelectedRow(validator)}}
                                         className='btn primary-btn  light-text w-100'>

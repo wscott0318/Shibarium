@@ -5,6 +5,7 @@ import Web3 from "web3";
 import { registerValidator } from "services/apis/network-details/networkOverview";
 import { useActiveWeb3React } from "../../services/web3";
 import LoadingSpinner from 'pages/components/Loading';
+import * as Sentry from "@sentry/nextjs";
 
 export const validatorSchema = yup.object().shape({
   name: yup
@@ -20,11 +21,11 @@ export const validatorSchema = yup.object().shape({
       "Signer's address & public key should not match"
     )
     .matches(/^0x/, "should only start with 0x")
-    .matches(/^[A-Za-z0-9 ]+$/,'no special characters allowed')
+    .matches(/^[A-Za-z0-9 ]+$/, 'no special characters allowed')
     .required("public key is required"),
   website: yup
     .string()
-    .url("enter a vaild url with 'https://' or 'http://' at start ")
+    .url("enter a vaild url with 'https://' or 'http://'")
     .required("website is required")
     .matches(
       /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/,
@@ -45,32 +46,47 @@ function StepTwo({
     image: false,
     address: false,
   });
-  const [imageSize , setImageSize ] = useState(false)
+  const [imageSize, setImageSize] = useState(false)
   const [apiLoading, setApiLoading] = useState(false)
-  const [userAddress, setUserAddres ] = useState(account)
+  const [userAddress, setUserAddres] = useState(account)
+
+  const verifyAddress = (address: any) => {
+    try {
+      let result = Web3.utils.isAddress(address);
+      return result;
+    }
+    catch (err: any) {
+      Sentry.captureMessage("New Error ", err);
+    }
+  };
 
 
   useEffect(() => {
-    if(account) {
+    if (account) {
       setUserAddres(account)
       // setValues('address', account)
     }
   }, [account])
 
-  const callAPI = async (values: any) => {
+  const callAPI = async (val: any) => {
     // console.log("call API called");
-    if (imageData) {
-      setApiLoading(false)
-      values.image = imageData
-      console.log(values)
-      setBecomeValidateData(values)
-      stepHandler("next");
-      console.log("image vaild");
-     } else {
-      console.log("image not valid");
-     setValidation({address:false, image: true})
+    try {
+      if (imageData) {
+        setApiLoading(false)
+        val.image = imageData
+        console.log(val)
+        setBecomeValidateData(val)
+        stepHandler("next");
+      } else {
+        console.log("image not valid");
+        setValidation({ address: false, image: true })
+      }
     }
-  };
+    catch (err: any) {
+      Sentry.captureMessage("New Error ", err);
+      console.log("image vaild");
+    };
+  }
 
   const [initialValues, setInitialValues] = useState({
     name: "",
@@ -81,33 +97,39 @@ function StepTwo({
   // console.log("Become Validate Data in Step Two", initialValues);
   useEffect(() => {
     if (account) {
-      console.log(becomeValidateData,Object.values(becomeValidateData), "data ")
+      console.log(becomeValidateData, Object.values(becomeValidateData), "data ")
       setInitialValues(becomeValidateData)
       setBecomeValidateData(becomeValidateData)
       setValues(becomeValidateData)
     }
   }, [account])
 
- 
+
 
   const { values, errors, handleBlur, handleChange, handleSubmit, touched, setValues } =
     useFormik({
       initialValues: initialValues,
       validationSchema: validatorSchema,
       onSubmit: (values) => {
-      //console.log("Value", values);
+        //console.log("Value", values);
         callAPI(values);
       },
     });
 
   const onImageChange = (event: any) => {
-    if (event.target.files[0]?.size <= 204800) {
-      setImageData(event.target.files[0])
-      setImageSize(false)
-      setValidation({address: false, image: false})
-  } else {
-      setImageSize(true)
-  }
+    try {
+      if (event.target.files[0]?.size <= 204800) {
+        setImageData(event.target.files[0])
+        setImageSize(false)
+        setValidation({ address: false, image: false })
+      } else {
+        setImageSize(true)
+      }
+    }
+    catch (err: any) {
+      Sentry.captureMessage("New Error ", err);
+    }
+
     // console.log(event.target.files[0])
   }
 
@@ -141,15 +163,15 @@ function StepTwo({
                     width={22}
                   />
                 </div>
-                <div style={{cursor: 'pointer'}} className="file-input">
+                <div style={{ cursor: 'pointer' }} className="file-input">
                   <input
                     type="file"
                     className="input-file"
                     accept="image/*"
                     onChange={onImageChange}
                   />
-                  <p  className="form-control ff-mos">
-                   {imageData ? "Change": "Upload"}
+                  <p className="form-control ff-mos">
+                    {imageData ? "Change" : "Upload"}
                   </p>
                 </div>
               </div>
@@ -168,7 +190,7 @@ function StepTwo({
               <input
                 type="text"
                 className="form-control"
-                placeholder="i.e Dark Knight Ventures"
+                placeholder="i.e Dark Ventures"
                 name="name"
                 value={values.name}
                 onChange={handleChange}
@@ -210,7 +232,7 @@ function StepTwo({
               <input
                 type="text"
                 className="form-control"
-                placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
+                placeholder="0xfe2f17400d4d8d24740ff8c0"
                 name="address"
                 readOnly={true}
                 value={account || ''}
@@ -230,7 +252,7 @@ function StepTwo({
               <input
                 type="text"
                 className="form-control"
-                placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
+                placeholder="0xfe2f17400d4d8d24740ff8c0"
                 name="publickey"
                 value={values.publickey}
                 onChange={handleChange}

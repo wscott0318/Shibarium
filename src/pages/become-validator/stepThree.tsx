@@ -18,6 +18,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingSpinner from 'pages/components/Loading';
 import { registerValidator } from "services/apis/network-details/networkOverview";
+import * as Sentry from '@sentry/nextjs';
 
 function StepThree({becomeValidateData, stepState,stepHandler}:any) {
 
@@ -44,23 +45,29 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
 
 
   const getMinimunFee = async () => {
-    let user = account;
-    if (account) {
-      const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-      const MinimumFees = await instance.methods.minDeposit().call({ from: user }); // read
-      const MinimumHeimDallFee = await instance.methods.minHeimdallFee().call({ from: user }); // read
-      const fees = +MinimumFees / 10 ** web3Decimals
-      const feesHeimdall = +MinimumHeimDallFee / 10 ** web3Decimals
-      setMinDeposit(fees)
-      setMinHeimdallFee(feesHeimdall)
-    } else {
-      console.log("account addres not found")
+    try{
+      let user = account;
+      if (account) {
+        const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
+        const MinimumFees = await instance.methods.minDeposit().call({ from: user }); // read
+        const MinimumHeimDallFee = await instance.methods.minHeimdallFee().call({ from: user }); // read
+        const fees = +MinimumFees / 10 ** web3Decimals
+        const feesHeimdall = +MinimumHeimDallFee / 10 ** web3Decimals
+        setMinDeposit(fees)
+        setMinHeimdallFee(feesHeimdall)
+      } else {
+        console.log("account addres not found")
+      }
+    } 
+    catch(err:any){
+      Sentry.captureMessage("New Error " , err);
     }
   }
   
 
   const  approveAmount = async (data :any) => {
-    if (account) {
+    try {
+      if (account) {
       let user = account;
       let amount = web3.utils.toBN(fromExponential(MAXAMOUNT * Math.pow(10, 18)));
       let instance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
@@ -179,9 +186,15 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
       console.log("account not connected ====> ")
     }
   }
+  catch(err:any){
+    Sentry.captureMessage("New Error " , err);
+  }
+}
+
 
   const submitTransaction = async (values : any) => {
-    // stepHandler("next")  
+    try {
+      // stepHandler("next")  
     setApiLoading(true)
     console.log("called contract ===> ")
     let user : any = account
@@ -263,7 +276,10 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
         }
       })
     }
-    
+  }
+    catch(err:any){
+      Sentry.captureMessage("New Error " , err);
+    }
 
   }
 
@@ -291,7 +307,8 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
   }
 
   const callAPI = async (val :any) => {
-    setApiLoading(true)
+    try {
+      setApiLoading(true)
     var data = new FormData();
     data.append("validatorName", becomeValidateData.name);
     data.append("public_key", becomeValidateData.publickey);
@@ -312,6 +329,9 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
       notifyError()
 
     })
+  } catch(err:any){
+    Sentry.captureMessage("New Error " , err);
+  }
   };
 
   
@@ -417,7 +437,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
           <div className="col-sm-6 form-grid">
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
-                Heimdall Fees
+                Heimdall Fee
               </label>
               <input
                 type="text"

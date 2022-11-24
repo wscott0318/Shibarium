@@ -5,13 +5,12 @@ import StepOne from "./stepOne";
 import StepTwo from "./stepTwo";
 import StepThree from "./stepThree";
 import StepFour from "./stepFour";
+import * as Sentry from "@sentry/nextjs";
 import { useUserType } from "../../state/user/hooks";
-import { useRouter } from 'next/router'
-
+import { useRouter } from "next/router";
 
 const Rewards = () => {
-
-  const [ editNsave , setEditNsave] = useState(false);
+  const [editNsave, setEditNsave] = useState(false);
   const [userType, setUserType] = useUserType();
   const router = useRouter();
 
@@ -21,122 +20,120 @@ const Rewards = () => {
     comission: false,
   });
 
-
-  const [stepState,setStepState]=useState({
-    step1:true,
-    step2:false,
-    step3:false,
-    step4:false,
-  })
-  const [becomeValidateData , setBecomeValidateData] = useState({
+  const [stepState, setStepState] = useState({
+    step1: true,
+    step2: false,
+    step3: false,
+    step4: false,
+  });
+  const [becomeValidateData, setBecomeValidateData] = useState({
     name: "",
     publickey: "",
     website: "",
-    image: ''
+    image: "",
   });
 
   useEffect(() => {
-    if(userType === 'Validator') {
+    if (userType === "Validator") {
       router.push("/");
     }
-  },[userType])
-  
+  }, [userType]);
+
   // console.log("Become Validate Data in Parent",becomeValidateData)
-  
+
   const handleEdit = (value) => {
-    switch (value) {
-      case "name":
-        setActivInput((activInput) => ({
-          ...activInput,
-          name: !activInput.name,
-          website: false,
-          comission: false,
-        }));
-        break;
-      case "website":
-        setActivInput((activInput) => ({
-          ...activInput,
-          name: false,
-          website: !activInput.website,
-          comission: false,
-        }));
-        break;
-      case "comission":
-        setActivInput((activInput) => ({
-          ...activInput,
-          name: false,
-          website: false,
-          comission: !activInput.comission,
-        }));
-        break;
-      default:
-        break;
+    try {
+      switch (value) {
+        case "name":
+          setActivInput((activInput) => ({
+            ...activInput,
+            name: !activInput.name,
+            website: false,
+            comission: false,
+          }));
+          break;
+        case "website":
+          setActivInput((activInput) => ({
+            ...activInput,
+            name: false,
+            website: !activInput.website,
+            comission: false,
+          }));
+          break;
+        case "comission":
+          setActivInput((activInput) => ({
+            ...activInput,
+            name: false,
+            website: false,
+            comission: !activInput.comission,
+          }));
+          break;
+        default:
+          break;
+      }
+      setEditNsave(!editNsave);
+    } catch (err) {
+      Sentry.captureMessage("New Error ", err);
     }
-setEditNsave(!editNsave)
   };
 
   const stepHandler = (type) => {
-    if(type==="next")
-    {
-      if(stepState.step1)
-    {
-      setStepState({
-        ...stepState,
-        step1:false,
-        step2:true
-      })
+    if (type === "next") {
+      if (stepState.step1) {
+        setStepState({
+          ...stepState,
+          step1: false,
+          step2: true,
+        });
+      } else if (stepState.step2) {
+        setStepState({
+          ...stepState,
+          step2: false,
+          step3: true,
+        });
+      }
+      if (stepState.step3) {
+        setStepState({
+          ...stepState,
+          step3: false,
+          step4: true,
+        });
+      }
+    } else if (type === "back") {
+      if (stepState.step4) {
+        setStepState({
+          ...stepState,
+          step4: false,
+          step3: true,
+        });
+      } else if (stepState.step3) {
+        setStepState({
+          ...stepState,
+          step3: false,
+          step2: true,
+        });
+      }
+      if (stepState.step2) {
+        setStepState({
+          ...stepState,
+          step2: false,
+          step1: true,
+        });
+      }
     }
-    else if (stepState.step2) {
-      setStepState({
-        ...stepState,
-        step2: false,
-        step3: true,
-      });
-    }
-    if (stepState.step3) {
-      setStepState({
-        ...stepState,
-        step3: false,
-        step4: true,
-      });
-    }
-  }
-  else if( type === "back")
-  {
-    if (stepState.step4) {
-      setStepState({
-        ...stepState,
-        step4: false,
-        step3: true,
-      });
-    } else if (stepState.step3) {
-      setStepState({
-        ...stepState,
-        step3: false,
-        step2: true,
-      });
-    }
-    if (stepState.step2) {
-      setStepState({
-        ...stepState,
-        step2: false,
-        step1: true,
-      });
-    }
-  }
-  }
+  };
 
   return (
     <>
-     <Header />
+      <Header />
       <main className="main-content dark-bg-800 full-vh  cmn-input-bg ffms-inherit staking-main">
-        
         {/* <StakingHeader /> */}
         <section className="top_bnr_area dark-bg darkbg py-4 py-md-5 mn-ht">
           <div className="container">
-          <div className="section-info"><h1 className="text-white trs-6 fw-500 ff-mos">
-              Become a validator
-            </h1>
+            <div className="section-info">
+              <h1 className="text-white trs-6 fw-500 ff-mos">
+                Become a validator
+              </h1>
             </div>
           </div>
         </section>
@@ -229,7 +226,11 @@ setEditNsave(!editNsave)
                 {/* step 3 start */}
 
                 {stepState.step3 && (
-                  <StepThree becomeValidateData={becomeValidateData} stepHandler={stepHandler} stepState={stepState} />
+                  <StepThree
+                    becomeValidateData={becomeValidateData}
+                    stepHandler={stepHandler}
+                    stepState={stepState}
+                  />
                 )}
 
                 {/* step 3 end */}
@@ -242,7 +243,7 @@ setEditNsave(!editNsave)
                     stepHandler={stepHandler}
                     stepState={stepState}
                     becomeValidateData={becomeValidateData}
-                    editNsave = {editNsave}
+                    editNsave={editNsave}
                   />
                 )}
 

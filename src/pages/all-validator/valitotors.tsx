@@ -11,6 +11,7 @@ import LoadingSpinner from 'pages/components/Loading';
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 import { queryProvider } from 'Apollo/client';
 import { allValidatorsQuery } from 'Apollo/queries';
+import * as Sentry from '@sentry/nextjs'
 import { inActiveCount } from 'web3/commonFunctions';
 
 const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) => {
@@ -37,9 +38,12 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     // console.log(validators)
 
     const fetchValidators = async () => {
-      const validators = await queryProvider.query({
+      try{const validators = await queryProvider.query({
         query: allValidatorsQuery(),
-      })
+      })}
+      catch(err:any){
+        Sentry.captureMessage(err);
+      }
 
       // console.log(validators, " graphQL query ==== >")
     }
@@ -102,23 +106,32 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
   
     const pageChangeHandler = (index: number) => {
       // console.log(index)
-      const slicedList = validatorsByStatus.slice((index - 1) * pageSize, (index * pageSize))
-      setValidators(slicedList)
-      setCurrentPage(index)
-  
+      try{
+        const slicedList = validatorsByStatus.slice((index - 1) * pageSize, (index * pageSize))
+        setValidators(slicedList)
+        setCurrentPage(index)
+      }
+      catch(err:any){
+        Sentry.captureMessage(err);
+      }
     }
     const onSort = (key: string, column: string,type:string) => {
-      setSortKey(key)
-      let sortedList;
-      if (type === 'number') {
-         sortedList = validators.sort((a:any, b:any)=>{
-          return( Number(b[column]) - Number( a[column]))
-        })
-      }else{
-        sortedList = orderBy(validators, column, 'asc');
-  
-      }
-      setValidators(sortedList)
+      try{
+        setSortKey(key)
+        let sortedList;
+        if (type === 'number') {
+          sortedList = validators.sort((a:any, b:any)=>{
+            return( Number(b[column]) - Number( a[column]))
+          })
+        }else{
+          sortedList = orderBy(validators, column, 'asc');
+    
+        }
+        setValidators(sortedList)
+    }
+    catch(err:any){
+      Sentry.captureMessage(err);
+    }
     }
 
 
@@ -148,7 +161,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                 <input
                  className="custum-search w-100" 
                  type="search " 
-                 placeholder="Search by validator name, owner or signer address"
+                 placeholder="Search by validator name"
                  value={searchKey}
                  onChange={(e) => setSearchKey(e.target.value)}
                  />
@@ -174,9 +187,9 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
 
                       <Dropdown.Menu>
                         <Dropdown.Item onClick={() => onSort('Random', 'name','string')}>Random</Dropdown.Item>
-                        <Dropdown.Item onClick={() => onSort('Commission', 'commissionPercent','number')}>Commission</Dropdown.Item>
-                        <Dropdown.Item onClick={() => onSort('Self', 'selfPercent','number')}>Self</Dropdown.Item>
-                        <Dropdown.Item onClick={() => onSort('Voting Power', 'totalStaked','number')}>
+                        <Dropdown.Item onClick={() => onSort('Commission', 'commissionrate','number')}>Commission</Dropdown.Item>
+                        <Dropdown.Item onClick={() => onSort('Self', 'selfpercent','number')}>Self</Dropdown.Item>
+                        <Dropdown.Item onClick={() => onSort('Voting Power', 'totalstaked','number')}>
                           Voting Power
                         </Dropdown.Item>
                         <Dropdown.Item className="ff-mos" onClick={()  => onSort('Uptime', 'uptimePercent','number')}>
