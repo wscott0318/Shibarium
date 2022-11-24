@@ -38,6 +38,7 @@ import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import Router from "next/router";
 import { getExplorerLink } from "app/functions";
 import { currentGasPrice } from "web3/commonFunctions";
+const [nullAddress,setNullAddress] = useState(false)
 
 const sendInitialState = {
   step0: true,
@@ -149,6 +150,7 @@ export default function Wallet() {
 
 
   const handleChange = (e: any) => {
+    setNullAddress(true)
     setSenderAdress(e.target.value)
     const isValid = verifyAddress(e.target.value)
     // console.log(isValid)
@@ -161,6 +163,7 @@ export default function Wallet() {
   }
 
   const handleSend = (e :any) => {
+    setNullAddress(true)
     e.preventDefault()
     // console.log("called handleSend")
     if (isValidAddress && sendAmount && senderAddress) {
@@ -469,11 +472,11 @@ export default function Wallet() {
                             placeholder="Receiver address"
                           />
                           <div className="error-msg">
-                            {!isValidAddress && (
+                            {nullAddress?(!isValidAddress &&(
                               <label className="mb-0 red-txt" style={{color:"#F06500"}}>
                                 {senderAddress?<>Enter a valid receiver address</> : <>receiver address should not be null</>}
                               </label>
-                            )}
+                            )):null}
                           </div>
                         </div>
                         <div className="form-group">

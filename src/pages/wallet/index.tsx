@@ -84,7 +84,7 @@ export default function Wallet() {
   const [selectedToken, setSelectedToken] = useState<any>({})
   const [searchKey, setSearchKey] = useState<string>('');
   const [modalKeyword, setmodalKeyword] = useState<string>('');
-
+ const [nullAddress,setNullAddress] = useState(false)
   const searchResult = useSearchFilter(tokenList, searchKey.trim());
 
   useEffect(() => {
@@ -128,6 +128,7 @@ export default function Wallet() {
 
 
   const handleChange = (e: any) => {
+    setNullAddress(true)
     setSenderAdress(e.target.value)
     const isValid = verifyAddress(e.target.value)
     // console.log(isValid)
@@ -140,6 +141,7 @@ export default function Wallet() {
   }
 
   const handleSend = (e :any) => {
+    setNullAddress(true)
     e.preventDefault()
     // console.log("called handleSend")
     if (isValidAddress && sendAmount) {
@@ -209,6 +211,7 @@ export default function Wallet() {
   }
 
   // console.log(tokenList, tokenFilteredList, slicedTokenFilteredList)
+  
 
 
 
