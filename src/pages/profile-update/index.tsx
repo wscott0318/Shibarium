@@ -34,16 +34,19 @@ export default function ProfileUpdate() {
     const callValidatorInfo = async (account: any) => {
         setLoader(true)
         await getValidatorInfo(account).then((res: any) => {
-            console.log(res.data.message.val_info[0])
-            setImageURL(res.data.message.val_info[0].img)
+            console.log(res.data.message.val)
+            setImageURL(res.data.message.val.logoUrl)
             setValues({
-                validatorname: res.data.message.val_info[0].validatorName,
+                validatorname: res.data.message.val.name,
                 address: account,
-                website: res.data.message.val_info[0].website,
+                website: res.data.message.val.description,
+                publickey: res.data.message.val.publickey,
+                
             })
             setLoader(false)
         }).catch((err: any) => {
             console.log(err)
+            setLoader(false)
         })
     }
     useEffect(() => {
@@ -61,6 +64,7 @@ export default function ProfileUpdate() {
         validatorname: '',
         address: userAccount,
         website: '',
+        publickey:''
     });
 
     const verifyAddress = (address: any) => {
@@ -87,10 +91,11 @@ export default function ProfileUpdate() {
             setValidation({ image: true, address: true });
         }
         var data = new FormData();
-        data.append("_validatorName", values.validatorname);
-        data.append("signer_Address", values.address);
-        data.append("_website", values.website);
-        data.append("_img", imageData.image);
+        data.append("validatorName", values.validatorname);
+        data.append("signerAddress", values.address);
+        data.append("website", values.website);
+        data.append("public_key", values.publickey);
+        data.append("img", imageData.image);
         if(!imgsize)
         {
             await updateValidator(data).then((res: any) => {
@@ -110,11 +115,12 @@ export default function ProfileUpdate() {
     };
 
     let schema = yup.object().shape({
-        validatorname: yup.string().required("validator name is required").matches(/^[A-Za-z][A-Za-z0-9 ]+$/,"Entered wrong charactor"),
+        validatorname: yup.string().typeError("name is required").max(14).typeError("name must be less than 15 characters").required("validator name is required").matches(/^[A-Za-z][A-Za-z0-9 ]+$/,"Entered wrong charactor"),
         address: yup.string().required("address is required"),
         website: yup
             .string()
-            .url()
+            .typeError("website is required")
+            .url("enter a vaild url with 'https://' or 'http://' at start")
             .required("website is required")
             .matches(
                 /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/,

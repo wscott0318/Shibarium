@@ -5,7 +5,7 @@ import Link from 'next/link';
 import React, { useState } from 'react'
 import NumberFormat from 'react-number-format';
 import DelegatePopup from '../../delegate-popup';
-import { tokenDecimal } from 'web3/commonFunctions';
+import { addDecimalValue, inActiveCount, toFixedPrecent, tokenDecimal, web3Decimals } from 'web3/commonFunctions';
 
 export default function ValidatorGrid({ validatorsList, searchKey }: { validatorsList: any, searchKey: any }) {
     const [modalShow, setModalShow] = React.useState(false);
@@ -30,34 +30,48 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                               <div className='box-head'>
                                   <div className='d-flex align-items-center justify-content-start'>
                                   <div>
-                                        <span > <img  style={{height:50, width:50}} src={!validator.logoUrl || validator.logoUrl === 'PLACEHOLDER'? "../../assets/images/fundbaron.png":validator.logoUrl} alt="logo" className='me-3'/></span>
+                                        <span > <img  style={{height:50, width:50}} src={validator.logoUrl ? validator.logoUrl : "../../assets/images/shiba-round-icon.png"} alt="logo" className='me-3'/></span>
                                     </div>
                                       <div className='fw-600'>
                                           <span className='vertical-align'>
                                           <Link href={`/all-validator/${validator.signer}`} passHref>
-                                            {validator.name}
+                                            <p>
+                                            {validator?.name}
+                                            </p>
                                           </Link>
                                           </span>
                                           <p><span className='ft-14 light-text'>
-                                          <NumberFormat displayType='text'  thousandSeparator value={(validator.totalStaked/Math.pow(10,18)).toFixed(tokenDecimal)} /> BONE Staked</span></p>
+                                          <NumberFormat displayType='text'  thousandSeparator value={addDecimalValue(validator.totalstaked/Math.pow(10,web3Decimals))} /> BONE</span></p>
                                       </div>
                                   </div>
                               </div> 
                               <div className='box-body'>
                                   <div className='d-flex align-items-center justify-content-between'>
-                                      <div className='fw-600 ft-14'>Performance</div>
+                                      <div className='fw-600 ft-14'>Uptime</div>
                                       <div>
-                                          <span className='warning-color fw-600 ft-14'>{(validator.uptimePercent).toFixed(tokenDecimal)}%</span>
+                                          <span className='warning-color fw-600 ft-14'>{(validator.uptimePercent).toFixed(toFixedPrecent)}%</span>
                                       </div>
                                   </div>
                                   <div className='d-flex align-items-center justify-content-between'>
                                       <div className='fw-600 ft-14'>Commission</div>
                                       <div>
-                                          <span className='warning-color fw-600 ft-14'>{validator.commissionPercent}%</span>
+                                          <span className='warning-color fw-600 ft-14'>{validator?.commissionrate}%</span>
                                       </div>
                                   </div>
                                   <div className='text-center mt-3'>
-                                      <button type="button" onClick={() => {setdelegatepop(true); setSelectedRow(validator)}} className='btn primary-btn  light-text w-100'><span>Delegate</span></button> 
+                                  {
+                                      userType === 'Validator' ?
+                                        <Link href={`/all-validator/${validator.signer}`} passHref>
+                                        <p className='btn primary-btn  light-text w-100'>View</p>
+                                      </Link>
+                                      : 
+                                      <button
+                                      disabled={ validator.fundamental === 1 ? true : validator.uptimePercent <= inActiveCount ? true : false}
+                                      type="button"
+                                      onClick={() => {setdelegatepop(true); setSelectedRow(validator)}}
+                                        className='btn primary-btn  light-text w-100'>
+                                          <span>Delegate</span></button>
+                                      }
                                   </div>
                               </div>
                           </div>

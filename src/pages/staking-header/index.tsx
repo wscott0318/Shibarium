@@ -22,7 +22,7 @@ useEffect(() => {
   }
 }, [router])
 
-console.log("usertype",userType)
+console.log("usertype",router.asPath)
 
     return (
       <>
@@ -31,39 +31,25 @@ console.log("usertype",userType)
             <div className="lft-sec">
               <ul className="lft-links ms-auto">
                 <li className="nav-item">
-                  <Link href="bone-staking" passHref>
-                    <a
-                      className={`nav-link ff-mos ${
-                        routeCheck("bone-staking") && "active"
-                      }`}
-                      href="/"
-                    >
+                  <Link href="/bone-staking" passHref>
+                    <p className={`nav-link ff-mos ${router.asPath === '/bone-staking' ? "active" : ""}`} >
                       Overview
-                    </a>
+                    </p>
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link href="all-validator" passHref>
-                    <a
-                      className={`nav-link ff-mos ${
-                        routeCheck("all-validator") && "active"
-                      }`}
-                      href="/"
-                    >
+                  <Link href="/all-validator"  passHref>
+                    <p className={`nav-link ff-mos ${router.asPath === '/all-validator' ? "active" : ""}`}>
                       All Validators
-                    </a>
+                    </p>
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link href="my-account" passHref>
-                    <a
-                      className={`nav-link ff-mos ${
-                        routeCheck("my-account") && "active"
-                      }`}
-                      href="/"
+                  <Link href="/my-account" className="nav-link ff-mos" passHref>
+                    <p className={`nav-link ff-mos ${router.asPath === '/my-account' ? "active" : ""}`}
                     >
                       My Account
-                    </a>
+                    </p>
                   </Link>
                 </li>
                 {

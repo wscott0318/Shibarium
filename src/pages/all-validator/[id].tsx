@@ -1,13 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link";
 import React, { useState, useEffect, useContext } from "react";
-// import { validators, validatorsList } from "../service/validator";
-import { useWeb3React } from "@web3-react/core";
-import ProjectContext from "../../context/ProjectContext";
-import Footer from "../../pages/footer/index"
 import { useActiveWeb3React } from "../../services/web3"
-import CommonModal from "../components/CommonModel";
-import StakingHeader from '../staking-header';
 import Header from "../layout/header";
 import { useRouter } from "next/router";
 import { getBoneUSDValue, getValidatorsDetail } from 'app/services/apis/validator';
@@ -16,11 +9,16 @@ import NumberFormat from 'react-number-format';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Delegators from './validator-details/Delegators';
 import Checkpoints from './validator-details/Checkpoints';
-import { addDecimalValue, tokenDecimal } from "web3/commonFunctions";
+import { addDecimalValue, tokenDecimal, web3Decimals } from "web3/commonFunctions";
+import Web3 from "web3";
+import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
+import { dynamicChaining } from "web3/DynamicChaining";
+import LoadingSpinner from 'pages/components/Loading';
 import * as Sentry from "@sentry/nextjs";
 
 export default function ValidatorDetails() {
     const pageSize = 4; 
+    const { account , library, chainId = 1} = useActiveWeb3React()
     const [validatorInfo, setValidatorInfo] = useState<any>();
     const [allDelegators, setAllDelegators] = useState([]);
     const [allCheckpoints, setAllCheckpoints] = useState<any>([]);
@@ -43,7 +41,7 @@ export default function ValidatorDetails() {
                 setAllDelegators(res?.data?.data?.validatorSet?.delegators || []);
                 setAllCheckpoints(res?.data?.data?.validatorSet?.checkpoints || [])
                 setLastBlock(res?.data?.data?.validatorSet?.lastBlock );
-                setTotalSupply(+res?.data?.data?.validatorSet?.totalSupply );
+            
 
                 // console.log(res?.data?.data?.validatorSet)
                 setLoading(false);
@@ -62,12 +60,31 @@ export default function ValidatorDetails() {
         getBoneUSDValue(BONE_ID).then(res=>{
             setBoneUsdValue(res.data.data.price);
         })
-      },[])
+
+        if(validatorInfo) {
+            getTotalSupply(validatorInfo?.id) 
+        }
+
+      },[validatorInfo, account])
+
+
+      const getTotalSupply = async (id :any) => {
+        const lib: any = library;
+        const web3: any = new Web3(lib?.provider);
+        let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId]?.STAKE_MANAGER_PROXY);
+        const valStake = await instance.methods.validators(id).call({from:account});
+        let finalAMount = (+valStake.amount +  +valStake.delegatedAmount) / Math.pow(10, web3Decimals)
+        console.log(valStake, finalAMount,  "data ==> ")
+        setTotalSupply(finalAMount)
+
+        // amount delegatedAmount
+      }
     
     
     return (
         <>
             <Header />
+            {loading && <LoadingSpinner />}
             <main className="main-content dark-bg-800 full-vh  cmn-input-bg font-up ffms-inherit staking-main">
             
             {/* <StakingHeader /> */}
@@ -77,7 +94,7 @@ export default function ValidatorDetails() {
                             <div className="mb-4 col-sm-5 col-lg-5 col-xl-4 mb-sm-0">
                                 <div className="text-center shib-card card h-100 p-3">
                                     <div className='image-wrap'>
-                                    <img className='img-fluid' src={validatorInfo?.logoUrl === 'PLACEHOLDER'? "../../assets/images/fundbaron.png":validatorInfo?.logoUrl} alt="fundborn-img" width={120} />
+                                    <img className='img-fluid' src={validatorInfo?.logoUrl ? validatorInfo?.logoUrl : "../../assets/images/shiba-round-icon.png"} alt="fundborn-img" width={120} />
                                     </div>
                                     <h4 className='py-2 mt-2'>
                                         <span className='text-white trs-3 ff-mos'>{validatorInfo?.name}</span>
@@ -161,12 +178,12 @@ export default function ValidatorDetails() {
                                         <div className='flex-wrap mb-4 d-flex align-items-center'>
                                             <div className='data-btn me-3'>
                                                 <span className='trs-6 ff-mos'>
-                                                <NumberFormat displayType='text' thousandSeparator value={(validatorInfo?.selfStake/Math.pow(10,18)).toFixed(tokenDecimal)} /> 
+                                                <NumberFormat displayType='text' thousandSeparator value={addDecimalValue(+validatorInfo?.selfStake /Math.pow(10,web3Decimals))} /> 
                                                 </span>
                                             </div>
-                                            <div className='text ff-mos'>
+                                            {/* <div className='text ff-mos'>
                                                {validatorInfo?.votingPower ? <span>(~{(+validatorInfo?.votingPower).toFixed(tokenDecimal) || 0}%)</span> : null }
-                                            </div>
+                                            </div> */}
                                         </div>
                                         <div className="mb-3 progress-line">
                                             <ProgressBar now={+(+validatorInfo?.votingPower).toFixed(tokenDecimal) || 0}/>
@@ -181,15 +198,15 @@ export default function ValidatorDetails() {
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Voting Power</h6>
                                                 <p className='mb-0 trs-3 ff-mos'>
-                                                <NumberFormat displayType='text' thousandSeparator value={(validatorInfo?.selfStake/Math.pow(10,18)).toFixed(tokenDecimal)} />
+                                                <NumberFormat displayType='text' thousandSeparator value={addDecimalValue(+validatorInfo?.selfStake/Math.pow(10, web3Decimals))} />
                                                 </p>
                                             </li>
-                                            <li className='info-data-lst'>
+                                            {/* <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Voting Power %</h6>
                                                 {validatorInfo?.votingPower ? <p className='mb-0 trs-3 primary-text ff-mos'>
                                                    {(+validatorInfo?.votingPower).toFixed(tokenDecimal) || 0}%
                                                 </p> : null }
-                                            </li>
+                                            </li> */}
                                         </ul>
                                     </div>
                                 </div>

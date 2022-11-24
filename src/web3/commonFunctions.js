@@ -21,7 +21,7 @@ export const currentGasPrice = async (web3) => {
     let value;
     await web3.eth.getGasPrice()
     .then((res) => {
-        value = parseInt(res * 1.1);
+        value = parseInt(res * 2.1);
     })
     .catch((err) => {
       console.log(err)
@@ -59,3 +59,5 @@ export const currentGasPrice = async (web3) => {
   }
 
   export const MAXAMOUNT = 100000
+
+  export const inActiveCount = 10

@@ -5,7 +5,7 @@ import { useUserType } from 'app/state/user/hooks';
 import Link from 'next/link';
 import DelegatePopup from 'pages/delegate-popup';
 import React, { useState } from 'react';
-import { addDecimalValue, toFixedPrecent, tokenDecimal } from 'web3/commonFunctions';
+import { addDecimalValue, inActiveCount, toFixedPrecent, tokenDecimal, web3Decimals } from 'web3/commonFunctions';
 // @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 
@@ -58,20 +58,28 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                         />
                       </span>
                       <Link href={`/all-validator/${x.signer}`} passHref>
-                        <a>{x.name}</a>
+                        <p className='tb-value'>{x.name}</p>
                       </Link>
                       </div>
                     </td>
                     <td>
-                      {addDecimalValue(x.totalStaked / Math.pow(10, 18))} (
-                      {(+x.votingPowerPercent || 0).toFixed(toFixedPrecent)}%)
+                      {addDecimalValue(x.totalstaked / Math.pow(10, web3Decimals))} 
+                      {/* ({(+x.votingpowerpercent || 0).toFixed(toFixedPrecent)}%) */}
                     </td>
-                    <td>{+x.selfPercent.toFixed(tokenDecimal)}%</td>
-                    <td><span className='precent-td'>{x.commissionPercent}%</span></td>
+                    <td>{ x.selfpercent ?  addDecimalValue(parseInt(x.selfpercent)) : "0" }%</td>
+                    <td><span className='precent-td'>{x?.commissionrate} %</span></td>
+
                     <td>{x.uptimePercent?.toFixed(toFixedPrecent)}%</td>
+
                     <td className='text-start'>
+                      {
+                        userType === 'Validator' ?
+                        <Link href={`/all-validator/${x.signer}`} passHref>
+                        <p className='btn primary-btn w-100'>View</p>
+                      </Link>
+                      : 
                       <button className='btn primary-btn w-100'
-                      disabled={userType === 'Validator'}
+                      disabled={ x.fundamental === 1 ? true : x.uptimePercent <= inActiveCount ? true : false}
                         onClick={() => {
                           setdelegatepop(true);
                           setSelectedRow(x)
@@ -79,6 +87,9 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       >
                         Delegate
                       </button>
+                      }
+                   
+                      
                     </td>
                   </tr>
                 ))}

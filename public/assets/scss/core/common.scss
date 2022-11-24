@@ -173,7 +173,8 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-fill-color: transparent;
+    // text-fill-color: transparent;
+    -webkit-text-fill-color: transparent;
 }
 /** Cus dd start **/
 .cus-dd{
@@ -3873,6 +3874,18 @@ display: none !important;
     }
    
 }
+.actions-btn{
+    .btn{
+        &:disabled{
+            background: $lt-blk;
+        }
+    }
+}
+.pop-txtblk {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
 .icn-wrap{
     position: relative;
 }
@@ -3883,4 +3896,50 @@ display: none !important;
     left: auto;
     bottom: auto;
     cursor: pointer;
+}
+.wal-btn {
+    background: #0c2941;
+    padding: 8px 8px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -o-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -moz-border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1rem;
+}
+.tb-value{
+    &:hover{
+        color: $primary-two;
+        cursor: pointer;
+    }
+}
+.sec-ht {
+    min-height: 320px;
+    @media #{$max-xxl}{
+        min-height: 270px;
+    }
+    @media #{$max-lg}{
+        min-height: 180px;
+    }
+    @media #{$max-md}{
+        min-height: 150px;
+    }
+}
+.tokn-popup{
+    .sec-ht{
+        .spinner-border{
+            @media #{$max-md}{
+                height: 6rem;
+                width: 6rem;
+            }
+        }
+    }
+}
+.trans-loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
