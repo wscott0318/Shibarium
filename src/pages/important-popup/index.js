@@ -11,7 +11,7 @@ import LoadingSpinner from "pages/components/Loading";
 import ConfirmPopUp from "pages/components/ConfirmPopUp";
 import { dynamicChaining } from "web3/DynamicChaining";
 import { tokenDecimal } from "web3/commonFunctions";
-
+import * as Sentry from "@sentry/nextjs";
 
 export default function ImportantPopup(props) {
 
@@ -51,7 +51,8 @@ const transferToken = () => {
       })
       .on("receipt", async (res) => {})
       .on("error", (err) => {setLoading(false)});
-  } catch (error) {setLoading(false)}
+  } catch (error) {setLoading(false)
+      Sentry.captureMessage("New Error " , error);}
 };
   return (
     <>

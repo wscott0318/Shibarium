@@ -22,7 +22,7 @@ import { StakeAmount } from 'Apollo/queries';
 import { dynamicChaining } from 'web3/DynamicChaining';
 import { getValidatorsDetail } from 'app/services/apis/validator';
 import { tokenDecimal } from 'web3/commonFunctions';
-
+import * as Sentry from "@sentry/nextjs";
 
 
 
@@ -74,25 +74,36 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
 
   const getValidatorData = async (valId :any) => {
-      let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-      const valFromContract =  await instance.methods.validators(+valId).call({from : account})
-      const valReward = await instance.methods.validatorReward(+valId).call({from : account})
-      const dynasty = await instance.methods.dynasty().call({from : account})
-      const validatorStake = await instance.methods.validatorStake(valId).call({from : account})
-      const reward = addDecimalValue(valReward / Math.pow(10, web3Decimals))
-      setValidatorInfoContract(valFromContract)
-      setValidatorTotalReward(reward)
-      console.log(valFromContract, reward,  "dynasty ===> ")
+      try {
+        let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
+        const valFromContract =  await instance.methods.validators(+valId).call({from : account})
+        const valReward = await instance.methods.validatorReward(+valId).call({from : account})
+        const dynasty = await instance.methods.dynasty().call({from : account})
+        const validatorStake = await instance.methods.validatorStake(valId).call({from : account})
+        const reward = addDecimalValue(valReward / Math.pow(10, web3Decimals))
+        setValidatorInfoContract(valFromContract)
+        setValidatorTotalReward(reward)
+        console.log(valFromContract, reward,  "dynasty ===> ")
+
+      }
+      catch(err:any){
+        Sentry.captureException("New Error " , err);
+      }
   }
 
   const validatorInfoAPI = () => {
-    getValidatorsDetail(`${account}`)
+    try{
+      getValidatorsDetail(`${account}`)
     .then((res) => {
       setValidatorInfo(res?.data?.data?.validatorSet.validatorInfo);
     })
     .catch((error: any) => {
       console.log("error", error);
     });
+  }
+  catch(err:any){
+    Sentry.captureException("New Error " , err);
+  }
   }
 
   const getDelegatorCardData = async (accountAddress: any) => {
@@ -119,9 +130,9 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         //  setUserType('NA')
         setLoading(false)
       })
-    } catch (error) {
-      console.log(error)
+    } catch(err:any){
       setLoading(false)
+      Sentry.captureException("New Error " , err);
     }
   }
 
@@ -129,7 +140,8 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
   const handleModal = (btn: String, valAddress: any, id: any = null, stakeAmount: any = null) => {
     console.log({ btn, valAddress, id, stakeAmount })
-    switch (btn) {
+    try {
+      switch (btn) {
       case "Restake":
         if (userType === 'Validator') {
           setRestakeModal({
@@ -163,6 +175,10 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       default:
         break;
     }
+  }
+  catch(err:any){
+    Sentry.captureException("New Error " , err);
+  }
   };
 
 
@@ -194,7 +210,8 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
   // GET VALIDATOR ID 
   const getValidatorId = async () => {
-    let user = account;
+    try {
+      let user = account;
 
     if (account) {
       console.log(user, "account address ")
@@ -205,6 +222,10 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     } else {
       console.log("account addres not found")
     }
+  }
+  catch(err:any){
+    Sentry.captureException("New Error " , err);
+  }
   }
 
   const getVaiIDFromDB = async () =>{
@@ -221,14 +242,15 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         console.log(e);
         // setUserType('NA')
       })
-    } catch (error) {
-
+    }catch(err:any){
+      Sentry.captureException("New Error " , err);
     }
   }
 
   //  COMMISSION CONTRACT 
   const callComission = async (value: any) => {
-    setTransactionState({ state: true, title: 'Pending' })
+    try {
+      setTransactionState({ state: true, title: 'Pending' })
     let user: any = account
     let valID = validatorID
     console.log({valID, c:  +value.comission},"comission called ==> ")
@@ -284,12 +306,16 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
           setCommiModal({ value: false, address: '' })
         }
       })
-
+    }
+    catch(err:any){
+      Sentry.captureException("New Error " , err);
+    }
   }
 
   // RESTAKE AS VALIDATORS
   const callRestakeValidators = async (values: any) => {
-    if (account) {
+   try{
+ if (account) {
       setTransactionState({ state: true, title: 'Pending' })
       let walletAddress: any = account
       let ID = validatorID
@@ -363,10 +389,15 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       console.log("account addres not found")
     }
   }
+  catch(err:any){
+    Sentry.captureException("New Error " , err);
+  }
+  }
 
   // Approve BONE
   const approveAmount = async (id: any, amounts: any, reward: boolean) => {
-    if (account) {
+    try {
+      if (account) {
       let user = account;
       let amount = web3.utils.toBN(fromExponential(1000 * Math.pow(10, 18)));
       let instance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
@@ -428,13 +459,17 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
           }
         })
     }
-
+  }
+  catch(err:any){
+    Sentry.captureException("New Error " , err);
+  }
   }
 
   // WITHDRAW REWARDS VALIDATORS 
   
   const withdrawRewardValidator = async () => {
-    setTransactionState({ state: true, title: 'Pending' })
+    try {
+      setTransactionState({ state: true, title: 'Pending' })
     if (account) {
       let walletAddress = account
       let valID = validatorID
@@ -494,10 +529,15 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       console.log("account not connected")
     }
   }
+  catch(err:any){
+    Sentry.captureException("New Error " , err);
+  }
+  }
   // WITHDRAW REWARDS delegator 
   
   const withdrawRewardDelegator = async (address :any , id:any) => {
-    setTransactionState({ state: true, title: 'Pending' })
+    try {
+      setTransactionState({ state: true, title: 'Pending' })
     if (account) {
       let walletAddress = account
       let instance = new web3.eth.Contract(ValidatorShareABI, address);
@@ -556,10 +596,15 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       console.log("account not connected")
     }
   }
+  catch(err:any){
+    Sentry.captureException("New Error " , err);
+  }
+  }
 
   // UNBOUND VALIDATOR 
   const unboundValidator = async () => {
-    if (account) {
+    try {
+      if (account) {
       setTransactionState({ state: true, title: 'Pending' })
       let walletAddress: any = account
       let ID = validatorID
@@ -622,10 +667,15 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       console.log("account addres not found")
     }
   }
+  catch(err:any){
+    Sentry.captureException("New Error " , err);
+  }
+  }
 
   // restake DELEGATOR 
   const restakeDelegator = async () => {
-    console.log("withdraw Reward Delegator called")
+    try {
+      console.log("withdraw Reward Delegator called")
     if (account) {
       setTransactionState({ state: true, title: 'Pending' })
       let walletAddress: any = account
@@ -688,10 +738,15 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       console.log("account addres not found")
     }
   }
+  catch(err:any){
+    Sentry.captureException("New Error " , err);
+  }
+  }
 
   // unbound DELEGATOR 
   const unboundDelegator = async () => {
-    console.log(unboundModal)
+    try {
+      console.log(unboundModal)
     setUnboundModal({
       ...unboundModal, startValue: false
     })
@@ -760,17 +815,31 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         })
     }
   }
+  catch(err:any){
+    Sentry.captureException("New Error " , err);
+  }
+  }
 
   const getStakeAmountDelegator = async (id: any, account:any) => {
-      const validators = await queryProvider.query({
+     try{
+       const validators = await queryProvider.query({
         query: StakeAmount(id, account),
       })
       return validators.data.delegator
+    }
+    catch(err:any){
+      Sentry.captureException("New Error " , err);
+    }
   }
 
   const getStake = (id : String) => {
-    let item = stakeAmounts.length ? stakeAmounts.filter((x:any) => x.validatorId === id)[0]?.tokens : 0
+    try {
+      let item = stakeAmounts.length ? stakeAmounts.filter((x:any) => x.validatorId === id)[0]?.tokens : 0
     return item > 0 ? addDecimalValue(parseInt(item) / 10 ** web3Decimals): "0.00"
+    }
+    catch(err:any){
+      Sentry.captureException("New Error " , err);
+    }
   } 
 
 

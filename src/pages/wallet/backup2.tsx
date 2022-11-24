@@ -38,7 +38,7 @@ import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import Router from "next/router";
 import { getExplorerLink } from "app/functions";
 import { currentGasPrice } from "web3/commonFunctions";
-
+import * as Sentry from "@sentry/nextjs";
 const sendInitialState = {
   step0: true,
   step1: false,
@@ -97,13 +97,19 @@ export default function Wallet() {
   // console.log(selectedToken)
 
   const verifyAddress = (address: any) => {
-    let result = Web3.utils.isAddress(address)
+    try{
+      let result = Web3.utils.isAddress(address)
     setIsValidAddress(result)
     return result
+    }
+    catch(err:any){
+      Sentry.captureException("New Error " , err);
+    }
   }
 
   const getNetworkName = () => {
-    if (chainId == 1) {
+    try{
+      if (chainId == 1) {
       return "Ethereum Mainnet"
     } else if (chainId == 5) {
       return "Goerli Testnet"
@@ -111,9 +117,13 @@ export default function Wallet() {
       return "Shibarium Mainnet"
     }
   }
+  catch(err:any){
+    Sentry.captureException("New Error " , err);
+  }
+  }
 
   const getTokensList = () => {
-    // console.log("token list called ==> ")
+    try{// console.log("token list called ==> ")
     setListLoader(true)
     getWalletTokenList().then(res => {
       let list = res.data.message.tokens
@@ -128,6 +138,10 @@ export default function Wallet() {
       setTokenModalList(list)
       setListLoader(false)
     })
+  }
+  catch(err:any){
+    Sentry.captureException("New Error " , err);
+  }
   }
 
 
@@ -161,7 +175,8 @@ export default function Wallet() {
   }
 
   const handleSend = (e :any) => {
-    e.preventDefault()
+    try{
+      e.preventDefault()
     // console.log("called handleSend")
     if (isValidAddress && sendAmount && senderAddress) {
       // console.log("called handleSend")
@@ -173,6 +188,10 @@ export default function Wallet() {
         showTokens: false
       })
     }
+  }
+  catch(err:any){
+    Sentry.captureException("New Error " , err);
+  }
   }
   const pageSize = 4;
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -191,7 +210,8 @@ export default function Wallet() {
   }, [tokenFilteredList]);
 
   const pageChangeHandler = (index: number) => {
-    const slicedList = tokenFilteredList.sort((a: any, b: any) => {
+    try{
+      const slicedList = tokenFilteredList.sort((a: any, b: any) => {
       return (b.balance - a.balance);
     }).slice(
       (index - 1) * pageSize,
@@ -199,10 +219,14 @@ export default function Wallet() {
     );
     setSliceTokenFilteredList(slicedList);
     setCurrentPage(index);
+    }catch(err:any){
+      Sentry.captureException("New Error " , err);
+    }
   };
 
   const handleSearchList = (key: any, type: any = 'main') => {
-    if (type === 'modal') {
+    try{
+      if (type === 'modal') {
       setmodalKeyword(key)
     } else {
       setSearchKey(key)
@@ -227,13 +251,17 @@ export default function Wallet() {
         setTokenFilteredList(tokenList)
       }
     }
-
+  }
+  catch(err:any){
+    Sentry.captureException("New Error " , err);
+  }
   }
 
   // console.log(tokenList, tokenFilteredList, slicedTokenFilteredList)
 
   const submitTransaction = async () => {
-    let user: any = account;
+    try{
+      let user: any = account;
     let amount = web3.utils.toBN(fromExponential(+sendAmount * Math.pow(10, 18)));
     let instance = new web3.eth.Contract(ERC20, '0x5063b1215bbF268ab00a5F47cDeC0A4783c3Ab58');
     instance.methods.transfer(senderAddress, amount).send({ from: user })
@@ -298,6 +326,10 @@ export default function Wallet() {
         }
       })
   }
+  catch(err:any){
+    Sentry.captureException("New Error " , err);
+  }
+}
 
 
   // transactionCounts()
@@ -316,7 +348,8 @@ export default function Wallet() {
   }
 
   const handleSendAmount = () => {
-    if (sendAmount > selectedToken.balance) {
+    try{
+      if (sendAmount > selectedToken.balance) {
       return true
     } else if (!sendAmount) {
       return true
@@ -324,13 +357,22 @@ export default function Wallet() {
       return false
     }
   }
+  catch(err:any){
+    Sentry.captureException("New Error " , err);
+  }
+}
   const [sendToken, setSendToken] = useState('');
 
   const sendTokenWithRoute = async (x: any, type: any = "deposit") => {
-    // console.log("Router data for send", x)
+    try{
+      // console.log("Router data for send", x)
     localStorage.setItem("depositToken", JSON.stringify(x))
     localStorage.setItem("bridgeType", type)
     await Router.push(`/bridge`);
+    }
+    catch(err:any){
+      Sentry.captureException("New Error " , err);
+    }
   }
 
 

@@ -16,7 +16,7 @@ import { useActiveWeb3React } from "../../services/web3";
 import NetworkModel from "../../modals/NetworkModal";
 import QrModal from "pages/components/QrModal";
 import { getNetworkName } from "web3/commonFunctions";
-
+import * as Sentry from "@sentry/nextjs";
 export default function Header() {
   
   const {account, deactivate } = useWeb3React();
@@ -49,8 +49,8 @@ export default function Header() {
         // console.log(e);
         setUserType('NA')
       })
-    } catch (error) {
-
+    } catch (error:any) {
+      Sentry.captureMessage("New Error " , error);
     }
   }
 const toggleNetworkModal = useNetworkModalToggle();

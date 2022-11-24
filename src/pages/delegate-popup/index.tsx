@@ -24,7 +24,7 @@ import { dynamicChaining } from 'web3/DynamicChaining';
 import { Spinner } from 'react-bootstrap';
 import { currentGasPrice } from "../../web3/commonFunctions"; 
 import { tokenDecimal } from '../../web3/commonFunctions';
-
+import * as Sentry from "@sentry/nextjs";
 const initialModalState = {
   step0: true,
   step1: false,
@@ -91,7 +91,8 @@ const DelegatePopup: React.FC<any> = ({
   };
 
   const approveHandler = () => {
-    if (!amount || !(amount > 0)) {
+    try {
+      if (!amount || !(amount > 0)) {
       setToastMassage("Amount must be greater than 0");
       setMsgType("error");
       return;
@@ -101,13 +102,18 @@ const DelegatePopup: React.FC<any> = ({
       setTnxCompleted(true);
     }, 1000);
     setStep(2);
+  }
+  catch(err:any){
+    Sentry.captureMessage("New Error " , err);
+  }
   };
 
 
 
   
   const buyVouchers = async () => {
-    setLoader(true);
+    try {
+      setLoader(true);
     const requestBody = {
       validatorAddress: data.contractAddress,
       delegatorAddress: account,
@@ -310,6 +316,10 @@ const DelegatePopup: React.FC<any> = ({
           })
       }
     }
+  }
+  catch(err:any){
+    Sentry.captureMessage("New Error " , err);
+  }
   };
 
   // console.log(data);

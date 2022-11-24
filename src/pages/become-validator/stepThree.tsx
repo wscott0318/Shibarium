@@ -66,7 +66,8 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
   
 
   const  approveAmount = async (data :any) => {
-    if (account) {
+    try {
+      if (account) {
       let user = account;
       let amount = web3.utils.toBN(fromExponential(MAXAMOUNT * Math.pow(10, 18)));
       let instance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
@@ -185,9 +186,15 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
       console.log("account not connected ====> ")
     }
   }
+  catch(err:any){
+    Sentry.captureMessage("New Error " , err);
+  }
+}
+
 
   const submitTransaction = async (values : any) => {
-    // stepHandler("next")  
+    try {
+      // stepHandler("next")  
     setApiLoading(true)
     console.log("called contract ===> ")
     let user : any = account
@@ -269,7 +276,10 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
         }
       })
     }
-    
+  }
+    catch(err:any){
+      Sentry.captureMessage("New Error " , err);
+    }
 
   }
 
@@ -297,7 +307,8 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
   }
 
   const callAPI = async (val :any) => {
-    setApiLoading(true)
+    try {
+      setApiLoading(true)
     var data = new FormData();
     data.append("validatorName", becomeValidateData.name);
     data.append("public_key", becomeValidateData.publickey);
@@ -318,6 +329,9 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
       notifyError()
 
     })
+  } catch(err:any){
+    Sentry.captureMessage("New Error " , err);
+  }
   };
 
   
