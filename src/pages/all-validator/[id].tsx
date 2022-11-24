@@ -58,7 +58,7 @@ export default function ValidatorDetails() {
         }
     }, [])
     useEffect(() => {
-        getBoneUSDValue(BONE_ID).then(res => {
+        getBoneUSDValue(BONE_ID).then((res:any) => {
             setBoneUsdValue(res.data.data.price);
         })
 
