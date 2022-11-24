@@ -5,7 +5,6 @@ import StepOne from "./stepOne";
 import StepTwo from "./stepTwo";
 import StepThree from "./stepThree";
 import StepFour from "./stepFour";
-import { useEffect } from "react";
 import * as Sentry from '@sentry/nextjs';
 import { useUserType } from "../../state/user/hooks";
 import { useRouter } from 'next/router'
