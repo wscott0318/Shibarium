@@ -25,7 +25,7 @@ import { useRouter } from "next/router";
 import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
 import { useAppDispatch } from "../../state/hooks"
 import { currentGasPrice, tokenDecimal } from "web3/commonFunctions";
-
+import * as Sentry from "@sentry/nextjs";
 export default function Unbond() {
 
     const [list, setList] = useState([]);
@@ -43,7 +43,8 @@ export default function Unbond() {
     const [userType, setUserType] = useUserType();
     
     const getValidatorContractAddress = async (validatorID:any) => {
-        let user = account;
+        try{
+          let user = account;
         if(account){
           const instance = new web3.eth.Contract(stakeManagerProxyABI, STAKE_MANAGER_PROXY);
           const ID = await instance.methods.getValidatorContract(validatorID).call({ from: account });
@@ -52,6 +53,10 @@ export default function Unbond() {
         } else {
           console.log("account addres not found")
         }
+      }
+      catch(err:any){
+        Sentry.captureException("New Error " , err);
+      }
       }
 
     const [claimNowModals, setClamNowModals] = useState<any>({
@@ -62,7 +67,8 @@ export default function Unbond() {
     })
 
     const getUnboundHistory = (account : any) => {
-        unbondsHistory(account).then(res => {
+        try{
+          unbondsHistory(account).then(res => {
             if(res.status == 200) {
                 // console.log(res.data.data.result)
                 const decOrder = res.data.data.result.sort((a:any,b:any) => Date.parse(b.unbondStartedTimeStampFormatted) - Date.parse(a.unbondStartedTimeStampFormatted));
@@ -73,10 +79,15 @@ export default function Unbond() {
             // console.log(err);
             setListLoader(false)
         })
+      }
+      catch(err:any){
+        Sentry.captureException("New Error " , err);
+      }
     }
     // console.log(claimNowModals)
     const unboundClaimAPI = async () => {
-        let data = {
+        try {
+          let data = {
             delegatorAddress: account,
             validatorId: claimNowModals?.data?.validatorId,
             unbondNonce: claimNowModals?.data?.nonce
@@ -144,6 +155,10 @@ export default function Unbond() {
               }
             })
           }
+        }
+        catch(err:any){
+          Sentry.captureException("New Error " , err);
+        }
         // console.log(validatorContract)
     }
     const pageChangeHandler = (index: number) => {
@@ -190,14 +205,17 @@ export default function Unbond() {
       return value.toString().split(".")[1].length || 0;
     };
     const fixedDecimals = (num: any) => {
-      if(countDecimals(num) > 3)
+     try{ if(countDecimals(num) > 3)
       {
         return (Math.round(num * 100) / 100).toFixed(tokenDecimal);
       }
       else {
         return num
       }
-      
+    }
+    catch(err:any){
+      Sentry.captureException("New Error " , err);
+    } 
     };
 
     return (

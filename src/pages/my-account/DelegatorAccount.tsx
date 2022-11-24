@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { getDelegatorData } from "../../services/apis/user/userApi"
 import { useActiveWeb3React } from "../../services/web3"
 import { tokenDecimal } from 'web3/commonFunctions'
-
+import * as Sentry from "@sentry/nextjs";
 const delegatorAccount = () => {
   const { account, chainId = 1 } = useActiveWeb3React();
   const [delegationsList, setDelegationsList] = useState([]);
@@ -42,13 +42,15 @@ const delegatorAccount = () => {
         console.log(e);
         //  setUserType('NA')
       })
-    } catch (error) {
+    } catch (error:any) {
       console.log(error)
+      Sentry.captureException("New Error " , error);
     }
   }
 
   const handleModal = (btn: String, valAddress: any, id: any = null, stakeAmount: any = null) => {
-    switch (btn) {
+    try {
+      switch (btn) {
       case "Restake":
         setRestakeModal({
           value2: true,
@@ -74,6 +76,10 @@ const delegatorAccount = () => {
       default:
         break;
     }
+  }
+  catch(err:any){
+    Sentry.captureException('New Error ' , err);
+  }
   };
 
   useEffect(() => {

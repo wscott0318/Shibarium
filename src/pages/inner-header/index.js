@@ -18,6 +18,7 @@ import NetworkButton from "./NetworkButton";
 import { useActiveWeb3React } from "app/services/web3";
 import { getUserType } from "app/services/apis/user/userApi";
 import { getNetworkName } from "web3/commonFunctions";
+import * as Sentry from "@sentry/nextjs";
 
 
 const InnerHeader = () => {
@@ -68,7 +69,7 @@ const InnerHeader = () => {
         setUserType('NA')
       })
     } catch (error) {
-
+      Sentry.captureMessage("New error " , error);
     }
   }
 
