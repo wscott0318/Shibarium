@@ -417,7 +417,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
           <div className="col-sm-6 form-grid">
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
-                Heimdall Fees
+                Heimdall Fee
               </label>
               <input
                 type="text"

@@ -24,7 +24,7 @@ export const validatorSchema = yup.object().shape({
     .required("public key is required"),
   website: yup
     .string()
-    .url("enter a vaild url with 'https://' or 'http://' at start ")
+    .url("enter a vaild url with 'https://' or 'http://'")
     .required("website is required")
     .matches(
       /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/,
@@ -168,7 +168,7 @@ function StepTwo({
               <input
                 type="text"
                 className="form-control"
-                placeholder="i.e Dark Knight Ventures"
+                placeholder="i.e Dark Ventures"
                 name="name"
                 value={values.name}
                 onChange={handleChange}
@@ -210,7 +210,7 @@ function StepTwo({
               <input
                 type="text"
                 className="form-control"
-                placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
+                placeholder="0xfe2f17400d4d8d24740ff8c0"
                 name="address"
                 readOnly={true}
                 value={account || ''}
@@ -230,7 +230,7 @@ function StepTwo({
               <input
                 type="text"
                 className="form-control"
-                placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
+                placeholder="0xfe2f17400d4d8d24740ff8c0"
                 name="publickey"
                 value={values.publickey}
                 onChange={handleChange}

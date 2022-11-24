@@ -148,7 +148,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                 <input
                  className="custum-search w-100" 
                  type="search " 
-                 placeholder="Search by validator name, owner or signer address"
+                 placeholder="Search by validator name"
                  value={searchKey}
                  onChange={(e) => setSearchKey(e.target.value)}
                  />
@@ -174,9 +174,9 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
 
                       <Dropdown.Menu>
                         <Dropdown.Item onClick={() => onSort('Random', 'name','string')}>Random</Dropdown.Item>
-                        <Dropdown.Item onClick={() => onSort('Commission', 'commissionPercent','number')}>Commission</Dropdown.Item>
-                        <Dropdown.Item onClick={() => onSort('Self', 'selfPercent','number')}>Self</Dropdown.Item>
-                        <Dropdown.Item onClick={() => onSort('Voting Power', 'totalStaked','number')}>
+                        <Dropdown.Item onClick={() => onSort('Commission', 'commissionrate','number')}>Commission</Dropdown.Item>
+                        <Dropdown.Item onClick={() => onSort('Self', 'selfpercent','number')}>Self</Dropdown.Item>
+                        <Dropdown.Item onClick={() => onSort('Voting Power', 'totalstaked','number')}>
                           Voting Power
                         </Dropdown.Item>
                         <Dropdown.Item className="ff-mos" onClick={()  => onSort('Uptime', 'uptimePercent','number')}>

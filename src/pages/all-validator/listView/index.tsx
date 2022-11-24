@@ -79,7 +79,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       </Link>
                       : 
                       <button className='btn primary-btn w-100'
-                      disabled={x.uptimePercent <= inActiveCount}
+                      disabled={ x.fundamental === 1 ? true : x.uptimePercent <= inActiveCount ? true : false}
                         onClick={() => {
                           setdelegatepop(true);
                           setSelectedRow(x)
