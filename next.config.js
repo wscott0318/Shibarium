@@ -37,6 +37,9 @@ const nextConfig = {
 
     return config
   },
+  devIndicators: {
+    buildActivity: false
+  },
   // experimental: {
   //   concurrentFeatures: true,
   //   serverComponents: true,

@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import * as yup from "yup";
 import Web3 from "web3";
-import { registerValidator } from "services/apis/network-details/networkOverview";
+import { getValidatorInfo, registerValidator } from "services/apis/network-details/networkOverview";
 import { useActiveWeb3React } from "../../services/web3";
 import LoadingSpinner from 'pages/components/Loading';
 import * as Sentry from "@sentry/nextjs";
@@ -41,7 +41,7 @@ function StepTwo({
 }: any) {
 
   const { account } = useActiveWeb3React();
-  const [imageData, setImageData] = useState<any>(becomeValidateData.image ? becomeValidateData.image : "");
+  const [imageData, setImageData] = useState<any>("");
   const [validation, setValidation] = useState({
     image: false,
     address: false,
@@ -60,10 +60,23 @@ function StepTwo({
     }
   };
 
+  // const getValInfo = () => {
+  //   let id : any = account
+  //   getValidatorInfo(id.toLowerCase()).then((res : any) => {
+  //     console.log(res.data.message.val, " vall inffoo ===> ")
+  //     setValues('name', res?.data?.message?.val?.name)
+  //     setValues('publickey', res.data.message.val.publickey)
+  //     setValues('website', res.data.message.val.description)
+  //   }).catch((err : any) => {
+  //     console.log(err)
+  //   })
+  // }
+
 
   useEffect(() => {
     if (account) {
       setUserAddres(account)
+      // getValInfo()
       // setValues('address', account)
     }
   }, [account])
@@ -155,7 +168,8 @@ function StepTwo({
                   <img
                     src={
                       imageData
-                        ? URL.createObjectURL(imageData)
+                        ? URL.createObjectURL(imageData) :
+                        becomeValidateData.image ? becomeValidateData.image  
                         : "../../assets/images/file-icon.png"
                     }
                     alt=""

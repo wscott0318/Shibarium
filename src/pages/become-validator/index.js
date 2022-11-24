@@ -8,6 +8,9 @@ import StepFour from "./stepFour";
 import * as Sentry from '@sentry/nextjs';
 import { useUserType } from "../../state/user/hooks";
 import { useRouter } from 'next/router'
+import { getValidatorInfo, registerValidator } from "services/apis/network-details/networkOverview";
+import { useActiveWeb3React } from "../../services/web3";
+
 
 
 const Rewards = () => {
@@ -15,6 +18,7 @@ const Rewards = () => {
   const [ editNsave , setEditNsave] = useState(false);
   const [userType, setUserType] = useUserType();
   const router = useRouter();
+  const { account } = useActiveWeb3React();
 
   const [activInput, setActivInput] = useState({
     name: false,
@@ -37,10 +41,31 @@ const Rewards = () => {
   });
 
   useEffect(() => {
-    if(userType === 'Validator') {
-      router.push("/");
+    // if(userType === 'Validator') {
+    //   router.push("/");
+    // }
+    if(account) {
+      getValInfo()
     }
-  },[userType])
+  },[account])
+
+  const getValInfo = () => {
+    let id = account
+    getValidatorInfo(id.toLowerCase()).then((res) => {
+      console.log(res.data.message.val, " vall inffoo ===> ")
+      // setValues('name', res?.data?.message?.val?.name)
+      // setValues('publickey', res.data.message.val.publickey)
+      // setValues('website', res.data.message.val.description)
+      setBecomeValidateData({
+        name: res?.data?.message?.val?.name,
+        publickey: res.data.message.val.publickey,
+        website: res.data.message.val.description,
+        image: res.data.message.val.logoUrl
+      })
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
   
   // console.log("Become Validate Data in Parent",becomeValidateData)
   
