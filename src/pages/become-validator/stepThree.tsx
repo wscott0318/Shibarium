@@ -18,6 +18,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingSpinner from 'pages/components/Loading';
 import { registerValidator } from "services/apis/network-details/networkOverview";
+import * as Sentry from '@sentry/nextjs';
 
 function StepThree({becomeValidateData, stepState,stepHandler}:any) {
 
@@ -44,17 +45,22 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
 
 
   const getMinimunFee = async () => {
-    let user = account;
-    if (account) {
-      const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-      const MinimumFees = await instance.methods.minDeposit().call({ from: user }); // read
-      const MinimumHeimDallFee = await instance.methods.minHeimdallFee().call({ from: user }); // read
-      const fees = +MinimumFees / 10 ** web3Decimals
-      const feesHeimdall = +MinimumHeimDallFee / 10 ** web3Decimals
-      setMinDeposit(fees)
-      setMinHeimdallFee(feesHeimdall)
-    } else {
-      console.log("account addres not found")
+    try{
+      let user = account;
+      if (account) {
+        const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
+        const MinimumFees = await instance.methods.minDeposit().call({ from: user }); // read
+        const MinimumHeimDallFee = await instance.methods.minHeimdallFee().call({ from: user }); // read
+        const fees = +MinimumFees / 10 ** web3Decimals
+        const feesHeimdall = +MinimumHeimDallFee / 10 ** web3Decimals
+        setMinDeposit(fees)
+        setMinHeimdallFee(feesHeimdall)
+      } else {
+        console.log("account addres not found")
+      }
+    } 
+    catch(err:any){
+      Sentry.captureMessage("New Error " , err);
     }
   }
   

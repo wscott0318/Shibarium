@@ -5,6 +5,8 @@ import StepOne from "./stepOne";
 import StepTwo from "./stepTwo";
 import StepThree from "./stepThree";
 import StepFour from "./stepFour";
+import { useEffect } from "react";
+import * as Sentry from '@sentry/nextjs';
 import { useUserType } from "../../state/user/hooks";
 import { useRouter } from 'next/router'
 
@@ -44,35 +46,40 @@ const Rewards = () => {
   // console.log("Become Validate Data in Parent",becomeValidateData)
   
   const handleEdit = (value) => {
-    switch (value) {
-      case "name":
-        setActivInput((activInput) => ({
-          ...activInput,
-          name: !activInput.name,
-          website: false,
-          comission: false,
-        }));
-        break;
-      case "website":
-        setActivInput((activInput) => ({
-          ...activInput,
-          name: false,
-          website: !activInput.website,
-          comission: false,
-        }));
-        break;
-      case "comission":
-        setActivInput((activInput) => ({
-          ...activInput,
-          name: false,
-          website: false,
-          comission: !activInput.comission,
-        }));
-        break;
-      default:
-        break;
+    try{
+      switch (value) {
+        case "name":
+          setActivInput((activInput) => ({
+            ...activInput,
+            name: !activInput.name,
+            website: false,
+            comission: false,
+          }));
+          break;
+        case "website":
+          setActivInput((activInput) => ({
+            ...activInput,
+            name: false,
+            website: !activInput.website,
+            comission: false,
+          }));
+          break;
+        case "comission":
+          setActivInput((activInput) => ({
+            ...activInput,
+            name: false,
+            website: false,
+            comission: !activInput.comission,
+          }));
+          break;
+        default:
+          break;
+      }
+  setEditNsave(!editNsave)
     }
-setEditNsave(!editNsave)
+    catch (err){
+      Sentry.captureMessage("New Error " , err);
+    }
   };
 
   const stepHandler = (type) => {

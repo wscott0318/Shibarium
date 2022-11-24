@@ -14,7 +14,7 @@ import { useWeb3React } from '@web3-react/core'
 import { dynamicChaining } from 'web3/DynamicChaining';
 import Web3 from 'web3';
 import RPC from "../../config/rpc"
-
+import * as Sentry from "@sentry/nextjs";
 
 function NetworkDetails({valCount} : any) {
 
@@ -42,8 +42,8 @@ function NetworkDetails({valCount} : any) {
       web3?.eth?.getBlockNumber().then((lastBlock: number) => {
         setLatestBlock(lastBlock)
       })
-    } catch (error) {
-      console.log(error)
+    } catch (error:any) {
+      Sentry.captureException("New Error " , error);
     }
 
     if(account) {
@@ -61,16 +61,21 @@ function NetworkDetails({valCount} : any) {
 
     // GET VALIDATOR ID 
     const getTotalStakes = async () => {
-      let user = account;
-      if (account) {
-        const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId]?.STAKE_MANAGER_PROXY);
-        const ID = await instance.methods.validatorState().call({ from: account });
-        let stake = +ID.amount / 10 ** 18
-        setTotalStake(stake)
-        // console.log(stake, ID, "Total stake")
-        return ID
-      } else {
-        // console.log("account addres not found")
+      try{
+        let user = account;
+        if (account) {
+          const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId]?.STAKE_MANAGER_PROXY);
+          const ID = await instance.methods.validatorState().call({ from: account });
+          let stake = +ID.amount / 10 ** 18
+          setTotalStake(stake)
+          // console.log(stake, ID, "Total stake")
+          return ID
+        } else {
+          // console.log("account addres not found")
+        }
+      }
+      catch(err:any){
+        Sentry.captureMessage("New Error " , err);
       }
     }
 

@@ -4,7 +4,6 @@ import Header from "pages/layout/header";
 import StakingHeader from "pages/staking-header";
 import Link from 'next/link'
 
-
 export default function ErrorPage() {
 
     return (

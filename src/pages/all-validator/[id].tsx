@@ -14,7 +14,7 @@ import Web3 from "web3";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { dynamicChaining } from "web3/DynamicChaining";
 import LoadingSpinner from 'pages/components/Loading';
-
+import * as Sentry from "@sentry/nextjs";
 
 export default function ValidatorDetails() {
     const pageSize = 4; 
@@ -33,7 +33,7 @@ export default function ValidatorDetails() {
 
     const router = useRouter()
     useEffect(() => {
-        const { id } = router.query;
+        try{const { id } = router.query;
         if (id ) {
             setLoading(true);
             getValidatorsDetail(id.toString()).then((res)=>{
@@ -50,6 +50,10 @@ export default function ValidatorDetails() {
                 setMsgType('error')
                 setLoading(false);
             })
+        }
+        }
+        catch(err:any){
+            Sentry.captureMessage(err);
         }
     }, [])
     useEffect(() => {
