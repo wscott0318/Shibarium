@@ -34,7 +34,7 @@ import { getExplorerLink } from 'app/functions';
 import { getAllowanceAmount } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json"
 import Comingsoon from "app/components/coming-soon";
-
+import * as Sentry from "@sentry/nextjs";
 export default function Withdraw() {
 
 
@@ -93,7 +93,8 @@ export default function Withdraw() {
     const [modalKeyword, setmodalKeyword] = useState("");
 
   const getTokensList = () => {
-    getWalletTokenList().then((res) => {
+    try {
+      getWalletTokenList().then((res) => {
       let list = res.data.message.tokens;
       list.forEach(async (x :any) => {
         x.balance = await getTokenBalance(lib, account, x.parentContract);
@@ -102,22 +103,31 @@ export default function Withdraw() {
       // setTokenFilteredList(list);
       setTokenModalList(list);
     });
+  }
+  catch(err:any){
+    Sentry.captureMessage("New Error " , err);
+  }
   };
 
   
 const handleSearchList = (key :any) => {
-      setmodalKeyword(key);
-      if (key.length) {
-        let newData = tokenList.filter((name) => {
-          return Object.values(name)
-            .join(" ")
-            .toLowerCase()
-            .includes(key.toLowerCase());
-        });
-          setTokenModalList(newData);
-      } else {
-          setTokenModalList(tokenList);
-        }
+  try{
+    setmodalKeyword(key);
+    if (key.length) {
+      let newData = tokenList.filter((name) => {
+        return Object.values(name)
+          .join(" ")
+          .toLowerCase()
+          .includes(key.toLowerCase());
+      });
+        setTokenModalList(newData);
+    } else {
+        setTokenModalList(tokenList);
+      }
+  }
+  catch(err:any){
+    Sentry.captureMessage("New Error " , err);
+  }
       }
 
 
@@ -137,6 +147,7 @@ const handleSearchList = (key :any) => {
 
 
       const approvalForDeposit = (amount : any, token : any, contract:any) => {
+       try {
         let user: any = account
         const amountWei = web3.utils.toBN(fromExponential((1000 * Math.pow(10, 18))));
         let instance = new web3.eth.Contract(ERC20, token);
@@ -237,23 +248,33 @@ const handleSearchList = (key :any) => {
             setDepositModal(false);
           }
         })
+       } 
+       catch(err:any){
+        Sentry.captureMessage("New Error " , err);
+      }
       }
 
       const callDepositModal = (values:any) => {
-        setDepositTokenInput(values.amount)
-        {
-          setDepModState({
-            step0: true,
-            step1: false,
-            step2: false,
-            title: "Confirm deposit",
-          });
-          setDepositModal(true);
+        try{
+          setDepositTokenInput(values.amount)
+          {
+            setDepModState({
+              step0: true,
+              step1: false,
+              step2: false,
+              title: "Confirm deposit",
+            });
+            setDepositModal(true);
+          }
+        }
+        catch(err:any){
+          Sentry.captureMessage("New Error " , err);
         }
       }
 
       const callDepositContract = async () => {
-        if(account){
+        try {
+          if(account){
         setDepModState({
           step0: false,
           step1: true,
@@ -327,6 +348,10 @@ const handleSearchList = (key :any) => {
         console.log("account not found")
       }
       }
+      catch(err:any){
+        Sentry.captureMessage("New Error " , err);
+      }
+    }
       
   
   return (

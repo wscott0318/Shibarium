@@ -112,7 +112,7 @@ export default function Withdraw() {
 
 
   const handleSearchList = (key: any) => {
-    try{
+    try {
       setmodalKeyword(key);
       if (key.length) {
         let newData = tokenList.filter((name) => {
@@ -126,8 +126,8 @@ export default function Withdraw() {
         setTokenModalList(tokenList);
       }
     }
-    catch(err:any){
-      Sentry.captureMessage("New Error " , err);
+    catch (err: any) {
+      Sentry.captureMessage("New Error ", err);
     }
   }
 
@@ -148,7 +148,7 @@ export default function Withdraw() {
 
 
   const approvalForDeposit = (amount: any, token: any, contract: any) => {
-    try{
+    try {
 
       let user: any = account
       const amountWei = web3.utils.toBN(fromExponential((1000 * Math.pow(10, 18))));
@@ -236,8 +236,8 @@ export default function Withdraw() {
               }
             })
           //deposit contract ends
-  
-  
+
+
         }).on('error', (res: any) => {
           console.log(res, "error")
           if (res.code === 4001) {
@@ -251,97 +251,107 @@ export default function Withdraw() {
           }
         })
     }
-    catch(err:any){
-      Sentry.captureMessage("New Error " , err);
+    catch (err: any) {
+      Sentry.captureMessage("New Error ", err);
     }
   }
 
   const callDepositModal = (values: any) => {
-    setDepositTokenInput(values.amount)
-    {
-      setDepModState({
-        step0: true,
-        step1: false,
-        step2: false,
-        title: "Confirm deposit",
-      });
-      setDepositModal(true);
+    try {
+      setDepositTokenInput(values.amount)
+      {
+        setDepModState({
+          step0: true,
+          step1: false,
+          step2: false,
+          title: "Confirm deposit",
+        });
+        setDepositModal(true);
+      }
+    }
+    catch (err: any) {
+      Sentry.captureMessage("New Error ", err);
     }
   }
 
   const callDepositContract = async () => {
-    if (account) {
-      setDepModState({
-        step0: false,
-        step1: true,
-        step2: false,
-        title: "Transaction Pending",
-      });
-      let user: any = account
-      const amountWei = web3.utils.toBN(fromExponential((+depositTokenInput * Math.pow(10, 18))));
-      let allowance = await getAllowanceAmount(library, selectedToken.parentContract, account, DEPOSIT_MANAGER_PROXY) || 0
+    try {
+      if (account) {
+        setDepModState({
+          step0: false,
+          step1: true,
+          step2: false,
+          title: "Transaction Pending",
+        });
+        let user: any = account
+        const amountWei = web3.utils.toBN(fromExponential((+depositTokenInput * Math.pow(10, 18))));
+        let allowance = await getAllowanceAmount(library, selectedToken.parentContract, account, DEPOSIT_MANAGER_PROXY) || 0
 
-      if (+depositTokenInput > +allowance) {
-        console.log("need approval")
-        approvalForDeposit(amountWei, selectedToken.parentContract, DEPOSIT_MANAGER_PROXY)
-      } else {
-        console.log("no approval needed")
-        let instance = new web3.eth.Contract(depositManagerABI, DEPOSIT_MANAGER_PROXY);
-        instance.methods.depositERC20(selectedToken.parentContract, amountWei).send({ from: account })
-          .on('transactionHash', (res: any) => {
-            console.log(res, "hash")
-            dispatch(
-              addTransaction({
-                hash: res,
-                from: user,
-                chainId,
-                summary: `${res}`,
-              })
-            )
-            let link = getExplorerLink(chainId, res, 'transaction')
-            setHashLink(link)
-            setDepModState({
-              step0: false,
-              step1: false,
-              step2: true,
-              title: "Transaction Submitted",
-            });
-            setDepositTokenInput('');
-          }).on('receipt', (res: any) => {
-            console.log(res, "receipt")
-            dispatch(
-              finalizeTransaction({
-                hash: res.transactionHash,
-                chainId,
-                receipt: {
-                  to: res.to,
-                  from: res.from,
-                  contractAddress: res.contractAddress,
-                  transactionIndex: res.transactionIndex,
-                  blockHash: res.blockHash,
-                  transactionHash: res.transactionHash,
-                  blockNumber: res.blockNumber,
-                  status: 1
-                }
-              })
-            )
-            setDepositModal(false);
-          }).on('error', (res: any) => {
-            console.log(res, "error")
-            if (res.code === 4001) {
+        if (+depositTokenInput > +allowance) {
+          console.log("need approval")
+          approvalForDeposit(amountWei, selectedToken.parentContract, DEPOSIT_MANAGER_PROXY)
+        } else {
+          console.log("no approval needed")
+          let instance = new web3.eth.Contract(depositManagerABI, DEPOSIT_MANAGER_PROXY);
+          instance.methods.depositERC20(selectedToken.parentContract, amountWei).send({ from: account })
+            .on('transactionHash', (res: any) => {
+              console.log(res, "hash")
+              dispatch(
+                addTransaction({
+                  hash: res,
+                  from: user,
+                  chainId,
+                  summary: `${res}`,
+                })
+              )
+              let link = getExplorerLink(chainId, res, 'transaction')
+              setHashLink(link)
               setDepModState({
-                step0: true,
+                step0: false,
                 step1: false,
-                step2: false,
-                title: "Confirm deposit",
+                step2: true,
+                title: "Transaction Submitted",
               });
+              setDepositTokenInput('');
+            }).on('receipt', (res: any) => {
+              console.log(res, "receipt")
+              dispatch(
+                finalizeTransaction({
+                  hash: res.transactionHash,
+                  chainId,
+                  receipt: {
+                    to: res.to,
+                    from: res.from,
+                    contractAddress: res.contractAddress,
+                    transactionIndex: res.transactionIndex,
+                    blockHash: res.blockHash,
+                    transactionHash: res.transactionHash,
+                    blockNumber: res.blockNumber,
+                    status: 1
+                  }
+                })
+              )
               setDepositModal(false);
-            }
-          })
-      }
+            }).on('error', (res: any) => {
+              console.log(res, "error")
+              if (res.code === 4001) {
+                setDepModState({
+                  step0: true,
+                  step1: false,
+                  step2: false,
+                  title: "Confirm deposit",
+                });
+                setDepositModal(false);
+              }
+            })
+        }
 
-    } else {
-      console.log("account not found")
+      } else {
+        console.log("account not found")
+      }
+    }
+    catch (err: any) {
+      Sentry.captureMessage("New Error ", err);
     }
   }
 

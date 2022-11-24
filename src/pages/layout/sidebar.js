@@ -14,7 +14,7 @@ import {
 import NavLink from "../components/NavLink";
 import SideNavTab from "../../constants/Resources/sideNavTab";
 import { useRouter } from 'next/router'
-
+import * as Sentry from "@sentry/nextjs";
 
 
 export default function Sidebar({ menuState, handleMenuState, onClickOutside }) {
@@ -104,15 +104,20 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
   const [renderBottomList, setRenderBottomList] = useState(bottomList);
 
   const activateBtn = (arr, index) => {
-    let newData = arr.map((elm) => {
-      if (elm.name === index) {
-        elm.isSelected = true;
-      } else {
-        elm.isSelected = false;
-      }
-      return elm;
-    });
-    return newData;
+    try{
+      let newData = arr.map((elm) => {
+        if (elm.name === index) {
+          elm.isSelected = true;
+        } else {
+          elm.isSelected = false;
+        }
+        return elm;
+      });
+      return newData;
+    }
+    catch(error){
+      Sentry.captureMessage("New error " , err);
+    }
   };
 
   const handelClick = (index, type) => {
