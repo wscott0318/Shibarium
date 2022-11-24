@@ -35,6 +35,7 @@ import { getAllowanceAmount } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json"
 import Comingsoon from "app/components/coming-soon";
 import * as Sentry from "@sentry/nextjs";
+
 export default function Withdraw() {
 
 
@@ -111,17 +112,22 @@ export default function Withdraw() {
 
 
   const handleSearchList = (key: any) => {
-    setmodalKeyword(key);
-    if (key.length) {
-      let newData = tokenList.filter((name) => {
-        return Object.values(name)
-          .join(" ")
-          .toLowerCase()
-          .includes(key.toLowerCase());
-      });
-      setTokenModalList(newData);
-    } else {
-      setTokenModalList(tokenList);
+    try{
+      setmodalKeyword(key);
+      if (key.length) {
+        let newData = tokenList.filter((name) => {
+          return Object.values(name)
+            .join(" ")
+            .toLowerCase()
+            .includes(key.toLowerCase());
+        });
+        setTokenModalList(newData);
+      } else {
+        setTokenModalList(tokenList);
+      }
+    }
+    catch(err:any){
+      Sentry.captureMessage("New Error " , err);
     }
   }
 
@@ -142,106 +148,112 @@ export default function Withdraw() {
 
 
   const approvalForDeposit = (amount: any, token: any, contract: any) => {
-    let user: any = account
-    const amountWei = web3.utils.toBN(fromExponential((1000 * Math.pow(10, 18))));
-    let instance = new web3.eth.Contract(ERC20, token);
-    instance.methods.approve(contract, amountWei).send({ from: user })
-      .on('transactionHash', (res: any) => {
-        console.log(res, "hash")
-        dispatch(
-          addTransaction({
-            hash: res,
-            from: user,
-            chainId,
-            summary: `${res}`,
-          })
-        )
-      }).on('receipt', (res: any) => {
-        console.log(res, "receipt")
-        dispatch(
-          finalizeTransaction({
-            hash: res.transactionHash,
-            chainId,
-            receipt: {
-              to: res.to,
-              from: res.from,
-              contractAddress: res.contractAddress,
-              transactionIndex: res.transactionIndex,
-              blockHash: res.blockHash,
-              transactionHash: res.transactionHash,
-              blockNumber: res.blockNumber,
-              status: 1
-            }
-          })
-        )
-        // call deposit contract 
-        let instance = new web3.eth.Contract(depositManagerABI, DEPOSIT_MANAGER_PROXY);
-        instance.methods.depositERC20(selectedToken.parentContract, amount).send({ from: account })
-          .on('transactionHash', (res: any) => {
-            console.log(res, "hash")
-            dispatch(
-              addTransaction({
-                hash: res,
-                from: user,
-                chainId,
-                summary: `${res}`,
-              })
-            )
-            let link = getExplorerLink(chainId, res, 'transaction')
-            setHashLink(link)
-            setDepModState({
-              step0: false,
-              step1: false,
-              step2: true,
-              title: "Transaction Submitted",
-            });
-            setDepositTokenInput('');
-          }).on('receipt', (res: any) => {
-            console.log(res, "receipt")
-            dispatch(
-              finalizeTransaction({
-                hash: res.transactionHash,
-                chainId,
-                receipt: {
-                  to: res.to,
-                  from: res.from,
-                  contractAddress: res.contractAddress,
-                  transactionIndex: res.transactionIndex,
-                  blockHash: res.blockHash,
-                  transactionHash: res.transactionHash,
-                  blockNumber: res.blockNumber,
-                  status: 1
-                }
-              })
-            )
-            setDepositModal(false);
-          }).on('error', (res: any) => {
-            console.log(res, "error")
-            if (res.code === 4001) {
+    try{
+
+      let user: any = account
+      const amountWei = web3.utils.toBN(fromExponential((1000 * Math.pow(10, 18))));
+      let instance = new web3.eth.Contract(ERC20, token);
+      instance.methods.approve(contract, amountWei).send({ from: user })
+        .on('transactionHash', (res: any) => {
+          console.log(res, "hash")
+          dispatch(
+            addTransaction({
+              hash: res,
+              from: user,
+              chainId,
+              summary: `${res}`,
+            })
+          )
+        }).on('receipt', (res: any) => {
+          console.log(res, "receipt")
+          dispatch(
+            finalizeTransaction({
+              hash: res.transactionHash,
+              chainId,
+              receipt: {
+                to: res.to,
+                from: res.from,
+                contractAddress: res.contractAddress,
+                transactionIndex: res.transactionIndex,
+                blockHash: res.blockHash,
+                transactionHash: res.transactionHash,
+                blockNumber: res.blockNumber,
+                status: 1
+              }
+            })
+          )
+          // call deposit contract 
+          let instance = new web3.eth.Contract(depositManagerABI, DEPOSIT_MANAGER_PROXY);
+          instance.methods.depositERC20(selectedToken.parentContract, amount).send({ from: account })
+            .on('transactionHash', (res: any) => {
+              console.log(res, "hash")
+              dispatch(
+                addTransaction({
+                  hash: res,
+                  from: user,
+                  chainId,
+                  summary: `${res}`,
+                })
+              )
+              let link = getExplorerLink(chainId, res, 'transaction')
+              setHashLink(link)
               setDepModState({
-                step0: true,
+                step0: false,
                 step1: false,
-                step2: false,
-                title: "Confirm deposit",
+                step2: true,
+                title: "Transaction Submitted",
               });
+              setDepositTokenInput('');
+            }).on('receipt', (res: any) => {
+              console.log(res, "receipt")
+              dispatch(
+                finalizeTransaction({
+                  hash: res.transactionHash,
+                  chainId,
+                  receipt: {
+                    to: res.to,
+                    from: res.from,
+                    contractAddress: res.contractAddress,
+                    transactionIndex: res.transactionIndex,
+                    blockHash: res.blockHash,
+                    transactionHash: res.transactionHash,
+                    blockNumber: res.blockNumber,
+                    status: 1
+                  }
+                })
+              )
               setDepositModal(false);
-            }
-          })
-        //deposit contract ends
-
-
-      }).on('error', (res: any) => {
-        console.log(res, "error")
-        if (res.code === 4001) {
-          setDepModState({
-            step0: true,
-            step1: false,
-            step2: false,
-            title: "Confirm deposit",
-          });
-          setDepositModal(false);
-        }
-      })
+            }).on('error', (res: any) => {
+              console.log(res, "error")
+              if (res.code === 4001) {
+                setDepModState({
+                  step0: true,
+                  step1: false,
+                  step2: false,
+                  title: "Confirm deposit",
+                });
+                setDepositModal(false);
+              }
+            })
+          //deposit contract ends
+  
+  
+        }).on('error', (res: any) => {
+          console.log(res, "error")
+          if (res.code === 4001) {
+            setDepModState({
+              step0: true,
+              step1: false,
+              step2: false,
+              title: "Confirm deposit",
+            });
+            setDepositModal(false);
+          }
+        })
+    }
+    catch(err:any){
+      Sentry.captureMessage("New Error " , err);
+    }
   }
 
   const callDepositModal = (values: any) => {
