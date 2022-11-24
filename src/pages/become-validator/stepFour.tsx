@@ -7,7 +7,7 @@ import { registerValidator } from "services/apis/network-details/networkOverview
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { validatorSchema } from "./stepTwo"
-
+import * as Sentry from '@sentry/nextjs';
 function StepFour({ activInput, handleEdit, stepState, stepHandler, becomeValidateData, setBecomeValidateData, editNsave }: any) {
 
   const [imageData, setImageData] = useState<any>(becomeValidateData?.image)
@@ -19,47 +19,59 @@ function StepFour({ activInput, handleEdit, stepState, stepHandler, becomeValida
   });
 
   const verifyAddress = (address: any) => {
-    let result = Web3.utils.isAddress(address);
-    return result;
+    try{
+      let result = Web3.utils.isAddress(address);
+      return result;
+    }
+    catch(err : any){
+      Sentry.captureException("New error ",err);
+    }
   };
 
 
   const callAPI = async (values: any) => {
-    setApiLoading(true)
-    console.log("call API called");
-    if (imageData && verifyAddress(values.address)) {
-      setValidation({ image: false, address: false });
-      // console.log("1");
-    } else if (!imageData && verifyAddress(values.address)) {
-      setValidation({ address: false, image: true });
-      // console.log("2");
-    } else if (imageData && !verifyAddress(values.address)) {
-      setValidation({ image: false, address: true });
-      // console.log("3");
-    } else {
-      setValidation({ image: true, address: true });
+    try{
+
+      setApiLoading(true)
+      console.log("call API called");
+      if (imageData && verifyAddress(values.address)) {
+        setValidation({ image: false, address: false });
+        // console.log("1");
+      } else if (!imageData && verifyAddress(values.address)) {
+        setValidation({ address: false, image: true });
+        // console.log("2");
+      } else if (imageData && !verifyAddress(values.address)) {
+        setValidation({ image: false, address: true });
+        // console.log("3");
+      } else {
+        setValidation({ image: true, address: true });
+      }
+  
+      var data = new FormData();
+      data.append("validatorName", values.validatorname);
+      data.append("public_key", values.publickey);
+      data.append("signerAddress", values.address);
+      data.append("website", values.website);
+      data.append("commission", values.commission);
+      data.append("img", values.image);
+
+      await registerValidator(data).then((res: any) => {
+        console.log("this is eresss",res)
+        setApiLoading(false)
+        notifySuccess()
+        // setBecomeValidateData(values)
+        // stepHandler("next");
+        
+      }).catch((err: any) => {
+        console.log(err)
+        notifyError()
+        setApiLoading(false)
+      })
     }
-
-    var data = new FormData();
-    data.append("validatorName", values.validatorname);
-    data.append("public_key", values.publickey);
-    data.append("signerAddress", values.address);
-    data.append("website", values.website);
-    data.append("commission", values.commission);
-    data.append("img", values.image);
-
-    await registerValidator(data).then((res: any) => {
-      console.log("this is eresss",res)
-      setApiLoading(false)
-      notifySuccess()
-      // setBecomeValidateData(values)
-      // stepHandler("next");
-      
-    }).catch((err: any) => {
-      console.log(err)
-      notifyError()
-      setApiLoading(false)
-    })
+    catch(err : any){
+      Sentry.captureException("New Error " , err);
+    }
+    
   };
 
   const notifyError = () => {

@@ -18,6 +18,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingSpinner from 'pages/components/Loading';
 import { registerValidator } from "services/apis/network-details/networkOverview";
+import * as Sentry from '@sentry/nextjs';
 
 function StepThree({becomeValidateData, stepState,stepHandler}:any) {
 
@@ -44,209 +45,223 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
 
 
   const getMinimunFee = async () => {
-    let user = account;
-    if (account) {
-      const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-      const MinimumFees = await instance.methods.minDeposit().call({ from: user }); // read
-      const MinimumHeimDallFee = await instance.methods.minHeimdallFee().call({ from: user }); // read
-      const fees = +MinimumFees / 10 ** web3Decimals
-      const feesHeimdall = +MinimumHeimDallFee / 10 ** web3Decimals
-      setMinDeposit(fees)
-      setMinHeimdallFee(feesHeimdall)
-    } else {
-      console.log("account addres not found")
+    try{
+      let user = account;
+      if (account) {
+        const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
+        const MinimumFees = await instance.methods.minDeposit().call({ from: user }); // read
+        const MinimumHeimDallFee = await instance.methods.minHeimdallFee().call({ from: user }); // read
+        const fees = +MinimumFees / 10 ** web3Decimals
+        const feesHeimdall = +MinimumHeimDallFee / 10 ** web3Decimals
+        setMinDeposit(fees)
+        setMinHeimdallFee(feesHeimdall)
+      } else {
+        console.log("account addres not found")
+      }
+    } 
+    catch(err:any){
+      Sentry.captureMessage("New Error " , err);
     }
   }
   
 
   const  approveAmount = (data :any) => {
-    if (account) {
-      let user = account;
-      let amount = web3.utils.toBN(fromExponential(MAXAMOUNT * Math.pow(10, 18)));
-      let instance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
-      instance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, amount)
-      .send({ from: user })
-      .on('transactionHash', (res: any) => {
-        console.log(res, "hash")
-        dispatch(
-          addTransaction({
-            hash: res,
-            from: user,
-            chainId,
-            summary: `${res}`,
-          })
-        )
-      }).on('receipt', async (res: any) => {
-        console.log(res, "receipt")
-        dispatch(
-          finalizeTransaction({
-            hash: res.transactionHash,
-            chainId,
-            receipt: {
-              to: res.to,
-              from: res.from,
-              contractAddress: res.contractAddress,
-              transactionIndex: res.transactionIndex,
-              blockHash: res.blockHash,
-              transactionHash: res.transactionHash,
-              blockNumber: res.blockNumber,
-              status: 1
-            }
-          })
-        )
-        let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-        await instance.methods.stakeFor(user, data.amount ,data.heimdallFee, data.acceptDelegation, data.key )
-        .send({ from: account }) 
-          .on('transactionHash', (res: any) => {
-            console.log(res, "hash")
-            dispatch(
-              addTransaction({
-                hash: res,
-                from: user,
-                chainId,
-                summary: `${res}`,
-              })
-            )
-          }).on('receipt', (res: any) => {
-            console.log(res, "receipt")
-            dispatch(
-              finalizeTransaction({
-                hash: res.transactionHash,
-                chainId,
-                receipt: {
-                  to: res.to,
-                  from: res.from,
-                  contractAddress: res.contractAddress,
-                  transactionIndex: res.transactionIndex,
-                  blockHash: res.blockHash,
-                  transactionHash: res.transactionHash,
-                  blockNumber: res.blockNumber,
-                  status: 1
-                }
-              })
-            )
-            
-          stepHandler("next");
-          }).on('error', (res: any) => {
-            console.log(res, "error")
-            dispatch(
-              finalizeTransaction({
-                hash: res.transactionHash,
-                chainId,
-                receipt: {
-                  to: res.to,
-                  from: res.from,
-                  contractAddress: res.contractAddress,
-                  transactionIndex: res.transactionIndex,
-                  blockHash: res.blockHash,
-                  transactionHash: res.transactionHash,
-                  blockNumber: res.blockNumber,
-                  status: 0
-                }
-              })
-            )
-            if (res.code === 4001) {
-    
-            }
-          })
-      }).on('error', (res: any) => {
-        console.log(res, "error")
-        if (res.code === 4001) {
+    try{
 
-        }
-      })
-    } else {
-      console.log("account not connected ====> ")
+      if (account) {
+        let user = account;
+        let amount = web3.utils.toBN(fromExponential(MAXAMOUNT * Math.pow(10, 18)));
+        let instance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
+        instance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, amount)
+        .send({ from: user })
+        .on('transactionHash', (res: any) => {
+          console.log(res, "hash")
+          dispatch(
+            addTransaction({
+              hash: res,
+              from: user,
+              chainId,
+              summary: `${res}`,
+            })
+          )
+        }).on('receipt', async (res: any) => {
+          console.log(res, "receipt")
+          dispatch(
+            finalizeTransaction({
+              hash: res.transactionHash,
+              chainId,
+              receipt: {
+                to: res.to,
+                from: res.from,
+                contractAddress: res.contractAddress,
+                transactionIndex: res.transactionIndex,
+                blockHash: res.blockHash,
+                transactionHash: res.transactionHash,
+                blockNumber: res.blockNumber,
+                status: 1
+              }
+            })
+          )
+          let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
+          await instance.methods.stakeFor(user, data.amount ,data.heimdallFee, data.acceptDelegation, data.key )
+          .send({ from: account }) 
+            .on('transactionHash', (res: any) => {
+              console.log(res, "hash")
+              dispatch(
+                addTransaction({
+                  hash: res,
+                  from: user,
+                  chainId,
+                  summary: `${res}`,
+                })
+              )
+            }).on('receipt', (res: any) => {
+              console.log(res, "receipt")
+              dispatch(
+                finalizeTransaction({
+                  hash: res.transactionHash,
+                  chainId,
+                  receipt: {
+                    to: res.to,
+                    from: res.from,
+                    contractAddress: res.contractAddress,
+                    transactionIndex: res.transactionIndex,
+                    blockHash: res.blockHash,
+                    transactionHash: res.transactionHash,
+                    blockNumber: res.blockNumber,
+                    status: 1
+                  }
+                })
+              )
+              
+            stepHandler("next");
+            }).on('error', (res: any) => {
+              console.log(res, "error")
+              dispatch(
+                finalizeTransaction({
+                  hash: res.transactionHash,
+                  chainId,
+                  receipt: {
+                    to: res.to,
+                    from: res.from,
+                    contractAddress: res.contractAddress,
+                    transactionIndex: res.transactionIndex,
+                    blockHash: res.blockHash,
+                    transactionHash: res.transactionHash,
+                    blockNumber: res.blockNumber,
+                    status: 0
+                  }
+                })
+              )
+              if (res.code === 4001) {
+      
+              }
+            })
+        }).on('error', (res: any) => {
+          console.log(res, "error")
+          if (res.code === 4001) {
+  
+          }
+        })
+      } else {
+        console.log("account not connected ====> ")
+      }
+    }
+    catch(err:any){
+      Sentry.captureMessage("New Error " , err);
     }
   }
 
   const submitTransaction = async (values : any) => {
-    // stepHandler("next")  
-    setApiLoading(true)
-    console.log("called contract ===> ")
-    let user : any = account
-    let allowance : any = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, user, dynamicChaining[chainId].STAKE_MANAGER_PROXY)
-    let amount = web3.utils.toBN(fromExponential(+values.amount * Math.pow(10, 18)));
-    let acceptDelegation = 1
-    // let becomeValidateData.publickey = "0x040ef89e54996ee859c6c47fd3fe0bbfac9d1256937fdb86da5a1a7a0441ebe3c8b86b6448fe60b4bbca0933f70f403afd1ab973c1ab82497698dc95183b314b9d"
-    let heimdallFee = web3.utils.toBN(fromExponential(minHeimdallFee * Math.pow(10, 18)));
-
-    if(allowance < +values.amount) {
-      console.log("need approval ")
-      let data = {acceptDelegation, key : becomeValidateData.publickey, heimdallFee, amount}
-      approveAmount(data)
-    } else {
-      let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-    // let gasFee =  await instance.methods.stakeFor(user, amount,heimdallFee, acceptDelegation,becomeValidateData.publickey ).estimateGas({from: user})
-    // let encodedAbi =  await instance.methods.stakeFor(user, amount,heimdallFee, acceptDelegation,becomeValidateData.publickey ).encodeABI()
-    // let CurrentgasPrice : any = await currentGasPrice(web3)
-    //    console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
-    //    await web3.eth.sendTransaction({
-    //      from: user,
-    //      to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
-    //      gas: (parseInt(gasFee) + 30000).toString(),
-    //      gasPrice: CurrentgasPrice,
-    //      // value : web3.utils.toHex(combinedFees),
-    //      data: encodedAbi
-    //    })
-    await instance.methods.stakeFor(user, amount,heimdallFee, acceptDelegation,becomeValidateData.publickey )
-    .send({ from: account }) // write
-      .on('transactionHash', (res: any) => {
-        console.log(res, "hash")
-       
-        dispatch(
-          addTransaction({
-            hash: res,
-            from: user,
-            chainId,
-            summary: `${res}`,
-          })
-        )
-      }).on('receipt', (res: any) => {
-        console.log(res, "receipt")
-        dispatch(
-          finalizeTransaction({
-            hash: res.transactionHash,
-            chainId,
-            receipt: {
-              to: res.to,
-              from: res.from,
-              contractAddress: res.contractAddress,
-              transactionIndex: res.transactionIndex,
-              blockHash: res.blockHash,
-              transactionHash: res.transactionHash,
-              blockNumber: res.blockNumber,
-              status: 1
-            }
-          })
-        )
-        
-        stepHandler("next");
-      }).on('error', (res: any) => {
-        console.log(res, "error")
-        dispatch(
-          finalizeTransaction({
-            hash: res.transactionHash,
-            chainId,
-            receipt: {
-              to: res.to,
-              from: res.from,
-              contractAddress: res.contractAddress,
-              transactionIndex: res.transactionIndex,
-              blockHash: res.blockHash,
-              transactionHash: res.transactionHash,
-              blockNumber: res.blockNumber,
-              status: 0
-            }
-          })
-        )
-        if (res.code === 4001) {
-
-        }
-      })
-    }
-    
-
+    // stepHandler("next")
+    try{
+      setApiLoading(true)
+      console.log("called contract ===> ")
+      let user : any = account
+      let allowance : any = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, user, dynamicChaining[chainId].STAKE_MANAGER_PROXY)
+      let amount = web3.utils.toBN(fromExponential(+values.amount * Math.pow(10, 18)));
+      let acceptDelegation = 1
+      // let becomeValidateData.publickey = "0x040ef89e54996ee859c6c47fd3fe0bbfac9d1256937fdb86da5a1a7a0441ebe3c8b86b6448fe60b4bbca0933f70f403afd1ab973c1ab82497698dc95183b314b9d"
+      let heimdallFee = web3.utils.toBN(fromExponential(minHeimdallFee * Math.pow(10, 18)));
+  
+      if(allowance < +values.amount) {
+        console.log("need approval ")
+        let data = {acceptDelegation, key : becomeValidateData.publickey, heimdallFee, amount}
+        approveAmount(data)
+      } else {
+        let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
+      // let gasFee =  await instance.methods.stakeFor(user, amount,heimdallFee, acceptDelegation,becomeValidateData.publickey ).estimateGas({from: user})
+      // let encodedAbi =  await instance.methods.stakeFor(user, amount,heimdallFee, acceptDelegation,becomeValidateData.publickey ).encodeABI()
+      // let CurrentgasPrice : any = await currentGasPrice(web3)
+      //    console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+      //    await web3.eth.sendTransaction({
+      //      from: user,
+      //      to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
+      //      gas: (parseInt(gasFee) + 30000).toString(),
+      //      gasPrice: CurrentgasPrice,
+      //      // value : web3.utils.toHex(combinedFees),
+      //      data: encodedAbi
+      //    })
+      await instance.methods.stakeFor(user, amount,heimdallFee, acceptDelegation,becomeValidateData.publickey )
+      .send({ from: account }) // write
+        .on('transactionHash', (res: any) => {
+          console.log(res, "hash")
+         
+          dispatch(
+            addTransaction({
+              hash: res,
+              from: user,
+              chainId,
+              summary: `${res}`,
+            })
+          )
+        }).on('receipt', (res: any) => {
+          console.log(res, "receipt")
+          dispatch(
+            finalizeTransaction({
+              hash: res.transactionHash,
+              chainId,
+              receipt: {
+                to: res.to,
+                from: res.from,
+                contractAddress: res.contractAddress,
+                transactionIndex: res.transactionIndex,
+                blockHash: res.blockHash,
+                transactionHash: res.transactionHash,
+                blockNumber: res.blockNumber,
+                status: 1
+              }
+            })
+          )
+          
+          stepHandler("next");
+        }).on('error', (res: any) => {
+          console.log(res, "error")
+          dispatch(
+            finalizeTransaction({
+              hash: res.transactionHash,
+              chainId,
+              receipt: {
+                to: res.to,
+                from: res.from,
+                contractAddress: res.contractAddress,
+                transactionIndex: res.transactionIndex,
+                blockHash: res.blockHash,
+                transactionHash: res.transactionHash,
+                blockNumber: res.blockNumber,
+                status: 0
+              }
+            })
+          )
+          if (res.code === 4001) {
+  
+          }
+        })
+      }
+    } 
+    catch(err:any){
+      Sentry.captureMessage("New Error " , err);
+    } 
   }
 
   const { values, errors, handleBlur, handleChange, handleSubmit, touched,setValues } =
@@ -273,28 +288,33 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
   }
 
   const callAPI = async (val :any) => {
-    setApiLoading(true)
-    var data = new FormData();
-    data.append("validatorName", becomeValidateData.validatorname);
-    data.append("public_key", becomeValidateData.publickey);
-    data.append("signerAddress", becomeValidateData.address);
-    data.append("website", becomeValidateData.website);
-    data.append("commission", becomeValidateData.commission);
-    data.append("img", becomeValidateData.image);
-
-    console.log(becomeValidateData, "data")
-
-    await registerValidator(data).then((res: any) => {
-      console.log("this is eresss",res)
-      setApiLoading(false)
-      notifySuccess()
-      submitTransaction(val);
-    }).catch((err: any) => {
-      console.log(err)
-      notifyError()
-      setApiLoading(false)
-      // submitTransaction(values);
-    })
+    try{
+      setApiLoading(true)
+      var data = new FormData();
+      data.append("validatorName", becomeValidateData.validatorname);
+      data.append("public_key", becomeValidateData.publickey);
+      data.append("signerAddress", becomeValidateData.address);
+      data.append("website", becomeValidateData.website);
+      data.append("commission", becomeValidateData.commission);
+      data.append("img", becomeValidateData.image);
+  
+      console.log(becomeValidateData, "data")
+  
+      await registerValidator(data).then((res: any) => {
+        console.log("this is eresss",res)
+        setApiLoading(false)
+        notifySuccess()
+        submitTransaction(val);
+      }).catch((err: any) => {
+        console.log(err)
+        notifyError()
+        setApiLoading(false)
+        // submitTransaction(values);
+      })
+    }
+    catch(err:any){
+      Sentry.captureMessage("New Error " , err);
+    }
   };
 
   

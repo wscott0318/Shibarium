@@ -13,7 +13,7 @@ import { useActiveWeb3React } from "../../services/web3"
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { dynamicChaining } from 'web3/DynamicChaining';
 import Web3 from "web3";
- 
+import * as Sentry from "@sentry/nextjs";
 const BoneStaking = () => {
 
   const [userType, setUserType] = useUserType();
@@ -30,15 +30,20 @@ const BoneStaking = () => {
   }, [account])
 
   const getValCount = async () => {
-    const lib: any = library;
-    const web3: any = new Web3(lib?.provider);
-    let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId]?.STAKE_MANAGER_PROXY);
-        const valCount = await instance.methods.currentValidatorSetSize().call({from:account});
-        const validatorThreshold = await  instance.methods.validatorThreshold().call({from:account});
-        const valInfo = await  instance.methods.validators(9).call({from:account});
-        console.log(valInfo, "val info ===> ")
-        setValCount(valCount)
-        setValMaxCount(validatorThreshold)
+    try{
+      const lib: any = library;
+      const web3: any = new Web3(lib?.provider);
+      let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId]?.STAKE_MANAGER_PROXY);
+          const valCount = await instance.methods.currentValidatorSetSize().call({from:account});
+          const validatorThreshold = await  instance.methods.validatorThreshold().call({from:account});
+          const valInfo = await  instance.methods.validators(9).call({from:account});
+          console.log(valInfo, "val info ===> ")
+          setValCount(valCount)
+          setValMaxCount(validatorThreshold)
+    }
+    catch(err:any){
+      Sentry.captureMessage("New Error " , err);
+    }
   }
   
   return (

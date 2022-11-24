@@ -5,6 +5,7 @@ import Web3 from "web3";
 import { registerValidator } from "services/apis/network-details/networkOverview";
 import { useActiveWeb3React } from "../../services/web3";
 import LoadingSpinner from 'pages/components/Loading';
+import * as Sentry from "@sentry/nextjs";
 
 export const validatorSchema = yup.object().shape({
   validatorname: yup
@@ -48,31 +49,41 @@ function StepTwo({
   const [apiLoading, setApiLoading] = useState(false)
 
   const verifyAddress = (address: any) => {
-    let result = Web3.utils.isAddress(address);
-    return result;
+    try{
+      let result = Web3.utils.isAddress(address);
+      return result;
+    }
+    catch(err:any){
+      Sentry.captureMessage("New Error " , err);
+    }
   };
 
   const callAPI = async (values: any) => {
     // console.log("call API called");
-    setApiLoading(true)
-    if (imageData && verifyAddress(values.address)) {
-      setValidation({ image: false, address: false });
-      // console.log("1");
-    } else if (!imageData && verifyAddress(values.address)) {
-      setValidation({ address: false, image: true });
-      // console.log("2");
-    } else if (imageData && !verifyAddress(values.address)) {
-      setValidation({ image: false, address: true });
-      // console.log("3");
-    } else {
-      setValidation({ image: true, address: true });
+    try{
+      setApiLoading(true)
+      if (imageData && verifyAddress(values.address)) {
+        setValidation({ image: false, address: false });
+        // console.log("1");
+      } else if (!imageData && verifyAddress(values.address)) {
+        setValidation({ address: false, image: true });
+        // console.log("2");
+      } else if (imageData && !verifyAddress(values.address)) {
+        setValidation({ image: false, address: true });
+        // console.log("3");
+      } else {
+        setValidation({ image: true, address: true });
+      }
+  
+      setApiLoading(false)
+      values.image = imageData
+      console.log(values)
+      setBecomeValidateData(values)
+      stepHandler("next");
     }
-
-    setApiLoading(false)
-    values.image = imageData
-    console.log(values)
-    setBecomeValidateData(values)
-    stepHandler("next");
+    catch(err:any){
+      Sentry.captureMessage("New Error " , err);
+    }
   };
 
   const [initialValues, setInitialValues] = useState({
@@ -104,12 +115,17 @@ function StepTwo({
     });
 
   const onImageChange = (event: any) => {
-    if (event.target.files[0]?.size <= 204800) {
-      setImageData(event.target.files[0])
-      setImageSize(false)
-  } else {
-      setImageSize(true)
-  }
+    try{
+      if (event.target.files[0]?.size <= 204800) {
+        setImageData(event.target.files[0])
+        setImageSize(false)
+      } else {
+          setImageSize(true)
+      }
+    }
+    catch(err:any){
+      Sentry.captureMessage("New Error " , err);
+    }
     // console.log(event.target.files[0])
   }
 
