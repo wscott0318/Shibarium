@@ -131,7 +131,7 @@ export default createReducer(initialState, (builder) =>
     .addCase(updateUserType, (state, action) => {
       state.userType = action.payload.userType
     })
-    // .addCase(updateValId, (state, action) => {
-    //   state.valId = action.payload.valId
-    // })
+    .addCase(updateValId, (state, action) => {
+      state.valId = action.payload.valId
+    })
 )

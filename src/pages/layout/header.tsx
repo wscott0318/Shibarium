@@ -9,7 +9,7 @@ import { useWeb3React } from "@web3-react/core";
 import ProjectContext from "../../context/ProjectContext";
 import Web3Status from "app/components/Web3Status";
 import { getUserType } from "app/services/apis/user/userApi";
-import { useUserType } from "app/state/user/hooks";
+import { useUserType, useValId } from "app/state/user/hooks";
 import AppHeader from "../inner-header/AppHeader";
 import { useNetworkModalToggle } from "../../state/application/hooks";
 import { useActiveWeb3React } from "../../services/web3";
@@ -17,6 +17,7 @@ import NetworkModel from "../../modals/NetworkModal";
 import QrModal from "pages/components/QrModal";
 import { getNetworkName } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
+
 export default function Header() {
   
   const {account, deactivate } = useWeb3React();
@@ -24,6 +25,10 @@ export default function Header() {
   const router = useRouter();
   const [userType, setUserType] = useUserType();
   const [userQrCode, setUserQrCode] = useState(false);
+
+  const [valId, setValId] = useValId();
+
+  console.log("valid redux ===> ",userType, valId);
 
   useEffect(() => {
     if (account) {
@@ -42,17 +47,21 @@ export default function Header() {
       getUserType(accountAddress.toLowerCase()).then(res => {
         if (res.data && res.data.data) {
           let ut = res.data.data.userType;
+          let valID = res.data.data.validatorId;
           // console.log(ut)
           setUserType(ut)
+          setValId(valID)
         }
       }).catch(e => {
         // console.log(e);
         setUserType('NA')
+        setValId('NA')
       })
     } catch (error:any) {
       Sentry.captureMessage("New Error " , error);
     }
   }
+
 const toggleNetworkModal = useNetworkModalToggle();
 
 

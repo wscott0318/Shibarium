@@ -66,7 +66,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     useEffect(() => {
       setLoading(false)
       validatorsList()
-        .then((res) => {
+        .then((res:any) => {
           setLoading(false)
           if (res.status == 200) {
             setAllValidators(res.data.data.validatorsList);
@@ -87,7 +87,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
             }
           }
         })
-        .catch((err) => {
+        .catch((err:any) => {
           setLoading(false)
         });
 

@@ -37,7 +37,7 @@ export default function ValidatorDetails() {
             const { id } = router.query;
             if (id) {
                 setLoading(true);
-                getValidatorsDetail(id.toString()).then((res) => {
+                getValidatorsDetail(id.toString()).then((res:any) => {
                     setValidatorInfo(res?.data?.data?.validatorSet.validatorInfo)
                     setAllDelegators(res?.data?.data?.validatorSet?.delegators || []);
                     setAllCheckpoints(res?.data?.data?.validatorSet?.checkpoints || [])
@@ -58,7 +58,7 @@ export default function ValidatorDetails() {
         }
     }, [])
     useEffect(() => {
-        getBoneUSDValue(BONE_ID).then(res => {
+        getBoneUSDValue(BONE_ID).then((res:any) => {
             setBoneUsdValue(res.data.data.price);
         })
 
