@@ -16,6 +16,7 @@ function* fetchUsers(action) {
    try {
       const users = yield call(getApi);
       yield put({type: 'GET_USERS_SUCCESS', users: users});
+      // yield put({type: 'GET_USERS_VALID', valid: users.valid});
    } catch (e) {
       yield put({type: 'GET_USERS_FAILED', message: e.message});
    }
