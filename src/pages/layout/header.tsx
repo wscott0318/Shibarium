@@ -47,7 +47,7 @@ export default function Header() {
       getUserType(accountAddress.toLowerCase()).then(res => {
         if (res.data && res.data.data) {
           let ut = res.data.data.userType;
-          let valID = res.data.data.validatorId;
+          let valID = res.data.data.validatorId ? res.data.data.validatorId : "0";
           // console.log(ut)
           setUserType(ut)
           setValId(valID)
@@ -55,7 +55,7 @@ export default function Header() {
       }).catch(e => {
         // console.log(e);
         setUserType('NA')
-        setValId('NA')
+        setValId("0")
       })
     } catch (error:any) {
       Sentry.captureMessage("New Error " , error);
