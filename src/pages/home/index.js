@@ -1,37 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import React, { useState, useEffect, useContext } from "react";
-// import { validators, validatorsList } from "../service/validator";
-import { useWeb3React } from "@web3-react/core";
-import ProjectContext from "../../context/ProjectContext";
 import Footer from "../../pages/footer/index";
 import { useActiveWeb3React } from "../../services/web3";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import { useValId } from "app/state/user/hooks";
 
 export const config = {
   unstable_runtimeJS: false,
 };
 
 export default function Home() {
-  const [valId, setValId] = useValId();
-  console.log("valid",valId);
   try {
     const { account, chainId = 1 } = useActiveWeb3React();
-    /**
-     * 
-      useEffect(()=>{
-        let userDetails = localStorage.getItem('ShibariumUser');
-        userDetails = userDetails ? JSON.parse(userDetails)?.objectId: ''
-        if (!userDetails && active) {
-          deactivate()
-        }
-  
-      },[active])
-    */
-
-    //  console.log('account---------------', account)
+ 
     return (
       <>
         <main className="main-content">

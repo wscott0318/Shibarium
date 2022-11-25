@@ -487,7 +487,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
                     <p className="amt-val">Balance: {availBalance}</p>
                   </div>
                   <div className="blk-dta">
-                    <button onClick={() => setValues(amount, availBalance)} className="amt-val">MAX</button>
+                    <button className="amt-val">MAX</button>
                   </div>
                 </div>
 
