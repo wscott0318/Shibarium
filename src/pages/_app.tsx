@@ -45,7 +45,7 @@ function MyApp({ Component, pageProps }:any) {
   
   return (
     <ProjectContext>
-        <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
+        {/* <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}> */}
           <Web3ReactProvider getLibrary={getLibrary}>
             <Web3ProviderNetwork getLibrary={getLibrary}>
               <Web3ReactManager>
@@ -57,7 +57,7 @@ function MyApp({ Component, pageProps }:any) {
               </Web3ReactManager>
             </Web3ProviderNetwork>
           </Web3ReactProvider>
-        </I18nProvider>
+        {/* </I18nProvider> */}
     </ProjectContext>
   );
 }

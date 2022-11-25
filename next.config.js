@@ -44,7 +44,7 @@ const nextConfig = {
   //   concurrentFeatures: true,
   //   serverComponents: true,
   // },
-  swcMinify: true,
+  swcMinify: false,
   reactStrictMode: true,
   // pwa: {
   //   dest: 'public',
@@ -77,25 +77,25 @@ const nextConfig = {
       // },
     ]
   },
-  i18n: {
-    localeDetection: true,
-    locales,
-    defaultLocale: sourceLocale,
-  },
-  network: {
-    chainIds: [ChainId.ETHEREUM, ChainId.PUPPY_NET],
-    defaultChainId: ChainId.SHIBARIUM,
-    domains: [
-      {
-        domain: 'devui.hailshiba.com',
-        defaultChainId: ChainId.ETHEREUM,
-      },
-      {
-        domain: 'devui.hailshiba.com',
-        defaultChainId: ChainId.PUPPY_NET,
-      },
-    ],
-  },
+  // i18n: {
+  //   localeDetection: true,
+  //   locales,
+  //   defaultLocale: sourceLocale,
+  // },
+  // network: {
+  //   chainIds: [ChainId.ETHEREUM, ChainId.PUPPY_NET],
+  //   defaultChainId: ChainId.SHIBARIUM,
+  //   domains: [
+  //     {
+  //       domain: 'devui.hailshiba.com',
+  //       defaultChainId: ChainId.ETHEREUM,
+  //     },
+  //     {
+  //       domain: 'devui.hailshiba.com',
+  //       defaultChainId: ChainId.PUPPY_NET,
+  //     },
+  //   ],
+  // },
   publicRuntimeConfig: {
     breakpoints: screens,
   },
