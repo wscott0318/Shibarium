@@ -44,5 +44,5 @@ export const updateUserType = createAction<{
 }>('user/updateUserType')
 
 export const updateValId = createAction<{
-  valId: string
-}>('user/updateUserType')
+  valId: string;
+}>("user/updateValId");

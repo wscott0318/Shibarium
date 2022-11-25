@@ -407,7 +407,9 @@ export function useValId(): [string, (newUseUserType: string) => void] {
   const dispatch = useAppDispatch()
 
   // @ts-ignore TYPE NEEDS FIXING
-  const valId = useSelector<AppState, AppState['valId']['setValId']>((state) => state.user.validatorId)
+  const valId = useSelector<AppState, AppState["valId"]["setValId"]>(
+    (state) => state.user.valId
+  );
 
   const setValId = useCallback(
     (newValId: string) => dispatch(updateValId({ valId: newValId })),
