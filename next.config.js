@@ -44,7 +44,7 @@ const nextConfig = {
   //   concurrentFeatures: true,
   //   serverComponents: true,
   // },
-  swcMinify: false,
+  swcMinify: true,
   reactStrictMode: true,
   // pwa: {
   //   dest: 'public',
@@ -59,8 +59,8 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/',
-        destination: '/home',
+        source: '/home',
+        destination: '/',
         permanent: true,
       },
     ]
@@ -68,8 +68,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/',
-        destination: '/home',
+        source: '/home',
+        destination: '/',
       },
       // {
       //   source: '/stake',
