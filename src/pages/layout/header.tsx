@@ -54,6 +54,7 @@ export default function Header() {
         }
       })
     } catch (error:any) {
+      console.log(error)
       setUserType('NA')
       setValId("0")
       Sentry.captureMessage("getUsertypeAPI" , error);

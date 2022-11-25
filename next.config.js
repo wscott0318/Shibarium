@@ -3,7 +3,6 @@
 
 const linguiConfig = require('./lingui.config.js')
 const defaultTheme = require('tailwindcss/defaultTheme')
-import { mobileWalletEndpoint } from "./src/web3/commonFunctions"
 
 const { ChainId } = require('shibarium-chains')
 
@@ -88,11 +87,11 @@ const nextConfig = {
     defaultChainId: ChainId.SHIBARIUM,
     domains: [
       {
-        domain: mobileWalletEndpoint,
+        domain: 'devui.hailshiba.com',
         defaultChainId: ChainId.ETHEREUM,
       },
       {
-        domain: mobileWalletEndpoint,
+        domain: 'devui.hailshiba.com',
         defaultChainId: ChainId.PUPPY_NET,
       },
     ],
