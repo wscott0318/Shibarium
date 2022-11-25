@@ -12,7 +12,7 @@ import { useTokenBalance } from 'app/hooks/useTokenBalance';
 import Web3 from "web3";
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import fromExponential from 'from-exponential';
-import { getAllowanceAmount, toFixedPrecent } from "../../web3/commonFunctions";
+import { getAllowanceAmount, MAXAMOUNT, toFixedPrecent } from "../../web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json"
 import CommonModal from 'pages/components/CommonModel';
 import { useFormik } from "formik";
@@ -124,142 +124,42 @@ const DelegatePopup: React.FC<any> = ({
     if (account) {
       let lib: any = library;
       let web3: any = new Web3(lib?.provider);
-      let walletAddress = account;
-      let _minSharesToMint = web3.utils.toBN(
-        fromExponential(1 * Math.pow(10, 18))
-      );
       let allowance =
         (await getAllowanceAmount(lib, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].STAKE_MANAGER_PROXY)) || 0;
-      let amount = web3.utils.toBN(
-        fromExponential(+requestBody.amount * Math.pow(10, 18))
-      );
+     
       if (+requestBody.amount > allowance) {
-        console.log("need Approval", amount);
-        let approvalAmount = web3.utils.toBN(
-          fromExponential(1000 * Math.pow(10, 18))
-        );
-        let approvalInstance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
-       let gasFee =  await approvalInstance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, approvalAmount).estimateGas({from: walletAddress})
-       let encodedAbi =  await approvalInstance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, approvalAmount).encodeABI()
-       let CurrentgasPrice : any = await currentGasPrice(web3)
-          console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
-          await web3.eth.sendTransaction({
-            from: walletAddress,
-            to: dynamicChaining[chainId].BONE,
-            gas: (parseInt(gasFee) + 30000).toString(),
-            gasPrice: CurrentgasPrice,
-            // value : web3.utils.toHex(combinedFees),
-            data: encodedAbi
-          }).then(async (res: any) => {
-            // console.log(res);
-            let instance = new web3.eth.Contract(
-              ValidatorShareABI,
-              requestBody.validatorAddress
-            );   
-       let gasFee =  await instance.methods.buyVoucher(amount, _minSharesToMint).estimateGas({from: walletAddress})
-       let encodedAbi =  await instance.methods.buyVoucher(amount, _minSharesToMint).encodeABI()
-       let CurrentgasPrice : any = await currentGasPrice(web3)
-          console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
-          await web3.eth.sendTransaction({
-            from: walletAddress,
-            to: requestBody.validatorAddress,
-            gas: (parseInt(gasFee) + 30000).toString(),
-            gasPrice: CurrentgasPrice,
-            // value : web3.utils.toHex(combinedFees),
-            data: encodedAbi
-          }).on('transactionHash', (res: any) => {
-                setLoader(false);
-                dispatch(
-                  addTransaction({
-                    hash: res,
-                    from: account,
-                    chainId,
-                    summary: `${res}`,
-                  })
-                )
-                const link = getExplorerLink(
-                  chainId,
-                  res,
-                  "transaction"
-                );
-                setExplorerLink(link);
-                setdelegateState({
-                  step0:false,
-                  step1:false,
-                  step2: true,
-                  step3:false,
-                  title:'Transaction Process'
-                })
-                })
-                .on('receipt', (res: any) => {
-                  dispatch(
-                    finalizeTransaction({
-                      hash: res.transactionHash,
-                      chainId,
-                      receipt: {
-                        to: res.to,
-                        from: res.from,
-                        contractAddress: res.contractAddress,
-                        transactionIndex: res.transactionIndex,
-                        blockHash: res.blockHash,
-                        transactionHash: res.transactionHash,
-                        blockNumber: res.blockNumber,
-                        status: 1
-                      }
-                    })
-                  )
-                  const link = getExplorerLink(
-                    chainId,
-                    res.transactionHash,
-                    "transaction"
-                  );
-                  setExplorerLink(link);
-                  setdelegateState({
-                    step0:false,
-                    step1:false,
-                    step2: false,
-                    step3:true,
-                    title:'Transaction Done'
-                  })
-                  window.location.reload();
-                })
-              .on('error', (err: any) => {
-                setdelegateState(initialModalState)
-                setdelegatepop(false)
-              })
-          })
-          .catch((err: any) => {
-            console.log(err);
-            setToastMassage("Something went wrong");
-            setMsgType("error");
-            setTnxCompleted(true);
-            setStep(2);
-          });
+        APPROVE_BONE()
+        BUY_VOUCHER(requestBody)
       } else {
-        console.log("No approval needed", amount);
+        APPROVE_BONE()
+      }
+    }
+  }
+  catch(err:any){
+    Sentry.captureMessage("New Error " , err);
+  }
+  };
+
+  const BUY_VOUCHER = async (requestBody: any) => {
+    let walletAddress :any = account
+    let _minSharesToMint = web3.utils.toBN(fromExponential(1 * Math.pow(10, 18)));
+    let amount = web3.utils.toBN(
+      fromExponential(+requestBody.amount * Math.pow(10, 18))
+    );
+    try{
+      console.log("No approval needed", amount);
         let instance = new web3.eth.Contract(
           ValidatorShareABI,
           requestBody.validatorAddress
-        );
-      //  let gasFee =  await instance.methods.buyVoucher(amount, _minSharesToMint).estimateGas({from: walletAddress})
-      //  let encodedAbi =  await instance.methods.buyVoucher(amount, _minSharesToMint).encodeABI()
-      //  let CurrentgasPrice : any = await currentGasPrice(web3)
-          // console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
-          // await web3.eth.sendTransaction({
-          //   from: walletAddress,
-          //   to: requestBody.validatorAddress,
-          //   gas: (parseInt(gasFee) + 30000).toString(),
-          //   gasPrice: CurrentgasPrice,
-          //   // value : web3.utils.toHex(combinedFees),
-          //   data: encodedAbi
-          // })
+        )
           console.log({amount, _minSharesToMint})
-          await instance.methods.buyVoucher(amount, _minSharesToMint).send({from : walletAddress}).on('transactionHash', (res: any) => {
+          await instance.methods.buyVoucher(amount, _minSharesToMint).send({from : walletAddress})
+          .on('transactionHash', (res: any) => {
             setLoader(false)
             dispatch(
               addTransaction({
                 hash: res,
-                from: account,
+                from: walletAddress,
                 chainId,
                 summary: `${res}`,
               })
@@ -314,13 +214,69 @@ const DelegatePopup: React.FC<any> = ({
             setdelegateState(initialModalState)
             setdelegatepop(false)
           })
-      }
+    } catch(err :any){
+      console.log(err)
     }
+
   }
-  catch(err:any){
-    Sentry.captureMessage("New Error " , err);
+
+  const APPROVE_BONE = async () => {
+    let walletAddress : any = account;
+    try{
+      console.log("need Approval", amount);
+      let approvalAmount = web3.utils.toBN(
+        fromExponential(MAXAMOUNT * Math.pow(10, 18))
+      );
+      let approvalInstance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
+     let gasFee =  await approvalInstance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, approvalAmount).estimateGas({from: walletAddress})
+     let encodedAbi =  await approvalInstance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, approvalAmount).encodeABI()
+     let CurrentgasPrice : any = await currentGasPrice(web3)
+        console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+        await web3.eth.sendTransaction({
+          from: walletAddress,
+          to: dynamicChaining[chainId].BONE,
+          gas: (parseInt(gasFee) + 30000).toString(),
+          gasPrice: CurrentgasPrice,
+          // value : web3.utils.toHex(combinedFees),
+          data: encodedAbi
+        })
+        .on('transactionHash', (res: any) => {
+          dispatch(
+            addTransaction({
+              hash: res,
+              from: walletAddress,
+              chainId,
+              summary: `${res}`,
+            })
+          )
+        })
+          .on('receipt', (res: any) => {
+            dispatch(
+              finalizeTransaction({
+                hash: res.transactionHash,
+                chainId,
+                receipt: {
+                  to: res.to,
+                  from: res.from,
+                  contractAddress: res.contractAddress,
+                  transactionIndex: res.transactionIndex,
+                  blockHash: res.blockHash,
+                  transactionHash: res.transactionHash,
+                  blockNumber: res.blockNumber,
+                  status: 1
+                }
+              })
+            )
+          })
+        .on('error', (err: any) => {
+          setdelegateState(initialModalState)
+          setdelegatepop(false)
+        })
+    } catch(err :any){
+      console.log(err)
+    }
+
   }
-  };
 
   // console.log(data);
   const initialValues = {

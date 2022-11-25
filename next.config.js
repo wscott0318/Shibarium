@@ -46,16 +46,16 @@ const nextConfig = {
   // },
   swcMinify: false,
   reactStrictMode: true,
-  pwa: {
-    dest: 'public',
-    // runtimeCaching,
-    dynamicStartUrlRedirect: '/',
-    disable: process.env.NODE_ENV === 'development',
-  },
-  images: {
-    loader: 'cloudinary',
-    path: 'https://res.cloudinary.com/sushi-cdn/image/fetch/',
-  },
+  // pwa: {
+  //   dest: 'public',
+  //   // runtimeCaching,
+  //   dynamicStartUrlRedirect: '/',
+  //   disable: process.env.NODE_ENV === 'development',
+  // },
+  // images: {
+  //   loader: 'cloudinary',
+  //   path: 'https://res.cloudinary.com/sushi-cdn/image/fetch/',
+  // },
   async redirects() {
     return [
       {
@@ -83,16 +83,16 @@ const nextConfig = {
     defaultLocale: sourceLocale,
   },
   network: {
-    chainIds: [ChainId.ETHEREUM, ChainId.ARBITRUM],
+    chainIds: [ChainId.ETHEREUM, ChainId.PUPPY_NET],
     defaultChainId: ChainId.SHIBARIUM,
     domains: [
       {
-        domain: 'sushi.com',
+        domain: 'devui.hailshiba.com',
         defaultChainId: ChainId.ETHEREUM,
       },
       {
-        domain: 'arbitrum.sushi.com',
-        defaultChainId: ChainId.ARBITRUM,
+        domain: 'devui.hailshiba.com',
+        defaultChainId: ChainId.PUPPY_NET,
       },
     ],
   },

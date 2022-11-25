@@ -52,13 +52,12 @@ export default function Header() {
           setUserType(ut)
           setValId(valID)
         }
-      }).catch(e => {
-        // console.log(e);
-        setUserType('NA')
-        setValId("0")
       })
     } catch (error:any) {
-      Sentry.captureMessage("New Error " , error);
+      console.log(error)
+      setUserType('NA')
+      setValId("0")
+      Sentry.captureMessage("getUsertypeAPI" , error);
     }
   }
 

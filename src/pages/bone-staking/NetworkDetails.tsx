@@ -34,7 +34,6 @@ function NetworkDetails({valCount} : any) {
     try {
       getNetworkOverviewData().then((res: any) => {
         setNetworkDetails(res.data && res.data.data && res.data.data.networkDetail ? res.data.data.networkDetail : {})
-      }).catch((e) => {
       })
       getBoneUSDValue(BONE_ID).then((res: any) => {
         setBoneUSDValue(res.data.data.price);
@@ -43,7 +42,7 @@ function NetworkDetails({valCount} : any) {
         setLatestBlock(lastBlock)
       })
     } catch (error:any) {
-      Sentry.captureException("New Error " , error);
+      Sentry.captureException("getNetworkOverviewData" , error);
     }
 
     if(account) {

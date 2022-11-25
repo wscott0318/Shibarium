@@ -61,3 +61,5 @@ export const currentGasPrice = async (web3) => {
   export const MAXAMOUNT = 100000
 
   export const inActiveCount = 10
+
+  export const mobileWalletEndpoint = 'devui.hailshiba.com'
