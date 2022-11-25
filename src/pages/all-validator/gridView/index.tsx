@@ -41,7 +41,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                                           </Link>
                                           </span>
                                           <p><span className='ft-14 light-text'>
-                                          <NumberFormat displayType='text'  thousandSeparator value={addDecimalValue(validator.totalstaked/Math.pow(10,web3Decimals))} /> BONE</span></p>
+                                          <NumberFormat displayType='text'  thousandSeparator value={addDecimalValue(+validator.totalstaked)} /> BONE</span></p>
                                       </div>
                                   </div>
                               </div> 

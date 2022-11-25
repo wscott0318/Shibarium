@@ -35,7 +35,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th className='fx-wdth'>Voting Power</th>
+                  <th className='fx-wdth'>Staked Amount</th>
                   <th>Self</th>
                   <th className="">Commission</th>
                   <th>Uptime</th>
@@ -63,7 +63,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       </div>
                     </td>
                     <td>
-                      {addDecimalValue(x.totalstaked / Math.pow(10, web3Decimals))} 
+                      {addDecimalValue(+x.totalstaked)} 
                       {/* ({(+x.votingpowerpercent || 0).toFixed(toFixedPrecent)}%) */}
                     </td>
                     <td>{ x.selfpercent ?  addDecimalValue(parseInt(x.selfpercent)) : "0" }%</td>
