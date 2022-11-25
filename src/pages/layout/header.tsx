@@ -25,8 +25,10 @@ export default function Header() {
   const router = useRouter();
   const [userType, setUserType] = useUserType();
   const [userQrCode, setUserQrCode] = useState(false);
+
   const [valId, setValId] = useValId();
-  console.log("valid",userType,valId);
+
+  console.log("valid redux ===> ",userType, valId);
 
   useEffect(() => {
     if (account) {
@@ -53,11 +55,13 @@ export default function Header() {
       }).catch(e => {
         // console.log(e);
         setUserType('NA')
+        setValId('NA')
       })
     } catch (error:any) {
       Sentry.captureMessage("New Error " , error);
     }
   }
+
 const toggleNetworkModal = useNetworkModalToggle();
 
 
