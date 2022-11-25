@@ -3,6 +3,7 @@ const initialState = {
     users: [],
     loading: false,
     error: null,
+    valid:''
   }
   
   export default function users(state = initialState, action) {
@@ -11,20 +12,25 @@ const initialState = {
         return {
           ...state,
           loading: true,
-        }
+        };
+      case type.GET_USERS_VALID:
+        return {
+          ...state,
+          loading: true,
+        };
       case type.GET_USERS_SUCCESS:
         return {
           ...state,
           loading: false,
-          users: action.users
-        }
+          users: action.users,
+        };
       case type.GET_USERS_FAILED:
         return {
           ...state,
           loading: false,
           error: action.message,
-        }
+        };
       default:
-        return state
+        return state;
     }
   }

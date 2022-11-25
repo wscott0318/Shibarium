@@ -8,12 +8,15 @@ import Footer from "../../pages/footer/index";
 import { useActiveWeb3React } from "../../services/web3";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import { useValId } from "app/state/user/hooks";
 
 export const config = {
   unstable_runtimeJS: false,
 };
 
 export default function Home() {
+  const [valId, setValId] = useValId();
+  console.log("valid",valId);
   try {
     const { account, chainId = 1 } = useActiveWeb3React();
     /**
