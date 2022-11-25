@@ -4,10 +4,6 @@ import React, { useState, useEffect, useContext } from "react";
 import Footer from "../../pages/footer/index";
 import { useActiveWeb3React } from "../../services/web3";
 
-export const config = {
-  unstable_runtimeJS: false,
-};
-
 export default function Home() {
   try {
     const { account, chainId = 1 } = useActiveWeb3React();

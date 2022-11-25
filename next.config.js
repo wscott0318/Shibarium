@@ -46,21 +46,21 @@ const nextConfig = {
   // },
   swcMinify: false,
   reactStrictMode: true,
-  // pwa: {
-  //   dest: 'public',
-  //   // runtimeCaching,
-  //   dynamicStartUrlRedirect: '/',
-  //   disable: process.env.NODE_ENV === 'development',
-  // },
-  // images: {
-  //   loader: 'cloudinary',
-  //   path: 'https://res.cloudinary.com/sushi-cdn/image/fetch/',
-  // },
+  pwa: {
+    dest: 'public',
+    // runtimeCaching,
+    dynamicStartUrlRedirect: '/',
+    disable: process.env.NODE_ENV === 'development',
+  },
+  images: {
+    loader: 'cloudinary',
+    path: 'https://res.cloudinary.com/sushi-cdn/image/fetch/',
+  },
   async redirects() {
     return [
       {
-        source: '/home',
-        destination: '/',
+        source: '/',
+        destination: '/home',
         permanent: true,
       },
     ]
@@ -68,8 +68,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/home',
-        destination: '/',
+        source: '/',
+        destination: '/home',
       },
       // {
       //   source: '/stake',
@@ -77,25 +77,25 @@ const nextConfig = {
       // },
     ]
   },
-  // i18n: {
-  //   localeDetection: true,
-  //   locales,
-  //   defaultLocale: sourceLocale,
-  // },
-  // network: {
-  //   chainIds: [ChainId.ETHEREUM, ChainId.PUPPY_NET],
-  //   defaultChainId: ChainId.SHIBARIUM,
-  //   domains: [
-  //     {
-  //       domain: 'devui.hailshiba.com',
-  //       defaultChainId: ChainId.ETHEREUM,
-  //     },
-  //     {
-  //       domain: 'devui.hailshiba.com',
-  //       defaultChainId: ChainId.PUPPY_NET,
-  //     },
-  //   ],
-  // },
+  i18n: {
+    localeDetection: true,
+    locales,
+    defaultLocale: sourceLocale,
+  },
+  network: {
+    chainIds: [ChainId.ETHEREUM, ChainId.PUPPY_NET],
+    defaultChainId: ChainId.SHIBARIUM,
+    domains: [
+      {
+        domain: 'devui.hailshiba.com',
+        defaultChainId: ChainId.ETHEREUM,
+      },
+      {
+        domain: 'devui.hailshiba.com',
+        defaultChainId: ChainId.PUPPY_NET,
+      },
+    ],
+  },
   publicRuntimeConfig: {
     breakpoints: screens,
   },
