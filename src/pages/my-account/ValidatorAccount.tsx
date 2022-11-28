@@ -319,6 +319,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       setTransactionState({ state: true, title: 'Pending' })
       let walletAddress: any = account
       let ID = validatorID
+      //@ts-ignore
       let allowance = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].STAKE_MANAGER_PROXY) || 0
       let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
 
@@ -891,6 +892,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                   touched,
                   handleChange,
                   handleBlur,
+                  setFieldValue,
                   values,
                   handleSubmit,
                 }) => (
@@ -915,7 +917,10 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                             {errors.amount}
                           </p>
                         ) : null}
+                         <div className="row-st">
                        <p className="mt-2 text-white"> balance : <b>{addDecimalValue(availBalance)} </b></p>
+                       <button className="mt-2 text-white" onClick={()=> {setFieldValue ('text',  values.amount = (availBalance-0.000001).toString())}}> MAX </button>
+                       </div>
                       </div>
                     </div>
                     <div className="cmn_inpt_row">
