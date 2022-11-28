@@ -109,6 +109,12 @@ export default function Withdraw() {
   }
   };
 
+  useEffect(() => {
+    if(!account){
+      router.back()
+    }
+  }, [account])
+
   
 const handleSearchList = (key :any) => {
   try{

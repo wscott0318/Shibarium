@@ -88,12 +88,10 @@ export default function Wallet() {
   const searchResult = useSearchFilter(tokenList, searchKey.trim());
 
   useEffect(() => {
-    if (tokenFilteredList.length) {
-      let obj = tokenFilteredList.filter((x: any) => x.parentSymbol === 'BoneToken').map((y: any) => y)[0]
-      setSelectedToken(obj)
+    if(!account){
+      router.back()
     }
-  }, [tokenFilteredList, tokenList])
-
+  }, [account])
   // console.log(selectedToken)
 
   const verifyAddress = (address: any) => {
