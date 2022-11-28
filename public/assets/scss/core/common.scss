@@ -3008,6 +3008,25 @@ input:-internal-autofill-selected {
         .dropdown-menu{
             padding-top: 0;
             padding-bottom: 0;
+            .dropdown-item{
+                padding-top: 8px;
+                padding-bottom: 10px;
+                background: $black;
+            }
+        }
+    }
+    .btn-status{
+        .btn-fonts{
+            white-space: nowrap;
+            width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            @media #{$max-xxl}{
+                width: 110px;
+            }
+            @media #{$max-md}{
+                width: 95px;
+            }
         }
     } 
 }
@@ -3020,6 +3039,21 @@ input:-internal-autofill-selected {
             text-overflow: ellipsis;
         }
         
+    } 
+    .btn-status{
+        .btn-fonts{
+            white-space: nowrap;
+            width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            @media #{$max-xxl}{
+                width: 110px;
+            }
+            @media #{$max-lg}{
+                width: 80px;
+            }
+            
+        }
     } 
 }
 .main-header.header-overide{
