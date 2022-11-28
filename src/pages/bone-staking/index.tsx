@@ -15,6 +15,8 @@ import { dynamicChaining } from 'web3/DynamicChaining';
 import Web3 from "web3";
 import * as Sentry from "@sentry/nextjs";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
+import { L1Block, ChainId} from 'app/hooks/L1Block';
+
 
 
 const BoneStaking = () => {
@@ -25,34 +27,33 @@ const BoneStaking = () => {
   const [valCount, setValCount] = useState(0);
   const [valMaxCount, setValMaxCount] = useState(0);
   const [ nodeSetup, setNodeSetup] = useState<any>('')
+
+  const web3test = L1Block();
     
   useEffect(() => {
-    if(account){
-      getValCount()
+    if(account) {
       getValInfo()
     }
-
+    getValCount()
   }, [account])
+
 
   const getValCount = async () => {
     try{
-      const lib: any = library;
-      const web3: any = new Web3(lib?.provider);
-      let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId]?.STAKE_MANAGER_PROXY);
-        const valCount = await instance.methods.currentValidatorSetSize().call({from:account});
-        const validatorThreshold = await  instance.methods.validatorThreshold().call({from:account});
+      const id = await ChainId()
+      let instance = new web3test.eth.Contract(stakeManagerProxyABI, dynamicChaining[id]?.STAKE_MANAGER_PROXY);
+        const valCount = await instance.methods.currentValidatorSetSize().call();
+        const validatorThreshold = await  instance.methods.validatorThreshold().call();
         const valInfo = await  instance.methods.validators(9).call({from:account});
         const valStake = await  instance.methods.validatorStake(9).call({from:account});
-        console.log(valInfo,valStake, "val info ===> ")
+        // console.log(valInfo,valStake,valCount, "val info ===> ")
         setValCount(valCount)
         setValMaxCount(validatorThreshold)
     }
     catch(err:any){
       Sentry.captureMessage("New Error " , err);
     }
-   
   }
-
   const getValInfo = () => {
     let id : any = account
     getValidatorInfo(id.toLowerCase()).then((res : any) => {

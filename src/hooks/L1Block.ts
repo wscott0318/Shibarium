@@ -8,4 +8,13 @@ export function L1Block(): any {
         console.log('Connection Error',error);
     }
 }
+export async function ChainId() {
+    try{
+    const web3test = L1Block();
+    const Id = await new web3test.eth.getChainId()
+    return Id
+    }catch(error){
+        console.log('Connection Error',error);
+    }
+}
 

@@ -3004,6 +3004,12 @@ input:-internal-autofill-selected {
     // .staking-header{
     //     width: calc(100% - 20px);
     // }
+    .dd-style{
+        .dropdown-menu{
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    } 
 }
 .inner-header{
     .hd-sel-over{
@@ -3943,3 +3949,55 @@ display: none !important;
     top: 50%;
     transform: translate(-50%, -50%);
 }
+.scroll-cus{
+    overflow: hidden;
+    @media #{$max-lg}{  
+        overflow: hidden;
+    }
+    .table-responsive{
+        height:500px;
+        display: inline-block;
+        overflow: auto;
+        width: 100%;
+        z-index: 5;
+        @media #{$max-lg}{  
+            height:300px; 
+            min-height: 100%; 
+        }
+        @media #{$max-md}{  
+            height:250px;  
+        }
+    }
+    .table{
+        
+        th{
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            background: #151B28;
+            z-index: 5;
+            // &:first-child{
+            //     border-radius: 30px 0 0 0;
+            // }
+            // &:last-child{
+            //     border-radius: 0 30px 0 0;
+            // }
+        }
+        
+    }
+}
+// .cmn_dasdrd_table.scroll-cus{
+//     .table{
+//         th{
+//             border-bottom: none;
+//         }
+//     } 
+//     .table-responsive{
+//         .table{
+//             th{
+//                 border-bottom: 1px solid $grey-color;
+                
+//             }
+//         }
+//     }
+// } 

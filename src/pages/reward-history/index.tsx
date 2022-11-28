@@ -117,6 +117,8 @@ export default function Unbond() {
     if (account) {
       getRewardsList(account)
       validatorReward()
+    } else {
+      router.push('/')
     }
   }, [account])
 
@@ -194,8 +196,8 @@ export default function Unbond() {
                       ))
                     ) : !validatorData.length && !validatorData.length && listLoader ? (
                       <tr>
-                        <td colSpan={4}>
-                          <DynamicShimmer type={"table"} rows={13} cols={4} />
+                        <td colSpan={3}>
+                          <DynamicShimmer type={"table"} rows={13} cols={3} />
                         </td>
                       </tr>
                     ) : null}
@@ -203,7 +205,7 @@ export default function Unbond() {
                 </table>
               </div>
 
-              {!listLoader && !validatorData.length && !validatorData.length ? (
+              {/* {!listLoader && !validatorData.length && !validatorData.length ? (
                 <div className="no-found">
                   <div>
                     <div className="text-center">
@@ -211,7 +213,7 @@ export default function Unbond() {
                     </div>
                   </div>
                 </div>
-              ) : null}
+              ) : null} */}
             </div>
             <div className="mt-sm-4 mt-3">
               {slicedList.length ? (
