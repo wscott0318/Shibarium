@@ -43,9 +43,20 @@ export default function MyAcount() {
       <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh staking-main">
           {/* <Header /> */}
           {/* <StakingHeader /> */}
-            <section className="top_bnr_area dark-bg mn-ht">
+            <section className="dark-bg mn-ht">
                 <div className="container">
-                    <div className="section-info"><h1 className="ff-mos">My Account</h1></div>
+                  <div className="section-info">
+                    <div className="row align-items-center">
+                      <div className="col-md-7 col-sm-12 ff-mos">
+                        <h1 className="ff-mos">My Account</h1>
+                      </div>
+                      <div className="col-md-5 col-sm-12 ff-mos m-hide">
+                        <div className="shib-img-sec text-end">
+                          <img className="img-fluid d-inline-block" width="423" height="266" src="../../assets/images/my-account.png" alt="" />
+                        </div>
+                      </div>
+                    </div>
+                  </div> 
                 </div>                
             </section> 
             {userType === 'NA' ? 
