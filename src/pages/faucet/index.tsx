@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useRef } from "react";
+import React, { useState,useEffect, useRef } from "react";
 import { Nav } from "react-bootstrap";
 import DogTab from './dogTabfirst';
 import DogTabfirst from './dogTabsecond';
@@ -13,12 +13,14 @@ import Sidebar from "../layout/sidebar"
 import axios from "axios";
 import { useActiveWeb3React } from "app/services/web3";
 import ReCAPTCHA from "react-google-recaptcha";
+import { useRouter } from "next/router";
 
 export default function faucet() {
   const [isTopdoG, setIsTopdoG] = useState(true);
   const [isPuppyDog, setIsPuppyDog] = useState(false);
   const [showSwapModal, setSwapModal] = useState(false);
   const [menuState, setMenuState] = useState(false);
+  const router = useRouter()
   const captchaRef = useRef<any>(null)
   const [modalState, setModalState] = useState({
     pending: true,
@@ -31,6 +33,13 @@ export default function faucet() {
     console.log("called click")
     setMenuState(!menuState);
   }
+
+  useEffect(() => {
+    if(!account){
+      router.back()
+    }
+  }, [account])
+  
 
   console.log(chainId, account, library)
   const handleTopdoG = () => {

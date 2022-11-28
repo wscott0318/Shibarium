@@ -1,5 +1,6 @@
 import Web3 from "web3";
 import ERC20abi from "../ABI/ERC20Abi.json";
+import { ChainId } from "shibarium-chains";
 
 export const getAllowanceAmount = async (library, token, account, contract) => {
   if (account) {
@@ -18,7 +19,7 @@ export const currentGasPrice = async (web3) => {
   await web3.eth
     .getGasPrice()
     .then((res) => {
-      value = parseInt(res * 2.1);
+      value = parseInt(res * 1.1);
     })
     .catch((err) => {
       console.log(err);
@@ -27,11 +28,11 @@ export const currentGasPrice = async (web3) => {
 };
 
 export const getNetworkName = (ID) => {
-  if (ID == 1) {
+  if (ID == ChainId.ETHEREUM) {
     return "Ethereum Mainnet";
-  } else if (ID == 5) {
+  } else if (ID == ChainId.GÖRLI) {
     return "Goerli Testnet";
-  } else if (ID == 417) {
+  } else if (ID == ChainId.PUPPY_NET) {
     return "Puppy Net";
   } else {
     return "Shibarium Mainnet";
