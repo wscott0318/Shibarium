@@ -105,7 +105,7 @@ export default function Withdraw() {
     });
   }
   catch(err:any){
-    Sentry.captureMessage("New Error " , err);
+    Sentry.captureMessage("getTokensList" , err);
   }
   };
 

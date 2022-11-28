@@ -117,6 +117,8 @@ export default function Unbond() {
     if (account) {
       getRewardsList(account)
       validatorReward()
+    } else {
+      router.push('/')
     }
   }, [account])
 

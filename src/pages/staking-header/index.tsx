@@ -3,16 +3,18 @@ import { Dropdown, Navbar, Container, Nav, DropdownButton } from "react-bootstra
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import { useUserType } from "../../state/user/hooks";
+import { useActiveWeb3React} from '../../services/web3'
+
 const StakingHeader = () => {
 const router = useRouter();
-const routeHandler = (x:string) => {
-    router.push(x);
-}
+
 const routeCheck = (x:string) => {
     return router.asPath.split("/")[1] === x;
 }
 const [history,setHistory] = useState("");
 const [userType, setUserType] = useUserType();
+
+const { account, chainId = 1, library } = useActiveWeb3React();
 
 useEffect(() => {
   if (routeCheck("unbond-history")) {
@@ -20,7 +22,7 @@ useEffect(() => {
   } else if (routeCheck("reward-history")) {
     setHistory("Reward History");
   }
-}, [router])
+}, [router, account])
 
 console.log("usertype",router.asPath)
 
@@ -45,12 +47,18 @@ console.log("usertype",router.asPath)
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link href="/my-account" className="nav-link ff-mos" passHref>
+                 {account ? <Link href="/my-account" className="nav-link ff-mos" passHref>
                     <p className={`nav-link ff-mos ${router.asPath === '/my-account' ? "active" : ""}`}
                     >
                       My Account
                     </p>
-                  </Link>
+                  </Link> :
+                  <p className="nav-link ff-mos">
+                    <p className={`nav-link ff-mos ${router.asPath === '/my-account' ? "active" : ""}`}
+                    >
+                      My Account
+                    </p>
+                  </p>}
                 </li>
                 {
                   (userType === 'Delegator' || userType === "Validator") &&
@@ -60,27 +68,25 @@ console.log("usertype",router.asPath)
                       {
                         userType !== "Validator" &&
                         <Dropdown.Item
-                      // as="button"
-                      // onClick={() => {
-                      //   router.push("/unbond-history");
-                      //   setHistory("Unbound History");
-                      // }}
                     >
-                       <Link href="/unbond-history" passHref>
+                       { account ? <Link href="/unbond-history" passHref>
                       Unbound History
-                      </Link>
+                      </Link> :
+                        <p>
+                        Unbound History
+                        </p>
+                      }
                     </Dropdown.Item>
                     }
                     <Dropdown.Item
-                      // as="button"
-                      // onClick={() => {
-                      //   router.push("/reward-history");
-                      //   setHistory("Reward History");
-                      // }}
                     >
-                      <Link href="/reward-history" passHref>
+                      {account ? <Link href="/reward-history" passHref>
                       Reward History
-                      </Link>
+                      </Link> :
+                      <p>
+                      Reward History
+                      </p> 
+                      }
                     </Dropdown.Item>
                   </DropdownButton>
                 </li>}

@@ -319,6 +319,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       setTransactionState({ state: true, title: 'Pending' })
       let walletAddress: any = account
       let ID = validatorID
+      //@ts-ignore
       let allowance = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].STAKE_MANAGER_PROXY) || 0
       let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
 
@@ -477,7 +478,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       let gasFee =  await instance.methods.withdrawRewards(valID).estimateGas({from: walletAddress})
       let encodedAbi =  await instance.methods.withdrawRewards(valID).encodeABI()
       let CurrentgasPrice : any = await currentGasPrice(web3)
-         console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
+         console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) , " Gas fees for transaction  ==> ")
          await web3.eth.sendTransaction({
            from: walletAddress,
            to:  dynamicChaining[chainId].STAKE_MANAGER_PROXY,
@@ -891,6 +892,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                   touched,
                   handleChange,
                   handleBlur,
+                  setFieldValue,
                   values,
                   handleSubmit,
                 }) => (
@@ -915,7 +917,10 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                             {errors.amount}
                           </p>
                         ) : null}
+                         <div className="row-st">
                        <p className="mt-2 text-white"> balance : <b>{addDecimalValue(availBalance)} </b></p>
+                       <button disabled={availBalance<=0} className="mt-2 text-white" onClick={()=> {setFieldValue ('text',  values.amount = (availBalance-0.000001).toString())}}> MAX </button>
+                       </div>
                       </div>
                     </div>
                     <div className="cmn_inpt_row">

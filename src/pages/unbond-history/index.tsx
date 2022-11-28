@@ -176,11 +176,6 @@ export default function Unbond() {
         // console.log("check state");
       }
     }, [list]);
-    useEffect(() => {
-        if(account){
-            getUnboundHistory(account)
-        }
-    },[])
 
     const handleModalClosing = () => {
         setClamNowModals((pre:any) => ({...pre,
@@ -190,11 +185,14 @@ export default function Unbond() {
         }))
     }
     const router = useRouter();
+
     useEffect(() => {
-      if (userType !== "Delegator") {
+      if (userType !== "Delegator" && account) {
         router.back();
+      } else {
+        router.push('/')
       }
-    }, [userType]);
+    }, [userType, account]);
 
     const removeGMT = (x:any) => {
       let lastIndex = x.lastIndexOf(" ");

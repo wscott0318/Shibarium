@@ -25,7 +25,7 @@ export const validatorSchema = yup.object().shape({
     .required("public key is required"),
   website: yup
     .string()
-    .url("enter a vaild url with 'https://' or 'http://'")
+    .url("enter a vaild url")
     .required("website is required")
     .matches(
       /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/,

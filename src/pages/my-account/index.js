@@ -29,9 +29,13 @@ export default function MyAcount() {
 
 
   useEffect(() => {
-    getBoneUSDValue(BONE_ID).then(res=>{
-      setBoneUSDValue(res.data.data.price);
-    })
+    if(account){
+      getBoneUSDValue(BONE_ID).then(res=>{
+        setBoneUSDValue(res.data.data.price);
+      })
+    } else {
+      router.push('/')
+    }
   },[account])
 
   return (
