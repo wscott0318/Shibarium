@@ -9,6 +9,7 @@ import { addDecimalValue, imagUrlChecking, inActiveCount, toFixedPrecent, tokenD
 // @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 import DynamicShimmer from 'app/components/Shimmer/DynamicShimmer';
+import Scrollbar from "react-scrollbars-custom";
 
 export default function ListView({ validatorsList, searchKey, loading }: { validatorsList: any , searchKey: string , loading : boolean }) {
     const [modalShow, setModalShow] = React.useState(false);
@@ -30,6 +31,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
           setdelegatepop={setdelegatepop}
           data={selectedRow}
         />
+
         <div className="cmn_dasdrd_table ffms-inherit table-fix block-fix scroll-cus">
           <div className="table-responsive">
             <table className="table table-borderless fxd-layout tbl-mob">
@@ -43,6 +45,9 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                   <th className="text-center">Action</th>
                 </tr>
               </thead>
+              <Scrollbar>
+                
+              </Scrollbar>
               <tbody>
               {validatorsList.length > 0 ? validatorsList.sort((a: any, b: any) => {
                   if (a.fundamental === 1 || a.uptimePercent <= inActiveCount) {

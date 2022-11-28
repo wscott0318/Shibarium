@@ -14,6 +14,7 @@ import { allValidatorsQuery } from 'Apollo/queries';
 import * as Sentry from '@sentry/nextjs'
 import { inActiveCount } from 'web3/commonFunctions';
 
+
 const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) => {
     const pageSize = 10;
 

@@ -21,7 +21,7 @@ const StakingHeader = () => {
   const [history, setHistory] = useState("");
   const [userType, setUserType] = useUserType();
   const [valId, setValId] = useValId();
-  const [valInfoModal, setValInfoModal] = useState(true);
+  const [valInfoModal, setValInfoModal] = useState(false);
 
   const { account, chainId = 1, library } = useActiveWeb3React();
 
@@ -35,55 +35,14 @@ const StakingHeader = () => {
 
   console.log("usertype ==> ", valId);
 
-  const openModal = () => {
-    console.log("modal called ==> ")
-    return (
-      <CommonModal
-      title='Waiting'
-      show={valInfoModal}
-      setshow={() => setValInfoModal(false)}
-      externalCls=""
-      >
-        <div className="popmodal-body tokn-popup no-ht trans-mod">
-            <div className="pop-block">
-              <div className="pop-top">
-                <div className="dark-bg-800 h-100 status-sec sec-ht position-relative">
-               
-           
-                    <span>
-                    <div>
-                      <img
-                        width="224"
-                        height="224"
-                        className="img-fluid"
-                        src="../../assets/images/Ellipse.png"
-                        alt=""
-                      />
-                    </div>
-                  </span> 
-                    <div className='trans-loader'>
-                      <span className="spiner-lg">
-                        <span className="spinner-border text-secondary pop-spiner"></span>
-                      </span>
-                    </div>
-                    
-                </div>
-              </div>
-            </div>
-          </div>
-      </CommonModal>
-    )
-  }
-
   const renderButtons = () => {
     if (account) {
       if (userType === "Validator") {
         if (+valId <= 0) {
-          openModal()
           return (
             <>
               <li className="nav-item">
-                <p className="nav-link ff-mos">
+                <p className="nav-link ff-mos" onClick={() => setValInfoModal(true)}>
                   <p
                     className={`nav-link ff-mos ${
                       router.asPath === "/my-account" ? "active" : ""
@@ -100,7 +59,7 @@ const StakingHeader = () => {
                   title={"History"}
                 >
                   <Dropdown.Item>
-                    <p>Reward History</p>
+                    <p onClick={() => setValInfoModal(true)}>Reward History</p>
                   </Dropdown.Item>
                 </DropdownButton>
               </li>
@@ -171,30 +130,44 @@ const StakingHeader = () => {
         </>;
       } else {
         return (
-        <>
-          <li className="nav-item">
-            <Link href="/my-account" className="nav-link ff-mos" passHref>
-              <p
-                className={`nav-link ff-mos ${
-                  router.asPath === "/my-account" ? "active" : ""
-                }`}
-              >
-                My Account
-              </p>
-            </Link>
-          </li>
-        </>
-        )
+          <>
+            <li className="nav-item">
+              <Link href="/my-account" className="nav-link ff-mos" passHref>
+                <p
+                  className={`nav-link ff-mos ${
+                    router.asPath === "/my-account" ? "active" : ""
+                  }`}
+                >
+                  My Account
+                </p>
+              </Link>
+            </li>
+          </>
+        );
       }
     } else {
       return null;
     }
   };
 
-  
-
   return (
     <>
+      <CommonModal
+        title="Status"
+        show={valInfoModal}
+        setshow={() => setValInfoModal(false)}
+        externalCls=""
+      >
+        <div className="popmodal-body tokn-popup no-ht trans-mod">
+          <div className="pop-block">
+            <div className="pop-top">
+              <div className="dark-bg-800 h-100 status-sec sec-ht position-relative">
+               <p className="text-primary"> wait for 80 checkpoint to see your account info...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </CommonModal>
       <div className="staking-header dark-bg-800">
         <div className="container">
           <div className="lft-sec">
