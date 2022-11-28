@@ -24,7 +24,7 @@ useEffect(() => {
   }
 }, [router, account])
 
-console.log("usertype",router.asPath)
+// console.log("usertype",router.asPath)
 
     return (
       <>
@@ -46,50 +46,38 @@ console.log("usertype",router.asPath)
                     </p>
                   </Link>
                 </li>
-                <li className="nav-item">
-                 {account ? <Link href="/my-account" className="nav-link ff-mos" passHref>
+
+                { account ? <>
+                  <li className="nav-item">
+                 <Link href="/my-account" className="nav-link ff-mos" passHref>
                     <p className={`nav-link ff-mos ${router.asPath === '/my-account' ? "active" : ""}`}
                     >
                       My Account
                     </p>
-                  </Link> :
-                  <p className="nav-link ff-mos">
-                    <p className={`nav-link ff-mos ${router.asPath === '/my-account' ? "active" : ""}`}
-                    >
-                      My Account
-                    </p>
-                  </p>}
+                  </Link> 
                 </li>
                 {
                   (userType === 'Delegator' || userType === "Validator") &&
                   <li className="nav-item">
                   <DropdownButton className="dd-style cus-arw" id="dropdown-item-button" title={"History"}>
-                    
                       {
                         userType !== "Validator" &&
                         <Dropdown.Item
                     >
-                       { account ? <Link href="/unbond-history" passHref>
+                       <Link href="/unbond-history" passHref>
                       Unbound History
-                      </Link> :
-                        <p>
-                        Unbound History
-                        </p>
-                      }
+                      </Link>
                     </Dropdown.Item>
                     }
                     <Dropdown.Item
                     >
-                      {account ? <Link href="/reward-history" passHref>
+                      <Link href="/reward-history" passHref>
                       Reward History
-                      </Link> :
-                      <p>
-                      Reward History
-                      </p> 
-                      }
+                      </Link>
                     </Dropdown.Item>
                   </DropdownButton>
                 </li>}
+                </> : null}
               </ul>
             </div>
           </div>
