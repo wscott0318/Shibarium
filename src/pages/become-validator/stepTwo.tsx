@@ -50,15 +50,7 @@ function StepTwo({
   const [apiLoading, setApiLoading] = useState(false)
   const [userAddress, setUserAddres] = useState(account)
 
-  const verifyAddress = (address: any) => {
-    try {
-      let result = Web3.utils.isAddress(address);
-      return result;
-    }
-    catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
-    }
-  };
+
 
   // const getValInfo = () => {
   //   let id : any = account
@@ -142,7 +134,6 @@ function StepTwo({
     catch (err: any) {
       Sentry.captureMessage("New Error ", err);
     }
-
     // console.log(event.target.files[0])
   }
 
