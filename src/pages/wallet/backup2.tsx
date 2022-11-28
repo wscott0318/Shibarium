@@ -84,6 +84,7 @@ export default function Wallet() {
   const [selectedToken, setSelectedToken] = useState<any>({})
   const [searchKey, setSearchKey] = useState<string>('');
   const [modalKeyword, setmodalKeyword] = useState<string>('');
+  const [nullAddress,setNullAddress]=useState(false)
 
   const searchResult = useSearchFilter(tokenList, searchKey.trim());
 
@@ -163,6 +164,7 @@ export default function Wallet() {
 
 
   const handleChange = (e: any) => {
+    setNullAddress(true)
     setSenderAdress(e.target.value)
     const isValid = verifyAddress(e.target.value)
     // console.log(isValid)
@@ -511,11 +513,11 @@ export default function Wallet() {
                             placeholder="Receiver address"
                           />
                           <div className="error-msg">
-                            {!isValidAddress && (
+                            {nullAddress?(!isValidAddress &&(
                               <label className="mb-0 red-txt" style={{color:"#F06500"}}>
                                 {senderAddress?<>Enter a valid receiver address</> : <>receiver address should not be null</>}
                               </label>
-                            )}
+                            )):null}
                           </div>
                         </div>
                         <div className="form-group">
