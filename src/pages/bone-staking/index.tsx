@@ -39,7 +39,7 @@ const BoneStaking = () => {
       const lib: any = library;
       const web3: any = new Web3(lib?.provider);
       let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId]?.STAKE_MANAGER_PROXY);
-        const valCount = await instance.methods.currentValidatorSetSize().call({from:account});
+        const valCount = await instance.methods.currentValidatorSetSize().call();
         const validatorThreshold = await  instance.methods.validatorThreshold().call({from:account});
         const valInfo = await  instance.methods.validators(9).call({from:account});
         const valStake = await  instance.methods.validatorStake(9).call({from:account});
@@ -52,7 +52,6 @@ const BoneStaking = () => {
     }
    
   }
-
   const getValInfo = () => {
     let id : any = account
     getValidatorInfo(id.toLowerCase()).then((res : any) => {

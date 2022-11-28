@@ -74,7 +74,7 @@ export default function ValidatorDetails() {
             const lib: any = library;
             const web3: any = new Web3(lib?.provider);
             let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId]?.STAKE_MANAGER_PROXY);
-            const valStake = await instance.methods.validators(id).call({ from: account });
+            const valStake = await instance.methods.validators(id).call();
             let finalAMount = (+valStake.amount + +valStake.delegatedAmount) / Math.pow(10, web3Decimals)
             console.log(valStake, finalAMount, "data ==> ")
             setTotalSupply(finalAMount)

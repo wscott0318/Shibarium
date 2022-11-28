@@ -64,10 +64,10 @@ function NetworkDetails({valCount} : any) {
         let user = account;
         if (account) {
           const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId]?.STAKE_MANAGER_PROXY);
-          const ID = await instance.methods.validatorState().call({ from: account });
+          const ID = await instance.methods.validatorState().call();
           let stake = +ID.amount / 10 ** 18
           setTotalStake(stake)
-          // console.log(stake, ID, "Total stake")
+          console.log(stake, ID, "Total stake")
           return ID
         } else {
           // console.log("account addres not found")
