@@ -919,7 +919,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         ) : null}
                          <div className="row-st">
                        <p className="mt-2 text-white"> balance : <b>{addDecimalValue(availBalance)} </b></p>
-                       <button className="mt-2 text-white" onClick={()=> {setFieldValue ('text',  values.amount = (availBalance-0.000001).toString())}}> MAX </button>
+                       <button disabled={availBalance<=0} className="mt-2 text-white" onClick={()=> {setFieldValue ('text',  values.amount = (availBalance-0.000001).toString())}}> MAX </button>
                        </div>
                       </div>
                     </div>
