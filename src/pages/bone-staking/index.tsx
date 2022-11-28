@@ -54,7 +54,6 @@ const BoneStaking = () => {
       Sentry.captureMessage("New Error " , err);
     }
   }
-
   const getValInfo = () => {
     let id : any = account
     getValidatorInfo(id.toLowerCase()).then((res : any) => {

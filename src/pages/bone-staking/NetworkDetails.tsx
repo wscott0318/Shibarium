@@ -62,7 +62,7 @@ function NetworkDetails({valCount} : any) {
           const ID = await instance.methods.validatorState().call();
           let stake = +ID.amount / Math.pow(10, web3Decimals)
           setTotalStake(stake)
-          // console.log(stake, ID, "Total stake")
+          console.log(stake, ID, "Total stake")
           return ID
       }
       catch(err:any){
