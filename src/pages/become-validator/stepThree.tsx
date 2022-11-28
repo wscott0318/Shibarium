@@ -483,7 +483,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
                     <p className="amt-val">Balance: {availBalance}</p>
                   </div>
                   <div className="blk-dta">
-                    <button className="amt-val" onClick={()=> {setFieldValue ('text',  values.amount = (availBalance-0.000001).toString())}}>MAX</button>
+                    <button disabled={availBalance<=0} className="amt-val" onClick={()=> {setFieldValue ('text',  values.amount = (availBalance-0.000001).toString())}}>MAX</button>
                   </div>
                 </div>
 
