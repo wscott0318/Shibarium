@@ -129,7 +129,7 @@ export default function ProfileUpdate() {
         website: yup
             .string()
             .typeError("website is required")
-            .url("enter a vaild url with 'https://' or 'http://' at start")
+            .url("enter a vaild url")
             .required("website is required")
             .matches(
                 /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/,
