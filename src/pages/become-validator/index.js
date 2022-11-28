@@ -8,14 +8,14 @@ import StepFour from "./stepFour";
 import * as Sentry from "@sentry/nextjs";
 import { useUserType } from "../../state/user/hooks";
 import { useRouter } from 'next/router'
-import { getValidatorInfo, registerValidator } from "services/apis/network-details/networkOverview";
+import { getValidatorInfo } from "services/apis/network-details/networkOverview";
 import { useActiveWeb3React } from "../../services/web3";
 
 
 
 const Rewards = () => {
   const [editNsave, setEditNsave] = useState(false);
-  const [userType, setUserType] = useUserType();
+  const [userStatus, setUserStatus] = useState(null);
   const router = useRouter();
   const { account } = useActiveWeb3React();
 
@@ -39,13 +39,13 @@ const Rewards = () => {
   });
 
   useEffect(() => {
-    // if(userType === 'Validator') {
-    //   router.push("/");
-    // }
+    if(userStatus) {
+      router.back();
+    }
     if(account) {
       getValInfo()
     }
-  },[account])
+  },[account, userStatus])
 
   const getValInfo = () => {
     let id = account
@@ -60,6 +60,7 @@ const Rewards = () => {
         website: res.data.message.val.description,
         image: res.data.message.val.logoUrl
       })
+      setUserStatus(res.data.message.val.status ? res.data.message.val.status : null)
     }).catch((err) => {
       console.log(err)
     })

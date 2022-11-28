@@ -20,6 +20,7 @@ export const Allvalidator: React.FC = () => {
   const [ nodeSetup, setNodeSetup] = useState<any>('')
   const [valCount, setValCount] = useState(0);
   const [valMaxCount, setValMaxCount] = useState(0);
+  const [valId, setValId] = useValId();
 
   const getValInfo = () => {
     let id : any = account
@@ -39,8 +40,8 @@ export const Allvalidator: React.FC = () => {
       let instance = new web3test.eth.Contract(stakeManagerProxyABI, dynamicChaining[id]?.STAKE_MANAGER_PROXY);
         const valCount = await instance.methods.currentValidatorSetSize().call();
         const validatorThreshold = await  instance.methods.validatorThreshold().call();
-        const valInfo = await  instance.methods.validators(9).call({from:account});
-        const valStake = await  instance.methods.validatorStake(9).call({from:account});
+        const valInfo = await  instance.methods.validators(valId).call({from:account});
+        const valStake = await  instance.methods.validatorStake(valId).call({from:account});
         // console.log(valInfo,valStake,valCount, "val info ===> ")
         setValCount(valCount)
         setValMaxCount(validatorThreshold)
@@ -49,6 +50,11 @@ export const Allvalidator: React.FC = () => {
       Sentry.captureMessage("New Error " , err);
     }
   }
+
+  useEffect(() => {
+    getValCount()
+    getValInfo()
+  }, [account])
 
   const renderButtons = () => {
     if (account) {
