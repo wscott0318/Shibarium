@@ -165,7 +165,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                  value={searchKey}
                  onChange={(e) => setSearchKey(e.target.value)}
                  />
-                 <div className='icon-block'><img className="white-icon img-fluid" src="../../assets/images/cross-icon.png" /></div>
+                 <div className='icon-block' onClick={()=>setSearchKey("")}><img className="white-icon img-fluid" src="../../assets/images/cross-icon.png" /></div>
               </div>
               <div className="right-section">
                 {/* <div className="switch-sec">
