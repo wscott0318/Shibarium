@@ -33,9 +33,11 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
       const slicedList = searchResult.slice(0, pageSize).sort((a:any, b:any)=> parseInt(b.uptimePercent) - parseInt(a.uptimePercent))
       const sortAgain = slicedList.slice(0, pageSize).sort((a:any, b:any) => parseInt(b.totalStaked) - parseInt(a.totalStaked))
       setValidators(sortAgain)
+
     }, [searchResult])
-  
-    // console.log(validators)
+  // console.log("hhiii validatorsByStatus",validatorsByStatus)
+
+    // console.log("searchResult",searchResult)
 
     const fetchValidators = async () => {
       try{const validators = await queryProvider.query({
