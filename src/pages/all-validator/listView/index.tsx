@@ -44,7 +44,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                 </tr>
               </thead>
               <tbody>
-              {validatorsList.sort((a: any, b: any) => {
+              {validatorsList.length > 0 ? validatorsList.sort((a: any, b: any) => {
                   if (a.fundamental === 1 || a.uptimePercent <= inActiveCount) {
                     return 1;
                   }
@@ -107,13 +107,14 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       </td>
                     </tr>
                   ))
-                ) : (
+                 : (
                   <tr>
                     <td colSpan={6}>
                       <DynamicShimmer type={"table"} rows={13} cols={6} />
                     </td>
                   </tr>
-                )}
+                )
+                 }
               </tbody>
             </table>
           </div>
