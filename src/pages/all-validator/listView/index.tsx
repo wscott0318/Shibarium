@@ -5,7 +5,7 @@ import { useUserType } from 'app/state/user/hooks';
 import Link from 'next/link';
 import DelegatePopup from 'pages/delegate-popup';
 import React, { useState } from 'react';
-import { addDecimalValue, inActiveCount, toFixedPrecent, tokenDecimal, web3Decimals } from 'web3/commonFunctions';
+import { addDecimalValue, imagUrlChecking, inActiveCount, toFixedPrecent, tokenDecimal, web3Decimals } from 'web3/commonFunctions';
 // @ts-ignore
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 
@@ -58,11 +58,12 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       <span>
                         <img
                           style={{ height: 24 }}
-                          src={
-                            x.logoUrl
-                              ? x.logoUrl
-                              : "../../assets/images/shiba-round-icon.png"
-                          }
+                          // src={
+                          //   x.logoUrl
+                          //     ? x.logoUrl
+                          //     : "../../assets/images/shiba-round-icon.png"
+                          // }
+                          src={imagUrlChecking(x.logoUrl)}
                         />
                       </span>
                       <Link href={`/all-validator/${x.signer}`} passHref>
