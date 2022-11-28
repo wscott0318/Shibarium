@@ -28,7 +28,7 @@ export default function Header() {
 
   const [valId, setValId] = useValId();
 
-  console.log("valid redux ===> ",userType, valId);
+  // console.log("valid redux ===> ",userType, valId);
 
   useEffect(() => {
     if (account) {
