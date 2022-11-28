@@ -477,7 +477,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       let gasFee =  await instance.methods.withdrawRewards(valID).estimateGas({from: walletAddress})
       let encodedAbi =  await instance.methods.withdrawRewards(valID).encodeABI()
       let CurrentgasPrice : any = await currentGasPrice(web3)
-         console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
+         console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) , " Gas fees for transaction  ==> ")
          await web3.eth.sendTransaction({
            from: walletAddress,
            to:  dynamicChaining[chainId].STAKE_MANAGER_PROXY,

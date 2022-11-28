@@ -6,7 +6,12 @@ import Header from './layout/header';
 import { isDesktop, isMobile } from 'react-device-detect';
 // import PortraitWarning from './components/PortraitWarning';
 
-
+const headerRoutes = [
+  '/home',
+  '/bone-staking',
+  '/all-validator',
+  '/my-account'
+]
 
 const ComponentRouters=({Component, pageProps}:any)=> {
     const router = useRouter();
@@ -14,19 +19,12 @@ const ComponentRouters=({Component, pageProps}:any)=> {
     // console.log(router.asPath);
   return (
     <RouteGuard>
-      {router.asPath === "/home" ||
-      router.asPath === "/bone-staking" ||
-      router.asPath === "/all-validator" ||
-      router.asPath === "/my-account" ? (
+      {headerRoutes.includes(router.asPath) ? (
         <Header />
       ) : (
-        ""
+        null
       )}
-      {/* {isMobile && orientation === "landscape-primary" ? (
-        <PortraitWarning />
-      ) : ( */}
         <Component {...pageProps} />
-      {/* )} */}
     </RouteGuard>
   );
 }
