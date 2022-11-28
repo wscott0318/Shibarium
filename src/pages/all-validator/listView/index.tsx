@@ -43,7 +43,15 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                 </tr>
               </thead>
               <tbody>
-                {validatorsList.map((x: any, y: any) => (
+              {validatorsList.sort((a: any, b: any) => {
+                  if (a.fundamental === 1 || a.uptimePercent <= inActiveCount) {
+                    return 1;
+                  }
+                  if (b.fundamental === 1 || b.uptimePercent <= inActiveCount) {
+                    return -1;
+                  }
+                  return 0;
+                }).map((x: any, y: any) => (
                   <tr key={y}>
                     <td>
                       <div className='self-align'>
