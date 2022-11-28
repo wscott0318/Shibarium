@@ -37,7 +37,6 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
   const [minDeposit ,setMinDeposit] = useState<number>(0);
   const [minHeimdallFee ,setMinHeimdallFee] = useState<number>(0);
   const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
-  
   let schema = yup.object().shape({
     amount: yup.number().typeError("only digits are allowed").min(minDeposit).max(availBalance).required("amount is required"),
   })
@@ -49,7 +48,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
     }
   }, [account])
 
-  
+
 
   const getMinimunFee = async () => {
     try{
@@ -287,7 +286,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
 
   }
 
-  const { values, errors, handleBlur, handleChange, handleSubmit, touched, setValues } =
+  const { values, errors, handleBlur,setFieldValue, handleChange, handleSubmit, touched, setValues } =
   useFormik({
     initialValues: {
       amount: ''
@@ -360,9 +359,6 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
       notifyError()
     })
   };
-
-  
-
 
     return (
       <>
@@ -487,7 +483,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
                     <p className="amt-val">Balance: {availBalance}</p>
                   </div>
                   <div className="blk-dta">
-                    <button className="amt-val">MAX</button>
+                    <button className="amt-val" onClick={()=> {setFieldValue ('text',  values.amount = (availBalance-0.000001).toString())}}>MAX</button>
                   </div>
                 </div>
 
