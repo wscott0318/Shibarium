@@ -519,6 +519,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
               }
             })
           )
+          // 
         }).on('error', (res: any) => {
           console.log(res, "error")
             setTransactionState({ state: false, title: 'Pending' })

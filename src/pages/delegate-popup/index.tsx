@@ -128,10 +128,10 @@ const DelegatePopup: React.FC<any> = ({
         (await getAllowanceAmount(lib, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].STAKE_MANAGER_PROXY)) || 0;
      
       if (+requestBody.amount > allowance) {
-        APPROVE_BONE()
-        BUY_VOUCHER(requestBody)
+        APPROVE_BONE(requestBody)
+        // BUY_VOUCHER(requestBody)
       } else {
-        APPROVE_BONE()
+        BUY_VOUCHER(requestBody)
       }
     }
   }
@@ -220,7 +220,7 @@ const DelegatePopup: React.FC<any> = ({
 
   }
 
-  const APPROVE_BONE = async () => {
+  const APPROVE_BONE = async (requestBody :any) => {
     let walletAddress : any = account;
     try{
       console.log("need Approval", amount);
@@ -267,6 +267,7 @@ const DelegatePopup: React.FC<any> = ({
                 }
               })
             )
+            BUY_VOUCHER(requestBody)
           })
         .on('error', (err: any) => {
           setdelegateState(initialModalState)
