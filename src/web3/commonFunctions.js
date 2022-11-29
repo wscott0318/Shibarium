@@ -62,8 +62,7 @@ export const inActiveCount = 10;
 export const mobileWalletEndpoint = "devui.hailshiba.com";
 
 export const imagUrlChecking = (imgURL) => {
-  // console.log("hii this iss calinng");
-  if (imgURL && imgURL.split("/")[0] === "http || https") {
+  if (imgURL && imgURL.stratsWith("http")) {
     return imgURL;
   } else {
     return "../../assets/images/shiba-round-icon.png";

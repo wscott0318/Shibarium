@@ -24,6 +24,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
     const [showdelegatepop, setdelegatepop] = useState(false);
     // console.log(validatorsList);
     
+    
     return (
       <>
         <DelegatePopup
@@ -56,12 +57,12 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                       <span>
                         <img
                           style={{ height: 24 }}
-                          // src={
-                          //   x.logoUrl
-                          //     ? x.logoUrl
-                          //     : "../../assets/images/shiba-round-icon.png"
-                          // }
-                          src={imagUrlChecking(x.logoUrl)}
+                          src={
+                            x.logoUrl?.startsWith("http")
+                              ? x.logoUrl
+                              : "../../assets/images/shiba-round-icon.png"
+                          }
+                          // src={imagUrlChecking(x.logoUrl)}
                         />
                       </span>
                       <Link href={`/all-validator/${x.signer}`} passHref>

@@ -12,7 +12,7 @@ export const useSearchFilter = (data: any[], keyword: string) => {
               .join(" ")
               .toLowerCase()
               .includes(keyword.toLowerCase());
-          } else {
+          } else if(name.name !== null ){
             return name.name.toLowerCase().includes(keyword.toLowerCase());
           }
         });
