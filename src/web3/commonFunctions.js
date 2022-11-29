@@ -70,3 +70,7 @@ export const imagUrlChecking = (imgURL) => {
     return "../../assets/images/shiba-round-icon.png";
   }
 };
+
+export const checkpointVal = 0;
+export const comissionVal = 0;
+

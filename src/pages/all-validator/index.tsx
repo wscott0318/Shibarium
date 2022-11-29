@@ -21,17 +21,23 @@ export const Allvalidator: React.FC = () => {
   const [valCount, setValCount] = useState(0);
   const [valMaxCount, setValMaxCount] = useState(0);
   const [valId, setValId] = useValId();
-  
 
-  const getValInfo = async () => {
-    try{
-      let id : any = account
-      await getValidatorInfo(id.toLowerCase()).then((res : any) => {
-        console.log(res.data.message.val.status, " vall status ===> ")
-        setNodeSetup(res.data.message.val.status ? res.data.message.val.status : null)
-      })
-    } catch (err :any ) {
-      Sentry.captureMessage("getValInfo" , err);
+
+  const getValInfo = () => {
+    try {
+      const valData = JSON.parse(localStorage.getItem("valInfo") || '{}')
+      if(Object.keys(valData).length) {
+        setNodeSetup(valData.status)
+      } else {
+        let id : any = account
+        getValidatorInfo(id.toLowerCase()).then((res : any) => {
+          console.log(res.data.message.val.status, " vall status ===> ")
+          setNodeSetup(res.data.message.val.status ? res.data.message.val.status : null)
+          localStorage.setItem("valInfo", JSON.stringify(res.data.message.val))
+        })
+      }
+    } catch (err :any) {
+        Sentry.captureMessage("getValCount", err);
     }
   }
 

@@ -181,6 +181,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
           })
         )
         changeStatus()
+        localStorage.clear()
       }).on('error', (res: any) => {
         console.log(res, "error")
         setTransactionState({state: false, title: ''})
@@ -265,7 +266,6 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
 
     await registerValidator(data).then((res: any) => {
       console.log("this is eresss",res)
-      notifySuccess()
       handleTransaction(val)
     }).catch((err: any) => {
       console.log(err)
@@ -317,8 +317,8 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
                 <div className="file-icons">
                   <img
                     src={
-                      becomeValidateData?.image
-                        ? URL.createObjectURL(becomeValidateData?.image)
+                      becomeValidateData?.imageURL 
+                        ?  becomeValidateData?.imageURL : becomeValidateData?.image ? URL.createObjectURL(becomeValidateData?.image) 
                         : "../../assets/images/file-icon.png"
                     }
                     alt=""

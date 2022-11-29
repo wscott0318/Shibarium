@@ -57,13 +57,21 @@ const BoneStaking = () => {
   }
 
   const getValInfo = () => {
-    let id : any = account
-    getValidatorInfo(id.toLowerCase()).then((res : any) => {
-      console.log(res.data.message.val.status, " vall status ===> ")
-      setNodeSetup(res.data.message.val.status ? res.data.message.val.status : null)
-    }).catch((err : any) => {
-      console.log(err)
-    })
+    try {
+      const valData = JSON.parse(localStorage.getItem("valInfo") || '{}')
+      if(Object.keys(valData).length) {
+        setNodeSetup(valData.status)
+      } else {
+        let id : any = account
+        getValidatorInfo(id.toLowerCase()).then((res : any) => {
+          console.log(res.data.message.val.status, " vall status ===> ")
+          setNodeSetup(res.data.message.val.status ? res.data.message.val.status : null)
+          localStorage.setItem("valInfo", JSON.stringify(res.data.message.val))
+        })
+      }
+    } catch (err :any) {
+        Sentry.captureMessage("getValCount", err);
+    }
   }
 
   // console.log(nodeSetup)
