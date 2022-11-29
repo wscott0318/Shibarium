@@ -34,9 +34,11 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
       const slicedList = searchResult.slice(0, pageSize).sort((a:any, b:any)=> parseInt(b.uptimePercent) - parseInt(a.uptimePercent))
       const sortAgain = slicedList.slice(0, pageSize).sort((a:any, b:any) => parseInt(b.totalStaked) - parseInt(a.totalStaked))
       setValidators(sortAgain)
+
     }, [searchResult])
-  
-    // console.log(validators)
+  // console.log("hhiii validatorsByStatus",validatorsByStatus)
+
+    // console.log("yooo searchResult",searchResult)
 
     const fetchValidators = async () => {
       try{const validators = await queryProvider.query({
@@ -166,7 +168,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                  value={searchKey}
                  onChange={(e) => setSearchKey(e.target.value)}
                  />
-                 <div className='icon-block'><img className="white-icon img-fluid" src="../../assets/images/cross-icon.png" /></div>
+                 <div className='icon-block' onClick={()=>setSearchKey("")}><img className="white-icon img-fluid" src="../../assets/images/cross-icon.png" /></div>
               </div>
               <div className="right-section">
                 {/* <div className="switch-sec">

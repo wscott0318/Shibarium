@@ -289,7 +289,7 @@ let schema = yup.object().shape({
     .max(
       parseFloat(walletBalance?.toFixed(tokenDecimal)),
       "Entered value cannot be greater than Balance"
-    ).positive("Balance cannot be negative")
+    ).positive("Enter valid Balance")
     .required("Balance is required"),
 });
 const [balance, setBalance] = useState();
