@@ -70,6 +70,11 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     stakeAmount: 0
   });
 
+  const [comissionHandle, setComissionHandle] = useState({
+    dynasty: '',
+    epoch: ''
+  })
+
   // console.log(chainId)
 
   const getDelegatorStake = async (valContract : any) => {
@@ -88,18 +93,18 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         const valFromContract =  await instance.methods.validators(+valId).call({from : account})
         const valReward = await instance.methods.validatorReward(+valId).call({from : account})
         const dynasty = await instance.methods.dynasty().call({from : account})
-        const validatorStake = await instance.methods.validatorStake(valId).call({from : account})
+        const epoch = await instance.methods.epoch().call({from : account})
+        setComissionHandle({dynasty, epoch})
         const reward = addDecimalValue(valReward / Math.pow(10, web3Decimals))
         setValidatorInfoContract(valFromContract)
         setValidatorTotalReward(reward)
-        console.log(valFromContract, reward,  "dynasty ===> ")
-
+        console.log(web3.utils.fromWei(valFromContract.amount, 'ether'),  "dynasty ===> ")
       }
       catch(err:any){
         Sentry.captureException("getValidatorData ", err);
       }
   }
-
+  console.log(comissionHandle, "comissionHandle => ")
   const validatorInfoAPI = () => {
     try{
       getValidatorsDetail(`${account}`)
@@ -605,8 +610,81 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   }
   }
 
-  // UNBOUND VALIDATOR 
-  const unboundValidator = async () => {
+  // console.log({ check : new web3.eth})
+
+  // UnstakeClaim VALIDATOR 
+  const unStakeClaimValidator = async () => {
+    try {
+      if (account) {
+      setTransactionState({ state: true, title: 'Pending' })
+      let walletAddress: any = account
+      let ID = validatorID
+      let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
+      let gasFee =  await instance.methods.unstakeClaim(ID).estimateGas({from: walletAddress})
+      let encodedAbi =  await instance.methods.unstakeClaim(ID).encodeABI()
+      let CurrentgasPrice : any = await currentGasPrice(web3)
+         console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
+         await web3.eth.sendTransaction({
+           from: walletAddress,
+           to:  dynamicChaining[chainId].STAKE_MANAGER_PROXY,
+           gas: (parseInt(gasFee) + 30000).toString(),
+           gasPrice: CurrentgasPrice,
+           // value : web3.utils.toHex(combinedFees),
+           data: encodedAbi
+         })
+        .on('transactionHash', (res: any) => {
+          console.log(res, "hash")
+          dispatch(
+            addTransaction({
+              hash: res,
+              from: walletAddress,
+              chainId,
+              summary: `${res}`,
+            })
+          )
+          // getActiveTransaction
+          let link = getExplorerLink(chainId, res, 'transaction')
+          setTransactionState({ state: true, title: 'Submitted' })
+          setHashLink(link)
+          setunboundpop(false)
+        }).on('receipt', (res: any) => {
+          console.log(res, "receipt")
+          dispatch(
+            finalizeTransaction({
+              hash: res.transactionHash,
+              chainId,
+              receipt: {
+                to: res.to,
+                from: res.from,
+                contractAddress: res.contractAddress,
+                transactionIndex: res.transactionIndex,
+                blockHash: res.blockHash,
+                transactionHash: res.transactionHash,
+                blockNumber: res.blockNumber,
+                status: 1
+              }
+            })
+          )
+          setTransactionState({ state: false, title: '' })
+          setHashLink('')
+        }).on('error', (res: any) => {
+          console.log(res, "error")
+          setTransactionState({ state: false, title: '' })
+          if (res.code === 4001) {
+            setunboundpop(false)
+          }
+        })
+    } else {
+      console.log("account addres not found")
+    }
+  }
+  catch(err:any){
+    Sentry.captureException("unStakeClaimValidator", err);
+  }
+  }
+
+  // Unstake VALIDATOR 
+  const unStakeValidator = async () => {
     try {
       if (account) {
       setTransactionState({ state: true, title: 'Pending' })
@@ -672,7 +750,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     }
   }
   catch(err:any){
-    Sentry.captureException("unboundValidator", err);
+    Sentry.captureException("unStakeClaimValidator", err);
   }
   }
 
@@ -764,7 +842,6 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     }
     console.log(data)
     if (account) {
-
       let walletAddress = account
       let amount = web3.utils.toBN(fromExponential(+unboundInput * Math.pow(10, web3Decimals)));
       let instance = new web3.eth.Contract(ValidatorShareABI, data.validatorContract);
@@ -845,10 +922,6 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       Sentry.captureException("getStake ", err);
     }
   } 
-
-
-
-
 
   const rewardBalance = validatorInfo?.totalRewards ? (
     (Number(fromExponential(validatorInfo?.totalRewards)) -
@@ -1149,7 +1222,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                     <button
                       onClick={(e) => {
                         e.preventDefault();
-                        unboundValidator();
+                        unStakeClaimValidator();
                       }}
                       className="btn primary-btn w-100"
                     >
@@ -1481,6 +1554,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
                     <div className='cus-tooltip d-inline-block ps-0'>
                       <button
+                      disabled={parseInt(validatorInfoContract?.lastCommissionUpdate)+ parseInt(comissionHandle?.dynasty) <= parseInt(comissionHandle?.epoch) ? false : true}
                         onClick={() =>
                           handleModal(
                             "Change Commission Rate",
@@ -1515,13 +1589,28 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                     <div className='cus-tooltip d-inline-block ps-0'>
                       <button
+                        disabled={parseInt(validatorInfoContract?.deactivationEpoch)+ parseInt(comissionHandle?.dynasty) <= parseInt(comissionHandle?.epoch) && parseInt(validatorInfoContract?.deactivationEpoch) > 0 ? false : true}
                         onClick={() => setunboundpop(true)}
                         className="ff-mos btn black-btn w-100 d-block tool-ico"
                       >
-                        Unbound
+                        unstake
                       </button>
                       <div className="tool-desc">
-                        unbound
+                        unstake from network 
+                      </div>
+                      </div>
+                    </div>
+                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                    <div className='cus-tooltip d-inline-block ps-0'>
+                      <button
+                        disabled={parseInt(validatorInfoContract?.deactivationEpoch)+ parseInt(comissionHandle?.dynasty) <= parseInt(comissionHandle?.epoch) && parseInt(validatorInfoContract?.deactivationEpoch) > 0 ? false : true}
+                        onClick={() => setunboundpop(true)}
+                        className="ff-mos btn black-btn w-100 d-block tool-ico"
+                      >
+                        unstake claim
+                      </button>
+                      <div className="tool-desc">
+                        claim your self stake
                       </div>
                       </div>
                     </div>
@@ -1708,6 +1797,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       </div>
     </>
   );
+
 }
 
 export default validatorAccount
