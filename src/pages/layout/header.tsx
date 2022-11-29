@@ -20,13 +20,14 @@ import * as Sentry from "@sentry/nextjs";
 
 export default function Header() {
   
-  const {account, deactivate } = useWeb3React();
+  const {account, deactivate, active } = useWeb3React();
   const { chainId } = useActiveWeb3React();
   const router = useRouter();
   const [userType, setUserType] = useUserType();
   const [userQrCode, setUserQrCode] = useState(false);
 
   const [valId, setValId] = useValId();
+  // const [valId, setValId] = useValId();
 
   // console.log("valid redux ===> ",userType, valId);
 
@@ -70,7 +71,18 @@ const [scroll, setScroll] = useState(false);
     window.addEventListener("scroll", () => {
       setScroll(window.scrollY > 5);
     });
-  },[])
+
+    const { ethereum } = window as any
+    const handleAccountsChanged = (accounts: string[]) => {
+      console.log("Handling 'accountsChanged' event with payload", accounts)
+      localStorage.clear()
+    }
+
+    ethereum.on('accountsChanged', handleAccountsChanged)
+
+  },[active, account])
+
+
 
   return (
     <>

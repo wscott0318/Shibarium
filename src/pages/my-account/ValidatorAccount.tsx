@@ -12,7 +12,7 @@ import Web3 from 'web3';
 import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
 import { useAppDispatch } from "../../state/hooks"
 import fromExponential from 'from-exponential';
-import { addDecimalValue, currentGasPrice, getAllowanceAmount, web3Decimals } from 'web3/commonFunctions';
+import { addDecimalValue, checkpointVal, comissionVal, currentGasPrice, getAllowanceAmount, web3Decimals } from 'web3/commonFunctions';
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { getExplorerLink } from 'app/functions';
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
@@ -71,6 +71,15 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   });
 
   // console.log(chainId)
+
+  const getDelegatorStake = async (valContract : any) => {
+
+    let instance = new web3.eth.Contract(ValidatorShareABI, valContract);
+    let liquidRewards = await instance.methods.getLiquidRewards(valContract).call({from : account})
+    console.log(liquidRewards)
+  }
+
+  getDelegatorStake("0xddff10bb0afa6293cb1a9c234428c4436c5f2f41")
 
 
   const getValidatorData = async (valId :any) => {
@@ -323,7 +332,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       let allowance = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].STAKE_MANAGER_PROXY) || 0
       let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
 
-      const amountWei = web3.utils.toBN(fromExponential((+values.amount * Math.pow(10, 18))));
+      const amountWei = web3.utils.toBN(fromExponential((+values.amount * Math.pow(10, web3Decimals))));
       if (+values.amount > +allowance) {
         console.log("need approval")
         approveAmount(ID, amountWei, values.reward == 0 ? false : true)
@@ -400,7 +409,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     try {
       if (account) {
       let user = account;
-      let amount = web3.utils.toBN(fromExponential(1000 * Math.pow(10, 18)));
+      let amount = web3.utils.toBN(fromExponential(1000 * Math.pow(10, web3Decimals)));
       let instance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
       instance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, amount).send({ from: user })
         .then(async (res: any) => {
@@ -757,15 +766,15 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     console.log("called ===>")
     let data = {
       delegatorAddress: account,
-      validatorId: unboundModal.id,
+      validatorContract: unboundModal.id,
       amount: unboundInput
     }
-    console.log(data.validatorId)
+    console.log(data)
     if (account) {
 
       let walletAddress = account
-      let amount = web3.utils.toBN(fromExponential(+unboundInput * Math.pow(10, 18)));
-      let instance = new web3.eth.Contract(ValidatorShareABI, data.validatorId);
+      let amount = web3.utils.toBN(fromExponential(+unboundInput * Math.pow(10, web3Decimals)));
+      let instance = new web3.eth.Contract(ValidatorShareABI, data.validatorContract);
       await instance.methods.sellVoucher_new(amount, amount).send({ from: walletAddress })
         .on('transactionHash', (res: any) => {
           console.log(res, "hash")
@@ -836,8 +845,8 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
   const getStake = (id : String) => {
     try {
-      let item = stakeAmounts.length ? stakeAmounts.filter((x:any) => x.validatorId === id)[0]?.tokens : 0
-    return item > 0 ? addDecimalValue(parseInt(item) / 10 ** web3Decimals): "0.00"
+      let item = stakeAmounts.length ? stakeAmounts.filter((x:any) => +(x.validatorId) === +id)[0]?.tokens : 0
+      return item > 0 ? addDecimalValue(parseInt(item) / 10 ** web3Decimals): "0.00"
     }
     catch(err:any){
       Sentry.captureException("getStake ", err);
@@ -851,7 +860,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   const rewardBalance = validatorInfo?.totalRewards ? (
     (Number(fromExponential(validatorInfo?.totalRewards)) -
       Number(fromExponential(validatorInfo?.claimedReward))) /
-    Math.pow(10, 18)
+    Math.pow(10, web3Decimals)
   ).toFixed(tokenDecimal) : "0.00"  
 
   return (
@@ -1365,7 +1374,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                 thousandSeparator
                                 displayType={"text"}
                                 prefix="$ "
-                                value={addDecimalValue(+(parseInt(validatorTotalReward) / Math.pow(10, 18)) * boneUSDValue)}
+                                value={addDecimalValue(+(parseInt(validatorTotalReward) / Math.pow(10, web3Decimals)) * boneUSDValue)}
                               />
                               </span>
                             </div>
@@ -1600,7 +1609,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                                   {+item.reward > 0
                                     ? (
                                         parseInt(item.reward) /
-                                        10 ** 18
+                                        10 ** web3Decimals
                                       ).toFixed(tokenDecimal)
                                     : "0.00"}
                                 </div>
@@ -1614,8 +1623,8 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                               <div className='cus-tooltip d-inline-block'>
                                 <button
                                   disabled={
-                                    parseInt(item.commission) == 0 || item.checkpointSignedPercent < 85 ||
-                                    parseInt(item.reward) / 10 ** 18 < 1
+                                    parseInt(item.commission) == comissionVal || item.checkpointSignedPercent < checkpointVal ||
+                                    parseInt(item.reward) / 10 ** web3Decimals < 1
                                   }
                                   onClick={() =>
                                     handleModal("Restake", item.contractAddress)
@@ -1632,7 +1641,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                             <li className="btn-grp-lst">
                             <div className='cus-tooltip d-inline-block'>
                               <button
-                                disabled={parseInt(item.reward) / 10 ** 18 < 1}
+                                disabled={parseInt(item.reward) / 10 ** web3Decimals < 1}
                                 onClick={() => withdrawRewardDelegator(item.contractAddress, item.id)
                                 }
                                 className="btn black-btn btn-small tool-ico"
@@ -1648,13 +1657,13 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                             <li className="btn-grp-lst">
                             <div className='cus-tooltip d-inline-block'>
                               <button
-                                disabled={parseInt(item.stake) / 10 ** 18 < 1}
+                                disabled={parseInt(getStake(item.id)) < 1}
                                 onClick={() =>
                                   handleModal(
                                     "Unbound",
                                     item.validatorAddress,
                                     item.contractAddress,
-                                    (parseInt(item.stake) / 10 ** 18).toFixed(tokenDecimal)
+                                    (parseInt(getStake(item.id)))
                                   )
                                 }
                                 className="btn black-btn btn-small tool-ico"
@@ -1670,7 +1679,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                             <li className="btn-grp-lst">
                             <div className='cus-tooltip d-inline-block'>
                               <button
-                                disabled={parseInt(item.commission) == 0 || item.checkpointSignedPercent < 85}
+                                disabled={parseInt(item.commission) == comissionVal || item.checkpointSignedPercent < checkpointVal}
                                 onClick={() => {
                                   setSelectedRow({
                                     owner: item.contractAddress,

@@ -82,7 +82,13 @@ function StepTwo({
         console.log(val)
         setBecomeValidateData(val)
         stepHandler("next");
-      } else {
+      } else if (becomeValidateData.image) {
+        setApiLoading(false)
+        val.imageURL = becomeValidateData.image
+        console.log(val)
+        setBecomeValidateData(val)
+        stepHandler("next");
+      }else {
         console.log("image not valid");
         setValidation({ address: false, image: true })
       }

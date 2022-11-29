@@ -274,7 +274,7 @@ const DelegatePopup: React.FC<any> = ({
           setdelegatepop(false)
         })
     } catch(err :any){
-      console.log(err)
+      Sentry.captureMessage("APPROVE_BONE", err);
     }
 
   }
@@ -425,12 +425,9 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                     <div className="pop_btns_area row form-control mt-5">
                       <div className="col-12">
                         <button className="w-100" type="submit" value="submit">
-                          <a
-                            className="btn primary-btn d-flex align-items-center"
-                            href="/"
-                          >
+                          <p className="btn primary-btn d-flex align-items-center">
                             <span>Continue</span>
-                          </a>
+                          </p>
                         </button>
                       </div>
                     </div>
