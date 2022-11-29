@@ -200,12 +200,12 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
   // console.log(restakeModal)
 
   const restakeValidation: any = Yup.object({
-    amount: Yup.number().min(0).max(availBalance).required("amount is required"),
+    amount: Yup.string().matches(/^[1-9][0-9]*$/,"You Must Enter Valid Amount").min(0).max(availBalance).required("amount is required"),
     reward: Yup.number().required(),
 
   })
   const comissionValidation: any = Yup.object({
-    comission: Yup.number().min(0).max(100).required("comission is required"),
+    comission: Yup.string().matches(/^[1-9][0-9]*$/,"You Must Enter Valid Amount").min(0).max(100).required("comission is required"),
   })
 
   // GET VALIDATOR ID 
