@@ -384,6 +384,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
               <label htmlFor="" className="form-label ff-mos">
                 Signer’s Public key
               </label>
+            
               <input
                 type="text"
                 className="form-control"
@@ -399,14 +400,16 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
                 <label htmlFor="" className="form-label ff-mos">
                   Enter the stake amount
                 </label>
+                <div className="maxButtonFloat">
                 <input
                   type="text"
-                  className="mb-2 form-control"
+                  className=" mb-2 form-control"
                   placeholder="00.00"
                   value={values.amount}
                   readOnly={availBalance <= 0}
                   onChange={handleChange("amount")}
-                />
+                /><button disabled={availBalance<=0} className="MaxAmountButton orange-txt fw-bold amt-val" onClick={()=> {setFieldValue ('text',  values.amount = (availBalance-0.000001).toString())}}>MAX</button>
+                </div>
                 {touched.amount && errors.amount ? <p className="primary-text pt-2 er-txt">{errors.amount}</p> : null} 
                 {availBalance <= 0 ? <p className="primary-text pt-2 er-txt">Insufficient Balance</p> : null} 
                 
@@ -419,9 +422,9 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
                   <div className="blk-dta">
                     <p className="amt-val">Balance: {availBalance}</p>
                   </div>
-                  <div className="blk-dta">
+                  {/* <div className="blk-dta">
                     <button disabled={availBalance<=0} className="amt-val" onClick={()=> {setFieldValue ('text',  values.amount = (availBalance-0.000001).toString())}}>MAX</button>
-                  </div>
+                  </div> */}
                 </div>
 
               </div>
