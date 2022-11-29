@@ -49,15 +49,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                 
               </Scrollbar>
               <tbody>
-              {validatorsList.length > 0 ? validatorsList.sort((a: any, b: any) => {
-                  if (a.fundamental === 1 || a.uptimePercent <= inActiveCount) {
-                    return 1;
-                  }
-                  if (b.fundamental === 1 || b.uptimePercent <= inActiveCount) {
-                    return -1;
-                  }
-                  return 0;
-                }).map((x: any, y: any) => (
+              {validatorsList.length ? validatorsList.map((x: any, y: any) => (
                   <tr key={y}>
                     <td>
                       <div className='self-align'>

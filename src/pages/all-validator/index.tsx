@@ -21,11 +21,12 @@ export const Allvalidator: React.FC = () => {
   const [valCount, setValCount] = useState(0);
   const [valMaxCount, setValMaxCount] = useState(0);
   const [valId, setValId] = useValId();
+  
 
-  const getValInfo = () => {
+  const getValInfo = async () => {
     try{
       let id : any = account
-      getValidatorInfo(id.toLowerCase()).then((res : any) => {
+      await getValidatorInfo(id.toLowerCase()).then((res : any) => {
         console.log(res.data.message.val.status, " vall status ===> ")
         setNodeSetup(res.data.message.val.status ? res.data.message.val.status : null)
       })

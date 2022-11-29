@@ -189,12 +189,12 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => onSort('Random', 'name','string')}>Random</Dropdown.Item>
+                        {/* <Dropdown.Item onClick={() => onSort('Random', 'name','string')}>Random</Dropdown.Item> */}
                         <Dropdown.Item onClick={() => onSort('Commission', 'commissionrate','number')}>Commission</Dropdown.Item>
                         <Dropdown.Item onClick={() => onSort('Self', 'selfpercent','number')}>Self</Dropdown.Item>
-                        <Dropdown.Item onClick={() => onSort('Voting Power', 'totalstaked','number')}>
+                        {/* <Dropdown.Item onClick={() => onSort('Voting Power', 'totalstaked','number')}>
                           Voting Power
-                        </Dropdown.Item>
+                        </Dropdown.Item> */}
                         <Dropdown.Item className="ff-mos" onClick={()  => onSort('Uptime', 'uptimePercent','number')}>
                           Uptime
                         </Dropdown.Item>
