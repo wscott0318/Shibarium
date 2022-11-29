@@ -93,7 +93,7 @@ export const CommonModalNew: React.FC<propsNew> = ({
       }
     }
     catch(err:any){
-      Sentry.captureMessage("New Error " , err);
+      Sentry.captureMessage("backHandler ", err);
     }
   };
 

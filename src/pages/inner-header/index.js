@@ -69,7 +69,7 @@ const InnerHeader = () => {
         setUserType('NA')
       })
     } catch (error) {
-      Sentry.captureMessage("New error " , error);
+      Sentry.captureMessage("getUsertypeAPI ", error);
     }
   }
 

@@ -44,7 +44,7 @@ const delegatorAccount = () => {
       })
     } catch (error:any) {
       console.log(error)
-      Sentry.captureException("New Error " , error);
+      Sentry.captureException("getDelegatorCardData ", error);
     }
   }
 
@@ -78,7 +78,7 @@ const delegatorAccount = () => {
     }
   }
   catch(err:any){
-    Sentry.captureException('New Error ' , err);
+    Sentry.captureException("handleModal ", err);
   }
   };
 

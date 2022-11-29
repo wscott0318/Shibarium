@@ -132,7 +132,7 @@ const handleSearchList = (key :any) => {
       }
   }
   catch(err:any){
-    Sentry.captureMessage("New Error " , err);
+    Sentry.captureMessage("handleSearchList", err);
   }
       }
 
@@ -256,7 +256,7 @@ const handleSearchList = (key :any) => {
         })
        } 
        catch(err:any){
-        Sentry.captureMessage("New Error " , err);
+        Sentry.captureMessage("approvalForDeposit", err);
       }
       }
 
@@ -274,7 +274,7 @@ const handleSearchList = (key :any) => {
           }
         }
         catch(err:any){
-          Sentry.captureMessage("New Error " , err);
+          Sentry.captureMessage("callDepositModal", err);
         }
       }
 
@@ -355,7 +355,7 @@ const handleSearchList = (key :any) => {
       }
       }
       catch(err:any){
-        Sentry.captureMessage("New Error " , err);
+        Sentry.captureMessage("callDepositContract ", err);
       }
     }
       

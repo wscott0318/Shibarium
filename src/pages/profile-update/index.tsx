@@ -51,7 +51,7 @@ export default function ProfileUpdate() {
             })
         }
         catch (err: any) {
-            Sentry.captureException("New Error ", err);
+            Sentry.captureException("callValidatorInfo ", err);
         }
     }
     useEffect(() => {
@@ -118,7 +118,7 @@ export default function ProfileUpdate() {
             }
         }
         catch (err: any) {
-            Sentry.captureException("New Error ", err);
+            Sentry.captureException("callAPI ", err);
         }
 
     };
@@ -165,7 +165,7 @@ export default function ProfileUpdate() {
             }
         }
         catch (err: any) {
-            Sentry.captureException("New Error ", err);
+            Sentry.captureException("imgSizeCheck ", err);
         }
     }
 

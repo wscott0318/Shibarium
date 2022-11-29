@@ -52,7 +52,7 @@ const BoneStaking = () => {
         setValMaxCount(validatorThreshold)
     }
     catch(err:any){
-      Sentry.captureMessage("New Error " , err);
+      Sentry.captureMessage("getValCount", err);
     }
   }
 

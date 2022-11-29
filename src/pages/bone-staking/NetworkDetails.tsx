@@ -66,7 +66,7 @@ function NetworkDetails({valCount} : any) {
           return ID
       }
       catch(err:any){
-        Sentry.captureMessage("New Error " , err);
+        Sentry.captureMessage("getTotalStakes ", err);
       }
     }
 

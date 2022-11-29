@@ -101,7 +101,7 @@ export default function Wallet() {
       return result
     }
     catch (err: any) {
-      Sentry.captureException("New Error ", err);
+      Sentry.captureException("verifyAddress ", err);
     }
   }
 
@@ -126,7 +126,7 @@ export default function Wallet() {
       })
     }
     catch (err: any) {
-      Sentry.captureException("New Error ", err);
+      Sentry.captureException("getTokensList ", err);
     }
   }
 
@@ -163,7 +163,7 @@ export default function Wallet() {
       }
     }
     catch (err: any) {
-      Sentry.captureException("New Error ", err);
+      Sentry.captureException("handleSend ", err);
     }
   }
   const pageSize = 4;
@@ -195,7 +195,7 @@ export default function Wallet() {
       setCurrentPage(index);
     }
     catch (err: any) {
-      Sentry.captureException("New Error ", err);
+      Sentry.captureException("pageChangeHandler ", err);
     }
   };
 
@@ -228,7 +228,7 @@ export default function Wallet() {
       }
     }
     catch (err: any) {
-      Sentry.captureException("New Error ", err);
+      Sentry.captureException("handleSearchList ", err);
     }
   }
 

@@ -55,7 +55,7 @@ export default function Unbond() {
         }
       }
       catch(err:any){
-        Sentry.captureException("New Error " , err);
+        Sentry.captureException("getValidatorContractAddress ", err);
       }
       }
 
@@ -81,7 +81,7 @@ export default function Unbond() {
         })
       }
       catch(err:any){
-        Sentry.captureException("New Error " , err);
+        Sentry.captureException("getUnboundHistory ", err);
       }
     }
     // console.log(claimNowModals)
@@ -157,7 +157,7 @@ export default function Unbond() {
           }
         }
         catch(err:any){
-          Sentry.captureException("New Error " , err);
+          Sentry.captureException("unboundClaimAPI ", err);
         }
         // console.log(validatorContract)
     }
@@ -212,7 +212,7 @@ export default function Unbond() {
       }
     }
     catch(err:any){
-      Sentry.captureException("New Error " , err);
+      Sentry.captureException("fixedDecimals ", err);
     } 
     };
 

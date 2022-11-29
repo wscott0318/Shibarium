@@ -104,7 +104,7 @@ const DelegatePopup: React.FC<any> = ({
     setStep(2);
   }
   catch(err:any){
-    Sentry.captureMessage("New Error " , err);
+    Sentry.captureMessage("approveHandler ", err);
   }
   };
 
@@ -136,7 +136,7 @@ const DelegatePopup: React.FC<any> = ({
     }
   }
   catch(err:any){
-    Sentry.captureMessage("New Error " , err);
+    Sentry.captureMessage("buyVouchers ", err);
   }
   };
 

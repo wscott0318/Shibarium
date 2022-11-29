@@ -38,7 +38,7 @@ export default function SidebarOuter({
     }
   }
   catch(err:any){
-    Sentry.captureException("New Error " , err);
+    Sentry.captureException("handleClickOutside ", err);
   }
   };
   useEffect(() => {

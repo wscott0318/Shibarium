@@ -80,7 +80,7 @@ export default function ValidatorDetails() {
             setTotalSupply(finalAMount)
         }
         catch(err:any){
-            Sentry.captureMessage("New Error " , err);
+            Sentry.captureMessage("getTotalSupply", err);
         }
 
         // amount delegatedAmount

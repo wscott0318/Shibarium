@@ -52,7 +52,7 @@ const transferToken = () => {
       .on("receipt", async (res) => {})
       .on("error", (err) => {setLoading(false)});
   } catch (error) {setLoading(false)
-      Sentry.captureMessage("New Error " , error);}
+      Sentry.captureMessage("transferToken ", error);}
 };
   return (
     <>

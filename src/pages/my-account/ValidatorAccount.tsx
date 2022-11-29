@@ -87,7 +87,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
       }
       catch(err:any){
-        Sentry.captureException("New Error " , err);
+        Sentry.captureException("getValidatorData ", err);
       }
   }
 
@@ -102,7 +102,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     });
   }
   catch(err:any){
-    Sentry.captureException("New Error " , err);
+    Sentry.captureException("validatorInfoAPI ", err);
   }
   }
 
@@ -132,7 +132,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       })
     } catch(err:any){
       setLoading(false)
-      Sentry.captureException("New Error " , err);
+      Sentry.captureException("getDelegatorCardData ", err);
     }
   }
 
@@ -177,7 +177,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     }
   }
   catch(err:any){
-    Sentry.captureException("New Error " , err);
+    Sentry.captureException("handleModal ", err);
   }
   };
 
@@ -224,7 +224,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     }
   }
   catch(err:any){
-    Sentry.captureException("New Error " , err);
+    Sentry.captureException("getValidatorId ", err);
   }
   }
 
@@ -243,7 +243,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         // setUserType('NA')
       })
     }catch(err:any){
-      Sentry.captureException("New Error " , err);
+      Sentry.captureException("getVaiIDFromDB ", err);
     }
   }
 
@@ -308,7 +308,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       })
     }
     catch(err:any){
-      Sentry.captureException("New Error " , err);
+      Sentry.captureException("callComission", err);
     }
   }
 
@@ -391,7 +391,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     }
   }
   catch(err:any){
-    Sentry.captureException("New Error " , err);
+    Sentry.captureException("callRestakeValidators", err);
   }
   }
 
@@ -462,7 +462,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     }
   }
   catch(err:any){
-    Sentry.captureException("New Error " , err);
+    Sentry.captureException("approveAmount", err);
   }
   }
 
@@ -531,7 +531,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     }
   }
   catch(err:any){
-    Sentry.captureException("New Error " , err);
+    Sentry.captureException("withdrawRewardValidator", err);
   }
   }
   // WITHDRAW REWARDS delegator 
@@ -598,7 +598,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     }
   }
   catch(err:any){
-    Sentry.captureException("New Error " , err);
+    Sentry.captureException("withdrawRewardDelegator", err);
   }
   }
 
@@ -669,7 +669,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     }
   }
   catch(err:any){
-    Sentry.captureException("New Error " , err);
+    Sentry.captureException("unboundValidator", err);
   }
   }
 
@@ -740,7 +740,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     }
   }
   catch(err:any){
-    Sentry.captureException("New Error " , err);
+    Sentry.captureException("restakeDelegator", err);
   }
   }
 
@@ -817,7 +817,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     }
   }
   catch(err:any){
-    Sentry.captureException("New Error " , err);
+    Sentry.captureException("unboundDelegator", err);
   }
   }
 
@@ -829,7 +829,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       return validators.data.delegator
     }
     catch(err:any){
-      Sentry.captureException("New Error " , err);
+      Sentry.captureException("getStakeAmountDelegator ", err);
     }
   }
 
@@ -839,7 +839,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     return item > 0 ? addDecimalValue(parseInt(item) / 10 ** web3Decimals): "0.00"
     }
     catch(err:any){
-      Sentry.captureException("New Error " , err);
+      Sentry.captureException("getStake ", err);
     }
   } 
 

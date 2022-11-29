@@ -13,7 +13,7 @@ import * as Sentry from "@sentry/nextjs";
           setIsCopied(false);
         }, 1000);
       }catch(err){
-        Sentry.captureMessage("New Error " , err);
+        Sentry.captureMessage("ConfirmPopUp ", err);
       }
     };
       
