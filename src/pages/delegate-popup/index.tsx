@@ -286,12 +286,12 @@ const DelegatePopup: React.FC<any> = ({
 
 let schema = yup.object().shape({
   balance: yup
-    .number().typeError("Only digits are allowed")
+    .number().typeError("Only digits are allowed.")
     .max(
       parseFloat(walletBalance?.toFixed(tokenDecimal)),
-      "Entered value cannot be greater than Balance"
-    ).positive("Enter valid Balance")
-    .required("Balance is required"),
+      "Entered value cannot be greater than Balance."
+    ).positive("Enter valid Balance.")
+    .required("Balance is required."),
 });
 const [balance, setBalance] = useState();
 
