@@ -75,7 +75,7 @@ const InnerHeader = () => {
 
   const logoutHandler = () => {
     deactivate();
-    //  router.push("/home");
+     router.push("/home");
   }
   const [selectNet, setSelectNet] = useState("Shibarium Mainnet")
 

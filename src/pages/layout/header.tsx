@@ -39,7 +39,7 @@ export default function Header() {
 
   const logoutHandler = () => {
     deactivate();
-    // await router.push("/home");
+    router.push("/home");
   };
 
   const getUsertypeAPI = (accountAddress :any) => {
