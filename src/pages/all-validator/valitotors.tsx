@@ -45,7 +45,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
         query: allValidatorsQuery(),
       })}
       catch(err:any){
-        Sentry.captureMessage("fetchValidators",err);
+        Sentry.captureMessage("fetchValidators", err);
       }
 
       // console.log(validators, " graphQL query ==== >")
@@ -133,7 +133,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
         setValidators(sortedList)
     }
     catch(err:any){
-      Sentry.captureMessage(err);
+      Sentry.captureMessage("onSort", err);
     }
     }
 

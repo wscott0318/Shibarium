@@ -106,9 +106,6 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
     .then((res) => {
       setValidatorInfo(res?.data?.data?.validatorSet.validatorInfo);
     })
-    .catch((error: any) => {
-      console.log("error", error);
-    });
   }
   catch(err:any){
     Sentry.captureException("validatorInfoAPI ", err);
@@ -140,7 +137,6 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         setLoading(false)
       })
     } catch(err:any){
-      setLoading(false)
       Sentry.captureException("getDelegatorCardData ", err);
     }
   }
@@ -247,9 +243,6 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
           // setUserType(ut)
           setValidatorID(+ut)
         }
-      }).catch((e:any) => {
-        console.log(e);
-        // setUserType('NA')
       })
     }catch(err:any){
       Sentry.captureException("getVaiIDFromDB ", err);

@@ -215,7 +215,7 @@ const DelegatePopup: React.FC<any> = ({
             setdelegatepop(false)
           })
     } catch(err :any){
-      console.log(err)
+      Sentry.captureMessage("BUY_VOUCHER ", err);
     }
 
   }
@@ -274,7 +274,7 @@ const DelegatePopup: React.FC<any> = ({
           setdelegatepop(false)
         })
     } catch(err :any){
-      Sentry.captureMessage("APPROVE_BONE", err);
+     Sentry.captureMessage("APPROVE_BONE ", err);
     }
 
   }
