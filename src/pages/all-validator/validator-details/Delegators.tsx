@@ -58,7 +58,7 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
                             <NumberFormat
                               displayType="text"
                               thousandSeparator
-                              value={item.stake / Math.pow(10, 18)}
+                              value={item.stake}
                             />
                           </span>
                         </td>
