@@ -38,9 +38,6 @@ const delegatorAccount = () => {
           let sortedData = res.data.data.validators.sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake))
           setDelegationsList(sortedData)
         }
-      }).catch((e: any) => {
-        console.log(e);
-        //  setUserType('NA')
       })
     } catch (error:any) {
       console.log(error)

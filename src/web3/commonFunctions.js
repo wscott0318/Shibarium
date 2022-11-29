@@ -1,6 +1,7 @@
 import Web3 from "web3";
 import ERC20abi from "../ABI/ERC20Abi.json";
 import { ChainId } from "shibarium-chains";
+import * as Sentry from "@sentry/nextjs";
 
 export const getAllowanceAmount = async (library, token, account, contract) => {
   if (account) {
@@ -22,7 +23,7 @@ export const currentGasPrice = async (web3) => {
       value = parseInt(res * 1.1);
     })
     .catch((err) => {
-      console.log(err);
+      Sentry.captureException("currentGasPrice ", err);
     });
   return value;
 };

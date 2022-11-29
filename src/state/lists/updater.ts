@@ -6,7 +6,7 @@ import useIsWindowVisible from '../../hooks/useIsWindowVisible'
 import { useActiveWeb3React } from '../../services/web3'
 import { useAppDispatch } from '../../state/hooks'
 import { useCallback, useEffect } from 'react'
-
+import * as Sentry from "@sentry/nextjs"
 import { acceptListUpdate } from './actions'
 import { useActiveListUrls, useAllLists } from './hooks'
 
@@ -23,7 +23,13 @@ export default function Updater(): null {
   const fetchAllListsCallback = useCallback(() => {
     if (!isWindowVisible) return
     Object.keys(lists).forEach((url) =>
-      fetchList(url).catch((error) => console.debug('interval list fetching error', error))
+      fetchList(url).catch((error:any) => {
+        console.debug('interval list fetching error', error);
+        Sentry.captureException(
+          "fetchAllListsCallback in list/updater.ts ",
+          error
+        );
+      })
     )
   }, [fetchList, isWindowVisible, lists])
 
@@ -35,7 +41,10 @@ export default function Updater(): null {
     Object.keys(lists).forEach((listUrl) => {
       const list = lists[listUrl]
       if (!list.current && !list.loadingRequestId && !list.error) {
-        fetchList(listUrl).catch((error) => console.debug('list added fetching error', error))
+        fetchList(listUrl).catch((error:any) => {
+          console.debug('list added fetching error', error);
+          Sentry.captureException("UseEffect1 in list/updater.ts ", error);
+        })
       }
     })
   }, [dispatch, fetchList, library, lists])
@@ -45,7 +54,10 @@ export default function Updater(): null {
     UNSUPPORTED_LIST_URLS.forEach((listUrl) => {
       const list = lists[listUrl]
       if (!list || (!list.current && !list.loadingRequestId && !list.error)) {
-        fetchList(listUrl).catch((error) => console.debug('list added fetching error', error))
+        fetchList(listUrl).catch((error:any) => {
+          console.debug('list added fetching error', error);
+          Sentry.captureException("UseEffect2 in list/updater.ts ", error);
+        })
       }
     })
   }, [dispatch, fetchList, library, lists])

@@ -26,7 +26,7 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue }) => {
             setPageIndex(index)
         }
         catch(err:any){
-          Sentry.captureMessage(err);
+          Sentry.captureMessage("pageChangeHandler", err);
         }
     }
     return (

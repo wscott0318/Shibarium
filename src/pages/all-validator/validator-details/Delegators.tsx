@@ -26,7 +26,7 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
         setPageIndex(index)
         }
         catch(err:any){
-            Sentry.captureMessage(err);
+            Sentry.captureMessage("pageChangeHandler", err);
         }
     }
     return (
