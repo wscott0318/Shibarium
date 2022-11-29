@@ -187,10 +187,10 @@ export default function Unbond() {
     const router = useRouter();
 
     useEffect(() => {
-      if (userType !== "Delegator" && account) {
-        router.back();
+      if (account) {
+        getUnboundHistory(account)
       } else {
-        router.push('/')
+        router.back();        
       }
     }, [userType, account]);
 

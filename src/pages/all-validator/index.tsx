@@ -49,7 +49,7 @@ export const Allvalidator: React.FC = () => {
         setValMaxCount(validatorThreshold)
     }
     catch(err:any){
-      Sentry.captureMessage("New Error " , err);
+      Sentry.captureMessage("getValCount" , err);
     }
   }
 

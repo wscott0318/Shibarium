@@ -96,6 +96,7 @@ const StakingHeader = () => {
           );
         }
       } else if (userType === "Delegator") {
+        return (
         <>
           <li className="nav-item">
             <Link href="/my-account" className="nav-link ff-mos" passHref>
@@ -127,7 +128,8 @@ const StakingHeader = () => {
               </Dropdown.Item>
             </DropdownButton>
           </li>
-        </>;
+        </>
+        )
       } else {
         return (
           <>
