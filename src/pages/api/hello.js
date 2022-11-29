@@ -5,7 +5,7 @@ const handler = (req, res) => {
  try{
   res.status(200).json({ name: "John Doe" });
  } catch ( error){
-  Sentry.captureMessage(error)
+  Sentry.captureMessage("handler in pages/api/hello.js",error)
  }
 };
 

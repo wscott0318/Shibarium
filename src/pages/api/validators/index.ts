@@ -7,7 +7,7 @@ const handler =  (req: NextApiRequest, res: NextApiResponse) => {
   try{
     res.status(200).json([])
   }catch(err:any){
-    Sentry.captureMessage(err);
+    Sentry.captureMessage("handler in api/validators", err);
   }
 }
 

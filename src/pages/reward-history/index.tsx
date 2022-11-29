@@ -45,12 +45,10 @@ export default function Unbond() {
           setList(decOrder);
           setListLoader(false)
         }
-      }).catch((err: any) => {
-        console.log(err);
-        setListLoader(false)
       })
     }
     catch (err: any) {
+      setListLoader(false);
       Sentry.captureException("getRewardsList ", err);
     }
   }

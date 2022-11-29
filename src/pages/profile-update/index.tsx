@@ -45,12 +45,10 @@ export default function ProfileUpdate() {
 
                 })
                 setLoader(false)
-            }).catch((err: any) => {
-                console.log(err)
-                setLoader(false)
             })
         }
         catch (err: any) {
+            setLoader(false);
             Sentry.captureException("callValidatorInfo ", err);
         }
     }

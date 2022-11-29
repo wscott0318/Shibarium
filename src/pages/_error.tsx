@@ -48,7 +48,7 @@ MyError.getInitialProps = async ({ res, err, asPath }) => {
   //    Boundaries: https://reactjs.org/docs/error-boundaries.html
 
   if (err) {
-    Sentry.captureException(err)
+    Sentry.captureException("MyError.getInitialProps", err);
     // Flushing before returning is necessary if deploying to Vercel, see
     // https://vercel.com/docs/platform/limits#streaming-responses
     await Sentry.flush(2000)

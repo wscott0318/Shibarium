@@ -8,6 +8,7 @@ import { AppState } from '../../state'
 import { useBlockNumber } from '../../state/application/hooks'
 import { useAppDispatch, useAppSelector } from '../../state/hooks'
 import { useEffect, useMemo, useRef } from 'react'
+import * as Sentry from "@sentry/nextjs";
 
 // import { constants, default as chunkCalls } from '../../functions/calls'
 import { errorFetchingMulticallResults, fetchingMulticallResults, updateMulticallResults } from './actions'
@@ -52,11 +53,12 @@ async function fetchChunk(
       })
     }
     return returnData
-  } catch (error) {
+  } catch (error:any) {
     // @ts-ignore TYPE NEEDS FIXING
     if (error.code === -32000 || error.message?.indexOf('header not found') !== -1) {
       throw new RetryableError(`header not found for block number ${blockNumber}`)
     }
+     Sentry.captureException("fetchChunk ", error);
     console.error('Failed to fetch chunk', error)
     throw error
   }
@@ -231,6 +233,7 @@ export default function Updater(): null {
               console.debug('Cancelled fetch for blockNumber', latestBlockNumber, chunk, chainId)
               return
             }
+            Sentry.captureException("UseEffect in Multicall Updater ", error);
             console.error('Failed to fetch multicall chunk', chunk, chainId, error)
             dispatch(
               errorFetchingMulticallResults({

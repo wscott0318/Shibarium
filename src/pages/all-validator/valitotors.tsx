@@ -45,7 +45,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
         query: allValidatorsQuery(),
       })}
       catch(err:any){
-        Sentry.captureMessage(err);
+        Sentry.captureMessage("fetchValidators", err);
       }
 
       // console.log(validators, " graphQL query ==== >")
@@ -115,7 +115,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
         setCurrentPage(index)
       }
       catch(err:any){
-        Sentry.captureMessage(err);
+        Sentry.captureMessage("pageChangeHandler",err);
       }
     }
     const onSort = (key: string, column: string,type:string) => {
@@ -133,7 +133,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
         setValidators(sortedList)
     }
     catch(err:any){
-      Sentry.captureMessage(err);
+      Sentry.captureMessage("onSort", err);
     }
     }
 

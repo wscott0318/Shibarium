@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
-
+import * as Sentry from "@sentry/nextjs"
 const apiUrl = `http://localhost:5020/validator/list`;
 function getApi() {
   return fetch(apiUrl, {
@@ -17,6 +17,7 @@ function* fetchTransaction(action :any) : any {
       const users = yield call(getApi);
       yield put({type: 'GET_USERS_SUCCESS', users: users});
    } catch (e : any) {
+      Sentry.captureException("fetchTransaction ", e);
       yield put({type: 'GET_USERS_FAILED', message: e.message});
    }
 }
