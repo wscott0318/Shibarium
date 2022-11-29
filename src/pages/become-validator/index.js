@@ -100,7 +100,7 @@ const Rewards = () => {
       }
       setEditNsave(!editNsave);
     } catch (err) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("handleEdit", err);
     }
   };
 

@@ -88,7 +88,7 @@ function StepTwo({
       }
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("callAPI", err);
       console.log("image vaild");
     };
   }
@@ -132,7 +132,7 @@ function StepTwo({
       }
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("onImageChange", err);
     }
     // console.log(event.target.files[0])
   }

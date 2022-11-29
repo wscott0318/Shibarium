@@ -64,7 +64,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
       }
     } 
     catch(err:any){
-      Sentry.captureMessage("New Error " , err);
+      Sentry.captureMessage("getMinimunFee", err);
     }
   }
   
@@ -206,7 +206,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
       })
     
   } catch (err:any){
-    Sentry.captureMessage("New Error " , err);
+    Sentry.captureMessage("submitTransaction", err);
     setTransactionState({state: false, title: ''})
   }
     
@@ -249,7 +249,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
         submitTransaction(val)
       }
     } catch (err :any){
-      Sentry.captureMessage("New Error " , err);
+      Sentry.captureMessage("handleTransaction", err);
     }
   }
 

@@ -106,7 +106,7 @@ export default function Withdraw() {
       });
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("getTokensList", err);
     }
   };
 
@@ -127,7 +127,7 @@ export default function Withdraw() {
       }
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("handleSearchList", err);
     }
   }
 
@@ -252,7 +252,7 @@ export default function Withdraw() {
         })
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("approvalForDeposit", err);
     }
   }
 
@@ -270,7 +270,7 @@ export default function Withdraw() {
       }
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("callDepositModal", err);
     }
   }
 
@@ -351,7 +351,7 @@ export default function Withdraw() {
       }
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("callDepositContract", err);
     }
   }
 

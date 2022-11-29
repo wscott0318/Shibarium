@@ -123,7 +123,7 @@ export default function Withdraw() {
       });
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("getTokensList", err);
     }
   };
   useEffect(() => {
@@ -152,7 +152,7 @@ export default function Withdraw() {
       }
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("handleSearchList", err);
     }
   }
 
@@ -276,7 +276,7 @@ export default function Withdraw() {
         })
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("approvalForDeposit", err);
     }
   }
 
@@ -294,7 +294,7 @@ export default function Withdraw() {
       }
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("callDepositModal", err);
     }
   }
 
@@ -375,7 +375,7 @@ export default function Withdraw() {
       }
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("callDepositContract", err);
     }
   }
 
@@ -435,7 +435,7 @@ export default function Withdraw() {
       }
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("addTokenHandler", err);
     }
   };
 
@@ -505,7 +505,7 @@ export default function Withdraw() {
       }
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("useEffect on line 449 in bridge > backup", err);
     }
   }, [newToken])
 
@@ -533,7 +533,7 @@ export default function Withdraw() {
       }
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("UseEffect line 512 in bridge backup ", err);
     }
   }, [localTokens])
 
@@ -546,7 +546,7 @@ export default function Withdraw() {
       }
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("UseEffect line 540", err);
     }
   }, [])
 
@@ -605,7 +605,7 @@ export default function Withdraw() {
       console.log("temptoken", tempTokens);
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("getTempTokens", err);
     }
   }
 
@@ -627,7 +627,7 @@ export default function Withdraw() {
       localStorage.setItem("newToken", "[]");
     }
     catch(err:any){
-      Sentry.captureMessage("New Error " , err);
+      Sentry.captureMessage("clearAllCustomTokens", err);
     }
   }
 
@@ -646,7 +646,7 @@ export default function Withdraw() {
         setTokenModalList(filtered2);
       }
       catch(err:any){
-        Sentry.captureMessage("New Error " , err);
+        Sentry.captureMessage("spliceCustomToken ", err);
       }
     }
     console.log('localToken', localTokens);
