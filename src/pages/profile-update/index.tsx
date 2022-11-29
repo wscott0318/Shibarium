@@ -122,16 +122,16 @@ export default function ProfileUpdate() {
     };
 
     let schema = yup.object().shape({
-        validatorname: yup.string().typeError("name is required").max(14).typeError("name must be less than 15 characters").required("validator name is required").matches(/^[A-Za-z][A-Za-z0-9 ]+$/, "Entered wrong charactor"),
-        address: yup.string().required("address is required"),
+        validatorname: yup.string().typeError("Name is required.").max(14).typeError("Name must be less than 15 characters.").required("Validator name is required.").matches(/^[A-Za-z][A-Za-z0-9 ]+$/, "Entered wrong charactor."),
+        address: yup.string().required("Address is required."),
         website: yup
             .string()
-            .typeError("website is required")
-            .url("enter a vaild url")
-            .required("website is required")
+            .typeError("Website is required.")
+            .url("Enter a vaild url.")
+            .required("Website is required.")
             .matches(
                 /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/,
-                "enter a vaild url"
+                "Enter a vaild url."
             ),
     });
 

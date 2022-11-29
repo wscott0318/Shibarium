@@ -38,7 +38,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
   const [minHeimdallFee ,setMinHeimdallFee] = useState<number>(0);
   const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
   let schema = yup.object().shape({
-    amount: yup.number().typeError("only digits are allowed").min(minDeposit).max(availBalance).required("amount is required"),
+    amount: yup.number().typeError("Only digits are allowed.").min(minDeposit).max(availBalance).required("Amount is required."),
   })
 
   useEffect(() => {

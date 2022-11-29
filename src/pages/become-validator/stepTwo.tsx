@@ -10,26 +10,26 @@ import * as Sentry from "@sentry/nextjs";
 export const validatorSchema = yup.object().shape({
   name: yup
     .string()
-    .max(14).typeError("name must be less than 15 characters")
-    .required("validator name is required")
-    .matches(/^[A-Za-z][A-Za-z0-9 ]+$/, "only alphabets & digits are allowed "),
+    .max(14).typeError("Name must be less than 15 characters.")
+    .required("Validator name is required.")
+    .matches(/^[A-Za-z][A-Za-z0-9 ]+$/, "Only alphabets & digits are allowed. "),
   publickey: yup
     .string()
     .max(143)
     .notOneOf(
       [yup.ref("address"), null],
-      "Signer's address & public key should not match"
+      "Signer's address & public key should not match."
     )
-    .matches(/^0x/, "should only start with 0x")
-    .matches(/^[A-Za-z0-9 ]+$/, 'no special characters allowed')
-    .required("public key is required"),
+    .matches(/^0x/, "Should only start with 0x.")
+    .matches(/^[A-Za-z0-9 ]+$/, 'No special characters allowed.')
+    .required("Public key is required."),
   website: yup
     .string()
-    .url("enter a vaild url")
-    .required("website is required")
+    .url("Enter a vaild url.")
+    .required("Website is required.")
     .matches(
       /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/,
-      "enter a vaild url with 'https://' or 'http://' at start "
+      "Enter a vaild url with 'https://' or 'http://' at start. "
     ),
 });
 
