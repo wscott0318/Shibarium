@@ -38,7 +38,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     }, [searchResult])
   // console.log("hhiii validatorsByStatus",validatorsByStatus)
 
-    // console.log("searchResult",searchResult)
+    // console.log("yooo searchResult",searchResult)
 
     const fetchValidators = async () => {
       try{const validators = await queryProvider.query({
