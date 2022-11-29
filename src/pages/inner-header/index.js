@@ -73,9 +73,9 @@ const InnerHeader = () => {
     }
   }
 
-  const logoutHandler = async () => {
+  const logoutHandler = () => {
     deactivate();
-    await router.push("/home");
+    //  router.push("/home");
   }
   const [selectNet, setSelectNet] = useState("Shibarium Mainnet")
 
@@ -104,16 +104,16 @@ const InnerHeader = () => {
                 <AppHeader />
                 <Nav.Item className="d-flex align-items-center cus_dropdown">
                   {/* <Link href={"/"} passHref> */}
-                    <button onClick={toggleNetworkModal}>
-                      <a className="d-md-none swap-btn">
-                        <img
-                          className="img-fluid"
-                          src="../../assets/images/switch-icon.png"
-                          alt=""
-                          width={30}
-                        />
-                      </a>
-                    </button>
+                  <button onClick={toggleNetworkModal}>
+                    <a className="d-md-none swap-btn">
+                      <img
+                        className="img-fluid"
+                        src="../../assets/images/switch-icon.png"
+                        alt=""
+                        width={30}
+                      />
+                    </a>
+                  </button>
                   {/* </Link> */}
 
                   <NetworkButton />
@@ -146,31 +146,39 @@ const InnerHeader = () => {
                           </div>
                         </div>
                       </div>
-                      {userType === 'Validator' && <NavDropdown.Item>
-                        <div className="custum-row">
-                          <div className="lft-img prof-icon">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/profile-round.png"
-                              alt="profile"
-                              width={32}
-                            />
+                      {userType === "Validator" && (
+                        <NavDropdown.Item>
+                          <div className="custum-row">
+                            <div className="lft-img prof-icon">
+                              <img
+                                className="img-fluid"
+                                src="../../assets/images/profile-round.png"
+                                alt="profile"
+                                width={32}
+                              />
+                            </div>
+                            <Link href="/profile-update" passHref>
+                              <span className="center-txt">Profile</span>
+                            </Link>
+                            <div className="rt-image">
+                              <img
+                                src="../../assets/images/rt-arow.png"
+                                alt=""
+                              />
+                            </div>
                           </div>
-                          <Link href="/profile-update" passHref>
-                            <span className="center-txt">Profile</span>
-                          </Link>
-                          <div className="rt-image">
-                            <img src="../../assets/images/rt-arow.png" alt="" />
-                          </div>
-                        </div>
-                      </NavDropdown.Item>}
+                        </NavDropdown.Item>
+                      )}
                       <NavDropdown.Item
-                        href="/"
+                        href="javascript:void(0)"
                         onClick={() => setUserQrCode(true)}
                       >
                         <div className="custum-row">
                           <div className="lft-img">
-                            <img src="../../assets/images/recive-icon.png" alt="" />
+                            <img
+                              src="../../assets/images/recive-icon.png"
+                              alt=""
+                            />
                           </div>
                           <div className="center-txt">
                             <span>Receive Funds</span>
@@ -209,7 +217,7 @@ const InnerHeader = () => {
                           </div>
                         </div>
                       </NavDropdown.Item>
-                      <NavDropdown.Item href="/">
+                      <NavDropdown.Item href="javascript:void(0)">
                         <div className="custum-row mb-0">
                           <div className="lft-img ps-2">
                             <img
