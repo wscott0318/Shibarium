@@ -23,13 +23,15 @@ export const Allvalidator: React.FC = () => {
   const [valId, setValId] = useValId();
 
   const getValInfo = () => {
-    let id : any = account
-    getValidatorInfo(id.toLowerCase()).then((res : any) => {
-      console.log(res.data.message.val.status, " vall status ===> ")
-      setNodeSetup(res.data.message.val.status ? res.data.message.val.status : null)
-    }).catch((err : any) => {
-      console.log(err)
-    })
+    try{
+      let id : any = account
+      getValidatorInfo(id.toLowerCase()).then((res : any) => {
+        console.log(res.data.message.val.status, " vall status ===> ")
+        setNodeSetup(res.data.message.val.status ? res.data.message.val.status : null)
+      })
+    } catch (err :any ) {
+      Sentry.captureMessage("getValInfo" , err);
+    }
   }
 
   const web3test = L1Block();
