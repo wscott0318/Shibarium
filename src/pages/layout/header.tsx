@@ -138,6 +138,7 @@ const [scroll, setScroll] = useState(false);
                     Separated link
                   </NavDropdown.Item>
                 </NavDropdown>
+                {/* @ts-ignore */}
                 <AppHeader />
                 {!account ? (
                   <Nav.Item className="button-wrap cus_dropdown">
