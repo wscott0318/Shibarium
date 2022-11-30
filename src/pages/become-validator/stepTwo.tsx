@@ -2,17 +2,24 @@ import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import * as yup from "yup";
 import Web3 from "web3";
-import { getValidatorInfo, registerValidator } from "services/apis/network-details/networkOverview";
+import {
+  getValidatorInfo,
+  registerValidator,
+} from "services/apis/network-details/networkOverview";
 import { useActiveWeb3React } from "../../services/web3";
-import LoadingSpinner from 'pages/components/Loading';
+import LoadingSpinner from "pages/components/Loading";
 import * as Sentry from "@sentry/nextjs";
 
 export const validatorSchema = yup.object().shape({
   name: yup
     .string()
-    .max(14).typeError("Name must be less than 15 characters.")
+    .max(14)
+    .typeError("Name must be less than 15 characters.")
     .required("Validator name is required.")
-    .matches(/^[A-Za-z][A-Za-z0-9 ]+$/, "Only alphabets & digits are allowed. "),
+    .matches(
+      /^[A-Za-z][A-Za-z0-9 ]+$/,
+      "Only alphabets & digits are allowed. "
+    ),
   publickey: yup
     .string()
     .max(143)
@@ -21,7 +28,7 @@ export const validatorSchema = yup.object().shape({
       "Signer's address & public key should not match."
     )
     .matches(/^0x/, "Should only start with 0x.")
-    .matches(/^[A-Za-z0-9 ]+$/, 'No special characters allowed.')
+    .matches(/^[A-Za-z0-9 ]+$/, "No special characters allowed.")
     .required("Public key is required."),
   website: yup
     .string()
@@ -39,18 +46,15 @@ function StepTwo({
   becomeValidateData,
   setBecomeValidateData,
 }: any) {
-
   const { account } = useActiveWeb3React();
   const [imageData, setImageData] = useState<any>("");
   const [validation, setValidation] = useState({
     image: false,
     address: false,
   });
-  const [imageSize, setImageSize] = useState(false)
-  const [apiLoading, setApiLoading] = useState(false)
-  const [userAddress, setUserAddres] = useState(account)
-
-
+  const [imageSize, setImageSize] = useState(false);
+  const [apiLoading, setApiLoading] = useState(false);
+  const [userAddress, setUserAddres] = useState(account);
 
   // const getValInfo = () => {
   //   let id : any = account
@@ -64,40 +68,38 @@ function StepTwo({
   //   })
   // }
 
-
   useEffect(() => {
     if (account) {
-      setUserAddres(account)
+      setUserAddres(account);
       // getValInfo()
       // setValues('address', account)
     }
-  }, [account])
+  }, [account]);
 
   const callAPI = async (val: any) => {
     // console.log("call API called");
     try {
       if (imageData) {
-        setApiLoading(false)
-        val.image = imageData
-        console.log(val)
-        setBecomeValidateData(val)
+        setApiLoading(false);
+        val.image = imageData;
+        console.log(val);
+        setBecomeValidateData(val);
         stepHandler("next");
       } else if (becomeValidateData.image) {
-        setApiLoading(false)
-        val.imageURL = becomeValidateData.image
-        console.log(val)
-        setBecomeValidateData(val)
+        setApiLoading(false);
+        val.imageURL = becomeValidateData.image;
+        console.log(val);
+        setBecomeValidateData(val);
         stepHandler("next");
-      }else {
+      } else {
         console.log("image not valid");
-        setValidation({ address: false, image: true })
+        setValidation({ address: false, image: true });
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       Sentry.captureMessage("callAPI", err);
       console.log("image vaild");
-    };
-  }
+    }
+  };
 
   const [initialValues, setInitialValues] = useState({
     name: "",
@@ -108,40 +110,60 @@ function StepTwo({
   // console.log("Become Validate Data in Step Two", initialValues);
   useEffect(() => {
     if (account) {
-      console.log(becomeValidateData, Object.values(becomeValidateData), "data ")
-      setInitialValues(becomeValidateData)
-      setBecomeValidateData(becomeValidateData)
-      setValues(becomeValidateData)
+      console.log(
+        becomeValidateData,
+        Object.values(becomeValidateData),
+        "data "
+      );
+      setInitialValues(becomeValidateData);
+      setBecomeValidateData(becomeValidateData);
+      setValues(becomeValidateData);
     }
-  }, [account])
+  }, [account]);
 
+  const trimSpace = (e: any) => {
+    try {
+      setFieldValue(e.target.name, e.target.value.trim());
+    } catch (err: any) {
+      Sentry.captureMessage("trimSpace", err);
+    }
+  };
 
-
-  const { values, errors, handleBlur, handleChange, handleSubmit, touched, setValues } =
-    useFormik({
-      initialValues: initialValues,
-      validationSchema: validatorSchema,
-      onSubmit: (values) => {
-        //console.log("Value", values);
-        callAPI(values);
-      },
-    });
+  const {
+    values,
+    errors,
+    setFieldValue,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    touched,
+    setValues,
+  } = useFormik({
+    initialValues: initialValues,
+    validationSchema: validatorSchema,
+    onSubmit: (values) => {
+      //console.log("Value", values);
+      console.log(values.website, "values.web");
+      console.log(values.name, "values.nem");
+      console.log(values.publickey, "values.publickey");
+      callAPI(values);
+    },
+  });
 
   const onImageChange = (event: any) => {
     try {
       if (event.target.files[0]?.size <= 204800) {
-        setImageData(event.target.files[0])
-        setImageSize(false)
-        setValidation({ address: false, image: false })
+        setImageData(event.target.files[0]);
+        setImageSize(false);
+        setValidation({ address: false, image: false });
       } else {
-        setImageSize(true)
+        setImageSize(true);
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       Sentry.captureMessage("onImageChange", err);
     }
     // console.log(event.target.files[0])
-  }
+  };
 
   return (
     // <>
@@ -165,16 +187,17 @@ function StepTwo({
                   <img
                     src={
                       imageData
-                        ? URL.createObjectURL(imageData) :
-                        becomeValidateData.image ? becomeValidateData.image  
+                        ? URL.createObjectURL(imageData)
+                        : becomeValidateData.image
+                        ? becomeValidateData.image
                         : "../../assets/images/file-icon.png"
                     }
                     alt=""
-                    className="img-fluid" // 200kb 
+                    className="img-fluid" // 200kb
                     width={22}
                   />
                 </div>
-                <div style={{ cursor: 'pointer' }} className="file-input">
+                <div style={{ cursor: "pointer" }} className="file-input">
                   <input
                     type="file"
                     className="input-file"
@@ -189,7 +212,11 @@ function StepTwo({
             </div>
             {validation.image ? (
               <p className="primary-text error ff-mos">image is required</p>
-            ) : imageSize ? <p className="primary-text error ff-mos" >only under 200 kb allowed</p> : null}
+            ) : imageSize ? (
+              <p className="primary-text error ff-mos">
+                only under 200 kb allowed
+              </p>
+            ) : null}
           </div>
 
           <div className="col-sm-6 form-grid">
@@ -205,15 +232,12 @@ function StepTwo({
                 name="name"
                 value={values.name}
                 onChange={handleChange}
-                onBlur={handleBlur}
+                onBlur={trimSpace}
               />
               {touched.name && errors.name ? (
-                <p className="primary-text error ff-mos">
-                  {errors.name}
-                </p>
+                <p className="primary-text error ff-mos">{errors.name}</p>
               ) : null}
             </div>
-
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -227,13 +251,12 @@ function StepTwo({
                 name="website"
                 value={values.website}
                 onChange={handleChange}
-                onBlur={handleBlur}
+                onBlur={trimSpace}
               />
               {touched.website && errors.website ? (
                 <p className="primary-text error ff-mos">{errors.website}</p>
               ) : null}
             </div>
-
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -246,12 +269,14 @@ function StepTwo({
                 placeholder="0xfe2f17400d4d8d24740ff8c0"
                 name="address"
                 readOnly={true}
-                value={account || ''}
+                value={account || ""}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
               {validation.address ? (
-                <p className="primary-text error ff-mos">enter a valid address</p>
+                <p className="primary-text error ff-mos">
+                  enter a valid address
+                </p>
               ) : null}
             </div>
           </div>
@@ -267,7 +292,7 @@ function StepTwo({
                 name="publickey"
                 value={values.publickey}
                 onChange={handleChange}
-                onBlur={handleBlur}
+                onBlur={trimSpace}
               />
               {touched.publickey && errors.publickey ? (
                 <p className="primary-text error ff-mos">{errors.publickey}</p>
@@ -287,15 +312,15 @@ function StepTwo({
             type="submit"
             value="submit"
             className="btn primary-btn w-100"
-          // onClick={() => {
-          //   if (
-          //     Object.keys(errors).length === 0 &&
-          //     Object.getPrototypeOf(errors) === Object.prototype
-          //   ) {
-          //     setBecomeValidateData(values)
-          //     stepHandler("next");
-          //   }
-          // }}
+            // onClick={() => {
+            //   if (
+            //     Object.keys(errors).length === 0 &&
+            //     Object.getPrototypeOf(errors) === Object.prototype
+            //   ) {
+            //     setBecomeValidateData(values)
+            //     stepHandler("next");
+            //   }
+            // }}
           >
             <span className="ff-mos">Next</span>
           </button>
@@ -306,4 +331,4 @@ function StepTwo({
   );
 }
 
-export default StepTwo
+export default StepTwo;

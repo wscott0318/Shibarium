@@ -122,7 +122,7 @@ export default function ProfileUpdate() {
     };
 
     let schema = yup.object().shape({
-        validatorname: yup.string().typeError("Name is required.").max(14).typeError("Name must be less than 15 characters.").required("Validator name is required.").matches(/^[A-Za-z][A-Za-z0-9 ]+$/, "Entered wrong charactor."),
+        validatorname: yup.string().typeError("Name is required.").max(14,"Name must be less than 15 characters.").typeError("Name must be less than 15 characters.").required("Validator name is required.").matches(/^[A-Za-z][A-Za-z0-9 ]+$/, "Entered wrong charactor."),
         address: yup.string().required("Address is required."),
         website: yup
             .string()
@@ -135,7 +135,7 @@ export default function ProfileUpdate() {
             ),
     });
 
-    const { values, errors, handleBlur, handleChange, handleSubmit, touched, setValues } =
+    const { values, errors, setFieldValue, handleBlur, handleChange, handleSubmit, touched, setValues } =
         useFormik({
             initialValues: initialValues,
             validationSchema: schema,
@@ -166,6 +166,15 @@ export default function ProfileUpdate() {
             Sentry.captureException("imgSizeCheck ", err);
         }
     }
+
+    const trimSpace = (e: any) => {
+        try {
+          setFieldValue(e.target.name, e.target.value.trim());
+        } catch (err: any) {
+          Sentry.captureMessage("trimSpace", err);
+        }
+      };
+    
 
     return (
         <>
@@ -245,7 +254,7 @@ export default function ProfileUpdate() {
                                                         name="validatorname"
                                                         value={values.validatorname}
                                                         onChange={handleChange}
-                                                        onBlur={handleBlur}
+                                                        onBlur={trimSpace}
                                                     />
                                                     {touched.validatorname && errors.validatorname ? (
                                                         <p className="primary-text error ff-mos">
@@ -266,7 +275,7 @@ export default function ProfileUpdate() {
                                                         name="website"
                                                         value={values.website}
                                                         onChange={handleChange}
-                                                        onBlur={handleBlur}
+                                                        onBlur={trimSpace}
                                                     />
                                                     {touched.website && errors.website ? (
                                                         <p className="primary-text error ff-mos">
