@@ -29,7 +29,8 @@ import * as Sentry from "@sentry/nextjs";
 
 const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: any, boneUSDValue: any, availBalance: any }) => {
   const router = useRouter();
-  const [showunboundpop, setunboundpop] = useState(false);
+  const [showUnboundClaim, setUnStakePop] = useState(false);
+  const [showUnstakeClaimPop, setUnStakeClaimPop] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   const [unboundInput, setUnboundInput] = useState<any>('');
@@ -646,7 +647,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
           let link = getExplorerLink(chainId, res, 'transaction')
           setTransactionState({ state: true, title: 'Submitted' })
           setHashLink(link)
-          setunboundpop(false)
+          setUnStakePop(false)
         }).on('receipt', (res: any) => {
           console.log(res, "receipt")
           dispatch(
@@ -671,7 +672,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
           console.log(res, "error")
           setTransactionState({ state: false, title: '' })
           if (res.code === 4001) {
-            setunboundpop(false)
+            setUnStakePop(false)
           }
         })
     } else {
@@ -717,7 +718,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
           let link = getExplorerLink(chainId, res, 'transaction')
           setTransactionState({ state: true, title: 'Submitted' })
           setHashLink(link)
-          setunboundpop(false)
+          setUnStakePop(false)
         }).on('receipt', (res: any) => {
           console.log(res, "receipt")
           dispatch(
@@ -742,7 +743,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
           console.log(res, "error")
           setTransactionState({ state: false, title: '' })
           if (res.code === 4001) {
-            setunboundpop(false)
+            setUnStakePop(false)
           }
         })
     } else {
@@ -1193,9 +1194,9 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
         {/* unbound popop start */}
         <CommonModal
-          title={"Unbound"}
-          show={showunboundpop}
-          setshow={setunboundpop}
+          title={"Unstake"}
+          show={showUnboundClaim}
+          setshow={setUnStakePop}
           externalCls="stak-pop"
         >
           <>
@@ -1203,7 +1204,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
               <form>
                 <div className="only_text">
                   <p className="text-center">
-                    Are you sure you want to unbound?
+                    Are you sure you want to unstake ?
                   </p>
                 </div>
                 <div className="pop_btns_area row mr-top-50 form-control">
@@ -1211,7 +1212,51 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                     <button
                       onClick={(e) => {
                         e.preventDefault();
-                        setunboundpop(false);
+                        setUnStakePop(false);
+                      }}
+                      className="btn blue-btn w-100 dark-bg-800 text-white"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  <div className="col-6">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        unStakeValidator();
+                      }}
+                      className="btn primary-btn w-100"
+                    >
+                      Confirm
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </>
+        </CommonModal>
+        {/* unbound popop ends */}
+        {/* unbound popop start */}
+        <CommonModal
+          title={"Unstake Claim"}
+          show={showUnstakeClaimPop}
+          setshow={setUnStakeClaimPop}
+          externalCls="stak-pop"
+        >
+          <>
+            <div className="cmn_modal val_popups">
+              <form>
+                <div className="only_text">
+                  <p className="text-center">
+                    Are you sure you want to unstake claim ?
+                  </p>
+                </div>
+                <div className="pop_btns_area row mr-top-50 form-control">
+                  <div className="col-6">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setUnStakeClaimPop(false);
                       }}
                       className="btn blue-btn w-100 dark-bg-800 text-white"
                     >
@@ -1590,7 +1635,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                     <div className='cus-tooltip d-inline-block ps-0'>
                       <button
                         disabled={parseInt(validatorInfoContract?.deactivationEpoch)+ parseInt(comissionHandle?.dynasty) <= parseInt(comissionHandle?.epoch) && parseInt(validatorInfoContract?.deactivationEpoch) > 0 ? false : true}
-                        onClick={() => setunboundpop(true)}
+                        onClick={() => setUnStakePop(true)}
                         className="ff-mos btn black-btn w-100 d-block tool-ico"
                       >
                         unstake
@@ -1600,11 +1645,11 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                       </div>
                       </div>
                     </div>
-                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 m-3">
                     <div className='cus-tooltip d-inline-block ps-0'>
                       <button
                         disabled={parseInt(validatorInfoContract?.deactivationEpoch)+ parseInt(comissionHandle?.dynasty) <= parseInt(comissionHandle?.epoch) && parseInt(validatorInfoContract?.deactivationEpoch) > 0 ? false : true}
-                        onClick={() => setunboundpop(true)}
+                        onClick={() => setUnStakeClaimPop(true)}
                         className="ff-mos btn black-btn w-100 d-block tool-ico"
                       >
                         unstake claim
