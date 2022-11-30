@@ -1576,7 +1576,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                         onClick={() =>
                           withdrawRewardValidator()
                         }
-                        // disabled={validatorTotalReward > 0 ? false : true}
+                        disabled={!(validatorTotalReward > 0)}
                         className="ff-mos btn black-btn w-100 d-block tool-ico"
                       >
                         Withdraw Rewards
