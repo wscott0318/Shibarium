@@ -35,15 +35,21 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
     };
 
     let lastPage = paginationRange[paginationRange.length - 1]
-
     return (
       <>
         <div className="row ">
           <div className="col-md-4 d-flex align-items-center">
-            {totalCount > 1 && (
+            {currentPage !== lastPage && totalCount > 1 && (
               <span className="fw-700 text-white">
                 Showing {(currentPage - 1) * pageSize + 1}-
                 {totalCount > pageSize ? currentPage * pageSize : totalCount} of{" "}
+                {totalCount}
+              </span>
+            )}
+            {currentPage === lastPage && totalCount > 1 && (
+              <span className="fw-700 text-white">
+                Showing {(currentPage - 1) * pageSize + 1}-
+                {totalCount} of{" "}
                 {totalCount}
               </span>
             )}
