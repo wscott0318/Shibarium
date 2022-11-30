@@ -30,7 +30,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                               <div className='box-head'>
                                   <div className='d-flex align-items-center justify-content-start'>
                                   <div>
-                                        <span > <img  style={{height:50, width:50}} src={validator.logoUrl ? validator.logoUrl : "../../assets/images/shiba-round-icon.png"} alt="logo" className='me-3'/></span>
+                                        <span > <img  style={{height:50, width:50}} src={validator.logoUrl?.startsWith("http") ? validator.logoUrl : "../../assets/images/shiba-round-icon.png"} alt="logo" className='me-3'/></span>
                                     </div>
                                       <div className='fw-600'>
                                           <span className='vertical-align'>
@@ -49,7 +49,7 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                                   <div className='d-flex align-items-center justify-content-between'>
                                       <div className='fw-600 ft-14'>Uptime</div>
                                       <div>
-                                          <span className='warning-color fw-600 ft-14'>{(validator.uptimePercent).toFixed(toFixedPrecent)}%</span>
+                                          <span className='warning-color fw-600 ft-14'>{(+validator.uptimePercent).toFixed(toFixedPrecent)}%</span>
                                       </div>
                                   </div>
                                   <div className='d-flex align-items-center justify-content-between'>
