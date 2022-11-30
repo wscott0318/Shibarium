@@ -175,7 +175,7 @@ const DelegatePopup: React.FC<any> = ({
               step1:false,
               step2: true,
               step3:false,
-              title:'Transaction Process'
+              title:'Transaction In Progress'
             })
             })
             .on('receipt', (res: any) => {
