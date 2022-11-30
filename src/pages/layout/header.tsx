@@ -78,7 +78,9 @@ const [scroll, setScroll] = useState(false);
       localStorage.clear()
     }
 
-    ethereum.on('accountsChanged', handleAccountsChanged)
+    // ethereum.on('accountsChanged', handleAccountsChanged)
+    account? ethereum.on('accountsChanged', handleAccountsChanged):console.log("account not connected please connect")
+   
 
   },[active, account])
 
