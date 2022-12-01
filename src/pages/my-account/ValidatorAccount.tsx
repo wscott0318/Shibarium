@@ -1,37 +1,47 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import CommonModal from "../components/CommonModel";
 import { useActiveWeb3React } from "../../services/web3";
-import { getDelegatorData, getUserType } from "../../services/apis/user/userApi"
-import LoadingSpinner from 'pages/components/Loading';
-import NumberFormat from 'react-number-format';
+import {
+  getDelegatorData,
+  getUserType,
+} from "../../services/apis/user/userApi";
+import LoadingSpinner from "pages/components/Loading";
+import NumberFormat from "react-number-format";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
-import Web3 from 'web3';
-import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
-import { useAppDispatch } from "../../state/hooks"
-import fromExponential from 'from-exponential';
-import { addDecimalValue, checkpointVal, comissionVal, currentGasPrice, getAllowanceAmount, web3Decimals } from 'web3/commonFunctions';
+import Web3 from "web3";
+import {
+  addTransaction,
+  finalizeTransaction,
+} from "app/state/transactions/actions";
+import { useAppDispatch } from "../../state/hooks";
+import fromExponential from "from-exponential";
+import {
+  addDecimalValue,
+  checkpointVal,
+  comissionVal,
+  currentGasPrice,
+  getAllowanceAmount,
+  web3Decimals,
+} from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
-import { getExplorerLink } from 'app/functions';
+import { getExplorerLink } from "app/functions";
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
-import DelegatePopup from 'pages/delegate-popup';
-import { queryProvider } from 'Apollo/client';
-import { StakeAmount } from 'Apollo/queries';
-import { dynamicChaining } from 'web3/DynamicChaining';
-import { getValidatorsDetail } from 'app/services/apis/validator';
-import { tokenDecimal } from 'web3/commonFunctions';
+import DelegatePopup from "pages/delegate-popup";
+import { queryProvider } from "Apollo/client";
+import { StakeAmount } from "Apollo/queries";
+import { dynamicChaining } from "web3/DynamicChaining";
+import { getValidatorsDetail } from "app/services/apis/validator";
+import { tokenDecimal } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 import { useValId } from 'app/state/user/hooks';
-
-
-
 
 const validatorAccount = ({
   userType,
   boneUSDValue,
-  availBalance
+  availBalance,
 }: {
   userType: any;
   boneUSDValue: any;
@@ -1602,7 +1612,7 @@ const validatorAccount = ({
                                 displayType={"text"}
                                 prefix="$ "
                                 value={addDecimalValue(
-                                  (availBalance || 0.00) * boneUSDValue
+                                  (availBalance || 0.0) * boneUSDValue
                                 )}
                               />
                             </span>
@@ -1621,8 +1631,10 @@ const validatorAccount = ({
                         <div className="head-sec">
                           <div className="top-head">
                             {validatorInfoContract?.commissionRate
-                              ? addDecimalValue(+validatorInfoContract?.commissionRate)
-                              : 0.00}{" "}
+                              ? addDecimalValue(
+                                  +validatorInfoContract?.commissionRate
+                                )
+                              : 0.0}{" "}
                             %
                           </div>
                           <div className="mid-head">
@@ -1706,8 +1718,11 @@ const validatorAccount = ({
                                   10 ** web3Decimals
                                 : "0.00"} */}
 
-{validatorInfoContract?.amount
-                                ? addDecimalValue(+validatorInfoContract?.amount)
+                              {validatorInfoContract?.amount
+                                ? addDecimalValue((
+                                    +validatorInfoContract?.amount
+                                  )/
+                                  10 ** web3Decimals)
                                 : "0.00"}
                             </span>{" "}
                             BONE
@@ -1723,10 +1738,12 @@ const validatorAccount = ({
                                 //     10 ** web3Decimals) *
                                 //   boneUSDValue
                                 // ).toFixed(tokenDecimal)}
-                                 value={(
-                                  addDecimalValue(+validatorInfoContract?.amount) *
-                                  boneUSDValue
-                                ).toFixed(tokenDecimal)}
+                                value={addDecimalValue(
+                                  (
+                                    +validatorInfoContract?.amount /
+                                      10 ** web3Decimals
+                                  ) * boneUSDValue
+                                )}
                               />
                             </span>
                           </div>
@@ -1750,9 +1767,10 @@ const validatorAccount = ({
                                       Math.pow(10, web3Decimals)
                                   )
                                 : "0.00"} */}
-                                {validatorInfoContract?.delegatedAmount
+                              {validatorInfoContract?.delegatedAmount
                                 ? addDecimalValue(
-                                    +validatorInfoContract?.delegatedAmount
+                                    +validatorInfoContract?.delegatedAmount /
+                                      Math.pow(10, web3Decimals)
                                   )
                                 : "0.00"}
                             </span>{" "}
@@ -1765,17 +1783,16 @@ const validatorAccount = ({
                                 displayType={"text"}
                                 prefix="$ "
                                 value={addDecimalValue(
-                                  (
-                                    +validatorInfoContract?.delegatedAmount 
-                                  ) * boneUSDValue
+                                  (+validatorInfoContract?.delegatedAmount /
+                                    Math.pow(10, web3Decimals)) *
+                                    boneUSDValue
                                 )}
-                                 // value={(
+                                // value={(
                                 //   addDecimalValue(
                                 //     +validatorInfoContract?.delegatedAmount /
                                 //       Math.pow(10, web3Decimals)
                                 //   ) * boneUSDValue
                                 // ).toFixed(tokenDecimal)}
-                                
                               />
                             </span>
                           </div>
@@ -1801,14 +1818,12 @@ const validatorAccount = ({
                                     +validatorInfoContract?.delegatorsReward
                                   )
                                 : "0.00"}
-                                {/* {validatorInfoContract?.delegatorsReward
+                              {/* {validatorInfoContract?.delegatorsReward
                                 ? addDecimalValue(
                                     +validatorInfoContract?.delegatorsReward /
                                       Math.pow(10, web3Decimals)
                                   )
                                 : "0.00"} */}
-                                
-                              
                             </span>{" "}
                             BONE
                           </div>
@@ -1819,17 +1834,15 @@ const validatorAccount = ({
                                 displayType={"text"}
                                 prefix="$ "
                                 value={addDecimalValue(
-                                  (
-                                    +validatorInfoContract?.delegatorsReward 
-                                  ) * boneUSDValue
+                                  +validatorInfoContract?.delegatorsReward *
+                                    boneUSDValue
                                 )}
-                                 // value={(
+                                // value={(
                                 //   addDecimalValue(
                                 //     +validatorInfoContract?.delegatorsReward /
                                 //       Math.pow(10, web3Decimals)
                                 //   ) * boneUSDValue
                                 // ).toFixed(tokenDecimal)}
-                                
                               />
                             </span>
                           </div>
@@ -2131,4 +2144,4 @@ const validatorAccount = ({
   );
 };
 
-export default validatorAccount
+export default validatorAccount;
