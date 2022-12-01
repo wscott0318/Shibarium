@@ -1601,7 +1601,7 @@ const validatorAccount = ({
                                 displayType={"text"}
                                 prefix="$ "
                                 value={addDecimalValue(
-                                  (availBalance || 0) * boneUSDValue
+                                  (availBalance || 0.00) * boneUSDValue
                                 )}
                               />
                             </span>
@@ -1620,8 +1620,8 @@ const validatorAccount = ({
                         <div className="head-sec">
                           <div className="top-head">
                             {validatorInfoContract?.commissionRate
-                              ? validatorInfoContract?.commissionRate
-                              : 0}{" "}
+                              ? addDecimalValue(+validatorInfoContract?.commissionRate)
+                              : 0.00}{" "}
                             %
                           </div>
                           <div className="mid-head">
@@ -1700,9 +1700,13 @@ const validatorAccount = ({
                         <div className="head-sec">
                           <div className="top-head">
                             <span>
-                              {validatorInfoContract?.amount
-                                ? +validatorInfoContract?.amount /
+                              {/* {validatorInfoContract?.amount
+                                ? addDecimalValue(+validatorInfoContract?.amount) /
                                   10 ** web3Decimals
+                                : "0.00"} */}
+
+{validatorInfoContract?.amount
+                                ? addDecimalValue(+validatorInfoContract?.amount)
                                 : "0.00"}
                             </span>{" "}
                             BONE
@@ -1713,9 +1717,13 @@ const validatorAccount = ({
                                 thousandSeparator
                                 displayType={"text"}
                                 prefix="$ "
-                                value={(
-                                  (+validatorInfoContract?.amount /
-                                    10 ** web3Decimals) *
+                                // value={(
+                                //   (+validatorInfoContract?.amount /
+                                //     10 ** web3Decimals) *
+                                //   boneUSDValue
+                                // ).toFixed(tokenDecimal)}
+                                 value={(
+                                  addDecimalValue(+validatorInfoContract?.amount) *
                                   boneUSDValue
                                 ).toFixed(tokenDecimal)}
                               />
@@ -1735,10 +1743,15 @@ const validatorAccount = ({
                         <div className="head-sec">
                           <div className="top-head">
                             <span>
-                              {validatorInfoContract?.delegatedAmount
+                              {/* {validatorInfoContract?.delegatedAmount
                                 ? addDecimalValue(
                                     +validatorInfoContract?.delegatedAmount /
                                       Math.pow(10, web3Decimals)
+                                  )
+                                : "0.00"} */}
+                                {validatorInfoContract?.delegatedAmount
+                                ? addDecimalValue(
+                                    +validatorInfoContract?.delegatedAmount
                                   )
                                 : "0.00"}
                             </span>{" "}
@@ -1750,12 +1763,18 @@ const validatorAccount = ({
                                 thousandSeparator
                                 displayType={"text"}
                                 prefix="$ "
-                                value={(
-                                  addDecimalValue(
-                                    +validatorInfoContract?.delegatedAmount /
-                                      Math.pow(10, web3Decimals)
+                                value={addDecimalValue(
+                                  (
+                                    +validatorInfoContract?.delegatedAmount 
                                   ) * boneUSDValue
-                                ).toFixed(tokenDecimal)}
+                                )}
+                                 // value={(
+                                //   addDecimalValue(
+                                //     +validatorInfoContract?.delegatedAmount /
+                                //       Math.pow(10, web3Decimals)
+                                //   ) * boneUSDValue
+                                // ).toFixed(tokenDecimal)}
+                                
                               />
                             </span>
                           </div>
@@ -1778,10 +1797,17 @@ const validatorAccount = ({
                             <span>
                               {validatorInfoContract?.delegatorsReward
                                 ? addDecimalValue(
+                                    +validatorInfoContract?.delegatorsReward
+                                  )
+                                : "0.00"}
+                                {/* {validatorInfoContract?.delegatorsReward
+                                ? addDecimalValue(
                                     +validatorInfoContract?.delegatorsReward /
                                       Math.pow(10, web3Decimals)
                                   )
-                                : "0.00"}
+                                : "0.00"} */}
+                                
+                              
                             </span>{" "}
                             BONE
                           </div>
@@ -1791,12 +1817,18 @@ const validatorAccount = ({
                                 thousandSeparator
                                 displayType={"text"}
                                 prefix="$ "
-                                value={(
-                                  addDecimalValue(
-                                    +validatorInfoContract?.delegatorsReward /
-                                      Math.pow(10, web3Decimals)
+                                value={addDecimalValue(
+                                  (
+                                    +validatorInfoContract?.delegatorsReward 
                                   ) * boneUSDValue
-                                ).toFixed(tokenDecimal)}
+                                )}
+                                 // value={(
+                                //   addDecimalValue(
+                                //     +validatorInfoContract?.delegatorsReward /
+                                //       Math.pow(10, web3Decimals)
+                                //   ) * boneUSDValue
+                                // ).toFixed(tokenDecimal)}
+                                
                               />
                             </span>
                           </div>
