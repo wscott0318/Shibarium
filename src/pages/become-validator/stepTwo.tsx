@@ -155,8 +155,8 @@ function StepTwo({
       if (event.target.files[0]?.size <= 204800) {
         setImageData(event.target.files[0]);
         setImageSize(false);
-        setValidation({ address: false, image: false });
-      } else {
+        setValidation({ address: false, image: false });  
+      } else if(event.target.files[0]?.size > 204800){
         setImageSize(true);
       }
     } catch (err: any) {
