@@ -4058,6 +4058,7 @@ input:-internal-autofill-selected {
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 150px;
 }
 .status-sep-popup p {
   font-weight: normal;
