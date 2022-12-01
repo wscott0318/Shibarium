@@ -23,6 +23,7 @@ import { dynamicChaining } from 'web3/DynamicChaining';
 import { getValidatorsDetail } from 'app/services/apis/validator';
 import { tokenDecimal } from 'web3/commonFunctions';
 import * as Sentry from "@sentry/nextjs";
+import { useValId } from 'app/state/user/hooks';
 
 
 
@@ -45,6 +46,9 @@ const validatorAccount = ({
   const [validatorInfo, setValidatorInfo] = useState<any>();
   const [validatorTotalReward, setValidatorTotalReward] = useState<any>();
   const [validatorInfoContract, setValidatorInfoContract] = useState<any>();
+
+  const [valId, setValId] = useValId();
+
   const [transactionState, setTransactionState] = useState({
     state: false,
     title: "",
@@ -114,10 +118,7 @@ const validatorAccount = ({
       const reward = addDecimalValue(valReward / Math.pow(10, web3Decimals));
       setValidatorInfoContract(valFromContract);
       setValidatorTotalReward(reward);
-      console.log(
-        web3.utils.fromWei(valFromContract.amount, "ether"),
-        "dynasty ===> "
-      );
+      console.log(valFromContract ,"dynasty ===> ");
     } catch (err: any) {
       Sentry.captureException("getValidatorData ", err);
     }
@@ -230,14 +231,14 @@ const validatorAccount = ({
     if (account && userType === "Delegator") {
       getDelegatorCardData(account);
     }
-    if (account && userType === "Validator") {
-      if (validatorID) {
-        getValidatorData(validatorID);
-      }
+    // if (account && userType === "Validator") {
+      // if (valId) {
+        getValidatorData(valId);
+      // }
       // validatorInfoAPI()
-      getVaiIDFromDB();
-    }
-  }, [account, userType, chainId, validatorID]);
+      // getVaiIDFromDB();
+    // }
+  }, [account, userType, chainId, valId]);
 
   // console.log(restakeModal)
 
@@ -302,17 +303,17 @@ const validatorAccount = ({
     try {
       setTransactionState({ state: true, title: "Pending" });
       let user: any = account;
-      let valID = validatorID;
-      console.log({ valID, c: +value.comission }, "comission called ==> ");
+      // let valID = validatorID;
+      console.log({ valId, c: +value.comission }, "comission called ==> ");
       let instance = new web3.eth.Contract(
         stakeManagerProxyABI,
         dynamicChaining[chainId].STAKE_MANAGER_PROXY
       );
       let gasFee = await instance.methods
-        .updateCommissionRate(valID, +value.comission)
+        .updateCommissionRate(valId, +value.comission)
         .estimateGas({ from: user });
       let encodedAbi = await instance.methods
-        .updateCommissionRate(valID, +value.comission)
+        .updateCommissionRate(valId, +value.comission)
         .encodeABI();
       let CurrentgasPrice: any = await currentGasPrice(web3);
       console.log(
@@ -1003,7 +1004,7 @@ const validatorAccount = ({
           data.validatorContract
         );
         await instance.methods
-          .sellVoucher_new(amount, amount)
+          .sellVoucher(amount, amount)
           .send({ from: walletAddress })
           .on("transactionHash", (res: any) => {
             console.log(res, "hash");
@@ -2092,7 +2093,7 @@ const validatorAccount = ({
                               <div className="cus-tooltip d-inline-block">
                                 <button
                                   disabled={
-                                    parseInt(item.commission) == comissionVal ||
+                                    parseInt(item.commission) < comissionVal ||
                                     item.checkpointSignedPercent < checkpointVal
                                   }
                                   onClick={() => {

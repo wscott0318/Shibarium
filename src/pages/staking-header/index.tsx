@@ -21,7 +21,7 @@ const StakingHeader = () => {
   const [history, setHistory] = useState("");
   const [userType, setUserType] = useUserType();
   const [valId, setValId] = useValId();
-  const [valInfoModal, setValInfoModal] = useState(true);
+  const [valInfoModal, setValInfoModal] = useState(false);
 
   const { account, chainId = 1, library } = useActiveWeb3React();
 
