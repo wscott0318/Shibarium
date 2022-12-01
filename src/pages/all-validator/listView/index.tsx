@@ -108,7 +108,8 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                  : (
                   <tr>
                     <td colSpan={6}>
-                      <DynamicShimmer type={"table"} rows={13} cols={6} />
+                      {/* <DynamicShimmer type={"table"} rows={13} cols={6} /> */}
+                      <div className='no-found'><img src="../../assets/images/no-record.png"/></div>
                     </td>
                   </tr>
                 )
