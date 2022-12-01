@@ -60,7 +60,7 @@ const Rewards = () => {
         website: res.data.message.val.description,
         image: res.data.message.val.logoUrl
       })
-      setUserStatus(res.data.message.val.status ? res.data.message.val.status : null)
+      setUserStatus(res.data.message.val?.status ? res.data.message.val?.status : null)
     }).catch((err) => {
       console.log(err)
     })

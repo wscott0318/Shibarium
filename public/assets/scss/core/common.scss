@@ -2898,6 +2898,41 @@ input:-internal-autofill-selected {
     top: 17px;
   }
 }
+.ff-mos .get-info {
+  background-color: #f17601;
+  padding: 1px 9px;
+  border-radius: 50px;
+  font-size: 13px;
+  margin-left: 4px;
+}
+.ff-mos .tool-desc {
+  position: absolute;
+  background: #fff;
+  left: 48%;
+  z-index: 1;
+  width: 100%;
+  color: #000;
+  padding: 10px;
+  font-size: 13px;
+  top: -35%;
+  display: none;
+  border-radius: 5px;
+  font-weight: 400;
+}
+.ff-mos .get-info:hover ~ .tool-desc {
+  display: block;
+}
+.ff-mos .tool-desc::before {
+  content: "";
+  border: solid;
+  border-color: #fff transparent;
+  position: absolute;
+  bottom: auto;
+  -webkit-transform: rotate(90deg);
+  border-width: 14px 10px 0;
+  left: -4%;
+  top: 23px;
+}
 .innerDivBgBlack > div {
   background-color: black !important;
 }
@@ -3964,7 +3999,7 @@ input:-internal-autofill-selected {
 .maxButtonFloat {
   display: flex;
   flex-direction: row;
-//   padding-right: 55px
+  //   padding-right: 55px
   //    background-color: #e9e9ec;
 }
 

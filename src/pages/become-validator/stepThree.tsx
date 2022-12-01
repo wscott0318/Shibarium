@@ -457,7 +457,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
           setshow={() =>
             setTransactionState({ state: false, title: "Pending" })
           }
-          externalCls="faucet-pop"
+          externalcls="faucet-pop"
         >
           <div className="popmodal-body tokn-popup no-ht trans-mod">
             <div className="pop-block">

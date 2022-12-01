@@ -283,7 +283,8 @@ function StepTwo({
           <div className="col-sm-6 form-grid">
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
-                Signer’s Public key
+                Signer’s Public key <span className="get-info">i</span>
+              <div className="tool-desc">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum fugit optio molestias, dolorem magni quia.</div>
               </label>
               <input
                 type="text"
