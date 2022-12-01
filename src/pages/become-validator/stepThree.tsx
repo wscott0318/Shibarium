@@ -30,7 +30,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
   const dispatch = useAppDispatch();
   // const [apiLoading, setApiLoading] = useState(false);
   const [transactionState, setTransactionState] = useState({
-    state: true,
+    state: false,
     title: 'Pending',
   })
   const [hashLink, setHashLink] = useState('')
