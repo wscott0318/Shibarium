@@ -11,6 +11,9 @@ import Router, { useRouter } from "next/router";
 import { useUserType, useValId } from "../../state/user/hooks";
 import { useActiveWeb3React } from "../../services/web3";
 import { ValInfoModals } from "pages/components/CommonModel";
+import Web3 from "web3";
+import { dynamicChaining } from "web3/DynamicChaining";
+import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json"
 
 const StakingHeader = () => {
   const router = useRouter();
@@ -22,7 +25,7 @@ const StakingHeader = () => {
   const [userType, setUserType] = useUserType();
   const [valId, setValId] = useValId();
   const [valInfoModal, setValInfoModal] = useState(false);
-
+  const [dynasty, setDynasty] = useState('')
   const { account, chainId = 1, library } = useActiveWeb3React();
 
   useEffect(() => {
@@ -31,9 +34,27 @@ const StakingHeader = () => {
     } else if (routeCheck("reward-history")) {
       setHistory("Reward History");
     }
+    if(account){
+      getDynsetyValue()
+    } 
   }, [router, account]);
 
   console.log("usertype ==> ", valId);
+
+  const getDynsetyValue = async () => {
+    try {
+      const lib: any = library;
+      const web3: any = new Web3(lib?.provider);
+      let instance = new web3.eth.Contract(
+        stakeManagerProxyABI,
+        dynamicChaining[chainId].STAKE_MANAGER_PROXY
+      );
+      const dynasty = await instance.methods.dynasty().call({ from: account });
+      setDynasty(dynasty)
+    } catch(err: any) {
+
+    }
+  }
 
   const renderButtons = () => {
     if (account) {
@@ -170,7 +191,7 @@ const StakingHeader = () => {
                   src="../../assets/images/waiting-small.png" 
                   alt=""
                 ></img>
-               <p className="light-text"> wait for 80 checkpoint to see your account info...</p>
+               <p className="light-text primary-text"> Wait for {dynasty} checkpoints to see your account info...</p>
               </div>
             </div>
           </div>

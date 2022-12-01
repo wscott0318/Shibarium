@@ -133,6 +133,7 @@ const validatorAccount = ({
       Sentry.captureException("getValidatorData ", err);
     }
   };
+  
   console.log(comissionHandle, "comissionHandle => ");
   const validatorInfoAPI = () => {
     try {
