@@ -315,7 +315,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
               </label>
               <div className="file-wrap">
                 <div className="file-icons">
-                  {/* <img
+                  <img
                     src={
                       becomeValidateData?.imageURL 
                         ?  becomeValidateData?.imageURL : becomeValidateData?.image ? URL.createObjectURL(becomeValidateData?.image) 
@@ -324,7 +324,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
                     alt=""
                     className="img-fluid" // 200kb 
                     width={22}
-                  /> */}
+                  />
                 </div>
               </div>
             </div>

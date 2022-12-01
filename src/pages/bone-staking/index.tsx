@@ -105,15 +105,14 @@ const BoneStaking = () => {
       } else if (userType === "Delegator") {
         return (
         <>
-           <div className="btns-wrap">
+           <div className="btns-wrap m-2">
                        <button disabled={+valCount <= +valMaxCount ?  false : true} onClick={()=>{
                         router.push('/become-validator')
-                       }} className="btn primary-btn">Become a Validator</button>
-                    </div>
-                    <div className="btns-wrap">
+                       }} className="btn primary-btn m-2">Become a Validator</button>
+                   
                       <button onClick={()=>
                         router.push('/all-validator')
-                       } className="btn  white-btn">Become a Delegator</button>
+                       } className="btn  white-btn m-2">Become a Delegator</button>
                     </div>
         </>
         )
