@@ -64,8 +64,8 @@ const BoneStaking = () => {
       } else {
         let id : any = account
         getValidatorInfo(id.toLowerCase()).then((res : any) => {
-          console.log(res.data.message.val.status, " vall status ===> ")
-          setNodeSetup(res.data.message.val.status ? res.data.message.val.status : null)
+          // console.log(res.data.message.val?.status, " vall status ===> ")
+          setNodeSetup(res.data.message.val?.status ? res.data.message?.val.status : null)
           localStorage.setItem("valInfo", JSON.stringify(res.data.message.val))
         })
       }
