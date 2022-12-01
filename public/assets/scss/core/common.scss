@@ -4054,13 +4054,17 @@ input:-internal-autofill-selected {
 // }
 
 
-.status-sep-popup{
+.status-sep-popup {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 150px;
+  background: rgb(255 255 255 / 8%);
+  flex-direction: column;
+  border: 1px solid #e955175c;
 }
 .status-sep-popup p {
   font-weight: normal;
   font-size: 25px;
+  margin-top: 50px;
 }
