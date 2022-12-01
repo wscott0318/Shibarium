@@ -21,7 +21,7 @@ const StakingHeader = () => {
   const [history, setHistory] = useState("");
   const [userType, setUserType] = useUserType();
   const [valId, setValId] = useValId();
-  const [valInfoModal, setValInfoModal] = useState(false);
+  const [valInfoModal, setValInfoModal] = useState(true);
 
   const { account, chainId = 1, library } = useActiveWeb3React();
 
@@ -163,7 +163,13 @@ const StakingHeader = () => {
         <div className="popmodal-body tokn-popup no-ht trans-mod">
           <div className="pop-block">
             <div className="pop-top">
+               
               <div className="dark-bg-800 h-100 status-sec sec-ht position-relative status-sep-popup">
+                <img
+                  className="img-fluid"
+                  src="../../assets/images/waiting-small.png" 
+                  alt=""
+                ></img>
                <p className="light-text"> wait for 80 checkpoint to see your account info...</p>
               </div>
             </div>
