@@ -27,417 +27,422 @@ import * as Sentry from "@sentry/nextjs";
 
 
 
-const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: any, boneUSDValue: any, availBalance: any }) => {
+const validatorAccount = ({
+  userType,
+  boneUSDValue,
+  availBalance
+}: {
+  userType: any;
+  boneUSDValue: any;
+  availBalance: any;
+}) => {
   const router = useRouter();
-  const [showunboundpop, setunboundpop] = useState(false);
+  const [showUnboundClaim, setUnStakePop] = useState(false);
+  const [showUnstakeClaimPop, setUnStakeClaimPop] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
-  const [unboundInput, setUnboundInput] = useState<any>('');
+  const [unboundInput, setUnboundInput] = useState<any>("");
   const [validatorInfo, setValidatorInfo] = useState<any>();
   const [validatorTotalReward, setValidatorTotalReward] = useState<any>();
   const [validatorInfoContract, setValidatorInfoContract] = useState<any>();
   const [transactionState, setTransactionState] = useState({
     state: false,
-    title: '',
-  })
-  const [hashLink, setHashLink] = useState('')
-  const [validatorID, setValidatorID] = useState<any>('')
+    title: "",
+  });
+  const [hashLink, setHashLink] = useState("");
+  const [validatorID, setValidatorID] = useState<any>("");
 
   const { account, chainId = 1, library } = useActiveWeb3React();
-  const lib: any = library
-  const web3: any = new Web3(lib?.provider)
+  const lib: any = library;
+  const web3: any = new Web3(lib?.provider);
   const [delegationsList, setDelegationsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState<any>({});
   const [stakeMore, setStakeMoreModal] = useState(false);
-  const [stakeAmounts, setStakeAmounts] = useState<any>([])
+  const [stakeAmounts, setStakeAmounts] = useState<any>([]);
   const [restakeModal, setRestakeModal] = useState({
     value1: false,
     value2: false,
-    address: ''
+    address: "",
   });
   const [commiModal, setCommiModal] = useState({
     value: false,
-    address: ''
+    address: "",
   });
   const [withdrawModal, setWithdrawModal] = useState({
     value: false,
-    address: ''
+    address: "",
   });
   const [unboundModal, setUnboundModal] = useState({
     startValue: false,
-    address: '',
-    id: '',
-    stakeAmount: 0
+    address: "",
+    id: "",
+    stakeAmount: 0,
   });
 
   const [comissionHandle, setComissionHandle] = useState({
-    dynasty: '',
-    epoch: ''
-  })
+    dynasty: "",
+    epoch: "",
+  });
 
   // console.log(chainId)
 
-  const getDelegatorStake = async (valContract : any) => {
-
+  const getDelegatorStake = async (valContract: any) => {
     let instance = new web3.eth.Contract(ValidatorShareABI, valContract);
-    let liquidRewards = await instance.methods.getLiquidRewards(valContract).call({from : account})
-    console.log(liquidRewards)
-  }
+    let liquidRewards = await instance.methods
+      .getLiquidRewards(valContract)
+      .call({ from: account });
+    console.log(liquidRewards);
+  };
 
-  getDelegatorStake("0xddff10bb0afa6293cb1a9c234428c4436c5f2f41")
+  getDelegatorStake("0xddff10bb0afa6293cb1a9c234428c4436c5f2f41");
 
-
-  const getValidatorData = async (valId :any) => {
-      try {
-        let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-        const valFromContract =  await instance.methods.validators(+valId).call({from : account})
-        const valReward = await instance.methods.validatorReward(+valId).call({from : account})
-        const dynasty = await instance.methods.dynasty().call({from : account})
-        const epoch = await instance.methods.epoch().call({from : account})
-        setComissionHandle({dynasty, epoch})
-        const reward = addDecimalValue(valReward / Math.pow(10, web3Decimals))
-        setValidatorInfoContract(valFromContract)
-        setValidatorTotalReward(reward)
-        console.log(web3.utils.fromWei(valFromContract.amount, 'ether'),  "dynasty ===> ")
-      }
-      catch(err:any){
-        Sentry.captureException("getValidatorData ", err);
-      }
-  }
-  console.log(comissionHandle, "comissionHandle => ")
+  const getValidatorData = async (valId: any) => {
+    try {
+      let instance = new web3.eth.Contract(
+        stakeManagerProxyABI,
+        dynamicChaining[chainId].STAKE_MANAGER_PROXY
+      );
+      const valFromContract = await instance.methods
+        .validators(+valId)
+        .call({ from: account });
+      const valReward = await instance.methods
+        .validatorReward(+valId)
+        .call({ from: account });
+      const dynasty = await instance.methods.dynasty().call({ from: account });
+      const epoch = await instance.methods.epoch().call({ from: account });
+      setComissionHandle({ dynasty, epoch });
+      const reward = addDecimalValue(valReward / Math.pow(10, web3Decimals));
+      setValidatorInfoContract(valFromContract);
+      setValidatorTotalReward(reward);
+      console.log(
+        web3.utils.fromWei(valFromContract.amount, "ether"),
+        "dynasty ===> "
+      );
+    } catch (err: any) {
+      Sentry.captureException("getValidatorData ", err);
+    }
+  };
+  console.log(comissionHandle, "comissionHandle => ");
   const validatorInfoAPI = () => {
-    try{
-      getValidatorsDetail(`${account}`)
-    .then((res) => {
-      setValidatorInfo(res?.data?.data?.validatorSet.validatorInfo);
-    })
-  }
-  catch(err:any){
-    Sentry.captureException("validatorInfoAPI ", err);
-  }
-  }
+    try {
+      getValidatorsDetail(`${account}`).then((res) => {
+        setValidatorInfo(res?.data?.data?.validatorSet.validatorInfo);
+      });
+    } catch (err: any) {
+      Sentry.captureException("validatorInfoAPI ", err);
+    }
+  };
 
   const getDelegatorCardData = async (accountAddress: any) => {
     // console.log(" card data ", accountAddress)
-    setLoading(true)
+    setLoading(true);
     try {
-      getDelegatorData(accountAddress.toLowerCase()).then((res: any) => {
-        if (res.data) {
-          let newArray :any = []
-          // console.log(res.data, "delegator card data")
-          let sortedData = res.data.data.validators.filter((x:any) => parseInt(x.stake) > 0).sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake))
-          // here 
-            sortedData.forEach(async (x:any) => {
-              let stakeData = await getStakeAmountDelegator(+(x.id), (accountAddress.toLowerCase()))
-              console.log(stakeData, "delegator card data")
-              setStakeAmounts((pre :any) => ([...pre, stakeData]))
-            })
-          setDelegationsList(sortedData)
-          setLoading(false)
-          // console.log(newArray)
-        }
-      }).catch((e: any) => {
-        console.log(e);
-        //  setUserType('NA')
-        setLoading(false)
-      })
-    } catch(err:any){
+      getDelegatorData(accountAddress.toLowerCase())
+        .then((res: any) => {
+          if (res.data) {
+            let newArray: any = [];
+            // console.log(res.data, "delegator card data")
+            let sortedData = res.data.data.validators
+              .filter((x: any) => parseInt(x.stake) > 0)
+              .sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake));
+            // here
+            sortedData.forEach(async (x: any) => {
+              let stakeData = await getStakeAmountDelegator(
+                +x.id,
+                accountAddress.toLowerCase()
+              );
+              console.log(stakeData, "delegator card data");
+              setStakeAmounts((pre: any) => [...pre, stakeData]);
+            });
+            setDelegationsList(sortedData);
+            setLoading(false);
+            // console.log(newArray)
+          }
+        })
+        .catch((e: any) => {
+          console.log(e);
+          //  setUserType('NA')
+          setLoading(false);
+        });
+    } catch (err: any) {
       Sentry.captureException("getDelegatorCardData ", err);
     }
-  }
+  };
 
   // console.log(stakeAmounts)
 
-  const handleModal = (btn: String, valAddress: any, id: any = null, stakeAmount: any = null) => {
-    console.log({ btn, valAddress, id, stakeAmount })
+  const handleModal = (
+    btn: String,
+    valAddress: any,
+    id: any = null,
+    stakeAmount: any = null
+  ) => {
+    console.log({ btn, valAddress, id, stakeAmount });
     try {
       switch (btn) {
-      case "Restake":
-        if (userType === 'Validator') {
-          setRestakeModal({
-            value1: true,
-            value2: false,
-            address: valAddress
+        case "Restake":
+          if (userType === "Validator") {
+            setRestakeModal({
+              value1: true,
+              value2: false,
+              address: valAddress,
+            });
+          } else {
+            setRestakeModal({
+              value2: true,
+              value1: false,
+              address: valAddress,
+            });
+          }
+          break;
+        case "Change Commission Rate":
+          setCommiModal({
+            value: true,
+            address: valAddress,
           });
-        } else {
-          setRestakeModal({
-            value2: true,
-            value1: false,
-            address: valAddress
+          break;
+        case "Withdraw Rewards":
+          setWithdrawModal({
+            value: true,
+            address: valAddress,
           });
-        }
-        break;
-      case "Change Commission Rate":
-        setCommiModal({
-          value: true,
-          address: valAddress
-        });
-        break;
-      case "Withdraw Rewards":
-        setWithdrawModal({
-          value: true,
-          address: valAddress
-        });
-        break;
-      case "Unbound":
-        setUnboundModal((preVal: any) => ({ ...preVal, stakeAmount: stakeAmount, startValue: true, address: valAddress, id: id }));
-        break;
-      default:
-        break;
+          break;
+        case "Unbound":
+          setUnboundModal((preVal: any) => ({
+            ...preVal,
+            stakeAmount: stakeAmount,
+            startValue: true,
+            address: valAddress,
+            id: id,
+          }));
+          break;
+        default:
+          break;
+      }
+    } catch (err: any) {
+      Sentry.captureException("handleModal ", err);
     }
-  }
-  catch(err:any){
-    Sentry.captureException("handleModal ", err);
-  }
   };
-
 
   // console.log(unboundModal)
 
   useEffect(() => {
     if (account && userType === "Delegator") {
-      getDelegatorCardData(account)
+      getDelegatorCardData(account);
     }
-    if(account && userType === 'Validator') {
-      if(validatorID) {
-        getValidatorData(validatorID)
+    if (account && userType === "Validator") {
+      if (validatorID) {
+        getValidatorData(validatorID);
       }
       // validatorInfoAPI()
-      getVaiIDFromDB()
+      getVaiIDFromDB();
     }
-  }, [account, userType, chainId, validatorID])
+  }, [account, userType, chainId, validatorID]);
 
   // console.log(restakeModal)
 
   const restakeValidation: any = Yup.object({
-    amount: Yup.string().matches(/^[1-9][0-9]*$/,"You must enter valid amount.").min(0).max(availBalance).required("Amount is required."),
+    amount: Yup.string()
+      .matches(/^[1-9][0-9]*$/, "You must enter valid amount.")
+      .min(0)
+      .max(availBalance)
+      .required("Amount is required."),
     reward: Yup.number().required(),
-
-  })
+  });
   const comissionValidation: any = Yup.object({
-    comission: Yup.string().matches(/^[1-9][0-9]*$/,"You must enter valid amount.").min(0).max(100).required("Comission is required."),
-  })
+    comission: Yup.string()
+      .matches(/^[1-9][0-9]*$/, "You must enter valid amount.")
+      .min(0)
+      .max(100)
+      .required("Comission is required."),
+  });
 
-  // GET VALIDATOR ID 
+  // GET VALIDATOR ID
   const getValidatorId = async () => {
     try {
       let user = account;
 
-    if (account) {
-      console.log(user, "account address ")
-      const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-      const ID = await instance.methods.getValidatorId(user).call({ from: account }) // read
-      console.log(ID)
-      return ID
-    } else {
-      console.log("account addres not found")
+      if (account) {
+        console.log(user, "account address ");
+        const instance = new web3.eth.Contract(
+          stakeManagerProxyABI,
+          dynamicChaining[chainId].STAKE_MANAGER_PROXY
+        );
+        const ID = await instance.methods
+          .getValidatorId(user)
+          .call({ from: account }); // read
+        console.log(ID);
+        return ID;
+      } else {
+        console.log("account addres not found");
+      }
+    } catch (err: any) {
+      Sentry.captureException("getValidatorId ", err);
     }
-  }
-  catch(err:any){
-    Sentry.captureException("getValidatorId ", err);
-  }
-  }
+  };
 
-  const getVaiIDFromDB = async () =>{
-    let accountAddress  : any= account;
+  const getVaiIDFromDB = async () => {
+    let accountAddress: any = account;
     try {
-      await getUserType(accountAddress.toLowerCase()).then((res : any) => {
+      await getUserType(accountAddress.toLowerCase()).then((res: any) => {
         if (res.data && res.data.data) {
           let ut = res.data.data.validatorId;
-          console.log(ut, "val id ")
+          console.log(ut, "val id ");
           // setUserType(ut)
-          setValidatorID(+ut)
+          setValidatorID(+ut);
         }
-      })
-    }catch(err:any){
+      });
+    } catch (err: any) {
       Sentry.captureException("getVaiIDFromDB ", err);
     }
-  }
+  };
 
-  //  COMMISSION CONTRACT 
+  //  COMMISSION CONTRACT
   const callComission = async (value: any) => {
     try {
-      setTransactionState({ state: true, title: 'Pending' })
-    let user: any = account
-    let valID = validatorID
-    console.log({valID, c:  +value.comission},"comission called ==> ")
-    let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);      
-    let gasFee =  await instance.methods.updateCommissionRate(valID, +value.comission).estimateGas({from: user})
-    let encodedAbi =  await instance.methods.updateCommissionRate(valID, +value.comission).encodeABI()
-    let CurrentgasPrice : any = await currentGasPrice(web3)
-       console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
-       await web3.eth.sendTransaction({
-         from: user,
-         to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
-         gas: (parseInt(gasFee) + 30000).toString(),
-         gasPrice: CurrentgasPrice,
-         // value : web3.utils.toHex(combinedFees),
-         data: encodedAbi
-       })
-    .on('transactionHash', (res: any) => {
-        console.log(res, "hash")
-        dispatch(
-          addTransaction({
-            hash: res,
-            from: user,
-            chainId,
-            summary: `${res}`,
-          })
-        )
-        let link = getExplorerLink(chainId, res, 'transaction')
-        setCommiModal({ value: false, address: '' })
-        setHashLink(link)
-        setTransactionState({ state: true, title: 'Submitted' })
-      }).on('receipt', (res: any) => {
-        console.log(res, "receipt")
-        dispatch(
-          finalizeTransaction({
-            hash: res.transactionHash,
-            chainId,
-            receipt: {
-              to: res.to,
-              from: res.from,
-              contractAddress: res.contractAddress,
-              transactionIndex: res.transactionIndex,
-              blockHash: res.blockHash,
-              transactionHash: res.transactionHash,
-              blockNumber: res.blockNumber,
-              status: 1
-            }
-          })
-        )
-      }).on('error', (res: any) => {
-        console.log(res, "error")
-        setTransactionState({state: false, title :''})
-        if (res.code === 4001) {
-          setCommiModal({ value: false, address: '' })
-        }
-      })
-    }
-    catch(err:any){
+      setTransactionState({ state: true, title: "Pending" });
+      let user: any = account;
+      let valID = validatorID;
+      console.log({ valID, c: +value.comission }, "comission called ==> ");
+      let instance = new web3.eth.Contract(
+        stakeManagerProxyABI,
+        dynamicChaining[chainId].STAKE_MANAGER_PROXY
+      );
+      let gasFee = await instance.methods
+        .updateCommissionRate(valID, +value.comission)
+        .estimateGas({ from: user });
+      let encodedAbi = await instance.methods
+        .updateCommissionRate(valID, +value.comission)
+        .encodeABI();
+      let CurrentgasPrice: any = await currentGasPrice(web3);
+      console.log(
+        ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
+          Math.pow(10, web3Decimals),
+        " Gas fees for transaction  ==> "
+      );
+      await web3.eth
+        .sendTransaction({
+          from: user,
+          to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
+          gas: (parseInt(gasFee) + 30000).toString(),
+          gasPrice: CurrentgasPrice,
+          // value : web3.utils.toHex(combinedFees),
+          data: encodedAbi,
+        })
+        .on("transactionHash", (res: any) => {
+          console.log(res, "hash");
+          dispatch(
+            addTransaction({
+              hash: res,
+              from: user,
+              chainId,
+              summary: `${res}`,
+            })
+          );
+          let link = getExplorerLink(chainId, res, "transaction");
+          setCommiModal({ value: false, address: "" });
+          setHashLink(link);
+          setTransactionState({ state: true, title: "Submitted" });
+        })
+        .on("receipt", (res: any) => {
+          console.log(res, "receipt");
+          dispatch(
+            finalizeTransaction({
+              hash: res.transactionHash,
+              chainId,
+              receipt: {
+                to: res.to,
+                from: res.from,
+                contractAddress: res.contractAddress,
+                transactionIndex: res.transactionIndex,
+                blockHash: res.blockHash,
+                transactionHash: res.transactionHash,
+                blockNumber: res.blockNumber,
+                status: 1,
+              },
+            })
+          );
+        })
+        .on("error", (res: any) => {
+          console.log(res, "error");
+          setTransactionState({ state: false, title: "" });
+          if (res.code === 4001) {
+            setCommiModal({ value: false, address: "" });
+          }
+        });
+    } catch (err: any) {
       Sentry.captureException("callComission", err);
     }
-  }
+  };
 
   // RESTAKE AS VALIDATORS
   const callRestakeValidators = async (values: any) => {
-   try{
- if (account) {
-      setTransactionState({ state: true, title: 'Pending' })
-      let walletAddress: any = account
-      let ID = validatorID
-      //@ts-ignore
-      let allowance = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].STAKE_MANAGER_PROXY) || 0
-      let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-
-      const amountWei = web3.utils.toBN(fromExponential((+values.amount * Math.pow(10, web3Decimals))));
-      if (+values.amount > +allowance) {
-        console.log("need approval")
-        approveAmount(ID, amountWei, values.reward == 0 ? false : true)
-      } else {
-        console.log(ID, "no approval needed")
-        console.log({ID, amountWei, bool: values.reward})
-        let gasFee =  await instance.methods.restake(ID, amountWei, values.reward == 0 ? 0 : 1).estimateGas({from: walletAddress})
-        let encodedAbi =  await instance.methods.restake(ID, amountWei, values.reward == 0 ? 0 : 1).encodeABI()
-        let CurrentgasPrice : any = await currentGasPrice(web3)
-           console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
-           await web3.eth.sendTransaction({
-             from: walletAddress,
-             to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
-             gas: (parseInt(gasFee) + 30000).toString(),
-             gasPrice: CurrentgasPrice,
-             // value : web3.utils.toHex(combinedFees),
-             data: encodedAbi
-           })
-          .on('transactionHash', (res: any) => {
-            console.log(res, "hash")
-            dispatch(
-              addTransaction({
-                hash: res,
-                from: walletAddress,
-                chainId,
-                summary: `${res}`,
-              })
-            )
-            // getActiveTransaction
-            let link = getExplorerLink(chainId, res, 'transaction')
-            setTransactionState({ state: true, title: 'Submitted' })
-            setHashLink(link)
-            setRestakeModal({ value1: false, value2: false, address: '' })
-          }).on('receipt', (res: any) => {
-            console.log(res, "receipt")
-            dispatch(
-              finalizeTransaction({
-                hash: res.transactionHash,
-                chainId,
-                receipt: {
-                  to: res.to,
-                  from: res.from,
-                  contractAddress: res.contractAddress,
-                  transactionIndex: res.transactionIndex,
-                  blockHash: res.blockHash,
-                  transactionHash: res.transactionHash,
-                  blockNumber: res.blockNumber,
-                  status: 1
-                }
-              })
-            )
-            setHashLink('')
-            setTransactionState({ state: false, title: '' })
-          }).on('error', (res: any) => {
-            console.log(res, "error")
-            setTransactionState({ state: false, title: '' })
-            if (res.code === 4001) {
-              setRestakeModal({ value1: false, value2: false, address: '' })
-            }
-          })
-
-      }
-    } else {
-      console.log("account addres not found")
-    }
-  }
-  catch(err:any){
-    Sentry.captureException("callRestakeValidators", err);
-  }
-  }
-
-  // Approve BONE
-  const approveAmount = async (id: any, amounts: any, reward: boolean) => {
     try {
       if (account) {
-      let user = account;
-      let amount = web3.utils.toBN(fromExponential(1000 * Math.pow(10, web3Decimals)));
-      let instance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
-      instance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, amount).send({ from: user })
-        .then(async (res: any) => {
-          let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-          let gasFee =  await instance.methods.restake(id, amounts, reward).estimateGas({from: user})
-        let encodedAbi =  await instance.methods.restake(id, amounts, reward).encodeABI()
-        let CurrentgasPrice : any = await currentGasPrice(web3)
-           console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
-           await web3.eth.sendTransaction({
-             from: user,
-             to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
-             gas: (parseInt(gasFee) + 30000).toString(),
-             gasPrice: CurrentgasPrice,
-             // value : web3.utils.toHex(combinedFees),
-             data: encodedAbi
-           })
+        setTransactionState({ state: true, title: "Pending" });
+        let walletAddress: any = account;
+        let ID = validatorID;
+        //@ts-ignore
+        let allowance =
+          (await getAllowanceAmount(
+            library,
+            dynamicChaining[chainId].BONE,
+            account,
+            dynamicChaining[chainId].STAKE_MANAGER_PROXY
+          )) || 0;
+        let instance = new web3.eth.Contract(
+          stakeManagerProxyABI,
+          dynamicChaining[chainId].STAKE_MANAGER_PROXY
+        );
 
-          instance.methods.restake(id, amounts, reward).send({ from: user })
-            .on('transactionHash', (res: any) => {
-              console.log(res, "hash")
+        const amountWei = web3.utils.toBN(
+          fromExponential(+values.amount * Math.pow(10, web3Decimals))
+        );
+        if (+values.amount > +allowance) {
+          console.log("need approval");
+          approveAmount(ID, amountWei, values.reward == 0 ? false : true);
+        } else {
+          console.log(ID, "no approval needed");
+          console.log({ ID, amountWei, bool: values.reward });
+          let gasFee = await instance.methods
+            .restake(ID, amountWei, values.reward == 0 ? 0 : 1)
+            .estimateGas({ from: walletAddress });
+          let encodedAbi = await instance.methods
+            .restake(ID, amountWei, values.reward == 0 ? 0 : 1)
+            .encodeABI();
+          let CurrentgasPrice: any = await currentGasPrice(web3);
+          console.log(
+            ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
+              Math.pow(10, web3Decimals),
+            " Gas fees for transaction  ==> "
+          );
+          await web3.eth
+            .sendTransaction({
+              from: walletAddress,
+              to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
+              gas: (parseInt(gasFee) + 30000).toString(),
+              gasPrice: CurrentgasPrice,
+              // value : web3.utils.toHex(combinedFees),
+              data: encodedAbi,
+            })
+            .on("transactionHash", (res: any) => {
+              console.log(res, "hash");
               dispatch(
                 addTransaction({
                   hash: res,
-                  from: user,
+                  from: walletAddress,
                   chainId,
                   summary: `${res}`,
                 })
-              )
-            }).on('receipt', (res: any) => {
-              console.log(res, "receipt")
+              );
+              // getActiveTransaction
+              let link = getExplorerLink(chainId, res, "transaction");
+              setTransactionState({ state: true, title: "Submitted" });
+              setHashLink(link);
+              setRestakeModal({ value1: false, value2: false, address: "" });
+            })
+            .on("receipt", (res: any) => {
+              console.log(res, "receipt");
               dispatch(
                 finalizeTransaction({
                   hash: res.transactionHash,
@@ -450,484 +455,650 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                     blockHash: res.blockHash,
                     transactionHash: res.transactionHash,
                     blockNumber: res.blockNumber,
-                    status: 1
-                  }
+                    status: 1,
+                  },
                 })
-              )
-            }).on('error', (res: any) => {
-              console.log(res, "error")
-              if (res.code === 4001) {
-                setCommiModal({ value: false, address: '' })
-              }
+              );
+              router.push("/my-account", "/my-account", { shallow: true });
+              setHashLink("");
+              setTransactionState({ state: false, title: "" });
             })
-        }).catch((err: any) => {
-          console.log(err)
-          if (err.code === 4001) {
-            console.log("User denied this transaction! ")
-          }
-        })
+            .on("error", (res: any) => {
+              console.log(res, "error");
+              setTransactionState({ state: false, title: "" });
+              if (res.code === 4001) {
+                setRestakeModal({ value1: false, value2: false, address: "" });
+              }
+            });
+        }
+      } else {
+        console.log("account addres not found");
+      }
+    } catch (err: any) {
+      Sentry.captureException("callRestakeValidators", err);
     }
-  }
-  catch(err:any){
-    Sentry.captureException("approveAmount", err);
-  }
-  }
+  };
 
-  // WITHDRAW REWARDS VALIDATORS 
-  
+  // Approve BONE
+  const approveAmount = async (id: any, amounts: any, reward: boolean) => {
+    try {
+      if (account) {
+        let user = account;
+        let amount = web3.utils.toBN(
+          fromExponential(1000 * Math.pow(10, web3Decimals))
+        );
+        let instance = new web3.eth.Contract(
+          ERC20,
+          dynamicChaining[chainId].BONE
+        );
+        instance.methods
+          .approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, amount)
+          .send({ from: user })
+          .then(async (res: any) => {
+            let instance = new web3.eth.Contract(
+              stakeManagerProxyABI,
+              dynamicChaining[chainId].STAKE_MANAGER_PROXY
+            );
+            let gasFee = await instance.methods
+              .restake(id, amounts, reward)
+              .estimateGas({ from: user });
+            let encodedAbi = await instance.methods
+              .restake(id, amounts, reward)
+              .encodeABI();
+            let CurrentgasPrice: any = await currentGasPrice(web3);
+            console.log(
+              ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
+                Math.pow(10, web3Decimals),
+              " Gas fees for transaction  ==> "
+            );
+            await web3.eth.sendTransaction({
+              from: user,
+              to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
+              gas: (parseInt(gasFee) + 30000).toString(),
+              gasPrice: CurrentgasPrice,
+              // value : web3.utils.toHex(combinedFees),
+              data: encodedAbi,
+            });
+
+            instance.methods
+              .restake(id, amounts, reward)
+              .send({ from: user })
+              .on("transactionHash", (res: any) => {
+                console.log(res, "hash");
+                dispatch(
+                  addTransaction({
+                    hash: res,
+                    from: user,
+                    chainId,
+                    summary: `${res}`,
+                  })
+                );
+              })
+              .on("receipt", (res: any) => {
+                console.log(res, "receipt");
+                dispatch(
+                  finalizeTransaction({
+                    hash: res.transactionHash,
+                    chainId,
+                    receipt: {
+                      to: res.to,
+                      from: res.from,
+                      contractAddress: res.contractAddress,
+                      transactionIndex: res.transactionIndex,
+                      blockHash: res.blockHash,
+                      transactionHash: res.transactionHash,
+                      blockNumber: res.blockNumber,
+                      status: 1,
+                    },
+                  })
+                );
+              })
+              .on("error", (res: any) => {
+                console.log(res, "error");
+                if (res.code === 4001) {
+                  setCommiModal({ value: false, address: "" });
+                }
+              });
+          })
+          .catch((err: any) => {
+            console.log(err);
+            if (err.code === 4001) {
+              console.log("User denied this transaction! ");
+            }
+          });
+      }
+    } catch (err: any) {
+      Sentry.captureException("approveAmount", err);
+    }
+  };
+
+  // WITHDRAW REWARDS VALIDATORS
+
   const withdrawRewardValidator = async () => {
     try {
-      setTransactionState({ state: true, title: 'Pending' })
-    if (account) {
-      let walletAddress = account
-      let valID = validatorID
-      let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-      let gasFee =  await instance.methods.withdrawRewards(valID).estimateGas({from: walletAddress})
-      let encodedAbi =  await instance.methods.withdrawRewards(valID).encodeABI()
-      let CurrentgasPrice : any = await currentGasPrice(web3)
-         console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) , " Gas fees for transaction  ==> ")
-         await web3.eth.sendTransaction({
-           from: walletAddress,
-           to:  dynamicChaining[chainId].STAKE_MANAGER_PROXY,
-           gas: (parseInt(gasFee) + 30000).toString(),
-           gasPrice: CurrentgasPrice,
-           // value : web3.utils.toHex(combinedFees),
-           data: encodedAbi
-         })
-        .on('transactionHash', (res: any) => {
-          console.log(res, "hash")
-          dispatch(
-            addTransaction({
-              hash: res,
-              from: walletAddress,
-              chainId,
-              summary: `${res}`,
-            })
-          )
-          let link = getExplorerLink(chainId, res, 'transaction')
-          setWithdrawModal({ value: false, address: '' })
-          setHashLink(link)
-          setTransactionState({ state: true, title: 'Submitted' })
-        }).on('receipt', (res: any) => {
-          console.log(res, "receipt")
-          dispatch(
-            finalizeTransaction({
-              hash: res.transactionHash,
-              chainId,
-              receipt: {
-                to: res.to,
-                from: res.from,
-                contractAddress: res.contractAddress,
-                transactionIndex: res.transactionIndex,
-                blockHash: res.blockHash,
-                transactionHash: res.transactionHash,
-                blockNumber: res.blockNumber,
-                status: 1
-              }
-            })
-          )
-          // 
-        }).on('error', (res: any) => {
-          console.log(res, "error")
-            setTransactionState({ state: false, title: 'Pending' })
-          if (res.code === 4001) {
-            setWithdrawModal({ value: false, address: '' })
-          }
-        })
-    } else {
-      console.log("account not connected")
+      setTransactionState({ state: true, title: "Pending" });
+      if (account) {
+        let walletAddress = account;
+        let valID = validatorID;
+        let instance = new web3.eth.Contract(
+          stakeManagerProxyABI,
+          dynamicChaining[chainId].STAKE_MANAGER_PROXY
+        );
+        let gasFee = await instance.methods
+          .withdrawRewards(valID)
+          .estimateGas({ from: walletAddress });
+        let encodedAbi = await instance.methods
+          .withdrawRewards(valID)
+          .encodeABI();
+        let CurrentgasPrice: any = await currentGasPrice(web3);
+        console.log(
+          (parseInt(gasFee) + 30000) * CurrentgasPrice,
+          " Gas fees for transaction  ==> "
+        );
+        await web3.eth
+          .sendTransaction({
+            from: walletAddress,
+            to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
+            gas: (parseInt(gasFee) + 30000).toString(),
+            gasPrice: CurrentgasPrice,
+            // value : web3.utils.toHex(combinedFees),
+            data: encodedAbi,
+          })
+          .on("transactionHash", (res: any) => {
+            console.log(res, "hash");
+            dispatch(
+              addTransaction({
+                hash: res,
+                from: walletAddress,
+                chainId,
+                summary: `${res}`,
+              })
+            );
+            let link = getExplorerLink(chainId, res, "transaction");
+            setWithdrawModal({ value: false, address: "" });
+            setHashLink(link);
+            setTransactionState({ state: true, title: "Submitted" });
+          })
+          .on("receipt", (res: any) => {
+            console.log(res, "receipt");
+            dispatch(
+              finalizeTransaction({
+                hash: res.transactionHash,
+                chainId,
+                receipt: {
+                  to: res.to,
+                  from: res.from,
+                  contractAddress: res.contractAddress,
+                  transactionIndex: res.transactionIndex,
+                  blockHash: res.blockHash,
+                  transactionHash: res.transactionHash,
+                  blockNumber: res.blockNumber,
+                  status: 1,
+                },
+              })
+            );
+            //
+          })
+          .on("error", (res: any) => {
+            console.log(res, "error");
+            setTransactionState({ state: false, title: "Pending" });
+            if (res.code === 4001) {
+              setWithdrawModal({ value: false, address: "" });
+            }
+          });
+      } else {
+        console.log("account not connected");
+      }
+    } catch (err: any) {
+      Sentry.captureException("withdrawRewardValidator", err);
     }
-  }
-  catch(err:any){
-    Sentry.captureException("withdrawRewardValidator", err);
-  }
-  }
-  // WITHDRAW REWARDS delegator 
-  
-  const withdrawRewardDelegator = async (address :any , id:any) => {
+  };
+  // WITHDRAW REWARDS delegator
+
+  const withdrawRewardDelegator = async (address: any, id: any) => {
     try {
-      setTransactionState({ state: true, title: 'Pending' })
-    if (account) {
-      let walletAddress = account
-      let instance = new web3.eth.Contract(ValidatorShareABI, address);
-      let gasFee =  await instance.methods.withdrawRewards().estimateGas({from: walletAddress})
-      let encodedAbi =  await instance.methods.withdrawRewards().encodeABI()
-      let CurrentgasPrice : any = await currentGasPrice(web3)
-         console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
-         await web3.eth.sendTransaction({
-           from: walletAddress,
-           to:  address,
-           gas: (parseInt(gasFee) + 30000).toString(),
-           gasPrice: CurrentgasPrice,
-           // value : web3.utils.toHex(combinedFees),
-           data: encodedAbi
-         })
-        .on('transactionHash', (res: any) => {
-          console.log(res, "hash")
-          dispatch(
-            addTransaction({
-              hash: res,
-              from: walletAddress,
-              chainId,
-              summary: `${res}`,
-            })
-          )
-          let link = getExplorerLink(chainId, res, 'transaction')
-          setWithdrawModal({ value: false, address: '' })
-          setHashLink(link)
-          setTransactionState({ state: true, title: 'Submitted' })
-        }).on('receipt', (res: any) => {
-          console.log(res, "receipt")
-          dispatch(
-            finalizeTransaction({
-              hash: res.transactionHash,
-              chainId,
-              receipt: {
-                to: res.to,
-                from: res.from,
-                contractAddress: res.contractAddress,
-                transactionIndex: res.transactionIndex,
-                blockHash: res.blockHash,
-                transactionHash: res.transactionHash,
-                blockNumber: res.blockNumber,
-                status: 1
-              }
-            })
-          )
-        }).on('error', (res: any) => {
-          console.log(res, "error")
-            setTransactionState({ state: false, title: 'Pending' })
-          if (res.code === 4001) {
-            setWithdrawModal({ value: false, address: '' })
-          }
-        })
-    } else {
-      console.log("account not connected")
+      setTransactionState({ state: true, title: "Pending" });
+      if (account) {
+        let walletAddress = account;
+        let instance = new web3.eth.Contract(ValidatorShareABI, address);
+        let gasFee = await instance.methods
+          .withdrawRewards()
+          .estimateGas({ from: walletAddress });
+        let encodedAbi = await instance.methods.withdrawRewards().encodeABI();
+        let CurrentgasPrice: any = await currentGasPrice(web3);
+        console.log(
+          ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
+            Math.pow(10, web3Decimals),
+          " Gas fees for transaction  ==> "
+        );
+        await web3.eth
+          .sendTransaction({
+            from: walletAddress,
+            to: address,
+            gas: (parseInt(gasFee) + 30000).toString(),
+            gasPrice: CurrentgasPrice,
+            // value : web3.utils.toHex(combinedFees),
+            data: encodedAbi,
+          })
+          .on("transactionHash", (res: any) => {
+            console.log(res, "hash");
+            dispatch(
+              addTransaction({
+                hash: res,
+                from: walletAddress,
+                chainId,
+                summary: `${res}`,
+              })
+            );
+            let link = getExplorerLink(chainId, res, "transaction");
+            setWithdrawModal({ value: false, address: "" });
+            setHashLink(link);
+            setTransactionState({ state: true, title: "Submitted" });
+          })
+          .on("receipt", (res: any) => {
+            console.log(res, "receipt");
+            dispatch(
+              finalizeTransaction({
+                hash: res.transactionHash,
+                chainId,
+                receipt: {
+                  to: res.to,
+                  from: res.from,
+                  contractAddress: res.contractAddress,
+                  transactionIndex: res.transactionIndex,
+                  blockHash: res.blockHash,
+                  transactionHash: res.transactionHash,
+                  blockNumber: res.blockNumber,
+                  status: 1,
+                },
+              })
+            );
+          })
+          .on("error", (res: any) => {
+            console.log(res, "error");
+            setTransactionState({ state: false, title: "Pending" });
+            if (res.code === 4001) {
+              setWithdrawModal({ value: false, address: "" });
+            }
+          });
+      } else {
+        console.log("account not connected");
+      }
+    } catch (err: any) {
+      Sentry.captureException("withdrawRewardDelegator", err);
     }
-  }
-  catch(err:any){
-    Sentry.captureException("withdrawRewardDelegator", err);
-  }
-  }
+  };
 
   // console.log({ check : new web3.eth})
 
-  // UnstakeClaim VALIDATOR 
+  // UnstakeClaim VALIDATOR
   const unStakeClaimValidator = async () => {
     try {
       if (account) {
-      setTransactionState({ state: true, title: 'Pending' })
-      let walletAddress: any = account
-      let ID = validatorID
-      let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-      let gasFee =  await instance.methods.unstakeClaim(ID).estimateGas({from: walletAddress})
-      let encodedAbi =  await instance.methods.unstakeClaim(ID).encodeABI()
-      let CurrentgasPrice : any = await currentGasPrice(web3)
-         console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
-         await web3.eth.sendTransaction({
-           from: walletAddress,
-           to:  dynamicChaining[chainId].STAKE_MANAGER_PROXY,
-           gas: (parseInt(gasFee) + 30000).toString(),
-           gasPrice: CurrentgasPrice,
-           // value : web3.utils.toHex(combinedFees),
-           data: encodedAbi
-         })
-        .on('transactionHash', (res: any) => {
-          console.log(res, "hash")
-          dispatch(
-            addTransaction({
-              hash: res,
-              from: walletAddress,
-              chainId,
-              summary: `${res}`,
-            })
-          )
-          // getActiveTransaction
-          let link = getExplorerLink(chainId, res, 'transaction')
-          setTransactionState({ state: true, title: 'Submitted' })
-          setHashLink(link)
-          setunboundpop(false)
-        }).on('receipt', (res: any) => {
-          console.log(res, "receipt")
-          dispatch(
-            finalizeTransaction({
-              hash: res.transactionHash,
-              chainId,
-              receipt: {
-                to: res.to,
-                from: res.from,
-                contractAddress: res.contractAddress,
-                transactionIndex: res.transactionIndex,
-                blockHash: res.blockHash,
-                transactionHash: res.transactionHash,
-                blockNumber: res.blockNumber,
-                status: 1
-              }
-            })
-          )
-          setTransactionState({ state: false, title: '' })
-          setHashLink('')
-        }).on('error', (res: any) => {
-          console.log(res, "error")
-          setTransactionState({ state: false, title: '' })
-          if (res.code === 4001) {
-            setunboundpop(false)
-          }
-        })
-    } else {
-      console.log("account addres not found")
+        setTransactionState({ state: true, title: "Pending" });
+        let walletAddress: any = account;
+        let ID = validatorID;
+        let instance = new web3.eth.Contract(
+          stakeManagerProxyABI,
+          dynamicChaining[chainId].STAKE_MANAGER_PROXY
+        );
+        let gasFee = await instance.methods
+          .unstakeClaim(ID)
+          .estimateGas({ from: walletAddress });
+        let encodedAbi = await instance.methods.unstakeClaim(ID).encodeABI();
+        let CurrentgasPrice: any = await currentGasPrice(web3);
+        console.log(
+          ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
+            Math.pow(10, web3Decimals),
+          " Gas fees for transaction  ==> "
+        );
+        await web3.eth
+          .sendTransaction({
+            from: walletAddress,
+            to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
+            gas: (parseInt(gasFee) + 30000).toString(),
+            gasPrice: CurrentgasPrice,
+            // value : web3.utils.toHex(combinedFees),
+            data: encodedAbi,
+          })
+          .on("transactionHash", (res: any) => {
+            console.log(res, "hash");
+            dispatch(
+              addTransaction({
+                hash: res,
+                from: walletAddress,
+                chainId,
+                summary: `${res}`,
+              })
+            );
+            // getActiveTransaction
+            let link = getExplorerLink(chainId, res, "transaction");
+            setTransactionState({ state: true, title: "Submitted" });
+            setHashLink(link);
+            setUnStakePop(false);
+          })
+          .on("receipt", (res: any) => {
+            console.log(res, "receipt");
+            dispatch(
+              finalizeTransaction({
+                hash: res.transactionHash,
+                chainId,
+                receipt: {
+                  to: res.to,
+                  from: res.from,
+                  contractAddress: res.contractAddress,
+                  transactionIndex: res.transactionIndex,
+                  blockHash: res.blockHash,
+                  transactionHash: res.transactionHash,
+                  blockNumber: res.blockNumber,
+                  status: 1,
+                },
+              })
+            );
+            setTransactionState({ state: false, title: "" });
+            setHashLink("");
+          })
+          .on("error", (res: any) => {
+            console.log(res, "error");
+            setTransactionState({ state: false, title: "" });
+            if (res.code === 4001) {
+              setUnStakePop(false);
+            }
+          });
+      } else {
+        console.log("account addres not found");
+      }
+    } catch (err: any) {
+      Sentry.captureException("unStakeClaimValidator", err);
     }
-  }
-  catch(err:any){
-    Sentry.captureException("unStakeClaimValidator", err);
-  }
-  }
+  };
 
-  // Unstake VALIDATOR 
+  // Unstake VALIDATOR
   const unStakeValidator = async () => {
     try {
       if (account) {
-      setTransactionState({ state: true, title: 'Pending' })
-      let walletAddress: any = account
-      let ID = validatorID
-      let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-      let gasFee =  await instance.methods.unstake(ID).estimateGas({from: walletAddress})
-      let encodedAbi =  await instance.methods.unstake(ID).encodeABI()
-      let CurrentgasPrice : any = await currentGasPrice(web3)
-         console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
-         await web3.eth.sendTransaction({
-           from: walletAddress,
-           to:  dynamicChaining[chainId].STAKE_MANAGER_PROXY,
-           gas: (parseInt(gasFee) + 30000).toString(),
-           gasPrice: CurrentgasPrice,
-           // value : web3.utils.toHex(combinedFees),
-           data: encodedAbi
-         })
-        .on('transactionHash', (res: any) => {
-          console.log(res, "hash")
-          dispatch(
-            addTransaction({
-              hash: res,
-              from: walletAddress,
-              chainId,
-              summary: `${res}`,
-            })
-          )
-          // getActiveTransaction
-          let link = getExplorerLink(chainId, res, 'transaction')
-          setTransactionState({ state: true, title: 'Submitted' })
-          setHashLink(link)
-          setunboundpop(false)
-        }).on('receipt', (res: any) => {
-          console.log(res, "receipt")
-          dispatch(
-            finalizeTransaction({
-              hash: res.transactionHash,
-              chainId,
-              receipt: {
-                to: res.to,
-                from: res.from,
-                contractAddress: res.contractAddress,
-                transactionIndex: res.transactionIndex,
-                blockHash: res.blockHash,
-                transactionHash: res.transactionHash,
-                blockNumber: res.blockNumber,
-                status: 1
-              }
-            })
-          )
-          setTransactionState({ state: false, title: '' })
-          setHashLink('')
-        }).on('error', (res: any) => {
-          console.log(res, "error")
-          setTransactionState({ state: false, title: '' })
-          if (res.code === 4001) {
-            setunboundpop(false)
-          }
-        })
-    } else {
-      console.log("account addres not found")
+        setTransactionState({ state: true, title: "Pending" });
+        let walletAddress: any = account;
+        let ID = validatorID;
+        let instance = new web3.eth.Contract(
+          stakeManagerProxyABI,
+          dynamicChaining[chainId].STAKE_MANAGER_PROXY
+        );
+        let gasFee = await instance.methods
+          .unstake(ID)
+          .estimateGas({ from: walletAddress });
+        let encodedAbi = await instance.methods.unstake(ID).encodeABI();
+        let CurrentgasPrice: any = await currentGasPrice(web3);
+        console.log(
+          ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
+            Math.pow(10, web3Decimals),
+          " Gas fees for transaction  ==> "
+        );
+        await web3.eth
+          .sendTransaction({
+            from: walletAddress,
+            to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
+            gas: (parseInt(gasFee) + 30000).toString(),
+            gasPrice: CurrentgasPrice,
+            // value : web3.utils.toHex(combinedFees),
+            data: encodedAbi,
+          })
+          .on("transactionHash", (res: any) => {
+            console.log(res, "hash");
+            dispatch(
+              addTransaction({
+                hash: res,
+                from: walletAddress,
+                chainId,
+                summary: `${res}`,
+              })
+            );
+            // getActiveTransaction
+            let link = getExplorerLink(chainId, res, "transaction");
+            setTransactionState({ state: true, title: "Submitted" });
+            setHashLink(link);
+            setUnStakePop(false);
+          })
+          .on("receipt", (res: any) => {
+            console.log(res, "receipt");
+            dispatch(
+              finalizeTransaction({
+                hash: res.transactionHash,
+                chainId,
+                receipt: {
+                  to: res.to,
+                  from: res.from,
+                  contractAddress: res.contractAddress,
+                  transactionIndex: res.transactionIndex,
+                  blockHash: res.blockHash,
+                  transactionHash: res.transactionHash,
+                  blockNumber: res.blockNumber,
+                  status: 1,
+                },
+              })
+            );
+            setTransactionState({ state: false, title: "" });
+            setHashLink("");
+          })
+          .on("error", (res: any) => {
+            console.log(res, "error");
+            setTransactionState({ state: false, title: "" });
+            if (res.code === 4001) {
+              setUnStakePop(false);
+            }
+          });
+      } else {
+        console.log("account addres not found");
+      }
+    } catch (err: any) {
+      Sentry.captureException("unStakeClaimValidator", err);
     }
-  }
-  catch(err:any){
-    Sentry.captureException("unStakeClaimValidator", err);
-  }
-  }
+  };
 
-  // restake DELEGATOR 
+  // restake DELEGATOR
   const restakeDelegator = async () => {
     try {
-      console.log("withdraw Reward Delegator called")
-    if (account) {
-      setTransactionState({ state: true, title: 'Pending' })
-      let walletAddress: any = account
-      let instance = new web3.eth.Contract(ValidatorShareABI, restakeModal.address);
-      let gasFee =  await instance.methods.restake().estimateGas({from: walletAddress})
-      let encodedAbi =  await instance.methods.restake().encodeABI()
-      let CurrentgasPrice : any = await currentGasPrice(web3)
-         console.log(((parseInt(gasFee) + 30000) * CurrentgasPrice) / Math.pow(10 , web3Decimals), " Gas fees for transaction  ==> ")
-         await web3.eth.sendTransaction({
-           from: walletAddress,
-           to:  restakeModal.address,
-           gas: (parseInt(gasFee) + 30000).toString(),
-           gasPrice: CurrentgasPrice,
-           // value : web3.utils.toHex(combinedFees),
-           data: encodedAbi
-         })
-        .on('transactionHash', (res: any) => {
-          console.log(res, "hash")
-          dispatch(
-            addTransaction({
-              hash: res,
-              from: walletAddress,
-              chainId,
-              summary: `${res}`,
-            })
-          )
-          // getActiveTransaction
-          let link = getExplorerLink(chainId, res, 'transaction')
-          setTransactionState({ state: true, title: 'Submitted' })
-          setHashLink(link)
-          setRestakeModal({ value1: false, value2: false, address: '' })
-
-        }).on('receipt', (res: any) => {
-          console.log(res, "receipt")
-          dispatch(
-            finalizeTransaction({
-              hash: res.transactionHash,
-              chainId,
-              receipt: {
-                to: res.to,
-                from: res.from,
-                contractAddress: res.contractAddress,
-                transactionIndex: res.transactionIndex,
-                blockHash: res.blockHash,
-                transactionHash: res.transactionHash,
-                blockNumber: res.blockNumber,
-                status: 1
-              }
-            })
-          )
-          getDelegatorCardData(walletAddress)
-        }).on('error', (res: any) => {
-          console.log(res, "error")
-          setRestakeModal({ value1: false, value2: false, address: '' })
-          if (res.code === 4001) {
-            setRestakeModal({ value1: false, value2: false, address: '' })
-          }
-        })
-    } else {
-      console.log("account addres not found")
+      console.log("withdraw Reward Delegator called");
+      if (account) {
+        setTransactionState({ state: true, title: "Pending" });
+        let walletAddress: any = account;
+        let instance = new web3.eth.Contract(
+          ValidatorShareABI,
+          restakeModal.address
+        );
+        let gasFee = await instance.methods
+          .restake()
+          .estimateGas({ from: walletAddress });
+        let encodedAbi = await instance.methods.restake().encodeABI();
+        let CurrentgasPrice: any = await currentGasPrice(web3);
+        console.log(
+          ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
+            Math.pow(10, web3Decimals),
+          " Gas fees for transaction  ==> "
+        );
+        await web3.eth
+          .sendTransaction({
+            from: walletAddress,
+            to: restakeModal.address,
+            gas: (parseInt(gasFee) + 30000).toString(),
+            gasPrice: CurrentgasPrice,
+            // value : web3.utils.toHex(combinedFees),
+            data: encodedAbi,
+          })
+          .on("transactionHash", (res: any) => {
+            console.log(res, "hash");
+            dispatch(
+              addTransaction({
+                hash: res,
+                from: walletAddress,
+                chainId,
+                summary: `${res}`,
+              })
+            );
+            // getActiveTransaction
+            let link = getExplorerLink(chainId, res, "transaction");
+            setTransactionState({ state: true, title: "Submitted" });
+            setHashLink(link);
+            setRestakeModal({ value1: false, value2: false, address: "" });
+          })
+          .on("receipt", (res: any) => {
+            console.log(res, "receipt");
+            dispatch(
+              finalizeTransaction({
+                hash: res.transactionHash,
+                chainId,
+                receipt: {
+                  to: res.to,
+                  from: res.from,
+                  contractAddress: res.contractAddress,
+                  transactionIndex: res.transactionIndex,
+                  blockHash: res.blockHash,
+                  transactionHash: res.transactionHash,
+                  blockNumber: res.blockNumber,
+                  status: 1,
+                },
+              })
+            );
+            getDelegatorCardData(walletAddress);
+          })
+          .on("error", (res: any) => {
+            console.log(res, "error");
+            setRestakeModal({ value1: false, value2: false, address: "" });
+            if (res.code === 4001) {
+              setRestakeModal({ value1: false, value2: false, address: "" });
+            }
+          });
+      } else {
+        console.log("account addres not found");
+      }
+    } catch (err: any) {
+      Sentry.captureException("restakeDelegator", err);
     }
-  }
-  catch(err:any){
-    Sentry.captureException("restakeDelegator", err);
-  }
-  }
+  };
 
-  // unbound DELEGATOR 
+  // unbound DELEGATOR
   const unboundDelegator = async () => {
     try {
-      console.log(unboundModal)
-    setUnboundModal({
-      ...unboundModal, startValue: false
-    })
-    setUnboundModal((preVal: any) => ({ ...preVal, startValue: false }))
-    setTransactionState({ state: true, title: 'Unbound Pending' })
-    console.log("called ===>")
-    let data = {
-      delegatorAddress: account,
-      validatorContract: unboundModal.id,
-      amount: unboundInput
-    }
-    console.log(data)
-    if (account) {
-      let walletAddress = account
-      let amount = web3.utils.toBN(fromExponential(+unboundInput * Math.pow(10, web3Decimals)));
-      let instance = new web3.eth.Contract(ValidatorShareABI, data.validatorContract);
-      await instance.methods.sellVoucher_new(amount, amount).send({ from: walletAddress })
-        .on('transactionHash', (res: any) => {
-          console.log(res, "hash")
-          dispatch(
-            addTransaction({
-              hash: res,
-              from: walletAddress,
-              chainId,
-              summary: `${res}`,
-            })
-          )
-          // getActiveTransaction
-          let link = getExplorerLink(chainId, res, 'transaction')
-          setTransactionState({ state: true, title: 'Transaction Submitted' })
-          setHashLink(link)
-          setUnboundModal({
-            startValue: false,
-            address: '',
-            id: '',
-            stakeAmount: 0
+      console.log(unboundModal);
+      setUnboundModal({
+        ...unboundModal,
+        startValue: false,
+      });
+      setUnboundModal((preVal: any) => ({ ...preVal, startValue: false }));
+      setTransactionState({ state: true, title: "Unbound Pending" });
+      console.log("called ===>");
+      let data = {
+        delegatorAddress: account,
+        validatorContract: unboundModal.id,
+        amount: unboundInput,
+      };
+      console.log(data);
+      if (account) {
+        let walletAddress = account;
+        let amount = web3.utils.toBN(
+          fromExponential(+unboundInput * Math.pow(10, web3Decimals))
+        );
+        let instance = new web3.eth.Contract(
+          ValidatorShareABI,
+          data.validatorContract
+        );
+        await instance.methods
+          .sellVoucher_new(amount, amount)
+          .send({ from: walletAddress })
+          .on("transactionHash", (res: any) => {
+            console.log(res, "hash");
+            dispatch(
+              addTransaction({
+                hash: res,
+                from: walletAddress,
+                chainId,
+                summary: `${res}`,
+              })
+            );
+            // getActiveTransaction
+            let link = getExplorerLink(chainId, res, "transaction");
+            setTransactionState({
+              state: true,
+              title: "Transaction Submitted",
+            });
+            setHashLink(link);
+            setUnboundModal({
+              startValue: false,
+              address: "",
+              id: "",
+              stakeAmount: 0,
+            });
+            setUnboundInput("");
           })
-          setUnboundInput('')
-        }).on('receipt', (res: any) => {
-          console.log(res, "receipt")
-          dispatch(
-            finalizeTransaction({
-              hash: res.transactionHash,
-              chainId,
-              receipt: {
-                to: res.to,
-                from: res.from,
-                contractAddress: res.contractAddress,
-                transactionIndex: res.transactionIndex,
-                blockHash: res.blockHash,
-                transactionHash: res.transactionHash,
-                blockNumber: res.blockNumber,
-                status: 1
-              }
-            })
-          )
-          getDelegatorCardData(walletAddress)
-        }).on('error', (res: any) => {
-          console.log(res, "error")
-          setUnboundInput('')
-          setUnboundModal((preVal: any) => ({ ...preVal, progressValue: false, comfirmValue: true }))
-          if (res.code === 4001) {
-            console.log("user Denied")
-          }
-        })
+          .on("receipt", (res: any) => {
+            console.log(res, "receipt");
+            dispatch(
+              finalizeTransaction({
+                hash: res.transactionHash,
+                chainId,
+                receipt: {
+                  to: res.to,
+                  from: res.from,
+                  contractAddress: res.contractAddress,
+                  transactionIndex: res.transactionIndex,
+                  blockHash: res.blockHash,
+                  transactionHash: res.transactionHash,
+                  blockNumber: res.blockNumber,
+                  status: 1,
+                },
+              })
+            );
+            getDelegatorCardData(walletAddress);
+          })
+          .on("error", (res: any) => {
+            console.log(res, "error");
+            setUnboundInput("");
+            setUnboundModal((preVal: any) => ({
+              ...preVal,
+              progressValue: false,
+              comfirmValue: true,
+            }));
+            if (res.code === 4001) {
+              console.log("user Denied");
+            }
+          });
+      }
+    } catch (err: any) {
+      Sentry.captureException("unboundDelegator", err);
     }
-  }
-  catch(err:any){
-    Sentry.captureException("unboundDelegator", err);
-  }
-  }
+  };
 
-  const getStakeAmountDelegator = async (id: any, account:any) => {
-     try{
-       const validators = await queryProvider.query({
+  const getStakeAmountDelegator = async (id: any, account: any) => {
+    try {
+      const validators = await queryProvider.query({
         query: StakeAmount(id, account),
-      })
-      return validators.data.delegator
-    }
-    catch(err:any){
+      });
+      return validators.data.delegator;
+    } catch (err: any) {
       Sentry.captureException("getStakeAmountDelegator ", err);
     }
-  }
+  };
 
-  const getStake = (id : String) => {
+  const getStake = (id: String) => {
     try {
-      let item = stakeAmounts.length ? stakeAmounts.filter((x:any) => +(x.validatorId) === +id)[0]?.tokens : 0
-      return item > 0 ? addDecimalValue(parseInt(item) / 10 ** web3Decimals): "0.00"
-    }
-    catch(err:any){
+      let item = stakeAmounts.length
+        ? stakeAmounts.filter((x: any) => +x.validatorId === +id)[0]?.tokens
+        : 0;
+      return item > 0
+        ? addDecimalValue(parseInt(item) / 10 ** web3Decimals)
+        : "0.00";
+    } catch (err: any) {
       Sentry.captureException("getStake ", err);
     }
-  } 
+  };
 
-  const rewardBalance = validatorInfo?.totalRewards ? (
-    (Number(fromExponential(validatorInfo?.totalRewards)) -
-      Number(fromExponential(validatorInfo?.claimedReward))) /
-    Math.pow(10, web3Decimals)
-  ).toFixed(tokenDecimal) : "0.00"  
+  const rewardBalance = validatorInfo?.totalRewards
+    ? (
+        (Number(fromExponential(validatorInfo?.totalRewards)) -
+          Number(fromExponential(validatorInfo?.claimedReward))) /
+        Math.pow(10, web3Decimals)
+      ).toFixed(tokenDecimal)
+    : "0.00";
 
   return (
     <>
@@ -938,8 +1109,6 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
         setdelegatepop={() => setStakeMoreModal(false)}
       />
       <div className="main-content dark-bg-800 full-vh  cmn-input-bg">
-
-
         {/* retake popop start VALIDATOR*/}
         <CommonModal
           title={"Restake"}
@@ -973,9 +1142,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                   handleSubmit,
                 }) => (
                   <>
-                    <div className="cmn_inpt_row">
-                     
-                    </div>
+                    <div className="cmn_inpt_row"></div>
                     <div className="cmn_inpt_row">
                       <div className="form-control">
                         <label className="mb-2 mb-md-2 text-white">
@@ -993,10 +1160,27 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                             {errors.amount}
                           </p>
                         ) : null}
-                         <div className="row-st">
-                       <p className="mt-2 text-white"> balance : <b>{addDecimalValue(availBalance)} </b></p>
-                       <button disabled={availBalance<=0} className="mt-2 text-white" onClick={()=> {setFieldValue ('text',  values.amount = (availBalance-0.000001).toString())}}> MAX </button>
-                       </div>
+                        <div className="row-st">
+                          <p className="mt-2 text-white">
+                            {" "}
+                            balance : <b>{addDecimalValue(availBalance)} </b>
+                          </p>
+                          <button
+                            disabled={availBalance <= 0}
+                            className="mt-2 text-white"
+                            onClick={() => {
+                              setFieldValue(
+                                "text",
+                                (values.amount = (
+                                  availBalance - 0.000001
+                                ).toString())
+                              );
+                            }}
+                          >
+                            {" "}
+                            MAX{" "}
+                          </button>
+                        </div>
                       </div>
                     </div>
                     <div className="cmn_inpt_row">
@@ -1069,9 +1253,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                 handleSubmit,
               }) => (
                 <div className="cmn_modal val_popups">
-                  <div className="cmn_inpt_row">
-                    
-                  </div>
+                  <div className="cmn_inpt_row"></div>
                   <div className="cmn_inpt_row">
                     <div className="form-control">
                       <label className="mb-2 mb-md-2 text-white">
@@ -1193,9 +1375,9 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
         {/* unbound popop start */}
         <CommonModal
-          title={"Unbound"}
-          show={showunboundpop}
-          setshow={setunboundpop}
+          title={"Unstake"}
+          show={showUnboundClaim}
+          setshow={setUnStakePop}
           externalCls="stak-pop"
         >
           <>
@@ -1203,7 +1385,7 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
               <form>
                 <div className="only_text">
                   <p className="text-center">
-                    Are you sure you want to unbound?
+                    Are you sure you want to unstake ?
                   </p>
                 </div>
                 <div className="pop_btns_area row mr-top-50 form-control">
@@ -1211,7 +1393,51 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                     <button
                       onClick={(e) => {
                         e.preventDefault();
-                        setunboundpop(false);
+                        setUnStakePop(false);
+                      }}
+                      className="btn blue-btn w-100 dark-bg-800 text-white"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  <div className="col-6">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        unStakeValidator();
+                      }}
+                      className="btn primary-btn w-100"
+                    >
+                      Confirm
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </>
+        </CommonModal>
+        {/* unbound popop ends */}
+        {/* unbound popop start */}
+        <CommonModal
+          title={"Unstake Claim"}
+          show={showUnstakeClaimPop}
+          setshow={setUnStakeClaimPop}
+          externalCls="stak-pop"
+        >
+          <>
+            <div className="cmn_modal val_popups">
+              <form>
+                <div className="only_text">
+                  <p className="text-center">
+                    Are you sure you want to unstake claim ?
+                  </p>
+                </div>
+                <div className="pop_btns_area row mr-top-50 form-control">
+                  <div className="col-6">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setUnStakeClaimPop(false);
                       }}
                       className="btn blue-btn w-100 dark-bg-800 text-white"
                     >
@@ -1316,25 +1542,25 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
             <div className="pop-block">
               <div className="pop-top">
                 <div className="dark-bg-800 h-100 status-sec sec-ht position-relative">
-               
-                    {hashLink ?
+                  {hashLink ? (
                     <span>
-                    <div>
-                      <img
-                        width="224"
-                        height="224"
-                        className="img-fluid"
-                        src="../../assets/images/Ellipse.png"
-                        alt=""
-                      />
-                    </div>
-                  </span> :
-                    <div className='trans-loader'>
+                      <div>
+                        <img
+                          width="224"
+                          height="224"
+                          className="img-fluid"
+                          src="../../assets/images/Ellipse.png"
+                          alt=""
+                        />
+                      </div>
+                    </span>
+                  ) : (
+                    <div className="trans-loader">
                       <span className="spiner-lg">
                         <span className="spinner-border text-secondary pop-spiner"></span>
                       </span>
                     </div>
-                    }
+                  )}
                 </div>
               </div>
               <div className="pop-bottom">
@@ -1361,74 +1587,90 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
             <div className="container">
               <div className="col-xl-12 col-lg-12 side-auto">
                 <div className="val_del_outr">
-                    <div className="row ff-mos">
-                      <div className="col-md-6 col-xl-4 col-custum">
-                        <div className="cus-box">
-                          <div className="head-sec">
-                            <div className="top-head">
-                              <span>{addDecimalValue(availBalance)}</span> BONE
-                            </div>
-                            <div className="mid-head">
-                              <span><NumberFormat
-                                thousandSeparator
-                                displayType={"text"}
-                                prefix="$ "
-                                value={addDecimalValue((availBalance || 0) * boneUSDValue)}
-                              /></span>
-                            </div>
+                  <div className="row ff-mos">
+                    <div className="col-md-6 col-xl-4 col-custum">
+                      <div className="cus-box">
+                        <div className="head-sec">
+                          <div className="top-head">
+                            <span>{addDecimalValue(availBalance)}</span> BONE
                           </div>
-
-                          <div className="botom-sec">
-                            <div className="botom-headsec">
-                              <span className="ff-mos">Wallet Balance</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-6 col-xl-4 col-custum">
-                        <div className="cus-box">
-                          <div className="head-sec">
-                            <div className="top-head">
-                            {validatorInfoContract?.commissionRate ? validatorInfoContract?.commissionRate : 0} %
-                            </div>
-                            <div className="mid-head">
-                              {/* <span>some info here...</span> */}
-                            </div>
-                          </div>
-
-                          <div className="botom-sec">
-                            <div className="botom-headsec">
-                              <span className="ff-mos">Commission Percentage</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-6 col-xl-4 col-custum">
-                        <div className="cus-box">
-                          <div className="head-sec">
-                            <div className="top-head">
-                             {validatorTotalReward ? addDecimalValue(+validatorTotalReward) : "0.00"} BONE
-                            </div>
-                            <div className="mid-head">
-                              <span>
+                          <div className="mid-head">
+                            <span>
                               <NumberFormat
                                 thousandSeparator
                                 displayType={"text"}
                                 prefix="$ "
-                                value={addDecimalValue(+validatorTotalReward * boneUSDValue)}
+                                value={addDecimalValue(
+                                  (availBalance || 0) * boneUSDValue
+                                )}
                               />
-                              </span>
-                            </div>
+                            </span>
                           </div>
+                        </div>
 
-                          <div className="botom-sec">
-                            <div className="botom-headsec">
-                              <span className="ff-mos">Withdrawal reward balance</span>
-                            </div>
+                        <div className="botom-sec">
+                          <div className="botom-headsec">
+                            <span className="ff-mos">Wallet Balance</span>
                           </div>
                         </div>
                       </div>
-                      {/* <div className="col-md-6 col-xl-4 mob-margin col-custum">
+                    </div>
+                    <div className="col-md-6 col-xl-4 col-custum">
+                      <div className="cus-box">
+                        <div className="head-sec">
+                          <div className="top-head">
+                            {validatorInfoContract?.commissionRate
+                              ? validatorInfoContract?.commissionRate
+                              : 0}{" "}
+                            %
+                          </div>
+                          <div className="mid-head">
+                            {/* <span>some info here...</span> */}
+                          </div>
+                        </div>
+
+                        <div className="botom-sec">
+                          <div className="botom-headsec">
+                            <span className="ff-mos">
+                              Commission Percentage
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6 col-xl-4 col-custum">
+                      <div className="cus-box">
+                        <div className="head-sec">
+                          <div className="top-head">
+                            {validatorTotalReward
+                              ? addDecimalValue(+validatorTotalReward)
+                              : "0.00"}{" "}
+                            BONE
+                          </div>
+                          <div className="mid-head">
+                            <span>
+                              <NumberFormat
+                                thousandSeparator
+                                displayType={"text"}
+                                prefix="$ "
+                                value={addDecimalValue(
+                                  +validatorTotalReward * boneUSDValue
+                                )}
+                              />
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="botom-sec">
+                          <div className="botom-headsec">
+                            <span className="ff-mos">
+                              Withdrawal reward balance
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {/* <div className="col-md-6 col-xl-4 mob-margin col-custum">
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
@@ -1453,165 +1695,211 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                           </div>
                         </div>
                       </div> */}
-                      <div className="col-md-6 col-xl-4 mob-margin col-custum">
-                        <div className="cus-box">
-                          <div className="head-sec">
-                            <div className="top-head">
-                              <span>{validatorInfoContract?.amount ? +validatorInfoContract?.amount / 10 ** web3Decimals : "0.00"}</span> BONE
-                            </div>
-                            <div className="mid-head">
-                              <span><NumberFormat
-                                thousandSeparator
-                                displayType={"text"}
-                                prefix="$ "
-                                value={(+validatorInfoContract?.amount / 10 ** web3Decimals * boneUSDValue).toFixed(tokenDecimal)}
-                              /></span>
-                            </div>
+                    <div className="col-md-6 col-xl-4 mob-margin col-custum">
+                      <div className="cus-box">
+                        <div className="head-sec">
+                          <div className="top-head">
+                            <span>
+                              {validatorInfoContract?.amount
+                                ? +validatorInfoContract?.amount /
+                                  10 ** web3Decimals
+                                : "0.00"}
+                            </span>{" "}
+                            BONE
                           </div>
-
-                          <div className="botom-sec">
-                            <div className="botom-headsec">
-                              <span className="ff-mos">Self Stake</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-6 col-xl-4 mob-margin col-custum text-center">
-                        <div className="cus-box">
-                          <div className="head-sec">
-                            <div className="top-head">
-                              <span>{validatorInfoContract?.delegatedAmount ? addDecimalValue(+validatorInfoContract?.delegatedAmount / Math.pow(10, web3Decimals)) : "0.00"}</span> BONE
-                            </div>
-                            <div className="mid-head">
-                              <span>
+                          <div className="mid-head">
+                            <span>
                               <NumberFormat
                                 thousandSeparator
                                 displayType={"text"}
                                 prefix="$ "
-                                value={(addDecimalValue(+validatorInfoContract?.delegatedAmount / Math.pow(10, web3Decimals)) * boneUSDValue).toFixed(tokenDecimal)}
+                                value={(
+                                  (+validatorInfoContract?.amount /
+                                    10 ** web3Decimals) *
+                                  boneUSDValue
+                                ).toFixed(tokenDecimal)}
                               />
-                              </span>
-                            </div>
+                            </span>
                           </div>
+                        </div>
 
-                          <div className="botom-sec">
-                            <div className="botom-headsec">
-                              <span className="ff-mos">Total Delegators Amount</span>
-                            </div>
+                        <div className="botom-sec">
+                          <div className="botom-headsec">
+                            <span className="ff-mos">Self Stake</span>
                           </div>
                         </div>
                       </div>
-
-                      <div className="col-md-6 col-xl-4 mob-margin col-custum">
-                        <div className="cus-box">
-                          <div className="head-sec">
-                            <div className="top-head">
-                              <span>{validatorInfoContract?.delegatorsReward ? addDecimalValue(+validatorInfoContract?.delegatorsReward / Math.pow(10, web3Decimals)) : "0.00"}</span> BONE
-                            </div>
-                            <div className="mid-head">
-                              <span>
-                              <NumberFormat
-                                thousandSeparator
-                                displayType={"text"}
-                                prefix="$ "
-                                value={(addDecimalValue(+validatorInfoContract?.delegatorsReward / Math.pow(10, web3Decimals)) * boneUSDValue).toFixed(tokenDecimal)}
-                              />
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className="botom-sec">
-                            <div className="botom-headsec">
-                              <span className="ff-mos">Total Delegators Reward</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      
                     </div>
-                  
+                    <div className="col-md-6 col-xl-4 mob-margin col-custum text-center">
+                      <div className="cus-box">
+                        <div className="head-sec">
+                          <div className="top-head">
+                            <span>
+                              {validatorInfoContract?.delegatedAmount
+                                ? addDecimalValue(
+                                    +validatorInfoContract?.delegatedAmount /
+                                      Math.pow(10, web3Decimals)
+                                  )
+                                : "0.00"}
+                            </span>{" "}
+                            BONE
+                          </div>
+                          <div className="mid-head">
+                            <span>
+                              <NumberFormat
+                                thousandSeparator
+                                displayType={"text"}
+                                prefix="$ "
+                                value={(
+                                  addDecimalValue(
+                                    +validatorInfoContract?.delegatedAmount /
+                                      Math.pow(10, web3Decimals)
+                                  ) * boneUSDValue
+                                ).toFixed(tokenDecimal)}
+                              />
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="botom-sec">
+                          <div className="botom-headsec">
+                            <span className="ff-mos">
+                              Total Delegators Amount
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-md-6 col-xl-4 mob-margin col-custum">
+                      <div className="cus-box">
+                        <div className="head-sec">
+                          <div className="top-head">
+                            <span>
+                              {validatorInfoContract?.delegatorsReward
+                                ? addDecimalValue(
+                                    +validatorInfoContract?.delegatorsReward /
+                                      Math.pow(10, web3Decimals)
+                                  )
+                                : "0.00"}
+                            </span>{" "}
+                            BONE
+                          </div>
+                          <div className="mid-head">
+                            <span>
+                              <NumberFormat
+                                thousandSeparator
+                                displayType={"text"}
+                                prefix="$ "
+                                value={(
+                                  addDecimalValue(
+                                    +validatorInfoContract?.delegatorsReward /
+                                      Math.pow(10, web3Decimals)
+                                  ) * boneUSDValue
+                                ).toFixed(tokenDecimal)}
+                              />
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="botom-sec">
+                          <div className="botom-headsec">
+                            <span className="ff-mos">
+                              Total Delegators Reward
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* grid sec end */}
                   <div className="btns_sec val_all_bts row mt-3 actions-btn">
                     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                      <div className='cus-tooltip d-inline-block ps-0'>
+                      <div className="cus-tooltip d-inline-block ps-0">
                         <button
-                          onClick={() =>
-                            handleModal(
-                              "Restake",
-                              account
-                            )
-                          }
+                          onClick={() => handleModal("Restake", account)}
                           className="ff-mos btn black-btn w-100 d-block tool-ico"
                         >
                           Restake
                         </button>
-                        <div className="tool-desc">
-                          Restake
-                        </div>
+                        <div className="tool-desc">Restake</div>
                       </div>
                     </div>
                     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                    <div className='cus-tooltip d-inline-block ps-0'>
-                      <button
-                      disabled={parseInt(validatorInfoContract?.lastCommissionUpdate)+ parseInt(comissionHandle?.dynasty) <= parseInt(comissionHandle?.epoch) ? false : true}
-                        onClick={() =>
-                          handleModal(
-                            "Change Commission Rate",
-                            account
-                          )
-                        }
-                        className="ff-mos btn black-btn w-100 d-block tool-ico"
-                      >
-                        Change Commission Rate
-                      </button>
-                      <div className="tool-desc">
-                      Change your commission rate 
-                      </div>
+                      <div className="cus-tooltip d-inline-block ps-0">
+                        <button
+                          disabled={
+                            parseInt(
+                              validatorInfoContract?.lastCommissionUpdate
+                            ) +
+                              parseInt(comissionHandle?.dynasty) <=
+                            parseInt(comissionHandle?.epoch)
+                              ? false
+                              : true
+                          }
+                          onClick={() =>
+                            handleModal("Change Commission Rate", account)
+                          }
+                          className="ff-mos btn black-btn w-100 d-block tool-ico"
+                        >
+                          Change Commission Rate
+                        </button>
+                        <div className="tool-desc">
+                          Change your commission rate
+                        </div>
                       </div>
                     </div>
                     <div className="col-xl-3  col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
-                    <div className='cus-tooltip d-inline-block ps-0'>
-                      <button
-                        onClick={() =>
-                          withdrawRewardValidator()
-                        }
-                        // disabled={validatorTotalReward > 0 ? false : true}
-                        className="ff-mos btn black-btn w-100 d-block tool-ico"
-                      >
-                        Withdraw Rewards
-                      </button>
-                      <div className="tool-desc">
-                      Withdraw rewards
-                      </div>
+                      <div className="cus-tooltip d-inline-block ps-0">
+                        <button
+                          onClick={() => withdrawRewardValidator()}
+                          disabled={!(validatorTotalReward > 0)}
+                          className="ff-mos btn black-btn w-100 d-block tool-ico"
+                        >
+                          Withdraw Rewards
+                        </button>
+                        <div className="tool-desc">Withdraw rewards</div>
                       </div>
                     </div>
                     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div className='cus-tooltip d-inline-block ps-0'>
-                      <button
-                        disabled={parseInt(validatorInfoContract?.deactivationEpoch)+ parseInt(comissionHandle?.dynasty) <= parseInt(comissionHandle?.epoch) && parseInt(validatorInfoContract?.deactivationEpoch) > 0 ? false : true}
-                        onClick={() => setunboundpop(true)}
-                        className="ff-mos btn black-btn w-100 d-block tool-ico"
-                      >
-                        unstake
-                      </button>
-                      <div className="tool-desc">
-                        unstake from network 
-                      </div>
+                      <div className="cus-tooltip d-inline-block ps-0">
+                        <button
+                          disabled={
+                            parseInt(validatorInfoContract?.deactivationEpoch) +
+                              parseInt(comissionHandle?.dynasty) <=
+                              parseInt(comissionHandle?.epoch) &&
+                            parseInt(validatorInfoContract?.deactivationEpoch) >
+                              0
+                              ? false
+                              : true
+                          }
+                          onClick={() => setUnStakePop(true)}
+                          className="ff-mos btn black-btn w-100 d-block tool-ico"
+                        >
+                          unstake
+                        </button>
+                        <div className="tool-desc">unstake from network</div>
                       </div>
                     </div>
-                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div className='cus-tooltip d-inline-block ps-0'>
-                      <button
-                        disabled={parseInt(validatorInfoContract?.deactivationEpoch)+ parseInt(comissionHandle?.dynasty) <= parseInt(comissionHandle?.epoch) && parseInt(validatorInfoContract?.deactivationEpoch) > 0 ? false : true}
-                        onClick={() => setunboundpop(true)}
-                        className="ff-mos btn black-btn w-100 d-block tool-ico"
-                      >
-                        unstake claim
-                      </button>
-                      <div className="tool-desc">
-                        claim your self stake
-                      </div>
+                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 m-3">
+                      <div className="cus-tooltip d-inline-block ps-0">
+                        <button
+                          disabled={
+                            parseInt(validatorInfoContract?.deactivationEpoch) +
+                              parseInt(comissionHandle?.dynasty) <=
+                              parseInt(comissionHandle?.epoch) &&
+                            parseInt(validatorInfoContract?.deactivationEpoch) >
+                              0
+                              ? false
+                              : true
+                          }
+                          onClick={() => setUnStakeClaimPop(true)}
+                          className="ff-mos btn black-btn w-100 d-block tool-ico"
+                        >
+                          unstake claim
+                        </button>
+                        <div className="tool-desc">claim your self stake</div>
                       </div>
                     </div>
                   </div>
@@ -1652,9 +1940,9 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                               <div className="info-row">
                                 <span>
                                   <span className="fw-bold">
-                                    {addDecimalValue(parseInt(
-                                      item.checkpointSignedPercent
-                                    ))}
+                                    {addDecimalValue(
+                                      parseInt(item.checkpointSignedPercent)
+                                    )}
                                     %
                                   </span>{" "}
                                   Checkpoints Signed
@@ -1702,11 +1990,14 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
 
                           <ul className="btn-grp">
                             <li className="btn-grp-lst">
-                              <div className='cus-tooltip d-inline-block'>
+                              <div className="cus-tooltip d-inline-block">
                                 <button
                                   disabled={
-                                    parseInt(item.commission) == comissionVal || item.checkpointSignedPercent < checkpointVal ||
-                                    parseInt(item.reward) / 10 ** web3Decimals < 1
+                                    parseInt(item.commission) == comissionVal ||
+                                    item.checkpointSignedPercent <
+                                      checkpointVal ||
+                                    parseInt(item.reward) / 10 ** web3Decimals <
+                                      1
                                   }
                                   onClick={() =>
                                     handleModal("Restake", item.contractAddress)
@@ -1721,15 +2012,22 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                               </div>
                             </li>
                             <li className="btn-grp-lst">
-                            <div className='cus-tooltip d-inline-block'>
-                              <button
-                                disabled={parseInt(item.reward) / 10 ** web3Decimals < 1}
-                                onClick={() => withdrawRewardDelegator(item.contractAddress, item.id)
-                                }
-                                className="btn black-btn btn-small tool-ico"
-                              >
-                                Withdraw Rewards
-                              </button>
+                              <div className="cus-tooltip d-inline-block">
+                                <button
+                                  disabled={
+                                    parseInt(item.reward) / 10 ** web3Decimals <
+                                    1
+                                  }
+                                  onClick={() =>
+                                    withdrawRewardDelegator(
+                                      item.contractAddress,
+                                      item.id
+                                    )
+                                  }
+                                  className="btn black-btn btn-small tool-ico"
+                                >
+                                  Withdraw Rewards
+                                </button>
                                 <div className="tool-desc">
                                   withdraw you total reward
                                 </div>
@@ -1737,21 +2035,21 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                             </li>
 
                             <li className="btn-grp-lst">
-                            <div className='cus-tooltip d-inline-block'>
-                              <button
-                                disabled={parseInt(getStake(item.id)) < 1}
-                                onClick={() =>
-                                  handleModal(
-                                    "Unbound",
-                                    item.validatorAddress,
-                                    item.contractAddress,
-                                    (parseInt(getStake(item.id)))
-                                  )
-                                }
-                                className="btn black-btn btn-small tool-ico"
-                              >
-                                Unbound
-                              </button>
+                              <div className="cus-tooltip d-inline-block">
+                                <button
+                                  disabled={parseInt(getStake(item.id)) < 1}
+                                  onClick={() =>
+                                    handleModal(
+                                      "Unbound",
+                                      item.validatorAddress,
+                                      item.contractAddress,
+                                      parseInt(getStake(item.id))
+                                    )
+                                  }
+                                  className="btn black-btn btn-small tool-ico"
+                                >
+                                  Unbound
+                                </button>
                                 <div className="tool-desc">
                                   unbound and withdraw rewards
                                 </div>
@@ -1759,25 +2057,26 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
                             </li>
 
                             <li className="btn-grp-lst">
-                            <div className='cus-tooltip d-inline-block'>
-                              <button
-                                disabled={parseInt(item.commission) == comissionVal || item.checkpointSignedPercent < checkpointVal}
-                                onClick={() => {
-                                  setSelectedRow({
-                                    owner: item.contractAddress,
-                                    contractAddress: item.contractAddress,
-                                    commissionPercent: item.commission,
-                                    name: item.name,
-                                  });
-                                  setStakeMoreModal(true);
-                                }}
-                                className="btn black-btn btn-small tool-ico"
-                              >
-                                Stake More
-                              </button>
-                                <div className="tool-desc">
-                                  stake more
-                                </div>
+                              <div className="cus-tooltip d-inline-block">
+                                <button
+                                  disabled={
+                                    parseInt(item.commission) == comissionVal ||
+                                    item.checkpointSignedPercent < checkpointVal
+                                  }
+                                  onClick={() => {
+                                    setSelectedRow({
+                                      owner: item.contractAddress,
+                                      contractAddress: item.contractAddress,
+                                      commissionPercent: item.commission,
+                                      name: item.name,
+                                    });
+                                    setStakeMoreModal(true);
+                                  }}
+                                  className="btn black-btn btn-small tool-ico"
+                                >
+                                  Stake More
+                                </button>
+                                <div className="tool-desc">stake more</div>
                               </div>
                             </li>
                           </ul>
@@ -1797,7 +2096,6 @@ const validatorAccount = ({ userType, boneUSDValue, availBalance }: { userType: 
       </div>
     </>
   );
-
-}
+};
 
 export default validatorAccount
