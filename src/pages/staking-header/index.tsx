@@ -10,7 +10,7 @@ import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import { useUserType, useValId } from "../../state/user/hooks";
 import { useActiveWeb3React } from "../../services/web3";
-import CommonModal from "pages/components/CommonModel";
+import { ValInfoModals } from "pages/components/CommonModel";
 
 const StakingHeader = () => {
   const router = useRouter();
@@ -21,7 +21,7 @@ const StakingHeader = () => {
   const [history, setHistory] = useState("");
   const [userType, setUserType] = useUserType();
   const [valId, setValId] = useValId();
-  const [valInfoModal, setValInfoModal] = useState(false);
+  const [valInfoModal, setValInfoModal] = useState(true);
 
   const { account, chainId = 1, library } = useActiveWeb3React();
 
@@ -154,7 +154,7 @@ const StakingHeader = () => {
 
   return (
     <>
-      <CommonModal
+      <ValInfoModals
         title="Status"
         show={valInfoModal}
         setshow={() => setValInfoModal(false)}
@@ -169,7 +169,7 @@ const StakingHeader = () => {
             </div>
           </div>
         </div>
-      </CommonModal>
+      </ValInfoModals>
       <div className="staking-header dark-bg-800">
         <div className="container">
           <div className="lft-sec">
