@@ -158,7 +158,7 @@ export default function ProfileUpdate() {
             if (e.target.files[0]?.size <= 204800) {
                 setImageData({ image: e.target.files[0] });
                 setImgsize(false)
-            } else if(imageData.size > 204800){
+            } else if(e.target.files[0]?.size > 204800){
                 setImgsize(true)
             }
         }
