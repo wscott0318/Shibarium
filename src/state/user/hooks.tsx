@@ -36,7 +36,8 @@ import {
   updateUserSingleHopOnly,
   updateUserType,
   updateUserUseOpenMev,
-  updateValId
+  updateValId,
+  updateValInfo
 } from './actions'
 
 function serializeToken(token: Token): SerializedToken {
@@ -417,4 +418,17 @@ export function useValId(): [string, (newUseUserType: string) => void] {
   )
 
   return [valId, setValId]
+}
+
+export function useValInfo(): [object, (newUseUserType: object) => void] {
+  const dispatch = useAppDispatch()
+  // @ts-ignore TYPE NEEDS FIXING
+  const valInfo = useSelector<AppState, AppState["valInfo"]["setValInfo"]>(
+    (state) => state.user
+  );
+
+  const setValInfo = useCallback(
+    (fetchedValInfo: object) => dispatch(updateValInfo({ valInfo: fetchedValInfo })), [dispatch]
+  );
+  return [valInfo, setValInfo];
 }

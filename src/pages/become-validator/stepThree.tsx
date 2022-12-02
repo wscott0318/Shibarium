@@ -21,6 +21,7 @@ import { registerValidator } from "services/apis/network-details/networkOverview
 import * as Sentry from '@sentry/nextjs';
 import CommonModal from "pages/components/CommonModel";
 import { getExplorerLink } from "app/functions/explorer";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
@@ -30,7 +31,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const dispatch = useAppDispatch();
   // const [apiLoading, setApiLoading] = useState(false);
   const [transactionState, setTransactionState] = useState({
-    state: false,
+    state: true,
     title: 'Pending',
   })
   const [hashLink, setHashLink] = useState('')
@@ -40,7 +41,8 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   let schema = yup.object().shape({
     amount: yup.number().typeError("Only digits are allowed.").min(minDeposit).max(availBalance).required("Amount is required."),
   })
-
+  const [loader, setLoader] = useState("step1");
+  var StepComplete: string[] = [];
   useEffect(() => {
     if (account) {
       getMinimunFee()
@@ -236,7 +238,28 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       position: toast.POSITION.BOTTOM_CENTER, autoClose: 3000
     });
   }
-
+  // function completeSteps (){
+  //   console.log(StepComplete);
+  //   if(loader == "step1"){
+  //     StepComplete.push("step1");
+  //     setLoader("step2");
+  //   }
+  //   else if(loader == "step2"){
+  //     StepComplete.push("step2");
+  //     setLoader("step3");
+  //   }
+  //   else if(loader == "step3"){
+  //     StepComplete.push("step2");
+  //     setLoader("step4");
+  //   }
+  //   else if(loader =="step4"){
+  //     StepComplete.push("step3");
+  //     setLoader("");
+  //   }
+  //   else{
+  //     StepComplete.push("step4");
+  //   }
+  // }
 
   const handleTransaction = async (val: any) => {
     try {
@@ -315,7 +338,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               </label>
               <div className="file-wrap">
                 <div className="file-icons">
-                  <img
+                  {/* <img
                     src={
                       becomeValidateData?.imageURL
                         ? becomeValidateData?.imageURL : becomeValidateData?.image ? URL.createObjectURL(becomeValidateData?.image)
@@ -324,7 +347,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                     alt=""
                     className="img-fluid" // 200kb 
                     width={22}
-                  />
+                  /> */}
                 </div>
               </div>
             </div>
@@ -458,7 +481,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
           setshow={() =>
             setTransactionState({ state: false, title: "Pending" })
           }
-          externalcls="faucet-pop"
+          externalCls="faucet-pop"
         >
           <div className="popmodal-body tokn-popup no-ht trans-mod">
             <div className="pop-block">
@@ -478,9 +501,52 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                       </div>
                     </span> :
                     <div className='trans-loader'>
-                      <span className="spiner-lg">
+                      <div className="loading-steps">
+                        <div className={`step1 ${StepComplete.includes("step1") ? "completed" : ""}`}>
+                          {loader == "step1" ?
+                            (
+                              <CircularProgress color="inherit" />
+                            ) :
+                            (
+                              <div>
+                                <img className={`img-fluid tick-img ${StepComplete.includes("step1") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
+                              </div>
+                            )}
+                        </div>
+                        <div className={`step2 ${StepComplete.includes("step2") ? "completed" : ""}`}>
+                          {loader == "step2" ? (
+                            <div>
+                              <CircularProgress color="inherit" />
+                            </div>) : (
+                            <div>
+                              <img className={`img-fluid tick-img ${StepComplete.includes("step2") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
+                            </div>
+                          )}
+                        </div>
+                        <div className={`step3 ${StepComplete.includes("step3") ? "completed" : ""}`}>
+                          {loader == "step3" ? (
+                            <div>
+                              <CircularProgress color="inherit" />
+                            </div>) : (
+                            <div>
+                              <img className={`img-fluid tick-img ${StepComplete.includes("step3") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
+                            </div>
+                          )}
+                        </div>
+                        <div className={`step4 ${StepComplete.includes("step4") ? "completed" : ""}`}>
+                          {loader == "step4" ? (
+                            <div>
+                              <CircularProgress color="inherit" />
+                            </div>) : (
+                            <div>
+                              <img className={`img-fluid tick-img ${StepComplete.includes("step4") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      {/* <span className="spiner-lg">
                         <span className="spinner-border text-secondary pop-spiner"></span>
-                      </span>
+                      </span> */}
                     </div>
                   }
                 </div>

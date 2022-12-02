@@ -8,10 +8,11 @@ import {
 } from "react-bootstrap";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
-import { useUserType, useValId } from "../../state/user/hooks";
+import { useUserType, useValId, useValInfo } from "../../state/user/hooks";
 import { useActiveWeb3React } from "../../services/web3";
 import CommonModal from "pages/components/CommonModel";
-
+import { getUserType } from "app/services/apis/network-details/networkOverview";
+import * as Sentry from "@sentry/nextjs";
 const StakingHeader = () => {
   const router = useRouter();
 
@@ -25,6 +26,37 @@ const StakingHeader = () => {
 
   const { account, chainId = 1, library } = useActiveWeb3React();
 
+  const [valInfo, setValInfo] = useValInfo();
+
+  const getValInfoApi = (accountAddress: any) => {
+    try {
+      getUserType(accountAddress.toLowerCase()).then(res => {
+        if (res.data && res.data.data) {
+          // let ut = res.data.data.userType;
+          // let valID = res.data.data.validatorId ? res.data.data.validatorId : "0";
+          console.log("get val info data = ", res.data);
+          // console.log(ut)
+          // setUserType(ut)
+          // setValId(valID)
+        }
+      })
+    } catch (error: any) {
+      // console.log(error)
+      // setUserType('NA')
+      // setValId("0")
+      Sentry.captureMessage("getValInfoApi ", error);
+    }
+  }
+  useEffect(() => {
+    try {
+      if (account) {
+        getValInfoApi(account)
+      }
+    }
+    catch (err: any) {
+      Sentry.captureMessage("useEffect, file -> staking-header/index.tsx , line no. 57 ", err);
+    }
+  }, []);
   useEffect(() => {
     if (routeCheck("unbond-history")) {
       setHistory("Unbound History");
