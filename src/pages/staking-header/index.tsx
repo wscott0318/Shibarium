@@ -10,8 +10,10 @@ import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import { useUserType, useValId, useValInfo } from "../../state/user/hooks";
 import { useActiveWeb3React } from "../../services/web3";
-import CommonModal from "pages/components/CommonModel";
-import { getUserType } from "app/services/apis/network-details/networkOverview";
+import { ValInfoModals } from "pages/components/CommonModel";
+import Web3 from "web3";
+import { dynamicChaining } from "web3/DynamicChaining";
+import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json"
 import * as Sentry from "@sentry/nextjs";
 const StakingHeader = () => {
   const router = useRouter();
@@ -23,7 +25,7 @@ const StakingHeader = () => {
   const [userType, setUserType] = useUserType();
   const [valId, setValId] = useValId();
   const [valInfoModal, setValInfoModal] = useState(false);
-
+  const [dynasty, setDynasty] = useState('')
   const { account, chainId = 1, library } = useActiveWeb3React();
 
   const [valInfo, setValInfo] = useValInfo();
@@ -63,9 +65,27 @@ const StakingHeader = () => {
     } else if (routeCheck("reward-history")) {
       setHistory("Reward History");
     }
+    if(account){
+      getDynsetyValue()
+    } 
   }, [router, account]);
 
   console.log("usertype ==> ", valId);
+
+  const getDynsetyValue = async () => {
+    try {
+      const lib: any = library;
+      const web3: any = new Web3(lib?.provider);
+      let instance = new web3.eth.Contract(
+        stakeManagerProxyABI,
+        dynamicChaining[chainId].STAKE_MANAGER_PROXY
+      );
+      const dynasty = await instance.methods.dynasty().call({ from: account });
+      setDynasty(dynasty)
+    } catch(err: any) {
+
+    }
+  }
 
   const renderButtons = () => {
     if (account) {
@@ -186,7 +206,7 @@ const StakingHeader = () => {
 
   return (
     <>
-      <CommonModal
+      <ValInfoModals
         title="Status"
         show={valInfoModal}
         setshow={() => setValInfoModal(false)}
@@ -195,13 +215,19 @@ const StakingHeader = () => {
         <div className="popmodal-body tokn-popup no-ht trans-mod">
           <div className="pop-block">
             <div className="pop-top">
-              <div className="dark-bg-800 h-100 status-sec sec-ht position-relative">
-               <p className="text-primary"> wait for 80 checkpoint to see your account info...</p>
+               
+              <div className="dark-bg-800 h-100 status-sec sec-ht position-relative status-sep-popup">
+                <img
+                  className="img-fluid"
+                  src="../../assets/images/waiting-small.png" 
+                  alt=""
+                ></img>
+               <p className="light-text primary-text"> Wait for {dynasty} checkpoints to see your account info...</p>
               </div>
             </div>
           </div>
         </div>
-      </CommonModal>
+      </ValInfoModals>
       <div className="staking-header dark-bg-800">
         <div className="container">
           <div className="lft-sec">

@@ -9,7 +9,7 @@ import { addTransaction, finalizeTransaction } from 'app/state/transactions/acti
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { useAppDispatch } from "../../state/hooks";
 import fromExponential from 'from-exponential';
-import { currentGasPrice, getAllowanceAmount, web3Decimals } from "web3/commonFunctions";
+import { addDecimalValue, currentGasPrice, getAllowanceAmount, web3Decimals } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { MAXAMOUNT } from "../../web3/commonFunctions";
 import { useEthBalance } from '../../hooks/useEthBalance';
@@ -432,21 +432,21 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                   value={values.amount}
                   readOnly={availBalance <= 0}
                   onChange={handleChange("amount")}
-                /><button disabled={availBalance <= 0} className="MaxAmountButton orange-txt fw-bold amt-val" onClick={() => { setFieldValue('text', values.amount = (availBalance - 0.000001).toString()) }}>MAX</button>
-              </div>
-              {touched.amount && errors.amount ? <p className="primary-text pt-2 er-txt">{errors.amount}</p> : null}
-              {availBalance <= 0 ? <p className="primary-text pt-2 er-txt">Insufficient Balance</p> : null}
-
-              <div className="row-st">
-                <div className="blk-dta">
-                  <label htmlFor="" className="form-label ff-mos mb-0">
+                /><button disabled={availBalance<=0} className="MaxAmountButton orange-txt fw-bold amt-val" onClick={()=> {setFieldValue ('text',  values.amount = addDecimalValue(+(availBalance-0.000001).toString()))}}>MAX</button>
+                </div>
+                {touched.amount && errors.amount ? <p className="primary-text pt-2 er-txt">{errors.amount}</p> : null} 
+                {availBalance <= 0 ? <p className="primary-text pt-2 er-txt">Insufficient Balance</p> : null} 
+                
+                <div className="row-st">
+                  <div className="blk-dta">
+                    <label htmlFor="" className="form-label ff-mos mb-0">
                     Minimum: {minDeposit} BONE
-                  </label>
-                </div>
-                <div className="blk-dta">
-                  <p className="amt-val">Balance: {availBalance}</p>
-                </div>
-                {/* <div className="blk-dta">
+                    </label>
+                  </div>
+                  <div className="blk-dta">
+                    <p className="amt-val">Balance: {addDecimalValue(+availBalance)}</p>
+                  </div>
+                  {/* <div className="blk-dta">
                     <button disabled={availBalance<=0} className="amt-val" onClick={()=> {setFieldValue ('text',  values.amount = (availBalance-0.000001).toString())}}>MAX</button>
                   </div> */}
               </div>
