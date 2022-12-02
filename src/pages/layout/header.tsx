@@ -9,7 +9,7 @@ import { useWeb3React } from "@web3-react/core";
 import ProjectContext from "../../context/ProjectContext";
 import Web3Status from "app/components/Web3Status";
 import { getUserType } from "app/services/apis/user/userApi";
-import { useUserType, useValId } from "app/state/user/hooks";
+import { useUserType, useValInfoContract, useValId } from "app/state/user/hooks";
 import AppHeader from "../inner-header/AppHeader";
 import { useNetworkModalToggle } from "../../state/application/hooks";
 import { useActiveWeb3React } from "../../services/web3";
@@ -23,10 +23,16 @@ export default function Header() {
   const {account, deactivate, active } = useWeb3React();
   const { chainId } = useActiveWeb3React();
   const router = useRouter();
-  const [userType, setUserType] = useUserType();
-  const [userQrCode, setUserQrCode] = useState(false);
 
+  const [userType, setUserType] = useUserType();
+
+  const [valInfoContract, setValInfoContract] = useValInfoContract()
+
+  const [userQrCode, setUserQrCode] = useState(false);
   const [valId, setValId] = useValId();
+
+
+  console.log("valInfoContract data=======>",userType,valInfoContract)
   // const [valId, setValId] = useValId();
 
   // console.log("valid redux ===> ",userType, valId);

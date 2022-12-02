@@ -50,3 +50,6 @@ export const updateValId = createAction<{
 export const updateValInfo = createAction<{
   valInfo: object;
 }>("user/updateValInfo");
+export const updateValInfoContract = createAction<{
+  valInfoContract: object
+}>('user/valInfoContract')

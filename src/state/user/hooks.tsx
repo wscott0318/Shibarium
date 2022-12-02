@@ -35,10 +35,12 @@ import {
   updateUserExpertMode,
   updateUserSingleHopOnly,
   updateUserType,
+  updateValInfoContract,
   updateUserUseOpenMev,
   updateValId,
   updateValInfo
 } from './actions'
+import { update } from 'lodash'
 
 function serializeToken(token: Token): SerializedToken {
   return {
@@ -404,7 +406,18 @@ export function useUserType(): [string, (newUseUserType: string) => void] {
   return [useUserType, setUseUserType]
 }
 
-export function useValId(): [string, (newUseUserType: string) => void] {
+export function useValInfoContract() : [object, (newUseValInfoContract : object)=>void]{ 
+const dispatch = useAppDispatch()
+// @ts-ignore TYPE NEEDS FIXING
+const useValInfoContract= useSelector<AppState, AppState ['valInfoCon']['valInfoContract']>((state)=>state.user.valInfoContract)
+const setValInfoContract = useCallback(
+
+  (newUseValInfoContract : object ) => dispatch(updateValInfoContract({valInfoContract : newUseValInfoContract})),
+  [dispatch]
+)
+return [useValInfoContract, setValInfoContract]
+}
+export function useValId(): [object, (newUseUserType: string) => object] {
   const dispatch = useAppDispatch()
 
   // @ts-ignore TYPE NEEDS FIXING
