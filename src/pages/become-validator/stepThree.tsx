@@ -12,8 +12,8 @@ import fromExponential from 'from-exponential';
 import { addDecimalValue, currentGasPrice, getAllowanceAmount, web3Decimals } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { MAXAMOUNT } from "../../web3/commonFunctions";
-import {useEthBalance} from '../../hooks/useEthBalance';
-import {useTokenBalance} from '../../hooks/useTokenBalance';
+import { useEthBalance } from '../../hooks/useEthBalance';
+import { useTokenBalance } from '../../hooks/useTokenBalance';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingSpinner from 'pages/components/Loading';
@@ -21,8 +21,9 @@ import { registerValidator } from "services/apis/network-details/networkOverview
 import * as Sentry from '@sentry/nextjs';
 import CommonModal from "pages/components/CommonModel";
 import { getExplorerLink } from "app/functions/explorer";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-function StepThree({becomeValidateData, stepState,stepHandler}:any) {
+function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
   const { account, chainId = 1, library } = useActiveWeb3React();
   const lib: any = library
@@ -30,26 +31,27 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
   const dispatch = useAppDispatch();
   // const [apiLoading, setApiLoading] = useState(false);
   const [transactionState, setTransactionState] = useState({
-    state: false,
+    state: true,
     title: 'Pending',
   })
   const [hashLink, setHashLink] = useState('')
-  const [minDeposit ,setMinDeposit] = useState<number>(0);
-  const [minHeimdallFee ,setMinHeimdallFee] = useState<number>(0);
+  const [minDeposit, setMinDeposit] = useState<number>(0);
+  const [minHeimdallFee, setMinHeimdallFee] = useState<number>(0);
   const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
   let schema = yup.object().shape({
     amount: yup.number().typeError("Only digits are allowed.").min(minDeposit).max(availBalance).required("Amount is required."),
   })
-
+  const [loader, setLoader] = useState("step1");
+  var StepComplete: string[] = [];
   useEffect(() => {
-    if(account){
+    if (account) {
       getMinimunFee()
     }
   }, [account])
 
 
   const getMinimunFee = async () => {
-    try{
+    try {
       let user = account;
       if (account) {
         const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
@@ -62,200 +64,221 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
       } else {
         console.log("account addres not found")
       }
-    } 
-    catch(err:any){
+    }
+    catch (err: any) {
       Sentry.captureMessage("getMinimunFee", err);
     }
   }
-  
 
-  const  approveAmount = async (val:any) => {
+
+  const approveAmount = async (val: any) => {
     if (account) {
       console.log("called approval ")
       let user = account;
       let amount = web3.utils.toBN(fromExponential(MAXAMOUNT * Math.pow(10, 18)));
       let instance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
-      let gasFee =  await instance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, amount).estimateGas({from: user})
-      let encodedAbi =  await instance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, amount).encodeABI()
-      let CurrentgasPrice : any = await currentGasPrice(web3)
-         console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
-         await web3.eth.sendTransaction({
-           from: user,
-           to:  dynamicChaining[chainId].BONE,
-           gas: (parseInt(gasFee) + 30000).toString(),
-           gasPrice: CurrentgasPrice,
-           // value : web3.utils.toHex(combinedFees),
-           data: encodedAbi
-         })
-      .on('transactionHash', (res: any) => {
-        console.log(res, "hash")
-        dispatch(
-          addTransaction({
-            hash: res,
-            from: user,
-            chainId,
-            summary: `${res}`,
-          })
-        )
-        let link = getExplorerLink(chainId, res, 'transaction')
-        setHashLink(link)
-      }).on('receipt', async (res: any) => {
-        console.log(res, "receipt")
-        dispatch(
-          finalizeTransaction({
-            hash: res.transactionHash,
-            chainId,
-            receipt: {
-              to: res.to,
-              from: res.from,
-              contractAddress: res.contractAddress,
-              transactionIndex: res.transactionIndex,
-              blockHash: res.blockHash,
-              transactionHash: res.transactionHash,
-              blockNumber: res.blockNumber,
-              status: 1
-            }
-          })
-        )
-        submitTransaction(val)
-      }).on('error', (res: any) => {
-        console.log(res, "error")
-        if (res.code === 4001) {
-          
-        }
+      let gasFee = await instance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, amount).estimateGas({ from: user })
+      let encodedAbi = await instance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, amount).encodeABI()
+      let CurrentgasPrice: any = await currentGasPrice(web3)
+      console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+      await web3.eth.sendTransaction({
+        from: user,
+        to: dynamicChaining[chainId].BONE,
+        gas: (parseInt(gasFee) + 30000).toString(),
+        gasPrice: CurrentgasPrice,
+        // value : web3.utils.toHex(combinedFees),
+        data: encodedAbi
       })
-      setTransactionState({state: false, title: ''})
+        .on('transactionHash', (res: any) => {
+          console.log(res, "hash")
+          dispatch(
+            addTransaction({
+              hash: res,
+              from: user,
+              chainId,
+              summary: `${res}`,
+            })
+          )
+          let link = getExplorerLink(chainId, res, 'transaction')
+          setHashLink(link)
+        }).on('receipt', async (res: any) => {
+          console.log(res, "receipt")
+          dispatch(
+            finalizeTransaction({
+              hash: res.transactionHash,
+              chainId,
+              receipt: {
+                to: res.to,
+                from: res.from,
+                contractAddress: res.contractAddress,
+                transactionIndex: res.transactionIndex,
+                blockHash: res.blockHash,
+                transactionHash: res.transactionHash,
+                blockNumber: res.blockNumber,
+                status: 1
+              }
+            })
+          )
+          submitTransaction(val)
+        }).on('error', (res: any) => {
+          console.log(res, "error")
+          if (res.code === 4001) {
+
+          }
+        })
+      setTransactionState({ state: false, title: '' })
     } else {
       console.log("account not connected ====> ")
     }
   }
 
-  const submitTransaction = async (values : any) => { 
+  const submitTransaction = async (values: any) => {
     try {
       console.log("called submitTransaction ")
-    const user : any = account
-    const amount = web3.utils.toBN(fromExponential(+values.amount * Math.pow(10, 18)));
-    const acceptDelegation = 1
-    const heimdallFee = web3.utils.toBN(fromExponential(minHeimdallFee * Math.pow(10, 18)));
-    const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-    const gasFee =  await instance.methods.stakeFor(user, amount,heimdallFee, acceptDelegation,becomeValidateData.publickey ).estimateGas({from: user})
-    const encodedAbi =  await instance.methods.stakeFor(user, amount,heimdallFee, acceptDelegation,becomeValidateData.publickey ).encodeABI()
-    const CurrentgasPrice : any = await currentGasPrice(web3)
-       console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
-       await web3.eth.sendTransaction({
-         from: user,
-         to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
-         gas: (parseInt(gasFee) + 30000).toString(),
-         gasPrice: CurrentgasPrice,
-         // value : web3.utils.toHex(combinedFees),
-         data: encodedAbi
-       })
-      .on('transactionHash', (res: any) => {
-        console.log(res, "hash")
-        dispatch(
-          addTransaction({
-            hash: res,
-            from: user,
-            chainId,
-            summary: `${res}`,
-          })
-        )
-        let link = getExplorerLink(chainId, res, 'transaction')
-        setHashLink(link)
-      }).on('receipt', (res: any) => {
-        console.log(res, "receipt")
-        dispatch(
-          finalizeTransaction({
-            hash: res.transactionHash,
-            chainId,
-            receipt: {
-              to: res.to,
-              from: res.from,
-              contractAddress: res.contractAddress,
-              transactionIndex: res.transactionIndex,
-              blockHash: res.blockHash,
-              transactionHash: res.transactionHash,
-              blockNumber: res.blockNumber,
-              status: 1
-            }
-          })
-        )
-        changeStatus()
-        localStorage.clear()
-      }).on('error', (res: any) => {
-        console.log(res, "error")
-        setTransactionState({state: false, title: ''})
-        dispatch(
-          finalizeTransaction({
-            hash: res.transactionHash,
-            chainId,
-            receipt: {
-              to: res.to,
-              from: res.from,
-              contractAddress: res.contractAddress,
-              transactionIndex: res.transactionIndex,
-              blockHash: res.blockHash,
-              transactionHash: res.transactionHash,
-              blockNumber: res.blockNumber,
-              status: 0
-            }
-          })
-        )
-        if (res.code === 4001) {
-
-        }
+      const user: any = account
+      const amount = web3.utils.toBN(fromExponential(+values.amount * Math.pow(10, 18)));
+      const acceptDelegation = 1
+      const heimdallFee = web3.utils.toBN(fromExponential(minHeimdallFee * Math.pow(10, 18)));
+      const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
+      const gasFee = await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).estimateGas({ from: user })
+      const encodedAbi = await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).encodeABI()
+      const CurrentgasPrice: any = await currentGasPrice(web3)
+      console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+      await web3.eth.sendTransaction({
+        from: user,
+        to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
+        gas: (parseInt(gasFee) + 30000).toString(),
+        gasPrice: CurrentgasPrice,
+        // value : web3.utils.toHex(combinedFees),
+        data: encodedAbi
       })
-    
-  } catch (err:any){
-    Sentry.captureMessage("submitTransaction", err);
-    setTransactionState({state: false, title: ''})
-  }
-    
+        .on('transactionHash', (res: any) => {
+          console.log(res, "hash")
+          dispatch(
+            addTransaction({
+              hash: res,
+              from: user,
+              chainId,
+              summary: `${res}`,
+            })
+          )
+          let link = getExplorerLink(chainId, res, 'transaction')
+          setHashLink(link)
+        }).on('receipt', (res: any) => {
+          console.log(res, "receipt")
+          dispatch(
+            finalizeTransaction({
+              hash: res.transactionHash,
+              chainId,
+              receipt: {
+                to: res.to,
+                from: res.from,
+                contractAddress: res.contractAddress,
+                transactionIndex: res.transactionIndex,
+                blockHash: res.blockHash,
+                transactionHash: res.transactionHash,
+                blockNumber: res.blockNumber,
+                status: 1
+              }
+            })
+          )
+          changeStatus()
+          localStorage.clear()
+        }).on('error', (res: any) => {
+          console.log(res, "error")
+          setTransactionState({ state: false, title: '' })
+          dispatch(
+            finalizeTransaction({
+              hash: res.transactionHash,
+              chainId,
+              receipt: {
+                to: res.to,
+                from: res.from,
+                contractAddress: res.contractAddress,
+                transactionIndex: res.transactionIndex,
+                blockHash: res.blockHash,
+                transactionHash: res.transactionHash,
+                blockNumber: res.blockNumber,
+                status: 0
+              }
+            })
+          )
+          if (res.code === 4001) {
+
+          }
+        })
+
+    } catch (err: any) {
+      Sentry.captureMessage("submitTransaction", err);
+      setTransactionState({ state: false, title: '' })
+    }
+
 
   }
 
-  const { values, errors, handleBlur,setFieldValue, handleChange, handleSubmit, touched, setValues } =
-  useFormik({
-    initialValues: {
-      amount: ''
-    },
-    validationSchema: schema,
-    onSubmit: (values) => {
-      console.log("Value", values);
-      callAPI(values)
-    },
-  });
+  const { values, errors, handleBlur, setFieldValue, handleChange, handleSubmit, touched, setValues } =
+    useFormik({
+      initialValues: {
+        amount: ''
+      },
+      validationSchema: schema,
+      onSubmit: (values) => {
+        console.log("Value", values);
+        callAPI(values)
+      },
+    });
 
   const notifyError = () => {
     toast.error('Error In Updating !', {
-      position: toast.POSITION.BOTTOM_CENTER ,autoClose: 3000
-  });
+      position: toast.POSITION.BOTTOM_CENTER, autoClose: 3000
+    });
   }
   const notifySuccess = () => {
     toast.success('Updated successfully !', {
-      position: toast.POSITION.BOTTOM_CENTER ,autoClose: 3000
-  });
+      position: toast.POSITION.BOTTOM_CENTER, autoClose: 3000
+    });
   }
+  // function completeSteps (){
+  //   console.log(StepComplete);
+  //   if(loader == "step1"){
+  //     StepComplete.push("step1");
+  //     setLoader("step2");
+  //   }
+  //   else if(loader == "step2"){
+  //     StepComplete.push("step2");
+  //     setLoader("step3");
+  //   }
+  //   else if(loader == "step3"){
+  //     StepComplete.push("step2");
+  //     setLoader("step4");
+  //   }
+  //   else if(loader =="step4"){
+  //     StepComplete.push("step3");
+  //     setLoader("");
+  //   }
+  //   else{
+  //     StepComplete.push("step4");
+  //   }
+  // }
 
-
-  const handleTransaction = async (val:any) => {
+  const handleTransaction = async (val: any) => {
     try {
-      let user : any = account
-      let allowance : any = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, user, dynamicChaining[chainId].STAKE_MANAGER_PROXY)
-      if(allowance < +val.amount) {
+      let user: any = account
+      let allowance: any = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, user, dynamicChaining[chainId].STAKE_MANAGER_PROXY)
+      if (allowance < +val.amount) {
         console.log("need approval ")
-         approveAmount(val) // gas fee
+        approveAmount(val) // gas fee
       } else {
         console.log("no approval needed")
         submitTransaction(val)
       }
-    } catch (err :any){
+    } catch (err: any) {
       Sentry.captureMessage("handleTransaction", err);
     }
   }
 
-  const callAPI = async (val :any) => {
-    setTransactionState({state: true, title: 'Pending'})
+  const callAPI = async (val: any) => {
+    setTransactionState({ state: true, title: 'Pending' })
     var data = new FormData();
     data.append("validatorName", becomeValidateData.name);
     data.append("public_key", becomeValidateData.publickey);
@@ -265,7 +288,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
     console.log(becomeValidateData, "data")
 
     await registerValidator(data).then((res: any) => {
-      console.log("this is eresss",res)
+      console.log("this is eresss", res)
       handleTransaction(val)
     }).catch((err: any) => {
       console.log(err)
@@ -286,7 +309,7 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
     console.log(becomeValidateData, "data")
 
     await registerValidator(data).then((res: any) => {
-      console.log("this is eresss",res)
+      console.log("this is eresss", res)
       // setApiLoading(false)
       notifySuccess()
       stepHandler("next");
@@ -297,17 +320,17 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
     })
   };
 
-    return (
-      <>
+  return (
+    <>
       {/* {apiLoading && <LoadingSpinner />} */}
-        <div className="progress-tab">
-          <div className="mb-4 mb-xl-5">
-            <h5 className="fw-700 mb-2 ff-mos">Add your stake amount</h5>
-            <p className="ff-mos">
-              Please provide your stake amount detail here
-            </p>
-          </div>
-          <div className="row">
+      <div className="progress-tab">
+        <div className="mb-4 mb-xl-5">
+          <h5 className="fw-700 mb-2 ff-mos">Add your stake amount</h5>
+          <p className="ff-mos">
+            Please provide your stake amount detail here
+          </p>
+        </div>
+        <div className="row">
           <div className="col-sm-6 form-grid">
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
@@ -315,16 +338,16 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
               </label>
               <div className="file-wrap">
                 <div className="file-icons">
-                  <img
+                  {/* <img
                     src={
-                      becomeValidateData?.imageURL 
-                        ?  becomeValidateData?.imageURL : becomeValidateData?.image ? URL.createObjectURL(becomeValidateData?.image) 
-                        : "../../assets/images/file-icon.png"
+                      becomeValidateData?.imageURL
+                        ? becomeValidateData?.imageURL : becomeValidateData?.image ? URL.createObjectURL(becomeValidateData?.image)
+                          : "../../assets/images/file-icon.png"
                     }
                     alt=""
                     className="img-fluid" // 200kb 
                     width={22}
-                  />
+                  /> */}
                 </div>
               </div>
             </div>
@@ -382,9 +405,10 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
           <div className="col-sm-6 form-grid">
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
-                Signer’s Public key
+                Signer’s Public key <span className="get-info">i</span>
+                <div className="tool-desc">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum fugit optio molestias, dolorem magni quia.</div>
               </label>
-            
+
               <input
                 type="text"
                 className="form-control"
@@ -396,11 +420,11 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
             </div>
           </div>
           <div className="col-sm-6 form-grid">
-              <div className="form-group">
-                <label htmlFor="" className="form-label ff-mos">
-                  Enter the stake amount
-                </label>
-                <div className="maxButtonFloat">
+            <div className="form-group">
+              <label htmlFor="" className="form-label ff-mos">
+                Enter the stake amount
+              </label>
+              <div className="maxButtonFloat">
                 <input
                   type="text"
                   className=" mb-2 form-control"
@@ -408,50 +432,50 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
                   value={values.amount}
                   readOnly={availBalance <= 0}
                   onChange={handleChange("amount")}
-                /><button disabled={availBalance<=0} className="MaxAmountButton orange-txt fw-bold amt-val" onClick={()=> {setFieldValue ('text',  values.amount = addDecimalValue(+(availBalance-0.000001).toString()))}}>MAX</button>
-                </div>
-                {touched.amount && errors.amount ? <p className="primary-text pt-2 er-txt">{errors.amount}</p> : null} 
-                {availBalance <= 0 ? <p className="primary-text pt-2 er-txt">Insufficient Balance</p> : null} 
-                
-                <div className="row-st">
-                  <div className="blk-dta">
-                    <label htmlFor="" className="form-label ff-mos mb-0">
+                /><button disabled={availBalance <= 0} className="MaxAmountButton orange-txt fw-bold amt-val" onClick={() => { setFieldValue('text', values.amount = addDecimalValue(+(availBalance - 0.000001).toString())) }}>MAX</button>
+              </div>
+              {touched.amount && errors.amount ? <p className="primary-text pt-2 er-txt">{errors.amount}</p> : null}
+              {availBalance <= 0 ? <p className="primary-text pt-2 er-txt">Insufficient Balance</p> : null}
+
+              <div className="row-st">
+                <div className="blk-dta">
+                  <label htmlFor="" className="form-label ff-mos mb-0">
                     Minimum: {minDeposit} BONE
-                    </label>
-                  </div>
-                  <div className="blk-dta">
-                    <p className="amt-val">Balance: {addDecimalValue(+availBalance)}</p>
-                  </div>
-                  {/* <div className="blk-dta">
+                  </label>
+                </div>
+                <div className="blk-dta">
+                  <p className="amt-val">Balance: {addDecimalValue(+availBalance)}</p>
+                </div>
+                {/* <div className="blk-dta">
                     <button disabled={availBalance<=0} className="amt-val" onClick={()=> {setFieldValue ('text',  values.amount = (availBalance-0.000001).toString())}}>MAX</button>
                   </div> */}
-                </div>
-
               </div>
+
             </div>
-        </div>
-          <div className="btn-wrap col-sm-5 mt-4 flx">
-            <button
-              type="button"
-              className="btn grey-btn w-100"
-              onClick={()=>stepHandler("back")}
-            >
-              <span className="ff-mos">
-                Back
-              </span>
-            </button>
-            <button
-              type="button"
-              disabled={availBalance <= 0}
-              className="btn primary-btn w-100"
-              onClick={()=> handleSubmit()}
-            >
-              <span className="ff-mos">
-                Next
-              </span>
-            </button>
           </div>
-          <CommonModal
+        </div>
+        <div className="btn-wrap col-sm-5 mt-4 flx">
+          <button
+            type="button"
+            className="btn grey-btn w-100"
+            onClick={() => stepHandler("back")}
+          >
+            <span className="ff-mos">
+              Back
+            </span>
+          </button>
+          <button
+            type="button"
+            disabled={availBalance <= 0}
+            className="btn primary-btn w-100"
+            onClick={() => handleSubmit()}
+          >
+            <span className="ff-mos">
+              Next
+            </span>
+          </button>
+        </div>
+        <CommonModal
           title={transactionState.title}
           show={transactionState.state}
           setshow={() =>
@@ -463,25 +487,80 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
             <div className="pop-block">
               <div className="pop-top">
                 <div className="dark-bg-800 h-100 status-sec sec-ht position-relative">
-               
-                    {hashLink ?
+
+                  {hashLink ?
                     <span>
-                    <div>
-                      <img
-                        width="224"
-                        height="224"
-                        className="img-fluid"
-                        src="../../assets/images/Ellipse.png"
-                        alt=""
-                      />
-                    </div>
-                  </span> : 
+                      <div>
+                        <img
+                          width="224"
+                          height="224"
+                          className="img-fluid"
+                          src="../../assets/images/Ellipse.png"
+                          alt=""
+                        />
+                      </div>
+                    </span> :
                     <div className='trans-loader'>
-                      <span className="spiner-lg">
+                      <div className="loading-steps">
+                        <div className="step_wrapper">
+                          <span>Lorem ipsum</span>
+                          <div className={`step1 ${StepComplete.includes("step1") ? "completed" : ""}`}>
+                            {loader == "step1" ?
+                              (
+                                <CircularProgress color="inherit" />
+                              ) :
+                              (
+                                <div>
+                                  <img className={`img-fluid tick-img ${StepComplete.includes("step1") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
+                                </div>
+                              )}
+                          </div>
+                        </div>
+                        <div className="step_wrapper">
+                          <span>Lorem ipsum</span>
+                          <div className={`step2 ${StepComplete.includes("step2") ? "completed" : ""}`}>
+                            {loader == "step2" ? (
+                              <div>
+                                <CircularProgress color="inherit" />
+                              </div>) : (
+                              <div>
+                                <img className={`img-fluid tick-img ${StepComplete.includes("step2") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div className="step_wrapper">
+                          <span>Lorem ipsum</span>
+                          <div className={`step3 ${StepComplete.includes("step3") ? "completed" : ""}`}>
+                            {loader == "step3" ? (
+                              <div>
+                                <CircularProgress color="inherit" />
+                              </div>) : (
+                              <div>
+                                <img className={`img-fluid tick-img ${StepComplete.includes("step3") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div className="step_wrapper">
+                          <span>Lorem ipsum</span>
+                          <div className={`step4 ${StepComplete.includes("step4") ? "completed" : ""}`}>
+                            {loader == "step4" ? (
+                              <div>
+                                <CircularProgress color="inherit" />
+                              </div>) : (
+                              <div>
+                                <img className={`img-fluid tick-img ${StepComplete.includes("step4") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      {/* <span className="spiner-lg">
                         <span className="spinner-border text-secondary pop-spiner"></span>
-                      </span>
+                      </span> */}
                     </div>
-                    }
+                  }
                 </div>
               </div>
               <div className="pop-bottom">
@@ -501,9 +580,9 @@ function StepThree({becomeValidateData, stepState,stepHandler}:any) {
           </div>
           {/* Transaction Pending popup version 2 end*/}
         </CommonModal>
-        </div>
-      </>
-    );
+      </div>
+    </>
+  );
 }
 
 export default StepThree

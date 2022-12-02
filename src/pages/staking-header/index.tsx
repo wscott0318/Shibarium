@@ -8,13 +8,14 @@ import {
 } from "react-bootstrap";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
-import { useUserType, useValId } from "../../state/user/hooks";
+import { useUserType, useValId, useValInfo } from "../../state/user/hooks";
 import { useActiveWeb3React } from "../../services/web3";
 import { ValInfoModals } from "pages/components/CommonModel";
 import Web3 from "web3";
 import { dynamicChaining } from "web3/DynamicChaining";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json"
-
+import * as Sentry from "@sentry/nextjs";
+import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
 const StakingHeader = () => {
   const router = useRouter();
 
@@ -28,6 +29,32 @@ const StakingHeader = () => {
   const [dynasty, setDynasty] = useState('')
   const { account, chainId = 1, library } = useActiveWeb3React();
 
+  const [valInfo, setValInfo] = useValInfo();
+
+  const getValInfoApi = async (id: any) => {
+    try {
+      await getValidatorInfo(id).then(res => {
+        if (res.data && res.data.message) {
+          let info = res.data.message.val;
+          console.log("get val info data = ", res.data.message.val);
+          setValInfo(info);
+        }
+      }).catch(err => console.log("err => " , err))
+    } catch (error: any) {
+      console.log("catch err => ", error);
+      Sentry.captureMessage("getValInfoApi ", error);
+    }
+  }
+  useEffect(() => {
+    try {
+      if (account) {
+        getValInfoApi(account);
+      }
+    }
+    catch (err: any) {
+      Sentry.captureMessage("useEffect, file -> staking-header/index.tsx , line no. 55 ", err);
+    }
+  }, []);
   useEffect(() => {
     if (routeCheck("unbond-history")) {
       setHistory("Unbound History");

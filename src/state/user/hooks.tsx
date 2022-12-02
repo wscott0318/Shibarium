@@ -35,10 +35,12 @@ import {
   updateUserExpertMode,
   updateUserSingleHopOnly,
   updateUserType,
+  updateValInfoContract,
   updateUserUseOpenMev,
   updateValId,
-  updateEpochDyna
+  updateValInfo
 } from './actions'
+import { update } from 'lodash'
 
 function serializeToken(token: Token): SerializedToken {
   return {
@@ -404,7 +406,18 @@ export function useUserType(): [string, (newUseUserType: string) => void] {
   return [useUserType, setUseUserType]
 }
 
-export function useValId(): [string, (newUseUserType: string) => void] {
+export function useValInfoContract() : [object, (newUseValInfoContract : object)=>void]{ 
+const dispatch = useAppDispatch()
+// @ts-ignore TYPE NEEDS FIXING
+const useValInfoContract= useSelector<AppState, AppState ['valInfoCon']['valInfoContract']>((state)=>state.user.valInfoContract)
+const setValInfoContract = useCallback(
+
+  (newUseValInfoContract : object ) => dispatch(updateValInfoContract({valInfoContract : newUseValInfoContract})),
+  [dispatch]
+)
+return [useValInfoContract, setValInfoContract]
+}
+export function useValId(): [object, (newUseUserType: string) => object] {
   const dispatch = useAppDispatch()
 
   // @ts-ignore TYPE NEEDS FIXING
@@ -420,19 +433,15 @@ export function useValId(): [string, (newUseUserType: string) => void] {
   return [valId, setValId]
 }
 
-export function useEpochDyna(): [string, (newEpochDyna: any) => void] {
-  const dispatch = useAppDispatch();
-
+export function useValInfo(): [object, (newUseUserType: object) => void] {
+  const dispatch = useAppDispatch()
   // @ts-ignore TYPE NEEDS FIXING
-  const epochdynasty = useSelector<AppState, AppState["epochDyna"]["setEpochDyna"]>(
-    (state) => state.user.epochDyna
+  const valInfo = useSelector<AppState, AppState["valInfo"]["setValInfo"]>(
+    (state) => state.user.valInfo
   );
 
-  const setEpochDyna = useCallback(
-    (newEpochDyna: any) =>
-      dispatch(updateEpochDyna(newEpochDyna)),
-    [dispatch]
+  const setValInfo = useCallback(
+    (fetchedValInfo: object) => dispatch(updateValInfo({ valInfo: fetchedValInfo })), [dispatch]
   );
-
-  return [epochdynasty, setEpochDyna];
+  return [valInfo, setValInfo];
 }

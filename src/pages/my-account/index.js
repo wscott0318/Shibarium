@@ -50,6 +50,22 @@ export default function MyAcount() {
               <div className="row align-items-center">
                 <div className="col-md-7 col-sm-12 ff-mos">
                   <h1 className="ff-mos">My Account</h1>
+                  {userType === "Delegator" && (
+                    <div className="balance_wrapper">
+                      <div className="balance_card">
+                        <span>{availBalance} BONES</span>
+                        <h4 className="heading-sm">Wallet Balance</h4>
+                      </div>
+                      <div className="balance_card">
+                        <span>{boneUSDValue} BONES</span>
+                        <h4 className="heading-sm">Self Stake</h4>
+                      </div>
+                      <div className="balance_card">
+                        <span>{availBalance} BONES</span>
+                        <h4 className="heading-sm">Total Delegator Reward</h4>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="col-md-5 col-sm-12 ff-mos m-hide">
                   <div className="shib-img-sec text-end">

@@ -14,9 +14,10 @@ import {
   updateUserExpertMode,
   updateUserSingleHopOnly,
   updateUserType,
+  updateValInfoContract,
   updateUserUseOpenMev,
   updateValId,
-  updateEpochDyna
+  updateValInfo
 } from './actions'
 
 const currentTimestamp = () => new Date().getTime()
@@ -52,7 +53,8 @@ export interface UserState {
   URLWarningVisible: boolean
   userType: string
   valId: string
-  epochDyna:object
+  valInfo:object
+  valInfoContract :object
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -70,7 +72,8 @@ export const initialState: UserState = {
   userUseOpenMev: true,
   userType: 'NA',
   valId:'1',
-  epochDyna:{}
+  valInfo:{},
+  valInfoContract: {},
 }
 
 export default createReducer(initialState, (builder) =>
@@ -142,12 +145,15 @@ export default createReducer(initialState, (builder) =>
       state.userUseOpenMev = action.payload.userUseOpenMev;
     })
     .addCase(updateUserType, (state, action) => {
-      state.userType = action.payload.userType;
+      state.userType = action.payload.userType
+    })
+    .addCase(updateValInfoContract, (state, action) => {
+      state.valInfoContract = action.payload.valInfoContract
     })
     .addCase(updateValId, (state, action) => {
-      state.valId = action.payload.valId;
+      state.valId = action.payload.valId
     })
-    .addCase(updateEpochDyna, (state, action) => {
-      state.epochDyna = action.payload;
+    .addCase(updateValInfo, (state, action) => {
+      state.valInfo = action.payload
     })
-);
+)
