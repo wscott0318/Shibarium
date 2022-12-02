@@ -36,7 +36,7 @@ import { dynamicChaining } from "web3/DynamicChaining";
 import { getValidatorsDetail } from "app/services/apis/validator";
 import { tokenDecimal } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
-import { useValId, useValInfoContract } from 'app/state/user/hooks';
+import { useValId,useEpochDyna, useValInfoContract } from 'app/state/user/hooks';
 
 const validatorAccount = ({
   userType,
@@ -56,7 +56,7 @@ const validatorAccount = ({
   const [validatorInfo, setValidatorInfo] = useState<any>();
   const [validatorTotalReward, setValidatorTotalReward] = useState<any>();
   const [validatorInfoContract, setValidatorInfoContract] = useState<any>();
-
+  const [epochDyna, setEpochDyna] = useEpochDyna();
   const [valId, setValId] = useValId();
 
   const [valInfoContract, setValInfoContract] = useValInfoContract()
@@ -136,6 +136,7 @@ const validatorAccount = ({
       setValidatorInfoContract(valFromContract);
       setValInfoContract(valFromContract)
       setValidatorTotalReward(reward);
+      setEpochDyna({epoch,dynasty})
       console.log(valFromContract ,"validators ===> ");
     } catch (err: any) {
       Sentry.captureException("getValidatorData ", err);
@@ -1728,10 +1729,10 @@ const validatorAccount = ({
                                 : "0.00"} */}
 
                               {validatorInfoContract?.amount
-                                ? addDecimalValue((
-                                    +validatorInfoContract?.amount
-                                  )/
-                                  10 ** web3Decimals)
+                                ? addDecimalValue(
+                                    +validatorInfoContract?.amount /
+                                      10 ** web3Decimals
+                                  )
                                 : "0.00"}
                             </span>{" "}
                             BONE
@@ -1748,10 +1749,9 @@ const validatorAccount = ({
                                 //   boneUSDValue
                                 // ).toFixed(tokenDecimal)}
                                 value={addDecimalValue(
-                                  (
-                                    +validatorInfoContract?.amount /
-                                      10 ** web3Decimals
-                                  ) * boneUSDValue
+                                  (+validatorInfoContract?.amount /
+                                    10 ** web3Decimals) *
+                                    boneUSDValue
                                 )}
                               />
                             </span>
@@ -2107,6 +2107,26 @@ const validatorAccount = ({
                                 </button>
                                 <div className="tool-desc">
                                   unbound and withdraw rewards
+                                </div>
+                              </div>
+                            </li>
+
+                            <li className="btn-grp-lst">
+                              <div className="cus-tooltip d-inline-block">
+                                <button
+                                  onClick={() =>
+                                    router.push(
+                                      `/migrate-stake/${getStake(item.id)}`,
+                                      `/migrate-stake/${getStake(item.id)}`,
+                                      { shallow: true }
+                                    )
+                                  }
+                                  className="btn black-btn btn-small tool-ico"
+                                >
+                                  Migrate Stake
+                                </button>
+                                <div className="tool-desc">
+                                  migrate your stake
                                 </div>
                               </div>
                             </li>

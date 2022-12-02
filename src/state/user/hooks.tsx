@@ -38,8 +38,9 @@ import {
   updateValInfoContract,
   updateUserUseOpenMev,
   updateValId,
-  updateValInfo
-} from './actions'
+  updateValInfo,
+  updateEpochDyna
+} from "./actions";
 import { update } from 'lodash'
 
 function serializeToken(token: Token): SerializedToken {
@@ -444,4 +445,18 @@ export function useValInfo(): [object, (newUseUserType: object) => void] {
     (fetchedValInfo: object) => dispatch(updateValInfo({ valInfo: fetchedValInfo })), [dispatch]
   );
   return [valInfo, setValInfo];
+}
+
+export function useEpochDyna(): [string, (newEpochDyna: any) => void] {
+  const dispatch = useAppDispatch();
+
+  // @ts-ignore TYPE NEEDS FIXING
+  const epochdynasty = useSelector<AppState,AppState["epochDyna"]["setEpochDyna"]>((state) => state.user.epochDyna);
+
+  const setEpochDyna = useCallback(
+    (newEpochDyna: any) => dispatch(updateEpochDyna(newEpochDyna)),
+    [dispatch]
+  );
+
+  return [epochdynasty, setEpochDyna];
 }
