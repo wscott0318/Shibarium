@@ -36,7 +36,8 @@ import {
   updateUserSingleHopOnly,
   updateUserType,
   updateUserUseOpenMev,
-  updateValId
+  updateValId,
+  updateEpochDyna
 } from './actions'
 
 function serializeToken(token: Token): SerializedToken {
@@ -417,4 +418,21 @@ export function useValId(): [string, (newUseUserType: string) => void] {
   )
 
   return [valId, setValId]
+}
+
+export function useEpochDyna(): [string, (newEpochDyna: any) => void] {
+  const dispatch = useAppDispatch();
+
+  // @ts-ignore TYPE NEEDS FIXING
+  const epochdynasty = useSelector<AppState, AppState["epochDyna"]["setEpochDyna"]>(
+    (state) => state.user.epochDyna
+  );
+
+  const setEpochDyna = useCallback(
+    (newEpochDyna: any) =>
+      dispatch(updateEpochDyna(newEpochDyna)),
+    [dispatch]
+  );
+
+  return [epochdynasty, setEpochDyna];
 }

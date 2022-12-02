@@ -15,7 +15,8 @@ import {
   updateUserSingleHopOnly,
   updateUserType,
   updateUserUseOpenMev,
-  updateValId
+  updateValId,
+  updateEpochDyna
 } from './actions'
 
 const currentTimestamp = () => new Date().getTime()
@@ -51,6 +52,7 @@ export interface UserState {
   URLWarningVisible: boolean
   userType: string
   valId: string
+  epochDyna:object
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -67,7 +69,8 @@ export const initialState: UserState = {
   URLWarningVisible: true,
   userUseOpenMev: true,
   userType: 'NA',
-  valId:'1'
+  valId:'1',
+  epochDyna:{}
 }
 
 export default createReducer(initialState, (builder) =>
@@ -75,63 +78,76 @@ export default createReducer(initialState, (builder) =>
     .addCase(updateVersion, (state) => {
       // deadline isnt being tracked in local storage, reset to default
       // noinspection SuspiciousTypeOfGuard
-      if (typeof state.userDeadline !== 'number') {
-        state.userDeadline = DEFAULT_DEADLINE_FROM_NOW
+      if (typeof state.userDeadline !== "number") {
+        state.userDeadline = DEFAULT_DEADLINE_FROM_NOW;
       }
 
-      state.lastUpdateVersionTimestamp = currentTimestamp()
+      state.lastUpdateVersionTimestamp = currentTimestamp();
     })
 
     .addCase(updateUserExpertMode, (state, action) => {
-      state.userExpertMode = action.payload.userExpertMode
-      state.timestamp = currentTimestamp()
+      state.userExpertMode = action.payload.userExpertMode;
+      state.timestamp = currentTimestamp();
     })
     .addCase(updateUserDeadline, (state, action) => {
-      state.userDeadline = action.payload.userDeadline
-      state.timestamp = currentTimestamp()
+      state.userDeadline = action.payload.userDeadline;
+      state.timestamp = currentTimestamp();
     })
     .addCase(updateUserSingleHopOnly, (state, action) => {
-      state.userSingleHopOnly = action.payload.userSingleHopOnly
+      state.userSingleHopOnly = action.payload.userSingleHopOnly;
     })
     .addCase(addSerializedToken, (state, { payload: { serializedToken } }) => {
-      state.tokens[serializedToken.chainId] = state.tokens[serializedToken.chainId] || {}
-      state.tokens[serializedToken.chainId][serializedToken.address] = serializedToken
-      state.timestamp = currentTimestamp()
+      state.tokens[serializedToken.chainId] =
+        state.tokens[serializedToken.chainId] || {};
+      state.tokens[serializedToken.chainId][serializedToken.address] =
+        serializedToken;
+      state.timestamp = currentTimestamp();
     })
-    .addCase(removeSerializedToken, (state, { payload: { address, chainId } }) => {
-      state.tokens[chainId] = state.tokens[chainId] || {}
-      delete state.tokens[chainId][address]
-      state.timestamp = currentTimestamp()
-    })
+    .addCase(
+      removeSerializedToken,
+      (state, { payload: { address, chainId } }) => {
+        state.tokens[chainId] = state.tokens[chainId] || {};
+        delete state.tokens[chainId][address];
+        state.timestamp = currentTimestamp();
+      }
+    )
     .addCase(addSerializedPair, (state, { payload: { serializedPair } }) => {
       if (
         serializedPair.token0.chainId === serializedPair.token1.chainId &&
         serializedPair.token0.address !== serializedPair.token1.address
       ) {
-        const chainId = serializedPair.token0.chainId
-        state.pairs[chainId] = state.pairs[chainId] || {}
-        state.pairs[chainId][pairKey(serializedPair.token0.address, serializedPair.token1.address)] = serializedPair
+        const chainId = serializedPair.token0.chainId;
+        state.pairs[chainId] = state.pairs[chainId] || {};
+        state.pairs[chainId][
+          pairKey(serializedPair.token0.address, serializedPair.token1.address)
+        ] = serializedPair;
       }
-      state.timestamp = currentTimestamp()
+      state.timestamp = currentTimestamp();
     })
-    .addCase(removeSerializedPair, (state, { payload: { chainId, tokenAAddress, tokenBAddress } }) => {
-      if (state.pairs[chainId]) {
-        // just delete both keys if either exists
-        delete state.pairs[chainId][pairKey(tokenAAddress, tokenBAddress)]
-        delete state.pairs[chainId][pairKey(tokenBAddress, tokenAAddress)]
+    .addCase(
+      removeSerializedPair,
+      (state, { payload: { chainId, tokenAAddress, tokenBAddress } }) => {
+        if (state.pairs[chainId]) {
+          // just delete both keys if either exists
+          delete state.pairs[chainId][pairKey(tokenAAddress, tokenBAddress)];
+          delete state.pairs[chainId][pairKey(tokenBAddress, tokenAAddress)];
+        }
+        state.timestamp = currentTimestamp();
       }
-      state.timestamp = currentTimestamp()
-    })
+    )
     .addCase(toggleURLWarning, (state) => {
-      state.URLWarningVisible = !state.URLWarningVisible
+      state.URLWarningVisible = !state.URLWarningVisible;
     })
     .addCase(updateUserUseOpenMev, (state, action) => {
-      state.userUseOpenMev = action.payload.userUseOpenMev
+      state.userUseOpenMev = action.payload.userUseOpenMev;
     })
     .addCase(updateUserType, (state, action) => {
-      state.userType = action.payload.userType
+      state.userType = action.payload.userType;
     })
     .addCase(updateValId, (state, action) => {
-      state.valId = action.payload.valId
+      state.valId = action.payload.valId;
     })
-)
+    .addCase(updateEpochDyna, (state, action) => {
+      state.epochDyna = action.payload;
+    })
+);

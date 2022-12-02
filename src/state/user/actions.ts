@@ -46,3 +46,7 @@ export const updateUserType = createAction<{
 export const updateValId = createAction<{
   valId: string;
 }>("user/updateValId");
+
+export const updateEpochDyna = createAction<{
+  epochDyna: string;
+}>("user/updateEpochDyna");

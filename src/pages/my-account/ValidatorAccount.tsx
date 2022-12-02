@@ -36,7 +36,7 @@ import { dynamicChaining } from "web3/DynamicChaining";
 import { getValidatorsDetail } from "app/services/apis/validator";
 import { tokenDecimal } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
-import { useValId } from 'app/state/user/hooks';
+import { useEpochDyna, useValId } from 'app/state/user/hooks';
 
 const validatorAccount = ({
   userType,
@@ -58,6 +58,8 @@ const validatorAccount = ({
   const [validatorInfoContract, setValidatorInfoContract] = useState<any>();
 
   const [valId, setValId] = useValId();
+  const [epochDyna,setEpochDyna] = useEpochDyna();
+  console.log("epochDyna from hook",epochDyna);
 
   const [transactionState, setTransactionState] = useState({
     state: false,
@@ -128,6 +130,7 @@ const validatorAccount = ({
       const reward = addDecimalValue(valReward / Math.pow(10, web3Decimals));
       setValidatorInfoContract(valFromContract);
       setValidatorTotalReward(reward);
+      setEpochDyna({ dynasty, epoch });
       console.log(valFromContract ,"dynasty ===> ");
     } catch (err: any) {
       Sentry.captureException("getValidatorData ", err);
