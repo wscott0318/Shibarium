@@ -46,3 +46,7 @@ export const updateUserType = createAction<{
 export const updateValId = createAction<{
   valId: string;
 }>("user/updateValId");
+
+export const updateValInfo = createAction<{
+  valInfo: object;
+}>("user/updateValInfo");

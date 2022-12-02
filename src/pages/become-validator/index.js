@@ -26,9 +26,9 @@ const Rewards = () => {
   });
 
   const [stepState, setStepState] = useState({
-    step1: true,
+    step1: false,
     step2: false,
-    step3: false,
+    step3: true,
     step4: false,
   });
   const [becomeValidateData, setBecomeValidateData] = useState({
