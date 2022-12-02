@@ -136,6 +136,7 @@ const validatorAccount = ({
       setValidatorInfoContract(valFromContract);
       setValInfoContract(valFromContract)
       setValidatorTotalReward(reward);
+      setEpochDyna({epoch,dynasty})
       console.log(valFromContract ,"validators ===> ");
     } catch (err: any) {
       Sentry.captureException("getValidatorData ", err);

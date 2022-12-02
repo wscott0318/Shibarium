@@ -13,11 +13,12 @@ import { queryProvider } from 'Apollo/client';
 import { allValidatorsQuery } from 'Apollo/queries';
 import * as Sentry from '@sentry/nextjs'
 import { inActiveCount } from 'web3/commonFunctions';
+import { useRouter } from 'next/router';
 
 
 const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) => {
     const pageSize = 10;
-
+    const router = useRouter();
     const [loading, setLoading] = useState<boolean>(true);
     const [validatorsByStatus, setValidatorsByStatus] = useState<any[]>([]);
     const [allValidators, setAllValidators] = useState<any[]>([]);
@@ -137,7 +138,6 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     }
     }
 
-
   return (
    <>
     
@@ -145,7 +145,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     <section className="table-section pb-4 pb-lg-5 active-inactive">
           <div className="container">
             <div className="heading-sec">
-              <h2 className="sub-head ff-mos">All Validators</h2>
+              <h2 className="sub-head ff-mos">{router.asPath.split("/")[1]==="migrate-stake" ? "Migrate Stake" : "All Validators"}</h2>
             </div>
             <div className="d-flex align-items-center btns-space tab-btns">
                 <div className="me-3">
