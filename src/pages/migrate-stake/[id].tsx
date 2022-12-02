@@ -43,7 +43,7 @@ export default function MyAcount() {
   return (
     <>
       <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh staking-main">
-        {/* <Header /> */}
+        <Header />
         {/* <StakingHeader /> */}
       
         {/* banner section closed */}

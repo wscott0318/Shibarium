@@ -2116,9 +2116,10 @@ const validatorAccount = ({
                                 <button
                                   onClick={() =>
                                     router.push(
-                                      "/migrate-stake",
-                                      "/migrate-stake"
-                                    ,{shallow:true})
+                                      `/migrate-stake/${getStake(item.id)}`,
+                                      `/migrate-stake/${getStake(item.id)}`,
+                                      { shallow: true }
+                                    )
                                   }
                                   className="btn black-btn btn-small tool-ico"
                                 >

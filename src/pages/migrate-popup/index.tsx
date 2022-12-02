@@ -32,6 +32,7 @@ import { Spinner } from "react-bootstrap";
 import { currentGasPrice } from "../../web3/commonFunctions";
 import { tokenDecimal } from "../../web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
+import { useRouter } from "next/router";
 const initialModalState = {
   step0: true,
   step1: false,
@@ -60,12 +61,7 @@ const MigratePopup: React.FC<any> = ({
       ? useEthBalance()
       : useTokenBalance(dynamicChaining[chainId]?.BONE);
 
-  const getBalanceG = () => {
-    web3?.eth?.getBalance().then((lastBlock: number) => {
-      // console.log(lastBlock);
-    });
-  };
-
+  const router = useRouter()  
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then((res) => {
       setBoneUSDValue(res.data.data.price);
@@ -78,7 +74,7 @@ const MigratePopup: React.FC<any> = ({
   const useMax = (e: any) => {
     e.preventDefault();
     // setAmount(walletBalance);
-    setFieldValue("balance", walletBalance);
+    setFieldValue("balance", Number(router.query.id));
     // console.log("called");
   };
   const closeModal = (e: any) => {
@@ -91,13 +87,12 @@ const MigratePopup: React.FC<any> = ({
       .number()
       .typeError("Only digits are allowed.")
       .max(
-        parseFloat(walletBalance?.toFixed(tokenDecimal)),
+        parseFloat(Number(router.query.id)?.toFixed(tokenDecimal)),
         "Entered value cannot be greater than Balance."
       )
       .positive("Enter valid Balance.")
       .required("Balance is required."),
   });
-  
 const initialValues = {
   balance: "",
 };
@@ -115,13 +110,6 @@ const initialValues = {
     validationSchema: schema,
     onSubmit: (values) => {
       console.log("Value", values);
-      setmigrateState({
-        step0: false,
-        step1: true,
-        step2: false,
-        step3: false,
-        title: "Buy Voucher",
-      });
     },
   });
 
@@ -141,64 +129,63 @@ const initialValues = {
       >
         <>
           <div className="cmn_modal vali_deli_popups ffms-inherit">
-            
-              <form className="h-100" onSubmit={handleSubmit}>
-                <div className="step_content fl-box">
-                  <div className="ax-top">
-                    
-                    <div className="form-field position-relative two-fld max-group extr_pd_remove bg-clr h-auto">
-                      <div className="mid-chain w-100">
-                        <input
-                          className="w-100"
-                          placeholder="0.00"
-                          name="balance"
-                          autoComplete="off"
-                          value={values.balance}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        />
-                      </div>
-                      <button
-                        disabled={walletBalance > 0 ? false : true}
-                        onClick={(e) => useMax(e)}
-                        className="rt-chain"
-                      >
-                        <span className="orange-txt fw-bold">MAX</span>
-                      </button>
+            <form className="h-100" onSubmit={handleSubmit}>
+              <div className="step_content fl-box">
+                <div className="ax-top">
+                  <div className="form-field position-relative two-fld max-group extr_pd_remove bg-clr h-auto">
+                    <div className="mid-chain w-100">
+                      <input
+                        className="w-100"
+                        placeholder="0.00"
+                        name="balance"
+                        autoComplete="off"
+                        value={values.balance}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
                     </div>
-                    {errors.balance && touched.balance ? (
-                      <p className="primary-text error">{errors.balance}</p>
-                    ) : null}
-
-                    <p className="inpt_fld_hlpr_txt mt-3 text-pop-right d-flex flex-wrap">
-                      <span>
-                        <NumberFormat
-                          value={(walletBalance * boneUSDValue).toFixed(
-                            tokenDecimal
-                          )}
-                          displayType={"text"}
-                          thousandSeparator={true}
-                          prefix={"$ "}
-                        />
-                      </span>
-                      <span className="text-right">
-                        Balance: {walletBalance?.toFixed(tokenDecimal)} BONE
-                      </span>
-                    </p>
+                    <button
+                      disabled={walletBalance > 0 ? false : true}
+                      onClick={(e) => useMax(e)}
+                      className="rt-chain"
+                    >
+                      <span className="orange-txt fw-bold">MAX</span>
+                    </button>
                   </div>
-                  <div className="ax-bottom">
-                    <div className="pop_btns_area row form-control mt-5">
-                      <div className="col-12">
-                        <button className="w-100" type="submit" value="submit">
-                          <div className="btn primary-btn d-flex align-items-center justify-content-center">
-                            <span>Continue</span>
-                          </div>
-                        </button>
-                      </div>
+                  {errors.balance && touched.balance ? (
+                    <p className="primary-text error">{errors.balance}</p>
+                  ) : null}
+
+                  <p className="inpt_fld_hlpr_txt mt-3 text-pop-right d-flex flex-wrap">
+                    <span>
+                      <NumberFormat
+                        value={(Number(router.query.id) * boneUSDValue).toFixed(
+                          tokenDecimal
+                        )}
+                        displayType={"text"}
+                        thousandSeparator={true}
+                        prefix={"$ "}
+                      />
+                    </span>
+                    <span className="text-right">
+                      Balance: {Number(router.query.id).toFixed(tokenDecimal)}{" "}
+                      BONE
+                    </span>
+                  </p>
+                </div>
+                <div className="ax-bottom">
+                  <div className="pop_btns_area row form-control mt-5">
+                    <div className="col-12">
+                      <button className="w-100" type="submit" value="submit">
+                        <div className="btn primary-btn d-flex align-items-center justify-content-center">
+                          <span>Continue</span>
+                        </div>
+                      </button>
                     </div>
                   </div>
                 </div>
-              </form>
+              </div>
+            </form>
           </div>
         </>
       </CommonModal>
