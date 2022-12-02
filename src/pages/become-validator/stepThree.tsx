@@ -432,21 +432,21 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                   value={values.amount}
                   readOnly={availBalance <= 0}
                   onChange={handleChange("amount")}
-                /><button disabled={availBalance<=0} className="MaxAmountButton orange-txt fw-bold amt-val" onClick={()=> {setFieldValue ('text',  values.amount = addDecimalValue(+(availBalance-0.000001).toString()))}}>MAX</button>
-                </div>
-                {touched.amount && errors.amount ? <p className="primary-text pt-2 er-txt">{errors.amount}</p> : null} 
-                {availBalance <= 0 ? <p className="primary-text pt-2 er-txt">Insufficient Balance</p> : null} 
-                
-                <div className="row-st">
-                  <div className="blk-dta">
-                    <label htmlFor="" className="form-label ff-mos mb-0">
+                /><button disabled={availBalance <= 0} className="MaxAmountButton orange-txt fw-bold amt-val" onClick={() => { setFieldValue('text', values.amount = addDecimalValue(+(availBalance - 0.000001).toString())) }}>MAX</button>
+              </div>
+              {touched.amount && errors.amount ? <p className="primary-text pt-2 er-txt">{errors.amount}</p> : null}
+              {availBalance <= 0 ? <p className="primary-text pt-2 er-txt">Insufficient Balance</p> : null}
+
+              <div className="row-st">
+                <div className="blk-dta">
+                  <label htmlFor="" className="form-label ff-mos mb-0">
                     Minimum: {minDeposit} BONE
-                    </label>
-                  </div>
-                  <div className="blk-dta">
-                    <p className="amt-val">Balance: {addDecimalValue(+availBalance)}</p>
-                  </div>
-                  {/* <div className="blk-dta">
+                  </label>
+                </div>
+                <div className="blk-dta">
+                  <p className="amt-val">Balance: {addDecimalValue(+availBalance)}</p>
+                </div>
+                {/* <div className="blk-dta">
                     <button disabled={availBalance<=0} className="amt-val" onClick={()=> {setFieldValue ('text',  values.amount = (availBalance-0.000001).toString())}}>MAX</button>
                   </div> */}
               </div>
@@ -502,46 +502,58 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                     </span> :
                     <div className='trans-loader'>
                       <div className="loading-steps">
-                        <div className={`step1 ${StepComplete.includes("step1") ? "completed" : ""}`}>
-                          {loader == "step1" ?
-                            (
-                              <CircularProgress color="inherit" />
-                            ) :
-                            (
+                        <div className="step_wrapper">
+                          <span>Lorem ipsum</span>
+                          <div className={`step1 ${StepComplete.includes("step1") ? "completed" : ""}`}>
+                            {loader == "step1" ?
+                              (
+                                <CircularProgress color="inherit" />
+                              ) :
+                              (
+                                <div>
+                                  <img className={`img-fluid tick-img ${StepComplete.includes("step1") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
+                                </div>
+                              )}
+                          </div>
+                        </div>
+                        <div className="step_wrapper">
+                          <span>Lorem ipsum</span>
+                          <div className={`step2 ${StepComplete.includes("step2") ? "completed" : ""}`}>
+                            {loader == "step2" ? (
                               <div>
-                                <img className={`img-fluid tick-img ${StepComplete.includes("step1") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
+                                <CircularProgress color="inherit" />
+                              </div>) : (
+                              <div>
+                                <img className={`img-fluid tick-img ${StepComplete.includes("step2") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
                               </div>
                             )}
+                          </div>
                         </div>
-                        <div className={`step2 ${StepComplete.includes("step2") ? "completed" : ""}`}>
-                          {loader == "step2" ? (
-                            <div>
-                              <CircularProgress color="inherit" />
-                            </div>) : (
-                            <div>
-                              <img className={`img-fluid tick-img ${StepComplete.includes("step2") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
-                            </div>
-                          )}
+                        <div className="step_wrapper">
+                          <span>Lorem ipsum</span>
+                          <div className={`step3 ${StepComplete.includes("step3") ? "completed" : ""}`}>
+                            {loader == "step3" ? (
+                              <div>
+                                <CircularProgress color="inherit" />
+                              </div>) : (
+                              <div>
+                                <img className={`img-fluid tick-img ${StepComplete.includes("step3") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
+                              </div>
+                            )}
+                          </div>
                         </div>
-                        <div className={`step3 ${StepComplete.includes("step3") ? "completed" : ""}`}>
-                          {loader == "step3" ? (
-                            <div>
-                              <CircularProgress color="inherit" />
-                            </div>) : (
-                            <div>
-                              <img className={`img-fluid tick-img ${StepComplete.includes("step3") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
-                            </div>
-                          )}
-                        </div>
-                        <div className={`step4 ${StepComplete.includes("step4") ? "completed" : ""}`}>
-                          {loader == "step4" ? (
-                            <div>
-                              <CircularProgress color="inherit" />
-                            </div>) : (
-                            <div>
-                              <img className={`img-fluid tick-img ${StepComplete.includes("step4") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
-                            </div>
-                          )}
+                        <div className="step_wrapper">
+                          <span>Lorem ipsum</span>
+                          <div className={`step4 ${StepComplete.includes("step4") ? "completed" : ""}`}>
+                            {loader == "step4" ? (
+                              <div>
+                                <CircularProgress color="inherit" />
+                              </div>) : (
+                              <div>
+                                <img className={`img-fluid tick-img ${StepComplete.includes("step4") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
                       {/* <span className="spiner-lg">
