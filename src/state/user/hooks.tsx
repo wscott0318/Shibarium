@@ -424,7 +424,7 @@ export function useValInfo(): [object, (newUseUserType: object) => void] {
   const dispatch = useAppDispatch()
   // @ts-ignore TYPE NEEDS FIXING
   const valInfo = useSelector<AppState, AppState["valInfo"]["setValInfo"]>(
-    (state) => state.user
+    (state) => state.user.valInfo
   );
 
   const setValInfo = useCallback(
