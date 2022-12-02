@@ -29,7 +29,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const lib: any = library
   const web3: any = new Web3(lib?.provider)
   const dispatch = useAppDispatch();
-  // const [apiLoading, setApiLoading] = useState(false);
+  const [apiLoading, setApiLoading] = useState(false);
   const [transactionState, setTransactionState] = useState({
     state: true,
     title: 'Pending',
@@ -42,11 +42,19 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     amount: yup.number().typeError("Only digits are allowed.").min(minDeposit).max(availBalance).required("Amount is required."),
   })
   const [loader, setLoader] = useState("step1");
-  var StepComplete: string[] = [];
+
+ const [StepComplete, setStepComplete] = useState<any>({
+    one: true,
+    two: false,
+    three: false,
+    four: false
+ })
+
   useEffect(() => {
     if (account) {
       getMinimunFee()
     }
+    completeSteps()
   }, [account])
 
 
@@ -238,28 +246,38 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       position: toast.POSITION.BOTTOM_CENTER, autoClose: 3000
     });
   }
-  // function completeSteps (){
-  //   console.log(StepComplete);
-  //   if(loader == "step1"){
-  //     StepComplete.push("step1");
-  //     setLoader("step2");
-  //   }
-  //   else if(loader == "step2"){
-  //     StepComplete.push("step2");
-  //     setLoader("step3");
-  //   }
-  //   else if(loader == "step3"){
-  //     StepComplete.push("step2");
-  //     setLoader("step4");
-  //   }
-  //   else if(loader =="step4"){
-  //     StepComplete.push("step3");
-  //     setLoader("");
-  //   }
-  //   else{
-  //     StepComplete.push("step4");
-  //   }
-  // }
+
+  function completeSteps () {
+    if(loader == "step1"){
+      setTimeout(() => {
+        setStepComplete((preState: any) => ({...preState, one: true}))
+      }, 3000)
+      setLoader("step2");
+    }
+    else if(loader == "step2"){
+       setTimeout(() => {
+        setStepComplete((preState: any) => ({...preState, two: true}))
+      }, 3000)
+      setLoader("step3");
+    }
+    else if(loader == "step3"){
+       setTimeout(() => {
+        setStepComplete((preState: any) => ({...preState, three: true}))
+      }, 3000)
+      setLoader("step4");
+    }
+    else if(loader =="step4"){
+       setTimeout(() => {
+        setStepComplete((preState: any) => ({...preState, four: true}))
+      }, 3000)
+      setLoader("");
+    }
+    else{
+       setTimeout(() => {
+        setStepComplete((preState: any) => ({...preState, one: true}))
+      }, 3000)
+    }
+  }
 
   const handleTransaction = async (val: any) => {
     try {
@@ -504,53 +522,53 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                       <div className="loading-steps">
                         <div className="step_wrapper">
                           <span>Lorem ipsum</span>
-                          <div className={`step1 ${StepComplete.includes("step1") ? "completed" : ""}`}>
+                          <div className={`step1 ${StepComplete.one ? "completed" : ""}`}>
                             {loader == "step1" ?
                               (
                                 <CircularProgress color="inherit" />
                               ) :
                               (
                                 <div>
-                                  <img className={`img-fluid tick-img ${StepComplete.includes("step1") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
+                                  <img className={`img-fluid tick-img ${StepComplete.one ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
                                 </div>
                               )}
                           </div>
                         </div>
                         <div className="step_wrapper">
                           <span>Lorem ipsum</span>
-                          <div className={`step2 ${StepComplete.includes("step2") ? "completed" : ""}`}>
+                          <div className={`step2 ${StepComplete.two ? "completed" : ""}`}>
                             {loader == "step2" ? (
                               <div>
                                 <CircularProgress color="inherit" />
                               </div>) : (
                               <div>
-                                <img className={`img-fluid tick-img ${StepComplete.includes("step2") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
+                                <img className={`img-fluid tick-img ${StepComplete.two ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
                               </div>
                             )}
                           </div>
                         </div>
                         <div className="step_wrapper">
                           <span>Lorem ipsum</span>
-                          <div className={`step3 ${StepComplete.includes("step3") ? "completed" : ""}`}>
+                          <div className={`step3 ${StepComplete.three ? "completed" : ""}`}>
                             {loader == "step3" ? (
                               <div>
                                 <CircularProgress color="inherit" />
                               </div>) : (
                               <div>
-                                <img className={`img-fluid tick-img ${StepComplete.includes("step3") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
+                                <img className={`img-fluid tick-img ${StepComplete.three ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
                               </div>
                             )}
                           </div>
                         </div>
                         <div className="step_wrapper">
                           <span>Lorem ipsum</span>
-                          <div className={`step4 ${StepComplete.includes("step4") ? "completed" : ""}`}>
+                          <div className={`step4 ${StepComplete.four ? "completed" : ""}`}>
                             {loader == "step4" ? (
                               <div>
                                 <CircularProgress color="inherit" />
                               </div>) : (
                               <div>
-                                <img className={`img-fluid tick-img ${StepComplete.includes("step4") ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
+                                <img className={`img-fluid tick-img ${StepComplete.four ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
                               </div>
                             )}
                           </div>
