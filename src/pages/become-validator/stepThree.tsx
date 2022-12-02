@@ -43,19 +43,19 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   })
   const [loader, setLoader] = useState("step1");
 
- const [StepComplete, setStepComplete] = useState<any>({
-    one: true,
+  const [StepComplete, setStepComplete] = useState<any>({
+    one: false,
     two: false,
     three: false,
     four: false
- })
+  })
 
   useEffect(() => {
     if (account) {
       getMinimunFee()
     }
-    completeSteps()
-  }, [account])
+    completeSteps();
+  }, [account, loader]);
 
 
   const getMinimunFee = async () => {
@@ -247,36 +247,36 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     });
   }
 
-  function completeSteps () {
-    if(loader == "step1"){
+  function completeSteps() {
+    if (loader == "step1") {
       setTimeout(() => {
-        setStepComplete((preState: any) => ({...preState, one: true}))
-      }, 3000)
-      setLoader("step2");
-    }
-    else if(loader == "step2"){
-       setTimeout(() => {
-        setStepComplete((preState: any) => ({...preState, two: true}))
-      }, 3000)
-      setLoader("step3");
-    }
-    else if(loader == "step3"){
-       setTimeout(() => {
-        setStepComplete((preState: any) => ({...preState, three: true}))
-      }, 3000)
-      setLoader("step4");
-    }
-    else if(loader =="step4"){
-       setTimeout(() => {
-        setStepComplete((preState: any) => ({...preState, four: true}))
-      }, 3000)
-      setLoader("");
-    }
-    else{
-       setTimeout(() => {
-        setStepComplete((preState: any) => ({...preState, one: true}))
+        setLoader("step2");
+        setStepComplete((preState: any) => ({ ...preState, one: true }))
       }, 3000)
     }
+    else if (loader == "step2") {
+      setTimeout(() => {
+        setLoader("step3");
+        setStepComplete((preState: any) => ({ ...preState, two: true }))
+      }, 3000)
+    }
+    else if (loader == "step3") {
+      setTimeout(() => {
+        setLoader("step4");
+        setStepComplete((preState: any) => ({ ...preState, three: true }))
+      }, 3000)
+    }
+    else if (loader == "step4") {
+      setTimeout(() => {
+        setLoader("");
+        setStepComplete((preState: any) => ({ ...preState, four: true }))
+      }, 3000)
+    }
+    // else {
+    //   setTimeout(() => {
+    //     setStepComplete((preState: any) => ({ ...preState, one: true }))
+    //   }, 3000)
+    // }
   }
 
   const handleTransaction = async (val: any) => {
@@ -520,9 +520,9 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                     </span> :
                     <div className='trans-loader'>
                       <div className="loading-steps">
-                        <div className="step_wrapper">
-                          <span>Lorem ipsum</span>
-                          <div className={`step1 ${StepComplete.one ? "completed" : ""}`}>
+                        <div className={`step_wrapper ${StepComplete.one ? "completed" : ""}`}>
+                      
+                          <div className={`step1`}>
                             {loader == "step1" ?
                               (
                                 <CircularProgress color="inherit" />
@@ -533,45 +533,49 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                                 </div>
                               )}
                           </div>
-                        </div>
-                        <div className="step_wrapper">
                           <span>Lorem ipsum</span>
-                          <div className={`step2 ${StepComplete.two ? "completed" : ""}`}>
+                        </div>
+                        <div className={`step_wrapper ${StepComplete.two ? "completed" : ""}`}>
+                        
+                          <div className={`step2`}>
                             {loader == "step2" ? (
-                              <div>
-                                <CircularProgress color="inherit" />
-                              </div>) : (
+
+                              <CircularProgress color="inherit" />
+                            ) : (
                               <div>
                                 <img className={`img-fluid tick-img ${StepComplete.two ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
                               </div>
                             )}
                           </div>
-                        </div>
-                        <div className="step_wrapper">
                           <span>Lorem ipsum</span>
-                          <div className={`step3 ${StepComplete.three ? "completed" : ""}`}>
+                        </div>
+                        <div className={`step_wrapper ${StepComplete.three ? "completed" : ""}`}>
+                         
+                          <div className={`step3`}>
                             {loader == "step3" ? (
-                              <div>
-                                <CircularProgress color="inherit" />
-                              </div>) : (
+
+                              <CircularProgress color="inherit" />
+                            ) : (
                               <div>
                                 <img className={`img-fluid tick-img ${StepComplete.three ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
                               </div>
                             )}
                           </div>
-                        </div>
-                        <div className="step_wrapper">
                           <span>Lorem ipsum</span>
-                          <div className={`step4 ${StepComplete.four ? "completed" : ""}`}>
+                        </div>
+                        <div className={`step_wrapper ${StepComplete.four ? "completed" : ""}`}>
+                         
+                          <div className={`step4`}>
                             {loader == "step4" ? (
-                              <div>
-                                <CircularProgress color="inherit" />
-                              </div>) : (
+
+                              <CircularProgress color="inherit" />
+                            ) : (
                               <div>
                                 <img className={`img-fluid tick-img ${StepComplete.four ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
                               </div>
                             )}
                           </div>
+                          <span>Lorem ipsum</span>
                         </div>
                       </div>
                       {/* <span className="spiner-lg">
