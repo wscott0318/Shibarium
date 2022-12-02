@@ -425,7 +425,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                     <div className="pop_btns_area row form-control mt-5">
                       <div className="col-12">
                         <button className="w-100" type="submit" value="submit">
-                          <div className="btn primary-btn d-flex align-items-center">
+                          <div className="btn primary-btn d-flex align-items-center justify-content-center">
                             <span>Continue</span>
                           </div>
                         </button>

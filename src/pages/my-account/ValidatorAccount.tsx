@@ -124,11 +124,13 @@ const validatorAccount = ({
         .call({ from: account });
       const dynasty = await instance.methods.dynasty().call({ from: account });
       const epoch = await instance.methods.epoch().call({ from: account });
+
+      // set 
       setComissionHandle({ dynasty, epoch });
       const reward = addDecimalValue(valReward / Math.pow(10, web3Decimals));
       setValidatorInfoContract(valFromContract);
       setValidatorTotalReward(reward);
-      console.log(valFromContract ,"dynasty ===> ");
+      console.log(valFromContract ,"validators ===> ");
     } catch (err: any) {
       Sentry.captureException("getValidatorData ", err);
     }
@@ -1015,7 +1017,7 @@ const validatorAccount = ({
           data.validatorContract
         );
         await instance.methods
-          .sellVoucher(amount, amount)
+          .sellVoucher_new(amount, amount)
           .send({ from: walletAddress })
           .on("transactionHash", (res: any) => {
             console.log(res, "hash");
