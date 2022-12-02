@@ -3957,6 +3957,8 @@ input:-internal-autofill-selected {
   transform: translate(-50%, -50%);
   width: 100%;
   height: 95%;
+  display: flex;
+  align-items: center;
 }
 .loading-steps {
   display: flex;
@@ -3965,33 +3967,43 @@ input:-internal-autofill-selected {
   width: 100%;
   margin: 0 auto;
   flex-direction: column;
-  height: 100%;
+  height: 88%;
 }
 .loading-steps  .step_wrapper >div {
-  width: 45px;
+  width: 33px;
   background: #666;
   border-radius: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 45px;
+  height: 33px;
 }
 .loading-steps .step_wrapper{
   display: flex;
   align-items: center;
   position: relative;
-  width: 50%;
+  width: 40%;
   justify-content: space-evenly;
+}
+.loading-steps .step_wrapper > div .MuiCircularProgress-root.MuiCircularProgress-indeterminate {
+  width: 75% !important;
+  height: 75% !important;
 }
 .loading-steps > div::after {
   content: '';
     position: absolute;
     width: 2px;
-    height: 45px;
-    left: 79%;
+    height: 60px;
+    left: 19%;
     top: 100%;
     background: #fff;
     z-index: 0;
+}
+.step_wrapper span {
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-block;
+  width: 49%;
 }
 .balance_wrapper {
   display: flex;
@@ -4002,8 +4014,11 @@ input:-internal-autofill-selected {
 .balance_card span {
   font-weight: 600;
 }
+.step_wrapper.completed >div {
+  background: #f16e0f;
+}
 .balance_card {
-  background: #000;
+  background: #0c0f17;
   padding: 10px;
   border: 1px solid;
   width: 32%;
