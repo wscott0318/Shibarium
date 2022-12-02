@@ -322,9 +322,9 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     data.append("signerAddress", account || '');
     data.append("website", becomeValidateData.website);
     data.append("img", becomeValidateData.image);
-    data.append("status", "1")
+    data.append("status", "1");
 
-    console.log(becomeValidateData, "data")
+    console.log(becomeValidateData, "data");
 
     await registerValidator(data).then((res: any) => {
       console.log("this is eresss", res)

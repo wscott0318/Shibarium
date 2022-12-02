@@ -39,7 +39,7 @@ const delegatorAccount = () => {
           setDelegationsList(sortedData)
         }
       })
-    } catch (error:any) {
+    } catch (error: any) {
       console.log(error)
       Sentry.captureException("getDelegatorCardData ", error);
     }
@@ -48,35 +48,35 @@ const delegatorAccount = () => {
   const handleModal = (btn: String, valAddress: any, id: any = null, stakeAmount: any = null) => {
     try {
       switch (btn) {
-      case "Restake":
-        setRestakeModal({
-          value2: true,
-          value1: false,
-          address: valAddress
-        });
-        break;
-      case "Change Commission Rate":
-        setCommiModal({
-          value: true,
-          address: valAddress
-        });
-        break;
-      case "Withdraw Rewards":
-        setWithdrawModal({
-          value: true,
-          address: valAddress
-        });
-        break;
-      case "Unbound":
-        setUnboundModal((preVal: any) => ({ ...preVal, stakeAmount: stakeAmount, startValue: true, address: valAddress, id: id }));
-        break;
-      default:
-        break;
+        case "Restake":
+          setRestakeModal({
+            value2: true,
+            value1: false,
+            address: valAddress
+          });
+          break;
+        case "Change Commission Rate":
+          setCommiModal({
+            value: true,
+            address: valAddress
+          });
+          break;
+        case "Withdraw Rewards":
+          setWithdrawModal({
+            value: true,
+            address: valAddress
+          });
+          break;
+        case "Unbound":
+          setUnboundModal((preVal: any) => ({ ...preVal, stakeAmount: stakeAmount, startValue: true, address: valAddress, id: id }));
+          break;
+        default:
+          break;
+      }
     }
-  }
-  catch(err:any){
-    Sentry.captureException("handleModal ", err);
-  }
+    catch (err: any) {
+      Sentry.captureException("handleModal ", err);
+    }
   };
 
   useEffect(() => {
@@ -87,76 +87,76 @@ const delegatorAccount = () => {
 
 
   return (
-    <> 
-    <section className='del-grid-section top-pad bottom-pad ffms-inherit'>
-      <div className="container">
-        <div className='row'>
-          {delegationsList.length ?
-            delegationsList.map((item: any) =>
-              <div className="col-lg-4 col-md-6 col-12 bs-col">
-                <div className="border-sec">
-                  <div className="top-sec">
-                    <div className="info-block">
-                      <div className="image-blk">
-                        <div>
-                          <img className="img-fluid" src={item.logoUrl} width="69" height="70" alt="coin-icon" />
+    <>
+      <section className='del-grid-section top-pad bottom-pad ffms-inherit'>
+        <div className="container">
+          <div className='row'>
+            {delegationsList.length ?
+              delegationsList.map((item: any) =>
+                <div className="col-lg-4 col-md-6 col-12 bs-col">
+                  <div className="border-sec">
+                    <div className="top-sec">
+                      <div className="info-block">
+                        <div className="image-blk">
+                          <div>
+                            <img className="img-fluid" src={item.logoUrl} width="69" height="70" alt="coin-icon" />
+                          </div>
                         </div>
-                      </div>
-                      <div className="grid-info text-start">
-                        <div className="fw-bold">{item.name}</div>
-                        <div className="info-row">
-                          <span><span className="fw-bold">{parseInt(item.checkpointSignedPercent).toFixed(tokenDecimal)}%</span> Checkpoints Signed</span>
-                        </div>
-                        <div className="info-row">
-                          <span><span className="fw-bold">{item.commission}%</span> Commission</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mid-sec bs-card h-auto">
-                    <div className="block-container">
-                      <div className="cus-width">
-                        <div className="text-center">
-                          <div>Your Stake</div>
-                          <div className="fw-bold">{(parseInt(item.stake) / 10 ** 18).toFixed(tokenDecimal)}</div>
-                          {/* {/ <div>$0</div> /} */}
-                        </div>
-                      </div>
-                      <div className="cus-width">
-                        <div className="text-center">
-                          <div>Reward</div>
-                          <div className="fw-bold orange-color">{(parseInt(item.reward) / 10 ** 18).toFixed(tokenDecimal)}</div>
-                          {/* {/ <div>$0</div> /} */}
+                        <div className="grid-info text-start">
+                          <div className="fw-bold">{item.name}</div>
+                          <div className="info-row">
+                            <span><span className="fw-bold">{parseInt(item.checkpointSignedPercent).toFixed(tokenDecimal)}%</span> Checkpoints Signed</span>
+                          </div>
+                          <div className="info-row">
+                            <span><span className="fw-bold">{item.commission}%</span> Commission</span>
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <div className="mid-sec bs-card h-auto">
+                      <div className="block-container">
+                        <div className="cus-width">
+                          <div className="text-center">
+                            <div>Your Stake</div>
+                            <div className="fw-bold">{(parseInt(item.stake) / 10 ** 18).toFixed(tokenDecimal)}</div>
+                            {/* {/ <div>$0</div> /} */}
+                          </div>
+                        </div>
+                        <div className="cus-width">
+                          <div className="text-center">
+                            <div>Reward</div>
+                            <div className="fw-bold orange-color">{(parseInt(item.reward) / 10 ** 18).toFixed(tokenDecimal)}</div>
+                            {/* {/ <div>$0</div> /} */}
+                          </div>
+                        </div>
+                      </div>
 
-                    <ul className="btn-grp">
-                      <li className="btn-grp-lst">
-                        <button disabled={parseInt(item.commission) == 0} onClick={() => handleModal('Restake', item.contractAddress)} className="btn grey-btn btn-small">Restake</button>
-                      </li>
-                      <li className="btn-grp-lst">
-                        <button onClick={() => handleModal('Withdraw Rewards', item.contractAddress)} className="btn black-btn btn-small">Withdraw Rewards</button>
-                      </li>
-                      <li className="btn-grp-lst">
-                        <button onClick={() => handleModal('Unbound', item.validatorAddress, item.contractAddress, (parseInt(item.stake) / 10 ** 18).toFixed(tokenDecimal))} className="btn black-btn btn-small">Unbound</button>
-                      </li>
-                      <li className="btn-grp-lst">
-                        <button disabled={parseInt(item.commission) == 0} onClick={() => { setSelectedRow({ owner: item.contractAddress, commissionPercent: item.commission, name: item.name }); setStakeMoreModal(true); }} className="btn black-btn btn-small">Stake More</button>
-                      </li>
+                      <ul className="btn-grp">
+                        <li className="btn-grp-lst">
+                          <button disabled={parseInt(item.commission) == 0} onClick={() => handleModal('Restake', item.contractAddress)} className="btn grey-btn btn-small">Restake</button>
+                        </li>
+                        <li className="btn-grp-lst">
+                          <button onClick={() => handleModal('Withdraw Rewards', item.contractAddress)} className="btn black-btn btn-small">Withdraw Rewards</button>
+                        </li>
+                        <li className="btn-grp-lst">
+                          <button onClick={() => handleModal('Unbound', item.validatorAddress, item.contractAddress, (parseInt(item.stake) / 10 ** 18).toFixed(tokenDecimal))} className="btn black-btn btn-small">Unbound</button>
+                        </li>
+                        <li className="btn-grp-lst">
+                          <button disabled={parseInt(item.commission) == 0} onClick={() => { setSelectedRow({ owner: item.contractAddress, commissionPercent: item.commission, name: item.name }); setStakeMoreModal(true); }} className="btn black-btn btn-small">Stake More</button>
+                        </li>
 
-                    </ul>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )
-            : <p>
-              No Record Found
-            </p>
-          }
+              )
+              : <p>
+                No Record Found
+              </p>
+            }
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
     </>
   )
 }

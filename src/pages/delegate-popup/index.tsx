@@ -372,7 +372,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                     <div className="info-box my-3">
                       <div className="d-flex align-items-center justify-content-start">
                         <div>
-                          <span className="user-icon"></span>
+                          <span className="user-icon u_icon"><img src={data.logoUrl ? data.logoUrl : "../../assets/images/shiba-round-icon.png"}/></span>
                         </div>
                         <div className="fw-700">
                           <span className="vertical-align ft-22">

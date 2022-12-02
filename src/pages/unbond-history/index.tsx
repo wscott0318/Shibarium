@@ -287,7 +287,7 @@ export default function Unbond() {
                                       checkpoints
                                     </span>
                                     <button
-                                      className="primary-badge px-2"
+                                      className="primary-badge px-2 hd-sel"
                                       type="button"
                                       disabled={true}
                                       onClick={() =>
@@ -311,7 +311,7 @@ export default function Unbond() {
                                       Unbound period completed
                                     </span>
                                     <button
-                                      className="primary-badge px-2"
+                                      className="primary-badge px-2 hd-sel"
                                       type="button"
                                       onClick={() => {
                                         // console.log("called ===> ");
