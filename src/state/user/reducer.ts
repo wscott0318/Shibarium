@@ -17,44 +17,46 @@ import {
   updateValInfoContract,
   updateUserUseOpenMev,
   updateValId,
-  updateValInfo
-} from './actions'
+  updateValInfo,
+  updateEpochDyna
+} from "./actions";
 
 const currentTimestamp = () => new Date().getTime()
 
 export interface UserState {
   // the timestamp of the last updateVersion action
-  lastUpdateVersionTimestamp?: number
+  lastUpdateVersionTimestamp?: number;
 
-  userExpertMode: boolean
+  userExpertMode: boolean;
 
-  userSingleHopOnly: boolean // only allow swaps on direct pairs
+  userSingleHopOnly: boolean; // only allow swaps on direct pairs
 
   // deadline set by user in minutes, used in all txns
-  userDeadline: number
+  userDeadline: number;
 
   // true if OpenMEV protection is enabled
-  userUseOpenMev: boolean
+  userUseOpenMev: boolean;
 
   tokens: {
     [chainId: number]: {
-      [address: string]: SerializedToken
-    }
-  }
+      [address: string]: SerializedToken;
+    };
+  };
 
   pairs: {
     [chainId: number]: {
       // keyed by token0Address:token1Address
-      [key: string]: SerializedPair
-    }
-  }
+      [key: string]: SerializedPair;
+    };
+  };
 
-  timestamp: number
-  URLWarningVisible: boolean
-  userType: string
-  valId: string
-  valInfo:object
-  valInfoContract :object
+  timestamp: number;
+  URLWarningVisible: boolean;
+  userType: string;
+  valId: string;
+  valInfo: object;
+  valInfoContract: object;
+  epochDyna: object;
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -70,11 +72,12 @@ export const initialState: UserState = {
   timestamp: currentTimestamp(),
   URLWarningVisible: true,
   userUseOpenMev: true,
-  userType: 'NA',
-  valId:'1',
-  valInfo:{},
+  userType: "NA",
+  valId: "1",
+  valInfo: {},
   valInfoContract: {},
-}
+  epochDyna: {},
+};
 
 export default createReducer(initialState, (builder) =>
   builder
@@ -145,15 +148,18 @@ export default createReducer(initialState, (builder) =>
       state.userUseOpenMev = action.payload.userUseOpenMev;
     })
     .addCase(updateUserType, (state, action) => {
-      state.userType = action.payload.userType
+      state.userType = action.payload.userType;
     })
     .addCase(updateValInfoContract, (state, action) => {
-      state.valInfoContract = action.payload.valInfoContract
+      state.valInfoContract = action.payload.valInfoContract;
     })
     .addCase(updateValId, (state, action) => {
-      state.valId = action.payload.valId
+      state.valId = action.payload.valId;
     })
     .addCase(updateValInfo, (state, action) => {
-      state.valInfo = action.payload
+      state.valInfo = action.payload;
     })
-)
+    .addCase(updateEpochDyna, (state, action) => {
+      state.epochDyna = action.payload;
+    })
+);
