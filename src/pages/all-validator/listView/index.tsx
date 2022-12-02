@@ -1,32 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
-import { UserType } from 'app/enums/UserType';
-import { enableList } from 'app/state/lists/actions';
 import { useUserType } from 'app/state/user/hooks';
 import Link from 'next/link';
 import DelegatePopup from 'pages/delegate-popup';
 import React, { useState } from 'react';
 import { addDecimalValue, imagUrlChecking, inActiveCount, toFixedPrecent, tokenDecimal, web3Decimals } from 'web3/commonFunctions';
-// @ts-ignore
-import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
-import DynamicShimmer from 'app/components/Shimmer/DynamicShimmer';
+import { useWeb3React } from "@web3-react/core";
 import Scrollbar from "react-scrollbars-custom";
 import { useRouter } from 'next/router';
 import MigratePopup from 'pages/migrate-popup';
 
 export default function ListView({ validatorsList, searchKey, loading }: { validatorsList: any , searchKey: string , loading : boolean }) {
-    const [modalShow, setModalShow] = React.useState(false);
     const [selectedRow, setSelectedRow] = useState({})
+    const {account, deactivate, active } = useWeb3React();
     const [userType, setUserType] = useUserType()
-
-    const tableShimmerEffects = () => {
-      return (
-        <ShimmerTable row={5} col={5} />
-      )
-    }
     const [showdelegatepop, setdelegatepop] = useState(false);
     const [showmigratepop, setmigratepop] = useState(false);
     // console.log(validatorsList);
     const router = useRouter();
+
     
     return (
       <>
@@ -102,13 +93,13 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                         ) : (
                           <button
                             className="btn primary-btn w-100"
-                            // disabled={
-                            //   x.fundamental === 1
-                            //     ? true
-                            //     : x.uptimePercent <= inActiveCount
-                            //     ? true
-                            //     : false
-                            // }
+                            disabled={
+                             !account ? true : x.fundamental === 1
+                                ? true
+                                : x.uptimePercent <= inActiveCount
+                                ? true
+                                : false
+                            }
                             onClick={() => {
                               if (
                                 router.asPath.split("/")[1] === "migrate-stake"

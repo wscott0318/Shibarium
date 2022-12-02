@@ -92,20 +92,7 @@ export const Allvalidator: React.FC = () => {
           );
         }
       } else if (userType === "Delegator") {
-        return (
-        <>
-           <div className="btns-wrap">
-                       <button disabled={+valCount <= +valMaxCount ?  false : true} onClick={()=>{
-                        router.push('/become-validator')
-                       }} className="btn primary-btn">Become a Validator</button>
-                    </div>
-                    <div className="btns-wrap">
-                      <button onClick={()=>
-                        router.push('/all-validator')
-                       } className="btn  white-btn">Become a Delegator</button>
-                    </div>
-        </>
-        )
+        return null
       } else {
         return (
         <div className="btns-sec btn-width">

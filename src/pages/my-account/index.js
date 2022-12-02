@@ -56,14 +56,14 @@ export default function MyAcount() {
                         <span>{availBalance} BONES</span>
                         <h4 className="heading-sm">Wallet Balance</h4>
                       </div>
-                      <div className="balance_card">
+                      {/* <div className="balance_card">
                         <span>{boneUSDValue} BONES</span>
                         <h4 className="heading-sm">Self Stake</h4>
                       </div>
                       <div className="balance_card">
                         <span>{availBalance} BONES</span>
                         <h4 className="heading-sm">Total Delegator Reward</h4>
-                      </div>
+                      </div> */}
                     </div>
                   )}
                 </div>

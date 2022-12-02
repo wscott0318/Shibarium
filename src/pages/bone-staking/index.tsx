@@ -59,16 +59,16 @@ const BoneStaking = () => {
   const getValInfo = () => {
     try {
       const valData = JSON.parse(localStorage.getItem("valInfo") || '{}')
-      if(Object.keys(valData).length) {
-        setNodeSetup(valData.status)
-      } else {
+      // if(Object.keys(valData).length) {
+      //   setNodeSetup(valData.status)
+      // } else {
         let id : any = account
         getValidatorInfo(id.toLowerCase()).then((res : any) => {
           // console.log(res.data.message.val?.status, " vall status ===> ")
           setNodeSetup(res.data.message.val?.status ? res.data.message?.val.status : null)
           localStorage.setItem("valInfo", JSON.stringify(res.data.message.val))
         })
-      }
+      // }
     } catch (err :any) {
         Sentry.captureMessage("getValCount", err);
     }
@@ -103,19 +103,7 @@ const BoneStaking = () => {
           );
         }
       } else if (userType === "Delegator") {
-        return (
-        <>
-           <div className="btns-wrap m-2">
-                       <button disabled={+valCount <= +valMaxCount ?  false : true} onClick={()=>{
-                        router.push('/become-validator')
-                       }} className="btn primary-btn m-2">Become a Validator</button>
-                   
-                      <button onClick={()=>
-                        router.push('/all-validator')
-                       } className="btn  white-btn m-2">Become a Delegator</button>
-                    </div>
-        </>
-        )
+        return null
       } else {
         return (
         <div className="btns-sec btn-width">

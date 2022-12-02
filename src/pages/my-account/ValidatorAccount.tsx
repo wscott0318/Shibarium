@@ -278,45 +278,7 @@ const validatorAccount = ({
       .required("Comission is required."),
   });
 
-  // GET VALIDATOR ID
-  const getValidatorId = async () => {
-    try {
-      let user = account;
 
-      if (account) {
-        console.log(user, "account address ");
-        const instance = new web3.eth.Contract(
-          stakeManagerProxyABI,
-          dynamicChaining[chainId].STAKE_MANAGER_PROXY
-        );
-        const ID = await instance.methods
-          .getValidatorId(user)
-          .call({ from: account }); // read
-        console.log(ID);
-        return ID;
-      } else {
-        console.log("account addres not found");
-      }
-    } catch (err: any) {
-      Sentry.captureException("getValidatorId ", err);
-    }
-  };
-
-  const getVaiIDFromDB = async () => {
-    let accountAddress: any = account;
-    try {
-      await getUserType(accountAddress.toLowerCase()).then((res: any) => {
-        if (res.data && res.data.data) {
-          let ut = res.data.data.validatorId;
-          console.log(ut, "val id ");
-          // setUserType(ut)
-          setValidatorID(+ut);
-        }
-      });
-    } catch (err: any) {
-      Sentry.captureException("getVaiIDFromDB ", err);
-    }
-  };
 
   //  COMMISSION CONTRACT
   const callComission = async (value: any) => {
@@ -660,7 +622,7 @@ const validatorAccount = ({
 
             );
             //
-            
+
           })
           .on("error", (res: any) => {
             console.log(res, "error");
@@ -1115,13 +1077,7 @@ const validatorAccount = ({
     }
   };
 
-  const rewardBalance = validatorInfo?.totalRewards
-    ? (
-        (Number(fromExponential(validatorInfo?.totalRewards)) -
-          Number(fromExponential(validatorInfo?.claimedReward))) /
-        Math.pow(10, web3Decimals)
-      ).toFixed(tokenDecimal)
-    : "0.00";
+
 
   return (
     <>
@@ -1875,6 +1831,7 @@ const validatorAccount = ({
                     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
+                          disabled={parseInt(validatorInfoContract?.status) > 1 ? true : false}
                           onClick={() => handleModal("Restake", account)}
                           className="ff-mos btn black-btn w-100 d-block tool-ico"
                         >
@@ -1887,6 +1844,7 @@ const validatorAccount = ({
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
                           disabled={
+                            parseInt(validatorInfoContract?.status) > 1 ? true :
                             parseInt(
                               validatorInfoContract?.lastCommissionUpdate
                             ) +
@@ -1911,7 +1869,7 @@ const validatorAccount = ({
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
                           onClick={() => withdrawRewardValidator()}
-                          disabled={!(validatorTotalReward > 0)}
+                          disabled={ parseInt(validatorInfoContract?.status) > 1 ? true : !(validatorTotalReward > 0)}
                           className="ff-mos btn black-btn w-100 d-block tool-ico"
                         >
                           Withdraw Rewards
@@ -1923,6 +1881,7 @@ const validatorAccount = ({
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
                           disabled={
+                            parseInt(validatorInfoContract?.status) > 1 ? true :
                             parseInt(validatorInfoContract?.deactivationEpoch) +
                               parseInt(comissionHandle?.dynasty) <=
                               parseInt(comissionHandle?.epoch) &&
@@ -1943,6 +1902,7 @@ const validatorAccount = ({
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
                           disabled={
+                            parseInt(validatorInfoContract?.status) > 1 ? true :
                             parseInt(validatorInfoContract?.deactivationEpoch) +
                               parseInt(comissionHandle?.dynasty) <=
                               parseInt(comissionHandle?.epoch) &&
@@ -2113,7 +2073,7 @@ const validatorAccount = ({
                               </div>
                             </li>
 
-                            <li className="btn-grp-lst">
+                            {/* <li className="btn-grp-lst">
                               <div className="cus-tooltip d-inline-block">
                                 <button
                                   onClick={() =>
@@ -2131,7 +2091,7 @@ const validatorAccount = ({
                                   migrate your stake
                                 </div>
                               </div>
-                            </li>
+                            </li> */}
 
                             <li className="btn-grp-lst">
                               <div className="cus-tooltip d-inline-block">
