@@ -1723,10 +1723,10 @@ const validatorAccount = ({
                                 : "0.00"} */}
 
                               {validatorInfoContract?.amount
-                                ? addDecimalValue((
-                                    +validatorInfoContract?.amount
-                                  )/
-                                  10 ** web3Decimals)
+                                ? addDecimalValue(
+                                    +validatorInfoContract?.amount /
+                                      10 ** web3Decimals
+                                  )
                                 : "0.00"}
                             </span>{" "}
                             BONE
@@ -1743,10 +1743,9 @@ const validatorAccount = ({
                                 //   boneUSDValue
                                 // ).toFixed(tokenDecimal)}
                                 value={addDecimalValue(
-                                  (
-                                    +validatorInfoContract?.amount /
-                                      10 ** web3Decimals
-                                  ) * boneUSDValue
+                                  (+validatorInfoContract?.amount /
+                                    10 ** web3Decimals) *
+                                    boneUSDValue
                                 )}
                               />
                             </span>
@@ -2102,6 +2101,25 @@ const validatorAccount = ({
                                 </button>
                                 <div className="tool-desc">
                                   unbound and withdraw rewards
+                                </div>
+                              </div>
+                            </li>
+
+                            <li className="btn-grp-lst">
+                              <div className="cus-tooltip d-inline-block">
+                                <button
+                                  onClick={() =>
+                                    router.push(
+                                      "/migrate-stake",
+                                      "/migrate-stake"
+                                    ,{shallow:true})
+                                  }
+                                  className="btn black-btn btn-small tool-ico"
+                                >
+                                  Migrate Stake
+                                </button>
+                                <div className="tool-desc">
+                                  migrate your stake
                                 </div>
                               </div>
                             </li>
