@@ -14,6 +14,7 @@ import {
   updateUserExpertMode,
   updateUserSingleHopOnly,
   updateUserType,
+  updateValInfoContract,
   updateUserUseOpenMev,
   updateValId,
   updateValInfo
@@ -53,6 +54,7 @@ export interface UserState {
   userType: string
   valId: string
   valInfo:object
+  valInfoContract :object
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -70,7 +72,8 @@ export const initialState: UserState = {
   userUseOpenMev: true,
   userType: 'NA',
   valId:'1',
-  valInfo:{}
+  valInfo:{},
+  valInfoContract: {},
 }
 
 export default createReducer(initialState, (builder) =>
@@ -133,6 +136,9 @@ export default createReducer(initialState, (builder) =>
     })
     .addCase(updateUserType, (state, action) => {
       state.userType = action.payload.userType
+    })
+    .addCase(updateValInfoContract, (state, action) => {
+      state.valInfoContract = action.payload.valInfoContract
     })
     .addCase(updateValId, (state, action) => {
       state.valId = action.payload.valId
