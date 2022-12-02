@@ -266,7 +266,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         setStepComplete((preState: any) => ({ ...preState, three: true }))
       }, 3000)
     }
-    else if (loader == "step4") {
+    else {
       setTimeout(() => {
         setLoader("");
         setStepComplete((preState: any) => ({ ...preState, four: true }))

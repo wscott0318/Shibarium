@@ -657,8 +657,10 @@ const validatorAccount = ({
                   status: 1,
                 },
               })
+
             );
             //
+            
           })
           .on("error", (res: any) => {
             console.log(res, "error");
