@@ -39,7 +39,11 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const [minHeimdallFee, setMinHeimdallFee] = useState<number>(0);
   const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
   let schema = yup.object().shape({
-    amount: yup.number().typeError("Only digits are allowed.").min(minDeposit).max(availBalance).required("Amount is required."),
+    amount: yup.number()
+    .typeError("Only digits are allowed.")
+    .moreThan(1,"Amount should be at-least greater than 1")
+    .max(availBalance)
+    .required("Amount is required."),
   })
   const [loader, setLoader] = useState("step1");
 
@@ -434,8 +438,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               <label htmlFor="" className="form-label ff-mos">
                 Enter the stake amount <span className="get-info">i</span>
                 <div className="tool-desc">
-                  LLorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Dolorum fugit optio molestias, dolorem magni quia.
+                  Additional 1 Bone will be deducted for Heimdall fees
                 </div>
               </label>
               <div className="maxButtonFloat">
@@ -472,7 +475,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               <div className="row-st">
                 <div className="blk-dta">
                   <label htmlFor="" className="form-label ff-mos mb-0">
-                    Minimum: {minDeposit} BONE
+                    Minimum: {minDeposit} BONE + fees
                   </label>
                 </div>
                 <div className="blk-dta">

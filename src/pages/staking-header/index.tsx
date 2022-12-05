@@ -16,6 +16,8 @@ import { dynamicChaining } from "web3/DynamicChaining";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json"
 import * as Sentry from "@sentry/nextjs";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
+import { useAppDispatch } from "app/state/hooks";
+import { clearAllTransactions } from "app/state/transactions/actions";
 
 const StakingHeader = () => {
   const router = useRouter();
@@ -28,9 +30,20 @@ const StakingHeader = () => {
   const [valId, setValId] = useValId();
   const [valInfoModal, setValInfoModal] = useState(false);
   const [dynasty, setDynasty] = useState('')
-  const { account, chainId = 1, library } = useActiveWeb3React();
+  const { account, chainId = 1, library,active } = useActiveWeb3React();
 
   const [valInfo, setValInfo] = useValInfo();
+  const dispatch = useAppDispatch();
+ useEffect(() => {
+   const { ethereum } = window as any;
+   const handleAccountsChanged = (accounts: string[]) => {
+     console.log("Handling 'accountsChanged' event with payload", accounts);
+     setValInfoModal(false);
+     dispatch(clearAllTransactions({ chainId }));
+   };
+
+   ethereum.on("accountsChanged", handleAccountsChanged);
+ }, [active]);
 
   const getValInfoApi = async (id: any) => {
     try {
