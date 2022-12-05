@@ -36,7 +36,14 @@ const BoneStaking = () => {
       getValInfo()
     }
     getValCount()
+    checkEth()
   }, [account])
+
+  const checkEth = () => {
+    let lib : any = library
+    let web3 : any = new Web3(lib?.provider)
+     console.log(web3.eth, "account changes testing ")
+  }
 
 
   const getValCount = async () => {
