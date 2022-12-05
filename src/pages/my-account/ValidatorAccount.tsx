@@ -61,7 +61,7 @@ const validatorAccount = ({
 
   const [valInfoContract, setValInfoContract] = useValInfoContract()
 
-  console.log("valInfoContract my account =========>>>>",valInfoContract)
+  console.log("valInfoContract my account =========>>>>", valInfoContract)
 
   const [transactionState, setTransactionState] = useState({
     state: false,
@@ -133,7 +133,7 @@ const validatorAccount = ({
 
       // set 
       setComissionHandle({ dynasty, epoch });
-      
+
       const reward = addDecimalValue(valReward / Math.pow(10, web3Decimals));
       setValidatorInfoContract(valFromContract);
       setValInfoContract(valFromContract)
@@ -144,7 +144,7 @@ const validatorAccount = ({
       Sentry.captureException("getValidatorData ", err);
     }
   };
-  
+
   console.log(comissionHandle, "comissionHandle => ");
   const validatorInfoAPI = () => {
     try {
@@ -254,11 +254,11 @@ const validatorAccount = ({
       getDelegatorCardData(account);
     }
     // if (account && userType === "Validator") {
-      // if (valId) {
-        getValidatorData(valId);
-      // }
-      // validatorInfoAPI()
-      // getVaiIDFromDB();
+    // if (valId) {
+    getValidatorData(valId);
+    // }
+    // validatorInfoAPI()
+    // getVaiIDFromDB();
     // }
   }, [account, userType, chainId, valId]);
 
@@ -302,7 +302,7 @@ const validatorAccount = ({
       let CurrentgasPrice: any = await currentGasPrice(web3);
       console.log(
         ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-          Math.pow(10, web3Decimals),
+        Math.pow(10, web3Decimals),
         " Gas fees for transaction  ==> "
       );
       await web3.eth
@@ -398,7 +398,7 @@ const validatorAccount = ({
           let CurrentgasPrice: any = await currentGasPrice(web3);
           console.log(
             ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-              Math.pow(10, web3Decimals),
+            Math.pow(10, web3Decimals),
             " Gas fees for transaction  ==> "
           );
           await web3.eth
@@ -493,7 +493,7 @@ const validatorAccount = ({
             let CurrentgasPrice: any = await currentGasPrice(web3);
             console.log(
               ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-                Math.pow(10, web3Decimals),
+              Math.pow(10, web3Decimals),
               " Gas fees for transaction  ==> "
             );
             await web3.eth.sendTransaction({
@@ -537,6 +537,7 @@ const validatorAccount = ({
                     },
                   })
                 );
+                router.push("/my-account", "/my-account", { shallow: true });
               })
               .on("error", (res: any) => {
                 console.log(res, "error");
@@ -623,6 +624,7 @@ const validatorAccount = ({
               })
 
             );
+            router.push("/my-account", "/my-account", { shallow: true });
             //
 
           })
@@ -655,7 +657,7 @@ const validatorAccount = ({
         let CurrentgasPrice: any = await currentGasPrice(web3);
         console.log(
           ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-            Math.pow(10, web3Decimals),
+          Math.pow(10, web3Decimals),
           " Gas fees for transaction  ==> "
         );
         await web3.eth
@@ -700,6 +702,7 @@ const validatorAccount = ({
                 },
               })
             );
+            router.push("/my-account", "/my-account", { shallow: true });
           })
           .on("error", (res: any) => {
             console.log(res, "error");
@@ -736,7 +739,7 @@ const validatorAccount = ({
         let CurrentgasPrice: any = await currentGasPrice(web3);
         console.log(
           ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-            Math.pow(10, web3Decimals),
+          Math.pow(10, web3Decimals),
           " Gas fees for transaction  ==> "
         );
         await web3.eth
@@ -782,6 +785,7 @@ const validatorAccount = ({
                 },
               })
             );
+            router.push("/my-account", "/my-account", { shallow: true });
             setTransactionState({ state: false, title: "" });
             setHashLink("");
           })
@@ -818,7 +822,7 @@ const validatorAccount = ({
         let CurrentgasPrice: any = await currentGasPrice(web3);
         console.log(
           ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-            Math.pow(10, web3Decimals),
+          Math.pow(10, web3Decimals),
           " Gas fees for transaction  ==> "
         );
         await web3.eth
@@ -864,6 +868,7 @@ const validatorAccount = ({
                 },
               })
             );
+            router.push("/my-account", "/my-account", { shallow: true });
             setTransactionState({ state: false, title: "" });
             setHashLink("");
           })
@@ -900,7 +905,7 @@ const validatorAccount = ({
         let CurrentgasPrice: any = await currentGasPrice(web3);
         console.log(
           ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-            Math.pow(10, web3Decimals),
+          Math.pow(10, web3Decimals),
           " Gas fees for transaction  ==> "
         );
         await web3.eth
@@ -946,6 +951,7 @@ const validatorAccount = ({
                 },
               })
             );
+            router.push("/my-account", "/my-account", { shallow: true });
             getDelegatorCardData(walletAddress);
           })
           .on("error", (res: any) => {
@@ -1035,6 +1041,7 @@ const validatorAccount = ({
                 },
               })
             );
+            router.push("/my-account", "/my-account", { shallow: true });
             getDelegatorCardData(walletAddress);
           })
           .on("error", (res: any) => {
@@ -1078,7 +1085,6 @@ const validatorAccount = ({
       Sentry.captureException("getStake ", err);
     }
   };
-
 
 
   return (
@@ -1602,8 +1608,8 @@ const validatorAccount = ({
                           <div className="top-head">
                             {validatorInfoContract?.commissionRate
                               ? addDecimalValue(
-                                  +validatorInfoContract?.commissionRate
-                                )
+                                +validatorInfoContract?.commissionRate
+                              )
                               : 0.0}{" "}
                             %
                           </div>
@@ -1738,9 +1744,9 @@ const validatorAccount = ({
                                 : "0.00"} */}
                               {validatorInfoContract?.delegatedAmount
                                 ? addDecimalValue(
-                                    +validatorInfoContract?.delegatedAmount /
-                                      Math.pow(10, web3Decimals)
-                                  )
+                                  +validatorInfoContract?.delegatedAmount /
+                                  Math.pow(10, web3Decimals)
+                                )
                                 : "0.00"}
                             </span>{" "}
                             BONE
@@ -1754,14 +1760,14 @@ const validatorAccount = ({
                                 value={addDecimalValue(
                                   (+validatorInfoContract?.delegatedAmount /
                                     Math.pow(10, web3Decimals)) *
-                                    boneUSDValue
+                                  boneUSDValue
                                 )}
-                                // value={(
-                                //   addDecimalValue(
-                                //     +validatorInfoContract?.delegatedAmount /
-                                //       Math.pow(10, web3Decimals)
-                                //   ) * boneUSDValue
-                                // ).toFixed(tokenDecimal)}
+                              // value={(
+                              //   addDecimalValue(
+                              //     +validatorInfoContract?.delegatedAmount /
+                              //       Math.pow(10, web3Decimals)
+                              //   ) * boneUSDValue
+                              // ).toFixed(tokenDecimal)}
                               />
                             </span>
                           </div>
@@ -1784,8 +1790,8 @@ const validatorAccount = ({
                             <span>
                               {validatorInfoContract?.delegatorsReward
                                 ? addDecimalValue(
-                                    +validatorInfoContract?.delegatorsReward
-                                  )
+                                  +validatorInfoContract?.delegatorsReward
+                                )
                                 : "0.00"}
                               {/* {validatorInfoContract?.delegatorsReward
                                 ? addDecimalValue(
@@ -1804,14 +1810,14 @@ const validatorAccount = ({
                                 prefix="$ "
                                 value={addDecimalValue(
                                   +validatorInfoContract?.delegatorsReward *
-                                    boneUSDValue
+                                  boneUSDValue
                                 )}
-                                // value={(
-                                //   addDecimalValue(
-                                //     +validatorInfoContract?.delegatorsReward /
-                                //       Math.pow(10, web3Decimals)
-                                //   ) * boneUSDValue
-                                // ).toFixed(tokenDecimal)}
+                              // value={(
+                              //   addDecimalValue(
+                              //     +validatorInfoContract?.delegatorsReward /
+                              //       Math.pow(10, web3Decimals)
+                              //   ) * boneUSDValue
+                              // ).toFixed(tokenDecimal)}
                               />
                             </span>
                           </div>
@@ -1851,7 +1857,7 @@ const validatorAccount = ({
                               validatorInfoContract?.lastCommissionUpdate
                             ) +
                               parseInt(comissionHandle?.dynasty) <=
-                            parseInt(comissionHandle?.epoch)
+                              parseInt(comissionHandle?.epoch)
                               ? false
                               : true
                           }
@@ -1887,7 +1893,7 @@ const validatorAccount = ({
                             parseInt(validatorInfoContract?.deactivationEpoch) +
                               parseInt(comissionHandle?.dynasty) <=
                               parseInt(comissionHandle?.epoch) &&
-                            parseInt(validatorInfoContract?.deactivationEpoch) >
+                              parseInt(validatorInfoContract?.deactivationEpoch) >
                               0
                               ? false
                               : true
@@ -1908,7 +1914,7 @@ const validatorAccount = ({
                             parseInt(validatorInfoContract?.deactivationEpoch) +
                               parseInt(comissionHandle?.dynasty) <=
                               parseInt(comissionHandle?.epoch) &&
-                            parseInt(validatorInfoContract?.deactivationEpoch) >
+                              parseInt(validatorInfoContract?.deactivationEpoch) >
                               0
                               ? false
                               : true
@@ -1997,9 +2003,9 @@ const validatorAccount = ({
                                 <div className="fw-bold orange-color">
                                   {+item.reward > 0
                                     ? (
-                                        parseInt(item.reward) /
-                                        10 ** web3Decimals
-                                      ).toFixed(tokenDecimal)
+                                      parseInt(item.reward) /
+                                      10 ** web3Decimals
+                                    ).toFixed(tokenDecimal)
                                     : "0.00"}
                                 </div>
                                 {/* {/ <div>$0</div> /} */}
@@ -2014,9 +2020,9 @@ const validatorAccount = ({
                                   disabled={
                                     parseInt(item.commission) == comissionVal ||
                                     item.checkpointSignedPercent <
-                                      checkpointVal ||
+                                    checkpointVal ||
                                     parseInt(item.reward) / 10 ** web3Decimals <
-                                      1
+                                    1
                                   }
                                   onClick={() =>
                                     handleModal("Restake", item.contractAddress)
