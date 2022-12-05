@@ -15,7 +15,7 @@ import Web3 from "web3";
 import * as Sentry from "@sentry/nextjs";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
 import { L1Block, ChainId} from 'app/hooks/L1Block';
-
+import { useRef } from "react";
 
 
 
@@ -81,6 +81,9 @@ const BoneStaking = () => {
     }
   }
 
+  const myRef = useRef<any>(null)
+  const executeScroll = () => myRef.current.scrollIntoView()
+
   // console.log(nodeSetup)
 
   const renderButtons = () => {
@@ -97,9 +100,7 @@ const BoneStaking = () => {
                }} className="btn primary-btn">Become a Validator</button>
             </div>
             <div className="btns-wrap">
-              <button onClick={()=>{
-                // router.push('/all-validator')
-               }} className="btn  white-btn">Become a Delegator</button>
+              <button onClick={executeScroll} className="btn  white-btn">Become a Delegator</button>
             </div>
             <div className="btns-wrap">
               <button onClick={()=>
@@ -120,9 +121,12 @@ const BoneStaking = () => {
                        }} className="btn primary-btn">Become a Validator</button>
                     </div>
                     <div className="btns-wrap">
-                      <button onClick={()=>
-                        router.push('/all-validator')
-                       } className="btn  white-btn">Become a Delegator</button>
+                      <button 
+                      // onClick={()=>
+                      //   router.push('/all-validator')
+                      //  } 
+                      onClick={executeScroll}
+                       className="btn  white-btn">Become a Delegator</button>
                     </div>
                     <div className="btns-wrap">
                       <button onClick={()=>
@@ -162,7 +166,7 @@ const BoneStaking = () => {
         {/* banner section closed */}
         <NetworkDetails valCount={valCount} />
         {/* ValidatorsCard starts  */}
-        <ValidatorsCard />
+        <div  ref={myRef}><ValidatorsCard /></div>
         {/* ValidatorsCard ends  */}
       </div>
     </>

@@ -79,9 +79,7 @@ export const Allvalidator: React.FC = () => {
                }} className="btn primary-btn">Become a Validator</button>
             </div>
             <div className="btns-wrap">
-              <button onClick={()=>{
-                router.push('/all-validator')
-               }} className="btn  white-btn">Become a Delegator</button>
+              <button onClick={executeScroll} className="btn  white-btn">Become a Delegator</button>
             </div>
             <div className="btns-wrap">
               <button onClick={()=>
@@ -102,9 +100,12 @@ export const Allvalidator: React.FC = () => {
                        }} className="btn primary-btn">Become a Validator</button>
                     </div>
                     <div className="btns-wrap">
-                      <button onClick={()=>
-                        router.push('/all-validator')
-                       } className="btn  white-btn">Become a Delegator</button>
+                      <button 
+                      // onClick={()=>
+                      //   router.push('/all-validator')
+                      //  } 
+                      onClick={executeScroll}
+                       className="btn  white-btn">Become a Delegator</button>
                     </div>
                     <div className="btns-wrap">
                       <button onClick={()=>
