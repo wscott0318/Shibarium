@@ -21,7 +21,7 @@ export const dynamicChaining :any  =
     STAKE_MANAGER: "0xfAf11D52198A87B3f407A98a782317c312e2fB68",
     DEPOSIT_MANAGER_PROXY: "0x4bFc9002Bac4104D814D6174f0B1C2aa0e5B083f",
    },
-   7352:{ // goerli test net
+   7352:{ // shibarium test net
     BONE:'',
     STAKE_MANAGER_PROXY:"",
     VALIDATOR_SHARE: "",

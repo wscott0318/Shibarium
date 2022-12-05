@@ -123,9 +123,11 @@ const validatorAccount = ({
       const valFromContract = await instance.methods
         .validators(+valId)
         .call({ from: account });
+        
       const valReward = await instance.methods
         .validatorReward(+valId)
         .call({ from: account });
+
       const dynasty = await instance.methods.dynasty().call({ from: account });
       const epoch = await instance.methods.epoch().call({ from: account });
 
@@ -2079,7 +2081,7 @@ const validatorAccount = ({
                               </div>
                             </li>
 
-                            {/* <li className="btn-grp-lst">
+                            <li className="btn-grp-lst">
                               <div className="cus-tooltip d-inline-block">
                                 <button
                                   onClick={() =>
@@ -2097,7 +2099,7 @@ const validatorAccount = ({
                                   migrate your stake
                                 </div>
                               </div>
-                            </li> */}
+                            </li>
 
                             <li className="btn-grp-lst">
                               <div className="cus-tooltip d-inline-block">
