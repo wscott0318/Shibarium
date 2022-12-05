@@ -101,6 +101,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                                 : false
                             }
                             onClick={() => {
+                              setSelectedRow(x);
                               if (
                                 router.asPath.split("/")[1] === "migrate-stake"
                               )
@@ -109,7 +110,6 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                               }
                               else {
                                 setdelegatepop(true);
-                                setSelectedRow(x);
                               }  
                             }}
                           >

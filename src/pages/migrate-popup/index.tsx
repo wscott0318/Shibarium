@@ -51,7 +51,7 @@ const MigratePopup: React.FC<any> = ({
   const [boneUSDValue, setBoneUSDValue] = useState<number>(0);
   const { account, chainId = 1, library } = useActiveWeb3React();
   const web3 = useLocalWeb3();
-
+  // const [data, setData] = useState();
   const dispatch = useAppDispatch();
 
   const [migrateState, setmigrateState] = useState(initialModalState);
@@ -118,7 +118,6 @@ const initialValues = {
     setmigratepop(false);
   };
 
-  // console.log("Balance", data);
   return (
     <>
       <CommonModal
@@ -132,6 +131,43 @@ const initialValues = {
             <form className="h-100" onSubmit={handleSubmit}>
               <div className="step_content fl-box">
                 <div className="ax-top">
+                  <div className="info-box my-3">
+                    <div className="d-flex align-items-center justify-content-start">
+                      <div className="migimg mr-4">
+                        {data.logoUrl ? (
+                          <img
+                            src={data.logoUrl}
+                            width="30"
+                            height="30"
+                            className="img-fluid"
+                          />
+                        ) : (
+                          <img
+                            src="../../assets/images/shiba-round-icon.png"
+                            width="30"
+                            height="30"
+                            className="img-fluid"
+                          />
+                        )}
+                      </div>
+                      {/* <div>
+                        <div>
+                          <span className="user-icon"></span>
+                        </div>
+                      </div> */}
+                      <div className="fw-700">
+                        <span className="vertical-align ft-22">
+                          {data.name}
+                        </span>
+                        <p>
+                          <span className="light-text">
+                            {data?.uptimePercent?.toFixed(toFixedPrecent)}%
+                            Performance - {data.commissionrate} % Commission
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                   <div className="form-field position-relative two-fld max-group extr_pd_remove bg-clr h-auto">
                     <div className="mid-chain w-100">
                       <input
@@ -171,6 +207,17 @@ const initialValues = {
                       Balance: {Number(router.query.id).toFixed(tokenDecimal)}{" "}
                       BONE
                     </span>
+                  </p>
+                  <div className="image_area row">
+                    <div className="col-12 text-center">
+                      <img
+                        className="img-fluid img-wdth"
+                        src="../../assets/images/imgpsh_fullsize_anim.png"
+                      />
+                    </div>
+                  </div>
+                  <p>
+                    Lorem Ipsum Lorem IpsumLorem Ipsum Lorem Ipsum Lorem Ipsum{" "}
                   </p>
                 </div>
                 <div className="ax-bottom">

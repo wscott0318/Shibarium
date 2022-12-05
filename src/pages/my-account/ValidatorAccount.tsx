@@ -1079,7 +1079,7 @@ const validatorAccount = ({
     }
   };
 
-
+  console.log("delegations list",delegationsList)
 
   return (
     <>
