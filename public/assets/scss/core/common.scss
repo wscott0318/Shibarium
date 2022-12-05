@@ -3055,6 +3055,24 @@ input:-internal-autofill-selected {
       text-overflow: ellipsis;
     }
   }
+  .btn-fonts{
+    white-space: nowrap; 
+    width: 118px; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    @media #{$max-xxl} {
+      width: 120px; 
+    }
+    @media #{$max-xl} {
+      width: 105px; 
+    }
+    @media #{$max-lg} {
+      width: 79px; 
+    }
+    @media #{$max-md} {
+      width: 82px; 
+    }
+  }
 }
 .main-header.header-overide {
   .navbar-brand {
@@ -4167,5 +4185,91 @@ input:-internal-autofill-selected {
   flex-direction: column;
   .btn{
     font-size: 16px;
+  }
+}
+.block-info{
+  text-align: center;
+  margin: 30px 0 0;
+  background: $body-bg;
+  padding: 30px 20px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -o-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -moz-border-radius: 10px;
+  @media #{$max-lg} {
+    padding: 20px;
+  }
+  @media #{$max-md} {
+    margin: 20px 0;
+  }
+}
+.txt-xsm{
+  font-size: 14px;
+  @media #{$max-xl} {
+    font-size: 13px;
+  }
+}
+.txt-sm {
+  font-size: 22px;
+  @media #{$max-xl} {
+    font-size: 20px;
+  }
+}
+.infrm-sec {
+  margin: 40px 0;
+  @media #{$max-md} {
+    margin: 30px 0;
+  }
+}
+.mig-popup{
+  .vali_deli_popups{
+    .image_area{
+      height: 50px;
+      @media #{$max-xxl} {
+        height: 75px;
+        padding-top: 10px;
+      }
+      @media #{$max-xl} {
+        height: 65px;
+      }
+      @media #{$max-lg} {
+        height: 75px;
+        padding-top: 15px;
+      }
+      @media #{$max-sm} {
+        height: 90px;
+        padding-top: 20px;
+      }
+      @media #{$max-xsm} {
+        height: 70px;
+        padding-top: 0;
+      }
+      @media #{$max-xsmm} {
+        height: 60px;
+      }
+      @media #{$max-xms} {
+        height: 35px;
+      }
+    }
+    .image_area{
+      img{
+        width: 30px;
+        @media #{$max-md} {
+          width: 40px;
+        }
+        @media #{$max-xms} {
+          width: 30px;
+        }
+      }
+    }
+  } 
+  
+}
+.err-wrap{
+  position: relative;
+  .error{
+    position: absolute;
+    left: 0;
   }
 }
