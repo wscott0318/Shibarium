@@ -104,7 +104,7 @@ const DelegatePopup: React.FC<any> = ({
     setStep(2);
   }
   catch(err:any){
-    Sentry.captureMessage("New Error " , err);
+    Sentry.captureMessage("approveHandler ", err);
   }
   };
 
@@ -128,15 +128,15 @@ const DelegatePopup: React.FC<any> = ({
         (await getAllowanceAmount(lib, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].STAKE_MANAGER_PROXY)) || 0;
      
       if (+requestBody.amount > allowance) {
-        APPROVE_BONE()
-        BUY_VOUCHER(requestBody)
+        APPROVE_BONE(requestBody)
+        // BUY_VOUCHER(requestBody)
       } else {
-        APPROVE_BONE()
+        BUY_VOUCHER(requestBody)
       }
     }
   }
   catch(err:any){
-    Sentry.captureMessage("New Error " , err);
+    Sentry.captureMessage("buyVouchers ", err);
   }
   };
 
@@ -175,7 +175,7 @@ const DelegatePopup: React.FC<any> = ({
               step1:false,
               step2: true,
               step3:false,
-              title:'Transaction Process'
+              title:'Transaction In Progress'
             })
             })
             .on('receipt', (res: any) => {
@@ -215,12 +215,12 @@ const DelegatePopup: React.FC<any> = ({
             setdelegatepop(false)
           })
     } catch(err :any){
-      console.log(err)
+      Sentry.captureMessage("BUY_VOUCHER ", err);
     }
 
   }
 
-  const APPROVE_BONE = async () => {
+  const APPROVE_BONE = async (requestBody :any) => {
     let walletAddress : any = account;
     try{
       console.log("need Approval", amount);
@@ -267,13 +267,14 @@ const DelegatePopup: React.FC<any> = ({
                 }
               })
             )
+            BUY_VOUCHER(requestBody)
           })
         .on('error', (err: any) => {
           setdelegateState(initialModalState)
           setdelegatepop(false)
         })
     } catch(err :any){
-      console.log(err)
+     Sentry.captureMessage("APPROVE_BONE ", err);
     }
 
   }
@@ -285,12 +286,12 @@ const DelegatePopup: React.FC<any> = ({
 
 let schema = yup.object().shape({
   balance: yup
-    .number().typeError("Only digits are allowed")
+    .number().typeError("Only digits are allowed.")
     .max(
       parseFloat(walletBalance?.toFixed(tokenDecimal)),
-      "Entered value cannot be greater than Balance"
-    ).positive("Balance cannot be negative")
-    .required("Balance is required"),
+      "Entered value cannot be greater than Balance."
+    ).positive("Enter valid Balance.")
+    .required("Balance is required."),
 });
 const [balance, setBalance] = useState();
 
@@ -424,12 +425,9 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                     <div className="pop_btns_area row form-control mt-5">
                       <div className="col-12">
                         <button className="w-100" type="submit" value="submit">
-                          <a
-                            className="btn primary-btn d-flex align-items-center"
-                            href="/"
-                          >
+                          <div className="btn primary-btn d-flex align-items-center justify-content-center">
                             <span>Continue</span>
-                          </a>
+                          </div>
                         </button>
                       </div>
                     </div>

@@ -38,7 +38,7 @@ return gql(queryString)
 export const validatorRewardHistory = (id:any) => {
     const queryString = `query pools 
       {
-        validatorClaimRewards(where: {validatorId: 10}) {
+        validatorClaimRewards(where: {validatorId: 10}, orderBy: timestamp, orderDirection: desc) {
           address
           amount
           timestamp
@@ -46,6 +46,6 @@ export const validatorRewardHistory = (id:any) => {
           validatorId
         }
     }
-`
+`;
 return gql(queryString)
 }

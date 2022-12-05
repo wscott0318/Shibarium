@@ -88,12 +88,10 @@ export default function Wallet() {
   const searchResult = useSearchFilter(tokenList, searchKey.trim());
 
   useEffect(() => {
-    if (tokenFilteredList.length) {
-      let obj = tokenFilteredList.filter((x: any) => x.parentSymbol === 'BoneToken').map((y: any) => y)[0]
-      setSelectedToken(obj)
+    if(!account){
+      router.back()
     }
-  }, [tokenFilteredList, tokenList])
-
+  }, [account])
   // console.log(selectedToken)
 
   const verifyAddress = (address: any) => {
@@ -103,7 +101,7 @@ export default function Wallet() {
       return result
     }
     catch (err: any) {
-      Sentry.captureException("New Error ", err);
+      Sentry.captureException("verifyAddress ", err);
     }
   }
 
@@ -128,7 +126,7 @@ export default function Wallet() {
       })
     }
     catch (err: any) {
-      Sentry.captureException("New Error ", err);
+      Sentry.captureException("getTokensList ", err);
     }
   }
 
@@ -165,7 +163,7 @@ export default function Wallet() {
       }
     }
     catch (err: any) {
-      Sentry.captureException("New Error ", err);
+      Sentry.captureException("handleSend ", err);
     }
   }
   const pageSize = 4;
@@ -197,7 +195,7 @@ export default function Wallet() {
       setCurrentPage(index);
     }
     catch (err: any) {
-      Sentry.captureException("New Error ", err);
+      Sentry.captureException("pageChangeHandler ", err);
     }
   };
 
@@ -230,7 +228,7 @@ export default function Wallet() {
       }
     }
     catch (err: any) {
-      Sentry.captureException("New Error ", err);
+      Sentry.captureException("handleSearchList ", err);
     }
   }
 

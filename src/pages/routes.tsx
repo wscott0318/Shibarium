@@ -10,7 +10,8 @@ const headerRoutes = [
   '/home',
   '/bone-staking',
   '/all-validator',
-  '/my-account'
+  '/my-account',
+  '/migrate-stake'
 ]
 
 const ComponentRouters=({Component, pageProps}:any)=> {

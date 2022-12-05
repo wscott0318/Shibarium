@@ -25,7 +25,7 @@ export default function MyAcount() {
   const [userType, setUserType] = useUserType();
   const [boneUSDValue,setBoneUSDValue] = useState(0);
   const router = useRouter();
-  const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
+  var availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
 
 
   useEffect(() => {
@@ -37,34 +37,64 @@ export default function MyAcount() {
       router.push('/')
     }
   },[account])
+  
 
   return (
     <>
       <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh staking-main">
-          {/* <Header /> */}
-          {/* <StakingHeader /> */}
-            <section className="dark-bg mn-ht">
-                <div className="container">
-                  <div className="section-info">
-                    <div className="row align-items-center">
-                      <div className="col-md-7 col-sm-12 ff-mos">
-                        <h1 className="ff-mos">My Account</h1>
+        {/* <Header /> */}
+        {/* <StakingHeader /> */}
+        <section className="dark-bg mn-ht">
+          <div className="container">
+            <div className="section-info">
+              <div className="row align-items-center">
+                <div className="col-md-7 col-sm-12 ff-mos">
+                  <h1 className="ff-mos">My Account</h1>
+                  {userType === "Delegator" && (
+                    <div className="balance_wrapper">
+                      <div className="balance_card">
+                        <span>{availBalance} BONES</span>
+                        <h4 className="heading-sm">Wallet Balance</h4>
                       </div>
-                      <div className="col-md-5 col-sm-12 ff-mos m-hide">
-                        <div className="shib-img-sec text-end">
-                          <img className="img-fluid d-inline-block" width="423" height="266" src="../../assets/images/my-account.png" alt="" />
-                        </div>
+                      {/* <div className="balance_card">
+                        <span>{boneUSDValue} BONES</span>
+                        <h4 className="heading-sm">Self Stake</h4>
                       </div>
+                      <div className="balance_card">
+                        <span>{availBalance} BONES</span>
+                        <h4 className="heading-sm">Total Delegator Reward</h4>
+                      </div> */}
                     </div>
-                  </div> 
-                </div>                
-            </section> 
-            {userType === 'NA' ? 
-              <UserAccount boneUSDValue={boneUSDValue} availBalance={availBalance}/>
-               :
-              <ValidatorAccount userType={userType} boneUSDValue={boneUSDValue} availBalance={availBalance}/>
-            }
-      </main> 
+                  )}
+                </div>
+                <div className="col-md-5 col-sm-12 ff-mos m-hide">
+                  <div className="shib-img-sec text-end">
+                    <img
+                      className="img-fluid d-inline-block"
+                      width="423"
+                      height="266"
+                      src="../../assets/images/my-account.png"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        {userType === "NA" ? (
+          <UserAccount
+            boneUSDValue={boneUSDValue}
+            availBalance={availBalance}
+          />
+        ) : (
+          <ValidatorAccount
+            userType={userType}
+            boneUSDValue={boneUSDValue}
+            availBalance={availBalance}
+          />
+        )}
+      </main>
     </>
   );
 

@@ -2,7 +2,7 @@ import Pagination from 'app/components/Pagination';
 import React, { useEffect, useState } from 'react'
 import { Nav } from 'react-bootstrap'
 import NumberFormat from 'react-number-format';
-import { tokenDecimal } from 'web3/commonFunctions';
+import { addDecimalValue, tokenDecimal } from 'web3/commonFunctions';
 import * as Sentry from "@sentry/nextjs";
 interface Props{
     allDelegators:any[];
@@ -26,7 +26,7 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
         setPageIndex(index)
         }
         catch(err:any){
-            Sentry.captureMessage(err);
+            Sentry.captureMessage("pageChangeHandler", err);
         }
     }
     return (
@@ -58,7 +58,7 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
                             <NumberFormat
                               displayType="text"
                               thousandSeparator
-                              value={item.stake / Math.pow(10, 18)}
+                              value={addDecimalValue(+item.stake)}
                             />
                           </span>
                         </td>
@@ -68,10 +68,8 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
                               displayType="text"
                               prefix="$ "
                               thousandSeparator
-                              value={(
-                                (item.stake / Math.pow(10, 18)) *
-                                boneUsdValue
-                              ).toFixed(tokenDecimal)}
+                              value={addDecimalValue(+(item.stake)*boneUsdValue)}
+                              // value={addDecimalValue(+(item.stake / Math.pow(10, 18))*boneUsdValue)}
                             />
                           </span>
                         </td>

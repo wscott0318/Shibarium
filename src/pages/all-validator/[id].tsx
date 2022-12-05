@@ -54,7 +54,7 @@ export default function ValidatorDetails() {
             }
         }
         catch (err: any) {
-            Sentry.captureMessage(err);
+            Sentry.captureMessage("UseEffect in all Validator [id].jsx",err);
         }
     }, [])
     useEffect(() => {
@@ -80,7 +80,7 @@ export default function ValidatorDetails() {
             setTotalSupply(finalAMount)
         }
         catch(err:any){
-            Sentry.captureMessage("New Error " , err);
+            Sentry.captureMessage("getTotalSupply", err);
         }
 
         // amount delegatedAmount

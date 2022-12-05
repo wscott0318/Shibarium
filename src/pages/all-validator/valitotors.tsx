@@ -13,10 +13,12 @@ import { queryProvider } from 'Apollo/client';
 import { allValidatorsQuery } from 'Apollo/queries';
 import * as Sentry from '@sentry/nextjs'
 import { inActiveCount } from 'web3/commonFunctions';
+import { useRouter } from 'next/router';
+
 
 const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) => {
     const pageSize = 10;
-
+    const router = useRouter();
     const [loading, setLoading] = useState<boolean>(true);
     const [validatorsByStatus, setValidatorsByStatus] = useState<any[]>([]);
     const [allValidators, setAllValidators] = useState<any[]>([]);
@@ -33,16 +35,18 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
       const slicedList = searchResult.slice(0, pageSize).sort((a:any, b:any)=> parseInt(b.uptimePercent) - parseInt(a.uptimePercent))
       const sortAgain = slicedList.slice(0, pageSize).sort((a:any, b:any) => parseInt(b.totalStaked) - parseInt(a.totalStaked))
       setValidators(sortAgain)
+
     }, [searchResult])
-  
-    // console.log(validators)
+  // console.log("validatorsByStatus",validatorsByStatus)
+
+  // console.log("searchResult",searchResult)
 
     const fetchValidators = async () => {
       try{const validators = await queryProvider.query({
         query: allValidatorsQuery(),
       })}
       catch(err:any){
-        Sentry.captureMessage(err);
+        Sentry.captureMessage("fetchValidators", err);
       }
 
       // console.log(validators, " graphQL query ==== >")
@@ -112,7 +116,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
         setCurrentPage(index)
       }
       catch(err:any){
-        Sentry.captureMessage(err);
+        Sentry.captureMessage("pageChangeHandler",err);
       }
     }
     const onSort = (key: string, column: string,type:string) => {
@@ -130,10 +134,9 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
         setValidators(sortedList)
     }
     catch(err:any){
-      Sentry.captureMessage(err);
+      Sentry.captureMessage("onSort", err);
     }
     }
-
 
   return (
    <>
@@ -142,7 +145,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     <section className="table-section pb-4 pb-lg-5 active-inactive">
           <div className="container">
             <div className="heading-sec">
-              <h2 className="sub-head ff-mos">All Validators</h2>
+              <h2 className="sub-head ff-mos">{router.asPath.split("/")[1]==="migrate-stake" ? "Migrate Stake" : "All Validators"}</h2>
             </div>
             <div className="d-flex align-items-center btns-space tab-btns">
                 <div className="me-3">
@@ -165,7 +168,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                  value={searchKey}
                  onChange={(e) => setSearchKey(e.target.value)}
                  />
-                 <div className='icon-block'><img className="white-icon img-fluid" src="../../assets/images/cross-icon.png" /></div>
+                 <div className='icon-block' onClick={()=>setSearchKey("")}><img className="white-icon img-fluid" src="../../assets/images/cross-icon.png" /></div>
               </div>
               <div className="right-section">
                 {/* <div className="switch-sec">
@@ -186,12 +189,12 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => onSort('Random', 'name','string')}>Random</Dropdown.Item>
+                        {/* <Dropdown.Item onClick={() => onSort('Random', 'name','string')}>Random</Dropdown.Item> */}
                         <Dropdown.Item onClick={() => onSort('Commission', 'commissionrate','number')}>Commission</Dropdown.Item>
                         <Dropdown.Item onClick={() => onSort('Self', 'selfpercent','number')}>Self</Dropdown.Item>
-                        <Dropdown.Item onClick={() => onSort('Voting Power', 'totalstaked','number')}>
+                        {/* <Dropdown.Item onClick={() => onSort('Voting Power', 'totalstaked','number')}>
                           Voting Power
-                        </Dropdown.Item>
+                        </Dropdown.Item> */}
                         <Dropdown.Item className="ff-mos" onClick={()  => onSort('Uptime', 'uptimePercent','number')}>
                           Uptime
                         </Dropdown.Item>

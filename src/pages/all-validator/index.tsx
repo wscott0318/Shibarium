@@ -1,79 +1,124 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect, useRef } from "react";
-import { Dropdown } from "react-bootstrap";
-import InnerHeader from "../inner-header";
-import DelegatePopup from "../delegate-popup";
-import Link from "next/link";
-import LoadingSpinner from "../components/Loading";
-// import { validatorsList } from "../../services/apis/validator";
-// import { filter, orderBy } from "lodash";
-// import ListView from "./listView";
-// import ValidatorGrid from "./gridView";
-// import Pagination from 'app/components/Pagination'
-// import { useSearchFilter } from "app/hooks/useSearchFilter";
 import Valitotors from "./valitotors";
-import { useUserType } from "app/state/user/hooks";
-import { UserType } from "app/enums/UserType";
-import BorderBtn from "../components/BorderBtn";
-import WarningBtn from "../components/WarningBtn";
-import Footer from "../../pages/footer/index";
-import StakingHeader from '../staking-header'
+import { useUserType , useValId} from "app/state/user/hooks";
 import { useRouter } from "next/router";
-import { NodeNextRequest } from "next/dist/server/base-http/node";
+import { useActiveWeb3React } from "../../services/web3"
+import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
+import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
+import { dynamicChaining } from 'web3/DynamicChaining';
+import { L1Block, ChainId} from 'app/hooks/L1Block';
+import * as Sentry from "@sentry/nextjs";
+
 export const Allvalidator: React.FC = () => {
+  
   const [userType, setUserType] = useUserType();
+  const { account, chainId = 1, library } = useActiveWeb3React();
   const myRef = useRef<any>(null)
   const router = useRouter();
   const executeScroll = () => myRef.current.scrollIntoView()
+  const [ nodeSetup, setNodeSetup] = useState<any>('')
+  const [valCount, setValCount] = useState(0);
+  const [valMaxCount, setValMaxCount] = useState(0);
+  const [valId, setValId] = useValId();
 
-  // useEffect(() => {
-  //   let filtered = []
-  //   if (isActiveTab) {
-  //     filtered = allValidators.filter(e => e.upTime !== 0)
-  //   } else {
-  //     filtered = allValidators.filter(e => e.upTime === 0)
-  //   }
-  //   setValidatorsByStatus(filtered)
-  // }, [isActiveTab]);
 
-  // console.log(userType)
-
-  const renderButtons = () => {
-    if (userType === UserType.Delegator) {
-      return (
-        <div className="btns-wrap">
-          <a href="#all-validators-section">
-            <button
-              className="btn primary-btn btn-rspc ff-mos"
-            >
-              Become a delegator
-            </button>
-          </a>
-        </div>
-      )
-    } else if (userType === UserType.NA) {
-      return (
-        <div className="btns-wrap">
-          <button
-            onClick={() => {
-              router.push("/become-validator");
-            }}
-            className="btn primary-btn btn-rspc ff-mos"
-          >
-            Become a Validator
-          </button>
-          <button
-            onClick={() => {
-              router.push("/choose-your-path");
-            }}
-            className="btn primary-btn btn-rspc ff-mos"
-          >
-            Choose Your Path
-          </button>
-        </div>
-      )
+  const getValInfo = () => {
+    try {
+      const valData = JSON.parse(localStorage.getItem("valInfo") || '{}')
+      if(Object.keys(valData).length) {
+        setNodeSetup(valData.status)
+      } else {
+        let id : any = account
+        getValidatorInfo(id.toLowerCase()).then((res : any) => {
+          console.log(res.data.message.val?.status, " vall status ===> ")
+          setNodeSetup(res.data.message.val?.status ? res.data.message.val?.status : null)
+          localStorage.setItem("valInfo", JSON.stringify(res.data.message.val))
+        })
+      }
+    } catch (err :any) {
+        Sentry.captureMessage("getValCount", err);
     }
   }
+
+  const web3test = L1Block();
+
+  const getValCount = async () => {
+    try{
+      const id = await ChainId()
+      let instance = new web3test.eth.Contract(stakeManagerProxyABI, dynamicChaining[id]?.STAKE_MANAGER_PROXY);
+        const valCount = await instance.methods.currentValidatorSetSize().call();
+        const validatorThreshold = await  instance.methods.validatorThreshold().call();
+        const valInfo = await  instance.methods.validators(valId).call({from:account});
+        const valStake = await  instance.methods.validatorStake(valId).call({from:account});
+        // console.log(valInfo,valStake,valCount, "val info ===> ")
+        setValCount(valCount)
+        setValMaxCount(validatorThreshold)
+    }
+    catch(err:any){
+      Sentry.captureMessage("getValCount" , err);
+    }
+  }
+
+  useEffect(() => {
+    getValCount()
+    getValInfo()
+  }, [account])
+
+  const renderButtons = () => {
+    if (account) {
+      if (userType === "Validator") {
+        if (nodeSetup) {
+          return null
+        } else {
+          return (
+            <div className="btns-sec btn-width">
+            <div className="btns-wrap ">
+               <button disabled={+valCount <= +valMaxCount ?  false : true} onClick={()=>{
+                router.push('/become-validator')
+               }} className="btn primary-btn">Become a Validator</button>
+            </div>
+            <div className="btns-wrap">
+              <button onClick={()=>{
+                router.push('/all-validator')
+               }} className="btn  white-btn">Become a Delegator</button>
+            </div>
+            <div className="btns-wrap">
+              <button onClick={()=>
+                router.push('/choose-your-path')
+               } className="btn grey-btn">Choose Your Path</button>
+            </div>
+          </div>
+          );
+        }
+      } else if (userType === "Delegator") {
+        return null
+      } else {
+        return (
+        <div className="btns-sec btn-width">
+                    <div className="btns-wrap ">
+                       <button disabled={+valCount <= +valMaxCount ?  false : true} onClick={()=>{
+                        router.push('/become-validator')
+                       }} className="btn primary-btn">Become a Validator</button>
+                    </div>
+                    <div className="btns-wrap">
+                      <button onClick={()=>
+                        router.push('/all-validator')
+                       } className="btn  white-btn">Become a Delegator</button>
+                    </div>
+                    <div className="btns-wrap">
+                      <button onClick={()=>
+                        router.push('/choose-your-path')
+                       } className="btn grey-btn">Choose Your Path</button>
+                    </div>
+              </div>
+        )
+      }
+    } else {
+      return null;
+    }
+  };
+
   return (
     <>
       <div className="main-content dark-bg-800 full-vh font-up ffms-inherit staking-main">

@@ -26,6 +26,7 @@ import { addTransaction, finalizeTransaction } from 'app/state/transactions/acti
 import { useAppDispatch } from "../../state/hooks"
 import { currentGasPrice, tokenDecimal } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
+import { dynamicChaining } from "web3/DynamicChaining";
 export default function Unbond() {
 
     const [list, setList] = useState([]);
@@ -46,7 +47,7 @@ export default function Unbond() {
         try{
           let user = account;
         if(account){
-          const instance = new web3.eth.Contract(stakeManagerProxyABI, STAKE_MANAGER_PROXY);
+          const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
           const ID = await instance.methods.getValidatorContract(validatorID).call({ from: account });
           // console.log(ID)
           return ID
@@ -55,7 +56,7 @@ export default function Unbond() {
         }
       }
       catch(err:any){
-        Sentry.captureException("New Error " , err);
+        Sentry.captureException("getValidatorContractAddress ", err);
       }
       }
 
@@ -75,13 +76,10 @@ export default function Unbond() {
                 setList(decOrder)
                 setListLoader(false)
             }
-        }).catch(err => {
-            // console.log(err);
-            setListLoader(false)
         })
       }
       catch(err:any){
-        Sentry.captureException("New Error " , err);
+        Sentry.captureException("getUnboundHistory ", err);
       }
     }
     // console.log(claimNowModals)
@@ -92,8 +90,9 @@ export default function Unbond() {
             validatorId: claimNowModals?.data?.validatorId,
             unbondNonce: claimNowModals?.data?.nonce
         }
-        // console.log(data)
-        let validatorContract = await getValidatorContractAddress(data.validatorId)
+        
+        let validatorContract = await getValidatorContractAddress((parseInt(data.validatorId)))
+        console.log(data, validatorContract)
         if(account){
             let walletAddress = account
             let instance = new web3.eth.Contract(ValidatorShareABI, validatorContract);
@@ -157,7 +156,7 @@ export default function Unbond() {
           }
         }
         catch(err:any){
-          Sentry.captureException("New Error " , err);
+          Sentry.captureException("unboundClaimAPI ", err);
         }
         // console.log(validatorContract)
     }
@@ -187,10 +186,10 @@ export default function Unbond() {
     const router = useRouter();
 
     useEffect(() => {
-      if (userType !== "Delegator" && account) {
-        router.back();
+      if (account) {
+        getUnboundHistory(account)
       } else {
-        router.push('/')
+        router.back();        
       }
     }, [userType, account]);
 
@@ -212,7 +211,7 @@ export default function Unbond() {
       }
     }
     catch(err:any){
-      Sentry.captureException("New Error " , err);
+      Sentry.captureException("fixedDecimals ", err);
     } 
     };
 

@@ -1,5 +1,7 @@
 import Web3 from "web3";
 import ERC20abi from "../ABI/ERC20Abi.json";
+import { ChainId } from "shibarium-chains";
+import * as Sentry from "@sentry/nextjs";
 
 export const getAllowanceAmount = async (library, token, account, contract) => {
   if (account) {
@@ -21,17 +23,17 @@ export const currentGasPrice = async (web3) => {
       value = parseInt(res * 2.1);
     })
     .catch((err) => {
-      console.log(err);
+      Sentry.captureException("currentGasPrice ", err);
     });
   return value;
 };
 
 export const getNetworkName = (ID) => {
-  if (ID == 1) {
+  if (ID == ChainId.ETHEREUM) {
     return "Ethereum Mainnet";
-  } else if (ID == 5) {
+  } else if (ID == ChainId.GÖRLI) {
     return "Goerli Testnet";
-  } else if (ID == 417) {
+  } else if (ID == ChainId.PUPPY_NET) {
     return "Puppy Net";
   } else {
     return "Shibarium Mainnet";
@@ -61,10 +63,13 @@ export const inActiveCount = 10;
 export const mobileWalletEndpoint = "devui.hailshiba.com";
 
 export const imagUrlChecking = (imgURL) => {
-  // console.log("hii this iss calinng");
-  if (imgURL && imgURL.split("/")[0] === "http || https") {
+  if (imgURL && imgURL.split("/")[0]=== "http" || "https") {
     return imgURL;
   } else {
     return "../../assets/images/shiba-round-icon.png";
   }
 };
+
+export const checkpointVal = 0;
+export const comissionVal = 0;
+

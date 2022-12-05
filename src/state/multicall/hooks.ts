@@ -5,7 +5,7 @@ import { useActiveWeb3React } from '../../services/web3'
 import { useBlockNumber } from '../../state/application/hooks'
 import { useAppDispatch, useAppSelector } from '../../state/hooks'
 import { useEffect, useMemo } from 'react'
-
+import * as Sentry from "@sentry/nextjs";
 import { addMulticallListeners, ListenerOptions, removeMulticallListeners } from './actions'
 import { Call, parseCallKey, toCallKey } from './utils'
 
@@ -135,8 +135,9 @@ function toCallState(
   if (success && data) {
     try {
       result = contractInterface.decodeFunctionResult(fragment, data)
-    } catch (error) {
+    } catch (error:any) {
       console.debug('Result data parsing failed', fragment, data)
+       Sentry.captureException("toCallState ", error);
       return {
         valid: true,
         loading: false,

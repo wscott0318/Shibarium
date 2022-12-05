@@ -116,7 +116,7 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
       return newData;
     }
     catch(error){
-      Sentry.captureMessage("New error " , err);
+      Sentry.captureMessage("activateBtn ", err);
     }
   };
 

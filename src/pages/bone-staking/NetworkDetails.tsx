@@ -58,7 +58,7 @@ function NetworkDetails({valCount} : any) {
     const getTotalStakes = async () => {
       try{
         let Chain_ID = await ChainId()
-          const instance = new web3test.eth.Contract(stakeManagerProxyABI, dynamicChaining[5]?.STAKE_MANAGER_PROXY);
+          const instance = new web3test.eth.Contract(stakeManagerProxyABI, dynamicChaining[Chain_ID]?.STAKE_MANAGER_PROXY);
           const ID = await instance.methods.validatorState().call();
           let stake = +ID.amount / Math.pow(10, web3Decimals)
           setTotalStake(stake)
@@ -66,7 +66,7 @@ function NetworkDetails({valCount} : any) {
           return ID
       }
       catch(err:any){
-        Sentry.captureMessage("New Error " , err);
+        Sentry.captureMessage("getTotalStakes ", err);
       }
     }
 

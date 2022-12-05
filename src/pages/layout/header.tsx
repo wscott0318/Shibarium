@@ -9,7 +9,7 @@ import { useWeb3React } from "@web3-react/core";
 import ProjectContext from "../../context/ProjectContext";
 import Web3Status from "app/components/Web3Status";
 import { getUserType } from "app/services/apis/user/userApi";
-import { useUserType, useValId } from "app/state/user/hooks";
+import { useUserType, useValInfoContract, useValId } from "app/state/user/hooks";
 import AppHeader from "../inner-header/AppHeader";
 import { useNetworkModalToggle } from "../../state/application/hooks";
 import { useActiveWeb3React } from "../../services/web3";
@@ -20,13 +20,20 @@ import * as Sentry from "@sentry/nextjs";
 
 export default function Header() {
   
-  const {account, deactivate } = useWeb3React();
+  const {account, deactivate, active } = useWeb3React();
   const { chainId } = useActiveWeb3React();
   const router = useRouter();
-  const [userType, setUserType] = useUserType();
-  const [userQrCode, setUserQrCode] = useState(false);
 
+  const [userType, setUserType] = useUserType();
+
+  const [valInfoContract, setValInfoContract] = useValInfoContract()
+
+  const [userQrCode, setUserQrCode] = useState(false);
   const [valId, setValId] = useValId();
+
+
+  console.log("valInfoContract data=======>",userType,valInfoContract)
+  // const [valId, setValId] = useValId();
 
   // console.log("valid redux ===> ",userType, valId);
 
@@ -37,9 +44,9 @@ export default function Header() {
   }, [account])
 
 
-  const logoutHandler = async () => {
+  const logoutHandler = () => {
     deactivate();
-    await router.push("/home");
+    router.push("/home");
   };
 
   const getUsertypeAPI = (accountAddress :any) => {
@@ -70,7 +77,20 @@ const [scroll, setScroll] = useState(false);
     window.addEventListener("scroll", () => {
       setScroll(window.scrollY > 5);
     });
-  },[])
+
+    const { ethereum } = window as any
+    const handleAccountsChanged = (accounts: string[]) => {
+      console.log("Handling 'accountsChanged' event with payload", accounts)
+      localStorage.clear()
+    }
+
+    // ethereum.on('accountsChanged', handleAccountsChanged)
+    account? ethereum.on('accountsChanged', handleAccountsChanged):console.log("account not connected please connect")
+   
+
+  },[active, account])
+
+
 
   return (
     <>
@@ -124,6 +144,7 @@ const [scroll, setScroll] = useState(false);
                     Separated link
                   </NavDropdown.Item>
                 </NavDropdown>
+                {/* @ts-ignore */}
                 <AppHeader />
                 {!account ? (
                   <Nav.Item className="button-wrap cus_dropdown">
@@ -136,25 +157,24 @@ const [scroll, setScroll] = useState(false);
                           width={30}
                         />
                       </a>
-                    </Link> 
+                    </Link>
                     <Link href={account ? "/wallet" : "/login"} passHref>
-                      <a className="btn primary-btn ff-mos">
-                        Launch App
-                      </a>
+                      <a className="btn primary-btn ff-mos">Launch App</a>
                     </Link>
                   </Nav.Item>
                 ) : (
                   <Nav.Item className="button-wrap cus_dropdown">
                     {/* <Link href={"/"}> */}
-                    <button onClick={toggleNetworkModal} className="d-md-none launch-btn">
-                      
-                        <img
-                          className="img-fluid"
-                          src="../../assets/images/switch-icon.png"
-                          alt=""
-                          width={30}
-                        />
-                      
+                    <button
+                      onClick={toggleNetworkModal}
+                      className="d-md-none launch-btn"
+                    >
+                      <img
+                        className="img-fluid"
+                        src="../../assets/images/switch-icon.png"
+                        alt=""
+                        width={30}
+                      />
                     </button>
                     {/* </Link> */}
                     <NavDropdown
@@ -206,26 +226,31 @@ const [scroll, setScroll] = useState(false);
                               </div>
                             </div>
                           </div>
-                         {userType === 'Validator' && <NavDropdown.Item>
-                            <div className="custum-row">
-                              <div className="lft-img prof-icon">
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/file-icon.png"
-                                  alt="profile"
-                                  width={24}
-                                />
+                          {userType === "Validator" && (
+                            <NavDropdown.Item>
+                              <div className="custum-row">
+                                <div className="lft-img prof-icon">
+                                  <img
+                                    className="img-fluid"
+                                    src="../../assets/images/file-icon.png"
+                                    alt="profile"
+                                    width={24}
+                                  />
+                                </div>
+                                <Link href="/profile-update" passHref>
+                                  <span className="center-txt">Profile</span>
+                                </Link>
+                                <div className="rt-image">
+                                  <img
+                                    src="../../assets/images/rt-arow.png"
+                                    alt=""
+                                  />
+                                </div>
                               </div>
-                              <Link href="/profile-update" passHref>
-                                <span className="center-txt">Profile</span>
-                              </Link>
-                              <div className="rt-image">
-                                <img src="../../assets/images/rt-arow.png" alt="" />
-                              </div>
-                            </div>
-                          </NavDropdown.Item>}
+                            </NavDropdown.Item>
+                          )}
                           <NavDropdown.Item
-                            href="/"
+                            href="javascript:void(0)"
                             onClick={() => setUserQrCode(true)}
                           >
                             <div className="custum-row">
@@ -239,7 +264,10 @@ const [scroll, setScroll] = useState(false);
                                 <span>Receive Funds</span>
                               </div>
                               <div className="rt-image">
-                                <img src="../../assets/images/rt-arow.png" alt="" />
+                                <img
+                                  src="../../assets/images/rt-arow.png"
+                                  alt=""
+                                />
                               </div>
                             </div>
                           </NavDropdown.Item>
@@ -249,30 +277,42 @@ const [scroll, setScroll] = useState(false);
                           >
                             <div className="custum-row">
                               <div className="lft-img">
-                                <img src="../../assets/images/graph.png" alt="" />
+                                <img
+                                  src="../../assets/images/graph.png"
+                                  alt=""
+                                />
                               </div>
                               <div className="center-txt">
                                 <span>View on Etherscan</span>
                               </div>
                               <div className="rt-image">
-                                <img src="../../assets/images/rt-arow.png" alt="" />
+                                <img
+                                  src="../../assets/images/rt-arow.png"
+                                  alt=""
+                                />
                               </div>
                             </div>
                           </NavDropdown.Item>
                           <NavDropdown.Item href="#action/3.3">
                             <div className="custum-row">
                               <div className="lft-img">
-                                <img src="../../assets/images/graph.png" alt="" />
+                                <img
+                                  src="../../assets/images/graph.png"
+                                  alt=""
+                                />
                               </div>
                               <div className="center-txt">
                                 <span>View on Shibariumscan</span>
                               </div>
                               <div className="rt-image">
-                                <img src="../../assets/images/rt-arow.png" alt="" />
+                                <img
+                                  src="../../assets/images/rt-arow.png"
+                                  alt=""
+                                />
                               </div>
                             </div>
                           </NavDropdown.Item>
-                          <NavDropdown.Item href="/">
+                          <NavDropdown.Item href="javascript:void(0)">
                             <div className="custum-row mb-0">
                               <div className="lft-img ps-2">
                                 <img
@@ -288,7 +328,10 @@ const [scroll, setScroll] = useState(false);
                                 <span>Logout</span>
                               </div>
                               <div className="rt-image" onClick={logoutHandler}>
-                                <img src="../../assets/images/rt-arow.png" alt="" />
+                                <img
+                                  src="../../assets/images/rt-arow.png"
+                                  alt=""
+                                />
                               </div>
                             </div>
                           </NavDropdown.Item>
@@ -310,7 +353,9 @@ const [scroll, setScroll] = useState(false);
             address={account}
           />
         )}
-        { (router.asPath !== '/home' && router.asPath !== '/faq') && <StakingHeader />}
+        {router.asPath !== "/home" && router.asPath !== "/faq" && (
+          <StakingHeader />
+        )}
       </header>
     </>
   );

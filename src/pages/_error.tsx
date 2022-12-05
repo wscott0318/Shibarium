@@ -9,7 +9,7 @@ const MyError = ({ statusCode, hasGetInitialPropsRun, err }) => {
     // https://github.com/vercel/next.js/issues/8592. As a workaround, we pass
     // err via _app.js so it can be captured
     // Sentry.captureException(err)
-    Sentry.captureException(err);
+    Sentry.captureException("MyError",err);
     // Flushing is not required in this case as it only happens on the client
   }
 
@@ -48,7 +48,7 @@ MyError.getInitialProps = async ({ res, err, asPath }) => {
   //    Boundaries: https://reactjs.org/docs/error-boundaries.html
 
   if (err) {
-    Sentry.captureException(err)
+    Sentry.captureException("MyError.getInitialProps", err);
     // Flushing before returning is necessary if deploying to Vercel, see
     // https://vercel.com/docs/platform/limits#streaming-responses
     await Sentry.flush(2000)

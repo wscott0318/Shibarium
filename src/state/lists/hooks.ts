@@ -6,7 +6,7 @@ import { sortByListPriority } from '../../functions/list'
 import { AppState } from '../../state'
 import { useAppSelector } from '../../state/hooks'
 import { useMemo } from 'react'
-
+import * as Sentry from "@sentry/nextjs"
 import { WrappedTokenInfo } from './wrappedTokenInfo'
 
 export type TokenAddressMap = Readonly<{
@@ -98,8 +98,9 @@ function useCombinedTokenMapFromUrls(urls: string[] | undefined): TokenAddressMa
           if (!current) return allTokens
           try {
             return combineMaps(allTokens, listToTokenMap(current))
-          } catch (error) {
+          } catch (error:any) {
             console.error('Could not show token list due to error', error)
+             Sentry.captureException("useCombinedTokenMapFromUrls ", error);
             return allTokens
           }
         }, {})

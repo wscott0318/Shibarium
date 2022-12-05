@@ -45,13 +45,11 @@ export default function Unbond() {
           setList(decOrder);
           setListLoader(false)
         }
-      }).catch((err: any) => {
-        console.log(err);
-        setListLoader(false)
       })
     }
     catch (err: any) {
-      Sentry.captureException("New Error ", err);
+      setListLoader(false);
+      Sentry.captureException("getRewardsList ", err);
     }
   }
 
@@ -68,7 +66,7 @@ export default function Unbond() {
       }
     }
     catch (err: any) {
-      Sentry.captureException("New Error ", err);
+      Sentry.captureException("getValidatorId ", err);
     }
   }
 
@@ -86,7 +84,7 @@ export default function Unbond() {
       setListLoader(false)
     }
     catch (err: any) {
-      Sentry.captureException("New Error ", err);
+      Sentry.captureException("validatorReward ", err);
     }
   }
 
@@ -100,7 +98,7 @@ export default function Unbond() {
       setCurrentPage(index);
     }
     catch (err: any) {
-      Sentry.captureException("New Error ", err);
+      Sentry.captureException("pageChangeHandler ", err);
     }
   };
   useEffect(() => {

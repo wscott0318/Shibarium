@@ -106,7 +106,7 @@ export default function Withdraw() {
       });
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("getTokensList", err);
     }
   };
 
@@ -127,7 +127,7 @@ export default function Withdraw() {
       }
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("handleSearchList", err);
     }
   }
 
@@ -143,7 +143,7 @@ export default function Withdraw() {
   }
 
   const depositValidations: any = Yup.object({
-    amount: Yup.number().typeError("only digits are allowed").min(0).max(selectedToken.balance).typeError("amount must be less or equal to you current balance").required("amount is required"),
+    amount: Yup.number().typeError("Only digits are allowed.").min(0).max(selectedToken.balance).typeError("Amount must be less or equal to you current balance.").required("Amount is required."),
   })
 
 
@@ -252,7 +252,7 @@ export default function Withdraw() {
         })
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("approvalForDeposit", err);
     }
   }
 
@@ -270,7 +270,7 @@ export default function Withdraw() {
       }
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("callDepositModal", err);
     }
   }
 
@@ -351,7 +351,7 @@ export default function Withdraw() {
       }
     }
     catch (err: any) {
-      Sentry.captureMessage("New Error ", err);
+      Sentry.captureMessage("callDepositContract", err);
     }
   }
 

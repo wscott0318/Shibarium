@@ -26,7 +26,7 @@ const GlobleHeader = ({tab}) => {
         }
       }
       catch(err){
-        Sentry.captureMessage("New Error " , err);
+        Sentry.captureMessage("handleActiveTab ", err);
       }
       };
 

@@ -45,13 +45,11 @@ export default function ProfileUpdate() {
 
                 })
                 setLoader(false)
-            }).catch((err: any) => {
-                console.log(err)
-                setLoader(false)
             })
         }
         catch (err: any) {
-            Sentry.captureException("New Error ", err);
+            setLoader(false);
+            Sentry.captureException("callValidatorInfo ", err);
         }
     }
     useEffect(() => {
@@ -118,26 +116,26 @@ export default function ProfileUpdate() {
             }
         }
         catch (err: any) {
-            Sentry.captureException("New Error ", err);
+            Sentry.captureException("callAPI ", err);
         }
 
     };
 
     let schema = yup.object().shape({
-        validatorname: yup.string().typeError("name is required").max(14).typeError("name must be less than 15 characters").required("validator name is required").matches(/^[A-Za-z][A-Za-z0-9 ]+$/, "Entered wrong charactor"),
-        address: yup.string().required("address is required"),
+        validatorname: yup.string().typeError("Name is required.").max(14,"Name must be less than 15 characters.").typeError("Name must be less than 15 characters.").required("Validator name is required.").matches(/^[A-Za-z][A-Za-z0-9 ]+$/, "Entered wrong charactor."),
+        address: yup.string().required("Address is required."),
         website: yup
             .string()
-            .typeError("website is required")
-            .url("enter a vaild url")
-            .required("website is required")
+            .typeError("Website is required.")
+            .url("Enter a vaild url.")
+            .required("Website is required.")
             .matches(
                 /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/,
-                "enter a vaild url"
+                "Enter a vaild url."
             ),
     });
 
-    const { values, errors, handleBlur, handleChange, handleSubmit, touched, setValues } =
+    const { values, errors, setFieldValue, handleBlur, handleChange, handleSubmit, touched, setValues } =
         useFormik({
             initialValues: initialValues,
             validationSchema: schema,
@@ -160,14 +158,23 @@ export default function ProfileUpdate() {
             if (e.target.files[0]?.size <= 204800) {
                 setImageData({ image: e.target.files[0] });
                 setImgsize(false)
-            } else {
+            } else if(e.target.files[0]?.size > 204800){
                 setImgsize(true)
             }
         }
         catch (err: any) {
-            Sentry.captureException("New Error ", err);
+            Sentry.captureException("imgSizeCheck ", err);
         }
     }
+
+    const trimSpace = (e: any) => {
+        try {
+          setFieldValue(e.target.name, e.target.value.trim());
+        } catch (err: any) {
+          Sentry.captureMessage("trimSpace", err);
+        }
+      };
+    
 
     return (
         <>
@@ -247,7 +254,7 @@ export default function ProfileUpdate() {
                                                         name="validatorname"
                                                         value={values.validatorname}
                                                         onChange={handleChange}
-                                                        onBlur={handleBlur}
+                                                        onBlur={trimSpace}
                                                     />
                                                     {touched.validatorname && errors.validatorname ? (
                                                         <p className="primary-text error ff-mos">
@@ -268,7 +275,7 @@ export default function ProfileUpdate() {
                                                         name="website"
                                                         value={values.website}
                                                         onChange={handleChange}
-                                                        onBlur={handleBlur}
+                                                        onBlur={trimSpace}
                                                     />
                                                     {touched.website && errors.website ? (
                                                         <p className="primary-text error ff-mos">

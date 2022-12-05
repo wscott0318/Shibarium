@@ -8,7 +8,7 @@ import useIsWindowVisible from '../../hooks/useIsWindowVisible'
 import { useActiveWeb3React } from '../../services/web3'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-
+import * as Sentry from "@sentry/nextjs";
 import { updateBlockNumber, updateBlockTimestamp, updateChainId } from './actions'
 
 export default function Updater(): null {
@@ -96,7 +96,10 @@ export default function Updater(): null {
     library
       .getBlock('latest')
       .then(blockCallback)
-      .catch((error) => console.error(`Failed to get block for chainId: ${chainId}`, error))
+      .catch((error:any) => {
+        console.error(`Failed to get block for chainId: ${chainId}`, error);
+        Sentry.captureException("UseEffect in application/updater ", error);
+      })
 
     library.on('block', onBlock)
     return () => {

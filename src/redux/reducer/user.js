@@ -1,10 +1,11 @@
 import * as type from '../types'
 const initialState = {
-    users: [],
-    loading: false,
-    error: null,
-    valid:''
-  }
+  users: [],
+  loading: false,
+  error: null,
+  valid: "",
+  epochDyna: {epoch:"",dynasty:""},
+};
   
   export default function users(state = initialState, action) {
     switch (action.type) {
@@ -14,6 +15,11 @@ const initialState = {
           loading: true,
         };
       case type.GET_USERS_VALID:
+        return {
+          ...state,
+          loading: true,
+        };
+      case type.GET_EPOCH_DYNASTY:
         return {
           ...state,
           loading: true,
