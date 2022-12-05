@@ -3023,9 +3023,25 @@ input:-internal-autofill-selected {
   //     width: calc(100% - 20px);
   // }
   .dd-style {
+    .dropdown-item{
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
     .dropdown-menu {
       padding-top: 0;
       padding-bottom: 0;
+    }
+  }
+  .btn-fonts{
+    white-space: nowrap; 
+    width: 125px; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    @media #{$max-xxl} {
+      width: 110px; 
+    }
+    @media #{$max-xxl} {
+      width: 95px; 
     }
   }
 }
