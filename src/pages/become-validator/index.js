@@ -16,6 +16,9 @@ import { useActiveWeb3React } from "../../services/web3";
 const Rewards = () => {
   const [editNsave, setEditNsave] = useState(false);
   const [userStatus, setUserStatus] = useState(null);
+
+  const [userType, setUserType] = useUserType();
+
   const router = useRouter();
   const { account } = useActiveWeb3React();
 
@@ -39,7 +42,7 @@ const Rewards = () => {
   });
 
   useEffect(() => {
-    if(userStatus) {
+    if(userStatus || userType === 'Delegator') {
       router.back();
     }
     if(account) {
@@ -47,6 +50,9 @@ const Rewards = () => {
     }
   },[account, userStatus])
 
+
+  console.log(userType)
+  
   const getValInfo = () => {
     let id = account
     getValidatorInfo(id.toLowerCase()).then((res) => {
