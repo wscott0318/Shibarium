@@ -9,7 +9,7 @@ import { addTransaction, finalizeTransaction } from 'app/state/transactions/acti
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { useAppDispatch } from "../../state/hooks";
 import fromExponential from 'from-exponential';
-import { addDecimalValue, currentGasPrice, getAllowanceAmount, web3Decimals } from "web3/commonFunctions";
+import { addDecimalValue, checkImageType, currentGasPrice, getAllowanceAmount, web3Decimals } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { MAXAMOUNT } from "../../web3/commonFunctions";
 import { useEthBalance } from '../../hooks/useEthBalance';
@@ -54,12 +54,13 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     four: false
   })
 
+
+
   useEffect(() => {
     if (account) {
       getMinimunFee()
-    }
-    completeSteps();
-  }, [account, loader]);
+    } 
+  }, [account]);
 
 
   const getMinimunFee = async () => {
@@ -84,67 +85,71 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
 
   const approveAmount = async (val: any) => {
-    if (account) {
-      console.log("called approval ")
-      let user = account;
-      let amount = web3.utils.toBN(fromExponential(MAXAMOUNT * Math.pow(10, 18)));
-      let instance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
-      let gasFee = await instance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, amount).estimateGas({ from: user })
-      let encodedAbi = await instance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, amount).encodeABI()
-      let CurrentgasPrice: any = await currentGasPrice(web3)
-      console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
-      await web3.eth.sendTransaction({
-        from: user,
-        to: dynamicChaining[chainId].BONE,
-        gas: (parseInt(gasFee) + 30000).toString(),
-        gasPrice: CurrentgasPrice,
-        // value : web3.utils.toHex(combinedFees),
-        data: encodedAbi
-      })
-        .on('transactionHash', (res: any) => {
-          console.log(res, "hash")
-          dispatch(
-            addTransaction({
-              hash: res,
-              from: user,
-              chainId,
-              summary: `${res}`,
-            })
-          )
-          let link = getExplorerLink(chainId, res, 'transaction')
-          setHashLink(link)
-        }).on('receipt', async (res: any) => {
-          console.log(res, "receipt")
-          dispatch(
-            finalizeTransaction({
-              hash: res.transactionHash,
-              chainId,
-              receipt: {
-                to: res.to,
-                from: res.from,
-                contractAddress: res.contractAddress,
-                transactionIndex: res.transactionIndex,
-                blockHash: res.blockHash,
-                transactionHash: res.transactionHash,
-                blockNumber: res.blockNumber,
-                status: 1
-              }
-            })
-          )
-          setLoader("step2");
-          setStepComplete((preState: any) => ({ ...preState, one: true }))
-          submitTransaction(val)
-          
-        }).on('error', (res: any) => {
-          console.log(res, "error")
-          if (res.code === 4001) {
-
-          }
+    try {
+      if (account) {
+        console.log("called approval ")
+        let user = account;
+        let amount = web3.utils.toBN(fromExponential(MAXAMOUNT * Math.pow(10, 18)));
+        let instance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
+        let gasFee = await instance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, amount).estimateGas({ from: user })
+        let encodedAbi = await instance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, amount).encodeABI()
+        let CurrentgasPrice: any = await currentGasPrice(web3)
+        console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+        await web3.eth.sendTransaction({
+          from: user,
+          to: dynamicChaining[chainId].BONE,
+          gas: (parseInt(gasFee) + 30000).toString(),
+          gasPrice: CurrentgasPrice,
+          // value : web3.utils.toHex(combinedFees),
+          data: encodedAbi
         })
+          .on('transactionHash', (res: any) => {
+            console.log(res, "hash")
+            dispatch(
+              addTransaction({
+                hash: res,
+                from: user,
+                chainId,
+                summary: `${res}`,
+              })
+            )
+            let link = getExplorerLink(chainId, res, 'transaction')
+            setHashLink(link)
+          }).on('receipt', async (res: any) => {
+            console.log(res, "receipt")
+            dispatch(
+              finalizeTransaction({
+                hash: res.transactionHash,
+                chainId,
+                receipt: {
+                  to: res.to,
+                  from: res.from,
+                  contractAddress: res.contractAddress,
+                  transactionIndex: res.transactionIndex,
+                  blockHash: res.blockHash,
+                  transactionHash: res.transactionHash,
+                  blockNumber: res.blockNumber,
+                  status: 1
+                }
+              })
+            )
+            setLoader("step3");
+            setStepComplete((preState: any) => ({ ...preState, two: true }))
+            submitTransaction(val)
+          }).on('error', (res: any) => {
+            console.log(res, "error")
+            if (res.code === 4001) {
+              setTransactionState({ state: false, title: '' })
+            }
+          })
+        // setTransactionState({ state: false, title: '' })
+      } else {
+        console.log("account not connected ====> ")
+      }
+    } catch (err :any) {
       setTransactionState({ state: false, title: '' })
-    } else {
-      console.log("account not connected ====> ")
     }
+    
   }
 
   const submitTransaction = async (values: any) => {
@@ -197,7 +202,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               }
             })
           )
-          setLoader("step3");
+          setLoader("step4");
           setStepComplete((preState: any) => ({ ...preState, three: true }))
           changeStatus()
           localStorage.clear()
@@ -220,12 +225,18 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               }
             })
           )
-          if (res.code === 4001) {
 
+          console.log(res)
+          if (res.code === 4001) {
+            setTransactionState({ state: false, title: '' })
+          }
+          if(res.code === -32603) {
+            console.log("wrong public key ===> ")
           }
         })
 
     } catch (err: any) {
+      console.log(err)
       Sentry.captureMessage("submitTransaction", err);
       setTransactionState({ state: false, title: '' })
     }
@@ -256,33 +267,6 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     });
   }
 
-  function completeSteps() {
-    if (loader == "step1") {
-      setTimeout(() => {
-        setLoader("step2");
-        setStepComplete((preState: any) => ({ ...preState, one: true }))
-      }, 3000)
-    }
-    else if (loader == "step2") {
-      setTimeout(() => {
-        setLoader("step3");
-        setStepComplete((preState: any) => ({ ...preState, two: true }))
-      }, 3000)
-    }
-    else if (loader == "step3") {
-      setTimeout(() => {
-        setLoader("step4");
-        setStepComplete((preState: any) => ({ ...preState, three: true }))
-      }, 3000)
-    }
-    else {
-      setTimeout(() => {
-        setLoader("");
-        setStepComplete((preState: any) => ({ ...preState, four: true }))
-      }, 3000)
-    }
-  }
-
   const handleTransaction = async (val: any) => {
     try {
       let user: any = account
@@ -291,7 +275,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         console.log("need approval ")
         approveAmount(val) // gas fee
       } else {
-        setLoader("step2");
+        setLoader("step3")
         setStepComplete((preState: any) => ({ ...preState, two: true }))
         console.log("no approval needed")
         submitTransaction(val)
@@ -313,6 +297,9 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
     await registerValidator(data).then((res: any) => {
       console.log("this is eresss", res)
+      // step one 
+      setLoader("step2");
+      setStepComplete((preState: any) => ({ ...preState, one: true }))
       handleTransaction(val)
     }).catch((err: any) => {
       console.log(err)
@@ -335,9 +322,9 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     await registerValidator(data).then((res: any) => {
       console.log("this is eresss", res)
       // setApiLoading(false)
+      setLoader("");
+      setStepComplete((preState: any) => ({ ...preState, four: true }))
       notifySuccess()
-      setLoader("step4");
-        setStepComplete((preState: any) => ({ ...preState, four: true }))
       stepHandler("next");
     }).catch((err: any) => {
       console.log(err)
