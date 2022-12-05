@@ -121,15 +121,15 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                               }
                               type="button"
                               onClick={() => {
-                                 if (
-                                   router.asPath.split("/")[1] ===
-                                   "migrate-stake"
-                                 ) {
-                                   setmigratepop(true);
-                                 } else {
-                                   setdelegatepop(true);
-                                   setSelectedRow(validator);
-                                 }  
+                                setSelectedRow(validator);
+                                if (
+                                  router.asPath.split("/")[1] ===
+                                  "migrate-stake"
+                                ) {
+                                  setmigratepop(true);
+                                } else {
+                                  setdelegatepop(true);
+                                }
                               }}
                               className="btn primary-btn  light-text w-100"
                             >
