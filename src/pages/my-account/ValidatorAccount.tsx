@@ -2073,7 +2073,7 @@ const validatorAccount = ({
                               </div>
                             </li>
 
-                            {/* <li className="btn-grp-lst">
+                            <li className="btn-grp-lst">
                               <div className="cus-tooltip d-inline-block">
                                 <button
                                   onClick={() =>
@@ -2091,7 +2091,7 @@ const validatorAccount = ({
                                   migrate your stake
                                 </div>
                               </div>
-                            </li> */}
+                            </li>
 
                             <li className="btn-grp-lst">
                               <div className="cus-tooltip d-inline-block">
