@@ -2013,7 +2013,7 @@ const validatorAccount = ({
                             </div>
                           </div>
 
-                          <ul className="btn-grp">
+                          <ul className="btn-grp mg-grid">
                             <li className="btn-grp-lst">
                               <div className="cus-tooltip d-inline-block">
                                 <button

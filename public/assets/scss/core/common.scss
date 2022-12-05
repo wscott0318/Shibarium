@@ -3085,66 +3085,6 @@ input:-internal-autofill-selected {
     h6 {
       font-size: 17px;
     }
-    // .staking-header{
-    //     width: calc(100% - 20px);
-    // }
-    .dd-style{
-        .dropdown-menu{
-            padding-top: 0;
-            padding-bottom: 0;
-            .dropdown-item{
-                padding-top: 8px;
-                padding-bottom: 10px;
-                background: $black;
-            }
-        }
-    }
-    .btn-status{
-        .btn-fonts{
-            white-space: nowrap;
-            width: 120px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            @media #{$max-xxl}{
-                width: 110px;
-            }
-            @media #{$max-md}{
-                width: 95px;
-            }
-        }
-    } 
-}
-.inner-header{
-    .hd-sel-over{
-        .nav-link{
-            white-space: nowrap; 
-            width: 190px; 
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-    } 
-    .btn-status{
-        .btn-fonts{
-            white-space: nowrap;
-            width: 120px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            @media #{$max-xxl}{
-                width: 110px;
-            }
-            @media #{$max-lg}{
-                width: 80px;
-            }
-            
-        }
-    } 
-}
-.main-header.header-overide{
-    .navbar-brand{
-        @media #{$max-lg}{
-            max-width: 170px;
-        }
     span {
       font-size: 13px;
     }
@@ -4204,4 +4144,11 @@ input:-internal-autofill-selected {
   font-size: 25px;
   margin-top: 50px;
 }
+.btn-grp.mg-grid{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  .btn{
+    font-size: 16px;
+  }
 }
