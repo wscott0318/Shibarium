@@ -9,7 +9,7 @@ import { addTransaction, finalizeTransaction } from 'app/state/transactions/acti
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { useAppDispatch } from "../../state/hooks";
 import fromExponential from 'from-exponential';
-import { addDecimalValue, checkImageType, currentGasPrice, getAllowanceAmount, web3Decimals } from "web3/commonFunctions";
+import { addDecimalValue, currentGasPrice, getAllowanceAmount, web3Decimals } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { MAXAMOUNT } from "../../web3/commonFunctions";
 import { useEthBalance } from '../../hooks/useEthBalance';

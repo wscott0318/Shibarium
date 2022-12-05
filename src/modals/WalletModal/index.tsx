@@ -73,7 +73,7 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
     setWalletView(WALLET_VIEWS.ACCOUNT)
   }, [])
 
-  const handleDeactivate = useCallback(async() => {
+  const handleDeactivate = useCallback(async () => {
     deactivate()
     setWalletView(WALLET_VIEWS.ACCOUNT)
   }, [deactivate])
@@ -104,98 +104,103 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
       }
 
       conn &&
-        activate(conn, undefined, true).catch(async(error) => {
+        activate(conn, undefined, true).catch(async (error) => {
           if (error instanceof UnsupportedChainIdError) {
             // @ts-ignore TYPE NEEDS FIXING
-           await activate(conn)// a little janky...can't use setError because the connector isn't set
+            await activate(conn)// a little janky...can't use setError because the connector isn't set
           } else {
             setPendingError(true)
           }
-        }).then((res :any )=>console.log(res)) 
+        }).then((res: any) => {
+          // console.log(res)
+        }
+        )
     },
     [activate]
   )
 
   // get wallets user can switch too, depending on device/browser
   const options = useMemo(() => {
-    const isMetamask = window.ethereum && window.ethereum.isMetaMask
-    return Object.keys(SUPPORTED_WALLETS).map((key) => {
-      const option = SUPPORTED_WALLETS[key]
+    if (typeof window !== "undefined") {
+      const isMetamask = window.ethereum && window.ethereum.isMetaMask
+      return Object.keys(SUPPORTED_WALLETS).map((key) => {
+        const option = SUPPORTED_WALLETS[key]
 
-      // check for mobile options
-      if (isMobile) {
-        // disable portis on mobile for now
-        if (option.name === 'Portis') {
+        // check for mobile options
+        if (isMobile) {
+          // disable portis on mobile for now
+          if (option.name === 'Portis') {
+            return null
+          }
+
+          if (!window.web3 && !window.ethereum && option.mobile) {
+            return (
+              <Option
+                onClick={() => tryActivation(option.connector, key)}
+                id={`connect-${key}`}
+                key={key}
+                active={option.connector && option.connector === connector}
+                link={option.href}
+                header={option.name}
+                subheader={null}
+                icon={'https://app.sushi.com' + '/images/wallets/' + option.iconName}
+              />
+            )
+          }
           return null
         }
 
-        if (!window.web3 && !window.ethereum && option.mobile) {
-          return (
+        // overwrite injected when needed
+        if (option.connector === injected) {
+          // don't show injected if there's no injected provider
+          if (!(window.web3 || window.ethereum)) {
+            if (option.name === 'MetaMask') {
+              return (
+                <Option
+                  id={`connect-${key}`}
+                  key={key}
+                  header={'Install Metamask'}
+                  subheader={null}
+                  link={'https://metamask.io/'}
+                  icon="https://app.sushi.com/images/wallets/metamask.png"
+                />
+              )
+            } else {
+              return null // dont want to return install twice
+            }
+          }
+          // don't return metamask if injected provider isn't metamask
+          else if (option.name === 'MetaMask' && !isMetamask) {
+            return null
+          }
+          // likewise for generic
+          else if (option.name === 'Injected' && isMetamask) {
+            return null
+          }
+        }
+
+        // return rest of options
+        return (
+          !isMobile &&
+          !option.mobileOnly && (
             <Option
-              onClick={() => tryActivation(option.connector, key)}
               id={`connect-${key}`}
+              onClick={() => {
+                option.connector === connector
+                  ? setWalletView(WALLET_VIEWS.ACCOUNT)
+                  : !option.href && tryActivation(option.connector, key)
+              }}
               key={key}
-              active={option.connector && option.connector === connector}
+              active={option.connector === connector}
               link={option.href}
               header={option.name}
-              subheader={null}
+              subheader={null} // use option.descriptio to bring back multi-line
               icon={'https://app.sushi.com' + '/images/wallets/' + option.iconName}
             />
           )
-        }
-        return null
-      }
-
-      // overwrite injected when needed
-      if (option.connector === injected) {
-        // don't show injected if there's no injected provider
-        if (!(window.web3 || window.ethereum)) {
-          if (option.name === 'MetaMask') {
-            return (
-              <Option
-                id={`connect-${key}`}
-                key={key}
-                header={'Install Metamask'}
-                subheader={null}
-                link={'https://metamask.io/'}
-                icon="https://app.sushi.com/images/wallets/metamask.png"
-              />
-            )
-          } else {
-            return null // dont want to return install twice
-          }
-        }
-        // don't return metamask if injected provider isn't metamask
-        else if (option.name === 'MetaMask' && !isMetamask) {
-          return null
-        }
-        // likewise for generic
-        else if (option.name === 'Injected' && isMetamask) {
-          return null
-        }
-      }
-
-      // return rest of options
-      return (
-        !isMobile &&
-        !option.mobileOnly && (
-          <Option
-            id={`connect-${key}`}
-            onClick={() => {
-              option.connector === connector
-                ? setWalletView(WALLET_VIEWS.ACCOUNT)
-                : !option.href && tryActivation(option.connector, key)
-            }}
-            key={key}
-            active={option.connector === connector}
-            link={option.href}
-            header={option.name}
-            subheader={null} // use option.descriptio to bring back multi-line
-            icon={'https://app.sushi.com' + '/images/wallets/' + option.iconName}
-          />
         )
-      )
-    })
+      })
+    }
   }, [connector, tryActivation])
 
   return (
@@ -204,7 +209,7 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
         <div className="flex flex-col gap-4">
           <HeadlessUiModal.Header
             onClose={toggleWalletModal}
-            header={error instanceof UnsupportedChainIdError ? 'Wrong Network' :'Error connecting'}
+            header={error instanceof UnsupportedChainIdError ? 'Wrong Network' : 'Error connecting'}
           />
           <HeadlessUiModal.BorderedContent>
             <p>
@@ -250,9 +255,9 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
               {`New to Ethereum?`}{' '}
             </p>
             <p className="text-blue">
-                <ExternalLink href="https://ethereum.org/wallets/" color="blue">
-                  {`Learn more about wallets`}
-                </ExternalLink>
+              <ExternalLink href="https://ethereum.org/wallets/" color="blue">
+                {`Learn more about wallets`}
+              </ExternalLink>
             </p>
           </div>
         </div>

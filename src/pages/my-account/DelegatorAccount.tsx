@@ -131,7 +131,7 @@ const delegatorAccount = () => {
                         </div>
                       </div>
 
-                      <ul className="btn-grp">
+                      <ul className="btn-grp mg-grid">
                         <li className="btn-grp-lst">
                           <button disabled={parseInt(item.commission) == 0} onClick={() => handleModal('Restake', item.contractAddress)} className="btn grey-btn btn-small">Restake</button>
                         </li>
