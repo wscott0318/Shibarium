@@ -70,6 +70,16 @@ export const imagUrlChecking = (imgURL) => {
   }
 };
 
+export const checkImageType = (image) => {
+  if(image.size) {
+    return URL.createObjectURL(image)
+  } else if (image && image.split("/")[0]=== "http" || "https") {
+    return image
+  } else {
+    return "../../assets/images/file-icon.png"
+  }
+}
+
 export const checkpointVal = 0;
 export const comissionVal = 0;
 
