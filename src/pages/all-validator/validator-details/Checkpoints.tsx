@@ -88,7 +88,7 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue,loading }) 
               <div className="no-found">
                 <div>
                   <div className="text-center">
-                    <img src="../../assets/images/no-record.png" />
+                    <img className="d-inline-block mb-3" src="../../assets/images/no-record.png" />
                   </div>
                 </div>
               </div>
