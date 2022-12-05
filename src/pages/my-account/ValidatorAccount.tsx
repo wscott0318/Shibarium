@@ -121,7 +121,7 @@ const validatorAccount = ({
         dynamicChaining[chainId].STAKE_MANAGER_PROXY
       );
       const valFromContract = await instance.methods
-        .validators(+valId)
+        .validators(16)
         .call({ from: account });
       const valReward = await instance.methods
         .validatorReward(+valId)

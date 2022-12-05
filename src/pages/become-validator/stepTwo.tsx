@@ -9,6 +9,7 @@ import {
 import { useActiveWeb3React } from "../../services/web3";
 import LoadingSpinner from "pages/components/Loading";
 import * as Sentry from "@sentry/nextjs";
+import { checkImageType } from "web3/commonFunctions";
 
 export const validatorSchema = yup.object().shape({
   name: yup
@@ -47,7 +48,7 @@ function StepTwo({
   setBecomeValidateData,
 }: any) {
   const { account } = useActiveWeb3React();
-  const [imageData, setImageData] = useState<any>("");
+  const [imageData, setImageData] = useState<any>(becomeValidateData.image);
   const [validation, setValidation] = useState({
     image: false,
     address: false,
@@ -165,6 +166,8 @@ function StepTwo({
     // console.log(event.target.files[0])
   };
 
+  
+
   return (
     // <>
     <form onSubmit={handleSubmit}>
@@ -185,11 +188,7 @@ function StepTwo({
               <div className="file-wrap">
                 <div className="file-icons">
                   <img
-                    src={
-                      imageData
-                        ? URL.createObjectURL(imageData)
-                        : becomeValidateData.image
-                        ? becomeValidateData.image
+                    src={imageData ? checkImageType(imageData)
                         : "../../assets/images/file-icon.png"
                     }
                     alt=""

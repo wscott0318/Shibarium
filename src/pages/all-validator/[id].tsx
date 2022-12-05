@@ -100,7 +100,7 @@ export default function ValidatorDetails() {
                             <div className="mb-4 col-sm-5 col-lg-5 col-xl-4 mb-sm-0">
                                 <div className="text-center shib-card card h-100 p-3">
                                     <div className='image-wrap'>
-                                        <img className='img-fluid' src={validatorInfo?.logoUrl ? validatorInfo?.logoUrl : "../../assets/images/shiba-round-icon.png"} alt="fundborn-img" width={120} />
+                                        <img className='img-fluid' src={validatorInfo?.logoUrl?.startsWith("http") ? validatorInfo?.logoUrl : "../../assets/images/shiba-round-icon.png"} alt="fundborn-img" width={120} />
                                     </div>
                                     <h4 className='py-2 mt-2'>
                                         <span className='text-white trs-3 ff-mos'>{validatorInfo?.name}</span>
