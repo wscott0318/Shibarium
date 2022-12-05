@@ -34,16 +34,16 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
 
   const topList = [
     {
-      name: "Wallet",
-      route: "/wallet",
-      isSelected: router.asPath == "/wallet" ? true : false,
-      img: "../../assets/images/sidebar/wallet.png",
-    },
-    {
       name: "Staking",
       route: "/bone-staking",
       isSelected: router.asPath == "/transactions" ? true : false,
       img: "../../assets/images/sidebar/transaction.png",
+    },
+    {
+      name: "Wallet",
+      route: "/wallet",
+      isSelected: router.asPath == "/wallet" ? true : false,
+      img: "../../assets/images/sidebar/wallet.png",
     },
     {
       name: "Bridge",

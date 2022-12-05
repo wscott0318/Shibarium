@@ -98,7 +98,7 @@ const BoneStaking = () => {
             </div>
             <div className="btns-wrap">
               <button onClick={()=>{
-                router.push('/all-validator')
+                // router.push('/all-validator')
                }} className="btn  white-btn">Become a Delegator</button>
             </div>
             <div className="btns-wrap">
@@ -121,7 +121,7 @@ const BoneStaking = () => {
                     </div>
                     <div className="btns-wrap">
                       <button onClick={()=>
-                        router.push('/all-validator')
+                        // router.push('/all-validator')
                        } className="btn  white-btn">Become a Delegator</button>
                     </div>
                     <div className="btns-wrap">

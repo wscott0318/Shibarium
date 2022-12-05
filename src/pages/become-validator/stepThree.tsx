@@ -221,12 +221,18 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               }
             })
           )
+
+          console.log(res)
           if (res.code === 4001) {
             setTransactionState({ state: false, title: '' })
+          }
+          if(res.code === -32603) {
+            console.log("wrong public key ===> ")
           }
         })
 
     } catch (err: any) {
+      console.log(err)
       Sentry.captureMessage("submitTransaction", err);
       setTransactionState({ state: false, title: '' })
     }
