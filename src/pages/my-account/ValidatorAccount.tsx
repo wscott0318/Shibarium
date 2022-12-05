@@ -123,11 +123,9 @@ const validatorAccount = ({
       const valFromContract = await instance.methods
         .validators(+valId)
         .call({ from: account });
-        
       const valReward = await instance.methods
         .validatorReward(+valId)
         .call({ from: account });
-
       const dynasty = await instance.methods.dynasty().call({ from: account });
       const epoch = await instance.methods.epoch().call({ from: account });
 
@@ -1079,7 +1077,7 @@ const validatorAccount = ({
     }
   };
 
-  console.log("delegations list",delegationsList)
+
 
   return (
     <>
