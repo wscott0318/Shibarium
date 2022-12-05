@@ -36,7 +36,7 @@ import { dynamicChaining } from "web3/DynamicChaining";
 import { getValidatorsDetail } from "app/services/apis/validator";
 import { tokenDecimal } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
-import { useValId, useValInfoContract } from 'app/state/user/hooks';
+import { useValId,useEpochDyna, useValInfoContract } from 'app/state/user/hooks';
 
 const validatorAccount = ({
   userType,
@@ -56,7 +56,7 @@ const validatorAccount = ({
   const [validatorInfo, setValidatorInfo] = useState<any>();
   const [validatorTotalReward, setValidatorTotalReward] = useState<any>();
   const [validatorInfoContract, setValidatorInfoContract] = useState<any>();
-
+  const [epochDyna, setEpochDyna] = useEpochDyna();
   const [valId, setValId] = useValId();
 
   const [valInfoContract, setValInfoContract] = useValInfoContract()
@@ -136,7 +136,8 @@ const validatorAccount = ({
       setValidatorInfoContract(valFromContract);
       setValInfoContract(valFromContract)
       setValidatorTotalReward(reward);
-      console.log(valFromContract, "validators ===> ");
+      setEpochDyna({epoch,dynasty})
+      console.log(valFromContract ,"validators ===> ");
     } catch (err: any) {
       Sentry.captureException("getValidatorData ", err);
     }
@@ -277,45 +278,7 @@ const validatorAccount = ({
       .required("Comission is required."),
   });
 
-  // GET VALIDATOR ID
-  const getValidatorId = async () => {
-    try {
-      let user = account;
 
-      if (account) {
-        console.log(user, "account address ");
-        const instance = new web3.eth.Contract(
-          stakeManagerProxyABI,
-          dynamicChaining[chainId].STAKE_MANAGER_PROXY
-        );
-        const ID = await instance.methods
-          .getValidatorId(user)
-          .call({ from: account }); // read
-        console.log(ID);
-        return ID;
-      } else {
-        console.log("account addres not found");
-      }
-    } catch (err: any) {
-      Sentry.captureException("getValidatorId ", err);
-    }
-  };
-
-  const getVaiIDFromDB = async () => {
-    let accountAddress: any = account;
-    try {
-      await getUserType(accountAddress.toLowerCase()).then((res: any) => {
-        if (res.data && res.data.data) {
-          let ut = res.data.data.validatorId;
-          console.log(ut, "val id ");
-          // setUserType(ut)
-          setValidatorID(+ut);
-        }
-      });
-    } catch (err: any) {
-      Sentry.captureException("getVaiIDFromDB ", err);
-    }
-  };
 
   //  COMMISSION CONTRACT
   const callComission = async (value: any) => {
@@ -657,9 +620,11 @@ const validatorAccount = ({
                   status: 1,
                 },
               })
+
             );
             router.push("/my-account", "/my-account", { shallow: true });
             //
+
           })
           .on("error", (res: any) => {
             console.log(res, "error");
@@ -1119,13 +1084,6 @@ const validatorAccount = ({
     }
   };
 
-  const rewardBalance = validatorInfo?.totalRewards
-    ? (
-      (Number(fromExponential(validatorInfo?.totalRewards)) -
-        Number(fromExponential(validatorInfo?.claimedReward))) /
-      Math.pow(10, web3Decimals)
-    ).toFixed(tokenDecimal)
-    : "0.00";
 
   return (
     <>
@@ -1735,10 +1693,10 @@ const validatorAccount = ({
                                 : "0.00"} */}
 
                               {validatorInfoContract?.amount
-                                ? addDecimalValue((
-                                  +validatorInfoContract?.amount
-                                ) /
-                                  10 ** web3Decimals)
+                                ? addDecimalValue(
+                                    +validatorInfoContract?.amount /
+                                      10 ** web3Decimals
+                                  )
                                 : "0.00"}
                             </span>{" "}
                             BONE
@@ -1755,10 +1713,9 @@ const validatorAccount = ({
                                 //   boneUSDValue
                                 // ).toFixed(tokenDecimal)}
                                 value={addDecimalValue(
-                                  (
-                                    +validatorInfoContract?.amount /
-                                    10 ** web3Decimals
-                                  ) * boneUSDValue
+                                  (+validatorInfoContract?.amount /
+                                    10 ** web3Decimals) *
+                                    boneUSDValue
                                 )}
                               />
                             </span>
@@ -1880,6 +1837,7 @@ const validatorAccount = ({
                     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
+                          disabled={parseInt(validatorInfoContract?.status) > 1 ? true : false}
                           onClick={() => handleModal("Restake", account)}
                           className="ff-mos btn black-btn w-100 d-block tool-ico"
                         >
@@ -1892,6 +1850,7 @@ const validatorAccount = ({
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
                           disabled={
+                            parseInt(validatorInfoContract?.status) > 1 ? true :
                             parseInt(
                               validatorInfoContract?.lastCommissionUpdate
                             ) +
@@ -1916,7 +1875,7 @@ const validatorAccount = ({
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
                           onClick={() => withdrawRewardValidator()}
-                          disabled={!(validatorTotalReward > 0)}
+                          disabled={ parseInt(validatorInfoContract?.status) > 1 ? true : !(validatorTotalReward > 0)}
                           className="ff-mos btn black-btn w-100 d-block tool-ico"
                         >
                           Withdraw Rewards
@@ -1928,6 +1887,7 @@ const validatorAccount = ({
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
                           disabled={
+                            parseInt(validatorInfoContract?.status) > 1 ? true :
                             parseInt(validatorInfoContract?.deactivationEpoch) +
                               parseInt(comissionHandle?.dynasty) <=
                               parseInt(comissionHandle?.epoch) &&
@@ -1948,6 +1908,7 @@ const validatorAccount = ({
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
                           disabled={
+                            parseInt(validatorInfoContract?.status) > 1 ? true :
                             parseInt(validatorInfoContract?.deactivationEpoch) +
                               parseInt(comissionHandle?.dynasty) <=
                               parseInt(comissionHandle?.epoch) &&
@@ -2117,6 +2078,26 @@ const validatorAccount = ({
                                 </div>
                               </div>
                             </li>
+
+                            {/* <li className="btn-grp-lst">
+                              <div className="cus-tooltip d-inline-block">
+                                <button
+                                  onClick={() =>
+                                    router.push(
+                                      `/migrate-stake/${getStake(item.id)}`,
+                                      `/migrate-stake/${getStake(item.id)}`,
+                                      { shallow: true }
+                                    )
+                                  }
+                                  className="btn black-btn btn-small tool-ico"
+                                >
+                                  Migrate Stake
+                                </button>
+                                <div className="tool-desc">
+                                  migrate your stake
+                                </div>
+                              </div>
+                            </li> */}
 
                             <li className="btn-grp-lst">
                               <div className="cus-tooltip d-inline-block">

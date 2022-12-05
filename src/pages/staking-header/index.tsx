@@ -16,6 +16,7 @@ import { dynamicChaining } from "web3/DynamicChaining";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json"
 import * as Sentry from "@sentry/nextjs";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
+
 const StakingHeader = () => {
   const router = useRouter();
 

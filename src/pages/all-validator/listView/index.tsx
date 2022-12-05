@@ -1,29 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
-import { UserType } from 'app/enums/UserType';
-import { enableList } from 'app/state/lists/actions';
 import { useUserType } from 'app/state/user/hooks';
 import Link from 'next/link';
 import DelegatePopup from 'pages/delegate-popup';
 import React, { useState } from 'react';
 import { addDecimalValue, imagUrlChecking, inActiveCount, toFixedPrecent, tokenDecimal, web3Decimals } from 'web3/commonFunctions';
-// @ts-ignore
-import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
-import DynamicShimmer from 'app/components/Shimmer/DynamicShimmer';
+import { useWeb3React } from "@web3-react/core";
 import Scrollbar from "react-scrollbars-custom";
+import { useRouter } from 'next/router';
+import MigratePopup from 'pages/migrate-popup';
 
 export default function ListView({ validatorsList, searchKey, loading }: { validatorsList: any , searchKey: string , loading : boolean }) {
-    const [modalShow, setModalShow] = React.useState(false);
     const [selectedRow, setSelectedRow] = useState({})
+    const {account, deactivate, active } = useWeb3React();
     const [userType, setUserType] = useUserType()
-
-    const tableShimmerEffects = () => {
-      return (
-        <ShimmerTable row={5} col={5} />
-      )
-    }
     const [showdelegatepop, setdelegatepop] = useState(false);
+    const [showmigratepop, setmigratepop] = useState(false);
     // console.log(validatorsList);
-    
+    const router = useRouter();
+
     
     return (
       <>
@@ -32,7 +26,11 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
           setdelegatepop={setdelegatepop}
           data={selectedRow}
         />
-
+        <MigratePopup
+          showmigratepop={showmigratepop}
+          setmigratepop={setmigratepop}
+          data={selectedRow}
+        />
         <div className="cmn_dasdrd_table ffms-inherit table-fix block-fix scroll-cus">
           <div className="table-responsive">
             <table className="table table-borderless fxd-layout tbl-mob">
@@ -46,36 +44,44 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                   <th className="text-center">Action</th>
                 </tr>
               </thead>
-              <Scrollbar>
-                
-              </Scrollbar>
+              <Scrollbar></Scrollbar>
               <tbody>
-              {validatorsList.length ? validatorsList.map((x: any, y: any) => (
-                  <tr key={y}>
-                    <td>
-                      <div className='self-align'>
-                      <span>
-                        <img
-                          style={{ height: 24 }}
-                          src={
-                            x.logoUrl?.startsWith("http")
-                              ? x.logoUrl
-                              : "../../assets/images/shiba-round-icon.png"
-                          }
-                          // src={imagUrlChecking(x.logoUrl)}
-                        />
-                      </span>
-                      <Link href={`/all-validator/${x.signer}`} passHref>
-                        <p className='tb-value'>{x.name}</p>
-                      </Link>
-                      </div>
-                    </td>
-                    <td>
-                      {addDecimalValue(+x.totalstaked)} 
-                      {/* ({(+x.votingpowerpercent || 0).toFixed(toFixedPrecent)}%) */}
-                    </td>
-                    <td>{ x.selfpercent ?  addDecimalValue(parseInt(x.selfpercent)) : "0" }%</td>
-                    <td><span className='precent-td'>{x?.commissionrate} %</span></td>
+                {validatorsList.length ? (
+                  validatorsList.map((x: any, y: any) => (
+                    <tr key={y}>
+                      <td>
+                        <div className="self-align">
+                          <span>
+                            <img
+                              style={{ height: 24 }}
+                              src={
+                                x.logoUrl?.startsWith("http")
+                                  ? x.logoUrl
+                                  : "../../assets/images/shiba-round-icon.png"
+                              }
+                              // src={imagUrlChecking(x.logoUrl)}
+                            />
+                          </span>
+                          <Link href={`/all-validator/${x.signer}`} passHref>
+                            <p className="tb-value">{x.name}</p>
+                          </Link>
+                        </div>
+                      </td>
+                      <td>
+                        {addDecimalValue(+x.totalstaked)}
+                        {/* ({(+x.votingpowerpercent || 0).toFixed(toFixedPrecent)}%) */}
+                      </td>
+                      <td>
+                        {x.selfpercent
+                          ? addDecimalValue(parseInt(x.selfpercent))
+                          : "0"}
+                        %
+                      </td>
+                      <td>
+                        <span className="precent-td">
+                          {x?.commissionrate} %
+                        </span>
+                      </td>
 
                       <td>{x.uptimePercent?.toFixed(toFixedPrecent)}%</td>
 
@@ -88,36 +94,46 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                           <button
                             className="btn primary-btn w-100"
                             disabled={
-                              x.fundamental === 1
+                             !account ? true : x.fundamental === 1
                                 ? true
                                 : x.uptimePercent <= inActiveCount
                                 ? true
                                 : false
                             }
                             onClick={() => {
-                              setdelegatepop(true);
-                              setSelectedRow(x);
+                              if (
+                                router.asPath.split("/")[1] === "migrate-stake"
+                              )
+                              {
+                                setmigratepop(true);
+                              }
+                              else {
+                                setdelegatepop(true);
+                                setSelectedRow(x);
+                              }  
                             }}
                           >
-                            Delegate
+                            {router.asPath.split("/")[1] === "migrate-stake"
+                              ? "Stake here"
+                              : "Delegate"}
                           </button>
                         )}
                       </td>
                     </tr>
                   ))
-                 : (
+                ) : (
                   <tr>
                     <td colSpan={6}>
                       {/* <DynamicShimmer type={"table"} rows={13} cols={6} /> */}
-                      <div className='no-found'><img src="../../assets/images/no-record.png"/></div>
+                      <div className="no-found">
+                        <img src="../../assets/images/no-record.png" />
+                      </div>
                     </td>
                   </tr>
-                )
-                 }
+                )}
               </tbody>
             </table>
           </div>
-          
         </div>
       </>
     );

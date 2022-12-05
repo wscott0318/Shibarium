@@ -29,9 +29,9 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const lib: any = library
   const web3: any = new Web3(lib?.provider)
   const dispatch = useAppDispatch();
-  const [apiLoading, setApiLoading] = useState(false);
+  // const [apiLoading, setApiLoading] = useState(false);
   const [transactionState, setTransactionState] = useState({
-    state: true,
+    state: false,
     title: 'Pending',
   })
   const [hashLink, setHashLink] = useState('')
@@ -127,7 +127,10 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               }
             })
           )
+          setLoader("step2");
+          setStepComplete((preState: any) => ({ ...preState, one: true }))
           submitTransaction(val)
+          
         }).on('error', (res: any) => {
           console.log(res, "error")
           if (res.code === 4001) {
@@ -190,6 +193,8 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               }
             })
           )
+          setLoader("step3");
+          setStepComplete((preState: any) => ({ ...preState, three: true }))
           changeStatus()
           localStorage.clear()
         }).on('error', (res: any) => {
@@ -266,17 +271,12 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         setStepComplete((preState: any) => ({ ...preState, three: true }))
       }, 3000)
     }
-    else if (loader == "step4") {
+    else {
       setTimeout(() => {
         setLoader("");
         setStepComplete((preState: any) => ({ ...preState, four: true }))
       }, 3000)
     }
-    // else {
-    //   setTimeout(() => {
-    //     setStepComplete((preState: any) => ({ ...preState, one: true }))
-    //   }, 3000)
-    // }
   }
 
   const handleTransaction = async (val: any) => {
@@ -287,6 +287,8 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         console.log("need approval ")
         approveAmount(val) // gas fee
       } else {
+        setLoader("step2");
+        setStepComplete((preState: any) => ({ ...preState, two: true }))
         console.log("no approval needed")
         submitTransaction(val)
       }
@@ -330,6 +332,8 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       console.log("this is eresss", res)
       // setApiLoading(false)
       notifySuccess()
+      setLoader("step4");
+        setStepComplete((preState: any) => ({ ...preState, four: true }))
       stepHandler("next");
     }).catch((err: any) => {
       console.log(err)
@@ -356,7 +360,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               </label>
               <div className="file-wrap">
                 <div className="file-icons">
-                  {/* <img
+                  <img
                     src={
                       becomeValidateData?.imageURL
                         ? becomeValidateData?.imageURL : becomeValidateData?.image ? URL.createObjectURL(becomeValidateData?.image)
@@ -365,7 +369,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                     alt=""
                     className="img-fluid" // 200kb 
                     width={22}
-                  /> */}
+                  />
                 </div>
               </div>
             </div>
@@ -533,7 +537,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                                 </div>
                               )}
                           </div>
-                          <span>Lorem ipsum</span>
+                          <span>Saving info in database.</span>
                         </div>
                         <div className={`step_wrapper ${StepComplete.two ? "completed" : ""}`}>
                         
@@ -547,7 +551,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                               </div>
                             )}
                           </div>
-                          <span>Lorem ipsum</span>
+                          <span>Approval for BONE </span>
                         </div>
                         <div className={`step_wrapper ${StepComplete.three ? "completed" : ""}`}>
                          
@@ -561,7 +565,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                               </div>
                             )}
                           </div>
-                          <span>Lorem ipsum</span>
+                          <span>Making Transaction..</span>
                         </div>
                         <div className={`step_wrapper ${StepComplete.four ? "completed" : ""}`}>
                          
@@ -575,7 +579,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                               </div>
                             )}
                           </div>
-                          <span>Lorem ipsum</span>
+                          <span>Updating Status On database </span>
                         </div>
                       </div>
                       {/* <span className="spiner-lg">
