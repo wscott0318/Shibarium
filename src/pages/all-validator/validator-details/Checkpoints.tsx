@@ -8,8 +8,9 @@ import DynamicShimmer from 'app/components/Shimmer/DynamicShimmer';
 interface Props {
     allCheckpoints: any[];
     boneUsdValue: number;
+    loading:boolean;
 }
-const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue }) => {
+const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue,loading }) => {
     const pageSize = 20;
     const [checkpoints, setCheckpoints] = useState<any[]>([]);
     const [pageIndex, setPageIndex] = useState(1)
@@ -48,7 +49,7 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {checkpoints.length > 0 ? (
+                  {checkpoints.length ? (
                     checkpoints.map((checkpoint: any, i: any) => (
                       <tr>
                         <td>
@@ -73,16 +74,25 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue }) => {
                         </td>
                       </tr>
                     ))
-                  ) : (
+                  ) : !checkpoints.length && loading ? (
                     <tr>
-                      <td colSpan={6}>
-                        <DynamicShimmer type={"table"} rows={13} cols={5} />
+                      <td colSpan={4}>
+                        <DynamicShimmer type={"table"} rows={13} cols={4} />
                       </td>
                     </tr>
-                  )}
+                  ) : null}
                 </tbody>
               </table>
             </div>
+            {!loading && !checkpoints.length ? (
+              <div className="no-found">
+                <div>
+                  <div className="text-center">
+                    <img src="../../assets/images/no-record.png" />
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
           <div className="mt-sm-4 mt-3">
             {checkpoints.length > 0 ? (

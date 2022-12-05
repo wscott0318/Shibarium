@@ -335,9 +335,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       <div className="progress-tab">
         <div className="mb-4 mb-xl-5">
           <h5 className="fw-700 mb-2 ff-mos">Add your stake amount</h5>
-          <p className="ff-mos">
-            Please provide your stake amount detail here
-          </p>
+          <p className="ff-mos">Please provide your stake amount detail here</p>
         </div>
         <div className="row">
           <div className="col-sm-6 form-grid">
@@ -348,12 +346,15 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               <div className="file-wrap">
                 <div className="file-icons">
                   <img
-                    src={becomeValidateData.image ? 
-                        checkImageType(becomeValidateData.image) 
-                       : "../../assets/images/file-icon.png"
+                    src={
+                      becomeValidateData?.imageURL
+                        ? becomeValidateData?.imageURL
+                        : becomeValidateData?.image
+                        ? URL.createObjectURL(becomeValidateData?.image)
+                        : "../../assets/images/file-icon.png"
                     }
                     alt=""
-                    className="img-fluid" // 200kb 
+                    className="img-fluid" // 200kb
                     width={22}
                   />
                 </div>
@@ -377,7 +378,6 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                 onBlur={handleBlur}
               />
             </div>
-
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -393,7 +393,6 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                 readOnly
               />
             </div>
-
           </div>
           <div className="col-sm-6 form-grid">
             <div className="form-group">
@@ -406,7 +405,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                 placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
                 name="address"
                 readOnly={true}
-                value={account || ''}
+                value={account || ""}
               />
             </div>
           </div>
@@ -414,7 +413,10 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
                 Signer’s Public key <span className="get-info">i</span>
-                <div className="tool-desc">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum fugit optio molestias, dolorem magni quia.</div>
+                <div className="tool-desc">
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Dolorum fugit optio molestias, dolorem magni quia.
+                </div>
               </label>
 
               <input
@@ -430,7 +432,11 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
           <div className="col-sm-6 form-grid">
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
-                Enter the stake amount
+                Enter the stake amount <span className="get-info">i</span>
+                <div className="tool-desc">
+                  LLorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Dolorum fugit optio molestias, dolorem magni quia.
+                </div>
               </label>
               <div className="maxButtonFloat">
                 <input
@@ -440,10 +446,28 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                   value={values.amount}
                   readOnly={availBalance <= 0}
                   onChange={handleChange("amount")}
-                /><button disabled={availBalance <= 0} className="MaxAmountButton orange-txt fw-bold amt-val" onClick={() => { setFieldValue('text', values.amount = addDecimalValue(+(availBalance - 0.000001).toString())) }}>MAX</button>
+                />
+                <button
+                  disabled={availBalance <= 0}
+                  className="MaxAmountButton orange-txt fw-bold amt-val"
+                  onClick={() => {
+                    setFieldValue(
+                      "text",
+                      (values.amount = addDecimalValue(
+                        +(availBalance - 0.000001).toString()
+                      ))
+                    );
+                  }}
+                >
+                  MAX
+                </button>
               </div>
-              {touched.amount && errors.amount ? <p className="primary-text pt-2 er-txt">{errors.amount}</p> : null}
-              {availBalance <= 0 ? <p className="primary-text pt-2 er-txt">Insufficient Balance</p> : null}
+              {touched.amount && errors.amount ? (
+                <p className="primary-text pt-2 er-txt">{errors.amount}</p>
+              ) : null}
+              {availBalance <= 0 ? (
+                <p className="primary-text pt-2 er-txt">Insufficient Balance</p>
+              ) : null}
 
               <div className="row-st">
                 <div className="blk-dta">
@@ -452,13 +476,14 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                   </label>
                 </div>
                 <div className="blk-dta">
-                  <p className="amt-val">Balance: {addDecimalValue(+availBalance)}</p>
+                  <p className="amt-val">
+                    Balance: {addDecimalValue(+availBalance)}
+                  </p>
                 </div>
                 {/* <div className="blk-dta">
                     <button disabled={availBalance<=0} className="amt-val" onClick={()=> {setFieldValue ('text',  values.amount = (availBalance-0.000001).toString())}}>MAX</button>
                   </div> */}
               </div>
-
             </div>
           </div>
         </div>
@@ -468,9 +493,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
             className="btn grey-btn w-100"
             onClick={() => stepHandler("back")}
           >
-            <span className="ff-mos">
-              Back
-            </span>
+            <span className="ff-mos">Back</span>
           </button>
           <button
             type="button"
@@ -478,9 +501,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
             className="btn primary-btn w-100"
             onClick={() => handleSubmit()}
           >
-            <span className="ff-mos">
-              Next
-            </span>
+            <span className="ff-mos">Next</span>
           </button>
         </div>
         <CommonModal
@@ -495,60 +516,108 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
             <div className="pop-block">
               <div className="pop-top">
                 <div className="dark-bg-800 h-100 status-sec sec-ht position-relative">
-                    <div className='trans-loader'>
+                  {hashLink ? (
+                    <span>
+                      <div>
+                        <img
+                          width="224"
+                          height="224"
+                          className="img-fluid"
+                          src="../../assets/images/Ellipse.png"
+                          alt=""
+                        />
+                      </div>
+                    </span>
+                  ) : (
+                    <div className="trans-loader">
                       <div className="loading-steps">
-                        <div className={`step_wrapper ${StepComplete.one ? "completed" : ""}`}>
-                      
+                        <div
+                          className={`step_wrapper ${
+                            StepComplete.one ? "completed" : ""
+                          }`}
+                        >
                           <div className={`step1`}>
-                            {loader == "step1" ?
-                              (
-                                <CircularProgress color="inherit" />
-                              ) :
-                              (
-                                <div>
-                                  <img className={`img-fluid tick-img ${StepComplete.one ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
-                                </div>
-                              )}
-                          </div>
-                          <span>Saving info in database.</span>
-                        </div>
-                        <div className={`step_wrapper ${StepComplete.two ? "completed" : ""}`}>
-                        
-                          <div className={`step2`}>
-                            {loader == "step2" ? (
-
+                            {loader == "step1" ? (
                               <CircularProgress color="inherit" />
                             ) : (
                               <div>
-                                <img className={`img-fluid tick-img ${StepComplete.two ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
+                                <img
+                                  className={`img-fluid tick-img ${
+                                    StepComplete.one ? "" : "disabled"
+                                  }`}
+                                  src="../../assets/images/green-tick.png"
+                                  alt=""
+                                  width="20"
+                                />
+                              </div>
+                            )}
+                          </div>
+                          <span>Saving info in database.</span>
+                        </div>
+                        <div
+                          className={`step_wrapper ${
+                            StepComplete.two ? "completed" : ""
+                          }`}
+                        >
+                          <div className={`step2`}>
+                            {loader == "step2" ? (
+                              <CircularProgress color="inherit" />
+                            ) : (
+                              <div>
+                                <img
+                                  className={`img-fluid tick-img ${
+                                    StepComplete.two ? "" : "disabled"
+                                  }`}
+                                  src="../../assets/images/green-tick.png"
+                                  alt=""
+                                  width="20"
+                                />
                               </div>
                             )}
                           </div>
                           <span>Approval for BONE </span>
                         </div>
-                        <div className={`step_wrapper ${StepComplete.three ? "completed" : ""}`}>
-                         
+                        <div
+                          className={`step_wrapper ${
+                            StepComplete.three ? "completed" : ""
+                          }`}
+                        >
                           <div className={`step3`}>
                             {loader == "step3" ? (
-
                               <CircularProgress color="inherit" />
                             ) : (
                               <div>
-                                <img className={`img-fluid tick-img ${StepComplete.three ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
+                                <img
+                                  className={`img-fluid tick-img ${
+                                    StepComplete.three ? "" : "disabled"
+                                  }`}
+                                  src="../../assets/images/green-tick.png"
+                                  alt=""
+                                  width="20"
+                                />
                               </div>
                             )}
                           </div>
                           <span>Making Transaction..</span>
                         </div>
-                        <div className={`step_wrapper ${StepComplete.four ? "completed" : ""}`}>
-                         
+                        <div
+                          className={`step_wrapper ${
+                            StepComplete.four ? "completed" : ""
+                          }`}
+                        >
                           <div className={`step4`}>
                             {loader == "step4" ? (
-
                               <CircularProgress color="inherit" />
                             ) : (
                               <div>
-                                <img className={`img-fluid tick-img ${StepComplete.four ? "" : "disabled"}`} src="../../assets/images/green-tick.png" alt="" width="20" />
+                                <img
+                                  className={`img-fluid tick-img ${
+                                    StepComplete.four ? "" : "disabled"
+                                  }`}
+                                  src="../../assets/images/green-tick.png"
+                                  alt=""
+                                  width="20"
+                                />
                               </div>
                             )}
                           </div>
@@ -559,6 +628,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                         <span className="spinner-border text-secondary pop-spiner"></span>
                       </span> */}
                     </div>
+                  )}
                 </div>
               </div>
               <div className="pop-bottom">

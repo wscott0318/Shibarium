@@ -223,7 +223,7 @@ export default function ValidatorDetails() {
                                 {/* deligation tab  end */}
 
                                 {/* transactions tabs start */}
-                                <Checkpoints allCheckpoints={allCheckpoints} boneUsdValue={boneUsdValue} />
+                                <Checkpoints allCheckpoints={allCheckpoints} boneUsdValue={boneUsdValue} loading={loading}/>
                                 {/* transactions tab  end */}
 
                                 {/* <PowerChange /> */}
