@@ -264,17 +264,17 @@ const validatorAccount = ({
   // console.log(restakeModal)
 
   const restakeValidation: any = Yup.object({
-    amount: Yup.string()
-      .matches(/^[1-9][0-9]*$/, "You must enter valid amount.")
+    amount: Yup.number()
+      // .matches(/^[1-9][0-9]*$/, "You must enter valid amount.")
       .min(0)
-      .max(availBalance)
+      .max(availBalance).moreThan(0,"You must enter valid amount.")
       .required("Amount is required."),
     reward: Yup.number().required(),
   });
   const comissionValidation: any = Yup.object({
-    comission: Yup.string()
-      .matches(/^[1-9][0-9]*$/, "You must enter valid amount.")
-      .min(0)
+    comission: Yup.number()
+      // .matches(/^[1-9][0-9]*$/, "You must enter valid amount.")
+      .min(0).moreThan(0,"You must enter valid amount.")
       .max(100)
       .required("Comission is required."),
   });
@@ -1163,7 +1163,7 @@ const validatorAccount = ({
                           </p>
                           <button
                             disabled={availBalance <= 0}
-                            className="mt-2 text-white"
+                            className="orange-txt fw-bold"
                             onClick={() => {
                               setFieldValue(
                                 "text",
@@ -1173,8 +1173,7 @@ const validatorAccount = ({
                               );
                             }}
                           >
-                            {" "}
-                            MAX{" "}
+                           MAX
                           </button>
                         </div>
                       </div>
