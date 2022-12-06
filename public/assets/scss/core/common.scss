@@ -4017,7 +4017,7 @@ input:-internal-autofill-selected {
   display: flex;
   align-items: center;
   position: relative;
-  width: 40%;
+  width:60%;
   justify-content: space-evenly;
 }
 .loading-steps .step_wrapper > div .MuiCircularProgress-root.MuiCircularProgress-indeterminate {
@@ -4029,16 +4029,25 @@ input:-internal-autofill-selected {
     position: absolute;
     width: 2px;
     height: 60px;
-    left: 19%;
+    left: 7%;
     top: 100%;
     background: #fff;
     z-index: 0;
+}
+.loading-steps .step_wrapper img{
+  width: auto !important;
+}
+
+.hd-sel.disabled{
+  background: #666;
+  color: #ccc;
 }
 .step_wrapper span {
   font-size: 14px;
   font-weight: 600;
   display: inline-block;
-  width: 49%;
+  width: 85%;
+  text-align: left;
 }
 .balance_wrapper {
   display: flex;
@@ -4271,5 +4280,10 @@ input:-internal-autofill-selected {
   .error{
     position: absolute;
     left: 0;
+  }
+}
+@media (max-width:420px){
+  .loading-steps .step_wrapper {
+      width: 100%;
   }
 }

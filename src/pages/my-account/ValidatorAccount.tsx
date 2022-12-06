@@ -36,7 +36,7 @@ import { dynamicChaining } from "web3/DynamicChaining";
 import { getValidatorsDetail } from "app/services/apis/validator";
 import { tokenDecimal } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
-import { useValId,useEpochDyna, useValInfoContract } from 'app/state/user/hooks';
+import { useValId, useEpochDyna, useValInfoContract, useMigrateStake } from 'app/state/user/hooks';
 
 const validatorAccount = ({
   userType,
@@ -61,7 +61,7 @@ const validatorAccount = ({
 
   const [valInfoContract, setValInfoContract] = useValInfoContract()
 
-  console.log("valInfoContract my account =========>>>>", valInfoContract)
+  // console.log("valInfoContract my account =========>>>>", valInfoContract)
 
   const [transactionState, setTransactionState] = useState({
     state: false,
@@ -82,6 +82,7 @@ const validatorAccount = ({
     value2: false,
     address: "",
   });
+  const [migrateData, setMigrateData] = useMigrateStake();
   const [commiModal, setCommiModal] = useState({
     value: false,
     address: "",
@@ -109,7 +110,7 @@ const validatorAccount = ({
     let liquidRewards = await instance.methods
       .getLiquidRewards(valContract)
       .call({ from: account });
-    console.log(liquidRewards);
+    // console.log(liquidRewards);
   };
 
   getDelegatorStake("0xddff10bb0afa6293cb1a9c234428c4436c5f2f41");
@@ -136,14 +137,14 @@ const validatorAccount = ({
       setValidatorInfoContract(valFromContract);
       setValInfoContract(valFromContract)
       setValidatorTotalReward(reward);
-      setEpochDyna({epoch,dynasty})
-      console.log(valFromContract ,"validators ===> ");
+      setEpochDyna({ epoch, dynasty })
+      // console.log(valFromContract ,"validators ===> ");
     } catch (err: any) {
       Sentry.captureException("getValidatorData ", err);
     }
   };
 
-  console.log(comissionHandle, "comissionHandle => ");
+  // console.log(comissionHandle, "comissionHandle => ");
   const validatorInfoAPI = () => {
     try {
       getValidatorsDetail(`${account}`).then((res) => {
@@ -172,7 +173,7 @@ const validatorAccount = ({
                 +x.id,
                 accountAddress.toLowerCase()
               );
-              console.log(stakeData, "delegator card data");
+              // console.log(stakeData, "delegator card data");
               setStakeAmounts((pre: any) => [...pre, stakeData]);
             });
             setDelegationsList(sortedData);
@@ -181,7 +182,7 @@ const validatorAccount = ({
           }
         })
         .catch((e: any) => {
-          console.log(e);
+          // console.log(e);
           //  setUserType('NA')
           setLoading(false);
         });
@@ -198,7 +199,7 @@ const validatorAccount = ({
     id: any = null,
     stakeAmount: any = null
   ) => {
-    console.log({ btn, valAddress, id, stakeAmount });
+    // console.log({ btn, valAddress, id, stakeAmount });
     try {
       switch (btn) {
         case "Restake":
@@ -286,7 +287,7 @@ const validatorAccount = ({
       setTransactionState({ state: true, title: "Pending" });
       let user: any = account;
       // let valID = validatorID;
-      console.log({ valId, c: +value.comission }, "comission called ==> ");
+      // console.log({ valId, c: +value.comission }, "comission called ==> ");
       let instance = new web3.eth.Contract(
         stakeManagerProxyABI,
         dynamicChaining[chainId].STAKE_MANAGER_PROXY
@@ -298,11 +299,11 @@ const validatorAccount = ({
         .updateCommissionRate(valId, +value.comission)
         .encodeABI();
       let CurrentgasPrice: any = await currentGasPrice(web3);
-      console.log(
-        ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-        Math.pow(10, web3Decimals),
-        " Gas fees for transaction  ==> "
-      );
+      // console.log(
+      //   ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
+      //   Math.pow(10, web3Decimals),
+      //   " Gas fees for transaction  ==> "
+      // );
       await web3.eth
         .sendTransaction({
           from: user,
@@ -313,7 +314,7 @@ const validatorAccount = ({
           data: encodedAbi,
         })
         .on("transactionHash", (res: any) => {
-          console.log(res, "hash");
+          // console.log(res, "hash");
           dispatch(
             addTransaction({
               hash: res,
@@ -328,7 +329,7 @@ const validatorAccount = ({
           setTransactionState({ state: true, title: "Submitted" });
         })
         .on("receipt", (res: any) => {
-          console.log(res, "receipt");
+          // console.log(res, "receipt");
           dispatch(
             finalizeTransaction({
               hash: res.transactionHash,
@@ -347,7 +348,7 @@ const validatorAccount = ({
           );
         })
         .on("error", (res: any) => {
-          console.log(res, "error");
+          // console.log(res, "error");
           setTransactionState({ state: false, title: "" });
           if (res.code === 4001) {
             setCommiModal({ value: false, address: "" });
@@ -382,11 +383,11 @@ const validatorAccount = ({
           fromExponential(+values.amount * Math.pow(10, web3Decimals))
         );
         if (+values.amount > +allowance) {
-          console.log("need approval");
+          // console.log("need approval");
           approveAmount(ID, amountWei, values.reward == 0 ? false : true);
         } else {
-          console.log(ID, "no approval needed");
-          console.log({ ID, amountWei, bool: values.reward });
+          // console.log(ID, "no approval needed");
+          // console.log({ ID, amountWei, bool: values.reward });
           let gasFee = await instance.methods
             .restake(ID, amountWei, values.reward == 0 ? 0 : 1)
             .estimateGas({ from: walletAddress });
@@ -394,11 +395,11 @@ const validatorAccount = ({
             .restake(ID, amountWei, values.reward == 0 ? 0 : 1)
             .encodeABI();
           let CurrentgasPrice: any = await currentGasPrice(web3);
-          console.log(
-            ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-            Math.pow(10, web3Decimals),
-            " Gas fees for transaction  ==> "
-          );
+          // console.log(
+          //   ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
+          //   Math.pow(10, web3Decimals),
+          //   " Gas fees for transaction  ==> "
+          // );
           await web3.eth
             .sendTransaction({
               from: walletAddress,
@@ -409,7 +410,7 @@ const validatorAccount = ({
               data: encodedAbi,
             })
             .on("transactionHash", (res: any) => {
-              console.log(res, "hash");
+              // console.log(res, "hash");
               dispatch(
                 addTransaction({
                   hash: res,
@@ -425,7 +426,7 @@ const validatorAccount = ({
               setRestakeModal({ value1: false, value2: false, address: "" });
             })
             .on("receipt", (res: any) => {
-              console.log(res, "receipt");
+              // console.log(res, "receipt");
               dispatch(
                 finalizeTransaction({
                   hash: res.transactionHash,
@@ -447,7 +448,7 @@ const validatorAccount = ({
               setTransactionState({ state: false, title: "" });
             })
             .on("error", (res: any) => {
-              console.log(res, "error");
+              // console.log(res, "error");
               setTransactionState({ state: false, title: "" });
               if (res.code === 4001) {
                 setRestakeModal({ value1: false, value2: false, address: "" });
@@ -489,11 +490,11 @@ const validatorAccount = ({
               .restake(id, amounts, reward)
               .encodeABI();
             let CurrentgasPrice: any = await currentGasPrice(web3);
-            console.log(
-              ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-              Math.pow(10, web3Decimals),
-              " Gas fees for transaction  ==> "
-            );
+            // console.log(
+            //   ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
+            //   Math.pow(10, web3Decimals),
+            //   " Gas fees for transaction  ==> "
+            // );
             await web3.eth.sendTransaction({
               from: user,
               to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
@@ -507,7 +508,7 @@ const validatorAccount = ({
               .restake(id, amounts, reward)
               .send({ from: user })
               .on("transactionHash", (res: any) => {
-                console.log(res, "hash");
+                // console.log(res, "hash");
                 dispatch(
                   addTransaction({
                     hash: res,
@@ -518,7 +519,7 @@ const validatorAccount = ({
                 );
               })
               .on("receipt", (res: any) => {
-                console.log(res, "receipt");
+                // console.log(res, "receipt");
                 dispatch(
                   finalizeTransaction({
                     hash: res.transactionHash,
@@ -538,7 +539,7 @@ const validatorAccount = ({
                 router.push("/my-account", "/my-account", { shallow: true });
               })
               .on("error", (res: any) => {
-                console.log(res, "error");
+                // console.log(res, "error");
                 if (res.code === 4001) {
                   setCommiModal({ value: false, address: "" });
                 }
@@ -589,7 +590,7 @@ const validatorAccount = ({
             data: encodedAbi,
           })
           .on("transactionHash", (res: any) => {
-            console.log(res, "hash");
+            // console.log(res, "hash");
             dispatch(
               addTransaction({
                 hash: res,
@@ -604,7 +605,7 @@ const validatorAccount = ({
             setTransactionState({ state: true, title: "Submitted" });
           })
           .on("receipt", (res: any) => {
-            console.log(res, "receipt");
+            // console.log(res, "receipt");
             dispatch(
               finalizeTransaction({
                 hash: res.transactionHash,
@@ -627,14 +628,14 @@ const validatorAccount = ({
 
           })
           .on("error", (res: any) => {
-            console.log(res, "error");
+            // console.log(res, "error");
             setTransactionState({ state: false, title: "Pending" });
             if (res.code === 4001) {
               setWithdrawModal({ value: false, address: "" });
             }
           });
       } else {
-        console.log("account not connected");
+        // console.log("account not connected");
       }
     } catch (err: any) {
       Sentry.captureException("withdrawRewardValidator", err);
@@ -653,11 +654,11 @@ const validatorAccount = ({
           .estimateGas({ from: walletAddress });
         let encodedAbi = await instance.methods.withdrawRewards().encodeABI();
         let CurrentgasPrice: any = await currentGasPrice(web3);
-        console.log(
-          ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-          Math.pow(10, web3Decimals),
-          " Gas fees for transaction  ==> "
-        );
+        // console.log(
+        //   ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
+        //   Math.pow(10, web3Decimals),
+        //   " Gas fees for transaction  ==> "
+        // );
         await web3.eth
           .sendTransaction({
             from: walletAddress,
@@ -668,7 +669,7 @@ const validatorAccount = ({
             data: encodedAbi,
           })
           .on("transactionHash", (res: any) => {
-            console.log(res, "hash");
+            // console.log(res, "hash");
             dispatch(
               addTransaction({
                 hash: res,
@@ -683,7 +684,7 @@ const validatorAccount = ({
             setTransactionState({ state: true, title: "Submitted" });
           })
           .on("receipt", (res: any) => {
-            console.log(res, "receipt");
+            // console.log(res, "receipt");
             dispatch(
               finalizeTransaction({
                 hash: res.transactionHash,
@@ -703,7 +704,7 @@ const validatorAccount = ({
             router.push("/my-account", "/my-account", { shallow: true });
           })
           .on("error", (res: any) => {
-            console.log(res, "error");
+            // console.log(res, "error");
             setTransactionState({ state: false, title: "Pending" });
             if (res.code === 4001) {
               setWithdrawModal({ value: false, address: "" });
@@ -735,11 +736,11 @@ const validatorAccount = ({
           .estimateGas({ from: walletAddress });
         let encodedAbi = await instance.methods.unstakeClaim(ID).encodeABI();
         let CurrentgasPrice: any = await currentGasPrice(web3);
-        console.log(
-          ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-          Math.pow(10, web3Decimals),
-          " Gas fees for transaction  ==> "
-        );
+        // console.log(
+        //   ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
+        //   Math.pow(10, web3Decimals),
+        //   " Gas fees for transaction  ==> "
+        // );
         await web3.eth
           .sendTransaction({
             from: walletAddress,
@@ -750,7 +751,7 @@ const validatorAccount = ({
             data: encodedAbi,
           })
           .on("transactionHash", (res: any) => {
-            console.log(res, "hash");
+            // console.log(res, "hash");
             dispatch(
               addTransaction({
                 hash: res,
@@ -766,7 +767,7 @@ const validatorAccount = ({
             setUnStakePop(false);
           })
           .on("receipt", (res: any) => {
-            console.log(res, "receipt");
+            // console.log(res, "receipt");
             dispatch(
               finalizeTransaction({
                 hash: res.transactionHash,
@@ -788,14 +789,14 @@ const validatorAccount = ({
             setHashLink("");
           })
           .on("error", (res: any) => {
-            console.log(res, "error");
+            // console.log(res, "error");
             setTransactionState({ state: false, title: "" });
             if (res.code === 4001) {
               setUnStakePop(false);
             }
           });
       } else {
-        console.log("account addres not found");
+        // console.log("account addres not found");
       }
     } catch (err: any) {
       Sentry.captureException("unStakeClaimValidator", err);
@@ -818,11 +819,11 @@ const validatorAccount = ({
           .estimateGas({ from: walletAddress });
         let encodedAbi = await instance.methods.unstake(ID).encodeABI();
         let CurrentgasPrice: any = await currentGasPrice(web3);
-        console.log(
-          ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-          Math.pow(10, web3Decimals),
-          " Gas fees for transaction  ==> "
-        );
+        // console.log(
+        //   ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
+        //   Math.pow(10, web3Decimals),
+        //   " Gas fees for transaction  ==> "
+        // );
         await web3.eth
           .sendTransaction({
             from: walletAddress,
@@ -833,7 +834,7 @@ const validatorAccount = ({
             data: encodedAbi,
           })
           .on("transactionHash", (res: any) => {
-            console.log(res, "hash");
+            // console.log(res, "hash");
             dispatch(
               addTransaction({
                 hash: res,
@@ -849,7 +850,7 @@ const validatorAccount = ({
             setUnStakePop(false);
           })
           .on("receipt", (res: any) => {
-            console.log(res, "receipt");
+            // console.log(res, "receipt");
             dispatch(
               finalizeTransaction({
                 hash: res.transactionHash,
@@ -871,7 +872,7 @@ const validatorAccount = ({
             setHashLink("");
           })
           .on("error", (res: any) => {
-            console.log(res, "error");
+            // console.log(res, "error");
             setTransactionState({ state: false, title: "" });
             if (res.code === 4001) {
               setUnStakePop(false);
@@ -888,7 +889,7 @@ const validatorAccount = ({
   // restake DELEGATOR
   const restakeDelegator = async () => {
     try {
-      console.log("withdraw Reward Delegator called");
+      // console.log("withdraw Reward Delegator called");
       if (account) {
         setTransactionState({ state: true, title: "Pending" });
         let walletAddress: any = account;
@@ -901,11 +902,11 @@ const validatorAccount = ({
           .estimateGas({ from: walletAddress });
         let encodedAbi = await instance.methods.restake().encodeABI();
         let CurrentgasPrice: any = await currentGasPrice(web3);
-        console.log(
-          ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-          Math.pow(10, web3Decimals),
-          " Gas fees for transaction  ==> "
-        );
+        // console.log(
+        //   ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
+        //   Math.pow(10, web3Decimals),
+        //   " Gas fees for transaction  ==> "
+        // );
         await web3.eth
           .sendTransaction({
             from: walletAddress,
@@ -916,7 +917,7 @@ const validatorAccount = ({
             data: encodedAbi,
           })
           .on("transactionHash", (res: any) => {
-            console.log(res, "hash");
+            // console.log(res, "hash");
             dispatch(
               addTransaction({
                 hash: res,
@@ -932,7 +933,7 @@ const validatorAccount = ({
             setRestakeModal({ value1: false, value2: false, address: "" });
           })
           .on("receipt", (res: any) => {
-            console.log(res, "receipt");
+            // console.log(res, "receipt");
             dispatch(
               finalizeTransaction({
                 hash: res.transactionHash,
@@ -953,7 +954,7 @@ const validatorAccount = ({
             getDelegatorCardData(walletAddress);
           })
           .on("error", (res: any) => {
-            console.log(res, "error");
+            // console.log(res, "error");
             setRestakeModal({ value1: false, value2: false, address: "" });
             if (res.code === 4001) {
               setRestakeModal({ value1: false, value2: false, address: "" });
@@ -970,20 +971,20 @@ const validatorAccount = ({
   // unbound DELEGATOR
   const unboundDelegator = async () => {
     try {
-      console.log(unboundModal);
+      // console.log(unboundModal);
       setUnboundModal({
         ...unboundModal,
         startValue: false,
       });
       setUnboundModal((preVal: any) => ({ ...preVal, startValue: false }));
       setTransactionState({ state: true, title: "Unbound Pending" });
-      console.log("called ===>");
+      // console.log("called ===>");
       let data = {
         delegatorAddress: account,
         validatorContract: unboundModal.id,
         amount: unboundInput,
       };
-      console.log(data);
+      // console.log(data);
       if (account) {
         let walletAddress = account;
         let amount = web3.utils.toBN(
@@ -997,7 +998,7 @@ const validatorAccount = ({
           .sellVoucher_new(amount, amount)
           .send({ from: walletAddress })
           .on("transactionHash", (res: any) => {
-            console.log(res, "hash");
+            // console.log(res, "hash");
             dispatch(
               addTransaction({
                 hash: res,
@@ -1022,7 +1023,7 @@ const validatorAccount = ({
             setUnboundInput("");
           })
           .on("receipt", (res: any) => {
-            console.log(res, "receipt");
+            // console.log(res, "receipt");
             dispatch(
               finalizeTransaction({
                 hash: res.transactionHash,
@@ -1043,7 +1044,7 @@ const validatorAccount = ({
             getDelegatorCardData(walletAddress);
           })
           .on("error", (res: any) => {
-            console.log(res, "error");
+            // console.log(res, "error");
             setUnboundInput("");
             setUnboundModal((preVal: any) => ({
               ...preVal,
@@ -1051,7 +1052,7 @@ const validatorAccount = ({
               comfirmValue: true,
             }));
             if (res.code === 4001) {
-              console.log("user Denied");
+              // console.log("user Denied");
             }
           });
       }
@@ -1070,9 +1071,19 @@ const validatorAccount = ({
       Sentry.captureException("getStakeAmountDelegator ", err);
     }
   };
-
+  const handleMigrateClick = (data: any) => {
+    // setValId(data.id);
+    setMigrateData(data);
+    // console.log("migrate data ", migrateData);
+    router.push(
+      `/migrate-stake`,
+      `/migrate-stake`,
+      { shallow: true }
+    )
+  }
   const getStake = (id: String) => {
     try {
+      // console.log
       let item = stakeAmounts.length
         ? stakeAmounts.filter((x: any) => +x.validatorId === +id)[0]?.tokens
         : 0;
@@ -1083,7 +1094,14 @@ const validatorAccount = ({
       Sentry.captureException("getStake ", err);
     }
   };
-
+  const totalStake = (item: any) => {
+    console.log("item contains ", item);
+    // let values = JSON.parse(item);
+    let stakeAmount = getStake(item.id);
+    let reward = +item.reward > 0 ? (parseInt(item.reward) / 10 ** web3Decimals).toFixed(tokenDecimal) : "0.00";
+    console.log("total stake == ", (parseFloat(stakeAmount) + parseFloat(reward)));
+    return (parseFloat(stakeAmount) + parseFloat(reward));
+  }
 
   return (
     <>
@@ -1113,7 +1131,7 @@ const validatorAccount = ({
                 }}
                 validationSchema={restakeValidation}
                 onSubmit={(values, actions) => {
-                  console.log(values);
+                  // console.log(values);
                   callRestakeValidators(values);
                 }}
               >
@@ -1225,7 +1243,7 @@ const validatorAccount = ({
               }}
               validationSchema={comissionValidation}
               onSubmit={(values, actions) => {
-                console.log(values);
+                // console.log(values);
                 callComission(values);
               }}
             >
@@ -1694,9 +1712,9 @@ const validatorAccount = ({
 
                               {validatorInfoContract?.amount
                                 ? addDecimalValue(
-                                    +validatorInfoContract?.amount /
-                                      10 ** web3Decimals
-                                  )
+                                  +validatorInfoContract?.amount /
+                                  10 ** web3Decimals
+                                )
                                 : "0.00"}
                             </span>{" "}
                             BONE
@@ -1715,7 +1733,7 @@ const validatorAccount = ({
                                 value={addDecimalValue(
                                   (+validatorInfoContract?.amount /
                                     10 ** web3Decimals) *
-                                    boneUSDValue
+                                  boneUSDValue
                                 )}
                               />
                             </span>
@@ -1851,13 +1869,13 @@ const validatorAccount = ({
                         <button
                           disabled={
                             parseInt(validatorInfoContract?.status) > 1 ? true :
-                            parseInt(
-                              validatorInfoContract?.lastCommissionUpdate
-                            ) +
-                              parseInt(comissionHandle?.dynasty) <=
-                              parseInt(comissionHandle?.epoch)
-                              ? false
-                              : true
+                              parseInt(
+                                validatorInfoContract?.lastCommissionUpdate
+                              ) +
+                                parseInt(comissionHandle?.dynasty) <=
+                                parseInt(comissionHandle?.epoch)
+                                ? false
+                                : true
                           }
                           onClick={() =>
                             handleModal("Change Commission Rate", account)
@@ -1875,7 +1893,7 @@ const validatorAccount = ({
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
                           onClick={() => withdrawRewardValidator()}
-                          disabled={ parseInt(validatorInfoContract?.status) > 1 ? true : !(validatorTotalReward > 0)}
+                          disabled={parseInt(validatorInfoContract?.status) > 1 ? true : !(validatorTotalReward > 0)}
                           className="ff-mos btn black-btn w-100 d-block tool-ico"
                         >
                           Withdraw Rewards
@@ -1888,13 +1906,13 @@ const validatorAccount = ({
                         <button
                           disabled={
                             parseInt(validatorInfoContract?.status) > 1 ? true :
-                            parseInt(validatorInfoContract?.deactivationEpoch) +
-                              parseInt(comissionHandle?.dynasty) <=
-                              parseInt(comissionHandle?.epoch) &&
-                              parseInt(validatorInfoContract?.deactivationEpoch) >
-                              0
-                              ? false
-                              : true
+                              parseInt(validatorInfoContract?.deactivationEpoch) +
+                                parseInt(comissionHandle?.dynasty) <=
+                                parseInt(comissionHandle?.epoch) &&
+                                parseInt(validatorInfoContract?.deactivationEpoch) >
+                                0
+                                ? false
+                                : true
                           }
                           onClick={() => setUnStakePop(true)}
                           className="ff-mos btn black-btn w-100 d-block tool-ico"
@@ -1909,13 +1927,13 @@ const validatorAccount = ({
                         <button
                           disabled={
                             parseInt(validatorInfoContract?.status) > 1 ? true :
-                            parseInt(validatorInfoContract?.deactivationEpoch) +
-                              parseInt(comissionHandle?.dynasty) <=
-                              parseInt(comissionHandle?.epoch) &&
-                              parseInt(validatorInfoContract?.deactivationEpoch) >
-                              0
-                              ? false
-                              : true
+                              parseInt(validatorInfoContract?.deactivationEpoch) +
+                                parseInt(comissionHandle?.dynasty) <=
+                                parseInt(comissionHandle?.epoch) &&
+                                parseInt(validatorInfoContract?.deactivationEpoch) >
+                                0
+                                ? false
+                                : true
                           }
                           onClick={() => setUnStakeClaimPop(true)}
                           className="ff-mos btn black-btn w-100 d-block tool-ico"
@@ -2082,12 +2100,9 @@ const validatorAccount = ({
                             <li className="btn-grp-lst">
                               <div className="cus-tooltip d-inline-block">
                                 <button
-                                  onClick={() =>
-                                    router.push(
-                                      `/migrate-stake/${getStake(item.id)}`,
-                                      `/migrate-stake/${getStake(item.id)}`,
-                                      { shallow: true }
-                                    )
+                                  onClick={() => {
+                                    handleMigrateClick(item);
+                                  }
                                   }
                                   className="btn black-btn btn-small tool-ico"
                                 >

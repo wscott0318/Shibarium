@@ -13,9 +13,11 @@ import Web3 from "web3";
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import fromExponential from "from-exponential";
 import {
+  addDecimalValue,
   getAllowanceAmount,
   MAXAMOUNT,
   toFixedPrecent,
+  web3Decimals,
 } from "../../web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import CommonModal from "pages/components/CommonModel";
@@ -33,6 +35,8 @@ import { currentGasPrice } from "../../web3/commonFunctions";
 import { tokenDecimal } from "../../web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 import { useRouter } from "next/router";
+import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
+import { useMigrateStake, useValId } from "app/state/user/hooks";
 const initialModalState = {
   step0: true,
   step1: false,
@@ -53,15 +57,23 @@ const MigratePopup: React.FC<any> = ({
   const web3 = useLocalWeb3();
   // const [data, setData] = useState();
   const dispatch = useAppDispatch();
-
+  // const [validatorInfo , setValidatorInfo ] = useState(data);
   const [migrateState, setmigrateState] = useState(initialModalState);
   const [loader, setLoader] = useState(false);
+  const [transactionState, setTransactionState] = useState({
+    state: false,
+    title: "",
+  });
+  // const [valId, setValId] = useValId();
+  const [validatorID, setValidatorID] = useState<any>("");
+  const [balance, setBalance] = useState(0);
+  const [migrateData, setMigrateData] = useMigrateStake();
   const walletBalance =
     chainId === ChainId.SHIBARIUM
       ? useEthBalance()
       : useTokenBalance(dynamicChaining[chainId]?.BONE);
 
-  const router = useRouter()  
+  const router = useRouter()
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then((res) => {
       setBoneUSDValue(res.data.data.price);
@@ -74,28 +86,119 @@ const MigratePopup: React.FC<any> = ({
   const useMax = (e: any) => {
     e.preventDefault();
     // setAmount(walletBalance);
-    setFieldValue("balance", Number(router.query.id));
-    // console.log("called");
+    setFieldValue("balance", balance);
   };
   const closeModal = (e: any) => {
     onHide();
   };
+  const totalStake = (migrateData: any) => {
+    // console.log("item contains ", migrateData.migrateData);
+    // let values = JSON.parse(item);
+    let stakeAmount = migrateData.migrateData.stake;
+    let reward = +migrateData.migrateData.reward > 0 ? (parseInt(migrateData.migrateData.reward) / 10 ** web3Decimals).toFixed(tokenDecimal) : "0.00";
+    let total = (parseFloat(stakeAmount) + parseFloat(reward));
+    setBalance(total);
+    // console.log("total stake == ",stakeAmount + " " + reward);
 
+  }
+
+  useEffect(() => {
+    totalStake(migrateData);
+  }, [migrateData]);
+  const migrateStake = async (values: any, data: any, migrateData: any) => {
+    try {
+      if (account) {
+        setTransactionState({ state: true, title: "Pending" });
+        let walletAddress: any = account;
+        let fromId = migrateData.migrateData.id;
+        let toId = data.id;
+        let Amount = web3.utils.toBN(+values.balance)
+        ;
+        console.log("line no. 119 ", Amount);
+        let instance = new web3.eth.Contract(
+          stakeManagerProxyABI,
+          dynamicChaining[chainId].STAKE_MANAGER_PROXY
+        );
+        let gasFee = await instance.methods
+        .migrateDelegation(fromId, toId, Amount)
+        .estimateGas({ from: walletAddress });
+        let encodedAbi = await instance.methods.migrateDelegation(fromId, toId, Amount).encodeABI();
+        let CurrentgasPrice: any = await currentGasPrice(web3);
+        console.log("encoded abi ", encodedAbi);
+        await web3.eth
+          .sendTransaction({
+            from: walletAddress,
+            to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
+            gas: (parseInt(gasFee) + 30000).toString(),
+            gasPrice: CurrentgasPrice,
+            // value : web3.utils.toHex(combinedFees),
+            data: encodedAbi,
+          })
+          .on("transactionHash", (res: any) => {
+            dispatch(
+              addTransaction({
+                hash: res,
+                from: walletAddress,
+                chainId,
+                summary: `${res}`,
+              })
+            );
+            console.log("transaction hash ", res);
+            setTransactionState({ state: true, title: "Submitted" });
+            setmigratepop(false);
+          })
+          .on("receipt", (res: any) => {
+            dispatch(
+              finalizeTransaction({
+                hash: res.transactionHash,
+                chainId,
+                receipt: {
+                  to: res.to,
+                  from: res.from,
+                  contractAddress: res.contractAddress,
+                  transactionIndex: res.transactionIndex,
+                  blockHash: res.blockHash,
+                  transactionHash: res.transactionHash,
+                  blockNumber: res.blockNumber,
+                  status: 1,
+                },
+              })
+            );
+            console.log("receipt ", res);
+            router.push("/migrate-stake", "/migrate-stake", { shallow: true });
+            setTransactionState({ state: false, title: "" });
+          })
+          .on("error", (res: any) => {
+            console.log("error ", res);
+            setTransactionState({ state: false, title: "" });
+            if (res.code === 4001) {
+              setmigratepop(false);
+            }
+          });
+      }
+      else {
+        console.log("Account not found");
+      }
+    }
+    catch (err: any) {
+      Sentry.captureMessage("migrateStake ", err);
+    }
+  }
 
   let schema = yup.object().shape({
     balance: yup
       .number()
       .typeError("Only digits are allowed.")
       .max(
-        parseFloat(Number(router.query.id)?.toFixed(tokenDecimal)),
+        balance,
         "Entered value cannot be greater than Balance."
       )
       .positive("Enter valid Balance.")
       .required("Balance is required."),
   });
-const initialValues = {
-  balance: "",
-};
+  const initialValues = {
+    balance: "",
+  };
   const {
     values,
     errors,
@@ -240,7 +343,7 @@ const initialValues = {
                       />
                     </span>
                     <span className="text-right">
-                      Balance: {Number(router.query.id).toFixed(tokenDecimal)}{" "}
+                      Balance: {balance}{" "}
                       BONE
                     </span>
                   </p>
@@ -262,7 +365,10 @@ const initialValues = {
                     <div className="col-12">
                       <button className="w-100" type="submit" value="submit">
                         <div className="btn primary-btn d-flex align-items-center justify-content-center">
-                          <span>Continue</span>
+                          <span onClick={(e) => {
+                            e.preventDefault();
+                            migrateStake(values, data, migrateData);
+                          }}>Continue</span>
                         </div>
                       </button>
                     </div>

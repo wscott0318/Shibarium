@@ -58,7 +58,7 @@ const AccountDetails: FC<AccountDetailsProps> = ({
   useEffect(() => {
     const { ethereum } = window as any
     const handleAccountsChanged = (accounts: string[]) => {
-      console.log("Handling 'accountsChanged' event with payload", accounts)
+      // console.log("Handling 'accountsChanged' event with payload", accounts)
       dispatch(clearAllTransactions({ chainId }))
     }
 

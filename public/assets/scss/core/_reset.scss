@@ -841,3 +841,61 @@ body {
     background:$body-bg;
     border: 1px solid rgba($white,0.89);
 }
+.delegate_btn{
+    position: relative;
+}
+.delegate_btn .tool-desc {
+    position: absolute;
+    left: -130%;
+    top: 0;
+    z-index: 999999;
+    background: #fff;
+    border-radius: 5px;
+    color: #000;
+    font-size: 12px;
+    padding: 5px;
+    display: none;
+}
+.delegate_btn_grid .tool-desc {
+    left: 38px;
+    top: -125%;
+}
+.delegate_btn:hover .tool-desc{
+    display: block;
+}
+.delegate_btn .tool-desc::before {
+    content: "";
+    border: solid;
+    border-color: #fff transparent;
+    position: absolute;
+    bottom: auto;
+    -webkit-transform: rotate(90deg);
+    border-width: 0 10px 14px;
+    left: 98%;
+    top: 17px;
+  }
+  .delegate_btn_grid .tool-desc::before {
+    content: "";
+    border: solid;
+    border-color: #fff transparent;
+    position: absolute;
+    bottom: auto;
+    -webkit-transform: rotate(180deg);
+    border-width: 0 10px 14px;
+    left: 50%;
+    top: 45px;
+}
+
+@media only screen and (max-width: 991.98px){
+    .shib-popup .modal-content {
+        height: 75%;
+    }
+    .modal.show .modal-dialog{
+        height: 100%;
+    }
+    .modal.show .modal-dialog .trans-mod .pop-top {
+        height: 100%;
+    }
+  }
+
+  
