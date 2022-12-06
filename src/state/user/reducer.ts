@@ -59,6 +59,7 @@ export interface UserState {
   valInfoContract: object;
   epochDyna: object;
   migrateData:object;
+  stake:number;
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -80,6 +81,7 @@ export const initialState: UserState = {
   valInfoContract: {},
   epochDyna: {},
   migrateData:{},
+  stake: 0
 };
 
 export default createReducer(initialState, (builder) =>

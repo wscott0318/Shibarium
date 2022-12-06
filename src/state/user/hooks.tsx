@@ -462,15 +462,15 @@ export function useEpochDyna(): [string, (newEpochDyna: any) => void] {
   return [epochdynasty, setEpochDyna];
 }
 
-export function useMigrateStake(): [object, (newUseUserType: object) => void] {
+export function useMigrateStake(): [object, (newUseUserType: object, stake:number) => void] {
   const dispatch = useAppDispatch()
   // @ts-ignore TYPE NEEDS FIXING
   const migrateData = useSelector<AppState, AppState["migrateData"]["setMigrateData"]>(
-    (state) => state.user.migrateData
+    (state) => ({...state, data: state.user.migrateData, stake :state.user.stake})
   );
 
   const setMigrateData = useCallback(
-    (fetchedMigrateData: object) => dispatch(updateMigrateData({ migrateData: fetchedMigrateData })), [dispatch]
+    (fetchedMigrateData: object, stake:number) => dispatch(updateMigrateData({ migrateData: fetchedMigrateData ,  stake:stake})), [dispatch]
   );
   return [migrateData, setMigrateData];
 }

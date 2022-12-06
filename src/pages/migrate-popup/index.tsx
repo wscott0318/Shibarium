@@ -94,8 +94,8 @@ const MigratePopup: React.FC<any> = ({
   const totalStake = (migrateData: any) => {
     // console.log("item contains ", migrateData.migrateData);
     // let values = JSON.parse(item);
-    let stakeAmount = migrateData.migrateData.stake;
-    let reward = +migrateData.migrateData.reward > 0 ? (parseInt(migrateData.migrateData.reward) / 10 ** web3Decimals).toFixed(tokenDecimal) : "0.00";
+    let stakeAmount = migrateData?.data?.stake;
+    let reward = +migrateData?.data?.migrateData?.reward > 0 ? (parseInt(migrateData?.data?.migrateData?.reward) / 10 ** web3Decimals).toFixed(tokenDecimal) : "0.00";
     let total = (parseFloat(stakeAmount) + parseFloat(reward));
     setBalance(total);
     // console.log("total stake == ",stakeAmount + " " + reward);
@@ -110,28 +110,25 @@ const MigratePopup: React.FC<any> = ({
       if (account) {
         setTransactionState({ state: true, title: "Pending" });
         let walletAddress: any = account;
-        let fromId = migrateData.migrateData.id;
-        let toId = data.id;
-        let Amount = web3.utils.toBN(+values.balance)
-        ;
-        console.log("line no. 119 ", Amount);
+        let fromId = migrateData?.data?.migrateData?.id;
+        let toId = data.validatorContractId;
+        let totalAmount = parseInt(values.balance) * Math.pow(10, web3Decimals);
+        let Amount = fromExponential(web3.utils.toBN(totalAmount));
         let instance = new web3.eth.Contract(
           stakeManagerProxyABI,
           dynamicChaining[chainId].STAKE_MANAGER_PROXY
         );
         let gasFee = await instance.methods
-        .migrateDelegation(fromId, toId, Amount)
-        .estimateGas({ from: walletAddress });
+          .migrateDelegation(fromId, toId, Amount)
+          .estimateGas({ from: walletAddress });
         let encodedAbi = await instance.methods.migrateDelegation(fromId, toId, Amount).encodeABI();
         let CurrentgasPrice: any = await currentGasPrice(web3);
-        console.log("encoded abi ", encodedAbi);
         await web3.eth
           .sendTransaction({
             from: walletAddress,
             to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
             gas: (parseInt(gasFee) + 30000).toString(),
             gasPrice: CurrentgasPrice,
-            // value : web3.utils.toHex(combinedFees),
             data: encodedAbi,
           })
           .on("transactionHash", (res: any) => {
@@ -165,8 +162,8 @@ const MigratePopup: React.FC<any> = ({
               })
             );
             console.log("receipt ", res);
-            router.push("/migrate-stake", "/migrate-stake", { shallow: true });
-            setTransactionState({ state: false, title: "" });
+            // router.push("/migrate-stake", "/migrate-stake", { shallow: true });
+            // setTransactionState({ state: false, title: "" });
           })
           .on("error", (res: any) => {
             console.log("error ", res);
@@ -237,36 +234,36 @@ const MigratePopup: React.FC<any> = ({
                   <div className="pop-grid flex-grid">
                     <div className="text-center box-block">
                       <div className="d-inline-block img-flexible">
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/etharium.png"
-                            alt=""
-                          />
+                        <img
+                          className="img-fluid"
+                          src="../../assets/images/etharium.png"
+                          alt=""
+                        />
                       </div>
                       <p>Ethereum Mainnet</p>
                     </div>
                     <div className="text-center box-block">
-                        <div className="d-inline-block arow-block right-arrow">
-                            {/* <img className="img-fluid" src="../../assets/images/white-arrow.png" alt="" /> */}
-                            <div className="scrolldown-container">
-                            <div className="scrolldown-btn">
-                              <svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="80px" viewBox="0 0 50 80" enableBackground="new 0 0 50 80" xmlSpace="preserve">
-                                <path className="first-path" fill="#FFFFFF" d="M24.752,79.182c-0.397,0-0.752-0.154-1.06-0.463L2.207,57.234c-0.306-0.305-0.458-0.656-0.458-1.057                  s0.152-0.752,0.458-1.059l2.305-2.305c0.309-0.309,0.663-0.461,1.06-0.461c0.398,0,0.752,0.152,1.061,0.461l18.119,18.119                  l18.122-18.119c0.306-0.309,0.657-0.461,1.057-0.461c0.402,0,0.753,0.152,1.059,0.461l2.306,2.305                  c0.308,0.307,0.461,0.658,0.461,1.059s-0.153,0.752-0.461,1.057L25.813,78.719C25.504,79.027,25.15,79.182,24.752,79.182z" />
-                                <path className="second-path" fill="#FFFFFF" d="M24.752,58.25c-0.397,0-0.752-0.154-1.06-0.463L2.207,36.303c-0.306-0.304-0.458-0.655-0.458-1.057                  c0-0.4,0.152-0.752,0.458-1.058l2.305-2.305c0.309-0.308,0.663-0.461,1.06-0.461c0.398,0,0.752,0.153,1.061,0.461l18.119,18.12                  l18.122-18.12c0.306-0.308,0.657-0.461,1.057-0.461c0.402,0,0.753,0.153,1.059,0.461l2.306,2.305                  c0.308,0.306,0.461,0.657,0.461,1.058c0,0.401-0.153,0.753-0.461,1.057L25.813,57.787C25.504,58.096,25.15,58.25,24.752,58.25z" />
-                              </svg>
-                            </div>
-                          </div> 
+                      <div className="d-inline-block arow-block right-arrow">
+                        {/* <img className="img-fluid" src="../../assets/images/white-arrow.png" alt="" /> */}
+                        <div className="scrolldown-container">
+                          <div className="scrolldown-btn">
+                            <svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="80px" viewBox="0 0 50 80" enableBackground="new 0 0 50 80" xmlSpace="preserve">
+                              <path className="first-path" fill="#FFFFFF" d="M24.752,79.182c-0.397,0-0.752-0.154-1.06-0.463L2.207,57.234c-0.306-0.305-0.458-0.656-0.458-1.057                  s0.152-0.752,0.458-1.059l2.305-2.305c0.309-0.309,0.663-0.461,1.06-0.461c0.398,0,0.752,0.152,1.061,0.461l18.119,18.119                  l18.122-18.119c0.306-0.309,0.657-0.461,1.057-0.461c0.402,0,0.753,0.152,1.059,0.461l2.306,2.305                  c0.308,0.307,0.461,0.658,0.461,1.059s-0.153,0.752-0.461,1.057L25.813,78.719C25.504,79.027,25.15,79.182,24.752,79.182z" />
+                              <path className="second-path" fill="#FFFFFF" d="M24.752,58.25c-0.397,0-0.752-0.154-1.06-0.463L2.207,36.303c-0.306-0.304-0.458-0.655-0.458-1.057                  c0-0.4,0.152-0.752,0.458-1.058l2.305-2.305c0.309-0.308,0.663-0.461,1.06-0.461c0.398,0,0.752,0.153,1.061,0.461l18.119,18.12                  l18.122-18.12c0.306-0.308,0.657-0.461,1.057-0.461c0.402,0,0.753,0.153,1.059,0.461l2.306,2.305                  c0.308,0.306,0.461,0.657,0.461,1.058c0,0.401-0.153,0.753-0.461,1.057L25.813,57.787C25.504,58.096,25.15,58.25,24.752,58.25z" />
+                            </svg>
+                          </div>
                         </div>
+                      </div>
                     </div>
                     <div className="text-center box-block">
                       <div className="d-inline-block img-flexible">
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/shib-borderd-icon.png"
-                            alt=""
-                          />
-                        </div>
-                        <p>Shibarium Mainnet</p>
+                        <img
+                          className="img-fluid"
+                          src="../../assets/images/shib-borderd-icon.png"
+                          alt=""
+                        />
+                      </div>
+                      <p>Shibarium Mainnet</p>
                     </div>
                   </div>
                   <div className="info-box my-3">
@@ -307,46 +304,46 @@ const MigratePopup: React.FC<any> = ({
                     </div>
                   </div>
                   <div className="err-wrap">
-                  <div className="form-field position-relative two-fld max-group extr_pd_remove bg-clr h-auto">
-                    <div className="mid-chain w-100">
-                      <input
-                        className="w-100"
-                        placeholder="0.00"
-                        name="balance"
-                        autoComplete="off"
-                        value={values.balance}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
+                    <div className="form-field position-relative two-fld max-group extr_pd_remove bg-clr h-auto">
+                      <div className="mid-chain w-100">
+                        <input
+                          className="w-100"
+                          placeholder="0.00"
+                          name="balance"
+                          autoComplete="off"
+                          value={values.balance}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </div>
+                      <button
+                        disabled={walletBalance > 0 ? false : true}
+                        onClick={(e) => useMax(e)}
+                        className="rt-chain"
+                      >
+                        <span className="orange-txt fw-bold">MAX</span>
+                      </button>
                     </div>
-                    <button
-                      disabled={walletBalance > 0 ? false : true}
-                      onClick={(e) => useMax(e)}
-                      className="rt-chain"
-                    >
-                      <span className="orange-txt fw-bold">MAX</span>
-                    </button>
-                  </div>
-                  {errors.balance && touched.balance ? (
-                    <p className="primary-text error">{errors.balance}</p>
-                  ) : null}
+                    {errors.balance && touched.balance ? (
+                      <p className="primary-text error">{errors.balance}</p>
+                    ) : null}
 
-                  <p className="inpt_fld_hlpr_txt mt-3 text-pop-right d-flex flex-wrap mt-4">
-                    <span>
-                      <NumberFormat
-                        value={(Number(router.query.id) * boneUSDValue).toFixed(
-                          tokenDecimal
-                        )}
-                        displayType={"text"}
-                        thousandSeparator={true}
-                        prefix={"$ "}
-                      />
-                    </span>
-                    <span className="text-right">
-                      Balance: {balance}{" "}
-                      BONE
-                    </span>
-                  </p>
+                    <p className="inpt_fld_hlpr_txt mt-3 text-pop-right d-flex flex-wrap mt-4">
+                      <span>
+                        <NumberFormat
+                          value={(Number(router.query.id) * boneUSDValue).toFixed(
+                            tokenDecimal
+                          )}
+                          displayType={"text"}
+                          thousandSeparator={true}
+                          prefix={"$ "}
+                        />
+                      </span>
+                      <span className="text-right">
+                        Balance: {balance}{" "}
+                        BONE
+                      </span>
+                    </p>
                   </div>
                   <div className="image_area row">
                     <div className="col-12 text-center">

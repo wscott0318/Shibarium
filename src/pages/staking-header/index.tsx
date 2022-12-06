@@ -18,6 +18,7 @@ import * as Sentry from "@sentry/nextjs";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
 import { useAppDispatch } from "app/state/hooks";
 import { clearAllTransactions } from "app/state/transactions/actions";
+import Image from "next/image";
 
 const StakingHeader = () => {
   const router = useRouter();
@@ -225,13 +226,12 @@ const StakingHeader = () => {
         <div className="popmodal-body tokn-popup no-ht trans-mod">
           <div className="pop-block">
             <div className="pop-top">
-               
               <div className="dark-bg-800 h-100 status-sec sec-ht position-relative status-sep-popup">
                 <img
                   className="img-fluid"
                   src="../../assets/images/waiting-small.png" 
-                  alt=""
-                ></img>
+                  alt="Wait"
+                />
                <p className="light-text primary-text"> Wait for {dynasty} checkpoints to see your account info...</p>
               </div>
             </div>
