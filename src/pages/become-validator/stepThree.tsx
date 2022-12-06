@@ -339,6 +339,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
   return (
     <>
+    <ToastContainer/>
       {/* {apiLoading && <LoadingSpinner />} */}
       <div className="progress-tab">
         <div className="mb-4 mb-xl-5">
@@ -477,7 +478,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               <div className="row-st">
                 <div className="blk-dta">
                   <label htmlFor="" className="form-label ff-mos mb-0">
-                    Minimum: {minDeposit} BONE + fee
+                    Minimum: {minDeposit} BONE + fees
                   </label>
                 </div>
                 <div className="blk-dta">
