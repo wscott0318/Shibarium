@@ -12,12 +12,12 @@ import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 import { queryProvider } from 'Apollo/client';
 import { allValidatorsQuery } from 'Apollo/queries';
 import * as Sentry from '@sentry/nextjs'
-import { inActiveCount } from 'web3/commonFunctions';
+import { inActiveCount, tokenDecimal, web3Decimals } from 'web3/commonFunctions';
 import { useRouter } from 'next/router';
 import { useMigrateStake } from "app/state/user/hooks";
 
 
-const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) => {
+const ListData:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) => {
     const pageSize = 10;
     const router = useRouter();
     const [loading, setLoading] = useState<boolean>(true);
@@ -29,13 +29,10 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [searchKey, setSearchKey] = useState<string>('');
     const [sortKey, setSortKey] = useState<string>('Uptime');
-
-    const [migrateData, setMigrateData] = useMigrateStake();
-
-    console.log(migrateData, "data for migrate ===> ")
-  
+    const [migrateData , setMigrateData] = useMigrateStake();
     const searchResult = useSearchFilter(validatorsByStatus, searchKey.trim());
-  
+    // @ts-ignore
+    const balance = migrateData?.data;
     useEffect(() =>{
       const slicedList = searchResult.slice(0, pageSize).sort((a:any, b:any)=> parseInt(b.uptimePercent) - parseInt(a.uptimePercent))
       const sortAgain = slicedList.slice(0, pageSize).sort((a:any, b:any) => parseInt(b.totalStaked) - parseInt(a.totalStaked))
@@ -150,22 +147,22 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     <section className="table-section pb-4 pb-lg-5 active-inactive">
           <div className="container">
             <div className="heading-sec">
-              {/* <h2 className="sub-head ff-mos">{router.asPath.split("/")[1]==="migrate-stake" ? "" : "All Validators"}</h2> */}
+              <h2 className="sub-head ff-mos">Migrate Your Stake</h2>
             </div>
             <div className='infrm-sec'>
               <div className='text-center'>
                 <h3>Choose New Validator</h3>
-                <p>Migrate your stake to a new validator from Matic Foundation Nodes. </p>
+                <p>Migrate your stake to a new validator from Bone Foundation Nodes. </p>
               </div>
               <div className='block-info'>
                 <div className=' row'>
                   <div className='bl-lft col-md-6'>
                     <p className='txt-xsm mb-0'>Stake to move</p>
-                    <div className='txt-sm'>50 BONE</div>
+                    <div className='txt-sm'>{balance?.stake != "undefined" ? balance?.stake : "0.00"} BONE</div>
                   </div>
                   <div className='bl-rt col-md-6'>
                     <p className='txt-xsm mb-0'>Rewards added to your wallet</p>
-                    <div className='txt-sm'>0.83 BONE</div>
+                    <div className='txt-sm'>{balance?.migrateData?.reward > 0 ? (parseInt(balance?.migrateData?.reward) / 10 ** web3Decimals).toFixed(tokenDecimal) : "0.00"} BONE</div>
                   </div>
                 </div>
               </div>
@@ -254,4 +251,4 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
   )
 }
 
-export default Valitotors
+export default ListData

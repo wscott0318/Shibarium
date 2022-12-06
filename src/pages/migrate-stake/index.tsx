@@ -18,7 +18,6 @@ import { BONE_ID } from "../../config/constant";
 import { useEthBalance } from "../../hooks/useEthBalance";
 import { useTokenBalance } from "../../hooks/useTokenBalance";
 import { dynamicChaining } from "web3/DynamicChaining";
-import Valitotors from "pages/all-validator/valitotors";
 import ListData from "./ListData"
 
 export default function MyAcount() {

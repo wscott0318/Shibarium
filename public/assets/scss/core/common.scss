@@ -4283,6 +4283,23 @@ input:-internal-autofill-selected {
     left: 0;
   }
 }
+.completed_img {
+  display: flex;
+  justify-content: center;
+  background: orange;
+  width: 12%;
+  padding: 9px;
+  border-radius: 50px;
+  margin: 0 auto;
+}
+.migrate_stake .modal-content {
+  height: auto !important;
+}
+@media (max-width:767.98px){
+  .hd-sel.block{
+    display: block;
+  }
+}
 @media (max-width:420px){
   .loading-steps .step_wrapper {
       width: 100%;
