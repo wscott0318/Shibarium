@@ -155,7 +155,7 @@ export default function Withdraw() {
       let instance = new web3.eth.Contract(ERC20, token);
       instance.methods.approve(contract, amountWei).send({ from: user })
         .on('transactionHash', (res: any) => {
-          console.log(res, "hash")
+          // console.log(res, "hash")
           dispatch(
             addTransaction({
               hash: res,
@@ -165,7 +165,7 @@ export default function Withdraw() {
             })
           )
         }).on('receipt', (res: any) => {
-          console.log(res, "receipt")
+          // console.log(res, "receipt")
           dispatch(
             finalizeTransaction({
               hash: res.transactionHash,
@@ -186,7 +186,7 @@ export default function Withdraw() {
           let instance = new web3.eth.Contract(depositManagerABI, DEPOSIT_MANAGER_PROXY);
           instance.methods.depositERC20(selectedToken.parentContract, amount).send({ from: account })
             .on('transactionHash', (res: any) => {
-              console.log(res, "hash")
+              // console.log(res, "hash")
               dispatch(
                 addTransaction({
                   hash: res,
@@ -205,7 +205,7 @@ export default function Withdraw() {
               });
               setDepositTokenInput('');
             }).on('receipt', (res: any) => {
-              console.log(res, "receipt")
+              // console.log(res, "receipt")
               dispatch(
                 finalizeTransaction({
                   hash: res.transactionHash,
@@ -224,7 +224,7 @@ export default function Withdraw() {
               )
               setDepositModal(false);
             }).on('error', (res: any) => {
-              console.log(res, "error")
+              // console.log(res, "error")
               if (res.code === 4001) {
                 setDepModState({
                   step0: true,
@@ -239,7 +239,7 @@ export default function Withdraw() {
 
 
         }).on('error', (res: any) => {
-          console.log(res, "error")
+          // console.log(res, "error")
           if (res.code === 4001) {
             setDepModState({
               step0: true,
@@ -288,14 +288,14 @@ export default function Withdraw() {
         let allowance = await getAllowanceAmount(library, selectedToken.parentContract, account, DEPOSIT_MANAGER_PROXY) || 0
 
         if (+depositTokenInput > +allowance) {
-          console.log("need approval")
+          // console.log("need approval")
           approvalForDeposit(amountWei, selectedToken.parentContract, DEPOSIT_MANAGER_PROXY)
         } else {
-          console.log("no approval needed")
+          // console.log("no approval needed")
           let instance = new web3.eth.Contract(depositManagerABI, DEPOSIT_MANAGER_PROXY);
           instance.methods.depositERC20(selectedToken.parentContract, amountWei).send({ from: account })
             .on('transactionHash', (res: any) => {
-              console.log(res, "hash")
+              // console.log(res, "hash")
               dispatch(
                 addTransaction({
                   hash: res,
@@ -314,7 +314,7 @@ export default function Withdraw() {
               });
               setDepositTokenInput('');
             }).on('receipt', (res: any) => {
-              console.log(res, "receipt")
+              // console.log(res, "receipt")
               dispatch(
                 finalizeTransaction({
                   hash: res.transactionHash,
@@ -333,7 +333,7 @@ export default function Withdraw() {
               )
               setDepositModal(false);
             }).on('error', (res: any) => {
-              console.log(res, "error")
+              // console.log(res, "error")
               if (res.code === 4001) {
                 setDepModState({
                   step0: true,
@@ -347,7 +347,7 @@ export default function Withdraw() {
         }
 
       } else {
-        console.log("account not found")
+        // console.log("account not found")
       }
     }
     catch (err: any) {

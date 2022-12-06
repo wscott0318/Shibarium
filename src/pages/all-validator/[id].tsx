@@ -76,7 +76,7 @@ export default function ValidatorDetails() {
             let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId]?.STAKE_MANAGER_PROXY);
             const valStake = await instance.methods.validators(id).call();
             let finalAMount = (+valStake.amount + +valStake.delegatedAmount) / Math.pow(10, web3Decimals)
-            console.log(valStake, finalAMount, "data ==> ")
+            // console.log(valStake, finalAMount, "data ==> ")
             setTotalSupply(finalAMount)
         }
         catch(err:any){

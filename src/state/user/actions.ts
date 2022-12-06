@@ -56,3 +56,6 @@ export const updateValInfoContract = createAction<{
 export const updateEpochDyna = createAction<{
   epochDyna: string;
 }>("user/updateEpochDyna");
+export const updateMigrateData = createAction<{
+  migrateData: object;
+}>("user/updateMigrateData");

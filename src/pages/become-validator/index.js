@@ -56,7 +56,7 @@ const Rewards = () => {
   const getValInfo = () => {
     let id = account
     getValidatorInfo(id.toLowerCase()).then((res) => {
-      console.log(res.data.message.val, " vall inffoo ===> ")
+      // console.log(res.data.message.val, " vall inffoo ===> ")
       // setValues('name', res?.data?.message?.val?.name)
       // setValues('publickey', res.data.message.val.publickey)
       // setValues('website', res.data.message.val.description)

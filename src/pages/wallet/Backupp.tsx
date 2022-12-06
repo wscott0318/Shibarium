@@ -265,7 +265,7 @@ export default function Wallet() {
     let gasFee =  await instance.methods.transfer(senderAddress, amount).estimateGas({from: user})
     let encodedAbi =  await instance.methods.transfer(senderAddress, amount).encodeABI()
     let CurrentgasPrice : any = await currentGasPrice(web3)
-       console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+      //  console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
        await web3.eth.sendTransaction({
          from: user,
          to: '0x5063b1215bbF268ab00a5F47cDeC0A4783c3Ab58',
@@ -315,7 +315,7 @@ export default function Wallet() {
         setTokenList([])
         getTokensList()
       }).on('error', (err: any) => {
-        console.log(err, "error")
+        // console.log(err, "error")
         if (err.code === 4001) {
           setSenderModal(false)
           setSendModal(sendInitialState)

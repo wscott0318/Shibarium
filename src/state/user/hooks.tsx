@@ -39,7 +39,8 @@ import {
   updateUserUseOpenMev,
   updateValId,
   updateValInfo,
-  updateEpochDyna
+  updateEpochDyna,
+  updateMigrateData
 } from "./actions";
 import { update } from 'lodash'
 
@@ -459,4 +460,17 @@ export function useEpochDyna(): [string, (newEpochDyna: any) => void] {
   );
 
   return [epochdynasty, setEpochDyna];
+}
+
+export function useMigrateStake(): [object, (newUseUserType: object) => void] {
+  const dispatch = useAppDispatch()
+  // @ts-ignore TYPE NEEDS FIXING
+  const migrateData = useSelector<AppState, AppState["migrateData"]["setMigrateData"]>(
+    (state) => state.user.migrateData
+  );
+
+  const setMigrateData = useCallback(
+    (fetchedMigrateData: object) => dispatch(updateMigrateData({ migrateData: fetchedMigrateData })), [dispatch]
+  );
+  return [migrateData, setMigrateData];
 }

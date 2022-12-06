@@ -120,7 +120,7 @@ const DelegatePopup: React.FC<any> = ({
       amount: values.balance,
     };
     setTnxCompleted(false);
-    console.log(requestBody);
+    // console.log(requestBody);
     if (account) {
       let lib: any = library;
       let web3: any = new Web3(lib?.provider);
@@ -147,12 +147,12 @@ const DelegatePopup: React.FC<any> = ({
       fromExponential(+requestBody.amount * Math.pow(10, 18))
     );
     try{
-      console.log("No approval needed", amount);
+      // console.log("No approval needed", amount);
         let instance = new web3.eth.Contract(
           ValidatorShareABI,
           requestBody.validatorAddress
         )
-          console.log({amount, _minSharesToMint})
+          // console.log({amount, _minSharesToMint})
           await instance.methods.buyVoucher(amount, _minSharesToMint).send({from : walletAddress})
           .on('transactionHash', (res: any) => {
             setLoader(false)
@@ -223,7 +223,7 @@ const DelegatePopup: React.FC<any> = ({
   const APPROVE_BONE = async (requestBody :any) => {
     let walletAddress : any = account;
     try{
-      console.log("need Approval", amount);
+      // console.log("need Approval", amount);
       let approvalAmount = web3.utils.toBN(
         fromExponential(MAXAMOUNT * Math.pow(10, 18))
       );
@@ -231,7 +231,7 @@ const DelegatePopup: React.FC<any> = ({
      let gasFee =  await approvalInstance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, approvalAmount).estimateGas({from: walletAddress})
      let encodedAbi =  await approvalInstance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, approvalAmount).encodeABI()
      let CurrentgasPrice : any = await currentGasPrice(web3)
-        console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+        // console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
         await web3.eth.sendTransaction({
           from: walletAddress,
           to: dynamicChaining[chainId].BONE,
@@ -300,7 +300,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
     initialValues: initialValues,
     validationSchema: schema,
     onSubmit: (values) => {
-      console.log("Value", values);
+      // console.log("Value", values);
       setdelegateState({
         step0:false,
         step1:true,

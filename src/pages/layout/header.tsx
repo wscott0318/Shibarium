@@ -32,7 +32,7 @@ export default function Header() {
   const [valId, setValId] = useValId();
 
 
-  console.log("valInfoContract data=======>",userType,valInfoContract)
+  // console.log("valInfoContract data=======>",userType,valInfoContract)
   // const [valId, setValId] = useValId();
 
   // console.log("valid redux ===> ",userType, valId);
@@ -80,7 +80,7 @@ const [scroll, setScroll] = useState(false);
 
     const { ethereum } = window as any
     const handleAccountsChanged = (accounts: string[]) => {
-      console.log("Handling 'accountsChanged' event with payload", accounts)
+      // console.log("Handling 'accountsChanged' event with payload", accounts)
       localStorage.clear()
     }
 

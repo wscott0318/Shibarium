@@ -1,23 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect, useRef } from "react";
 import Valitotors from "./valitotors";
-import { useUserType , useValId} from "app/state/user/hooks";
+import { useUserType, useValId } from "app/state/user/hooks";
 import { useRouter } from "next/router";
 import { useActiveWeb3React } from "../../services/web3"
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { dynamicChaining } from 'web3/DynamicChaining';
-import { L1Block, ChainId} from 'app/hooks/L1Block';
+import { L1Block, ChainId } from 'app/hooks/L1Block';
 import * as Sentry from "@sentry/nextjs";
 
 export const Allvalidator: React.FC = () => {
-  
+
   const [userType, setUserType] = useUserType();
   const { account, chainId = 1, library } = useActiveWeb3React();
   const myRef = useRef<any>(null)
   const router = useRouter();
   const executeScroll = () => myRef.current.scrollIntoView()
-  const [ nodeSetup, setNodeSetup] = useState<any>('')
+  const [nodeSetup, setNodeSetup] = useState<any>('')
   const [valCount, setValCount] = useState(0);
   const [valMaxCount, setValMaxCount] = useState(0);
   const [valId, setValId] = useValId();
@@ -26,37 +26,37 @@ export const Allvalidator: React.FC = () => {
   const getValInfo = () => {
     try {
       const valData = JSON.parse(localStorage.getItem("valInfo") || '{}')
-      if(Object.keys(valData).length) {
+      if (Object.keys(valData).length) {
         setNodeSetup(valData.status)
       } else {
         let id : any = account
         getValidatorInfo(id.toLowerCase()).then((res : any) => {
-          console.log(res.data.message.val?.status, " vall status ===> ")
+          // console.log(res.data.message.val?.status, " vall status ===> ")
           setNodeSetup(res.data.message.val?.status ? res.data.message.val?.status : null)
           localStorage.setItem("valInfo", JSON.stringify(res.data.message.val))
         })
       }
-    } catch (err :any) {
-        Sentry.captureMessage("getValCount", err);
+    } catch (err: any) {
+      Sentry.captureMessage("getValCount", err);
     }
   }
 
   const web3test = L1Block();
 
   const getValCount = async () => {
-    try{
+    try {
       const id = await ChainId()
       let instance = new web3test.eth.Contract(stakeManagerProxyABI, dynamicChaining[id]?.STAKE_MANAGER_PROXY);
-        const valCount = await instance.methods.currentValidatorSetSize().call();
-        const validatorThreshold = await  instance.methods.validatorThreshold().call();
-        const valInfo = await  instance.methods.validators(valId).call({from:account});
-        const valStake = await  instance.methods.validatorStake(valId).call({from:account});
-        // console.log(valInfo,valStake,valCount, "val info ===> ")
-        setValCount(valCount)
-        setValMaxCount(validatorThreshold)
+      const valCount = await instance.methods.currentValidatorSetSize().call();
+      const validatorThreshold = await instance.methods.validatorThreshold().call();
+      const valInfo = await instance.methods.validators(valId).call({ from: account });
+      const valStake = await instance.methods.validatorStake(valId).call({ from: account });
+      // console.log(valInfo,valStake,valCount, "val info ===> ")
+      setValCount(valCount)
+      setValMaxCount(validatorThreshold)
     }
-    catch(err:any){
-      Sentry.captureMessage("getValCount" , err);
+    catch (err: any) {
+      Sentry.captureMessage("getValCount", err);
     }
   }
 
