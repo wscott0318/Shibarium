@@ -357,43 +357,43 @@ const MigratePopup: React.FC<any> = ({
                           <span className="user-icon"></span>
                         </div>
                       </div> */}
-                            <div className="fw-700">
-                              <span className="vertical-align ft-22">
-                                {data.name}
-                              </span>
-                              <p>
-                                <span className="light-text">
-                                  {data?.uptimePercent?.toFixed(toFixedPrecent)}%
-                                  Performance - {data.commissionrate} % Commission
-                                </span>
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="err-wrap">
-                          <div className="form-field position-relative two-fld max-group extr_pd_remove bg-clr h-auto">
-                            <div className="mid-chain w-100">
-                              <input
-                                className="w-100"
-                                placeholder="0.00"
-                                name="balance"
-                                autoComplete="off"
-                                value={values.balance}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                              />
-                            </div>
-                            <button
-                              disabled={walletBalance > 0 ? false : true}
-                              onClick={(e) => useMax(e)}
-                              className="rt-chain"
-                            >
-                              <span className="orange-txt fw-bold">MAX</span>
-                            </button>
-                          </div>
-                          {errors.balance && touched.balance ? (
-                            <p className="primary-text error">{errors.balance}</p>
-                          ) : null}
+                      <div className="fw-700">
+                        <span className="vertical-align ft-22">
+                          {data.name}
+                        </span>
+                        <p>
+                          <span className="light-text">
+                            {data?.uptimePercent?.toFixed(toFixedPrecent)}%
+                            Performance - <span className="br-txt">{data.commissionrate} % Commission</span>
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="err-wrap">
+                  <div className="form-field position-relative two-fld max-group extr_pd_remove bg-clr h-auto">
+                    <div className="mid-chain w-100">
+                      <input
+                        className="w-100"
+                        placeholder="0.00"
+                        name="balance"
+                        autoComplete="off"
+                        value={values.balance}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                    <button
+                      disabled={walletBalance > 0 ? false : true}
+                      onClick={(e) => useMax(e)}
+                      className="rt-chain"
+                    >
+                      <span className="orange-txt fw-bold">MAX</span>
+                    </button>
+                  </div>
+                  {errors.balance && touched.balance ? (
+                    <p className="primary-text error">{errors.balance}</p>
+                  ) : null}
 
                           <p className="inpt_fld_hlpr_txt mt-3 text-pop-right d-flex flex-wrap mt-4">
                             <span>
