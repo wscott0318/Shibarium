@@ -13,9 +13,10 @@ import { useModalOpen, useWalletModalToggle } from '../../state/application/hook
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import ReactGA from 'react-ga'
-
+import { useRouter } from 'next/router'
 import Option from './Option'
 import PendingView from './PendingView'
+import {  NextResponse } from 'next/server'
 
 enum WALLET_VIEWS {
   OPTIONS,
@@ -78,6 +79,8 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
     setWalletView(WALLET_VIEWS.ACCOUNT)
   }, [deactivate])
 
+  const router = useRouter()
+
   const tryActivation = useCallback(
     async (connector: (() => Promise<AbstractConnector>) | AbstractConnector | undefined, id: string) => {
       let name = ''
@@ -115,6 +118,7 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
           // console.log(res)
         }
         )
+        // router.push('/bone-staking')
     },
     [activate]
   )
