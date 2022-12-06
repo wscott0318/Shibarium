@@ -191,7 +191,7 @@ const validatorAccount = ({
     }
   };
 
-  // console.log(stakeAmounts)
+  console.log(stakeAmounts)
 
   const handleModal = (
     btn: String,
@@ -1081,6 +1081,7 @@ const validatorAccount = ({
       { shallow: true }
     )
   }
+
   const getStake = (id: String) => {
     try {
       // console.log
@@ -1094,6 +1095,7 @@ const validatorAccount = ({
       Sentry.captureException("getStake ", err);
     }
   };
+  
   const totalStake = (item: any) => {
     console.log("item contains ", item);
     // let values = JSON.parse(item);

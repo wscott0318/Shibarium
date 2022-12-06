@@ -19,6 +19,7 @@ import { useEthBalance } from "../../hooks/useEthBalance";
 import { useTokenBalance } from "../../hooks/useTokenBalance";
 import { dynamicChaining } from "web3/DynamicChaining";
 import Valitotors from "pages/all-validator/valitotors";
+import ListData from "./ListData"
 
 export default function MyAcount() {
   const { account, chainId = 1 } = useActiveWeb3React();
@@ -49,7 +50,7 @@ export default function MyAcount() {
         {/* banner section closed */}
 
         <div id="all-validators-section" ref={myRef} className=" ffms-inherit">
-          <Valitotors withStatusFilter={true} />
+          <ListData withStatusFilter={true} />
         </div>
       </main>
     </>

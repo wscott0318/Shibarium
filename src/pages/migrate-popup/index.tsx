@@ -91,16 +91,18 @@ const MigratePopup: React.FC<any> = ({
   const closeModal = (e: any) => {
     onHide();
   };
+
   const totalStake = (migrateData: any) => {
     // console.log("item contains ", migrateData.migrateData);
     // let values = JSON.parse(item);
-    let stakeAmount = migrateData.migrateData.stake;
-    let reward = +migrateData.migrateData.reward > 0 ? (parseInt(migrateData.migrateData.reward) / 10 ** web3Decimals).toFixed(tokenDecimal) : "0.00";
+    let stakeAmount = migrateData?.migrateData?.stake;
+    let reward = +migrateData?.migrateData?.reward > 0 ? (parseInt(migrateData?.migrateData?.reward) / 10 ** web3Decimals).toFixed(tokenDecimal) : "0.00";
     let total = (parseFloat(stakeAmount) + parseFloat(reward));
     setBalance(total);
     // console.log("total stake == ",stakeAmount + " " + reward);
 
   }
+
 
   useEffect(() => {
     totalStake(migrateData);
