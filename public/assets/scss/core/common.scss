@@ -2840,7 +2840,7 @@ input:-internal-autofill-selected {
         padding: 4px;
         width: 250px;
         top: 40px;
-        left: -40px;
+        left: -35px;
         bottom: auto;
         font-weight: 600;
       }
@@ -2862,8 +2862,8 @@ input:-internal-autofill-selected {
           top: 29px;
         }
         @media #{$max-sm} {
-          top: -13px;
-          left: 35px;
+          top: -12px;
+          left: 31px;
           bottom: auto;
           transform: rotate(180deg);
         }
