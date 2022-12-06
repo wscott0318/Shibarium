@@ -152,13 +152,13 @@ const MigratePopup: React.FC<any> = ({
               "transaction"
             );
             setExplorerLink(link);
-            setProcessing("completed");
             console.log("transaction hash ", res);
             setTransactionState({ state: true, title: "Submitted" });
             let newStake = (migrateData?.data?.stake - values.balance);
             setMigrateData(migrateData, newStake);
             console.log("new stake balance == > ", migrateData);
             // setTimeout(() => { setmigratepop(false) }, 1000);
+            setProcessing("completed");
           })
           .on("receipt", (res: any) => {
             dispatch(

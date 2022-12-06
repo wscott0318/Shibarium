@@ -376,7 +376,7 @@ export default function Unbond() {
           title={"Restake"}
           show={claimNowModals.confirm}
           setshow={setClamNowModals}
-          externalCls=""
+          externalCls="rstk-popup"
         >
           <div className="del-tab-content">
             <div className="pb-3 pb-sm-4">

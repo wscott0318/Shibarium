@@ -377,7 +377,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
               <input
                 type="text"
-                className="form-control"
+                className="form-control fld-fade"
                 placeholder="i.e Dark Knight Ventures"
                 name="name"
                 value={becomeValidateData.name}
@@ -393,7 +393,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               </label>
               <input
                 type="text"
-                className="form-control"
+                className="form-control fld-fade"
                 placeholder="https://knightventures.com"
                 name="website"
                 value={becomeValidateData.website}
@@ -408,7 +408,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               </label>
               <input
                 type="text"
-                className="form-control"
+                className="form-control fld-fade"
                 placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
                 name="address"
                 readOnly={true}
@@ -428,7 +428,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
               <input
                 type="text"
-                className="form-control"
+                className="form-control fld-fade"
                 placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
                 name="publickey"
                 readOnly={true}
@@ -436,7 +436,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               />
             </div>
           </div>
-          <div className="col-sm-6 form-grid">
+          <div className="col-sm-6 form-grid mx-field cus-tool">
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
                 Enter the stake amount <span className="get-info">i</span>
@@ -447,7 +447,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               <div className="maxButtonFloat">
                 <input
                   type="text"
-                  className=" mb-2 form-control"
+                  className=" mb-4 form-control"
                   placeholder="00.00"
                   value={values.amount}
                   readOnly={availBalance <= 0}
@@ -455,7 +455,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                 />
                 <button
                   disabled={availBalance <= 0}
-                  className="MaxAmountButton orange-txt fw-bold amt-val"
+                  className="MaxAmountButton orange-txt fw-bold amt-val max-bdge"
                   onClick={() => {
                     setFieldValue(
                       "text",
@@ -516,7 +516,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
           setshow={() =>
             setTransactionState({ state: false, title: "Pending" })
           }
-          externalCls="faucet-pop"
+          externalCls="faucet-pop no-lft"
         >
           <div className="popmodal-body tokn-popup no-ht trans-mod">
             <div className="pop-block">
