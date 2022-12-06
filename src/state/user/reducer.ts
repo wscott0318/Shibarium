@@ -18,7 +18,8 @@ import {
   updateUserUseOpenMev,
   updateValId,
   updateValInfo,
-  updateEpochDyna
+  updateEpochDyna,
+  updateMigrateData
 } from "./actions";
 
 const currentTimestamp = () => new Date().getTime()
@@ -57,6 +58,7 @@ export interface UserState {
   valInfo: object;
   valInfoContract: object;
   epochDyna: object;
+  migrateData:object;
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -77,6 +79,7 @@ export const initialState: UserState = {
   valInfo: {},
   valInfoContract: {},
   epochDyna: {},
+  migrateData:{},
 };
 
 export default createReducer(initialState, (builder) =>
@@ -161,5 +164,8 @@ export default createReducer(initialState, (builder) =>
     })
     .addCase(updateEpochDyna, (state, action) => {
       state.epochDyna = action.payload;
+    })
+    .addCase(updateMigrateData, (state, action) => {
+      state.migrateData = action.payload;
     })
 );

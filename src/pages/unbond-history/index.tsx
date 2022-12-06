@@ -92,14 +92,14 @@ export default function Unbond() {
         }
         
         let validatorContract = await getValidatorContractAddress((parseInt(data.validatorId)))
-        console.log(data, validatorContract)
+        // console.log(data, validatorContract)
         if(account){
             let walletAddress = account
             let instance = new web3.eth.Contract(ValidatorShareABI, validatorContract);
             let gasFee =  await instance.methods.unstakeClaimTokens_new(data.unbondNonce).estimateGas({from: walletAddress})
             let encodedAbi =  await instance.methods.unstakeClaimTokens_new(data.unbondNonce).encodeABI()
             let CurrentgasPrice : any = await currentGasPrice(web3)
-            console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+            // console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
             await web3.eth.sendTransaction({
               from: walletAddress,
               to: validatorContract,
@@ -287,7 +287,7 @@ export default function Unbond() {
                                       checkpoints
                                     </span>
                                     <button
-                                      className="primary-badge px-2 hd-sel"
+                                      className="primary-badge px-2 hd-sel disabled"
                                       type="button"
                                       disabled={true}
                                       onClick={() =>

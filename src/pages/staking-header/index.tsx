@@ -50,12 +50,12 @@ const StakingHeader = () => {
       await getValidatorInfo(id).then(res => {
         if (res.data && res.data.message) {
           let info = res.data.message.val;
-          console.log("get val info data = ", res.data.message.val);
+          // console.log("get val info data = ", res.data.message.val);
           setValInfo(info);
         }
       }).catch(err => console.log("err => " , err))
     } catch (error: any) {
-      console.log("catch err => ", error);
+      // console.log("catch err => ", error);
       Sentry.captureMessage("getValInfoApi ", error);
     }
   }
@@ -80,7 +80,7 @@ const StakingHeader = () => {
     } 
   }, [router, account]);
 
-  console.log("usertype ==> ", valId);
+  // console.log("usertype ==> ", valId);
 
   const getDynsetyValue = async () => {
     try {

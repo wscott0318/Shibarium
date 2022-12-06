@@ -58,7 +58,7 @@ export default function Wallet() {
   const router = useRouter()
   const { chainId = 1, account, library } = useActiveWeb3React();
   const id: any = chainId
-  console.log(chainId, account, "chainID")
+  // console.log(chainId, account, "chainID")
 
   // const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
   const lib: any = library

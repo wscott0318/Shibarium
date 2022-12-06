@@ -30,7 +30,7 @@ export default function faucet() {
   const { chainId = 1, account, library } = useActiveWeb3React();
 
   const handleMenuState = () => {
-    console.log("called click")
+    // console.log("called click")
     setMenuState(!menuState);
   }
 
@@ -41,7 +41,7 @@ export default function faucet() {
   }, [account])
   
 
-  console.log(chainId, account, library)
+  // console.log(chainId, account, library)
   const handleTopdoG = () => {
     // console.log("handleTopdoG");
     setIsTopdoG(true);
@@ -65,7 +65,7 @@ export default function faucet() {
     })
     await axios.get(`https://dev-faucet.hailshiba.com/api/faucet/${account}`)
       .then((res: any) => {
-        console.log(res.data)
+        // console.log(res.data)
         setModalState({
           pending: false,
           done: true,
@@ -85,7 +85,7 @@ export default function faucet() {
 
   const handleCaptcha = (e: any) => {
   
-    console.log("receptcha event ", e)
+    // console.log("receptcha event ", e)
     setClickedCaptcha(true);
   }
   

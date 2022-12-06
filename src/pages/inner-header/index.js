@@ -48,7 +48,7 @@ const InnerHeader = () => {
   const [menuState, setMenuState] = useState(false);
 
   const handleMenuState = () => {
-    console.log("called menue")
+    // console.log("called menue")
     setMenuState(false)
   }
 

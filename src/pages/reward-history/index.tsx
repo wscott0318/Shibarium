@@ -59,8 +59,8 @@ export default function Unbond() {
       if (account) {
         const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
         const ID = await instance.methods.getValidatorId(user).call({ from: account }); // read
-        console.log(ID)
-        return ID
+        // console.log(ID)
+        // return ID
       } else {
         console.log("account addres not found")
       }
@@ -78,7 +78,7 @@ export default function Unbond() {
       const validators = await queryProvider.query({
         query: validatorRewardHistory(valID),
       })
-      console.log(validators.data.validatorClaimRewards, "added ===> ")
+      // console.log(validators.data.validatorClaimRewards, "added ===> ")
       // return validators.data
       setValidatorData(validators.data.validatorClaimRewards)
       setListLoader(false)
