@@ -14,6 +14,7 @@ import { allValidatorsQuery } from 'Apollo/queries';
 import * as Sentry from '@sentry/nextjs'
 import { inActiveCount } from 'web3/commonFunctions';
 import { useRouter } from 'next/router';
+import { useMigrateStake } from "app/state/user/hooks";
 
 
 const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) => {
@@ -28,6 +29,10 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [searchKey, setSearchKey] = useState<string>('');
     const [sortKey, setSortKey] = useState<string>('Uptime');
+
+    const [migrateData, setMigrateData] = useMigrateStake();
+
+    console.log(migrateData, "data for migrate ===> ")
   
     const searchResult = useSearchFilter(validatorsByStatus, searchKey.trim());
   
