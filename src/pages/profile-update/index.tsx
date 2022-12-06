@@ -35,7 +35,7 @@ export default function ProfileUpdate() {
         setLoader(true)
         try {
             await getValidatorInfo(account).then((res: any) => {
-                console.log(res.data.message.val)
+                // console.log(res.data.message.val)
                 setImageURL(res.data.message.val.logoUrl)
                 setValues({
                     validatorname: res.data.message.val.name,
@@ -102,12 +102,12 @@ export default function ProfileUpdate() {
             data.append("img", imageData.image);
             if (!imgsize) {
                 await updateValidator(data).then((res: any) => {
-                    console.log(res)
+                    // console.log(res)
                     setLoader(false)
                     callValidatorInfo(values.address)
                     notify()
                 }).catch((err: any) => {
-                    console.log(err)
+                    // console.log(err)
                     setLoader(false)
                 })
             } else {
@@ -140,7 +140,7 @@ export default function ProfileUpdate() {
             initialValues: initialValues,
             validationSchema: schema,
             onSubmit: (values) => {
-                console.log("Value", values);
+                // console.log("Value", values);
                 callAPI(values);
             },
         });

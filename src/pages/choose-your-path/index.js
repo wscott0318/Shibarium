@@ -137,10 +137,10 @@ const Delegatorvalidator = () => {
             {/* path section start */}
             <section className='path-section ffms-inherit'>
                 <div className="float-bottom-left">
-                    <img className='img-fluid' src="../../assets/images/shape-left-btm.png" alt="shape-img" />
+                    {/* <img className='img-fluid' src="../../assets/images/shape1.png" alt="shape-img" /> */}
                 </div>
                 <div className="float-bottom-right">
-                    <img className='img-fluid' src="../../assets/images/shape-right-bt.png" alt="shape-img" />
+                    {/* <img className='img-fluid' src="../../assets/images/shape3.png" alt="shape-img" /> */}
                 </div>
                 <div className="container">
                     <div className="row">

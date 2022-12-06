@@ -83,22 +83,22 @@ function StepTwo({
       if (imageData) {
         setApiLoading(false);
         val.image = imageData;
-        console.log(val);
+        // console.log(val);
         setBecomeValidateData(val);
         stepHandler("next");
       } else if (becomeValidateData.image) {
         setApiLoading(false);
         val.imageURL = becomeValidateData.image;
-        console.log(val);
+        // console.log(val);
         setBecomeValidateData(val);
         stepHandler("next");
       } else {
-        console.log("image not valid");
+        // console.log("image not valid");
         setValidation({ address: false, image: true });
       }
     } catch (err: any) {
       Sentry.captureMessage("callAPI", err);
-      console.log("image vaild");
+      // console.log("image vaild");
     }
   };
 
@@ -111,11 +111,11 @@ function StepTwo({
   // console.log("Become Validate Data in Step Two", initialValues);
   useEffect(() => {
     if (account) {
-      console.log(
-        becomeValidateData,
-        Object.values(becomeValidateData),
-        "data "
-      );
+      // console.log(
+      //   becomeValidateData,
+      //   Object.values(becomeValidateData),
+      //   "data "
+      // );
       setInitialValues(becomeValidateData);
       setBecomeValidateData(becomeValidateData);
       setValues(becomeValidateData);
@@ -144,9 +144,9 @@ function StepTwo({
     validationSchema: validatorSchema,
     onSubmit: (values) => {
       //console.log("Value", values);
-      console.log(values.website, "values.web");
-      console.log(values.name, "values.nem");
-      console.log(values.publickey, "values.publickey");
+      // console.log(values.website, "values.web");
+      // console.log(values.name, "values.nem");
+      // console.log(values.publickey, "values.publickey");
       callAPI(values);
     },
   });

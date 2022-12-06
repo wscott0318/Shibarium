@@ -39,7 +39,11 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const [minHeimdallFee, setMinHeimdallFee] = useState<number>(0);
   const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
   let schema = yup.object().shape({
-    amount: yup.number().typeError("Only digits are allowed.").min(minDeposit).max(availBalance).required("Amount is required."),
+    amount: yup.number()
+    .typeError("Only digits are allowed.")
+    .moreThan(1,"Amount should be at-least greater than 1")
+    .max(availBalance)
+    .required("Amount is required."),
   })
   const [loader, setLoader] = useState("step1");
 
@@ -71,7 +75,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         setMinDeposit(fees)
         setMinHeimdallFee(feesHeimdall)
       } else {
-        console.log("account addres not found")
+        // console.log("account addres not found")
       }
     }
     catch (err: any) {
@@ -150,7 +154,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
   const submitTransaction = async (values: any) => {
     try {
-      console.log("called submitTransaction ")
+      // console.log("called submitTransaction ")
       const user: any = account
       const amount = web3.utils.toBN(fromExponential(+values.amount * Math.pow(10, 18)));
       const acceptDelegation = 1
@@ -159,7 +163,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       const gasFee = await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).estimateGas({ from: user })
       const encodedAbi = await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).encodeABI()
       const CurrentgasPrice: any = await currentGasPrice(web3)
-      console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+      // console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
       await web3.eth.sendTransaction({
         from: user,
         to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
@@ -169,7 +173,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         data: encodedAbi
       })
         .on('transactionHash', (res: any) => {
-          console.log(res, "hash")
+          // console.log(res, "hash")
           dispatch(
             addTransaction({
               hash: res,
@@ -181,7 +185,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
           let link = getExplorerLink(chainId, res, 'transaction')
           setHashLink(link)
         }).on('receipt', (res: any) => {
-          console.log(res, "receipt")
+          // console.log(res, "receipt")
           dispatch(
             finalizeTransaction({
               hash: res.transactionHash,
@@ -203,7 +207,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
           changeStatus()
           localStorage.clear()
         }).on('error', (res: any) => {
-          console.log(res, "error")
+          // console.log(res, "error")
           setTransactionState({ state: false, title: '' })
           dispatch(
             finalizeTransaction({
@@ -247,7 +251,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       },
       validationSchema: schema,
       onSubmit: (values) => {
-        console.log("Value", values);
+        // console.log("Value", values);
         callAPI(values)
       },
     });
@@ -268,12 +272,12 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       let user: any = account
       let allowance: any = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, user, dynamicChaining[chainId].STAKE_MANAGER_PROXY)
       if (allowance < +val.amount) {
-        console.log("need approval ")
+        // console.log("need approval ")
         approveAmount(val) // gas fee
       } else {
         setLoader("step3")
         setStepComplete((preState: any) => ({ ...preState, two: true }))
-        console.log("no approval needed")
+        // console.log("no approval needed")
         submitTransaction(val)
       }
     } catch (err: any) {
@@ -289,7 +293,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     data.append("signerAddress", account || '');
     data.append("website", becomeValidateData.website);
     data.append("img", becomeValidateData.image);
-    console.log(becomeValidateData, "data")
+    // console.log(becomeValidateData, "data")
 
     await registerValidator(data).then((res: any) => {
       console.log("this is eresss", res)
@@ -298,7 +302,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       setStepComplete((preState: any) => ({ ...preState, one: true }))
       handleTransaction(val)
     }).catch((err: any) => {
-      console.log(err)
+      // console.log(err)
       notifyError()
     })
   };
@@ -313,17 +317,17 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     data.append("img", becomeValidateData.image);
     data.append("status", "1");
 
-    console.log(becomeValidateData, "data");
+    // console.log(becomeValidateData, "data");
 
     await registerValidator(data).then((res: any) => {
-      console.log("this is eresss", res)
+      // console.log("this is eresss", res)
       // setApiLoading(false)
       setLoader("");
       setStepComplete((preState: any) => ({ ...preState, four: true }))
       notifySuccess()
       stepHandler("next");
     }).catch((err: any) => {
-      console.log(err)
+      // console.log(err)
       // setApiLoading(false)
       notifyError()
     })
@@ -434,8 +438,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               <label htmlFor="" className="form-label ff-mos">
                 Enter the stake amount <span className="get-info">i</span>
                 <div className="tool-desc">
-                  LLorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Dolorum fugit optio molestias, dolorem magni quia.
+                  Additional 1 Bone will be deducted for Heimdall fees
                 </div>
               </label>
               <div className="maxButtonFloat">
@@ -472,7 +475,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               <div className="row-st">
                 <div className="blk-dta">
                   <label htmlFor="" className="form-label ff-mos mb-0">
-                    Minimum: {minDeposit} BONE
+                    Minimum: {minDeposit} BONE + fees
                   </label>
                 </div>
                 <div className="blk-dta">
@@ -516,7 +519,8 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
             <div className="pop-block">
               <div className="pop-top">
                 <div className="dark-bg-800 h-100 status-sec sec-ht position-relative">
-                  {hashLink ? (
+
+                  {/* {hashLink ?
                     <span>
                       <div>
                         <img
@@ -527,9 +531,8 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                           alt=""
                         />
                       </div>
-                    </span>
-                  ) : (
-                    <div className="trans-loader">
+                    </span> : */}
+                    <div className='trans-loader'>
                       <div className="loading-steps">
                         <div
                           className={`step_wrapper ${
@@ -621,14 +624,14 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                               </div>
                             )}
                           </div>
-                          <span>Updating Status On database </span>
+                          <span>Successfully Completed</span>
                         </div>
                       </div>
                       {/* <span className="spiner-lg">
                         <span className="spinner-border text-secondary pop-spiner"></span>
                       </span> */}
                     </div>
-                  )}
+                  {/* } */}
                 </div>
               </div>
               <div className="pop-bottom">

@@ -16,6 +16,8 @@ import { dynamicChaining } from "web3/DynamicChaining";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json"
 import * as Sentry from "@sentry/nextjs";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
+import { useAppDispatch } from "app/state/hooks";
+import { clearAllTransactions } from "app/state/transactions/actions";
 
 const StakingHeader = () => {
   const router = useRouter();
@@ -28,21 +30,32 @@ const StakingHeader = () => {
   const [valId, setValId] = useValId();
   const [valInfoModal, setValInfoModal] = useState(false);
   const [dynasty, setDynasty] = useState('')
-  const { account, chainId = 1, library } = useActiveWeb3React();
+  const { account, chainId = 1, library,active } = useActiveWeb3React();
 
   const [valInfo, setValInfo] = useValInfo();
+  const dispatch = useAppDispatch();
+ useEffect(() => {
+   const { ethereum } = window as any;
+   const handleAccountsChanged = (accounts: string[]) => {
+     console.log("Handling 'accountsChanged' event with payload", accounts);
+     setValInfoModal(false);
+     dispatch(clearAllTransactions({ chainId }));
+   };
+
+   ethereum.on("accountsChanged", handleAccountsChanged);
+ }, [active]);
 
   const getValInfoApi = async (id: any) => {
     try {
       await getValidatorInfo(id).then(res => {
         if (res.data && res.data.message) {
           let info = res.data.message.val;
-          console.log("get val info data = ", res.data.message.val);
+          // console.log("get val info data = ", res.data.message.val);
           setValInfo(info);
         }
       }).catch(err => console.log("err => " , err))
     } catch (error: any) {
-      console.log("catch err => ", error);
+      // console.log("catch err => ", error);
       Sentry.captureMessage("getValInfoApi ", error);
     }
   }
@@ -67,7 +80,7 @@ const StakingHeader = () => {
     } 
   }, [router, account]);
 
-  console.log("usertype ==> ", valId);
+  // console.log("usertype ==> ", valId);
 
   const getDynsetyValue = async () => {
     try {

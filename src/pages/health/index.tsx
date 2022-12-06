@@ -13,7 +13,7 @@ const index = () => {
     //       });
     // }
 
-    console.log(process.uptime())
+    // console.log(process.uptime())
   return (
     <div>Status 200(true) </div>
   )
