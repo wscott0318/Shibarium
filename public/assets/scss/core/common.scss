@@ -3695,19 +3695,20 @@ input:-internal-autofill-selected {
 }
 .block-fix.tb-ubd {
   .table-responsive {
-    height: 1080px;
+    height: 580px;
     overflow-y: hidden;
     @media #{$max-xxl} {
-      height: 915px;
+      height: 500px;
     }
     @media #{$max-xl} {
-      height: 805px;
+      height: 440px;
+      min-height: 100%;
     }
     @media #{$max-lg} {
-      height: 790px;
+      height: 420px;
     }
     @media #{$max-md} {
-      height: 735px;
+      height: 340px;
     }
   }
 }
@@ -3801,10 +3802,10 @@ input:-internal-autofill-selected {
 .profile {
   .section-info {
     @media #{$max-md} {
-      padding: 60px 0 0;
+      padding: 80px 0 0;
     }
     @media #{$max-xsm} {
-      padding: 160px 0 0;
+      padding: 200px 0 0;
     }
   }
 }
