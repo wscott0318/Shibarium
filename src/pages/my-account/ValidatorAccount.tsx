@@ -192,7 +192,7 @@ const validatorAccount = ({
   };
 
   console.log(stakeAmounts)
-
+  console.log("delegationsList",delegationsList)
   const handleModal = (
     btn: String,
     valAddress: any,
@@ -2127,7 +2127,7 @@ const validatorAccount = ({
                                     setSelectedRow({
                                       owner: item.contractAddress,
                                       contractAddress: item.contractAddress,
-                                      commissionPercent: item.commission,
+                                      commissionrate: item.commission,
                                       name: item.name,
                                     });
                                     setStakeMoreModal(true);
