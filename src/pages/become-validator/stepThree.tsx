@@ -339,6 +339,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
   return (
     <>
+    <ToastContainer/>
       {/* {apiLoading && <LoadingSpinner />} */}
       <div className="progress-tab">
         <div className="mb-4 mb-xl-5">
