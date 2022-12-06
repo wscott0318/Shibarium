@@ -4,6 +4,7 @@ import { filter, orderBy } from 'lodash';
 import { Dropdown } from "react-bootstrap";
 import React, { useEffect, useState } from 'react'
 import ListView from '../all-validator/listView/index';
+import GridView from '../all-validator/gridView/index';
 import ValidatorGrid from '../all-validator/listView/index';
 import Pagination from 'app/components/Pagination';
 import LoadingSpinner from 'pages/components/Loading';
@@ -245,7 +246,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
             <ListView loading={loading} searchKey={searchKey} validatorsList={validators} />
           ) : (
             <div className="grid-view-wrap">
-              <ValidatorGrid loading={loading} searchKey={searchKey} validatorsList={validators} />
+               <GridView searchKey={searchKey} validatorsList={validators} />
             </div>
           )}
           {isListView && validatorsList.length ? <div className='mt-sm-4 mt-3'>

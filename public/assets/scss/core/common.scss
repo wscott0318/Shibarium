@@ -4313,6 +4313,13 @@ input:-internal-autofill-selected {
       width: 100%;
   }
 }
+.watch-img-sec .img-wdth {
+  max-width: 80px;
+  margin: 15px auto;
+}
+.del-pop .watch-img-sec {
+  height: auto;
+}
 .unbnd-pop{
   .trans-loader{
     height: auto;
