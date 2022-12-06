@@ -2129,6 +2129,8 @@ const validatorAccount = ({
                                       contractAddress: item.contractAddress,
                                       commissionrate: item.commission,
                                       name: item.name,
+                                      uptimePercent:
+                                        item.checkpointSignedPercent,
                                     });
                                     setStakeMoreModal(true);
                                   }}
