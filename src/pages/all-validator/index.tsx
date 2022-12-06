@@ -73,58 +73,46 @@ export const Allvalidator: React.FC = () => {
         } else {
           return (
             <div className="btns-sec btn-width">
-              <div className="btns-wrap ">
-                <button disabled={+valCount <= +valMaxCount ? false : true} onClick={() => {
-                  router.push('/become-validator')
-                }} className="btn primary-btn">Become a Validator</button>
-              </div>
-              <div className="btns-wrap">
-                <button onClick={() => {
-                  router.push('/all-validator')
-                }} className="btn  white-btn">Become a Delegator</button>
-              </div>
-              <div className="btns-wrap">
-                <button onClick={() =>
-                  router.push('/choose-your-path')
-                } className="btn grey-btn">Choose Your Path</button>
-              </div>
+            <div className="btns-wrap ">
+               <button disabled={+valCount <= +valMaxCount ?  false : true} onClick={()=>{
+                router.push('/become-validator')
+               }} className="btn primary-btn">Become a Validator</button>
             </div>
+            <div className="btns-wrap">
+              <button onClick={executeScroll} className="btn  white-btn">Become a Delegator</button>
+            </div>
+            <div className="btns-wrap">
+              <button onClick={()=>
+                router.push('/choose-your-path')
+               } className="btn grey-btn">Choose Your Path</button>
+            </div>
+          </div>
           );
         }
       } else if (userType === "Delegator") {
-        return (
-          <>
-            <div className="btns-wrap">
-              <button disabled={+valCount <= +valMaxCount ? false : true} onClick={() => {
-                router.push('/become-validator')
-              }} className="btn primary-btn">Become a Validator</button>
-            </div>
-            <div className="btns-wrap">
-              <button onClick={() =>
-                router.push('/all-validator')
-              } className="btn  white-btn">Become a Delegator</button>
-            </div>
-          </>
-        )
+        return null
       } else {
         return (
-          <div className="btns-sec btn-width">
-            <div className="btns-wrap ">
-              <button disabled={+valCount <= +valMaxCount ? false : true} onClick={() => {
-                router.push('/become-validator')
-              }} className="btn primary-btn">Become a Validator</button>
-            </div>
-            <div className="btns-wrap">
-              <button onClick={() =>
-                router.push('/all-validator')
-              } className="btn  white-btn">Become a Delegator</button>
-            </div>
-            <div className="btns-wrap">
-              <button onClick={() =>
-                router.push('/choose-your-path')
-              } className="btn grey-btn">Choose Your Path</button>
-            </div>
-          </div>
+        <div className="btns-sec btn-width">
+                    <div className="btns-wrap ">
+                       <button disabled={+valCount <= +valMaxCount ?  false : true} onClick={()=>{
+                        router.push('/become-validator')
+                       }} className="btn primary-btn">Become a Validator</button>
+                    </div>
+                    <div className="btns-wrap">
+                      <button 
+                      // onClick={()=>
+                      //   router.push('/all-validator')
+                      //  } 
+                      onClick={executeScroll}
+                       className="btn  white-btn">Become a Delegator</button>
+                    </div>
+                    <div className="btns-wrap">
+                      <button onClick={()=>
+                        router.push('/choose-your-path')
+                       } className="btn grey-btn">Choose Your Path</button>
+                    </div>
+              </div>
         )
       }
     } else {
