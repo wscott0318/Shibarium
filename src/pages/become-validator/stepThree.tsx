@@ -339,6 +339,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
   return (
     <>
+    <ToastContainer/>
       {/* {apiLoading && <LoadingSpinner />} */}
       <div className="progress-tab">
         <div className="mb-4 mb-xl-5">
@@ -580,7 +581,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                               </div>
                             )}
                           </div>
-                          <span>Approval for BONE </span>
+                          <span>Approval for BONE.</span>
                         </div>
                         <div
                           className={`step_wrapper ${
@@ -603,7 +604,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                               </div>
                             )}
                           </div>
-                          <span>Making Transaction..</span>
+                          <span>Processing Transaction.</span>
                         </div>
                         <div
                           className={`step_wrapper ${
@@ -626,7 +627,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                               </div>
                             )}
                           </div>
-                          <span>Successfully Completed</span>
+                          <span>Successfully Completed.</span>
                         </div>
                       </div>
                       {/* <span className="spiner-lg">

@@ -192,7 +192,7 @@ const validatorAccount = ({
   };
 
   console.log(stakeAmounts)
-
+  console.log("delegationsList",delegationsList)
   const handleModal = (
     btn: String,
     valAddress: any,
@@ -443,7 +443,7 @@ const validatorAccount = ({
                   },
                 })
               );
-              router.push("/my-account", "/my-account", { shallow: true });
+              router.push("/my-account", "/my-account", { shallow: false });
               setHashLink("");
               setTransactionState({ state: false, title: "" });
             })
@@ -536,7 +536,7 @@ const validatorAccount = ({
                     },
                   })
                 );
-                router.push("/my-account", "/my-account", { shallow: true });
+                router.push("/my-account", "/my-account", { shallow: false });
               })
               .on("error", (res: any) => {
                 // console.log(res, "error");
@@ -623,7 +623,7 @@ const validatorAccount = ({
               })
 
             );
-            router.push("/my-account", "/my-account", { shallow: true });
+            router.push("/my-account", "/my-account", { shallow: false });
             //
 
           })
@@ -701,7 +701,7 @@ const validatorAccount = ({
                 },
               })
             );
-            router.push("/my-account", "/my-account", { shallow: true });
+            router.push("/my-account", "/my-account", { shallow: false });
           })
           .on("error", (res: any) => {
             // console.log(res, "error");
@@ -784,7 +784,7 @@ const validatorAccount = ({
                 },
               })
             );
-            router.push("/my-account", "/my-account", { shallow: true });
+            router.push("/my-account", "/my-account", { shallow: false });
             setTransactionState({ state: false, title: "" });
             setHashLink("");
           })
@@ -867,7 +867,7 @@ const validatorAccount = ({
                 },
               })
             );
-            router.push("/my-account", "/my-account", { shallow: true });
+            router.push("/my-account", "/my-account", { shallow: false });
             setTransactionState({ state: false, title: "" });
             setHashLink("");
           })
@@ -950,7 +950,7 @@ const validatorAccount = ({
                 },
               })
             );
-            router.push("/my-account", "/my-account", { shallow: true });
+            router.push("/my-account", "/my-account", { shallow: false });
             getDelegatorCardData(walletAddress);
           })
           .on("error", (res: any) => {
@@ -1040,7 +1040,7 @@ const validatorAccount = ({
                 },
               })
             );
-            router.push("/my-account", "/my-account", { shallow: true });
+            router.push("/my-account", "/my-account", { shallow: false });
             getDelegatorCardData(walletAddress);
           })
           .on("error", (res: any) => {
@@ -1071,16 +1071,6 @@ const validatorAccount = ({
       Sentry.captureException("getStakeAmountDelegator ", err);
     }
   };
-  const handleMigrateClick = (data: any) => {
-    // setValId(data.id);
-    setMigrateData(data);
-    // console.log("migrate data ", migrateData);
-    router.push(
-      `/migrate-stake`,
-      `/migrate-stake`,
-      { shallow: true }
-    )
-  }
 
   const getStake = (id: String) => {
     try {
@@ -1095,16 +1085,17 @@ const validatorAccount = ({
       Sentry.captureException("getStake ", err);
     }
   };
-  
-  const totalStake = (item: any) => {
-    console.log("item contains ", item);
-    // let values = JSON.parse(item);
-    let stakeAmount = getStake(item.id);
-    let reward = +item.reward > 0 ? (parseInt(item.reward) / 10 ** web3Decimals).toFixed(tokenDecimal) : "0.00";
-    console.log("total stake == ", (parseFloat(stakeAmount) + parseFloat(reward)));
-    return (parseFloat(stakeAmount) + parseFloat(reward));
+  const handleMigrateClick = (data: any) => {
+    // setValId(data.id);
+    let stake = getStake(data.id);
+    setMigrateData(data, stake);
+    // console.log("migrate data ", migrateData);
+    router.push(
+      `/migrate-stake`,
+      `/migrate-stake`,
+      { shallow: true }
+    )
   }
-
   return (
     <>
       {loading && <LoadingSpinner />}
@@ -2125,8 +2116,10 @@ const validatorAccount = ({
                                     setSelectedRow({
                                       owner: item.contractAddress,
                                       contractAddress: item.contractAddress,
-                                      commissionPercent: item.commission,
+                                      commissionrate: item.commission,
                                       name: item.name,
+                                      uptimePercent:
+                                        item.checkpointSignedPercent,
                                     });
                                     setStakeMoreModal(true);
                                   }}

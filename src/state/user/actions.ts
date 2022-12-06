@@ -58,4 +58,5 @@ export const updateEpochDyna = createAction<{
 }>("user/updateEpochDyna");
 export const updateMigrateData = createAction<{
   migrateData: object;
+  stake:number;
 }>("user/updateMigrateData");
