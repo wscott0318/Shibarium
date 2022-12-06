@@ -191,7 +191,7 @@ const validatorAccount = ({
     }
   };
 
-  // console.log(stakeAmounts)
+  console.log(stakeAmounts)
 
   const handleModal = (
     btn: String,

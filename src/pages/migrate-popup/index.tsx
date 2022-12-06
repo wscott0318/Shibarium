@@ -91,6 +91,7 @@ const MigratePopup: React.FC<any> = ({
   const closeModal = (e: any) => {
     onHide();
   };
+
   const totalStake = (migrateData: any) => {
     // console.log("item contains ", migrateData.migrateData);
     // let values = JSON.parse(item);
@@ -101,6 +102,7 @@ const MigratePopup: React.FC<any> = ({
     // console.log("total stake == ",stakeAmount + " " + reward);
 
   }
+
 
   useEffect(() => {
     totalStake(migrateData);

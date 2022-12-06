@@ -14,7 +14,7 @@ import { allValidatorsQuery } from 'Apollo/queries';
 import * as Sentry from '@sentry/nextjs'
 import { inActiveCount, tokenDecimal, web3Decimals } from 'web3/commonFunctions';
 import { useRouter } from 'next/router';
-import { useMigrateStake } from 'app/state/user/hooks';
+import { useMigrateStake } from "app/state/user/hooks";
 
 
 const ListData:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) => {

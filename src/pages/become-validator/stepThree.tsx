@@ -22,6 +22,7 @@ import * as Sentry from '@sentry/nextjs';
 import CommonModal from "pages/components/CommonModel";
 import { getExplorerLink } from "app/functions/explorer";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { checkImageType } from "web3/commonFunctions";
 
 function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
@@ -236,7 +237,8 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         })
 
     } catch (err: any) {
-      console.log(err)
+      console.log(err.Error, Object.keys(err))
+      notifyError()
       Sentry.captureMessage("submitTransaction", err);
       setTransactionState({ state: false, title: '' })
     }
@@ -333,6 +335,8 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     })
   };
 
+
+
   return (
     <>
       {/* {apiLoading && <LoadingSpinner />} */}
@@ -351,10 +355,8 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                 <div className="file-icons">
                   <img
                     src={
-                      becomeValidateData?.imageURL
-                        ? becomeValidateData?.imageURL
-                        : becomeValidateData?.image
-                        ? URL.createObjectURL(becomeValidateData?.image)
+                      becomeValidateData.image ? 
+                      checkImageType(becomeValidateData.image)
                         : "../../assets/images/file-icon.png"
                     }
                     alt=""
