@@ -302,7 +302,7 @@ const MigratePopup: React.FC<any> = ({
                         <p>
                           <span className="light-text">
                             {data?.uptimePercent?.toFixed(toFixedPrecent)}%
-                            Performance - {data.commissionrate} % Commission
+                            Performance - <span className="br-txt">{data.commissionrate} % Commission</span>
                           </span>
                         </p>
                       </div>

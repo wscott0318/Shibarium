@@ -2919,6 +2919,14 @@ input:-internal-autofill-selected {
   display: none;
   border-radius: 5px;
   font-weight: 400;
+  @media #{$max-md} {
+    width: 190px;
+    left: 174px;
+  }
+  @media #{$max-xsm} {
+    left: 159px;
+    width: 140px;
+  }
 }
 .ff-mos .get-info:hover ~ .tool-desc {
   display: block;
@@ -4049,6 +4057,7 @@ input:-internal-autofill-selected {
   display: inline-block;
   width: 85%;
   text-align: left;
+  margin-left: 5px;
 }
 .balance_wrapper {
   display: flex;
@@ -4244,12 +4253,11 @@ input:-internal-autofill-selected {
         height: 65px;
       }
       @media #{$max-lg} {
-        height: 75px;
-        padding-top: 15px;
+        height: 55px;
+        padding-top: 0;
       }
       @media #{$max-sm} {
-        height: 90px;
-        padding-top: 20px;
+        height: 70px;
       }
       @media #{$max-xsm} {
         height: 70px;
@@ -4286,5 +4294,110 @@ input:-internal-autofill-selected {
 @media (max-width:420px){
   .loading-steps .step_wrapper {
       width: 100%;
+  }
+}
+.unbnd-pop{
+  .trans-loader{
+    height: auto;
+    display: block;
+  }
+}
+.sec-format{
+  h6, .over-text{
+    font-size: 16px;
+  }
+}
+.unbd-info-pop{
+  .info-txt{
+    font-size: 16px;
+  }
+  .max-input{
+    input{
+      &::placeholder{
+        font-weight: 400;
+        font-family: 'MADE Okine Sans PERSONAL USE' !important;
+        color:$ltwh-txt;
+      }
+    }
+  }
+  
+    .modal-content{
+      @media #{$max-lg} {
+        height: auto;
+      }
+    }
+  
+}
+.mx-field{
+  .er-txt{
+    position: absolute;
+    left: 0;
+    bottom: 17px;
+    font-size: 16px;
+  }
+  .MaxAmountButton{
+    top: 44%;
+    background: $primary;
+    color: $white;
+    padding: 5px;
+    border-radius: 6px;
+    font-size: 13px;
+  }
+}
+.no-lft{
+  padding-left: 0 !important;
+}
+.progress-tab{
+  input.fld-fade{
+    background: $body-text;
+  }
+}
+.br-txt{
+  @media #{$max-md} {
+    width: 100%;
+  }
+}
+.stak-pop{
+  padding-left: 0 !important;
+}
+.cus-tool{
+  .tool-desc{
+    top: -42%;
+    left:0;
+    @media #{$max-md} {
+      width: 220px;
+      top: -57%;
+      left: 40px;
+    }
+    
+    @media #{$max-xsm} {
+      top: -63%;
+      left: 20px;
+    }
+    &::before{
+      -webkit-transform: rotate(0deg);
+      left: 190px;
+      top: 38px;
+      @media #{$max-md} {
+        left: 150px;
+        top: 58px;
+      }
+     
+    }
+  }
+}
+.top-spcsm{
+  @media #{$max-md} {
+    padding-top: 20px;
+  }
+}
+.rstk-popup{
+  .modal-content{
+    border:1px solid $white;
+  }
+  .modal-content{
+    @media #{$max-lg} {
+      height: auto;
+    }
   }
 }
