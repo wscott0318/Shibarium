@@ -62,7 +62,7 @@ const BoneStaking = () => {
       Sentry.captureMessage("getValCount", err);
     }
   }
-
+console.log("nodeSetupnodeSetup=====",nodeSetup)
   const getValInfo = () => {
     try {
       const valData = JSON.parse(localStorage.getItem("valInfo") || '{}')
@@ -74,6 +74,8 @@ const BoneStaking = () => {
           // console.log(res.data.message.val?.status, " vall status ===> ")
           setNodeSetup(res.data.message.val?.status ? res.data.message?.val.status : null)
           localStorage.setItem("valInfo", JSON.stringify(res.data.message.val))
+
+          
         })
       // }
     } catch (err :any) {
