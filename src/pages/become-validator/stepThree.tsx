@@ -156,12 +156,27 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const submitTransaction = async (values: any) => {
     try {
       // console.log("called submitTransaction ")
+      let gasFee = "";
       const user: any = account
       const amount = web3.utils.toBN(fromExponential(+values.amount * Math.pow(10, 18)));
       const acceptDelegation = 1
       const heimdallFee = web3.utils.toBN(fromExponential(minHeimdallFee * Math.pow(10, 18)));
       const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-      const gasFee = await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).estimateGas({ from: user })
+       
+      try{
+        gasFee = await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).estimateGas({ from: user })
+      }
+      catch (err:any)
+      {
+        console.log("err line 171 stepThree.jsx",err)
+        if(err.code === undefined)
+        {
+          toast.error("Invalid Pub key !", {
+            position: toast.POSITION.BOTTOM_CENTER,
+            autoClose: 3000,
+          });
+        }
+      }
       const encodedAbi = await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).encodeABI()
       const CurrentgasPrice: any = await currentGasPrice(web3)
       // console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
@@ -478,7 +493,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               <div className="row-st">
                 <div className="blk-dta">
                   <label htmlFor="" className="form-label ff-mos mb-0">
-                    Minimum: {minDeposit} BONE + fees
+                    Minimum: {minDeposit} BONE + fee
                   </label>
                 </div>
                 <div className="blk-dta">
