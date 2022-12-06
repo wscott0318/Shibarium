@@ -80,13 +80,14 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
     migrateValidatorsList(requestOptions)
       .then((res: any) => {
         setLoading(false)
+
         if (res.status == 200) {
           setAllValidators(res.data.data.validatorsList);
+          // console.log(res.data.data.validatorsList);
           var activeList = filter(
             res.data.data.validatorsList,
-            (e) => (e.uptimePercent !== 0 && e.status == 1)
-            );
-          console.log(res.data.data.validatorsList);
+            (e) => e.uptimePercent !== 0
+          );
           // console.log(activeList)
           if (withStatusFilter) {
             setValidatorsByStatus(activeList);
@@ -109,7 +110,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
   useEffect(() => {
     let filtered = []
     if (isActiveTab) {
-      filtered = validatorsByStatus.filter(e => e.fundamental == 2)
+      filtered = allValidators.filter(e => e.uptimePercent >= inActiveCount && e.fundamental == 2)
     } else {
       filtered = allValidators.filter(e => e.uptimePercent <= inActiveCount)
     }
