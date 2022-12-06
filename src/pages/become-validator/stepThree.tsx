@@ -161,13 +161,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       const acceptDelegation = 1
       const heimdallFee = web3.utils.toBN(fromExponential(minHeimdallFee * Math.pow(10, 18)));
       const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-      
-      try {
-        const gasFee = await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).estimateGas({ from: user })
-      }
-      catch(err:any) {
-          console.log("err on line 169",err)
-      }
+      const gasFee = await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).estimateGas({ from: user })
       const encodedAbi = await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).encodeABI()
       const CurrentgasPrice: any = await currentGasPrice(web3)
       // console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
@@ -345,6 +339,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
   return (
     <>
+    <ToastContainer/>
       {/* {apiLoading && <LoadingSpinner />} */}
       <div className="progress-tab">
         <div className="mb-4 mb-xl-5">
