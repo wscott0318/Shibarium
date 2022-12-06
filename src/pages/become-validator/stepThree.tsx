@@ -477,7 +477,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               <div className="row-st">
                 <div className="blk-dta">
                   <label htmlFor="" className="form-label ff-mos mb-0">
-                    Minimum: {minDeposit} BONE + fees
+                    Minimum: {minDeposit} BONE + fee
                   </label>
                 </div>
                 <div className="blk-dta">
