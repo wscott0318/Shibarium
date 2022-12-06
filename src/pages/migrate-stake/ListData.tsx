@@ -162,7 +162,7 @@ const ListData:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) =>
                   </div>
                   <div className='bl-rt col-md-6'>
                     <p className='txt-xsm mb-0'>Rewards added to your wallet</p>
-                    <div className='txt-sm'>{balance?.migrateData?.reward != "undefined" ? (parseInt(balance?.migrateData?.reward) / 10 ** web3Decimals).toFixed(tokenDecimal) : "0.00"} BONE</div>
+                    <div className='txt-sm'>{balance?.migrateData?.reward > 0 ? (parseInt(balance?.migrateData?.reward) / 10 ** web3Decimals).toFixed(tokenDecimal) : "0.00"} BONE</div>
                   </div>
                 </div>
               </div>

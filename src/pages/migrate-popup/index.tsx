@@ -37,6 +37,7 @@ import * as Sentry from "@sentry/nextjs";
 import { useRouter } from "next/router";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { useMigrateStake, useValId } from "app/state/user/hooks";
+import { CircularProgress } from "@material-ui/core";
 const initialModalState = {
   step0: true,
   step1: false,
@@ -73,7 +74,8 @@ const MigratePopup: React.FC<any> = ({
       ? useEthBalance()
       : useTokenBalance(dynamicChaining[chainId]?.BONE);
 
-  const router = useRouter()
+  const router = useRouter();
+  const [processing, setProcessing] = useState("");
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then((res) => {
       setBoneUSDValue(res.data.data.price);
@@ -109,8 +111,9 @@ const MigratePopup: React.FC<any> = ({
   }, [migrateData]);
   const migrateStake = async (values: any, data: any, migrateData: any) => {
     try {
-      if (account) {
+      if (account && migrateData?.data?.migrateData?.id != data.validatorContractId) {
         setTransactionState({ state: true, title: "Pending" });
+        setProcessing("processing");
         let walletAddress: any = account;
         let fromId = migrateData?.data?.migrateData?.id;
         let toId = data.validatorContractId;
@@ -142,9 +145,13 @@ const MigratePopup: React.FC<any> = ({
                 summary: `${res}`,
               })
             );
+            setProcessing("completed");
             console.log("transaction hash ", res);
             setTransactionState({ state: true, title: "Submitted" });
-            setmigratepop(false);
+            setTimeout(() => {setmigratepop(false)} , 1000);
+            let newStake = (migrateData?.data?.stake - values.balance); 
+            setMigrateData(migrateData,newStake);
+            console.log("new stake balance == > " , migrateData);
           })
           .on("receipt", (res: any) => {
             dispatch(
@@ -163,12 +170,15 @@ const MigratePopup: React.FC<any> = ({
                 },
               })
             );
+            
             console.log("receipt ", res);
-            // router.push("/migrate-stake", "/migrate-stake", { shallow: true });
-            // setTransactionState({ state: false, title: "" });
+            setProcessing("");
+            setTransactionState({ state: false, title: "" });
+            window.location.reload();
           })
           .on("error", (res: any) => {
             console.log("error ", res);
+            setProcessing("");
             setTransactionState({ state: false, title: "" });
             if (res.code === 4001) {
               setmigratepop(false);
@@ -177,10 +187,12 @@ const MigratePopup: React.FC<any> = ({
       }
       else {
         console.log("Account not found");
+        setProcessing("error");
       }
     }
     catch (err: any) {
       Sentry.captureMessage("migrateStake ", err);
+      setProcessing("error");
     }
   }
 
@@ -218,166 +230,220 @@ const MigratePopup: React.FC<any> = ({
   const handleClose = () => {
     setmigrateState(initialModalState);
     setmigratepop(false);
+    setProcessing("");
   };
 
   return (
     <>
-      <CommonModal
-        title={migrateState.title}
-        show={showmigratepop}
-        setshow={handleClose}
-        externalCls="stak-pop del-pop ffms-inherit mig-popup"
-      >
-        <>
-          <div className="cmn_modal vali_deli_popups ffms-inherit">
-            <form className="h-100" onSubmit={handleSubmit}>
-              <div className="step_content fl-box">
-                <div className="ax-top">
-                  <div className="pop-grid flex-grid">
-                    <div className="text-center box-block">
-                      <div className="d-inline-block img-flexible">
-                        <img
-                          className="img-fluid"
-                          src="../../assets/images/etharium.png"
-                          alt=""
-                        />
-                      </div>
-                      <p>Ethereum Mainnet</p>
-                    </div>
-                    <div className="text-center box-block">
-                      <div className="d-inline-block arow-block right-arrow">
-                        {/* <img className="img-fluid" src="../../assets/images/white-arrow.png" alt="" /> */}
-                        <div className="scrolldown-container">
-                          <div className="scrolldown-btn">
-                            <svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="80px" viewBox="0 0 50 80" enableBackground="new 0 0 50 80" xmlSpace="preserve">
-                              <path className="first-path" fill="#FFFFFF" d="M24.752,79.182c-0.397,0-0.752-0.154-1.06-0.463L2.207,57.234c-0.306-0.305-0.458-0.656-0.458-1.057                  s0.152-0.752,0.458-1.059l2.305-2.305c0.309-0.309,0.663-0.461,1.06-0.461c0.398,0,0.752,0.152,1.061,0.461l18.119,18.119                  l18.122-18.119c0.306-0.309,0.657-0.461,1.057-0.461c0.402,0,0.753,0.152,1.059,0.461l2.306,2.305                  c0.308,0.307,0.461,0.658,0.461,1.059s-0.153,0.752-0.461,1.057L25.813,78.719C25.504,79.027,25.15,79.182,24.752,79.182z" />
-                              <path className="second-path" fill="#FFFFFF" d="M24.752,58.25c-0.397,0-0.752-0.154-1.06-0.463L2.207,36.303c-0.306-0.304-0.458-0.655-0.458-1.057                  c0-0.4,0.152-0.752,0.458-1.058l2.305-2.305c0.309-0.308,0.663-0.461,1.06-0.461c0.398,0,0.752,0.153,1.061,0.461l18.119,18.12                  l18.122-18.12c0.306-0.308,0.657-0.461,1.057-0.461c0.402,0,0.753,0.153,1.059,0.461l2.306,2.305                  c0.308,0.306,0.461,0.657,0.461,1.058c0,0.401-0.153,0.753-0.461,1.057L25.813,57.787C25.504,58.096,25.15,58.25,24.752,58.25z" />
-                            </svg>
+      {processing == "processing" ?
+        (
+          <CommonModal
+            title={"Processing"}
+            show={showmigratepop}
+            setshow={handleClose}
+            externalCls="stak-pop del-pop ffms-inherit mig-popup migrate_stake"
+          >
+            <div className="d-flex flex-column justify-content-center align-items-center"><CircularProgress color="secondary" /> Your transaction is processing.</div>
+          </CommonModal>
+        )
+        :
+        processing == "completed" ? (
+          <CommonModal
+            title={"Migration Completed"}
+            show={showmigratepop}
+            setshow={handleClose}
+            externalCls="stak-pop del-pop ffms-inherit mig-popup migrate_stake"
+          >
+            <div className="d-flex flex-column justify-content-center align-items-center">
+              <div className="completed_img">
+                <img
+                  className={`img-fluid tick-img`}
+                  src="../../assets/images/green-tick.png"
+                  alt=""
+                  width="50"
+                />
+              </div>
+                Transaction Completed.
+            </div>
+          </CommonModal>
+        ) :
+        processing == "error" ?
+        (
+          <CommonModal
+            title={"Error"}
+            show={showmigratepop}
+            setshow={handleClose}
+            externalCls="stak-pop del-pop ffms-inherit mig-popup migrate_stake"
+          >
+            <div className="text-center">
+            <img
+                className={`img-fluid tick-img m-auto mb-2`}
+                src="../../assets/images/alert-icon.png"
+                alt=""
+                width="24"
+              />
+              Error processing this transaction. <br/> Try Again</div>
+          </CommonModal>
+        )
+          :
+          (
+            <CommonModal
+              title={migrateState.title}
+              show={showmigratepop}
+              setshow={handleClose}
+              externalCls="stak-pop del-pop ffms-inherit mig-popup"
+            >
+              <>
+                <div className="cmn_modal vali_deli_popups ffms-inherit">
+                  <form className="h-100" onSubmit={handleSubmit}>
+                    <div className="step_content fl-box">
+                      <div className="ax-top">
+                        <div className="pop-grid flex-grid">
+                          <div className="text-center box-block">
+                            <div className="d-inline-block img-flexible">
+                              <img
+                                className="img-fluid"
+                                src="../../assets/images/etharium.png"
+                                alt=""
+                              />
+                            </div>
+                            <p>Ethereum Mainnet</p>
+                          </div>
+                          <div className="text-center box-block">
+                            <div className="d-inline-block arow-block right-arrow">
+                              {/* <img className="img-fluid" src="../../assets/images/white-arrow.png" alt="" /> */}
+                              <div className="scrolldown-container">
+                                <div className="scrolldown-btn">
+                                  <svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="80px" viewBox="0 0 50 80" enableBackground="new 0 0 50 80" xmlSpace="preserve">
+                                    <path className="first-path" fill="#FFFFFF" d="M24.752,79.182c-0.397,0-0.752-0.154-1.06-0.463L2.207,57.234c-0.306-0.305-0.458-0.656-0.458-1.057                  s0.152-0.752,0.458-1.059l2.305-2.305c0.309-0.309,0.663-0.461,1.06-0.461c0.398,0,0.752,0.152,1.061,0.461l18.119,18.119                  l18.122-18.119c0.306-0.309,0.657-0.461,1.057-0.461c0.402,0,0.753,0.152,1.059,0.461l2.306,2.305                  c0.308,0.307,0.461,0.658,0.461,1.059s-0.153,0.752-0.461,1.057L25.813,78.719C25.504,79.027,25.15,79.182,24.752,79.182z" />
+                                    <path className="second-path" fill="#FFFFFF" d="M24.752,58.25c-0.397,0-0.752-0.154-1.06-0.463L2.207,36.303c-0.306-0.304-0.458-0.655-0.458-1.057                  c0-0.4,0.152-0.752,0.458-1.058l2.305-2.305c0.309-0.308,0.663-0.461,1.06-0.461c0.398,0,0.752,0.153,1.061,0.461l18.119,18.12                  l18.122-18.12c0.306-0.308,0.657-0.461,1.057-0.461c0.402,0,0.753,0.153,1.059,0.461l2.306,2.305                  c0.308,0.306,0.461,0.657,0.461,1.058c0,0.401-0.153,0.753-0.461,1.057L25.813,57.787C25.504,58.096,25.15,58.25,24.752,58.25z" />
+                                  </svg>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="text-center box-block">
+                            <div className="d-inline-block img-flexible">
+                              <img
+                                className="img-fluid"
+                                src="../../assets/images/shib-borderd-icon.png"
+                                alt=""
+                              />
+                            </div>
+                            <p>Shibarium Mainnet</p>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div className="text-center box-block">
-                      <div className="d-inline-block img-flexible">
-                        <img
-                          className="img-fluid"
-                          src="../../assets/images/shib-borderd-icon.png"
-                          alt=""
-                        />
-                      </div>
-                      <p>Shibarium Mainnet</p>
-                    </div>
-                  </div>
-                  <div className="info-box my-3">
-                    <div className="d-flex align-items-center justify-content-start">
-                      <div className="migimg mr-4">
-                        {data.logoUrl ? (
-                          <img
-                            src={data.logoUrl}
-                            width="20"
-                            height="20"
-                            className="img-fluid"
-                          />
-                        ) : (
-                          <img
-                            src="../../assets/images/shiba-round-icon.png"
-                            width="20"
-                            height="20"
-                            className="img-fluid"
-                          />
-                        )}
-                      </div>
-                      {/* <div>
+                        <div className="info-box my-3">
+                          <div className="d-flex align-items-center justify-content-start">
+                            <div className="migimg mr-4">
+                              {data.logoUrl ? (
+                                <img
+                                  src={data.logoUrl}
+                                  width="20"
+                                  height="20"
+                                  className="img-fluid"
+                                />
+                              ) : (
+                                <img
+                                  src="../../assets/images/shiba-round-icon.png"
+                                  width="20"
+                                  height="20"
+                                  className="img-fluid"
+                                />
+                              )}
+                            </div>
+                            {/* <div>
                         <div>
                           <span className="user-icon"></span>
                         </div>
                       </div> */}
-                      <div className="fw-700">
-                        <span className="vertical-align ft-22">
-                          {data.name}
-                        </span>
-                        <p>
-                          <span className="light-text">
-                            {data?.uptimePercent?.toFixed(toFixedPrecent)}%
-                            Performance - {data.commissionrate} % Commission
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="err-wrap">
-                    <div className="form-field position-relative two-fld max-group extr_pd_remove bg-clr h-auto">
-                      <div className="mid-chain w-100">
-                        <input
-                          className="w-100"
-                          placeholder="0.00"
-                          name="balance"
-                          autoComplete="off"
-                          value={values.balance}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        />
-                      </div>
-                      <button
-                        disabled={walletBalance > 0 ? false : true}
-                        onClick={(e) => useMax(e)}
-                        className="rt-chain"
-                      >
-                        <span className="orange-txt fw-bold">MAX</span>
-                      </button>
-                    </div>
-                    {errors.balance && touched.balance ? (
-                      <p className="primary-text error">{errors.balance}</p>
-                    ) : null}
+                            <div className="fw-700">
+                              <span className="vertical-align ft-22">
+                                {data.name}
+                              </span>
+                              <p>
+                                <span className="light-text">
+                                  {data?.uptimePercent?.toFixed(toFixedPrecent)}%
+                                  Performance - {data.commissionrate} % Commission
+                                </span>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="err-wrap">
+                          <div className="form-field position-relative two-fld max-group extr_pd_remove bg-clr h-auto">
+                            <div className="mid-chain w-100">
+                              <input
+                                className="w-100"
+                                placeholder="0.00"
+                                name="balance"
+                                autoComplete="off"
+                                value={values.balance}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                              />
+                            </div>
+                            <button
+                              disabled={walletBalance > 0 ? false : true}
+                              onClick={(e) => useMax(e)}
+                              className="rt-chain"
+                            >
+                              <span className="orange-txt fw-bold">MAX</span>
+                            </button>
+                          </div>
+                          {errors.balance && touched.balance ? (
+                            <p className="primary-text error">{errors.balance}</p>
+                          ) : null}
 
-                    <p className="inpt_fld_hlpr_txt mt-3 text-pop-right d-flex flex-wrap mt-4">
-                      <span>
-                        <NumberFormat
-                          value={(Number(router.query.id) * boneUSDValue).toFixed(
-                            tokenDecimal
-                          )}
-                          displayType={"text"}
-                          thousandSeparator={true}
-                          prefix={"$ "}
-                        />
-                      </span>
-                      <span className="text-right">
-                        Balance: {balance}{" "}
-                        BONE
-                      </span>
-                    </p>
-                  </div>
-                  <div className="image_area row">
-                    <div className="col-12 text-center">
-                      <img
-                        className="img-fluid img-wdth"
-                        src="../../assets/images/imgpsh_fullsize_anim.png"
-                      />
-                    </div>
-                  </div>
-                  {/* <p>
+                          <p className="inpt_fld_hlpr_txt mt-3 text-pop-right d-flex flex-wrap mt-4">
+                            <span>
+                              <NumberFormat
+                                value={(Number(router.query.id) * boneUSDValue).toFixed(
+                                  tokenDecimal
+                                )}
+                                displayType={"text"}
+                                thousandSeparator={true}
+                                prefix={"$ "}
+                              />
+                            </span>
+                            <span className="text-right">
+                              Balance: {balance}{" "}
+                              BONE
+                            </span>
+                          </p>
+                        </div>
+                        <div className="image_area row">
+                          <div className="col-12 text-center">
+                            <img
+                              className="img-fluid img-wdth"
+                              src="../../assets/images/imgpsh_fullsize_anim.png"
+                            />
+                          </div>
+                        </div>
+                        {/* <p>
                     Lorem Ipsum Lorem IpsumLorem Ipsum Lorem Ipsum Lorem Ipsum{" "}
                   </p> */}
-                </div>
-                <div className="ax-bottom">
-                  <div className="pop_btns_area row form-control mt-5">
-                    <div className="col-12">
-                      <button className="w-100" type="submit" value="submit">
-                        <div className="btn primary-btn d-flex align-items-center justify-content-center">
-                          <span onClick={(e) => {
-                            e.preventDefault();
-                            migrateStake(values, data, migrateData);
-                          }}>Continue</span>
+                      </div>
+                      <div className="ax-bottom">
+                        <div className="pop_btns_area row form-control mt-5">
+                          <div className="col-12">
+                            <button className="w-100" type="submit" value="submit">
+                              <div className="btn primary-btn d-flex align-items-center justify-content-center">
+                                <span onClick={(e) => {
+                                  e.preventDefault();
+                                  migrateStake(values, data, migrateData);
+                                }}>Continue</span>
+                              </div>
+                            </button>
+                          </div>
                         </div>
-                      </button>
+                      </div>
                     </div>
-                  </div>
+                  </form>
                 </div>
-              </div>
-            </form>
-          </div>
-        </>
-      </CommonModal>
+              </>
+            </CommonModal>
+          )}
     </>
   );
 };
