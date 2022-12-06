@@ -3,8 +3,8 @@ import { validatorsList } from 'app/services/apis/validator'
 import { filter, orderBy } from 'lodash';
 import { Dropdown } from "react-bootstrap";
 import React, { useEffect, useState } from 'react'
-import ListView from './listView';
-import ValidatorGrid from './gridView';
+import ListView from '../all-validator/listView/index';
+import ValidatorGrid from '../all-validator/listView/index';
 import Pagination from 'app/components/Pagination';
 import LoadingSpinner from 'pages/components/Loading';
 // @ts-ignore
@@ -145,9 +145,26 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
     <section className="table-section pb-4 pb-lg-5 active-inactive">
           <div className="container">
             <div className="heading-sec">
-              <h2 className="sub-head ff-mos">{router.asPath.split("/")[1]==="migrate-stake" ? "" : "All Validators"}</h2>
+              {/* <h2 className="sub-head ff-mos">{router.asPath.split("/")[1]==="migrate-stake" ? "" : "All Validators"}</h2> */}
             </div>
-            
+            <div className='infrm-sec'>
+              <div className='text-center'>
+                <h3>Choose New Validator</h3>
+                <p>Migrate your stake to a new validator from Matic Foundation Nodes. </p>
+              </div>
+              <div className='block-info'>
+                <div className=' row'>
+                  <div className='bl-lft col-md-6'>
+                    <p className='txt-xsm mb-0'>Stake to move</p>
+                    <div className='txt-sm'>50 BONE</div>
+                  </div>
+                  <div className='bl-rt col-md-6'>
+                    <p className='txt-xsm mb-0'>Rewards added to your wallet</p>
+                    <div className='txt-sm'>0.83 BONE</div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className="d-flex align-items-center btns-space tab-btns">
                 <div className="me-3">
                   <p onClick={() => setIsActiveTab(true)} className={`btn black-btn ff-mos ${isActiveTab ? "btn-active" : ""}`} title="">
@@ -219,7 +236,7 @@ const Valitotors:React.FC<any>= ({withStatusFilter}:{withStatusFilter:boolean}) 
             <ListView loading={loading}  searchKey={searchKey} validatorsList={validators} />
           ) : (
             <div className="grid-view-wrap">
-              <ValidatorGrid searchKey={searchKey} validatorsList={validators} />
+              <ValidatorGrid loading={loading} searchKey={searchKey} validatorsList={validators} />
             </div>
           )}
          { isListView && validatorsList.length ? <div className='mt-sm-4 mt-3'>
