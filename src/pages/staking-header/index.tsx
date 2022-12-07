@@ -51,7 +51,8 @@ const StakingHeader = () => {
       await getValidatorInfo(id).then(res => {
         if (res.data && res.data.message) {
           let info = res.data.message.val;
-          // console.log("get val info data = ", res.data.message.val);
+          console.log("val status = ", res.data.message.val.status);
+          console.log("val ID = ", valId);
           setValInfo(info);
         }
       }).catch(err => console.log("err => " , err))
@@ -69,7 +70,8 @@ const StakingHeader = () => {
     catch (err: any) {
       Sentry.captureMessage("useEffect, file -> staking-header/index.tsx , line no. 55 ", err);
     }
-  }, []);
+  }, [account]);
+
   useEffect(() => {
     if (routeCheck("unbond-history")) {
       setHistory("Unbound History");

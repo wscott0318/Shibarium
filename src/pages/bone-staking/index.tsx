@@ -28,6 +28,7 @@ const BoneStaking = () => {
   const [valMaxCount, setValMaxCount] = useState(0);
   const [ nodeSetup, setNodeSetup] = useState<any>('')
   const [valId, setValId] = useValId();
+  const [valInfoLoader, setValInfoLoader] = useState(true)
 
   const web3test = L1Block();
     
@@ -39,10 +40,11 @@ const BoneStaking = () => {
     checkEth()
   }, [account])
 
-  const checkEth = () => {
+  const checkEth = async () => {
     let lib : any = library
     let web3 : any = new Web3(lib?.provider)
-     console.log(web3.eth, "account changes testing ")
+    // const getTxn : any = await web3.eth.getPendingTransactions()
+    //  console.log(web3.eth, "account changes testing ")
   }
 
 
@@ -73,12 +75,14 @@ console.log("nodeSetupnodeSetup=====",nodeSetup)
         getValidatorInfo(id.toLowerCase()).then((res : any) => {
           // console.log(res.data.message.val?.status, " vall status ===> ")
           setNodeSetup(res.data.message.val?.status ? res.data.message?.val.status : null)
+          setValInfoLoader(false)
           localStorage.setItem("valInfo", JSON.stringify(res.data.message.val))
 
           
         })
       // }
     } catch (err :any) {
+      setValInfoLoader(false)
         Sentry.captureMessage("getValCount", err);
     }
   }
@@ -89,7 +93,7 @@ console.log("nodeSetupnodeSetup=====",nodeSetup)
   // console.log(nodeSetup)
 
   const renderButtons = () => {
-    if (account) {
+    if (account && !valInfoLoader) {
       if (userType === "Validator") {
         if (nodeSetup) {
           return null
