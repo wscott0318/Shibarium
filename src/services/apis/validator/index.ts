@@ -5,8 +5,8 @@ export function validatorsList(){
     return http.get(`validators/getList`)
 }
 
-export function migrateValidatorsList(){
-    return http.get(`validators/getList`)
+export function migrateValidatorsList(requestOptions:any){
+    return http.get(`validators/getMigrationList`,requestOptions)
 }
 export function restake(reqBody:RetakeFormInterface){
     // console.log(reqBody,'asdsa');

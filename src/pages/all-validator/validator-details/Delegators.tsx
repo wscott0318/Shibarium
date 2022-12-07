@@ -76,15 +76,20 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
                       </tr>
                     ))
                   ) : 
-                    <div className="no-found">
-                          <div className="text-center">
-                            <img src="../../assets/images/no-record.png" />
-                          </div>
-                    </div>
+                    null
                   }
                 </tbody>
               </table>
             </div>
+            { delegators.length === 0 &&
+              <div className="no-found top-spcsm">
+                <div>
+                  <div className="text-center">
+                    <img className="d-inline-block mb-3" src="../../assets/images/no-record.png" />
+                  </div>
+                </div>
+              </div>
+            }
           </div>
           <div className="mt-sm-4 mt-3">
             {delegators.length > 0 ? (

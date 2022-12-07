@@ -156,12 +156,27 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const submitTransaction = async (values: any) => {
     try {
       // console.log("called submitTransaction ")
+      let gasFee = "";
       const user: any = account
       const amount = web3.utils.toBN(fromExponential(+values.amount * Math.pow(10, 18)));
       const acceptDelegation = 1
       const heimdallFee = web3.utils.toBN(fromExponential(minHeimdallFee * Math.pow(10, 18)));
       const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-      const gasFee = await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).estimateGas({ from: user })
+       
+      try{
+        gasFee = await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).estimateGas({ from: user })
+      }
+      catch (err:any)
+      {
+        console.log("err line 171 stepThree.jsx",err)
+        if(err.code === undefined)
+        {
+          toast.error("Invalid Pub key !", {
+            position: toast.POSITION.BOTTOM_CENTER,
+            autoClose: 3000,
+          });
+        }
+      }
       const encodedAbi = await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).encodeABI()
       const CurrentgasPrice: any = await currentGasPrice(web3)
       // console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
@@ -339,6 +354,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
   return (
     <>
+    <ToastContainer/>
       {/* {apiLoading && <LoadingSpinner />} */}
       <div className="progress-tab">
         <div className="mb-4 mb-xl-5">
@@ -376,7 +392,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
               <input
                 type="text"
-                className="form-control"
+                className="form-control fld-fade"
                 placeholder="i.e Dark Knight Ventures"
                 name="name"
                 value={becomeValidateData.name}
@@ -392,7 +408,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               </label>
               <input
                 type="text"
-                className="form-control"
+                className="form-control fld-fade"
                 placeholder="https://knightventures.com"
                 name="website"
                 value={becomeValidateData.website}
@@ -407,7 +423,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               </label>
               <input
                 type="text"
-                className="form-control"
+                className="form-control fld-fade"
                 placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
                 name="address"
                 readOnly={true}
@@ -427,7 +443,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
               <input
                 type="text"
-                className="form-control"
+                className="form-control fld-fade"
                 placeholder="01rwetk5y9d6a3d59w2m5l9u4x256xx"
                 name="publickey"
                 readOnly={true}
@@ -435,7 +451,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               />
             </div>
           </div>
-          <div className="col-sm-6 form-grid">
+          <div className="col-sm-6 form-grid mx-field cus-tool">
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
                 Enter the stake amount <span className="get-info">i</span>
@@ -446,7 +462,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               <div className="maxButtonFloat">
                 <input
                   type="text"
-                  className=" mb-2 form-control"
+                  className=" mb-4 form-control"
                   placeholder="00.00"
                   value={values.amount}
                   readOnly={availBalance <= 0}
@@ -454,7 +470,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                 />
                 <button
                   disabled={availBalance <= 0}
-                  className="MaxAmountButton orange-txt fw-bold amt-val"
+                  className="MaxAmountButton orange-txt fw-bold amt-val max-bdge"
                   onClick={() => {
                     setFieldValue(
                       "text",
@@ -477,7 +493,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               <div className="row-st">
                 <div className="blk-dta">
                   <label htmlFor="" className="form-label ff-mos mb-0">
-                    Minimum: {minDeposit} BONE + fees
+                    Minimum: {minDeposit} BONE + fee
                   </label>
                 </div>
                 <div className="blk-dta">
@@ -515,7 +531,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
           setshow={() =>
             setTransactionState({ state: false, title: "Pending" })
           }
-          externalCls="faucet-pop"
+          externalCls="faucet-pop no-lft"
         >
           <div className="popmodal-body tokn-popup no-ht trans-mod">
             <div className="pop-block">
@@ -580,7 +596,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                               </div>
                             )}
                           </div>
-                          <span>Approval for BONE </span>
+                          <span>Approval for BONE.</span>
                         </div>
                         <div
                           className={`step_wrapper ${
@@ -603,7 +619,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                               </div>
                             )}
                           </div>
-                          <span>Making Transaction..</span>
+                          <span>Processing Transaction.</span>
                         </div>
                         <div
                           className={`step_wrapper ${
@@ -626,7 +642,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                               </div>
                             )}
                           </div>
-                          <span>Successfully Completed</span>
+                          <span>Successfully Completed.</span>
                         </div>
                       </div>
                       {/* <span className="spiner-lg">

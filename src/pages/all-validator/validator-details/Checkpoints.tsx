@@ -85,10 +85,10 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue,loading }) 
               </table>
             </div>
             {!loading && !checkpoints.length ? (
-              <div className="no-found">
+              <div className="no-found top-spcsm">
                 <div>
                   <div className="text-center">
-                    <img src="../../assets/images/no-record.png" />
+                    <img className="d-inline-block mb-3" src="../../assets/images/no-record.png" />
                   </div>
                 </div>
               </div>

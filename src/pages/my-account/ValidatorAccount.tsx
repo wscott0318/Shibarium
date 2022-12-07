@@ -264,17 +264,17 @@ const validatorAccount = ({
   // console.log(restakeModal)
 
   const restakeValidation: any = Yup.object({
-    amount: Yup.string()
-      .matches(/^[1-9][0-9]*$/, "You must enter valid amount.")
+    amount: Yup.number()
+      // .matches(/^[1-9][0-9]*$/, "You must enter valid amount.")
       .min(0)
-      .max(availBalance)
+      .max(availBalance).moreThan(0,"You must enter valid amount.")
       .required("Amount is required."),
     reward: Yup.number().required(),
   });
   const comissionValidation: any = Yup.object({
-    comission: Yup.string()
-      .matches(/^[1-9][0-9]*$/, "You must enter valid amount.")
-      .min(0)
+    comission: Yup.number()
+      // .matches(/^[1-9][0-9]*$/, "You must enter valid amount.")
+      .min(0).moreThan(0,"You must enter valid amount.")
       .max(100)
       .required("Comission is required."),
   });
@@ -444,7 +444,7 @@ const validatorAccount = ({
                   },
                 })
               );
-              router.push("/my-account", "/my-account", { shallow: true });
+              router.push("/my-account", "/my-account", { shallow: false });
               setHashLink("");
               setTransactionState({ state: false, title: "" });
             })
@@ -537,7 +537,7 @@ const validatorAccount = ({
                     },
                   })
                 );
-                router.push("/my-account", "/my-account", { shallow: true });
+                router.push("/my-account", "/my-account", { shallow: false });
               })
               .on("error", (res: any) => {
                 // console.log(res, "error");
@@ -624,7 +624,7 @@ const validatorAccount = ({
               })
 
             );
-            router.push("/my-account", "/my-account", { shallow: true });
+            router.push("/my-account", "/my-account", { shallow: false });
             //
 
           })
@@ -702,7 +702,7 @@ const validatorAccount = ({
                 },
               })
             );
-            router.push("/my-account", "/my-account", { shallow: true });
+            router.push("/my-account", "/my-account", { shallow: false });
           })
           .on("error", (res: any) => {
             // console.log(res, "error");
@@ -785,7 +785,7 @@ const validatorAccount = ({
                 },
               })
             );
-            router.push("/my-account", "/my-account", { shallow: true });
+            router.push("/my-account", "/my-account", { shallow: false });
             setTransactionState({ state: false, title: "" });
             setHashLink("");
           })
@@ -868,7 +868,7 @@ const validatorAccount = ({
                 },
               })
             );
-            router.push("/my-account", "/my-account", { shallow: true });
+            router.push("/my-account", "/my-account", { shallow: false });
             setTransactionState({ state: false, title: "" });
             setHashLink("");
           })
@@ -951,7 +951,7 @@ const validatorAccount = ({
                 },
               })
             );
-            router.push("/my-account", "/my-account", { shallow: true });
+            router.push("/my-account", "/my-account", { shallow: false });
             getDelegatorCardData(walletAddress);
           })
           .on("error", (res: any) => {
@@ -1041,7 +1041,7 @@ const validatorAccount = ({
                 },
               })
             );
-            router.push("/my-account", "/my-account", { shallow: true });
+            router.push("/my-account", "/my-account", { shallow: false });
             getDelegatorCardData(walletAddress);
           })
           .on("error", (res: any) => {
@@ -1072,16 +1072,6 @@ const validatorAccount = ({
       Sentry.captureException("getStakeAmountDelegator ", err);
     }
   };
-  const handleMigrateClick = (data: any) => {
-    // setValId(data.id);
-    setMigrateData(data);
-    // console.log("migrate data ", migrateData);
-    router.push(
-      `/migrate-stake`,
-      `/migrate-stake`,
-      { shallow: true }
-    )
-  }
 
   const getStake = (id: String) => {
     try {
@@ -1096,16 +1086,17 @@ const validatorAccount = ({
       Sentry.captureException("getStake ", err);
     }
   };
-  
-  const totalStake = (item: any) => {
-    console.log("item contains ", item);
-    // let values = JSON.parse(item);
-    let stakeAmount = getStake(item.id);
-    let reward = +item.reward > 0 ? (parseInt(item.reward) / 10 ** web3Decimals).toFixed(tokenDecimal) : "0.00";
-    console.log("total stake == ", (parseFloat(stakeAmount) + parseFloat(reward)));
-    return (parseFloat(stakeAmount) + parseFloat(reward));
+  const handleMigrateClick = (data: any) => {
+    // setValId(data.id);
+    let stake = getStake(data.id);
+    setMigrateData(data, stake);
+    // console.log("migrate data ", migrateData);
+    router.push(
+      `/migrate-stake`,
+      `/migrate-stake`,
+      { shallow: true }
+    )
   }
-
   return (
     <>
       {loading && <LoadingSpinner />}
@@ -1173,7 +1164,7 @@ const validatorAccount = ({
                           </p>
                           <button
                             disabled={availBalance <= 0}
-                            className="mt-2 text-white"
+                            className="orange-txt fw-bold"
                             onClick={() => {
                               setFieldValue(
                                 "text",
@@ -1183,8 +1174,7 @@ const validatorAccount = ({
                               );
                             }}
                           >
-                            {" "}
-                            MAX{" "}
+                           MAX
                           </button>
                         </div>
                       </div>
@@ -1475,34 +1465,34 @@ const validatorAccount = ({
           setshow={() =>
             setUnboundModal({ ...unboundModal, startValue: false })
           }
-          externalCls="stak-pop"
+          externalCls="stak-pop unbd-info-pop"
         >
           <>
             {unboundModal.startValue && (
               <div className=".cmn_modal del-tab-content">
                 <div className="center-align mb-4">
-                  <h4>Are you sure you want to unbound?</h4>
+                  <h5 className="text-center ff-mos">Are you sure you want to unbound?</h5>
                 </div>
-                <div className="dark-bg-800 p-2 p-sm-3">
+                <div className="p-2 p-sm-3">
                   {/* old input */}
-                  <div className="form-group float-group">
+                  <div className="form-group float-group sec-format">
                     <div className="d-flex justify-content-between flex-wrap">
-                      <h6 className="mb-1 fs-14">Withdraw Stake</h6>
-                      <h6 className="mb-1 fs-14">
+                      <h6 className="mb-1 ff-mos">Withdraw Stake</h6>
+                      <h6 className="mb-1 ff-mos">
                         {unboundModal.stakeAmount} Bone
                       </h6>
                     </div>
-                    <div className="cmn_inpt_row max-input">
-                      <div className="max-input">
+                    <div className="cmn_inpt_row max-input inpt-bg mb-0">
+                      <div className="max-input dark-bg-800">
                         <input
                           value={unboundInput}
                           onChange={(e) => setUnboundInput(e.target.value)}
                           type="number"
-                          className="w-100 dark-bg form-control"
+                          className="w-100 form-control ff-mos"
                           placeholder="Enter amount"
                         />
                         <span
-                          className="primary-text over-text fw-600"
+                          className="primary-text over-text fw-600 ff-mos"
                           style={{ cursor: "pointer" }}
                           onClick={() =>
                             setUnboundInput(unboundModal.stakeAmount)
@@ -1513,18 +1503,16 @@ const validatorAccount = ({
                       </div>
                     </div>
                   </div>
-                  <div className="p-2">
-                    <p className="mb-0">
-                      Your Funds will be locked for{" "}
-                      <p className="dark-text primary-text">checkpoints</p>
-                    </p>
-                  </div>
-                </div>
+                  <p className="mb-0 info-txt mt-1 ff-mos">
+                    Your Funds will be locked for{" "}
+                    <p className="dark-text primary-text ff-mos">Checkpoints</p>
+                  </p>
+                 </div>
                 <button
                   onClick={() => unboundDelegator()}
                   disabled={unboundInput ? false : true}
                   type="button"
-                  className="btn primary-btn mt-3 mt-sm-4 w-100"
+                  className="btn primary-btn mt-3 mt-sm-4 w-100 ff-mos"
                 >
                   Confirm Unbound
                 </button>
@@ -1542,7 +1530,7 @@ const validatorAccount = ({
           setshow={() =>
             setTransactionState({ state: false, title: "Pending" })
           }
-          externalCls="faucet-pop"
+          externalCls="faucet-pop unbnd-pop"
         >
           <div className="popmodal-body tokn-popup no-ht trans-mod">
             <div className="pop-block">
@@ -2128,8 +2116,10 @@ const validatorAccount = ({
                                     setSelectedRow({
                                       owner: item.contractAddress,
                                       contractAddress: item.contractAddress,
-                                      commissionPercent: item.commission,
+                                      commissionrate: item.commission,
                                       name: item.name,
+                                      uptimePercent:
+                                        item.checkpointSignedPercent,
                                     });
                                     setStakeMoreModal(true);
                                   }}
