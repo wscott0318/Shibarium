@@ -191,7 +191,7 @@ const validatorAccount = ({
     }
   };
 
-  console.log(stakeAmounts)
+  // console.log(stakeAmounts)
 
   const handleModal = (
     btn: String,
@@ -361,6 +361,7 @@ const validatorAccount = ({
 
   // RESTAKE AS VALIDATORS
   const callRestakeValidators = async (values: any) => {
+    console.log("called restake ==> ")
     try {
       if (account) {
         setTransactionState({ state: true, title: "Pending" });
@@ -2050,7 +2051,7 @@ const validatorAccount = ({
                                   Restake
                                 </button>
                                 <div className="tool-desc">
-                                  Restake you total rewards
+                                  Restake your total rewards
                                 </div>
                               </div>
                             </li>
