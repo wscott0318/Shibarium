@@ -18,6 +18,7 @@ import {
 } from "app/state/transactions/actions";
 import { useAppDispatch } from "../../state/hooks";
 import fromExponential from "from-exponential";
+import Link from "next/link";
 import {
   addDecimalValue,
   checkpointVal,
@@ -50,6 +51,7 @@ const validatorAccount = ({
   const router = useRouter();
   const [showUnboundClaim, setUnStakePop] = useState(false);
   const [showUnstakeClaimPop, setUnStakeClaimPop] = useState(false);
+  const [showSignerAddressPop, setSignerAddressPop] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   const [unboundInput, setUnboundInput] = useState<any>("");
@@ -271,6 +273,20 @@ const validatorAccount = ({
       .required("Amount is required."),
     reward: Yup.number().required(),
   });
+
+  const signersAddress: any = Yup.object({
+    address: Yup.string().required("Address is required."),
+    publickey: Yup.string()
+    .max(143)
+    .notOneOf(
+      [Yup.ref("address"), null],
+      "Signer's address & public key should not match."
+    )
+    .matches(/^0x/, "Should only start with 0x.")
+    .matches(/^[A-Za-z0-9 ]+$/, "No special characters allowed.")
+    .required("Public key is required."),
+  });
+
   const comissionValidation: any = Yup.object({
     comission: Yup.number()
       // .matches(/^[1-9][0-9]*$/, "You must enter valid amount.")
@@ -1457,6 +1473,99 @@ const validatorAccount = ({
         </CommonModal>
         {/* unbound popop ends */}
 
+{/* unbound popop start */}
+<CommonModal
+          title={"Update Signer Address"}
+          show={showSignerAddressPop}
+          setshow={setSignerAddressPop}
+          externalCls="stak-pop"
+        >
+          <>
+          <div className="cmn_modal val_popups">
+              <Formik
+                initialValues={{
+                  address: "",
+                  publickey: "",
+                }}
+                validationSchema={signersAddress}
+                onSubmit={(values, actions) => {
+                  // console.log(values);
+                  // callRestakeValidators(values);
+                  console.log(values,"<<<<------Values")
+                }}
+              >
+                {({
+                  errors,
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  setFieldValue,
+                  values,
+                  handleSubmit,
+                }) => (
+                  <>
+                    <div className="cmn_inpt_row"></div>
+                    <div className="cmn_inpt_row">
+                      <div className="form-control">
+                        <label className="mb-2 mb-md-2 text-white">
+                        Signer’s address
+                        </label>
+                        <input
+                          type="text"
+                          name="address"
+                          placeholder="0xfe2f17400d4d8d24740ff8c0"
+                          className="w-100"
+                          value={values.address}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          // onChange={handleChange("amount")}
+                        />
+                        {touched.address && errors.address ? (
+                          <p className="primary-text pt-1 pl-2">
+                            {errors.address}
+                          </p>
+                        ) : null}
+                      </div>
+                      <div className="form-control">
+                        <label className="mb-2 mb-md-2 text-white">
+                        Signer’s Public key
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="0xfe2f17400d4d8d24740ff8c0"
+                          name="publickey"
+                          value={values.publickey}
+                          className="w-100"
+                          // onChange={handleChange("amount")}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                        {touched.publickey && errors.publickey ? (
+                          <p className="primary-text pt-1 pl-2">
+                            {errors.publickey}
+                          </p>
+                        ) : null}
+                      </div>
+                    </div>
+                    
+                    <div className="pop_btns_area">
+                      <div className="form-control">
+                        <button
+                          className="btn primary-btn w-100"
+                          onClick={() => handleSubmit()}
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </Formik>
+            </div>
+          </>
+        </CommonModal>
+        {/* unbound popop ends */}
+
         {/* unbound popop DELEGATOR start */}
         <CommonModal
           title={"Unbound"}
@@ -1933,6 +2042,28 @@ const validatorAccount = ({
                         <div className="tool-desc">claim your self stake</div>
                       </div>
                     </div>
+                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 m-3">
+                      <div className="cus-tooltip d-inline-block ps-0">
+                        <button
+                          // disabled={    }
+                          onClick={() => setSignerAddressPop(true)}
+                          className="ff-mos btn black-btn w-100 d-block tool-ico"
+                        >
+                          Update Signer Address
+                        </button>
+                        <div className="tool-desc">Update Signer Address</div>
+                      </div>
+                    </div>
+                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 m-3">
+                      <div className="cus-tooltip d-inline-block ps-0">
+                      <Link href="/profile-update" passHref>
+                        <button className="ff-mos btn black-btn w-100 d-block tool-ico">
+                          Update Profile
+                        </button>
+                        </Link>
+                        <div className="tool-desc">Update Profile</div>
+                      </div>
+                    </div>                  
                   </div>
                 </div>
               </div>
