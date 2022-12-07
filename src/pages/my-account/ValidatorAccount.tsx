@@ -70,7 +70,6 @@ const validatorAccount = ({
     title: "",
   });
   const [hashLink, setHashLink] = useState('');
-  const [validatorID, setValidatorID] = useState<any>("");
 
   const { account, chainId = 1, library } = useActiveWeb3React();
   const lib: any = library;
@@ -115,16 +114,17 @@ const validatorAccount = ({
     // console.log(liquidRewards);
   };
 
-  getDelegatorStake("0xddff10bb0afa6293cb1a9c234428c4436c5f2f41");
+  // getDelegatorStake("0xddff10bb0afa6293cb1a9c234428c4436c5f2f41");
 
   const getValidatorData = async (valId: any) => {
+    console.log("val id", valId)
     try {
       let instance = new web3.eth.Contract(
         stakeManagerProxyABI,
         dynamicChaining[chainId].STAKE_MANAGER_PROXY
       );
       const valFromContract = await instance.methods
-        .validators(16)
+        .validators(valId)
         .call({ from: account });
       const valReward = await instance.methods
         .validatorReward(+valId)
@@ -140,8 +140,9 @@ const validatorAccount = ({
       setValInfoContract(valFromContract)
       setValidatorTotalReward(reward);
       setEpochDyna({ epoch, dynasty })
-      // console.log(valFromContract ,"validators ===> ");
+      console.log(valFromContract ,"valFromContract ===> ");
     } catch (err: any) {
+      console.log(err)
       Sentry.captureException("getValidatorData ", err);
     }
   };
@@ -254,13 +255,13 @@ const validatorAccount = ({
     if (account && userType === "Delegator") {
       getDelegatorCardData(account);
     }
-    // if (account && userType === "Validator") {
-    // if (valId) {
+    if (account && userType === "Validator") {
+    if (valId) {
     getValidatorData(valId);
-    // }
+    }
     // validatorInfoAPI()
     // getVaiIDFromDB();
-    // }
+    }
   }, [account, userType, chainId, valId]);
 
   // console.log(restakeModal)
@@ -382,7 +383,7 @@ const validatorAccount = ({
       if (account) {
         setTransactionState({ state: true, title: "Pending" });
         let walletAddress: any = account;
-        let ID = validatorID;
+        let ID = valId;
         //@ts-ignore
         let allowance =
           (await getAllowanceAmount(
@@ -581,7 +582,7 @@ const validatorAccount = ({
       setTransactionState({ state: true, title: "Pending" });
       if (account) {
         let walletAddress = account;
-        let valID = validatorID;
+        let valID = valId;
         let instance = new web3.eth.Contract(
           stakeManagerProxyABI,
           dynamicChaining[chainId].STAKE_MANAGER_PROXY
@@ -743,7 +744,7 @@ const validatorAccount = ({
       if (account) {
         setTransactionState({ state: true, title: "Pending" });
         let walletAddress: any = account;
-        let ID = validatorID;
+        let ID = valId;
         let instance = new web3.eth.Contract(
           stakeManagerProxyABI,
           dynamicChaining[chainId].STAKE_MANAGER_PROXY
@@ -826,7 +827,7 @@ const validatorAccount = ({
       if (account) {
         setTransactionState({ state: true, title: "Pending" });
         let walletAddress: any = account;
-        let ID = validatorID;
+        let ID = valId;
         let instance = new web3.eth.Contract(
           stakeManagerProxyABI,
           dynamicChaining[chainId].STAKE_MANAGER_PROXY
@@ -899,6 +900,7 @@ const validatorAccount = ({
         console.log("account addres not found");
       }
     } catch (err: any) {
+      console.log(err)
       Sentry.captureException("unStakeClaimValidator", err);
     }
   };
@@ -1955,7 +1957,7 @@ const validatorAccount = ({
                     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
-                          disabled={parseInt(validatorInfoContract?.status) > 1 ? true : false}
+                          disabled={parseInt(validatorInfoContract?.status) > 1 || parseInt(validatorInfoContract?.deactivationEpoch) > 0 ? true : false}
                           onClick={() => handleModal("Restake", account)}
                           className="ff-mos btn black-btn w-100 d-block tool-ico"
                         >
@@ -1968,7 +1970,7 @@ const validatorAccount = ({
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
                           disabled={
-                            parseInt(validatorInfoContract?.status) > 1 ? true :
+                            parseInt(validatorInfoContract?.status) > 1 || parseInt(validatorInfoContract?.deactivationEpoch) > 0 ? true :
                               parseInt(
                                 validatorInfoContract?.lastCommissionUpdate
                               ) +
@@ -2005,14 +2007,9 @@ const validatorAccount = ({
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
                           disabled={
-                            parseInt(validatorInfoContract?.status) > 1 ? true :
-                              parseInt(validatorInfoContract?.deactivationEpoch) +
-                                parseInt(comissionHandle?.dynasty) <=
-                                parseInt(comissionHandle?.epoch) &&
-                                parseInt(validatorInfoContract?.deactivationEpoch) >
-                                0
-                                ? false
-                                : true
+                              parseInt(validatorInfoContract?.deactivationEpoch) > 0 ? 
+                                true
+                                : false
                           }
                           onClick={() => setUnStakePop(true)}
                           className="ff-mos btn black-btn w-100 d-block tool-ico"
@@ -2026,14 +2023,9 @@ const validatorAccount = ({
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
                           disabled={
-                            parseInt(validatorInfoContract?.status) > 1 ? true :
-                              parseInt(validatorInfoContract?.deactivationEpoch) +
-                                parseInt(comissionHandle?.dynasty) <=
-                                parseInt(comissionHandle?.epoch) &&
-                                parseInt(validatorInfoContract?.deactivationEpoch) >
-                                0
-                                ? false
-                                : true
+                              parseInt(validatorInfoContract?.deactivationEpoch) === 0 || parseInt(validatorInfoContract?.status) === 3 
+                                ? true
+                                : false
                           }
                           onClick={() => setUnStakeClaimPop(true)}
                           className="ff-mos btn black-btn w-100 d-block tool-ico"
