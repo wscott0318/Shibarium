@@ -21,6 +21,7 @@ export const Allvalidator: React.FC = () => {
   const [valCount, setValCount] = useState(0);
   const [valMaxCount, setValMaxCount] = useState(0);
   const [valId, setValId] = useValId();
+  const [valInfoLoader, setValInfoLoader] = useState(true)
 
 
   const getValInfo = () => {
@@ -33,10 +34,12 @@ export const Allvalidator: React.FC = () => {
         getValidatorInfo(id.toLowerCase()).then((res : any) => {
           // console.log(res.data.message.val?.status, " vall status ===> ")
           setNodeSetup(res.data.message.val?.status ? res.data.message.val?.status : null)
+          setValInfoLoader(false)
           localStorage.setItem("valInfo", JSON.stringify(res.data.message.val))
         })
       }
     } catch (err: any) {
+      setValInfoLoader(false)
       Sentry.captureMessage("getValCount", err);
     }
   }
@@ -66,7 +69,7 @@ export const Allvalidator: React.FC = () => {
   }, [account])
 
   const renderButtons = () => {
-    if (account) {
+    if (account && !valInfoLoader) {
       if (userType === "Validator") {
         if (nodeSetup) {
           return null
