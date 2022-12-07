@@ -208,7 +208,7 @@ const DelegatePopup: React.FC<any> = ({
                 step3:true,
                 title:'Transaction Done'
               })
-              window.location.reload();
+              // window.location.reload();
             })
           .on('error', (err: any) => {
             setdelegateState(initialModalState)
@@ -320,7 +320,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
     setdelegateState(initialModalState)
     setdelegatepop(false)
   }
-console.log("data?.uptimePercent=====",data.uptimePercent)
+
 // console.log("Balance", data);
   return (
     <>
