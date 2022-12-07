@@ -140,85 +140,7 @@ const DelegatePopup: React.FC<any> = ({
   }
   };
 
-  const BUY_VOUCHER = async (requestBody: any) => {
-    let walletAddress :any = account
-    let _minSharesToMint = web3.utils.toBN(fromExponential(1 * Math.pow(10, 18)));
-    let amount = web3.utils.toBN(
-      fromExponential(+requestBody.amount * Math.pow(10, 18))
-    );
-    try{
-      // console.log("No approval needed", amount);
-        let instance = new web3.eth.Contract(
-          ValidatorShareABI,
-          requestBody.validatorAddress
-        )
-          // console.log({amount, _minSharesToMint})
-          await instance.methods.buyVoucher(amount, _minSharesToMint).send({from : walletAddress})
-          .on('transactionHash', (res: any) => {
-            setLoader(false)
-            dispatch(
-              addTransaction({
-                hash: res,
-                from: walletAddress,
-                chainId,
-                summary: `${res}`,
-              })
-            )
-            const link = getExplorerLink(
-              chainId,
-              res,
-              "transaction"
-            );
-            setExplorerLink(link);
-            setdelegateState({
-              step0:false,
-              step1:false,
-              step2: true,
-              step3:false,
-              title:'Transaction In Progress'
-            })
-            })
-            .on('receipt', (res: any) => {
-              dispatch(
-                finalizeTransaction({
-                  hash: res.transactionHash,
-                  chainId,
-                  receipt: {
-                    to: res.to,
-                    from: res.from,
-                    contractAddress: res.contractAddress,
-                    transactionIndex: res.transactionIndex,
-                    blockHash: res.blockHash,
-                    transactionHash: res.transactionHash,
-                    blockNumber: res.blockNumber,
-                    status: 1
-                  }
-                })
-              )
-              const link = getExplorerLink(
-                chainId,
-                res.transactionHash,
-                "transaction"
-              );
-              setExplorerLink(link);
-              setdelegateState({
-                step0:false,
-                step1:false,
-                step2: false,
-                step3:true,
-                title:'Transaction Done'
-              })
-              window.location.reload();
-            })
-          .on('error', (err: any) => {
-            setdelegateState(initialModalState)
-            setdelegatepop(false)
-          })
-    } catch(err :any){
-      Sentry.captureMessage("BUY_VOUCHER ", err);
-    }
 
-  }
 
   const APPROVE_BONE = async (requestBody :any) => {
     let walletAddress : any = account;
@@ -310,6 +232,87 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
       })
     },
   });
+    const BUY_VOUCHER = async (requestBody: any) => {
+      let walletAddress: any = account;
+      let _minSharesToMint = web3.utils.toBN(
+        fromExponential(1 * Math.pow(10, 18))
+      );
+      let amount = web3.utils.toBN(
+        fromExponential(+requestBody.amount * Math.pow(10, 18))
+      );
+      try {
+        // console.log("No approval needed", amount);
+        let instance = new web3.eth.Contract(
+          ValidatorShareABI,
+          requestBody.validatorAddress
+        );
+        // console.log({amount, _minSharesToMint})
+        await instance.methods
+          .buyVoucher(amount, _minSharesToMint)
+          .send({ from: walletAddress })
+          .on("transactionHash", (res: any) => {
+            setLoader(false);
+            dispatch(
+              addTransaction({
+                hash: res,
+                from: walletAddress,
+                chainId,
+                summary: `${res}`,
+              })
+            );
+            setLoader(true);
+            setdelegatepop(false);
+            setFieldValue("balance",'')
+            const link = getExplorerLink(chainId, res, "transaction");
+            setExplorerLink(link);
+            setdelegateState({
+              step0: false,
+              step1: false,
+              step2: true,
+              step3: false,
+              title: "Transaction In Progress",
+            });
+          })
+          .on("receipt", (res: any) => {
+            dispatch(
+              finalizeTransaction({
+                hash: res.transactionHash,
+                chainId,
+                receipt: {
+                  to: res.to,
+                  from: res.from,
+                  contractAddress: res.contractAddress,
+                  transactionIndex: res.transactionIndex,
+                  blockHash: res.blockHash,
+                  transactionHash: res.transactionHash,
+                  blockNumber: res.blockNumber,
+                  status: 1,
+                },
+              })
+            );
+            const link = getExplorerLink(
+              chainId,
+              res.transactionHash,
+              "transaction"
+            );
+            setExplorerLink(link);
+            setdelegateState({
+              step0: false,
+              step1: false,
+              step2: false,
+              step3: true,
+              title: "Transaction Done",
+            });
+            window.location.reload();
+          })
+          .on("error", (err: any) => {
+            setdelegateState(initialModalState);
+            setdelegatepop(false);
+          });
+      } catch (err: any) {
+        Sentry.captureMessage("BUY_VOUCHER ", err);
+      }
+    };
   useEffect(() => {
     if (!showdelegatepop) {
       setLoader(false);

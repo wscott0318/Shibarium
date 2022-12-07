@@ -950,7 +950,7 @@ const validatorAccount = ({
                 },
               })
             );
-            router.push("/my-account", "/my-account", { shallow: false });
+            router.push("/my-account", "/my-account", { shallow: true });
             getDelegatorCardData(walletAddress);
           })
           .on("error", (res: any) => {
