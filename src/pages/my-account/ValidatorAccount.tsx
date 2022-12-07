@@ -66,10 +66,10 @@ const validatorAccount = ({
   // console.log("valInfoContract my account =========>>>>", valInfoContract)
 
   const [transactionState, setTransactionState] = useState({
-    state: true,
+    state: false,
     title: "",
   });
-  const [hashLink, setHashLink] = useState(true);
+  const [hashLink, setHashLink] = useState('');
   const [validatorID, setValidatorID] = useState<any>("");
 
   const { account, chainId = 1, library } = useActiveWeb3React();
