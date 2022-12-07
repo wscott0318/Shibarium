@@ -323,7 +323,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
     setdelegateState(initialModalState)
     setdelegatepop(false)
   }
-console.log("data?.uptimePercent=====",data.uptimePercent)
+
 // console.log("Balance", data);
   return (
     <>
