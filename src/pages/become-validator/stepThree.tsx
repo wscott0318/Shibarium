@@ -472,7 +472,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               <label htmlFor="" className="form-label ff-mos">
                 Enter the stake amount <span className="get-info">i</span>
                 <div className="tool-desc">
-                  Additional 1 Bone will be deducted for Heimdall fees
+                  Additional 1 Bone will be deducted for Heimdall fee
                 </div>
               </label>
               <div className="maxButtonFloat">
