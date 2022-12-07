@@ -65,6 +65,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
 
   const getMinimunFee = async () => {
+    console.log("called getMinimunFee ");
     try {
       let user = account;
       if (account) {
@@ -86,6 +87,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
 
   const approveAmount = async (val: any) => {
+    console.log("called approveAmount ");
     try {
       if (account) {
         console.log("called approval ")
@@ -155,7 +157,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
   const submitTransaction = async (values: any) => {
     try {
-      // console.log("called submitTransaction ")
+      console.log("called submitTransaction ")
       let gasFee = "";
       const user: any = account
       const amount = web3.utils.toBN(fromExponential(+values.amount * Math.pow(10, 18)));
@@ -180,6 +182,8 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       const encodedAbi = await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).encodeABI()
       const CurrentgasPrice: any = await currentGasPrice(web3)
       // console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+      console.log("line 185")
+      try {
       await web3.eth.sendTransaction({
         from: user,
         to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
@@ -190,6 +194,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       })
         .on('transactionHash', (res: any) => {
           // console.log(res, "hash")
+          console.log("line 196");
           dispatch(
             addTransaction({
               hash: res,
@@ -202,6 +207,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
           setHashLink(link)
         }).on('receipt', (res: any) => {
           // console.log(res, "receipt")
+          console.log("line 209");
           dispatch(
             finalizeTransaction({
               hash: res.transactionHash,
@@ -218,12 +224,14 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               }
             })
           )
+          console.log("line 226");
           setLoader("step4");
           setStepComplete((preState: any) => ({ ...preState, three: true }))
           changeStatus()
           localStorage.clear()
         }).on('error', (res: any) => {
           // console.log(res, "error")
+          console.log("line 233");
           setTransactionState({ state: false, title: '' })
           dispatch(
             finalizeTransaction({
@@ -241,7 +249,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               }
             })
           )
-
+          console.log("line 251");
           console.log(res)
           if (res.code === 4001) {
             setTransactionState({ state: false, title: '' })
@@ -250,6 +258,11 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
             console.log("wrong public key ===> ")
           }
         })
+      }
+      catch (err) 
+      {
+        console.log("line 264",err);
+      }
 
     } catch (err: any) {
       console.log(err.Error, Object.keys(err))
@@ -285,6 +298,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   }
 
   const handleTransaction = async (val: any) => {
+    console.log("called handleTransaction ");
     try {
       let user: any = account
       let allowance: any = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, user, dynamicChaining[chainId].STAKE_MANAGER_PROXY)
@@ -303,6 +317,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   }
 
   const callAPI = async (val: any) => {
+    console.log("called callAPI ");
     setTransactionState({ state: true, title: 'Pending' })
     var data = new FormData();
     data.append("validatorName", becomeValidateData.name);
@@ -319,12 +334,13 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       setStepComplete((preState: any) => ({ ...preState, one: true }))
       handleTransaction(val)
     }).catch((err: any) => {
-      // console.log(err)
+      console.log("err on callApi",err)
       notifyError()
     })
   };
 
   const changeStatus = async () => {
+    console.log("called changeStatus ");
     // setApiLoading(true)
     var data = new FormData();
     data.append("validatorName", becomeValidateData.name);
