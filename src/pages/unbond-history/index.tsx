@@ -62,7 +62,7 @@ export default function Unbond() {
 
     const [claimNowModals, setClamNowModals] = useState<any>({
         data: {},
-        confirm: false,
+        confirm: true,
         progress: false,
         completed: false,
     })
