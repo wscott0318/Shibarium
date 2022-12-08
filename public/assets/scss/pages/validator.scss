@@ -144,6 +144,21 @@
         }
     }
 }
+.mid-sec .btn.grey-btn:disabled,.mid-sec .btn.black-btn:disabled,.actions-btn button.btn.black-btn.tool-ico:disabled {
+    pointer-events: visible;
+    opacity: 0.65;
+    cursor: auto;
+}
+.mid-sec .btn.black-btn:disabled:hover {
+    background:#1a1d26 !important;
+}
+.mid-sec .btn.grey-btn:disabled:hover {
+    background: #3A4053;
+}
+.actions-btn button.btn.black-btn.tool-ico:disabled:hover{
+    background:#282828 !important;
+    opacity: 0.65;
+}
 .height-fx{
     min-height: 24px;
 }

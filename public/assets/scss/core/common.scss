@@ -3720,6 +3720,13 @@ input:-internal-autofill-selected {
     }
   }
 }
+.block-fix.tb-ubd .table-responsive {
+  height: 580px;
+  overflow-y: scroll;
+}
+.block-fix.tb-ubd .table-responsive::-webkit-scrollbar{
+  display: none;
+}
 .header-overide {
   .fx-txt {
     .grey-txt {

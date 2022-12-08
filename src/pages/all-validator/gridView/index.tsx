@@ -104,41 +104,51 @@ export default function ValidatorGrid({ validatorsList, searchKey }: { validator
                             href={`/all-validator/${validator.signer}`}
                             passHref
                           >
-                            <p className="btn primary-btn  light-text w-100">
-                              View
-                            </p>
+                            <div className="delegate_btn">
+                              <p className="btn primary-btn  light-text w-100">
+                                View
+                              </p>
+                              <div className="tool-desc tool-desc-grid">View Validator Info.</div>
+                            </div>
                           </Link>
                         ) : (
-                          <button
-                            disabled={
-                              !account
-                                ? true
-                                : validator.fundamental === 1
+                          <div className="delegate_btn">
+                            <button
+                              disabled={
+                                !account
                                   ? true
-                                  : validator.uptimePercent <= inActiveCount
+                                  : validator.fundamental === 1
                                     ? true
-                                    : false
-                            }
-                            type="button"
-                            onClick={() => {
-                              setSelectedRow(validator);
-                              if (
-                                router.asPath.split("/")[1] ===
-                                "migrate-stake"
-                              ) {
-                                setmigratepop(true);
-                              } else {
-                                setdelegatepop(true);
+                                    : validator.uptimePercent <= inActiveCount
+                                      ? true
+                                      : false
                               }
-                            }}
-                            className="btn primary-btn  light-text w-100"
-                          >
-                            <span>
-                              {router.asPath.split("/")[1] === "migrate-stake"
-                                ? "Stake here"
-                                : "Delegate"}
-                            </span>
-                          </button>
+                              type="button"
+                              onClick={() => {
+                                setSelectedRow(validator);
+                                if (
+                                  router.asPath.split("/")[1] ===
+                                  "migrate-stake"
+                                ) {
+                                  setmigratepop(true);
+                                } else {
+                                  setdelegatepop(true);
+                                }
+                              }}
+                              className="btn primary-btn  light-text w-100"
+                            >
+                              <span>
+                                {router.asPath.split("/")[1] === "migrate-stake"
+                                  ? "Stake here"
+                                  : "Delegate"}
+                              </span>
+                            </button>
+                            {!account || validator.fundamental === 1 || validator.uptimePercent <= inActiveCount
+                              ? (<div className="tool-desc tool-desc-grid">This is a fundamental node. <br /> Delegation is not enabled here.</div>)
+                              : (router.asPath.split("/")[1] === "migrate-stake"
+                                ? (<div className="tool-desc tool-desc-grid">Migrate Your Stakes here.</div>)
+                                : (<div className="tool-desc tool-desc-grid">Delegate here.</div>))}
+                          </div>
                         )}
                       </div>
                     </div>

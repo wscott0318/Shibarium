@@ -88,40 +88,44 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                     <td className="text-start">
                       {userType === "Validator" ? (
                         <Link href={`/all-validator/${x.signer}`} passHref>
+                          <div className='delegate_btn'>
                           <p className="btn primary-btn w-100">View</p>
+                          <div className="tool-desc tool-desc-sm">View Validator Info.</div>
+                          </div>
                         </Link>
                       ) : (
                         <div className="delegate_btn">
                           <button
                             className="btn primary-btn w-100"
                             disabled={
-                             !account ? true : x.fundamental === 1
+                              !account ? true : x.fundamental === 1
                                 ? true
                                 : x.uptimePercent <= inActiveCount
-                                ? true
-                                : false
+                                  ? true
+                                  : false
                             }
                             onClick={() => {
                               setSelectedRow(x);
                               if (
                                 router.asPath.split("/")[1] === "migrate-stake"
-                              )
-                              {
+                              ) {
                                 setmigratepop(true);
                                 setSelectedRow(x);
                               }
                               else {
                                 setdelegatepop(true);
-                              }  
+                              }
                             }}
                           >
                             {router.asPath.split("/")[1] === "migrate-stake"
                               ? "Stake here"
                               : "Delegate"}
                           </button>
-                          {!account ? true : x.fundamental === 1
-                                ? (<div className="tool-desc">This is a fundamental node. <br/> Delegation is not enabled here.</div>)
-                                : ""}
+                          {!account || x.fundamental === 1 || x.uptimePercent <= inActiveCount
+                            ? (<div className="tool-desc">This is a fundamental node. <br /> Delegation is not enabled here.</div>)
+                            : (router.asPath.split("/")[1] === "migrate-stake"
+                              ? (<div className="tool-desc tool-desc-sm">Migrate Your Stakes here.</div>)
+                              : (<div className="tool-desc tool-desc-sm">Delegation is enabled.</div>))}
                         </div>
                       )}
                     </td>
