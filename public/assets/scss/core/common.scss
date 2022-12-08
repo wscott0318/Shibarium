@@ -2417,6 +2417,9 @@ input:-internal-autofill-selected {
     &:last-child {
       margin-right: 0;
     }
+    @media #{$max-sm} {
+      margin: 0;
+    }
   }
   .nav-item.btn-status {
     .bg-dark-1000 {
@@ -4440,4 +4443,16 @@ input:-internal-autofill-selected {
     margin-bottom: 30px !important;
   }
   
+}
+body::-webkit-scrollbar , .fade.shib-popup.stak-pop.unbd-info-pop.modal.show::-webkit-scrollbar{
+  display: none;
+}
+.no-found.no-records-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  background: #151b28;
 }

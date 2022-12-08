@@ -132,7 +132,7 @@ export default function Unbond() {
 
   var countDecimals = function (value: any) {
     if (Math.floor(value) === value) return 0;
-    return value.toString().split(".")[1].length || 0;
+    return value.toString().split(".")[1]?.length || 0;
   };
   const fixedDecimals = (num: any) => {
     if (countDecimals(num) > 3) {
