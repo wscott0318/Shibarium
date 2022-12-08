@@ -9,7 +9,7 @@ import { addTransaction, finalizeTransaction } from 'app/state/transactions/acti
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { useAppDispatch } from "../../state/hooks";
 import fromExponential from 'from-exponential';
-import { addDecimalValue, currentGasPrice, getAllowanceAmount, web3Decimals } from "web3/commonFunctions";
+import { addDecimalValue, currentGasPrice, getAllowanceAmount, stakeForErrMsg, web3Decimals } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { MAXAMOUNT } from "../../web3/commonFunctions";
 import { useEthBalance } from '../../hooks/useEthBalance';
@@ -229,10 +229,10 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         })
     } catch (err: any) {
       // console.log(err.toString(), "RPC error ==> ")
-      // console.log(err.toString().split("{")[0], "RPC error ==> ")
-
+      console.log(err.toString().split("{"), "RPC error ==> ")
+      let message = stakeForErrMsg(err.toString().split("{")[0])
       setTransactionState({ state: false, title: '' })
-      toast.error(err.toString().split("{")[0], {
+      toast.error(message, {
         position: toast.POSITION.BOTTOM_CENTER, autoClose: 5000
       });
     }
