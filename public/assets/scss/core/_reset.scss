@@ -138,7 +138,7 @@ h4 {
         font-size: 22px;
     }
     @media #{$max-md}{
-        font-size: 20px;
+        font-size: 18px;
     }
 }
 h5 {
@@ -633,6 +633,10 @@ ul {
                 outline: none;
                 @media #{$max-sm}{
                     right: 20px;
+                }
+
+                @media #{$max-xxsm}{
+                    right: 5px !important;
                 }
                 &:hover{
                     box-shadow: none;

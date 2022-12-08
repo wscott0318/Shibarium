@@ -261,7 +261,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
               })
             );
             setLoader(true);
-            setdelegatepop(false);
+            setdelegatepop(true);
             setFieldValue("balance",'')
             const link = getExplorerLink(chainId, res, "transaction");
             setExplorerLink(link);
@@ -303,7 +303,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
               step3: true,
               title: "Transaction Done",
             });
-            window.location.reload();
+            // window.location.reload();
           })
           .on("error", (err: any) => {
             setdelegateState(initialModalState);

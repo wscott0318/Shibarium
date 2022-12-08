@@ -90,7 +90,7 @@ export default function Unbond() {
 
   const pageChangeHandler = (index: number) => {
     try {
-      const slicedList = list.slice(
+      const slicedList = validatorData.slice(
         (index - 1) * pageSize,
         index * pageSize
       );
@@ -102,15 +102,15 @@ export default function Unbond() {
     }
   };
   useEffect(() => {
-    if (list.length) {
-      const slicedList = list.slice(0, pageSize);
+    if (validatorData.length) {
+      let slicedList = validatorData.slice(0, pageSize);
       setSlicedList(slicedList);
-    } else if (list.length === 0) {
+    } else if (validatorData.length === 0) {
       setSlicedList([]);
     } else {
       // console.log("check state");
     }
-  }, [list]);
+  }, [validatorData]);
   useEffect(() => {
     if (account) {
       getRewardsList(account)
@@ -141,7 +141,8 @@ export default function Unbond() {
       return num;
     }
   };
-
+console.log(validatorData.length,"------lenght")
+console.log(slicedList.length,"------sliced")
   return (
     <>
       <Header />
@@ -168,8 +169,8 @@ export default function Unbond() {
                     </tr>
                   </thead>
                   <tbody>
-                    {validatorData.length ? (
-                      validatorData.map((value: any, index: any) => (
+                    {slicedList.length ? (
+                      slicedList.map((value: any, index: any) => (
                         <tr key={index}>
                           <td>
                             <span className="tb-data">
@@ -214,11 +215,11 @@ export default function Unbond() {
               ) : null} */}
             </div>
             <div className="mt-sm-4 mt-3">
-              {slicedList.length ? (
+              {slicedList.length > 0? (
                 <Pagination
                   currentPage={currentPage}
                   pageSize={pageSize}
-                  totalCount={list.length}
+                  totalCount={validatorData.length}
                   onPageChange={pageChangeHandler}
                 />
               ) : null}
@@ -298,11 +299,11 @@ export default function Unbond() {
                 ) : null}
               </div>
               <div className="mt-sm-4 mt-3">
-                {slicedList.length ? (
+                {slicedList.length>0 ? (
                   <Pagination
                     currentPage={currentPage}
                     pageSize={pageSize}
-                    totalCount={list.length}
+                    totalCount={validatorData.length}
                     onPageChange={pageChangeHandler}
                   />
                 ) : null}
