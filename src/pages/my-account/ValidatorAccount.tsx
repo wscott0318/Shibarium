@@ -1529,7 +1529,7 @@ const validatorAccount = ({
                           </p>
                         ) : null}
                       </div>
-                      <div className="form-control">
+                      <div style={{marginTop : "20px"}} className="form-control">
                         <label className="mb-2 mb-md-2 text-white">
                         Signer’s Public key
                         </label>
