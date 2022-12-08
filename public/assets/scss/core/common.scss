@@ -3890,8 +3890,18 @@ input:-internal-autofill-selected {
     width: 100%;
   }
 }
+.out-navlink.false {
+  a:hover {
+        text-decoration: none;
+    color: #F06500;
+  }
+}
 .out-navlink.out-active {
   a {
+    color: $orange-drk;
+    background: $lt-orange;
+  }
+  a:hover {
     color: $orange-drk;
     background: $lt-orange;
   }
