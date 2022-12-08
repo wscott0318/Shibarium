@@ -7,11 +7,9 @@ import StepThree from "./stepThree";
 import StepFour from "./stepFour";
 import * as Sentry from "@sentry/nextjs";
 import { useUserType } from "../../state/user/hooks";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 import { getValidatorInfo } from "services/apis/network-details/networkOverview";
 import { useActiveWeb3React } from "../../services/web3";
-
-
 
 const Rewards = () => {
   const [editNsave, setEditNsave] = useState(false);
@@ -50,28 +48,31 @@ const Rewards = () => {
     }
   },[account, userStatus])
 
-
   // console.log(userType)
-  
+
   const getValInfo = () => {
-    let id = account
-    getValidatorInfo(id.toLowerCase()).then((res) => {
-      // console.log(res.data.message.val, " vall inffoo ===> ")
-      // setValues('name', res?.data?.message?.val?.name)
-      // setValues('publickey', res.data.message.val.publickey)
-      // setValues('website', res.data.message.val.description)
-      setBecomeValidateData({
-        name: res?.data?.message?.val?.name,
-        publickey: res.data.message.val.publickey,
-        website: res.data.message.val.description,
-        image: res.data.message.val.logoUrl
+    let id = account;
+    getValidatorInfo(id.toLowerCase())
+      .then((res) => {
+        // console.log(res.data.message.val, " vall inffoo ===> ")
+        // setValues('name', res?.data?.message?.val?.name)
+        // setValues('publickey', res.data.message.val.publickey)
+        // setValues('website', res.data.message.val.description)
+        setBecomeValidateData({
+          name: res?.data?.message?.val?.name,
+          publickey: res.data.message.val.publickey,
+          website: res.data.message.val.description,
+          image: res.data.message.val.logoUrl,
+        });
+        setUserStatus(
+          res.data.message.val?.status ? res.data.message.val?.status : null
+        );
       })
-      setUserStatus(res.data.message.val?.status ? res.data.message.val?.status : null)
-    }).catch((err) => {
-      console.log(err)
-    })
-  }
-  
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   // console.log("Become Validate Data in Parent",becomeValidateData)
 
   const handleEdit = (value) => {
@@ -174,71 +175,76 @@ const Rewards = () => {
         <section className="rewards-section">
           <div className="container">
             <div className="row">
-              <div className="col-lg-3 validator-steps">
-                <ul className="step-vertical">
-                  <li className="step-list active completed">
-                    <p className="light-text fw-700 ff-mos">Setup Node</p>
-                    <div className="step-blk step-float">
-                      <span className="fw-700 step-num ff-mos">1</span>
-                      <img
-                        className="img-fluid tick-img"
-                        src="../../assets/images/green-tick.png"
-                        alt=""
-                        width={20}
-                      />
-                    </div>
-                  </li>
-                  <li
-                    className={`step-list ${
-                      !stepState.step1 && "active completed"
-                    }`}
-                  >
-                    <p className="light-text fw-600 ff-mos">Add Node Detail</p>
-                    <div className="step-blk step-float">
-                      <span className="fw-700 step-num ff-mos">2</span>
-                      <img
-                        className="img-fluid tick-img"
-                        src="../../assets/images/green-tick.png"
-                        alt=""
-                        width={20}
-                      />
-                    </div>
-                  </li>
-                  <li
-                    className={`step-list ${
-                      (stepState.step3 || stepState.step4) && "active completed"
-                    }`}
-                  >
-                    <p className="light-text fw-600 ff-mos">Add Your Stake</p>
-                    <div className="step-blk step-float">
-                      <span className="fw-700 step-num ff-mos">3</span>
-                      <img
-                        className="img-fluid tick-img"
-                        src="../../assets/images/green-tick.png"
-                        alt=""
-                        width={20}
-                      />
-                    </div>
-                  </li>
-                  <li
-                    className={`step-list ${
-                      stepState.step4 && "active completed"
-                    }`}
-                  >
-                    <p className="light-text fw-600 ff-mos">Completed</p>
-                    <div className="step-blk step-float">
-                      <span className="fw-700 step-num ff-mos">4</span>
-                      <img
-                        className="img-fluid tick-img"
-                        src="../../assets/images/green-tick.png"
-                        alt=""
-                        width={20}
-                      />
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <div className="col-lg-8">
+              {!stepState.step4 && (
+                <div className="col-lg-3 validator-steps">
+                  <ul className="step-vertical">
+                    <li className="step-list active completed">
+                      <p className="light-text fw-700 ff-mos">Setup Node</p>
+                      <div className="step-blk step-float">
+                        <span className="fw-700 step-num ff-mos">1</span>
+                        <img
+                          className="img-fluid tick-img"
+                          src="../../assets/images/green-tick.png"
+                          alt=""
+                          width={20}
+                        />
+                      </div>
+                    </li>
+                    <li
+                      className={`step-list ${
+                        !stepState.step1 && "active completed"
+                      }`}
+                    >
+                      <p className="light-text fw-600 ff-mos">
+                        Add Node Detail
+                      </p>
+                      <div className="step-blk step-float">
+                        <span className="fw-700 step-num ff-mos">2</span>
+                        <img
+                          className="img-fluid tick-img"
+                          src="../../assets/images/green-tick.png"
+                          alt=""
+                          width={20}
+                        />
+                      </div>
+                    </li>
+                    <li
+                      className={`step-list ${
+                        (stepState.step3 || stepState.step4) &&
+                        "active completed"
+                      }`}
+                    >
+                      <p className="light-text fw-600 ff-mos">Add Your Stake</p>
+                      <div className="step-blk step-float">
+                        <span className="fw-700 step-num ff-mos">3</span>
+                        <img
+                          className="img-fluid tick-img"
+                          src="../../assets/images/green-tick.png"
+                          alt=""
+                          width={20}
+                        />
+                      </div>
+                    </li>
+                    <li
+                      className={`step-list ${
+                        stepState.step4 && "active completed"
+                      }`}
+                    >
+                      <p className="light-text fw-600 ff-mos">Completed</p>
+                      <div className="step-blk step-float">
+                        <span className="fw-700 step-num ff-mos">4</span>
+                        <img
+                          className="img-fluid tick-img"
+                          src="../../assets/images/green-tick.png"
+                          alt=""
+                          width={20}
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              )}
+              <div className={`${!stepState.step4 ? "col-lg-8" : "col-lg-12"}`}>
                 {/* step 1 start*/}
                 {stepState.step1 && (
                   <StepOne stepHandler={stepHandler} stepState={stepState} />

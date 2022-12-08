@@ -21,8 +21,8 @@ function StepFour({ activInput, handleEdit, stepState, stepHandler, becomeValida
     <>
       <form onSubmit={handleSubmit}>
         <ToastContainer />
-        <div className="progress-tab">
-          <div className="mb-4 mb-xl-5">
+        <div className="progress-tab step_4">
+          <div className="mb-4 mb-xl-3">
             <h5 className="fw-700 mb-2 ff-mos">Setup complete </h5>
             <p className="ff-mos"></p>
           </div>

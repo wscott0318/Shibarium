@@ -945,6 +945,22 @@ body {
 .claim_btn_wrapper button.hd-sel.disabled:hover ~ .tool-desc{
     display: block;
 }
+
+.progress-tab.step_4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2rem;
+    background: #151b28;
+    width: 60%;
+    margin: 0 auto;
+    border-radius: 12px;
+}
+.progress-tab.step_4 h5 {
+    font-size: 35px;
+}
+
 @media only screen and (max-width: 991.98px){
     .shib-popup .modal-content {
         // height: 75%;
@@ -957,6 +973,21 @@ body {
     .modal.show .modal-dialog .trans-mod .pop-top {
         height: 100%;
     }
+    .progress-tab.step_4 {
+        width: 80%;
+    }
   }
-
-  
+@media (max-width:640px){
+    .progress-tab.step_4 {
+        width: 95%;
+    }
+    .progress-tab.step_4 p {
+        text-align: center;
+    }
+    .progress-tab.step_4 .btn-wrap {
+        width: 80%;
+    }
+    .progress-tab.step_4 h5, .progress-tab.step_4 .h5 {
+        font-size: 28px;
+    }
+}
