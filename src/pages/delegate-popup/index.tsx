@@ -65,7 +65,7 @@ const DelegatePopup: React.FC<any> = ({
       // console.log(lastBlock);
     });
   };
-
+  // console.log("set delegate pop  ==> " , setdelegatepop);
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then((res) => {
       setBoneUSDValue(res.data.data.price);
@@ -193,7 +193,7 @@ const DelegatePopup: React.FC<any> = ({
           })
         .on('error', (err: any) => {
           setdelegateState(initialModalState)
-          setdelegatepop(false)
+          // setdelegatepop()
         })
     } catch(err :any){
      Sentry.captureMessage("APPROVE_BONE ", err);
@@ -310,7 +310,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
           })
           .on("error", (err: any) => {
             setdelegateState(initialModalState);
-            setdelegatepop(false);
+            // setdelegatepop();
           });
       } catch (err: any) {
         Sentry.captureMessage("BUY_VOUCHER ", err);
@@ -326,7 +326,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
 
   const handleClose = () => {
     setdelegateState(initialModalState)
-    setdelegatepop(false)
+    setdelegatepop()
   }
 
 // console.log("Balance", data);
