@@ -65,7 +65,7 @@ const DelegatePopup: React.FC<any> = ({
       // console.log(lastBlock);
     });
   };
-
+  // console.log("set delegate pop  ==> " , setdelegatepop);
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then((res) => {
       setBoneUSDValue(res.data.data.price);
@@ -193,7 +193,7 @@ const DelegatePopup: React.FC<any> = ({
           })
         .on('error', (err: any) => {
           setdelegateState(initialModalState)
-          setdelegatepop(false)
+          // setdelegatepop()
         })
     } catch(err :any){
      Sentry.captureMessage("APPROVE_BONE ", err);
@@ -261,7 +261,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
               })
             );
             setLoader(true);
-            setdelegatepop(true);
+            // setdelegatepop(true);
             setFieldValue("balance",'')
             const link = getExplorerLink(chainId, res, "transaction");
             setExplorerLink(link);
@@ -290,11 +290,13 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                 },
               })
             );
+            // setdelegatepop(true);
             const link = getExplorerLink(
               chainId,
               res.transactionHash,
               "transaction"
             );
+            
             setExplorerLink(link);
             setdelegateState({
               step0: false,
@@ -303,25 +305,28 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
               step3: true,
               title: "Transaction Done",
             });
+            // setdelegatepop(true);
             // window.location.reload();
           })
           .on("error", (err: any) => {
             setdelegateState(initialModalState);
-            setdelegatepop(false);
+            // setdelegatepop();
           });
       } catch (err: any) {
         Sentry.captureMessage("BUY_VOUCHER ", err);
       }
     };
+
   useEffect(() => {
     if (!showdelegatepop) {
       setLoader(false);
       setValues(initialValues);
     }
   }, [showdelegatepop]);
+
   const handleClose = () => {
     setdelegateState(initialModalState)
-    setdelegatepop(false)
+    setdelegatepop()
   }
 
 // console.log("Balance", data);
