@@ -171,7 +171,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       catch (err:any)
       {
         console.log("err line 171 stepThree.jsx",err)
-        if(err.code === undefined)
+        if(err.message === "execution reverted: not pub")
         {
           toast.error("Invalid Pub key !", {
             position: toast.POSITION.BOTTOM_CENTER,
@@ -261,12 +261,13 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       }
       catch (err) 
       {
-        console.log("line 264",err);
+        // console.log("line 264",err);
       }
 
     } catch (err: any) {
-      console.log(err.Error, Object.keys(err))
-      notifyError()
+      console.log(err, "error message ==> ")
+      console.log(typeof err)
+      // notifyError()
       Sentry.captureMessage("submitTransaction", err);
       setTransactionState({ state: false, title: '' })
     }
