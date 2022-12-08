@@ -434,7 +434,7 @@ export default function DelegatorAccount() {
                                 </div>
                                 <div className="mid_text row">
                                     <div className="col-12 text-center"><h4>Delegation completed</h4></div>
-                                    <div className="col-12 text-center"><p>Your SHIBA tokens are staked successfully on validator. Your delegation will take 4-5 mintues to reflect in your account.</p></div>
+                                    <div className="col-12 text-center"><p>Your BONE tokens are staked successfully on validator. Your delegation will take 4-5 mintues to reflect in your account.</p></div>
                                 </div>
 
                                 <div className="pop_btns_area row form-control mt-5">

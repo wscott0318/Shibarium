@@ -1059,8 +1059,8 @@ const validatorAccount = ({
                 },
               })
             );
-            router.push("/my-account", "/my-account", { shallow: false });
-            getDelegatorCardData(walletAddress);
+            setTimeout(() => window.location.reload(), 1000)
+            // getDelegatorCardData(walletAddress);
           })
           .on("error", (res: any) => {
             // console.log(res, "error");
@@ -2043,7 +2043,7 @@ const validatorAccount = ({
                           disabled={
                             parseInt(
                               validatorInfoContract?.deactivationEpoch
-                            ) === 0 ||
+                            ) > 0 ||
                             parseInt(validatorInfoContract?.status) === 3
                               ? true
                               : false
