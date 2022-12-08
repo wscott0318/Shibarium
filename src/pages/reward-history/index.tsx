@@ -126,9 +126,17 @@ export default function Unbond() {
     }
   }, [account])
 
+  // const formatTimeStamp = (val: any) => {
+  //   return new Date(Number(val * 1000)).toLocaleString();
+  // }
+  // new code below
   const formatTimeStamp = (val: any) => {
-    return new Date(Number(val * 1000)).toLocaleString();
-  }
+    var d = new Date(Number(val * 1000));
+    console.log("d before", val, d.toLocaleString());
+    d.setTime(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
+    console.log("d after", val, d.toLocaleString());
+    return d.toLocaleString();
+  };
   const router = useRouter();
 
   return (
