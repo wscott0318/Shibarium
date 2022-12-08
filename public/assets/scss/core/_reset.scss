@@ -947,7 +947,9 @@ body {
 }
 @media only screen and (max-width: 991.98px){
     .shib-popup .modal-content {
-        height: 75%;
+        // height: 75%;
+        height: auto;
+        // min-height: 400px;
     }
     .modal.show .modal-dialog{
         height: 100%;

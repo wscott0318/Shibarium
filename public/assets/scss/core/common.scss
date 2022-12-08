@@ -3988,15 +3988,15 @@ input:-internal-autofill-selected {
     min-height: 180px;
   }
   @media #{$max-md} {
-    min-height: 150px;
+    min-height: 240px;
   }
 }
 .tokn-popup {
   .sec-ht {
     .spinner-border {
       @media #{$max-md} {
-        height: 6rem;
-        width: 6rem;
+        height: 10rem;
+        width: 10rem;
       }
     }
   }
