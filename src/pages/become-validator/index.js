@@ -51,7 +51,7 @@ const Rewards = () => {
   },[account, userStatus])
 
 
-  console.log(userType)
+  // console.log(userType)
   
   const getValInfo = () => {
     let id = account
