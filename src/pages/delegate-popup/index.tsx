@@ -261,7 +261,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
               })
             );
             setLoader(true);
-            
+            // setdelegatepop(true);
             setFieldValue("balance",'')
             const link = getExplorerLink(chainId, res, "transaction");
             setExplorerLink(link);
@@ -290,11 +290,13 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                 },
               })
             );
+            // setdelegatepop(true);
             const link = getExplorerLink(
               chainId,
               res.transactionHash,
               "transaction"
             );
+            
             setExplorerLink(link);
             setdelegateState({
               step0: false,
@@ -303,6 +305,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
               step3: true,
               title: "Transaction Done",
             });
+            // setdelegatepop(true);
             // window.location.reload();
           })
           .on("error", (err: any) => {
@@ -313,12 +316,14 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
         Sentry.captureMessage("BUY_VOUCHER ", err);
       }
     };
+
   useEffect(() => {
     if (!showdelegatepop) {
       setLoader(false);
       setValues(initialValues);
     }
   }, [showdelegatepop]);
+
   const handleClose = () => {
     setdelegateState(initialModalState)
     setdelegatepop()
