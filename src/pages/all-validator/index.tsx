@@ -64,8 +64,11 @@ export const Allvalidator: React.FC = () => {
   }
 
   useEffect(() => {
+    if(account) {
+      getValInfo()
+    }
     getValCount()
-    getValInfo()
+
   }, [account])
 
   const renderButtons = () => {
