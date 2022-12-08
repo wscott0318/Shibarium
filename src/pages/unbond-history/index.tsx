@@ -270,18 +270,19 @@ export default function Unbond() {
                             <td>
                               {value.completed ? (
                                 <>
-                                  <div className="align-items-center">
+                                  <div className="align-items-center claim_btn_wrapper">
                                     <span className="tb-data align up-text">
                                       Success
                                     </span>
-                                    <p className="mb-0 fs-12 primary-text mt-1">
+                                    <button className="mb-0 fs-12 mt-1 hd-sel disabled block">
                                       Claimed
-                                    </p>
+                                    </button>
+                                    <div className="tool-desc">Your have already claimed this reward.</div>
                                   </div>
                                 </>
                               ) : value.remainingEpoch > 0 ? (
                                 <>
-                                  <div className="">
+                                  <div className="claim_btn_wrapper">
                                     <span className="d-block align up-text mb-1">
                                       Wait for <b>{value.remainingEpoch}</b>{" "}
                                       checkpoints
@@ -302,11 +303,12 @@ export default function Unbond() {
                                     >
                                       Claim Now
                                     </button>
+                                    <div className="tool-desc">This reward cannot be claimed at the moment.</div>
                                   </div>
                                 </>
                               ) : (
                                 <>
-                                  <div className="">
+                                  <div className="claim_btn_wrapper">
                                     <span className="d-block align up-text mb-1">
                                       Unbound period completed
                                     </span>
@@ -326,9 +328,11 @@ export default function Unbond() {
                                     >
                                       Claim Now
                                     </button>
+                                    <div className="tool-desc">Click here to claim your reward.</div>
                                   </div>
                                 </>
                               )}
+                              
                             </td>
                             <td className="text-start">
                               <span className="tb-data align">

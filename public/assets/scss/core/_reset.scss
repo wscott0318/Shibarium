@@ -867,6 +867,11 @@ body {
 .delegate_btn:hover .tool-desc{
     display: block;
 }
+.delegate_btn .tool-desc.tool-desc-sm {
+    left: -50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
 .delegate_btn .tool-desc::before {
     content: "";
     border: solid;
@@ -889,7 +894,57 @@ body {
     left: 50%;
     top: 45px;
 }
-
+.delegate_btn .tool-desc.tool-desc-sm::before {
+    top: 23%;
+    left: 97%;
+}
+.delegate_btn .tool-desc.tool-desc-grid {
+    left: 50%;
+    top: -50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+.delegate_btn .tool-desc.tool-desc-grid::before {
+    top: 100%;
+    -webkit-transform: rotate(180deg);
+    left: 50%;
+}
+.claim_btn_wrapper .tool-desc::before {
+    content: "";
+    border: solid;
+    border-color: #fff transparent;
+    position: absolute;
+    bottom: auto;
+    -webkit-transform: rotate(180deg);
+    border-width: 0 10px 14px;
+    left: 50%;
+    top: 100%;
+}
+.claim_btn_wrapper .tool-desc {
+    position: absolute;
+    background: #fff;
+    color: #000;
+    font-size: 13px;
+    border-radius: 5px;
+    padding: 3px;
+    left: 45%;
+    top: 0;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+.claim_btn_wrapper{
+    position: relative;
+}
+.claim_btn_wrapper button:hover ~ .tool-desc{
+    display: block;
+}
+.claim_btn_wrapper button.hd-sel.disabled{
+    cursor: pointer;
+    pointer-events: all;
+}
+.claim_btn_wrapper button.hd-sel.disabled:hover ~ .tool-desc{
+    display: block;
+}
 @media only screen and (max-width: 991.98px){
     .shib-popup .modal-content {
         height: 75%;
