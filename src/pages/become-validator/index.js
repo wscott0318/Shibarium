@@ -40,7 +40,7 @@ const Rewards = () => {
   });
 
   useEffect(() => {
-    if(userStatus || userType === 'Delegator') {
+    if((userStatus >= 0 && userType === 'Validator') || userType === 'Delegator') {
       router.back();
     }
     if(account) {
@@ -48,7 +48,7 @@ const Rewards = () => {
     }
   },[account, userStatus])
 
-  // console.log(userType)
+  console.log(userStatus)
 
   const getValInfo = () => {
     let id = account;
@@ -64,6 +64,7 @@ const Rewards = () => {
           website: res.data.message.val.description,
           image: res.data.message.val.logoUrl,
         });
+        console.log(res.data.message.val.status)
         setUserStatus(
           res.data.message.val?.status ? res.data.message.val?.status : null
         );
