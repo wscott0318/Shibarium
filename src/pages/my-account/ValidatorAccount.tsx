@@ -1192,7 +1192,7 @@ const validatorAccount = ({
                               );
                             }}
                           >
-                           MAX
+                            MAX
                           </button>
                         </div>
                       </div>
@@ -1476,15 +1476,15 @@ const validatorAccount = ({
         </CommonModal>
         {/* unbound popop ends */}
 
-{/* unbound popop start */}
-<CommonModal
+        {/* unbound popop start */}
+        <CommonModal
           title={"Update Signer Address"}
           show={showSignerAddressPop}
           setshow={setSignerAddressPop}
           externalCls="stak-pop"
         >
           <>
-          <div className="cmn_modal val_popups">
+            <div className="cmn_modal val_popups">
               <Formik
                 initialValues={{
                   address: "",
@@ -1494,7 +1494,7 @@ const validatorAccount = ({
                 onSubmit={(values, actions) => {
                   // console.log(values);
                   // callRestakeValidators(values);
-                  console.log(values,"<<<<------Values")
+                  console.log(values, "<<<<------Values");
                 }}
               >
                 {({
@@ -1511,7 +1511,7 @@ const validatorAccount = ({
                     <div className="cmn_inpt_row">
                       <div className="form-control">
                         <label className="mb-2 mb-md-2 text-white">
-                        Signer’s address
+                          Signer’s address
                         </label>
                         <input
                           type="text"
@@ -1531,7 +1531,7 @@ const validatorAccount = ({
                       </div>
                       <div className="form-control">
                         <label className="mb-2 mb-md-2 text-white">
-                        Signer’s Public key
+                          Signer’s Public key
                         </label>
                         <input
                           type="text"
@@ -1550,7 +1550,7 @@ const validatorAccount = ({
                         ) : null}
                       </div>
                     </div>
-                    
+
                     <div className="pop_btns_area">
                       <div className="form-control">
                         <button
@@ -1582,7 +1582,9 @@ const validatorAccount = ({
             {unboundModal.startValue && (
               <div className=".cmn_modal del-tab-content">
                 <div className="center-align mb-4">
-                  <h5 className="text-center ff-mos">Are you sure you want to unbound?</h5>
+                  <h5 className="text-center ff-mos">
+                    Are you sure you want to unbound?
+                  </h5>
                 </div>
                 <div className="p-2 p-sm-3">
                   {/* old input */}
@@ -1618,7 +1620,7 @@ const validatorAccount = ({
                     Your Funds will be locked for{" "}
                     <p className="dark-text primary-text ff-mos">Checkpoints</p>
                   </p>
-                 </div>
+                </div>
                 <button
                   onClick={() => unboundDelegator()}
                   disabled={unboundInput ? false : true}
@@ -1648,8 +1650,9 @@ const validatorAccount = ({
               <div className="pop-top">
                 <div className="dark-bg-800 h-100 status-sec sec-ht position-relative">
                   {hashLink ? (
-                    <span>
-                      <div>
+                    // <span>
+                    <div className="trans-loader text-center">
+                      <div className="d-inline-block img-size-succ">
                         <img
                           width="224"
                           height="224"
@@ -1658,8 +1661,9 @@ const validatorAccount = ({
                           alt=""
                         />
                       </div>
-                    </span>
+                    </div>
                   ) : (
+                    // </span>
                     <div className="trans-loader">
                       <span className="spiner-lg">
                         <span className="spinner-border text-secondary pop-spiner"></span>
@@ -1726,8 +1730,8 @@ const validatorAccount = ({
                           <div className="top-head">
                             {validatorInfoContract?.commissionRate
                               ? addDecimalValue(
-                                +validatorInfoContract?.commissionRate
-                              )
+                                  +validatorInfoContract?.commissionRate
+                                )
                               : 0.0}{" "}
                             %
                           </div>
@@ -1814,9 +1818,9 @@ const validatorAccount = ({
 
                               {validatorInfoContract?.amount
                                 ? addDecimalValue(
-                                  +validatorInfoContract?.amount /
-                                  10 ** web3Decimals
-                                )
+                                    +validatorInfoContract?.amount /
+                                      10 ** web3Decimals
+                                  )
                                 : "0.00"}
                             </span>{" "}
                             BONE
@@ -1835,7 +1839,7 @@ const validatorAccount = ({
                                 value={addDecimalValue(
                                   (+validatorInfoContract?.amount /
                                     10 ** web3Decimals) *
-                                  boneUSDValue
+                                    boneUSDValue
                                 )}
                               />
                             </span>
@@ -1862,9 +1866,9 @@ const validatorAccount = ({
                                 : "0.00"} */}
                               {validatorInfoContract?.delegatedAmount
                                 ? addDecimalValue(
-                                  +validatorInfoContract?.delegatedAmount /
-                                  Math.pow(10, web3Decimals)
-                                )
+                                    +validatorInfoContract?.delegatedAmount /
+                                      Math.pow(10, web3Decimals)
+                                  )
                                 : "0.00"}
                             </span>{" "}
                             BONE
@@ -1878,14 +1882,14 @@ const validatorAccount = ({
                                 value={addDecimalValue(
                                   (+validatorInfoContract?.delegatedAmount /
                                     Math.pow(10, web3Decimals)) *
-                                  boneUSDValue
+                                    boneUSDValue
                                 )}
-                              // value={(
-                              //   addDecimalValue(
-                              //     +validatorInfoContract?.delegatedAmount /
-                              //       Math.pow(10, web3Decimals)
-                              //   ) * boneUSDValue
-                              // ).toFixed(tokenDecimal)}
+                                // value={(
+                                //   addDecimalValue(
+                                //     +validatorInfoContract?.delegatedAmount /
+                                //       Math.pow(10, web3Decimals)
+                                //   ) * boneUSDValue
+                                // ).toFixed(tokenDecimal)}
                               />
                             </span>
                           </div>
@@ -1908,8 +1912,8 @@ const validatorAccount = ({
                             <span>
                               {validatorInfoContract?.delegatorsReward
                                 ? addDecimalValue(
-                                  +validatorInfoContract?.delegatorsReward
-                                )
+                                    +validatorInfoContract?.delegatorsReward
+                                  )
                                 : "0.00"}
                               {/* {validatorInfoContract?.delegatorsReward
                                 ? addDecimalValue(
@@ -1928,14 +1932,14 @@ const validatorAccount = ({
                                 prefix="$ "
                                 value={addDecimalValue(
                                   +validatorInfoContract?.delegatorsReward *
-                                  boneUSDValue
+                                    boneUSDValue
                                 )}
-                              // value={(
-                              //   addDecimalValue(
-                              //     +validatorInfoContract?.delegatorsReward /
-                              //       Math.pow(10, web3Decimals)
-                              //   ) * boneUSDValue
-                              // ).toFixed(tokenDecimal)}
+                                // value={(
+                                //   addDecimalValue(
+                                //     +validatorInfoContract?.delegatorsReward /
+                                //       Math.pow(10, web3Decimals)
+                                //   ) * boneUSDValue
+                                // ).toFixed(tokenDecimal)}
                               />
                             </span>
                           </div>
@@ -1957,7 +1961,13 @@ const validatorAccount = ({
                     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
-                          disabled={parseInt(validatorInfoContract?.status) > 1 || parseInt(validatorInfoContract?.deactivationEpoch) > 0 ? true : false}
+                          disabled={
+                            parseInt(validatorInfoContract?.status) > 1 ||
+                            parseInt(validatorInfoContract?.deactivationEpoch) >
+                              0
+                              ? true
+                              : false
+                          }
                           onClick={() => handleModal("Restake", account)}
                           className="ff-mos btn black-btn w-100 d-block tool-ico"
                         >
@@ -1970,14 +1980,17 @@ const validatorAccount = ({
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
                           disabled={
-                            parseInt(validatorInfoContract?.status) > 1 || parseInt(validatorInfoContract?.deactivationEpoch) > 0 ? true :
-                              parseInt(
-                                validatorInfoContract?.lastCommissionUpdate
-                              ) +
-                                parseInt(comissionHandle?.dynasty) <=
+                            parseInt(validatorInfoContract?.status) > 1 ||
+                            parseInt(validatorInfoContract?.deactivationEpoch) >
+                              0
+                              ? true
+                              : parseInt(
+                                  validatorInfoContract?.lastCommissionUpdate
+                                ) +
+                                  parseInt(comissionHandle?.dynasty) <=
                                 parseInt(comissionHandle?.epoch)
-                                ? false
-                                : true
+                              ? false
+                              : true
                           }
                           onClick={() =>
                             handleModal("Change Commission Rate", account)
@@ -1995,7 +2008,11 @@ const validatorAccount = ({
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
                           onClick={() => withdrawRewardValidator()}
-                          disabled={parseInt(validatorInfoContract?.status) > 1 ? true : !(validatorTotalReward > 0)}
+                          disabled={
+                            parseInt(validatorInfoContract?.status) > 1
+                              ? true
+                              : !(validatorTotalReward > 0)
+                          }
                           className="ff-mos btn black-btn w-100 d-block tool-ico"
                         >
                           Withdraw Rewards
@@ -2007,9 +2024,10 @@ const validatorAccount = ({
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
                           disabled={
-                              parseInt(validatorInfoContract?.deactivationEpoch) > 0 ? 
-                                true
-                                : false
+                            parseInt(validatorInfoContract?.deactivationEpoch) >
+                            0
+                              ? true
+                              : false
                           }
                           onClick={() => setUnStakePop(true)}
                           className="ff-mos btn black-btn w-100 d-block tool-ico"
@@ -2023,9 +2041,12 @@ const validatorAccount = ({
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
                           disabled={
-                              parseInt(validatorInfoContract?.deactivationEpoch) === 0 || parseInt(validatorInfoContract?.status) === 3 
-                                ? true
-                                : false
+                            parseInt(
+                              validatorInfoContract?.deactivationEpoch
+                            ) === 0 ||
+                            parseInt(validatorInfoContract?.status) === 3
+                              ? true
+                              : false
                           }
                           onClick={() => setUnStakeClaimPop(true)}
                           className="ff-mos btn black-btn w-100 d-block tool-ico"
@@ -2049,14 +2070,14 @@ const validatorAccount = ({
                     </div>
                     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 m-3">
                       <div className="cus-tooltip d-inline-block ps-0">
-                      <Link href="/profile-update" passHref>
-                        <button className="ff-mos btn black-btn w-100 d-block tool-ico">
-                          Update Profile
-                        </button>
+                        <Link href="/profile-update" passHref>
+                          <button className="ff-mos btn black-btn w-100 d-block tool-ico">
+                            Update Profile
+                          </button>
                         </Link>
                         <div className="tool-desc">Update Profile</div>
                       </div>
-                    </div>                  
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2133,9 +2154,9 @@ const validatorAccount = ({
                                 <div className="fw-bold orange-color">
                                   {+item.reward > 0
                                     ? (
-                                      parseInt(item.reward) /
-                                      10 ** web3Decimals
-                                    ).toFixed(tokenDecimal)
+                                        parseInt(item.reward) /
+                                        10 ** web3Decimals
+                                      ).toFixed(tokenDecimal)
                                     : "0.00"}
                                 </div>
                                 {/* {/ <div>$0</div> /} */}
@@ -2150,9 +2171,9 @@ const validatorAccount = ({
                                   disabled={
                                     parseInt(item.commission) == comissionVal ||
                                     item.checkpointSignedPercent <
-                                    checkpointVal ||
+                                      checkpointVal ||
                                     parseInt(item.reward) / 10 ** web3Decimals <
-                                    1
+                                      1
                                   }
                                   onClick={() =>
                                     handleModal("Restake", item.contractAddress)
@@ -2216,8 +2237,7 @@ const validatorAccount = ({
                                 <button
                                   onClick={() => {
                                     handleMigrateClick(item);
-                                  }
-                                  }
+                                  }}
                                   className="btn black-btn btn-small tool-ico"
                                 >
                                   Migrate Stake

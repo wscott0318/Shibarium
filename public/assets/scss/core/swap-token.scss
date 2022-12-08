@@ -17,7 +17,15 @@
             width: 70px;
         }
     }
+    .img-size-succ {
+    img {
+        @media #{$max-lg}{
+            width: 140px;
+        }
+    }
 }
+}
+
 .butns-sec{
     .primary-btn{
         background: $body-bg-800;
