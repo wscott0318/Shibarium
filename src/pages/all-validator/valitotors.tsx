@@ -103,7 +103,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
   useEffect(() => {
     let filtered = []
     if (isActiveTab) {
-      filtered = allValidators.filter(e => e.uptimePercent >= inActiveCount && e.fundamental == 2)
+      filtered = allValidators.filter(e => e.uptimePercent >= inActiveCount)
     } else {
       filtered = allValidators.filter(e => e.uptimePercent <= inActiveCount)
     }

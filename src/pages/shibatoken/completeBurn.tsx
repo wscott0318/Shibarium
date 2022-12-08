@@ -18,7 +18,7 @@ function CompleteBurn() {
                         <tbody>
                             <tr>
                                 <td>
-                                    580.80 SHIBA
+                                    580.80 BONE
                                 </td>
                                 <td>
                                     <div className="d-flex align-items-center">
@@ -35,7 +35,7 @@ function CompleteBurn() {
                             </tr>
                             <tr>
                                 <td>
-                                    580.80 SHIBA
+                                    580.80 BONE
                                 </td>
                                 <td>
                                     <div className="d-flex align-items-center">
@@ -52,7 +52,7 @@ function CompleteBurn() {
                             </tr>
                             <tr>
                                 <td>
-                                    580.80 SHIBA
+                                    580.80 BONE
                                 </td>
                                 <td>
                                     <div className="d-flex align-items-center">

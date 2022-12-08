@@ -25,6 +25,9 @@ import { Spinner } from 'react-bootstrap';
 import { currentGasPrice } from "../../web3/commonFunctions"; 
 import { tokenDecimal } from '../../web3/commonFunctions';
 import * as Sentry from "@sentry/nextjs";
+import {setDelegatorData} from "../../services/apis/user/userApi"
+
+
 const initialModalState = {
   step0: true,
   step1: false,
@@ -76,6 +79,9 @@ const DelegatePopup: React.FC<any> = ({
   }, [account]);
 
 
+  // console.log(data, "parent Data ==> ")
+
+
   const useMax = (e :any) => {
     e.preventDefault()
     // setAmount(walletBalance);
@@ -118,7 +124,9 @@ const DelegatePopup: React.FC<any> = ({
       validatorAddress: data.contractAddress,
       delegatorAddress: account,
       amount: values.balance,
+      valID: data.validatorContractId
     };
+    console.log(requestBody)
     setTnxCompleted(false);
     // console.log(requestBody);
     if (account) {
@@ -217,6 +225,20 @@ let schema = yup.object().shape({
 });
 const [balance, setBalance] = useState();
 
+const callAPIforDelegator = async (requestBody:any) => {
+  try {
+    const valID = requestBody.valID
+    const wallet : any = account
+    await setDelegatorData(wallet.toLowerCase(), valID).then((res:any) => {
+      console.log(res.data, "callAPIforDelegator data res ==> ")
+    })
+  } catch(err :any) {
+    console.log(err)
+  }
+
+
+}
+
 const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, touched,setValues } =
   useFormik({
     initialValues: initialValues,
@@ -306,6 +328,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
               title: "Transaction Done",
             });
             // setdelegatepop(true);
+            callAPIforDelegator(requestBody)
             // window.location.reload();
           })
           .on("error", (err: any) => {

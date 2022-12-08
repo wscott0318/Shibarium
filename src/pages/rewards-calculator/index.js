@@ -118,13 +118,13 @@ const Rewards = () => {
                       All reward figures given here are indicative. Actual rewards
                       earned will depend on the actual total locked supply in the
                       network at each checkpoint. This is expected to vary
-                      significantly as more SHIBA tokens get locked in the staking
+                      significantly as more BONE tokens get locked in the staking
                       contracts.
                     </p>
                     <p className="dark-text mb-sm-3 mb-2 ff-mos">
                       Please refer to this article for more details on the staking
                       economics. Broadly speaking, the target locked supply in 30%
-                      of the SHIBA token circulating supply.
+                      of the BONE token circulating supply.
                     </p>
                     <p className="dark-text mb-sm-3 mb-2 ff-mos">
                       Rewards will be higher to begin with, and will keep

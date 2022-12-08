@@ -2263,6 +2263,7 @@ const validatorAccount = ({
                                       name: item.name,
                                       uptimePercent:
                                         item.checkpointSignedPercent,
+                                        validatorContractId: item.id
                                     });
                                     setStakeMoreModal(true);
                                   }}

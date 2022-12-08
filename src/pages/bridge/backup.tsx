@@ -2145,7 +2145,7 @@ export default function Withdraw() {
                           <p className="lite-color">Project name</p>
                         </div>
                         <div className="right-side data">
-                          <p>SHIBA INU</p>
+                          <p>BONE INU</p>
                         </div>
                       </div>
                       <div className="crypto-info">

@@ -46,7 +46,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
             </thead>
             <Scrollbar></Scrollbar>
             <tbody>
-              {validatorsList?.length ? (
+              {validatorsList.length ? (
                 validatorsList.map((x: any, y: any) => (
                   <tr key={y}>
                     <td>
