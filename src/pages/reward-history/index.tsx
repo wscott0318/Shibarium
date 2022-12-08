@@ -11,7 +11,7 @@ import Pagination from "app/components/Pagination";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import { useRouter } from "next/router";
 import { useUserType } from "../../state/user/hooks";
-import { tokenDecimal, web3Decimals } from "web3/commonFunctions";
+import { addDecimalValue, tokenDecimal, web3Decimals } from "web3/commonFunctions";
 import { dynamicChaining } from 'web3/DynamicChaining';
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { queryProvider } from "Apollo/client";
@@ -43,6 +43,7 @@ export default function Unbond() {
               Date.parse(a.unbondStartedTimeStampFormatted)
           );
           setList(decOrder);
+          setValidatorData(decOrder)
           setListLoader(false)
         }
       })
@@ -111,10 +112,15 @@ export default function Unbond() {
       // console.log("check state");
     }
   }, [validatorData]);
+
   useEffect(() => {
     if (account) {
-      getRewardsList(account)
-      validatorReward()
+      if(userType === 'Validator') {
+        validatorReward()
+      } else {
+        getRewardsList(account)
+      }
+     
     } else {
       router.push('/')
     }
@@ -124,25 +130,7 @@ export default function Unbond() {
     return new Date(Number(val * 1000)).toLocaleString();
   }
   const router = useRouter();
-  //  useEffect(() => {
-  //    if (userType !== "Delegator") {
-  //      router.back();
-  //    }
-  //  }, [userType]);
 
-  var countDecimals = function (value: any) {
-    if (Math.floor(value) === value) return 0;
-    return value.toString().split(".")[1].length || 0;
-  };
-  const fixedDecimals = (num: any) => {
-    if (countDecimals(num) > 3) {
-      return (Math.round(num * 100) / 100).toFixed(tokenDecimal);
-    } else {
-      return num;
-    }
-  };
-console.log(validatorData.length,"------lenght")
-console.log(slicedList.length,"------sliced")
   return (
     <>
       <Header />
@@ -179,8 +167,8 @@ console.log(slicedList.length,"------sliced")
                           </td>
                           <td>
                             <span className="tb-data align">
-                              {fixedDecimals(
-                                parseInt(value.amount) / Math.pow(10, web3Decimals)
+                              {addDecimalValue(
+                                parseInt(value?.amount) / Math.pow(10, web3Decimals)
                               )}{" "}
                               Bone
                             </span>
@@ -234,7 +222,7 @@ console.log(slicedList.length,"------sliced")
                   <table className="table table-borderless fix-tabl-layout text-start">
                     <thead>
                       <tr>
-                        <th>Validator Name</th>
+                        <th>Validator Id</th>
                         <th>Amount</th>
                         <th className="text-center">Time</th>
                       </tr>
@@ -263,8 +251,8 @@ console.log(slicedList.length,"------sliced")
                             </td>
                             <td>
                               <span className="tb-data align">
-                                {fixedDecimals(
-                                  parseInt(value.rewards) / Math.pow(10, 18)
+                                {addDecimalValue(
+                                  parseInt(value?.rewards) / Math.pow(10, 18)
                                 )}{" "}
                                 Bone
                               </span>
