@@ -595,3 +595,23 @@ body.modal-open {
     background-color: #151b28 !important;
 }
 }
+.navbar-expand .navbar-collapse > div {
+    width: 100%;
+    justify-content: flex-end;
+}
+.navbar-expand .navbar-collapse > div .button-wrap, .navbar-expand .navbar-collapse > div .btn-status {
+    width: 22%;
+}
+div#web3-status-connected {
+    justify-content: flex-end;
+}
+@media (max-width:992px){
+    .navbar-expand .navbar-collapse > div .button-wrap, .navbar-expand .navbar-collapse > div .btn-status {
+        width: 27%;
+    }
+}
+@media (max-width:767px){
+    .navbar-expand .navbar-collapse > div .button-wrap, .navbar-expand .navbar-collapse > div .btn-status {
+        width: auto;
+    }
+}
