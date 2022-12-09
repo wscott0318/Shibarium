@@ -330,6 +330,9 @@
         }
     }
 }
+.delegate_btn p {
+    margin: 0;
+}
 #dropdown-item-button ~ .dropdown-menu{
     transform: translate3d(0px, 47.2px, 0px) !important;
 }
