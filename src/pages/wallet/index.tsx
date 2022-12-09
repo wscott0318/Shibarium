@@ -132,7 +132,7 @@ export default function Wallet() {
       //   return (parseInt(b.balance) - parseInt(a.balance));
       // });
       list.forEach(async (x: any) => {
-        x.balance = await getTokenBalance(lib, account, x.parentContract)
+        x.balance = 0 //await getTokenBalance(lib, account, x.parentContract)
       })
       setTokenList(list)
       setTokenFilteredList(list)
