@@ -2056,7 +2056,7 @@ const validatorAccount = ({
                         <div className="tool-desc">claim your self stake</div>
                       </div>
                     </div>
-                    <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                    {/* <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
                           // disabled={    }
@@ -2067,7 +2067,7 @@ const validatorAccount = ({
                         </button>
                         <div className="tool-desc">Update Signer Address</div>
                       </div>
-                    </div>
+                    </div> */}
                     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                       <div className="cus-tooltip d-inline-block ps-0">
                         <Link href="/profile-update" passHref>
