@@ -42,9 +42,11 @@ const StakingHeader = () => {
      setValInfoModal(false);
      dispatch(clearAllTransactions({ chainId }));
    };
+  //  ethereum.on("accountsChanged", handleAccountsChanged)
 
-   ethereum.on("accountsChanged", handleAccountsChanged);
- }, [active]);
+  account? ethereum.on("accountsChanged", handleAccountsChanged) : router.push('/home')
+ 
+}, [active]);
 
   const [stakingHeader, showStakingHeader] = useState(false);
   const getValInfoApi = async (id: any) => {

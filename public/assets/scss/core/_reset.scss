@@ -55,7 +55,8 @@ body{
         font-family: 'MADE Okine Sans PERSONAL USE';
     }
     p,h1,h2,h3,h4,h5,h6,span,label{
-        font-family: 'MADE Okine Sans PERSONAL USE';
+        // font-family: 'MADE Okine Sans PERSONAL USE';
+        font-family: 'Open Sans';
     }
     b,a,div,section,button{
         font-family: 'MADE Okine Sans PERSONAL USE';
@@ -608,6 +609,7 @@ ul {
             border-radius: 12x;
         }
         .modal-header{
+            font-family: 'Open Sans' !important;
             border: 0;
             text-align: center;
             font-weight: 600;
