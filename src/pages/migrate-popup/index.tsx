@@ -76,7 +76,7 @@ const MigratePopup: React.FC<any> = ({
       : useTokenBalance(dynamicChaining[chainId]?.BONE);
 
   const router = useRouter();
-  const [processing, setProcessing] = useState("");
+  const [processing, setProcessing] = useState("Migrate");
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then((res) => {
       setBoneUSDValue(res.data.data.price);
@@ -114,7 +114,7 @@ const MigratePopup: React.FC<any> = ({
     try {
       if (account && migrateData?.data?.migrateData?.id != data.validatorContractId) {
         setTransactionState({ state: true, title: "Pending" });
-        setProcessing("processing");
+        setProcessing("Processing");
         let walletAddress: any = account;
         let fromId = migrateData?.data?.migrateData?.id;
         let toId = data.validatorContractId;
@@ -158,7 +158,7 @@ const MigratePopup: React.FC<any> = ({
             setMigrateData(migrateData, newStake);
             console.log("new stake balance == > ", migrateData);
             // setTimeout(() => { setmigratepop(false) }, 1000);
-            setProcessing("completed");
+            setProcessing("Completed");
           })
           .on("receipt", (res: any) => {
             dispatch(
@@ -179,13 +179,13 @@ const MigratePopup: React.FC<any> = ({
             );
             setmigratepop(false);
             console.log("receipt ", res);
-            setProcessing("");
+            setProcessing("Migrate");
             setTransactionState({ state: false, title: "" });
             window.location.reload();
           })
           .on("error", (res: any) => {
             console.log("error ", res);
-            setProcessing("");
+            setProcessing("Error");
             setTransactionState({ state: false, title: "" });
             if (res.code === 4001) {
               setmigratepop(false);
@@ -194,12 +194,12 @@ const MigratePopup: React.FC<any> = ({
       }
       else {
         console.log("Account not found");
-        setProcessing("error");
+        setProcessing("Error");
       }
     }
     catch (err: any) {
       Sentry.captureMessage("migrateStake ", err);
-      setProcessing("error");
+      setProcessing("Error");
     }
   }
 
@@ -237,13 +237,13 @@ const MigratePopup: React.FC<any> = ({
   const handleClose = () => {
     setmigrateState(initialModalState);
     setmigratepop(false);
-    setProcessing("");
+    setProcessing("Migrate");
   };
 
   return (
     <>
       <CommonModal
-        title={"Processing"}
+        title={processing}
         show={showmigratepop}
         setshow={handleClose}
         externalCls="stak-pop del-pop ffms-inherit mig-popup"
@@ -259,7 +259,7 @@ const MigratePopup: React.FC<any> = ({
             </div>
             <div className="step-title">Migrate</div>
           </li>
-          <li className={`step ${!(processing == "") && "active"}`}>
+          <li className={`step ${!(processing == "Migrate") && "active"}`}>
             <div className="step-ico">
               <img
                 className="img-fluid"
@@ -269,7 +269,7 @@ const MigratePopup: React.FC<any> = ({
             </div>
             <div className="step-title">Processing</div>
           </li>
-          <li className={`step ${(processing == "completed") && "active"}`}>
+          <li className={`step ${(processing == "Completed") && "active"}`}>
             <div className="step-ico">
               <img
                 className="img-fluid"
@@ -280,7 +280,7 @@ const MigratePopup: React.FC<any> = ({
             <div className="step-title">Completed</div>
           </li>
         </ul>
-        {processing == "processing" &&
+        {processing == "Processing" &&
           (
             <div className="step_content fl-box">
               <div className="ax-top">
@@ -321,7 +321,7 @@ const MigratePopup: React.FC<any> = ({
             </div>
           )
         }
-        {processing == "completed" && (
+        {processing == "Completed" && (
           <div className="step_content fl-box">
             <div className="ax-top">
               <div className="image_area row">
@@ -361,7 +361,7 @@ const MigratePopup: React.FC<any> = ({
           </div>
 
         )}
-        {processing == "error" &&
+        {processing == "Error" &&
           (
             <div className="text-center">
               <img
@@ -372,7 +372,7 @@ const MigratePopup: React.FC<any> = ({
               />
               Error processing this transaction. <br /> Try Again</div>
           )}
-        {processing == "" &&
+        {processing == "Migrate" &&
           (
             <>
               <div className="cmn_modal vali_deli_popups ffms-inherit">

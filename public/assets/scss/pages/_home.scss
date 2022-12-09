@@ -347,11 +347,8 @@
     }
   }
 @media (max-width:480px){
-    #dropdown-item-button ~ .dropdown-menu {
-      left: 50% !important;
-      transform: translate3d(-50%, 34.2px, 0px) !important;
-    }
     .main-header ul.lft-links.ms-auto .nav-item {
         margin: 0;
     }
+    
   }
