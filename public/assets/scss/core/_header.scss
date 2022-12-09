@@ -533,6 +533,7 @@ body.modal-open {
   color: #fff;
   left: 2%;
   top: 2%;
+  display: none;
 }
 .staking-header .container span.close-icon {
     position: absolute;
@@ -555,6 +556,9 @@ body.modal-open {
 }
   .lft-links {
     align-items: flex-start !important;
+  }
+  .toggle_staking_header {
+    display: block;
   }
   .staking-header .nav-item:last-child .btn {
     padding: 8px 17px 8px 10px;
