@@ -76,7 +76,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
         setLoading(false)
         if (res.status == 200) {
           setAllValidators(res.data.data.validatorsList);
-          console.log(res.data.data.validatorsList);
+          // console.log(res.data.data.validatorsList);
           var activeList = filter(
             res.data.data.validatorsList,
             (e) => e.uptimePercent !== 0
@@ -107,7 +107,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
     } else {
       filtered = allValidators.filter(e => e.uptimePercent <= inActiveCount)
     }
-    console.log("all validators ", filtered);
+    // console.log("all validators ", filtered);
     setValidatorsByStatus(filtered)
   }, [isActiveTab , allValidators]);
 

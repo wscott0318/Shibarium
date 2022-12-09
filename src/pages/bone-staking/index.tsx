@@ -64,7 +64,6 @@ const BoneStaking = () => {
       Sentry.captureMessage("getValCount", err);
     }
   }
-console.log("nodeSetupnodeSetup=====",nodeSetup)
   const getValInfo = () => {
     try {
       const valData = JSON.parse(localStorage.getItem("valInfo") || '{}')
