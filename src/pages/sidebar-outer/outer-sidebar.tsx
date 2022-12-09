@@ -70,31 +70,31 @@ export default function SidebarOuter({
             className={`out-navlink ${faqType === "0" && "out-active"}`}
             onClick={() => setFaqType("0")}
           >
-            <Link href="javascript:void(0);">Technical FAQ</Link>
+            <a>Technical FAQ</a>
           </li>
           <li
             className={`out-navlink ${faqType === "1" && "out-active"}`}
             onClick={() => setFaqType("1")}
           >
-            <Link href="javascript:void(0);">Delegator FAQ</Link>
+            <a>Delegator FAQ</a>
           </li>
           <li
             className={`out-navlink ${faqType === "2" && "out-active"}`}
             onClick={() => setFaqType("2")}
           >
-            <Link href="javascript:void(0);">Validator FAQ</Link>
+            <a>Validator FAQ</a>
           </li>
           <li
             className={`out-navlink ${faqType === "3" && "out-active"}`}
             onClick={() => setFaqType("3")}
           >
-            <Link href="javascript:void(0);">Staking FAQ</Link>
+            <a>Staking FAQ</a>
           </li>
           <li
             className={`out-navlink ${faqType === "4" && "out-active"}`}
             onClick={() => setFaqType("4")}
           >
-            <Link href="javascript:void(0);">Wallet FAQ</Link>
+            <a>Wallet FAQ</a>
           </li>
         </ul>
       </div>

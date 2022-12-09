@@ -35,24 +35,25 @@ const StakingHeader = () => {
 
   const [valInfo, setValInfo] = useValInfo();
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    const { ethereum } = window as any;
-    const handleAccountsChanged = (accounts: string[]) => {
-      console.log("Handling 'accountsChanged' event with payload", accounts);
-      setValInfoModal(false);
-      dispatch(clearAllTransactions({ chainId }));
-    };
+ useEffect(() => {
+   const { ethereum } = window as any;
+   const handleAccountsChanged = (accounts: string[]) => {
+    //  console.log("Handling 'accountsChanged' event with payload", accounts);
+     setValInfoModal(false);
+     dispatch(clearAllTransactions({ chainId }));
+   };
 
-    ethereum.on("accountsChanged", handleAccountsChanged);
-  }, [active]);
+   ethereum.on("accountsChanged", handleAccountsChanged);
+ }, [active]);
+
   const [stakingHeader, showStakingHeader] = useState(false);
   const getValInfoApi = async (id: any) => {
     try {
       await getValidatorInfo(id).then(res => {
         if (res.data && res.data.message) {
           let info = res.data.message.val;
-          console.log("val status = ", res.data.message.val.status);
-          console.log("val ID = ", valId);
+          // console.log("val status = ", res.data.message.val.status);
+          // console.log("val ID = ", valId);
           setValInfo(info);
         }
       }).catch(err => console.log("err => ", err))

@@ -170,7 +170,7 @@ const InnerHeader = () => {
                         </NavDropdown.Item>
                       )}
                       <NavDropdown.Item
-                        href="javascript:void(0)"
+                        href="#action/3.3"
                         onClick={() => setUserQrCode(true)}
                       >
                         <div className="custum-row">
@@ -217,7 +217,7 @@ const InnerHeader = () => {
                           </div>
                         </div>
                       </NavDropdown.Item>
-                      <NavDropdown.Item href="javascript:void(0)">
+                      <NavDropdown.Item href="#action/3.3">
                         <div className="custum-row mb-0">
                           <div className="lft-img ps-2">
                             <img

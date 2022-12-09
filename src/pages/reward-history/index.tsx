@@ -132,9 +132,9 @@ export default function Unbond() {
   // new code below
   const formatTimeStamp = (val: any) => {
     var d = new Date(Number(val * 1000));
-    console.log("d before", val, d.toLocaleString());
+    // console.log("d before", val, d.toLocaleString());
     d.setTime(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
-    console.log("d after", val, d.toLocaleString());
+    // console.log("d after", val, d.toLocaleString());
     return d.toLocaleString();
   };
   const router = useRouter();
