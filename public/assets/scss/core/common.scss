@@ -2266,7 +2266,8 @@ input:checked + .slider:before {
     background: rgba($black, 0.89);
   }
   .modal-content {
-    padding: 30px;
+    margin: 20px;
+    padding: 25px;
     border: 1px solid $white;
   }
 }
