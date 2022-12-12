@@ -498,7 +498,7 @@ export default function Home() {
       </>
     );
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
   // const {account}=useContext(ProjectContext)
 

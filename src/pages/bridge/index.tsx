@@ -74,9 +74,9 @@ export default function Withdraw() {
     setMenuState(!menuState);
   }
   const router = useRouter();
-  useEffect(() => {
-    console.log("chain id  , ", SUPPORTED_NETWORKS);
-  })
+  // useEffect(() => {
+  //   console.log("chain id  , ", SUPPORTED_NETWORKS);
+  // })
 
 
   useEffect(() => {
@@ -437,12 +437,12 @@ export default function Withdraw() {
             .symbol()
             .call({ from: String(account) })
             .then((token: any) => token)
-          // .catch((err: any) => console.log(err));
+          .catch((err: any) => console.log(err));
           let name = await contractInstance.methods
             .name()
             .call({ from: String(account) })
             .then((token: any) => token)
-          // .catch((err: any) => console.log(err));
+          .catch((err: any) => console.log(err));
           const obj = {
             parentContract: String(newToken),
             childContract: String(newToken),
@@ -600,12 +600,12 @@ export default function Withdraw() {
           .symbol()
           .call({ from: String(account) })
           .then((token: any) => token)
-        // .catch((err: any) => console.log(err));
+        .catch((err: any) => console.log(err));
         let name: any = await contractInstance.methods
           .name()
           .call({ from: String(account) })
           .then((token: any) => token)
-        // .catch((err: any) => console.log(err));
+        .catch((err: any) => console.log(err));
         const obj = {
           parentContract: String(newToken),
           childContract: String(newToken),

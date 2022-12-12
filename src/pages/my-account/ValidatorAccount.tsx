@@ -117,7 +117,7 @@ const validatorAccount = ({
   // getDelegatorStake("0xddff10bb0afa6293cb1a9c234428c4436c5f2f41");
 
   const getValidatorData = async (valId: any) => {
-    console.log("val id", valId)
+    // console.log("val id", valId)
     try {
       let instance = new web3.eth.Contract(
         stakeManagerProxyABI,
@@ -140,9 +140,9 @@ const validatorAccount = ({
       setValInfoContract(valFromContract)
       setValidatorTotalReward(reward);
       setEpochDyna({ epoch, dynasty })
-      console.log(valFromContract ,"valFromContract ===> ");
+      // console.log(valFromContract ,"valFromContract ===> ");
     } catch (err: any) {
-      console.log(err)
+      // console.log(err)
       Sentry.captureException("getValidatorData ", err);
     }
   };
@@ -378,7 +378,7 @@ const validatorAccount = ({
 
   // RESTAKE AS VALIDATORS
   const callRestakeValidators = async (values: any) => {
-    console.log("called restake ==> ")
+    // console.log("called restake ==> ")
     try {
       if (account) {
         setTransactionState({ state: true, title: "Pending" });
@@ -474,7 +474,7 @@ const validatorAccount = ({
             });
         }
       } else {
-        console.log("account addres not found");
+        // console.log("account addres not found");
       }
     } catch (err: any) {
       Sentry.captureException("callRestakeValidators", err);
@@ -564,9 +564,9 @@ const validatorAccount = ({
               });
           })
           .catch((err: any) => {
-            console.log(err);
+            // console.log(err);
             if (err.code === 4001) {
-              console.log("User denied this transaction! ");
+              // console.log("User denied this transaction! ");
             }
           });
       }
@@ -594,10 +594,10 @@ const validatorAccount = ({
           .withdrawRewards(valID)
           .encodeABI();
         let CurrentgasPrice: any = await currentGasPrice(web3);
-        console.log(
-          (parseInt(gasFee) + 30000) * CurrentgasPrice,
-          " Gas fees for transaction  ==> "
-        );
+        // console.log(
+        //   (parseInt(gasFee) + 30000) * CurrentgasPrice,
+        //   " Gas fees for transaction  ==> "
+        // );
         await web3.eth
           .sendTransaction({
             from: walletAddress,
@@ -729,7 +729,7 @@ const validatorAccount = ({
             }
           });
       } else {
-        console.log("account not connected");
+        // console.log("account not connected");
       }
     } catch (err: any) {
       Sentry.captureException("withdrawRewardDelegator", err);
@@ -897,10 +897,10 @@ const validatorAccount = ({
             }
           });
       } else {
-        console.log("account addres not found");
+        // console.log("account addres not found");
       }
     } catch (err: any) {
-      console.log(err)
+      // console.log(err)
       Sentry.captureException("unStakeClaimValidator", err);
     }
   };
@@ -980,7 +980,7 @@ const validatorAccount = ({
             }
           });
       } else {
-        console.log("account addres not found");
+        // console.log("account addres not found");
       }
     } catch (err: any) {
       Sentry.captureException("restakeDelegator", err);
@@ -1494,7 +1494,7 @@ const validatorAccount = ({
                 onSubmit={(values, actions) => {
                   // console.log(values);
                   // callRestakeValidators(values);
-                  console.log(values, "<<<<------Values");
+                  // console.log(values, "<<<<------Values");
                 }}
               >
                 {({

@@ -48,7 +48,7 @@ const Rewards = () => {
     }
   },[account, userStatus])
 
-  console.log(userStatus)
+  // console.log(userStatus)
 
   const getValInfo = () => {
     let id = account;
@@ -64,13 +64,13 @@ const Rewards = () => {
           website: res.data.message.val.description,
           image: res.data.message.val.logoUrl,
         });
-        console.log(res.data.message.val.status)
+        // console.log(res.data.message.val.status)
         setUserStatus(
           res.data.message.val?.status ? res.data.message.val?.status : null
         );
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
