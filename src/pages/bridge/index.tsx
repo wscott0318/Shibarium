@@ -123,7 +123,7 @@ export default function Withdraw() {
       getWalletTokenList().then((res) => {
         let list = res.data.message.tokens;
         list.forEach(async (x: any) => {
-          if(x.parentName === 'BoneToken') {
+          if (x.parentName === 'BoneToken') {
             x.balance = await getTokenBalance(lib, account, "0x5063b1215bbF268ab00a5F47cDeC0A4783c3Ab58");
           } else {
             x.balance = await getTokenBalance(lib, account, x.parentContract);
@@ -299,7 +299,7 @@ export default function Withdraw() {
     }
   }
 
-  const callDepositModal = (values: any) => {
+  const callDepositModal = (values: any, resetForm:any) => {
     try {
       setDepositTokenInput(values.amount)
       {
@@ -310,6 +310,7 @@ export default function Withdraw() {
           title: "Confirm deposit",
         });
         setDepositModal(true);
+        resetForm();
       }
     }
     catch (err: any) {
@@ -373,6 +374,7 @@ export default function Withdraw() {
                 title: "Transaction Submitted",
               });
               setDepositTokenInput('');
+            
             }).on('receipt', (res: any) => {
               // console.log(res, "receipt")
               dispatch(
@@ -743,11 +745,11 @@ export default function Withdraw() {
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src="../../assets/images/etharium.png"
+                            src={selectedToken.logo ? selectedToken.logo : "../../assets/images/eth.png"}
                             alt=""
                           />
                         </div>
-                        <p>Ethereum Mainnet</p>
+                        <p>{NETWORK_LABEL[chainId]}</p>
                       </div>
                       <div className="text-center box-block">
                         <div className="d-inline-block arow-block right-arrow">
@@ -785,11 +787,11 @@ export default function Withdraw() {
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src="../../assets/images/shib-borderd-icon.png"
+                            src={NETWORK_ICON[chainId == 5 ? 417 : 5]}
                             alt=""
                           />
                         </div>
-                        <p>Shibarium Mainnet</p>
+                        <p>{NETWORK_LABEL[chainId == 5 ? 417 : 5]}</p>
                       </div>
                     </div>
                     {/* <div className="amt-section position-relative">
@@ -856,14 +858,14 @@ export default function Withdraw() {
                     </div>
                     <div className="pop-grid">
                       <div className="text-center box-block">
-                        <div className="d-inline-block">
+                        <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src="../../assets/images/etharium.png"
+                            src={selectedToken.logo ? selectedToken.logo : "../../assets/images/eth.png"}
                             alt=""
                           />
                         </div>
-                        <p>Ethereum Mainnet</p>
+                        <p>{NETWORK_LABEL[chainId]}</p>
                       </div>
                       <div className="text-center box-block">
                         <div className="d-inline-block right-arrow">
@@ -898,14 +900,14 @@ export default function Withdraw() {
                         </div>
                       </div>
                       <div className="text-center box-block">
-                        <div className="d-inline-block">
+                        <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src="../../assets/images/shib-borderd-icon.png"
+                            src={NETWORK_ICON[chainId == 5 ? 417 : 5]}
                             alt=""
                           />
                         </div>
-                        <p>Shibarium Mainnet</p>
+                        <p>{NETWORK_LABEL[chainId == 5 ? 417 : 5]}</p>
                       </div>
                     </div>
                   </div>
@@ -971,19 +973,19 @@ export default function Withdraw() {
                         </p>
                       </div>
                     </div>
-                    <div className="pop-action">
+                    {/* <div className="pop-action">
                       <a
                         className="btn primary-btn w-100 w-100"
                         href="javascript:void(0)"
                       >
                         ETHEREUM MAINNET
                       </a>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="pop-bottom">
                     <div className="text-section complete-modal">
-                      <h4 className="pop-hd-md">Transaction Completed</h4>
-                      <p>Transaction completed succesfully.</p>
+                      {/* <h4 className="pop-hd-md">Transaction Completed</h4>
+                      <p>Transaction completed succesfully.</p> */}
                     </div>
                     <div>
                       <a
@@ -1887,95 +1889,95 @@ export default function Withdraw() {
 
             {/* Add token popop starts */}
 
-              {showTokenModal && tokenState.step2 && (
-                <div className="popmodal-body tokn-popup no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="black-bg-sec">
-                        <div className="token-btn-sec pop-btns-grid">
-                          <div className="blk-width">
-                            <button
-                              type="button"
-                              className="btn btn-active w-100"
-                              onClick={() => {
-                                setTokenState({
-                                  step0: false,
-                                  step1: true,
-                                  step2: false,
-                                  step3: false,
-                                  step4: false,
-                                  title: "Manage Token",
-                                });
-                              }}
-                            >
-                              Token Lists
-                            </button>
-                          </div>
-                          <div className="blk-width">
-                            <button
-                              type="button"
-                              className="btn w-100"
-                              onClick={() => {
-                                addTokenHandler();
-                              }}
-                            >
-                              Add token
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="sec-search sec-search-secondry">
-                        <div
-                          className="position-relative search-row"
-                        // onClick={() => {
-                        //   if(newToken !== '')
-                        //   setTokenState({
-                        //     step0: false,
-                        //     step1: false,
-                        //     step2: false,
-                        //     step3: true,
-                        //     step4: false,
-                        //     title: "Manage Token",
-                        //   });
-                        // }}
-                        // onClick={() => {
-                        //   addTokenHandler();
-                        // }}
-                        >
-                          <input
-                            type="text"
-                            className="w-100"
-                            placeholder="Enter Token Address"
-                            autoFocus={newToken.length > 0}
-                            value={newToken}
-                            onChange={(e: any) => {
-                              addNewToken(e.target.value);
-                              // addTokenHandler();
+            {showTokenModal && tokenState.step2 && (
+              <div className="popmodal-body tokn-popup no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="black-bg-sec">
+                      <div className="token-btn-sec pop-btns-grid">
+                        <div className="blk-width">
+                          <button
+                            type="button"
+                            className="btn btn-active w-100"
+                            onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: true,
+                                step2: false,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
                             }}
-                          />
-                          <div className="search-icon">
-                            <img
-                              width="20"
-                              height="21"
-                              className="img-fluid"
-                              src="../../assets/images/search.png"
-                              alt=""
-                            />
-                          </div>
+                          >
+                            Token Lists
+                          </button>
+                        </div>
+                        <div className="blk-width">
+                          <button
+                            type="button"
+                            className={`btn w-100 ${tokenState.step2 && "btn-active"}`}
+                            onClick={() => {
+                              addTokenHandler();
+                            }}
+                          >
+                            Add token
+                          </button>
                         </div>
                       </div>
-                      <div className="pop-bottom pt-0">
-                       
+                    </div>
+                    <div className="sec-search sec-search-secondry">
+                      <div
+                        className="position-relative search-row"
+                      // onClick={() => {
+                      //   if(newToken !== '')
+                      //   setTokenState({
+                      //     step0: false,
+                      //     step1: false,
+                      //     step2: false,
+                      //     step3: true,
+                      //     step4: false,
+                      //     title: "Manage Token",
+                      //   });
+                      // }}
+                      // onClick={() => {
+                      //   addTokenHandler();
+                      // }}
+                      >
+                        <input
+                          type="text"
+                          className="w-100"
+                          placeholder="Enter Token Address"
+                          autoFocus={newToken.length > 0}
+                          value={newToken}
+                          onChange={(e: any) => {
+                            addNewToken(e.target.value);
+                            // addTokenHandler();
+                          }}
+                        />
+                        <div className="search-icon">
+                          <img
+                            width="20"
+                            height="21"
+                            className="img-fluid"
+                            src="../../assets/images/search.png"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="pop-bottom pt-0">
+
                       <div className="">
-                        
-                      <div className="grid-block">
+
+                        <div className="grid-block">
                           <div className="blk-width">
                             <div>{localTokens.length} Token Found</div>
                             <p className="lite-color">
                               Token stored in your browser
                             </p>
                           </div>
-                          <div style={{textAlign : "right"}} className="blk-width btn-sm">
+                          <div style={{ textAlign: "right" }} className="blk-width btn-sm">
                             <button
                               type="button"
                               // className="btn primary-btn w-95"
@@ -1986,7 +1988,7 @@ export default function Withdraw() {
                             </button>
                           </div>
                         </div>
-                      <div className="token-listwrap usr-listht">
+                        <div className="token-listwrap usr-listht">
                           {localTokens.map((x: any, index: any) => (
                             <div className="tokn-row" key={x.parentContract}>
                               <div className="cryoto-box">
@@ -2028,82 +2030,82 @@ export default function Withdraw() {
                             </div>
                           ))}
                         </div>
-                        
-                        
+
+
                       </div>
                     </div>
-                    </div>
-                    {/* <div className="pop-mid">
+                  </div>
+                  {/* <div className="pop-mid">
                     <div className="center-content">
                       <p>Custom token not found Add your first custom token</p>
                     </div>
                   </div> */}
 
-                  
-                    <div className="myTipsArea">Tip: Custom tokens are stored locally in your browser </div>
-                  </div>
+
+                  <div className="myTipsArea">Tip: Custom tokens are stored locally in your browser </div>
                 </div>
-              )}
-              {/* Add token popop ends */}
+              </div>
+            )}
+            {/* Add token popop ends */}
 
             {/* search popop starts */}
 
-              {showTokenModal && tokenState.step3 && (
-                <div className="popmodal-body tokn-popup no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="black-bg-sec">
-                        <div className="token-btn-sec pop-btns-grid">
-                          <div className="blk-width">
-                            <button
-                              type="button"
-                              className="btn btn-active w-100"
-                              onClick={() => {
-                                setTokenState({
-                                  step0: false,
-                                  step1: true,
-                                  step2: false,
-                                  step3: false,
-                                  step4: false,
-                                  title: "Manage Token",
-                                });
-                              }}
-                            >
-                              Token Lists
-                            </button>
-                          </div>
-                          <div className="blk-width">
-                            <button type="button" className="btn w-100">
-                              Add token
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="sec-search sec-search-secondry">
-                        <div className="position-relative search-row">
-                          <input
-                            type="text"
-                            className="w-100"
-                            placeholder="Enter Token Address"
-                            onChange={(e) => {
-                              addNewToken(e.target.value);
+            {showTokenModal && tokenState.step3 && (
+              <div className="popmodal-body tokn-popup no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="black-bg-sec">
+                      <div className="token-btn-sec pop-btns-grid">
+                        <div className="blk-width">
+                          <button
+                            type="button"
+                            className="btn btn-active w-100"
+                            onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: true,
+                                step2: false,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
                             }}
-                            autoFocus={newToken.length > 0}
-                            value={newToken ? newToken : ""}
-                          />
-                          <div className="search-icon">
-                            <img
-                              width="20"
-                              height="21"
-                              className="img-fluid"
-                              src="../../assets/images/search.png"
-                              alt=""
-                            />
-                          </div>
+                          >
+                            Token Lists
+                          </button>
                         </div>
-                        
+                        <div className="blk-width">
+                          <button type="button" className="btn w-100">
+                            Add token
+                          </button>
+                        </div>
                       </div>
-                      <div className="pop-bottom pt-0">
+                    </div>
+                    <div className="sec-search sec-search-secondry">
+                      <div className="position-relative search-row">
+                        <input
+                          type="text"
+                          className="w-100"
+                          placeholder="Enter Token Address"
+                          onChange={(e) => {
+                            addNewToken(e.target.value);
+                          }}
+                          autoFocus={newToken.length > 0}
+                          value={newToken ? newToken : ""}
+                        />
+                        <div className="search-icon">
+                          <img
+                            width="20"
+                            height="21"
+                            className="img-fluid"
+                            src="../../assets/images/search.png"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+
+                    </div>
+                    <div className="pop-bottom pt-0">
                       <div className="">
                         <div className="grid-block">
                           <div className="blk-width">
@@ -2112,7 +2114,7 @@ export default function Withdraw() {
                               Token stored in your browser
                             </p>
                           </div>
-                          <div  style={{textAlign : "right"}} className="blk-width btn-sm">
+                          <div style={{ textAlign: "right" }} className="blk-width btn-sm">
                             <button
                               type="button"
                               // className="btn primary-btn w-100"
@@ -2167,49 +2169,49 @@ export default function Withdraw() {
                         </div>
                       </div>
                     </div>
-                    </div>
-                    <div className="pop-bottom pt-0">
-                      <div className="">
-                        <div className="grid-block"></div>
-                        <div className="token-listwrap usr-listht">
-                          {JSON.stringify(tempTokens) !== "{}" ? (
-                            <div className="tokn-row">
-                              <div className="cryoto-box">
-                                <img
-                                  className="img-fluid"
-                                  src={
-                                    tempTokens?.logo
-                                      ? tempTokens?.logo
-                                      : "../../../assets/images/shib-borderd-icon.png"
-                                  }
-                                  alt=""
-                                />
+                  </div>
+                  <div className="pop-bottom pt-0">
+                    <div className="">
+                      <div className="grid-block"></div>
+                      <div className="token-listwrap usr-listht">
+                        {JSON.stringify(tempTokens) !== "{}" ? (
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img
+                                className="img-fluid"
+                                src={
+                                  tempTokens?.logo
+                                    ? tempTokens?.logo
+                                    : "../../../assets/images/shib-borderd-icon.png"
+                                }
+                                alt=""
+                              />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">
+                                  {tempTokens.parentSymbol}
+                                </h6>
+                                <p>{tempTokens.parentName}</p>
                               </div>
-                              <div className="tkn-grid">
-                                <div>
-                                  <h6 className="fw-bold">
-                                    {tempTokens.parentSymbol}
-                                  </h6>
-                                  <p>{tempTokens.parentName}</p>
-                                </div>
-                                <div>
-                                  <span onClick={addTokenHandler}>
-                                    <img
-                                      className="img-fluid"
-                                      src="../../../assets/images/up.png"
-                                      alt=""
-                                    />
-                                  </span>
-                                </div>
+                              <div>
+                                <span onClick={addTokenHandler}>
+                                  <img
+                                    className="img-fluid"
+                                    src="../../../assets/images/up.png"
+                                    alt=""
+                                  />
+                                </span>
                               </div>
                             </div>
-                          ) : (
-                            ""
-                          )}
-                        </div>
+                          </div>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
-                    {/* <div className="h-100">
+                  </div>
+                  {/* <div className="h-100">
                     <div className="two-col position-relative">
                       <div className="left-sec-img">
                         <div>
@@ -2275,90 +2277,90 @@ export default function Withdraw() {
                     </div>
                   </div> */}
 
-                   
-                    <div className="pop-bottom">
-                      <div className="">
-                        <a
-                          className="btn primary-btn w-100"
-                          href="javascript:void(0)"
-                          onClick={() => {
-                            // setTokenState({
-                            //   step0: false,
-                            //   step1: false,
-                            //   step2: false,
-                            //   step3: false,
-                            //   step4: true,
-                            //   title: "Manage Token",
-                            // });
-                            addTokenHandler();
-                            addNewToken('')
-                          }}
-                        >
-                          Add Token
-                        </a>
-                      </div>
+
+                  <div className="pop-bottom">
+                    <div className="">
+                      <a
+                        className="btn primary-btn w-100"
+                        href="javascript:void(0)"
+                        onClick={() => {
+                          // setTokenState({
+                          //   step0: false,
+                          //   step1: false,
+                          //   step2: false,
+                          //   step3: false,
+                          //   step4: true,
+                          //   title: "Manage Token",
+                          // });
+                          addTokenHandler();
+                          addNewToken('')
+                        }}
+                      >
+                        Add Token
+                      </a>
                     </div>
                   </div>
                 </div>
-              )}
-              {/* Search popop ends */}
+              </div>
+            )}
+            {/* Search popop ends */}
 
-              {/* new added token with delete action starts */}
-              {showTokenModal && tokenState.step4 && (
-                <div className="popmodal-body tokn-popup no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="black-bg-sec">
-                        <div className="token-btn-sec pop-btns-grid">
-                          <div className="blk-width">
-                            <button
-                              type="button"
-                              className="btn btn-active w-100"
-                              onClick={() => {
-                                setTokenState({
-                                  step0: false,
-                                  step1: true,
-                                  step2: false,
-                                  step3: false,
-                                  step4: false,
-                                  title: "Manage Token",
-                                });
-                              }}
-                            >
-                              Token Lists
-                            </button>
-                          </div>
-                          <div className="blk-width">
-                            <button type="button" className="btn w-100">
-                              Add token
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="sec-search sec-search-secondry">
-                        <div className="position-relative search-row">
-                          <input
-                            type="text"
-                            className="w-100"
-                            placeholder="Add list by https://"
-                            onChange={(e) => {
-                              addNewToken(e.target.value);
+            {/* new added token with delete action starts */}
+            {showTokenModal && tokenState.step4 && (
+              <div className="popmodal-body tokn-popup no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="black-bg-sec">
+                      <div className="token-btn-sec pop-btns-grid">
+                        <div className="blk-width">
+                          <button
+                            type="button"
+                            className="btn btn-active w-100"
+                            onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: true,
+                                step2: false,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
                             }}
-                            autoFocus={newToken.length > 0}
-                            value={newToken ? newToken : ""}
-                          />
-                          <div className="search-icon">
-                            <img
-                              width="20"
-                              height="21"
-                              className="img-fluid"
-                              src="../../assets/images/search.png"
-                              alt=""
-                            />
-                          </div>
+                          >
+                            Token Lists
+                          </button>
+                        </div>
+                        <div className="blk-width">
+                          <button type="button" className="btn w-100">
+                            Add token
+                          </button>
                         </div>
                       </div>
-                      <div className="pop-bottom pt-0">
+                    </div>
+                    <div className="sec-search sec-search-secondry">
+                      <div className="position-relative search-row">
+                        <input
+                          type="text"
+                          className="w-100"
+                          placeholder="Add list by https://"
+                          onChange={(e) => {
+                            addNewToken(e.target.value);
+                          }}
+                          autoFocus={newToken.length > 0}
+                          value={newToken ? newToken : ""}
+                        />
+                        <div className="search-icon">
+                          <img
+                            width="20"
+                            height="21"
+                            className="img-fluid"
+                            src="../../assets/images/search.png"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="pop-bottom pt-0">
                       <div className="">
                         <div className="grid-block">
                           <div className="blk-width">
@@ -2367,7 +2369,7 @@ export default function Withdraw() {
                               Token stored in your browser
                             </p>
                           </div>
-                          <div style={{textAlign : "right"}} className="blk-width btn-sm">
+                          <div style={{ textAlign: "right" }} className="blk-width btn-sm">
                             <button
                               type="button"
                               // className="btn primary-btn w-100"
@@ -2730,13 +2732,13 @@ export default function Withdraw() {
             )}
             {/* new added token with delete action ends */}
                     </div>
-                    </div>
-
-                    <div className="myTipsArea">Tip: Custom tokens are stored locally in your browser </div>
-                
                   </div>
+
+                  <div className="myTipsArea">Tip: Custom tokens are stored locally in your browser </div>
+
                 </div>
-              )}
+              </div>
+            )}
 
             {/* Token popups end */}
           </>
@@ -2910,9 +2912,10 @@ export default function Withdraw() {
                           toChain: 417
                         }}
                         validationSchema={depositValidations}
-                        onSubmit={(values, actions) => {
-                          // console.log(values);
-                          callDepositModal(values);
+                        onSubmit={(values, {resetForm}) => {
+                          // console.log(actions);
+                          callDepositModal(values,resetForm);
+                          
                         }}
                       >
                         {({
@@ -2973,6 +2976,7 @@ export default function Withdraw() {
                                           className="w-100"
                                           type="text"
                                           value={NETWORK_LABEL[chainId]}
+                                          disabled={true}
                                         // placeholder="Ethereum chain"
                                         />
                                       </div>
@@ -3076,6 +3080,7 @@ export default function Withdraw() {
                                         <input
                                           className="w-100"
                                           type="text"
+                                          disabled={true}
                                           placeholder="Shibarium chain"
                                           value={NETWORK_LABEL[chainId == 5 ? 417 : 5]}
                                         />
@@ -3148,9 +3153,10 @@ export default function Withdraw() {
                         toChain: ""
                       }}
                       validationSchema={withdrawValidations}
-                      onSubmit={(values, actions) => {
+                      onSubmit={(values, {resetForm}) => {
                         // console.log(values);
                         callWithdrawModal(values);
+                        resetForm();
                       }}
                     >
                       {({
@@ -3188,6 +3194,7 @@ export default function Withdraw() {
                                           type="text"
                                           // placeholder="Shibarium Mainnet"
                                           value={NETWORK_LABEL[chainId == 5 ? 417 : 5]}
+                                          disabled={true}
                                         />
                                       </div>
                                       {/* <Form.Select
@@ -3312,6 +3319,7 @@ export default function Withdraw() {
                                           type="text"
                                           // placeholder="Shibarium Mainnet"
                                           value={NETWORK_LABEL[chainId]}
+                                          disabled={true}
                                         />
                                       </div>
                                       {/* <Form.Select

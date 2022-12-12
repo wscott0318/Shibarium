@@ -219,7 +219,7 @@ let schema = yup.object().shape({
     .number().typeError("Only digits are allowed.")
     .max(
       parseFloat(walletBalance?.toFixed(tokenDecimal)),
-      "Entered value cannot be greater than Balance."
+      "Amount of input fields can't be more than account balance"
     ).positive("Enter valid Balance.")
     .required("Balance is required."),
 });

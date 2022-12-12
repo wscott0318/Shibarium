@@ -209,7 +209,7 @@ const MigratePopup: React.FC<any> = ({
       .typeError("Only digits are allowed.")
       .max(
         balance,
-        "Entered value cannot be greater than Balance."
+        "Amount of input fields can't be more than account balance"
       )
       .positive("Enter valid Balance.")
       .required("Balance is required."),
