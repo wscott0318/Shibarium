@@ -378,7 +378,7 @@ export default function Unbond() {
 
       {/* modal started  */}
       <CommonModal
-        title={"Restake"}
+        title={"Withdraw Rewards"}
         show={claimNowModals.confirm}
         setshow={setClamNowModals}
         externalCls="rstk-popup"
@@ -411,7 +411,7 @@ export default function Unbond() {
               className="btn primary-btn w-100"
               onClick={() => unboundClaimAPI()}
             >
-              Confirm Unbond
+              Confirm
             </button>
           </div>
         </div>
