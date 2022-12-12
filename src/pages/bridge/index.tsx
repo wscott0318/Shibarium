@@ -437,12 +437,12 @@ export default function Withdraw() {
             .symbol()
             .call({ from: String(account) })
             .then((token: any) => token)
-          .catch((err: any) => console.log(err));
+            .catch((err: any) => console.log(err));
           let name = await contractInstance.methods
             .name()
             .call({ from: String(account) })
             .then((token: any) => token)
-          .catch((err: any) => console.log(err));
+            .catch((err: any) => console.log(err));
           const obj = {
             parentContract: String(newToken),
             childContract: String(newToken),
@@ -600,12 +600,12 @@ export default function Withdraw() {
           .symbol()
           .call({ from: String(account) })
           .then((token: any) => token)
-        .catch((err: any) => console.log(err));
+          .catch((err: any) => console.log(err));
         let name: any = await contractInstance.methods
           .name()
           .call({ from: String(account) })
           .then((token: any) => token)
-        .catch((err: any) => console.log(err));
+          .catch((err: any) => console.log(err));
         const obj = {
           parentContract: String(newToken),
           childContract: String(newToken),
@@ -2915,17 +2915,19 @@ export default function Withdraw() {
                                       From
                                     </label>
                                     <div className="form-field position-relative txt-fix">
-                                      {/* <div className="icon-chain">
+                                      <div className="icon-chain">
                                         <div>
                                           <img
+                                            width="22"
+                                            height="22"
                                             className="img-fluid"
-                                            src="../../assets/images/eth.png"
+                                            src={selectedToken.logo ? selectedToken.logo : "../../assets/images/eth.png"}
                                             alt=""
                                           />
                                         </div>
-                                      </div> */}
-                                      {/* <div className="mid-chain"> */}
-                                      <Form.Select
+                                      </div>
+                                      <div className="mid-chain">
+                                        {/* <Form.Select
                                         name="fromChain"
                                         defaultValue={`${chainId}`}
                                         value={values.fromChain}
@@ -2934,28 +2936,29 @@ export default function Withdraw() {
                                           ChainId.SHIBARIUM,
                                           ChainId.GÖRLI,
                                           ChainId.ETHEREUM,
-                                          ChainId.PUPPYNET,
-                                          //  @ts-ignore
+                                          ChainId.PUPPYNET, */}
+                                        {/* //  @ts-ignore
                                         ].map((key: ChainId, i: number) => {
                                           return (
-                                            <>
-                                              {/* @ts-ignore TYPE NEEDS FIXING */}
-                                              <Image src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md" width="32px" height="32px" />
-                                              <option value={key}>
-                                                {/*@ts-ignore TYPE NEEDS FIXING*/}
-                                                {NETWORK_LABEL[key]}
+                                            <> */}
+                                        {/* @ts-ignore TYPE NEEDS FIXING */}
+                                        {/* <Image src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md" width="32px" height="32px" />
+                                              <option value={key}> */}
+                                        {/*@ts-ignore TYPE NEEDS FIXING*/}
+                                        {/* {NETWORK_LABEL[key]}
                                               </option>
                                             </>
                                           )
 
                                         })}
-                                      </Form.Select>
-                                      {/* <input
-                                            className="w-100"
-                                            type="text"
-                                            placeholder="Ethereum chain"
-                                          /> */}
-                                      {/* </div> */}
+                                      </Form.Select> */}
+                                        <input
+                                          className="w-100"
+                                          type="text"
+                                          value={NETWORK_LABEL[chainId]}
+                                        // placeholder="Ethereum chain"
+                                        />
+                                      </div>
                                       <div className="rt-chain">
                                         <span className="fld-head lite-800">
                                           Balance:
@@ -3041,13 +3044,13 @@ export default function Withdraw() {
                                       To
                                     </label>
                                     <div className="form-field position-relative txt-fix">
-                                      {/* <div className="icon-chain">
+                                      <div className="icon-chain">
                                         <div>
                                           <img
                                             width="22"
                                             height="22"
                                             className="img-fluid"
-                                            src="../../assets/images/shiba-round-icon.png"
+                                            src={NETWORK_ICON[chainId == 5 ? 417 : 5]}
                                             alt=""
                                           />
                                         </div>
@@ -3057,9 +3060,10 @@ export default function Withdraw() {
                                           className="w-100"
                                           type="text"
                                           placeholder="Shibarium chain"
+                                          value={NETWORK_LABEL[chainId == 5 ? 417 : 5]}
                                         />
-                                      </div> */}
-                                      <Form.Select
+                                      </div>
+                                      {/* <Form.Select
                                         name="toChain"
                                         defaultValue={`${chainId}`}
                                         value={values.toChain}
@@ -3069,24 +3073,24 @@ export default function Withdraw() {
                                           ChainId.SHIBARIUM,
                                           ChainId.GÖRLI,
                                           ChainId.ETHEREUM,
-                                          ChainId.PUPPYNET,
-                                          //  @ts-ignore
+                                          ChainId.PUPPYNET, */}
+                                      {/* //  @ts-ignore
                                         ].map((key: ChainId, i: number) => {
                                           // console.log(values);
                                           return (
-                                            <>
-                                              {/* @ts-ignore TYPE NEEDS FIXING */}
-                                              <Image src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md" width="32px" height="32px" />
+                                            <> */}
+                                      {/* @ts-ignore TYPE NEEDS FIXING */}
+                                      {/* <Image src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md" width="32px" height="32px" />
 
-                                              <option value={key} disabled={values.fromChain == key ? true : false}>
-                                                {/*@ts-ignore TYPE NEEDS FIXING*/}
-                                                {NETWORK_LABEL[key]}
+                                              <option value={key} disabled={values.fromChain == key ? true : false}> */}
+                                      {/*@ts-ignore TYPE NEEDS FIXING*/}
+                                      {/* {NETWORK_LABEL[key]}
                                               </option>
                                             </>
                                           )
 
                                         })}
-                                      </Form.Select>
+                                      </Form.Select> */}
                                       {/* <div className="rt-chain">
                                         <span className="fld-head lite-800">
                                           Balance:
@@ -3150,25 +3154,26 @@ export default function Withdraw() {
                                       From
                                     </label>
                                     <div className="form-field position-relative txt-fix">
-                                      {/* <div className="icon-chain">
-                                    <div>
-                                      <img
-                                        width="22"
-                                        height="22"
-                                        className="img-fluid"
-                                        src="../../assets/images/shiba-round-icon.png"
-                                        alt=""
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="mid-chain">
-                                    <input
-                                      className="w-100"
-                                      type="text"
-                                      placeholder="Shibarium Mainnet"
-                                    />
-                                  </div> */}
-                                      <Form.Select
+                                      <div className="icon-chain">
+                                        <div>
+                                          <img
+                                            width="22"
+                                            height="22"
+                                            className="img-fluid"
+                                            src={NETWORK_ICON[chainId == 5 ? 417 : 5]}
+                                            alt=""
+                                          />
+                                        </div>
+                                      </div>
+                                      <div className="mid-chain">
+                                        <input
+                                          className="w-100"
+                                          type="text"
+                                          // placeholder="Shibarium Mainnet"
+                                          value={NETWORK_LABEL[chainId == 5 ? 417 : 5]}
+                                        />
+                                      </div>
+                                      {/* <Form.Select
                                         name="fromChain"
                                         defaultValue={`${chainId}`}
                                         value={values.fromChain}
@@ -3178,24 +3183,24 @@ export default function Withdraw() {
                                           ChainId.SHIBARIUM,
                                           ChainId.GÖRLI,
                                           ChainId.ETHEREUM,
-                                          ChainId.PUPPYNET,
-                                          //  @ts-ignore
+                                          ChainId.PUPPYNET, */}
+                                      {/* //  @ts-ignore
                                         ].map((key: ChainId, i: number) => {
                                           // console.log(values);
                                           return (
-                                            <>
-                                              {/* @ts-ignore TYPE NEEDS FIXING */}
-                                              <Image src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md" width="32px" height="32px" />
+                                            <> */}
+                                      {/* @ts-ignore TYPE NEEDS FIXING */}
+                                      {/* <Image src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md" width="32px" height="32px" />
 
-                                              <option value={key}>
-                                                {/*@ts-ignore TYPE NEEDS FIXING*/}
-                                                {NETWORK_LABEL[key]}
+                                              <option value={key}> */}
+                                      {/*@ts-ignore TYPE NEEDS FIXING*/}
+                                      {/* {NETWORK_LABEL[key]}
                                               </option>
                                             </>
                                           )
 
                                         })}
-                                      </Form.Select>
+                                      </Form.Select> */}
                                       <div className="rt-chain">
                                         <span className="fld-head lite-800">
                                           Balance:
@@ -3273,7 +3278,26 @@ export default function Withdraw() {
                                       To
                                     </label>
                                     <div className="form-field position-relative txt-fix">
-                                      <Form.Select
+                                      <div className="icon-chain">
+                                        <div>
+                                          <img
+                                            width="22"
+                                            height="22"
+                                            className="img-fluid"
+                                            src={selectedToken.logo ? selectedToken.logo : "../../assets/images/eth.png"}
+                                            alt=""
+                                          />
+                                        </div>
+                                      </div>
+                                      <div className="mid-chain">
+                                        <input
+                                          className="w-100"
+                                          type="text"
+                                          // placeholder="Shibarium Mainnet"
+                                          value={NETWORK_LABEL[chainId]}
+                                        />
+                                      </div>
+                                      {/* <Form.Select
                                         name="toChain"
                                         defaultValue={`${chainId}`}
                                         value={values.toChain}
@@ -3283,32 +3307,32 @@ export default function Withdraw() {
                                           ChainId.SHIBARIUM,
                                           ChainId.GÖRLI,
                                           ChainId.ETHEREUM,
-                                          ChainId.PUPPYNET,
-                                          //  @ts-ignore
+                                          ChainId.PUPPYNET, */}
+                                      {/* //  @ts-ignore
                                         ].map((key: ChainId, i: number) => {
                                           // console.log(values);
                                           return (
-                                            <>
-                                              {/* @ts-ignore TYPE NEEDS FIXING */}
-                                              <Image src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md" width="32px" height="32px" />
+                                            <> */}
+                                      {/* @ts-ignore TYPE NEEDS FIXING */}
+                                      {/* <Image src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md" width="32px" height="32px" />
 
-                                              <option value={key} disabled={values.fromChain == key ? true : false}>
-                                                {/*@ts-ignore TYPE NEEDS FIXING*/}
-                                                {NETWORK_LABEL[key]}
+                                              <option value={key} disabled={values.fromChain == key ? true : false}> */}
+                                      {/*@ts-ignore TYPE NEEDS FIXING*/}
+                                      {/* {NETWORK_LABEL[key]}
                                               </option>
                                             </>
                                           )
 
                                         })}
-                                      </Form.Select>
-                                      {/* <div className="rt-chain">
+                                      </Form.Select> */}
+                                      <div className="rt-chain">
                                         <span className="fld-head lite-800">
                                           Balance:
                                         </span>
                                         <span className="fld-txt lite-800">
                                           00.00
                                         </span>
-                                      </div> */}
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
