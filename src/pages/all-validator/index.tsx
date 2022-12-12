@@ -54,7 +54,7 @@ export const Allvalidator: React.FC = () => {
       const validatorThreshold = await instance.methods.validatorThreshold().call();
       const valInfo = await instance.methods.validators(valId).call({ from: account });
       const valStake = await instance.methods.validatorStake(valId).call({ from: account });
-      // console.log(valInfo,valStake,valCount, "val info ===> ")
+      console.log(valInfo,valStake,valCount, "val info ===> ")
       setValCount(valCount)
       setValMaxCount(validatorThreshold)
     }
