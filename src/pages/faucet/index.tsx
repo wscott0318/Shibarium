@@ -72,7 +72,7 @@ export default function faucet() {
           hash: res.data.transectionHash
         })
       }).catch((err) => {
-        console.log(err)
+        // console.log(err)
         setModalState({
           pending: false,
           done: true,

@@ -87,17 +87,17 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
 
   const approveAmount = async (val: any) => {
-    console.log("called approveAmount ");
+    // console.log("called approveAmount ");
     try {
       if (account) {
-        console.log("called approval ")
+        // console.log("called approval ")
         let user = account;
         let amount = web3.utils.toBN(fromExponential(MAXAMOUNT * Math.pow(10, 18)));
         let instance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
         let gasFee = await instance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, amount).estimateGas({ from: user })
         let encodedAbi = await instance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, amount).encodeABI()
         let CurrentgasPrice: any = await currentGasPrice(web3)
-        console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+        // console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
         await web3.eth.sendTransaction({
           from: user,
           to: dynamicChaining[chainId].BONE,
@@ -107,7 +107,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
           data: encodedAbi
         })
           .on('transactionHash', (res: any) => {
-            console.log(res, "hash")
+            // console.log(res, "hash")
             dispatch(
               addTransaction({
                 hash: res,
@@ -119,7 +119,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
             let link = getExplorerLink(chainId, res, 'transaction')
             setHashLink(link)
           }).on('receipt', async (res: any) => {
-            console.log(res, "receipt")
+            // console.log(res, "receipt")
             dispatch(
               finalizeTransaction({
                 hash: res.transactionHash,
@@ -140,14 +140,14 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
             setStepComplete((preState: any) => ({ ...preState, two: true }))
             submitTransaction(val)
           }).on('error', (res: any) => {
-            console.log(res, "error")
+            // console.log(res, "error")
             if (res.code === 4001) {
               setTransactionState({ state: false, title: '' })
             }
           })
         // setTransactionState({ state: false, title: '' })
       } else {
-        console.log("account not connected ====> ")
+        // console.log("account not connected ====> ")
       }
     } catch (err :any) {
       setTransactionState({ state: false, title: '' })
@@ -174,7 +174,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         data: encodedAbi
       })
         .on('transactionHash', (res: any) => {
-          console.log("line 196");
+          // console.log("line 196");
           dispatch(
             addTransaction({
               hash: res,
@@ -186,7 +186,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
           let link = getExplorerLink(chainId, res, 'transaction')
           setHashLink(link)
         }).on('receipt', (res: any) => {
-          console.log("line 209");
+          // console.log("line 209");
           dispatch(
             finalizeTransaction({
               hash: res.transactionHash,
@@ -208,7 +208,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
           changeStatus()
           localStorage.clear()
         }).on('error', (res: any) => {
-          console.log(res, "error")
+          // console.log(res, "error")
           setTransactionState({ state: false, title: '' })
           dispatch(
             finalizeTransaction({
@@ -229,7 +229,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         })
     } catch (err: any) {
       // console.log(err.toString(), "RPC error ==> ")
-      console.log(err.toString().split("{"), "RPC error ==> ")
+      // console.log(err.toString().split("{"), "RPC error ==> ")
       let message = stakeForErrMsg(err.toString().split("{")[0])
       setTransactionState({ state: false, title: '' })
       toast.error(message, {
@@ -292,19 +292,19 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     // console.log(becomeValidateData, "data")
 
     await registerValidator(data).then((res: any) => {
-      console.log("API response", res.data.message)
+      // console.log("API response", res.data.message)
       // step one 
       setLoader("step2");
       setStepComplete((preState: any) => ({ ...preState, one: true }))
       handleTransaction(val)
     }).catch((err: any) => {
-      console.log("err on callApi",err)
+      // console.log("err on callApi",err)
       notifyError()
     })
   };
 
   const changeStatus = async () => {
-    console.log("called changeStatus ");
+    // console.log("called changeStatus ");
     // setApiLoading(true)
     var data = new FormData();
     data.append("validatorName", becomeValidateData.name);

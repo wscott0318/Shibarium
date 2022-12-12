@@ -126,7 +126,7 @@ const DelegatePopup: React.FC<any> = ({
       amount: values.balance,
       valID: data.validatorContractId
     };
-    console.log(requestBody)
+    // console.log(requestBody)
     setTnxCompleted(false);
     // console.log(requestBody);
     if (account) {
@@ -230,10 +230,10 @@ const callAPIforDelegator = async (requestBody:any) => {
     const valID = requestBody.valID
     const wallet : any = account
     await setDelegatorData(wallet.toLowerCase(), valID).then((res:any) => {
-      console.log(res.data, "callAPIforDelegator data res ==> ")
+      // console.log(res.data, "callAPIforDelegator data res ==> ")
     })
   } catch(err :any) {
-    console.log(err)
+    // console.log(err)
   }
 
 
