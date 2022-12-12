@@ -123,7 +123,11 @@ export default function Withdraw() {
       getWalletTokenList().then((res) => {
         let list = res.data.message.tokens;
         list.forEach(async (x: any) => {
-          x.balance = await getTokenBalance(lib, account, x.parentContract);
+          if(x.parentName === 'BoneToken') {
+            x.balance = await getTokenBalance(lib, account, "0x5063b1215bbF268ab00a5F47cDeC0A4783c3Ab58");
+          } else {
+            x.balance = await getTokenBalance(lib, account, x.parentContract);
+          }
         });
         setTokenList(list);
         // setTokenFilteredList(list);
@@ -788,7 +792,7 @@ export default function Withdraw() {
                         <p>Shibarium Mainnet</p>
                       </div>
                     </div>
-                    <div className="amt-section position-relative">
+                    {/* <div className="amt-section position-relative">
                       <div className="coin-blk">
                         <div className="coin-sec">
                           <img
@@ -802,7 +806,7 @@ export default function Withdraw() {
                       <div>
                         <p className="fw-bold">$10.00</p>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="pop-bottom">
                     <div>
@@ -2903,7 +2907,7 @@ export default function Withdraw() {
                         initialValues={{
                           amount: "",
                           fromChain: chainId,
-                          toChain: ""
+                          toChain: 417
                         }}
                         validationSchema={depositValidations}
                         onSubmit={(values, actions) => {
