@@ -54,7 +54,7 @@ export const SUPPORTED_NETWORKS: {
       symbol: 'BONE',
       decimals: 18,
     },
-    rpcUrls: ['https://43.205.237.125:8545'],
+    rpcUrls: ['https://puppytestnet.hailshiba.com'],
     blockExplorerUrls: [''],
   },
   [ChainId.BSC]: {
