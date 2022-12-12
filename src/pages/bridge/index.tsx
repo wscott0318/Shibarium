@@ -25,7 +25,6 @@ import { BONE_ID } from '../../config/constant';
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import depositManagerABI from "../../ABI/depositManagerABI.json"
-import { DEPOSIT_MANAGER_PROXY } from "web3/contractAddresses";
 import Web3 from "web3";
 import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
 import { useAppDispatch } from "../../state/hooks";
@@ -46,6 +45,8 @@ import SUPPORTED_NETWORKS from "../../modals/NetworkModal/index"
 import { ChainId } from "../../modals/NetworkModal/ChainIDs"
 import { NETWORK_ICON, NETWORK_LABEL } from '../../config/networks'
 import Image from "next/image";
+import { dynamicChaining } from "web3/DynamicChaining";
+
 export default function Withdraw() {
 
 
@@ -124,7 +125,7 @@ export default function Withdraw() {
         let list = res.data.message.tokens;
         list.forEach(async (x: any) => {
           if(x.parentName === 'BoneToken') {
-            x.balance = await getTokenBalance(lib, account, "0x5063b1215bbF268ab00a5F47cDeC0A4783c3Ab58");
+            x.balance = await getTokenBalance(lib, account, dynamicChaining[chainId].BONE);
           } else {
             x.balance = await getTokenBalance(lib, account, x.parentContract);
           }
@@ -226,8 +227,8 @@ export default function Withdraw() {
             })
           )
           // call deposit contract 
-          let instance = new web3.eth.Contract(depositManagerABI, DEPOSIT_MANAGER_PROXY);
-          instance.methods.depositERC20(selectedToken.parentContract, amount).send({ from: account })
+          let instance = new web3.eth.Contract(depositManagerABI, dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY);
+          instance.methods.depositERC20(dynamicChaining[chainId].BONE, user, amount).send({ from: account })
             .on('transactionHash', (res: any) => {
               // console.log(res, "hash")
               dispatch(
@@ -345,15 +346,15 @@ export default function Withdraw() {
         });
         let user: any = account
         const amountWei = web3.utils.toBN(fromExponential((+depositTokenInput * Math.pow(10, 18))));
-        let allowance = await getAllowanceAmount(library, selectedToken.parentContract, account, DEPOSIT_MANAGER_PROXY) || 0
+        let allowance = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY) || 0
 
         if (+depositTokenInput > +allowance) {
           // console.log("need approval")
-          approvalForDeposit(amountWei, selectedToken.parentContract, DEPOSIT_MANAGER_PROXY)
+          approvalForDeposit(amountWei, dynamicChaining[chainId].BONE, dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY)
         } else {
           // console.log("no approval needed")
-          let instance = new web3.eth.Contract(depositManagerABI, DEPOSIT_MANAGER_PROXY);
-          instance.methods.depositERC20(selectedToken.parentContract, amountWei).send({ from: account })
+          let instance = new web3.eth.Contract(depositManagerABI, dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY);
+          instance.methods.depositERC20ForUser(dynamicChaining[chainId].BONE, user, amountWei).send({ from: account })
             .on('transactionHash', (res: any) => {
               // console.log(res, "hash")
               dispatch(
