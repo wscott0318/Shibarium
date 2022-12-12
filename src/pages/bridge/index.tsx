@@ -22,7 +22,7 @@ import { getTokenBalance } from "../../hooks/useTokenBalance";
 import { getBoneUSDValue } from "../../services/apis/validator/index";
 import { useActiveWeb3React } from "../../services/web3"
 import { BONE_ID } from '../../config/constant';
-import { Formik, Form, Field } from "formik";
+import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import depositManagerABI from "../../ABI/depositManagerABI.json"
 import { DEPOSIT_MANAGER_PROXY } from "web3/contractAddresses";
@@ -40,6 +40,12 @@ import "react-toastify/dist/ReactToastify.css";
 import addTokenAbi from "../../ABI/custom-token-abi.json"
 import { AbiItem } from "web3-utils";
 import * as Sentry from "@sentry/nextjs";
+import { MenuItem, Select } from "@material-ui/core";
+import Form from 'react-bootstrap/Form';
+import SUPPORTED_NETWORKS from "../../modals/NetworkModal/index"
+import { ChainId } from "../../modals/NetworkModal/ChainIDs"
+import { NETWORK_ICON, NETWORK_LABEL } from '../../config/networks'
+import Image from "next/image";
 export default function Withdraw() {
 
 
@@ -62,12 +68,15 @@ export default function Withdraw() {
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const [hashLink, setHashLink] = useState('');
   const [newToken, addNewToken] = useState('');
-
+  const [fromChain, setFromChain] = useState(0);
+  const [toChain, setToChain] = useState(0);
   const handleMenuState = () => {
     setMenuState(!menuState);
   }
   const router = useRouter();
-
+  useEffect(() => {
+    console.log("chain id  , ", SUPPORTED_NETWORKS);
+  })
 
 
   useEffect(() => {
@@ -168,6 +177,13 @@ export default function Withdraw() {
   }
 
   const depositValidations: any = Yup.object({
+    fromChain: Yup.number().required("Required Field"),
+    toChain: Yup.number().required("Required Field"),
+    amount: Yup.number().typeError("Only digits are allowed.").min(0).max(selectedToken.balance).typeError("Amount must be less or equal to you current balance.").required("Amount is required."),
+  })
+  const withdrawValidations: any = Yup.object({
+    fromChain: Yup.number().required("Required Field"),
+    toChain: Yup.number().required("Required Field"),
     amount: Yup.number().typeError("Only digits are allowed.").min(0).max(selectedToken.balance).typeError("Amount must be less or equal to you current balance.").required("Amount is required."),
   })
 
@@ -297,6 +313,23 @@ export default function Withdraw() {
       Sentry.captureMessage("callDepositModal", err);
     }
   }
+  const callWithdrawModal = (values: any) => {
+    try {
+      setDepositTokenInput(values.amount)
+      {
+        setDepModState({
+          step0: true,
+          step1: false,
+          step2: false,
+          title: "Confirm deposit",
+        });
+        setDepositModal(true);
+      }
+    }
+    catch (err: any) {
+      Sentry.captureMessage("callDepositModal", err);
+    }
+  }
 
   const callDepositContract = async () => {
     try {
@@ -404,12 +437,12 @@ export default function Withdraw() {
             .symbol()
             .call({ from: String(account) })
             .then((token: any) => token)
-            // .catch((err: any) => console.log(err));
+          // .catch((err: any) => console.log(err));
           let name = await contractInstance.methods
             .name()
             .call({ from: String(account) })
             .then((token: any) => token)
-            // .catch((err: any) => console.log(err));
+          // .catch((err: any) => console.log(err));
           const obj = {
             parentContract: String(newToken),
             childContract: String(newToken),
@@ -567,12 +600,12 @@ export default function Withdraw() {
           .symbol()
           .call({ from: String(account) })
           .then((token: any) => token)
-          // .catch((err: any) => console.log(err));
+        // .catch((err: any) => console.log(err));
         let name: any = await contractInstance.methods
           .name()
           .call({ from: String(account) })
           .then((token: any) => token)
-          // .catch((err: any) => console.log(err));
+        // .catch((err: any) => console.log(err));
         const obj = {
           parentContract: String(newToken),
           childContract: String(newToken),
@@ -626,1482 +659,1482 @@ export default function Withdraw() {
       setLocalTokens([]);
       localStorage.setItem("newToken", "[]");
     }
-    catch(err:any){
+    catch (err: any) {
       Sentry.captureMessage("clearAllCustomTokens", err);
     }
   }
 
   // console.log("tokenmodallist", tokenModalList);
 
-    const spliceCustomToken = (index: any) => {
-      try{
-        let incomingObject = localTokens[index];
-        const filteredModallist = localTokens.filter((ss: any) => {
-          return ss.parentContract !== incomingObject.parentContract
-        });
-        setLocalTokens(filteredModallist);
-        const filtered2 = tokenModalList.filter((ss: any) => {
-          return ss.parentContract !== incomingObject.parentContract;
-        });
-        setTokenModalList(filtered2);
-      }
-      catch(err:any){
-        Sentry.captureMessage("spliceCustomToken ", err);
-      }
+  const spliceCustomToken = (index: any) => {
+    try {
+      let incomingObject = localTokens[index];
+      const filteredModallist = localTokens.filter((ss: any) => {
+        return ss.parentContract !== incomingObject.parentContract
+      });
+      setLocalTokens(filteredModallist);
+      const filtered2 = tokenModalList.filter((ss: any) => {
+        return ss.parentContract !== incomingObject.parentContract;
+      });
+      setTokenModalList(filtered2);
     }
-    // console.log('localToken', localTokens);
-    // console.log("tokenState 3", tokenState.step3)
-    return (
-      <>
-        <ToastContainer />
-        <main className="main-content">
-          <Sidebar
-            handleMenuState={handleMenuState}
-            onClickOutside={() => {
-              setMenuState(false);
-            }}
-            menuState={menuState}
-          />
-          {/* modal code start */}
-          {/* Deposit popup start */}
-          <CommonModal
-            title={depModalState.title}
-            show={showDepositModal}
-            setshow={setDepositModal}
-            externalCls="dark-modal-100 bridge-ht"
-          >
-            {/* Deposit popups start */}
-            <>
-              {/* confirm deposit popop starts */}
+    catch (err: any) {
+      Sentry.captureMessage("spliceCustomToken ", err);
+    }
+  }
+  // console.log('localToken', localTokens);
+  // console.log("tokenState 3", tokenState.step3)
+  return (
+    <>
+      <ToastContainer />
+      <main className="main-content">
+        <Sidebar
+          handleMenuState={handleMenuState}
+          onClickOutside={() => {
+            setMenuState(false);
+          }}
+          menuState={menuState}
+        />
+        {/* modal code start */}
+        {/* Deposit popup start */}
+        <CommonModal
+          title={depModalState.title}
+          show={showDepositModal}
+          setshow={setDepositModal}
+          externalCls="dark-modal-100 bridge-ht"
+        >
+          {/* Deposit popups start */}
+          <>
+            {/* confirm deposit popop starts */}
 
-              {dWState && depModalState.step0 && (
-                <div className="popmodal-body no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="cnfrm_box dark-bg mt-0">
-                        <div className="top_overview col-12">
-                          <div className="img-flexible">
-                            <img
-                              className="img-fluid d-inline-block"
-                              src="../../assets/images/etharium.png"
-                              alt=""
-                            />
-                          </div>
-                          <h6>
-                            {depositTokenInput + " " + selectedToken.parentName}
-                          </h6>
-                          <p>
-                            <NumberFormat
-                              thousandSeparator
-                              displayType={"text"}
-                              prefix="$ "
-                              value={(
-                                (+depositTokenInput || 0) * boneUSDValue
-                              ).toFixed(tokenDecimal)}
-                            />
-                          </p>
-                        </div>
-                      </div>
-                      <div className="pop-grid">
-                        <div className="text-center box-block">
-                          <div className="d-inline-block img-flexible">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/etharium.png"
-                              alt=""
-                            />
-                          </div>
-                          <p>Ethereum Mainnet</p>
-                        </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block arow-block right-arrow">
-                            <div className="scrolldown-container">
-                              <div className="scrolldown-btn">
-                                <svg
-                                  version="1.1"
-                                  id="Слой_1"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  xmlnsXlink="http://www.w3.org/1999/xlink"
-                                  x="0px"
-                                  y="0px"
-                                  width="50px"
-                                  height="80px"
-                                  viewBox="0 0 50 80"
-                                  enableBackground="new 0 0 50 80"
-                                  xmlSpace="preserve"
-                                >
-                                  <path
-                                    className="first-path"
-                                    fill="#FFFFFF"
-                                    d="M24.752,79.182c-0.397,0-0.752-0.154-1.06-0.463L2.207,57.234c-0.306-0.305-0.458-0.656-0.458-1.057                  s0.152-0.752,0.458-1.059l2.305-2.305c0.309-0.309,0.663-0.461,1.06-0.461c0.398,0,0.752,0.152,1.061,0.461l18.119,18.119                  l18.122-18.119c0.306-0.309,0.657-0.461,1.057-0.461c0.402,0,0.753,0.152,1.059,0.461l2.306,2.305                  c0.308,0.307,0.461,0.658,0.461,1.059s-0.153,0.752-0.461,1.057L25.813,78.719C25.504,79.027,25.15,79.182,24.752,79.182z"
-                                  />
-                                  <path
-                                    className="second-path"
-                                    fill="#FFFFFF"
-                                    d="M24.752,58.25c-0.397,0-0.752-0.154-1.06-0.463L2.207,36.303c-0.306-0.304-0.458-0.655-0.458-1.057                  c0-0.4,0.152-0.752,0.458-1.058l2.305-2.305c0.309-0.308,0.663-0.461,1.06-0.461c0.398,0,0.752,0.153,1.061,0.461l18.119,18.12                  l18.122-18.12c0.306-0.308,0.657-0.461,1.057-0.461c0.402,0,0.753,0.153,1.059,0.461l2.306,2.305                  c0.308,0.306,0.461,0.657,0.461,1.058c0,0.401-0.153,0.753-0.461,1.057L25.813,57.787C25.504,58.096,25.15,58.25,24.752,58.25z"
-                                  />
-                                </svg>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block img-flexible">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <p>Shibarium Mainnet</p>
-                        </div>
-                      </div>
-                      <div className="amt-section position-relative">
-                        <div className="coin-blk">
-                          <div className="coin-sec">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/eth.png"
-                              alt=""
-                            />
-                          </div>
-                          <p>Estimation of GAS fee required</p>
-                        </div>
-                        <div>
-                          <p className="fw-bold">$10.00</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="pop-bottom">
-                      <div>
-                        <a
-                          className="btn primary-btn w-100"
-                          onClick={() => callDepositContract()}
-                        >
-                          Continue
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* confirm deposit popop ends */}
-
-              {/* Transaction pending popup start */}
-
-              {dWState && depModalState.step1 && (
-                <div className="popmodal-body no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="cnfrm_box dark-bg mt-0">
-                        <div className="top_overview col-12">
-                          <span>
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/etharium.png"
-                              alt=""
-                            />
-                          </span>
-                          <h6>
-                            {depositTokenInput + " " + selectedToken.parentName}
-                          </h6>
-                          <p>
-                            <NumberFormat
-                              thousandSeparator
-                              displayType={"text"}
-                              prefix="$ "
-                              value={(
-                                (+depositTokenInput || 0) * boneUSDValue
-                              ).toFixed(tokenDecimal)}
-                            />
-                          </p>
-                        </div>
-                      </div>
-                      <div className="pop-grid">
-                        <div className="text-center box-block">
-                          <div className="d-inline-block">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/etharium.png"
-                              alt=""
-                            />
-                          </div>
-                          <p>Ethereum Mainnet</p>
-                        </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block right-arrow">
-                            <div className="scrolldown-container">
-                              <div className="scrolldown-btn">
-                                <svg
-                                  version="1.1"
-                                  id="Слой_1"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  xmlnsXlink="http://www.w3.org/1999/xlink"
-                                  x="0px"
-                                  y="0px"
-                                  width="50px"
-                                  height="80px"
-                                  viewBox="0 0 50 80"
-                                  enableBackground="new 0 0 50 80"
-                                  xmlSpace="preserve"
-                                >
-                                  <path
-                                    className="first-path"
-                                    fill="#FFFFFF"
-                                    d="M24.752,79.182c-0.397,0-0.752-0.154-1.06-0.463L2.207,57.234c-0.306-0.305-0.458-0.656-0.458-1.057                  s0.152-0.752,0.458-1.059l2.305-2.305c0.309-0.309,0.663-0.461,1.06-0.461c0.398,0,0.752,0.152,1.061,0.461l18.119,18.119                  l18.122-18.119c0.306-0.309,0.657-0.461,1.057-0.461c0.402,0,0.753,0.152,1.059,0.461l2.306,2.305                  c0.308,0.307,0.461,0.658,0.461,1.059s-0.153,0.752-0.461,1.057L25.813,78.719C25.504,79.027,25.15,79.182,24.752,79.182z"
-                                  />
-                                  <path
-                                    className="second-path"
-                                    fill="#FFFFFF"
-                                    d="M24.752,58.25c-0.397,0-0.752-0.154-1.06-0.463L2.207,36.303c-0.306-0.304-0.458-0.655-0.458-1.057                  c0-0.4,0.152-0.752,0.458-1.058l2.305-2.305c0.309-0.308,0.663-0.461,1.06-0.461c0.398,0,0.752,0.153,1.061,0.461l18.119,18.12                  l18.122-18.12c0.306-0.308,0.657-0.461,1.057-0.461c0.402,0,0.753,0.153,1.059,0.461l2.306,2.305                  c0.308,0.306,0.461,0.657,0.461,1.058c0,0.401-0.153,0.753-0.461,1.057L25.813,57.787C25.504,58.096,25.15,58.25,24.752,58.25z"
-                                  />
-                                </svg>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <p>Shibarium Mainnet</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="pop-bottom">
-                      <div className="text-section">
-                        <h4 className="pop-hd-md">Moving funds</h4>
-                        <p>
-                          It will take up to 10 - 15 minutes to move the funds on
-                          Shibarium Mainnet.
-                        </p>
-                      </div>
-                      <div>
-                        <a
-                          onClick={() => {
-                            setDepModState({
-                              step0: false,
-                              step1: false,
-                              step2: true,
-                              title: "Transaction Completed",
-                            });
-                          }}
-                          className="btn grey-btn w-100"
-                          href="javascript:void(0)"
-                        >
-                          <span className="spinner-border text-secondary pop-spiner"></span>
-                          <span>Continue</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Transaction pending popup end */}
-
-              {/* Transaction completed popup start */}
-
-              {dWState && depModalState.step2 && (
-                <div className="popmodal-body no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="cnfrm_box dark-bg mt-0">
-                        <div className="top_overview col-12">
-                          <span>
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/etharium.png"
-                              alt=""
-                            />
-                          </span>
-                          <h6>
-                            {depositTokenInput + " " + selectedToken.parentName}
-                          </h6>
-                          <p>
-                            <NumberFormat
-                              thousandSeparator
-                              displayType={"text"}
-                              prefix="$ "
-                              value={(
-                                (+depositTokenInput || 0) * boneUSDValue
-                              ).toFixed(tokenDecimal)}
-                            />
-                          </p>
-                        </div>
-                      </div>
-                      <div className="pop-action">
-                        <a
-                          className="btn primary-btn w-100 w-100"
-                          href="javascript:void(0)"
-                        >
-                          ETHEREUM MAINNET
-                        </a>
-                      </div>
-                    </div>
-                    <div className="pop-bottom">
-                      <div className="text-section complete-modal">
-                        <h4 className="pop-hd-md">Transaction Completed</h4>
-                        <p>Transaction completed succesfully.</p>
-                      </div>
-                      <div>
-                        <a
-                          className="btn primary-btn w-100"
-                          onClick={() => window.open(hashLink)}
-                        >
-                          View on Block Explorer
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Transaction completed popup end */}
-            </>
-          </CommonModal>
-
-          {/* Deposit popup end */}
-
-          {/* Withdraw popups start */}
-          <CommonModal
-            title={withModalState.title}
-            show={showWithdrawModal}
-            setshow={setWithdrawModal}
-            externalCls="dark-modal-100 bridge-ht2"
-          >
-            {/* Withdraw tab popups start */}
-            <>
-              {/* Initialize withdraw popup start */}
-              {withModalState.step0 && !dWState && (
-                <div className="popmodal-body no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="cnfrm_box dark-bg mt-0">
-                        <div className="top_overview col-12">
-                          <span>
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/red-bone.png"
-                              alt=""
-                            />
-                          </span>
-                          <h6>100 BONE</h6>
-                          <p>500.00$</p>
-                        </div>
-                      </div>
-                      <div className="pop-grid">
-                        <div className="text-center box-block">
-                          <div className="d-inline-block">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <p>Shibarium Mainnet</p>
-                        </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block right-arrow">
-                            <div className="scrolldown-container">
-                              <div className="scrolldown-btn">
-                                <svg
-                                  version="1.1"
-                                  id="Слой_1"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  xmlnsXlink="http://www.w3.org/1999/xlink"
-                                  x="0px"
-                                  y="0px"
-                                  width="50px"
-                                  height="80px"
-                                  viewBox="0 0 50 80"
-                                  enableBackground="new 0 0 50 80"
-                                  xmlSpace="preserve"
-                                >
-                                  <path
-                                    className="first-path"
-                                    fill="#FFFFFF"
-                                    d="M24.752,79.182c-0.397,0-0.752-0.154-1.06-0.463L2.207,57.234c-0.306-0.305-0.458-0.656-0.458-1.057                  s0.152-0.752,0.458-1.059l2.305-2.305c0.309-0.309,0.663-0.461,1.06-0.461c0.398,0,0.752,0.152,1.061,0.461l18.119,18.119                  l18.122-18.119c0.306-0.309,0.657-0.461,1.057-0.461c0.402,0,0.753,0.152,1.059,0.461l2.306,2.305                  c0.308,0.307,0.461,0.658,0.461,1.059s-0.153,0.752-0.461,1.057L25.813,78.719C25.504,79.027,25.15,79.182,24.752,79.182z"
-                                  />
-                                  <path
-                                    className="second-path"
-                                    fill="#FFFFFF"
-                                    d="M24.752,58.25c-0.397,0-0.752-0.154-1.06-0.463L2.207,36.303c-0.306-0.304-0.458-0.655-0.458-1.057                  c0-0.4,0.152-0.752,0.458-1.058l2.305-2.305c0.309-0.308,0.663-0.461,1.06-0.461c0.398,0,0.752,0.153,1.061,0.461l18.119,18.12                  l18.122-18.12c0.306-0.308,0.657-0.461,1.057-0.461c0.402,0,0.753,0.153,1.059,0.461l2.306,2.305                  c0.308,0.306,0.461,0.657,0.461,1.058c0,0.401-0.153,0.753-0.461,1.057L25.813,57.787C25.504,58.096,25.15,58.25,24.752,58.25z"
-                                  />
-                                </svg>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/etharium.png"
-                              alt=""
-                            />
-                          </div>
-                          <p>Ethereum Mainnet</p>
-                        </div>
-                      </div>
-                      <div className="amt-section position-relative">
-                        <div className="coin-blk">
-                          <div className="coin-sec">
-                            <img
-                              width="24"
-                              height="24"
-                              className="img-fluid"
-                              src="../../assets/images/red-bone.png"
-                              alt=""
-                            />
-                          </div>
-                          <p>Estimation of GAS fee required</p>
-                        </div>
-                        <div>
-                          <p className="fw-bold">$10.00</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="pop-bottom">
-                      <div className="text-section">
-                        <h4 className="pop-hd-md">Initialize Whitdraw</h4>
-                        <p>
-                          It will take up to 60 mins to 3 hours to reach the
-                          checkpoint.{" "}
-                        </p>
-                      </div>
-                      <div>
-                        <a
-                          className="btn primary-btn w-100"
-                          onClick={() =>
-                            setWidModState({
-                              step0: false,
-                              step1: true,
-                              step2: false,
-                              step3: false,
-                              step4: false,
-                              title: "Reaching Checkpoint",
-                            })
-                          }
-                        >
-                          Continue
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Initialize withdraw popup end */}
-
-              {/* Reaching checkpoint popup start */}
-              {withModalState.step1 && !dWState && (
-                <div className="popmodal-body no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="cnfrm_box dark-bg">
-                        <div className="top_overview col-12">
-                          <span>
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/red-bone.png"
-                              alt=""
-                            />
-                          </span>
-                          <h6>100 BONE</h6>
-                          <p>500.00$</p>
-                        </div>
-                      </div>
-                      <div className="pop-grid">
-                        <div className="text-center box-block">
-                          <div className="d-inline-block">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <p>Shibarium Mainnet</p>
-                        </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block right-arrow">
-                            <div className="scrolldown-container">
-                              <div className="scrolldown-btn">
-                                <svg
-                                  version="1.1"
-                                  id="Слой_1"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  xmlnsXlink="http://www.w3.org/1999/xlink"
-                                  x="0px"
-                                  y="0px"
-                                  width="50px"
-                                  height="80px"
-                                  viewBox="0 0 50 80"
-                                  enableBackground="new 0 0 50 80"
-                                  xmlSpace="preserve"
-                                >
-                                  <path
-                                    className="first-path"
-                                    fill="#FFFFFF"
-                                    d="M24.752,79.182c-0.397,0-0.752-0.154-1.06-0.463L2.207,57.234c-0.306-0.305-0.458-0.656-0.458-1.057                  s0.152-0.752,0.458-1.059l2.305-2.305c0.309-0.309,0.663-0.461,1.06-0.461c0.398,0,0.752,0.152,1.061,0.461l18.119,18.119                  l18.122-18.119c0.306-0.309,0.657-0.461,1.057-0.461c0.402,0,0.753,0.152,1.059,0.461l2.306,2.305                  c0.308,0.307,0.461,0.658,0.461,1.059s-0.153,0.752-0.461,1.057L25.813,78.719C25.504,79.027,25.15,79.182,24.752,79.182z"
-                                  />
-                                  <path
-                                    className="second-path"
-                                    fill="#FFFFFF"
-                                    d="M24.752,58.25c-0.397,0-0.752-0.154-1.06-0.463L2.207,36.303c-0.306-0.304-0.458-0.655-0.458-1.057                  c0-0.4,0.152-0.752,0.458-1.058l2.305-2.305c0.309-0.308,0.663-0.461,1.06-0.461c0.398,0,0.752,0.153,1.061,0.461l18.119,18.12                  l18.122-18.12c0.306-0.308,0.657-0.461,1.057-0.461c0.402,0,0.753,0.153,1.059,0.461l2.306,2.305                  c0.308,0.306,0.461,0.657,0.461,1.058c0,0.401-0.153,0.753-0.461,1.057L25.813,57.787C25.504,58.096,25.15,58.25,24.752,58.25z"
-                                  />
-                                </svg>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/etharium.png"
-                              alt=""
-                            />
-                          </div>
-                          <p>Ethereum Mainnet</p>
-                        </div>
-                      </div>
-                      <div className="amt-section position-relative">
-                        <div className="coin-blk">
-                          <div className="coin-sec">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/eth.png"
-                              alt=""
-                            />
-                          </div>
-                          <p>Estimation of GAS fee required</p>
-                        </div>
-                        <div>
-                          <p className="fw-bold">$20.00</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="pop-bottom">
-                      <div className="text-section">
-                        <h4 className="pop-hd-md">Moving funds to Ethereum</h4>
-                        <p>
-                          It will take up to 60 mins to 3 hours to reach the
-                          checkpoint.
-                        </p>
-                      </div>
-                      <div>
-                        <a
-                          onClick={() =>
-                            setWidModState({
-                              step0: false,
-                              step1: false,
-                              step2: true,
-                              step3: false,
-                              step4: false,
-                              title: "Checkpoint reached",
-                            })
-                          }
-                          className="btn grey-btn w-100"
-                          href="javascript:void(0)"
-                        >
-                          <span className="spinner-border text-secondary pop-spiner"></span>
-                          <span>Moving funds</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-              {/* Reaching checkpoint  popup end */}
-
-              {/* checkpoint Reached popup start */}
-              {withModalState.step2 && !dWState && (
-                <div className="popmodal-body no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="cnfrm_box dark-bg">
-                        <div className="top_overview col-12">
-                          <span>
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/red-bone.png"
-                              alt=""
-                            />
-                          </span>
-                          <h6>100 SHIB</h6>
-                          <p>500.00$</p>
-                        </div>
-                      </div>
-                      <div className="pop-action">
-                        <a
-                          className="btn primary-btn w-100 w-100"
-                          href="javascript:void(0)"
-                        >
-                          ETHEREUM MAINNET
-                        </a>
-                      </div>
-                    </div>
-                    <div className="pop-bottom">
-                      <div className="text-section">
-                        <h4 className="pop-hd-md">Complete Withdraw</h4>
-                        <p>
-                          You need to confirm one more transaction to get your
-                          funds in your Ethereum Account.
-                        </p>
-                      </div>
-                      <div>
-                        <a
-                          className="btn primary-btn w-100"
-                          onClick={() =>
-                            setWidModState({
-                              step0: false,
-                              step1: false,
-                              step2: false,
-                              step3: true,
-                              step4: false,
-                              title: "Complete Withdraw",
-                            })
-                          }
-                        >
-                          Confirm
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-              {/* checkpoint Reached popup end */}
-
-              {/* Complete withdraw popup start */}
-              {withModalState.step3 && !dWState && (
-                <div className="popmodal-body no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="cnfrm_box dark-bg">
-                        <div className="top_overview col-12">
-                          <span>
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/red-bone.png"
-                              alt=""
-                            />
-                          </span>
-                          <h6>100 ETH</h6>
-                          <p>500.00$</p>
-                        </div>
-                      </div>
-                      <div className="pop-grid">
-                        <div className="text-center box-block">
-                          <div className="d-inline-block">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/etharium.png"
-                              alt=""
-                            />
-                          </div>
-                          <p>Ethereum Mainnet</p>
-                        </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block right-arrow">
-                            <div className="scrolldown-container">
-                              <div className="scrolldown-btn">
-                                <svg
-                                  version="1.1"
-                                  id="Слой_1"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  xmlnsXlink="http://www.w3.org/1999/xlink"
-                                  x="0px"
-                                  y="0px"
-                                  width="50px"
-                                  height="80px"
-                                  viewBox="0 0 50 80"
-                                  enableBackground="new 0 0 50 80"
-                                  xmlSpace="preserve"
-                                >
-                                  <path
-                                    className="first-path"
-                                    fill="#FFFFFF"
-                                    d="M24.752,79.182c-0.397,0-0.752-0.154-1.06-0.463L2.207,57.234c-0.306-0.305-0.458-0.656-0.458-1.057                  s0.152-0.752,0.458-1.059l2.305-2.305c0.309-0.309,0.663-0.461,1.06-0.461c0.398,0,0.752,0.152,1.061,0.461l18.119,18.119                  l18.122-18.119c0.306-0.309,0.657-0.461,1.057-0.461c0.402,0,0.753,0.152,1.059,0.461l2.306,2.305                  c0.308,0.307,0.461,0.658,0.461,1.059s-0.153,0.752-0.461,1.057L25.813,78.719C25.504,79.027,25.15,79.182,24.752,79.182z"
-                                  />
-                                  <path
-                                    className="second-path"
-                                    fill="#FFFFFF"
-                                    d="M24.752,58.25c-0.397,0-0.752-0.154-1.06-0.463L2.207,36.303c-0.306-0.304-0.458-0.655-0.458-1.057                  c0-0.4,0.152-0.752,0.458-1.058l2.305-2.305c0.309-0.308,0.663-0.461,1.06-0.461c0.398,0,0.752,0.153,1.061,0.461l18.119,18.12                  l18.122-18.12c0.306-0.308,0.657-0.461,1.057-0.461c0.402,0,0.753,0.153,1.059,0.461l2.306,2.305                  c0.308,0.306,0.461,0.657,0.461,1.058c0,0.401-0.153,0.753-0.461,1.057L25.813,57.787C25.504,58.096,25.15,58.25,24.752,58.25z"
-                                  />
-                                </svg>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="text-center box-block">
-                          <div className="d-inline-block">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/etharium.png"
-                              alt=""
-                            />
-                          </div>
-                          <p>Wallet X25654a5</p>
-                        </div>
-                      </div>
-                      <div className="amt-section position-relative">
-                        <div className="coin-blk">
-                          <div className="coin-sec">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/eth.png"
-                              alt=""
-                            />
-                          </div>
-                          <p>Estimation of GAS fee required</p>
-                        </div>
-                        <div>
-                          <p className="fw-bold">$20.00</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="pop-bottom">
-                      <div className="text-section">
-                        <h4 className="pop-hd-md">Withdrawing funds</h4>
-                        <p>Moving funds to your Ethereum Account.</p>
-                      </div>
-                      <div>
-                        <a
-                          onClick={() =>
-                            setWidModState({
-                              step0: false,
-                              step1: false,
-                              step2: false,
-                              step3: false,
-                              step4: true,
-                              title: "Withdraw Complete",
-                            })
-                          }
-                          className="btn grey-btn w-100"
-                          href="javascript:void(0)"
-                        >
-                          <span className="spinner-border text-secondary pop-spiner"></span>
-                          <span>Moving funds</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-              {/* Complete withdraw popup end */}
-
-              {/* withdraw complete popup start */}
-              {withModalState.step4 && !dWState && (
-                <div className="popmodal-body no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="cnfrm_box dark-bg">
-                        <div className="top_overview col-12">
-                          <span>
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/red-bone.png"
-                              alt=""
-                            />
-                          </span>
-                          <h6>100 SHIB</h6>
-                          <p>500.00$</p>
-                        </div>
-                      </div>
-                      <div className="pop-action">
-                        <a
-                          className="btn primary-btn w-100 w-100"
-                          href="javascript:void(0)"
-                        >
-                          TRANSFER COMPLETE
-                        </a>
-                      </div>
-                    </div>
-                    <div className="pop-bottom">
-                      <div className="text-section">
-                        <h4 className="pop-hd-md">Transaction Completed</h4>
-                        <p className="lite-color">
-                          Transaction completed succesfully. Your Ethereum wallet
-                          Balance will be updated in few minute. In case of
-                          problems contact our{" "}
-                          <a
-                            title="Support"
-                            href="javascript:void(0);"
-                            className="orange-txt"
-                          >
-                            Support.
-                          </a>
-                        </p>
-                      </div>
-                      <div>
-                        <a
-                          className="btn primary-btn w-100"
-                          onClick={() => setWithdrawModal(false)}
-                        >
-                          View on Shibascan
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-              {/* withdraw complete popup start */}
-            </>
-            {/* Withdraw tab popups end */}
-          </CommonModal>
-          {/* Withdraw tab popups end */}
-
-          {/* Token popups start */}
-          <CommonModal
-            title={"Select token"}
-            show={showTokenModal}
-            setshow={setTokenModal}
-            externalCls="tkn-ht"
-          >
-            {/* Token popups start */}
-            <>
-              {/* Select token popop starts */}
-              {showTokenModal && tokenState.step0 && (
-                <div className="popmodal-body tokn-popup no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="sec-search ng-16">
-                        <div className="position-relative search-row">
-                          <input
-                            type="text"
-                            className="w-100"
-                            placeholder="Search token or token address"
-                            onChange={(e) => {
-                              handleSearchList(e.target.value);
-                            }}
+            {dWState && depModalState.step0 && (
+              <div className="popmodal-body no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="cnfrm_box dark-bg mt-0">
+                      <div className="top_overview col-12">
+                        <div className="img-flexible">
+                          <img
+                            className="img-fluid d-inline-block"
+                            src="../../assets/images/etharium.png"
+                            alt=""
                           />
-                          <div className="search-icon">
-                            <img
-                              width="20"
-                              height="21"
-                              className="img-fluid"
-                              src="../../assets/images/search.png"
-                              alt=""
-                            />
-                          </div>
                         </div>
+                        <h6>
+                          {depositTokenInput + " " + selectedToken.parentName}
+                        </h6>
+                        <p>
+                          <NumberFormat
+                            thousandSeparator
+                            displayType={"text"}
+                            prefix="$ "
+                            value={(
+                              (+depositTokenInput || 0) * boneUSDValue
+                            ).toFixed(tokenDecimal)}
+                          />
+                        </p>
                       </div>
-                      <div className="token-sec">
-                        <div className="info-grid">
-                          <div>
-                            <p>Token List</p>
-                          </div>
-                          <div className="token-btn-sec">
-                            <button
-                              type="button"
-                              className="btn primary-btn w-100"
-                              onClick={() => {
-                                setTokenState({
-                                  step0: false,
-                                  step1: true,
-                                  step2: false,
-                                  step3: false,
-                                  step4: false,
-                                  title: "Manage Token",
-                                });
-                              }}
-                            >
-                              Manage Tokens
-                            </button>
-                          </div>
+                    </div>
+                    <div className="pop-grid">
+                      <div className="text-center box-block">
+                        <div className="d-inline-block img-flexible">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/etharium.png"
+                            alt=""
+                          />
                         </div>
+                        <p>Ethereum Mainnet</p>
                       </div>
-                      <div className="token-listwrap">
-                        {tokenModalList.length
-                          ? tokenModalList.map((x: any) => (
-                            <div
-                              className="tokn-row"
-                              key={x?.parentName}
-                              onClick={() => handleTokenSelect(x)}
-                            >
-                              <div className="cryoto-box">
-                                <img
-                                  className="img-fluid"
-                                  src={
-                                    x?.logo
-                                      ? x.logo
-                                      : "../../assets/images/shib-borderd-icon.png"
-                                  }
-                                  alt=""
+                      <div className="text-center box-block">
+                        <div className="d-inline-block arow-block right-arrow">
+                          <div className="scrolldown-container">
+                            <div className="scrolldown-btn">
+                              <svg
+                                version="1.1"
+                                id="Слой_1"
+                                xmlns="http://www.w3.org/2000/svg"
+                                xmlnsXlink="http://www.w3.org/1999/xlink"
+                                x="0px"
+                                y="0px"
+                                width="50px"
+                                height="80px"
+                                viewBox="0 0 50 80"
+                                enableBackground="new 0 0 50 80"
+                                xmlSpace="preserve"
+                              >
+                                <path
+                                  className="first-path"
+                                  fill="#FFFFFF"
+                                  d="M24.752,79.182c-0.397,0-0.752-0.154-1.06-0.463L2.207,57.234c-0.306-0.305-0.458-0.656-0.458-1.057                  s0.152-0.752,0.458-1.059l2.305-2.305c0.309-0.309,0.663-0.461,1.06-0.461c0.398,0,0.752,0.152,1.061,0.461l18.119,18.119                  l18.122-18.119c0.306-0.309,0.657-0.461,1.057-0.461c0.402,0,0.753,0.152,1.059,0.461l2.306,2.305                  c0.308,0.307,0.461,0.658,0.461,1.059s-0.153,0.752-0.461,1.057L25.813,78.719C25.504,79.027,25.15,79.182,24.752,79.182z"
                                 />
-                              </div>
-                              <div className="tkn-grid">
-                                <div>
-                                  <h6 className="fw-bold">{x?.parentSymbol}</h6>
-                                  <p>{x?.parentName}</p>
-                                </div>
-                                <div>
-                                  <h6 className="fw-bold">
-                                    {x?.balance ? x.balance : "00.00"}
-                                  </h6>
-                                </div>
-                              </div>
+                                <path
+                                  className="second-path"
+                                  fill="#FFFFFF"
+                                  d="M24.752,58.25c-0.397,0-0.752-0.154-1.06-0.463L2.207,36.303c-0.306-0.304-0.458-0.655-0.458-1.057                  c0-0.4,0.152-0.752,0.458-1.058l2.305-2.305c0.309-0.308,0.663-0.461,1.06-0.461c0.398,0,0.752,0.153,1.061,0.461l18.119,18.12                  l18.122-18.12c0.306-0.308,0.657-0.461,1.057-0.461c0.402,0,0.753,0.153,1.059,0.461l2.306,2.305                  c0.308,0.306,0.461,0.657,0.461,1.058c0,0.401-0.153,0.753-0.461,1.057L25.813,57.787C25.504,58.096,25.15,58.25,24.752,58.25z"
+                                />
+                              </svg>
                             </div>
-                          ))
-                          : null}
-                        {!tokenModalList.length && modalKeyword ? (
-                          <p className="py-3 py-md-4 py-lg-5 text-center">
-                            no record found
-                          </p>
-                        ) : null}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-              {/* Select token popop ends */}
-
-              {/* Manage token popop starts */}
-
-              {showTokenModal && tokenState.step1 && (
-                <div className="popmodal-body tokn-popup no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="black-bg-sec">
-                        <div className="token-btn-sec pop-btns-grid">
-                          <div className="blk-width">
-                            <button
-                              type="button"
-                              className="btn btn-active w-100"
-                            >
-                              Token Lists
-                            </button>
-                          </div>
-                          <div className="blk-width">
-                            <button
-                              type="button"
-                              className="btn w-100"
-                              onClick={() => {
-                                setTokenState({
-                                  step0: false,
-                                  step1: false,
-                                  step2: true,
-                                  step3: false,
-                                  step4: false,
-                                  title: "Manage Token",
-                                });
-                              }}
-                            >
-                              Add token
-                            </button>
                           </div>
                         </div>
                       </div>
-                      <div className="sec-search sec-search-secondry">
-                        <div className="position-relative search-row">
-                          <input
-                            type="text"
-                            className="w-100"
-                            placeholder="Add list by https://"
+                      <div className="text-center box-block">
+                        <div className="d-inline-block img-flexible">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/shib-borderd-icon.png"
+                            alt=""
                           />
-                          <div className="search-icon">
-                            <img
-                              width="20"
-                              height="21"
-                              className="img-fluid"
-                              src="../../assets/images/search.png"
-                              alt=""
-                            />
-                          </div>
                         </div>
+                        <p>Shibarium Mainnet</p>
                       </div>
-                      <div className="token-listwrap list-ht">
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">SHIB</h6>
-                              <p>Shibatoken</p>
-                            </div>
-                            <div>
-                              <h6 className="fw-bold">
-                                <label className="toggle">
-                                  <input type="checkbox" />
-                                  <span className="slider"></span>
-                                  <span
-                                    className="labels"
-                                    data-on="ON"
-                                    data-off="OFF"
-                                  ></span>
-                                </label>
-                              </h6>
-                            </div>
-                          </div>
+                    </div>
+                    <div className="amt-section position-relative">
+                      <div className="coin-blk">
+                        <div className="coin-sec">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/eth.png"
+                            alt=""
+                          />
                         </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/red-bone.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">BONE</h6>
-                              <p>Bone Token</p>
-                            </div>
-                            <div>
-                              <h6 className="fw-bold">
-                                <label className="toggle">
-                                  <input type="checkbox" />
-                                  <span className="slider"></span>
-                                  <span
-                                    className="labels"
-                                    data-on="ON"
-                                    data-off="OFF"
-                                  ></span>
-                                </label>
-                              </h6>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/etharium.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">ETH</h6>
-                              <p>Ethereum</p>
-                            </div>
-                            <div>
-                              <h6 className="fw-bold">
-                                <label className="toggle">
-                                  <input type="checkbox" />
-                                  <span className="slider"></span>
-                                  <span
-                                    className="labels"
-                                    data-on="ON"
-                                    data-off="OFF"
-                                  ></span>
-                                </label>
-                              </h6>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/etharium.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">ETH</h6>
-                              <p>Ethereum</p>
-                            </div>
-                            <div>
-                              <h6 className="fw-bold">
-                                <label className="toggle">
-                                  <input type="checkbox" />
-                                  <span className="slider"></span>
-                                  <span
-                                    className="labels"
-                                    data-on="ON"
-                                    data-off="OFF"
-                                  ></span>
-                                </label>
-                              </h6>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/etharium.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">ETH</h6>
-                              <p>Ethereum</p>
-                            </div>
-                            <div>
-                              <h6 className="fw-bold">
-                                <label className="toggle">
-                                  <input type="checkbox" />
-                                  <span className="slider"></span>
-                                  <span
-                                    className="labels"
-                                    data-on="ON"
-                                    data-off="OFF"
-                                  ></span>
-                                </label>
-                              </h6>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/etharium.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">ETH</h6>
-                              <p>Ethereum</p>
-                            </div>
-                            <div>
-                              <h6 className="fw-bold">
-                                <label className="toggle">
-                                  <input type="checkbox" />
-                                  <span className="slider"></span>
-                                  <span
-                                    className="labels"
-                                    data-on="ON"
-                                    data-off="OFF"
-                                  ></span>
-                                </label>
-                              </h6>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/etharium.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">ETH</h6>
-                              <p>Ethereum</p>
-                            </div>
-                            <div>
-                              <h6 className="fw-bold">
-                                <label className="toggle">
-                                  <input type="checkbox" />
-                                  <span className="slider"></span>
-                                  <span
-                                    className="labels"
-                                    data-on="ON"
-                                    data-off="OFF"
-                                  ></span>
-                                </label>
-                              </h6>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/etharium.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">ETH</h6>
-                              <p>Ethereum</p>
-                            </div>
-                            <div>
-                              <h6 className="fw-bold">
-                                <label className="toggle">
-                                  <input type="checkbox" />
-                                  <span className="slider"></span>
-                                  <span
-                                    className="labels"
-                                    data-on="ON"
-                                    data-off="OFF"
-                                  ></span>
-                                </label>
-                              </h6>
-                            </div>
-                          </div>
-                        </div>
+                        <p>Estimation of GAS fee required</p>
+                      </div>
+                      <div>
+                        <p className="fw-bold">$10.00</p>
                       </div>
                     </div>
                   </div>
+                  <div className="pop-bottom">
+                    <div>
+                      <a
+                        className="btn primary-btn w-100"
+                        onClick={() => callDepositContract()}
+                      >
+                        Continue
+                      </a>
+                    </div>
+                  </div>
                 </div>
-              )}
+              </div>
+            )}
 
-              {/* Manage token popop ends */}
+            {/* confirm deposit popop ends */}
 
-              {/* Add token popop starts */}
+            {/* Transaction pending popup start */}
 
-              {showTokenModal && tokenState.step2 && (
-                <div className="popmodal-body tokn-popup no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="black-bg-sec">
-                        <div className="token-btn-sec pop-btns-grid">
-                          <div className="blk-width">
-                            <button
-                              type="button"
-                              className="btn btn-active w-100"
-                              onClick={() => {
-                                setTokenState({
-                                  step0: false,
-                                  step1: true,
-                                  step2: false,
-                                  step3: false,
-                                  step4: false,
-                                  title: "Manage Token",
-                                });
-                              }}
-                            >
-                              Token Lists
-                            </button>
-                          </div>
-                          <div className="blk-width">
-                            <button
-                              type="button"
-                              className="btn w-100"
-                              onClick={() => {
-                                addTokenHandler();
-                              }}
-                            >
-                              Add token
-                            </button>
+            {dWState && depModalState.step1 && (
+              <div className="popmodal-body no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="cnfrm_box dark-bg mt-0">
+                      <div className="top_overview col-12">
+                        <span>
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/etharium.png"
+                            alt=""
+                          />
+                        </span>
+                        <h6>
+                          {depositTokenInput + " " + selectedToken.parentName}
+                        </h6>
+                        <p>
+                          <NumberFormat
+                            thousandSeparator
+                            displayType={"text"}
+                            prefix="$ "
+                            value={(
+                              (+depositTokenInput || 0) * boneUSDValue
+                            ).toFixed(tokenDecimal)}
+                          />
+                        </p>
+                      </div>
+                    </div>
+                    <div className="pop-grid">
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>Ethereum Mainnet</p>
+                      </div>
+                      <div className="text-center box-block">
+                        <div className="d-inline-block right-arrow">
+                          <div className="scrolldown-container">
+                            <div className="scrolldown-btn">
+                              <svg
+                                version="1.1"
+                                id="Слой_1"
+                                xmlns="http://www.w3.org/2000/svg"
+                                xmlnsXlink="http://www.w3.org/1999/xlink"
+                                x="0px"
+                                y="0px"
+                                width="50px"
+                                height="80px"
+                                viewBox="0 0 50 80"
+                                enableBackground="new 0 0 50 80"
+                                xmlSpace="preserve"
+                              >
+                                <path
+                                  className="first-path"
+                                  fill="#FFFFFF"
+                                  d="M24.752,79.182c-0.397,0-0.752-0.154-1.06-0.463L2.207,57.234c-0.306-0.305-0.458-0.656-0.458-1.057                  s0.152-0.752,0.458-1.059l2.305-2.305c0.309-0.309,0.663-0.461,1.06-0.461c0.398,0,0.752,0.152,1.061,0.461l18.119,18.119                  l18.122-18.119c0.306-0.309,0.657-0.461,1.057-0.461c0.402,0,0.753,0.152,1.059,0.461l2.306,2.305                  c0.308,0.307,0.461,0.658,0.461,1.059s-0.153,0.752-0.461,1.057L25.813,78.719C25.504,79.027,25.15,79.182,24.752,79.182z"
+                                />
+                                <path
+                                  className="second-path"
+                                  fill="#FFFFFF"
+                                  d="M24.752,58.25c-0.397,0-0.752-0.154-1.06-0.463L2.207,36.303c-0.306-0.304-0.458-0.655-0.458-1.057                  c0-0.4,0.152-0.752,0.458-1.058l2.305-2.305c0.309-0.308,0.663-0.461,1.06-0.461c0.398,0,0.752,0.153,1.061,0.461l18.119,18.12                  l18.122-18.12c0.306-0.308,0.657-0.461,1.057-0.461c0.402,0,0.753,0.153,1.059,0.461l2.306,2.305                  c0.308,0.306,0.461,0.657,0.461,1.058c0,0.401-0.153,0.753-0.461,1.057L25.813,57.787C25.504,58.096,25.15,58.25,24.752,58.25z"
+                                />
+                              </svg>
+                            </div>
                           </div>
                         </div>
                       </div>
-                      <div className="sec-search sec-search-secondry">
-                        <div
-                          className="position-relative search-row"
-                        // onClick={() => {
-                        //   if(newToken !== '')
-                        //   setTokenState({
-                        //     step0: false,
-                        //     step1: false,
-                        //     step2: false,
-                        //     step3: true,
-                        //     step4: false,
-                        //     title: "Manage Token",
-                        //   });
-                        // }}
-                        // onClick={() => {
-                        //   addTokenHandler();
-                        // }}
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/shib-borderd-icon.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>Shibarium Mainnet</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pop-bottom">
+                    <div className="text-section">
+                      <h4 className="pop-hd-md">Moving funds</h4>
+                      <p>
+                        It will take up to 10 - 15 minutes to move the funds on
+                        Shibarium Mainnet.
+                      </p>
+                    </div>
+                    <div>
+                      <a
+                        onClick={() => {
+                          setDepModState({
+                            step0: false,
+                            step1: false,
+                            step2: true,
+                            title: "Transaction Completed",
+                          });
+                        }}
+                        className="btn grey-btn w-100"
+                        href="javascript:void(0)"
+                      >
+                        <span className="spinner-border text-secondary pop-spiner"></span>
+                        <span>Continue</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Transaction pending popup end */}
+
+            {/* Transaction completed popup start */}
+
+            {dWState && depModalState.step2 && (
+              <div className="popmodal-body no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="cnfrm_box dark-bg mt-0">
+                      <div className="top_overview col-12">
+                        <span>
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/etharium.png"
+                            alt=""
+                          />
+                        </span>
+                        <h6>
+                          {depositTokenInput + " " + selectedToken.parentName}
+                        </h6>
+                        <p>
+                          <NumberFormat
+                            thousandSeparator
+                            displayType={"text"}
+                            prefix="$ "
+                            value={(
+                              (+depositTokenInput || 0) * boneUSDValue
+                            ).toFixed(tokenDecimal)}
+                          />
+                        </p>
+                      </div>
+                    </div>
+                    <div className="pop-action">
+                      <a
+                        className="btn primary-btn w-100 w-100"
+                        href="javascript:void(0)"
+                      >
+                        ETHEREUM MAINNET
+                      </a>
+                    </div>
+                  </div>
+                  <div className="pop-bottom">
+                    <div className="text-section complete-modal">
+                      <h4 className="pop-hd-md">Transaction Completed</h4>
+                      <p>Transaction completed succesfully.</p>
+                    </div>
+                    <div>
+                      <a
+                        className="btn primary-btn w-100"
+                        onClick={() => window.open(hashLink)}
+                      >
+                        View on Block Explorer
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Transaction completed popup end */}
+          </>
+        </CommonModal>
+
+        {/* Deposit popup end */}
+
+        {/* Withdraw popups start */}
+        <CommonModal
+          title={withModalState.title}
+          show={showWithdrawModal}
+          setshow={setWithdrawModal}
+          externalCls="dark-modal-100 bridge-ht2"
+        >
+          {/* Withdraw tab popups start */}
+          <>
+            {/* Initialize withdraw popup start */}
+            {withModalState.step0 && !dWState && (
+              <div className="popmodal-body no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="cnfrm_box dark-bg mt-0">
+                      <div className="top_overview col-12">
+                        <span>
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/red-bone.png"
+                            alt=""
+                          />
+                        </span>
+                        <h6>100 BONE</h6>
+                        <p>500.00$</p>
+                      </div>
+                    </div>
+                    <div className="pop-grid">
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/shib-borderd-icon.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>Shibarium Mainnet</p>
+                      </div>
+                      <div className="text-center box-block">
+                        <div className="d-inline-block right-arrow">
+                          <div className="scrolldown-container">
+                            <div className="scrolldown-btn">
+                              <svg
+                                version="1.1"
+                                id="Слой_1"
+                                xmlns="http://www.w3.org/2000/svg"
+                                xmlnsXlink="http://www.w3.org/1999/xlink"
+                                x="0px"
+                                y="0px"
+                                width="50px"
+                                height="80px"
+                                viewBox="0 0 50 80"
+                                enableBackground="new 0 0 50 80"
+                                xmlSpace="preserve"
+                              >
+                                <path
+                                  className="first-path"
+                                  fill="#FFFFFF"
+                                  d="M24.752,79.182c-0.397,0-0.752-0.154-1.06-0.463L2.207,57.234c-0.306-0.305-0.458-0.656-0.458-1.057                  s0.152-0.752,0.458-1.059l2.305-2.305c0.309-0.309,0.663-0.461,1.06-0.461c0.398,0,0.752,0.152,1.061,0.461l18.119,18.119                  l18.122-18.119c0.306-0.309,0.657-0.461,1.057-0.461c0.402,0,0.753,0.152,1.059,0.461l2.306,2.305                  c0.308,0.307,0.461,0.658,0.461,1.059s-0.153,0.752-0.461,1.057L25.813,78.719C25.504,79.027,25.15,79.182,24.752,79.182z"
+                                />
+                                <path
+                                  className="second-path"
+                                  fill="#FFFFFF"
+                                  d="M24.752,58.25c-0.397,0-0.752-0.154-1.06-0.463L2.207,36.303c-0.306-0.304-0.458-0.655-0.458-1.057                  c0-0.4,0.152-0.752,0.458-1.058l2.305-2.305c0.309-0.308,0.663-0.461,1.06-0.461c0.398,0,0.752,0.153,1.061,0.461l18.119,18.12                  l18.122-18.12c0.306-0.308,0.657-0.461,1.057-0.461c0.402,0,0.753,0.153,1.059,0.461l2.306,2.305                  c0.308,0.306,0.461,0.657,0.461,1.058c0,0.401-0.153,0.753-0.461,1.057L25.813,57.787C25.504,58.096,25.15,58.25,24.752,58.25z"
+                                />
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>Ethereum Mainnet</p>
+                      </div>
+                    </div>
+                    <div className="amt-section position-relative">
+                      <div className="coin-blk">
+                        <div className="coin-sec">
+                          <img
+                            width="24"
+                            height="24"
+                            className="img-fluid"
+                            src="../../assets/images/red-bone.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>Estimation of GAS fee required</p>
+                      </div>
+                      <div>
+                        <p className="fw-bold">$10.00</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pop-bottom">
+                    <div className="text-section">
+                      <h4 className="pop-hd-md">Initialize Whitdraw</h4>
+                      <p>
+                        It will take up to 60 mins to 3 hours to reach the
+                        checkpoint.{" "}
+                      </p>
+                    </div>
+                    <div>
+                      <a
+                        className="btn primary-btn w-100"
+                        onClick={() =>
+                          setWidModState({
+                            step0: false,
+                            step1: true,
+                            step2: false,
+                            step3: false,
+                            step4: false,
+                            title: "Reaching Checkpoint",
+                          })
+                        }
+                      >
+                        Continue
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Initialize withdraw popup end */}
+
+            {/* Reaching checkpoint popup start */}
+            {withModalState.step1 && !dWState && (
+              <div className="popmodal-body no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="cnfrm_box dark-bg">
+                      <div className="top_overview col-12">
+                        <span>
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/red-bone.png"
+                            alt=""
+                          />
+                        </span>
+                        <h6>100 BONE</h6>
+                        <p>500.00$</p>
+                      </div>
+                    </div>
+                    <div className="pop-grid">
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/shib-borderd-icon.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>Shibarium Mainnet</p>
+                      </div>
+                      <div className="text-center box-block">
+                        <div className="d-inline-block right-arrow">
+                          <div className="scrolldown-container">
+                            <div className="scrolldown-btn">
+                              <svg
+                                version="1.1"
+                                id="Слой_1"
+                                xmlns="http://www.w3.org/2000/svg"
+                                xmlnsXlink="http://www.w3.org/1999/xlink"
+                                x="0px"
+                                y="0px"
+                                width="50px"
+                                height="80px"
+                                viewBox="0 0 50 80"
+                                enableBackground="new 0 0 50 80"
+                                xmlSpace="preserve"
+                              >
+                                <path
+                                  className="first-path"
+                                  fill="#FFFFFF"
+                                  d="M24.752,79.182c-0.397,0-0.752-0.154-1.06-0.463L2.207,57.234c-0.306-0.305-0.458-0.656-0.458-1.057                  s0.152-0.752,0.458-1.059l2.305-2.305c0.309-0.309,0.663-0.461,1.06-0.461c0.398,0,0.752,0.152,1.061,0.461l18.119,18.119                  l18.122-18.119c0.306-0.309,0.657-0.461,1.057-0.461c0.402,0,0.753,0.152,1.059,0.461l2.306,2.305                  c0.308,0.307,0.461,0.658,0.461,1.059s-0.153,0.752-0.461,1.057L25.813,78.719C25.504,79.027,25.15,79.182,24.752,79.182z"
+                                />
+                                <path
+                                  className="second-path"
+                                  fill="#FFFFFF"
+                                  d="M24.752,58.25c-0.397,0-0.752-0.154-1.06-0.463L2.207,36.303c-0.306-0.304-0.458-0.655-0.458-1.057                  c0-0.4,0.152-0.752,0.458-1.058l2.305-2.305c0.309-0.308,0.663-0.461,1.06-0.461c0.398,0,0.752,0.153,1.061,0.461l18.119,18.12                  l18.122-18.12c0.306-0.308,0.657-0.461,1.057-0.461c0.402,0,0.753,0.153,1.059,0.461l2.306,2.305                  c0.308,0.306,0.461,0.657,0.461,1.058c0,0.401-0.153,0.753-0.461,1.057L25.813,57.787C25.504,58.096,25.15,58.25,24.752,58.25z"
+                                />
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>Ethereum Mainnet</p>
+                      </div>
+                    </div>
+                    <div className="amt-section position-relative">
+                      <div className="coin-blk">
+                        <div className="coin-sec">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/eth.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>Estimation of GAS fee required</p>
+                      </div>
+                      <div>
+                        <p className="fw-bold">$20.00</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pop-bottom">
+                    <div className="text-section">
+                      <h4 className="pop-hd-md">Moving funds to Ethereum</h4>
+                      <p>
+                        It will take up to 60 mins to 3 hours to reach the
+                        checkpoint.
+                      </p>
+                    </div>
+                    <div>
+                      <a
+                        onClick={() =>
+                          setWidModState({
+                            step0: false,
+                            step1: false,
+                            step2: true,
+                            step3: false,
+                            step4: false,
+                            title: "Checkpoint reached",
+                          })
+                        }
+                        className="btn grey-btn w-100"
+                        href="javascript:void(0)"
+                      >
+                        <span className="spinner-border text-secondary pop-spiner"></span>
+                        <span>Moving funds</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* Reaching checkpoint  popup end */}
+
+            {/* checkpoint Reached popup start */}
+            {withModalState.step2 && !dWState && (
+              <div className="popmodal-body no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="cnfrm_box dark-bg">
+                      <div className="top_overview col-12">
+                        <span>
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/red-bone.png"
+                            alt=""
+                          />
+                        </span>
+                        <h6>100 SHIB</h6>
+                        <p>500.00$</p>
+                      </div>
+                    </div>
+                    <div className="pop-action">
+                      <a
+                        className="btn primary-btn w-100 w-100"
+                        href="javascript:void(0)"
+                      >
+                        ETHEREUM MAINNET
+                      </a>
+                    </div>
+                  </div>
+                  <div className="pop-bottom">
+                    <div className="text-section">
+                      <h4 className="pop-hd-md">Complete Withdraw</h4>
+                      <p>
+                        You need to confirm one more transaction to get your
+                        funds in your Ethereum Account.
+                      </p>
+                    </div>
+                    <div>
+                      <a
+                        className="btn primary-btn w-100"
+                        onClick={() =>
+                          setWidModState({
+                            step0: false,
+                            step1: false,
+                            step2: false,
+                            step3: true,
+                            step4: false,
+                            title: "Complete Withdraw",
+                          })
+                        }
+                      >
+                        Confirm
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* checkpoint Reached popup end */}
+
+            {/* Complete withdraw popup start */}
+            {withModalState.step3 && !dWState && (
+              <div className="popmodal-body no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="cnfrm_box dark-bg">
+                      <div className="top_overview col-12">
+                        <span>
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/red-bone.png"
+                            alt=""
+                          />
+                        </span>
+                        <h6>100 ETH</h6>
+                        <p>500.00$</p>
+                      </div>
+                    </div>
+                    <div className="pop-grid">
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>Ethereum Mainnet</p>
+                      </div>
+                      <div className="text-center box-block">
+                        <div className="d-inline-block right-arrow">
+                          <div className="scrolldown-container">
+                            <div className="scrolldown-btn">
+                              <svg
+                                version="1.1"
+                                id="Слой_1"
+                                xmlns="http://www.w3.org/2000/svg"
+                                xmlnsXlink="http://www.w3.org/1999/xlink"
+                                x="0px"
+                                y="0px"
+                                width="50px"
+                                height="80px"
+                                viewBox="0 0 50 80"
+                                enableBackground="new 0 0 50 80"
+                                xmlSpace="preserve"
+                              >
+                                <path
+                                  className="first-path"
+                                  fill="#FFFFFF"
+                                  d="M24.752,79.182c-0.397,0-0.752-0.154-1.06-0.463L2.207,57.234c-0.306-0.305-0.458-0.656-0.458-1.057                  s0.152-0.752,0.458-1.059l2.305-2.305c0.309-0.309,0.663-0.461,1.06-0.461c0.398,0,0.752,0.152,1.061,0.461l18.119,18.119                  l18.122-18.119c0.306-0.309,0.657-0.461,1.057-0.461c0.402,0,0.753,0.152,1.059,0.461l2.306,2.305                  c0.308,0.307,0.461,0.658,0.461,1.059s-0.153,0.752-0.461,1.057L25.813,78.719C25.504,79.027,25.15,79.182,24.752,79.182z"
+                                />
+                                <path
+                                  className="second-path"
+                                  fill="#FFFFFF"
+                                  d="M24.752,58.25c-0.397,0-0.752-0.154-1.06-0.463L2.207,36.303c-0.306-0.304-0.458-0.655-0.458-1.057                  c0-0.4,0.152-0.752,0.458-1.058l2.305-2.305c0.309-0.308,0.663-0.461,1.06-0.461c0.398,0,0.752,0.153,1.061,0.461l18.119,18.12                  l18.122-18.12c0.306-0.308,0.657-0.461,1.057-0.461c0.402,0,0.753,0.153,1.059,0.461l2.306,2.305                  c0.308,0.306,0.461,0.657,0.461,1.058c0,0.401-0.153,0.753-0.461,1.057L25.813,57.787C25.504,58.096,25.15,58.25,24.752,58.25z"
+                                />
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-center box-block">
+                        <div className="d-inline-block">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>Wallet X25654a5</p>
+                      </div>
+                    </div>
+                    <div className="amt-section position-relative">
+                      <div className="coin-blk">
+                        <div className="coin-sec">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/eth.png"
+                            alt=""
+                          />
+                        </div>
+                        <p>Estimation of GAS fee required</p>
+                      </div>
+                      <div>
+                        <p className="fw-bold">$20.00</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pop-bottom">
+                    <div className="text-section">
+                      <h4 className="pop-hd-md">Withdrawing funds</h4>
+                      <p>Moving funds to your Ethereum Account.</p>
+                    </div>
+                    <div>
+                      <a
+                        onClick={() =>
+                          setWidModState({
+                            step0: false,
+                            step1: false,
+                            step2: false,
+                            step3: false,
+                            step4: true,
+                            title: "Withdraw Complete",
+                          })
+                        }
+                        className="btn grey-btn w-100"
+                        href="javascript:void(0)"
+                      >
+                        <span className="spinner-border text-secondary pop-spiner"></span>
+                        <span>Moving funds</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* Complete withdraw popup end */}
+
+            {/* withdraw complete popup start */}
+            {withModalState.step4 && !dWState && (
+              <div className="popmodal-body no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="cnfrm_box dark-bg">
+                      <div className="top_overview col-12">
+                        <span>
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/red-bone.png"
+                            alt=""
+                          />
+                        </span>
+                        <h6>100 SHIB</h6>
+                        <p>500.00$</p>
+                      </div>
+                    </div>
+                    <div className="pop-action">
+                      <a
+                        className="btn primary-btn w-100 w-100"
+                        href="javascript:void(0)"
+                      >
+                        TRANSFER COMPLETE
+                      </a>
+                    </div>
+                  </div>
+                  <div className="pop-bottom">
+                    <div className="text-section">
+                      <h4 className="pop-hd-md">Transaction Completed</h4>
+                      <p className="lite-color">
+                        Transaction completed succesfully. Your Ethereum wallet
+                        Balance will be updated in few minute. In case of
+                        problems contact our{" "}
+                        <a
+                          title="Support"
+                          href="javascript:void(0);"
+                          className="orange-txt"
                         >
-                          <input
-                            type="text"
-                            className="w-100"
-                            placeholder="Enter Token Address"
-                            autoFocus={newToken.length > 0}
-                            value={newToken}
-                            onChange={(e: any) => {
-                              addNewToken(e.target.value);
-                              // addTokenHandler();
-                            }}
+                          Support.
+                        </a>
+                      </p>
+                    </div>
+                    <div>
+                      <a
+                        className="btn primary-btn w-100"
+                        onClick={() => setWithdrawModal(false)}
+                      >
+                        View on Shibascan
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* withdraw complete popup start */}
+          </>
+          {/* Withdraw tab popups end */}
+        </CommonModal>
+        {/* Withdraw tab popups end */}
+
+        {/* Token popups start */}
+        <CommonModal
+          title={"Select token"}
+          show={showTokenModal}
+          setshow={setTokenModal}
+          externalCls="tkn-ht"
+        >
+          {/* Token popups start */}
+          <>
+            {/* Select token popop starts */}
+            {showTokenModal && tokenState.step0 && (
+              <div className="popmodal-body tokn-popup no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="sec-search ng-16">
+                      <div className="position-relative search-row">
+                        <input
+                          type="text"
+                          className="w-100"
+                          placeholder="Search token or token address"
+                          onChange={(e) => {
+                            handleSearchList(e.target.value);
+                          }}
+                        />
+                        <div className="search-icon">
+                          <img
+                            width="20"
+                            height="21"
+                            className="img-fluid"
+                            src="../../assets/images/search.png"
+                            alt=""
                           />
-                          <div className="search-icon">
-                            <img
-                              width="20"
-                              height="21"
-                              className="img-fluid"
-                              src="../../assets/images/search.png"
-                              alt=""
-                            />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="token-sec">
+                      <div className="info-grid">
+                        <div>
+                          <p>Token List</p>
+                        </div>
+                        <div className="token-btn-sec">
+                          <button
+                            type="button"
+                            className="btn primary-btn w-100"
+                            onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: true,
+                                step2: false,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}
+                          >
+                            Manage Tokens
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="token-listwrap">
+                      {tokenModalList.length
+                        ? tokenModalList.map((x: any) => (
+                          <div
+                            className="tokn-row"
+                            key={x?.parentName}
+                            onClick={() => handleTokenSelect(x)}
+                          >
+                            <div className="cryoto-box">
+                              <img
+                                className="img-fluid"
+                                src={
+                                  x?.logo
+                                    ? x.logo
+                                    : "../../assets/images/shib-borderd-icon.png"
+                                }
+                                alt=""
+                              />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">{x?.parentSymbol}</h6>
+                                <p>{x?.parentName}</p>
+                              </div>
+                              <div>
+                                <h6 className="fw-bold">
+                                  {x?.balance ? x.balance : "00.00"}
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                        : null}
+                      {!tokenModalList.length && modalKeyword ? (
+                        <p className="py-3 py-md-4 py-lg-5 text-center">
+                          no record found
+                        </p>
+                      ) : null}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* Select token popop ends */}
+
+            {/* Manage token popop starts */}
+
+            {showTokenModal && tokenState.step1 && (
+              <div className="popmodal-body tokn-popup no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="black-bg-sec">
+                      <div className="token-btn-sec pop-btns-grid">
+                        <div className="blk-width">
+                          <button
+                            type="button"
+                            className="btn btn-active w-100"
+                          >
+                            Token Lists
+                          </button>
+                        </div>
+                        <div className="blk-width">
+                          <button
+                            type="button"
+                            className="btn w-100"
+                            onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: false,
+                                step2: true,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}
+                          >
+                            Add token
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="sec-search sec-search-secondry">
+                      <div className="position-relative search-row">
+                        <input
+                          type="text"
+                          className="w-100"
+                          placeholder="Add list by https://"
+                        />
+                        <div className="search-icon">
+                          <img
+                            width="20"
+                            height="21"
+                            className="img-fluid"
+                            src="../../assets/images/search.png"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="token-listwrap list-ht">
+                      <div className="tokn-row">
+                        <div className="cryoto-box">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/shib-borderd-icon.png"
+                            alt=""
+                          />
+                        </div>
+                        <div className="tkn-grid">
+                          <div>
+                            <h6 className="fw-bold">SHIB</h6>
+                            <p>Shibatoken</p>
+                          </div>
+                          <div>
+                            <h6 className="fw-bold">
+                              <label className="toggle">
+                                <input type="checkbox" />
+                                <span className="slider"></span>
+                                <span
+                                  className="labels"
+                                  data-on="ON"
+                                  data-off="OFF"
+                                ></span>
+                              </label>
+                            </h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="tokn-row">
+                        <div className="cryoto-box">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/red-bone.png"
+                            alt=""
+                          />
+                        </div>
+                        <div className="tkn-grid">
+                          <div>
+                            <h6 className="fw-bold">BONE</h6>
+                            <p>Bone Token</p>
+                          </div>
+                          <div>
+                            <h6 className="fw-bold">
+                              <label className="toggle">
+                                <input type="checkbox" />
+                                <span className="slider"></span>
+                                <span
+                                  className="labels"
+                                  data-on="ON"
+                                  data-off="OFF"
+                                ></span>
+                              </label>
+                            </h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="tokn-row">
+                        <div className="cryoto-box">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <div className="tkn-grid">
+                          <div>
+                            <h6 className="fw-bold">ETH</h6>
+                            <p>Ethereum</p>
+                          </div>
+                          <div>
+                            <h6 className="fw-bold">
+                              <label className="toggle">
+                                <input type="checkbox" />
+                                <span className="slider"></span>
+                                <span
+                                  className="labels"
+                                  data-on="ON"
+                                  data-off="OFF"
+                                ></span>
+                              </label>
+                            </h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="tokn-row">
+                        <div className="cryoto-box">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <div className="tkn-grid">
+                          <div>
+                            <h6 className="fw-bold">ETH</h6>
+                            <p>Ethereum</p>
+                          </div>
+                          <div>
+                            <h6 className="fw-bold">
+                              <label className="toggle">
+                                <input type="checkbox" />
+                                <span className="slider"></span>
+                                <span
+                                  className="labels"
+                                  data-on="ON"
+                                  data-off="OFF"
+                                ></span>
+                              </label>
+                            </h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="tokn-row">
+                        <div className="cryoto-box">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <div className="tkn-grid">
+                          <div>
+                            <h6 className="fw-bold">ETH</h6>
+                            <p>Ethereum</p>
+                          </div>
+                          <div>
+                            <h6 className="fw-bold">
+                              <label className="toggle">
+                                <input type="checkbox" />
+                                <span className="slider"></span>
+                                <span
+                                  className="labels"
+                                  data-on="ON"
+                                  data-off="OFF"
+                                ></span>
+                              </label>
+                            </h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="tokn-row">
+                        <div className="cryoto-box">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <div className="tkn-grid">
+                          <div>
+                            <h6 className="fw-bold">ETH</h6>
+                            <p>Ethereum</p>
+                          </div>
+                          <div>
+                            <h6 className="fw-bold">
+                              <label className="toggle">
+                                <input type="checkbox" />
+                                <span className="slider"></span>
+                                <span
+                                  className="labels"
+                                  data-on="ON"
+                                  data-off="OFF"
+                                ></span>
+                              </label>
+                            </h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="tokn-row">
+                        <div className="cryoto-box">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <div className="tkn-grid">
+                          <div>
+                            <h6 className="fw-bold">ETH</h6>
+                            <p>Ethereum</p>
+                          </div>
+                          <div>
+                            <h6 className="fw-bold">
+                              <label className="toggle">
+                                <input type="checkbox" />
+                                <span className="slider"></span>
+                                <span
+                                  className="labels"
+                                  data-on="ON"
+                                  data-off="OFF"
+                                ></span>
+                              </label>
+                            </h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="tokn-row">
+                        <div className="cryoto-box">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/etharium.png"
+                            alt=""
+                          />
+                        </div>
+                        <div className="tkn-grid">
+                          <div>
+                            <h6 className="fw-bold">ETH</h6>
+                            <p>Ethereum</p>
+                          </div>
+                          <div>
+                            <h6 className="fw-bold">
+                              <label className="toggle">
+                                <input type="checkbox" />
+                                <span className="slider"></span>
+                                <span
+                                  className="labels"
+                                  data-on="ON"
+                                  data-off="OFF"
+                                ></span>
+                              </label>
+                            </h6>
                           </div>
                         </div>
                       </div>
                     </div>
-                    {/* <div className="pop-mid">
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Manage token popop ends */}
+
+            {/* Add token popop starts */}
+
+            {showTokenModal && tokenState.step2 && (
+              <div className="popmodal-body tokn-popup no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="black-bg-sec">
+                      <div className="token-btn-sec pop-btns-grid">
+                        <div className="blk-width">
+                          <button
+                            type="button"
+                            className="btn btn-active w-100"
+                            onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: true,
+                                step2: false,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
+                            }}
+                          >
+                            Token Lists
+                          </button>
+                        </div>
+                        <div className="blk-width">
+                          <button
+                            type="button"
+                            className="btn w-100"
+                            onClick={() => {
+                              addTokenHandler();
+                            }}
+                          >
+                            Add token
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="sec-search sec-search-secondry">
+                      <div
+                        className="position-relative search-row"
+                      // onClick={() => {
+                      //   if(newToken !== '')
+                      //   setTokenState({
+                      //     step0: false,
+                      //     step1: false,
+                      //     step2: false,
+                      //     step3: true,
+                      //     step4: false,
+                      //     title: "Manage Token",
+                      //   });
+                      // }}
+                      // onClick={() => {
+                      //   addTokenHandler();
+                      // }}
+                      >
+                        <input
+                          type="text"
+                          className="w-100"
+                          placeholder="Enter Token Address"
+                          autoFocus={newToken.length > 0}
+                          value={newToken}
+                          onChange={(e: any) => {
+                            addNewToken(e.target.value);
+                            // addTokenHandler();
+                          }}
+                        />
+                        <div className="search-icon">
+                          <img
+                            width="20"
+                            height="21"
+                            className="img-fluid"
+                            src="../../assets/images/search.png"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* <div className="pop-mid">
                     <div className="center-content">
                       <p>Custom token not found Add your first custom token</p>
                     </div>
                   </div> */}
 
-                    <div className="pop-bottom pt-0">
-                      <div className="">
-                        <div className="grid-block">
-                          <div className="blk-width">
-                            <div>{localTokens.length} Token Found</div>
-                            <p className="lite-color">
-                              Token stored in your browser
-                            </p>
-                          </div>
-                          <div className="blk-width btn-sm">
-                            <button
-                              type="button"
-                              className="btn primary-btn w-100"
-                              onClick={clearAllCustomTokens}
-                            >
-                              Clear All
-                            </button>
-                          </div>
+                  <div className="pop-bottom pt-0">
+                    <div className="">
+                      <div className="grid-block">
+                        <div className="blk-width">
+                          <div>{localTokens.length} Token Found</div>
+                          <p className="lite-color">
+                            Token stored in your browser
+                          </p>
                         </div>
-                        <div className="token-listwrap usr-listht">
-                          {localTokens.map((x: any, index: any) => (
-                            <div className="tokn-row" key={x.parentContract}>
-                              <div className="cryoto-box">
-                                <img
-                                  className="img-fluid"
-                                  src={
-                                    x.logo
-                                      ? x.logo
-                                      : "../../../assets/images/shib-borderd-icon.png"
-                                  }
-                                  alt=""
-                                />
+                        <div className="blk-width btn-sm">
+                          <button
+                            type="button"
+                            className="btn primary-btn w-100"
+                            onClick={clearAllCustomTokens}
+                          >
+                            Clear All
+                          </button>
+                        </div>
+                      </div>
+                      <div className="token-listwrap usr-listht">
+                        {localTokens.map((x: any, index: any) => (
+                          <div className="tokn-row" key={x.parentContract}>
+                            <div className="cryoto-box">
+                              <img
+                                className="img-fluid"
+                                src={
+                                  x.logo
+                                    ? x.logo
+                                    : "../../../assets/images/shib-borderd-icon.png"
+                                }
+                                alt=""
+                              />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">{x.parentSymbol}</h6>
+                                <p>{x.parentName}</p>
                               </div>
-                              <div className="tkn-grid">
-                                <div>
-                                  <h6 className="fw-bold">{x.parentSymbol}</h6>
-                                  <p>{x.parentName}</p>
-                                </div>
-                                <div>
-                                  <span
-                                    className="me-4"
-                                    onClick={() => spliceCustomToken(index)}
-                                  >
-                                    <img
-                                      className="img-fluid"
-                                      src="../../../assets/images/del.png"
-                                      alt=""
-                                    />
-                                  </span>
-                                  <span>
-                                    <img
-                                      className="img-fluid"
-                                      src="../../../assets/images/up.png"
-                                      alt=""
-                                    />
-                                  </span>
-                                </div>
+                              <div>
+                                <span
+                                  className="me-4"
+                                  onClick={() => spliceCustomToken(index)}
+                                >
+                                  <img
+                                    className="img-fluid"
+                                    src="../../../assets/images/del.png"
+                                    alt=""
+                                  />
+                                </span>
+                                <span>
+                                  <img
+                                    className="img-fluid"
+                                    src="../../../assets/images/up.png"
+                                    alt=""
+                                  />
+                                </span>
                               </div>
                             </div>
-                          ))}
-                        </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
                 </div>
-              )}
-              {/* Add token popop ends */}
+              </div>
+            )}
+            {/* Add token popop ends */}
 
-              {/* search popop starts */}
+            {/* search popop starts */}
 
-              {showTokenModal && tokenState.step3 && (
-                <div className="popmodal-body tokn-popup no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="black-bg-sec">
-                        <div className="token-btn-sec pop-btns-grid">
-                          <div className="blk-width">
-                            <button
-                              type="button"
-                              className="btn btn-active w-100"
-                              onClick={() => {
-                                setTokenState({
-                                  step0: false,
-                                  step1: true,
-                                  step2: false,
-                                  step3: false,
-                                  step4: false,
-                                  title: "Manage Token",
-                                });
-                              }}
-                            >
-                              Token Lists
-                            </button>
-                          </div>
-                          <div className="blk-width">
-                            <button type="button" className="btn w-100">
-                              Add token
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="sec-search sec-search-secondry">
-                        <div className="position-relative search-row">
-                          <input
-                            type="text"
-                            className="w-100"
-                            placeholder="Enter Token Address"
-                            onChange={(e) => {
-                              addNewToken(e.target.value);
+            {showTokenModal && tokenState.step3 && (
+              <div className="popmodal-body tokn-popup no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="black-bg-sec">
+                      <div className="token-btn-sec pop-btns-grid">
+                        <div className="blk-width">
+                          <button
+                            type="button"
+                            className="btn btn-active w-100"
+                            onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: true,
+                                step2: false,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
                             }}
-                            autoFocus={newToken.length > 0}
-                            value={newToken ? newToken : ""}
-                          />
-                          <div className="search-icon">
-                            <img
-                              width="20"
-                              height="21"
-                              className="img-fluid"
-                              src="../../assets/images/search.png"
-                              alt=""
-                            />
-                          </div>
+                          >
+                            Token Lists
+                          </button>
+                        </div>
+                        <div className="blk-width">
+                          <button type="button" className="btn w-100">
+                            Add token
+                          </button>
                         </div>
                       </div>
                     </div>
-                    <div className="pop-bottom pt-0">
-                      <div className="">
-                        <div className="grid-block"></div>
-                        <div className="token-listwrap usr-listht">
-                          {JSON.stringify(tempTokens) !== "{}" ? (
-                            <div className="tokn-row">
-                              <div className="cryoto-box">
-                                <img
-                                  className="img-fluid"
-                                  src={
-                                    tempTokens?.logo
-                                      ? tempTokens?.logo
-                                      : "../../../assets/images/shib-borderd-icon.png"
-                                  }
-                                  alt=""
-                                />
+                    <div className="sec-search sec-search-secondry">
+                      <div className="position-relative search-row">
+                        <input
+                          type="text"
+                          className="w-100"
+                          placeholder="Enter Token Address"
+                          onChange={(e) => {
+                            addNewToken(e.target.value);
+                          }}
+                          autoFocus={newToken.length > 0}
+                          value={newToken ? newToken : ""}
+                        />
+                        <div className="search-icon">
+                          <img
+                            width="20"
+                            height="21"
+                            className="img-fluid"
+                            src="../../assets/images/search.png"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pop-bottom pt-0">
+                    <div className="">
+                      <div className="grid-block"></div>
+                      <div className="token-listwrap usr-listht">
+                        {JSON.stringify(tempTokens) !== "{}" ? (
+                          <div className="tokn-row">
+                            <div className="cryoto-box">
+                              <img
+                                className="img-fluid"
+                                src={
+                                  tempTokens?.logo
+                                    ? tempTokens?.logo
+                                    : "../../../assets/images/shib-borderd-icon.png"
+                                }
+                                alt=""
+                              />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">
+                                  {tempTokens.parentSymbol}
+                                </h6>
+                                <p>{tempTokens.parentName}</p>
                               </div>
-                              <div className="tkn-grid">
-                                <div>
-                                  <h6 className="fw-bold">
-                                    {tempTokens.parentSymbol}
-                                  </h6>
-                                  <p>{tempTokens.parentName}</p>
-                                </div>
-                                <div>
-                                  <span onClick={addTokenHandler}>
-                                    <img
-                                      className="img-fluid"
-                                      src="../../../assets/images/up.png"
-                                      alt=""
-                                    />
-                                  </span>
-                                </div>
+                              <div>
+                                <span onClick={addTokenHandler}>
+                                  <img
+                                    className="img-fluid"
+                                    src="../../../assets/images/up.png"
+                                    alt=""
+                                  />
+                                </span>
                               </div>
                             </div>
-                          ) : (
-                            ""
-                          )}
-                        </div>
+                          </div>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
-                    {/* <div className="h-100">
+                  </div>
+                  {/* <div className="h-100">
                     <div className="two-col position-relative">
                       <div className="left-sec-img">
                         <div>
@@ -2167,215 +2200,215 @@ export default function Withdraw() {
                     </div>
                   </div> */}
 
-                    <div className="pop-bottom pt-0">
-                      <div className="">
-                        <div className="grid-block">
-                          <div className="blk-width">
-                            <div>{localTokens.length} Token Found</div>
-                            <p className="lite-color">
-                              Token stored in your browser
-                            </p>
-                          </div>
-                          <div className="blk-width btn-sm">
-                            <button
-                              type="button"
-                              className="btn primary-btn w-100"
-                              onClick={clearAllCustomTokens}
-                            >
-                              Clear All
-                            </button>
-                          </div>
+                  <div className="pop-bottom pt-0">
+                    <div className="">
+                      <div className="grid-block">
+                        <div className="blk-width">
+                          <div>{localTokens.length} Token Found</div>
+                          <p className="lite-color">
+                            Token stored in your browser
+                          </p>
                         </div>
-                        <div className="token-listwrap usr-listht">
-                          {localTokens.map((x: any, index: any) => (
-                            <div className="tokn-row" key={x.parentContract}>
-                              <div className="cryoto-box">
-                                <img
-                                  className="img-fluid"
-                                  src={
-                                    x.logo
-                                      ? x.logo
-                                      : "../../../assets/images/shib-borderd-icon.png"
-                                  }
-                                  alt=""
-                                />
-                              </div>
-                              <div className="tkn-grid">
-                                <div>
-                                  <h6 className="fw-bold">{x.parentSymbol}</h6>
-                                  <p>{x.parentName}</p>
-                                </div>
-                                <div>
-                                  <span
-                                    className="me-4"
-                                    onClick={() => spliceCustomToken(index)}
-                                  >
-                                    <img
-                                      className="img-fluid"
-                                      src="../../../assets/images/del.png"
-                                      alt=""
-                                    />
-                                  </span>
-                                  <span>
-                                    <img
-                                      className="img-fluid"
-                                      src="../../../assets/images/up.png"
-                                      alt=""
-                                    />
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
+                        <div className="blk-width btn-sm">
+                          <button
+                            type="button"
+                            className="btn primary-btn w-100"
+                            onClick={clearAllCustomTokens}
+                          >
+                            Clear All
+                          </button>
                         </div>
                       </div>
-                    </div>
-                    <div className="pop-bottom">
-                      <div className="">
-                        <a
-                          className="btn primary-btn w-100"
-                          href="javascript:void(0)"
-                          onClick={() => {
-                            // setTokenState({
-                            //   step0: false,
-                            //   step1: false,
-                            //   step2: false,
-                            //   step3: false,
-                            //   step4: true,
-                            //   title: "Manage Token",
-                            // });
-                            addTokenHandler();
-                          }}
-                        >
-                          Add Token
-                        </a>
+                      <div className="token-listwrap usr-listht">
+                        {localTokens.map((x: any, index: any) => (
+                          <div className="tokn-row" key={x.parentContract}>
+                            <div className="cryoto-box">
+                              <img
+                                className="img-fluid"
+                                src={
+                                  x.logo
+                                    ? x.logo
+                                    : "../../../assets/images/shib-borderd-icon.png"
+                                }
+                                alt=""
+                              />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">{x.parentSymbol}</h6>
+                                <p>{x.parentName}</p>
+                              </div>
+                              <div>
+                                <span
+                                  className="me-4"
+                                  onClick={() => spliceCustomToken(index)}
+                                >
+                                  <img
+                                    className="img-fluid"
+                                    src="../../../assets/images/del.png"
+                                    alt=""
+                                  />
+                                </span>
+                                <span>
+                                  <img
+                                    className="img-fluid"
+                                    src="../../../assets/images/up.png"
+                                    alt=""
+                                  />
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
+                  <div className="pop-bottom">
+                    <div className="">
+                      <a
+                        className="btn primary-btn w-100"
+                        href="javascript:void(0)"
+                        onClick={() => {
+                          // setTokenState({
+                          //   step0: false,
+                          //   step1: false,
+                          //   step2: false,
+                          //   step3: false,
+                          //   step4: true,
+                          //   title: "Manage Token",
+                          // });
+                          addTokenHandler();
+                        }}
+                      >
+                        Add Token
+                      </a>
+                    </div>
+                  </div>
                 </div>
-              )}
-              {/* Search popop ends */}
+              </div>
+            )}
+            {/* Search popop ends */}
 
-              {/* new added token with delete action starts */}
-              {showTokenModal && tokenState.step4 && (
-                <div className="popmodal-body tokn-popup no-ht">
-                  <div className="pop-block">
-                    <div className="pop-top">
-                      <div className="black-bg-sec">
-                        <div className="token-btn-sec pop-btns-grid">
-                          <div className="blk-width">
-                            <button
-                              type="button"
-                              className="btn btn-active w-100"
-                              onClick={() => {
-                                setTokenState({
-                                  step0: false,
-                                  step1: true,
-                                  step2: false,
-                                  step3: false,
-                                  step4: false,
-                                  title: "Manage Token",
-                                });
-                              }}
-                            >
-                              Token Lists
-                            </button>
-                          </div>
-                          <div className="blk-width">
-                            <button type="button" className="btn w-100">
-                              Add token
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="sec-search sec-search-secondry">
-                        <div className="position-relative search-row">
-                          <input
-                            type="text"
-                            className="w-100"
-                            placeholder="Add list by https://"
-                            onChange={(e) => {
-                              addNewToken(e.target.value);
+            {/* new added token with delete action starts */}
+            {showTokenModal && tokenState.step4 && (
+              <div className="popmodal-body tokn-popup no-ht">
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="black-bg-sec">
+                      <div className="token-btn-sec pop-btns-grid">
+                        <div className="blk-width">
+                          <button
+                            type="button"
+                            className="btn btn-active w-100"
+                            onClick={() => {
+                              setTokenState({
+                                step0: false,
+                                step1: true,
+                                step2: false,
+                                step3: false,
+                                step4: false,
+                                title: "Manage Token",
+                              });
                             }}
-                            autoFocus={newToken.length > 0}
-                            value={newToken ? newToken : ""}
+                          >
+                            Token Lists
+                          </button>
+                        </div>
+                        <div className="blk-width">
+                          <button type="button" className="btn w-100">
+                            Add token
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="sec-search sec-search-secondry">
+                      <div className="position-relative search-row">
+                        <input
+                          type="text"
+                          className="w-100"
+                          placeholder="Add list by https://"
+                          onChange={(e) => {
+                            addNewToken(e.target.value);
+                          }}
+                          autoFocus={newToken.length > 0}
+                          value={newToken ? newToken : ""}
+                        />
+                        <div className="search-icon">
+                          <img
+                            width="20"
+                            height="21"
+                            className="img-fluid"
+                            src="../../assets/images/search.png"
+                            alt=""
                           />
-                          <div className="search-icon">
-                            <img
-                              width="20"
-                              height="21"
-                              className="img-fluid"
-                              src="../../assets/images/search.png"
-                              alt=""
-                            />
-                          </div>
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    <div className="pop-bottom pt-0">
-                      <div className="">
-                        <div className="grid-block">
-                          <div className="blk-width">
-                            <div>{localTokens.length} Token Found</div>
-                            <p className="lite-color">
-                              Token stored in your browser
-                            </p>
-                          </div>
-                          <div className="blk-width btn-sm">
-                            <button
-                              type="button"
-                              className="btn primary-btn w-100"
-                              onClick={clearAllCustomTokens}
-                            >
-                              Clear All
-                            </button>
-                          </div>
+                  <div className="pop-bottom pt-0">
+                    <div className="">
+                      <div className="grid-block">
+                        <div className="blk-width">
+                          <div>{localTokens.length} Token Found</div>
+                          <p className="lite-color">
+                            Token stored in your browser
+                          </p>
+                        </div>
+                        <div className="blk-width btn-sm">
+                          <button
+                            type="button"
+                            className="btn primary-btn w-100"
+                            onClick={clearAllCustomTokens}
+                          >
+                            Clear All
+                          </button>
                         </div>
                       </div>
                     </div>
-                    <div className="token-listwrap usr-listht">
-                      {localTokens.map((x: any, index: any) => (
-                        <div className="tokn-row" key={x.parentContract}>
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src={
-                                x.logo
-                                  ? x.logo
-                                  : "../../../assets/images/shib-borderd-icon.png"
-                              }
-                              alt=""
-                            />
+                  </div>
+                  <div className="token-listwrap usr-listht">
+                    {localTokens.map((x: any, index: any) => (
+                      <div className="tokn-row" key={x.parentContract}>
+                        <div className="cryoto-box">
+                          <img
+                            className="img-fluid"
+                            src={
+                              x.logo
+                                ? x.logo
+                                : "../../../assets/images/shib-borderd-icon.png"
+                            }
+                            alt=""
+                          />
+                        </div>
+                        <div className="tkn-grid">
+                          <div>
+                            <h6 className="fw-bold">{x.parentSymbol}</h6>
+                            <p>{x.parentName}</p>
                           </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">{x.parentSymbol}</h6>
-                              <p>{x.parentName}</p>
-                            </div>
-                            <div>
-                              <span
-                                className="me-4"
-                                onClick={() => spliceCustomToken(index)}
-                              >
-                                <img
-                                  className="img-fluid"
-                                  src="../../../assets/images/del.png"
-                                  alt=""
-                                />
-                              </span>
-                              <span>
-                                <img
-                                  className="img-fluid"
-                                  src="../../../assets/images/up.png"
-                                  alt=""
-                                />
-                              </span>
-                            </div>
+                          <div>
+                            <span
+                              className="me-4"
+                              onClick={() => spliceCustomToken(index)}
+                            >
+                              <img
+                                className="img-fluid"
+                                src="../../../assets/images/del.png"
+                                alt=""
+                              />
+                            </span>
+                            <span>
+                              <img
+                                className="img-fluid"
+                                src="../../../assets/images/up.png"
+                                alt=""
+                              />
+                            </span>
                           </div>
                         </div>
-                      ))}
-                      {/* <div className="tokn-row">
+                      </div>
+                    ))}
+                    {/* <div className="tokn-row">
                           <div className="cryoto-box">
                             <img
                               className="img-fluid"
@@ -2683,522 +2716,639 @@ export default function Withdraw() {
               </div>
             )}
             {/* new added token with delete action ends */}
-                    </div>
                   </div>
                 </div>
-              )}
+              </div>
+            )}
 
-              {/* Token popups end */}
-            </>
-          </CommonModal>
-          {/* Token popups end */}
-          {/* modal code closed */}
-          <section className="assets-section">
-            <div className="cmn_dashbord_main_outr">
-              <InnerHeader />
-              {/* withdraw main section start */}
-              <div className="box-wrap">
-                {/* Left section start */}
-                <div className="left-box">
-                  <div className="block-card">
-                    <div className="box-top">
-                      <h3 className="mb-3">Shibarium Bridge</h3>
-                      {dWState ? (
-                        <div className="txt-row">
-                          <div className="row-hd">Transfer Overview:</div>
-                          <p className="row-description">
-                            The deposit process consists of a single transaction.
-                          </p>
-                        </div>
-                      ) : (
-                        <div className="txt-row">
-                          <div className="row-hd">Withdraw Overview:</div>
-                          <p className="row-description">
-                            The Withdraw process consists of three transactions.
-                          </p>
-                        </div>
-                      )}
-                      {dWState ? (
-                        <div className="txt-row">
-                          <div className="row-hd">Transfer Time:</div>
-                          <p className="row-description">
-                            Moving your funds from Ethereum to Shibarium take up
-                            to 10 - 15 Minutes.
-                          </p>
-                        </div>
-                      ) : (
-                        <div className="txt-row">
-                          <div className="row-hd">Withdraw Time:</div>
-                          <p className="row-description">
-                            Moving your funds from Ethereum to Shibarium take up
-                            to 60 mins to 3 hours.
-                          </p>
-                        </div>
-                      )}
-                      {
-                        <div
-                          className={`txt-row ${dWState ? "visVisible" : "visInvisible"
-                            }`}
-                        >
-                          <div className="row-hd">
-                            <span className="icon-image">
-                              <img
-                                className="img-fluid"
-                                src="../../assets/images/i-info-icon.png"
-                                alt=""
-                              />
-                            </span>
-                            <span className="alignment">
-                              Delegation/Staking Advice:
-                            </span>
-                          </div>
-                          <p className="row-description">
-                            Delegation/Staking takes place on Ethereum. Do not
-                            deposit funds to Shibarium for this purpose.{" "}
-                            {/* <a className="orange-txt" href="javascript:void(0);">
-                            Staking UI
-                          </a> */}
-                          </p>
-                        </div>
-                      }
-                    </div>
-                    <div className="blank-box"></div>
-                    <div className="box-bottom d-flex flex-column justify-content-end">
+            {/* Token popups end */}
+          </>
+        </CommonModal>
+        {/* Token popups end */}
+        {/* modal code closed */}
+        <section className="assets-section">
+          <div className="cmn_dashbord_main_outr">
+            <InnerHeader />
+            {/* withdraw main section start */}
+            <div className="box-wrap">
+              {/* Left section start */}
+              <div className="left-box">
+                <div className="block-card">
+                  <div className="box-top">
+                    <h3 className="mb-3">Shibarium Bridge</h3>
+                    {dWState ? (
+                      <div className="txt-row">
+                        <div className="row-hd">Transfer Overview:</div>
+                        <p className="row-description">
+                          The deposit process consists of a single transaction.
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="txt-row">
+                        <div className="row-hd">Withdraw Overview:</div>
+                        <p className="row-description">
+                          The Withdraw process consists of three transactions.
+                        </p>
+                      </div>
+                    )}
+                    {dWState ? (
+                      <div className="txt-row">
+                        <div className="row-hd">Transfer Time:</div>
+                        <p className="row-description">
+                          Moving your funds from Ethereum to Shibarium take up
+                          to 10 - 15 Minutes.
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="txt-row">
+                        <div className="row-hd">Withdraw Time:</div>
+                        <p className="row-description">
+                          Moving your funds from Ethereum to Shibarium take up
+                          to 60 mins to 3 hours.
+                        </p>
+                      </div>
+                    )}
+                    {
                       <div
-                        className={`amt-section position-relative ${!dWState ? "visVisible" : "visInvisible"
+                        className={`txt-row ${dWState ? "visVisible" : "visInvisible"
                           }`}
                       >
-                        <div className="coin-blk">
-                          <div className="coin-sec">
+                        <div className="row-hd">
+                          <span className="icon-image">
                             <img
                               className="img-fluid"
-                              width="20"
-                              height="20"
-                              src="../../assets/images/red-bone.png"
+                              src="../../assets/images/i-info-icon.png"
                               alt=""
                             />
-                          </div>
-                          <p className="lite-color">
-                            Estimation of GAS fee required
-                          </p>
+                          </span>
+                          <span className="alignment">
+                            Delegation/Staking Advice:
+                          </span>
                         </div>
-                        <div>
-                          <p className="lite-color fw-bold">$10.00</p>
-                        </div>
+                        <p className="row-description">
+                          Delegation/Staking takes place on Ethereum. Do not
+                          deposit funds to Shibarium for this purpose.{" "}
+                          {/* <a className="orange-txt" href="javascript:void(0);">
+                            Staking UI
+                          </a> */}
+                        </p>
                       </div>
-                      <div className="amt-section position-relative">
-                        <div className="coin-blk">
-                          <div className="coin-sec">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/eth.png"
-                              alt=""
-                            />
-                          </div>
-                          <p className="lite-color">
-                            Estimation of GAS fee required
-                          </p>
+                    }
+                  </div>
+                  <div className="blank-box"></div>
+                  <div className="box-bottom d-flex flex-column justify-content-end">
+                    <div
+                      className={`amt-section position-relative ${!dWState ? "visVisible" : "visInvisible"
+                        }`}
+                    >
+                      <div className="coin-blk">
+                        <div className="coin-sec">
+                          <img
+                            className="img-fluid"
+                            width="20"
+                            height="20"
+                            src="../../assets/images/red-bone.png"
+                            alt=""
+                          />
                         </div>
-                        <div>
-                          <p className="lite-color fw-bold">$10.00</p>
-                        </div>
+                        <p className="lite-color">
+                          Estimation of GAS fee required
+                        </p>
                       </div>
-                      <div className="sub-buttons-sec row buttons-fix">
-                        <div className="col-lg-6 mb-3 mb-lg-0">
-                          {/* <button type="button" className="btn white-btn w-100">
+                      <div>
+                        <p className="lite-color fw-bold">$10.00</p>
+                      </div>
+                    </div>
+                    <div className="amt-section position-relative">
+                      <div className="coin-blk">
+                        <div className="coin-sec">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/eth.png"
+                            alt=""
+                          />
+                        </div>
+                        <p className="lite-color">
+                          Estimation of GAS fee required
+                        </p>
+                      </div>
+                      <div>
+                        <p className="lite-color fw-bold">$10.00</p>
+                      </div>
+                    </div>
+                    <div className="sub-buttons-sec row buttons-fix">
+                      <div className="col-lg-6 mb-3 mb-lg-0">
+                        {/* <button type="button" className="btn white-btn w-100">
                           How Shibarium Works
                         </button> */}
-                          <Link href="how-it-works" passHref>
-                            <a target="_blank" className="btn white-btn w-100">
-                              How Shibarium Works
-                            </a>
-                          </Link>
-                        </div>
-                        <div className="col-lg-6">
-                          <button
-                            // type="button w-100"
-                            className="btn white-btn w-100"
-                          >
-                            FAQs
-                          </button>
-                        </div>
+                        <Link href="how-it-works" passHref>
+                          <a target="_blank" className="btn white-btn w-100">
+                            How Shibarium Works
+                          </a>
+                        </Link>
+                      </div>
+                      <div className="col-lg-6">
+                        <button
+                          // type="button w-100"
+                          className="btn white-btn w-100"
+                        >
+                          FAQs
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
-                {/* Left section end */}
-                {/* Right section start */}
-                <div className="right-box">
-                  <div className="block-card d-flex flex-column justify-content-between">
-                    <div className="tab-sec botom-spcing">
-                      <ul className="tab-links">
-                        <li>
-                          <a
-                            className={`tb-link ${dWState && "tab-active"}`}
-                            onClick={() => setDWState(true)}
-                          >
-                            Deposit
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            className={`tb-link ${!dWState && "tab-active"}`}
-                            onClick={() => setDWState(false)}
-                          >
-                            Withdraw
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    {/* Deposit tab content section start */}
-                    {dWState && (
-                      <div className="tab-content-sec h-100">
-                        <Formik
-                          initialValues={{
-                            amount: "",
-                          }}
-                          validationSchema={depositValidations}
-                          onSubmit={(values, actions) => {
-                            // console.log(values);
-                            callDepositModal(values);
-                          }}
+              </div>
+              {/* Left section end */}
+              {/* Right section start */}
+              <div className="right-box">
+                <div className="block-card d-flex flex-column justify-content-between bridge_form_sec">
+                  <div className="tab-sec botom-spcing">
+                    <ul className="tab-links">
+                      <li>
+                        <a
+                          className={`tb-link ${dWState && "tab-active"}`}
+                          onClick={() => setDWState(true)}
                         >
-                          {({
-                            errors,
-                            touched,
-                            handleChange,
-                            handleBlur,
-                            values,
-                            handleSubmit,
-                          }) => (
-                            <div className="h-100">
-                              <div className="sec-wrapper">
-                                <div className="wrap-top">
-                                  <div className="botom-spcing">
-                                    <div>
-                                      <label className="mb-2 mb-xxl-3 mb-md-2">
-                                        From
-                                      </label>
-                                      <div className="form-field position-relative txt-fix">
-                                        <div className="icon-chain">
-                                          <div>
-                                            <img
-                                              className="img-fluid"
-                                              src="../../assets/images/eth.png"
-                                              alt=""
-                                            />
-                                          </div>
+                          Deposit
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          className={`tb-link ${!dWState && "tab-active"}`}
+                          onClick={() => setDWState(false)}
+                        >
+                          Withdraw
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  {/* Deposit tab content section start */}
+                  {dWState && (
+                    <div className="tab-content-sec h-100">
+                      <Formik
+                        initialValues={{
+                          amount: "",
+                          fromChain: chainId,
+                          toChain: ""
+                        }}
+                        validationSchema={depositValidations}
+                        onSubmit={(values, actions) => {
+                          // console.log(values);
+                          callDepositModal(values);
+                        }}
+                      >
+                        {({
+                          errors,
+                          touched,
+                          handleChange,
+                          handleBlur,
+                          values,
+                          handleSubmit,
+                        }) => (
+                          <div className="h-100">
+                            <div className="sec-wrapper">
+                              <div className="wrap-top">
+                                <div className="botom-spcing">
+                                  <div>
+                                    <label className="mb-2 mb-xxl-3 mb-md-2">
+                                      From
+                                    </label>
+                                    <div className="form-field position-relative txt-fix">
+                                      {/* <div className="icon-chain">
+                                        <div>
+                                          <img
+                                            className="img-fluid"
+                                            src="../../assets/images/eth.png"
+                                            alt=""
+                                          />
                                         </div>
-                                        <div className="mid-chain">
-                                          <input
+                                      </div> */}
+                                      {/* <div className="mid-chain"> */}
+                                      <Form.Select
+                                        name="fromChain"
+                                        defaultValue={`${chainId}`}
+                                        value={values.fromChain}
+                                        onChange={(e) => {handleChange(e)}}>
+                                        {[
+                                          ChainId.SHIBARIUM,
+                                          ChainId.GÖRLI,
+                                          ChainId.ETHEREUM,
+                                          ChainId.PUPPYNET,
+                                          //  @ts-ignore
+                                        ].map((key: ChainId, i: number) => {
+                                          return (
+                                            <>
+                                              {/* @ts-ignore TYPE NEEDS FIXING */}
+                                              <Image src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md" width="32px" height="32px" />
+                                              <option value={key}>
+                                                {/*@ts-ignore TYPE NEEDS FIXING*/}
+                                                {NETWORK_LABEL[key]}
+                                              </option>
+                                            </>
+                                          )
+
+                                        })}
+                                      </Form.Select>
+                                      {/* <input
                                             className="w-100"
                                             type="text"
                                             placeholder="Ethereum chain"
-                                          />
-                                        </div>
-                                        <div className="rt-chain">
-                                          <span className="fld-head lite-800">
-                                            Balance:
-                                          </span>
-                                          <span className="fld-txt lite-800">
-                                            {selectedToken.balance
-                                              ? selectedToken?.balance
-                                              : "00.00"}
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="field-grid row">
-                                      <div className="col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-3 mb-lg-0  res-align">
-                                        <div
-                                          className="form-field position-relative fix-coin-field"
-                                          onClick={() => {
-                                            setTokenModal(true);
-                                            setTokenState({
-                                              step0: true,
-                                              step1: false,
-                                              step2: false,
-                                              step3: false,
-                                              step4: false,
-                                              title: "Select a Token",
-                                            });
-                                          }}
-                                        >
-                                          <div className="right-spacing">
-                                            <div>
-                                              <img
-                                                className="img-fluid"
-                                                src="../../assets/images/eth.png"
-                                                alt=""
-                                              />
-                                            </div>
-                                          </div>
-                                          <div className="lite-800">
-                                            <span className="lite-800 fw-bold">
-                                              {selectedToken.parentName
-                                                ? selectedToken.parentName
-                                                : "Select Token"}
-                                            </span>
-                                          </div>
-                                          <div className="lft-spc">
-                                            <div className="arow-outer">
-                                              <span className="arrow-down"></span>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="col-lg-6 col-xxl-7 col-sm-12 field-col">
-                                        <div className="form-field position-relative two-fld">
-                                          <div className="mid-chain w-100">
-                                            <input
-                                              className="w-100"
-                                              type="text"
-                                              placeholder="0.00"
-                                              value={values.amount}
-                                              onChange={handleChange("amount")}
-                                            />
-                                          </div>
-                                          <div
-                                            className="rt-chain"
-                                            onClick={() => handleMax()}
-                                          >
-                                            <span className="orange-txt fw-bold">
-                                              MAX
-                                            </span>
-                                          </div>
-                                        </div>
-                                        {touched.amount && errors.amount ? (
-                                          <p className="primary-text pt-0 pl-2">
-                                            {errors.amount}
-                                          </p>
-                                        ) : null}
+                                          /> */}
+                                      {/* </div> */}
+                                      <div className="rt-chain">
+                                        <span className="fld-head lite-800">
+                                          Balance:
+                                        </span>
+                                        <span className="fld-txt lite-800">
+                                          {selectedToken.balance
+                                            ? selectedToken?.balance
+                                            : "00.00"}
+                                        </span>
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="botom-spcing">
-                                    <div>
-                                      <label className="mb-2 mb-xxl-3 mb-md-2">
-                                        To
-                                      </label>
-                                      <div className="form-field position-relative txt-fix">
-                                        <div className="icon-chain">
+                                  <div className="field-grid row">
+                                    <div className="col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-3 mb-lg-0  res-align">
+                                      <div
+                                        className="form-field position-relative fix-coin-field"
+                                        onClick={() => {
+                                          setTokenModal(true);
+                                          setTokenState({
+                                            step0: true,
+                                            step1: false,
+                                            step2: false,
+                                            step3: false,
+                                            step4: false,
+                                            title: "Select a Token",
+                                          });
+                                        }}
+                                      >
+                                        <div className="right-spacing">
                                           <div>
                                             <img
-                                              width="22"
-                                              height="22"
                                               className="img-fluid"
-                                              src="../../assets/images/shiba-round-icon.png"
+                                              src={selectedToken.logo ? selectedToken.logo : "../../assets/images/eth.png"}
                                               alt=""
                                             />
                                           </div>
                                         </div>
-                                        <div className="mid-chain">
+                                        <div className="lite-800">
+                                          <span className="lite-800 fw-bold">
+                                            {selectedToken.parentName
+                                              ? selectedToken.parentName
+                                              : "Select Token"}
+                                          </span>
+                                        </div>
+                                        <div className="lft-spc">
+                                          <div className="arow-outer">
+                                            <span className="arrow-down"></span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-lg-6 col-xxl-7 col-sm-12 field-col">
+                                      <div className="form-field position-relative two-fld">
+                                        <div className="mid-chain w-100">
                                           <input
                                             className="w-100"
                                             type="text"
-                                            placeholder="Shibarium chain"
+                                            placeholder="0.00"
+                                            value={values.amount}
+                                            onChange={handleChange("amount")}
                                           />
                                         </div>
-                                        <div className="rt-chain">
-                                          <span className="fld-head lite-800">
-                                            Balance:
-                                          </span>
-                                          <span className="fld-txt lite-800">
-                                            00.00
+                                        <div
+                                          className="rt-chain"
+                                          onClick={() => handleMax()}
+                                        >
+                                          <span className="orange-txt fw-bold">
+                                            MAX
                                           </span>
                                         </div>
                                       </div>
+                                      {touched.amount && errors.amount ? (
+                                        <p className="primary-text pt-0 pl-2">
+                                          {errors.amount}
+                                        </p>
+                                      ) : null}
                                     </div>
                                   </div>
                                 </div>
-                                <div className="wrap-bottom">
-                                  <div className="btn-modify">
-                                    <button
-                                      onClick={() => handleSubmit()}
-                                      type="button"
-                                      className="btn primary-btn w-100"
-                                    >
-                                      Transfer
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                        </Formik>
-                      </div>
-                    )}
-                    {/* Deposit tab content section end */}
-
-                    {/* Withdraw tab content section start */}
-                    {!dWState && (
-                      <div className="tab-content-sec h-100">
-                        <form className="h-100">
-                          <div className="sec-wrapper">
-                            <div className="wrap-top">
-                              <div className="botom-spcing">
-                                <div>
-                                  <label className="mb-2 mb-xxl-3 mb-md-2">
-                                    From
-                                  </label>
-                                  <div className="form-field position-relative txt-fix">
-                                    <div className="icon-chain">
-                                      <div>
-                                        <img
-                                          width="22"
-                                          height="22"
-                                          className="img-fluid"
-                                          src="../../assets/images/shiba-round-icon.png"
-                                          alt=""
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="mid-chain">
-                                      <input
-                                        className="w-100"
-                                        type="text"
-                                        placeholder="Shibarium Mainnet"
-                                      />
-                                    </div>
-                                    <div className="rt-chain">
-                                      <span className="fld-head lite-800">
-                                        Balance:
-                                      </span>
-                                      <span className="fld-txt lite-800">
-                                        {selectedToken.balance
-                                          ? selectedToken?.balance
-                                          : "00.00"}
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="field-grid row">
-                                  <div className="col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-3 mb-lg-0  res-align">
-                                    <div
-                                      className="form-field position-relative fix-coin-field h-100"
-                                      onClick={() => {
-                                        setTokenModal(true);
-                                        setTokenState({
-                                          step0: true,
-                                          step1: false,
-                                          step2: false,
-                                          step3: false,
-                                          step4: false,
-                                          title: "Select a Token",
-                                        });
-                                      }}
-                                    >
-                                      <div className="right-spacing">
+                                <div className="botom-spcing">
+                                  <div>
+                                    <label className="mb-2 mb-xxl-3 mb-md-2">
+                                      To
+                                    </label>
+                                    <div className="form-field position-relative txt-fix">
+                                      {/* <div className="icon-chain">
                                         <div>
                                           <img
-                                            width="24"
-                                            height="24"
+                                            width="22"
+                                            height="22"
                                             className="img-fluid"
-                                            src="../../assets/images/red-bone.png"
+                                            src="../../assets/images/shiba-round-icon.png"
                                             alt=""
                                           />
                                         </div>
                                       </div>
-                                      <div className="lite-800">
-                                        <span className="lite-800 fw-bold">
-                                          {selectedToken.parentName
-                                            ? selectedToken.parentName
-                                            : "Select Token"}
+                                      <div className="mid-chain">
+                                        <input
+                                          className="w-100"
+                                          type="text"
+                                          placeholder="Shibarium chain"
+                                        />
+                                      </div> */}
+                                      <Form.Select
+                                        name="toChain"
+                                        defaultValue={`${chainId}`}
+                                        value={values.toChain}
+                                        onChange={(e) => {handleChange(e)}}
+                                      >
+                                        {[
+                                          ChainId.SHIBARIUM,
+                                          ChainId.GÖRLI,
+                                          ChainId.ETHEREUM,
+                                          ChainId.PUPPYNET,
+                                          //  @ts-ignore
+                                        ].map((key: ChainId, i: number) => {
+                                          // console.log(values);
+                                          return (
+                                            <>
+                                              {/* @ts-ignore TYPE NEEDS FIXING */}
+                                              <Image src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md" width="32px" height="32px" />
+
+                                              <option value={key} disabled={values.fromChain == key ? true : false}>
+                                                {/*@ts-ignore TYPE NEEDS FIXING*/}
+                                                {NETWORK_LABEL[key]}
+                                              </option>
+                                            </>
+                                          )
+
+                                        })}
+                                      </Form.Select>
+                                      {/* <div className="rt-chain">
+                                        <span className="fld-head lite-800">
+                                          Balance:
+                                        </span>
+                                        <span className="fld-txt lite-800">
+                                          00.00
+                                        </span>
+                                      </div> */}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="wrap-bottom">
+                                <div className="btn-modify">
+                                  <button
+                                    onClick={() => handleSubmit()}
+                                    type="button"
+                                    className="btn primary-btn w-100"
+                                  >
+                                    Transfer
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </Formik>
+                    </div>
+                  )}
+                  {/* Deposit tab content section end */}
+
+                  {/* Withdraw tab content section start */}
+                  {!dWState && (
+                    <Formik
+                      initialValues={{
+                        amount: "",
+                        fromChain: chainId,
+                        toChain: ""
+                      }}
+                      validationSchema={withdrawValidations}
+                      onSubmit={(values, actions) => {
+                        // console.log(values);
+                        callWithdrawModal(values);
+                      }}
+                    >
+                      {({
+                        errors,
+                        touched,
+                        handleChange,
+                        handleBlur,
+                        values,
+                        handleSubmit,
+                      }) => (
+                        <div className="tab-content-sec h-100">
+                          <form className="h-100">
+                            <div className="sec-wrapper">
+                              <div className="wrap-top">
+                                <div className="botom-spcing">
+                                  <div>
+                                    <label className="mb-2 mb-xxl-3 mb-md-2">
+                                      From
+                                    </label>
+                                    <div className="form-field position-relative txt-fix">
+                                      {/* <div className="icon-chain">
+                                    <div>
+                                      <img
+                                        width="22"
+                                        height="22"
+                                        className="img-fluid"
+                                        src="../../assets/images/shiba-round-icon.png"
+                                        alt=""
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="mid-chain">
+                                    <input
+                                      className="w-100"
+                                      type="text"
+                                      placeholder="Shibarium Mainnet"
+                                    />
+                                  </div> */}
+                                      <Form.Select
+                                        name="fromChain"
+                                        defaultValue={`${chainId}`}
+                                        value={values.fromChain}
+                                        onChange={handleChange}
+                                      >
+                                        {[
+                                          ChainId.SHIBARIUM,
+                                          ChainId.GÖRLI,
+                                          ChainId.ETHEREUM,
+                                          ChainId.PUPPYNET,
+                                          //  @ts-ignore
+                                        ].map((key: ChainId, i: number) => {
+                                          // console.log(values);
+                                          return (
+                                            <>
+                                              {/* @ts-ignore TYPE NEEDS FIXING */}
+                                              <Image src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md" width="32px" height="32px" />
+
+                                              <option value={key}>
+                                                {/*@ts-ignore TYPE NEEDS FIXING*/}
+                                                {NETWORK_LABEL[key]}
+                                              </option>
+                                            </>
+                                          )
+
+                                        })}
+                                      </Form.Select>
+                                      <div className="rt-chain">
+                                        <span className="fld-head lite-800">
+                                          Balance:
+                                        </span>
+                                        <span className="fld-txt lite-800">
+                                          {selectedToken.balance
+                                            ? selectedToken?.balance
+                                            : "00.00"}
                                         </span>
                                       </div>
-                                      <div className="lft-spc">
-                                        <div className="arow-outer">
-                                          <span className="arrow-down"></span>
+                                    </div>
+                                  </div>
+                                  <div className="field-grid row">
+                                    <div className="col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-3 mb-lg-0  res-align">
+                                      <div
+                                        className="form-field position-relative fix-coin-field h-100"
+                                        onClick={() => {
+                                          setTokenModal(true);
+                                          setTokenState({
+                                            step0: true,
+                                            step1: false,
+                                            step2: false,
+                                            step3: false,
+                                            step4: false,
+                                            title: "Select a Token",
+                                          });
+                                        }}
+                                      >
+                                        <div className="right-spacing">
+                                          <div>
+                                            <img
+                                              width="24"
+                                              height="24"
+                                              className="img-fluid"
+                                              src={selectedToken.logo ? selectedToken.logo : "../../assets/images/shiba-round-icon.png"}
+                                              alt=""
+                                            />
+                                          </div>
+                                        </div>
+                                        <div className="lite-800">
+                                          <span className="lite-800 fw-bold">
+                                            {selectedToken.parentName
+                                              ? selectedToken.parentName
+                                              : "Select Token"}
+                                          </span>
+                                        </div>
+                                        <div className="lft-spc">
+                                          <div className="arow-outer">
+                                            <span className="arrow-down"></span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-lg-6 col-xxl-7 col-sm-12 field-col h-100">
+                                      <div className="form-field position-relative two-fld">
+                                        <div className="mid-chain w-100">
+                                          <input
+                                            className="w-100"
+                                            type="text"
+                                            placeholder="0.00"
+                                          />
+                                        </div>
+                                        <div className="rt-chain">
+                                          <span className="orange-txt fw-bold">
+                                            MAX
+                                          </span>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="col-lg-6 col-xxl-7 col-sm-12 field-col h-100">
-                                    <div className="form-field position-relative two-fld">
-                                      <div className="mid-chain w-100">
-                                        <input
-                                          className="w-100"
-                                          type="text"
-                                          placeholder="0.00"
-                                        />
-                                      </div>
-                                      <div className="rt-chain">
-                                        <span className="orange-txt fw-bold">
-                                          MAX
+                                </div>
+                                <div className="botom-spcing">
+                                  <div>
+                                    <label className="mb-2 mb-xxl-3 mb-md-2">
+                                      To
+                                    </label>
+                                    <div className="form-field position-relative txt-fix">
+                                      <Form.Select
+                                        name="toChain"
+                                        defaultValue={`${chainId}`}
+                                        value={values.toChain}
+                                        onChange={handleChange}
+                                      >
+                                        {[
+                                          ChainId.SHIBARIUM,
+                                          ChainId.GÖRLI,
+                                          ChainId.ETHEREUM,
+                                          ChainId.PUPPYNET,
+                                          //  @ts-ignore
+                                        ].map((key: ChainId, i: number) => {
+                                          // console.log(values);
+                                          return (
+                                            <>
+                                              {/* @ts-ignore TYPE NEEDS FIXING */}
+                                              <Image src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md" width="32px" height="32px" />
+
+                                              <option value={key} disabled={values.fromChain == key ? true : false}>
+                                                {/*@ts-ignore TYPE NEEDS FIXING*/}
+                                                {NETWORK_LABEL[key]}
+                                              </option>
+                                            </>
+                                          )
+
+                                        })}
+                                      </Form.Select>
+                                      {/* <div className="rt-chain">
+                                        <span className="fld-head lite-800">
+                                          Balance:
                                         </span>
-                                      </div>
+                                        <span className="fld-txt lite-800">
+                                          00.00
+                                        </span>
+                                      </div> */}
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                              <div className="botom-spcing">
-                                <div>
-                                  <label className="mb-2 mb-xxl-3 mb-md-2">
-                                    To
-                                  </label>
-                                  <div className="form-field position-relative txt-fix">
-                                    <div className="icon-chain">
-                                      <div>
-                                        <img
-                                          className="img-fluid"
-                                          src="../../assets/images/eth.png"
-                                          alt=""
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="mid-chain">
-                                      <input
-                                        className="w-100"
-                                        type="text"
-                                        placeholder="Ethereum chain"
-                                      />
-                                    </div>
-                                    <div className="rt-chain">
-                                      <span className="fld-head lite-800">
-                                        Balance:
-                                      </span>
-                                      <span className="fld-txt lite-800">
-                                        00.00
-                                      </span>
-                                    </div>
-                                  </div>
+                              <div className="wrap-bottom">
+                                <div className="btn-modify">
+                                  <button
+                                    onClick={() => {
+                                      setWithdrawModal(true);
+                                      setWidModState({
+                                        step0: true,
+                                        step1: false,
+                                        step2: false,
+                                        step3: false,
+                                        step4: false,
+                                        title: "Initialize Withdraw",
+                                      });
+                                    }}
+                                    type="button"
+                                    className="btn primary-btn w-100"
+                                  >
+                                    Transfer
+                                  </button>
                                 </div>
                               </div>
                             </div>
-                            <div className="wrap-bottom">
-                              <div className="btn-modify">
-                                <button
-                                  onClick={() => {
-                                    setWithdrawModal(true);
-                                    setWidModState({
-                                      step0: true,
-                                      step1: false,
-                                      step2: false,
-                                      step3: false,
-                                      step4: false,
-                                      title: "Initialize Withdraw",
-                                    });
-                                  }}
-                                  type="button"
-                                  className="btn primary-btn w-100"
-                                >
-                                  Transfer
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    )}
-                    {/* Withdraw   tab content section end */}
-                  </div>
+                          </form>
+                        </div>
+                      )}
+                    </Formik>
+                  )}
+                  {/* Withdraw   tab content section end */}
                 </div>
-                {/* right section start */}
               </div>
-              {/* withdraw main section end */}
+              {/* right section start */}
             </div>
-          </section>
-        </main>
-      </>
-    );
-  }
+            {/* withdraw main section end */}
+          </div>
+        </section>
+      </main>
+    </>
+  );
+}

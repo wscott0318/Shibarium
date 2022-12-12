@@ -140,6 +140,7 @@
   left: auto;
   top: 50%;
   transform: translateY(-50%);
+  background: #e9e9ec;
 }
 .coin-img {
   width: 24px;
@@ -4477,9 +4478,9 @@ body::-webkit-scrollbar,
   font-size: 22px;
   margin-bottom: 10px;
 }
-@media (max-width: 768px) {
-  .tool-desc {
-    display: none !important;
-  }
-}
+// @media (max-width: 768px) {
+//   .tool-desc {
+//     display: none !important;
+//   }
+// }
 
