@@ -1975,7 +1975,8 @@ export default function Withdraw() {
                               Token stored in your browser
                             </p>
                           </div>
-                          <div style={{textAlign : "right"}} className="blk-width btn-sm">
+                          <div style={{textAlign : "right"}} className="btn-sm">
+                          {/* className="blk-width btn-sm" */}
                             <button
                               type="button"
                               // className="btn primary-btn w-95"
@@ -2112,7 +2113,8 @@ export default function Withdraw() {
                               Token stored in your browser
                             </p>
                           </div>
-                          <div  style={{textAlign : "right"}} className="blk-width btn-sm">
+                          <div  style={{textAlign : "right"}} className="btn-sm">
+                          {/* className="blk-width btn-sm" */}
                             <button
                               type="button"
                               // className="btn primary-btn w-100"
@@ -2124,6 +2126,43 @@ export default function Withdraw() {
                           </div>
                         </div>
                         <div className="token-listwrap usr-listht">
+                        <div className="token-listwrap usr-listht">
+                          {JSON.stringify(tempTokens) !== "{}" ? (
+                            <div className="tokn-row">
+                              <div className="cryoto-box">
+                                <img
+                                  className="img-fluid"
+                                  src={
+                                    tempTokens?.logo
+                                      ? tempTokens?.logo
+                                      : "../../../assets/images/shib-borderd-icon.png"
+                                  }
+                                  alt=""
+                                />
+                              </div>
+                              <div className="tkn-grid">
+                                <div>
+                                  <h6 className="fw-bold">
+                                    {tempTokens.parentSymbol}
+                                  </h6>
+                                  <p>{tempTokens.parentName}</p>
+                                </div>
+                                <div>
+                                  <span className="primary-text" onClick={addTokenHandler}>
+                                    Import
+                                    {/* <img
+                                      className="img-fluid"
+                                      src="../../../assets/images/up.png"
+                                      alt=""
+                                    /> */}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </div>
                           {localTokens.map((x: any, index: any) => (
                             <div className="tokn-row" key={x.parentContract}>
                               <div className="cryoto-box">
@@ -2171,42 +2210,7 @@ export default function Withdraw() {
                     <div className="pop-bottom pt-0">
                       <div className="">
                         <div className="grid-block"></div>
-                        <div className="token-listwrap usr-listht">
-                          {JSON.stringify(tempTokens) !== "{}" ? (
-                            <div className="tokn-row">
-                              <div className="cryoto-box">
-                                <img
-                                  className="img-fluid"
-                                  src={
-                                    tempTokens?.logo
-                                      ? tempTokens?.logo
-                                      : "../../../assets/images/shib-borderd-icon.png"
-                                  }
-                                  alt=""
-                                />
-                              </div>
-                              <div className="tkn-grid">
-                                <div>
-                                  <h6 className="fw-bold">
-                                    {tempTokens.parentSymbol}
-                                  </h6>
-                                  <p>{tempTokens.parentName}</p>
-                                </div>
-                                <div>
-                                  <span onClick={addTokenHandler}>
-                                    <img
-                                      className="img-fluid"
-                                      src="../../../assets/images/up.png"
-                                      alt=""
-                                    />
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </div>
+                       
                       </div>
                     </div>
                     {/* <div className="h-100">
@@ -2278,7 +2282,7 @@ export default function Withdraw() {
                    
                     <div className="pop-bottom">
                       <div className="">
-                        <a
+                        {/* <a
                           className="btn primary-btn w-100"
                           href="javascript:void(0)"
                           onClick={() => {
@@ -2295,7 +2299,9 @@ export default function Withdraw() {
                           }}
                         >
                           Add Token
-                        </a>
+                        </a> */}
+                        <div className="myTipsArea">Tip: Custom tokens are stored locally in your browser </div>
+                
                       </div>
                     </div>
                   </div>
@@ -2367,7 +2373,8 @@ export default function Withdraw() {
                               Token stored in your browser
                             </p>
                           </div>
-                          <div style={{textAlign : "right"}} className="blk-width btn-sm">
+                          <div style={{textAlign : "right"}} className="btn-sm">   
+                          {/* className="blk-width btn-sm" */}
                             <button
                               type="button"
                               // className="btn primary-btn w-100"
