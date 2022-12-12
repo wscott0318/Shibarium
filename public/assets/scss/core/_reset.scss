@@ -852,7 +852,6 @@ body {
     position: absolute;
     left: -130%;
     top: 0;
-    z-index: 999999;
     background: #fff;
     border-radius: 5px;
     color: #000;
@@ -960,7 +959,13 @@ body {
 .progress-tab.step_4 h5 {
     font-size: 35px;
 }
-
+.select_chain>div {
+    width: 100%;
+}
+.select_chain>div div#mui-component-select-chain {
+    display: flex;
+    align-items: center;
+}
 @media only screen and (max-width: 991.98px){
     .shib-popup .modal-content {
         // height: 75%;
