@@ -19,8 +19,8 @@ import { getNetworkName } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 
 export default function Header() {
-  
-  const {account, deactivate, active } = useWeb3React();
+
+  const { account, deactivate, active } = useWeb3React();
   const { chainId } = useActiveWeb3React();
   const router = useRouter();
 
@@ -49,7 +49,7 @@ export default function Header() {
     router.push("/home");
   };
 
-  const getUsertypeAPI = (accountAddress :any) => {
+  const getUsertypeAPI = (accountAddress: any) => {
     try {
       getUserType(accountAddress.toLowerCase()).then(res => {
         if (res.data && res.data.data) {
@@ -60,18 +60,18 @@ export default function Header() {
           setValId(valID)
         }
       })
-    } catch (error:any) {
+    } catch (error: any) {
       console.log(error)
       setUserType('NA')
       setValId("0")
-      Sentry.captureMessage("getUsertypeAPI" , error);
+      Sentry.captureMessage("getUsertypeAPI", error);
     }
   }
 
-const toggleNetworkModal = useNetworkModalToggle();
+  const toggleNetworkModal = useNetworkModalToggle();
 
 
-const [scroll, setScroll] = useState(false);
+  const [scroll, setScroll] = useState(false);
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -85,10 +85,10 @@ const [scroll, setScroll] = useState(false);
     }
 
     // ethereum.on('accountsChanged', handleAccountsChanged)
-    account? ethereum.on('accountsChanged', handleAccountsChanged):console.log("account not connected please connect")
-   
+    account ? ethereum.on('accountsChanged', handleAccountsChanged) : console.log("account not connected please connect")
 
-  },[active, account])
+
+  }, [active, account])
 
 
 
@@ -196,8 +196,8 @@ const [scroll, setScroll] = useState(false);
                     </NavDropdown>
                   </Nav.Item>
                 )}
-                <Nav.Item className="btn-status inner-btn">
-                  {account ? (
+                {account ? (
+                  <Nav.Item className="btn-status inner-btn">
                     <>
                       <Web3Status />
                       <Dropdown className="nav-item d-flex align-items-center cus-dd mob-drop drop-cus">
@@ -338,8 +338,8 @@ const [scroll, setScroll] = useState(false);
                         </NavDropdown>
                       </Dropdown>
                     </>
-                  ) : null}
-                </Nav.Item>
+                  </Nav.Item>
+                ) : null}
               </Nav>
             </Navbar.Collapse>
           </Container>
