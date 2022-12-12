@@ -37,7 +37,9 @@ function MyApp({ Component, pageProps }:any) {
   const router = useRouter();
   const [isSideNav, setIsSideNav] = useState(false);
   const routeWithoutHeader = ['/login']
-
+  if (process.env.NODE_ENV === "production") {
+    console.log = () => { };
+  }
   // useEffect(() => {
   //  console.log(screen.orientation );
  

@@ -152,11 +152,11 @@ const MigratePopup: React.FC<any> = ({
               "transaction"
             );
             setExplorerLink(link);
-            console.log("transaction hash ", res);
+            // console.log("transaction hash ", res);
             setTransactionState({ state: true, title: "Submitted" });
             let newStake = (migrateData?.data?.stake - values.balance);
             setMigrateData(migrateData, newStake);
-            console.log("new stake balance == > ", migrateData);
+            // console.log("new stake balance == > ", migrateData);
             // setTimeout(() => { setmigratepop(false) }, 1000);
             setProcessing("Completed");
           })
@@ -178,13 +178,13 @@ const MigratePopup: React.FC<any> = ({
               })
             );
             setmigratepop(false);
-            console.log("receipt ", res);
+            // console.log("receipt ", res);
             setProcessing("Migrate");
             setTransactionState({ state: false, title: "" });
             window.location.reload();
           })
           .on("error", (res: any) => {
-            console.log("error ", res);
+            // console.log("error ", res);
             setProcessing("Error");
             setTransactionState({ state: false, title: "" });
             if (res.code === 4001) {
@@ -193,7 +193,7 @@ const MigratePopup: React.FC<any> = ({
           });
       }
       else {
-        console.log("Account not found");
+        // console.log("Account not found");
         setProcessing("Error");
       }
     }
@@ -230,7 +230,7 @@ const MigratePopup: React.FC<any> = ({
     initialValues: initialValues,
     validationSchema: schema,
     onSubmit: (values) => {
-      console.log("Value", values);
+      // console.log("Value", values);
     },
   });
 

@@ -40,7 +40,7 @@ const delegatorAccount = () => {
         }
       })
     } catch (error: any) {
-      console.log(error)
+      // console.log(error)
       Sentry.captureException("getDelegatorCardData ", error);
     }
   }
