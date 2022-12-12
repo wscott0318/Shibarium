@@ -78,7 +78,6 @@ export default function Withdraw() {
   //   console.log("chain id  , ", SUPPORTED_NETWORKS);
   // })
 
-
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then(res => {
       setBoneUSDValue(res.data.data.price);
@@ -1884,257 +1883,329 @@ export default function Withdraw() {
 
             {/* Add token popop starts */}
 
-            {showTokenModal && tokenState.step2 && (
-              <div className="popmodal-body tokn-popup no-ht">
-                <div className="pop-block">
-                  <div className="pop-top">
-                    <div className="black-bg-sec">
-                      <div className="token-btn-sec pop-btns-grid">
-                        <div className="blk-width">
-                          <button
-                            type="button"
-                            className="btn btn-active w-100"
-                            onClick={() => {
-                              setTokenState({
-                                step0: false,
-                                step1: true,
-                                step2: false,
-                                step3: false,
-                                step4: false,
-                                title: "Manage Token",
-                              });
-                            }}
-                          >
-                            Token Lists
-                          </button>
-                        </div>
-                        <div className="blk-width">
-                          <button
-                            type="button"
-                            className="btn w-100"
-                            onClick={() => {
-                              addTokenHandler();
-                            }}
-                          >
-                            Add token
-                          </button>
+              {showTokenModal && tokenState.step2 && (
+                <div className="popmodal-body tokn-popup no-ht">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                      <div className="black-bg-sec">
+                        <div className="token-btn-sec pop-btns-grid">
+                          <div className="blk-width">
+                            <button
+                              type="button"
+                              className="btn btn-active w-100"
+                              onClick={() => {
+                                setTokenState({
+                                  step0: false,
+                                  step1: true,
+                                  step2: false,
+                                  step3: false,
+                                  step4: false,
+                                  title: "Manage Token",
+                                });
+                              }}
+                            >
+                              Token Lists
+                            </button>
+                          </div>
+                          <div className="blk-width">
+                            <button
+                              type="button"
+                              className="btn w-100"
+                              onClick={() => {
+                                addTokenHandler();
+                              }}
+                            >
+                              Add token
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="sec-search sec-search-secondry">
-                      <div
-                        className="position-relative search-row"
-                      // onClick={() => {
-                      //   if(newToken !== '')
-                      //   setTokenState({
-                      //     step0: false,
-                      //     step1: false,
-                      //     step2: false,
-                      //     step3: true,
-                      //     step4: false,
-                      //     title: "Manage Token",
-                      //   });
-                      // }}
-                      // onClick={() => {
-                      //   addTokenHandler();
-                      // }}
-                      >
-                        <input
-                          type="text"
-                          className="w-100"
-                          placeholder="Enter Token Address"
-                          autoFocus={newToken.length > 0}
-                          value={newToken}
-                          onChange={(e: any) => {
-                            addNewToken(e.target.value);
-                            // addTokenHandler();
-                          }}
-                        />
-                        <div className="search-icon">
-                          <img
-                            width="20"
-                            height="21"
-                            className="img-fluid"
-                            src="../../assets/images/search.png"
-                            alt=""
+                      <div className="sec-search sec-search-secondry">
+                        <div
+                          className="position-relative search-row"
+                        // onClick={() => {
+                        //   if(newToken !== '')
+                        //   setTokenState({
+                        //     step0: false,
+                        //     step1: false,
+                        //     step2: false,
+                        //     step3: true,
+                        //     step4: false,
+                        //     title: "Manage Token",
+                        //   });
+                        // }}
+                        // onClick={() => {
+                        //   addTokenHandler();
+                        // }}
+                        >
+                          <input
+                            type="text"
+                            className="w-100"
+                            placeholder="Enter Token Address"
+                            autoFocus={newToken.length > 0}
+                            value={newToken}
+                            onChange={(e: any) => {
+                              addNewToken(e.target.value);
+                              // addTokenHandler();
+                            }}
                           />
+                          <div className="search-icon">
+                            <img
+                              width="20"
+                              height="21"
+                              className="img-fluid"
+                              src="../../assets/images/search.png"
+                              alt=""
+                            />
+                          </div>
                         </div>
                       </div>
+                      <div className="pop-bottom pt-0">
+                       
+                      <div className="">
+                        
+                      <div className="grid-block">
+                          <div className="blk-width">
+                            <div>{localTokens.length} Token Found</div>
+                            <p className="lite-color">
+                              Token stored in your browser
+                            </p>
+                          </div>
+                          <div style={{textAlign : "right"}} className="blk-width btn-sm">
+                            <button
+                              type="button"
+                              // className="btn primary-btn w-95"
+                              className="primary-text"
+                              onClick={clearAllCustomTokens}
+                            >
+                              Clear All
+                            </button>
+                          </div>
+                        </div>
+                      <div className="token-listwrap usr-listht">
+                          {localTokens.map((x: any, index: any) => (
+                            <div className="tokn-row" key={x.parentContract}>
+                              <div className="cryoto-box">
+                                <img
+                                  className="img-fluid"
+                                  src={
+                                    x.logo
+                                      ? x.logo
+                                      : "../../../assets/images/shib-borderd-icon.png"
+                                  }
+                                  alt=""
+                                />
+                              </div>
+                              <div className="tkn-grid">
+                                <div>
+                                  <h6 className="fw-bold">{x.parentSymbol}</h6>
+                                  <p>{x.parentName}</p>
+                                </div>
+                                <div>
+                                  <span
+                                    className="me-4"
+                                    onClick={() => spliceCustomToken(index)}
+                                  >
+                                    <img
+                                      className="img-fluid"
+                                      src="../../../assets/images/del.png"
+                                      alt=""
+                                    />
+                                  </span>
+                                  <span>
+                                    <img
+                                      className="img-fluid"
+                                      src="../../../assets/images/up.png"
+                                      alt=""
+                                    />
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        
+                        
+                      </div>
                     </div>
-                  </div>
-                  {/* <div className="pop-mid">
+                    </div>
+                    {/* <div className="pop-mid">
                     <div className="center-content">
                       <p>Custom token not found Add your first custom token</p>
                     </div>
                   </div> */}
 
-                  <div className="pop-bottom pt-0">
-                    <div className="">
-                      <div className="grid-block">
-                        <div className="blk-width">
-                          <div>{localTokens.length} Token Found</div>
-                          <p className="lite-color">
-                            Token stored in your browser
-                          </p>
-                        </div>
-                        <div className="blk-width btn-sm">
-                          <button
-                            type="button"
-                            className="btn primary-btn w-100"
-                            onClick={clearAllCustomTokens}
-                          >
-                            Clear All
-                          </button>
-                        </div>
-                      </div>
-                      <div className="token-listwrap usr-listht">
-                        {localTokens.map((x: any, index: any) => (
-                          <div className="tokn-row" key={x.parentContract}>
-                            <div className="cryoto-box">
-                              <img
-                                className="img-fluid"
-                                src={
-                                  x.logo
-                                    ? x.logo
-                                    : "../../../assets/images/shib-borderd-icon.png"
-                                }
-                                alt=""
-                              />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">{x.parentSymbol}</h6>
-                                <p>{x.parentName}</p>
-                              </div>
-                              <div>
-                                <span
-                                  className="me-4"
-                                  onClick={() => spliceCustomToken(index)}
-                                >
-                                  <img
-                                    className="img-fluid"
-                                    src="../../../assets/images/del.png"
-                                    alt=""
-                                  />
-                                </span>
-                                <span>
-                                  <img
-                                    className="img-fluid"
-                                    src="../../../assets/images/up.png"
-                                    alt=""
-                                  />
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                  
+                    <div className="myTipsArea">Tip: Custom tokens are stored locally in your browser </div>
                   </div>
                 </div>
-              </div>
-            )}
-            {/* Add token popop ends */}
+              )}
+              {/* Add token popop ends */}
 
             {/* search popop starts */}
 
-            {showTokenModal && tokenState.step3 && (
-              <div className="popmodal-body tokn-popup no-ht">
-                <div className="pop-block">
-                  <div className="pop-top">
-                    <div className="black-bg-sec">
-                      <div className="token-btn-sec pop-btns-grid">
-                        <div className="blk-width">
-                          <button
-                            type="button"
-                            className="btn btn-active w-100"
-                            onClick={() => {
-                              setTokenState({
-                                step0: false,
-                                step1: true,
-                                step2: false,
-                                step3: false,
-                                step4: false,
-                                title: "Manage Token",
-                              });
-                            }}
-                          >
-                            Token Lists
-                          </button>
-                        </div>
-                        <div className="blk-width">
-                          <button type="button" className="btn w-100">
-                            Add token
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="sec-search sec-search-secondry">
-                      <div className="position-relative search-row">
-                        <input
-                          type="text"
-                          className="w-100"
-                          placeholder="Enter Token Address"
-                          onChange={(e) => {
-                            addNewToken(e.target.value);
-                          }}
-                          autoFocus={newToken.length > 0}
-                          value={newToken ? newToken : ""}
-                        />
-                        <div className="search-icon">
-                          <img
-                            width="20"
-                            height="21"
-                            className="img-fluid"
-                            src="../../assets/images/search.png"
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="pop-bottom pt-0">
-                    <div className="">
-                      <div className="grid-block"></div>
-                      <div className="token-listwrap usr-listht">
-                        {JSON.stringify(tempTokens) !== "{}" ? (
-                          <div className="tokn-row">
-                            <div className="cryoto-box">
-                              <img
-                                className="img-fluid"
-                                src={
-                                  tempTokens?.logo
-                                    ? tempTokens?.logo
-                                    : "../../../assets/images/shib-borderd-icon.png"
-                                }
-                                alt=""
-                              />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">
-                                  {tempTokens.parentSymbol}
-                                </h6>
-                                <p>{tempTokens.parentName}</p>
-                              </div>
-                              <div>
-                                <span onClick={addTokenHandler}>
-                                  <img
-                                    className="img-fluid"
-                                    src="../../../assets/images/up.png"
-                                    alt=""
-                                  />
-                                </span>
-                              </div>
-                            </div>
+              {showTokenModal && tokenState.step3 && (
+                <div className="popmodal-body tokn-popup no-ht">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                      <div className="black-bg-sec">
+                        <div className="token-btn-sec pop-btns-grid">
+                          <div className="blk-width">
+                            <button
+                              type="button"
+                              className="btn btn-active w-100"
+                              onClick={() => {
+                                setTokenState({
+                                  step0: false,
+                                  step1: true,
+                                  step2: false,
+                                  step3: false,
+                                  step4: false,
+                                  title: "Manage Token",
+                                });
+                              }}
+                            >
+                              Token Lists
+                            </button>
                           </div>
-                        ) : (
-                          ""
-                        )}
+                          <div className="blk-width">
+                            <button type="button" className="btn w-100">
+                              Add token
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="sec-search sec-search-secondry">
+                        <div className="position-relative search-row">
+                          <input
+                            type="text"
+                            className="w-100"
+                            placeholder="Enter Token Address"
+                            onChange={(e) => {
+                              addNewToken(e.target.value);
+                            }}
+                            autoFocus={newToken.length > 0}
+                            value={newToken ? newToken : ""}
+                          />
+                          <div className="search-icon">
+                            <img
+                              width="20"
+                              height="21"
+                              className="img-fluid"
+                              src="../../assets/images/search.png"
+                              alt=""
+                            />
+                          </div>
+                        </div>
+                        
+                      </div>
+                      <div className="pop-bottom pt-0">
+                      <div className="">
+                        <div className="grid-block">
+                          <div className="blk-width">
+                            <div>{localTokens.length} Token Found</div>
+                            <p className="lite-color">
+                              Token stored in your browser
+                            </p>
+                          </div>
+                          <div  style={{textAlign : "right"}} className="blk-width btn-sm">
+                            <button
+                              type="button"
+                              // className="btn primary-btn w-100"
+                              className="primary-text"
+                              onClick={clearAllCustomTokens}
+                            >
+                              Clear All
+                            </button>
+                          </div>
+                        </div>
+                        <div className="token-listwrap usr-listht">
+                          {localTokens.map((x: any, index: any) => (
+                            <div className="tokn-row" key={x.parentContract}>
+                              <div className="cryoto-box">
+                                <img
+                                  className="img-fluid"
+                                  src={
+                                    x.logo
+                                      ? x.logo
+                                      : "../../../assets/images/shib-borderd-icon.png"
+                                  }
+                                  alt=""
+                                />
+                              </div>
+                              <div className="tkn-grid">
+                                <div>
+                                  <h6 className="fw-bold">{x.parentSymbol}</h6>
+                                  <p>{x.parentName}</p>
+                                </div>
+                                <div>
+                                  <span
+                                    className="me-4"
+                                    onClick={() => spliceCustomToken(index)}
+                                  >
+                                    <img
+                                      className="img-fluid"
+                                      src="../../../assets/images/del.png"
+                                      alt=""
+                                    />
+                                  </span>
+                                  <span>
+                                    <img
+                                      className="img-fluid"
+                                      src="../../../assets/images/up.png"
+                                      alt=""
+                                    />
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  {/* <div className="h-100">
+                    </div>
+                    <div className="pop-bottom pt-0">
+                      <div className="">
+                        <div className="grid-block"></div>
+                        <div className="token-listwrap usr-listht">
+                          {JSON.stringify(tempTokens) !== "{}" ? (
+                            <div className="tokn-row">
+                              <div className="cryoto-box">
+                                <img
+                                  className="img-fluid"
+                                  src={
+                                    tempTokens?.logo
+                                      ? tempTokens?.logo
+                                      : "../../../assets/images/shib-borderd-icon.png"
+                                  }
+                                  alt=""
+                                />
+                              </div>
+                              <div className="tkn-grid">
+                                <div>
+                                  <h6 className="fw-bold">
+                                    {tempTokens.parentSymbol}
+                                  </h6>
+                                  <p>{tempTokens.parentName}</p>
+                                </div>
+                                <div>
+                                  <span onClick={addTokenHandler}>
+                                    <img
+                                      className="img-fluid"
+                                      src="../../../assets/images/up.png"
+                                      alt=""
+                                    />
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    {/* <div className="h-100">
                     <div className="two-col position-relative">
                       <div className="left-sec-img">
                         <div>
@@ -2200,215 +2271,153 @@ export default function Withdraw() {
                     </div>
                   </div> */}
 
-                  <div className="pop-bottom pt-0">
-                    <div className="">
-                      <div className="grid-block">
-                        <div className="blk-width">
-                          <div>{localTokens.length} Token Found</div>
-                          <p className="lite-color">
-                            Token stored in your browser
-                          </p>
-                        </div>
-                        <div className="blk-width btn-sm">
-                          <button
-                            type="button"
-                            className="btn primary-btn w-100"
-                            onClick={clearAllCustomTokens}
-                          >
-                            Clear All
-                          </button>
-                        </div>
+                   
+                    <div className="pop-bottom">
+                      <div className="">
+                        <a
+                          className="btn primary-btn w-100"
+                          href="javascript:void(0)"
+                          onClick={() => {
+                            // setTokenState({
+                            //   step0: false,
+                            //   step1: false,
+                            //   step2: false,
+                            //   step3: false,
+                            //   step4: true,
+                            //   title: "Manage Token",
+                            // });
+                            addTokenHandler();
+                            addNewToken('')
+                          }}
+                        >
+                          Add Token
+                        </a>
                       </div>
-                      <div className="token-listwrap usr-listht">
-                        {localTokens.map((x: any, index: any) => (
-                          <div className="tokn-row" key={x.parentContract}>
-                            <div className="cryoto-box">
-                              <img
-                                className="img-fluid"
-                                src={
-                                  x.logo
-                                    ? x.logo
-                                    : "../../../assets/images/shib-borderd-icon.png"
-                                }
-                                alt=""
-                              />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">{x.parentSymbol}</h6>
-                                <p>{x.parentName}</p>
-                              </div>
-                              <div>
-                                <span
-                                  className="me-4"
-                                  onClick={() => spliceCustomToken(index)}
-                                >
-                                  <img
-                                    className="img-fluid"
-                                    src="../../../assets/images/del.png"
-                                    alt=""
-                                  />
-                                </span>
-                                <span>
-                                  <img
-                                    className="img-fluid"
-                                    src="../../../assets/images/up.png"
-                                    alt=""
-                                  />
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="pop-bottom">
-                    <div className="">
-                      <a
-                        className="btn primary-btn w-100"
-                        href="javascript:void(0)"
-                        onClick={() => {
-                          // setTokenState({
-                          //   step0: false,
-                          //   step1: false,
-                          //   step2: false,
-                          //   step3: false,
-                          //   step4: true,
-                          //   title: "Manage Token",
-                          // });
-                          addTokenHandler();
-                        }}
-                      >
-                        Add Token
-                      </a>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
-            {/* Search popop ends */}
+              )}
+              {/* Search popop ends */}
 
-            {/* new added token with delete action starts */}
-            {showTokenModal && tokenState.step4 && (
-              <div className="popmodal-body tokn-popup no-ht">
-                <div className="pop-block">
-                  <div className="pop-top">
-                    <div className="black-bg-sec">
-                      <div className="token-btn-sec pop-btns-grid">
-                        <div className="blk-width">
-                          <button
-                            type="button"
-                            className="btn btn-active w-100"
-                            onClick={() => {
-                              setTokenState({
-                                step0: false,
-                                step1: true,
-                                step2: false,
-                                step3: false,
-                                step4: false,
-                                title: "Manage Token",
-                              });
-                            }}
-                          >
-                            Token Lists
-                          </button>
-                        </div>
-                        <div className="blk-width">
-                          <button type="button" className="btn w-100">
-                            Add token
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="sec-search sec-search-secondry">
-                      <div className="position-relative search-row">
-                        <input
-                          type="text"
-                          className="w-100"
-                          placeholder="Add list by https://"
-                          onChange={(e) => {
-                            addNewToken(e.target.value);
-                          }}
-                          autoFocus={newToken.length > 0}
-                          value={newToken ? newToken : ""}
-                        />
-                        <div className="search-icon">
-                          <img
-                            width="20"
-                            height="21"
-                            className="img-fluid"
-                            src="../../assets/images/search.png"
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="pop-bottom pt-0">
-                    <div className="">
-                      <div className="grid-block">
-                        <div className="blk-width">
-                          <div>{localTokens.length} Token Found</div>
-                          <p className="lite-color">
-                            Token stored in your browser
-                          </p>
-                        </div>
-                        <div className="blk-width btn-sm">
-                          <button
-                            type="button"
-                            className="btn primary-btn w-100"
-                            onClick={clearAllCustomTokens}
-                          >
-                            Clear All
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="token-listwrap usr-listht">
-                    {localTokens.map((x: any, index: any) => (
-                      <div className="tokn-row" key={x.parentContract}>
-                        <div className="cryoto-box">
-                          <img
-                            className="img-fluid"
-                            src={
-                              x.logo
-                                ? x.logo
-                                : "../../../assets/images/shib-borderd-icon.png"
-                            }
-                            alt=""
-                          />
-                        </div>
-                        <div className="tkn-grid">
-                          <div>
-                            <h6 className="fw-bold">{x.parentSymbol}</h6>
-                            <p>{x.parentName}</p>
-                          </div>
-                          <div>
-                            <span
-                              className="me-4"
-                              onClick={() => spliceCustomToken(index)}
+              {/* new added token with delete action starts */}
+              {showTokenModal && tokenState.step4 && (
+                <div className="popmodal-body tokn-popup no-ht">
+                  <div className="pop-block">
+                    <div className="pop-top">
+                      <div className="black-bg-sec">
+                        <div className="token-btn-sec pop-btns-grid">
+                          <div className="blk-width">
+                            <button
+                              type="button"
+                              className="btn btn-active w-100"
+                              onClick={() => {
+                                setTokenState({
+                                  step0: false,
+                                  step1: true,
+                                  step2: false,
+                                  step3: false,
+                                  step4: false,
+                                  title: "Manage Token",
+                                });
+                              }}
                             >
-                              <img
-                                className="img-fluid"
-                                src="../../../assets/images/del.png"
-                                alt=""
-                              />
-                            </span>
-                            <span>
-                              <img
-                                className="img-fluid"
-                                src="../../../assets/images/up.png"
-                                alt=""
-                              />
-                            </span>
+                              Token Lists
+                            </button>
+                          </div>
+                          <div className="blk-width">
+                            <button type="button" className="btn w-100">
+                              Add token
+                            </button>
                           </div>
                         </div>
                       </div>
-                    ))}
-                    {/* <div className="tokn-row">
+                      <div className="sec-search sec-search-secondry">
+                        <div className="position-relative search-row">
+                          <input
+                            type="text"
+                            className="w-100"
+                            placeholder="Add list by https://"
+                            onChange={(e) => {
+                              addNewToken(e.target.value);
+                            }}
+                            autoFocus={newToken.length > 0}
+                            value={newToken ? newToken : ""}
+                          />
+                          <div className="search-icon">
+                            <img
+                              width="20"
+                              height="21"
+                              className="img-fluid"
+                              src="../../assets/images/search.png"
+                              alt=""
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="pop-bottom pt-0">
+                      <div className="">
+                        <div className="grid-block">
+                          <div className="blk-width">
+                            <div>{localTokens.length} Token Found</div>
+                            <p className="lite-color">
+                              Token stored in your browser
+                            </p>
+                          </div>
+                          <div style={{textAlign : "right"}} className="blk-width btn-sm">
+                            <button
+                              type="button"
+                              // className="btn primary-btn w-100"
+                              className="primary-text"
+                              onClick={clearAllCustomTokens}
+                            >
+                              Clear All
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="token-listwrap usr-listht">
+                      {localTokens.map((x: any, index: any) => (
+                        <div className="tokn-row" key={x.parentContract}>
+                          <div className="cryoto-box">
+                            <img
+                              className="img-fluid"
+                              src={
+                                x.logo
+                                  ? x.logo
+                                  : "../../../assets/images/shib-borderd-icon.png"
+                              }
+                              alt=""
+                            />
+                          </div>
+                          <div className="tkn-grid">
+                            <div>
+                              <h6 className="fw-bold">{x.parentSymbol}</h6>
+                              <p>{x.parentName}</p>
+                            </div>
+                            <div>
+                              <span
+                                className="me-4"
+                                onClick={() => spliceCustomToken(index)}
+                              >
+                                <img
+                                  className="img-fluid"
+                                  src="../../../assets/images/del.png"
+                                  alt=""
+                                />
+                              </span>
+                              <span>
+                                <img
+                                  className="img-fluid"
+                                  src="../../../assets/images/up.png"
+                                  alt=""
+                                />
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                      {/* <div className="tokn-row">
                           <div className="cryoto-box">
                             <img
                               className="img-fluid"
@@ -2716,10 +2725,14 @@ export default function Withdraw() {
               </div>
             )}
             {/* new added token with delete action ends */}
+                    </div>
+                    </div>
+
+                    <div className="myTipsArea">Tip: Custom tokens are stored locally in your browser </div>
+                
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
             {/* Token popups end */}
           </>
