@@ -246,7 +246,7 @@ export default function Withdraw() {
                 step2: true,
                 title: "Transaction Submitted",
               });
-              setDepositTokenInput('');
+              // setDepositTokenInput('');
             }).on('receipt', (res: any) => {
               // console.log(res, "receipt")
               dispatch(
@@ -299,7 +299,7 @@ export default function Withdraw() {
     }
   }
 
-  const callDepositModal = (values: any, resetForm:any) => {
+  const callDepositModal = (values: any, resetForm: any) => {
     try {
       setDepositTokenInput(values.amount)
       {
@@ -373,8 +373,8 @@ export default function Withdraw() {
                 step2: true,
                 title: "Transaction Submitted",
               });
-              setDepositTokenInput('');
-            
+              // setDepositTokenInput('');
+
             }).on('receipt', (res: any) => {
               // console.log(res, "receipt")
               dispatch(
@@ -973,14 +973,14 @@ export default function Withdraw() {
                         </p>
                       </div>
                     </div>
-                    {/* <div className="pop-action">
-                      <a
-                        className="btn primary-btn w-100 w-100"
-                        href="javascript:void(0)"
-                      >
-                        ETHEREUM MAINNET
-                      </a>
-                    </div> */}
+                    <div className="image_area row">
+                      <div className="col-12 text-center watch-img-sec">
+                        <img
+                          className="img-fluid img-wdth"
+                          src="../../assets/images/cmpete-step.png"
+                        />
+                      </div>
+                    </div>
                   </div>
                   <div className="pop-bottom">
                     <div className="text-section complete-modal">
@@ -2912,10 +2912,10 @@ export default function Withdraw() {
                           toChain: 417
                         }}
                         validationSchema={depositValidations}
-                        onSubmit={(values, {resetForm}) => {
+                        onSubmit={(values, { resetForm }) => {
                           // console.log(actions);
-                          callDepositModal(values,resetForm);
-                          
+                          callDepositModal(values, resetForm);
+
                         }}
                       >
                         {({
@@ -3153,7 +3153,7 @@ export default function Withdraw() {
                         toChain: ""
                       }}
                       validationSchema={withdrawValidations}
-                      onSubmit={(values, {resetForm}) => {
+                      onSubmit={(values, { resetForm }) => {
                         // console.log(values);
                         callWithdrawModal(values);
                         resetForm();
