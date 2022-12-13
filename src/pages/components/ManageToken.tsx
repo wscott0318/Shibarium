@@ -96,6 +96,8 @@ export default function ManageToken({setOpenManageToken, ...props} : any){
     }, [account]);
   
     const handleSearchList = (key: any) => {
+        
+        console.log(key,"keyyy")
       try {
         setmodalKeyword(key);
         if (key.length) {
@@ -106,7 +108,12 @@ export default function ManageToken({setOpenManageToken, ...props} : any){
               .includes(key.toLowerCase());
           });
           setTokenModalList(newData);
+          if(newData.length <= 0){
+            addNewToken(key)
+          }
+          console.log(newData,"new data ====")
         } else {
+            
           setTokenModalList(tokenList);
         }
       } catch (err: any) {
@@ -189,7 +196,7 @@ export default function ManageToken({setOpenManageToken, ...props} : any){
     useEffect(() => {
       const isValidAddress = web3.utils.isAddress(String(newToken));
       try {
-        if (tokenState.step2 && isValidAddress) {
+        if ((tokenState.step2 || tokenState.step0) && isValidAddress) {
           toast.success("Address is valid", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 600,
@@ -408,6 +415,8 @@ export default function ManageToken({setOpenManageToken, ...props} : any){
                           placeholder="Search token or token address"
                           onChange={(e) => {
                             handleSearchList(e.target.value);
+                            getTempTokens()
+                            
                           }}
                         />
                         <div className="search-icon">
@@ -479,6 +488,7 @@ export default function ManageToken({setOpenManageToken, ...props} : any){
                             </div>
                           ))
                         : null}
+                        
                       {!tokenModalList.length && modalKeyword ? (
                         <p className="py-3 py-md-4 py-lg-5 text-center">
                           no record found
