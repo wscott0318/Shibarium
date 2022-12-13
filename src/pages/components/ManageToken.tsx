@@ -1,21 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import CommonModal from "../components/CommonModel";
 import { getWalletTokenList } from "../../services/apis/validator/index";
 import { getTokenBalance } from "../../hooks/useTokenBalance";
 import { getBoneUSDValue } from "../../services/apis/validator/index";
 import { useActiveWeb3React } from "../../services/web3";
 import { BONE_ID } from "../../config/constant";
-import depositManagerABI from "../../ABI/depositManagerABI.json";
 import Web3 from "web3";
-import {
-  addTransaction,
-  finalizeTransaction,
-} from "app/state/transactions/actions";
 import { useAppDispatch } from "../../state/hooks";
-import fromExponential from "from-exponential";
-import { getExplorerLink } from "app/functions";
-import ERC20 from "../../ABI/ERC20Abi.json";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import addTokenAbi from "../../ABI/custom-token-abi.json";
@@ -33,10 +24,8 @@ export const ManageToken = () => {
     const [selectedToken, setSelectedToken] = useState(
       JSON.parse(localStorage.getItem("depositToken") || "{}")
     );
-    const [showDepositModal, setDepositModal] = useState(false);
     const [showTokenModal, setTokenModal] = useState(true);
     const [boneUSDValue, setBoneUSDValue] = useState(0);
-    const [hashLink, setHashLink] = useState("");
     const [newToken, addNewToken] = useState("");
     const [confirmImport, setConfirmImport] = useState(true);
     const [agreeImport, setAgreeImport] = useState(false);
@@ -44,7 +33,7 @@ export const ManageToken = () => {
     // const handleMenuState = () => {
     //   setMenuState(!menuState);
     // };
-    // const router = useRouter();
+    // const router = useRouter()
     // useEffect(() => {
     //   console.log("chain id  , ", SUPPORTED_NETWORKS);
     // })
@@ -54,21 +43,6 @@ export const ManageToken = () => {
         setBoneUSDValue(res.data.data.price);
       });
     }, [account]);
-  
-    // const [withModalState, setWidModState] = useState({
-    //   step0: true,
-    //   step1: false,
-    //   step2: false,
-    //   step3: false,
-    //   step4: false,
-    //   title: "Initialize Withdraw",
-    // });
-    const [depModalState, setDepModState] = useState({
-      step0: true,
-      step1: false,
-      step2: false,
-      title: "Confirm deposit",
-    });
     const [tokenState, setTokenState] = useState({
       step0: true,
       step1: false,
@@ -145,282 +119,7 @@ export const ManageToken = () => {
       setSelectedToken(token);
       setTokenModal(false);
     };
-  
-    // const handleMax = () => {
-    //   setDepositTokenInput(selectedToken.balance);
-    // };
-  
-    // const depositValidations: any = Yup.object({
-    //   fromChain: Yup.number().required("Required Field"),
-    //   toChain: Yup.number().required("Required Field"),
-    //   amount: Yup.number()
-    //     .typeError("Only digits are allowed.")
-    //     .min(0)
-    //     .max(selectedToken.balance)
-    //     .typeError("Amount must be less or equal to you current balance.")
-    //     .required("Amount is required."),
-    // });
-    // const withdrawValidations: any = Yup.object({
-    //   fromChain: Yup.number().required("Required Field"),
-    //   toChain: Yup.number().required("Required Field"),
-    //   amount: Yup.number()
-    //     .typeError("Only digits are allowed.")
-    //     .min(0)
-    //     .max(selectedToken.balance)
-    //     .typeError("Amount must be less or equal to you current balance.")
-    //     .required("Amount is required."),
-    // });
-  
-    // const approvalForDeposit = (amount: any, token: any, contract: any) => {
-    //   try {
-    //     let user: any = account;
-    //     const amountWei = web3.utils.toBN(
-    //       fromExponential(1000 * Math.pow(10, 18))
-    //     );
-    //     let instance = new web3.eth.Contract(ERC20, token);
-    //     instance.methods
-    //       .approve(contract, amountWei)
-    //       .send({ from: user })
-    //       .on("transactionHash", (res: any) => {
-    //         // console.log(res, "hash")
-    //         dispatch(
-    //           addTransaction({
-    //             hash: res,
-    //             from: user,
-    //             chainId,
-    //             summary: `${res}`,
-    //           })
-    //         );
-    //       })
-    //       .on("receipt", (res: any) => {
-    //         // console.log(res, "receipt")
-    //         dispatch(
-    //           finalizeTransaction({
-    //             hash: res.transactionHash,
-    //             chainId,
-    //             receipt: {
-    //               to: res.to,
-    //               from: res.from,
-    //               contractAddress: res.contractAddress,
-    //               transactionIndex: res.transactionIndex,
-    //               blockHash: res.blockHash,
-    //               transactionHash: res.transactionHash,
-    //               blockNumber: res.blockNumber,
-    //               status: 1,
-    //             },
-    //           })
-    //         );
-    //         // call deposit contract
-    //         let instance = new web3.eth.Contract(
-    //           depositManagerABI,
-    //           dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-    //         );
-    //         instance.methods
-    //           .depositERC20(dynamicChaining[chainId].BONE, user, amount)
-    //           .send({ from: account })
-    //           .on("transactionHash", (res: any) => {
-    //             // console.log(res, "hash")
-    //             dispatch(
-    //               addTransaction({
-    //                 hash: res,
-    //                 from: user,
-    //                 chainId,
-    //                 summary: `${res}`,
-    //               })
-    //             );
-    //             let link = getExplorerLink(chainId, res, "transaction");
-    //             setHashLink(link);
-    //             setDepModState({
-    //               step0: false,
-    //               step1: false,
-    //               step2: true,
-    //               title: "Transaction Submitted",
-    //             });
-    //             // setDepositTokenInput('');
-    //           })
-    //           .on("receipt", (res: any) => {
-    //             // console.log(res, "receipt")
-    //             dispatch(
-    //               finalizeTransaction({
-    //                 hash: res.transactionHash,
-    //                 chainId,
-    //                 receipt: {
-    //                   to: res.to,
-    //                   from: res.from,
-    //                   contractAddress: res.contractAddress,
-    //                   transactionIndex: res.transactionIndex,
-    //                   blockHash: res.blockHash,
-    //                   transactionHash: res.transactionHash,
-    //                   blockNumber: res.blockNumber,
-    //                   status: 1,
-    //                 },
-    //               })
-    //             );
-    //             setDepositModal(false);
-    //           })
-    //           .on("error", (res: any) => {
-    //             // console.log(res, "error")
-    //             if (res.code === 4001) {
-    //               setDepModState({
-    //                 step0: true,
-    //                 step1: false,
-    //                 step2: false,
-    //                 title: "Confirm deposit",
-    //               });
-    //               setDepositModal(false);
-    //             }
-    //           });
-    //         //deposit contract ends
-    //       })
-    //       .on("error", (res: any) => {
-    //         // console.log(res, "error")
-    //         if (res.code === 4001) {
-    //           setDepModState({
-    //             step0: true,
-    //             step1: false,
-    //             step2: false,
-    //             title: "Confirm deposit",
-    //           });
-    //           setDepositModal(false);
-    //         }
-    //       });
-    //   } catch (err: any) {
-    //     Sentry.captureMessage("approvalForDeposit", err);
-    //   }
-    // };
-  
-    // const callDepositModal = (values: any, resetForm: any) => {
-    //   try {
-    //     setDepositTokenInput(values.amount);
-    //     {
-    //       setDepModState({
-    //         step0: true,
-    //         step1: false,
-    //         step2: false,
-    //         title: "Confirm deposit",
-    //       });
-    //       setDepositModal(true);
-    //       resetForm();
-    //     }
-    //   } catch (err: any) {
-    //     Sentry.captureMessage("callDepositModal", err);
-    //   }
-    // };
-    // const callWithdrawModal = (values: any) => {
-    //   try {
-    //     setDepositTokenInput(values.amount);
-    //     {
-    //       setDepModState({
-    //         step0: true,
-    //         step1: false,
-    //         step2: false,
-    //         title: "Confirm deposit",
-    //       });
-    //       setDepositModal(true);
-    //     }
-    //   } catch (err: any) {
-    //     Sentry.captureMessage("callDepositModal", err);
-    //   }
-    // };
-  
-    // const callDepositContract = async () => {
-    //   try {
-    //     if (account) {
-    //       setDepModState({
-    //         step0: false,
-    //         step1: true,
-    //         step2: false,
-    //         title: "Transaction Pending",
-    //       });
-    //       let user: any = account;
-    //       const amountWei = web3.utils.toBN(
-    //         fromExponential(+depositTokenInput * Math.pow(10, 18))
-    //       );
-    //       let allowance =
-    //         (await getAllowanceAmount(
-    //           library,
-    //           dynamicChaining[chainId].BONE,
-    //           account,
-    //           dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-    //         )) || 0;
-  
-    //       if (+depositTokenInput > +allowance) {
-    //         // console.log("need approval")
-    //         approvalForDeposit(
-    //           amountWei,
-    //           dynamicChaining[chainId].BONE,
-    //           dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-    //         );
-    //       } else {
-    //         // console.log("no approval needed")
-    //         let instance = new web3.eth.Contract(
-    //           depositManagerABI,
-    //           dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-    //         );
-    //         instance.methods
-    //           .depositERC20ForUser(dynamicChaining[chainId].BONE, user, amountWei)
-    //           .send({ from: account })
-    //           .on("transactionHash", (res: any) => {
-    //             // console.log(res, "hash")
-    //             dispatch(
-    //               addTransaction({
-    //                 hash: res,
-    //                 from: user,
-    //                 chainId,
-    //                 summary: `${res}`,
-    //               })
-    //             );
-    //             let link = getExplorerLink(chainId, res, "transaction");
-    //             setHashLink(link);
-    //             setDepModState({
-    //               step0: false,
-    //               step1: false,
-    //               step2: true,
-    //               title: "Transaction Submitted",
-    //             });
-    //             // setDepositTokenInput('');
-    //           })
-    //           .on("receipt", (res: any) => {
-    //             // console.log(res, "receipt")
-    //             dispatch(
-    //               finalizeTransaction({
-    //                 hash: res.transactionHash,
-    //                 chainId,
-    //                 receipt: {
-    //                   to: res.to,
-    //                   from: res.from,
-    //                   contractAddress: res.contractAddress,
-    //                   transactionIndex: res.transactionIndex,
-    //                   blockHash: res.blockHash,
-    //                   transactionHash: res.transactionHash,
-    //                   blockNumber: res.blockNumber,
-    //                   status: 1,
-    //                 },
-    //               })
-    //             );
-    //             setDepositModal(false);
-    //           })
-    //           .on("error", (res: any) => {
-    //             // console.log(res, "error")
-    //             if (res.code === 4001) {
-    //               setDepModState({
-    //                 step0: true,
-    //                 step1: false,
-    //                 step2: false,
-    //                 title: "Confirm deposit",
-    //               });
-    //               setDepositModal(false);
-    //             }
-    //           });
-    //       }
-    //     } else {
-    //       // console.log("account not found")
-    //     }
-    //   } catch (err: any) {
-    //     Sentry.captureMessage("callDepositContract", err);
-    //   }
-    // };
-  
+ 
     const addTokenHandler = async () => {
         addNewToken('')
       setConfirmImport(!confirmImport);
