@@ -341,6 +341,7 @@ export default function Withdraw() {
 
   const callDepositModal = (values: any, resetForm: any) => {
     try {
+      console.log("deposit values =>  ",values);
       setDepositTokenInput(values.amount);
       {
         setDepModState({
@@ -357,8 +358,9 @@ export default function Withdraw() {
     }
   };
   const callWithdrawModal = (values: any) => {
+    console.log("withdraw values =>  ",values);
     try {
-      setWithdrawTokenInput(values.amount);
+      setWithdrawTokenInput(values.withdrawAmount);
       {
         setWidModState({
           step0: true,
@@ -1085,7 +1087,9 @@ export default function Withdraw() {
                             alt=""
                           />
                         </span>
-                        <h6>100 BONE</h6>
+                        <h6>
+                          {withdrawTokenInput + " " + selectedToken.parentName}
+                        </h6>
                         <p>500.00$</p>
                       </div>
                     </div>
@@ -3231,7 +3235,7 @@ export default function Withdraw() {
                                             type="text"
                                             placeholder="0.00"
                                             name="amount"
-                                            defaultValue={depositTokenInput}
+                                            // defaultValue={depositTokenInput}
                                             value={values.amount}
                                             onChange={handleChange("amount")}
                                           />

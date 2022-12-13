@@ -40,7 +40,7 @@ export const getNetworkName = (ID) => {
   }
 };
 
-export const tokenDecimal = 6;
+export const tokenDecimal = 2;
 
 export const toFixedNull = 2;
 export const toFixedPrecent = 2;

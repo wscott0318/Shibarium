@@ -1655,10 +1655,10 @@ const validatorAccount = ({
                     <div className="trans-loader text-center">
                       <div className="d-inline-block img-size-succ">
                         <img
-                          width="224"
-                          height="224"
+                          width="150"
+                          height="150"
                           className="img-fluid"
-                          src="../../assets/images/Ellipse.png"
+                          src="../../assets/images/cmpete-step.png"
                           alt=""
                         />
                       </div>

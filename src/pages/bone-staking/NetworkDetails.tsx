@@ -106,7 +106,7 @@ function NetworkDetails({valCount} : any) {
                       </div>
                       <div className="mid-head">
                         <span>
-                        <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={+(((+totalStake) * boneUSDValue).toFixed(tokenDecimal))} />
+                        {/* <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={+(((+totalStake) * boneUSDValue).toFixed(tokenDecimal))} /> */}
                         </span>
                       </div>
                     </div>
@@ -127,7 +127,7 @@ function NetworkDetails({valCount} : any) {
                       </div>
                       <div className="mid-head">
                         <span>
-                        <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={addDecimalValue((networkDetails?.totalReward || 0) * boneUSDValue)} />
+                        {/* <NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={addDecimalValue((networkDetails?.totalReward || 0) * boneUSDValue)} /> */}
                         </span>
                       </div>
                     </div>

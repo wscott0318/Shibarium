@@ -154,7 +154,7 @@ const BoneStaking = () => {
             <div className="section-info">
               <div className="row align-items-center">
                 <div className="col-md-7 col-sm-12 ff-mos">
-                  <h1 className="ff-mos">Start Earning Rewards with <br /><span className="white-bg">Shibarium Staking</span></h1>
+                  <h1 className="ff-mos">Secure the Network <br />& Earn Rewards with <br /><span className="white-bg">Shibarium Staking</span></h1>
                  {renderButtons()}
                 </div>
                 <div className="col-md-5 col-sm-12 m-hide">
