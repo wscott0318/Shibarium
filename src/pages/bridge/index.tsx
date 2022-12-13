@@ -80,7 +80,7 @@ export default function Withdraw() {
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const [hashLink, setHashLink] = useState("");
   const [newToken, addNewToken] = useState("");
-const [openManageToken,setOpenManageToken] = useState(true)
+const [openManageToken,setOpenManageToken] = useState(false)
   const handleMenuState = () => {
     setMenuState(!menuState);
   };
@@ -1280,6 +1280,15 @@ const [openManageToken,setOpenManageToken] = useState(true)
                         <p className="fw-bold">$20.00</p>
                       </div>
                     </div>
+                    </div>
+                    {/* <div className="pop-mid">
+                    <div className="center-content">
+                      <p>Custom token not found Add your first custom token</p>
+                    </div>
+                  </div> */}
+
+                  
+                    <div className="myTipsArea">Tip: Custom tokens are stored locally in your browser </div>
                   </div>
                   <div className="pop-bottom">
                     <div className="text-section">
@@ -1310,7 +1319,7 @@ const [openManageToken,setOpenManageToken] = useState(true)
                     </div>
                   </div>
                 </div>
-              </div>
+            
             )}
             {/* Reaching checkpoint  popup end */}
 
@@ -1516,6 +1525,10 @@ const [openManageToken,setOpenManageToken] = useState(true)
                         TRANSFER COMPLETE
                       </a>
                     </div>
+                    </div>
+
+                    <div className="myTipsArea">Tip: Custom tokens are stored locally in your browser </div>
+                
                   </div>
                   <div className="pop-bottom">
                     <div className="text-section">
@@ -1543,7 +1556,7 @@ const [openManageToken,setOpenManageToken] = useState(true)
                     </div>
                   </div>
                 </div>
-              </div>
+              
             )}
             {/* withdraw complete popup start */}
           </>
