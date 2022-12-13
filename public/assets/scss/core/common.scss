@@ -3729,9 +3729,9 @@ input:-internal-autofill-selected {
   height: 580px;
   overflow-y: scroll;
 }
-.block-fix.tb-ubd .table-responsive::-webkit-scrollbar {
-  display: none;
-}
+// .block-fix.tb-ubd .table-responsive::-webkit-scrollbar {
+//   display: none;
+// }
 .header-overide {
   .fx-txt {
     .grey-txt {
@@ -3893,8 +3893,8 @@ input:-internal-autofill-selected {
 }
 .out-navlink.false {
   a:hover {
-        text-decoration: none;
-    color: #F06500;
+    text-decoration: none;
+    color: #f06500;
   }
 }
 .out-navlink.out-active {
@@ -4482,4 +4482,3 @@ body::-webkit-scrollbar,
 //     display: none !important;
 //   }
 // }
-

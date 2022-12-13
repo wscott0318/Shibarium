@@ -157,11 +157,10 @@ export default function Withdraw() {
   useEffect(() => {
     if (account) {
       getTokensList();
+    } else {
+      router.push('/')
     }
-    // else {
-    //   router.push('/')
-    // }
-  }, [account]);
+  }, [account])
 
   const handleSearchList = (key: any) => {
     try {
