@@ -1818,7 +1818,7 @@ const [openManageToken,setOpenManageToken] = useState(true)
                                     <div className="col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-3 mb-lg-0  res-align">
                                       <div
                                         className="form-field position-relative fix-coin-field"
-                                        onClick={() => {setOpenManageToken(!openManageToken); console.log("openmanage toke => ",openManageToken);
+                                        onClick={() => {setOpenManageToken(!openManageToken)
                                           // setTokenModal(true);
                                           // setTokenState({
                                           //   step0: true,
