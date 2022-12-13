@@ -76,8 +76,6 @@ const BoneStaking = () => {
           setNodeSetup(res.data.message.val?.status ? res.data.message?.val.status : null)
           setValInfoLoader(false)
           localStorage.setItem("valInfo", JSON.stringify(res.data.message.val))
-
-          
         })
       // }
     } catch (err :any) {

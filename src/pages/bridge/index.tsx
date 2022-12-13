@@ -143,9 +143,9 @@ export default function Withdraw() {
     if (account) {
       getTokensList();
     }
-    // else {
-    //   router.push('/')
-    // }
+    else {
+      router.push('/')
+    }
   }, [account])
 
 
