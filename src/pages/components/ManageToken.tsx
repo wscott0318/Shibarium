@@ -13,7 +13,7 @@ import addTokenAbi from "../../ABI/custom-token-abi.json";
 import * as Sentry from "@sentry/nextjs";
 import { dynamicChaining } from "web3/DynamicChaining";
 
-export default function ManageToken({setOpenManageToken, ...props} : any){
+export default function ManageToken({setOpenManageToken, setSelectedToken, ...props} : any){
 
     const { chainId = 1, account, library } = useActiveWeb3React();
     const lib: any = library;
@@ -21,9 +21,9 @@ export default function ManageToken({setOpenManageToken, ...props} : any){
     const dispatch = useAppDispatch();
   
     const bridgeType: string = localStorage.getItem("bridgeType") || "deposit";
-    const [selectedToken, setSelectedToken] = useState(
-      JSON.parse(localStorage.getItem("depositToken") || "{}")
-    );
+    // const [selectedToken, setSelectedToken] = useState(
+    //   JSON.parse(localStorage.getItem("depositToken") || "{}")
+    // );
     const [showTokenModal, setTokenModal] = useState(true);
     const [boneUSDValue, setBoneUSDValue] = useState(0);
     const [newToken, addNewToken] = useState("");
@@ -123,6 +123,7 @@ export default function ManageToken({setOpenManageToken, ...props} : any){
   
     const handleTokenSelect = (token: any) => {
       // console.log(token)
+      setOpenManageToken(false)
       setSelectedToken(token);
       setTokenModal(false);
     };
@@ -184,6 +185,7 @@ export default function ManageToken({setOpenManageToken, ...props} : any){
         } else {
         }
       } catch (err: any) {
+        console.log(err,"ereerrr ===>")
         Sentry.captureMessage("addTokenHandler", err);
       }
     };
@@ -390,6 +392,19 @@ export default function ManageToken({setOpenManageToken, ...props} : any){
     };
 
 
+    const onBackClick = () => {
+        setTokenModal(true);
+        setConfirmImport(!confirmImport);
+        setAgreeImport(!agreeImport)
+        setTokenState({
+          step0: true,
+          step1: false,
+          step2: false,
+          step3: false,
+          step4: false,
+          title: "Select a Token",
+        });
+      }
 
   return (
     <div>
@@ -397,7 +412,7 @@ export default function ManageToken({setOpenManageToken, ...props} : any){
          <CommonModal
           title={"Select token"}
           show={showTokenModal}
-          setshow={() => {setOpenManageToken(); setTokenModal(false);}}
+          setshow={() => {setOpenManageToken(false); setTokenModal(false);}}
           externalCls="tkn-ht"
         >
           {/* Token popups start */}
@@ -507,19 +522,9 @@ export default function ManageToken({setOpenManageToken, ...props} : any){
               <div className="popmodal-body tokn-popup no-ht">
                 <button
                   className="myBackBtnInTM"
-                  onClick={() => {
-                    setTokenModal(true);
-                    setTokenState({
-                      step0: true,
-                      step1: false,
-                      step2: false,
-                      step3: false,
-                      step4: false,
-                      title: "Select a Token",
-                    });
-                  }}
+                  onClick={onBackClick}
                 >
-                  BO
+                  <img src="../../assets/images/back.png" alt=""></img>
                 </button>
                 <div className="pop-block">
                   <div className="pop-top">
@@ -811,19 +816,9 @@ export default function ManageToken({setOpenManageToken, ...props} : any){
               <div className="popmodal-body tokn-popup no-ht">
                 <button
                   className="myBackBtnInTM"
-                  onClick={() => {
-                    setTokenModal(true);
-                    setTokenState({
-                      step0: true,
-                      step1: false,
-                      step2: false,
-                      step3: false,
-                      step4: false,
-                      title: "Select a Token",
-                    });
-                  }}
+                  onClick={onBackClick}
                 >
-                  BO
+                  <img src="../../assets/images/back.png" alt=""></img>
                 </button>
                 <div className="pop-block">
                   <div className="pop-top">
@@ -991,19 +986,9 @@ export default function ManageToken({setOpenManageToken, ...props} : any){
               <div className="popmodal-body tokn-popup no-ht">
                 <button
                   className="myBackBtnInTM"
-                  onClick={() => {
-                    setTokenModal(true);
-                    setTokenState({
-                      step0: true,
-                      step1: false,
-                      step2: false,
-                      step3: false,
-                      step4: false,
-                      title: "Select a Token",
-                    });
-                  }}
+                  onClick={onBackClick}
                 >
-                  BO
+              <img src="../../assets/images/back.png" alt=""></img>
                 </button>
                 <div className="pop-block">
                   <div className="pop-top">
@@ -1176,16 +1161,15 @@ export default function ManageToken({setOpenManageToken, ...props} : any){
                         </>
                       ) : (
                         <>
-                          <h2>Import at your own risk</h2>
-                          <div>
+                        <div style={{display:"flex", justifyContent : "center"}}><img src="../../assets/images/alert.png" alt=""></img></div>
+                          <h3 style={{textAlign:"center",margin: "10px"}}>Import at your own risk</h3>
+                          <div style={{fontSize : "15px",margin: "10px"}}>
                             By adding this token you are implicitly trusting
-                            that the data is correct.
-                          </div>
-                          <div>
-                            If you purchase this token, you may not be able to
+                            that the data is correct. If you purchase this token, you may not be able to
                             sell it back.
                           </div>
-                          <label style={{ margin: "20px 0" }}>
+                          <div style={{textAlign:"center"}}>
+                          <label style={{ margin: "10px 0",textAlign:"center" }}>
                             <input
                               style={{ marginRight: "5px" }}
                               type="checkbox"
@@ -1193,9 +1177,11 @@ export default function ManageToken({setOpenManageToken, ...props} : any){
                             />
                             I understand
                           </label>
-                          <div>
+                          </div>
+                          <div style={{textAlign:"center"}}>
                             <button
-                            className="primary-text"
+                             className="btn primary-btn"
+                            style={{width : "200px"}}
                               disabled={!agreeImport}
                               onClick={addTokenHandler}
                             >
@@ -1313,20 +1299,10 @@ export default function ManageToken({setOpenManageToken, ...props} : any){
               <div className="popmodal-body tokn-popup no-ht">
                 <button
                   className="myBackBtnInTM"
-                  onClick={() => {
-                    setTokenModal(true);
-                    setTokenState({
-                      step0: true,
-                      step1: false,
-                      step2: false,
-                      step3: false,
-                      step4: false,
-                      title: "Select a Token",
-                    });
-                  }}
+                  onClick={onBackClick}
                 >
-                  BO
-                  {/* <img src="../../assets/images/rt-arow.png" alt=""></img> */}
+                  {/* BO */}
+                  <img src="../../assets/images/back.png" alt=""></img>
                 </button>
                 <div className="pop-block">
                   <div className="pop-top">
