@@ -121,7 +121,7 @@ export default function Unbond() {
             const link = getExplorerLink(chainId, res.transactionHash, 'transaction')
             setTransactionLink(link)
             // console.log(link)
-            setClamNowModals((pre: any) => ({ ...pre, progress: true, confirm: false }))
+            setClamNowModals((pre: any) => ({ ...pre, progress: true, confirm: true }))
           }).on('receipt', (res: any) => {
             // console.log(res, "receipt")
             dispatch(
