@@ -13,7 +13,7 @@ import addTokenAbi from "../../ABI/custom-token-abi.json";
 import * as Sentry from "@sentry/nextjs";
 import { dynamicChaining } from "web3/DynamicChaining";
 
-export const ManageToken = ({setOpenManageToken, ...props} : any) => {
+export default function ManageToken({setOpenManageToken, ...props} : any){
 
     const { chainId = 1, account, library } = useActiveWeb3React();
     const lib: any = library;

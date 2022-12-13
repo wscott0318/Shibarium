@@ -55,7 +55,7 @@ import { ChainId } from "../../modals/NetworkModal/ChainIDs";
 import { NETWORK_ICON, NETWORK_LABEL } from "../../config/networks";
 import Image from "next/image";
 import { dynamicChaining } from "web3/DynamicChaining";
-import {ManageToken} from "../components/ManageToken"
+import ManageToken from "../components/ManageToken"
 
 export default function Withdraw() {
   const { chainId = 1, account, library } = useActiveWeb3React();
