@@ -2,60 +2,67 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect, useContext } from "react";
-import { Button, Container, Nav, Navbar, NavDropdown, Dropdown, Modal } from 'react-bootstrap';
+import {
+  Button,
+  Container,
+  Nav,
+  Navbar,
+  NavDropdown,
+  Dropdown,
+  Modal,
+} from "react-bootstrap";
 import { useRouter } from "next/router";
 import Popup from "../components/PopUp";
-import NumberFormat from 'react-number-format';
+import NumberFormat from "react-number-format";
 import CommonModal from "../components/CommonModel";
 import InnerHeader from "../inner-header";
-import Link from 'next/link'
+import Link from "next/link";
 import {
   NoEthereumProviderError,
-  UserRejectedRequestError as UserRejectedRequestErrorInjected
-} from '@web3-react/injected-connector'
-import Sidebar from "../layout/sidebar"
+  UserRejectedRequestError as UserRejectedRequestErrorInjected,
+} from "@web3-react/injected-connector";
+import Sidebar from "../layout/sidebar";
 import Web3Status from "app/components/Web3Status";
-import {
-  getWalletTokenList
-} from "../../services/apis/validator/index";
+import { getWalletTokenList } from "../../services/apis/validator/index";
 import { getTokenBalance } from "../../hooks/useTokenBalance";
 import { getBoneUSDValue } from "../../services/apis/validator/index";
-import { useActiveWeb3React } from "../../services/web3"
-import { BONE_ID } from '../../config/constant';
+import { useActiveWeb3React } from "../../services/web3";
+import { BONE_ID } from "../../config/constant";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
-import depositManagerABI from "../../ABI/depositManagerABI.json"
+import depositManagerABI from "../../ABI/depositManagerABI.json";
 import Web3 from "web3";
-import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
+import {
+  addTransaction,
+  finalizeTransaction,
+} from "app/state/transactions/actions";
 import { useAppDispatch } from "../../state/hooks";
-import fromExponential from 'from-exponential';
-import { getExplorerLink } from 'app/functions';
+import fromExponential from "from-exponential";
+import { getExplorerLink } from "app/functions";
 import { getAllowanceAmount } from "web3/commonFunctions";
-import ERC20 from "../../ABI/ERC20Abi.json"
+import ERC20 from "../../ABI/ERC20Abi.json";
 import { tokenDecimal } from "web3/commonFunctions";
 import { useWeb3React } from "@web3-react/core";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import addTokenAbi from "../../ABI/custom-token-abi.json"
+import addTokenAbi from "../../ABI/custom-token-abi.json";
 import { AbiItem } from "web3-utils";
 import * as Sentry from "@sentry/nextjs";
 import { MenuItem, Select } from "@material-ui/core";
-import Form from 'react-bootstrap/Form';
-import SUPPORTED_NETWORKS from "../../modals/NetworkModal/index"
-import { ChainId } from "../../modals/NetworkModal/ChainIDs"
-import { NETWORK_ICON, NETWORK_LABEL } from '../../config/networks'
+import Form from "react-bootstrap/Form";
+import SUPPORTED_NETWORKS from "../../modals/NetworkModal/index";
+import { ChainId } from "../../modals/NetworkModal/ChainIDs";
+import { NETWORK_ICON, NETWORK_LABEL } from "../../config/networks";
 import Image from "next/image";
 import { dynamicChaining } from "web3/DynamicChaining";
 
 export default function Withdraw() {
-
-
   const { chainId = 1, account, library } = useActiveWeb3React();
   const lib: any = library;
-  const web3: any = new Web3(lib?.provider)
+  const web3: any = new Web3(lib?.provider);
   const dispatch = useAppDispatch();
 
-  const bridgeType: string = localStorage.getItem("bridgeType") || "deposit"
+  const bridgeType: string = localStorage.getItem("bridgeType") || "deposit";
 
   const [menuState, setMenuState] = useState(false);
   const [selectedToken, setSelectedToken] = useState(
@@ -64,26 +71,31 @@ export default function Withdraw() {
   const [showDepositModal, setDepositModal] = useState(false);
   const [showWithdrawModal, setWithdrawModal] = useState(false);
   const [showTokenModal, setTokenModal] = useState(false);
-  const [depositTokenInput, setDepositTokenInput] = useState('');
-  const [dWState, setDWState] = useState(bridgeType === "deposit" ? true : false);
+  const [depositTokenInput, setDepositTokenInput] = useState("");
+  const [dWState, setDWState] = useState(
+    bridgeType === "deposit" ? true : false
+  );
   const [boneUSDValue, setBoneUSDValue] = useState(0);
-  const [hashLink, setHashLink] = useState('');
-  const [newToken, addNewToken] = useState('');
+  const [hashLink, setHashLink] = useState("");
+  const [newToken, addNewToken] = useState("");
   const [fromChain, setFromChain] = useState(0);
   const [toChain, setToChain] = useState(0);
+  const [confirmImport, setConfirmImport] = useState(true);
+  const [agreeImport, setAgreeImport] = useState(false);
+
   const handleMenuState = () => {
     setMenuState(!menuState);
-  }
+  };
   const router = useRouter();
   // useEffect(() => {
   //   console.log("chain id  , ", SUPPORTED_NETWORKS);
   // })
 
   useEffect(() => {
-    getBoneUSDValue(BONE_ID).then(res => {
+    getBoneUSDValue(BONE_ID).then((res) => {
       setBoneUSDValue(res.data.data.price);
-    })
-  }, [account])
+    });
+  }, [account]);
 
   const [withModalState, setWidModState] = useState({
     step0: true,
@@ -91,13 +103,13 @@ export default function Withdraw() {
     step2: false,
     step3: false,
     step4: false,
-    title: "Initialize Withdraw"
+    title: "Initialize Withdraw",
   });
   const [depModalState, setDepModState] = useState({
     step0: true,
     step1: false,
     step2: false,
-    title: "Confirm deposit"
+    title: "Confirm deposit",
   });
   const [tokenState, setTokenState] = useState({
     step0: true,
@@ -124,8 +136,12 @@ export default function Withdraw() {
       getWalletTokenList().then((res) => {
         let list = res.data.message.tokens;
         list.forEach(async (x: any) => {
-          if(x.parentName === 'BoneToken') {
-            x.balance = await getTokenBalance(lib, account, dynamicChaining[chainId].BONE);
+          if (x.parentName === "BoneToken") {
+            x.balance = await getTokenBalance(
+              lib,
+              account,
+              dynamicChaining[chainId].BONE
+            );
           } else {
             x.balance = await getTokenBalance(lib, account, x.parentContract);
           }
@@ -134,20 +150,17 @@ export default function Withdraw() {
         // setTokenFilteredList(list);
         setTokenModalList([...localTokens, ...list]);
       });
-    }
-    catch (err: any) {
+    } catch (err: any) {
       Sentry.captureMessage("getTokensList", err);
     }
   };
   useEffect(() => {
     if (account) {
       getTokensList();
-    }
-    else {
+    } else {
       router.push('/')
     }
   }, [account])
-
 
   const handleSearchList = (key: any) => {
     try {
@@ -163,42 +176,53 @@ export default function Withdraw() {
       } else {
         setTokenModalList(tokenList);
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       Sentry.captureMessage("handleSearchList", err);
     }
-  }
-
+  };
 
   const handleTokenSelect = (token: any) => {
     // console.log(token)
-    setSelectedToken(token)
-    setTokenModal(false)
-  }
+    setSelectedToken(token);
+    setTokenModal(false);
+  };
 
   const handleMax = () => {
-    setDepositTokenInput(selectedToken.balance)
-  }
+    setDepositTokenInput(selectedToken.balance);
+  };
 
   const depositValidations: any = Yup.object({
     fromChain: Yup.number().required("Required Field"),
     toChain: Yup.number().required("Required Field"),
-    amount: Yup.number().typeError("Only digits are allowed.").min(0).max(selectedToken.balance).typeError("Amount must be less or equal to you current balance.").required("Amount is required."),
-  })
+    amount: Yup.number()
+      .typeError("Only digits are allowed.")
+      .min(0)
+      .max(selectedToken.balance)
+      .typeError("Amount must be less or equal to you current balance.")
+      .required("Amount is required."),
+  });
   const withdrawValidations: any = Yup.object({
     fromChain: Yup.number().required("Required Field"),
     toChain: Yup.number().required("Required Field"),
-    amount: Yup.number().typeError("Only digits are allowed.").min(0).max(selectedToken.balance).typeError("Amount must be less or equal to you current balance.").required("Amount is required."),
-  })
-
+    amount: Yup.number()
+      .typeError("Only digits are allowed.")
+      .min(0)
+      .max(selectedToken.balance)
+      .typeError("Amount must be less or equal to you current balance.")
+      .required("Amount is required."),
+  });
 
   const approvalForDeposit = (amount: any, token: any, contract: any) => {
     try {
-      let user: any = account
-      const amountWei = web3.utils.toBN(fromExponential((1000 * Math.pow(10, 18))));
+      let user: any = account;
+      const amountWei = web3.utils.toBN(
+        fromExponential(1000 * Math.pow(10, 18))
+      );
       let instance = new web3.eth.Contract(ERC20, token);
-      instance.methods.approve(contract, amountWei).send({ from: user })
-        .on('transactionHash', (res: any) => {
+      instance.methods
+        .approve(contract, amountWei)
+        .send({ from: user })
+        .on("transactionHash", (res: any) => {
           // console.log(res, "hash")
           dispatch(
             addTransaction({
@@ -207,8 +231,9 @@ export default function Withdraw() {
               chainId,
               summary: `${res}`,
             })
-          )
-        }).on('receipt', (res: any) => {
+          );
+        })
+        .on("receipt", (res: any) => {
           // console.log(res, "receipt")
           dispatch(
             finalizeTransaction({
@@ -222,14 +247,19 @@ export default function Withdraw() {
                 blockHash: res.blockHash,
                 transactionHash: res.transactionHash,
                 blockNumber: res.blockNumber,
-                status: 1
-              }
+                status: 1,
+              },
             })
-          )
-          // call deposit contract 
-          let instance = new web3.eth.Contract(depositManagerABI, dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY);
-          instance.methods.depositERC20(dynamicChaining[chainId].BONE, user, amount).send({ from: account })
-            .on('transactionHash', (res: any) => {
+          );
+          // call deposit contract
+          let instance = new web3.eth.Contract(
+            depositManagerABI,
+            dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+          );
+          instance.methods
+            .depositERC20(dynamicChaining[chainId].BONE, user, amount)
+            .send({ from: account })
+            .on("transactionHash", (res: any) => {
               // console.log(res, "hash")
               dispatch(
                 addTransaction({
@@ -238,9 +268,9 @@ export default function Withdraw() {
                   chainId,
                   summary: `${res}`,
                 })
-              )
-              let link = getExplorerLink(chainId, res, 'transaction')
-              setHashLink(link)
+              );
+              let link = getExplorerLink(chainId, res, "transaction");
+              setHashLink(link);
               setDepModState({
                 step0: false,
                 step1: false,
@@ -248,7 +278,8 @@ export default function Withdraw() {
                 title: "Transaction Submitted",
               });
               // setDepositTokenInput('');
-            }).on('receipt', (res: any) => {
+            })
+            .on("receipt", (res: any) => {
               // console.log(res, "receipt")
               dispatch(
                 finalizeTransaction({
@@ -262,12 +293,13 @@ export default function Withdraw() {
                     blockHash: res.blockHash,
                     transactionHash: res.transactionHash,
                     blockNumber: res.blockNumber,
-                    status: 1
-                  }
+                    status: 1,
+                  },
                 })
-              )
+              );
               setDepositModal(false);
-            }).on('error', (res: any) => {
+            })
+            .on("error", (res: any) => {
               // console.log(res, "error")
               if (res.code === 4001) {
                 setDepModState({
@@ -278,11 +310,10 @@ export default function Withdraw() {
                 });
                 setDepositModal(false);
               }
-            })
+            });
           //deposit contract ends
-
-
-        }).on('error', (res: any) => {
+        })
+        .on("error", (res: any) => {
           // console.log(res, "error")
           if (res.code === 4001) {
             setDepModState({
@@ -293,16 +324,15 @@ export default function Withdraw() {
             });
             setDepositModal(false);
           }
-        })
-    }
-    catch (err: any) {
+        });
+    } catch (err: any) {
       Sentry.captureMessage("approvalForDeposit", err);
     }
-  }
+  };
 
   const callDepositModal = (values: any, resetForm: any) => {
     try {
-      setDepositTokenInput(values.amount)
+      setDepositTokenInput(values.amount);
       {
         setDepModState({
           step0: true,
@@ -313,14 +343,13 @@ export default function Withdraw() {
         setDepositModal(true);
         resetForm();
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       Sentry.captureMessage("callDepositModal", err);
     }
-  }
+  };
   const callWithdrawModal = (values: any) => {
     try {
-      setDepositTokenInput(values.amount)
+      setDepositTokenInput(values.amount);
       {
         setDepModState({
           step0: true,
@@ -330,11 +359,10 @@ export default function Withdraw() {
         });
         setDepositModal(true);
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       Sentry.captureMessage("callDepositModal", err);
     }
-  }
+  };
 
   const callDepositContract = async () => {
     try {
@@ -345,18 +373,35 @@ export default function Withdraw() {
           step2: false,
           title: "Transaction Pending",
         });
-        let user: any = account
-        const amountWei = web3.utils.toBN(fromExponential((+depositTokenInput * Math.pow(10, 18))));
-        let allowance = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY) || 0
+        let user: any = account;
+        const amountWei = web3.utils.toBN(
+          fromExponential(+depositTokenInput * Math.pow(10, 18))
+        );
+        let allowance =
+          (await getAllowanceAmount(
+            library,
+            dynamicChaining[chainId].BONE,
+            account,
+            dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+          )) || 0;
 
         if (+depositTokenInput > +allowance) {
           // console.log("need approval")
-          approvalForDeposit(amountWei, dynamicChaining[chainId].BONE, dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY)
+          approvalForDeposit(
+            amountWei,
+            dynamicChaining[chainId].BONE,
+            dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+          );
         } else {
           // console.log("no approval needed")
-          let instance = new web3.eth.Contract(depositManagerABI, dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY);
-          instance.methods.depositERC20ForUser(dynamicChaining[chainId].BONE, user, amountWei).send({ from: account })
-            .on('transactionHash', (res: any) => {
+          let instance = new web3.eth.Contract(
+            depositManagerABI,
+            dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+          );
+          instance.methods
+            .depositERC20ForUser(dynamicChaining[chainId].BONE, user, amountWei)
+            .send({ from: account })
+            .on("transactionHash", (res: any) => {
               // console.log(res, "hash")
               dispatch(
                 addTransaction({
@@ -365,9 +410,9 @@ export default function Withdraw() {
                   chainId,
                   summary: `${res}`,
                 })
-              )
-              let link = getExplorerLink(chainId, res, 'transaction')
-              setHashLink(link)
+              );
+              let link = getExplorerLink(chainId, res, "transaction");
+              setHashLink(link);
               setDepModState({
                 step0: false,
                 step1: false,
@@ -375,8 +420,8 @@ export default function Withdraw() {
                 title: "Transaction Submitted",
               });
               // setDepositTokenInput('');
-
-            }).on('receipt', (res: any) => {
+            })
+            .on("receipt", (res: any) => {
               // console.log(res, "receipt")
               dispatch(
                 finalizeTransaction({
@@ -390,12 +435,13 @@ export default function Withdraw() {
                     blockHash: res.blockHash,
                     transactionHash: res.transactionHash,
                     blockNumber: res.blockNumber,
-                    status: 1
-                  }
+                    status: 1,
+                  },
                 })
-              )
+              );
               setDepositModal(false);
-            }).on('error', (res: any) => {
+            })
+            .on("error", (res: any) => {
               // console.log(res, "error")
               if (res.code === 4001) {
                 setDepModState({
@@ -406,29 +452,28 @@ export default function Withdraw() {
                 });
                 setDepositModal(false);
               }
-            })
+            });
         }
-
       } else {
         // console.log("account not found")
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       Sentry.captureMessage("callDepositContract", err);
     }
-  }
-
+  };
 
   const addTokenHandler = async () => {
+    setConfirmImport(!confirmImport);
+    setAgreeImport(!agreeImport);
     try {
       const isValidAddress = await web3.utils.isAddress(String(newToken));
       if (isValidAddress) {
-        const checkArray = tokenModalList.map(
-          (st: any) => st?.parentContract
-        );
+        const checkArray = tokenModalList.map((st: any) => st?.parentContract);
         // let localtoken = JSON.parse(localStorage.getItem("newToken") || "[]");
         let localtokenarray = localTokens.map((st: any) => st.parentContract);
-        const isalreadypresent = checkArray.some((item: any) => localtokenarray.includes(newToken));
+        const isalreadypresent = checkArray.some((item: any) =>
+          localtokenarray.includes(newToken)
+        );
         if (isalreadypresent) {
           toast.error("Address already exists !", {
             position: toast.POSITION.BOTTOM_CENTER,
@@ -455,8 +500,8 @@ export default function Withdraw() {
             parentName: name,
             parentSymbol: symbol,
           };
-          setLocalTokens([...localTokens, obj])
-          setTokenModalList([...tokenModalList, obj])
+          setLocalTokens([...localTokens, obj]);
+          setTokenModalList([...tokenModalList, obj]);
           toast.success(`${name} successfully added.`, {
             position: toast.POSITION.BOTTOM_CENTER,
             autoClose: 3000,
@@ -472,19 +517,16 @@ export default function Withdraw() {
         }
       } else {
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       Sentry.captureMessage("addTokenHandler", err);
     }
   };
 
-
-
   useEffect(() => {
     if (!showTokenModal) {
-      addNewToken('');
+      addNewToken("");
     }
-  }, [showTokenModal])
+  }, [showTokenModal]);
   useEffect(() => {
     const isValidAddress = web3.utils.isAddress(String(newToken));
     try {
@@ -501,8 +543,7 @@ export default function Withdraw() {
           step4: false,
           title: "Manage Token",
         });
-      }
-      else if (!isValidAddress && newToken.length > 0) {
+      } else if (!isValidAddress && newToken.length > 0) {
         toast.error("Address is Invalid", {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 600,
@@ -542,11 +583,10 @@ export default function Withdraw() {
           autoClose: 1500,
         });
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       Sentry.captureMessage("useEffect on line 449 in bridge > backup", err);
     }
-  }, [newToken])
+  }, [newToken]);
 
   useEffect(() => {
     try {
@@ -570,11 +610,10 @@ export default function Withdraw() {
         ];
         setTokenModalList(finalUniqueArray);
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       Sentry.captureMessage("UseEffect line 512 in bridge backup ", err);
     }
-  }, [localTokens])
+  }, [localTokens]);
 
   useEffect(() => {
     try {
@@ -583,11 +622,10 @@ export default function Withdraw() {
         let updatedArray = [...tokenModalList, ...localTokens];
         setTokenModalList(updatedArray);
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       Sentry.captureMessage("UseEffect line 540", err);
     }
-  }, [])
+  }, []);
 
   const getTempTokens = async () => {
     try {
@@ -618,7 +656,9 @@ export default function Withdraw() {
           parentName: name,
           parentSymbol: symbol,
         };
-        const isalreadypresent = localTokens.map((st: any) => st.parentContract).includes(obj.parentContract)
+        const isalreadypresent = localTokens
+          .map((st: any) => st.parentContract)
+          .includes(obj.parentContract);
         // console.log("isalreadypresent", isalreadypresent);
         if (!isalreadypresent) {
           setTempTokens({
@@ -627,8 +667,7 @@ export default function Withdraw() {
             parentName: name,
             parentSymbol: symbol,
           });
-        }
-        else if (isalreadypresent) {
+        } else if (isalreadypresent) {
           // toast.error("Address is already present", {
           //   position: toast.POSITION.TOP_RIGHT,
           //   autoClose: 1500,
@@ -642,33 +681,29 @@ export default function Withdraw() {
         }
       }
       // console.log("temptoken", tempTokens);
-    }
-    catch (err: any) {
+    } catch (err: any) {
       Sentry.captureMessage("getTempTokens", err);
     }
-  }
+  };
 
   useEffect(() => {
     getTempTokens();
-  }, [newToken, tokenState])
-
-
+  }, [newToken, tokenState]);
 
   const clearAllCustomTokens = () => {
     try {
       let checkArray = tokenModalList;
       let localtokenarray = localTokens.map((st: any) => st.parentContract);
-      const notLocalTokens = checkArray.filter((item: any) =>
-        !localtokenarray.includes(item.parentContract)
+      const notLocalTokens = checkArray.filter(
+        (item: any) => !localtokenarray.includes(item.parentContract)
       );
       setTokenModalList(notLocalTokens);
       setLocalTokens([]);
       localStorage.setItem("newToken", "[]");
-    }
-    catch (err: any) {
+    } catch (err: any) {
       Sentry.captureMessage("clearAllCustomTokens", err);
     }
-  }
+  };
 
   // console.log("tokenmodallist", tokenModalList);
 
@@ -676,18 +711,19 @@ export default function Withdraw() {
     try {
       let incomingObject = localTokens[index];
       const filteredModallist = localTokens.filter((ss: any) => {
-        return ss.parentContract !== incomingObject.parentContract
+        return ss.parentContract !== incomingObject.parentContract;
       });
       setLocalTokens(filteredModallist);
       const filtered2 = tokenModalList.filter((ss: any) => {
         return ss.parentContract !== incomingObject.parentContract;
       });
       setTokenModalList(filtered2);
-    }
-    catch (err: any) {
+    } catch (err: any) {
       Sentry.captureMessage("spliceCustomToken ", err);
     }
-  }
+  };
+
+  console.log("tokenModalList--", tokenModalList);
   // console.log('localToken', localTokens);
   // console.log("tokenState 3", tokenState.step3)
   return (
@@ -746,7 +782,11 @@ export default function Withdraw() {
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src={selectedToken.logo ? selectedToken.logo : "../../assets/images/eth.png"}
+                            src={
+                              selectedToken.logo
+                                ? selectedToken.logo
+                                : "../../assets/images/eth.png"
+                            }
                             alt=""
                           />
                         </div>
@@ -862,7 +902,11 @@ export default function Withdraw() {
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src={selectedToken.logo ? selectedToken.logo : "../../assets/images/eth.png"}
+                            src={
+                              selectedToken.logo
+                                ? selectedToken.logo
+                                : "../../assets/images/eth.png"
+                            }
                             alt=""
                           />
                         </div>
@@ -1559,35 +1603,35 @@ export default function Withdraw() {
                     <div className="token-listwrap">
                       {tokenModalList.length
                         ? tokenModalList.map((x: any) => (
-                          <div
-                            className="tokn-row"
-                            key={x?.parentName}
-                            onClick={() => handleTokenSelect(x)}
-                          >
-                            <div className="cryoto-box">
-                              <img
-                                className="img-fluid"
-                                src={
-                                  x?.logo
-                                    ? x.logo
-                                    : "../../assets/images/shib-borderd-icon.png"
-                                }
-                                alt=""
-                              />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">{x?.parentSymbol}</h6>
-                                <p>{x?.parentName}</p>
+                            <div
+                              className="tokn-row"
+                              key={x?.parentName}
+                              onClick={() => handleTokenSelect(x)}
+                            >
+                              <div className="cryoto-box">
+                                <img
+                                  className="img-fluid"
+                                  src={
+                                    x?.logo
+                                      ? x.logo
+                                      : "../../assets/images/shib-borderd-icon.png"
+                                  }
+                                  alt=""
+                                />
                               </div>
-                              <div>
-                                <h6 className="fw-bold">
-                                  {x?.balance ? x.balance : "00.00"}
-                                </h6>
+                              <div className="tkn-grid">
+                                <div>
+                                  <h6 className="fw-bold">{x?.parentSymbol}</h6>
+                                  <p>{x?.parentName}</p>
+                                </div>
+                                <div>
+                                  <h6 className="fw-bold">
+                                    {x?.balance ? x.balance : "00.00"}
+                                  </h6>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        ))
+                          ))
                         : null}
                       {!tokenModalList.length && modalKeyword ? (
                         <p className="py-3 py-md-4 py-lg-5 text-center">
@@ -1605,6 +1649,22 @@ export default function Withdraw() {
 
             {showTokenModal && tokenState.step1 && (
               <div className="popmodal-body tokn-popup no-ht">
+                <button
+                  className="myBackBtnInTM"
+                  onClick={() => {
+                    setTokenModal(true);
+                    setTokenState({
+                      step0: true,
+                      step1: false,
+                      step2: false,
+                      step3: false,
+                      step4: false,
+                      title: "Select a Token",
+                    });
+                  }}
+                >
+                  BO
+                </button>
                 <div className="pop-block">
                   <div className="pop-top">
                     <div className="black-bg-sec">
@@ -1630,6 +1690,7 @@ export default function Withdraw() {
                                 step4: false,
                                 title: "Manage Token",
                               });
+                              addNewToken("");
                             }}
                           >
                             Add token
@@ -1892,6 +1953,22 @@ export default function Withdraw() {
 
             {showTokenModal && tokenState.step2 && (
               <div className="popmodal-body tokn-popup no-ht">
+                <button
+                  className="myBackBtnInTM"
+                  onClick={() => {
+                    setTokenModal(true);
+                    setTokenState({
+                      step0: true,
+                      step1: false,
+                      step2: false,
+                      step3: false,
+                      step4: false,
+                      title: "Select a Token",
+                    });
+                  }}
+                >
+                  BO
+                </button>
                 <div className="pop-block">
                   <div className="pop-top">
                     <div className="black-bg-sec">
@@ -1917,7 +1994,9 @@ export default function Withdraw() {
                         <div className="blk-width">
                           <button
                             type="button"
-                            className={`btn w-100 ${tokenState.step2 && "btn-active"}`}
+                            className={`btn w-100 ${
+                              tokenState.step2 && "btn-active"
+                            }`}
                             onClick={() => {
                               addTokenHandler();
                             }}
@@ -1930,20 +2009,20 @@ export default function Withdraw() {
                     <div className="sec-search sec-search-secondry">
                       <div
                         className="position-relative search-row"
-                      // onClick={() => {
-                      //   if(newToken !== '')
-                      //   setTokenState({
-                      //     step0: false,
-                      //     step1: false,
-                      //     step2: false,
-                      //     step3: true,
-                      //     step4: false,
-                      //     title: "Manage Token",
-                      //   });
-                      // }}
-                      // onClick={() => {
-                      //   addTokenHandler();
-                      // }}
+                        // onClick={() => {
+                        //   if(newToken !== '')
+                        //   setTokenState({
+                        //     step0: false,
+                        //     step1: false,
+                        //     step2: false,
+                        //     step3: true,
+                        //     step4: false,
+                        //     title: "Manage Token",
+                        //   });
+                        // }}
+                        // onClick={() => {
+                        //   addTokenHandler();
+                        // }}
                       >
                         <input
                           type="text"
@@ -1968,9 +2047,7 @@ export default function Withdraw() {
                       </div>
                     </div>
                     <div className="pop-bottom pt-0">
-
                       <div className="">
-
                         <div className="grid-block">
                           <div className="blk-width">
                             <div>{localTokens.length} Token Found</div>
@@ -1978,7 +2055,11 @@ export default function Withdraw() {
                               Token stored in your browser
                             </p>
                           </div>
-                          <div style={{ textAlign: "right" }} className="blk-width btn-sm">
+                          <div
+                            style={{ textAlign: "right" }}
+                            className="btn-sm"
+                          >
+                            {/* className="blk-width btn-sm" */}
                             <button
                               type="button"
                               // className="btn primary-btn w-95"
@@ -2031,8 +2112,6 @@ export default function Withdraw() {
                             </div>
                           ))}
                         </div>
-
-
                       </div>
                     </div>
                   </div>
@@ -2042,8 +2121,9 @@ export default function Withdraw() {
                     </div>
                   </div> */}
 
-
-                  <div className="myTipsArea">Tip: Custom tokens are stored locally in your browser </div>
+                  <div className="myTipsArea">
+                    Tip: Custom tokens are stored locally in your browser{" "}
+                  </div>
                 </div>
               </div>
             )}
@@ -2053,6 +2133,22 @@ export default function Withdraw() {
 
             {showTokenModal && tokenState.step3 && (
               <div className="popmodal-body tokn-popup no-ht">
+                <button
+                  className="myBackBtnInTM"
+                  onClick={() => {
+                    setTokenModal(true);
+                    setTokenState({
+                      step0: true,
+                      step1: false,
+                      step2: false,
+                      step3: false,
+                      step4: false,
+                      title: "Select a Token",
+                    });
+                  }}
+                >
+                  BO
+                </button>
                 <div className="pop-block">
                   <div className="pop-top">
                     <div className="black-bg-sec">
@@ -2104,112 +2200,158 @@ export default function Withdraw() {
                           />
                         </div>
                       </div>
-
                     </div>
                     <div className="pop-bottom pt-0">
-                      <div className="">
-                        <div className="grid-block">
-                          <div className="blk-width">
-                            <div>{localTokens.length} Token Found</div>
-                            <p className="lite-color">
-                              Token stored in your browser
-                            </p>
-                          </div>
-                          <div style={{ textAlign: "right" }} className="blk-width btn-sm">
-                            <button
-                              type="button"
-                              // className="btn primary-btn w-100"
-                              className="primary-text"
-                              onClick={clearAllCustomTokens}
-                            >
-                              Clear All
-                            </button>
-                          </div>
-                        </div>
-                        <div className="token-listwrap usr-listht">
-                          {localTokens.map((x: any, index: any) => (
-                            <div className="tokn-row" key={x.parentContract}>
-                              <div className="cryoto-box">
-                                <img
-                                  className="img-fluid"
-                                  src={
-                                    x.logo
-                                      ? x.logo
-                                      : "../../../assets/images/shib-borderd-icon.png"
-                                  }
-                                  alt=""
-                                />
+                      {confirmImport ? (
+                        <>
+                          <div className="">
+                            <div className="grid-block">
+                              <div className="blk-width">
+                                <div>{localTokens.length} Token Found</div>
+                                <p className="lite-color">
+                                  Token stored in your browser
+                                </p>
                               </div>
-                              <div className="tkn-grid">
-                                <div>
-                                  <h6 className="fw-bold">{x.parentSymbol}</h6>
-                                  <p>{x.parentName}</p>
-                                </div>
-                                <div>
-                                  <span
-                                    className="me-4"
-                                    onClick={() => spliceCustomToken(index)}
-                                  >
-                                    <img
-                                      className="img-fluid"
-                                      src="../../../assets/images/del.png"
-                                      alt=""
-                                    />
-                                  </span>
-                                  <span>
-                                    <img
+                              <div
+                                style={{ textAlign: "right" }}
+                                className="btn-sm"
+                              >
+                                {/* className="blk-width btn-sm" */}
+                                <button
+                                  type="button"
+                                  // className="btn primary-btn w-100"
+                                  className="primary-text"
+                                  onClick={clearAllCustomTokens}
+                                >
+                                  Clear All
+                                </button>
+                              </div>
+                            </div>
+                            <div className="token-listwrap usr-listht">
+                              <div className="token-listwrap usr-listht">
+                                {JSON.stringify(tempTokens) !== "{}" ? (
+                                  <div className="tokn-row">
+                                    <div className="cryoto-box">
+                                      <img
+                                        className="img-fluid"
+                                        src={
+                                          tempTokens?.logo
+                                            ? tempTokens?.logo
+                                            : "../../../assets/images/shib-borderd-icon.png"
+                                        }
+                                        alt=""
+                                      />
+                                    </div>
+                                    <div className="tkn-grid">
+                                      <div>
+                                        <h6 className="fw-bold">
+                                          {tempTokens.parentSymbol}
+                                        </h6>
+                                        <p>{tempTokens.parentName}</p>
+                                      </div>
+                                      <div>
+                                        <span
+                                          className="primary-text"
+                                          onClick={() => {
+                                            setConfirmImport(!confirmImport);
+                                          }}
+                                        >
+                                          Import
+                                          {/* <img
                                       className="img-fluid"
                                       src="../../../assets/images/up.png"
                                       alt=""
-                                    />
-                                  </span>
-                                </div>
+                                    /> */}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
                               </div>
+                              {localTokens.map((x: any, index: any) => (
+                                <div
+                                  className="tokn-row"
+                                  key={x.parentContract}
+                                >
+                                  <div className="cryoto-box">
+                                    <img
+                                      className="img-fluid"
+                                      src={
+                                        x.logo
+                                          ? x.logo
+                                          : "../../../assets/images/shib-borderd-icon.png"
+                                      }
+                                      alt=""
+                                    />
+                                  </div>
+                                  <div className="tkn-grid">
+                                    <div>
+                                      <h6 className="fw-bold">
+                                        {x.parentSymbol}
+                                      </h6>
+                                      <p>{x.parentName}</p>
+                                    </div>
+                                    <div>
+                                      <span
+                                        className="me-4"
+                                        onClick={() => spliceCustomToken(index)}
+                                      >
+                                        <img
+                                          className="img-fluid"
+                                          src="../../../assets/images/del.png"
+                                          alt=""
+                                        />
+                                      </span>
+                                      <span>
+                                        <img
+                                          className="img-fluid"
+                                          src="../../../assets/images/up.png"
+                                          alt=""
+                                        />
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
                             </div>
-                          ))}
-                        </div>
-                      </div>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <h2>Import at your own risk</h2>
+                          <div>
+                            By adding this token you are implicitly trusting
+                            that the data is correct.
+                          </div>
+                          <div>
+                            If you purchase this token, you may not be able to
+                            sell it back.
+                          </div>
+                          <label style={{ margin: "20px 0" }}>
+                            <input
+                              style={{ marginRight: "5px" }}
+                              type="checkbox"
+                              onChange={() => setAgreeImport(!agreeImport)}
+                            />
+                            I understand
+                          </label>
+                          <div>
+                            <button
+                              disabled={!agreeImport}
+                              onClick={addTokenHandler}
+                            >
+                              click butoon
+                            </button>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                   <div className="pop-bottom pt-0">
                     <div className="">
                       <div className="grid-block"></div>
-                      <div className="token-listwrap usr-listht">
-                        {JSON.stringify(tempTokens) !== "{}" ? (
-                          <div className="tokn-row">
-                            <div className="cryoto-box">
-                              <img
-                                className="img-fluid"
-                                src={
-                                  tempTokens?.logo
-                                    ? tempTokens?.logo
-                                    : "../../../assets/images/shib-borderd-icon.png"
-                                }
-                                alt=""
-                              />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">
-                                  {tempTokens.parentSymbol}
-                                </h6>
-                                <p>{tempTokens.parentName}</p>
-                              </div>
-                              <div>
-                                <span onClick={addTokenHandler}>
-                                  <img
-                                    className="img-fluid"
-                                    src="../../../assets/images/up.png"
-                                    alt=""
-                                  />
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        ) : (
-                          ""
-                        )}
-                      </div>
                     </div>
                   </div>
                   {/* <div className="h-100">
@@ -2278,37 +2420,57 @@ export default function Withdraw() {
                     </div>
                   </div> */}
 
-
                   <div className="pop-bottom">
                     <div className="">
-                      <a
-                        className="btn primary-btn w-100"
-                        href="javascript:void(0)"
-                        onClick={() => {
-                          // setTokenState({
-                          //   step0: false,
-                          //   step1: false,
-                          //   step2: false,
-                          //   step3: false,
-                          //   step4: true,
-                          //   title: "Manage Token",
-                          // });
-                          addTokenHandler();
-                          addNewToken('')
-                        }}
-                      >
-                        Add Token
-                      </a>
+                      {/* <a
+                          className="btn primary-btn w-100"
+                          href="javascript:void(0)"
+                          onClick={() => {
+                            // setTokenState({
+                            //   step0: false,
+                            //   step1: false,
+                            //   step2: false,
+                            //   step3: false,
+                            //   step4: true,
+                            //   title: "Manage Token",
+                            // });
+                            addTokenHandler();
+                            addNewToken('')
+                          }}
+                        >
+                          Add Token
+                        </a> */}
+                      <div className="myTipsArea">
+                        Tip: Custom tokens are stored locally in your browser{" "}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+              // </div>
             )}
             {/* Search popop ends */}
 
             {/* new added token with delete action starts */}
             {showTokenModal && tokenState.step4 && (
               <div className="popmodal-body tokn-popup no-ht">
+                <button
+                  className="myBackBtnInTM"
+                  onClick={() => {
+                    setTokenModal(true);
+                    setTokenState({
+                      step0: true,
+                      step1: false,
+                      step2: false,
+                      step3: false,
+                      step4: false,
+                      title: "Select a Token",
+                    });
+                  }}
+                >
+                  BO
+                  {/* <img src="../../assets/images/rt-arow.png" alt=""></img> */}
+                </button>
                 <div className="pop-block">
                   <div className="pop-top">
                     <div className="black-bg-sec">
@@ -2370,7 +2532,11 @@ export default function Withdraw() {
                               Token stored in your browser
                             </p>
                           </div>
-                          <div style={{ textAlign: "right" }} className="blk-width btn-sm">
+                          <div
+                            style={{ textAlign: "right" }}
+                            className="btn-sm"
+                          >
+                            {/* className="blk-width btn-sm" */}
                             <button
                               type="button"
                               // className="btn primary-btn w-100"
@@ -2735,8 +2901,9 @@ export default function Withdraw() {
                     </div>
                   </div>
 
-                  <div className="myTipsArea">Tip: Custom tokens are stored locally in your browser </div>
-
+                  <div className="myTipsArea">
+                    Tip: Custom tokens are stored locally in your browser{" "}
+                  </div>
                 </div>
               </div>
             )}
@@ -2790,8 +2957,9 @@ export default function Withdraw() {
                     )}
                     {
                       <div
-                        className={`txt-row ${dWState ? "visVisible" : "visInvisible"
-                          }`}
+                        className={`txt-row ${
+                          dWState ? "visVisible" : "visInvisible"
+                        }`}
                       >
                         <div className="row-hd">
                           <span className="icon-image">
@@ -2818,8 +2986,9 @@ export default function Withdraw() {
                   <div className="blank-box"></div>
                   <div className="box-bottom d-flex flex-column justify-content-end">
                     <div
-                      className={`amt-section position-relative ${!dWState ? "visVisible" : "visInvisible"
-                        }`}
+                      className={`amt-section position-relative ${
+                        !dWState ? "visVisible" : "visInvisible"
+                      }`}
                     >
                       <div className="coin-blk">
                         <div className="coin-sec">
@@ -2910,13 +3079,12 @@ export default function Withdraw() {
                         initialValues={{
                           amount: "",
                           fromChain: chainId,
-                          toChain: 417
+                          toChain: 417,
                         }}
                         validationSchema={depositValidations}
                         onSubmit={(values, { resetForm }) => {
                           // console.log(actions);
                           callDepositModal(values, resetForm);
-
                         }}
                       >
                         {({
@@ -2942,7 +3110,11 @@ export default function Withdraw() {
                                             width="22"
                                             height="22"
                                             className="img-fluid"
-                                            src={selectedToken.logo ? selectedToken.logo : "../../assets/images/eth.png"}
+                                            src={
+                                              selectedToken.logo
+                                                ? selectedToken.logo
+                                                : "../../assets/images/eth.png"
+                                            }
                                             alt=""
                                           />
                                         </div>
@@ -2978,7 +3150,7 @@ export default function Withdraw() {
                                           type="text"
                                           value={NETWORK_LABEL[chainId]}
                                           disabled={true}
-                                        // placeholder="Ethereum chain"
+                                          // placeholder="Ethereum chain"
                                         />
                                       </div>
                                       <div className="rt-chain">
@@ -3013,7 +3185,11 @@ export default function Withdraw() {
                                           <div>
                                             <img
                                               className="img-fluid"
-                                              src={selectedToken.logo ? selectedToken.logo : "../../assets/images/eth.png"}
+                                              src={
+                                                selectedToken.logo
+                                                  ? selectedToken.logo
+                                                  : "../../assets/images/eth.png"
+                                              }
                                               alt=""
                                             />
                                           </div>
@@ -3072,7 +3248,11 @@ export default function Withdraw() {
                                             width="22"
                                             height="22"
                                             className="img-fluid"
-                                            src={NETWORK_ICON[chainId == 5 ? 417 : 5]}
+                                            src={
+                                              NETWORK_ICON[
+                                                chainId == 5 ? 417 : 5
+                                              ]
+                                            }
                                             alt=""
                                           />
                                         </div>
@@ -3083,7 +3263,11 @@ export default function Withdraw() {
                                           type="text"
                                           disabled={true}
                                           placeholder="Shibarium chain"
-                                          value={NETWORK_LABEL[chainId == 5 ? 417 : 5]}
+                                          value={
+                                            NETWORK_LABEL[
+                                              chainId == 5 ? 417 : 5
+                                            ]
+                                          }
                                         />
                                       </div>
                                       {/* <Form.Select
@@ -3151,7 +3335,7 @@ export default function Withdraw() {
                       initialValues={{
                         amount: "",
                         fromChain: chainId,
-                        toChain: ""
+                        toChain: "",
                       }}
                       validationSchema={withdrawValidations}
                       onSubmit={(values, { resetForm }) => {
@@ -3184,7 +3368,11 @@ export default function Withdraw() {
                                             width="22"
                                             height="22"
                                             className="img-fluid"
-                                            src={NETWORK_ICON[chainId == 5 ? 417 : 5]}
+                                            src={
+                                              NETWORK_ICON[
+                                                chainId == 5 ? 417 : 5
+                                              ]
+                                            }
                                             alt=""
                                           />
                                         </div>
@@ -3194,7 +3382,11 @@ export default function Withdraw() {
                                           className="w-100"
                                           type="text"
                                           // placeholder="Shibarium Mainnet"
-                                          value={NETWORK_LABEL[chainId == 5 ? 417 : 5]}
+                                          value={
+                                            NETWORK_LABEL[
+                                              chainId == 5 ? 417 : 5
+                                            ]
+                                          }
                                           disabled={true}
                                         />
                                       </div>
@@ -3260,7 +3452,11 @@ export default function Withdraw() {
                                               width="24"
                                               height="24"
                                               className="img-fluid"
-                                              src={selectedToken.logo ? selectedToken.logo : "../../assets/images/shiba-round-icon.png"}
+                                              src={
+                                                selectedToken.logo
+                                                  ? selectedToken.logo
+                                                  : "../../assets/images/shiba-round-icon.png"
+                                              }
                                               alt=""
                                             />
                                           </div>
@@ -3309,7 +3505,11 @@ export default function Withdraw() {
                                             width="22"
                                             height="22"
                                             className="img-fluid"
-                                            src={selectedToken.logo ? selectedToken.logo : "../../assets/images/eth.png"}
+                                            src={
+                                              selectedToken.logo
+                                                ? selectedToken.logo
+                                                : "../../assets/images/eth.png"
+                                            }
                                             alt=""
                                           />
                                         </div>

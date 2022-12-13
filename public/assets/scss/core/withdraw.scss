@@ -691,5 +691,16 @@
     margin-top: 15px;
     border-top: 1px solid #EAEAE8;
     padding-top: 20px;
+    text-align: center;
+}
+
+.myBackBtnInTM{
+    position: absolute;
+    top: -55px;
+    left: 30px;
+    @media #{$max-sm}{
+        top: -35px;
+    left: 5px;
+    }
 }
 /** Popup style end **/
