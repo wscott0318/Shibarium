@@ -55,6 +55,7 @@ import { ChainId } from "../../modals/NetworkModal/ChainIDs";
 import { NETWORK_ICON, NETWORK_LABEL } from "../../config/networks";
 import Image from "next/image";
 import { dynamicChaining } from "web3/DynamicChaining";
+import {ManageToken} from "../components/ManageToken"
 
 export default function Withdraw() {
   const { chainId = 1, account, library } = useActiveWeb3React();
@@ -79,11 +80,7 @@ export default function Withdraw() {
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const [hashLink, setHashLink] = useState("");
   const [newToken, addNewToken] = useState("");
-  const [fromChain, setFromChain] = useState(0);
-  const [toChain, setToChain] = useState(0);
-  const [confirmImport, setConfirmImport] = useState(true);
-  const [agreeImport, setAgreeImport] = useState(false);
-
+const [openManageToken,setOpenManageToken] = useState(true)
   const handleMenuState = () => {
     setMenuState(!menuState);
   };
@@ -122,7 +119,6 @@ export default function Withdraw() {
   });
   const [tokenModalList, setTokenModalList] = useState<any>([]);
   const [tokenList, setTokenList] = useState([]);
-  const [modalKeyword, setmodalKeyword] = useState("");
   const [localTokens, setLocalTokens] = useState<any>(
     JSON.parse(localStorage.getItem("newToken") || "[]")
   );
@@ -163,30 +159,30 @@ export default function Withdraw() {
     }
   }, [account])
 
-  const handleSearchList = (key: any) => {
-    try {
-      setmodalKeyword(key);
-      if (key.length) {
-        let newData = tokenList.filter((name) => {
-          return Object.values(name)
-            .join(" ")
-            .toLowerCase()
-            .includes(key.toLowerCase());
-        });
-        setTokenModalList(newData);
-      } else {
-        setTokenModalList(tokenList);
-      }
-    } catch (err: any) {
-      Sentry.captureMessage("handleSearchList", err);
-    }
-  };
+  // const handleSearchList = (key: any) => {
+  //   try {
+  //     setmodalKeyword(key);
+  //     if (key.length) {
+  //       let newData = tokenList.filter((name) => {
+  //         return Object.values(name)
+  //           .join(" ")
+  //           .toLowerCase()
+  //           .includes(key.toLowerCase());
+  //       });
+  //       setTokenModalList(newData);
+  //     } else {
+  //       setTokenModalList(tokenList);
+  //     }
+  //   } catch (err: any) {
+  //     Sentry.captureMessage("handleSearchList", err);
+  //   }
+  // };
 
-  const handleTokenSelect = (token: any) => {
-    // console.log(token)
-    setSelectedToken(token);
-    setTokenModal(false);
-  };
+  // const handleTokenSelect = (token: any) => {
+  //   // console.log(token)
+  //   setSelectedToken(token);
+  //   setTokenModal(false);
+  // };
 
   // const handleMax = (e:any) => {
   //   console.log("values inside e ", e);
@@ -475,65 +471,65 @@ export default function Withdraw() {
     }
   };
 
-  const addTokenHandler = async () => {
-    setConfirmImport(!confirmImport);
-    setAgreeImport(!agreeImport);
-    try {
-      const isValidAddress = await web3.utils.isAddress(String(newToken));
-      if (isValidAddress) {
-        const checkArray = tokenModalList.map((st: any) => st?.parentContract);
-        // let localtoken = JSON.parse(localStorage.getItem("newToken") || "[]");
-        let localtokenarray = localTokens.map((st: any) => st.parentContract);
-        const isalreadypresent = checkArray.some((item: any) =>
-          localtokenarray.includes(newToken)
-        );
-        if (isalreadypresent) {
-          toast.error("Address already exists !", {
-            position: toast.POSITION.BOTTOM_CENTER,
-            autoClose: 3000,
-          });
-        } else {
-          const contractInstance = new web3.eth.Contract(
-            addTokenAbi,
-            String(newToken)
-          );
-          let symbol = await contractInstance.methods
-            .symbol()
-            .call({ from: String(account) })
-            .then((token: any) => token)
-            .catch((err: any) => console.log(err));
-          let name = await contractInstance.methods
-            .name()
-            .call({ from: String(account) })
-            .then((token: any) => token)
-            .catch((err: any) => console.log(err));
-          const obj = {
-            parentContract: String(newToken),
-            childContract: String(newToken),
-            parentName: name,
-            parentSymbol: symbol,
-          };
-          setLocalTokens([...localTokens, obj]);
-          setTokenModalList([...tokenModalList, obj]);
-          toast.success(`${name} successfully added.`, {
-            position: toast.POSITION.BOTTOM_CENTER,
-            autoClose: 3000,
-          });
-          setTokenState({
-            step0: false,
-            step1: false,
-            step2: false,
-            step3: false,
-            step4: true,
-            title: "Manage Token",
-          });
-        }
-      } else {
-      }
-    } catch (err: any) {
-      Sentry.captureMessage("addTokenHandler", err);
-    }
-  };
+  // const addTokenHandler = async () => {
+  //   setConfirmImport(!confirmImport);
+  //   setAgreeImport(!agreeImport);
+  //   try {
+  //     const isValidAddress = await web3.utils.isAddress(String(newToken));
+  //     if (isValidAddress) {
+  //       const checkArray = tokenModalList.map((st: any) => st?.parentContract);
+  //       // let localtoken = JSON.parse(localStorage.getItem("newToken") || "[]");
+  //       let localtokenarray = localTokens.map((st: any) => st.parentContract);
+  //       const isalreadypresent = checkArray.some((item: any) =>
+  //         localtokenarray.includes(newToken)
+  //       );
+  //       if (isalreadypresent) {
+  //         toast.error("Address already exists !", {
+  //           position: toast.POSITION.BOTTOM_CENTER,
+  //           autoClose: 3000,
+  //         });
+  //       } else {
+  //         const contractInstance = new web3.eth.Contract(
+  //           addTokenAbi,
+  //           String(newToken)
+  //         );
+  //         let symbol = await contractInstance.methods
+  //           .symbol()
+  //           .call({ from: String(account) })
+  //           .then((token: any) => token)
+  //           .catch((err: any) => console.log(err));
+  //         let name = await contractInstance.methods
+  //           .name()
+  //           .call({ from: String(account) })
+  //           .then((token: any) => token)
+  //           .catch((err: any) => console.log(err));
+  //         const obj = {
+  //           parentContract: String(newToken),
+  //           childContract: String(newToken),
+  //           parentName: name,
+  //           parentSymbol: symbol,
+  //         };
+  //         setLocalTokens([...localTokens, obj]);
+  //         setTokenModalList([...tokenModalList, obj]);
+  //         toast.success(`${name} successfully added.`, {
+  //           position: toast.POSITION.BOTTOM_CENTER,
+  //           autoClose: 3000,
+  //         });
+  //         setTokenState({
+  //           step0: false,
+  //           step1: false,
+  //           step2: false,
+  //           step3: false,
+  //           step4: true,
+  //           title: "Manage Token",
+  //         });
+  //       }
+  //     } else {
+  //     }
+  //   } catch (err: any) {
+  //     Sentry.captureMessage("addTokenHandler", err);
+  //   }
+  // };
 
   useEffect(() => {
     if (!showTokenModal) {
@@ -703,20 +699,20 @@ export default function Withdraw() {
     getTempTokens();
   }, [newToken, tokenState]);
 
-  const clearAllCustomTokens = () => {
-    try {
-      let checkArray = tokenModalList;
-      let localtokenarray = localTokens.map((st: any) => st.parentContract);
-      const notLocalTokens = checkArray.filter(
-        (item: any) => !localtokenarray.includes(item.parentContract)
-      );
-      setTokenModalList(notLocalTokens);
-      setLocalTokens([]);
-      localStorage.setItem("newToken", "[]");
-    } catch (err: any) {
-      Sentry.captureMessage("clearAllCustomTokens", err);
-    }
-  };
+  // const clearAllCustomTokens = () => {
+  //   try {
+  //     let checkArray = tokenModalList;
+  //     let localtokenarray = localTokens.map((st: any) => st.parentContract);
+  //     const notLocalTokens = checkArray.filter(
+  //       (item: any) => !localtokenarray.includes(item.parentContract)
+  //     );
+  //     setTokenModalList(notLocalTokens);
+  //     setLocalTokens([]);
+  //     localStorage.setItem("newToken", "[]");
+  //   } catch (err: any) {
+  //     Sentry.captureMessage("clearAllCustomTokens", err);
+  //   }
+  // };
 
   // console.log("tokenmodallist", tokenModalList);
 
@@ -1556,1376 +1552,9 @@ export default function Withdraw() {
         {/* Withdraw tab popups end */}
 
         {/* Token popups start */}
-        <CommonModal
-          title={"Select token"}
-          show={showTokenModal}
-          setshow={setTokenModal}
-          externalCls="tkn-ht"
-        >
-          {/* Token popups start */}
-          <>
-            {/* Select token popop starts */}
-            {showTokenModal && tokenState.step0 && (
-              <div className="popmodal-body tokn-popup no-ht">
-                <div className="pop-block">
-                  <div className="pop-top">
-                    <div className="sec-search ng-16">
-                      <div className="position-relative search-row">
-                        <input
-                          type="text"
-                          className="w-100"
-                          placeholder="Search token or token address"
-                          onChange={(e) => {
-                            handleSearchList(e.target.value);
-                          }}
-                        />
-                        <div className="search-icon">
-                          <img
-                            width="20"
-                            height="21"
-                            className="img-fluid"
-                            src="../../assets/images/search.png"
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="token-sec">
-                      <div className="info-grid">
-                        <div>
-                          <p>Token List</p>
-                        </div>
-                        <div className="token-btn-sec">
-                          <button
-                            type="button"
-                            className="btn primary-btn w-100"
-                            onClick={() => {
-                              setTokenState({
-                                step0: false,
-                                step1: true,
-                                step2: false,
-                                step3: false,
-                                step4: false,
-                                title: "Manage Token",
-                              });
-                            }}
-                          >
-                            Manage Tokens
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="token-listwrap">
-                      {tokenModalList.length
-                        ? tokenModalList.map((x: any) => (
-                          <div
-                            className="tokn-row"
-                            key={x?.parentName}
-                            onClick={() => handleTokenSelect(x)}
-                          >
-                            <div className="cryoto-box">
-                              <img
-                                className="img-fluid"
-                                src={
-                                  x?.logo
-                                    ? x.logo
-                                    : "../../assets/images/shib-borderd-icon.png"
-                                }
-                                alt=""
-                              />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">{x?.parentSymbol}</h6>
-                                <p>{x?.parentName}</p>
-                              </div>
-                              <div>
-                                <h6 className="fw-bold">
-                                  {x?.balance ? x.balance : "00.00"}
-                                </h6>
-                              </div>
-                            </div>
-                          </div>
-                        ))
-                        : null}
-                      {!tokenModalList.length && modalKeyword ? (
-                        <p className="py-3 py-md-4 py-lg-5 text-center">
-                          no record found
-                        </p>
-                      ) : null}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            {/* Select token popop ends */}
-
-            {/* Manage token popop starts */}
-
-            {showTokenModal && tokenState.step1 && (
-              <div className="popmodal-body tokn-popup no-ht">
-                <button
-                  className="myBackBtnInTM"
-                  onClick={() => {
-                    setTokenModal(true);
-                    setTokenState({
-                      step0: true,
-                      step1: false,
-                      step2: false,
-                      step3: false,
-                      step4: false,
-                      title: "Select a Token",
-                    });
-                  }}
-                >
-                  BO
-                </button>
-                <div className="pop-block">
-                  <div className="pop-top">
-                    <div className="black-bg-sec">
-                      <div className="token-btn-sec pop-btns-grid">
-                        <div className="blk-width">
-                          <button
-                            type="button"
-                            className="btn btn-active w-100"
-                          >
-                            Token Lists
-                          </button>
-                        </div>
-                        <div className="blk-width">
-                          <button
-                            type="button"
-                            className="btn w-100"
-                            onClick={() => {
-                              setTokenState({
-                                step0: false,
-                                step1: false,
-                                step2: true,
-                                step3: false,
-                                step4: false,
-                                title: "Manage Token",
-                              });
-                              addNewToken("");
-                            }}
-                          >
-                            Add token
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="sec-search sec-search-secondry">
-                      <div className="position-relative search-row">
-                        <input
-                          type="text"
-                          className="w-100"
-                          placeholder="Add list by https://"
-                        />
-                        <div className="search-icon">
-                          <img
-                            width="20"
-                            height="21"
-                            className="img-fluid"
-                            src="../../assets/images/search.png"
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="token-listwrap list-ht">
-                      <div className="tokn-row">
-                        <div className="cryoto-box">
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/shib-borderd-icon.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="tkn-grid">
-                          <div>
-                            <h6 className="fw-bold">SHIB</h6>
-                            <p>Shibatoken</p>
-                          </div>
-                          <div>
-                            <h6 className="fw-bold">
-                              <label className="toggle">
-                                <input type="checkbox" />
-                                <span className="slider"></span>
-                                <span
-                                  className="labels"
-                                  data-on="ON"
-                                  data-off="OFF"
-                                ></span>
-                              </label>
-                            </h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="tokn-row">
-                        <div className="cryoto-box">
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/red-bone.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="tkn-grid">
-                          <div>
-                            <h6 className="fw-bold">BONE</h6>
-                            <p>Bone Token</p>
-                          </div>
-                          <div>
-                            <h6 className="fw-bold">
-                              <label className="toggle">
-                                <input type="checkbox" />
-                                <span className="slider"></span>
-                                <span
-                                  className="labels"
-                                  data-on="ON"
-                                  data-off="OFF"
-                                ></span>
-                              </label>
-                            </h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="tokn-row">
-                        <div className="cryoto-box">
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/etharium.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="tkn-grid">
-                          <div>
-                            <h6 className="fw-bold">ETH</h6>
-                            <p>Ethereum</p>
-                          </div>
-                          <div>
-                            <h6 className="fw-bold">
-                              <label className="toggle">
-                                <input type="checkbox" />
-                                <span className="slider"></span>
-                                <span
-                                  className="labels"
-                                  data-on="ON"
-                                  data-off="OFF"
-                                ></span>
-                              </label>
-                            </h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="tokn-row">
-                        <div className="cryoto-box">
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/etharium.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="tkn-grid">
-                          <div>
-                            <h6 className="fw-bold">ETH</h6>
-                            <p>Ethereum</p>
-                          </div>
-                          <div>
-                            <h6 className="fw-bold">
-                              <label className="toggle">
-                                <input type="checkbox" />
-                                <span className="slider"></span>
-                                <span
-                                  className="labels"
-                                  data-on="ON"
-                                  data-off="OFF"
-                                ></span>
-                              </label>
-                            </h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="tokn-row">
-                        <div className="cryoto-box">
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/etharium.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="tkn-grid">
-                          <div>
-                            <h6 className="fw-bold">ETH</h6>
-                            <p>Ethereum</p>
-                          </div>
-                          <div>
-                            <h6 className="fw-bold">
-                              <label className="toggle">
-                                <input type="checkbox" />
-                                <span className="slider"></span>
-                                <span
-                                  className="labels"
-                                  data-on="ON"
-                                  data-off="OFF"
-                                ></span>
-                              </label>
-                            </h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="tokn-row">
-                        <div className="cryoto-box">
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/etharium.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="tkn-grid">
-                          <div>
-                            <h6 className="fw-bold">ETH</h6>
-                            <p>Ethereum</p>
-                          </div>
-                          <div>
-                            <h6 className="fw-bold">
-                              <label className="toggle">
-                                <input type="checkbox" />
-                                <span className="slider"></span>
-                                <span
-                                  className="labels"
-                                  data-on="ON"
-                                  data-off="OFF"
-                                ></span>
-                              </label>
-                            </h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="tokn-row">
-                        <div className="cryoto-box">
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/etharium.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="tkn-grid">
-                          <div>
-                            <h6 className="fw-bold">ETH</h6>
-                            <p>Ethereum</p>
-                          </div>
-                          <div>
-                            <h6 className="fw-bold">
-                              <label className="toggle">
-                                <input type="checkbox" />
-                                <span className="slider"></span>
-                                <span
-                                  className="labels"
-                                  data-on="ON"
-                                  data-off="OFF"
-                                ></span>
-                              </label>
-                            </h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="tokn-row">
-                        <div className="cryoto-box">
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/etharium.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="tkn-grid">
-                          <div>
-                            <h6 className="fw-bold">ETH</h6>
-                            <p>Ethereum</p>
-                          </div>
-                          <div>
-                            <h6 className="fw-bold">
-                              <label className="toggle">
-                                <input type="checkbox" />
-                                <span className="slider"></span>
-                                <span
-                                  className="labels"
-                                  data-on="ON"
-                                  data-off="OFF"
-                                ></span>
-                              </label>
-                            </h6>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Manage token popop ends */}
-
-            {/* Add token popop starts */}
-
-            {showTokenModal && tokenState.step2 && (
-              <div className="popmodal-body tokn-popup no-ht">
-                <button
-                  className="myBackBtnInTM"
-                  onClick={() => {
-                    setTokenModal(true);
-                    setTokenState({
-                      step0: true,
-                      step1: false,
-                      step2: false,
-                      step3: false,
-                      step4: false,
-                      title: "Select a Token",
-                    });
-                  }}
-                >
-                  BO
-                </button>
-                <div className="pop-block">
-                  <div className="pop-top">
-                    <div className="black-bg-sec">
-                      <div className="token-btn-sec pop-btns-grid">
-                        <div className="blk-width">
-                          <button
-                            type="button"
-                            className={`btn w-100 ${tokenState.step1 && "btn-active"}`}
-                            onClick={() => {
-                              setTokenState({
-                                step0: false,
-                                step1: true,
-                                step2: false,
-                                step3: false,
-                                step4: false,
-                                title: "Manage Token",
-                              });
-                            }}
-                          >
-                            Token Lists
-                          </button>
-                        </div>
-                        <div className="blk-width">
-                          <button
-                            type="button"
-                            className={`btn w-100 ${tokenState.step2 && "btn-active"
-                              }`}
-                            onClick={() => {
-                              addTokenHandler();
-                            }}
-                          >
-                            Add token
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="sec-search sec-search-secondry">
-                      <div
-                        className="position-relative search-row"
-                      // onClick={() => {
-                      //   if(newToken !== '')
-                      //   setTokenState({
-                      //     step0: false,
-                      //     step1: false,
-                      //     step2: false,
-                      //     step3: true,
-                      //     step4: false,
-                      //     title: "Manage Token",
-                      //   });
-                      // }}
-                      // onClick={() => {
-                      //   addTokenHandler();
-                      // }}
-                      >
-                        <input
-                          type="text"
-                          className="w-100"
-                          placeholder="Enter Token Address"
-                          autoFocus={newToken.length > 0}
-                          value={newToken}
-                          onChange={(e: any) => {
-                            addNewToken(e.target.value);
-                            // addTokenHandler();
-                          }}
-                        />
-                        <div className="search-icon">
-                          <img
-                            width="20"
-                            height="21"
-                            className="img-fluid"
-                            src="../../assets/images/search.png"
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="pop-bottom pt-0">
-                      <div className="">
-                        <div className="grid-block">
-                          <div className="blk-width">
-                            <div>{localTokens.length} Token Found</div>
-                            <p className="lite-color">
-                              Token stored in your browser
-                            </p>
-                          </div>
-                          <div
-                            style={{ textAlign: "right" }}
-                            className="btn-sm"
-                          >
-                            {/* className="blk-width btn-sm" */}
-                            <button
-                              type="button"
-                              // className="btn primary-btn w-95"
-                              className="primary-text"
-                              onClick={clearAllCustomTokens}
-                            >
-                              Clear All
-                            </button>
-                          </div>
-                        </div>
-                        <div className="token-listwrap usr-listht">
-                          {localTokens.map((x: any, index: any) => (
-                            <div className="tokn-row" key={x.parentContract}>
-                              <div className="cryoto-box">
-                                <img
-                                  className="img-fluid"
-                                  src={
-                                    x.logo
-                                      ? x.logo
-                                      : "../../../assets/images/shib-borderd-icon.png"
-                                  }
-                                  alt=""
-                                />
-                              </div>
-                              <div className="tkn-grid">
-                                <div>
-                                  <h6 className="fw-bold">{x.parentSymbol}</h6>
-                                  <p>{x.parentName}</p>
-                                </div>
-                                <div>
-                                  <span
-                                    className="me-4"
-                                    onClick={() => spliceCustomToken(index)}
-                                  >
-                                    <img
-                                      className="img-fluid"
-                                      src="../../../assets/images/del.png"
-                                      alt=""
-                                    />
-                                  </span>
-                                  <span>
-                                    <img
-                                      className="img-fluid"
-                                      src="../../../assets/images/up.png"
-                                      alt=""
-                                    />
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* <div className="pop-mid">
-                    <div className="center-content">
-                      <p>Custom token not found Add your first custom token</p>
-                    </div>
-                  </div> */}
-
-                  <div className="myTipsArea">
-                    Tip: Custom tokens are stored locally in your browser{" "}
-                  </div>
-                </div>
-              </div>
-            )}
-            {/* Add token popop ends */}
-
-            {/* search popop starts */}
-
-            {showTokenModal && tokenState.step3 && (
-              <div className="popmodal-body tokn-popup no-ht">
-                <button
-                  className="myBackBtnInTM"
-                  onClick={() => {
-                    setTokenModal(true);
-                    setTokenState({
-                      step0: true,
-                      step1: false,
-                      step2: false,
-                      step3: false,
-                      step4: false,
-                      title: "Select a Token",
-                    });
-                  }}
-                >
-                  BO
-                </button>
-                <div className="pop-block">
-                  <div className="pop-top">
-                    <div className="black-bg-sec">
-                      <div className="token-btn-sec pop-btns-grid">
-                        <div className="blk-width">
-                          <button
-                            type="button"
-                            className="btn btn-active w-100"
-                            onClick={() => {
-                              setTokenState({
-                                step0: false,
-                                step1: true,
-                                step2: false,
-                                step3: false,
-                                step4: false,
-                                title: "Manage Token",
-                              });
-                            }}
-                          >
-                            Token Lists
-                          </button>
-                        </div>
-                        <div className="blk-width">
-                          <button type="button" className="btn w-100">
-                            Add token
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="sec-search sec-search-secondry">
-                      <div className="position-relative search-row">
-                        <input
-                          type="text"
-                          className="w-100"
-                          placeholder="Enter Token Address"
-                          onChange={(e) => {
-                            addNewToken(e.target.value);
-                          }}
-                          autoFocus={newToken.length > 0}
-                          value={newToken ? newToken : ""}
-                        />
-                        <div className="search-icon">
-                          <img
-                            width="20"
-                            height="21"
-                            className="img-fluid"
-                            src="../../assets/images/search.png"
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="pop-bottom pt-0">
-                      {confirmImport ? (
-                        <>
-                          <div className="">
-                            <div className="grid-block">
-                              <div className="blk-width">
-                                <div>{localTokens.length} Token Found</div>
-                                <p className="lite-color">
-                                  Token stored in your browser
-                                </p>
-                              </div>
-                              <div
-                                style={{ textAlign: "right" }}
-                                className="btn-sm"
-                              >
-                                {/* className="blk-width btn-sm" */}
-                                <button
-                                  type="button"
-                                  // className="btn primary-btn w-100"
-                                  className="primary-text"
-                                  onClick={clearAllCustomTokens}
-                                >
-                                  Clear All
-                                </button>
-                              </div>
-                            </div>
-                            <div className="token-listwrap usr-listht">
-                              <div className="token-listwrap usr-listht">
-                                {JSON.stringify(tempTokens) !== "{}" ? (
-                                  <div className="tokn-row">
-                                    <div className="cryoto-box">
-                                      <img
-                                        className="img-fluid"
-                                        src={
-                                          tempTokens?.logo
-                                            ? tempTokens?.logo
-                                            : "../../../assets/images/shib-borderd-icon.png"
-                                        }
-                                        alt=""
-                                      />
-                                    </div>
-                                    <div className="tkn-grid">
-                                      <div>
-                                        <h6 className="fw-bold">
-                                          {tempTokens.parentSymbol}
-                                        </h6>
-                                        <p>{tempTokens.parentName}</p>
-                                      </div>
-                                      <div>
-                                        <span
-                                          className="primary-text"
-                                          onClick={() => {
-                                            setConfirmImport(!confirmImport);
-                                          }}
-                                        >
-                                          Import
-                                          {/* <img
-                                      className="img-fluid"
-                                      src="../../../assets/images/up.png"
-                                      alt=""
-                                    /> */}
-                                        </span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                ) : (
-                                  ""
-                                )}
-                              </div>
-                              {localTokens.map((x: any, index: any) => (
-                                <div
-                                  className="tokn-row"
-                                  key={x.parentContract}
-                                >
-                                  <div className="cryoto-box">
-                                    <img
-                                      className="img-fluid"
-                                      src={
-                                        x.logo
-                                          ? x.logo
-                                          : "../../../assets/images/shib-borderd-icon.png"
-                                      }
-                                      alt=""
-                                    />
-                                  </div>
-                                  <div className="tkn-grid">
-                                    <div>
-                                      <h6 className="fw-bold">
-                                        {x.parentSymbol}
-                                      </h6>
-                                      <p>{x.parentName}</p>
-                                    </div>
-                                    <div>
-                                      <span
-                                        className="me-4"
-                                        onClick={() => spliceCustomToken(index)}
-                                      >
-                                        <img
-                                          className="img-fluid"
-                                          src="../../../assets/images/del.png"
-                                          alt=""
-                                        />
-                                      </span>
-                                      <span>
-                                        <img
-                                          className="img-fluid"
-                                          src="../../../assets/images/up.png"
-                                          alt=""
-                                        />
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <h2>Import at your own risk</h2>
-                          <div>
-                            By adding this token you are implicitly trusting
-                            that the data is correct.
-                          </div>
-                          <div>
-                            If you purchase this token, you may not be able to
-                            sell it back.
-                          </div>
-                          <label style={{ margin: "20px 0" }}>
-                            <input
-                              style={{ marginRight: "5px" }}
-                              type="checkbox"
-                              onChange={() => setAgreeImport(!agreeImport)}
-                            />
-                            I understand
-                          </label>
-                          <div>
-                            <button
-                              disabled={!agreeImport}
-                              onClick={addTokenHandler}
-                            >
-                              click butoon
-                            </button>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                  <div className="pop-bottom pt-0">
-                    <div className="">
-                      <div className="grid-block"></div>
-                    </div>
-                  </div>
-                  {/* <div className="h-100">
-                    <div className="two-col position-relative">
-                      <div className="left-sec-img">
-                        <div>
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/alert.png"
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                      <p className="text-block">
-                        Anyone can create a token, including creating FAKE
-                        version of existing tokens. Interact with any new token
-                        carefully.
-                      </p>
-                    </div>
-                    <div className="row-wrap">
-                      <div className="crypto-info">
-                        <div className="left-side data">
-                          <p className="lite-color">
-                            Token Address on Ethereum
-                          </p>
-                        </div>
-                        <div className="right-side data">
-                          <p>0x95ad6...4c4ce</p>
-                        </div>
-                      </div>
-                      <div className="crypto-info">
-                        <div className="left-side data">
-                          <p className="lite-color">
-                            Token Address on Shibarium
-                          </p>
-                        </div>
-                        <div className="right-side data">
-                          <p>0x6f8a0...1d4ec</p>
-                        </div>
-                      </div>
-
-                      <div className="crypto-info">
-                        <div className="left-side data">
-                          <p className="lite-color">Project name</p>
-                        </div>
-                        <div className="right-side data">
-                          <p>BONE INU</p>
-                        </div>
-                      </div>
-                      <div className="crypto-info">
-                        <div className="left-side data">
-                          <p className="lite-color">Ticker name</p>
-                        </div>
-                        <div className="right-side data">
-                          <p>SHIB</p>
-                        </div>
-                      </div>
-                      <div className="crypto-info">
-                        <div className="left-side data">
-                          <p className="lite-color">Token Decimal</p>
-                        </div>
-                        <div className="right-side data">
-                          <p>18</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
-
-                  <div className="pop-bottom">
-                    <div className="">
-                      {/* <a
-                          className="btn primary-btn w-100"
-                          href="javascript:void(0)"
-                          onClick={() => {
-                            // setTokenState({
-                            //   step0: false,
-                            //   step1: false,
-                            //   step2: false,
-                            //   step3: false,
-                            //   step4: true,
-                            //   title: "Manage Token",
-                            // });
-                            addTokenHandler();
-                            addNewToken('')
-                          }}
-                        >
-                          Add Token
-                        </a> */}
-                      <div className="myTipsArea">
-                        Tip: Custom tokens are stored locally in your browser{" "}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              // </div>
-            )}
-            {/* Search popop ends */}
-
-            {/* new added token with delete action starts */}
-            {showTokenModal && tokenState.step4 && (
-              <div className="popmodal-body tokn-popup no-ht">
-                <button
-                  className="myBackBtnInTM"
-                  onClick={() => {
-                    setTokenModal(true);
-                    setTokenState({
-                      step0: true,
-                      step1: false,
-                      step2: false,
-                      step3: false,
-                      step4: false,
-                      title: "Select a Token",
-                    });
-                  }}
-                >
-                  BO
-                  {/* <img src="../../assets/images/rt-arow.png" alt=""></img> */}
-                </button>
-                <div className="pop-block">
-                  <div className="pop-top">
-                    <div className="black-bg-sec">
-                      <div className="token-btn-sec pop-btns-grid">
-                        <div className="blk-width">
-                          <button
-                            type="button"
-                            className="btn btn-active w-100"
-                            onClick={() => {
-                              setTokenState({
-                                step0: false,
-                                step1: true,
-                                step2: false,
-                                step3: false,
-                                step4: false,
-                                title: "Manage Token",
-                              });
-                            }}
-                          >
-                            Token Lists
-                          </button>
-                        </div>
-                        <div className="blk-width">
-                          <button type="button" className="btn w-100">
-                            Add token
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="sec-search sec-search-secondry">
-                      <div className="position-relative search-row">
-                        <input
-                          type="text"
-                          className="w-100"
-                          placeholder="Add list by https://"
-                          onChange={(e) => {
-                            addNewToken(e.target.value);
-                          }}
-                          autoFocus={newToken.length > 0}
-                          value={newToken ? newToken : ""}
-                        />
-                        <div className="search-icon">
-                          <img
-                            width="20"
-                            height="21"
-                            className="img-fluid"
-                            src="../../assets/images/search.png"
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="pop-bottom pt-0">
-                      <div className="">
-                        <div className="grid-block">
-                          <div className="blk-width">
-                            <div>{localTokens.length} Token Found</div>
-                            <p className="lite-color">
-                              Token stored in your browser
-                            </p>
-                          </div>
-                          <div
-                            style={{ textAlign: "right" }}
-                            className="btn-sm"
-                          >
-                            {/* className="blk-width btn-sm" */}
-                            <button
-                              type="button"
-                              // className="btn primary-btn w-100"
-                              className="primary-text"
-                              onClick={clearAllCustomTokens}
-                            >
-                              Clear All
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="token-listwrap usr-listht">
-                      {localTokens.map((x: any, index: any) => (
-                        <div className="tokn-row" key={x.parentContract}>
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src={
-                                x.logo
-                                  ? x.logo
-                                  : "../../../assets/images/shib-borderd-icon.png"
-                              }
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">{x.parentSymbol}</h6>
-                              <p>{x.parentName}</p>
-                            </div>
-                            <div>
-                              <span
-                                className="me-4"
-                                onClick={() => spliceCustomToken(index)}
-                              >
-                                <img
-                                  className="img-fluid"
-                                  src="../../../assets/images/del.png"
-                                  alt=""
-                                />
-                              </span>
-                              <span>
-                                <img
-                                  className="img-fluid"
-                                  src="../../../assets/images/up.png"
-                                  alt=""
-                                />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                      {/* <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">SHIB</h6>
-                              <p>Shibatoken</p>
-                            </div>
-                            <div>
-                              <span
-                                className="me-4"
-                                onClick={() => {
-                                  setTokenState({
-                                    step0: false,
-                                    step1: false,
-                                    step2: true,
-                                    step3: false,
-                                    step4: false,
-                                    title: "Manage Token",
-                                  });
-                                }}
-                              >
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/del.png"
-                                  alt=""
-                                />
-                              </span>
-                              <span>
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/up.png"
-                                  alt=""
-                                />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">SHIB</h6>
-                              <p>Shibatoken</p>
-                            </div>
-                            <div>
-                              <span
-                                className="me-4"
-                                onClick={() => {
-                                  setTokenState({
-                                    step0: false,
-                                    step1: false,
-                                    step2: true,
-                                    step3: false,
-                                    step4: false,
-                                    title: "Manage Token",
-                                  });
-                                }}
-                              >
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/del.png"
-                                  alt=""
-                                />
-                              </span>
-                              <span>
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/up.png"
-                                  alt=""
-                                />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">SHIB</h6>
-                              <p>Shibatoken</p>
-                            </div>
-                            <div>
-                              <span
-                                className="me-4"
-                                onClick={() => {
-                                  setTokenState({
-                                    step0: false,
-                                    step1: false,
-                                    step2: true,
-                                    step3: false,
-                                    step4: false,
-                                    title: "Manage Token",
-                                  });
-                                }}
-                              >
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/del.png"
-                                  alt=""
-                                />
-                              </span>
-                              <span>
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/up.png"
-                                  alt=""
-                                />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">SHIB</h6>
-                              <p>Shibatoken</p>
-                            </div>
-                            <div>
-                              <span
-                                className="me-4"
-                                onClick={() => {
-                                  setTokenState({
-                                    step0: false,
-                                    step1: false,
-                                    step2: true,
-                                    step3: false,
-                                    step4: false,
-                                    title: "Manage Token",
-                                  });
-                                }}
-                              >
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/del.png"
-                                  alt=""
-                                />
-                              </span>
-                              <span>
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/up.png"
-                                  alt=""
-                                />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">SHIB</h6>
-                              <p>Shibatoken</p>
-                            </div>
-                            <div>
-                              <span
-                                className="me-4"
-                                onClick={() => {
-                                  setTokenState({
-                                    step0: false,
-                                    step1: false,
-                                    step2: true,
-                                    step3: false,
-                                    step4: false,
-                                    title: "Manage Token",
-                                  });
-                                }}
-                              >
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/del.png"
-                                  alt=""
-                                />
-                              </span>
-                              <span>
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/up.png"
-                                  alt=""
-                                />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">SHIB</h6>
-                              <p>Shibatoken</p>
-                            </div>
-                            <div>
-                              <span
-                                className="me-4"
-                                onClick={() => {
-                                  setTokenState({
-                                    step0: false,
-                                    step1: false,
-                                    step2: true,
-                                    step3: false,
-                                    step4: false,
-                                    title: "Manage Token",
-                                  });
-                                }}
-                              >
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/del.png"
-                                  alt=""
-                                />
-                              </span>
-                              <span>
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/up.png"
-                                  alt=""
-                                />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">SHIB</h6>
-                              <p>Shibatoken</p>
-                            </div>
-                            <div>
-                              <span
-                                className="me-4"
-                                onClick={() => {
-                                  setTokenState({
-                                    step0: false,
-                                    step1: false,
-                                    step2: true,
-                                    step3: false,
-                                    step4: false,
-                                    title: "Manage Token",
-                                  });
-                                }}
-                              >
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/del.png"
-                                  alt=""
-                                />
-                              </span>
-                              <span>
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/up.png"
-                                  alt=""
-                                />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            {/* new added token with delete action ends */}
-                    </div>
-                  </div>
-
-                  <div className="myTipsArea">
-                    Tip: Custom tokens are stored locally in your browser{" "}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Token popups end */}
-          </>
-        </CommonModal>
+        {openManageToken ? <ManageToken setOpenManageToken={setOpenManageToken}/>:null}
         {/* Token popups end */}
+
         {/* modal code closed */}
         <section className="assets-section">
           <div className="cmn_dashbord_main_outr">
@@ -3062,6 +1691,7 @@ export default function Withdraw() {
               </div>
               {/* Left section end */}
               {/* Right section start */}
+              
               <div className="right-box">
                 <div className="block-card d-flex flex-column justify-content-between bridge_form_sec">
                   <div className="tab-sec botom-spcing">
@@ -3188,16 +1818,17 @@ export default function Withdraw() {
                                     <div className="col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-3 mb-lg-0  res-align">
                                       <div
                                         className="form-field position-relative fix-coin-field"
-                                        onClick={() => {
-                                          setTokenModal(true);
-                                          setTokenState({
-                                            step0: true,
-                                            step1: false,
-                                            step2: false,
-                                            step3: false,
-                                            step4: false,
-                                            title: "Select a Token",
-                                          });
+                                        onClick={() => {setOpenManageToken(!openManageToken); console.log("openmanage toke => ",openManageToken);
+                                          // setTokenModal(true);
+                                          // setTokenState({
+                                          //   step0: true,
+                                          //   step1: false,
+                                          //   step2: false,
+                                          //   step3: false,
+                                          //   step4: false,
+                                          //   title: "Select a Token",
+                                          // });
+                                          
                                         }}
                                       >
                                         <div className="right-spacing">
@@ -3456,16 +2087,17 @@ export default function Withdraw() {
                                     <div className="col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-3 mb-lg-0  res-align">
                                       <div
                                         className="form-field position-relative fix-coin-field h-100"
-                                        onClick={() => {
-                                          setTokenModal(true);
-                                          setTokenState({
-                                            step0: true,
-                                            step1: false,
-                                            step2: false,
-                                            step3: false,
-                                            step4: false,
-                                            title: "Select a Token",
-                                          });
+                                        onClick={() => {setOpenManageToken(!openManageToken)
+                                        // onClick={() => {
+                                        //   setTokenModal(true);
+                                        //   setTokenState({
+                                        //     step0: true,
+                                        //     step1: false,
+                                        //     step2: false,
+                                        //     step3: false,
+                                        //     step4: false,
+                                        //     title: "Select a Token",
+                                        //   });
                                         }}
                                       >
                                         <div className="right-spacing">
@@ -3624,6 +2256,7 @@ export default function Withdraw() {
                       )}
                     </Formik>
                   )}
+                  
                   {/* Withdraw   tab content section end */}
                 </div>
               </div>
