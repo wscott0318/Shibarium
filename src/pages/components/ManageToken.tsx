@@ -13,7 +13,7 @@ import addTokenAbi from "../../ABI/custom-token-abi.json";
 import * as Sentry from "@sentry/nextjs";
 import { dynamicChaining } from "web3/DynamicChaining";
 
-export const ManageToken = () => {
+export const ManageToken = ({setOpenManageToken, ...props} : any) => {
 
     const { chainId = 1, account, library } = useActiveWeb3React();
     const lib: any = library;
@@ -390,7 +390,7 @@ export const ManageToken = () => {
          <CommonModal
           title={"Select token"}
           show={showTokenModal}
-          setshow={setTokenModal}
+          setshow={() => {setOpenManageToken(); setTokenModal(false);}}
           externalCls="tkn-ht"
         >
           {/* Token popups start */}
@@ -518,7 +518,7 @@ export const ManageToken = () => {
                         <div className="blk-width">
                           <button
                             type="button"
-                            className="btn btn-active w-100"
+                            className={`btn w-100 ${tokenState.step1 && "btn-active"}`}
                           >
                             Token Lists
                           </button>
@@ -526,7 +526,7 @@ export const ManageToken = () => {
                         <div className="blk-width">
                           <button
                             type="button"
-                            className="btn w-100"
+                            className={`btn w-100 ${tokenState.step2 && "btn-active"}`}
                             onClick={() => {
                               setTokenState({
                                 step0: false,
@@ -822,7 +822,7 @@ export const ManageToken = () => {
                         <div className="blk-width">
                           <button
                             type="button"
-                            className="btn btn-active w-100"
+                            className={`btn w-100 ${tokenState.step1 && "btn-active"}`}
                             onClick={() => {
                               setTokenState({
                                 step0: false,

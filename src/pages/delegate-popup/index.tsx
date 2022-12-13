@@ -250,7 +250,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
         step1:true,
         step2: false,
         step3:false,
-        title:"Buy Voucher"
+        title:"Delegate"
       })
     },
   });
@@ -411,7 +411,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                           </span>
                           <p>
                             <span className="light-text">
-                              {data?.uptimePercent?.toFixed(toFixedPrecent)}% Performance - {data.commissionrate} %
+                              {data?.uptimePercent?.toFixed(toFixedPrecent)}% Performance - <br/>{data.commissionrate} %
                               Commission
                             </span>
                           </p>
@@ -440,12 +440,12 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
 
                     <p className="inpt_fld_hlpr_txt mt-3 text-pop-right d-flex flex-wrap">
                       <span>
-                        <NumberFormat
+                        {/* <NumberFormat
                           value={(walletBalance * boneUSDValue).toFixed(tokenDecimal)}
                           displayType={"text"}
                           thousandSeparator={true}
                           prefix={"$ "}
-                        />
+                        /> */}
                       </span>
                       <span className="text-right">
                         Balance: {walletBalance?.toFixed(tokenDecimal)} BONE
@@ -482,11 +482,11 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                   </div>
                   <div className="mid_text row">
                     <div className="col-12 text-center">
-                      <h4 className="ff-mos">Buy Voucher</h4>
+                      {/* <h4 className="ff-mos">Buy Voucher</h4> */}
                     </div>
                     <div className="col-12 text-center">
                       <p className="ff-mos">
-                        Completing this transaction will stake your Burn tokens
+                        Completing this transaction will stake your Bone tokens
                         and you will start earning rewards for the upcoming
                         checkpoints.
                       </p>
@@ -555,8 +555,8 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                     </div>
                     <div className="col-12 text-center">
                       <p className="ff-mos">
-                        Ethereum transactions can take longer time to complete
-                        based upon network congestion. Please wait for increase
+                        Layer1 transactions can take longer time to complete
+                        based upon network congestion. Please wait or increase
                         the gas price of the transaction.
                       </p>
                     </div>
@@ -596,7 +596,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                     </div>
                     <div className="col-12 text-center">
                       <p className="ff-mos">
-                        Your BONE tokens are staked successfully on validator.
+                        Your tokens are staked successfully on validator.
                         Your delegation will take 4-5 mintues to reflect in your
                         account.
                       </p>
