@@ -200,7 +200,7 @@ function NetworkDetails({valCount} : any) {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div>c
               </div>
              :
              <div className="row">
