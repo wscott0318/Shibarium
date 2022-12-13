@@ -968,6 +968,18 @@ body {
     display: flex;
     align-items: center;
 }
+tr.no_record_wrapper {
+    height: 150px;
+}
+.tool-desc {
+    text-transform: capitalize;
+}
+td.no_record img{
+    margin: auto;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 @media only screen and (max-width: 991.98px){
     .shib-popup .modal-content {
         // height: 75%;
