@@ -268,6 +268,7 @@ const validatorAccount = ({
 
   const restakeValidation: any = Yup.object({
     amount: Yup.number()
+      .typeError('Amount should be a number.')
       // .matches(/^[1-9][0-9]*$/, "You must enter valid amount.")
       .min(0)
       .max(availBalance).moreThan(0,"You must enter valid amount.")
@@ -2183,7 +2184,12 @@ const validatorAccount = ({
                                   Restake
                                 </button>
                                 <div className="tool-desc">
-                                  Restake your total rewards
+                                  {parseInt(item.commission) == comissionVal ||
+                                    item.checkpointSignedPercent <
+                                      checkpointVal ||
+                                    parseInt(item.reward) / 10 ** web3Decimals <
+                                      1 ? "Restaking is disabled." : "Restake your total rewards"}
+                                  
                                 </div>
                               </div>
                             </li>
@@ -2205,7 +2211,9 @@ const validatorAccount = ({
                                   Withdraw Rewards
                                 </button>
                                 <div className="tool-desc">
-                                  withdraw you total reward
+                                  {parseInt(item.reward) / 10 ** web3Decimals <
+                                    1 ? "Withdrawal is disabled." : "withdraw you total reward"}
+                                  
                                 </div>
                               </div>
                             </li>

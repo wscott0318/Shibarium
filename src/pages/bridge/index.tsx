@@ -73,6 +73,7 @@ export default function Withdraw() {
   const [showWithdrawModal, setWithdrawModal] = useState(false);
   const [showTokenModal, setTokenModal] = useState(false);
   const [depositTokenInput, setDepositTokenInput] = useState("");
+  const [withdrawTokenInput, setWithdrawTokenInput] = useState("");
   const [dWState, setDWState] = useState(
     bridgeType === "deposit" ? true : false
   );
@@ -183,9 +184,17 @@ const [openManageToken,setOpenManageToken] = useState(true)
   //   setTokenModal(false);
   // };
 
-  const handleMax = () => {
-    setDepositTokenInput(selectedToken.balance);
-  };
+  // const handleMax = (e:any) => {
+  //   console.log("values inside e ", e);
+  //   if(e.target.classList[2] == "depositMax"){
+  //     setDepositTokenInput(selectedToken.balance);
+  //     setFieldValue("amount" , selectedToken.balance);
+  //   }
+  //   else{
+  //     setWithdrawTokenInput(selectedToken.balance);
+  //     setFieldValue("withdrawAmount" , selectedToken.balance);
+  //   }
+  // };
 
   const depositValidations: any = Yup.object({
     fromChain: Yup.number().required("Required Field"),
@@ -200,7 +209,7 @@ const [openManageToken,setOpenManageToken] = useState(true)
   const withdrawValidations: any = Yup.object({
     fromChain: Yup.number().required("Required Field"),
     toChain: Yup.number().required("Required Field"),
-    amount: Yup.number()
+    withdrawAmount: Yup.number()
       .typeError("Only digits are allowed.")
       .min(0)
       .max(selectedToken.balance)
@@ -345,18 +354,20 @@ const [openManageToken,setOpenManageToken] = useState(true)
   };
   const callWithdrawModal = (values: any) => {
     try {
-      setDepositTokenInput(values.amount);
+      setWithdrawTokenInput(values.amount);
       {
-        setDepModState({
+        setWidModState({
           step0: true,
           step1: false,
           step2: false,
-          title: "Confirm deposit",
+          step3: false,
+          step4: false,
+          title: "Confirm Withdraw",
         });
-        setDepositModal(true);
+        setWithdrawModal(true);
       }
     } catch (err: any) {
-      Sentry.captureMessage("callDepositModal", err);
+      Sentry.captureMessage("callWithdrawModal", err);
     }
   };
 
@@ -719,7 +730,7 @@ const [openManageToken,setOpenManageToken] = useState(true)
     }
   };
 
-  console.log("tokenModalList--", tokenModalList);
+  // console.log("tokenModalList--", tokenModalList);
   // console.log('localToken', localTokens);
   // console.log("tokenState 3", tokenState.step3)
   return (
@@ -1099,9 +1110,8 @@ const [openManageToken,setOpenManageToken] = useState(true)
                     )}
                     {
                       <div
-                        className={`txt-row ${
-                          dWState ? "visVisible" : "visInvisible"
-                        }`}
+                        className={`txt-row ${dWState ? "visVisible" : "visInvisible"
+                          }`}
                       >
                         <div className="row-hd">
                           <span className="icon-image">
@@ -1128,9 +1138,8 @@ const [openManageToken,setOpenManageToken] = useState(true)
                   <div className="blank-box"></div>
                   <div className="box-bottom d-flex flex-column justify-content-end">
                     <div
-                      className={`amt-section position-relative ${
-                        !dWState ? "visVisible" : "visInvisible"
-                      }`}
+                      className={`amt-section position-relative ${!dWState ? "visVisible" : "visInvisible"
+                        }`}
                     >
                       <div className="coin-blk">
                         <div className="coin-sec">
@@ -1237,6 +1246,7 @@ const [openManageToken,setOpenManageToken] = useState(true)
                           handleBlur,
                           values,
                           handleSubmit,
+                          setFieldValue
                         }) => (
                           <div className="h-100">
                             <div className="sec-wrapper">
@@ -1249,17 +1259,23 @@ const [openManageToken,setOpenManageToken] = useState(true)
                                     <div className="form-field position-relative txt-fix">
                                       <div className="icon-chain">
                                         <div>
-                                          <img
-                                            width="22"
-                                            height="22"
-                                            className="img-fluid"
-                                            src={
-                                              selectedToken.logo
-                                                ? selectedToken.logo
-                                                : "../../assets/images/eth.png"
-                                            }
-                                            alt=""
-                                          />
+                                          {
+                                            selectedToken.logo
+                                              ? (<img
+                                                width="22"
+                                                height="22"
+                                                className="img-fluid"
+                                                src={selectedToken.logo}
+                                                alt=""
+                                              />) :
+                                              (
+                                                <img
+                                                  className="img-fluid"
+                                                  src={"../../assets/images/eth.png"}
+                                                  alt=""
+                                                />
+                                              )
+                                          }
                                         </div>
                                       </div>
                                       <div className="mid-chain">
@@ -1293,7 +1309,7 @@ const [openManageToken,setOpenManageToken] = useState(true)
                                           type="text"
                                           value={NETWORK_LABEL[chainId]}
                                           disabled={true}
-                                          // placeholder="Ethereum chain"
+                                        // placeholder="Ethereum chain"
                                         />
                                       </div>
                                       <div className="rt-chain">
@@ -1359,15 +1375,17 @@ const [openManageToken,setOpenManageToken] = useState(true)
                                             className="w-100"
                                             type="text"
                                             placeholder="0.00"
+                                            name="amount"
+                                            defaultValue={depositTokenInput}
                                             value={values.amount}
                                             onChange={handleChange("amount")}
                                           />
                                         </div>
                                         <div
                                           className="rt-chain"
-                                          onClick={() => handleMax()}
+                                          onClick={(e) => setFieldValue("amount", selectedToken.balance)}
                                         >
-                                          <span className="orange-txt fw-bold">
+                                          <span className="orange-txt fw-bold depositMax">
                                             MAX
                                           </span>
                                         </div>
@@ -1394,7 +1412,7 @@ const [openManageToken,setOpenManageToken] = useState(true)
                                             className="img-fluid"
                                             src={
                                               NETWORK_ICON[
-                                                chainId == 5 ? 417 : 5
+                                              chainId == 5 ? 417 : 5
                                               ]
                                             }
                                             alt=""
@@ -1409,7 +1427,7 @@ const [openManageToken,setOpenManageToken] = useState(true)
                                           placeholder="Shibarium chain"
                                           value={
                                             NETWORK_LABEL[
-                                              chainId == 5 ? 417 : 5
+                                            chainId == 5 ? 417 : 5
                                             ]
                                           }
                                         />
@@ -1477,9 +1495,9 @@ const [openManageToken,setOpenManageToken] = useState(true)
                   {!dWState && (
                     <Formik
                       initialValues={{
-                        amount: "",
-                        fromChain: chainId,
-                        toChain: "",
+                        withdrawAmount: "",
+                        fromChain: "",
+                        toChain: chainId,
                       }}
                       validationSchema={withdrawValidations}
                       onSubmit={(values, { resetForm }) => {
@@ -1495,6 +1513,7 @@ const [openManageToken,setOpenManageToken] = useState(true)
                         handleBlur,
                         values,
                         handleSubmit,
+                        setFieldValue
                       }) => (
                         <div className="tab-content-sec h-100">
                           <form className="h-100">
@@ -1514,7 +1533,7 @@ const [openManageToken,setOpenManageToken] = useState(true)
                                             className="img-fluid"
                                             src={
                                               NETWORK_ICON[
-                                                chainId == 5 ? 417 : 5
+                                              chainId == 5 ? 417 : 5
                                               ]
                                             }
                                             alt=""
@@ -1528,7 +1547,7 @@ const [openManageToken,setOpenManageToken] = useState(true)
                                           // placeholder="Shibarium Mainnet"
                                           value={
                                             NETWORK_LABEL[
-                                              chainId == 5 ? 417 : 5
+                                            chainId == 5 ? 417 : 5
                                             ]
                                           }
                                           disabled={true}
@@ -1626,10 +1645,16 @@ const [openManageToken,setOpenManageToken] = useState(true)
                                             className="w-100"
                                             type="text"
                                             placeholder="0.00"
+                                            name="withdrawAmount"
+                                            value={values.withdrawAmount}
+                                            onChange={handleChange("withdrawAmount")}
                                           />
                                         </div>
-                                        <div className="rt-chain">
-                                          <span className="orange-txt fw-bold">
+                                        <div
+                                          className="rt-chain"
+                                          onClick={(e) => setFieldValue("withdrawAmount", selectedToken.balance)}
+                                        >
+                                          <span className="orange-txt fw-bold withdrawMax">
                                             MAX
                                           </span>
                                         </div>
@@ -1645,17 +1670,23 @@ const [openManageToken,setOpenManageToken] = useState(true)
                                     <div className="form-field position-relative txt-fix">
                                       <div className="icon-chain">
                                         <div>
-                                          <img
-                                            width="22"
-                                            height="22"
-                                            className="img-fluid"
-                                            src={
-                                              selectedToken.logo
-                                                ? selectedToken.logo
-                                                : "../../assets/images/eth.png"
-                                            }
-                                            alt=""
-                                          />
+                                          {
+                                            selectedToken.logo
+                                              ? (<img
+                                                width="22"
+                                                height="22"
+                                                className="img-fluid"
+                                                src={selectedToken.logo}
+                                                alt=""
+                                              />) :
+                                              (
+                                                <img
+                                                  className="img-fluid"
+                                                  src={"../../assets/images/eth.png"}
+                                                  alt=""
+                                                />
+                                              )
+                                          }
                                         </div>
                                       </div>
                                       <div className="mid-chain">

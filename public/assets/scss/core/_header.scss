@@ -549,7 +549,7 @@ body.modal-open {
   }
   .staking-header {
     position: fixed;
-    z-index: 111;
+    z-index: 0;
     background: #000;
     height: 46px;
     width: 100%;
@@ -614,4 +614,7 @@ div#web3-status-connected {
     .navbar-expand .navbar-collapse > div .btn-status {
         width: auto;
     }
+}
+.tool-desc {
+  text-transform: capitalize;
 }
