@@ -2,7 +2,7 @@ import Web3 from "web3";
 import ERC20abi from "../ABI/ERC20Abi.json";
 import { ChainId } from "shibarium-chains";
 import * as Sentry from "@sentry/nextjs";
-
+import {CHAINS} from "../config/networks";
 export const getAllowanceAmount = async (library, token, account, contract) => {
   if (account) {
     let lib = library;
@@ -63,7 +63,7 @@ export const inActiveCount = 10;
 export const mobileWalletEndpoint = "devui.hailshiba.com";
 
 export const imagUrlChecking = (imgURL) => {
-  if (imgURL && imgURL.split("/")[0]=== "http" || "https") {
+  if ((imgURL && imgURL.split("/")[0] === "http") || "https") {
     return imgURL;
   } else {
     return "../../assets/images/shiba-round-icon.png";
@@ -71,24 +71,42 @@ export const imagUrlChecking = (imgURL) => {
 };
 
 export const checkImageType = (image) => {
-  if(image.size) {
-    return URL.createObjectURL(image)
-  } else if (image && image.split("/")[0]=== "http" || "https") {
-    return image
+  if (image.size) {
+    return URL.createObjectURL(image);
+  } else if ((image && image.split("/")[0] === "http") || "https") {
+    return image;
   } else {
-    return "../../assets/images/file-icon.png"
+    return "../../assets/images/file-icon.png";
   }
-}
+};
 
 export const checkpointVal = 0;
 export const comissionVal = 0;
 
-export const ErrorMessage = "execution reverted: not pub"
+export const ErrorMessage = "execution reverted: not pub";
 
 export const stakeForErrMsg = (msg) => {
-  if(msg === 'Error: execution reverted: not pub\n'){
-    return "Public key is invalid! "
+  if (msg === "Error: execution reverted: not pub\n") {
+    return "Public key is invalid! ";
   } else {
-    return "something went wrong please try again later! "
+    return "something went wrong please try again later! ";
   }
-}
+};
+export const getDefaultChain = async () => {
+  const chainId = await window?.ethereum?.request({ method: "eth_chainId" });
+  // console.log(chainId);
+  if (chainId == CHAINS.Ropsten || chainId == CHAINS.Mainnet) {
+    return "eth";
+  } else if (chainId == CHAINS.BSCTESTNET || chainId == CHAINS.BSCMAINNET) {
+    return "bsc";
+  } else if (
+    chainId == CHAINS.FANTOMTESTNET ||
+    chainId == CHAINS.FANTOMMAINNET
+  ) {
+    return "ftm";
+  } else if (chainId == CHAINS.POLYGONMAINNET) {
+    return "polygon";
+  } else {
+    return "eth";
+  }
+};

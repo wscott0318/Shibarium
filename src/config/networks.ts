@@ -94,3 +94,15 @@ export const NETWORK_LABEL: { [chainId in ChainId]?: string } = {
   [ChainId.SHIBARIUM]: "Shibarium",
   [ChainId.PUPPY_NET]: "Puppy Net",
 }
+export const CHAINS = {
+  Mainnet: '0x1',
+  Kovan: '0x42',
+  Ropsten: '0x3',
+  Rinkeby: '0x4',
+  Goerli: '0x5',
+  BSCTESTNET: '0x61',
+  BSCMAINNET: '0x38',
+  FANTOMTESTNET:'0xfa2',
+  FANTOMMAINNET:'0xfa',
+  POLYGONMAINNET: '0x89'
+};
