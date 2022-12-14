@@ -199,10 +199,10 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
       const isValidAddress = web3.utils.isAddress(String(newToken));
       try {
         if ((tokenState.step2 || tokenState.step0) && isValidAddress) {
-          toast.success("Address is valid", {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 600,
-          });
+          // toast.success("Address is valid", {
+          //   position: toast.POSITION.TOP_RIGHT,
+          //   autoClose: 600,
+          // });
           setTokenState({
             step0: false,
             step1: false,
@@ -215,6 +215,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
           toast.error("Address is Invalid", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 600,
+            toastId : 'invalid'
           });
           setTokenState({
             step0: false,
@@ -229,7 +230,9 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
           toast.success("Address is valid", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 600,
+            toastId : 'valid'
           });
+          addNewToken('')
           setTokenState({
             step0: false,
             step1: false,
@@ -312,12 +315,28 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
             .symbol()
             .call({ from: String(account) })
             .then((token: any) => token)
-            .catch((err: any) => console.log(err));
+            .catch((err: any) =>{ 
+              console.log(err,"this is new erro");
+              onBackClick();
+              toast.error("Seems like your contract address is incorrect", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 8000,
+                toastId: 'incorrect'
+              });
+            });
           let name: any = await contractInstance.methods
             .name()
             .call({ from: String(account) })
             .then((token: any) => token)
-            .catch((err: any) => console.log(err));
+            .catch((err: any) =>{ 
+              console.log(err,"this is new erro");
+              toast.error("Seems like your contract address is incorrect", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 8000,
+                toastId: 'incorrect'
+              });
+              onBackClick();
+            });
           const obj = {
             parentContract: String(newToken),
             childContract: String(newToken),
@@ -336,10 +355,10 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
               parentSymbol: symbol,
             });
           } else if (isalreadypresent) {
-            // toast.error("Address is already present", {
-            //   position: toast.POSITION.TOP_RIGHT,
-            //   autoClose: 1500,
-            // });
+            toast.error("Address is already present", {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 1500,
+            });
             setTempTokens({
               // parentContract: "",
               // childContract: "",
@@ -394,8 +413,9 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
 
     const onBackClick = () => {
         setTokenModal(true);
-        setConfirmImport(!confirmImport);
-        setAgreeImport(!agreeImport)
+        addNewToken('');
+        setConfirmImport(true);
+        setAgreeImport(true)
         setTokenState({
           step0: true,
           step1: false,
@@ -421,7 +441,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
             {showTokenModal && tokenState.step0 && (
               <div className="popmodal-body tokn-popup no-ht">
                 <div className="pop-block">
-                  <div className="pop-top">
+                  <div className="pop-top" style={{height : "auto"}}>
                     <div className="sec-search ng-16">
                       <div className="position-relative search-row">
                         <input
@@ -527,7 +547,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
                   <img src="../../assets/images/back.png" alt=""></img>
                 </button>
                 <div className="pop-block">
-                  <div className="pop-top">
+                  <div className="pop-top" style={{height : "auto"}}>
                     <div className="black-bg-sec">
                       <div className="token-btn-sec pop-btns-grid">
                         <div className="blk-width">
@@ -552,6 +572,8 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
                                 title: "Manage Token",
                               });
                               addNewToken("");
+                              setConfirmImport(true)
+                              setAgreeImport(true)
                             }}
                           >
                             Add token
@@ -821,7 +843,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
                   <img src="../../assets/images/back.png" alt=""></img>
                 </button>
                 <div className="pop-block">
-                  <div className="pop-top">
+                  <div className="pop-top" style={{height : "auto"}}>
                     <div className="black-bg-sec">
                       <div className="token-btn-sec pop-btns-grid">
                         <div className="blk-width">
@@ -900,7 +922,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
                     <div className="pop-bottom pt-0">
                       <div className="">
                         <div className="grid-block">
-                          <div className="blk-width">
+                          <div className="" style={{fontSize:"14px"}}>
                             <div>{localTokens.length} Token Found</div>
                             <p className="lite-color">
                               Token stored in your browser
@@ -991,7 +1013,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
               <img src="../../assets/images/back.png" alt=""></img>
                 </button>
                 <div className="pop-block">
-                  <div className="pop-top">
+                  <div className="pop-top" style={{height : "auto"}}>
                     <div className="black-bg-sec">
                       <div className="token-btn-sec pop-btns-grid">
                         <div className="blk-width">
@@ -1047,7 +1069,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
                         <>
                           <div className="">
                             <div className="grid-block">
-                              <div className="blk-width">
+                              <div className="" style={{fontSize:"14px"}}>
                                 <div>{localTokens.length} Token Found</div>
                                 <p className="lite-color">
                                   Token stored in your browser
@@ -1305,7 +1327,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
                   <img src="../../assets/images/back.png" alt=""></img>
                 </button>
                 <div className="pop-block">
-                  <div className="pop-top">
+                  <div className="pop-top" style={{height : "auto"}}>
                     <div className="black-bg-sec">
                       <div className="token-btn-sec pop-btns-grid">
                         <div className="blk-width">
@@ -1359,7 +1381,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
                     <div className="pop-bottom pt-0">
                       <div className="">
                         <div className="grid-block">
-                          <div className="blk-width">
+                          <div className="" style={{fontSize:"14px"}}>
                             <div>{localTokens.length} Token Found</div>
                             <p className="lite-color">
                               Token stored in your browser
