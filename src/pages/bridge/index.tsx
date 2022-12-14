@@ -1565,7 +1565,7 @@ const [openManageToken,setOpenManageToken] = useState(false)
         {/* Withdraw tab popups end */}
 
         {/* Token popups start */}
-        {openManageToken ? <ManageToken setOpenManageToken={setOpenManageToken}/>:null}
+        {openManageToken ? <ManageToken setSelectedToken={setSelectedToken} setOpenManageToken={setOpenManageToken}/>:null}
         {/* Token popups end */}
 
         {/* modal code closed */}
