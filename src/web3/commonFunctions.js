@@ -58,7 +58,7 @@ export const addDecimalValue = (value) => {
 
 export const MAXAMOUNT = 100000;
 
-export const inActiveCount = 10;
+export const inActiveCount = 0;
 
 export const mobileWalletEndpoint = "devui.hailshiba.com";
 
