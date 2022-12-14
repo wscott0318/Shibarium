@@ -97,13 +97,13 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
                         <div className="delegate_btn">
                           <button
                             className="btn primary-btn w-100"
-                            // disabled={
-                            //   !account ? true : x.fundamental === 1
-                            //     ? true
-                            //     : x.uptimePercent <= inActiveCount
-                            //       ? true
-                            //       : false
-                            // }
+                            disabled={
+                              !account ? true : x.fundamental === 1
+                                ? true
+                                : x.uptimePercent <= inActiveCount
+                                  ? true
+                                  : false
+                            }
                             onClick={() => {
                               setSelectedRow(x);
                               if (
