@@ -199,10 +199,10 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
       const isValidAddress = web3.utils.isAddress(String(newToken));
       try {
         if ((tokenState.step2 || tokenState.step0) && isValidAddress) {
-          toast.success("Address is valid", {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 600,
-          });
+          // toast.success("Address is valid", {
+          //   position: toast.POSITION.TOP_RIGHT,
+          //   autoClose: 600,
+          // });
           setTokenState({
             step0: false,
             step1: false,
@@ -230,6 +230,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 600,
           });
+          addNewToken('')
           setTokenState({
             step0: false,
             step1: false,
@@ -312,12 +313,22 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
             .symbol()
             .call({ from: String(account) })
             .then((token: any) => token)
-            .catch((err: any) => console.log(err));
+            .catch((err: any) =>{ 
+              console.log(err,"this is new erro");
+              onBackClick();
+            });
           let name: any = await contractInstance.methods
             .name()
             .call({ from: String(account) })
             .then((token: any) => token)
-            .catch((err: any) => console.log(err));
+            .catch((err: any) =>{ 
+              console.log(err,"this is new erro");
+              toast.error("Seems like your contract address is incorrect", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 8000,
+              });
+              onBackClick();
+            });
           const obj = {
             parentContract: String(newToken),
             childContract: String(newToken),
@@ -394,6 +405,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
 
     const onBackClick = () => {
         setTokenModal(true);
+        addNewToken('');
         setConfirmImport(!confirmImport);
         setAgreeImport(!agreeImport)
         setTokenState({
@@ -900,7 +912,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
                     <div className="pop-bottom pt-0">
                       <div className="">
                         <div className="grid-block">
-                          <div className="blk-width">
+                          <div className="" style={{fontSize:"14px"}}>
                             <div>{localTokens.length} Token Found</div>
                             <p className="lite-color">
                               Token stored in your browser
@@ -1047,7 +1059,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
                         <>
                           <div className="">
                             <div className="grid-block">
-                              <div className="blk-width">
+                              <div className="" style={{fontSize:"14px"}}>
                                 <div>{localTokens.length} Token Found</div>
                                 <p className="lite-color">
                                   Token stored in your browser
@@ -1359,7 +1371,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
                     <div className="pop-bottom pt-0">
                       <div className="">
                         <div className="grid-block">
-                          <div className="blk-width">
+                          <div className="" style={{fontSize:"14px"}}>
                             <div>{localTokens.length} Token Found</div>
                             <p className="lite-color">
                               Token stored in your browser
