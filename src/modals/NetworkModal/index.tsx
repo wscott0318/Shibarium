@@ -220,9 +220,9 @@ const NetworkModal: FC = () => {
         <HeadlessUiModal.Header header={`Select a network`} onClose={toggleNetworkModal} />
         <div className="grid grid-flow-row-dense grid-cols-1 gap-4 overflow-y-auto md:grid-cols-2 net-block">
           {[
-            ChainId.SHIBARIUM,
+            // ChainId.SHIBARIUM,
             ChainId.GÖRLI,
-            ChainId.ETHEREUM,
+            // ChainId.ETHEREUM,
             ChainId.PUPPY_NET,
             
             // ChainId.MATIC,
