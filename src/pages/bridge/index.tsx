@@ -39,7 +39,7 @@ import {
 import { useAppDispatch } from "../../state/hooks";
 import fromExponential from "from-exponential";
 import { getExplorerLink } from "app/functions";
-import { getAllowanceAmount } from "web3/commonFunctions";
+import { currentGasPrice, getAllowanceAmount } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { tokenDecimal } from "web3/commonFunctions";
 import { useWeb3React } from "@web3-react/core";
@@ -80,7 +80,7 @@ export default function Withdraw() {
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const [hashLink, setHashLink] = useState("");
   const [newToken, addNewToken] = useState("");
-const [openManageToken,setOpenManageToken] = useState(false)
+  const [openManageToken, setOpenManageToken] = useState(false)
   const handleMenuState = () => {
     setMenuState(!menuState);
   };
@@ -154,6 +154,7 @@ const [openManageToken,setOpenManageToken] = useState(false)
   useEffect(() => {
     if (account) {
       getTokensList();
+      // console.log("selected token : " , selectedToken?.type);
     } else {
       router.push('/')
     }
@@ -201,19 +202,17 @@ const [openManageToken,setOpenManageToken] = useState(false)
     toChain: Yup.number().required("Required Field"),
     amount: Yup.number()
       .typeError("Only digits are allowed.")
-      .min(0)
-      .max(selectedToken.balance)
-      .typeError("Amount must be less or equal to you current balance.")
+      .min(0.001, "Invalid Amount.")
+      .max(selectedToken.balance, "Insufficient Balance")
       .required("Amount is required."),
   });
   const withdrawValidations: any = Yup.object({
-    fromChain: Yup.number().required("Required Field"),
-    toChain: Yup.number().required("Required Field"),
+    fromChain: Yup.number(),
+    toChain: Yup.number(),
     withdrawAmount: Yup.number()
       .typeError("Only digits are allowed.")
-      .min(0)
-      .max(selectedToken.balance)
-      .typeError("Amount must be less or equal to you current balance.")
+      .min(0.001, "Invalid Amount.")
+      .max(selectedToken.balance, "Insufficient Balance")
       .required("Amount is required."),
   });
 
@@ -337,7 +336,7 @@ const [openManageToken,setOpenManageToken] = useState(false)
 
   const callDepositModal = (values: any, resetForm: any) => {
     try {
-      console.log("deposit values =>  ",values);
+      console.log("deposit values =>  ", values);
       setDepositTokenInput(values.amount);
       {
         setDepModState({
@@ -354,7 +353,7 @@ const [openManageToken,setOpenManageToken] = useState(false)
     }
   };
   const callWithdrawModal = (values: any) => {
-    console.log("withdraw values =>  ",values);
+    console.log("withdraw values =>  ", values);
     try {
       setWithdrawTokenInput(values.withdrawAmount);
       {
@@ -364,7 +363,7 @@ const [openManageToken,setOpenManageToken] = useState(false)
           step2: false,
           step3: false,
           step4: false,
-          title: "Confirm Withdraw",
+          title: "Initialize Withdraw",
         });
         setWithdrawModal(true);
       }
@@ -470,7 +469,179 @@ const [openManageToken,setOpenManageToken] = useState(false)
       Sentry.captureMessage("callDepositContract", err);
     }
   };
+  const callWithdrawContract = async () => {
+    try {
+      if (account) {
+        setWidModState({
+          step0: false,
+          step1: true,
+          step2: false,
+          step3: false,
+          step4: false,
+          title: "Withdrawal Pending",
+        });
+        let allowance =
+          (await getAllowanceAmount(
+            library,
+            dynamicChaining[chainId].BONE,
+            account,
+            dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
+          )) || 0;
+        if (+withdrawTokenInput > +allowance) {
+          approveWithdraw();
+        }
+        else {
+          submitWithdraw();
+        }
+      }
+    } catch (err: any) {
+      Sentry.captureMessage("callDepositContract", err);
+    }
+  };
+  const approveWithdraw = async () => {
+    // console.log("called approveAmount ");
+    try {
+      if (account) {
+        // console.log("called approval ")
+        let user = account;
+        let amount = web3.utils.toBN(fromExponential(+withdrawTokenInput * Math.pow(10, 18)));
+        let instance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
+        let gasFee = await instance.methods.approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount).estimateGas({ from: user })
+        let encodedAbi = await instance.methods.approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount).encodeABI()
+        let CurrentgasPrice: any = await currentGasPrice(web3)
+        // console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+        await web3.eth.sendTransaction({
+          from: user,
+          to: dynamicChaining[chainId].BONE,
+          gas: (parseInt(gasFee) + 30000).toString(),
+          gasPrice: CurrentgasPrice,
+          // value : web3.utils.toHex(combinedFees),
+          data: encodedAbi
+        })
+          .on('transactionHash', (res: any) => {
+            // console.log(res, "hash")
+            dispatch(
+              addTransaction({
+                hash: res,
+                from: user,
+                chainId,
+                summary: `${res}`,
+              })
+            )
+            let link = getExplorerLink(chainId, res, 'transaction')
+            setHashLink(link)
+          }).on('receipt', async (res: any) => {
+            // console.log(res, "receipt")
+            dispatch(
+              finalizeTransaction({
+                hash: res.transactionHash,
+                chainId,
+                receipt: {
+                  to: res.to,
+                  from: res.from,
+                  contractAddress: res.contractAddress,
+                  transactionIndex: res.transactionIndex,
+                  blockHash: res.blockHash,
+                  transactionHash: res.transactionHash,
+                  blockNumber: res.blockNumber,
+                  status: 1
+                }
+              })
+            )
+            submitWithdraw();
+          })
+      } else {
+        // console.log("account not connected ====> ")
+      }
+    } catch (err: any) {
+      Sentry.captureMessage("approvewithdraw ", err);
+    }
 
+  }
+
+  const submitWithdraw = async () => {
+    try {
+      let user: any = account;
+      const amountWei = web3.utils.toBN(
+        fromExponential(+depositTokenInput * Math.pow(10, 18))
+      );
+      let instance = new web3.eth.Contract(
+        depositManagerABI,
+        dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+      );
+
+      instance.methods
+        .depositERC20ForUser(dynamicChaining[chainId].BONE, user, amountWei)
+        .send({ from: account })
+        .on("transactionHash", (res: any) => {
+          // console.log(res, "hash")
+          dispatch(
+            addTransaction({
+              hash: res,
+              from: user,
+              chainId,
+              summary: `${res}`,
+            })
+          );
+          let link = getExplorerLink(chainId, res, "transaction");
+          setHashLink(link);
+          setWidModState({
+            step0: false,
+            step1: false,
+            step2: true,
+            step3:false,
+            step4:false,
+            title: "Transaction Submitted",
+          });
+          // setDepositTokenInput('');
+        })
+        .on("receipt", (res: any) => {
+          // console.log(res, "receipt")
+          dispatch(
+            finalizeTransaction({
+              hash: res.transactionHash,
+              chainId,
+              receipt: {
+                to: res.to,
+                from: res.from,
+                contractAddress: res.contractAddress,
+                transactionIndex: res.transactionIndex,
+                blockHash: res.blockHash,
+                transactionHash: res.transactionHash,
+                blockNumber: res.blockNumber,
+                status: 1,
+              },
+            })
+          );
+          setWidModState({
+            step0: false,
+            step1: false,
+            step2: false,
+            step3:true,
+            step4:false,
+            title: "Processing Transfer",
+          });
+        })
+        .on("error", (res: any) => {
+          // console.log(res, "error")
+          if (res.code === 4001) {
+            setWidModState({
+              step0: true,
+              step1: false,
+              step2: false,
+              step3:false,
+              step4:false,
+              title: "Initialize Withdraw",
+            });
+            setWithdrawModal(false);
+          }
+        });
+
+    }
+    catch (err: any) {
+      Sentry.captureMessage("submitWithdraw ", err);
+    }
+  }
   // const addTokenHandler = async () => {
   //   setConfirmImport(!confirmImport);
   //   setAgreeImport(!agreeImport);
@@ -791,6 +962,8 @@ const [openManageToken,setOpenManageToken] = useState(false)
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
+                            width="22"
+                            height="22"
                             src={
                               selectedToken.logo
                                 ? selectedToken.logo
@@ -911,6 +1084,8 @@ const [openManageToken,setOpenManageToken] = useState(false)
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
+                            width="22"
+                            height="22"
                             src={
                               selectedToken.logo
                                 ? selectedToken.logo
@@ -966,8 +1141,8 @@ const [openManageToken,setOpenManageToken] = useState(false)
                     </div>
                   </div>
                   <div className="pop-bottom">
-                    <div className="text-section">
-                      <h4 className="pop-hd-md">Moving funds</h4>
+                    <div className="text-section text-center">
+                      <h4 className="pop-hd-md" style={{ color: "var(--bs-orange)" }}>Moving funds</h4>
                       <p>
                         It will take up to 10 - 15 minutes to move the funds on
                         Shibarium Mainnet.
@@ -980,13 +1155,13 @@ const [openManageToken,setOpenManageToken] = useState(false)
                             step0: false,
                             step1: false,
                             step2: true,
-                            title: "Transaction Completed",
+                            title: "Transaction Submitted",
                           });
                         }}
-                        className="btn grey-btn w-100"
+                        className={`btn grey-btn w-100 relative ${depModalState.step1 && "disabled btn-disabled"}`}
                         href="javascript:void(0)"
                       >
-                        <span className="spinner-border text-secondary pop-spiner"></span>
+                        <span className="spinner-border text-secondary pop-spiner fix_spinner"></span>
                         <span>Continue</span>
                       </a>
                     </div>
@@ -1027,11 +1202,13 @@ const [openManageToken,setOpenManageToken] = useState(false)
                         </p>
                       </div>
                     </div>
-                    <div className="image_area row">
-                      <div className="col-12 text-center watch-img-sec">
+                    <div className="image_area row h-75">
+                      <div className="col-12 text-center watch-img-sec flex align-items-center justify-content-center">
                         <img
                           className="img-fluid img-wdth"
                           src="../../assets/images/cmpete-step.png"
+                          width="150"
+                          height="150"
                         />
                       </div>
                     </div>
@@ -1072,33 +1249,40 @@ const [openManageToken,setOpenManageToken] = useState(false)
             {/* Initialize withdraw popup start */}
             {withModalState.step0 && !dWState && (
               <div className="popmodal-body no-ht">
-                <div className="pop-block">
+                <div className="pop-block withdraw_pop">
                   <div className="pop-top">
                     <div className="cnfrm_box dark-bg mt-0">
                       <div className="top_overview col-12">
                         <span>
                           <img
                             className="img-fluid"
-                            src="../../assets/images/red-bone.png"
+                            src={selectedToken.logo ? selectedToken.logo : "../../assets/images/red-bone.png"}
                             alt=""
                           />
                         </span>
                         <h6>
                           {withdrawTokenInput + " " + selectedToken.parentName}
                         </h6>
-                        <p>500.00$</p>
+                        <p><NumberFormat
+                          thousandSeparator
+                          displayType={"text"}
+                          prefix="$ "
+                          value={(
+                            (+withdrawTokenInput || 0) * boneUSDValue
+                          ).toFixed(tokenDecimal)}
+                        /></p>
                       </div>
                     </div>
                     <div className="pop-grid">
                       <div className="text-center box-block">
-                        <div className="d-inline-block">
+                        <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src="../../assets/images/shib-borderd-icon.png"
+                            src={NETWORK_ICON[chainId == 5 ? 417 : 5]}
                             alt=""
                           />
                         </div>
-                        <p>Shibarium Mainnet</p>
+                        <p>{NETWORK_LABEL[chainId == 5 ? 417 : 5]}</p>
                       </div>
                       <div className="text-center box-block">
                         <div className="d-inline-block right-arrow">
@@ -1133,37 +1317,26 @@ const [openManageToken,setOpenManageToken] = useState(false)
                         </div>
                       </div>
                       <div className="text-center box-block">
-                        <div className="d-inline-block">
+                        <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src="../../assets/images/etharium.png"
+                            width="22"
+                            height="22"
+                            src={
+                              selectedToken.logo
+                                ? selectedToken.logo
+                                : "../../assets/images/eth.png"
+                            }
                             alt=""
                           />
                         </div>
-                        <p>Ethereum Mainnet</p>
-                      </div>
-                    </div>
-                    <div className="amt-section position-relative">
-                      <div className="coin-blk">
-                        <div className="coin-sec">
-                          <img
-                            width="24"
-                            height="24"
-                            className="img-fluid"
-                            src="../../assets/images/red-bone.png"
-                            alt=""
-                          />
-                        </div>
-                        <p>Estimation of GAS fee required</p>
-                      </div>
-                      <div>
-                        <p className="fw-bold">$10.00</p>
+                        <p>{NETWORK_LABEL[chainId]}</p>
                       </div>
                     </div>
                   </div>
                   <div className="pop-bottom">
-                    <div className="text-section">
-                      <h4 className="pop-hd-md">Initialize Whitdraw</h4>
+                    <div className="text-section text-center">
+                      <h4 className="pop-hd-md" style={{ color: "var(--bs-orange)" }}>Initialize Whitdraw</h4>
                       <p>
                         It will take up to 60 mins to 3 hours to reach the
                         checkpoint.{" "}
@@ -1196,31 +1369,40 @@ const [openManageToken,setOpenManageToken] = useState(false)
             {/* Reaching checkpoint popup start */}
             {withModalState.step1 && !dWState && (
               <div className="popmodal-body no-ht">
-                <div className="pop-block">
+                <div className="pop-block withdraw_pop">
                   <div className="pop-top">
-                    <div className="cnfrm_box dark-bg">
+                    <div className="cnfrm_box dark-bg mt-0">
                       <div className="top_overview col-12">
                         <span>
                           <img
                             className="img-fluid"
-                            src="../../assets/images/red-bone.png"
+                            src={selectedToken.logo ? selectedToken.logo : "../../assets/images/red-bone.png"}
                             alt=""
                           />
                         </span>
-                        <h6>100 BONE</h6>
-                        <p>500.00$</p>
+                        <h6>
+                          {withdrawTokenInput + " " + selectedToken.parentName}
+                        </h6>
+                        <p><NumberFormat
+                          thousandSeparator
+                          displayType={"text"}
+                          prefix="$ "
+                          value={(
+                            (+withdrawTokenInput || 0) * boneUSDValue
+                          ).toFixed(tokenDecimal)}
+                        /></p>
                       </div>
                     </div>
                     <div className="pop-grid">
                       <div className="text-center box-block">
-                        <div className="d-inline-block">
+                        <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src="../../assets/images/shib-borderd-icon.png"
+                            src={NETWORK_ICON[chainId == 5 ? 417 : 5]}
                             alt=""
                           />
                         </div>
-                        <p>Shibarium Mainnet</p>
+                        <p>{NETWORK_LABEL[chainId == 5 ? 417 : 5]}</p>
                       </div>
                       <div className="text-center box-block">
                         <div className="d-inline-block right-arrow">
@@ -1255,44 +1437,34 @@ const [openManageToken,setOpenManageToken] = useState(false)
                         </div>
                       </div>
                       <div className="text-center box-block">
-                        <div className="d-inline-block">
+                        <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src="../../assets/images/etharium.png"
+                            width="22"
+                            height="22"
+                            src={
+                              selectedToken.logo
+                                ? selectedToken.logo
+                                : "../../assets/images/eth.png"
+                            }
                             alt=""
                           />
                         </div>
-                        <p>Ethereum Mainnet</p>
+                        <p>{NETWORK_LABEL[chainId]}</p>
                       </div>
                     </div>
-                    <div className="amt-section position-relative">
-                      <div className="coin-blk">
-                        <div className="coin-sec">
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/eth.png"
-                            alt=""
-                          />
-                        </div>
-                        <p>Estimation of GAS fee required</p>
-                      </div>
-                      <div>
-                        <p className="fw-bold">$20.00</p>
-                      </div>
-                    </div>
-                    </div>
-                    {/* <div className="pop-mid">
+                  </div>
+                  {/* <div className="pop-mid">
                     <div className="center-content">
                       <p>Custom token not found Add your first custom token</p>
                     </div>
                   </div> */}
 
-                  
-                    <div className="myTipsArea">Tip: Custom tokens are stored locally in your browser </div>
-                  </div>
+
+                  <div className="myTipsArea">Tip: Custom tokens are stored locally in your browser </div>
                   <div className="pop-bottom">
-                    <div className="text-section">
-                      <h4 className="pop-hd-md">Moving funds to Ethereum</h4>
+                    <div className="text-section text-center">
+                      <h4 className="pop-hd-md" style={{ color: "var(--bs-orange)" }}>Moving funds to Ethereum</h4>
                       <p>
                         It will take up to 60 mins to 3 hours to reach the
                         checkpoint.
@@ -1310,23 +1482,24 @@ const [openManageToken,setOpenManageToken] = useState(false)
                             title: "Checkpoint reached",
                           })
                         }
-                        className="btn grey-btn w-100"
+                        className={`btn grey-btn w-100 relative ${withModalState.step1 && "disabled btn-disabled"}`}
                         href="javascript:void(0)"
                       >
-                        <span className="spinner-border text-secondary pop-spiner"></span>
+                        <span className="spinner-border text-secondary pop-spiner fix_spinner"></span>
                         <span>Moving funds</span>
                       </a>
                     </div>
                   </div>
                 </div>
-            
+              </div>
+
             )}
             {/* Reaching checkpoint  popup end */}
 
             {/* checkpoint Reached popup start */}
             {withModalState.step2 && !dWState && (
               <div className="popmodal-body no-ht">
-                <div className="pop-block">
+                <div className="pop-block withdraw_pop">
                   <div className="pop-top">
                     <div className="cnfrm_box dark-bg">
                       <div className="top_overview col-12">
@@ -1337,22 +1510,31 @@ const [openManageToken,setOpenManageToken] = useState(false)
                             alt=""
                           />
                         </span>
-                        <h6>100 SHIB</h6>
-                        <p>500.00$</p>
+                        <h6>
+                          {withdrawTokenInput + " " + selectedToken.parentName}
+                        </h6>
+                        <p><NumberFormat
+                          thousandSeparator
+                          displayType={"text"}
+                          prefix="$ "
+                          value={(
+                            (+withdrawTokenInput || 0) * boneUSDValue
+                          ).toFixed(tokenDecimal)}
+                        /></p>
                       </div>
                     </div>
-                    <div className="pop-action">
+                    {/* <div className="pop-action">
                       <a
                         className="btn primary-btn w-100 w-100"
                         href="javascript:void(0)"
                       >
                         ETHEREUM MAINNET
                       </a>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="pop-bottom">
-                    <div className="text-section">
-                      <h4 className="pop-hd-md">Complete Withdraw</h4>
+                    <div className="text-section text-center">
+                      <h4 className="pop-hd-md" style={{ color: "var(--bs-orange)" }}>Complete Withdraw</h4>
                       <p>
                         You need to confirm one more transaction to get your
                         funds in your Ethereum Account.
@@ -1384,7 +1566,7 @@ const [openManageToken,setOpenManageToken] = useState(false)
             {/* Complete withdraw popup start */}
             {withModalState.step3 && !dWState && (
               <div className="popmodal-body no-ht">
-                <div className="pop-block">
+                <div className="pop-block withdraw_pop">
                   <div className="pop-top">
                     <div className="cnfrm_box dark-bg">
                       <div className="top_overview col-12">
@@ -1395,8 +1577,17 @@ const [openManageToken,setOpenManageToken] = useState(false)
                             alt=""
                           />
                         </span>
-                        <h6>100 ETH</h6>
-                        <p>500.00$</p>
+                        <h6>
+                          {withdrawTokenInput + " " + selectedToken.parentName}
+                        </h6>
+                        <p><NumberFormat
+                          thousandSeparator
+                          displayType={"text"}
+                          prefix="$ "
+                          value={(
+                            (+withdrawTokenInput || 0) * boneUSDValue
+                          ).toFixed(tokenDecimal)}
+                        /></p>
                       </div>
                     </div>
                     <div className="pop-grid">
@@ -1408,7 +1599,7 @@ const [openManageToken,setOpenManageToken] = useState(false)
                             alt=""
                           />
                         </div>
-                        <p>Ethereum Mainnet</p>
+                        <p>{NETWORK_LABEL[chainId]}</p>
                       </div>
                       <div className="text-center box-block">
                         <div className="d-inline-block right-arrow">
@@ -1453,7 +1644,7 @@ const [openManageToken,setOpenManageToken] = useState(false)
                         <p>Wallet X25654a5</p>
                       </div>
                     </div>
-                    <div className="amt-section position-relative">
+                    {/* <div className="amt-section position-relative">
                       <div className="coin-blk">
                         <div className="coin-sec">
                           <img
@@ -1467,12 +1658,12 @@ const [openManageToken,setOpenManageToken] = useState(false)
                       <div>
                         <p className="fw-bold">$20.00</p>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="pop-bottom">
                     <div className="text-section">
                       <h4 className="pop-hd-md">Withdrawing funds</h4>
-                      <p>Moving funds to your Ethereum Account.</p>
+                      <p>Moving funds to your {NETWORK_LABEL[chainId]} Account.</p>
                     </div>
                     <div>
                       <a
@@ -1502,7 +1693,7 @@ const [openManageToken,setOpenManageToken] = useState(false)
             {/* withdraw complete popup start */}
             {withModalState.step4 && !dWState && (
               <div className="popmodal-body no-ht">
-                <div className="pop-block">
+                <div className="pop-block withdraw_pop">
                   <div className="pop-top">
                     <div className="cnfrm_box dark-bg">
                       <div className="top_overview col-12">
@@ -1525,38 +1716,38 @@ const [openManageToken,setOpenManageToken] = useState(false)
                         TRANSFER COMPLETE
                       </a>
                     </div>
-                    </div>
-
-                    <div className="myTipsArea">Tip: Custom tokens are stored locally in your browser </div>
-                
                   </div>
-                  <div className="pop-bottom">
-                    <div className="text-section">
-                      <h4 className="pop-hd-md">Transaction Completed</h4>
-                      <p className="lite-color">
-                        Transaction completed succesfully. Your Ethereum wallet
-                        Balance will be updated in few minute. In case of
-                        problems contact our{" "}
-                        <a
-                          title="Support"
-                          href="javascript:void(0);"
-                          className="orange-txt"
-                        >
-                          Support.
-                        </a>
-                      </p>
-                    </div>
-                    <div>
+
+                  <div className="myTipsArea">Tip: Custom tokens are stored locally in your browser </div>
+
+                </div>
+                <div className="pop-bottom">
+                  <div className="text-section">
+                    <h4 className="pop-hd-md">Transaction Completed</h4>
+                    <p className="lite-color">
+                      Transaction completed succesfully. Your Ethereum wallet
+                      Balance will be updated in few minute. In case of
+                      problems contact our{" "}
                       <a
-                        className="btn primary-btn w-100"
-                        onClick={() => setWithdrawModal(false)}
+                        title="Support"
+                        href="javascript:void(0);"
+                        className="orange-txt"
                       >
-                        View on Shibascan
+                        Support.
                       </a>
-                    </div>
+                    </p>
+                  </div>
+                  <div>
+                    <a
+                      className="btn primary-btn w-100"
+                      onClick={() => setWithdrawModal(false)}
+                    >
+                      View on Shibascan
+                    </a>
                   </div>
                 </div>
-              
+              </div>
+
             )}
             {/* withdraw complete popup start */}
           </>
@@ -1565,7 +1756,7 @@ const [openManageToken,setOpenManageToken] = useState(false)
         {/* Withdraw tab popups end */}
 
         {/* Token popups start */}
-        {openManageToken ? <ManageToken setSelectedToken={setSelectedToken} setOpenManageToken={setOpenManageToken}/>:null}
+        {openManageToken ? <ManageToken setSelectedToken={setSelectedToken} setOpenManageToken={setOpenManageToken} /> : null}
         {/* Token popups end */}
 
         {/* modal code closed */}
@@ -1640,7 +1831,7 @@ const [openManageToken,setOpenManageToken] = useState(false)
                   </div>
                   <div className="blank-box"></div>
                   <div className="box-bottom d-flex flex-column justify-content-end">
-                    <div
+                    {/* <div
                       className={`amt-section position-relative ${!dWState ? "visVisible" : "visInvisible"
                         }`}
                     >
@@ -1661,8 +1852,8 @@ const [openManageToken,setOpenManageToken] = useState(false)
                       <div>
                         <p className="lite-color fw-bold">$10.00</p>
                       </div>
-                    </div>
-                    <div className="amt-section position-relative">
+                    </div> */}
+                    {/* <div className="amt-section position-relative">
                       <div className="coin-blk">
                         <div className="coin-sec">
                           <img
@@ -1678,7 +1869,7 @@ const [openManageToken,setOpenManageToken] = useState(false)
                       <div>
                         <p className="lite-color fw-bold">$10.00</p>
                       </div>
-                    </div>
+                    </div> */}
                     <div className="sub-buttons-sec row buttons-fix">
                       <div className="col-lg-6 mb-3 mb-lg-0">
                         {/* <button type="button" className="btn white-btn w-100">
@@ -1704,7 +1895,7 @@ const [openManageToken,setOpenManageToken] = useState(false)
               </div>
               {/* Left section end */}
               {/* Right section start */}
-              
+
               <div className="right-box">
                 <div className="block-card d-flex flex-column justify-content-between bridge_form_sec">
                   <div className="tab-sec botom-spcing">
@@ -1734,7 +1925,7 @@ const [openManageToken,setOpenManageToken] = useState(false)
                         initialValues={{
                           amount: "",
                           fromChain: chainId,
-                          toChain: 417,
+                          toChain: chainId == 5 ? 417 : 5,
                         }}
                         validationSchema={depositValidations}
                         onSubmit={(values, { resetForm }) => {
@@ -1831,7 +2022,8 @@ const [openManageToken,setOpenManageToken] = useState(false)
                                     <div className="col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-3 mb-lg-0  res-align">
                                       <div
                                         className="form-field position-relative fix-coin-field"
-                                        onClick={() => {setOpenManageToken(!openManageToken)
+                                        onClick={() => {
+                                          setOpenManageToken(!openManageToken)
                                           // setTokenModal(true);
                                           // setTokenState({
                                           //   step0: true,
@@ -1841,7 +2033,7 @@ const [openManageToken,setOpenManageToken] = useState(false)
                                           //   step4: false,
                                           //   title: "Select a Token",
                                           // });
-                                          
+
                                         }}
                                       >
                                         <div className="right-spacing">
@@ -1879,6 +2071,7 @@ const [openManageToken,setOpenManageToken] = useState(false)
                                             type="text"
                                             placeholder="0.00"
                                             name="amount"
+                                            disabled={selectedToken?.type == undefined ? true : false}
                                             // defaultValue={depositTokenInput}
                                             value={values.amount}
                                             onChange={handleChange("amount")}
@@ -1999,12 +2192,12 @@ const [openManageToken,setOpenManageToken] = useState(false)
                     <Formik
                       initialValues={{
                         withdrawAmount: "",
-                        fromChain: "",
+                        fromChain: chainId == 5 ? 417 : 5,
                         toChain: chainId,
                       }}
                       validationSchema={withdrawValidations}
                       onSubmit={(values, { resetForm }) => {
-                        // console.log(values);
+                        console.log("values ==>>", values);
                         callWithdrawModal(values);
                         resetForm();
                       }}
@@ -2019,7 +2212,7 @@ const [openManageToken,setOpenManageToken] = useState(false)
                         setFieldValue
                       }) => (
                         <div className="tab-content-sec h-100">
-                          <form className="h-100">
+                          <form className="h-100" onSubmit={handleSubmit}>
                             <div className="sec-wrapper">
                               <div className="wrap-top">
                                 <div className="botom-spcing">
@@ -2100,17 +2293,18 @@ const [openManageToken,setOpenManageToken] = useState(false)
                                     <div className="col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-3 mb-lg-0  res-align">
                                       <div
                                         className="form-field position-relative fix-coin-field h-100"
-                                        onClick={() => {setOpenManageToken(!openManageToken)
-                                        // onClick={() => {
-                                        //   setTokenModal(true);
-                                        //   setTokenState({
-                                        //     step0: true,
-                                        //     step1: false,
-                                        //     step2: false,
-                                        //     step3: false,
-                                        //     step4: false,
-                                        //     title: "Select a Token",
-                                        //   });
+                                        onClick={() => {
+                                          setOpenManageToken(!openManageToken)
+                                          // onClick={() => {
+                                          //   setTokenModal(true);
+                                          //   setTokenState({
+                                          //     step0: true,
+                                          //     step1: false,
+                                          //     step2: false,
+                                          //     step3: false,
+                                          //     step4: false,
+                                          //     title: "Select a Token",
+                                          //   });
                                         }}
                                       >
                                         <div className="right-spacing">
@@ -2150,6 +2344,7 @@ const [openManageToken,setOpenManageToken] = useState(false)
                                             type="text"
                                             placeholder="0.00"
                                             name="withdrawAmount"
+                                            disabled={selectedToken?.type == undefined ? true : false}
                                             value={values.withdrawAmount}
                                             onChange={handleChange("withdrawAmount")}
                                           />
@@ -2163,6 +2358,11 @@ const [openManageToken,setOpenManageToken] = useState(false)
                                           </span>
                                         </div>
                                       </div>
+                                      {touched.withdrawAmount && errors.withdrawAmount ? (
+                                        <p className="primary-text pt-0 pl-2">
+                                          {errors.withdrawAmount}
+                                        </p>
+                                      ) : null}
                                     </div>
                                   </div>
                                 </div>
@@ -2245,18 +2445,8 @@ const [openManageToken,setOpenManageToken] = useState(false)
                               <div className="wrap-bottom">
                                 <div className="btn-modify">
                                   <button
-                                    onClick={() => {
-                                      setWithdrawModal(true);
-                                      setWidModState({
-                                        step0: true,
-                                        step1: false,
-                                        step2: false,
-                                        step3: false,
-                                        step4: false,
-                                        title: "Initialize Withdraw",
-                                      });
-                                    }}
-                                    type="button"
+                                    onClick={() => handleSubmit()}
+                                    type="submit"
                                     className="btn primary-btn w-100"
                                   >
                                     Transfer
@@ -2269,7 +2459,7 @@ const [openManageToken,setOpenManageToken] = useState(false)
                       )}
                     </Formik>
                   )}
-                  
+
                   {/* Withdraw   tab content section end */}
                 </div>
               </div>

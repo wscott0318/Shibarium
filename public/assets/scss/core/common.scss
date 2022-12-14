@@ -2356,14 +2356,14 @@ input:checked + .slider:before {
   }
 }
 
-.watch-img-sec {
-  .img-wdth {
-    max-width: 100px;
-    @media #{$max-xl} {
-      max-width: 80px;
-    }
-  }
-}
+// .watch-img-sec {
+//   .img-wdth {
+//     // max-width: 100px;
+//     @media #{$max-xl} {
+//       // max-width: 80px;
+//     }
+//   }
+// }
 .del-pop {
   font-family: "MADE Okine Sans PERSONAL USE" !important;
   .modal-content {
@@ -4362,7 +4362,7 @@ input:-internal-autofill-selected {
   }
 }
 .watch-img-sec .img-wdth {
-  max-width: 80px;
+  // max-width: 80px;
   margin: 15px auto;
 }
 .del-pop .watch-img-sec {
