@@ -704,3 +704,14 @@
     }
 }
 /** Popup style end **/
+.fix_spinner {
+    position: absolute;
+    left: 47%;
+    top: 11%;
+}
+.relative.btn-disabled.disabled {
+    background-color: grey;
+}
+// .pop-block.withdraw_pop {
+//     justify-content: flex-start;
+// }
