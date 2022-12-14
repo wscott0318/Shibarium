@@ -2,7 +2,7 @@ import { BONE_ID } from 'app/config/constant'
 import { getCheckpointInterval, getHeimdallHeight, getLastCheckpoint, getNetworkOverviewData, getTotalRewardDistributed, getTotalStake, getValidatorCount } from 'app/services/apis/network-details/networkOverview'
 import { getBoneUSDValue } from 'app/services/apis/validator'
 import { useActiveWeb3React, useLocalWeb3 } from 'app/services/web3'
-import { L1Block, ChainId } from 'app/hooks/L1Block';
+import { L1Block, ChainId, PuppyNET } from 'app/hooks/L1Block';
 import React, { useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format';
 // @ts-ignore
@@ -25,7 +25,7 @@ function NetworkDetails({valCount} : any) {
   const [totalStake, setTotalStake] = useState(0);
   const [networkDetails, setNetworkDetails] = useState<any>({})
   const { account , library, chainId = 1} = useWeb3React()
-  const web3test = L1Block();
+  const web3test = PuppyNET();
 
 
   // console.log(account,chainId, library, "web3 instance ===> ")
@@ -200,7 +200,7 @@ function NetworkDetails({valCount} : any) {
                       </div>
                     </div>
                   </div>
-                </div>c
+                </div>
               </div>
              :
              <div className="row">
