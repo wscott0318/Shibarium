@@ -26,6 +26,7 @@ function NetworkDetails({valCount} : any) {
   const [networkDetails, setNetworkDetails] = useState<any>({})
   const { account , library, chainId = 1} = useWeb3React()
   const web3test = PuppyNET();
+  const web3test2 = L1Block();
 
 
   // console.log(account,chainId, library, "web3 instance ===> ")
@@ -58,7 +59,7 @@ function NetworkDetails({valCount} : any) {
     const getTotalStakes = async () => {
       try{
         let Chain_ID = await ChainId()
-          const instance = new web3test.eth.Contract(stakeManagerProxyABI, dynamicChaining[Chain_ID]?.STAKE_MANAGER_PROXY);
+          const instance = new web3test2.eth.Contract(stakeManagerProxyABI, dynamicChaining[Chain_ID]?.STAKE_MANAGER_PROXY);
           const ID = await instance.methods.validatorState().call();
           let stake = +ID.amount / Math.pow(10, web3Decimals)
           setTotalStake(stake)

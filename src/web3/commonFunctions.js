@@ -50,15 +50,15 @@ export const web3Decimals = 18;
 
 export const addDecimalValue = (value) => {
   let num = value % 1;
-  if(num){
+  // if(num){
     if (num > 0) {
       return value.toFixed(tokenDecimal);
     } else {
       return value.toFixed(toFixedNull);
     }
-  } else {
-    return "0.00"
-  }
+  // } else {
+    // return "0.00"
+  // }
 };
 
 export const MAXAMOUNT = 100000;
