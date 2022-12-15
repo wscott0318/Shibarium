@@ -93,24 +93,6 @@ export const stakeForErrMsg = (msg) => {
     return "something went wrong please try again later! ";
   }
 };
-export const getDefaultChain = async () => {
-  const chainId = await window?.ethereum?.request({ method: "eth_chainId" });
-  // console.log(chainId);
-  if (chainId == CHAINS.Ropsten || chainId == CHAINS.Mainnet) {
-    return "eth";
-  } else if (chainId == CHAINS.BSCTESTNET || chainId == CHAINS.BSCMAINNET) {
-    return "bsc";
-  } else if (
-    chainId == CHAINS.FANTOMTESTNET ||
-    chainId == CHAINS.FANTOMMAINNET
-  ) {
-    return "ftm";
-  } else if (chainId == CHAINS.POLYGONMAINNET) {
-    return "polygon";
-  } else {
-    return "eth";
-  }
-};
 
 export const generateSecondary = (link) =>
   `https://wispy-bird-88a7.uniswap.workers.dev/?url=http://${link}.link`;
@@ -177,4 +159,31 @@ setCoinList([]);
 	}, [coinList,chain]);
 
 	return [coinList, setCoinList, setChain];
+}
+
+export const getDefaultChain = async () => {
+      
+  const chainId = await window?.ethereum?.request({ method: 'eth_chainId' });
+// console.log(chainId);
+  if (
+    chainId == CHAINS.Ropsten ||
+    chainId == CHAINS.Mainnet
+  ) {
+    return 'eth';
+  } else if (
+    chainId == CHAINS.BSCTESTNET ||
+    chainId == CHAINS.BSCMAINNET
+  ) {
+  return 'bsc';
+}else if(
+  chainId == CHAINS.FANTOMTESTNET ||
+  chainId == CHAINS.FANTOMMAINNET
+){
+  return 'ftm';
+}else if(chainId == CHAINS.POLYGONMAINNET){
+  return 'polygon'
+}
+else {
+  return 'eth';
+};
 };

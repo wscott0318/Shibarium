@@ -110,12 +110,11 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   // }, [chain])
   useEffect(() => {
     getDefaultChain().then(chain => {
-      const map = { 'bsc': 'bsc', 'eth': 'ether' };
-      // @ts-ignore
-      setAddUrl(`https://${map[chain]}scan.com/address/`);
-    }).catch((err) => { console.log(err) });
-    console.log("addUrl ==> ", addUrl);
-  }, []);
+        const map = { 'bsc': 'bsc', 'eth': 'ether' };
+        //@ts-ignore
+        setAddUrl(`https://${map[chain]}scan.com/address/`);
+    }).catch(() => {});
+}, []);
 
   useEffect(() => {
     if (linkQuery) {
@@ -220,8 +219,8 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
 
   const addTokenHandler = async () => {
     addNewToken('')
-    setConfirmImport(!confirmImport);
-    setAgreeImport(!agreeImport);
+    setConfirmImport(true);
+    setAgreeImport(true);
     try {
       const isValidAddress = await web3.utils.isAddress(String(newToken));
       if (isValidAddress) {
@@ -235,6 +234,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
           toast.error("Address already exists !", {
             position: toast.POSITION.BOTTOM_CENTER,
             autoClose: 3000,
+            toastId : 'presentAddress',
           });
         } else {
           const contractInstance = new web3.eth.Contract(
@@ -317,10 +317,10 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
         });
       }
       if (tokenState.step4 && isValidAddress) {
-        toast.success("Address is valid", {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 600,
-        });
+        // toast.success("Address is valid", {
+        //   position: toast.POSITION.TOP_RIGHT,
+        //   autoClose: 600,
+        // });
         setTokenState({
           step0: false,
           step1: false,
@@ -340,6 +340,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
         toast.error("Address is already present", {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 1500,
+          toastId : 'presentAddress',
         });
       }
     } catch (err: any) {
@@ -486,8 +487,8 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
 
   const onBackClick = () => {
     setTokenModal(true);
-    setConfirmImport(!confirmImport);
-    setAgreeImport(!agreeImport)
+    setConfirmImport(true);
+    setAgreeImport(false)
     setTokenState({
       step0: true,
       step1: false,
@@ -777,230 +778,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                           </>
                         )
                     }
-                    {/* <div className="tokn-row">
-                      <div className="cryoto-box">
-                        <img
-                          className="img-fluid"
-                          src="../../assets/images/shib-borderd-icon.png"
-                          alt=""
-                        />
-                      </div>
-                      <div className="tkn-grid">
-                        <div>
-                          <h6 className="fw-bold">SHIB</h6>
-                          <p>Shibatoken</p>
-                        </div>
-                        <div>
-                          <h6 className="fw-bold">
-                            <label className="toggle">
-                              <input type="checkbox" />
-                              <span className="slider"></span>
-                              <span
-                                className="labels"
-                                data-on="ON"
-                                data-off="OFF"
-                              ></span>
-                            </label>
-                          </h6>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="tokn-row">
-                      <div className="cryoto-box">
-                        <img
-                          className="img-fluid"
-                          src="../../assets/images/red-bone.png"
-                          alt=""
-                        />
-                      </div>
-                      <div className="tkn-grid">
-                        <div>
-                          <h6 className="fw-bold">BONE</h6>
-                          <p>Bone Token</p>
-                        </div>
-                        <div>
-                          <h6 className="fw-bold">
-                            <label className="toggle">
-                              <input type="checkbox" />
-                              <span className="slider"></span>
-                              <span
-                                className="labels"
-                                data-on="ON"
-                                data-off="OFF"
-                              ></span>
-                            </label>
-                          </h6>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="tokn-row">
-                      <div className="cryoto-box">
-                        <img
-                          className="img-fluid"
-                          src="../../assets/images/etharium.png"
-                          alt=""
-                        />
-                      </div>
-                      <div className="tkn-grid">
-                        <div>
-                          <h6 className="fw-bold">ETH</h6>
-                          <p>Ethereum</p>
-                        </div>
-                        <div>
-                          <h6 className="fw-bold">
-                            <label className="toggle">
-                              <input type="checkbox" />
-                              <span className="slider"></span>
-                              <span
-                                className="labels"
-                                data-on="ON"
-                                data-off="OFF"
-                              ></span>
-                            </label>
-                          </h6>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="tokn-row">
-                      <div className="cryoto-box">
-                        <img
-                          className="img-fluid"
-                          src="../../assets/images/etharium.png"
-                          alt=""
-                        />
-                      </div>
-                      <div className="tkn-grid">
-                        <div>
-                          <h6 className="fw-bold">ETH</h6>
-                          <p>Ethereum</p>
-                        </div>
-                        <div>
-                          <h6 className="fw-bold">
-                            <label className="toggle">
-                              <input type="checkbox" />
-                              <span className="slider"></span>
-                              <span
-                                className="labels"
-                                data-on="ON"
-                                data-off="OFF"
-                              ></span>
-                            </label>
-                          </h6>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="tokn-row">
-                      <div className="cryoto-box">
-                        <img
-                          className="img-fluid"
-                          src="../../assets/images/etharium.png"
-                          alt=""
-                        />
-                      </div>
-                      <div className="tkn-grid">
-                        <div>
-                          <h6 className="fw-bold">ETH</h6>
-                          <p>Ethereum</p>
-                        </div>
-                        <div>
-                          <h6 className="fw-bold">
-                            <label className="toggle">
-                              <input type="checkbox" />
-                              <span className="slider"></span>
-                              <span
-                                className="labels"
-                                data-on="ON"
-                                data-off="OFF"
-                              ></span>
-                            </label>
-                          </h6>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="tokn-row">
-                      <div className="cryoto-box">
-                        <img
-                          className="img-fluid"
-                          src="../../assets/images/etharium.png"
-                          alt=""
-                        />
-                      </div>
-                      <div className="tkn-grid">
-                        <div>
-                          <h6 className="fw-bold">ETH</h6>
-                          <p>Ethereum</p>
-                        </div>
-                        <div>
-                          <h6 className="fw-bold">
-                            <label className="toggle">
-                              <input type="checkbox" />
-                              <span className="slider"></span>
-                              <span
-                                className="labels"
-                                data-on="ON"
-                                data-off="OFF"
-                              ></span>
-                            </label>
-                          </h6>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="tokn-row">
-                      <div className="cryoto-box">
-                        <img
-                          className="img-fluid"
-                          src="../../assets/images/etharium.png"
-                          alt=""
-                        />
-                      </div>
-                      <div className="tkn-grid">
-                        <div>
-                          <h6 className="fw-bold">ETH</h6>
-                          <p>Ethereum</p>
-                        </div>
-                        <div>
-                          <h6 className="fw-bold">
-                            <label className="toggle">
-                              <input type="checkbox" />
-                              <span className="slider"></span>
-                              <span
-                                className="labels"
-                                data-on="ON"
-                                data-off="OFF"
-                              ></span>
-                            </label>
-                          </h6>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="tokn-row">
-                      <div className="cryoto-box">
-                        <img
-                          className="img-fluid"
-                          src="../../assets/images/etharium.png"
-                          alt=""
-                        />
-                      </div>
-                      <div className="tkn-grid">
-                        <div>
-                          <h6 className="fw-bold">ETH</h6>
-                          <p>Ethereum</p>
-                        </div>
-                        <div>
-                          <h6 className="fw-bold">
-                            <label className="toggle">
-                              <input type="checkbox" />
-                              <span className="slider"></span>
-                              <span
-                                className="labels"
-                                data-on="ON"
-                                data-off="OFF"
-                              ></span>
-                            </label>
-                          </h6>
-                        </div>
-                      </div>
-                    </div> */}
                   </div>
                 </div>
               </div>
@@ -1080,6 +857,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                         autoFocus={newToken.length > 0}
                         // value={newToken}
                         onChange={(e: any) => {
+                          setDuplicateToken(false);
                           if (tokenModalList.filter((val: any) => val?.parentContract == e?.target?.value).length > 0) {
                             setDuplicateToken(true);
                           } else {
@@ -1457,7 +1235,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                             <button
                               className="btn primary-btn"
                               style={{ width: "200px" }}
-                              disabled={!agreeImport}
+                              disabled={agreeImport===false}
                               onClick={addTokenHandler}
                             >
                               Import
