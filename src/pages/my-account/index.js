@@ -64,11 +64,11 @@ export default function MyAcount() {
                         <h4 className="heading-sm">Wallet Balance</h4>
                       </div>
                       <div className="balance_card">
-                        <span>{addDecimalValue(delegatorData.stakes)} BONES</span>
+                        <span>{delegatorData.stakes ? +(delegatorData.stakes).toFixed(2) : "0.00"} BONES</span>
                         <h4 className="heading-sm">Total Staked</h4>
                       </div>
                       <div className="balance_card">
-                        <span>{addDecimalValue(delegatorData.rewards)} BONES</span>
+                        <span>{delegatorData.rewards ? +(delegatorData.rewards).toFixed(2) : "0.00"} BONES</span>
                         <h4 className="heading-sm">Total reward</h4>
                       </div>
                       {/* <div className="balance_card">
