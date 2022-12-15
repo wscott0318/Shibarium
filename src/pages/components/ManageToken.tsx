@@ -15,8 +15,9 @@ import { dynamicChaining } from "web3/DynamicChaining";
 import Link from "next/link";
 import { fetchLink, getDefaultChain, useStorage } from "../../web3/commonFunctions";
 import { useLocation, useRoutes } from "react-router-dom";
+import TokenList from "./TokenList";
 
-const Warning = ({ listing, setCoinList, resetLink, addTokenHandler }: any) => {
+export const Warning = ({ listing, setCoinList, resetLink, addTokenHandler }: any) => {
   const [agree, setAgree] = useState(false);
   return (
     <>
@@ -54,7 +55,7 @@ const Warning = ({ listing, setCoinList, resetLink, addTokenHandler }: any) => {
                 ...l,
               ]);
               resetLink();
-              console.log("listing ==> ", listing);
+              // console.log("listing ==> ", listing);
             }, 1);
           }}
         >
@@ -64,7 +65,7 @@ const Warning = ({ listing, setCoinList, resetLink, addTokenHandler }: any) => {
     </>
   );
 };
-export default function ManageToken({ setOpenManageToken, setSelectedToken, defUrl = (id:any) => `https://api.1inch.exchange/v3.0/${id}/tokens`, ...props }: any) {
+export default function ManageToken({ setOpenManageToken, setSelectedToken, defUrl = (id: any) => `https://api.1inch.exchange/v3.0/${id}/tokens`, ...props }: any) {
 
   const { chainId = 1, account, library } = useActiveWeb3React();
   const lib: any = library;
@@ -83,9 +84,11 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   const [dupToken, setDuplicateToken] = useState(false);
   const [addUrl, setAddUrl] = useState('');
   const [linkQuery, setLinkQuery] = useState("");
-  const [newListing, setNewListing] = useState(null);
+  // const [newListing, setNewListing] = useState(null);
   const [coinList, setCoinList, setChain] = useStorage();
   const [isWrong, setIsWrong] = useState(false);
+  const [defChain, setDefChain] = useState("");
+  // const [firstKey, setFirstKey] = useState(Math.random());
   const [DEFAULT_LIST, SET_DEFAULT_LIST] = useState({ enabled: true, locked: true, data: 'https://wispy-bird-88a7.uniswap.workers.dev/?url=http://tokens.1inch.eth.link' })
   // const handleMenuState = () => {
   //   setMenuState(!menuState);
@@ -109,22 +112,28 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   //   }
   // }, [chain])
   useEffect(() => {
-    getDefaultChain().then(chain => {
-        const map = { 'bsc': 'bsc', 'eth': 'ether' };
-        //@ts-ignore
-        setAddUrl(`https://${map[chain]}scan.com/address/`);
-    }).catch(() => {});
-}, []);
-
+    getDefaultChain().then((ch) => {
+      setDefChain(ch);
+    });
+  }, []);
   useEffect(() => {
-    if (linkQuery) {
-      fetchLink(linkQuery, setNewListing, setIsWrong);
-    }
-    else {
-      setNewListing(null);
-      setIsWrong(false);
-    }
-  }, [linkQuery]);
+    getDefaultChain().then(chain => {
+      const map = { 'bsc': 'bsc', 'eth': 'ether' };
+      //@ts-ignore
+      setAddUrl(`https://${map[chain]}scan.com/address/`);
+    }).catch(() => { });
+  }, []);
+
+  // useEffect(() => {
+  //   if (linkQuery) {
+  //     fetchLink(linkQuery, setNewListing, setIsWrong);
+  //     console.log("new listing 130 ==> " , newListing, linkQuery);
+  //   }
+  //   else {
+  //     setNewListing(null);
+  //     setIsWrong(false);
+  //   }
+  // }, [linkQuery]);
 
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then((res) => {
@@ -170,6 +179,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
         setTokenList(list);
         // setTokenFilteredList(list);
         setTokenModalList([...localTokens, ...list]);
+        console.log("token modal list ==> " , tokenModalList);
       });
     } catch (err: any) {
       Sentry.captureMessage("getTokensList", err);
@@ -186,7 +196,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
 
   const handleSearchList = (key: any) => {
 
-    console.log(key, "keyyy")
+    // console.log(key, "keyyy")
     try {
       setmodalKeyword(key);
       if (key.length) {
@@ -200,7 +210,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
         if (newData.length <= 0) {
           addNewToken(key)
         }
-        console.log(newData, "new data ====")
+        // console.log(newData, "new data ====")
       } else {
 
         setTokenModalList(tokenList);
@@ -234,7 +244,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
           toast.error("Address already exists !", {
             position: toast.POSITION.BOTTOM_CENTER,
             autoClose: 3000,
-            toastId : 'presentAddress',
+            toastId: 'presentAddress',
           });
         } else {
           const contractInstance = new web3.eth.Contract(
@@ -275,7 +285,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       } else {
       }
     } catch (err: any) {
-      console.log(err, "ereerrr ===>")
+      // console.log(err, "ereerrr ===>")
       Sentry.captureMessage("addTokenHandler", err);
     }
   };
@@ -340,7 +350,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
         toast.error("Address is already present", {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 1500,
-          toastId : 'presentAddress',
+          toastId: 'presentAddress',
         });
       }
     } catch (err: any) {
@@ -578,75 +588,22 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                     </div>
                   </div>
                   <div className="token-listwrap">
-                    {
-                      tokenModalList.length
-                        ? tokenModalList.map((x: any) => (
-                          <div
-                            className="tokn-row"
-                            key={x?.parentName}
-                            onClick={() => handleTokenSelect(x)}
-                          >
-                            <div className="cryoto-box">
-                              <img
-                                className="img-fluid"
-                                src={
-                                  x?.logo
-                                    ? x.logo
-                                    : "../../assets/images/shib-borderd-icon.png"
-                                }
-                                alt=""
-                              />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">{x?.parentSymbol}</h6>
-                                <p>{x?.parentName}</p>
-                              </div>
-                              <div>
-                                <h6 className="fw-bold">
-                                  {x?.balance ? x.balance : "00.00"}
-                                </h6>
-                              </div>
-                            </div>
-                          </div>
-                        ))
-                        : null
-                    }
-                    {
-                      // @ts-ignore
-                      coinList?.data?.tokens.length
-                        // @ts-ignore
-                        ? coinList?.data?.tokens.map((x: any) => (
-                          <div
-                            className="tokn-row"
-                            key={x?.name}
-                            onClick={() => handleTokenSelect(x)}
-                          >
-                            <div className="cryoto-box">
-                              <img
-                                className="img-fluid"
-                                src={
-                                  x?.logoURI
-                                    ? x.logoURI
-                                    : "../../assets/images/shib-borderd-icon.png"
-                                }
-                                alt=""
-                              />
-                            </div>
-                            <div className="tkn-grid">
-                              <div>
-                                <h6 className="fw-bold">{x?.symbol}</h6>
-                                <p>{x?.name}</p>
-                              </div>
-                              <div>
-                                <h6 className="fw-bold">
-                                  {x?.balance ? x.balance : "00.00"}
-                                </h6>
-                              </div>
-                            </div>
-                          </div>
-                        ))
-                        : null
+                    <h2>step 0</h2>
+                     {/* {console.log("setLinkquery ",setLinkQuery)} */}
+                    {defChain &&
+                      <TokenList coinList={coinList}
+                        DEFAULT_ITEM={DEFAULT_LIST}
+                        // shouldReset={firstKey}
+                        setCoinList={setCoinList}
+                        showWarning={showWarning}
+                        setShowWarning={setShowWarning}
+                        defaultChain={defChain}
+                        setChain={setChain}
+                        linkQuery={linkQuery}
+                        setLinkQuery={setLinkQuery}
+                        tokenModalList={tokenModalList}
+                        tokenState={tokenState}
+                        />
                     }
                     {!tokenModalList.length && modalKeyword ? (
                       <p className="py-3 py-md-4 py-lg-5 text-center">
@@ -726,57 +683,24 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                     </div>
                   </div>
                   <div className="token-listwrap list-ht">
-                    {
-                      showWarning ?
-                        (<Warning setAgreeImport={setAgreeImport}
-                          addTokenHandler={addTokenHandler}
-                          resetLink={() => {
-                            setLinkQuery("");
-                            setNewListing(null);
-                            setShowWarning(false);
-                          }}
-                          setCoinList={setCoinList}
-                          setShowWarning={setShowWarning}
-                          listing={newListing} />)
-                        :
-                        (
-                          <>
-                            {isWrong ? <div>Seems like the url is broken</div> : ""}
-                            {newListing ? (
-                              <div className="tokn-row">
-                                <div className="cryoto-box">
-                                  {/* @ts-ignore */}
-                                  <img src={newListing?.data?.logoURI ? newListing?.data?.logoURI : "../../assets/images/eth.png"} alt={newListing?.data?.name}
-                                  />
-                                </div>
-                                <div className="tkn-grid">
-                                  <div>
-                                    <h6 className="fw-bold">
-                                      {console.log("temp tokens ==> ", newListing)}
-                                      {/* @ts-ignore */}
-                                      {newListing.data.name}
-                                    </h6>
-                                    {/* @ts-ignore */}
-                                    <p>{newListing?.data?.tokens?.length || 0} tokens</p>
-                                  </div>
-                                  < div >
-                                    <span
-                                      className="primary-text"
-                                      onClick={() => {
-                                        setShowWarning(true);
-                                        console.log("token list ==> ", tokenModalList);
-                                      }}
-                                    >
-                                      Import
-                                    </span>
-                                  </div>
-                                  {/* )
-                                } */}
-                                </div>
-                              </div>
-                            ) : ("")}
-                          </>
-                        )
+                    <h2>Step 1</h2>
+
+                    <>
+                      {isWrong ? <div>Seems like the url is broken</div> : ""}  
+                    </>
+                    {defChain &&
+                      <TokenList coinList={coinList}
+                        DEFAULT_ITEM={DEFAULT_LIST}
+                        // shouldReset={firstKey}
+                        setCoinList={setCoinList}
+                        showWarning={showWarning}
+                        setShowWarning={setShowWarning}
+                        defaultChain={defChain}
+                        setChain={setChain} 
+                        linkQuery={linkQuery}
+                        setLinkQuery={setLinkQuery}
+                        tokenState={tokenState}
+                      />
                     }
                   </div>
                 </div>
@@ -903,6 +827,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                         </div>
                       </div>
                       <div className="token-listwrap usr-listht">
+                        <h2>step 2</h2>
                         {dupToken && (
                           <div className="dupToken" style={{ color: "red" }}>Token already exists.</div>
                         )}
@@ -1036,6 +961,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                     </div>
                   </div>
                   <div className="pop-bottom pt-0">
+                    <h2>Step 3</h2>
                     {confirmImport ? (
                       <>
                         <div className="">
@@ -1079,7 +1005,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                                   <div className="tkn-grid">
                                     <div>
                                       <h6 className="fw-bold">
-                                        {console.log("temp tokens ==> ", tempTokens)}
+                                        {/* {console.log("temp tokens ==> ", tempTokens)} */}
                                         {tempTokens.parentSymbol ? tempTokens.parentSymbol : "Unknown"}
                                       </h6>
                                       <p>{tempTokens.parentSymbol ? tempTokens.parentSymbol : "Unknown Token Name"}</p>
@@ -1124,7 +1050,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                                 <div className="tkn-grid">
                                   <div>
                                     <h6 className="fw-bold">
-                                      {console.log("x has values => ", x)}
+                                      {/* {console.log("x has values => ", x)} */}
                                       {x.parentSymbol}
                                     </h6>
                                     <p>{x.parentName}</p>
@@ -1235,7 +1161,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                             <button
                               className="btn primary-btn"
                               style={{ width: "200px" }}
-                              disabled={agreeImport===false}
+                              disabled={agreeImport === false}
                               onClick={addTokenHandler}
                             >
                               Import
@@ -1415,6 +1341,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                     </div>
                   </div>
                   <div className="pop-bottom pt-0">
+                    <h2>step 4</h2>
                     <div className="">
                       <div className="grid-block">
                         <div className="blk-width">
