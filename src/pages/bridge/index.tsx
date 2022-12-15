@@ -488,6 +488,7 @@ export default function Withdraw() {
             dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
           )) || 0;
         if (+withdrawTokenInput > +allowance) {
+
           approveWithdraw();
         }
         else {
@@ -567,9 +568,8 @@ export default function Withdraw() {
       );
       let instance = new web3.eth.Contract(
         depositManagerABI,
-        dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+        dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
       );
-
       instance.methods
         .depositERC20ForUser(dynamicChaining[chainId].BONE, user, amountWei)
         .send({ from: account })
@@ -589,8 +589,8 @@ export default function Withdraw() {
             step0: false,
             step1: false,
             step2: true,
-            step3:false,
-            step4:false,
+            step3: false,
+            step4: false,
             title: "Transaction Submitted",
           });
           // setDepositTokenInput('');
@@ -617,8 +617,8 @@ export default function Withdraw() {
             step0: false,
             step1: false,
             step2: false,
-            step3:true,
-            step4:false,
+            step3: true,
+            step4: false,
             title: "Processing Transfer",
           });
         })
@@ -629,8 +629,8 @@ export default function Withdraw() {
               step0: true,
               step1: false,
               step2: false,
-              step3:false,
-              step4:false,
+              step3: false,
+              step4: false,
               title: "Initialize Withdraw",
             });
             setWithdrawModal(false);
@@ -1345,16 +1345,7 @@ export default function Withdraw() {
                     <div>
                       <a
                         className="btn primary-btn w-100"
-                        onClick={() =>
-                          setWidModState({
-                            step0: false,
-                            step1: true,
-                            step2: false,
-                            step3: false,
-                            step4: false,
-                            title: "Reaching Checkpoint",
-                          })
-                        }
+                        onClick={() =>callWithdrawContract()}
                       >
                         Continue
                       </a>
