@@ -105,6 +105,7 @@ export const fetchLink = async (link, setter, errorSetter) => {
     const data = await response.json();
     if (Array.isArray(data.tokens)) errorSetter(false);
     setter({ data, url: link });
+    console.log("fetch link data " , data);
   } catch (err) {
     errorSetter(true);
     setter(null);

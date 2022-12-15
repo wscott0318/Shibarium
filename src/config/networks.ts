@@ -129,7 +129,9 @@ export const CHAINS = {
   FANTOMMAINNET: "0xfa",
   POLYGONMAINNET: "0x89",
 };
-export const URL_ARRAY = {
+
+
+export const URL_ARRAY:{[key:string]:Array<any>} = {
   eth: [
     {
       enabled: true,
