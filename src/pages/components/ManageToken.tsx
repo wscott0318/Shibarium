@@ -589,7 +589,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                     </div>
                   </div>
                   <div className="token-listwrap">
-                    <h2>step 0</h2>
                      {/* {console.log("setLinkquery ",setLinkQuery)} */}
                     {defChain &&
                       <TokenList coinList={coinList}
@@ -684,8 +683,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                     </div>
                   </div>
                   <div className="token-listwrap list-ht">
-                    <h2>Step 1</h2>
-
                     <>
                       {isWrong ? <div>Seems like the url is broken</div> : ""}  
                     </>
@@ -828,7 +825,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                         </div>
                       </div>
                       <div className="token-listwrap usr-listht">
-                        <h2>step 2</h2>
                         {dupToken && (
                           <div className="dupToken" style={{ color: "red" }}>Token already exists.</div>
                         )}
@@ -962,7 +958,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                     </div>
                   </div>
                   <div className="pop-bottom pt-0">
-                    <h2>Step 3</h2>
                     {confirmImport ? (
                       <>
                         <div className="">
@@ -1342,7 +1337,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                     </div>
                   </div>
                   <div className="pop-bottom pt-0">
-                    <h2>step 4</h2>
                     <div className="">
                       <div className="grid-block">
                         <div className="blk-width">
