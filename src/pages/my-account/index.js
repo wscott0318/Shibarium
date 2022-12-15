@@ -37,6 +37,10 @@ export default function MyAcount() {
       router.push('/')
     }
   },[account])
+
+  const getDelegatorAmount = (data) => {
+    console.log(data)
+  }
   
 
   return (
@@ -92,6 +96,7 @@ export default function MyAcount() {
             userType={userType}
             boneUSDValue={boneUSDValue}
             availBalance={availBalance}
+            getDelegatorAmount={getDelegatorAmount}
           />
         )}
       </main>

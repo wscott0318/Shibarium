@@ -43,10 +43,12 @@ const validatorAccount = ({
   userType,
   boneUSDValue,
   availBalance,
+  getDelegatorAmount
 }: {
   userType: any;
   boneUSDValue: any;
   availBalance: any;
+  getDelegatorAmount: any
 }) => {
   const router = useRouter();
   const [showUnboundClaim, setUnStakePop] = useState(false);
@@ -124,7 +126,7 @@ const validatorAccount = ({
         dynamicChaining[chainId].STAKE_MANAGER_PROXY
       );
       const valFromContract = await instance.methods
-        .validators(valId)
+        .validators(14)
         .call({ from: account });
       const valReward = await instance.methods
         .validatorReward(+valId)
@@ -159,6 +161,14 @@ const validatorAccount = ({
     }
   };
 
+  useEffect(() => {
+    if(stakeAmounts.length) {
+      let totalStake = stakeAmounts.map((x:any) => parseInt(x.tokens)).reduce((accumulator :any, currentValue :any) => parseInt(accumulator + currentValue) / 10 ** web3Decimals)
+      let totalReward = delegationsList.map((x:any) => parseInt(x.reward)).reduce((accumulator :any, currentValue :any) => parseInt(accumulator + currentValue) / 10 ** web3Decimals)
+      console.log({totalReward, totalStake})
+    }
+  },[stakeAmounts,delegationsList])
+
   const getDelegatorCardData = async (accountAddress: any) => {
     // console.log(" card data ", accountAddress)
     setLoading(true);
@@ -169,7 +179,7 @@ const validatorAccount = ({
             let newArray: any = [];
             // console.log(res.data, "delegator card data")
             let sortedData = res.data.data.validators
-              .filter((x: any) => parseInt(x.stake) > 0)
+              // .filter((x: any) => parseInt(x.stake) > 0)
               .sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake));
             // here
             sortedData.forEach(async (x: any) => {
@@ -1087,6 +1097,7 @@ const validatorAccount = ({
       const validators = await queryProvider.query({
         query: StakeAmount(id, account),
       });
+      console.log(validators.data.delegator,  "graph data")
       return validators.data.delegator;
     } catch (err: any) {
       Sentry.captureException("getStakeAmountDelegator ", err);
@@ -2175,7 +2186,8 @@ const validatorAccount = ({
                                     item.checkpointSignedPercent <
                                       checkpointVal ||
                                     parseInt(item.reward) / 10 ** web3Decimals <
-                                      1
+                                      1 || 
+                                      item.deactivationepoch === "true" 
                                   }
                                   onClick={() =>
                                     handleModal("Restake", item.contractAddress)
@@ -2262,7 +2274,7 @@ const validatorAccount = ({
                                 <button
                                   disabled={
                                     parseInt(item.commission) < comissionVal ||
-                                    item.checkpointSignedPercent < checkpointVal
+                                    item.checkpointSignedPercent < checkpointVal || item.deactivationepoch === "true" 
                                   }
                                   onClick={() => {
                                     setSelectedRow({

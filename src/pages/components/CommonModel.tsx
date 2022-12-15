@@ -20,6 +20,8 @@ interface propsNew {
   setSendModal: any;
   setSenderModal:any;
 }
+
+
 const CommonModal:React.FC<props> = ({show,setshow, title,externalCls,children})=> {
   const abc = {show,setshow, title,externalCls,children};
   return (
