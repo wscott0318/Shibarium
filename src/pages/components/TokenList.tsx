@@ -65,7 +65,7 @@ const TokenList = ({
         if(localStorage.getItem("tokenList")){
           oldList = JSON.parse(localStorage.getItem("tokenList") || "[]");
         }
-        var newTokens = [...oldList , ...uniqArray]
+        var newTokens = [...uniqArray]
         localStorage.setItem("tokenList" , JSON.stringify(newTokens));
       })
       .catch((err) => setRenderData(coinList));
@@ -226,12 +226,12 @@ const TokenList = ({
               )
               : ("")
             }
-            {renderData?.length > 0 ? renderData.map((item: any) => {
+            {renderData?.length > 0 ? renderData.slice(1).map((item: any) => {
               console.log("item contains ==> ", item);
               return (
-                <div key={item?.data} className="flex justify-content-between">
+                <div key={item?.data} className="flex justify-content-between mb-3">
                   <div className="flex w-50">
-                    <img src={item?.logoURI} width="50" height="25" />
+                    <img src={item?.logo} width="50" height="25" />
                     <div>
                       <h5>{item?.name}</h5>
                       <p>{item?.data?.tokens?.length} tokens</p>
