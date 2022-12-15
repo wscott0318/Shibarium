@@ -12,9 +12,12 @@ export const useSearchFilter = (data: any[], keyword: string) => {
         //     .toLowerCase()
         //     .includes(keyword.toLowerCase());
         // } else
-        if (name.name && keyword) {
+        if (name && !keyword) {
+          console.log("here 1");
+          
           return name.name.toLowerCase().includes(keyword.toLowerCase());
         } else {
+          console.log("here 2");
           return Object.values(name)
             .join(" ")
             .toLowerCase()

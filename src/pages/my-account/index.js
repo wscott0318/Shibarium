@@ -18,6 +18,7 @@ import { BONE_ID } from '../../config/constant';
 import {useEthBalance} from '../../hooks/useEthBalance';
 import {useTokenBalance} from '../../hooks/useTokenBalance';
 import { dynamicChaining } from "web3/DynamicChaining";
+import { addDecimalValue } from "web3/commonFunctions"
 
 
 export default function MyAcount() {
@@ -25,6 +26,7 @@ export default function MyAcount() {
   const [userType, setUserType] = useUserType();
   const [boneUSDValue,setBoneUSDValue] = useState(0);
   const router = useRouter();
+  const [delegatorData, setDelegatorData] = useState({});
   var availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
 
 
@@ -40,6 +42,7 @@ export default function MyAcount() {
 
   const getDelegatorAmount = (data) => {
     console.log(data)
+    setDelegatorData({stakes: (data.totalStake) / 10 ** 18, rewards: data.totalReward / 10 ** 18})
   }
   
 
@@ -59,6 +62,14 @@ export default function MyAcount() {
                       <div className="balance_card">
                         <span>{availBalance} BONES</span>
                         <h4 className="heading-sm">Wallet Balance</h4>
+                      </div>
+                      <div className="balance_card">
+                        <span>{addDecimalValue(delegatorData.stakes)} BONES</span>
+                        <h4 className="heading-sm">Total Staked</h4>
+                      </div>
+                      <div className="balance_card">
+                        <span>{addDecimalValue(delegatorData.rewards)} BONES</span>
+                        <h4 className="heading-sm">Total reward</h4>
                       </div>
                       {/* <div className="balance_card">
                         <span>{boneUSDValue} BONES</span>
