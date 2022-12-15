@@ -55,6 +55,7 @@ export const Warning = ({ listing, setCoinList, resetLink, addTokenHandler }: an
                 ...l,
               ]);
               resetLink();
+              
               // console.log("listing ==> ", listing);
             }, 1);
           }}
