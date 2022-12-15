@@ -6,12 +6,15 @@ import { getBoneUSDValue } from "../../services/apis/validator/index";
 import { useActiveWeb3React } from "../../services/web3";
 import { BONE_ID } from "../../config/constant";
 import Web3 from "web3";
+import {getDefaultChain} from "../../web3/commonFunctions"
 import { useAppDispatch } from "../../state/hooks";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import addTokenAbi from "../../ABI/custom-token-abi.json";
 import * as Sentry from "@sentry/nextjs";
 import { dynamicChaining } from "web3/DynamicChaining";
+import Link from "next/link";
+
 
 export default function ManageToken({setOpenManageToken, setSelectedToken, ...props} : any){
 
@@ -29,7 +32,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
     const [newToken, addNewToken] = useState("");
     const [confirmImport, setConfirmImport] = useState(true);
     const [agreeImport, setAgreeImport] = useState(false);
-  
+    const [addUrl, setAddUrl] = useState('');
     // const handleMenuState = () => {
     //   setMenuState(!menuState);
     // };
@@ -37,6 +40,23 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
     // useEffect(() => {
     //   console.log("chain id  , ", SUPPORTED_NETWORKS);
     // })
+
+
+    //   getDefaultChain().then(chain => {
+    //     const map = { 'bsc': 'bsc', 'eth': 'ether' };
+    //     // setAddUrl(`https://${map[chain]}scan.com/address/`);
+    // }).catch(() => {});
+ 
+
+    useEffect(() => {
+      getDefaultChain().then(chain => {
+          const map = { 'bsc': 'bsc', 'eth': 'ether' };
+          //@ts-ignore
+          setAddUrl(`https://${map[chain]}scan.com/address/`);
+          console.log(addUrl,"url add")
+      }).catch(() => {});
+  }, []);
+
   
     useEffect(() => {
       getBoneUSDValue(BONE_ID).then((res) => {
@@ -129,9 +149,10 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
     };
  
     const addTokenHandler = async () => {
+      console.log("ading import")
         addNewToken('')
-      setConfirmImport(!confirmImport);
-      setAgreeImport(!agreeImport);
+      setConfirmImport(true);
+      setAgreeImport(false);
       try {
         const isValidAddress = await web3.utils.isAddress(String(newToken));
         if (isValidAddress) {
@@ -252,6 +273,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
           toast.error("Address is already present", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 1500,
+            toastId : 'presentAddress',
           });
         }
       } catch (err: any) {
@@ -358,6 +380,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
             toast.error("Address is already present", {
               position: toast.POSITION.TOP_RIGHT,
               autoClose: 1500,
+              toastId : 'presentAddress'
             });
             setTempTokens({
               // parentContract: "",
@@ -415,7 +438,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
         setTokenModal(true);
         addNewToken('');
         setConfirmImport(true);
-        setAgreeImport(true)
+        setAgreeImport(false)
         setTokenState({
           step0: true,
           step1: false,
@@ -573,7 +596,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
                               });
                               addNewToken("");
                               setConfirmImport(true)
-                              setAgreeImport(true)
+                              setAgreeImport(false)
                             }}
                           >
                             Add token
@@ -974,11 +997,16 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
                                     />
                                   </span>
                                   <span>
+                                  <Link  href={addUrl+x.childContract} passHref>
+                                  <a target='_blank'>
                                     <img
                                       className="img-fluid"
                                       src="../../../assets/images/up.png"
                                       alt=""
+                                      
                                     />
+                                    </a>
+                                    </Link>
                                   </span>
                                 </div>
                               </div>
@@ -1116,7 +1144,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
                                         <span
                                           className="primary-text"
                                           onClick={() => {
-                                            setConfirmImport(!confirmImport);
+                                            setConfirmImport(false);
                                           }}
                                         >
                                           Import
@@ -1168,11 +1196,16 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
                                         />
                                       </span>
                                       <span>
+                                      <Link  href={addUrl+x.childContract} passHref>
+                                  <a target='_blank'>
                                         <img
                                           className="img-fluid"
                                           src="../../../assets/images/up.png"
                                           alt=""
+                                          
                                         />
+                                      </a>
+                                      </Link>
                                       </span>
                                     </div>
                                   </div>
@@ -1195,7 +1228,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
                             <input
                               style={{ marginRight: "5px" }}
                               type="checkbox"
-                              onChange={() => setAgreeImport(!agreeImport)}
+                              onChange={() => setAgreeImport(true)}
                             />
                             I understand
                           </label>
@@ -1204,7 +1237,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
                             <button
                              className="btn primary-btn"
                             style={{width : "200px"}}
-                              disabled={!agreeImport}
+                              disabled={agreeImport=== false}
                               onClick={addTokenHandler}
                             >
                               Import
@@ -1435,11 +1468,16 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
                                 />
                               </span>
                               <span>
+                              <Link  href={addUrl+x.childContract} passHref>
+                                  <a target='_blank'>
+                               
                                 <img
                                   className="img-fluid"
                                   src="../../../assets/images/up.png"
                                   alt=""
                                 />
+                               </a>
+                               </Link>
                               </span>
                             </div>
                           </div>

@@ -92,3 +92,43 @@ export const stakeForErrMsg = (msg) => {
     return "something went wrong please try again later! "
   }
 }
+
+export const CHAINS = {
+  Mainnet: '0x1',
+  Kovan: '0x42',
+  Ropsten: '0x3',
+  Rinkeby: '0x4',
+  Goerli: '0x5',
+  BSCTESTNET: '0x61',
+  BSCMAINNET: '0x38',
+  FANTOMTESTNET:'0xfa2',
+  FANTOMMAINNET:'0xfa',
+  POLYGONMAINNET: '0x89'
+};
+
+export const getDefaultChain = async () => {
+      
+  const chainId = await window?.ethereum?.request({ method: 'eth_chainId' });
+// console.log(chainId);
+  if (
+    chainId == CHAINS.Ropsten ||
+    chainId == CHAINS.Mainnet
+  ) {
+    return 'eth';
+  } else if (
+    chainId == CHAINS.BSCTESTNET ||
+    chainId == CHAINS.BSCMAINNET
+  ) {
+  return 'bsc';
+}else if(
+  chainId == CHAINS.FANTOMTESTNET ||
+  chainId == CHAINS.FANTOMMAINNET
+){
+  return 'ftm';
+}else if(chainId == CHAINS.POLYGONMAINNET){
+  return 'polygon'
+}
+else {
+  return 'eth';
+};
+};
