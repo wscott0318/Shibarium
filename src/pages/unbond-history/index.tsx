@@ -42,6 +42,7 @@ export default function Unbond() {
   const lib: any = library
   const web3: any = new Web3(lib?.provider)
   const [userType, setUserType] = useUserType();
+  const [loader, setLoader] = useState(false);
 
   const getValidatorContractAddress = async (validatorID: any) => {
     try {
@@ -84,6 +85,7 @@ export default function Unbond() {
   }
   // console.log(claimNowModals)
   const unboundClaimAPI = async () => {
+    setLoader(true)
     try {
       let data = {
         delegatorAddress: account,
@@ -140,6 +142,13 @@ export default function Unbond() {
                 }
               })
             )
+            setClamNowModals({
+              data: {},
+              confirm: false,
+              progress: false,
+              completed: false
+            })
+            setLoader(false)
             getUnboundHistory(account)
           }).on('error', (res: any) => {
             // console.log(res, "error")
@@ -147,11 +156,9 @@ export default function Unbond() {
               data: {},
               confirm: false,
               progress: false,
-              completed: true
+              completed: false
             })
-            if (res.code === 4001) {
-              // console.log("User desined this transaction! ")
-            }
+            setLoader(false)
           })
       }
     }
@@ -408,6 +415,7 @@ export default function Unbond() {
           <div className="button-wrap mt-3">
             <button
               type="button"
+              disabled={loader}
               className="btn primary-btn w-100"
               onClick={() => unboundClaimAPI()}
             >

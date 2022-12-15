@@ -126,7 +126,7 @@ const validatorAccount = ({
         dynamicChaining[chainId].STAKE_MANAGER_PROXY
       );
       const valFromContract = await instance.methods
-        .validators(14)
+        .validators(valId)
         .call({ from: account });
       const valReward = await instance.methods
         .validatorReward(+valId)
@@ -163,9 +163,10 @@ const validatorAccount = ({
 
   useEffect(() => {
     if(stakeAmounts.length) {
-      let totalStake = stakeAmounts.map((x:any) => parseInt(x.tokens)).reduce((accumulator :any, currentValue :any) => parseInt(accumulator + currentValue) / 10 ** web3Decimals)
-      let totalReward = delegationsList.map((x:any) => parseInt(x.reward)).reduce((accumulator :any, currentValue :any) => parseInt(accumulator + currentValue) / 10 ** web3Decimals)
-      console.log({totalReward, totalStake})
+      let totalStake = stakeAmounts.map((x:any) => parseInt(x.tokens)).reduce((accumulator :any, currentValue :any) => accumulator + currentValue)
+      let totalReward = delegationsList.map((x:any) => parseInt(x.reward)).reduce((accumulator :any, currentValue :any) => accumulator + currentValue)
+      console.log({stakeAmounts})
+      getDelegatorAmount({totalReward, totalStake})
     }
   },[stakeAmounts,delegationsList])
 
@@ -375,6 +376,7 @@ const validatorAccount = ({
               },
             })
           );
+          window.location.reload()
         })
         .on("error", (res: any) => {
           // console.log(res, "error");
@@ -566,7 +568,8 @@ const validatorAccount = ({
                     },
                   })
                 );
-                router.push("/my-account", "/my-account", { shallow: false });
+                window.location.reload()
+                // router.push("/my-account", "/my-account", { shallow: false });
               })
               .on("error", (res: any) => {
                 // console.log(res, "error");
@@ -653,9 +656,9 @@ const validatorAccount = ({
               })
 
             );
-            router.push("/my-account", "/my-account", { shallow: false });
+            // router.push("/my-account", "/my-account", { shallow: false });
             //
-
+            window.location.reload()
           })
           .on("error", (res: any) => {
             // console.log(res, "error");
@@ -731,7 +734,8 @@ const validatorAccount = ({
                 },
               })
             );
-            router.push("/my-account", "/my-account", { shallow: false });
+            window.location.reload()
+            // router.push("/my-account", "/my-account", { shallow: false });
           })
           .on("error", (res: any) => {
             // console.log(res, "error");
@@ -814,9 +818,10 @@ const validatorAccount = ({
                 },
               })
             );
-            router.push("/my-account", "/my-account", { shallow: false });
-            setTransactionState({ state: false, title: "" });
-            setHashLink("");
+            window.location.reload()
+            // router.push("/my-account", "/my-account", { shallow: false });
+            // setTransactionState({ state: false, title: "" });
+            // setHashLink("");
           })
           .on("error", (res: any) => {
             // console.log(res, "error");
@@ -897,9 +902,10 @@ const validatorAccount = ({
                 },
               })
             );
-            router.push("/my-account", "/my-account", { shallow: false });
-            setTransactionState({ state: false, title: "" });
-            setHashLink("");
+            window.location.reload()
+            // router.push("/my-account", "/my-account", { shallow: false });
+            // setTransactionState({ state: false, title: "" });
+            // setHashLink("");
           })
           .on("error", (res: any) => {
             // console.log(res, "error");
@@ -981,8 +987,9 @@ const validatorAccount = ({
                 },
               })
             );
-            router.push("/my-account", "/my-account", { shallow: true });
-            getDelegatorCardData(walletAddress);
+            window.location.reload()
+            // router.push("/my-account", "/my-account", { shallow: true });
+            // getDelegatorCardData(walletAddress);
           })
           .on("error", (res: any) => {
             // console.log(res, "error");
@@ -1071,7 +1078,8 @@ const validatorAccount = ({
                 },
               })
             );
-            setTimeout(() => window.location.reload(), 1000)
+            window.location.reload()
+            // setTimeout(() => window.location.reload(), 1000)
             // getDelegatorCardData(walletAddress);
           })
           .on("error", (res: any) => {
@@ -1107,8 +1115,8 @@ const validatorAccount = ({
   const getStake = (id: String) => {
     try {
       // console.log
-      let item = stakeAmounts.length
-        ? stakeAmounts.filter((x: any) => +x.validatorId === +id)[0]?.tokens
+      let item = stakeAmounts?.length
+        ? stakeAmounts.filter((x: any) => +(x.validatorId) === +id)[0]?.tokens
         : 0;
       return item > 0
         ? addDecimalValue(parseInt(item) / 10 ** web3Decimals)
@@ -1134,7 +1142,7 @@ const validatorAccount = ({
       <DelegatePopup
         data={selectedRow}
         showdelegatepop={stakeMore}
-        setdelegatepop={() => setStakeMoreModal(false)}
+        setdelegatepop={() => {setStakeMoreModal(false); window.location.reload()}}
       />
       <div className="main-content dark-bg-800 full-vh  cmn-input-bg">
         {/* retake popop start VALIDATOR*/}

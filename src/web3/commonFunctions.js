@@ -49,10 +49,14 @@ export const web3Decimals = 18;
 
 export const addDecimalValue = (value) => {
   let num = value % 1;
-  if (num > 0) {
-    return value.toFixed(tokenDecimal);
+  if(num){
+    if (num > 0) {
+      return value.toFixed(tokenDecimal);
+    } else {
+      return value.toFixed(toFixedNull);
+    }
   } else {
-    return value.toFixed(toFixedNull);
+    return "0.00"
   }
 };
 
