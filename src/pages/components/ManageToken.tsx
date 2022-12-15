@@ -13,10 +13,58 @@ import addTokenAbi from "../../ABI/custom-token-abi.json";
 import * as Sentry from "@sentry/nextjs";
 import { dynamicChaining } from "web3/DynamicChaining";
 import Link from "next/link";
-import { getDefaultChain } from "../../web3/commonFunctions";
+import { fetchLink, getDefaultChain, useStorage } from "../../web3/commonFunctions";
+import { useLocation, useRoutes } from "react-router-dom";
 
-
-export default function ManageToken({ setOpenManageToken, setSelectedToken, ...props }: any) {
+const Warning = ({ listing, setCoinList, resetLink, addTokenHandler }: any) => {
+  const [agree, setAgree] = useState(false);
+  return (
+    <>
+      <div style={{ display: "flex", justifyContent: "center" }}><img src="../../assets/images/alert.png" alt=""></img></div>
+      <h3 style={{ textAlign: "center", margin: "10px" }}>Import at your own risk</h3>
+      <div style={{ fontSize: "15px", margin: "10px" }}>
+        By adding this token you are implicitly trusting
+        that the data is correct. If you purchase this token, you may not be able to
+        sell it back.
+      </div>
+      <div style={{ textAlign: "center" }}>
+        <label style={{ margin: "10px 0", textAlign: "center" }}>
+          <input
+            style={{ marginRight: "5px" }}
+            type="checkbox"
+            checked={agree}
+            onChange={() => setAgree((a) => !a)}
+          />
+          I understand
+        </label>
+      </div>
+      <div style={{ textAlign: "center" }}>
+        <button
+          className="btn primary-btn"
+          style={{ width: "200px" }}
+          disabled={!agree}
+          onClick={() => {
+            if (!agree) return;
+            setTimeout(() => {
+              setCoinList((l: any) => [
+                {
+                  data: listing.url,
+                  enabled: true,
+                },
+                ...l,
+              ]);
+              resetLink();
+              console.log("listing ==> ", listing);
+            }, 1);
+          }}
+        >
+          Import
+        </button>
+      </div>
+    </>
+  );
+};
+export default function ManageToken({ setOpenManageToken, setSelectedToken, defUrl = (id:any) => `https://api.1inch.exchange/v3.0/${id}/tokens`, ...props }: any) {
 
   const { chainId = 1, account, library } = useActiveWeb3React();
   const lib: any = library;
@@ -34,6 +82,11 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, ...p
   const [agreeImport, setAgreeImport] = useState(false);
   const [dupToken, setDuplicateToken] = useState(false);
   const [addUrl, setAddUrl] = useState('');
+  const [linkQuery, setLinkQuery] = useState("");
+  const [newListing, setNewListing] = useState(null);
+  const [coinList, setCoinList, setChain] = useStorage();
+  const [isWrong, setIsWrong] = useState(false);
+  const [DEFAULT_LIST, SET_DEFAULT_LIST] = useState({ enabled: true, locked: true, data: 'https://wispy-bird-88a7.uniswap.workers.dev/?url=http://tokens.1inch.eth.link' })
   // const handleMenuState = () => {
   //   setMenuState(!menuState);
   // };
@@ -41,15 +94,38 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, ...p
   // useEffect(() => {
   //   console.log("chain id  , ", SUPPORTED_NETWORKS);
   // })
-
+  // const { search } = useLocation();
+  // const chain = new URLSearchParams(search).get('chain');
+  // useEffect(() => {
+  //   if(defUrl().includes('1inch')){
+  //     SET_DEFAULT_LIST({ enabled: true, locked: true, data: defUrl() });
+  //   }
+  // }, [defUrl()]);
+  // useEffect(() => {
+  //   if (chain) {
+  //     // @ts-ignore
+  //     setChain(chain);
+  //     console.log(DEFAULT_LIST);
+  //   }
+  // }, [chain])
   useEffect(() => {
     getDefaultChain().then(chain => {
       const map = { 'bsc': 'bsc', 'eth': 'ether' };
       // @ts-ignore
       setAddUrl(`https://${map[chain]}scan.com/address/`);
-    }).catch((err) => {console.log(err) });
+    }).catch((err) => { console.log(err) });
     console.log("addUrl ==> ", addUrl);
   }, []);
+
+  useEffect(() => {
+    if (linkQuery) {
+      fetchLink(linkQuery, setNewListing, setIsWrong);
+    }
+    else {
+      setNewListing(null);
+      setIsWrong(false);
+    }
+  }, [linkQuery]);
 
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then((res) => {
@@ -67,6 +143,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, ...p
   const [tokenModalList, setTokenModalList] = useState<any>([]);
   const [tokenList, setTokenList] = useState([]);
   const [modalKeyword, setmodalKeyword] = useState("");
+  const [showWarning, setShowWarning] = useState(false);
   const [localTokens, setLocalTokens] = useState<any>(
     JSON.parse(localStorage.getItem("newToken") || "[]")
   );
@@ -428,7 +505,13 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, ...p
   //   }
   //   // console.log(e.target.value);
   // }
-
+  //   const checkStatus = (url: any) => {
+  //     const index = [DEFAULT_ITEM, ...tokenModalList].findIndex(
+  //       (el) => (el?.data?.includes(url) || url.includes(el.data))
+  //     );
+  //     console.log(url, " ==> " , DEFAULT_ITEM, ...tokenModalList)
+  //   return index !== -1;
+  // };
   return (
     <div>
       {/* Token popups start */}
@@ -494,39 +577,76 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, ...p
                     </div>
                   </div>
                   <div className="token-listwrap">
-                    {tokenModalList.length
-                      ? tokenModalList.map((x: any) => (
-                        <div
-                          className="tokn-row"
-                          key={x?.parentName}
-                          onClick={() => handleTokenSelect(x)}
-                        >
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src={
-                                x?.logo
-                                  ? x.logo
-                                  : "../../assets/images/shib-borderd-icon.png"
-                              }
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">{x?.parentSymbol}</h6>
-                              <p>{x?.parentName}</p>
+                    {
+                      tokenModalList.length
+                        ? tokenModalList.map((x: any) => (
+                          <div
+                            className="tokn-row"
+                            key={x?.parentName}
+                            onClick={() => handleTokenSelect(x)}
+                          >
+                            <div className="cryoto-box">
+                              <img
+                                className="img-fluid"
+                                src={
+                                  x?.logo
+                                    ? x.logo
+                                    : "../../assets/images/shib-borderd-icon.png"
+                                }
+                                alt=""
+                              />
                             </div>
-                            <div>
-                              <h6 className="fw-bold">
-                                {x?.balance ? x.balance : "00.00"}
-                              </h6>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">{x?.parentSymbol}</h6>
+                                <p>{x?.parentName}</p>
+                              </div>
+                              <div>
+                                <h6 className="fw-bold">
+                                  {x?.balance ? x.balance : "00.00"}
+                                </h6>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))
-                      : null}
-
+                        ))
+                        : null
+                    }
+                    {
+                      // @ts-ignore
+                      coinList?.data?.tokens.length
+                        // @ts-ignore
+                        ? coinList?.data?.tokens.map((x: any) => (
+                          <div
+                            className="tokn-row"
+                            key={x?.name}
+                            onClick={() => handleTokenSelect(x)}
+                          >
+                            <div className="cryoto-box">
+                              <img
+                                className="img-fluid"
+                                src={
+                                  x?.logoURI
+                                    ? x.logoURI
+                                    : "../../assets/images/shib-borderd-icon.png"
+                                }
+                                alt=""
+                              />
+                            </div>
+                            <div className="tkn-grid">
+                              <div>
+                                <h6 className="fw-bold">{x?.symbol}</h6>
+                                <p>{x?.name}</p>
+                              </div>
+                              <div>
+                                <h6 className="fw-bold">
+                                  {x?.balance ? x.balance : "00.00"}
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                        : null
+                    }
                     {!tokenModalList.length && modalKeyword ? (
                       <p className="py-3 py-md-4 py-lg-5 text-center">
                         no record found
@@ -588,6 +708,10 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, ...p
                         type="text"
                         className="w-100"
                         placeholder="Add list by https://"
+                        value={linkQuery}
+                        onChange={(e) => {
+                          setLinkQuery(e.target.value);
+                        }}
                       />
                       <div className="search-icon">
                         <img
@@ -601,7 +725,59 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, ...p
                     </div>
                   </div>
                   <div className="token-listwrap list-ht">
-                    <div className="tokn-row">
+                    {
+                      showWarning ?
+                        (<Warning setAgreeImport={setAgreeImport}
+                          addTokenHandler={addTokenHandler}
+                          resetLink={() => {
+                            setLinkQuery("");
+                            setNewListing(null);
+                            setShowWarning(false);
+                          }}
+                          setCoinList={setCoinList}
+                          setShowWarning={setShowWarning}
+                          listing={newListing} />)
+                        :
+                        (
+                          <>
+                            {isWrong ? <div>Seems like the url is broken</div> : ""}
+                            {newListing ? (
+                              <div className="tokn-row">
+                                <div className="cryoto-box">
+                                  {/* @ts-ignore */}
+                                  <img src={newListing?.data?.logoURI ? newListing?.data?.logoURI : "../../assets/images/eth.png"} alt={newListing?.data?.name}
+                                  />
+                                </div>
+                                <div className="tkn-grid">
+                                  <div>
+                                    <h6 className="fw-bold">
+                                      {console.log("temp tokens ==> ", newListing)}
+                                      {/* @ts-ignore */}
+                                      {newListing.data.name}
+                                    </h6>
+                                    {/* @ts-ignore */}
+                                    <p>{newListing?.data?.tokens?.length || 0} tokens</p>
+                                  </div>
+                                  < div >
+                                    <span
+                                      className="primary-text"
+                                      onClick={() => {
+                                        setShowWarning(true);
+                                        console.log("token list ==> ", tokenModalList);
+                                      }}
+                                    >
+                                      Import
+                                    </span>
+                                  </div>
+                                  {/* )
+                                } */}
+                                </div>
+                              </div>
+                            ) : ("")}
+                          </>
+                        )
+                    }
+                    {/* <div className="tokn-row">
                       <div className="cryoto-box">
                         <img
                           className="img-fluid"
@@ -824,7 +1000,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, ...p
                           </h6>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -968,7 +1144,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, ...p
                             <div className="tkn-grid">
                               <div>
                                 <h6 className="fw-bold">
-                                  {console.log("x has ==> ", x)}{x.parentSymbol}</h6>
+                                  {x.parentSymbol}</h6>
                                 <p>{x.parentName}</p>
                               </div>
                               <div>
@@ -1204,37 +1380,91 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, ...p
                           </div>
                         </div>
                       </>
-                    ) : (
-                      <>
-                        <div style={{ display: "flex", justifyContent: "center" }}><img src="../../assets/images/alert.png" alt=""></img></div>
-                        <h3 style={{ textAlign: "center", margin: "10px" }}>Import at your own risk</h3>
-                        <div style={{ fontSize: "15px", margin: "10px" }}>
-                          By adding this token you are implicitly trusting
-                          that the data is correct. If you purchase this token, you may not be able to
-                          sell it back.
-                        </div>
-                        <div style={{ textAlign: "center" }}>
-                          <label style={{ margin: "10px 0", textAlign: "center" }}>
-                            <input
-                              style={{ marginRight: "5px" }}
-                              type="checkbox"
-                              onChange={() => setAgreeImport(!agreeImport)}
-                            />
-                            I understand
-                          </label>
-                        </div>
-                        <div style={{ textAlign: "center" }}>
-                          <button
-                            className="btn primary-btn"
-                            style={{ width: "200px" }}
-                            disabled={!agreeImport}
-                            onClick={addTokenHandler}
-                          >
-                            Import
-                          </button>
-                        </div>
-                      </>
-                    )}
+                    ) :
+                      (
+                        // showWarning ?
+                        //   (<Warning setAgreeImport={setAgreeImport}
+                        //     addTokenHandler={addTokenHandler}
+                        //     resetLink={() => {
+                        //       setLinkQuery("");
+                        //       setNewListing(null);
+                        //       setShowWarning(false);
+                        //     }}
+                        //     setCoinList={tokenModalList}
+                        //     setShowWarning={setShowWarning}
+                        //     listing={newListing} />)
+                        //   :
+                        //   (
+                        //     <>
+                        //       {isWrong ? <div>Seems like the url is broken</div> : ""}
+                        //       {newListing ? (
+                        //         <div className="tokn-row">
+                        //           <h1>newListing</h1>
+                        //           {/* <div className="cryoto-box">
+                        //             <img
+                        //               className="img-fluid"
+                        //               src={
+                        //                 newListing
+                        //                   ? newListing
+                        //                   : "../../../assets/images/shib-borderd-icon.png"
+                        //               }
+                        //               alt=""
+                        //             />
+                        //           </div>
+                        //           <div className="tkn-grid">
+                        //             <div>
+                        //               <h6 className="fw-bold">
+                        //                 {console.log("temp tokens ==> ", tempTokens)}
+                        //                 {tempTokens.parentSymbol ? tempTokens.parentSymbol : "Unknown"}
+                        //               </h6>
+                        //               <p>{tempTokens.parentSymbol ? tempTokens.parentSymbol : "Unknown Token Name"}</p>
+                        //             </div>
+                        //             <div>
+                        //               <span
+                        //                 className="primary-text"
+                        //                 onClick={() => {
+                        //                   setConfirmImport(!confirmImport);
+                        //                 }}
+                        //               >
+                        //                 Import
+
+                        //               </span>
+                        //             </div>
+                        //           </div> */}
+                        //         </div>
+                        //       ) : ("")}
+                        //     </>
+                        //   )
+                        <>
+                          <div style={{ display: "flex", justifyContent: "center" }}><img src="../../assets/images/alert.png" alt=""></img></div>
+                          <h3 style={{ textAlign: "center", margin: "10px" }}>Import at your own risk</h3>
+                          <div style={{ fontSize: "15px", margin: "10px" }}>
+                            By adding this token you are implicitly trusting
+                            that the data is correct. If you purchase this token, you may not be able to
+                            sell it back.
+                          </div>
+                          <div style={{ textAlign: "center" }}>
+                            <label style={{ margin: "10px 0", textAlign: "center" }}>
+                              <input
+                                style={{ marginRight: "5px" }}
+                                type="checkbox"
+                                onChange={() => setAgreeImport(!agreeImport)}
+                              />
+                              I understand
+                            </label>
+                          </div>
+                          <div style={{ textAlign: "center" }}>
+                            <button
+                              className="btn primary-btn"
+                              style={{ width: "200px" }}
+                              disabled={!agreeImport}
+                              onClick={addTokenHandler}
+                            >
+                              Import
+                            </button>
+                          </div>
+                        </>
+                      )}
                   </div>
                 </div>
                 <div className="pop-bottom pt-0">
@@ -1384,17 +1614,16 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, ...p
                         type="text"
                         className="w-100"
                         placeholder="Add list by https://"
+                        value={linkQuery}
                         onChange={(e) => {
-                          if (tokenModalList.filter((val: any) => val?.parentContract == e.target.value).length > 0) {
-                            setDuplicateToken(true);
-                          }
-                          else {
-                            addNewToken(e.target.value);
-                            setDuplicateToken(false);
-                          }
+                          // if (tokenModalList.filter((val: any) => val?.parentContract == e.target.value).length > 0) {
+                          //   setDuplicateToken(true);
+                          // }
+                          // else {
+                          setLinkQuery(e.target.value);
+                          //   setDuplicateToken(false);
+                          // }
                         }}
-                        autoFocus={newToken.length > 0}
-                        value={newToken ? newToken : ""}
                       />
                       <div className="search-icon">
                         <img
@@ -1800,6 +2029,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, ...p
         </>
       </CommonModal>
       {/* Token popups end */}
-    </div>
+    </div >
   )
 }
+

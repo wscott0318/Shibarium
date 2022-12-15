@@ -134,13 +134,14 @@ const validatorAccount = ({
 
       // set 
       setComissionHandle({ dynasty, epoch });
+      console.log({ dynasty, epoch });
 
       const reward = addDecimalValue(valReward / Math.pow(10, web3Decimals));
       setValidatorInfoContract(valFromContract);
       setValInfoContract(valFromContract)
       setValidatorTotalReward(reward);
       setEpochDyna({ epoch, dynasty })
-      // console.log(valFromContract ,"valFromContract ===> ");
+      console.log(valFromContract ,"val info ===> ");
     } catch (err: any) {
       // console.log(err)
       Sentry.captureException("getValidatorData ", err);
@@ -2042,9 +2043,9 @@ const validatorAccount = ({
                       <div className="cus-tooltip d-inline-block ps-0">
                         <button
                           disabled={
-                            parseInt(
-                              validatorInfoContract?.deactivationEpoch
-                            ) > 0 ||
+                            // parseInt(
+                            //   validatorInfoContract?.deactivationEpoch
+                            // ) > 0 ||
                             parseInt(validatorInfoContract?.status) === 3
                               ? true
                               : false
