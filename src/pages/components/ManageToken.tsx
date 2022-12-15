@@ -204,6 +204,7 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
             });
           }
         } else {
+          console.log("not importing")
         }
       } catch (err: any) {
         console.log(err,"ereerrr ===>")
@@ -248,12 +249,12 @@ export default function ManageToken({setOpenManageToken, setSelectedToken, ...pr
           });
         }
         if (tokenState.step4 && isValidAddress) {
-          toast.success("Address is valid", {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 600,
-            toastId : 'valid'
-          });
-          addNewToken('')
+          // toast.success("Address is valid", {
+          //   position: toast.POSITION.TOP_RIGHT,
+          //   autoClose: 600,
+          //   toastId : 'valid'
+          // });
+          // addNewToken('')
           setTokenState({
             step0: false,
             step1: false,
