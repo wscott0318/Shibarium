@@ -4,6 +4,8 @@ import { useActiveWeb3React } from 'app/services/web3';
 import { uniqBy } from 'lodash';
 import React, { useEffect, useState } from 'react'
 import { fetchLink, generateSecondary, getDefaultChain } from 'web3/commonFunctions';
+import { toast } from 'react-toastify';
+import { Switch } from '@material-ui/core';
 
 const TokenList = ({
   coinList = [],
@@ -21,11 +23,11 @@ const TokenList = ({
   tokenState
 }: any) => {
   const [isWrong, setIsWrong] = useState(false);
-  const [renderData, setRenderData] = useState<any>([]);
+  const [renderData, setRenderData] = useState<any>();
   const [newListing, setNewListing] = useState<any>(null);
   // const [linkQuery, setLinkQuery] = useState("");
   const { chainId = 1, account, library } = useActiveWeb3React();
-  // console.log("set link query ", setLinkQuery);
+
   useEffect(() => {
     // type URL_ARRAY_types = 'eth' | 'bsc' | 'polygon';
     const defaultTokenUrls = URL_ARRAY[defaultChain].filter(
@@ -33,7 +35,7 @@ const TokenList = ({
     );
     Promise.all(
       [defaultTokenUrls, ...coinList].map(async (item) => {
-        // console.log(coinList, DEFAULT_ITEM,defaultChain,DEFAULT_TOKEN_ITEM[defaultChain], 'dfdfdfdfd')
+        console.log(coinList, item, 'default token urls ')
         try {
           const response = await fetch(
             item.data.includes("http")
@@ -41,14 +43,15 @@ const TokenList = ({
               : generateSecondary(item.data)
           );
           const res = await response.json();
-          console.log(" response ==>", res);
-          return { ...item, res };
+          const tokens = res.tokens;
+          const name = res.name;
+          const logo = res.logoURI;
+          console.log(" response ==>", response);
+          return { ...item, name, logo, tokens };
         } catch (e) {
+          console.log("fetching list error ", e);
           return {
             ...item,
-            name: "Errored List",
-            tokens: 0,
-            logo: "../../assets/images/eth.png",
           };
         }
       })
@@ -57,17 +60,17 @@ const TokenList = ({
         // setNewListing(response.data.tokens);
         const uniqArray = uniqBy(response, "name");
         setRenderData(uniqArray);
-        console.log(" response ==>", response);
-        setNewListing(response[1].res)
+        setNewListing(response[1].res);
+        let oldList = [];
+        if(localStorage.getItem("tokenList")){
+          oldList = JSON.parse(localStorage.getItem("tokenList") || "[]");
+        }
+        var newTokens = [...oldList , ...uniqArray]
+        localStorage.setItem("tokenList" , JSON.stringify(newTokens));
       })
       .catch((err) => setRenderData(coinList));
   }, [coinList, chainId]);
-  // useEffect(() => {
-  //   setLinkQuery("");
-  //   // setNewListing(null);
-  //   setIsWrong(false);
-  //   setShowWarning(false);
-  // }, [shouldReset]);
+
   useEffect(() => {
     if (linkQuery) {
       fetchLink(linkQuery, setNewListing, setIsWrong);
@@ -78,7 +81,14 @@ const TokenList = ({
     }
   }, [linkQuery]);
 
-  const updateList = ({ data, locked }: any) => {
+  // useEffect(() => {
+  //   if(localStorage.getItem("tokenList")){
+  //     const tokenList: string = JSON.parse(localStorage.getItem("tokenList") || "[]");
+  //     setRenderData(tokenList);
+  //     console.log("render data ==>",renderData);
+  //   }
+  // },[renderData]);
+  const updateList = (data: any, locked: any) => {
     setTimeout(async () => {
       if (locked) return;
       const copy = coinList.slice();
@@ -99,15 +109,82 @@ const TokenList = ({
     return index !== -1;
   };
   // {console.log("printed value ==> " ,localTokens.map((e:any)=> (e.parentContract)) == x.parentContract)}
-  console.log("token modal list ", tokenModalList);
+  console.log("coinList ", renderData);
   return (
     <>
+      {tokenState?.step0 && (tokenModalList
+        ? tokenModalList.map((x: any) => (
+          <div
+            className="tokn-row"
+            key={x?.parentName}
+            onClick={() => handleTokenSelect(x)}
+          >
+            <div className="cryoto-box">
+              <img
+                className="img-fluid"
+                src={
+                  x?.logo
+                    ? x.logo
+                    : "../../assets/images/shib-borderd-icon.png"
+                }
+                alt=""
+              />
+            </div>
+            <div className="tkn-grid">
+              <div>
+                <h6 className="fw-bold">{x?.parentSymbol}</h6>
+                <p>{x?.parentName}</p>
+              </div>
+              <div>
+                <h6 className="fw-bold">
+                  {x?.balance ? x.balance : "00.00"}
+                </h6>
+              </div>
+            </div>
+          </div>
+        ))
+        : null)
+      }
+      {tokenState?.step0 &&
+        newListing?.tokens?.length
+        ? newListing?.tokens?.map((x: any) => (
+          <div
+            className="tokn-row"
+            key={x?.name}
+            onClick={() => handleTokenSelect(x)}
+          >
+            <div className="cryoto-box">
+              <img
+                className="img-fluid"
+                src={
+                  x?.logoURI
+                    ? x?.logoURI
+                    : "../../assets/images/shib-borderd-icon.png"
+                }
+                alt=""
+              />
+            </div>
+            <div className="tkn-grid">
+              <div>
+                <h6 className="fw-bold">{x?.symbol}</h6>
+                {/* <p>{x?.tokens.length} tokens</p> */}
+              </div>
+              {/* <div>
+                      <h6 className="fw-bold">
+                        {x?.balance ? x.balance : "00.00"}
+                      </h6>
+                    </div> */}
+            </div>
+          </div>
+        ))
+        : null
+      }
       {tokenState.step1 &&
         (showWarning ? (
           <Warning
             resetLink={() => {
               setLinkQuery();
-              // setNewListing(null);
+              setNewListing(null);
               setShowWarning(false);
             }}
             setCoinList={setCoinList}
@@ -149,9 +226,54 @@ const TokenList = ({
               )
               : ("")
             }
+            {renderData?.length > 0 ? renderData.map((item: any) => {
+              console.log("item contains ==> ", item);
+              return (
+                <div key={item?.data} className="flex justify-content-between">
+                  <div className="flex w-50">
+                    <img src={item?.logoURI} width="50" height="25" />
+                    <div>
+                      <h5>{item?.name}</h5>
+                      <p>{item?.data?.tokens?.length} tokens</p>
+                    </div>
+                  </div>
+                  <div>
+                    <Switch />
+                  </div>
+                </div>
+              )
+
+            }
+            ) : "no data"}
           </div>
         ))}
+    </>
+  );
+};
 
+const SingleToken = ({
+  coinList = [],
+  DEFAULT_ITEM,
+  setCoinList,
+  // shouldReset,
+  showWarning,
+  setShowWarning,
+  defaultChain,
+  setChain,
+  handleTokenSelect,
+  linkQuery,
+  setLinkQuery,
+  tokenModalList,
+  tokenState
+}: any) => {
+  const [isWrong, setIsWrong] = useState(false);
+  const [renderData, setRenderData] = useState<any>([]);
+  const [newListing, setNewListing] = useState<any>(null);
+  // const [linkQuery, setLinkQuery] = useState("");
+  const { chainId = 1, account, library } = useActiveWeb3React();
+
+  return (
+    <>
       {tokenState?.step0 && (tokenModalList
         ? tokenModalList.map((x: any) => (
           <div
@@ -222,5 +344,4 @@ const TokenList = ({
     </>
   );
 };
-
 export default TokenList
