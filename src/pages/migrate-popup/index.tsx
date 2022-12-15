@@ -289,6 +289,8 @@ const MigratePopup: React.FC<any> = ({
                     <img
                       className="img-fluid img-wdth"
                       src="../../assets/images/progress-loading.gif"
+                      height="150"
+                        width="150"
                     />
                   </div>
                 </div>
@@ -329,6 +331,8 @@ const MigratePopup: React.FC<any> = ({
                   <img
                     className="img-fluid img-wdth"
                     src="../../assets/images/cmpete-step.png"
+                    width="150"
+                          height="150"
                   />
                 </div>
               </div>

@@ -2,7 +2,8 @@ import Web3 from "web3";
 import ERC20abi from "../ABI/ERC20Abi.json";
 import { ChainId } from "shibarium-chains";
 import * as Sentry from "@sentry/nextjs";
-
+import { CHAINS, URL_ARRAY } from "../config/networks";
+import { useEffect, useState } from "react";
 export const getAllowanceAmount = async (library, token, account, contract) => {
   if (account) {
     let lib = library;
@@ -67,7 +68,7 @@ export const inActiveCount = 10;
 export const mobileWalletEndpoint = "devui.hailshiba.com";
 
 export const imagUrlChecking = (imgURL) => {
-  if (imgURL && imgURL.split("/")[0]=== "http" || "https") {
+  if ((imgURL && imgURL.split("/")[0] === "http") || "https") {
     return imgURL;
   } else {
     return "../../assets/images/shiba-round-icon.png";
@@ -75,40 +76,95 @@ export const imagUrlChecking = (imgURL) => {
 };
 
 export const checkImageType = (image) => {
-  if(image.size) {
-    return URL.createObjectURL(image)
-  } else if (image && image.split("/")[0]=== "http" || "https") {
-    return image
+  if (image.size) {
+    return URL.createObjectURL(image);
+  } else if ((image && image.split("/")[0] === "http") || "https") {
+    return image;
   } else {
-    return "../../assets/images/file-icon.png"
+    return "../../assets/images/file-icon.png";
   }
-}
+};
 
 export const checkpointVal = 0;
 export const comissionVal = 0;
 
-export const ErrorMessage = "execution reverted: not pub"
+export const ErrorMessage = "execution reverted: not pub";
 
 export const stakeForErrMsg = (msg) => {
-  if(msg === 'Error: execution reverted: not pub\n'){
-    return "Public key is invalid! "
+  if (msg === "Error: execution reverted: not pub\n") {
+    return "Public key is invalid! ";
   } else {
-    return "something went wrong please try again later! "
+    return "something went wrong please try again later! ";
   }
-}
-
-export const CHAINS = {
-  Mainnet: '0x1',
-  Kovan: '0x42',
-  Ropsten: '0x3',
-  Rinkeby: '0x4',
-  Goerli: '0x5',
-  BSCTESTNET: '0x61',
-  BSCMAINNET: '0x38',
-  FANTOMTESTNET:'0xfa2',
-  FANTOMMAINNET:'0xfa',
-  POLYGONMAINNET: '0x89'
 };
+
+export const generateSecondary = (link) =>
+  `https://wispy-bird-88a7.uniswap.workers.dev/?url=http://${link}.link`;
+
+export const fetchLink = async (link, setter, errorSetter) => {
+  const second = generateSecondary(link);
+  console.log(link);
+  try {
+    const response = await fetch(link.includes("http") ? link : second);
+    const data = await response.json();
+    if (Array.isArray(data.tokens)) errorSetter(false);
+    setter({ data, url: link });
+    console.log("fetch link data " , data);
+  } catch (err) {
+    errorSetter(true);
+    setter(null);
+  }
+};
+export const useStorage = (defaultChain = '') => {
+	const [coinList, setCoinList] = useState([]);
+	const [chain, setChain] = useState(defaultChain);
+// useEffect(() => {
+//   getDefaultChain().then((ch) => {
+//     setChain(ch);
+//   });
+// }, []);
+
+	useEffect(() => {
+		if(chain){
+		const coinListRaw = localStorage.getItem('coinList');
+    let parsed;
+    try{
+      parsed = JSON.parse(coinListRaw);
+      const firstData = parsed[chain][0].data;
+      if(!firstData) throw new Error('Incorrect format!');
+    }catch(e){ parsed = false; };
+		
+			if(!parsed){
+				console.log(URL_ARRAY)
+				setCoinList(URL_ARRAY[chain]);
+				localStorage.setItem('coinList', JSON.stringify(URL_ARRAY));		
+			}else{
+				setCoinList(parsed[chain]);
+		  // setCoinList(URL_ARRAY);
+				// localStorage.setItem('coinList', JSON.stringify(URL_ARRAY));
+			};
+		}else{
+setCoinList([]);
+		}
+	}, [chain, URL_ARRAY]);
+
+	useEffect(() => {
+		try {
+			if(chain && coinList && coinList.length ) {
+				let tempList = URL_ARRAY;
+				tempList[chain] = coinList
+				localStorage.setItem('coinList', JSON.stringify(tempList));
+		console.log(coinList);
+	}
+		} catch (error) {
+			localStorage.removeItem('coinList')
+			window.location.reload()
+		}
+		
+	}, [coinList,chain]);
+
+	return [coinList, setCoinList, setChain];
+}
 
 export const getDefaultChain = async () => {
       

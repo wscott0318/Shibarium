@@ -429,7 +429,8 @@ export default function DelegatorAccount() {
                             <div className="step_content d-none">
                                 <div className="image_area row">
                                     <div className="col-12 text-center watch-img-sec redu_img">
-                                        <img className="img-fluid" src="../../assets/images/cmpete-step.png" />
+                                        <img className="img-fluid" src="../../assets/images/cmpete-step.png" width="150"
+                          height="150" />
                                     </div>
                                 </div>
                                 <div className="mid_text row">

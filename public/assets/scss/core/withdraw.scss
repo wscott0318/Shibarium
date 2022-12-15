@@ -457,7 +457,7 @@
 .token-listwrap {
     position: relative;
     margin-top: 16px;
-    max-height: 420px;
+    max-height: 355px;
     overflow-y: auto;
     @media #{$max-xxl}{
         max-height: 345px;
@@ -737,3 +737,6 @@
 // .pop-block.withdraw_pop {
 //     justify-content: flex-start;
 // }
+.tkn-ht .modal-content {
+    height: 610px;
+}
