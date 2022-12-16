@@ -17,6 +17,7 @@ import NetworkModel from "../../modals/NetworkModal";
 import QrModal from "pages/components/QrModal";
 import { getNetworkName } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
+import ChainWarning from "pages/components/ChainWarning";
 
 export default function Header() {
 
@@ -31,7 +32,23 @@ export default function Header() {
   const [userQrCode, setUserQrCode] = useState(false);
   const [valId, setValId] = useValId();
 
+  const [showWarning, setShowWarning] = useState(false);
 
+  useEffect(() => {
+    // if (chainId !== 5) {
+    checkConnectedChain();
+    // }
+  }, [chainId, account]);
+
+  const checkConnectedChain = () => {
+    if (chainId === 5) {
+      setShowWarning(false);
+      // router.push("/bone-staking");
+    } else {
+      setShowWarning(true);
+      console.log(showWarning);
+    }
+  };
   // console.log("valInfoContract data=======>",userType,valInfoContract)
   // const [valId, setValId] = useValId();
 
@@ -94,6 +111,14 @@ export default function Header() {
 
   return (
     <>
+      <ChainWarning
+        title={"Switch to Goerli Testnet"}
+        show={showWarning}
+        setshow={() => {
+          setShowWarning(true);
+        }}
+        externalCls="faucet-pop no-lft chain_warning"
+      />
       <header
         className={
           scroll

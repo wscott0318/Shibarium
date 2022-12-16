@@ -2,7 +2,7 @@
 import Link from "next/link";
 import React from "react";
 import { useState, useRef, useEffect } from "react";
-import PerfectScrollbar from 'react-perfect-scrollbar';
+import PerfectScrollbar from "react-perfect-scrollbar";
 import {
   Container,
   Navbar,
@@ -13,19 +13,43 @@ import {
 } from "react-bootstrap";
 import NavLink from "../components/NavLink";
 import SideNavTab from "../../constants/Resources/sideNavTab";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 import * as Sentry from "@sentry/nextjs";
+import ChainWarning from "pages/components/ChainWarning";
+import { useWeb3React } from "@web3-react/core";
+import { useActiveWeb3React } from "app/services/web3";
 
-
-export default function Sidebar({ menuState, handleMenuState, onClickOutside }) {
+export default function Sidebar({
+  menuState,
+  handleMenuState,
+  onClickOutside,
+}) {
   const wrapperRef = useRef(null);
+  const { account, deactivate, active } = useWeb3React();
+  const { chainId } = useActiveWeb3React();
   const [isVisible, setIsVisible] = useState(true);
   const router = useRouter();
+  const [showWarning, setShowWarning] = useState(false);
 
+  useEffect(() => {
+    // if (chainId !== 5) {
+    checkConnectedChain();
+    // }
+  }, [chainId, account]);
+
+  const checkConnectedChain = () => {
+    if (chainId === 5) {
+      setShowWarning(false);
+      // router.push("/bone-staking");
+    } else {
+      setShowWarning(true);
+      console.log(showWarning);
+    }
+  };
   const handlClick = () => {
     setIsVisible((prev) => !prev);
   };
-  
+
   const handleClickOutside = (event) => {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
       onClickOutside && onClickOutside();
@@ -71,8 +95,8 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
       // Anything in here is fired on component unmount.
       document.removeEventListener("click", handleClickOutside, true);
     };
-  }, [])
-  
+  }, []);
+
   const bottomList = [
     {
       name: "FAQs",
@@ -104,7 +128,7 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
   const [renderBottomList, setRenderBottomList] = useState(bottomList);
 
   const activateBtn = (arr, index) => {
-    try{
+    try {
       let newData = arr.map((elm) => {
         if (elm.name === index) {
           elm.isSelected = true;
@@ -114,8 +138,7 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
         return elm;
       });
       return newData;
-    }
-    catch(error){
+    } catch (error) {
       Sentry.captureMessage("activateBtn ", err);
     }
   };
@@ -137,13 +160,25 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
 
   return (
     <>
+      <ChainWarning
+        title={"Switch to Goerli Testnet"}
+        show={showWarning}
+        setshow={() => {
+          setShowWarning(true);
+        }}
+        externalCls="faucet-pop no-lft chain_warning"
+      />
       {/* sidebar start */}
       <div className="sidebar-toggle">
         <Navbar.Brand
           onClick={() => handleMenuState(true)}
           className="menu-btn"
         >
-          <img className="img-fluid" src="../../assets/images/menu.png" alt="" />
+          <img
+            className="img-fluid"
+            src="../../assets/images/menu.png"
+            alt=""
+          />
         </Navbar.Brand>
       </div>
       <div
@@ -165,7 +200,11 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
             </span>
             <Link href="/home" passHref>
               <a className="sidelogo-link" href="/">
-                <img className="img-fluid" src="../../assets/images/logo.png" alt="" />
+                <img
+                  className="img-fluid"
+                  src="../../assets/images/logo.png"
+                  alt=""
+                />
               </a>
             </Link>
           </div>
@@ -219,4 +258,3 @@ export default function Sidebar({ menuState, handleMenuState, onClickOutside }) 
     </>
   );
 }
-
