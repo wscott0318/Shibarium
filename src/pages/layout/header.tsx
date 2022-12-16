@@ -35,8 +35,10 @@ export default function Header() {
   const [showWarning, setShowWarning] = useState(false);
 
   useEffect(() => {
-    if(router.asPath != '/home'){
-      checkConnectedChain();
+    if(account) {
+      if(router.asPath != '/home'){
+        checkConnectedChain();
+      }
     }
   }, [chainId, account]);
 
