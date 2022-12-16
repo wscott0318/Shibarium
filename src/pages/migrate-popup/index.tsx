@@ -113,6 +113,8 @@ const MigratePopup: React.FC<any> = ({
   useEffect(() => {
     totalStake(migrateData);
   }, [migrateData]);
+
+  
   const migrateStake = async (values: any, data: any, migrateData: any) => {
     try {
       if (account && migrateData?.data?.migrateData?.id != data.validatorContractId) {
