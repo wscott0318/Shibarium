@@ -230,7 +230,7 @@ export default function Unbond() {
                   <table className="table table-borderless fix-tabl-layout text-start">
                     <thead>
                       <tr>
-                        <th>Validator Id</th>
+                        <th>Validator Name</th>
                         <th>Amount</th>
                         <th className="text-center">Time</th>
                       </tr>
@@ -252,7 +252,7 @@ export default function Unbond() {
                                 </div>
                                 <div>
                                   <span className="tb-data">
-                                    {value.validatorId}
+                                  {value.valName}
                                   </span>
                                 </div>
                               </div>

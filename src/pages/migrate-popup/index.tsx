@@ -114,7 +114,7 @@ const MigratePopup: React.FC<any> = ({
     totalStake(migrateData);
   }, [migrateData]);
 
-  
+
   const migrateStake = async (values: any, data: any, migrateData: any) => {
     try {
       if (account && migrateData?.data?.migrateData?.id != data.validatorContractId) {
@@ -190,21 +190,23 @@ const MigratePopup: React.FC<any> = ({
           })
           .on("error", (res: any) => {
             // console.log("error ", res);
-            setProcessing("Error");
+            // setProcessing("Error");
             setTransactionState({ state: false, title: "" });
             if (res.code === 4001) {
-              setmigratepop(false);
+              // setmigratepop(false);
+              handleClose()
             }
           });
       }
       else {
         // console.log("Account not found");
-        setProcessing("Error");
+        // setProcessing("Error");
       }
     }
     catch (err: any) {
       Sentry.captureMessage("migrateStake ", err);
-      setProcessing("Error");
+      // setProcessing("Error");
+      handleClose()
     }
   }
 
@@ -511,10 +513,10 @@ const MigratePopup: React.FC<any> = ({
                         <div className="col-12">
                           <button className="w-100" type="submit" value="submit">
                             <div className="btn primary-btn d-flex align-items-center justify-content-center">
-                              <span onClick={(e) => {
+                              <button onClick={(e :any) => {
                                 e.preventDefault();
                                 migrateStake(values, data, migrateData);
-                              }}>Continue</span>
+                              }}>Continue</button>
                             </div>
                           </button>
                         </div>
