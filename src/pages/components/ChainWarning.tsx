@@ -66,7 +66,7 @@ const ChainWarning: React.FC<props> = ({ show, setshow, title, externalCls }) =>
                     <div className="pop-block">
                         <div className="pop-top">
                             <div className="dark-bg-800 h-100 status-sec sec-ht position-relative text-center">
-                                <img src="../../assets/images/shib-switch.png" className="m-auto mb-3" style={{ width: 400 }} />
+                                <img src="../../assets/images/shib-switch.png" className="m-auto mb-5" style={{ width: 400 }} />
                                 {/* <h3 className="ff-mos small_warning_heading">Approve your network change in Metamask</h3> */}
                                 <p className="small_warning_text ff-mos mt-4">To use Shibarium Staking change your Metamask network to Goerli Testnet.</p>
                             </div>
