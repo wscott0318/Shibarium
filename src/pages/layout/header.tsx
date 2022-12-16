@@ -43,7 +43,6 @@ export default function Header() {
   const checkConnectedChain = () => {
     if (chainId === 5) {
       setShowWarning(false);
-      // router.push("/bone-staking");
     } else {
       setShowWarning(true);
       console.log(showWarning);

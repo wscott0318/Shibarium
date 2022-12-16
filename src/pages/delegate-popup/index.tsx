@@ -201,7 +201,7 @@ const DelegatePopup: React.FC<any> = ({
           })
         .on('error', (err: any) => {
           setdelegateState(initialModalState)
-          // setdelegatepop()
+          setdelegatepop();
         })
     } catch(err :any){
      Sentry.captureMessage("APPROVE_BONE ", err);
@@ -333,7 +333,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
           })
           .on("error", (err: any) => {
             setdelegateState(initialModalState);
-            // setdelegatepop();
+            setdelegatepop();
           });
       } catch (err: any) {
         Sentry.captureMessage("BUY_VOUCHER ", err);
