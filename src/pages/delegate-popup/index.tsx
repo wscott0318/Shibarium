@@ -201,7 +201,7 @@ const DelegatePopup: React.FC<any> = ({
           })
         .on('error', (err: any) => {
           setdelegateState(initialModalState)
-          // setdelegatepop()
+          setdelegatepop();
         })
     } catch(err :any){
      Sentry.captureMessage("APPROVE_BONE ", err);
@@ -334,7 +334,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
           .on("error", (err: any) => {
             console.log(err)
             setdelegateState(initialModalState);
-            // setdelegatepop();
+            setdelegatepop();
           });
       } catch (err: any) {
         if(err.code !== USER_REJECTED_TX) {

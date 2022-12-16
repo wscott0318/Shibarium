@@ -163,6 +163,7 @@ const MigratePopup: React.FC<any> = ({
             setMigrateData(migrateData, newStake);
             // console.log("new stake balance == > ", migrateData);
             // setTimeout(() => { setmigratepop(false) }, 1000);
+            setmigrateState(initialModalState);
             setProcessing("Completed");
           })
           .on("receipt", (res: any) => {
@@ -190,12 +191,10 @@ const MigratePopup: React.FC<any> = ({
           })
           .on("error", (res: any) => {
             // console.log("error ", res);
-            // setProcessing("Error");
+            setmigrateState(initialModalState);
+            setmigratepop(false);
+            setProcessing("Error");
             setTransactionState({ state: false, title: "" });
-            if (res.code === 4001) {
-              // setmigratepop(false);
-              handleClose()
-            }
           });
       }
       else {
