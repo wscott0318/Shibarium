@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Dropdown, Navbar, NavDropdown, Container, Nav } from "react-bootstrap";
 import { useActiveWeb3React } from 'app/services/web3';
 import { useRouter } from "next/router";
+import ChainWarning from 'pages/components/ChainWarning';
 
 
 
@@ -12,7 +13,19 @@ const AppHeader = () => {
   const [title, setTitle] = useState("")
   const router = useRouter()
 
-
+  const [showWarning, setShowWarning] = useState(false);
+  // useEffect(() => {
+  //   if (chainId != 5) {
+  //     setShowWarning(true);
+  //   }
+  // }, [chainId]);
+  const checkConnectedChain = () => {
+    if (chainId === 5) {
+      router.push("/bone-staking");
+    } else {
+      setShowWarning(true);
+    }
+  };
   useEffect(() => {
     if(asPath){
       if(asPath === '/wallet'){
@@ -29,6 +42,39 @@ const AppHeader = () => {
   if(account)
   {
     return (
+      <>
+      <ChainWarning
+          title={"Switch to Goerli Testnet"}
+          show={showWarning}
+          setshow={() => {
+            setShowWarning(false);
+          }}
+          externalCls="faucet-pop no-lft"
+        >
+           <div className="popmodal-body tokn-popup no-ht trans-mod">
+            <div className="pop-block">
+              <div className="pop-top">
+                <div className="dark-bg-800 h-100 status-sec sec-ht position-relative text-center">
+                  <img src="../../assets/images/footer-logo.png" className="m-auto mb-3"/>
+                  <h3 className="ff-mos small_warning_heading">Approve your network change in Metamask</h3>
+                  <p className="small_warning_text ff-mos">To use Shibarium Staking change your Metamask network to Goerli Testnet.</p>
+                </div>
+              </div>
+              <div className="pop-bottom">
+                <div className="staus-btn">
+                  <button
+                    type="button"
+                    className="btn primary-btn w-100"
+                    // disabled={hashLink ? false : true}
+                    // onClick={() => window.open(hashLink)}
+                  >
+                    Switch to Goerli Testnet
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ChainWarning>
       <div className="shib-dropdown">
         <Dropdown className="nav-item d-flex align-items-center cus-dd app-drop">
           <div className="dot-icon" id="basic-nav-dropdown">
@@ -63,7 +109,7 @@ const AppHeader = () => {
                 Deposit and withdraw between networks
               </span>
             </NavDropdown.Item>
-            <NavDropdown.Item onClick={()=>router.push('/bone-staking', '/bone-staking', { shallow: true })}>
+            <NavDropdown.Item onClick={checkConnectedChain}>
               <h6
                 className={
                   title === "Staking"
@@ -86,6 +132,7 @@ const AppHeader = () => {
           </NavDropdown>
         </Dropdown>
       </div>
+      </>
     );
   }
   else {
