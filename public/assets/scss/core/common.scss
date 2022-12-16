@@ -3734,7 +3734,7 @@ input:-internal-autofill-selected {
 }
 .block-fix.tb-ubd .table-responsive::-webkit-scrollbar {
   width:8px;
-  height: 4px;
+  height: 8px;
 }
 
 /* Track */
@@ -4141,7 +4141,6 @@ input:-internal-autofill-selected {
   }
   .table-responsive {
     height: 500px;
-    display: inline-block;
     overflow: auto;
     width: 100%;
     z-index: 5;
@@ -4155,7 +4154,8 @@ input:-internal-autofill-selected {
     }
   } /* width */
   ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
+    height: 8px;
   }
 
   /* Track */
@@ -4171,8 +4171,8 @@ input:-internal-autofill-selected {
   ::-webkit-scrollbar-thumb {
     background: linear-gradient(180deg, #f06500 0%, #f28b03 100%);
     border-radius: 10px;
-    margin-top: 50px !important;
-    margin-bottom: 50px !important;
+    margin-top: 10px !important;
+    // margin-bottom: 10px !important;
   }
 
   /* Handle on hover */
