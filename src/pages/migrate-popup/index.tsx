@@ -449,7 +449,7 @@ const MigratePopup: React.FC<any> = ({
                             <p>
                               <span className="light-text">
                                 {data?.uptimePercent?.toFixed(toFixedPrecent)}%
-                                Performance - {data.commissionrate} % Commission
+                                Performance <br/> {data.commissionrate} % Commission
                               </span>
                             </p>
                           </div>
@@ -502,7 +502,7 @@ const MigratePopup: React.FC<any> = ({
                   </p> */}
                     </div>
                     <div className="ax-bottom">
-                      <div className="pop_btns_area row form-control mt-4">
+                      <div className="pop_btns_area row form-control mt-3">
                         <div className="col-12">
                           <button className="w-100" type="submit" value="submit">
                             <div className="btn primary-btn d-flex align-items-center justify-content-center">

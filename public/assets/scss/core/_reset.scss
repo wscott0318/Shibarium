@@ -1010,3 +1010,8 @@ td.no_record img{
         font-size: 28px;
     }
 }
+@media (max-width:576px){
+    .modal-content .primary-btn{
+        min-height: 55px;
+    }
+}

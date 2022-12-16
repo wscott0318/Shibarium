@@ -1193,7 +1193,7 @@ input:checked + .slider:before {
     }
     @media #{$max-xl} {
       height: 580px;
-    // height:auto;
+      // height:auto;
       // height: 544px;
     }
   }
@@ -2370,7 +2370,7 @@ input:checked + .slider:before {
 .del-pop {
   font-family: "MADE Okine Sans PERSONAL USE" !important;
   .modal-content {
-    height: 605px;
+    height: 615px;
     @media #{$max-xl} {
       height: 570px;
     }
@@ -4202,10 +4202,19 @@ input:-internal-autofill-selected {
   }
 }
 
+@media (max-width: 400px) {
+  .balance_card {
+    padding: 10px 5px;
+    width: 33%;
+    white-space: nowrap;
+  }
+}
 // .inputMaxBg.max-group.form-field {
 //     background-color: #e9e9ec;
 // }
-
+.ax-bottom {
+  height: 22%;
+}
 .maxButtonFloat {
   display: flex;
   flex-direction: row;
@@ -4510,3 +4519,9 @@ body::-webkit-scrollbar,
 //     display: none !important;
 //   }
 // }
+
+@media (max-width: 576px) {
+  .del-pop .modal-content {
+    height: 600px;
+  }
+}

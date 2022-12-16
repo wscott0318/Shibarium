@@ -180,7 +180,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
         setTokenList(list);
         // setTokenFilteredList(list);
         setTokenModalList([...localTokens, ...list]);
-        console.log("token modal list ==> " , tokenModalList);
+        // console.log("token modal list ==> " , tokenModalList);
       });
     } catch (err: any) {
       Sentry.captureMessage("getTokensList", err);
@@ -231,7 +231,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   const addTokenHandler = async () => {
     addNewToken('')
     setConfirmImport(true);
-    setAgreeImport(true);
+    setAgreeImport(!agreeImport);
     try {
       const isValidAddress = await web3.utils.isAddress(String(newToken));
       if (isValidAddress) {
@@ -662,6 +662,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                   </div>
                   <div className="sec-search sec-search-secondry">
                     <div className="position-relative search-row">
+                      step 1
                       <input
                         type="text"
                         className="w-100"
@@ -1310,19 +1311,19 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                   </div>
                   <div className="sec-search sec-search-secondry">
                     <div className="position-relative search-row">
+                      step 4
                       <input
                         type="text"
                         className="w-100"
-                        placeholder="Add list by https://"
-                        value={linkQuery}
-                        onChange={(e) => {
-                          // if (tokenModalList.filter((val: any) => val?.parentContract == e.target.value).length > 0) {
-                          //   setDuplicateToken(true);
-                          // }
-                          // else {
-                          setLinkQuery(e.target.value);
-                          //   setDuplicateToken(false);
-                          // }
+                        placeholder="Enter Token Address"
+                        autoFocus={newToken.length > 0}
+                        onChange={(e: any) => {
+                          setDuplicateToken(false);
+                          if (tokenModalList.filter((val: any) => val?.parentContract == e?.target?.value).length > 0) {
+                            setDuplicateToken(true);
+                          } else {
+                            addNewToken(e.target.value);
+                          }
                         }}
                       />
                       <div className="search-icon">
