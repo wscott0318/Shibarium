@@ -39,7 +39,7 @@ import {
 import { useAppDispatch } from "../../state/hooks";
 import fromExponential from "from-exponential";
 import { getExplorerLink } from "app/functions";
-import { currentGasPrice, getAllowanceAmount } from "web3/commonFunctions";
+import { currentGasPrice, getAllowanceAmount, USER_REJECTED_TX } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { tokenDecimal } from "web3/commonFunctions";
 import { useWeb3React } from "@web3-react/core";
@@ -330,7 +330,16 @@ export default function Withdraw() {
           }
         });
     } catch (err: any) {
-      Sentry.captureMessage("approvalForDeposit", err);
+      if (err.code !== USER_REJECTED_TX) {
+        Sentry.captureMessage("approvalForDeposit", err);
+      }
+      setDepModState({
+        step0: true,
+        step1: false,
+        step2: false,
+        title: "Confirm deposit",
+      });
+      setDepositModal(false);
     }
   };
 
@@ -466,7 +475,16 @@ export default function Withdraw() {
         // console.log("account not found")
       }
     } catch (err: any) {
-      Sentry.captureMessage("callDepositContract", err);
+      if(err.code !== USER_REJECTED_TX) {
+        Sentry.captureMessage("callDepositContract", err);
+      }
+      setDepModState({
+        step0: true,
+        step1: false,
+        step2: false,
+        title: "Confirm deposit",
+      });
+      setDepositModal(false);
     }
   };
   const callWithdrawContract = async () => {
@@ -636,10 +654,21 @@ export default function Withdraw() {
             setWithdrawModal(false);
           }
         });
-
-    }
-    catch (err: any) {
-      Sentry.captureMessage("submitWithdraw ", err);
+        
+      }
+      catch (err: any) {
+        if(err.code !== USER_REJECTED_TX) {
+          Sentry.captureMessage("submitWithdraw ", err);
+        }
+        setWidModState({
+          step0: true,
+          step1: false,
+          step2: false,
+          step3: false,
+          step4: false,
+          title: "Initialize Withdraw",
+        });
+        setWithdrawModal(false);
     }
   }
   // const addTokenHandler = async () => {
@@ -1345,7 +1374,7 @@ export default function Withdraw() {
                     <div>
                       <a
                         className="btn primary-btn w-100"
-                        onClick={() =>callWithdrawContract()}
+                        onClick={() => callWithdrawContract()}
                       >
                         Continue
                       </a>
