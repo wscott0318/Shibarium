@@ -254,6 +254,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
       })
     },
   });
+
     const BUY_VOUCHER = async (requestBody: any) => {
       let walletAddress: any = account;
       let _minSharesToMint = web3.utils.toBN(
@@ -341,8 +342,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
           Sentry.captureMessage("BUY_VOUCHER ", err);
         }
         console.log(err, "error ====> ")
-        setdelegateState(initialModalState);
-        
+        setdelegateState(initialModalState)
       }
     };
 
