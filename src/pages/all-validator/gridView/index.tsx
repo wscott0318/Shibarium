@@ -29,6 +29,7 @@ export default function ValidatorGrid({ validatorsList, searchKey, migrateData={
         showmigratepop={showmigratepop}
         setmigratepop={setmigratepop}
         data={selectedRow}
+        migrateDataRow={migrateData}
       />
       <div className="ffms-inherit">
         <div className="grid-sec">
@@ -60,7 +61,7 @@ export default function ValidatorGrid({ validatorsList, searchKey, migrateData={
                               href={`/all-validator/${validator.signer}`}
                               passHref
                             >
-                              <p>{validator?.name}</p>
+                              <p className="tb-value">{validator?.name}</p>
                             </Link>
                           </span>
                           <p>
