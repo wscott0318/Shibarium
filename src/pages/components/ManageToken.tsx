@@ -661,8 +661,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                     </div>
                   </div>
                   <div className="sec-search sec-search-secondry">
-                    <div className="position-relative search-row">
-                      step 1
+                    <div className="position-relative search-row">                      
                       <input
                         type="text"
                         className="w-100"
