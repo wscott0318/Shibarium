@@ -50,7 +50,7 @@ export const Warning = ({ listing, setCoinList, resetLink, addTokenHandler }: an
               setCoinList((l: any) => [
                 {
                   data: listing.url,
-                  enabled: true,
+                  enabled: false,
                 },
                 ...l,
               ]);

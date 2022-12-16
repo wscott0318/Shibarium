@@ -258,7 +258,10 @@ const TokenList = ({
                     </div>
                   </div>
                   <div>
-                    <Switch />
+                    <Switch 
+                    checked={item.enabled}
+                    onChange={updateList}
+                    />
                   </div>
                 </div>
               )

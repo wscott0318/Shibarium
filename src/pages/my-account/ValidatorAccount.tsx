@@ -143,7 +143,7 @@ const validatorAccount = ({
       setValInfoContract(valFromContract)
       setValidatorTotalReward(reward);
       setEpochDyna({ epoch, dynasty })
-      console.log(valFromContract ,"val info ===> ");
+      console.log(valFromContract, "val info ===> ");
     } catch (err: any) {
       // console.log(err)
       Sentry.captureException("getValidatorData ", err);
@@ -162,13 +162,13 @@ const validatorAccount = ({
   };
 
   useEffect(() => {
-    if(stakeAmounts.length) {
-      let totalStake = stakeAmounts.map((x:any) => parseInt(x.tokens)).reduce((accumulator :any, currentValue :any) => accumulator + currentValue)
-      let totalReward = delegationsList.map((x:any) => parseInt(x.reward)).reduce((accumulator :any, currentValue :any) => accumulator + currentValue)
-      console.log({stakeAmounts})
-      getDelegatorAmount({totalReward, totalStake})
+    if (stakeAmounts.length) {
+      let totalStake = stakeAmounts.map((x: any) => parseInt(x.tokens)).reduce((accumulator: any, currentValue: any) => accumulator + currentValue)
+      let totalReward = delegationsList.map((x: any) => parseInt(x.reward)).reduce((accumulator: any, currentValue: any) => accumulator + currentValue)
+      console.log({ stakeAmounts })
+      getDelegatorAmount({ totalReward, totalStake })
     }
-  },[stakeAmounts,delegationsList])
+  }, [stakeAmounts, delegationsList])
 
   const getDelegatorCardData = async (accountAddress: any) => {
     // console.log(" card data ", accountAddress)
@@ -268,11 +268,11 @@ const validatorAccount = ({
       getDelegatorCardData(account);
     }
     if (account && userType === "Validator") {
-    if (valId) {
-    getValidatorData(valId);
-    }
-    // validatorInfoAPI()
-    // getVaiIDFromDB();
+      if (valId) {
+        getValidatorData(valId);
+      }
+      // validatorInfoAPI()
+      // getVaiIDFromDB();
     }
   }, [account, userType, chainId, valId]);
 
@@ -283,7 +283,7 @@ const validatorAccount = ({
       .typeError('Amount should be a number.')
       // .matches(/^[1-9][0-9]*$/, "You must enter valid amount.")
       .min(0)
-      .max(availBalance).moreThan(0,"You must enter valid amount.")
+      .max(availBalance).moreThan(0, "You must enter valid amount.")
       .required("Amount is required."),
     reward: Yup.number().required(),
   });
@@ -291,20 +291,20 @@ const validatorAccount = ({
   const signersAddress: any = Yup.object({
     address: Yup.string().required("Address is required."),
     publickey: Yup.string()
-    .max(143)
-    .notOneOf(
-      [Yup.ref("address"), null],
-      "Signer's address & public key should not match."
-    )
-    .matches(/^0x/, "Should only start with 0x.")
-    .matches(/^[A-Za-z0-9 ]+$/, "No special characters allowed.")
-    .required("Public key is required."),
+      .max(143)
+      .notOneOf(
+        [Yup.ref("address"), null],
+        "Signer's address & public key should not match."
+      )
+      .matches(/^0x/, "Should only start with 0x.")
+      .matches(/^[A-Za-z0-9 ]+$/, "No special characters allowed.")
+      .required("Public key is required."),
   });
 
   const comissionValidation: any = Yup.object({
     comission: Yup.number()
       // .matches(/^[1-9][0-9]*$/, "You must enter valid amount.")
-      .min(0).moreThan(0,"You must enter valid amount.")
+      .min(0).moreThan(0, "You must enter valid amount.")
       .max(100)
       .required("Comission is required."),
   });
@@ -1142,7 +1142,7 @@ const validatorAccount = ({
       <DelegatePopup
         data={selectedRow}
         showdelegatepop={stakeMore}
-        setdelegatepop={() => {setStakeMoreModal(false); window.location.reload()}}
+        setdelegatepop={() => { setStakeMoreModal(false); window.location.reload() }}
       />
       <div className="main-content dark-bg-800 full-vh  cmn-input-bg">
         {/* retake popop start VALIDATOR*/}
@@ -1542,7 +1542,7 @@ const validatorAccount = ({
                           value={values.address}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          // onChange={handleChange("amount")}
+                        // onChange={handleChange("amount")}
                         />
                         {touched.address && errors.address ? (
                           <p className="primary-text pt-1 pl-2">
@@ -1550,7 +1550,7 @@ const validatorAccount = ({
                           </p>
                         ) : null}
                       </div>
-                      <div style={{marginTop : "20px"}} className="form-control">
+                      <div style={{ marginTop: "20px" }} className="form-control">
                         <label className="mb-2 mb-md-2 text-white">
                           Signer’s Public key
                         </label>
@@ -1620,7 +1620,7 @@ const validatorAccount = ({
                       <div className="max-input dark-bg-800">
                         <input
                           value={unboundInput}
-                          onChange={(e) => setUnboundInput(e.target.value)}
+                          onChange={(e) => { setUnboundInput(e.target.value) }}
                           type="number"
                           className="w-100 form-control ff-mos"
                           placeholder="Enter amount"
@@ -1644,7 +1644,7 @@ const validatorAccount = ({
                 </div>
                 <button
                   onClick={() => unboundDelegator()}
-                  disabled={unboundInput ? false : true}
+                  disabled={unboundInput > 0 ? false : true}
                   type="button"
                   className="btn primary-btn mt-3 mt-sm-4 w-100 ff-mos"
                 >
@@ -1751,8 +1751,8 @@ const validatorAccount = ({
                           <div className="top-head">
                             {validatorInfoContract?.commissionRate
                               ? addDecimalValue(
-                                  +validatorInfoContract?.commissionRate
-                                )
+                                +validatorInfoContract?.commissionRate
+                              )
                               : 0.0}{" "}
                             %
                           </div>
@@ -1839,9 +1839,9 @@ const validatorAccount = ({
 
                               {validatorInfoContract?.amount
                                 ? addDecimalValue(
-                                    +validatorInfoContract?.amount /
-                                      10 ** web3Decimals
-                                  )
+                                  +validatorInfoContract?.amount /
+                                  10 ** web3Decimals
+                                )
                                 : "0.00"}
                             </span>{" "}
                             BONE
@@ -1860,7 +1860,7 @@ const validatorAccount = ({
                                 value={addDecimalValue(
                                   (+validatorInfoContract?.amount /
                                     10 ** web3Decimals) *
-                                    boneUSDValue
+                                  boneUSDValue
                                 )}
                               />
                             </span>
@@ -1887,9 +1887,9 @@ const validatorAccount = ({
                                 : "0.00"} */}
                               {validatorInfoContract?.delegatedAmount
                                 ? addDecimalValue(
-                                    +validatorInfoContract?.delegatedAmount /
-                                      Math.pow(10, web3Decimals)
-                                  )
+                                  +validatorInfoContract?.delegatedAmount /
+                                  Math.pow(10, web3Decimals)
+                                )
                                 : "0.00"}
                             </span>{" "}
                             BONE
@@ -1903,14 +1903,14 @@ const validatorAccount = ({
                                 value={addDecimalValue(
                                   (+validatorInfoContract?.delegatedAmount /
                                     Math.pow(10, web3Decimals)) *
-                                    boneUSDValue
+                                  boneUSDValue
                                 )}
-                                // value={(
-                                //   addDecimalValue(
-                                //     +validatorInfoContract?.delegatedAmount /
-                                //       Math.pow(10, web3Decimals)
-                                //   ) * boneUSDValue
-                                // ).toFixed(tokenDecimal)}
+                              // value={(
+                              //   addDecimalValue(
+                              //     +validatorInfoContract?.delegatedAmount /
+                              //       Math.pow(10, web3Decimals)
+                              //   ) * boneUSDValue
+                              // ).toFixed(tokenDecimal)}
                               />
                             </span>
                           </div>
@@ -1933,8 +1933,8 @@ const validatorAccount = ({
                             <span>
                               {validatorInfoContract?.delegatorsReward
                                 ? addDecimalValue(
-                                    +validatorInfoContract?.delegatorsReward
-                                  )
+                                  +validatorInfoContract?.delegatorsReward
+                                )
                                 : "0.00"}
                               {/* {validatorInfoContract?.delegatorsReward
                                 ? addDecimalValue(
@@ -1953,14 +1953,14 @@ const validatorAccount = ({
                                 prefix="$ "
                                 value={addDecimalValue(
                                   +validatorInfoContract?.delegatorsReward *
-                                    boneUSDValue
+                                  boneUSDValue
                                 )}
-                                // value={(
-                                //   addDecimalValue(
-                                //     +validatorInfoContract?.delegatorsReward /
-                                //       Math.pow(10, web3Decimals)
-                                //   ) * boneUSDValue
-                                // ).toFixed(tokenDecimal)}
+                              // value={(
+                              //   addDecimalValue(
+                              //     +validatorInfoContract?.delegatorsReward /
+                              //       Math.pow(10, web3Decimals)
+                              //   ) * boneUSDValue
+                              // ).toFixed(tokenDecimal)}
                               />
                             </span>
                           </div>
@@ -1984,7 +1984,7 @@ const validatorAccount = ({
                         <button
                           disabled={
                             parseInt(validatorInfoContract?.status) > 1 ||
-                            parseInt(validatorInfoContract?.deactivationEpoch) >
+                              parseInt(validatorInfoContract?.deactivationEpoch) >
                               0
                               ? true
                               : false
@@ -2002,16 +2002,16 @@ const validatorAccount = ({
                         <button
                           disabled={
                             parseInt(validatorInfoContract?.status) > 1 ||
-                            parseInt(validatorInfoContract?.deactivationEpoch) >
+                              parseInt(validatorInfoContract?.deactivationEpoch) >
                               0
                               ? true
                               : parseInt(
-                                  validatorInfoContract?.lastCommissionUpdate
-                                ) +
-                                  parseInt(comissionHandle?.dynasty) <=
+                                validatorInfoContract?.lastCommissionUpdate
+                              ) +
+                                parseInt(comissionHandle?.dynasty) <=
                                 parseInt(comissionHandle?.epoch)
-                              ? false
-                              : true
+                                ? false
+                                : true
                           }
                           onClick={() =>
                             handleModal("Change Commission Rate", account)
@@ -2046,7 +2046,7 @@ const validatorAccount = ({
                         <button
                           disabled={
                             parseInt(validatorInfoContract?.deactivationEpoch) >
-                            0
+                              0
                               ? true
                               : false
                           }
@@ -2175,9 +2175,9 @@ const validatorAccount = ({
                                 <div className="fw-bold orange-color">
                                   {+item.reward > 0
                                     ? (
-                                        parseInt(item.reward) /
-                                        10 ** web3Decimals
-                                      ).toFixed(tokenDecimal)
+                                      parseInt(item.reward) /
+                                      10 ** web3Decimals
+                                    ).toFixed(tokenDecimal)
                                     : "0.00"}
                                 </div>
                                 {/* {/ <div>$0</div> /} */}
@@ -2192,10 +2192,10 @@ const validatorAccount = ({
                                   disabled={
                                     parseInt(item.commission) == comissionVal ||
                                     item.checkpointSignedPercent <
-                                      checkpointVal ||
+                                    checkpointVal ||
                                     parseInt(item.reward) / 10 ** web3Decimals <
-                                      1 || 
-                                      item.deactivationepoch === "true" 
+                                    1 ||
+                                    item.deactivationepoch === "true"
                                   }
                                   onClick={() =>
                                     handleModal("Restake", item.contractAddress)
@@ -2207,10 +2207,10 @@ const validatorAccount = ({
                                 <div className="tool-desc">
                                   {parseInt(item.commission) == comissionVal ||
                                     item.checkpointSignedPercent <
-                                      checkpointVal ||
+                                    checkpointVal ||
                                     parseInt(item.reward) / 10 ** web3Decimals <
-                                      1 ? "Restaking is disabled." : "Restake your total rewards"}
-                                  
+                                    1 ? "Restaking is disabled." : "Restake your total rewards"}
+
                                 </div>
                               </div>
                             </li>
@@ -2234,7 +2234,7 @@ const validatorAccount = ({
                                 <div className="tool-desc">
                                   {parseInt(item.reward) / 10 ** web3Decimals <
                                     1 ? "Withdrawal is disabled." : "withdraw you total reward"}
-                                  
+
                                 </div>
                               </div>
                             </li>
@@ -2282,7 +2282,7 @@ const validatorAccount = ({
                                 <button
                                   disabled={
                                     parseInt(item.commission) < comissionVal ||
-                                    item.checkpointSignedPercent < checkpointVal || item.deactivationepoch === "true" 
+                                    item.checkpointSignedPercent < checkpointVal || item.deactivationepoch === "true"
                                   }
                                   onClick={() => {
                                     setSelectedRow({
@@ -2292,7 +2292,7 @@ const validatorAccount = ({
                                       name: item.name,
                                       uptimePercent:
                                         item.checkpointSignedPercent,
-                                        validatorContractId: item.id
+                                      validatorContractId: item.id
                                     });
                                     setStakeMoreModal(true);
                                   }}
