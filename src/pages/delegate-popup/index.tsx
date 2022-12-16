@@ -332,10 +332,12 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
             // window.location.reload();
           })
           .on("error", (err: any) => {
+            console.log(err)
             setdelegateState(initialModalState);
             // setdelegatepop();
           });
       } catch (err: any) {
+        setdelegateState(initialModalState);
         Sentry.captureMessage("BUY_VOUCHER ", err);
       }
     };
