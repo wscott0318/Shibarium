@@ -26,11 +26,13 @@ export default function MyAcount() {
   const [userType, setUserType] = useUserType();
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const router = useRouter();
+
   var availBalance =
     chainId === ChainId.SHIBARIUM
       ? useEthBalance()
       : useTokenBalance(dynamicChaining[chainId].BONE);
     const myRef = useRef<any>(null);
+    
   useEffect(() => {
     if (account) {
       getBoneUSDValue(BONE_ID).then((res) => {

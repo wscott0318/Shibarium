@@ -42,7 +42,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
   }, [searchResult])
   // console.log("validatorsByStatus",validatorsByStatus)
 
-  // console.log("searchResult",searchResult)
+  console.log("balance",balance.migrateData.id)
 
   const fetchValidators = async () => {
     try {
@@ -181,11 +181,11 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
                 <span>Active</span>
               </p>
             </div>
-            <div>
+            {/* <div>
               <p onClick={() => setIsActiveTab(false)} className={`btn black-btn ff-mos ${!isActiveTab ? "btn-active" : ""}`} title="">
                 <span>Inactive</span>
               </p>
-            </div>
+            </div> */}
           </div>
           <div className="filter-row ff-mos">
             <div className="left-section icn-wrap">
@@ -243,10 +243,10 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
             </div>
           </div>
           {isListView ? (
-            <ListView loading={loading} searchKey={searchKey} validatorsList={validators} />
+            <ListView migrateData={balance.migrateData} loading={loading} searchKey={searchKey} validatorsList={validators} />
           ) : (
             <div className="grid-view-wrap">
-               <GridView searchKey={searchKey} validatorsList={validators} />
+               <GridView migrateData={balance.migrateData} searchKey={searchKey} validatorsList={validators} />
             </div>
           )}
           {isListView && validatorsList.length ? <div className='mt-sm-4 mt-3'>

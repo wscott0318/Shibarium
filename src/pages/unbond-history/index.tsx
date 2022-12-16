@@ -24,7 +24,7 @@ import { useUserType } from "../../state/user/hooks";
 import { useRouter } from "next/router";
 import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
 import { useAppDispatch } from "../../state/hooks"
-import { currentGasPrice, tokenDecimal } from "web3/commonFunctions";
+import { currentGasPrice, tokenDecimal, web3Decimals } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 import { dynamicChaining } from "web3/DynamicChaining";
 export default function Unbond() {
@@ -403,7 +403,7 @@ export default function Unbond() {
           </div>
           <div className="dark-bg-800 p-2 p-sm-3 text-center">
             <p className="lite-color fw-600">Stake to claim</p>
-            <h3>{parseInt(claimNowModals?.data?.amount) / 10 ** 18} Bone</h3>
+            <h3>{claimNowModals?.data?.amount ? parseInt(claimNowModals?.data?.amount) / 10 ** web3Decimals + " BONE " : null} </h3>
             {/* <p className="lite-color fw-600">$8.17</p> */}
           </div>
           {/* <div className="arrow-block mt-2 mt-sm-3">

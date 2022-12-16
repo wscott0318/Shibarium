@@ -49,6 +49,7 @@ const initialModalState = {
 const MigratePopup: React.FC<any> = ({
   data,
   onHide,
+  migrateDataRow,
   showmigratepop,
   setmigratepop,
   ...props
@@ -94,6 +95,8 @@ const MigratePopup: React.FC<any> = ({
   const closeModal = (e: any) => {
     onHide();
   };
+
+  console.log({migrateDataRow, data})
 
   const totalStake = (migrateData: any) => {
     // console.log("item contains ", migrateData.migrateData);
@@ -300,8 +303,8 @@ const MigratePopup: React.FC<any> = ({
                   </div>
                   <div className="col-12 text-center">
                     <p className="ff-mos">
-                      Ethereum transactions can take longer time to complete
-                      based upon network congestion. Please wait for increase
+                      BONE transactions can take longer time to complete
+                      based upon network congestion. Please wait or increase
                       the gas price of the transaction.
                     </p>
                   </div>
@@ -392,7 +395,7 @@ const MigratePopup: React.FC<any> = ({
                               alt=""
                             />
                           </div>
-                          <p>Ethereum Mainnet</p>
+                          <p>{migrateDataRow?.name}</p>
                         </div>
                         <div className="text-center box-block">
                           <div className="d-inline-block arow-block right-arrow">
@@ -415,7 +418,7 @@ const MigratePopup: React.FC<any> = ({
                               alt=""
                             />
                           </div>
-                          <p>Shibarium Mainnet</p>
+                          <p>{data?.name}</p>
                         </div>
                       </div>
                       <div className="info-box my-3">

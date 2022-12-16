@@ -1105,7 +1105,7 @@ const validatorAccount = ({
       const validators = await queryProvider.query({
         query: StakeAmount(id, account),
       });
-      console.log(validators.data.delegator,  "graph data")
+      // console.log(validators.data.delegator,  "graph data")
       return validators.data.delegator;
     } catch (err: any) {
       Sentry.captureException("getStakeAmountDelegator ", err);

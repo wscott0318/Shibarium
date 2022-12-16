@@ -9,7 +9,7 @@ import Scrollbar from "react-scrollbars-custom";
 import { useRouter } from 'next/router';
 import MigratePopup from 'pages/migrate-popup';
 
-export default function ListView({ validatorsList, searchKey, loading }: { validatorsList: any, searchKey: string, loading: boolean }) {
+export default function ListView({ validatorsList, searchKey, loading, migrateData = {} }: { validatorsList: any, searchKey: string, loading: boolean, migrateData : any }) {
   const [selectedRow, setSelectedRow] = useState({})
   const { account, deactivate, active } = useWeb3React();
   const [userType, setUserType] = useUserType()
@@ -30,6 +30,7 @@ export default function ListView({ validatorsList, searchKey, loading }: { valid
         showmigratepop={showmigratepop}
         setmigratepop={setmigratepop}
         data={selectedRow}
+        migrateDataRow={migrateData}
       />
       <div className="cmn_dasdrd_table ffms-inherit table-fix block-fix scroll-cus">
         <div className="table-responsive">

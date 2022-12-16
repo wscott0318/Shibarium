@@ -10,7 +10,7 @@ import { addDecimalValue, inActiveCount, toFixedPrecent, tokenDecimal, web3Decim
 import MigratePopup from 'pages/migrate-popup';
 import { useRouter } from 'next/router';
 
-export default function ValidatorGrid({ validatorsList, searchKey }: { validatorsList: any, searchKey: any }) {
+export default function ValidatorGrid({ validatorsList, searchKey, migrateData={} }: { validatorsList: any, searchKey: any, migrateData : any }) {
   const [modalShow, setModalShow] = React.useState(false);
   const { account, deactivate, active } = useWeb3React();
   const [selectedRow, setSelectedRow] = useState({});

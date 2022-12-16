@@ -41,7 +41,7 @@ export default function MyAcount() {
   },[account])
 
   const getDelegatorAmount = (data) => {
-    console.log(data)
+    // console.log(data)
     setDelegatorData({stakes: (data.totalStake) / 10 ** 18, rewards: data.totalReward / 10 ** 18})
   }
   
