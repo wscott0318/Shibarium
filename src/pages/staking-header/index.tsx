@@ -47,11 +47,12 @@ const StakingHeader = () => {
   account? ethereum.on("accountsChanged", handleAccountsChanged) : router.push('/home')
  
 }, [active]);
-  useEffect(() => {
-    if(chainId != 5){
-      router.push("/home");
-    }
-  },[chainId]);
+
+  // useEffect(() => {
+  //   if(chainId != 5){
+  //     router.push("/home");
+  //   }
+  // },[chainId]);
 
   const [stakingHeader, showStakingHeader] = useState(false);
   const getValInfoApi = async (id: any) => {

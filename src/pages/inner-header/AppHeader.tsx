@@ -7,23 +7,26 @@ import ChainWarning from 'pages/components/ChainWarning';
 
 
 const AppHeader = () => {
-  const { chainId = 1, account, library } = useActiveWeb3React();
+  const { chainId = 1, account, active, library } = useActiveWeb3React();
   const user :any = account
   const { asPath } = useRouter()
   const [title, setTitle] = useState("")
   const router = useRouter()
 
   const [showWarning, setShowWarning] = useState(false);
-  // useEffect(() => {
-  //   if (chainId != 5) {
-  //     setShowWarning(true);
-  //   }
-  // }, [chainId]);
+
+  useEffect(() => {
+    if (chainId !== 5) {
+      checkConnectedChain();
+    }
+  }, [chainId, account, active]);
+
   const checkConnectedChain = () => {
     if (chainId === 5) {
-      router.push("/bone-staking");
-    } else {
       setShowWarning(true);
+      // router.push("/bone-staking");
+    } else {
+      setShowWarning(false);
     }
   };
   useEffect(() => {
@@ -109,7 +112,7 @@ const AppHeader = () => {
                 Deposit and withdraw between networks
               </span>
             </NavDropdown.Item>
-            <NavDropdown.Item onClick={checkConnectedChain}>
+            <NavDropdown.Item onClick={()=>router.push('/bone-staking', '/bone-staking', { shallow: true })}>
               <h6
                 className={
                   title === "Staking"
