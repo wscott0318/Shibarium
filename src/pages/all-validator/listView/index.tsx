@@ -54,7 +54,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                       <div className="self-align">
                         <span>
                           <img
-                            style={{ height: 24 }}
+                            style={{ height: 24,width:24 }}
                             src={
                               x.logoUrl?.startsWith("http")
                                 ? x.logoUrl

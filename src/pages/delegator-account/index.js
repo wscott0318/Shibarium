@@ -328,7 +328,7 @@ export default function DelegatorAccount() {
                                         <div className="fw-700">
                                             <span className="vertical-align ft-22">Val 3</span>
                                             <p>
-                                                <span className="light-text">100% Performance - 13% Commission</span>
+                                                <span className="light-text">100% Performance <br/> 13% Commission</span>
                                             </p>
                                         </div>
                                     </div>

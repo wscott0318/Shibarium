@@ -109,86 +109,79 @@ export const fetchLink = async (link, setter, errorSetter) => {
     const data = await response.json();
     if (Array.isArray(data.tokens)) errorSetter(false);
     setter({ data, url: link });
-    console.log("fetch link data " , data);
+    console.log("fetch link data ", data);
   } catch (err) {
     errorSetter(true);
     setter(null);
   }
 };
-export const useStorage = (defaultChain = '') => {
-	const [coinList, setCoinList] = useState([]);
-	const [chain, setChain] = useState(defaultChain);
-// useEffect(() => {
-//   getDefaultChain().then((ch) => {
-//     setChain(ch);
-//   });
-// }, []);
+export const useStorage = (defaultChain = "") => {
+  const [coinList, setCoinList] = useState([]);
+  const [chain, setChain] = useState(defaultChain);
+  // useEffect(() => {
+  //   getDefaultChain().then((ch) => {
+  //     setChain(ch);
+  //   });
+  // }, []);
 
-	useEffect(() => {
-		if(chain){
-		const coinListRaw = localStorage.getItem('coinList');
-    let parsed;
-    try{
-      parsed = JSON.parse(coinListRaw);
-      const firstData = parsed[chain][0].data;
-      if(!firstData) throw new Error('Incorrect format!');
-    }catch(e){ parsed = false; };
-		
-			if(!parsed){
-				console.log(URL_ARRAY)
-				setCoinList(URL_ARRAY[chain]);
-				localStorage.setItem('coinList', JSON.stringify(URL_ARRAY));		
-			}else{
-				setCoinList(parsed[chain]);
-		  // setCoinList(URL_ARRAY);
-				// localStorage.setItem('coinList', JSON.stringify(URL_ARRAY));
-			};
-		}else{
-setCoinList([]);
-		}
-	}, [chain, URL_ARRAY]);
+  useEffect(() => {
+    if (chain) {
+      const coinListRaw = localStorage.getItem("coinList");
+      let parsed;
+      try {
+        parsed = JSON.parse(coinListRaw);
+        const firstData = parsed[chain][0].data;
+        if (!firstData) throw new Error("Incorrect format!");
+      } catch (e) {
+        parsed = false;
+      }
 
-	useEffect(() => {
-		try {
-			if(chain && coinList && coinList.length ) {
-				let tempList = URL_ARRAY;
-				tempList[chain] = coinList
-				localStorage.setItem('coinList', JSON.stringify(tempList));
-		console.log(coinList);
-	}
-		} catch (error) {
-			localStorage.removeItem('coinList')
-			window.location.reload()
-		}
-		
-	}, [coinList,chain]);
+      if (!parsed) {
+        // console.log(URL_ARRAY);
+        setCoinList(URL_ARRAY[chain]);
+        localStorage.setItem("coinList", JSON.stringify(URL_ARRAY));
+      } else {
+        setCoinList(parsed[chain]);
+        // setCoinList(URL_ARRAY);
+        // localStorage.setItem('coinList', JSON.stringify(URL_ARRAY));
+      }
+    } else {
+      setCoinList([]);
+    }
+  }, [chain, URL_ARRAY]);
 
-	return [coinList, setCoinList, setChain];
-}
+  useEffect(() => {
+    try {
+      if (chain && coinList && coinList.length) {
+        let tempList = URL_ARRAY;
+        tempList[chain] = coinList;
+        localStorage.setItem("coinList", JSON.stringify(tempList));
+        // console.log(coinList);
+      }
+    } catch (error) {
+      localStorage.removeItem("coinList");
+      window.location.reload();
+    }
+  }, [coinList, chain]);
+
+  return [coinList, setCoinList, setChain];
+};
 
 export const getDefaultChain = async () => {
-      
-  const chainId = await window?.ethereum?.request({ method: 'eth_chainId' });
-// console.log(chainId);
-  if (
-    chainId == CHAINS.Ropsten ||
-    chainId == CHAINS.Mainnet
-  ) {
-    return 'eth';
+  const chainId = await window?.ethereum?.request({ method: "eth_chainId" });
+  // console.log(chainId);
+  if (chainId == CHAINS.Ropsten || chainId == CHAINS.Mainnet) {
+    return "eth";
+  } else if (chainId == CHAINS.BSCTESTNET || chainId == CHAINS.BSCMAINNET) {
+    return "bsc";
   } else if (
-    chainId == CHAINS.BSCTESTNET ||
-    chainId == CHAINS.BSCMAINNET
+    chainId == CHAINS.FANTOMTESTNET ||
+    chainId == CHAINS.FANTOMMAINNET
   ) {
-  return 'bsc';
-}else if(
-  chainId == CHAINS.FANTOMTESTNET ||
-  chainId == CHAINS.FANTOMMAINNET
-){
-  return 'ftm';
-}else if(chainId == CHAINS.POLYGONMAINNET){
-  return 'polygon'
-}
-else {
-  return 'eth';
-};
+    return "ftm";
+  } else if (chainId == CHAINS.POLYGONMAINNET) {
+    return "polygon";
+  } else {
+    return "eth";
+  }
 };

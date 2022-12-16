@@ -974,6 +974,15 @@ tr.no_record_wrapper {
 .tool-desc {
     text-transform: capitalize;
 }
+h3.ff-mos.small_warning_heading {
+    font-size: 20px;
+    color: var(--bs-orange);
+    margin-top: 20px;
+    margin-bottom: 12px;
+}
+p.small_warning_text.ff-mos {
+    font-weight: 400;
+}
 td.no_record img{
     margin: auto;
     position: absolute;
@@ -1008,5 +1017,10 @@ td.no_record img{
     }
     .progress-tab.step_4 h5, .progress-tab.step_4 .h5 {
         font-size: 28px;
+    }
+}
+@media (max-width:576px){
+    .modal-content .primary-btn{
+        min-height: 55px;
     }
 }
