@@ -435,6 +435,7 @@ ul {
     border: 1px solid #596380;
     color: $white;
     font-family: 'Open Sans';
+    overflow: hidden;
     @media #{$max-lg}{
         border-radius: 20px;
     }
