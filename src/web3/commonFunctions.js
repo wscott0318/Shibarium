@@ -41,6 +41,7 @@ export const getNetworkName = (ID) => {
   }
 };
 
+export const USER_REJECTED_TX = 4001;
 export const tokenDecimal = 2;
 
 export const toFixedNull = 2;

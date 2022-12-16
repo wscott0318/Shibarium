@@ -35,6 +35,7 @@ const StakingHeader = () => {
 
   const [valInfo, setValInfo] = useValInfo();
   const dispatch = useAppDispatch();
+
  useEffect(() => {
    const { ethereum } = window as any;
    const handleAccountsChanged = (accounts: string[]) => {
@@ -43,10 +44,13 @@ const StakingHeader = () => {
      dispatch(clearAllTransactions({ chainId }));
    };
   //  ethereum.on("accountsChanged", handleAccountsChanged)
+  if(account) {
+    ethereum.on("accountsChanged", handleAccountsChanged)
+  }
 
-  account? ethereum.on("accountsChanged", handleAccountsChanged) : router.push('/home')
+  // account ? ethereum.on("accountsChanged", handleAccountsChanged) : null
  
-}, [active]);
+}, [active, account]);
 
   // useEffect(() => {
   //   if(chainId != 5){

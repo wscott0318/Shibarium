@@ -12,7 +12,7 @@ import { useTokenBalance } from 'app/hooks/useTokenBalance';
 import Web3 from "web3";
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import fromExponential from 'from-exponential';
-import { getAllowanceAmount, MAXAMOUNT, toFixedPrecent } from "../../web3/commonFunctions";
+import { getAllowanceAmount, MAXAMOUNT, toFixedPrecent, USER_REJECTED_TX } from "../../web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json"
 import CommonModal from 'pages/components/CommonModel';
 import { useFormik } from "formik";
@@ -337,8 +337,12 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
             setdelegatepop();
           });
       } catch (err: any) {
+        if(err.code !== USER_REJECTED_TX) {
+          Sentry.captureMessage("BUY_VOUCHER ", err);
+        }
+        console.log(err, "error ====> ")
         setdelegateState(initialModalState);
-        Sentry.captureMessage("BUY_VOUCHER ", err);
+        
       }
     };
 
