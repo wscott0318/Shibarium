@@ -35,7 +35,6 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
     const slicedList = searchResult.slice(0, pageSize).sort((a: any, b: any) => parseInt(b.uptimePercent) - parseInt(a.uptimePercent))
     const sortAgain = slicedList.slice(0, pageSize).sort((a: any, b: any) => parseInt(b.totalStaked) - parseInt(a.totalStaked))
     setValidators(sortAgain)
-
   }, [searchResult])
   // console.log("validatorsByStatus",validatorsByStatus)
 
@@ -168,12 +167,11 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
                 <input
                  className="custum-search w-100" 
                  type="search " 
-                 placeholder="Search by validator name"
+                 placeholder="Search by validator name or Address"
                  value={searchKey}
                  onChange={(e) => setSearchKey(e.target.value)}
                  />
                  {searchKey?<div className='icon-block' onClick={()=>setSearchKey("")}><img className="white-icon img-fluid" src="../../assets/images/cross-icon.png" /></div> : null}
-                 
               </div>
               <div className="right-section">
                 {/* <div className="switch-sec">

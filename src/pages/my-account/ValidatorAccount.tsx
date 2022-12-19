@@ -25,6 +25,7 @@ import {
   comissionVal,
   currentGasPrice,
   getAllowanceAmount,
+  USER_REJECTED_TX,
   web3Decimals,
 } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
@@ -386,7 +387,11 @@ const validatorAccount = ({
           }
         });
     } catch (err: any) {
-      Sentry.captureException("callComission", err);
+      if (err.code !== USER_REJECTED_TX) {
+        Sentry.captureException("callComission", err);
+      }
+      setTransactionState({ state: false, title: "" });
+      setCommiModal({ value: false, address: "" });
     }
   };
 
@@ -491,7 +496,11 @@ const validatorAccount = ({
         // console.log("account addres not found");
       }
     } catch (err: any) {
-      Sentry.captureException("callRestakeValidators", err);
+      if (err.code !== USER_REJECTED_TX) {
+        Sentry.captureException("callRestakeValidators", err);
+      }
+      setRestakeModal({ value1: false, value2: false, address: "" });
+      setTransactionState({ state: false, title: "" });
     }
   };
 
@@ -586,7 +595,9 @@ const validatorAccount = ({
           });
       }
     } catch (err: any) {
-      Sentry.captureException("approveAmount", err);
+      if (err.code !== USER_REJECTED_TX) {
+        Sentry.captureException("approveAmount", err);
+      }
     }
   };
 
@@ -667,11 +678,15 @@ const validatorAccount = ({
               setWithdrawModal({ value: false, address: "" });
             }
           });
-      } else {
-        // console.log("account not connected");
-      }
-    } catch (err: any) {
-      Sentry.captureException("withdrawRewardValidator", err);
+        } else {
+          // console.log("account not connected");
+        }
+      } catch (err: any) {
+        if (err.code !== USER_REJECTED_TX) {
+          Sentry.captureException("withdrawRewardValidator", err);
+        }
+        setTransactionState({ state: false, title: "Pending" });
+        setWithdrawModal({ value: false, address: "" });
     }
   };
   // WITHDRAW REWARDS delegator
@@ -744,11 +759,15 @@ const validatorAccount = ({
               setWithdrawModal({ value: false, address: "" });
             }
           });
-      } else {
-        // console.log("account not connected");
-      }
-    } catch (err: any) {
-      Sentry.captureException("withdrawRewardDelegator", err);
+        } else {
+          // console.log("account not connected");
+        }
+      } catch (err: any) {
+        if (err.code !== USER_REJECTED_TX) {
+          Sentry.captureException("withdrawRewardDelegator", err);
+        }
+        setTransactionState({ state: false, title: "Pending" });
+        setWithdrawModal({ value: false, address: "" });
     }
   };
 
@@ -830,11 +849,15 @@ const validatorAccount = ({
               setUnStakePop(false);
             }
           });
-      } else {
-        // console.log("account addres not found");
-      }
-    } catch (err: any) {
-      Sentry.captureException("unStakeClaimValidator", err);
+        } else {
+          // console.log("account addres not found");
+        }
+      } catch (err: any) {
+        if (err.code !== USER_REJECTED_TX) {
+          Sentry.captureException("unStakeClaimValidator", err);
+        }
+        setTransactionState({ state: false, title: "" });
+        setUnStakePop(false);
     }
   };
 
@@ -914,12 +937,16 @@ const validatorAccount = ({
               setUnStakePop(false);
             }
           });
-      } else {
-        // console.log("account addres not found");
-      }
-    } catch (err: any) {
-      // console.log(err)
-      Sentry.captureException("unStakeClaimValidator", err);
+        } else {
+          // console.log("account addres not found");
+        }
+      } catch (err: any) {
+        // console.log(err)
+        if (err.code !== USER_REJECTED_TX) {
+          Sentry.captureException("unStakeClaimValidator", err);
+        }
+        setTransactionState({ state: false, title: "" });
+        setUnStakePop(false);
     }
   };
 
@@ -998,11 +1025,14 @@ const validatorAccount = ({
               setRestakeModal({ value1: false, value2: false, address: "" });
             }
           });
-      } else {
-        // console.log("account addres not found");
-      }
-    } catch (err: any) {
-      Sentry.captureException("restakeDelegator", err);
+        } else {
+          // console.log("account addres not found");
+        }
+      } catch (err: any) {
+        if (err.code !== USER_REJECTED_TX) {
+          Sentry.captureException("restakeDelegator", err);
+        }
+        setRestakeModal({ value1: false, value2: false, address: "" });
     }
   };
 
@@ -1094,9 +1124,18 @@ const validatorAccount = ({
               // console.log("user Denied");
             }
           });
-      }
-    } catch (err: any) {
-      Sentry.captureException("unboundDelegator", err);
+        }
+      } catch (err: any) {
+        if (err.code !== USER_REJECTED_TX) {
+          Sentry.captureException("unboundDelegator", err);
+        }
+        setUnboundInput("");
+        setUnboundModal({
+          startValue: false,
+          address: "",
+          id: "",
+          stakeAmount: 0,
+        });
     }
   };
 

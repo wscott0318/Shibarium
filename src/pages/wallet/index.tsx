@@ -86,7 +86,7 @@ export default function Wallet() {
   const [selectedToken, setSelectedToken] = useState<any>({})
   const [searchKey, setSearchKey] = useState<string>('');
   const [modalKeyword, setmodalKeyword] = useState<string>('');
-  const [nullAddress,setNullAddress]=useState(false)
+  const [nullAddress, setNullAddress] = useState(false)
 
   const searchResult = useSearchFilter(tokenList, searchKey.trim());
 
@@ -100,51 +100,51 @@ export default function Wallet() {
   // console.log(selectedToken)
 
   const verifyAddress = (address: any) => {
-    try{
+    try {
       let result = Web3.utils.isAddress(address)
-    setIsValidAddress(result)
-    return result
+      setIsValidAddress(result)
+      return result
     }
-    catch(err:any){
+    catch (err: any) {
       Sentry.captureException("verifyAddress ", err);
     }
   }
 
   const getNetworkName = () => {
-    try{
+    try {
       if (chainId == 1) {
-      return "Ethereum Mainnet"
-    } else if (chainId == 5) {
-      return "Goerli Testnet"
-    } else {
-      return "Shibarium Mainnet"
+        return "Ethereum Mainnet"
+      } else if (chainId == 5) {
+        return "Goerli Testnet"
+      } else {
+        return "Shibarium Mainnet"
+      }
     }
-  }
-  catch(err:any){
-    Sentry.captureException("getNetworkName ", err);
-  }
+    catch (err: any) {
+      Sentry.captureException("getNetworkName ", err);
+    }
   }
 
   const getTokensList = () => {
-    try{// console.log("token list called ==> ")
-    setListLoader(true)
-    getWalletTokenList().then(res => {
-      let list = res.data.message.tokens
-      // .sort((a: any, b: any) => {
-      //   return (parseInt(b.balance) - parseInt(a.balance));
-      // });
-      list.forEach(async (x: any) => {
-        x.balance = 0 //await getTokenBalance(lib, account, x.parentContract)
+    try {// console.log("token list called ==> ")
+      setListLoader(true)
+      getWalletTokenList().then(res => {
+        let list = res.data.message.tokens
+        // .sort((a: any, b: any) => {
+        //   return (parseInt(b.balance) - parseInt(a.balance));
+        // });
+        list.forEach(async (x: any) => {
+          x.balance = 0 //await getTokenBalance(lib, account, x.parentContract)
+        })
+        setTokenList(list)
+        setTokenFilteredList(list)
+        setTokenModalList(list)
+        setListLoader(false)
       })
-      setTokenList(list)
-      setTokenFilteredList(list)
-      setTokenModalList(list)
-      setListLoader(false)
-    })
-  }
-  catch(err:any){
-    Sentry.captureException("getTokensList ", err);
-  }
+    }
+    catch (err: any) {
+      Sentry.captureException("getTokensList ", err);
+    }
   }
 
 
@@ -178,24 +178,24 @@ export default function Wallet() {
     setMenuState(!menuState);
   }
 
-  const handleSend = (e :any) => {
-    try{
+  const handleSend = (e: any) => {
+    try {
       e.preventDefault()
-    // console.log("called handleSend")
-    if (isValidAddress && sendAmount && senderAddress) {
       // console.log("called handleSend")
-      setSendModal({
-        step0: false,
-        step1: false,
-        step2: true,
-        step3: false,
-        showTokens: false
-      })
+      if (isValidAddress && sendAmount && senderAddress) {
+        // console.log("called handleSend")
+        setSendModal({
+          step0: false,
+          step1: false,
+          step2: true,
+          step3: false,
+          showTokens: false
+        })
+      }
     }
-  }
-  catch(err:any){
-    Sentry.captureException("handleSend ", err);
-  }
+    catch (err: any) {
+      Sentry.captureException("handleSend ", err);
+    }
   }
   const pageSize = 4;
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -214,74 +214,74 @@ export default function Wallet() {
   }, [tokenFilteredList]);
 
   const pageChangeHandler = (index: number) => {
-    try{
+    try {
       const slicedList = tokenFilteredList.sort((a: any, b: any) => {
-      return (b.balance - a.balance);
-    }).slice(
-      (index - 1) * pageSize,
-      index * pageSize
-    );
-    setSliceTokenFilteredList(slicedList);
-    setCurrentPage(index);
-    }catch(err:any){
+        return (b.balance - a.balance);
+      }).slice(
+        (index - 1) * pageSize,
+        index * pageSize
+      );
+      setSliceTokenFilteredList(slicedList);
+      setCurrentPage(index);
+    } catch (err: any) {
       Sentry.captureException("pageChangeHandler ", err);
     }
   };
 
   const handleSearchList = (key: any, type: any = 'main') => {
-    try{
+    try {
       if (type === 'modal') {
-      setmodalKeyword(key)
-    } else {
-      setSearchKey(key)
-    }
-    if (key.length) {
-      let newData = tokenList.filter((name: any) => {
-        return Object.values(name)
-          .join(" ")
-          .toLowerCase()
-          .includes(key.toLowerCase());
-      });
-      if (type === 'modal') {
-        setTokenModalList(newData)
+        setmodalKeyword(key)
       } else {
-        setTokenFilteredList(newData)
-        pageChangeHandler(currentPage);
+        setSearchKey(key)
       }
-    } else {
-      if (type === 'modal') {
-        setTokenModalList(tokenList)
+      if (key.length) {
+        let newData = tokenList.filter((name: any) => {
+          return Object.values(name)
+            .join(" ")
+            .toLowerCase()
+            .includes(key.toLowerCase());
+        });
+        if (type === 'modal') {
+          setTokenModalList(newData)
+        } else {
+          setTokenFilteredList(newData)
+          pageChangeHandler(currentPage);
+        }
       } else {
-        setTokenFilteredList(tokenList)
+        if (type === 'modal') {
+          setTokenModalList(tokenList)
+        } else {
+          setTokenFilteredList(tokenList)
+        }
       }
     }
-  }
-  catch(err:any){
-    Sentry.captureException("handleSearchList ", err);
-  }
+    catch (err: any) {
+      Sentry.captureException("handleSearchList ", err);
+    }
   }
 
   // console.log(tokenList, tokenFilteredList, slicedTokenFilteredList)
 
   const submitTransaction = async () => {
-    try{
+    try {
       let user: any = account;
-    let amount = web3.utils.toBN(fromExponential(+sendAmount * Math.pow(10, 18)));
-    let instance = new web3.eth.Contract(ERC20, '0x5063b1215bbF268ab00a5F47cDeC0A4783c3Ab58');
-    instance.methods.transfer(senderAddress, amount).send({ from: user })
+      let amount = web3.utils.toBN(fromExponential(+sendAmount * Math.pow(10, 18)));
+      let instance = new web3.eth.Contract(ERC20, '0x5063b1215bbF268ab00a5F47cDeC0A4783c3Ab58');
+      instance.methods.transfer(senderAddress, amount).send({ from: user })
 
-    let gasFee =  await instance.methods.transfer(senderAddress, amount).estimateGas({from: user})
-    let encodedAbi =  await instance.methods.transfer(senderAddress, amount).encodeABI()
-    let CurrentgasPrice : any = await currentGasPrice(web3)
+      let gasFee = await instance.methods.transfer(senderAddress, amount).estimateGas({ from: user })
+      let encodedAbi = await instance.methods.transfer(senderAddress, amount).encodeABI()
+      let CurrentgasPrice: any = await currentGasPrice(web3)
       //  console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
-       await web3.eth.sendTransaction({
-         from: user,
-         to: '0x5063b1215bbF268ab00a5F47cDeC0A4783c3Ab58',
-         gas: (parseInt(gasFee) + 30000).toString(),
-         gasPrice: CurrentgasPrice,
-         // value : web3.utils.toHex(combinedFees),
-         data: encodedAbi
-       }).on('transactionHash', (res: any) => {
+      await web3.eth.sendTransaction({
+        from: user,
+        to: '0x5063b1215bbF268ab00a5F47cDeC0A4783c3Ab58',
+        gas: (parseInt(gasFee) + 30000).toString(),
+        gasPrice: CurrentgasPrice,
+        // value : web3.utils.toHex(combinedFees),
+        data: encodedAbi
+      }).on('transactionHash', (res: any) => {
         // console.log(res, "hash")
         setTransactionHash(res)
         setSendModal({
@@ -329,11 +329,11 @@ export default function Wallet() {
           setSendModal(sendInitialState)
         }
       })
+    }
+    catch (err: any) {
+      Sentry.captureException("submitTransaction ", err);
+    }
   }
-  catch(err:any){
-    Sentry.captureException("submitTransaction ", err);
-  }
-}
 
 
   // transactionCounts()
@@ -352,29 +352,29 @@ export default function Wallet() {
   }
 
   const handleSendAmount = () => {
-    try{
+    try {
       if (sendAmount > selectedToken.balance) {
-      return true
-    } else if (!sendAmount) {
-      return true
-    } else {
-      return false
+        return true
+      } else if (!sendAmount) {
+        return true
+      } else {
+        return false
+      }
+    }
+    catch (err: any) {
+      Sentry.captureException("handleSendAmount ", err);
     }
   }
-  catch(err:any){
-    Sentry.captureException("handleSendAmount ", err);
-  }
-}
   const [sendToken, setSendToken] = useState('');
 
   const sendTokenWithRoute = async (x: any, type: any = "deposit") => {
-    try{
+    try {
       // console.log("Router data for send", x)
-    localStorage.setItem("depositToken", JSON.stringify(x))
-    localStorage.setItem("bridgeType", type)
-    await Router.push(`/bridge`);
+      localStorage.setItem("depositToken", JSON.stringify(x))
+      localStorage.setItem("bridgeType", type)
+      await Router.push(`/bridge`);
     }
-    catch(err:any){
+    catch (err: any) {
       Sentry.captureException("sendTokenWithRoute ", err);
     }
   }

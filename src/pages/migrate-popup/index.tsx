@@ -17,6 +17,7 @@ import {
   getAllowanceAmount,
   MAXAMOUNT,
   toFixedPrecent,
+  USER_REJECTED_TX,
   web3Decimals,
 } from "../../web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
@@ -96,7 +97,7 @@ const MigratePopup: React.FC<any> = ({
     onHide();
   };
 
-  console.log({migrateDataRow, data})
+  console.log({ migrateDataRow, data })
 
   const totalStake = (migrateData: any) => {
     // console.log("item contains ", migrateData.migrateData);
@@ -203,8 +204,13 @@ const MigratePopup: React.FC<any> = ({
       }
     }
     catch (err: any) {
-      Sentry.captureMessage("migrateStake ", err);
-      // setProcessing("Error");
+      if (err.code !== USER_REJECTED_TX) {
+        Sentry.captureMessage("migrateStake ", err);
+      }
+      setmigrateState(initialModalState);
+      setmigratepop(false);
+      setProcessing("Error");
+      setTransactionState({ state: false, title: "" });
       handleClose()
     }
   }
@@ -296,7 +302,7 @@ const MigratePopup: React.FC<any> = ({
                       className="img-fluid img-wdth"
                       src="../../assets/images/progress-loading.gif"
                       height="150"
-                        width="150"
+                      width="150"
                     />
                   </div>
                 </div>
@@ -321,7 +327,7 @@ const MigratePopup: React.FC<any> = ({
                       // target="_blank"
                       disabled={explorerLink ? false : true}
                       onClick={() => window.open(explorerLink)}
-                      // href={explorerLink}
+                    // href={explorerLink}
                     >
                       <span>View on Block Explorer</span>
                     </button>
@@ -340,7 +346,7 @@ const MigratePopup: React.FC<any> = ({
                     className="img-fluid img-wdth"
                     src="../../assets/images/cmpete-step.png"
                     width="150"
-                          height="150"
+                    height="150"
                   />
                 </div>
               </div>
@@ -457,7 +463,7 @@ const MigratePopup: React.FC<any> = ({
                             <p>
                               <span className="light-text">
                                 {data?.uptimePercent?.toFixed(toFixedPrecent)}%
-                                Performance <br/> {data.commissionrate} % Commission
+                                Performance <br /> {data.commissionrate} % Commission
                               </span>
                             </p>
                           </div>
@@ -514,7 +520,7 @@ const MigratePopup: React.FC<any> = ({
                         <div className="col-12">
                           <button className="w-100" type="submit" value="submit">
                             <div className="btn primary-btn d-flex align-items-center justify-content-center">
-                              <button onClick={(e :any) => {
+                              <button onClick={(e: any) => {
                                 e.preventDefault();
                                 migrateStake(values, data, migrateData);
                               }}>Continue</button>

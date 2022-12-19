@@ -372,6 +372,8 @@ export default function Withdraw() {
             <InnerHeader />
             <Comingsoon />
           </div>
+            <Comingsoon />
+          </div>
         </section>
       </main>
     </>
