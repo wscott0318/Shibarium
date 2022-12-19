@@ -345,7 +345,6 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
         if(err.code !== USER_REJECTED_TX) {
           Sentry.captureMessage("BUY_VOUCHER ", err);
         }
-      j
       }
     };
 
