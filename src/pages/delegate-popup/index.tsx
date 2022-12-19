@@ -119,7 +119,7 @@ const DelegatePopup: React.FC<any> = ({
 
   
   const buyVouchers = async () => {
-    // setBuyvocherSuccess(false)
+    setBuyvocherSuccess(false)
     try {
       setLoader(true);
     const requestBody = {
@@ -336,7 +336,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
             });
             // setdelegatepop(true);
             callAPIforDelegator(requestBody)
-            // setBuyvocherSuccess(true)
+            setBuyvocherSuccess(true)
             // window.location.reload();
           })
           .on("error", (err: any) => {
@@ -360,7 +360,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
 
   const handleClose = () => {
     setdelegateState(initialModalState)
-    // buyvocherSuccess? window.location.reload(): null
+    buyvocherSuccess? window.location.reload(): null
     setdelegatepop()
   }
 

@@ -34,6 +34,8 @@ export default function Header() {
 
   const [showWarning, setShowWarning] = useState(false);
 
+
+
   useEffect(() => {
     if(account) {
       if(router.asPath != '/home'){
@@ -61,10 +63,24 @@ export default function Header() {
     }
   }, [account])
 
-
+//@ts-ignore
   const logoutHandler = () => {
     deactivate();
+    // clearCacheData();
     router.push("/home");
+  };
+
+
+  const clearCacheData = () => {
+    // caches.keys().then((names) => {
+    //   names.forEach((name) => {
+    //     caches.delete(name);
+    //   });
+    // });
+    caches.keys().then(function(names) {
+      for (let name of names)
+          caches.delete(name);
+  });
   };
 
   const getUsertypeAPI = (accountAddress: any) => {
@@ -107,7 +123,6 @@ export default function Header() {
 
 
   }, [active, account])
-
 
 
   return (
