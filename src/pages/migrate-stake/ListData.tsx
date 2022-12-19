@@ -85,8 +85,8 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
         if (res.status == 200) {
           // @ts-ignore
           var setVals = filter( res.data.data.validatorsList,(e) => e.contractAddress !== migrateData?.data?.migrateData?.contractAddress);
-          setAllValidators(setVals);
-          console.log("result all validators=> " ,migrateData);
+          setAllValidators(res.data.data.validatorsList);
+          // console.log("result all validators=> " ,migrateData);
           var activeList = filter(
             res.data.data.validatorsList,
             (e) => e.uptimePercent !== 0

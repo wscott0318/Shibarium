@@ -102,7 +102,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                                 ? true
                                 : x.uptimePercent <= inActiveCount
                                   ? true
-                                  : false
+                                  : x.contractAddress == migrateData.contractAddress ? true : false
                             }
                             onClick={() => {
                               setSelectedRow(x);
