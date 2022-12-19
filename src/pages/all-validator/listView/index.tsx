@@ -15,7 +15,10 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
   const [userType, setUserType] = useUserType()
   const [showdelegatepop, setdelegatepop] = useState(false);
   const [showmigratepop, setmigratepop] = useState(false);
-  // console.log(validatorsList);
+  
+  
+  
+  console.log(migrateData);
   const router = useRouter();
 
 

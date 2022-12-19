@@ -21,12 +21,9 @@ const INFURA_NETWORK_URLS = {
 }
 
 export const walletconnect = new WalletConnectConnector({
-  rpc: INFURA_NETWORK_URLS,
-  supportedChainIds: [1, 3, 4, 5],
+  rpc: 'https://mainnet.infura.io/v3/340a5f13a5a34f1ab3dcdca0a2bbf81d',
   bridge: 'https://bridge.walletconnect.org',
   qrcode: true,
-  // @ts-ignore
-  pollingInterval: POLLING_INTERVAL
 })
 
 

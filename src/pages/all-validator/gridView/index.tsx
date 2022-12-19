@@ -18,6 +18,7 @@ export default function ValidatorGrid({ validatorsList, searchKey, migrateData={
   const [showdelegatepop, setdelegatepop] = useState(false);
   const router = useRouter();
   const [showmigratepop, setmigratepop] = useState(false);
+
   return (
     <>
       <DelegatePopup
