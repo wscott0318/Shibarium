@@ -57,6 +57,8 @@ const DelegatePopup: React.FC<any> = ({
     state: false,
     title: "",
   });
+  const [buyvocherSuccess , setBuyvocherSuccess] = useState(false)
+
   const dispatch = useAppDispatch()
 
   const [delegateState, setdelegateState] = useState(initialModalState);
@@ -116,11 +118,9 @@ const DelegatePopup: React.FC<any> = ({
     Sentry.captureMessage("approveHandler ", err);
   }
   };
-
-
-
   
   const buyVouchers = async () => {
+    // setBuyvocherSuccess(false)
     try {
       setLoader(true);
     const requestBody = {
@@ -344,7 +344,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
             });
             // setdelegatepop(true);
             callAPIforDelegator(requestBody)
-            window.location.reload();
+            // window.location.reload();
           })
           .on("error", (err: any) => {
             console.log(err)
@@ -373,7 +373,6 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
     setdelegatepop();
     if(transactionState.state){
       window.location.reload();
-      console.log("reload page" , transactionState);
     }
   }
 

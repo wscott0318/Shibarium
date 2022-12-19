@@ -24,7 +24,7 @@ import { useUserType } from "../../state/user/hooks";
 import { useRouter } from "next/router";
 import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
 import { useAppDispatch } from "../../state/hooks"
-import { currentGasPrice, tokenDecimal, web3Decimals } from "web3/commonFunctions";
+import { currentGasPrice, tokenDecimal, USER_REJECTED_TX, web3Decimals } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 import { dynamicChaining } from "web3/DynamicChaining";
 export default function Unbond() {
@@ -43,7 +43,10 @@ export default function Unbond() {
   const web3: any = new Web3(lib?.provider)
   const [userType, setUserType] = useUserType();
   const [loader, setLoader] = useState(false);
-
+  const [transactionState, setTransactionState] = useState({
+    state: false,
+    title: "",
+  });
   const getValidatorContractAddress = async (validatorID: any) => {
     try {
       let user = account;
@@ -92,10 +95,11 @@ export default function Unbond() {
         validatorId: claimNowModals?.data?.validatorId,
         unbondNonce: claimNowModals?.data?.nonce
       }
-
+      
       let validatorContract = await getValidatorContractAddress((parseInt(data.validatorId)))
       // console.log(data, validatorContract)
       if (account) {
+        setTransactionState({ state: true, title: "Pending" });
         let walletAddress = account
         let instance = new web3.eth.Contract(ValidatorShareABI, validatorContract);
         let gasFee = await instance.methods.unstakeClaimTokens_new(data.unbondNonce).estimateGas({ from: walletAddress })
@@ -124,6 +128,7 @@ export default function Unbond() {
             setTransactionLink(link)
             // console.log(link)
             setClamNowModals((pre: any) => ({ ...pre, progress: true, confirm: true }))
+            setTransactionState({ state: true, title: "Submitted" });
           }).on('receipt', (res: any) => {
             // console.log(res, "receipt")
             dispatch(
@@ -152,6 +157,7 @@ export default function Unbond() {
             getUnboundHistory(account)
           }).on('error', (res: any) => {
             // console.log(res, "error")
+            setTransactionState({ state: false, title: "" });
             setClamNowModals({
               data: {},
               confirm: false,
@@ -163,7 +169,10 @@ export default function Unbond() {
       }
     }
     catch (err: any) {
-      Sentry.captureException("unboundClaimAPI ", err);
+      if (err.code !== USER_REJECTED_TX) {
+        Sentry.captureException("unboundClaimAPI ", err);
+      }
+      setTransactionState({ state: false, title: "Submitted" });
     }
     // console.log(validatorContract)
   }
@@ -223,9 +232,18 @@ export default function Unbond() {
     }
   };
 
+  useEffect(()=>{
+    if(userType != "Delegator"){
+      router.push('/home')
+    }
+  },[userType])
+
+  console.log(userType,"userType-userType")
+
   return (
     <>
       <Header />
+      {/* {userType === "NA" ? router.push("/home"): null} */}
       <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh ffms-inherit staking-main">
         {/* <StakingHeader /> */}
         <section className="top_bnr_area dark-bg">
@@ -387,7 +405,10 @@ export default function Unbond() {
       <CommonModal
         title={"Withdraw Rewards"}
         show={claimNowModals.confirm}
-        setshow={setClamNowModals}
+        setshow={() =>{setClamNowModals(false);
+          if (transactionState.state) {
+            window.location.reload()
+          }}}
         externalCls="rstk-popup"
       >
         <div className="del-tab-content">

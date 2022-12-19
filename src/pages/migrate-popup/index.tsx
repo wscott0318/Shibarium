@@ -247,6 +247,9 @@ const MigratePopup: React.FC<any> = ({
   });
 
   const handleClose = () => {
+    if (transactionState.state) {
+      window.location.reload()
+    }
     setmigrateState(initialModalState);
     setmigratepop(false);
     setProcessing("Migrate");
