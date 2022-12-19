@@ -598,6 +598,7 @@ const validatorAccount = ({
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureException("approveAmount", err);
       }
+      setCommiModal({ value: false, address: "" });
     }
   };
 
@@ -678,15 +679,15 @@ const validatorAccount = ({
               setWithdrawModal({ value: false, address: "" });
             }
           });
-        } else {
-          // console.log("account not connected");
-        }
-      } catch (err: any) {
-        if (err.code !== USER_REJECTED_TX) {
-          Sentry.captureException("withdrawRewardValidator", err);
-        }
-        setTransactionState({ state: false, title: "Pending" });
-        setWithdrawModal({ value: false, address: "" });
+      } else {
+        // console.log("account not connected");
+      }
+    } catch (err: any) {
+      if (err.code !== USER_REJECTED_TX) {
+        Sentry.captureException("withdrawRewardValidator", err);
+      }
+      setTransactionState({ state: false, title: "Pending" });
+      setWithdrawModal({ value: false, address: "" });
     }
   };
   // WITHDRAW REWARDS delegator
@@ -759,15 +760,15 @@ const validatorAccount = ({
               setWithdrawModal({ value: false, address: "" });
             }
           });
-        } else {
-          // console.log("account not connected");
-        }
-      } catch (err: any) {
-        if (err.code !== USER_REJECTED_TX) {
-          Sentry.captureException("withdrawRewardDelegator", err);
-        }
-        setTransactionState({ state: false, title: "Pending" });
-        setWithdrawModal({ value: false, address: "" });
+      } else {
+        // console.log("account not connected");
+      }
+    } catch (err: any) {
+      if (err.code !== USER_REJECTED_TX) {
+        Sentry.captureException("withdrawRewardDelegator", err);
+      }
+      setTransactionState({ state: false, title: "Pending" });
+      setWithdrawModal({ value: false, address: "" });
     }
   };
 
@@ -849,15 +850,15 @@ const validatorAccount = ({
               setUnStakePop(false);
             }
           });
-        } else {
-          // console.log("account addres not found");
-        }
-      } catch (err: any) {
-        if (err.code !== USER_REJECTED_TX) {
-          Sentry.captureException("unStakeClaimValidator", err);
-        }
-        setTransactionState({ state: false, title: "" });
-        setUnStakePop(false);
+      } else {
+        // console.log("account addres not found");
+      }
+    } catch (err: any) {
+      if (err.code !== USER_REJECTED_TX) {
+        Sentry.captureException("unStakeClaimValidator", err);
+      }
+      setTransactionState({ state: false, title: "" });
+      setUnStakePop(false);
     }
   };
 
@@ -937,16 +938,16 @@ const validatorAccount = ({
               setUnStakePop(false);
             }
           });
-        } else {
-          // console.log("account addres not found");
-        }
-      } catch (err: any) {
-        // console.log(err)
-        if (err.code !== USER_REJECTED_TX) {
-          Sentry.captureException("unStakeClaimValidator", err);
-        }
-        setTransactionState({ state: false, title: "" });
-        setUnStakePop(false);
+      } else {
+        // console.log("account addres not found");
+      }
+    } catch (err: any) {
+      // console.log(err)
+      if (err.code !== USER_REJECTED_TX) {
+        Sentry.captureException("unStakeClaimValidator", err);
+      }
+      setTransactionState({ state: false, title: "" });
+      setUnStakePop(false);
     }
   };
 
@@ -1025,14 +1026,14 @@ const validatorAccount = ({
               setRestakeModal({ value1: false, value2: false, address: "" });
             }
           });
-        } else {
-          // console.log("account addres not found");
-        }
-      } catch (err: any) {
-        if (err.code !== USER_REJECTED_TX) {
-          Sentry.captureException("restakeDelegator", err);
-        }
-        setRestakeModal({ value1: false, value2: false, address: "" });
+      } else {
+        // console.log("account addres not found");
+      }
+    } catch (err: any) {
+      if (err.code !== USER_REJECTED_TX) {
+        Sentry.captureException("restakeDelegator", err);
+      }
+      setRestakeModal({ value1: false, value2: false, address: "" });
     }
   };
 
@@ -1133,7 +1134,7 @@ const validatorAccount = ({
               });
             }
           });
-        }
+      }
     } catch (err: any) {
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureException("unboundDelegator", err);
@@ -1194,16 +1195,19 @@ const validatorAccount = ({
       <DelegatePopup
         data={selectedRow}
         showdelegatepop={stakeMore}
-        setdelegatepop={() => { setStakeMoreModal(false); window.location.reload() }}
+        setdelegatepop={() => { setStakeMoreModal(false); }}
       />
       <div className="main-content dark-bg-800 full-vh  cmn-input-bg">
         {/* retake popop start VALIDATOR*/}
         <CommonModal
           title={"Restake"}
           show={restakeModal.value1}
-          setshow={() =>
-            setRestakeModal({ value1: false, value2: false, address: "" })
-          }
+          setshow={() => {
+            setRestakeModal({ value1: false, value2: false, address: "" });
+            if (transactionState.state) {
+              window.location.reload()
+            }
+          }}
           externalCls="stak-pop"
         >
           <>
@@ -1316,7 +1320,12 @@ const validatorAccount = ({
         <CommonModal
           title={"Commission"}
           show={commiModal.value}
-          setshow={() => setCommiModal({ value: false, address: "" })}
+          setshow={() => {
+            setCommiModal({ value: false, address: "" });
+            if (transactionState.state) {
+              window.location.reload()
+            }
+          }}
           externalCls="stak-pop"
         >
           <>
@@ -1382,7 +1391,12 @@ const validatorAccount = ({
         <CommonModal
           title={"Withdraw rewards"}
           show={withdrawModal.value}
-          setshow={() => setWithdrawModal({ value: false, address: "" })}
+          setshow={() => {
+            setWithdrawModal({ value: false, address: "" })
+            if (transactionState.state) {
+              window.location.reload()
+            }
+          }}
           externalCls="stak-pop"
         >
           <>
@@ -1422,8 +1436,12 @@ const validatorAccount = ({
         <CommonModal
           title={"Restake"}
           show={restakeModal.value2}
-          setshow={() =>
-            setRestakeModal({ value1: false, value2: false, address: "" })
+          setshow={() => {
+            setRestakeModal({ value1: false, value2: false, address: "" });
+            if (transactionState.state) {
+              window.location.reload()
+            }
+          }
           }
           externalCls="stak-pop"
         >
@@ -1464,7 +1482,12 @@ const validatorAccount = ({
         <CommonModal
           title={"Unstake"}
           show={showUnboundClaim}
-          setshow={setUnStakePop}
+          setshow={() => {
+            setUnStakePop(false);
+            if (transactionState.state) {
+              window.location.reload()
+            }
+          }}
           externalCls="stak-pop"
         >
           <>
@@ -1508,7 +1531,12 @@ const validatorAccount = ({
         <CommonModal
           title={"Unstake Claim"}
           show={showUnstakeClaimPop}
-          setshow={setUnStakeClaimPop}
+          setshow={() => {
+            setUnStakeClaimPop(false);
+            if (transactionState.state) {
+              window.location.reload()
+            }
+          }}
           externalCls="stak-pop"
         >
           <>
@@ -1553,7 +1581,12 @@ const validatorAccount = ({
         <CommonModal
           title={"Update Signer Address"}
           show={showSignerAddressPop}
-          setshow={setSignerAddressPop}
+          setshow={() => {
+            setSignerAddressPop(false);
+            if (transactionState.state) {
+              window.location.reload()
+            }
+          }}
           externalCls="stak-pop"
         >
           <>
@@ -1646,8 +1679,12 @@ const validatorAccount = ({
         <CommonModal
           title={"Unbound"}
           show={unboundModal.startValue}
-          setshow={() =>
-            setUnboundModal({ ...unboundModal, startValue: false })
+          setshow={() => {
+            setUnboundModal({ ...unboundModal, startValue: false });
+            if (transactionState.state) {
+              window.location.reload()
+            }
+          }
           }
           externalCls="stak-pop unbd-info-pop"
         >
@@ -1714,7 +1751,10 @@ const validatorAccount = ({
           title={transactionState.title}
           show={transactionState.state}
           setshow={() =>
-            setTransactionState({ state: false, title: "Pending" })
+            {if (transactionState.state) {
+              window.location.reload()
+            }
+            setTransactionState({ state: false, title: "Pending" })}
           }
           externalCls="faucet-pop unbnd-pop"
         >
