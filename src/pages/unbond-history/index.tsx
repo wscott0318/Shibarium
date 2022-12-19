@@ -223,9 +223,18 @@ export default function Unbond() {
     }
   };
 
+  useEffect(()=>{
+    if(userType != "Delegator"){
+      router.push('/home')
+    }
+  },[userType])
+
+  console.log(userType,"userType-userType")
+
   return (
     <>
       <Header />
+      {/* {userType === "NA" ? router.push("/home"): null} */}
       <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh ffms-inherit staking-main">
         {/* <StakingHeader /> */}
         <section className="top_bnr_area dark-bg">

@@ -22,15 +22,22 @@ interface propsNew {
 }
 
 
+
+
 const CommonModal:React.FC<props> = ({show,setshow, title,externalCls,children})=> {
   const abc = {show,setshow, title,externalCls,children};
+  const onClosingBtn = () =>{
+    setshow(false)
+  }
+  
+
   return (
     <Modal
     {...abc}
     
     centered
     show={show}
-    onHide={() => setshow(false)}
+    onHide={onClosingBtn}
     backdrop="static"
     keyboard={false}
     className={`shib-popup ${externalCls}`}
