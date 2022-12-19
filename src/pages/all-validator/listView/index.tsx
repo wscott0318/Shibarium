@@ -18,7 +18,6 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
   // console.log(validatorsList);
   const router = useRouter();
 
-
   return (
     <>
       <DelegatePopup

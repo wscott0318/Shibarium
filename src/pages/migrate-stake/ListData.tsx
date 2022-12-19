@@ -42,7 +42,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
   }, [searchResult])
   // console.log("validatorsByStatus",validatorsByStatus)
 
-  console.log("balance",balance.migrateData.id)
+  console.log("balance", balance.migrateData.id)
 
   const fetchValidators = async () => {
     try {
@@ -83,8 +83,10 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
         setLoading(false)
 
         if (res.status == 200) {
-          setAllValidators(res.data.data.validatorsList);
-          // console.log(res.data.data.validatorsList);
+          // @ts-ignore
+          var setVals = filter( res.data.data.validatorsList,(e) => e.contractAddress !== migrateData?.data?.migrateData?.contractAddress);
+          setAllValidators(setVals);
+          console.log("result all validators=> " ,migrateData);
           var activeList = filter(
             res.data.data.validatorsList,
             (e) => e.uptimePercent !== 0
@@ -246,7 +248,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
             <ListView migrateData={balance.migrateData} loading={loading} searchKey={searchKey} validatorsList={validators} />
           ) : (
             <div className="grid-view-wrap">
-               <GridView migrateData={balance.migrateData} searchKey={searchKey} validatorsList={validators} />
+              <GridView migrateData={balance.migrateData} searchKey={searchKey} validatorsList={validators} />
             </div>
           )}
           {isListView && validatorsList.length ? <div className='mt-sm-4 mt-3'>
