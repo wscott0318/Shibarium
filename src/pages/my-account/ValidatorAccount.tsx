@@ -1121,21 +1121,34 @@ const validatorAccount = ({
               comfirmValue: true,
             }));
             if (res.code === 4001) {
-              // console.log("user Denied");
+              setUnboundModal({
+                startValue: false,
+                address: "",
+                id: "",
+                stakeAmount: 0,
+              });
+              setTransactionState({
+                state: false,
+                title: "",
+              });
             }
           });
         }
-      } catch (err: any) {
-        if (err.code !== USER_REJECTED_TX) {
-          Sentry.captureException("unboundDelegator", err);
-        }
-        setUnboundInput("");
-        setUnboundModal({
-          startValue: false,
-          address: "",
-          id: "",
-          stakeAmount: 0,
-        });
+    } catch (err: any) {
+      if (err.code !== USER_REJECTED_TX) {
+        Sentry.captureException("unboundDelegator", err);
+      }
+      setUnboundInput("");
+      setUnboundModal({
+        startValue: false,
+        address: "",
+        id: "",
+        stakeAmount: 0,
+      });
+      setTransactionState({
+        state: false,
+        title: "",
+      });
     }
   };
 
