@@ -598,6 +598,7 @@ const validatorAccount = ({
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureException("approveAmount", err);
       }
+      setCommiModal({ value: false, address: "" });
     }
   };
 
@@ -1194,7 +1195,7 @@ const validatorAccount = ({
       <DelegatePopup
         data={selectedRow}
         showdelegatepop={stakeMore}
-        setdelegatepop={() => { setStakeMoreModal(false); window.location.reload() }}
+        setdelegatepop={() => { setStakeMoreModal(false);}}
       />
       <div className="main-content dark-bg-800 full-vh  cmn-input-bg">
         {/* retake popop start VALIDATOR*/}

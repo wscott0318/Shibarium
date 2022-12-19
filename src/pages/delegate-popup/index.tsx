@@ -53,7 +53,10 @@ const DelegatePopup: React.FC<any> = ({
   const [toastMassage, setToastMassage] = useState("");
   const { account, chainId = 1, library } = useActiveWeb3React();
   const web3 = useLocalWeb3();
-
+  const [transactionState, setTransactionState] = useState({
+    state: false,
+    title: "",
+  });
   const dispatch = useAppDispatch()
 
   const [delegateState, setdelegateState] = useState(initialModalState);
@@ -154,6 +157,7 @@ const DelegatePopup: React.FC<any> = ({
     let walletAddress : any = account;
     try{
       // console.log("need Approval", amount);
+      setTransactionState({ state: true, title: "Pending" });
       let approvalAmount = web3.utils.toBN(
         fromExponential(MAXAMOUNT * Math.pow(10, 18))
       );
@@ -179,6 +183,7 @@ const DelegatePopup: React.FC<any> = ({
               summary: `${res}`,
             })
           )
+          setTransactionState({ state: true, title: "Submitted" });
         })
           .on('receipt', (res: any) => {
             dispatch(
@@ -202,6 +207,7 @@ const DelegatePopup: React.FC<any> = ({
         .on('error', (err: any) => {
           setdelegateState(initialModalState)
           setdelegatepop();
+          setTransactionState({ state: false, title: "" });
         })
     } catch(err :any){
       if(err.code !== USER_REJECTED_TX) {
@@ -209,6 +215,7 @@ const DelegatePopup: React.FC<any> = ({
       }
       setdelegateState(initialModalState)
       setdelegatepop();
+      setTransactionState({ state: false, title: "" });
     }
 
   }
@@ -260,6 +267,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
   });
 
     const BUY_VOUCHER = async (requestBody: any) => {
+      setTransactionState({ state: true, title: "Pending" });
       let walletAddress: any = account;
       let _minSharesToMint = web3.utils.toBN(
         fromExponential(1 * Math.pow(10, 18))
@@ -267,6 +275,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
       let amount = web3.utils.toBN(
         fromExponential(+requestBody.amount * Math.pow(10, 18))
       );
+
       try {
         // console.log("No approval needed", amount);
         let instance = new web3.eth.Contract(
@@ -299,6 +308,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
               step3: false,
               title: "Transaction In Progress",
             });
+            setTransactionState({ state: true, title: "Submitted" });
           })
           .on("receipt", (res: any) => {
             dispatch(
@@ -334,7 +344,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
             });
             // setdelegatepop(true);
             callAPIforDelegator(requestBody)
-            // window.location.reload();
+            window.location.reload();
           })
           .on("error", (err: any) => {
             console.log(err)
@@ -345,6 +355,9 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
         if(err.code !== USER_REJECTED_TX) {
           Sentry.captureMessage("BUY_VOUCHER ", err);
         }
+        setTransactionState({ state: false, title: "" });
+        setdelegateState(initialModalState);
+        setdelegatepop();
       }
     };
 
@@ -356,8 +369,12 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
   }, [showdelegatepop]);
 
   const handleClose = () => {
-    setdelegateState(initialModalState)
-    setdelegatepop()
+    setdelegateState(initialModalState);
+    setdelegatepop();
+    if(transactionState.state){
+      window.location.reload();
+      console.log("reload page" , transactionState);
+    }
   }
 
 // console.log("Balance", data);
