@@ -326,7 +326,7 @@ const MigratePopup: React.FC<any> = ({
                 <div className="pop_btns_area row form-control mt-3">
                   <div className="col-12">
                     <button
-                      className="btn primary-btn d-flex align-items-center justify-content-center"
+                      className="btn primary-btn d-flex align-items-center justify-content-center w-100"
                       // target="_blank"
                       disabled={explorerLink ? false : true}
                       onClick={() => window.open(explorerLink)}
