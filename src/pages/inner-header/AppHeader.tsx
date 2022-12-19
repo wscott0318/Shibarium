@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Dropdown, Navbar, NavDropdown, Container, Nav } from "react-bootstrap";
 import { useActiveWeb3React } from 'app/services/web3';
 import { useRouter } from "next/router";
+import Link from 'next/link';
 
 const AppHeader = () => {
   const { chainId = 1, account, active, library } = useActiveWeb3React();
@@ -24,13 +25,23 @@ const AppHeader = () => {
   // console.log(title)
   if (account) {
     return (
-        <div className="shib-dropdown">
-          <Dropdown className="nav-item d-flex align-items-center cus-dd app-drop">
+      <div className="shib-dropdown d-flex justify-content-center align-items-center">
+        <Link href={`/bone-staking`} passHref>
+          <div className="d-flex justify-content-center align-items-center">
+            <div className="dot-icon cursor-pointer" id="basic-nav-dropdown">
+              <img src="../../assets/images/menu-icon.png" alt="" />
+            </div>
+            <h6 className={"light-text dd-ico cursor-pointer ms-2"}>
+              Staking
+            </h6>
+          </div>
+        </Link>
+        {/* <Dropdown className="nav-item d-flex align-items-center cus-dd app-drop">
             <div className="dot-icon" id="basic-nav-dropdown">
               <img src="../../assets/images/menu-icon.png" alt="" />
             </div>
-            <NavDropdown className="light-text dd-ico" title={title} id="">
-              {/* <NavDropdown.Item onClick={() => router.push('/wallet', '/wallet', { shallow: true })}>
+            <NavDropdown className="light-text dd-ico" title={title} id=""> */}
+        {/* <NavDropdown.Item onClick={() => router.push('/wallet', '/wallet', { shallow: true })}>
                 <h6
                   className={
                     title === "Wallet"
@@ -44,7 +55,7 @@ const AppHeader = () => {
                   Send and receive crypto assets on Shibarium network
                 </span>
               </NavDropdown.Item> */}
-              {/* <NavDropdown.Item onClick={() => router.push('/bridge', '/bridge', { shallow: true })}>
+        {/* <NavDropdown.Item onClick={() => router.push('/bridge', '/bridge', { shallow: true })}>
                 <h6
                   className={
                     title === "Bridge"
@@ -58,7 +69,7 @@ const AppHeader = () => {
                   Deposit and withdraw between networks
                 </span>
               </NavDropdown.Item> */}
-              {/* <NavDropdown.Item onClick={() => router.push('/bone-staking', '/bone-staking', { shallow: true })}>
+        {/* <NavDropdown.Item onClick={() => router.push('/bone-staking', '/bone-staking', { shallow: true })}>
                 <h6
                   className={
                     title === "Staking"
@@ -70,7 +81,7 @@ const AppHeader = () => {
                 </h6>
                 <span className="light-text">Stake shiba and earn rewards</span>
               </NavDropdown.Item> */}
-              {/* <NavDropdown.Item href="#action/3.3">
+        {/* <NavDropdown.Item href="#action/3.3">
                         <h6 className="fw-600 light-text left-border">
                           Widget Dashboard
                         </h6>
@@ -78,9 +89,9 @@ const AppHeader = () => {
                           Manage all your Shibarium wallet widgets at one place
                         </span>
                       </NavDropdown.Item> */}
-            </NavDropdown>
-          </Dropdown>
-        </div>
+        {/* </NavDropdown>
+          </Dropdown> */}
+      </div>
     );
   }
   else {
