@@ -30,7 +30,7 @@ const AppHeader = () => {
               <img src="../../assets/images/menu-icon.png" alt="" />
             </div>
             <NavDropdown className="light-text dd-ico" title={title} id="">
-              <NavDropdown.Item onClick={() => router.push('/wallet', '/wallet', { shallow: true })}>
+              {/* <NavDropdown.Item onClick={() => router.push('/wallet', '/wallet', { shallow: true })}>
                 <h6
                   className={
                     title === "Wallet"
@@ -43,8 +43,8 @@ const AppHeader = () => {
                 <span className="light-text">
                   Send and receive crypto assets on Shibarium network
                 </span>
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => router.push('/bridge', '/bridge', { shallow: true })}>
+              </NavDropdown.Item> */}
+              {/* <NavDropdown.Item onClick={() => router.push('/bridge', '/bridge', { shallow: true })}>
                 <h6
                   className={
                     title === "Bridge"
@@ -57,8 +57,8 @@ const AppHeader = () => {
                 <span className="light-text">
                   Deposit and withdraw between networks
                 </span>
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => router.push('/bone-staking', '/bone-staking', { shallow: true })}>
+              </NavDropdown.Item> */}
+              {/* <NavDropdown.Item onClick={() => router.push('/bone-staking', '/bone-staking', { shallow: true })}>
                 <h6
                   className={
                     title === "Staking"
@@ -69,7 +69,7 @@ const AppHeader = () => {
                   Staking
                 </h6>
                 <span className="light-text">Stake shiba and earn rewards</span>
-              </NavDropdown.Item>
+              </NavDropdown.Item> */}
               {/* <NavDropdown.Item href="#action/3.3">
                         <h6 className="fw-600 light-text left-border">
                           Widget Dashboard

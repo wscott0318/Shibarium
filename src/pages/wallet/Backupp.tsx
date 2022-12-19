@@ -84,6 +84,7 @@ export default function Wallet() {
   const [selectedToken, setSelectedToken] = useState<any>({})
   const [searchKey, setSearchKey] = useState<string>('');
   const [modalKeyword, setmodalKeyword] = useState<string>('');
+  const [nullAddress,setNullAddress]=useState(false)
 
   const searchResult = useSearchFilter(tokenList, searchKey.trim());
 
@@ -97,9 +98,14 @@ export default function Wallet() {
   // console.log(selectedToken)
 
   const verifyAddress = (address: any) => {
-    let result = Web3.utils.isAddress(address)
+    try{
+      let result = Web3.utils.isAddress(address)
     setIsValidAddress(result)
     return result
+    }
+    catch(err:any){
+      Sentry.captureException("verifyAddress ", err);
+    }
   }
 
   const getNetworkName = () => {
@@ -118,16 +124,15 @@ export default function Wallet() {
   }
 
   const getTokensList = () => {
-    // console.log("token list called ==> ")
-    try{
-      setListLoader(true)
+    try{// console.log("token list called ==> ")
+    setListLoader(true)
     getWalletTokenList().then(res => {
       let list = res.data.message.tokens
       // .sort((a: any, b: any) => {
       //   return (parseInt(b.balance) - parseInt(a.balance));
       // });
       list.forEach(async (x: any) => {
-        x.balance = await getTokenBalance(lib, account, x.parentContract)
+        x.balance = 0 //await getTokenBalance(lib, account, x.parentContract)
       })
       setTokenList(list)
       setTokenFilteredList(list)
@@ -159,6 +164,7 @@ export default function Wallet() {
 
 
   const handleChange = (e: any) => {
+    setNullAddress(true)
     setSenderAdress(e.target.value)
     const isValid = verifyAddress(e.target.value)
     // console.log(isValid)
@@ -171,10 +177,11 @@ export default function Wallet() {
   }
 
   const handleSend = (e :any) => {
-   try {
-    e.preventDefault()
+    try{
+      e.preventDefault()
     // console.log("called handleSend")
-    if (isValidAddress && sendAmount) {
+    if (isValidAddress && sendAmount && senderAddress) {
+      // console.log("called handleSend")
       setSendModal({
         step0: false,
         step1: false,
@@ -214,8 +221,7 @@ export default function Wallet() {
     );
     setSliceTokenFilteredList(slicedList);
     setCurrentPage(index);
-    }
-    catch(err:any){
+    }catch(err:any){
       Sentry.captureException("pageChangeHandler ", err);
     }
   };
@@ -256,8 +262,8 @@ export default function Wallet() {
   // console.log(tokenList, tokenFilteredList, slicedTokenFilteredList)
 
   const submitTransaction = async () => {
-   try{
-   let user: any = account;
+    try{
+      let user: any = account;
     let amount = web3.utils.toBN(fromExponential(+sendAmount * Math.pow(10, 18)));
     let instance = new web3.eth.Contract(ERC20, '0x5063b1215bbF268ab00a5F47cDeC0A4783c3Ab58');
     instance.methods.transfer(senderAddress, amount).send({ from: user })
@@ -321,11 +327,11 @@ export default function Wallet() {
           setSendModal(sendInitialState)
         }
       })
-    }
-    catch(err:any){
-      Sentry.captureException("submitTransaction ", err);
-    }
   }
+  catch(err:any){
+    Sentry.captureException("submitTransaction ", err);
+  }
+}
 
 
   // transactionCounts()
@@ -356,7 +362,7 @@ export default function Wallet() {
   catch(err:any){
     Sentry.captureException("handleSendAmount ", err);
   }
-  }
+}
   const [sendToken, setSendToken] = useState('');
 
   const sendTokenWithRoute = async (x: any, type: any = "deposit") => {
@@ -367,7 +373,7 @@ export default function Wallet() {
     await Router.push(`/bridge`);
     }
     catch(err:any){
-      Sentry.captureException("sendTokenWithRoute " , err);
+      Sentry.captureException("sendTokenWithRoute ", err);
     }
   }
 
@@ -507,11 +513,11 @@ export default function Wallet() {
                             placeholder="Receiver address"
                           />
                           <div className="error-msg">
-                            {!isValidAddress && senderAddress && (
-                              <label className="mb-0 red-txt">
-                                Enter a valid receiver address
+                            {nullAddress?(!isValidAddress &&(
+                              <label className="mb-0 red-txt" style={{color:"#F06500"}}>
+                                {senderAddress?<>Enter a valid receiver address</> : <>receiver address should not be null</>}
                               </label>
-                            )}
+                            )):null}
                           </div>
                         </div>
                         <div className="form-group">
