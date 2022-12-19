@@ -53,6 +53,7 @@ const DelegatePopup: React.FC<any> = ({
   const [toastMassage, setToastMassage] = useState("");
   const { account, chainId = 1, library } = useActiveWeb3React();
   const web3 = useLocalWeb3();
+  const [buyvocherSuccess , setBuyvocherSuccess] = useState(false)
 
   const dispatch = useAppDispatch()
 
@@ -118,6 +119,7 @@ const DelegatePopup: React.FC<any> = ({
 
   
   const buyVouchers = async () => {
+    // setBuyvocherSuccess(false)
     try {
       setLoader(true);
     const requestBody = {
@@ -334,6 +336,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
             });
             // setdelegatepop(true);
             callAPIforDelegator(requestBody)
+            // setBuyvocherSuccess(true)
             // window.location.reload();
           })
           .on("error", (err: any) => {
@@ -357,6 +360,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
 
   const handleClose = () => {
     setdelegateState(initialModalState)
+    // buyvocherSuccess? window.location.reload(): null
     setdelegatepop()
   }
 
