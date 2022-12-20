@@ -86,8 +86,8 @@ export const checkImageType = (image) => {
   }
 };
 
-export const checkpointVal = 0;
-export const comissionVal = 0;
+export const checkpointVal = 80;
+export const comissionVal = 10;
 
 export const ErrorMessage = "execution reverted: not pub";
 
@@ -185,4 +185,43 @@ export const getDefaultChain = async () => {
   } else {
     return "eth";
   }
+};
+
+export const clearCacheData = () => {
+  // caches.keys().then((names) => {
+  //   names.forEach((name) => {
+  //     caches.delete(name);
+  //   });
+  // });
+//   caches.keys().then(function(names) {
+//     for (let name of names)
+//         caches.delete(name);
+// });
+  // self.addEventListener('activate', function(event) {
+  //   event.waitUntil(
+  //     caches.keys().then(function(cacheNames) {
+  //       return Promise.all(
+  //         cacheNames.filter(function(cacheName) {
+  //         }).map(function(cacheName) {
+  //           return caches.delete(cacheName)
+  //         })
+  //       );
+  //     })
+  //   );
+  // });
+  self.addEventListener("activate", (event) => {
+    const cachesToKeep = ["v2"];
+      console.log("in clearing cache")
+        event.waitUntil(
+          caches.keys().then((keyList) =>
+            Promise.all(
+              keyList.map((key) => {
+                if (!cachesToKeep.includes(key)) {
+                  return caches.delete(key);
+                }
+              })
+            )
+          )
+        );
+  });
 };

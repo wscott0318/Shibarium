@@ -57,7 +57,6 @@ const DelegatePopup: React.FC<any> = ({
     state: false,
     title: "",
   });
-  const [buyvocherSuccess , setBuyvocherSuccess] = useState(false)
 
   const dispatch = useAppDispatch()
 
@@ -120,7 +119,6 @@ const DelegatePopup: React.FC<any> = ({
   };
   
   const buyVouchers = async () => {
-    // setBuyvocherSuccess(false)
     try {
       setLoader(true);
     const requestBody = {

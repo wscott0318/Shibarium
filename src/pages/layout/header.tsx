@@ -15,7 +15,7 @@ import { useNetworkModalToggle } from "../../state/application/hooks";
 import { useActiveWeb3React } from "../../services/web3";
 import NetworkModel from "../../modals/NetworkModal";
 import QrModal from "pages/components/QrModal";
-import { getNetworkName } from "web3/commonFunctions";
+import { clearCacheData, getNetworkName } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 import ChainWarning from "pages/components/ChainWarning";
 
@@ -33,6 +33,8 @@ export default function Header() {
   const [valId, setValId] = useValId();
 
   const [showWarning, setShowWarning] = useState(false);
+
+
 
   useEffect(() => {
     if(account) {
@@ -61,9 +63,10 @@ export default function Header() {
     }
   }, [account])
 
-
+//@ts-ignore
   const logoutHandler = () => {
     deactivate();
+    clearCacheData();
     router.push("/home");
   };
 
@@ -107,7 +110,6 @@ export default function Header() {
 
 
   }, [active, account])
-
 
 
   return (
