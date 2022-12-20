@@ -39,7 +39,7 @@ export default function Home() {
                     </p>
                     <div className="banner-btn">
                       <div className="btn-col">
-                        <Link href={account ? "/wallet" : "/login"} passHref>
+                        <Link href={account ? "/bone-staking" : "/login"} passHref>
                           <a className="btn primary-btn w-100 d-block ff-mos">
                             Launch App
                           </a>
