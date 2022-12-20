@@ -80,7 +80,15 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     mobileOnly: true,
   },
   WALLET_CONNECT: {
-    connector: walletconnect,
+    connector: async () => {
+      const WalletConnectConnector = (await import('@web3-react/walletconnect-connector')).WalletConnectConnector
+      return new WalletConnectConnector({
+        rpc: RPC,
+        bridge: 'https://bridge.walletconnect.org',
+        qrcode: true,
+        supportedChainIds,
+      })
+    },
     name: 'WalletConnect',
     iconName: 'wallet-connect.svg',
     description: 'Connect to Trust Wallet, Rainbow Wallet and more...',

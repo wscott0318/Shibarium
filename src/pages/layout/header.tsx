@@ -41,6 +41,8 @@ export default function Header() {
       if(router.asPath != '/home'){
         checkConnectedChain();
       }
+    } else {
+      setShowWarning(false);   
     }
   }, [chainId, account]);
 

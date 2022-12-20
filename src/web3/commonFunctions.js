@@ -4,6 +4,7 @@ import { ChainId } from "shibarium-chains";
 import * as Sentry from "@sentry/nextjs";
 import { CHAINS, URL_ARRAY } from "../config/networks";
 import { useEffect, useState } from "react";
+
 export const getAllowanceAmount = async (library, token, account, contract) => {
   if (account) {
     let lib = library;
@@ -116,6 +117,7 @@ export const fetchLink = async (link, setter, errorSetter) => {
     setter(null);
   }
 };
+
 export const useStorage = (defaultChain = "") => {
   const [coinList, setCoinList] = useState([]);
   const [chain, setChain] = useState(defaultChain);
