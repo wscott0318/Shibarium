@@ -619,7 +619,7 @@ ul {
             width: 100%;
             position: relative;
             padding-top: 0;
-            padding-bottom: 32px;
+            padding-bottom: 14px;
             text-align: center !important;
             @media #{$max-sm}{
                 padding-bottom: 15px;
@@ -735,6 +735,15 @@ body {
   left: 0;
   width: 50%;
   height: auto;
+}
+.del-pop .watch-img-sec {
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.del-pop .image_area.row {
+    min-height: 150px;
 }
 .scrolldown-container .scrolldown-btn svg path.first-path {
   animation: scrollanim 1s ease-in-out infinite;
