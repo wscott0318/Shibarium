@@ -274,7 +274,7 @@ const MigratePopup: React.FC<any> = ({
             </div>
             <div className="step-title">Migrate</div>
           </li>
-          <li className={`step ${!(processing == "Migrate") && "active"}`}>
+          <li className={`step ${(processing != "Migrate") && "active"}`}>
             <div className="step-ico">
               <img
                 className="img-fluid"
@@ -301,12 +301,13 @@ const MigratePopup: React.FC<any> = ({
               <div className="ax-top">
                 <div className="image_area row">
                   <div className="col-12 text-center watch-img-sec">
-                    <img
+                    {/* <img
                       className="img-fluid img-wdth"
                       src="../../assets/images/progress-loading.gif"
                       height="150"
                       width="150"
-                    />
+                    /> */}
+                     <CircularProgress color="inherit" size={120} style={{color:"#f06500"}} />
                   </div>
                 </div>
                 <div className="mid_text row">

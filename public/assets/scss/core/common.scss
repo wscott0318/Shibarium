@@ -2382,7 +2382,7 @@ input:checked + .slider:before {
     height: calc(100% - 65px);
   }
   .watch-img-sec {
-    height: 180px;
+    height: auto;
     @media #{$max-md} {
       height: 150px;
     }
@@ -4373,6 +4373,9 @@ input:-internal-autofill-selected {
 }
 .del-pop .watch-img-sec {
   height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .unbnd-pop {
   .trans-loader {
@@ -4415,11 +4418,10 @@ input:-internal-autofill-selected {
   }
   .MaxAmountButton {
     top: 44%;
-    background: $primary;
-    color: $white;
+    color: $primary;
     padding: 5px;
     border-radius: 6px;
-    font-size: 13px;
+    font-size: 14px;
   }
 }
 .no-lft {

@@ -26,7 +26,7 @@ import { currentGasPrice } from "../../web3/commonFunctions";
 import { tokenDecimal } from '../../web3/commonFunctions';
 import * as Sentry from "@sentry/nextjs";
 import {setDelegatorData} from "../../services/apis/user/userApi"
-
+import { CircularProgress } from '@material-ui/core';
 
 const initialModalState = {
   step0: true,
@@ -567,12 +567,13 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                 <div className="ax-top">
                   <div className="image_area row">
                     <div className="col-12 text-center watch-img-sec">
-                      <img
+                      {/* <img
                         className="img-fluid img-wdth"
                         src="../../assets/images/progress-loading.gif"
                         height="150"
                         width="150"
-                      />
+                      /> */}
+                       <CircularProgress color="inherit" size={120} style={{color:"#f06500"}}/>
                     </div>
                   </div>
                   <div className="mid_text row">

@@ -42,13 +42,13 @@
     margin-bottom: 15px;
 }
 .val_popups{
-    padding-top: 20px;
+    padding-top: 10px;
     // min-height: 295px;
     ::placeholder{
         color:$lt-grey;
     }
     .pop_btns_area{
-        margin-top: 50px;
+        margin-top: 40px;
     }
 }
 .val_all_bts{
@@ -107,6 +107,7 @@
     .image_area{
         display: flex;
         justify-content: center;
+        min-height: 180px;
     }
     .redu_img{
         width: 130px;
