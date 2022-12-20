@@ -2282,8 +2282,8 @@ const validatorAccount = ({
                               <div className="cus-tooltip d-inline-block">
                                 <button
                                   disabled={
-                                    parseInt(item.commission) == comissionVal ||
-                                    item.checkpointSignedPercent <
+                                    parseInt(item.commission) <= comissionVal ||
+                                    item.checkpointSignedPercent <=
                                     checkpointVal ||
                                     parseInt(item.reward) / 10 ** web3Decimals <
                                     1 ||

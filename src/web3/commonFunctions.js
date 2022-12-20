@@ -86,8 +86,8 @@ export const checkImageType = (image) => {
   }
 };
 
-export const checkpointVal = 0;
-export const comissionVal = 0;
+export const checkpointVal = 80;
+export const comissionVal = 10;
 
 export const ErrorMessage = "execution reverted: not pub";
 
