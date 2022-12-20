@@ -15,7 +15,7 @@ import { useNetworkModalToggle } from "../../state/application/hooks";
 import { useActiveWeb3React } from "../../services/web3";
 import NetworkModel from "../../modals/NetworkModal";
 import QrModal from "pages/components/QrModal";
-import { getNetworkName } from "web3/commonFunctions";
+import { clearCacheData, getNetworkName } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 import ChainWarning from "pages/components/ChainWarning";
 
@@ -68,19 +68,6 @@ export default function Header() {
     deactivate();
     // clearCacheData();
     router.push("/home");
-  };
-
-
-  const clearCacheData = () => {
-    // caches.keys().then((names) => {
-    //   names.forEach((name) => {
-    //     caches.delete(name);
-    //   });
-    // });
-    caches.keys().then(function(names) {
-      for (let name of names)
-          caches.delete(name);
-  });
   };
 
   const getUsertypeAPI = (accountAddress: any) => {
