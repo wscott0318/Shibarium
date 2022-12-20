@@ -27,6 +27,13 @@ import { useAppDispatch } from "../../state/hooks"
 import { currentGasPrice, tokenDecimal, USER_REJECTED_TX, web3Decimals } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 import { dynamicChaining } from "web3/DynamicChaining";
+import { CircularProgress } from "@material-ui/core";
+const initialModalState = {
+  show: false,
+  onHash: false,
+  onReceipt: false,
+  title: ""
+}
 export default function Unbond() {
 
   const [list, setList] = useState([]);
@@ -37,16 +44,13 @@ export default function Unbond() {
   const [transactionLink, setTransactionLink] = useState('')
   const dispatch = useAppDispatch();
   // const {account,chainId=1} = useActiveWeb3React()
+  const [transactionState, setTransactionState] = useState(initialModalState);
   const pageSize = 10;
   const [currentPage, setCurrentPage] = useState<number>(1);
   const lib: any = library
   const web3: any = new Web3(lib?.provider)
   const [userType, setUserType] = useUserType();
   const [loader, setLoader] = useState(false);
-  const [transactionState, setTransactionState] = useState({
-    state: false,
-    title: "",
-  });
   const getValidatorContractAddress = async (validatorID: any) => {
     try {
       let user = account;
@@ -90,16 +94,16 @@ export default function Unbond() {
   const unboundClaimAPI = async () => {
     setLoader(true)
     try {
+      setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Pending" });
+      setTransactionLink("");
       let data = {
         delegatorAddress: account,
         validatorId: claimNowModals?.data?.validatorId,
         unbondNonce: claimNowModals?.data?.nonce
       }
-      
       let validatorContract = await getValidatorContractAddress((parseInt(data.validatorId)))
       // console.log(data, validatorContract)
       if (account) {
-        setTransactionState({ state: true, title: "Pending" });
         let walletAddress = account
         let instance = new web3.eth.Contract(ValidatorShareABI, validatorContract);
         let gasFee = await instance.methods.unstakeClaimTokens_new(data.unbondNonce).estimateGas({ from: walletAddress })
@@ -128,7 +132,7 @@ export default function Unbond() {
             setTransactionLink(link)
             // console.log(link)
             setClamNowModals((pre: any) => ({ ...pre, progress: true, confirm: true }))
-            setTransactionState({ state: true, title: "Submitted" });
+            setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
           }).on('receipt', (res: any) => {
             // console.log(res, "receipt")
             dispatch(
@@ -153,11 +157,13 @@ export default function Unbond() {
               progress: false,
               completed: false
             })
+            setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
             setLoader(false)
             getUnboundHistory(account)
+            setTimeout(() => {setTransactionState(initialModalState)},2000);
           }).on('error', (res: any) => {
             // console.log(res, "error")
-            setTransactionState({ state: false, title: "" });
+            setTransactionState(initialModalState);
             setClamNowModals({
               data: {},
               confirm: false,
@@ -172,7 +178,7 @@ export default function Unbond() {
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureException("unboundClaimAPI ", err);
       }
-      setTransactionState({ state: false, title: "Submitted" });
+      setTransactionState(initialModalState);
     }
     // console.log(validatorContract)
   }
@@ -232,16 +238,181 @@ export default function Unbond() {
     }
   };
 
-  useEffect(()=>{
-    if(userType != "Delegator"){
+  useEffect(() => {
+    if (userType != "Delegator") {
       router.push('/home')
     }
-  },[userType])
+  }, [userType])
 
-  console.log(userType,"userType-userType")
+  console.log(userType, "userType-userType")
 
   return (
     <>
+      <CommonModal
+        title={"Withdraw Rewards"}
+        show={claimNowModals.confirm}
+        setshow={() => {
+          setClamNowModals(false);
+          setTransactionState(initialModalState);
+        }
+        }
+        externalCls="stak-pop del-pop ffms-inherit"
+      >
+        <div className="popmodal-body tokn-popup no-ht trans-mod">
+          <div className="pop-block">
+            <ul className="stepper mt-3 del-step">
+              <li className="step active">
+                <div className="step-ico">
+                  <img
+                    className="img-fluid"
+                    src="../../assets/images/tick-yes.png"
+                    alt="check-icon"
+                  />
+                </div>
+                <div className="step-title">Approved</div>
+              </li>
+              <li className={`step ${(transactionState.onHash) && "active"}`}>
+                <div className="step-ico">
+                  <img
+                    className="img-fluid"
+                    src="../../assets/images/tick-yes.png"
+                    alt="check-icon"
+                  />
+                </div>
+                <div className="step-title">Submitted</div>
+              </li>
+              <li className={`step ${(transactionState.onReceipt) && "active"}`}>
+                <div className="step-ico">
+                  <img
+                    className="img-fluid"
+                    src="../../assets/images/tick-yes.png"
+                    alt="check-icon"
+                  />
+                </div>
+                <div className="step-title">Completed</div>
+              </li>
+            </ul>
+            {
+              transactionState.show && transactionState.title == "Pending" && (
+                <div className="del-tab-content" style={{ height: "80%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                  <div className="pb-3 pb-sm-4">
+                    <h5 className="mb-3 text-center">
+                      Your unbounding period is complete. you can claim your stake
+                      now.
+                    </h5>
+                    <p className="lite-text text-center lite-color fw-600">
+                      Your stake will be transferred to
+                      <span className="d-block txt-wrp">{account}</span>
+                    </p>
+                  </div>
+                  <div className="dark-bg-800 p-2 p-sm-3 text-center">
+                    <p className="lite-color fw-600">Stake to claim</p>
+                    <h3>{claimNowModals?.data?.amount ? parseInt(claimNowModals?.data?.amount) / 10 ** web3Decimals + " BONE " : null} </h3>
+                    {/* <p className="lite-color fw-600">$8.17</p> */}
+                  </div>
+                  {/* <div className="arrow-block mt-2 mt-sm-3">
+                  <p>$3.359 Gas Fee</p>
+                  <div className="arrow-float">
+                      <img className="img-fluid" src="../../assets/images/rt-arow.png" alt="arrow" width={8} />
+                  </div>
+              </div> */}
+                  <div className="button-wrap mt-3">
+                    <button
+                      type="button"
+                      disabled={loader}
+                      className="btn primary-btn w-100"
+                      onClick={() => unboundClaimAPI()}
+                    >
+                      Confirm
+                    </button>
+                  </div>
+                </div>
+              )
+            }
+            {transactionState.onHash && transactionState.title == "Submitted" && (
+              <div className="step_content fl-box">
+                <div className="ax-top">
+                  <div className="image_area row">
+                    <div className="col-12 text-center watch-img-sec">
+                      <CircularProgress color="inherit" size={120} style={{ color: "#f06500" }} />
+                    </div>
+                  </div>
+                  <div className="mid_text row">
+                    <div className="col-12 text-center">
+                      <h4 className="ff-mos">Transaction Processing</h4>
+                    </div>
+                    <div className="col-12 text-center">
+                      <p className="ff-mos">
+                        BONE transactions can take longer time to complete
+                        based upon network congestion. Please wait or increase
+                        the gas price of the transaction.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="ax-bottom">
+                  <div className="pop_btns_area row form-control mt-3">
+                    <div className="col-12">
+                      <button
+                        className={`btn primary-btn d-flex align-items-center justify-content-center w-100`}
+                        // target="_blank"
+                        disabled={transactionLink == "" ? false : true}
+                        onClick={() => window.open(transactionLink)}
+                      // href={hashLink}
+                      >
+                        <span>View on Block Explorer</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {
+              transactionState.onReceipt && transactionState.title == "Completed" && (
+                <div className="step_content fl-box">
+                  <div className="ax-top">
+                    <div className="image_area row">
+                      <div className="col-12 text-center watch-img-sec">
+                        <img
+                          className="img-fluid img-wdth"
+                          src="../../assets/images/cmpete-step.png"
+                          width="150"
+                          height="150"
+                        />
+                      </div>
+                    </div>
+                    <div className="mid_text row">
+                      <div className="col-12 text-center">
+                        <h4 className="ff-mos">Transaction Completed</h4>
+                      </div>
+                      <div className="col-12 text-center">
+                        <p className="ff-mos">
+                          Transaction is completed. Visit link to see details.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="ax-bottom">
+                    <div className="pop_btns_area row form-control mt-3">
+                      <div className="col-12">
+                        <button className="w-100">
+                          <a
+                            className="btn primary-btn d-flex align-items-center justify-content-center"
+                            target="_blank"
+                            href={transactionLink}
+                          >
+                            <span>View on Block Explorer</span>
+                          </a>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )
+            }
+          </div>
+        </div>
+      </CommonModal>
       <Header />
       {/* {userType === "NA" ? router.push("/home"): null} */}
       <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh ffms-inherit staking-main">
@@ -317,13 +488,14 @@ export default function Unbond() {
                                     className="primary-badge px-2 hd-sel disabled block"
                                     type="button"
                                     disabled={true}
-                                    onClick={() =>
+                                    onClick={() => {
                                       setClamNowModals({
                                         data: value,
                                         confirm: true,
                                         progress: false,
                                         completed: false,
-                                      })
+                                      });
+                                    }
                                     }
                                   //  className="mb-0 fs-12 "
                                   >
@@ -343,12 +515,18 @@ export default function Unbond() {
                                     type="button"
                                     onClick={() => {
                                       // console.log("called ===> ");
-                                      setClamNowModals({
+                                      {setClamNowModals({
                                         data: value,
                                         confirm: true,
                                         progress: false,
                                         completed: false,
                                       });
+                                      setTransactionState({
+                                        show: true,
+                                        onHash: false,
+                                        onReceipt: false,
+                                        title: "Pending"
+                                      })}
                                     }}
                                   //  className="mb-0 fs-12 "
                                   >
@@ -402,49 +580,6 @@ export default function Unbond() {
       </main>
 
       {/* modal started  */}
-      <CommonModal
-        title={"Withdraw Rewards"}
-        show={claimNowModals.confirm}
-        setshow={() =>{setClamNowModals(false);
-          if (transactionState.state) {
-            window.location.reload()
-          }}}
-        externalCls="rstk-popup"
-      >
-        <div className="del-tab-content">
-          <div className="pb-3 pb-sm-4">
-            <h5 className="mb-3 text-center">
-              Your unbounding period is complete. you can claim your stake
-              now.
-            </h5>
-            <p className="lite-text text-center lite-color fw-600">
-              Your stake will be transferred to
-              <span className="d-block txt-wrp">{account}</span>
-            </p>
-          </div>
-          <div className="dark-bg-800 p-2 p-sm-3 text-center">
-            <p className="lite-color fw-600">Stake to claim</p>
-            <h3>{claimNowModals?.data?.amount ? parseInt(claimNowModals?.data?.amount) / 10 ** web3Decimals + " BONE " : null} </h3>
-            {/* <p className="lite-color fw-600">$8.17</p> */}
-          </div>
-          {/* <div className="arrow-block mt-2 mt-sm-3">
-                  <p>$3.359 Gas Fee</p>
-                  <div className="arrow-float">
-                      <img className="img-fluid" src="../../assets/images/rt-arow.png" alt="arrow" width={8} />
-                  </div>
-              </div> */}
-          <div className="button-wrap mt-3">
-            <button
-              type="button"
-              disabled={loader}
-              className="btn primary-btn w-100"
-              onClick={() => unboundClaimAPI()}
-            >
-              Confirm
-            </button>
-          </div>
-        </div>
-      </CommonModal>
     </>
   );
 }
