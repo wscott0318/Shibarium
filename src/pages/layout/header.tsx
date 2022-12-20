@@ -66,7 +66,7 @@ export default function Header() {
 //@ts-ignore
   const logoutHandler = () => {
     deactivate();
-    // clearCacheData();
+    clearCacheData();
     router.push("/home");
   };
 

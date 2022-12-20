@@ -209,7 +209,7 @@ export const clearCacheData = () => {
   //     })
   //   );
   // });
-  this.addEventListener("activate", (event) => {
+  self.addEventListener("activate", (event) => {
     const cachesToKeep = ["v2"];
       console.log("in clearing cache")
         event.waitUntil(
