@@ -54,11 +54,11 @@ const AccountDetails: FC<AccountDetailsProps> = ({
     if (chainId) dispatch(clearAllTransactions({ chainId }))
   }, [dispatch, chainId])
 
- useEffect(() => {
-     if(account){
-      router.push("/bone-staking")
-     }
- },[])
+//  useEffect(() => {
+//      if(account){
+//       router.push("/bone-staking")
+//      }
+//  },[])
 
   useEffect(() => {
     const { ethereum } = window as any

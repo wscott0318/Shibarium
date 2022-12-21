@@ -97,7 +97,7 @@ const MigratePopup: React.FC<any> = ({
     onHide();
   };
 
-  console.log({ migrateDataRow, data })
+  // console.log({ migrateDataRow, data })
 
   const totalStake = (migrateData: any) => {
     // console.log("item contains ", migrateData.migrateData);
@@ -223,11 +223,12 @@ const MigratePopup: React.FC<any> = ({
         balance,
         "Amount of input fields can't be more than account balance"
       )
+      .min(1,"Invalid amount.")
       .positive("Enter valid Balance.")
       .required("Balance is required."),
   });
   const initialValues = {
-    balance: "",
+    balance: 0,
   };
   const {
     values,
@@ -522,12 +523,14 @@ const MigratePopup: React.FC<any> = ({
                     <div className="ax-bottom">
                       <div className="pop_btns_area row form-control mt-3">
                         <div className="col-12">
-                          <button className="w-100" type="submit" value="submit">
-                            <div className="btn primary-btn d-flex align-items-center justify-content-center">
+                          <button className={`w-100 ${values.balance <= 0 && "disabled"}`} type="submit" value="submit" disabled={values.balance > 0 ? false : true}>
+                            <div className="btn primary-btn d-flex align-items-center justify-content-center" >
                               <button onClick={(e: any) => {
                                 e.preventDefault();
                                 migrateStake(values, data, migrateData);
-                              }}>Continue</button>
+                              }}
+                              disabled={values.balance > 0 ? false : true}
+                              >Continue</button>
                             </div>
                           </button>
                         </div>
