@@ -177,18 +177,18 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
               </div>
             </div>
           </div>
-          <div className="d-flex align-items-center btns-space tab-btns">
+         {balance?.migrateData ? null :  <div className="d-flex align-items-center btns-space tab-btns">
             <div className="me-3">
               <p onClick={() => setIsActiveTab(true)} className={`btn black-btn ff-mos ${isActiveTab ? "btn-active" : ""}`} title="">
                 <span>Active</span>
               </p>
             </div>
-            {/* <div>
+            <div>
               <p onClick={() => setIsActiveTab(false)} className={`btn black-btn ff-mos ${!isActiveTab ? "btn-active" : ""}`} title="">
                 <span>Inactive</span>
               </p>
-            </div> */}
-          </div>
+            </div>
+          </div>}
           <div className="filter-row ff-mos">
             <div className="left-section icn-wrap">
               <input

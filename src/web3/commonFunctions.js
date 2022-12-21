@@ -227,3 +227,9 @@ export const clearCacheData = () => {
         );
   });
 };
+
+
+export const getUserTimeZone = (time) => {
+  let date = new Date(time) 
+  return date.toLocaleString()
+}

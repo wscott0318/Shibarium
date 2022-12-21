@@ -11,7 +11,7 @@ import Pagination from "app/components/Pagination";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import { useRouter } from "next/router";
 import { useUserType } from "../../state/user/hooks";
-import { addDecimalValue, tokenDecimal, web3Decimals } from "web3/commonFunctions";
+import { addDecimalValue, getUserTimeZone, tokenDecimal, web3Decimals } from "web3/commonFunctions";
 import { dynamicChaining } from 'web3/DynamicChaining';
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { queryProvider } from "Apollo/client";
@@ -61,7 +61,7 @@ export default function Unbond() {
         const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
         const ID = await instance.methods.getValidatorId(user).call({ from: account }); // read
         // console.log(ID)
-        // return ID
+        return ID
       } else {
         // console.log("account addres not found")
       }
@@ -79,7 +79,7 @@ export default function Unbond() {
       const validators = await queryProvider.query({
         query: validatorRewardHistory(valID),
       })
-      // console.log(validators.data.validatorClaimRewards, "added ===> ")
+      console.log(validators.data.validatorClaimRewards,valID, "added ===> ")
       // return validators.data
       setValidatorData(validators.data.validatorClaimRewards)
       setListLoader(false)
@@ -126,17 +126,6 @@ export default function Unbond() {
     }
   }, [account])
 
-  // const formatTimeStamp = (val: any) => {
-  //   return new Date(Number(val * 1000)).toLocaleString();
-  // }
-  // new code below
-  const formatTimeStamp = (val: any) => {
-    var d = new Date(Number(val * 1000));
-    // console.log("d before", val, d.toLocaleString());
-    d.setTime(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
-    // console.log("d after", val, d.toLocaleString());
-    return d.toLocaleString();
-  };
   const router = useRouter();
 
   return (
@@ -184,7 +173,7 @@ export default function Unbond() {
                           </td>
                           <td>
                             <span className="tb-data align">
-                              {formatTimeStamp(value.timestamp)}
+                              {getUserTimeZone(parseInt(value.timestamp) * 1000)}
                             </span>
                           </td>
                         </tr>
@@ -200,7 +189,7 @@ export default function Unbond() {
                 </table>
               </div>
 
-              {/* {!listLoader && !validatorData.length && !validatorData.length ? (
+              {!listLoader && !validatorData.length && !validatorData.length ? (
                 <div className="no-found">
                   <div>
                     <div className="text-center">
@@ -208,7 +197,7 @@ export default function Unbond() {
                     </div>
                   </div>
                 </div>
-              ) : null} */}
+              ) : null}
             </div>
             <div className="mt-sm-4 mt-3">
               {slicedList.length > 0? (
@@ -268,7 +257,7 @@ export default function Unbond() {
                             </td>
                             <td>
                               <span className="tb-data align">
-                                {formatTimeStamp(value.timestamp)}
+                                {getUserTimeZone(parseInt(value.timestamp) * 1000)}
                               </span>
                             </td>
                           </tr>

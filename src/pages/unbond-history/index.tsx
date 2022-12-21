@@ -24,7 +24,7 @@ import { useUserType } from "../../state/user/hooks";
 import { useRouter } from "next/router";
 import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
 import { useAppDispatch } from "../../state/hooks"
-import { currentGasPrice, tokenDecimal, USER_REJECTED_TX, web3Decimals } from "web3/commonFunctions";
+import { currentGasPrice, getUserTimeZone, tokenDecimal, USER_REJECTED_TX, web3Decimals } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 import { dynamicChaining } from "web3/DynamicChaining";
 import { CircularProgress } from "@material-ui/core";
@@ -220,6 +220,8 @@ export default function Unbond() {
     let lastIndex = x.lastIndexOf(" ");
     return x.substring(0, lastIndex);
   };
+
+
   var countDecimals = function (value: any) {
     if (Math.floor(value) === value) return 0;
     return value.toString().split(".")[1].length || 0;
@@ -540,7 +542,7 @@ export default function Unbond() {
                           </td>
                           <td className="text-start">
                             <span className="tb-data align">
-                              {removeGMT(value.unbondStartedTimeStampFormatted)}
+                              {getUserTimeZone(value.unbondStartedTimeStampFormatted)}
                             </span>
                           </td>
                         </tr>
