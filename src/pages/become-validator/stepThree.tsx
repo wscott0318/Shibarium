@@ -158,9 +158,9 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const submitTransaction = async (values: any) => {
     try {
       const user: any = account
-      const amount = web3.utils.toBN(fromExponential(+values.amount * Math.pow(10, 18)));
+      const amount = web3.utils.toBN(fromExponential((parseInt(values.amount) - 1) * Math.pow(10, web3Decimals)));
       const acceptDelegation = 1
-      const heimdallFee = web3.utils.toBN(fromExponential(minHeimdallFee * Math.pow(10, 18)));
+      const heimdallFee = web3.utils.toBN(fromExponential(minHeimdallFee * Math.pow(10, web3Decimals)));
       const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
       const gasFee = await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).estimateGas({ from: user })
       const encodedAbi = await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).encodeABI()

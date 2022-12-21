@@ -17,7 +17,6 @@ import { useRouter } from 'next/router';
 
 
 const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boolean }) => {
-  const pageSize = 10;
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const [validatorsByStatus, setValidatorsByStatus] = useState<any[]>([]);
@@ -25,48 +24,20 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
   const [validators, setValidators] = useState<any[]>([]);
   const [isListView, setListView] = useState<boolean>(true);
   const [isActiveTab, setIsActiveTab] = useState<boolean>(true);
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchKey, setSearchKey] = useState<string>('');
   const [sortKey, setSortKey] = useState<string>('Uptime');
 
   const searchResult = useSearchFilter(validatorsByStatus, searchKey.trim());
 
   useEffect(() => {
-    const slicedList = searchResult.slice(0, pageSize).sort((a: any, b: any) => parseInt(b.uptimePercent) - parseInt(a.uptimePercent))
-    const sortAgain = slicedList.slice(0, pageSize).sort((a: any, b: any) => parseInt(b.totalStaked) - parseInt(a.totalStaked))
-    setValidators(sortAgain)
-  }, [searchResult])
-  // console.log("validatorsByStatus",validatorsByStatus)
-
-  // console.log("searchResult",searchResult)
-
-  const fetchValidators = async () => {
-    try {
-      const validators = await queryProvider.query({
-        query: allValidatorsQuery(),
-      })
+    if(searchKey.length) {
+      const slicedList = searchResult.sort((a: any, b: any) => parseInt(b.uptimePercent) - parseInt(a.uptimePercent))
+      const sortAgain = slicedList.sort((a: any, b: any) => parseInt(b.totalStaked) - parseInt(a.totalStaked))
+      setValidatorsByStatus(sortAgain)
+    } else {
+      setValidatorsByStatus(validators)
     }
-    catch (err: any) {
-      Sentry.captureMessage("fetchValidators", err);
-    }
-
-    // console.log(validators, " graphQL query ==== >")
-  }
-
-  // useEffect(() => {
-  //   if(isActiveTab){
-  //     let newData = allValidators.filter((x:any) => x.uptimePercent > 0)
-  //     console.log(newData)
-  //     setValidators(newData)
-  //   } else {
-  //     let newData = allValidators.filter((x:any) => x.uptimePercent <= 0)
-  //     console.log(newData)
-  //     setValidators(newData)
-  //   }
-
-  // },[isActiveTab])
-
-  // console.log(allValidators, "list ")
+  }, [searchKey])
 
   useEffect(() => {
     setLoading(false)
@@ -75,28 +46,17 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
         setLoading(false)
         if (res.status == 200) {
           setAllValidators(res.data.data.validatorsList);
-          // console.log(res.data.data.validatorsList);
-          var activeList = filter(
+          let activeList = filter(
             res.data.data.validatorsList,
             (e) => e.uptimePercent !== 0
           );
-          // console.log(activeList)
-          if (withStatusFilter) {
             setValidatorsByStatus(activeList);
-            const slicedList = activeList.slice(0, pageSize)
-            setValidators(slicedList)
-          } else {
-            setValidatorsByStatus(activeList);
-            const slicedList = activeList.slice(0, pageSize)
-            setValidators(slicedList)
-          }
+            setValidators(activeList)
         }
       })
       .catch((err: any) => {
         setLoading(false)
       });
-
-    fetchValidators();
   }, []);
 
   useEffect(() => {
@@ -106,21 +66,10 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
     } else {
       filtered = allValidators.filter(e => e.uptimePercent <= inActiveCount)
     }
-    // console.log("all validators ", filtered);
     setValidatorsByStatus(filtered)
   }, [isActiveTab , allValidators]);
 
-  const pageChangeHandler = (index: number) => {
-    // console.log(index)
-    try {
-      const slicedList = validatorsByStatus.slice((index - 1) * pageSize, (index * pageSize))
-      setValidators(slicedList)
-      setCurrentPage(index)
-    }
-    catch (err: any) {
-      Sentry.captureMessage("pageChangeHandler", err);
-    }
-  }
+
   const onSort = (key: string, column: string, type: string) => {
     try {
       setSortKey(key)
@@ -130,10 +79,9 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
           return (Number(b[column]) - Number(a[column]))
         })
       } else {
-        sortedList = orderBy(validators, column, 'asc');
-
+        sortedList = orderBy(validatorsByStatus, column, 'asc');
       }
-      setValidators(sortedList)
+      setValidatorsByStatus(sortedList)
     }
     catch (err: any) {
       Sentry.captureMessage("onSort", err);
@@ -194,7 +142,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
                   <Dropdown.Menu>
                     {/* <Dropdown.Item onClick={() => onSort('Random', 'name','string')}>Random</Dropdown.Item> */}
                     <Dropdown.Item onClick={() => onSort('Commission', 'commissionrate', 'number')}>Commission</Dropdown.Item>
-                    <Dropdown.Item onClick={() => onSort('Self', 'selfpercent', 'number')}>Self</Dropdown.Item>
+                    <Dropdown.Item onClick={() => onSort('Total Staked', 'totalstaked', 'number')}>Total Staked</Dropdown.Item>
                     {/* <Dropdown.Item onClick={() => onSort('Voting Power', 'totalstaked','number')}>
                           Voting Power
                         </Dropdown.Item> */}
@@ -217,16 +165,12 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
             </div>
           </div>
           {isListView ? (
-            <ListView migrateData={{}} loading={loading} searchKey={searchKey} validatorsList={validators} />
+            <ListView migrateData={{}} loading={loading} searchKey={searchKey} validatorsList={validatorsByStatus} />
           ) : (
             <div className="grid-view-wrap">
-              <ValidatorGrid migrateData={{}} searchKey={searchKey} validatorsList={validators} />
+              <ValidatorGrid migrateData={{}} searchKey={searchKey} validatorsList={validatorsByStatus} />
             </div>
           )}
-          {isListView && validatorsList.length ? <div className='mt-sm-4 mt-3'>
-            <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={searchKey ? searchResult.length : validatorsByStatus.length || 1} currentPage={currentPage} />
-          </div> : null
-          }
         </div>
       </section>
     </>
