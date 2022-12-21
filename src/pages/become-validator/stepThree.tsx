@@ -39,12 +39,13 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const [minDeposit, setMinDeposit] = useState<number>(0);
   const [minHeimdallFee, setMinHeimdallFee] = useState<number>(0);
   const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
+  const isLoading = availBalance == -1;
   let schema = yup.object().shape({
     amount: yup.number()
-    .typeError("Only digits are allowed.")
-    .moreThan(1,"Amount should be at-least greater than 1")
-    .max(availBalance)
-    .required("Amount is required."),
+      .typeError("Only digits are allowed.")
+      .moreThan(1, "Amount should be at-least greater than 1")
+      .max(availBalance)
+      .required("Amount is required."),
   })
   const [loader, setLoader] = useState("step1");
 
@@ -55,12 +56,10 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     four: false
   })
 
-
-
   useEffect(() => {
     if (account) {
       getMinimunFee()
-    } 
+    }
   }, [account]);
 
 
@@ -149,10 +148,10 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       } else {
         // console.log("account not connected ====> ")
       }
-    } catch (err :any) {
+    } catch (err: any) {
       setTransactionState({ state: false, title: '' })
     }
-    
+
   }
 
   const submitTransaction = async (values: any) => {
@@ -334,12 +333,12 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
   return (
     <>
-    <ToastContainer/>
+      <ToastContainer />
       {/* {apiLoading && <LoadingSpinner />} */}
       <div className="progress-tab">
         <div className="mb-4 mb-xl-5">
           <h5 className="fw-700 mb-2 ff-mos">Add your stake amount</h5>
-          <p className="ff-mos">Please provide your stake amount detail here</p>
+        <p className="ff-mos">Please provide your stake amount detail here</p>
         </div>
         <div className="row">
           <div className="col-sm-6 form-grid">
@@ -351,8 +350,8 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                 <div className="file-icons">
                   <img
                     src={
-                      becomeValidateData.image ? 
-                      checkImageType(becomeValidateData.image)
+                      becomeValidateData.image ?
+                        checkImageType(becomeValidateData.image)
                         : "../../assets/images/file-icon.png"
                     }
                     alt=""
@@ -414,10 +413,9 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
           <div className="col-sm-6 form-grid">
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
-                Signer’s Public key <span className="get-info">i</span>
+                Signer’s Public Key <span className="get-info">i</span>
                 <div className="tool-desc">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Dolorum fugit optio molestias, dolorem magni quia.
+                  Signer's Public Key
                 </div>
               </label>
 
@@ -466,9 +464,9 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               {touched.amount && errors.amount ? (
                 <p className="primary-text pt-2 er-txt">{errors.amount}</p>
               ) : null}
-              {availBalance <= 0 ? (
+              {!isLoading && (availBalance <= 0 ? (
                 <p className="primary-text pt-2 er-txt">Insufficient Balance</p>
-              ) : null}
+              ) : null)}
 
               <div className="row-st">
                 <div className="blk-dta">
@@ -530,105 +528,97 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                         />
                       </div>
                     </span> : */}
-                    <div className='trans-loader'>
-                      <div className="loading-steps">
-                        <div
-                          className={`step_wrapper ${
-                            StepComplete.one ? "completed" : ""
+                  <div className='trans-loader'>
+                    <div className="loading-steps">
+                      <div
+                        className={`step_wrapper ${StepComplete.one ? "completed" : ""
                           }`}
-                        >
-                          <div className={`step1`}>
-                            {loader == "step1" ? (
-                              <CircularProgress color="inherit" />
-                            ) : (
-                              <div>
-                                <img
-                                  className={`img-fluid tick-img ${
-                                    StepComplete.one ? "" : "disabled"
+                      >
+                        <div className={`step1`}>
+                          {loader == "step1" ? (
+                            <CircularProgress color="inherit" />
+                          ) : (
+                            <div>
+                              <img
+                                className={`img-fluid tick-img ${StepComplete.one ? "" : "disabled"
                                   }`}
-                                  src="../../assets/images/green-tick.png"
-                                  alt=""
-                                  width="20"
-                                />
-                              </div>
-                            )}
-                          </div>
-                          <span>Saving info in database.</span>
+                                src="../../assets/images/green-tick.png"
+                                alt=""
+                                width="20"
+                              />
+                            </div>
+                          )}
                         </div>
-                        <div
-                          className={`step_wrapper ${
-                            StepComplete.two ? "completed" : ""
-                          }`}
-                        >
-                          <div className={`step2`}>
-                            {loader == "step2" ? (
-                              <CircularProgress color="inherit" />
-                            ) : (
-                              <div>
-                                <img
-                                  className={`img-fluid tick-img ${
-                                    StepComplete.two ? "" : "disabled"
-                                  }`}
-                                  src="../../assets/images/green-tick.png"
-                                  alt=""
-                                  width="20"
-                                />
-                              </div>
-                            )}
-                          </div>
-                          <span>Approval for BONE.</span>
-                        </div>
-                        <div
-                          className={`step_wrapper ${
-                            StepComplete.three ? "completed" : ""
-                          }`}
-                        >
-                          <div className={`step3`}>
-                            {loader == "step3" ? (
-                              <CircularProgress color="inherit" />
-                            ) : (
-                              <div>
-                                <img
-                                  className={`img-fluid tick-img ${
-                                    StepComplete.three ? "" : "disabled"
-                                  }`}
-                                  src="../../assets/images/green-tick.png"
-                                  alt=""
-                                  width="20"
-                                />
-                              </div>
-                            )}
-                          </div>
-                          <span>Processing Transaction.</span>
-                        </div>
-                        <div
-                          className={`step_wrapper ${
-                            StepComplete.four ? "completed" : ""
-                          }`}
-                        >
-                          <div className={`step4`}>
-                            {loader == "step4" ? (
-                              <CircularProgress color="inherit" />
-                            ) : (
-                              <div>
-                                <img
-                                  className={`img-fluid tick-img ${
-                                    StepComplete.four ? "" : "disabled"
-                                  }`}
-                                  src="../../assets/images/green-tick.png"
-                                  alt=""
-                                  width="20"
-                                />
-                              </div>
-                            )}
-                          </div>
-                          <span>Successfully Completed.</span>
-                        </div>
+                        <span>Saving info in database.</span>
                       </div>
-                      {/* <span className="spiner-lg">
+                      <div
+                        className={`step_wrapper ${StepComplete.two ? "completed" : ""
+                          }`}
+                      >
+                        <div className={`step2`}>
+                          {loader == "step2" ? (
+                            <CircularProgress color="inherit" />
+                          ) : (
+                            <div>
+                              <img
+                                className={`img-fluid tick-img ${StepComplete.two ? "" : "disabled"
+                                  }`}
+                                src="../../assets/images/green-tick.png"
+                                alt=""
+                                width="20"
+                              />
+                            </div>
+                          )}
+                        </div>
+                        <span>Approval for BONE.</span>
+                      </div>
+                      <div
+                        className={`step_wrapper ${StepComplete.three ? "completed" : ""
+                          }`}
+                      >
+                        <div className={`step3`}>
+                          {loader == "step3" ? (
+                            <CircularProgress color="inherit" />
+                          ) : (
+                            <div>
+                              <img
+                                className={`img-fluid tick-img ${StepComplete.three ? "" : "disabled"
+                                  }`}
+                                src="../../assets/images/green-tick.png"
+                                alt=""
+                                width="20"
+                              />
+                            </div>
+                          )}
+                        </div>
+                        <span>Processing Transaction.</span>
+                      </div>
+                      <div
+                        className={`step_wrapper ${StepComplete.four ? "completed" : ""
+                          }`}
+                      >
+                        <div className={`step4`}>
+                          {loader == "step4" ? (
+                            <CircularProgress color="inherit" />
+                          ) : (
+                            <div>
+                              <img
+                                className={`img-fluid tick-img ${StepComplete.four ? "" : "disabled"
+                                  }`}
+                                src="../../assets/images/green-tick.png"
+                                alt=""
+                                width="20"
+                              />
+                            </div>
+                          )}
+                        </div>
+                        <span>Successfully Completed.</span>
+                      </div>
+                    </div>
+                    {/* <span className="spiner-lg">
                         <span className="spinner-border text-secondary pop-spiner"></span>
                       </span> */}
-                    </div>
+                  </div>
                   {/* } */}
                 </div>
               </div>

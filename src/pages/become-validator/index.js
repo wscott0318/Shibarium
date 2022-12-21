@@ -46,7 +46,7 @@ const Rewards = () => {
     if(account) {
       getValInfo()
     }
-  },[account, userStatus])
+  },[account, userStatus,userType])
 
   // console.log(userStatus)
 

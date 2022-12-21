@@ -75,12 +75,12 @@ export default function Unbond() {
     completed: false,
   })
 
-  const getUnboundHistory = (account: any) => {
+  const getUnboundHistory = async (account: any) => {
     try {
-      unbondsHistory(account).then(res => {
+      await unbondsHistory(account).then(res => {
         if (res.status == 200) {
-          // console.log(res.data.data.result)
           const decOrder = res.data.data.result.sort((a: any, b: any) => Date.parse(b.unbondStartedTimeStampFormatted) - Date.parse(a.unbondStartedTimeStampFormatted));
+          // console.log("decorder => " ,decOrder);
           setList(decOrder)
           setListLoader(false)
         }
@@ -133,6 +133,7 @@ export default function Unbond() {
             // console.log(link)
             setClamNowModals((pre: any) => ({ ...pre, progress: true, confirm: true }))
             setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
+            getUnboundHistory(account)
           }).on('receipt', (res: any) => {
             // console.log(res, "receipt")
             dispatch(
@@ -151,16 +152,16 @@ export default function Unbond() {
                 }
               })
             )
+            setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
+            setLoader(false)
             setClamNowModals({
               data: {},
               confirm: false,
               progress: false,
               completed: false
             })
-            setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
-            setLoader(false)
-            getUnboundHistory(account)
-            setTimeout(() => {setTransactionState(initialModalState)},2000);
+            setTransactionState(initialModalState);
+            router.push("/unbond-history" , "/unbond-history" , {shallow:true})
           }).on('error', (res: any) => {
             // console.log(res, "error")
             setTransactionState(initialModalState);
@@ -246,7 +247,6 @@ export default function Unbond() {
     }
   }, [userType])
 
-  console.log(userType, "userType-userType")
 
   return (
     <>
@@ -254,10 +254,9 @@ export default function Unbond() {
         title={"Withdraw Rewards"}
         show={claimNowModals.confirm}
         setshow={() => {
-          setClamNowModals(false);
           setTransactionState(initialModalState);
-        }
-        }
+          setClamNowModals(false);
+        }}
         externalCls="stak-pop del-pop ffms-inherit"
       >
         <div className="popmodal-body tokn-popup no-ht trans-mod">
@@ -516,19 +515,21 @@ export default function Unbond() {
                                     className="primary-badge px-2 hd-sel block"
                                     type="button"
                                     onClick={() => {
-                                      // console.log("called ===> ");
-                                      {setClamNowModals({
-                                        data: value,
-                                        confirm: true,
-                                        progress: false,
-                                        completed: false,
-                                      });
-                                      setTransactionState({
-                                        show: true,
-                                        onHash: false,
-                                        onReceipt: false,
-                                        title: "Pending"
-                                      })}
+                                      // console.log("called ===> " , value);
+                                      {
+                                        setClamNowModals({
+                                          data: value,
+                                          confirm: true,
+                                          progress: false,
+                                          completed: false,
+                                        });
+                                        setTransactionState({
+                                          show: true,
+                                          onHash: false,
+                                          onReceipt: false,
+                                          title: "Pending"
+                                        })
+                                      }
                                     }}
                                   //  className="mb-0 fs-12 "
                                   >

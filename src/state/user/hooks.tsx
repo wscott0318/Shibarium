@@ -395,10 +395,9 @@ export function useUserOpenMev(): [boolean, (newUseOpenMev: boolean) => void] {
 }
 
 export function useUserType(): [string, (newUseUserType: string) => void] {
-  const dispatch = useAppDispatch()
-
-  // @ts-ignore TYPE NEEDS FIXING
-  const useUserType = useSelector<AppState, AppState['user']['userType']>((state) => state.user.userType)
+const dispatch = useAppDispatch()
+// @ts-ignore TYPE NEEDS FIXING
+const useUserType = useSelector<AppState, AppState['user']['userType']>((state) => state.user.userType)
 
   const setUseUserType = useCallback(
     (newUseUserType: string) => dispatch(updateUserType({ userType: newUseUserType })),

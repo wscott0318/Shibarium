@@ -8,7 +8,7 @@ import * as Sentry from "@sentry/nextjs";
 export const useTokenBalance = (address:string)=>{
     const {library,account}:any = useActiveWeb3React()
 
-    const [balance, setBalance] = useState(0)
+    const [balance, setBalance] = useState(-1)
     useEffect(() => {
      if (library && account && address) {
         try {      

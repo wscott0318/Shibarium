@@ -206,7 +206,7 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
       })
     }
   }, [connector, tryActivation])
-
+  console.log("wallet modal is open " , walletModalOpen);
   return (
     <HeadlessUiModal.Controlled isOpen={walletModalOpen} onDismiss={toggleWalletModal} maxWidth="md">
       {error ? (
