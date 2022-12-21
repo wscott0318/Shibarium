@@ -167,7 +167,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
                 <input
                  className="custum-search w-100" 
                  type="search " 
-                 placeholder="Search by validator name or Address"
+                 placeholder="Search By Validator Name or Validator Address"
                  value={searchKey}
                  onChange={(e) => setSearchKey(e.target.value)}
                  />

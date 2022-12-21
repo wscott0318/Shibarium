@@ -194,7 +194,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
               <input
                 className="custum-search w-100"
                 type="search "
-                placeholder="Search by validator name"
+                placeholder="Search By Validator Name or Validator Address"
                 value={searchKey}
                 onChange={(e) => setSearchKey(e.target.value)}
               />

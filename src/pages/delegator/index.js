@@ -43,7 +43,7 @@ export default function delegator() {
           <div className="container">
             <div className="filter-row mb-md-5 mb-sm-4 mb-3 ff-mos">
               <div className="left-section">
-                <input className="custum-search w-100" type="search " placeholder="Search by validator name, id" />
+                <input className="custum-search w-100" type="search " placeholder="Search By Validator Name or ID" />
               </div>
               <div className="right-section">
                 <div className="switch-sec">
