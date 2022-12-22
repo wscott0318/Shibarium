@@ -48,7 +48,6 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
             res.data.data.validatorsList,
             (e) => e.uptimePercent !== 0
           );
-          // let sorted = activeList.sort((a:any , b:any) =>  Number(b["uptimePercent"]) - Number(a["uptimePercent"]));
           setValidatorsByStatus(activeList);
           setValidators(activeList)
         }
@@ -65,7 +64,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
     } else {
       filtered = allValidators.filter(e => e.uptimePercent <= inActiveCount)
     }
-    setValidatorsByStatus(filtered.sort((a: any, b: any) => Number(b["uptimePercent"]) - Number(a["uptimePercent"])))
+    setValidatorsByStatus(filtered)
   }, [isActiveTab, allValidators]);
 
 
