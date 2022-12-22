@@ -30,12 +30,10 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
   const searchResult = useSearchFilter(validatorsByStatus, searchKey.trim());
 
   useEffect(() => {
-    if(searchKey.length) {
+    if (searchKey.length) {
       const slicedList = searchResult.sort((a: any, b: any) => parseInt(b.uptimePercent) - parseInt(a.uptimePercent))
       const sortAgain = slicedList.sort((a: any, b: any) => parseInt(b.totalStaked) - parseInt(a.totalStaked))
       setValidatorsByStatus(sortAgain)
-    } else {
-      setValidatorsByStatus(validators)
     }
   }, [searchKey])
 
@@ -50,8 +48,9 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
             res.data.data.validatorsList,
             (e) => e.uptimePercent !== 0
           );
-            setValidatorsByStatus(activeList);
-            setValidators(activeList)
+          // let sorted = activeList.sort((a:any , b:any) =>  Number(b["uptimePercent"]) - Number(a["uptimePercent"]));
+          setValidatorsByStatus(activeList);
+          setValidators(activeList)
         }
       })
       .catch((err: any) => {
@@ -66,8 +65,8 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
     } else {
       filtered = allValidators.filter(e => e.uptimePercent <= inActiveCount)
     }
-    setValidatorsByStatus(filtered)
-  }, [isActiveTab , allValidators]);
+    setValidatorsByStatus(filtered.sort((a: any, b: any) => Number(b["uptimePercent"]) - Number(a["uptimePercent"])))
+  }, [isActiveTab, allValidators]);
 
 
   const onSort = (key: string, column: string, type: string) => {
@@ -75,9 +74,8 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
       setSortKey(key)
       let sortedList;
       if (type === 'number') {
-        sortedList = validators.sort((a: any, b: any) => {
-          return (Number(b[column]) - Number(a[column]))
-        })
+        sortedList = validatorsByStatus.sort((a: any, b: any) => Number(b[column]) - Number(a[column]))
+        console.log("sorted list", sortedList);
       } else {
         sortedList = orderBy(validatorsByStatus, column, 'asc');
       }
@@ -89,40 +87,40 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
   }
 
   return (
-   <>
-    
-{loading && <LoadingSpinner />}
-    <section className="table-section pb-4 pb-lg-5 active-inactive">
-          <div className="container">
-            <div className="heading-sec">
-              <h2 className="sub-head ff-mos">{router.asPath.split("/")[1]==="migrate-stake" ? "" : "All Validators"}</h2>
+    <>
+
+      {loading && <LoadingSpinner />}
+      <section className="table-section pb-4 pb-lg-5 active-inactive">
+        <div className="container">
+          <div className="heading-sec">
+            <h2 className="sub-head ff-mos">{router.asPath.split("/")[1] === "migrate-stake" ? "" : "All Validators"}</h2>
+          </div>
+
+          <div className="d-flex align-items-center btns-space tab-btns">
+            <div className="me-3">
+              <p onClick={() => setIsActiveTab(true)} className={`btn black-btn ff-mos ${isActiveTab ? "btn-active" : ""}`} title="">
+                <span>Active</span>
+              </p>
             </div>
-            
-            <div className="d-flex align-items-center btns-space tab-btns">
-                <div className="me-3">
-                  <p onClick={() => setIsActiveTab(true)} className={`btn black-btn ff-mos ${isActiveTab ? "btn-active" : ""}`} title="">
-                    <span>Active</span>
-                    </p>
-                </div>
-                <div>
-                  <p onClick={() => setIsActiveTab(false)} className={`btn black-btn ff-mos ${!isActiveTab ? "btn-active" : ""}`} title="">
-                  <span>Inactive</span>
-                  </p>
-                </div>
-              </div>
-            <div className="filter-row ff-mos">
-              <div className="left-section icn-wrap">
-                <input
-                 className="custum-search w-100" 
-                 type="search " 
-                 placeholder="Search By Validator Name or Validator Address"
-                 value={searchKey}
-                 onChange={(e) => setSearchKey(e.target.value)}
-                 />
-                 {searchKey?<div className='icon-block' onClick={()=>setSearchKey("")}><img className="white-icon img-fluid" src="../../assets/images/cross-icon.png" /></div> : null}
-              </div>
-              <div className="right-section">
-                {/* <div className="switch-sec">
+            <div>
+              <p onClick={() => setIsActiveTab(false)} className={`btn black-btn ff-mos ${!isActiveTab ? "btn-active" : ""}`} title="">
+                <span>Inactive</span>
+              </p>
+            </div>
+          </div>
+          <div className="filter-row ff-mos">
+            <div className="left-section icn-wrap">
+              <input
+                className="custum-search w-100"
+                type="search "
+                placeholder="Search By Validator Name or Validator Address"
+                value={searchKey}
+                onChange={(e) => setSearchKey(e.target.value)}
+              />
+              {searchKey ? <div className='icon-block' onClick={() => setSearchKey("")}><img className="white-icon img-fluid" src="../../assets/images/cross-icon.png" /></div> : null}
+            </div>
+            <div className="right-section">
+              {/* <div className="switch-sec">
                   <span className="help-txt fw-600">Show Action Only</span>
                   <label className="switch">
                     <input type="checkbox" />

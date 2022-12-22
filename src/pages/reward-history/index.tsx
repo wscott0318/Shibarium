@@ -79,7 +79,7 @@ export default function Unbond() {
       const validators = await queryProvider.query({
         query: validatorRewardHistory(valID),
       })
-      console.log(validators.data.validatorClaimRewards,valID, "added ===> ")
+      console.log(validators.data.validatorClaimRewards, valID, "added ===> ")
       // return validators.data
       setValidatorData(validators.data.validatorClaimRewards)
       setListLoader(false)
@@ -115,12 +115,12 @@ export default function Unbond() {
 
   useEffect(() => {
     if (account) {
-      if(userType === 'Validator') {
+      if (userType === 'Validator') {
         validatorReward()
       } else {
         getRewardsList(account)
       }
-     
+
     } else {
       router.push('/')
     }
@@ -200,7 +200,7 @@ export default function Unbond() {
               ) : null}
             </div>
             <div className="mt-sm-4 mt-3">
-              {slicedList.length > 0? (
+              {slicedList.length > 0 ? (
                 <Pagination
                   currentPage={currentPage}
                   pageSize={pageSize}
@@ -241,7 +241,7 @@ export default function Unbond() {
                                 </div>
                                 <div>
                                   <span className="tb-data">
-                                  {value.valName}
+                                    {value.valName}
                                   </span>
                                 </div>
                               </div>
@@ -253,7 +253,6 @@ export default function Unbond() {
                                 )}{" "}
                                 Bone
                               </span>
-                              {/* <p className="mb-0 fs-12 mute-text">$8.2</p> */}
                             </td>
                             <td>
                               <span className="tb-data align">
@@ -262,13 +261,14 @@ export default function Unbond() {
                             </td>
                           </tr>
                         ))
-                      ) : !list.length && !slicedList.length && listLoader ? (
+                      ) : null}
+                      {!list.length && !slicedList.length && listLoader && (
                         <tr>
-                          <td colSpan={4}>
+                          <td colSpan={3}> 
                             <DynamicShimmer type={"table"} rows={13} cols={3} />
                           </td>
                         </tr>
-                      ) : null}
+                        )}
                     </tbody>
                   </table>
                 </div>
@@ -284,7 +284,7 @@ export default function Unbond() {
                 ) : null}
               </div>
               <div className="mt-sm-4 mt-3">
-                {slicedList.length>0 ? (
+                {slicedList.length > 0 ? (
                   <Pagination
                     currentPage={currentPage}
                     pageSize={pageSize}
