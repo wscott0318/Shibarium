@@ -66,18 +66,13 @@ const BoneStaking = () => {
   }
   const getValInfo = () => {
     try {
-      const valData = JSON.parse(localStorage.getItem("valInfo") || '{}')
-      // if(Object.keys(valData).length) {
-      //   setNodeSetup(valData.status)
-      // } else {
         let id : any = account
         getValidatorInfo(id.toLowerCase()).then((res : any) => {
           // console.log(res.data.message.val?.status, " vall status ===> ")
-          setNodeSetup(res.data.message.val?.status ? res.data.message?.val.status : null)
+          setNodeSetup(res?.data?.message?.val?.status ? res?.data?.message?.val?.status : null)
           setValInfoLoader(false)
           localStorage.setItem("valInfo", JSON.stringify(res.data.message.val))
         })
-      // }
     } catch (err :any) {
       setValInfoLoader(false)
         Sentry.captureMessage("getValCount", err);
@@ -92,27 +87,21 @@ const BoneStaking = () => {
   const renderButtons = () => {
     if (account && !valInfoLoader) {
       if (userType === "Validator") {
-        // if (nodeSetup) {
+        if (nodeSetup || (nodeSetup == '3' || nodeSetup == '2')) {
+          console.log("here in if")
           return null
-        // } else {
-        //   return (
-        //     <div className="btns-sec btn-width">
-        //     <div className="btns-wrap ">
-        //        <button disabled={+valCount <= +valMaxCount ?  false : true} onClick={()=>{
-        //         router.push('/become-validator')
-        //        }} className="btn primary-btn">Become a Validator</button>
-        //     </div>
-        //     <div className="btns-wrap">
-        //       <button onClick={executeScroll} className="btn  white-btn">Become a Delegator</button>
-        //     </div>
-        //     <div className="btns-wrap">
-        //       <button onClick={()=>
-        //         router.push('/choose-your-path')
-        //        } className="btn grey-btn">Choose Your Path</button>
-        //     </div>
-        //   </div>
-        //   );
-        // }
+        } else {
+          console.log("here in else")
+          return (
+            <div className="btns-sec btn-width">
+             <div className="btns-wrap ">
+                <button disabled={+valCount <= +valMaxCount ?  false : true} onClick={()=>{
+                router.push('/become-validator')
+               }} className="btn primary-btn">Become a Validator</button>
+             </div>
+          </div>
+          );
+        }
       } else if (userType === "Delegator") {
         return null
       } else {
