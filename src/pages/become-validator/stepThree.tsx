@@ -45,6 +45,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       .typeError("Only digits are allowed.")
       .moreThan(1, "Amount should be at-least greater than 1")
       .max(availBalance)
+      .min(2, "Minimum 2 BONES required including Heimdal fee.")
       .required("Amount is required."),
   })
   const [loader, setLoader] = useState("step1");
@@ -331,7 +332,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       <div className="progress-tab">
         <div className="mb-4 mb-xl-5">
           <h5 className="fw-700 mb-2 ff-mos">Add your stake amount</h5>
-        <p className="ff-mos">Please provide your stake amount detail here</p>
+          <p className="ff-mos">Please provide your stake amount detail here</p>
         </div>
         <div className="row">
           <div className="col-sm-6 form-grid">
@@ -430,10 +431,10 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                   Additional 1 Bone will be deducted for Heimdall fee
                 </div>
               </label>
-              <div className="maxButtonFloat">
+              <div className="maxButtonFloat relative">
                 <input
                   type="text"
-                  className=" mb-4 form-control"
+                  className=" mb-2 form-control"
                   placeholder="00.00"
                   value={values.amount}
                   readOnly={availBalance <= 0}
@@ -441,7 +442,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                 />
                 <button
                   disabled={availBalance <= 0}
-                  className="MaxAmountButton orange-txt fw-bold amt-val max-bdge"
+                  className="MaxAmountButton orange-txt fw-bold amt-val max-bdge absolute"
                   onClick={() => {
                     setFieldValue(
                       "text",
@@ -454,20 +455,18 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                   MAX
                 </button>
               </div>
-              {touched.amount && errors.amount ? (
-                <p className="primary-text pt-2 er-txt">{errors.amount}</p>
-              ) : null}
-              {!isLoading && (availBalance <= 0 ? (
-                <p className="primary-text pt-2 er-txt">Insufficient Balance</p>
-              ) : null)}
 
-              <div className="row-st">
-                <div className="blk-dta">
-                  <label htmlFor="" className="form-label ff-mos mb-0">
-                    Minimum: {minDeposit} BONE + fee
-                  </label>
+
+              <div className="row-st cst-row">
+                <div className="blk-dta cst-blk">
+                  {touched.amount && errors.amount ? (
+                    <p className="primary-text">{errors.amount}</p>
+                  ) : null}
+                  {!isLoading && (availBalance <= 0 ? (
+                    <p className="primary-text">Insufficient Balance</p>
+                  ) : null)}
                 </div>
-                <div className="blk-dta">
+                <div className="blk-dta text-nowrap">
                   <p className="amt-val">
                     Balance: {addDecimalValue(+availBalance)}
                   </p>

@@ -40,7 +40,7 @@ const Rewards = () => {
   });
 
   useEffect(() => {
-    if((userStatus >= 0 && userType === 'Validator') || userType === 'Delegator') {
+    if((userStatus > 0 && userType === 'Validator') || userType === 'Delegator') {
       router.back();
     }
     if(account) {
