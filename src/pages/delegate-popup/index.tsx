@@ -47,6 +47,7 @@ const DelegatePopup: React.FC<any> = ({
   const [amount, setAmount] = useState<number | string>("");
   const [tnxCompleted, setTnxCompleted] = useState(false);
   const [boneUSDValue, setBoneUSDValue] = useState<number>(0);
+  // const [walletBalance, setWalletBalance] = useState<number>(0);
   const [expectedGas, setExpectedGas] = useState<number>(0);
   const [explorerLink, setExplorerLink] = useState<string>("");
   const [msgType, setMsgType] = useState<"error" | "success" | undefined>();
@@ -62,10 +63,23 @@ const DelegatePopup: React.FC<any> = ({
 
   const [delegateState, setdelegateState] = useState(initialModalState);
   const [loader,setLoader] = useState(false);
+
   const walletBalance =
-    chainId === ChainId.SHIBARIUM
-      ? useEthBalance()
-      : useTokenBalance(dynamicChaining[chainId]?.BONE);
+  chainId === ChainId.SHIBARIUM
+    ? useEthBalance()
+    : useTokenBalance(dynamicChaining[chainId]?.BONE);
+      
+// const getWallBal = () => {
+//   const walletBalances =
+//   chainId === ChainId.SHIBARIUM
+//     ? useEthBalance()
+//     : useTokenBalance(dynamicChaining[chainId]?.BONE);
+//     setWalletBalance(walletBalances)
+// }
+
+// useEffect(()=>{
+//   getWallBal
+// },[useEthBalance,useTokenBalance])
 
   const getBalanceG = () => {
     web3?.eth?.getBalance().then((lastBlock: number) => {
