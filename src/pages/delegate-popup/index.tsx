@@ -8,7 +8,7 @@ import { useActiveWeb3React, useLocalWeb3 } from 'app/services/web3';
 import { getExplorerLink } from 'app/functions/explorer';
 import { ChainId } from 'shibarium-chains';
 import ToastNotify from 'pages/components/ToastNotify';
-import { useTokenBalance } from 'app/hooks/useTokenBalance';
+import { useWalletTokenBalance } from 'app/hooks/useTokenBalance';
 import Web3 from "web3";
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import fromExponential from 'from-exponential';
@@ -63,30 +63,25 @@ const DelegatePopup: React.FC<any> = ({
 
   const [delegateState, setdelegateState] = useState(initialModalState);
   const [loader,setLoader] = useState(false);
-
-  const walletBalance =
-  chainId === ChainId.SHIBARIUM
-    ? useEthBalance()
-    : useTokenBalance(dynamicChaining[chainId]?.BONE);
-      
-// const getWallBal = () => {
-//   const walletBalances =
-//   chainId === ChainId.SHIBARIUM
-//     ? useEthBalance()
-//     : useTokenBalance(dynamicChaining[chainId]?.BONE);
-//     setWalletBalance(walletBalances)
-// }
-
-// useEffect(()=>{
-//   getWallBal
-// },[useEthBalance,useTokenBalance])
+  const ethBalance = useEthBalance();
+  const {newBalance , updateBalance} =  useWalletTokenBalance(dynamicChaining[chainId]?.BONE);
+  const [walletBalance , setWalletBalance] = useState<any>();
 
   const getBalanceG = () => {
     web3?.eth?.getBalance().then((lastBlock: number) => {
       // console.log(lastBlock);
     });
   };
-  // console.log("set delegate pop  ==> " , setdelegatepop);
+  useEffect(() => {
+    if(chainId === ChainId.SHIBARIUM){
+      setWalletBalance(ethBalance);
+    }
+    else{
+      setWalletBalance(newBalance);
+    }
+    console.log("called again");
+  },[walletBalance, ethBalance , newBalance]);
+
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then((res) => {
       setBoneUSDValue(res.data.data.price);
@@ -323,6 +318,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
             setTransactionState({ state: true, title: "Submitted" });
           })
           .on("receipt", (res: any) => {
+            updateBalance();
             dispatch(
               finalizeTransaction({
                 hash: res.transactionHash,
@@ -383,9 +379,9 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
   const handleClose = () => {
     setdelegateState(initialModalState);
     setdelegatepop();
-    if(transactionState.state){
-      window.location.reload();
-    }
+    // if(transactionState.state){
+    //   window.location.reload();
+    // }
   }
 
 // console.log("Balance", data);

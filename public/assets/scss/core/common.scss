@@ -4016,6 +4016,14 @@ input:-internal-autofill-selected {
     cursor: pointer;
   }
 }
+.row-st .blk-dta.cst-blk {
+  font-size: 15px;
+  width: auto;
+}
+.row-st.cst-row{
+  align-items: flex-start;
+  flex-wrap: nowrap;
+}
 .sec-ht {
   min-height: 320px;
   @media #{$max-xxl} {
