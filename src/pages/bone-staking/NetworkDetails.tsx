@@ -71,8 +71,8 @@ function NetworkDetails({valCount} : any) {
           let vals = totVals.data.validators;
           let initialVal:any =0;
           vals.forEach((element:any) => {
-            let a = +element.delegatedStake / Math.pow(10, web3Decimals);
-            let b = +element.selfStake / Math.pow(10, web3Decimals);
+            let a = +web3test.utils.fromWei(element.delegatedStake, 'ether');
+            let b = +web3test.utils.fromWei(element.selfStake, 'ether');
             initialVal = initialVal + a + b;
           });
           setTotalStake(initialVal)
