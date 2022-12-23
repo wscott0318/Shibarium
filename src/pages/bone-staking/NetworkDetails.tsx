@@ -15,6 +15,9 @@ import { dynamicChaining } from 'web3/DynamicChaining';
 import Web3 from 'web3';
 import RPC from "../../config/rpc"
 import * as Sentry from "@sentry/nextjs";
+import { queryProvider } from 'Apollo/client';
+import { validators } from 'Apollo/queries';
+import { ethers } from 'ethers';
 
 function NetworkDetails({valCount} : any) {
 
@@ -61,9 +64,18 @@ function NetworkDetails({valCount} : any) {
         let Chain_ID = await ChainId()
           const instance = new web3test2.eth.Contract(stakeManagerProxyABI, dynamicChaining[Chain_ID]?.STAKE_MANAGER_PROXY);
           const ID = await instance.methods.validatorState().call();
+          const totVals = await queryProvider.query({
+            query: validators(),
+          })
           let stake = +ID.amount / Math.pow(10, web3Decimals)
-          setTotalStake(stake)
-          // console.log(stake, ID, "Total stake")
+          let vals = totVals.data.validators;
+          let initialVal:any =0;
+          vals.forEach((element:any) => {
+            let a = +element.delegatedStake / Math.pow(10, web3Decimals);
+            let b = +element.selfStake / Math.pow(10, web3Decimals);
+            initialVal = initialVal + a + b;
+          });
+          setTotalStake(initialVal)
           return ID
       }
       catch(err:any){
