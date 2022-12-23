@@ -25,6 +25,18 @@ export const allValidatorsQuery = () => {
 `
 return gql(queryString)
 }
+export const validators = () => {
+  const queryString = `query pools {
+    validators(where: {deactivationEpoch: "0", status: 0}) {
+      status
+      signer
+      id
+      deactivationEpoch
+    }
+  }
+`
+return gql(queryString)
+}
 export const StakeAmount = (id:any, account :any) => {
     const queryString = `query pools {
       delegator(id: "delegator:${id}:${account}") {
