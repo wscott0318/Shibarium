@@ -14,26 +14,28 @@ import { dynamicChaining } from 'web3/DynamicChaining';
 import Web3 from "web3";
 import * as Sentry from "@sentry/nextjs";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
-import { L1Block, ChainId} from 'app/hooks/L1Block';
+import { L1Block, ChainId } from 'app/hooks/L1Block';
 import { useRef } from "react";
+import { queryProvider } from "Apollo/client";
+import { allValidatorsQuery, validators } from "Apollo/queries";
 
 
 
 const BoneStaking = () => {
 
   const [userType, setUserType] = useUserType();
-  const { account , library, chainId = 1} = useActiveWeb3React()
+  const { account, library, chainId = 1 } = useActiveWeb3React()
   const router = useRouter();
   const [valCount, setValCount] = useState(0);
   const [valMaxCount, setValMaxCount] = useState(0);
-  const [ nodeSetup, setNodeSetup] = useState<any>('')
+  const [nodeSetup, setNodeSetup] = useState<any>('')
   const [valId, setValId] = useValId();
   const [valInfoLoader, setValInfoLoader] = useState(true)
 
   const web3test = L1Block();
-    
+
   useEffect(() => {
-    if(account) {
+    if (account) {
       getValInfo()
     }
     getValCount()
@@ -41,41 +43,44 @@ const BoneStaking = () => {
   }, [account])
 
   const checkEth = async () => {
-    let lib : any = library
-    let web3 : any = new Web3(lib?.provider)
+    let lib: any = library
+    let web3: any = new Web3(lib?.provider)
     // const getTxn : any = await web3.eth.getPendingTransactions()
     //  console.log(web3.eth, "account changes testing ")
   }
 
 
   const getValCount = async () => {
-    try{
+    try {
       const id = await ChainId()
       let instance = new web3test.eth.Contract(stakeManagerProxyABI, dynamicChaining[id]?.STAKE_MANAGER_PROXY);
-        const valCount = await instance.methods.currentValidatorSetSize().call();
-        const validatorThreshold = await  instance.methods.validatorThreshold().call();
-        const valInfo = await  instance.methods.validators(9).call({from:account});
-        const valStake = await  instance.methods.validatorStake(9).call({from:account});
-        // console.log(valInfo,valStake,valCount, "val info ===> ")
-        setValCount(valCount)
-        setValMaxCount(validatorThreshold)
+      const validatorThreshold = await instance.methods.validatorThreshold().call();
+      const valInfo = await instance.methods.validators(9).call({ from: account });
+      const valStake = await instance.methods.validatorStake(9).call({ from: account });
+      const totVals = await queryProvider.query({
+        query: validators(),
+      })
+      const valCount = totVals?.data?.validators?.length;
+      console.log("instance ", totVals.data.validators.length);
+      setValCount(valCount)
+      setValMaxCount(validatorThreshold)
     }
-    catch(err:any){
+    catch (err: any) {
       Sentry.captureMessage("getValCount", err);
     }
   }
   const getValInfo = () => {
     try {
-        let id : any = account
-        getValidatorInfo(id.toLowerCase()).then((res : any) => {
-          // console.log(res.data.message.val?.status, " vall status ===> ")
-          setNodeSetup(res?.data?.message?.val?.status ? res?.data?.message?.val?.status : null)
-          setValInfoLoader(false)
-          localStorage.setItem("valInfo", JSON.stringify(res.data.message.val))
-        })
-    } catch (err :any) {
+      let id: any = account
+      getValidatorInfo(id.toLowerCase()).then((res: any) => {
+        // console.log(res.data.message.val?.status, " vall status ===> ")
+        setNodeSetup(res?.data?.message?.val?.status ? res?.data?.message?.val?.status : null)
+        setValInfoLoader(false)
+        localStorage.setItem("valInfo", JSON.stringify(res.data.message.val))
+      })
+    } catch (err: any) {
       setValInfoLoader(false)
-        Sentry.captureMessage("getValCount", err);
+      Sentry.captureMessage("getValCount", err);
     }
   }
 
@@ -94,45 +99,45 @@ const BoneStaking = () => {
           console.log("here in else")
           return (
             <div className="btns-sec btn-width">
-             <div className="btns-wrap ">
-                <button disabled={+valCount <= +valMaxCount ?  false : true} onClick={()=>{
-                router.push('/become-validator')
-               }} className="btn primary-btn">Become a Validator</button>
-             </div>
-          </div>
+              <div className="btns-wrap ">
+                <button disabled={+valCount <= +valMaxCount ? false : true} onClick={() => {
+                  router.push('/become-validator')
+                }} className="btn primary-btn">Become a Validator</button>
+              </div>
+            </div>
           );
         }
       } else if (userType === "Delegator") {
         return null
       } else {
         return (
-        <div className="btns-sec btn-width">
-                    <div className="btns-wrap ">
-                       <button disabled={+valCount <= +valMaxCount ?  false : true} onClick={()=>{
-                        router.push('/become-validator')
-                       }} className="btn primary-btn">Become a Validator</button>
-                    </div>
-                    <div className="btns-wrap">
-                      <button 
-                      // onClick={()=>
-                      //   router.push('/all-validator')
-                      //  } 
-                      onClick={executeScroll}
-                       className="btn  white-btn">Become a Delegator</button>
-                    </div>
-                    <div className="btns-wrap">
-                      <button onClick={()=>
-                        router.push('/choose-your-path')
-                       } className="btn grey-btn">Choose Your Path</button>
-                    </div>
-              </div>
+          <div className="btns-sec btn-width">
+            <div className="btns-wrap ">
+              <button disabled={+valCount <= +valMaxCount ? false : true} onClick={() => {
+                router.push('/become-validator')
+              }} className="btn primary-btn">Become a Validator</button>
+            </div>
+            <div className="btns-wrap">
+              <button
+                // onClick={()=>
+                //   router.push('/all-validator')
+                //  } 
+                onClick={executeScroll}
+                className="btn  white-btn">Become a Delegator</button>
+            </div>
+            <div className="btns-wrap">
+              <button onClick={() =>
+                router.push('/choose-your-path')
+              } className="btn grey-btn">Choose Your Path</button>
+            </div>
+          </div>
         )
       }
     } else {
       return null;
     }
   };
-  
+
   return (
     <>
       <div className="main-content dark-bg-800 full-vh  font-up ffms-inherit staking-main">
@@ -144,7 +149,7 @@ const BoneStaking = () => {
               <div className="row align-items-center">
                 <div className="col-md-7 col-sm-12 ff-mos">
                   <h1 className="ff-mos">Secure the Network <br />& Earn Rewards with <br /><span className="white-bg">Shibarium Staking</span></h1>
-                 {renderButtons()}
+                  {renderButtons()}
                 </div>
                 <div className="col-md-5 col-sm-12 m-hide">
                   <div className="shib-img-sec text-end">
@@ -158,7 +163,7 @@ const BoneStaking = () => {
         {/* banner section closed */}
         <NetworkDetails valCount={valCount} />
         {/* ValidatorsCard starts  */}
-        <div  ref={myRef}><ValidatorsCard /></div>
+        <div ref={myRef}><ValidatorsCard /></div>
         {/* ValidatorsCard ends  */}
       </div>
     </>
