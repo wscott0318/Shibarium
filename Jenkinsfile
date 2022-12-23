@@ -1,11 +1,16 @@
-node {
-  stage('SCM') {
-    checkout scm
+pipeline{
+  agent any
+  tools {
+  hudson.plugins.sonar.SonarRunnerInstallation 'SonarScanner'
   }
-  stage('SonarQube Analysis') {
-    def scannerHome = tool 'SonarScanner';
-    withSonarQubeEnv() {
-      sh "${scannerHome}/bin/sonar-scanner -X"
+  stages  {
+    stage('SonarQube Analysis') {
+      //def scannerHome = tool 'SonarScanner';
+      steps{
+        withSonarQubeEnv() {
+          sh "${scannerHome}/bin/sonar-scanner -X"
+        }
+      }
     }
   }
 }
