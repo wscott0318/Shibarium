@@ -1,8 +1,8 @@
 pipeline{
   agent any
-  //tools {
-  //hudson.plugins.sonar.SonarRunnerInstallation 'SonarScanner'
-  //}
+  tools {
+  SonarScanner
+  }
   stages  {
     stage('SonarQube Analysis') {
       //def scannerHome = tool 'SonarScanner';
