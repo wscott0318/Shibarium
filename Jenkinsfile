@@ -1,21 +1,8 @@
-pipeline{
-  agent any
-  tools {
-  SonarScanner
-  }
-  stages  {
-    stage('SonarQube Analysis') {
-      //def scannerHome = tool 'SonarScanner';
-      steps {
-              withSonarQubeEnv('SonarScanner') {
-                sh 'sonar-scanner -X'
-              }
-            }
-      //steps{  
-        //withSonarQubeEnv() {
-          //sh "${scannerHome}/bin/sonar-scanner -X"
-        //}
-      //}
+node {
+  stage('SonarQube analysis') {
+    def scannerHome = tool 'SonarScanner';
+    withSonarQubeEnv('My SonarQube Server') { // If you have configured more than one global server connection, you can specify its name
+      sh "${scannerHome}/bin/sonar-scanner"
     }
   }
 }
