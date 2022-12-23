@@ -90,6 +90,8 @@ export default function Unbond() {
       Sentry.captureException("getUnboundHistory ", err);
     }
   }
+
+
   // console.log(claimNowModals)
   const unboundClaimAPI = async () => {
     setLoader(true)
@@ -243,7 +245,7 @@ export default function Unbond() {
 
   useEffect(() => {
     if (userType != "Delegator") {
-      router.push('/home')
+      router.push('/bone-staking')
     }
   }, [userType])
 
@@ -415,7 +417,6 @@ export default function Unbond() {
         </div>
       </CommonModal>
       <Header />
-      {/* {userType === "NA" ? router.push("/home"): null} */}
       <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh ffms-inherit staking-main">
         {/* <StakingHeader /> */}
         <section className="top_bnr_area dark-bg">
