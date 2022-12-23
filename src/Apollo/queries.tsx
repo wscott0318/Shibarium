@@ -32,6 +32,8 @@ export const validators = () => {
       signer
       id
       deactivationEpoch
+      selfStake
+      delegatedStake
     }
   }
 `
