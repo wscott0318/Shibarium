@@ -187,6 +187,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
           setHashLink(link)
         }).on('receipt', (res: any) => {
           // console.log("line 209");
+          
           dispatch(
             finalizeTransaction({
               hash: res.transactionHash,
@@ -203,6 +204,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               }
             })
           )
+          changeStatus()
           setLoader("step4");
           setStepComplete((preState: any) => ({ ...preState, three: true }))
           changeStatus()
@@ -304,8 +306,6 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   };
 
   const changeStatus = async () => {
-    // console.log("called changeStatus ");
-    // setApiLoading(true)
     var data = new FormData();
     data.append("validatorName", becomeValidateData.name);
     data.append("public_key", becomeValidateData.publickey);
@@ -313,19 +313,12 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     data.append("website", becomeValidateData.website);
     data.append("img", becomeValidateData.image);
     data.append("status", "1");
-
-    // console.log(becomeValidateData, "data");
-
     await registerValidator(data).then((res: any) => {
-      // console.log("this is eresss", res)
-      // setApiLoading(false)
       setLoader("");
       setStepComplete((preState: any) => ({ ...preState, four: true }))
       notifySuccess()
       stepHandler("next");
     }).catch((err: any) => {
-      // console.log(err)
-      // setApiLoading(false)
       notifyError()
     })
   };

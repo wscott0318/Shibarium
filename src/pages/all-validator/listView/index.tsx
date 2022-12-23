@@ -50,7 +50,13 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
             <Scrollbar></Scrollbar>
             <tbody>
               {validatorsList.length ? (
-                validatorsList.map((x: any, y: any) => (
+                validatorsList.sort((a:any,b:any)=>{
+                  if((a.fundamental != 1) > (b.fundamental != 1)) return -1
+                  if((a.uptimePercent > inActiveCount) > (b.uptimePercent > inActiveCount)) return -1
+                  if((a.contractAddress != migrateData.contractAddress)<(b.contractAddress != migrateData.contractAddress)) return 1
+                  return 0
+                }
+                  ).map((x: any, y: any) => (
                   <tr key={y}>
                     <td>
                       <div className="self-align">
@@ -107,6 +113,9 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                                   ? true
                                   : x.contractAddress == migrateData.contractAddress ? true : false
                             }
+                            // disabled={
+                            //   !account || x.fundamental === 1 || x.uptimePercent <= inActiveCount || x.contractAddress == migrateData.contractAddress
+                            // }
                             onClick={() => {
                               setSelectedRow(x);
                               if (

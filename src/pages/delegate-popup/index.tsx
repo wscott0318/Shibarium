@@ -47,6 +47,7 @@ const DelegatePopup: React.FC<any> = ({
   const [amount, setAmount] = useState<number | string>("");
   const [tnxCompleted, setTnxCompleted] = useState(false);
   const [boneUSDValue, setBoneUSDValue] = useState<number>(0);
+  // const [walletBalance, setWalletBalance] = useState<number>(0);
   const [expectedGas, setExpectedGas] = useState<number>(0);
   const [explorerLink, setExplorerLink] = useState<string>("");
   const [msgType, setMsgType] = useState<"error" | "success" | undefined>();
