@@ -16,8 +16,10 @@ const AppHeader = () => {
         setTitle("Wallet")
       } else if (asPath === '/bridge') {
         setTitle("Bridge")
-      } else {
+      } else if (asPath === '/bone-staking') {
         setTitle("Staking")
+      } else if (asPath === '/faucet') {
+        setTitle("Faucet")
       }
     }
   }, [asPath])
@@ -41,7 +43,7 @@ const AppHeader = () => {
               <img src="../../assets/images/menu-icon.png" alt="" />
             </div>
             <NavDropdown className="light-text dd-ico" title={title} id="">
-        <NavDropdown.Item onClick={() => router.push('/bone-staking', '/bone-staking', { shallow: true })}>
+             <NavDropdown.Item onClick={() => router.push('/bone-staking', '/bone-staking', { shallow: true })}>
                 <h6
                   className={
                     title === "Staking"
