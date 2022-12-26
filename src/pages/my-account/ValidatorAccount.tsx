@@ -2269,7 +2269,7 @@ const validatorAccount = ({
                               <span>
                                 {validatorInfoContract?.delegatorsReward
                                   ? addDecimalValue(
-                                    +validatorInfoContract?.delegatorsReward
+                                    parseInt(validatorInfoContract?.delegatorsReward) / Math.pow(10, 18)
                                   )
                                   : "0.00"}
                                 {/* {validatorInfoContract?.delegatorsReward
@@ -2288,7 +2288,7 @@ const validatorAccount = ({
                                   displayType={"text"}
                                   prefix="$ "
                                   value={addDecimalValue(
-                                    +validatorInfoContract?.delegatorsReward *
+                                   (parseInt(validatorInfoContract?.delegatorsReward) / Math.pow(10, web3Decimals)) * 
                                     boneUSDValue
                                   )}
                                 // value={(
@@ -2389,7 +2389,7 @@ const validatorAccount = ({
                             onClick={() => setUnStakePop(true)}
                             className="ff-mos btn black-btn w-100 d-block tool-ico"
                           >
-                            unstake
+                            Unstake
                           </button>
                           <div className="tool-desc">unstake from network</div>
                         </div>
@@ -2408,7 +2408,7 @@ const validatorAccount = ({
                             onClick={() => setUnStakeClaimPop(true)}
                             className="ff-mos btn black-btn w-100 d-block tool-ico"
                           >
-                            unstake claim
+                            Unstake claim
                           </button>
                           <div className="tool-desc">claim your self stake</div>
                         </div>
