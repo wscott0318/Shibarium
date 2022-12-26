@@ -93,6 +93,9 @@ export default function Unbond() {
     }
   }
 
+  // useEffect(()=>{
+  //   getUnboundHistory(account)
+  // },[loader])
 
   // console.log(claimNowModals)
   const unboundClaimAPI = async () => {
@@ -197,6 +200,7 @@ export default function Unbond() {
   };
 
   useEffect(() => {
+    console.log("check state")
     if (list.length) {
       const newList  = list.slice(0, pageSize);
       setSlicedList(newList);
@@ -483,7 +487,7 @@ export default function Unbond() {
                                   <button className="mb-0 fs-12 mt-1 hd-sel disabled block">
                                     Claimed
                                   </button>
-                                  <div className="tool-desc">Your have already claimed this reward.</div>
+                                  <div className="tool-desc">You have already claimed this reward.</div>
                                 </div>
                               </>
                             ) : value.remainingEpoch > 0 ? (
