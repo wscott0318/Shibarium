@@ -2398,9 +2398,9 @@ const validatorAccount = ({
                         <div className="cus-tooltip d-inline-block ps-0">
                           <button
                             disabled={
-                              // parseInt(
-                              //   validatorInfoContract?.deactivationEpoch
-                              // ) > 0 ||
+                              parseInt(
+                                validatorInfoContract?.deactivationEpoch
+                              ) > 0 ||
                               parseInt(validatorInfoContract?.status) === 3
                                 ? true
                                 : false
