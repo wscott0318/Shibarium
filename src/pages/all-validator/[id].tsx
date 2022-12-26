@@ -15,6 +15,7 @@ import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { dynamicChaining } from "web3/DynamicChaining";
 import LoadingSpinner from 'pages/components/Loading';
 import * as Sentry from "@sentry/nextjs";
+import { ChainId, L1Block } from "app/hooks/L1Block";
 
 export default function ValidatorDetails() {
     const pageSize = 4;
@@ -30,7 +31,7 @@ export default function ValidatorDetails() {
     const [lastBlock, setLastBlock] = useState<any>();
     const [totalSupply, setTotalSupply] = useState<number>(0)
 
-
+    
     const router = useRouter()
     useEffect(() => {
         try {
@@ -61,20 +62,22 @@ export default function ValidatorDetails() {
         getBoneUSDValue(BONE_ID).then((res:any) => {
             setBoneUsdValue(res.data.data.price);
         })
-
         if (validatorInfo) {
+            console.log("entered");
             getTotalSupply(validatorInfo?.id)
         }
 
-    }, [validatorInfo, account])
+    }, [validatorInfo, account,library])
 
 
     const getTotalSupply = async (id: any) => {
         try{
             const lib: any = library;
-            const web3: any = new Web3(lib?.provider);
-            let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId]?.STAKE_MANAGER_PROXY);
+            const Cid = await ChainId();
+            const web3 = L1Block();
+            let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[Cid]?.STAKE_MANAGER_PROXY);
             const valStake = await instance.methods.validators(id).call();
+            console.log("getTotalSupply called again", id);
             let finalAMount = (+valStake.amount + +valStake.delegatedAmount) / Math.pow(10, web3Decimals)
             // console.log(valStake, finalAMount, "data ==> ")
             setTotalSupply(finalAMount)
