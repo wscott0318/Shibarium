@@ -80,8 +80,10 @@ export default function Unbond() {
       await unbondsHistory(account).then(res => {
         if (res.status == 200) {
           const decOrder = res.data.data.result.sort((a: any, b: any) => Date.parse(b.unbondStartedTimeStampFormatted) - Date.parse(a.unbondStartedTimeStampFormatted));
-          // console.log("decorder => " ,decOrder);
+          console.log("decorder => " ,decOrder);
           setList(decOrder)
+          // let newL = decOrder.slice(0, pageSize);
+          // setSlicedList(newL);
           setListLoader(false)
         }
       })
@@ -135,7 +137,7 @@ export default function Unbond() {
             // console.log(link)
             setClamNowModals((pre: any) => ({ ...pre, progress: true, confirm: true }))
             setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
-            getUnboundHistory(account)
+            
           }).on('receipt', (res: any) => {
             // console.log(res, "receipt")
             dispatch(
@@ -154,6 +156,9 @@ export default function Unbond() {
                 }
               })
             )
+            setTimeout(() => {
+              getUnboundHistory(account);
+            },2000);
             setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
             setLoader(false)
             setClamNowModals({
@@ -163,7 +168,7 @@ export default function Unbond() {
               completed: false
             })
             setTransactionState(initialModalState);
-            router.push("/unbond-history" , "/unbond-history" , {shallow:true})
+            // router.push("/unbond-history" , "/unbond-history" , {shallow:true})
           }).on('error', (res: any) => {
             // console.log(res, "error")
             setTransactionState(initialModalState);
@@ -190,10 +195,12 @@ export default function Unbond() {
     setSlicedList(slicedList);
     setCurrentPage(index);
   };
+
   useEffect(() => {
     if (list.length) {
-      const slicedList = list.slice(0, pageSize);
-      setSlicedList(slicedList);
+      const newList  = list.slice(0, pageSize);
+      setSlicedList(newList);
+      console.log("list updated" , list);
     } else if (list.length === 0) {
       setSlicedList([]);
     } else {
