@@ -18,8 +18,8 @@ export const validatorSchema = yup.object().shape({
     .typeError("Name must be less than 15 characters.")
     .required("Validator name is required.")
     .matches(
-      /^[A-Za-z][A-Za-z0-9 ]+$/,
-      "Only alphabets & digits are allowed. "
+      /^[a-zA-Z0-9_]*$/,
+      "Only alphanumeric values are allowed. "
     ),
   publickey: yup
     .string()

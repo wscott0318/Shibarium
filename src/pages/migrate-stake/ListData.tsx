@@ -3,6 +3,7 @@ import { migrateValidatorsList, validatorsList } from 'app/services/apis/validat
 import { filter, orderBy } from 'lodash';
 import { Dropdown } from "react-bootstrap";
 import React, { useEffect, useState } from 'react'
+import { useUserType } from 'app/state/user/hooks';
 import ListView from '../all-validator/listView/index';
 import GridView from '../all-validator/gridView/index';
 import ValidatorGrid from '../all-validator/listView/index';
@@ -29,6 +30,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
   const [isActiveTab, setIsActiveTab] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchKey, setSearchKey] = useState<string>('');
+  const [userType, setUserType] = useUserType()
   const [sortKey, setSortKey] = useState<string>('Uptime');
   const [migrateData, setMigrateData] = useMigrateStake();
   const searchResult = useSearchFilter(validatorsByStatus, searchKey.trim());
@@ -57,6 +59,11 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
     // console.log(validators, " graphQL query ==== >")
   }
 
+  useEffect(() => {
+    if (userType != "Delegator") {
+      router.push('/bone-staking')
+    }
+  }, [userType])
   // useEffect(() => {
   //   if(isActiveTab){
   //     let newData = allValidators.filter((x:any) => x.uptimePercent > 0)
@@ -113,7 +120,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
   useEffect(() => {
     let filtered = []
     if (isActiveTab) {
-      filtered = allValidators.filter(e => e.uptimePercent >= inActiveCount && e.fundamental == 2)
+      filtered = allValidators.filter(e => e.uptimePercent >= inActiveCount)
     } else {
       filtered = allValidators.filter(e => e.uptimePercent <= inActiveCount)
     }
@@ -222,7 +229,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
                   <Dropdown.Menu>
                     {/* <Dropdown.Item onClick={() => onSort('Random', 'name','string')}>Random</Dropdown.Item> */}
                     <Dropdown.Item onClick={() => onSort('Commission', 'commissionrate', 'number')}>Commission</Dropdown.Item>
-                    <Dropdown.Item onClick={() => onSort('Self', 'selfpercent', 'number')}>Self</Dropdown.Item>
+                    <Dropdown.Item onClick={() => onSort('Staked Amount', 'totalstaked', 'number')}>Staked Amount</Dropdown.Item>
                     {/* <Dropdown.Item onClick={() => onSort('Voting Power', 'totalstaked','number')}>
                           Voting Power
                         </Dropdown.Item> */}

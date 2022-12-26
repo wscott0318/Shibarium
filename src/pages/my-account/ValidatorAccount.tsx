@@ -287,8 +287,8 @@ const validatorAccount = ({
     amount: Yup.number()
       .typeError('Amount should be a number.')
       // .matches(/^[1-9][0-9]*$/, "You must enter valid amount.")
-      .min(0)
-      .max(availBalance).moreThan(0, "You must enter valid amount.")
+      .min(0,"Invalid Amount")
+      .max(availBalance,"Insufficient Balance.").moreThan(0, "You must enter valid amount.")
       .required("Amount is required."),
     reward: Yup.number().required(),
   });
