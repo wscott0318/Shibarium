@@ -40,7 +40,6 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
     const slicedList = searchResult.slice(0, pageSize).sort((a: any, b: any) => parseInt(b.uptimePercent) - parseInt(a.uptimePercent))
     const sortAgain = slicedList.slice(0, pageSize).sort((a: any, b: any) => parseInt(b.totalStaked) - parseInt(a.totalStaked))
     setValidators(sortAgain)
-
   }, [searchResult])
   // console.log("validatorsByStatus",validatorsByStatus)
 
