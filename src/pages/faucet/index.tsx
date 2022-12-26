@@ -71,6 +71,7 @@ export default function faucet() {
           done: true,
           hash: res.data.transectionHash
         })
+        window.location.reload();
       }).catch((err) => {
         // console.log(err)
         setModalState({
@@ -79,6 +80,7 @@ export default function faucet() {
           hash: ''
         })
       })
+     
   }
 
   const [clickedCaptcha, setClickedCaptcha] = useState(false)
