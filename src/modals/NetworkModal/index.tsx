@@ -230,7 +230,7 @@ const NetworkModal: FC = () => {
             // ChainId.ARBITRUM,
             // ChainId.AVALANCHE,
             // ChainId.MOONRIVER,
-            ChainId.FANTOM,
+            // ChainId.FANTOM,
             // ChainId.XDAI,
             // ChainId.HARMONY,
             // ChainId.TELOS,
