@@ -30,11 +30,14 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
   const searchResult = useSearchFilter(validatorsByStatus, searchKey.trim());
 
   useEffect(() => {
-    if (searchKey.length) {
+    // if (searchKey.length) {
       const slicedList = searchResult.sort((a: any, b: any) => parseInt(b.uptimePercent) - parseInt(a.uptimePercent))
       const sortAgain = slicedList.sort((a: any, b: any) => parseInt(b.totalStaked) - parseInt(a.totalStaked))
-      setValidatorsByStatus(sortAgain)
-    }
+      setValidators(sortAgain)
+    // }
+    // else{
+    //   setValidatorsByStatus(allValidators);
+    // }
   }, [searchKey])
 
   useEffect(() => {
@@ -57,14 +60,17 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
       });
   }, []);
 
-  useEffect(() => {
+  const filterValidators = () =>{
     let filtered = []
     if (isActiveTab) {
       filtered = allValidators.filter(e => e.uptimePercent >= inActiveCount)
     } else {
       filtered = allValidators.filter(e => e.uptimePercent <= inActiveCount)
     }
-    setValidatorsByStatus(filtered)
+    setValidators(filtered)
+  }
+  useEffect(() => {
+    filterValidators();
   }, [isActiveTab, allValidators]);
 
 
@@ -73,12 +79,12 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
       setSortKey(key)
       let sortedList;
       if (type === 'number') {
-        sortedList = validatorsByStatus.sort((a: any, b: any) => Number(b[column]) - Number(a[column]))
+        sortedList = validators.sort((a: any, b: any) => Number(b[column]) - Number(a[column]))
         console.log("sorted list", sortedList);
       } else {
-        sortedList = orderBy(validatorsByStatus, column, 'asc');
+        sortedList = orderBy(validators, column, 'asc');
       }
-      setValidatorsByStatus(sortedList)
+      setValidators(sortedList)
     }
     catch (err: any) {
       Sentry.captureMessage("onSort", err);
@@ -162,10 +168,10 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
             </div>
           </div>
           {isListView ? (
-            <ListView migrateData={{}} loading={loading} searchKey={searchKey} validatorsList={validatorsByStatus} />
+            <ListView migrateData={{}} loading={loading} searchKey={searchKey} validatorsList={validators} />
           ) : (
             <div className="grid-view-wrap">
-              <ValidatorGrid migrateData={{}} searchKey={searchKey} validatorsList={validatorsByStatus} />
+              <ValidatorGrid migrateData={{}} searchKey={searchKey} validatorsList={validators} />
             </div>
           )}
         </div>
