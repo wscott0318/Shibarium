@@ -49,6 +49,7 @@ const BoneStaking = () => {
     //  console.log(web3.eth, "account changes testing ")
   }
 
+  console.log(library?.provider, "provider ===> ")
 
   const getValCount = async () => {
     try {
