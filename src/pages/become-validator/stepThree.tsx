@@ -43,7 +43,6 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   let schema = yup.object().shape({
     amount: yup.number()
       .typeError("Only digits are allowed.")
-      .moreThan(1, "Amount should be at-least greater than 1")
       .max(availBalance)
       .min(2, "Minimum 2 BONES required including Heimdal fee.")
       .required("Amount is required."),
