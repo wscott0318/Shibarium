@@ -48,6 +48,8 @@ export const tokenDecimal = 2;
 export const toFixedNull = 2;
 export const toFixedPrecent = 2;
 
+export const supportedChains = [5, 417];
+
 export const web3Decimals = 18;
 
 export const addDecimalValue = (value) => {

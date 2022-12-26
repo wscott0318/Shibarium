@@ -18,11 +18,11 @@ import QrModal from "pages/components/QrModal";
 import { clearCacheData, getNetworkName } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 import ChainWarning from "pages/components/ChainWarning";
-
+import {supportedChains} from "../../web3/commonFunctions";
 export default function Header() {
 
   const { account, deactivate, active } = useWeb3React();
-  const { chainId } = useActiveWeb3React();
+  const { chainId = 1 } = useActiveWeb3React();
   const router = useRouter();
 
   const [userType, setUserType] = useUserType();
@@ -47,7 +47,7 @@ export default function Header() {
   }, [chainId, account]);
 
   const checkConnectedChain = () => {
-    if (chainId === 5) {
+    if (supportedChains.includes(chainId)) {
       setShowWarning(false);
     } else {
       setShowWarning(true);
