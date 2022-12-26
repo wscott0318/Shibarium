@@ -1209,6 +1209,11 @@ const validatorAccount = ({
   const reloadOnHash = () => {
     if (transactionState.onHash) {
       window.location.reload()
+      // router.push(
+      //   `/my-account`,
+      //   `/my-account`,
+      //   { shallow: true }
+      // )
     }
   }
   return (

@@ -97,7 +97,7 @@ export default function Home() {
                   <div className="col-lg-4 col-md-6 col-sm-8 cus-col">
                     <div className="ftrs-card ftrs-active">
                       <div className="ftrs-head">
-                        <h3 className="fw-600 ff-mos">Bridge</h3>
+                        <h3 className="fw-600 ff-mos">Staking</h3>
                         <div className="ftrs-icon">
                           <img
                             className="img-fluid"
@@ -110,7 +110,7 @@ export default function Home() {
                         Lorem ipsum dolor sit amet. Ut asperiores tenetur et
                         natus laudantium eos asperiores illum.
                       </p>
-                      <Link href="/withdraw" passHref>
+                      <Link href="/bone-staking" passHref>
                         <a className="link ff-mos">
                           <span>Learn More</span>
                           <img
