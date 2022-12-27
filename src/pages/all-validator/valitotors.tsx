@@ -28,20 +28,12 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
   const [sortKey, setSortKey] = useState<string>('Uptime');
 
   const searchResult = useSearchFilter(validatorsByStatus, searchKey.trim());
-
+  console.log(searchResult , validatorsByStatus);
   useEffect(() => {
-    // if (searchKey.length) {
-      const slicedList = searchResult.sort((a: any, b: any) => parseInt(b.uptimePercent) - parseInt(a.uptimePercent))
-      const sortAgain = slicedList.sort((a: any, b: any) => parseInt(b.totalStaked) - parseInt(a.totalStaked))
-      setValidators(sortAgain);
-      console.log("called", sortAgain);
-      // if(!searchKey.length) {
-      //   setValidators(searchResult);
-      // }
-    // }
-    // else{
-    //   setValidatorsByStatus(allValidators);
-    // }
+    // filterValidators();
+    const slicedList = searchResult.sort((a: any, b: any) => parseInt(b.uptimePercent) - parseInt(a.uptimePercent))
+    const sortAgain = slicedList.sort((a: any, b: any) => parseInt(b.totalStaked) - parseInt(a.totalStaked))
+    setValidators(sortAgain);
   }, [searchKey,searchResult])
 
   useEffect(() => {
@@ -56,7 +48,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
             (e) => e.uptimePercent !== 0
           );
           setValidatorsByStatus(activeList);
-          setValidators(activeList)
+          setValidators(activeList);
         }
       })
       .catch((err: any) => {

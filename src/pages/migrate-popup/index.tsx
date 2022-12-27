@@ -8,7 +8,7 @@ import { useActiveWeb3React, useLocalWeb3 } from "app/services/web3";
 import { getExplorerLink } from "app/functions/explorer";
 import { ChainId } from "shibarium-chains";
 import ToastNotify from "pages/components/ToastNotify";
-import { useTokenBalance } from "app/hooks/useTokenBalance";
+import { useTokenBalance, useWalletTokenBalance } from "app/hooks/useTokenBalance";
 import Web3 from "web3";
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import fromExponential from "from-exponential";
@@ -72,11 +72,18 @@ const MigratePopup: React.FC<any> = ({
   const [validatorID, setValidatorID] = useState<any>("");
   const [balance, setBalance] = useState(0);
   const [migrateData, setMigrateData] = useMigrateStake();
-  const walletBalance =
-    chainId === ChainId.SHIBARIUM
-      ? useEthBalance()
-      : useTokenBalance(dynamicChaining[chainId]?.BONE);
-
+  const ethBalance = useEthBalance();
+  const { newBalance, updateBalance } = useWalletTokenBalance(dynamicChaining[chainId]?.BONE);
+  const [walletBalance, setWalletBalance] = useState<any>();
+  useEffect(() => {
+    if (chainId === ChainId.SHIBARIUM) {
+      setWalletBalance(ethBalance);
+    }
+    else {
+      setWalletBalance(newBalance);
+    }
+    console.log("called again", newBalance);
+  }, [walletBalance, ethBalance, newBalance]);
   const router = useRouter();
   const [processing, setProcessing] = useState("Migrate");
   useEffect(() => {
@@ -97,19 +104,12 @@ const MigratePopup: React.FC<any> = ({
     onHide();
   };
 
-  // console.log({ migrateDataRow, data })
-
   const totalStake = (migrateData: any) => {
-    // console.log("item contains ", migrateData.migrateData);
-    // let values = JSON.parse(item);
     let stakeAmount = migrateData?.data?.stake;
-    let reward = +migrateData?.data?.migrateData?.reward > 0 ? (parseInt(migrateData?.data?.migrateData?.reward) / 10 ** web3Decimals).toFixed(tokenDecimal) : "0.00";
-    let total = (parseFloat(stakeAmount) + parseFloat(reward));
-    setBalance(total);
-    // console.log("total stake == ",stakeAmount + " " + reward);
-
+    // let reward = +migrateData?.data?.migrateData?.reward > 0 ? (parseInt(migrateData?.data?.migrateData?.reward) / 10 ** web3Decimals).toFixed(tokenDecimal) : "0.00";
+    // let total = (parseFloat(stakeAmount) + parseFloat(reward));
+    setBalance(stakeAmount);
   }
-
 
   useEffect(() => {
     totalStake(migrateData);
@@ -159,14 +159,11 @@ const MigratePopup: React.FC<any> = ({
               "transaction"
             );
             setExplorerLink(link);
-            // console.log("transaction hash ", res);
             setTransactionState({ state: true, title: "Submitted" });
             let newStake = (migrateData?.data?.stake - values.balance);
             setMigrateData(migrateData, newStake);
-            // console.log("new stake balance == > ", migrateData);
-            // setTimeout(() => { setmigratepop(false) }, 1000);
             setmigrateState(initialModalState);
-            setProcessing("Completed");
+            // setProcessing("Completed");
           })
           .on("receipt", (res: any) => {
             dispatch(
@@ -187,7 +184,7 @@ const MigratePopup: React.FC<any> = ({
             );
             setmigratepop(false);
             // console.log("receipt ", res);
-            setProcessing("Migrate");
+            setProcessing("Completed");
             setTransactionState({ state: false, title: "" });
             window.location.reload();
           })
@@ -195,7 +192,7 @@ const MigratePopup: React.FC<any> = ({
             // console.log("error ", res);
             setmigrateState(initialModalState);
             setmigratepop(false);
-            setProcessing("Error");
+            setProcessing("Migrate");
             setTransactionState({ state: false, title: "" });
           });
       }
@@ -208,10 +205,10 @@ const MigratePopup: React.FC<any> = ({
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureMessage("migrateStake ", err);
       }
-      console.log("error" , err);
+      // console.log("error", err);
       setmigrateState(initialModalState);
       setmigratepop(false);
-      setProcessing("Error");
+      setProcessing("Migrate");
       setTransactionState({ state: false, title: "" });
       handleClose()
     }
@@ -225,7 +222,7 @@ const MigratePopup: React.FC<any> = ({
         balance,
         "Amount of input fields can't be more than account balance"
       )
-      .min(1,"Invalid amount.")
+      .min(1, "Invalid amount.")
       .positive("Enter valid Balance.")
       .required("Balance is required."),
   });
@@ -310,7 +307,7 @@ const MigratePopup: React.FC<any> = ({
                       height="150"
                       width="150"
                     /> */}
-                     <CircularProgress color="inherit" size={120} style={{color:"#f06500"}} />
+                    <CircularProgress color="inherit" size={120} style={{ color: "#f06500" }} />
                   </div>
                 </div>
                 <div className="mid_text row">
@@ -531,7 +528,7 @@ const MigratePopup: React.FC<any> = ({
                                 e.preventDefault();
                                 migrateStake(values, data, migrateData);
                               }}
-                              disabled={values.balance > 0 ? false : true}
+                                disabled={values.balance > 0 ? false : true}
                               >Continue</button>
                             </div>
                           </button>

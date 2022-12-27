@@ -8,7 +8,7 @@ const AppHeader = () => {
   const { chainId = 1, account, active, library } = useActiveWeb3React();
   const user: any = account
   const { asPath } = useRouter()
-  const [title, setTitle] = useState("")
+  const [title, setTitle] = useState("Staking")
   const router = useRouter()
   useEffect(() => {
     if (asPath) {

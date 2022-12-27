@@ -8,7 +8,7 @@ import * as Sentry from "@sentry/nextjs";
 export const useTokenBalance = (address:string)=>{
     const {library,account}:any = useActiveWeb3React()
 
-    const [balance, setBalance] = useState(0)
+    const [balance, setBalance] = useState(-1)
     useEffect(() => {
         if (library && account && address) {
             try {      
@@ -25,7 +25,6 @@ export const useTokenBalance = (address:string)=>{
             }
         }
     }, [library,account,address])
-    // console.log("updated balance " , balance);
     return balance
 }
 
@@ -39,7 +38,7 @@ export const useWalletTokenBalance = (address:string)=>{
             const contract = new web3.eth.Contract(ERC20_ABI,address);
             contract.methods.p(account).call().then((res:any) => {
                 contract.methods.decimals().call().then((d:number)=>{
-                    setBalance(+(+res / Math.pow(10, d)).toFixed(tokenDecimal));
+                    setBalance(+web3.utils.fromWei(res, 'ether'));
                 })
             })
         } catch (error :any) {
