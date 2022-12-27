@@ -454,9 +454,6 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                   MAX
                 </button>
               </div>
-
-
-              <div className="row-st cst-row">
                 <div className="blk-dta cst-blk">
                   {touched.amount && errors.amount ? (
                     <p className="primary-text">{errors.amount}</p>
@@ -464,6 +461,14 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                   {!isLoading && (availBalance <= 0 ? (
                     <p className="primary-text">Insufficient Balance</p>
                   ) : null)}
+                </div>
+
+
+              <div className="row-st cst-row">
+                <div className="blk-dta text-nowrap">
+                  <p className="amt-val bold">
+                    Min Fee: 2 BONES
+                  </p>
                 </div>
                 <div className="blk-dta text-nowrap">
                   <p className="amt-val">
