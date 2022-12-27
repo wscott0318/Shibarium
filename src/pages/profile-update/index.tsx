@@ -78,7 +78,7 @@ export default function ProfileUpdate() {
 
     // console.log(imageData)
     const callAPI = async (values: any) => {
-        // console.log(values, imageData, "call API called");
+        console.log(values, imageData, "call API called");
         setLoader(true)
         try {
             if ((imageData || imageURL) && verifyAddress(values.address)) {
@@ -166,7 +166,8 @@ export default function ProfileUpdate() {
             Sentry.captureException("imgSizeCheck ", err);
         }
     }
-
+    console.log(imageURL,"image urlurl")
+    console.log(imageData, "imageData API called");
     const trimSpace = (e: any) => {
         try {
           setFieldValue(e.target.name, e.target.value.trim());

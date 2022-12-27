@@ -135,7 +135,7 @@ export default function ValidatorDetails() {
                                     <div className="pb-0 panel-body">
                                         <ul className='mb-0 info-list list-unstyled'>
                                             <li className='info-data-lst'>
-                                                <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Supply</h6>
+                                                <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Staked amount</h6>
                                                 <p className='mb-0 trs-3 ff-mos'>
                                                     <NumberFormat displayType='text' thousandSeparator value={addDecimalValue(totalSupply)} /> BONE
                                                 </p>

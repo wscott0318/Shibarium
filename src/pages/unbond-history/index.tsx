@@ -51,6 +51,7 @@ export default function Unbond() {
   const web3: any = new Web3(lib?.provider)
   const [userType, setUserType] = useUserType();
   const [loader, setLoader] = useState(false);
+  const [amntTransfer,setAmntTransfer]=useState(false);
   const getValidatorContractAddress = async (validatorID: any) => {
     try {
       let user = account;
@@ -82,9 +83,12 @@ export default function Unbond() {
           const decOrder = res.data.data.result.sort((a: any, b: any) => Date.parse(b.unbondStartedTimeStampFormatted) - Date.parse(a.unbondStartedTimeStampFormatted));
           console.log("decorder => " ,decOrder);
           setList(decOrder)
+          updateListFunc()
           // let newL = decOrder.slice(0, pageSize);
           // setSlicedList(newL);
           setListLoader(false)
+          // setAmntTransfer(false)
+          
         }
       })
     }
@@ -93,10 +97,37 @@ export default function Unbond() {
     }
   }
 
+  const updateListFunc = () =>{
+    console.log("check state")
+    if (list.length) {
+      const newList  = list.slice(0, pageSize);
+      setSlicedList(newList);
+      console.log("list updated" , list);
+    } else if (list.length === 0) {
+      setSlicedList([]);
+    } else {
+      // console.log("check state");
+    }
+  }
+
+  useEffect(() => {
+    updateListFunc()
+  }, [list]);
+
+  // useEffect(()=>{
+  //   getUnboundHistory(account)
+  // },[])
 
   // console.log(claimNowModals)
   const unboundClaimAPI = async () => {
     setLoader(true)
+    // setAmntTransfer(true)
+    // router.push(
+    //   `/unbond-history`,
+    //   `/unbond-history`,
+    //   { shallow: true }
+    // )
+    
     try {
       setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Pending" });
       setTransactionLink("");
@@ -158,6 +189,11 @@ export default function Unbond() {
             )
             setTimeout(() => {
               getUnboundHistory(account);
+              router.push(
+                `/unbond-history`,
+                `/unbond-history`,
+                { shallow: true }
+              )
             },2000);
             setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
             setLoader(false)
@@ -167,7 +203,10 @@ export default function Unbond() {
               progress: false,
               completed: false
             })
+            // getUnboundHistory(account);
             setTransactionState(initialModalState);
+            
+            // setAmntTransfer(!amntTransfer)
             // router.push("/unbond-history" , "/unbond-history" , {shallow:true})
           }).on('error', (res: any) => {
             // console.log(res, "error")
@@ -196,17 +235,7 @@ export default function Unbond() {
     setCurrentPage(index);
   };
 
-  useEffect(() => {
-    if (list.length) {
-      const newList  = list.slice(0, pageSize);
-      setSlicedList(newList);
-      console.log("list updated" , list);
-    } else if (list.length === 0) {
-      setSlicedList([]);
-    } else {
-      // console.log("check state");
-    }
-  }, [list]);
+
 
   const handleModalClosing = () => {
     setClamNowModals((pre: any) => ({
@@ -256,6 +285,17 @@ export default function Unbond() {
     }
   }, [userType])
 
+  const reloadOnHash = () => {
+    if (transactionState.onHash) {
+      // window.location.reload()
+      getUnboundHistory(account)
+      router.push(
+        `/unbond-history`,
+        `/unbond-history`,
+        { shallow: true }
+      )
+    }
+  }
 
   return (
     <>
@@ -265,6 +305,7 @@ export default function Unbond() {
         setshow={() => {
           setTransactionState(initialModalState);
           setClamNowModals(false);
+          reloadOnHash();
         }}
         externalCls="stak-pop del-pop ffms-inherit"
       >
@@ -483,7 +524,7 @@ export default function Unbond() {
                                   <button className="mb-0 fs-12 mt-1 hd-sel disabled block">
                                     Claimed
                                   </button>
-                                  <div className="tool-desc">Your have already claimed this reward.</div>
+                                  <div className="tool-desc">You have already claimed this reward.</div>
                                 </div>
                               </>
                             ) : value.remainingEpoch > 0 ? (
@@ -589,7 +630,6 @@ export default function Unbond() {
           </div>
         </section>
       </main>
-
       {/* modal started  */}
     </>
   );

@@ -55,7 +55,7 @@ export const SUPPORTED_NETWORKS: {
       decimals: 18,
     },
     rpcUrls: ['https://puppytestnet.hailshiba.com'],
-    blockExplorerUrls: [''],
+    blockExplorerUrls: ['https://bscscan.com'],
   },
   [ChainId.BSC]: {
     chainId: '0x38',
@@ -276,6 +276,7 @@ const NetworkModal: FC = () => {
                     // @ts-ignore TYPE NEEDS FIXING
                     if (switchError.code === 4902) {
                       try {
+                        console.log({params, account});
                         await library?.send('wallet_addEthereumChain', [params, account])
                       } catch (addError) {
                         // handle "add" error

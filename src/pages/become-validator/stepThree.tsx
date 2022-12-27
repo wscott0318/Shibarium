@@ -9,7 +9,7 @@ import { addTransaction, finalizeTransaction } from 'app/state/transactions/acti
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { useAppDispatch } from "../../state/hooks";
 import fromExponential from 'from-exponential';
-import { addDecimalValue, currentGasPrice, getAllowanceAmount, stakeForErrMsg, web3Decimals } from "web3/commonFunctions";
+import { addDecimalValue, currentGasPrice, getAllowanceAmount, stakeForErrMsg, USER_REJECTED_TX, web3Decimals } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { MAXAMOUNT } from "../../web3/commonFunctions";
 import { useEthBalance } from '../../hooks/useEthBalance';
@@ -50,7 +50,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const [loader, setLoader] = useState("step1");
 
   const [StepComplete, setStepComplete] = useState<any>({
-    one: false,
+    one: true,
     two: false,
     three: false,
     four: false
@@ -81,6 +81,36 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     }
     catch (err: any) {
       Sentry.captureMessage("getMinimunFee", err);
+    }
+  }
+
+
+  const checkPubKey = async (values: any) => {
+    try {
+      const user: any = account
+      const amount = web3.utils.toBN(fromExponential((parseInt(values.amount) - 1) * Math.pow(10, web3Decimals)));
+      const acceptDelegation = 1
+      const heimdallFee = web3.utils.toBN(fromExponential(minHeimdallFee * Math.pow(10, web3Decimals)));
+      const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
+      await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).estimateGas({ from: user }).
+      then((gas:any) => {
+        console.log(gas);
+        if(gas > 0){
+          callAPI(values)
+        } else {
+          setTransactionState({ state: false, title: '' })
+          toast.error("Unable to calculate gas fees", {
+            position: toast.POSITION.BOTTOM_CENTER, autoClose: 5000
+          });
+        }
+      })
+    } catch (err: any) {
+      console.log(err)
+      let message = stakeForErrMsg(err.toString().split("{")[0])
+      setTransactionState({ state: false, title: '' })
+      toast.error(message, {
+        position: toast.POSITION.BOTTOM_CENTER, autoClose: 5000
+      });
     }
   }
 
@@ -135,9 +165,10 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                 }
               })
             )
-            setLoader("step3");
-            setStepComplete((preState: any) => ({ ...preState, two: true }))
-            submitTransaction(val)
+            checkPubKey(val)
+            // setLoader("step3");
+            // setStepComplete((preState: any) => ({ ...preState, two: true }))
+            // submitTransaction(val)
           }).on('error', (res: any) => {
             // console.log(res, "error")
             if (res.code === 4001) {
@@ -206,10 +237,10 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
           changeStatus()
           setLoader("step4");
           setStepComplete((preState: any) => ({ ...preState, three: true }))
-          changeStatus()
+          // changeStatus()
           localStorage.clear()
         }).on('error', (res: any) => {
-          // console.log(res, "error")
+          console.log(res, "error")
           setTransactionState({ state: false, title: '' })
           dispatch(
             finalizeTransaction({
@@ -227,15 +258,25 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               }
             })
           )
+          if(res.code === 4001) {
+            setTransactionState({ state: false, title: '' })
+            toast.error("User denied this transaction", {
+              position: toast.POSITION.BOTTOM_CENTER, autoClose: 5000
+            });         
+          }
         })
+
     } catch (err: any) {
+      if (err.code !== USER_REJECTED_TX) {
+        Sentry.captureException("stake for method for validators submit transaction", err);
+      }
       // console.log(err.toString(), "RPC error ==> ")
       // console.log(err.toString().split("{"), "RPC error ==> ")
-      let message = stakeForErrMsg(err.toString().split("{")[0])
+      // let message = stakeForErrMsg(err.toString().split("{")[0])
       setTransactionState({ state: false, title: '' })
-      toast.error(message, {
-        position: toast.POSITION.BOTTOM_CENTER, autoClose: 5000
-      });
+      // toast.error(message, {
+      //   position: toast.POSITION.BOTTOM_CENTER, autoClose: 5000
+      // });
     }
   }
 
@@ -247,7 +288,9 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       validationSchema: schema,
       onSubmit: (values) => {
         // console.log("Value", values);
-        callAPI(values)
+        // checkPubKey(values)
+        // callAPI(values)
+        handleTransaction(values)
       },
     });
 
@@ -265,16 +308,18 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const handleTransaction = async (val: any) => {
     // console.log("called handleTransaction ");
     try {
+      setTransactionState({state: true, title: 'Checking for approval'})
       let user: any = account
       let allowance: any = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, user, dynamicChaining[chainId].STAKE_MANAGER_PROXY)
       if (allowance < +val.amount) {
-        // console.log("need approval ")
+        console.log("need approval ")
         approveAmount(val) // gas fee
       } else {
-        setLoader("step3")
-        setStepComplete((preState: any) => ({ ...preState, two: true }))
-        // console.log("no approval needed")
-        submitTransaction(val)
+        setLoader("step2")
+        setStepComplete((preState: any) => ({ ...preState, one: true }))
+        console.log("no approval needed")
+        checkPubKey(val)
+        // submitTransaction(val)
       }
     } catch (err: any) {
       Sentry.captureMessage("handleTransaction", err);
@@ -295,9 +340,10 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     await registerValidator(data).then((res: any) => {
       // console.log("API response", res.data.message)
       // step one 
-      setLoader("step2");
-      setStepComplete((preState: any) => ({ ...preState, one: true }))
-      handleTransaction(val)
+      setLoader("step3");
+      setStepComplete((preState: any) => ({ ...preState, two: true }))
+      // handleTransaction(val)
+      submitTransaction(values)
     }).catch((err: any) => {
       // console.log("err on callApi",err)
       notifyError()
@@ -545,28 +591,29 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                             </div>
                           )}
                         </div>
-                        <span>Saving info in database.</span>
+                        <span>Approval for BONE.</span>
                       </div>
                       <div
                         className={`step_wrapper ${StepComplete.two ? "completed" : ""
-                          }`}
+                      }`}
                       >
                         <div className={`step2`}>
                           {loader == "step2" ? (
                             <CircularProgress color="inherit" />
-                          ) : (
-                            <div>
+                            ) : (
+                              <div>
                               <img
                                 className={`img-fluid tick-img ${StepComplete.two ? "" : "disabled"
-                                  }`}
-                                src="../../assets/images/green-tick.png"
-                                alt=""
-                                width="20"
+                              }`}
+                              src="../../assets/images/green-tick.png"
+                              alt=""
+                              width="20"
                               />
                             </div>
                           )}
                         </div>
-                        <span>Approval for BONE.</span>
+                          <span>Saving info in database.</span>
+                        {/* <span>Approval for BONE.</span> */}
                       </div>
                       <div
                         className={`step_wrapper ${StepComplete.three ? "completed" : ""
