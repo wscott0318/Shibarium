@@ -14,7 +14,6 @@ export const useTokenBalance = (address:string)=>{
             try {      
                 const web3:any = new Web3(library?.provider);
                 const contract = new web3.eth.Contract(ERC20_ABI,address);
-                
                 contract.methods.balanceOf(account).call().then((res:any) => {
                     contract.methods.decimals().call().then((d:number)=>{
                         setBalance(+(+res / Math.pow(10, d)).toFixed(tokenDecimal));
@@ -31,18 +30,19 @@ export const useTokenBalance = (address:string)=>{
 export const useWalletTokenBalance = (address:string)=>{
     const {library,account}:any = useActiveWeb3React()
 
-    const [newBalance, setBalance] = useState(-1)
+    const [newBalance, setBalance] = useState(0)
     function updateBalance () {
         try {      
             const web3:any = new Web3(library?.provider);
             const contract = new web3.eth.Contract(ERC20_ABI,address);
-            contract.methods.p(account).call().then((res:any) => {
+            contract.methods.balanceOf(account).call().then((res:any) => {
                 contract.methods.decimals().call().then((d:number)=>{
                     setBalance(+web3.utils.fromWei(res, 'ether'));
                 })
             })
         } catch (error :any) {
             Sentry.captureException("getTokenBalance ", error);
+            // console.log("error in usetoken wallet balance" , error);
         }
     }
     useEffect(() => {

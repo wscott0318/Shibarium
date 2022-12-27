@@ -66,7 +66,7 @@ const DelegatePopup: React.FC<any> = ({
   const ethBalance = useEthBalance();
   const {newBalance , updateBalance} =  useWalletTokenBalance(dynamicChaining[chainId]?.BONE);
   const [walletBalance , setWalletBalance] = useState<any>();
-
+  const [isMax, setIsMax] = useState(false);
   const getBalanceG = () => {
     web3?.eth?.getBalance().then((lastBlock: number) => {
       // console.log(lastBlock);
@@ -97,9 +97,8 @@ const DelegatePopup: React.FC<any> = ({
 
   const useMax = (e :any) => {
     e.preventDefault()
-    // setAmount(walletBalance);
-    setFieldValue("balance",walletBalance)
-    // console.log("called");
+    setIsMax(true);
+    setFieldValue("balance", `${walletBalance}`)
   };
   const closeModal = (e: any) => {
     setStep(1);
@@ -228,7 +227,7 @@ const DelegatePopup: React.FC<any> = ({
 
   // console.log(data);
   const initialValues = {
-    balance: '',
+    balance: 0,
   };
 
 let schema = yup.object().shape({
@@ -261,7 +260,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
     initialValues: initialValues,
     validationSchema: schema,
     onSubmit: (values) => {
-      // console.log("Value", values);
+      console.log("Value", values);
       setdelegateState({
         step0:false,
         step1:true,
@@ -456,8 +455,8 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                           placeholder="0.00"
                           name="balance"
                           autoComplete="off"
-                          value={parseInt('' + (values.balance  * 100)) / 100}
-                          onChange={handleChange}
+                          value={isMax ? (parseInt('' + (walletBalance * 100)) / 100) : values.balance}
+                          onChange={(e) => {handleChange(e); setIsMax(false);}}
                           onBlur={handleBlur}
                         />
                       </div>

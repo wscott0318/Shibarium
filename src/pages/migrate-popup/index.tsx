@@ -82,8 +82,8 @@ const MigratePopup: React.FC<any> = ({
     else {
       setWalletBalance(newBalance);
     }
-    console.log("called again", newBalance);
   }, [walletBalance, ethBalance, newBalance]);
+  console.log("migrateData ==> ", migrateData);
   const router = useRouter();
   const [processing, setProcessing] = useState("Migrate");
   useEffect(() => {
@@ -160,10 +160,12 @@ const MigratePopup: React.FC<any> = ({
             );
             setExplorerLink(link);
             setTransactionState({ state: true, title: "Submitted" });
-            let newStake = (migrateData?.data?.stake - values.balance);
-            setMigrateData(migrateData, newStake);
+            let newStake = (parseFloat(migrateData?.data?.stake) - values.balance);
+            setMigrateData(migrateData?.data?.migrateData, newStake);
             setmigrateState(initialModalState);
+            console.log("migrate data inside contract ", migrateData);
             // setProcessing("Completed");
+            
           })
           .on("receipt", (res: any) => {
             dispatch(
@@ -182,11 +184,10 @@ const MigratePopup: React.FC<any> = ({
                 },
               })
             );
-            setmigratepop(false);
-            // console.log("receipt ", res);
+            // setmigratepop(false);
             setProcessing("Completed");
             setTransactionState({ state: false, title: "" });
-            window.location.reload();
+            // window.location.reload();
           })
           .on("error", (res: any) => {
             // console.log("error ", res);
@@ -205,7 +206,7 @@ const MigratePopup: React.FC<any> = ({
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureMessage("migrateStake ", err);
       }
-      // console.log("error", err);
+      console.log("error", err);
       setmigrateState(initialModalState);
       setmigratepop(false);
       setProcessing("Migrate");

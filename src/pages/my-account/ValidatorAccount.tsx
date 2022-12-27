@@ -197,7 +197,7 @@ const validatorAccount = ({
             });
             setDelegationsList(sortedData);
             setLoading(false);
-            // console.log(newArray)
+            console.log("new delegation list",sortedData)
           }
         })
         .catch((e: any) => {
