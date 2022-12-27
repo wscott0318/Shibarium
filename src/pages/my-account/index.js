@@ -7,7 +7,7 @@ import  CommonModal from "../components/CommonModel";
 import Header from "../layout/header";
 import StakingHeader from '../staking-header'
 import { useRouter } from "next/router";
-import { useUserType } from "../../state/user/hooks";
+import { useUserType, useValId } from "../../state/user/hooks";
 import UserAccount from "./UserAccount";
 import DelegatorAccount from "./DelegatorAccount";
 import ValidatorAccount from "./ValidatorAccount";
@@ -19,30 +19,37 @@ import {useEthBalance} from '../../hooks/useEthBalance';
 import {useTokenBalance} from '../../hooks/useTokenBalance';
 import { dynamicChaining } from "web3/DynamicChaining";
 import { addDecimalValue } from "web3/commonFunctions"
+import { web3Decimals } from "../../web3/commonFunctions";
 
 
 export default function MyAcount() {
   const { account, chainId = 1 } = useActiveWeb3React();
   const [userType, setUserType] = useUserType();
   const [boneUSDValue,setBoneUSDValue] = useState(0);
+  const [valId, setValId] = useValId();
   const router = useRouter();
   const [delegatorData, setDelegatorData] = useState({});
   var availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
 
+  console.log({userType, valId})
 
   useEffect(() => {
     if(account){
-      getBoneUSDValue(BONE_ID).then(res=>{
-        setBoneUSDValue(res.data.data.price);
-      })
+      if(userType === 'Validator' && valId >= 0){
+        router.back()   
+      } else {
+        getBoneUSDValue(BONE_ID).then(res=>{
+          setBoneUSDValue(res.data.data.price);
+        })
+      }
     } else {
-      router.push('/')
+      router.back()
     }
   },[account])
 
   const getDelegatorAmount = (data) => {
     // console.log(data)
-    setDelegatorData({stakes: (data.totalStake) / 10 ** 18, rewards: data.totalReward / 10 ** 18})
+    setDelegatorData({stakes: (data.totalStake) / 10 ** web3Decimals, rewards: data.totalReward / 10 ** web3Decimals})
   }
   
 

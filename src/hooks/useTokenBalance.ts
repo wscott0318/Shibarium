@@ -25,7 +25,7 @@ export const useTokenBalance = (address:string)=>{
             }
         }
     }, [library,account,address])
-    console.log("updated balance " , balance);
+    // console.log("updated balance " , balance);
     return balance
 }
 
@@ -37,7 +37,7 @@ export const useWalletTokenBalance = (address:string)=>{
         try {      
             const web3:any = new Web3(library?.provider);
             const contract = new web3.eth.Contract(ERC20_ABI,address);
-            contract.methods.balanceOf(account).call().then((res:any) => {
+            contract.methods.p(account).call().then((res:any) => {
                 contract.methods.decimals().call().then((d:number)=>{
                     setBalance(+(+res / Math.pow(10, d)).toFixed(tokenDecimal));
                 })
