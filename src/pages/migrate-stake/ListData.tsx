@@ -43,8 +43,6 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
   }, [searchResult])
   // console.log("validatorsByStatus",validatorsByStatus)
 
-  console.log("balance", balance.migrateData.id)
-
   const fetchValidators = async () => {
     try {
       const validators = await queryProvider.query({
@@ -87,13 +85,9 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
     migrateValidatorsList(requestOptions)
       .then((res: any) => {
         setLoading(false)
-
         if (res.status == 200) {
-          // @ts-ignore
-          var setVals = filter( res.data.data.validatorsList,(e) => e.contractAddress !== migrateData?.data?.migrateData?.contractAddress);
           setAllValidators(res.data.data.validatorsList);
-          // console.log("result all validators=> " ,migrateData);
-          var activeList = filter(
+          let activeList = filter(
             res.data.data.validatorsList,
             (e) => e.uptimePercent !== 0
           );
@@ -102,11 +96,12 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
             setValidatorsByStatus(activeList);
             const slicedList = activeList.slice(0, pageSize)
             setValidators(slicedList)
-          } else {
-            setValidatorsByStatus(activeList);
-            const slicedList = activeList.slice(0, pageSize)
-            setValidators(slicedList)
           }
+          //  else {
+          //   setValidatorsByStatus(activeList);
+          //   const slicedList = activeList.slice(0, pageSize)
+          //   setValidators(slicedList)
+          // }
         }
       })
       .catch((err: any) => {
@@ -178,7 +173,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
                 </div>
                 <div className='bl-rt col-md-6'>
                   <p className='txt-xsm mb-0'>Added Rewards to your wallet</p>
-                  <div className='txt-sm'>{balance?.migrateData?.reward > 0 ? (parseInt(balance?.migrateData?.reward) / 10 ** web3Decimals).toFixed(tokenDecimal) : "0.00"} BONE</div>
+                  <div className='txt-sm'>{balance?.migrateData?.reward > 0 ? (parseInt('' + (parseInt(balance?.migrateData?.reward) / 10 ** web3Decimals * 100)) / 100) : "0.00"} BONE</div>
                 </div>
               </div>
             </div>

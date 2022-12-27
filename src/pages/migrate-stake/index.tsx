@@ -15,10 +15,6 @@ import LoadingSpinner from "pages/components/Loading";
 import { getBoneUSDValue } from "../../services/apis/validator/index";
 import { ChainId } from "shibarium-chains";
 import { BONE_ID } from "../../config/constant";
-import { useEthBalance } from "../../hooks/useEthBalance";
-import { useTokenBalance } from "../../hooks/useTokenBalance";
-import { dynamicChaining } from "web3/DynamicChaining";
-import Valitotors from "pages/all-validator/valitotors";
 import ListData from "./ListData"
 
 export default function MyAcount() {
@@ -27,10 +23,6 @@ export default function MyAcount() {
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const router = useRouter();
 
-  var availBalance =
-    chainId === ChainId.SHIBARIUM
-      ? useEthBalance()
-      : useTokenBalance(dynamicChaining[chainId].BONE);
     const myRef = useRef<any>(null);
     
   useEffect(() => {

@@ -18,7 +18,7 @@ export const validatorSchema = yup.object().shape({
     .typeError("Name must be less than 15 characters.")
     .required("Validator name is required.")
     .matches(
-      /^[a-zA-Z0-9_]*$/,
+      /^[a-z\d\-_\s]+$/i,
       "Only alphanumeric values are allowed. "
     ),
   publickey: yup

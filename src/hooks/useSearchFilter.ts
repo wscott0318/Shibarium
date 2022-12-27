@@ -13,8 +13,6 @@ export const useSearchFilter = (data: any[], keyword: string) => {
         //     .includes(keyword.toLowerCase());
         // } else
         if (name && !keyword) {
-          console.log("here 1");
-          
           return name.name.toLowerCase().includes(keyword.toLowerCase());
         } else {
           console.log("here 2");

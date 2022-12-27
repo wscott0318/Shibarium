@@ -79,7 +79,7 @@ const DelegatePopup: React.FC<any> = ({
     else{
       setWalletBalance(newBalance);
     }
-    console.log("called again");
+    console.log("called again" , newBalance);
   },[walletBalance, ethBalance , newBalance]);
 
   useEffect(() => {
@@ -100,7 +100,6 @@ const DelegatePopup: React.FC<any> = ({
     // setAmount(walletBalance);
     setFieldValue("balance",walletBalance)
     // console.log("called");
-    
   };
   const closeModal = (e: any) => {
     setStep(1);
@@ -236,8 +235,8 @@ let schema = yup.object().shape({
   balance: yup
     .number().typeError("Only digits are allowed.")
     .max(
-      parseFloat(walletBalance?.toFixed(tokenDecimal)),
-      "Amount of input fields can't be more than account balance"
+      walletBalance,
+      "Insufficient Balance."
     ).positive("Enter valid Balance.")
     .required("Balance is required."),
 });
@@ -257,7 +256,7 @@ const callAPIforDelegator = async (requestBody:any) => {
 
 }
 
-const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, touched,setValues } =
+const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, touched,setValues }:any =
   useFormik({
     initialValues: initialValues,
     validationSchema: schema,
@@ -457,7 +456,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                           placeholder="0.00"
                           name="balance"
                           autoComplete="off"
-                          value={values.balance}
+                          value={parseInt('' + (values.balance  * 100)) / 100}
                           onChange={handleChange}
                           onBlur={handleBlur}
                         />
@@ -480,7 +479,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                         /> */}
                       </span>
                       <span className="text-right">
-                        Balance: {walletBalance?.toFixed(tokenDecimal)} BONE
+                        Balance: {parseInt('' + (walletBalance * 100)) / 100} BONE
                       </span>
                     </p>
                   </div>

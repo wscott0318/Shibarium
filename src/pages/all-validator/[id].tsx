@@ -190,7 +190,7 @@ export default function ValidatorDetails() {
                                         <div className='flex-wrap mb-4 d-flex align-items-center'>
                                             <div className='data-btn me-3'>
                                                 <span className='trs-6 ff-mos'>
-                                                    <NumberFormat displayType='text' thousandSeparator value={addDecimalValue(+validatorInfo?.selfStake / Math.pow(10, web3Decimals))} />
+                                                    <NumberFormat displayType='text' thousandSeparator value={+(+validatorInfo?.votingPower).toFixed(tokenDecimal)} />
                                                 </span>
                                             </div>
                                             {/* <div className='text ff-mos'>
@@ -207,12 +207,12 @@ export default function ValidatorDetails() {
                                                     {lastBlock?.checkpointNumber}
                                                 </p>
                                             </li>
-                                            <li className='info-data-lst'>
+                                            {/* <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Voting Power</h6>
                                                 <p className='mb-0 trs-3 ff-mos'>
                                                     <NumberFormat displayType='text' thousandSeparator value={addDecimalValue(+validatorInfo?.selfStake / Math.pow(10, web3Decimals))} />
                                                 </p>
-                                            </li>
+                                            </li> */}
                                             {/* <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Voting Power %</h6>
                                                 {validatorInfo?.votingPower ? <p className='mb-0 trs-3 primary-text ff-mos'>
