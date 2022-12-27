@@ -35,7 +35,7 @@ export default function MyAcount() {
 
   useEffect(() => {
     if(account){
-      if(userType === 'Validator' && valId >= 0){
+      if(userType === 'Validator' && valId <= 0){
         router.back()   
       } else {
         getBoneUSDValue(BONE_ID).then(res=>{

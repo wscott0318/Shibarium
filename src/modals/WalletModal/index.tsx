@@ -251,7 +251,7 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
               tryActivation={tryActivation}
             />
           ) : (
-            <div className="grid grid-cols-1 gap-4 overflow-y-auto md:grid-cols-2">{options}</div>
+            <div className="grid grid-cols-1 d-flex md:grid-cols-2">{options}</div>
           )}
           <div className="pop-txtblk">
             <p className="text-secondary pe-1">
