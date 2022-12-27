@@ -518,7 +518,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                 </div>
                 <div className="blk-dta text-nowrap">
                   <p className="amt-val">
-                    Balance: {addDecimalValue(+availBalance)}
+                    Balance: {addDecimalValue(+availBalance) > 0? addDecimalValue(+availBalance) : "0.00"}
                   </p>
                 </div>
                 {/* <div className="blk-dta">
