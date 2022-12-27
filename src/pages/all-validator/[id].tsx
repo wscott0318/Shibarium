@@ -182,7 +182,7 @@ export default function ValidatorDetails() {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-12 detail">
-                                <div className="mb-4 cus-panel dark-Bg mb-lg-5">
+                                {/* <div className="mb-4 cus-panel dark-Bg mb-lg-5">
                                     <div className="panel-header">
                                         <h4 className='fwb trs-3 fw-600 ff-mos'>Voting Power</h4>
                                     </div>
@@ -193,9 +193,9 @@ export default function ValidatorDetails() {
                                                     <NumberFormat displayType='text' thousandSeparator value={addDecimalValue(+validatorInfo?.selfStake / Math.pow(10, web3Decimals))} />
                                                 </span>
                                             </div>
-                                            {/* <div className='text ff-mos'>
+                                            <div className='text ff-mos'>
                                                {validatorInfo?.votingPower ? <span>(~{(+validatorInfo?.votingPower).toFixed(tokenDecimal) || 0}%)</span> : null }
-                                            </div> */}
+                                            </div>
                                         </div>
                                         <div className="mb-3 progress-line">
                                             <ProgressBar now={+(+validatorInfo?.votingPower).toFixed(tokenDecimal) || 0} />
@@ -213,15 +213,15 @@ export default function ValidatorDetails() {
                                                     <NumberFormat displayType='text' thousandSeparator value={addDecimalValue(+validatorInfo?.selfStake / Math.pow(10, web3Decimals))} />
                                                 </p>
                                             </li>
-                                            {/* <li className='info-data-lst'>
+                                            <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Voting Power %</h6>
                                                 {validatorInfo?.votingPower ? <p className='mb-0 trs-3 primary-text ff-mos'>
                                                    {(+validatorInfo?.votingPower).toFixed(tokenDecimal) || 0}%
                                                 </p> : null }
-                                            </li> */}
+                                            </li>
                                         </ul>
                                     </div>
-                                </div>
+                                </div> */}
 
 
                                 {/* Delegation tabs start */}
