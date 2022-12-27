@@ -83,7 +83,6 @@ const MigratePopup: React.FC<any> = ({
       setWalletBalance(newBalance);
     }
   }, [walletBalance, ethBalance, newBalance]);
-  console.log("migrateData ==> ", migrateData);
   const router = useRouter();
   const [processing, setProcessing] = useState("Migrate");
   useEffect(() => {
@@ -163,7 +162,6 @@ const MigratePopup: React.FC<any> = ({
             let newStake = (parseFloat(migrateData?.data?.stake) - values.balance);
             setMigrateData(migrateData?.data?.migrateData, newStake);
             setmigrateState(initialModalState);
-            console.log("migrate data inside contract ", migrateData);
             // setProcessing("Completed");
             
           })
@@ -188,6 +186,7 @@ const MigratePopup: React.FC<any> = ({
             setProcessing("Completed");
             setTransactionState({ state: false, title: "" });
             // window.location.reload();
+            router.back();
           })
           .on("error", (res: any) => {
             // console.log("error ", res);

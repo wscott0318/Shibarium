@@ -1175,7 +1175,6 @@ const validatorAccount = ({
       const validators = await queryProvider.query({
         query: StakeAmount(id, account),
       });
-      // console.log(validators.data.delegator,  "graph data")
       return validators.data.delegator;
     } catch (err: any) {
       Sentry.captureException("getStakeAmountDelegator ", err);
@@ -1196,10 +1195,8 @@ const validatorAccount = ({
     }
   };
   const handleMigrateClick = (data: any) => {
-    // setValId(data.id);
     let stake = getStake(data.id);
     setMigrateData(data, stake);
-    // console.log("migrate data ", migrateData);
     router.push(
       `/migrate-stake`,
       `/migrate-stake`,

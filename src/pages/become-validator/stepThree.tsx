@@ -511,9 +511,9 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
 
               <div className="row-st cst-row">
-                <div className="blk-dta text-nowrap">
+                <div className="blk-dta">
                   <p className="amt-val bold">
-                    Min Fee: 2 BONES
+                    Minimum 2 BONES required
                   </p>
                 </div>
                 <div className="blk-dta text-nowrap">

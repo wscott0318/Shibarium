@@ -161,11 +161,12 @@ const DelegatePopup: React.FC<any> = ({
   const APPROVE_BONE = async (requestBody :any) => {
     let walletAddress : any = account;
     try{
-      // console.log("need Approval", amount);
+      console.log("need Approval", amount);
       setTransactionState({ state: true, title: "Pending" });
       let approvalAmount = web3.utils.toBN(
         fromExponential(MAXAMOUNT * Math.pow(10, 18))
       );
+      console.log("approvalAmount ", approvalAmount);
       let approvalInstance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
      let gasFee =  await approvalInstance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, approvalAmount).estimateGas({from: walletAddress})
      let encodedAbi =  await approvalInstance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, approvalAmount).encodeABI()
@@ -282,7 +283,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
       );
 
       try {
-        // console.log("No approval needed", amount);
+        console.log("No approval needed", amount);
         let instance = new web3.eth.Contract(
           ValidatorShareABI,
           requestBody.validatorAddress

@@ -102,7 +102,7 @@ export default function Unbond() {
     if (list.length) {
       const newList  = list.slice(0, pageSize);
       setSlicedList(newList);
-      console.log("list updated" , list);
+      console.log("list updated" , newList, list);
     } else if (list.length === 0) {
       setSlicedList([]);
     } else {
