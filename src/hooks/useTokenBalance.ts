@@ -36,7 +36,7 @@ export const useWalletTokenBalance = (address:string)=>{
         try {      
             const web3:any = new Web3(library?.provider);
             const contract = new web3.eth.Contract(ERC20_ABI,address);
-            contract.methods.p(account).call().then((res:any) => {
+            contract.methods.balanceOf(account).call().then((res:any) => {
                 contract.methods.decimals().call().then((d:number)=>{
                     setBalance(+web3.utils.fromWei(res, 'ether'));
                 })

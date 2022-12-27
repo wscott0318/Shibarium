@@ -205,7 +205,7 @@ const MigratePopup: React.FC<any> = ({
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureMessage("migrateStake ", err);
       }
-      // console.log("error", err);
+      console.log("error", err);
       setmigrateState(initialModalState);
       setmigratepop(false);
       setProcessing("Migrate");

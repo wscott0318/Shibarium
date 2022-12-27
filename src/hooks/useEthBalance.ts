@@ -1,6 +1,7 @@
 import { useActiveWeb3React } from "app/services/web3"
 import { useEffect, useState } from "react"
 import Web3 from 'web3';
+import { web3Decimals } from "web3/commonFunctions";
 
 export const useEthBalance = ()=>{
     const {library,account}:any = useActiveWeb3React()
@@ -11,7 +12,7 @@ export const useEthBalance = ()=>{
     try {
         const web3 = new Web3(library?.provider);
         web3.eth.getBalance(account).then((res) => {
-            setBalance((+res / Math.pow(10, 18)));
+            setBalance((+res / Math.pow(10, web3Decimals)));
           }).catch((e:any) =>{
             // console.log(e)
         });;

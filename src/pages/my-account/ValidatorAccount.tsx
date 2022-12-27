@@ -184,7 +184,7 @@ const validatorAccount = ({
             let newArray: any = [];
             // console.log(res.data, "delegator card data")
             let sortedData = res.data.data.validators
-              // .filter((x: any) => parseInt(x.stake) > 0)
+              .filter((x: any) => +(x.stake) > 0)
               .sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake));
             // here
             sortedData.forEach(async (x: any) => {
