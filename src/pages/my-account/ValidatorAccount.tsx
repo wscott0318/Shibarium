@@ -70,9 +70,9 @@ const validatorAccount = ({
   const [validatorInfoContract, setValidatorInfoContract] = useState<any>();
   const [epochDyna, setEpochDyna] = useEpochDyna();
   const [valId, setValId] = useValId();
-  const isLoading = availBalance == -1;
+  const isLoading = availBalance === -1;
   const [valInfoContract, setValInfoContract] = useValInfoContract()
-
+  console.log("initial availbalance" , availBalance);
   // console.log("valInfoContract my account =========>>>>", valInfoContract)
 
   const [transactionState, setTransactionState] = useState(initialModalState);
@@ -2060,7 +2060,7 @@ const validatorAccount = ({
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>{addDecimalValue(availBalance)}</span> BONE
+                              <span>{isLoading == true ? "0.00" : addDecimalValue(availBalance)}</span> BONE
                             </div>
                             <div className="mid-head">
                               <span>
@@ -2068,9 +2068,8 @@ const validatorAccount = ({
                                   thousandSeparator
                                   displayType={"text"}
                                   prefix="$ "
-                                  value={isLoading ? 0.00 : addDecimalValue(
-                                    (availBalance || 0.0) * boneUSDValue
-                                  )}
+                                  value={isLoading == true ? "0.00" : (addDecimalValue(
+                                    (availBalance || 0.0) * boneUSDValue))}
                                 />
                               </span>
                             </div>
