@@ -70,7 +70,7 @@ const validatorAccount = ({
   const [validatorInfoContract, setValidatorInfoContract] = useState<any>();
   const [epochDyna, setEpochDyna] = useEpochDyna();
   const [valId, setValId] = useValId();
-
+  const isLoading = availBalance == -1;
   const [valInfoContract, setValInfoContract] = useValInfoContract()
 
   // console.log("valInfoContract my account =========>>>>", valInfoContract)
@@ -167,8 +167,8 @@ const validatorAccount = ({
 
   useEffect(() => {
     if (stakeAmounts.length) {
-      let totalStake = stakeAmounts.map((x: any) => parseInt(x.tokens)).reduce((accumulator: any, currentValue: any) => accumulator + currentValue)
-      let totalReward = delegationsList.map((x: any) => parseInt(x.reward)).reduce((accumulator: any, currentValue: any) => accumulator + currentValue)
+      let totalStake = stakeAmounts.map((x: any) => +(x.tokens)).reduce((accumulator: any, currentValue: any) => accumulator + currentValue)
+      let totalReward = delegationsList.map((x: any) => +(x.reward)).reduce((accumulator: any, currentValue: any) => accumulator + currentValue)
       console.log({ stakeAmounts })
       getDelegatorAmount({ totalReward, totalStake })
     }
@@ -2068,9 +2068,9 @@ const validatorAccount = ({
                                   thousandSeparator
                                   displayType={"text"}
                                   prefix="$ "
-                                  value={addDecimalValue(
+                                  value={isLoading ? 0.00 :  (addDecimalValue(
                                     (availBalance || 0.0) * boneUSDValue
-                                  )}
+                                  ))}
                                 />
                               </span>
                             </div>

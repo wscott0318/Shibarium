@@ -171,6 +171,14 @@ export default function Unbond() {
             
           }).on('receipt', (res: any) => {
             // console.log(res, "receipt")
+            setTimeout(() => {
+              router.push(
+                `/unbond-history`,
+                `/unbond-history`,
+                { shallow: true }
+              )
+              getUnboundHistory(account);
+            },100);
             dispatch(
               finalizeTransaction({
                 hash: res.transactionHash,
@@ -187,14 +195,7 @@ export default function Unbond() {
                 }
               })
             )
-            setTimeout(() => {
-              getUnboundHistory(account);
-              router.push(
-                `/unbond-history`,
-                `/unbond-history`,
-                { shallow: true }
-              )
-            },2000);
+            
             setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
             setLoader(false)
             setClamNowModals({

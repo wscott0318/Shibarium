@@ -35,7 +35,7 @@ const delegatorAccount = () => {
       getDelegatorData(accountAddress.toLowerCase()).then((res: any) => {
         if (res.data) {
           // console.log(res.data)
-          let sortedData = res.data.data.validators.sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake))
+          let sortedData = res.data.data.validators.sort((a: any, b: any) => +(b.stake) - +(a.stake))
           setDelegationsList(sortedData)
         }
       })
@@ -105,7 +105,7 @@ const delegatorAccount = () => {
                         <div className="grid-info text-start">
                           <div className="fw-bold">{item.name}</div>
                           <div className="info-row">
-                            <span><span className="fw-bold">{parseInt(item.checkpointSignedPercent).toFixed(tokenDecimal)}%</span> Checkpoints Signed</span>
+                            <span><span className="fw-bold">{+(item.checkpointSignedPercent).toFixed(tokenDecimal)}%</span> Checkpoints Signed</span>
                           </div>
                           <div className="info-row">
                             <span><span className="fw-bold">{item.commission}%</span> Commission</span>
@@ -118,14 +118,14 @@ const delegatorAccount = () => {
                         <div className="cus-width">
                           <div className="text-center">
                             <div>Your Stake</div>
-                            <div className="fw-bold">{(parseInt(item.stake) / 10 ** 18).toFixed(tokenDecimal)}</div>
+                            <div className="fw-bold">{(+(item.stake) / 10 ** 18).toFixed(tokenDecimal)}</div>
                             {/* {/ <div>$0</div> /} */}
                           </div>
                         </div>
                         <div className="cus-width">
                           <div className="text-center">
                             <div>Reward</div>
-                            <div className="fw-bold orange-color">{(parseInt(item.reward) / 10 ** 18).toFixed(tokenDecimal)}</div>
+                            <div className="fw-bold orange-color">{(+(item.reward) / 10 ** 18).toFixed(tokenDecimal)}</div>
                             {/* {/ <div>$0</div> /} */}
                           </div>
                         </div>
@@ -133,13 +133,13 @@ const delegatorAccount = () => {
 
                       <ul className="btn-grp mg-grid">
                         <li className="btn-grp-lst">
-                          <button disabled={parseInt(item.commission) == 0} onClick={() => handleModal('Restake', item.contractAddress)} className="btn grey-btn btn-small">Restake</button>
+                          <button disabled={+(item.commission) == 0} onClick={() => handleModal('Restake', item.contractAddress)} className="btn grey-btn btn-small">Restake</button>
                         </li>
                         <li className="btn-grp-lst">
                           <button onClick={() => handleModal('Withdraw Rewards', item.contractAddress)} className="btn black-btn btn-small">Withdraw Rewards</button>
                         </li>
                         <li className="btn-grp-lst">
-                          <button onClick={() => handleModal('Unbound', item.validatorAddress, item.contractAddress, (parseInt(item.stake) / 10 ** 18).toFixed(tokenDecimal))} className="btn black-btn btn-small">Unbound</button>
+                          <button onClick={() => handleModal('Unbound', item.validatorAddress, item.contractAddress, (+(item.stake) / 10 ** 18).toFixed(tokenDecimal))} className="btn black-btn btn-small">Unbound</button>
                         </li>
                         <li className="btn-grp-lst">
                           <button disabled={parseInt(item.commission) == 0} onClick={() => { setSelectedRow({ owner: item.contractAddress, commissionPercent: item.commission, name: item.name }); setStakeMoreModal(true); }} className="btn black-btn btn-small">Stake More</button>

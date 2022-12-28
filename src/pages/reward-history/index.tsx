@@ -165,7 +165,7 @@ export default function Unbond() {
                           <td>
                             <span className="tb-data align">
                               {addDecimalValue(
-                                parseInt(value?.amount) / Math.pow(10, web3Decimals)
+                                +(value?.amount) / Math.pow(10, web3Decimals)
                               )}{" "}
                               Bone
                             </span>
@@ -173,7 +173,7 @@ export default function Unbond() {
                           </td>
                           <td>
                             <span className="tb-data align">
-                              {getUserTimeZone(parseInt(value.timestamp) * 1000)}
+                              {getUserTimeZone(+(value.timestamp) * 1000)}
                             </span>
                           </td>
                         </tr>

@@ -113,7 +113,8 @@ const MigratePopup: React.FC<any> = ({
         let walletAddress: any = account;
         let fromId = migrateData?.data?.migrateData?.id;
         let toId = data.validatorContractId;
-        let totalAmount = parseInt(values.balance) * Math.pow(10, web3Decimals);
+        let totalAmount = (values.balance) * Math.pow(10, web3Decimals);
+        console.log("totalamount " , totalAmount);
         let Amount = fromExponential(web3.utils.toBN(totalAmount));
         let instance = new web3.eth.Contract(
           stakeManagerProxyABI,
@@ -152,6 +153,7 @@ const MigratePopup: React.FC<any> = ({
             setMigrateData(migrateData?.data?.migrateData, newStake);
             setmigrateState(initialModalState);
             // setProcessing("Completed");
+            setFieldValue("balance", "");
             
           })
           .on("receipt", (res: any) => {
@@ -183,6 +185,7 @@ const MigratePopup: React.FC<any> = ({
             setmigratepop(false);
             setProcessing("Migrate");
             setTransactionState({ state: false, title: "" });
+            setFieldValue("balance", "");
           });
       }
       else {
@@ -200,6 +203,7 @@ const MigratePopup: React.FC<any> = ({
       setProcessing("Migrate");
       setTransactionState({ state: false, title: "" });
       handleClose()
+      setFieldValue("balance", "");
     }
   }
 
@@ -242,6 +246,7 @@ const MigratePopup: React.FC<any> = ({
     setmigrateState(initialModalState);
     setmigratepop(false);
     setProcessing("Migrate");
+    setFieldValue("balance", "");
   };
 
   return (
