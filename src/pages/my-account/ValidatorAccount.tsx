@@ -2621,10 +2621,10 @@ const validatorAccount = ({
                               <li className="btn-grp-lst">
                                 <div className="cus-tooltip d-inline-block">
                                   <button
-                                    disabled={
-                                      parseInt(item.commission) < comissionVal ||
-                                      item.checkpointSignedPercent < checkpointVal || item.deactivationepoch === "true"
-                                    }
+                                    // disabled={
+                                    //   parseInt(item.commission) < comissionVal ||
+                                    //   item.checkpointSignedPercent < checkpointVal || item.deactivationepoch === "true"
+                                    // }
                                     onClick={() => {
                                       setSelectedRow({
                                         owner: item.contractAddress,
