@@ -123,7 +123,7 @@ export default function ValidatorGrid({ validatorsList, searchKey, migrateData={
                                     ? true
                                     : validator.uptimePercent <= inActiveCount
                                       ? true
-                                      : false
+                                    : validator.contractAddress == migrateData.contractAddress ? true : false
                               }
                               type="button"
                               onClick={() => {
