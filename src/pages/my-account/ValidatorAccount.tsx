@@ -1331,7 +1331,7 @@ const validatorAccount = ({
                     <div className="pop_btns_area">
                       <div className="form-control">
                         <button
-                          className="btn primary-btn w-100"
+                          className="btn primary-btn w-100 btn-lg"
                           onClick={() => handleSubmit()}
                         >
                           Submit
@@ -1411,7 +1411,7 @@ const validatorAccount = ({
                   <div className="pop_btns_area">
                     <div className="form-control">
                       <button
-                        className="btn primary-btn w-100"
+                        className="btn primary-btn w-100 btn-lg"
                         type="submit"
                         onClick={() => handleSubmit()}
                       >
@@ -1467,7 +1467,7 @@ const validatorAccount = ({
                   <div className="form-control">
                     <button
                       onClick={() => withdrawRewardValidator()}
-                      className="btn primary-btn w-100"
+                      className="btn primary-btn w-100 btn-lg"
                     >
                       Submit
                     </button>
@@ -2068,9 +2068,9 @@ const validatorAccount = ({
                                   thousandSeparator
                                   displayType={"text"}
                                   prefix="$ "
-                                  value={isLoading ? 0.00 :  (addDecimalValue(
+                                  value={isLoading ? 0.00 : addDecimalValue(
                                     (availBalance || 0.0) * boneUSDValue
-                                  ))}
+                                  )}
                                 />
                               </span>
                             </div>
