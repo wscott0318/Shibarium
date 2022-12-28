@@ -122,7 +122,7 @@ export default function ProfileUpdate() {
     };
 
     let schema = yup.object().shape({
-        validatorname: yup.string().typeError("Name is required.").max(14,"Name must be less than 15 characters.").typeError("Name must be less than 15 characters.").required("Validator name is required.").matches(/^[A-Za-z][A-Za-z0-9 ]+$/, "Entered wrong charactor."),
+        validatorname: yup.string().typeError("Name is required.").max(14,"Name must be less than 15 characters.").typeError("Name must be less than 15 characters.").required("Validator name is required.").matches(/^[a-z\d\-_\s]+$/i, "Entered wrong charactor."),
         address: yup.string().required("Address is required."),
         website: yup
             .string()
