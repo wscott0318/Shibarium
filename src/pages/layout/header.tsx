@@ -22,7 +22,7 @@ import {supportedChains} from "../../web3/commonFunctions";
 export default function Header() {
 
   const { account, deactivate, active } = useWeb3React();
-  const { chainId } = useActiveWeb3React();
+  const { chainId=1 } = useActiveWeb3React();
   const router = useRouter();
 
   const [userType, setUserType] = useUserType();
