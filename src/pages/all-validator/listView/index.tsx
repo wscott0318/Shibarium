@@ -82,7 +82,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                     </td>
                     <td>
                       {x.selfpercent
-                        ? addDecimalValue(parseInt(x.selfpercent))
+                        ? addDecimalValue(+(x.selfpercent))
                         : "0"}
                       %
                     </td>

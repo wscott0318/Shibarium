@@ -113,7 +113,8 @@ const MigratePopup: React.FC<any> = ({
         let walletAddress: any = account;
         let fromId = migrateData?.data?.migrateData?.id;
         let toId = data.validatorContractId;
-        let totalAmount = parseInt(values.balance) * Math.pow(10, web3Decimals);
+        let totalAmount = (values.balance) * Math.pow(10, web3Decimals);
+        console.log("totalamount " , totalAmount);
         let Amount = fromExponential(web3.utils.toBN(totalAmount));
         let instance = new web3.eth.Contract(
           stakeManagerProxyABI,

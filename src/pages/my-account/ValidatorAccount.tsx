@@ -167,8 +167,8 @@ const validatorAccount = ({
 
   useEffect(() => {
     if (stakeAmounts.length) {
-      let totalStake = stakeAmounts.map((x: any) => parseInt(x.tokens)).reduce((accumulator: any, currentValue: any) => accumulator + currentValue)
-      let totalReward = delegationsList.map((x: any) => parseInt(x.reward)).reduce((accumulator: any, currentValue: any) => accumulator + currentValue)
+      let totalStake = stakeAmounts.map((x: any) => +(x.tokens)).reduce((accumulator: any, currentValue: any) => accumulator + currentValue)
+      let totalReward = delegationsList.map((x: any) => +(x.reward)).reduce((accumulator: any, currentValue: any) => accumulator + currentValue)
       console.log({ stakeAmounts })
       getDelegatorAmount({ totalReward, totalStake })
     }

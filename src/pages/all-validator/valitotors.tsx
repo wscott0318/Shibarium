@@ -31,8 +31,8 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
   console.log(searchResult , validatorsByStatus);
   useEffect(() => {
     // filterValidators();
-    const slicedList = searchResult.sort((a: any, b: any) => parseInt(b.uptimePercent) - parseInt(a.uptimePercent))
-    const sortAgain = slicedList.sort((a: any, b: any) => parseInt(b.totalStaked) - parseInt(a.totalStaked))
+    const slicedList = searchResult.sort((a: any, b: any) => +(b.uptimePercent) - +(a.uptimePercent))
+    const sortAgain = slicedList.sort((a: any, b: any) => +(b.totalStaked) - +(a.totalStaked))
     setValidators(sortAgain);
   }, [searchKey,searchResult])
 
