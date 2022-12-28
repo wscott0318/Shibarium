@@ -66,6 +66,7 @@ const DelegatePopup: React.FC<any> = ({
   const ethBalance = useEthBalance();
   const {newBalance , updateBalance} =  useWalletTokenBalance(dynamicChaining[chainId]?.BONE);
   const [walletBalance , setWalletBalance] = useState<any>();
+  const isLoading = walletBalance == -1;
   const [isMax, setIsMax] = useState(false);
   const getBalanceG = () => {
     web3?.eth?.getBalance().then((lastBlock: number) => {
@@ -479,7 +480,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                         /> */}
                       </span>
                       <span className="text-right">
-                        Balance: {parseInt('' + (walletBalance * 100)) / 100} BONE
+                        Balance: {isLoading ? 0.00 :(parseInt('' + (walletBalance * 100)) / 100)} BONE
                       </span>
                     </p>
                   </div>
