@@ -1036,4 +1036,10 @@ td.no_record img{
     .modal-content .primary-btn{
         min-height: 55px;
     }
+    .modal-content .cmn_modal.val_popups .primary-btn {
+        min-height: auto;
+    }
+    .modal-content .cmn_modal.val_popups .primary-btn.btn-lg{
+        min-height: 55px;
+    }
 }

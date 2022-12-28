@@ -118,6 +118,7 @@ const TokenList = ({
         const chain = await getDefaultChain();
         setChain(chain);
         setCoinList(copy);
+        console.log("updated chain , " , chain , copy)
       }
     }, 1);
   };
@@ -269,7 +270,7 @@ const TokenList = ({
                         checked={arr[arr.findIndex((el:any) => el.data === item.data)].enabled}
                         onChange={(e: any) => {
                           updateList(item?.data, item?.locked);
-                          console.log("arr ->>>>>.. " ,arr);
+                          // console.log("arr ->>>>>.. " ,arr);
                         }}
                       />
                     </div>
