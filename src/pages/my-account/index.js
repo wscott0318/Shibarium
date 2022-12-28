@@ -30,8 +30,7 @@ export default function MyAcount() {
   const router = useRouter();
   const [delegatorData, setDelegatorData] = useState({});
   var availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
-
-  console.log({userType, valId})
+  var isloading = availBalance == -1;
 
   useEffect(() => {
     if(account){
@@ -67,7 +66,7 @@ export default function MyAcount() {
                   {userType === "Delegator" && (
                     <div className="balance_wrapper">
                       <div className="balance_card">
-                        <span>{availBalance} BONES</span>
+                        <span>{isloading ? 0.00 : availBalance} BONES</span>
                         <h4 className="heading-sm">Wallet Balance</h4>
                       </div>
                       <div className="balance_card">

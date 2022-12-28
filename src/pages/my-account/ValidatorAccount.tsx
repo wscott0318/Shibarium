@@ -2448,7 +2448,8 @@ const validatorAccount = ({
                 <div className="row">
                   {delegationsList.length ? (
                     delegationsList.map((item: any, index: any) => (
-                      <div
+                      getStake(item.id) >=1 && 
+                      (<div
                         className="col-lg-4 col-md-6 col-12 bs-col"
                         key={index}
                       >
@@ -2646,7 +2647,8 @@ const validatorAccount = ({
                             </ul>
                           </div>
                         </div>
-                      </div>
+                      </div>)
+                      
                     ))
                   ) : !loading && !delegationsList.length ? (
                     <div className="txt-emp">

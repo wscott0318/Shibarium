@@ -72,17 +72,6 @@ const MigratePopup: React.FC<any> = ({
   const [validatorID, setValidatorID] = useState<any>("");
   const [balance, setBalance] = useState(0);
   const [migrateData, setMigrateData] = useMigrateStake();
-  const ethBalance = useEthBalance();
-  const { newBalance, updateBalance } = useWalletTokenBalance(dynamicChaining[chainId]?.BONE);
-  const [walletBalance, setWalletBalance] = useState<any>();
-  useEffect(() => {
-    if (chainId === ChainId.SHIBARIUM) {
-      setWalletBalance(ethBalance);
-    }
-    else {
-      setWalletBalance(newBalance);
-    }
-  }, [walletBalance, ethBalance, newBalance]);
   const router = useRouter();
   const [processing, setProcessing] = useState("Migrate");
   useEffect(() => {
@@ -487,7 +476,7 @@ const MigratePopup: React.FC<any> = ({
                             />
                           </div>
                           <button
-                            disabled={walletBalance > 0 ? false : true}
+                            disabled={balance > 0 ? false : true}
                             onClick={(e) => useMax(e)}
                             className="rt-chain"
                           >
