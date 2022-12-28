@@ -30,6 +30,7 @@ export default function ValidatorDetails() {
 
     const [lastBlock, setLastBlock] = useState<any>();
     const [totalSupply, setTotalSupply] = useState<number>(0)
+    const [selfStaked, setSelfStaked] = useState<number>(0)
 
     
     const router = useRouter()
@@ -78,8 +79,10 @@ export default function ValidatorDetails() {
             let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[Cid]?.STAKE_MANAGER_PROXY);
             const valStake = await instance.methods.validators(id).call();
             let finalAMount = (+valStake.amount + +valStake.delegatedAmount) / Math.pow(10, web3Decimals)
+            let selfStake = +valStake.amount / Math.pow(10, web3Decimals)
             // console.log("getTotalSupply called again", valStake.amount , valStake.delegatedAmount);
             // console.log(valStake, finalAMount, "data ==> ")
+            setSelfStaked(selfStake);
             setTotalSupply(finalAMount)
         }
         catch(err:any){
@@ -140,12 +143,12 @@ export default function ValidatorDetails() {
                                                     <NumberFormat displayType='text' thousandSeparator value={addDecimalValue(totalSupply)} /> BONE
                                                 </p>
                                             </li>
-                                            {/* <li className='info-data-lst'>
-                                                <h6 className='mb-0 trs-3 fix-wid fw-600'>Community Pool</h6>
+                                            <li className='info-data-lst'>
+                                                <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Self Stake</h6>
                                                 <p className='mb-0 trs-3'>
-                                                    ... BONE
+                                                <NumberFormat displayType='text' thousandSeparator value={addDecimalValue(selfStaked)} /> BONE
                                                 </p>
-                                            </li> */}
+                                            </li>
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Owner address</h6>
                                                 <p className='mb-0 trs-3 ff-mos'>

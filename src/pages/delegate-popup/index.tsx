@@ -80,7 +80,6 @@ const DelegatePopup: React.FC<any> = ({
     else{
       setWalletBalance(newBalance);
     }
-    console.log("called again" , newBalance);
   },[walletBalance, ethBalance , newBalance]);
 
   useEffect(() => {
@@ -191,6 +190,7 @@ const DelegatePopup: React.FC<any> = ({
             })
           )
           setTransactionState({ state: true, title: "Submitted" });
+          setFieldValue("balance" , "");
         })
           .on('receipt', (res: any) => {
             dispatch(
@@ -215,6 +215,7 @@ const DelegatePopup: React.FC<any> = ({
           setdelegateState(initialModalState)
           setdelegatepop();
           setTransactionState({ state: false, title: "" });
+          setFieldValue("balance" , "");
         })
     } catch(err :any){
       if(err.code !== USER_REJECTED_TX) {
@@ -223,13 +224,14 @@ const DelegatePopup: React.FC<any> = ({
       setdelegateState(initialModalState)
       setdelegatepop();
       setTransactionState({ state: false, title: "" });
+      setFieldValue("balance" , "");
     }
 
   }
 
   // console.log(data);
   const initialValues = {
-    balance: 0,
+    balance: "",
   };
 
 let schema = yup.object().shape({
@@ -241,7 +243,6 @@ let schema = yup.object().shape({
     ).positive("Enter valid Balance.")
     .required("Balance is required."),
 });
-const [balance, setBalance] = useState();
 
 const callAPIforDelegator = async (requestBody:any) => {
   try {
@@ -316,6 +317,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
               title: "Transaction In Progress",
             });
             setTransactionState({ state: true, title: "Submitted" });
+            setFieldValue("balance" , "");
           })
           .on("receipt", (res: any) => {
             updateBalance();
@@ -358,6 +360,8 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
             console.log(err)
             setdelegateState(initialModalState);
             setdelegatepop();
+            setFieldValue("balance" , "");
+            console.log("values ==> " ,values.balance);
           });
       } catch (err: any) {
         if(err.code !== USER_REJECTED_TX) {
@@ -366,6 +370,8 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
         setTransactionState({ state: false, title: "" });
         setdelegateState(initialModalState);
         setdelegatepop();
+        setFieldValue("balance" , "");
+        console.log("values ==> " ,values.balance);
       }
     };
 
@@ -379,10 +385,12 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
   const handleClose = () => {
     setdelegateState(initialModalState);
     setdelegatepop();
+    setFieldValue("balance" , 0);
     // if(transactionState.state){
-    //   window.location.reload();
-    // }
-  }
+      //   window.location.reload();
+      // }
+    }
+    console.log("values => == " ,values);
 
 // console.log("Balance", data);
   return (
@@ -457,7 +465,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                           placeholder="0.00"
                           name="balance"
                           autoComplete="off"
-                          value={isMax ? (parseInt('' + (walletBalance * 100)) / 100) : values.balance}
+                          value={isMax ? (parseInt('' + (values.balance * 100)) / 100) : values.balance}
                           onChange={(e) => {handleChange(e); setIsMax(false);}}
                           onBlur={handleBlur}
                         />

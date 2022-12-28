@@ -153,6 +153,7 @@ const MigratePopup: React.FC<any> = ({
             setMigrateData(migrateData?.data?.migrateData, newStake);
             setmigrateState(initialModalState);
             // setProcessing("Completed");
+            setFieldValue("balance", "");
             
           })
           .on("receipt", (res: any) => {
@@ -184,6 +185,7 @@ const MigratePopup: React.FC<any> = ({
             setmigratepop(false);
             setProcessing("Migrate");
             setTransactionState({ state: false, title: "" });
+            setFieldValue("balance", "");
           });
       }
       else {
@@ -201,6 +203,7 @@ const MigratePopup: React.FC<any> = ({
       setProcessing("Migrate");
       setTransactionState({ state: false, title: "" });
       handleClose()
+      setFieldValue("balance", "");
     }
   }
 
@@ -243,6 +246,7 @@ const MigratePopup: React.FC<any> = ({
     setmigrateState(initialModalState);
     setmigratepop(false);
     setProcessing("Migrate");
+    setFieldValue("balance", "");
   };
 
   return (
