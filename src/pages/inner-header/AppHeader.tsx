@@ -10,6 +10,7 @@ const AppHeader = () => {
   const { asPath } = useRouter()
   const [title, setTitle] = useState("Staking")
   const router = useRouter()
+  
   useEffect(() => {
     if (asPath) {
       if (asPath === '/wallet') {

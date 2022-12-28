@@ -77,7 +77,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                       </div>
                     </td>
                     <td>
-                      {addDecimalValue(+x.totalstaked)}
+                      {addDecimalValue(+(x.totalstaked))}
                       {/* ({(+x.votingpowerpercent || 0).toFixed(toFixedPrecent)}%) */}
                     </td>
                     <td>
