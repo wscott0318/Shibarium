@@ -856,7 +856,7 @@ const validatorAccount = ({
             // setHashLink("");
           })
           .on("error", (res: any) => {
-            // console.log(res, "error");
+            console.log(res, "error");
             setTransactionState(initialModalState);
             if (res.code === 4001) {
               setUnStakePop(false);
@@ -869,6 +869,7 @@ const validatorAccount = ({
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureException("unStakeClaimValidator", err);
       }
+      console.log("err ==. " , err);
       setTransactionState(initialModalState);
       setUnStakePop(false);
     }
