@@ -1,10 +1,9 @@
 import { http } from "../http";
 import {RetakeFormInterface} from "../../../interface/reTakeFormInterface"
 
-export function validatorsList(){
-    return http.get(`validators/getList`)
+export function validatorsList(name:string,requestOptions:any){
+    return http.get(`validators/getList?value=${name}`,requestOptions)
 }
-
 export function migrateValidatorsList(requestOptions:any){
     return http.get(`validators/getMigrationList`,requestOptions)
 }

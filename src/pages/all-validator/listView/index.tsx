@@ -16,7 +16,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
   const [showdelegatepop, setdelegatepop] = useState(false);
   const [showmigratepop, setmigratepop] = useState(false);
   
-  
+  console.log("validators list after searching " , validatorsList)
   
   // console.log(migrateData);
   const router = useRouter();
@@ -49,7 +49,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
             </thead>
             <Scrollbar></Scrollbar>
             <tbody>
-              {validatorsList.length ? (
+              {validatorsList?.length ? (
                 validatorsList.sort((a:any,b:any)=>{
                   if((a.fundamental != 1) > (b.fundamental != 1)) return -1
                   if((a.uptimePercent > inActiveCount) > (b.uptimePercent > inActiveCount)) return -1

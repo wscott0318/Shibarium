@@ -26,27 +26,40 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
   const [isActiveTab, setIsActiveTab] = useState<boolean>(true);
   const [searchKey, setSearchKey] = useState<string>('');
   const [sortKey, setSortKey] = useState<string>('Uptime');
-
-  const searchResult = useSearchFilter(validatorsByStatus, searchKey.trim());
-  console.log(searchResult , validatorsByStatus);
-  useEffect(() => {
-    // filterValidators();
-    const slicedList = searchResult.sort((a: any, b: any) => +(b.uptimePercent) - +(a.uptimePercent))
-    const sortAgain = slicedList.sort((a: any, b: any) => +(b.totalStaked) - +(a.totalStaked))
-    setValidators(sortAgain);
-  }, [searchKey,searchResult])
-
-  useEffect(() => {
+  const requestOptions = {
+    method: 'GET',
+    redirect: 'follow'
+  }
+  const fetchValList = async () => {
     setLoading(false)
-    validatorsList()
+    await validatorsList(searchKey, requestOptions)
       .then((res: any) => {
+        console.log("res => ", res);
         setLoading(false)
         if (res.status == 200) {
-          setAllValidators(res.data.data.validatorsList);
-          let activeList = filter(
-            res.data.data.validatorsList,
-            (e) => e.uptimePercent !== 0
-          );
+          let activeList: any;
+          setAllValidators(res.data.validatorsList);
+          if (searchKey != "") {
+            if (isActiveTab) {
+              activeList = filter(
+                res.data.validatorsList,
+                (e) => e.uptimePercent !== 0
+              );
+            }
+            else {
+              activeList = filter(
+                res.data.validatorsList,
+                (e) => e.uptimePercent == 0
+              );
+            }
+          }
+          else {
+            setAllValidators(res.data.data.validatorsList);
+            activeList = filter(
+              res.data.data.validatorsList,
+              (e) => e.uptimePercent !== 0
+            );
+          }
           setValidatorsByStatus(activeList);
           setValidators(activeList);
         }
@@ -54,9 +67,16 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
       .catch((err: any) => {
         setLoading(false)
       });
+  }
+
+  useEffect(() => {
+    fetchValList();
   }, []);
 
-  const filterValidators = () =>{
+  useEffect(() => {
+    fetchValList();
+  }, [searchKey]);
+  const filterValidators = () => {
     let filtered = []
     if (isActiveTab) {
       filtered = allValidators.filter(e => e.uptimePercent >= inActiveCount)
@@ -87,6 +107,32 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
     }
   }
 
+  // useEffect(() => {
+  //   validatorsList(searchKey , requestOptions)
+  //   .then((res:any) => {
+  //       if (res.status == 200) {
+  //         console.log("res " , res.data.validatorsList);
+  //         if(isActiveTab){
+  //           let activeList = filter(
+  //             res.data.validatorsList,
+  //             (e) => e.uptimePercent !== 0
+  //           );
+  //           setValidators(activeList);
+  //         }
+  //         else{
+  //           let inactiveList = filter(
+  //             res.data.validatorsList,
+  //             (e) => e.uptimePercent == 0
+  //           );
+  //           setValidators(inactiveList);
+  //         }
+
+  //       }
+  //     })
+  //     .catch((err: any) => {
+  //       setLoading(false)
+  //     });
+  // }, [searchKey])
   return (
     <>
 
