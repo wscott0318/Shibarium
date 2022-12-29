@@ -84,7 +84,7 @@ export default function Unbond() {
           const decOrder = res.data.data.result.sort((a: any, b: any) => Date.parse(b.unbondStartedTimeStampFormatted) - Date.parse(a.unbondStartedTimeStampFormatted));
           console.log("decorder => " ,decOrder);
           setList(decOrder)
-          updateListFunc()
+          updateListFunc();
           // let newL = decOrder.slice(0, pageSize);
           // setSlicedList(newL);
           setListLoader(false)
@@ -106,9 +106,7 @@ export default function Unbond() {
       console.log("list updated" , newList, list);
     } else if (list.length === 0) {
       setSlicedList([]);
-    } else {
-      // console.log("check state");
-    }
+    } 
   }
 
   useEffect(() => {
@@ -172,14 +170,6 @@ export default function Unbond() {
             
           }).on('receipt', (res: any) => {
             // console.log(res, "receipt")
-            setTimeout(() => {
-              getUnboundHistory(account);
-              router.push(
-                `/unbond-history`,
-                `/unbond-history`,
-                { shallow: true }
-              )
-            },2000);
             dispatch(
               finalizeTransaction({
                 hash: res.transactionHash,
@@ -196,7 +186,14 @@ export default function Unbond() {
                 }
               })
             )
-            
+            setTimeout(() => {
+              getUnboundHistory(account);
+              router.push(
+                `/unbond-history`,
+                `/unbond-history`,
+                { shallow: false }
+              )
+            },2000);
             setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
             setLoader(false)
             setClamNowModals({
