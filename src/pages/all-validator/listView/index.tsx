@@ -50,13 +50,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
             <Scrollbar></Scrollbar>
             <tbody>
               {validatorsList?.length ? (
-                validatorsList.sort((a:any,b:any)=>{
-                  if((a.fundamental != 1) > (b.fundamental != 1)) return -1
-                  if((a.uptimePercent > inActiveCount) > (b.uptimePercent > inActiveCount)) return -1
-                  if((a.contractAddress != migrateData.contractAddress)<(b.contractAddress != migrateData.contractAddress)) return 1
-                  return 0
-                }
-                  ).map((x: any, y: any) => (
+                validatorsList.map((x: any, y: any) => (
                   <tr key={y}>
                     <td>
                       <div className="self-align">

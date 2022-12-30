@@ -213,7 +213,7 @@ const MigratePopup: React.FC<any> = ({
       .typeError("Only digits are allowed.")
       .max(
         balance,
-        "Amount of input fields can't be more than account balance"
+        "Insufficient Balance"
       )
       .min(1, "Invalid amount.")
       .positive("Enter valid Balance.")
@@ -231,6 +231,7 @@ const MigratePopup: React.FC<any> = ({
     handleSubmit,
     touched,
     setValues,
+    resetForm
   } = useFormik({
     initialValues: initialValues,
     validationSchema: schema,
@@ -254,7 +255,7 @@ const MigratePopup: React.FC<any> = ({
       <CommonModal
         title={processing}
         show={showmigratepop}
-        setshow={handleClose}
+        setshow={() => {handleClose();resetForm();}}
         externalCls="stak-pop del-pop ffms-inherit mig-popup"
       >
         <ul className="stepper mt-3 del-step">

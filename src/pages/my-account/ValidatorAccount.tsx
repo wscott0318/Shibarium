@@ -72,7 +72,7 @@ const validatorAccount = ({
   const [valId, setValId] = useValId();
   const isLoading = availBalance === -1;
   const [valInfoContract, setValInfoContract] = useValInfoContract()
-  console.log("initial availbalance" , availBalance);
+  console.log("initial availbalance", availBalance);
   // console.log("valInfoContract my account =========>>>>", valInfoContract)
 
   const [transactionState, setTransactionState] = useState(initialModalState);
@@ -104,7 +104,8 @@ const validatorAccount = ({
     address: "",
     id: "",
     stakeAmount: 0,
-    image: ""
+    image: "",
+    valid:""
   });
 
   const [comissionHandle, setComissionHandle] = useState({
@@ -112,8 +113,11 @@ const validatorAccount = ({
     epoch: "",
   });
 
-  // console.log(chainId)
-
+  useEffect(() => {
+    if(userType === "Validator" && (+valId == 0 || valId == null)){
+      router.push("/bone-staking");
+    }
+  },[]);
   const getDelegatorStake = async (valContract: any) => {
     let instance = new web3.eth.Contract(ValidatorShareABI, valContract);
     let liquidRewards = await instance.methods
@@ -197,7 +201,7 @@ const validatorAccount = ({
             });
             setDelegationsList(sortedData);
             setLoading(false);
-            console.log("new delegation list",sortedData)
+            console.log("new delegation list", sortedData)
           }
         })
         .catch((e: any) => {
@@ -217,6 +221,7 @@ const validatorAccount = ({
     valAddress: any,
     id: any = null,
     image: any = null,
+    valid:any=null,
     stakeAmount: any = null
   ) => {
     try {
@@ -255,7 +260,8 @@ const validatorAccount = ({
             startValue: true,
             address: valAddress,
             id: id,
-            image: image
+            image: image,
+            valid:valid,
           }));
           break;
         default:
@@ -287,8 +293,8 @@ const validatorAccount = ({
     amount: Yup.number()
       .typeError('Amount should be a number.')
       // .matches(/^[1-9][0-9]*$/, "You must enter valid amount.")
-      .min(0,"Invalid Amount")
-      .max(availBalance,"Insufficient Balance.").moreThan(0, "You must enter valid amount.")
+      .min(0, "Invalid Amount")
+      .max(availBalance, "Insufficient Balance.").moreThan(0, "You must enter valid amount.")
       .required("Amount is required."),
     reward: Yup.number().required(),
   });
@@ -869,7 +875,7 @@ const validatorAccount = ({
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureException("unStakeClaimValidator", err);
       }
-      console.log("err ==. " , err);
+      console.log("err ==. ", err);
       setTransactionState(initialModalState);
       setUnStakePop(false);
     }
@@ -1106,11 +1112,12 @@ const validatorAccount = ({
               address: "",
               id: "",
               stakeAmount: 0,
-              image: ""
+              image: "",
+              valid:""
             });
             setUnboundInput("");
           })
-          .on("receipt", (res: any) => {
+          .on("receipt", async(res: any) => {
             // console.log(res, "receipt");
             dispatch(
               finalizeTransaction({
@@ -1128,7 +1135,10 @@ const validatorAccount = ({
                 },
               })
             );
-            setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
+            setTimeout(async() => {
+              await getDelegatorCardData(account);
+              setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
+            }, 3000)
             setTimeout(() => {
               window.location.reload()
             }, 2000)
@@ -1149,7 +1159,8 @@ const validatorAccount = ({
                 address: "",
                 id: "",
                 stakeAmount: 0,
-                image: ""
+                image: "",
+                valid:""
               });
               setTransactionState(initialModalState);
             }
@@ -1165,7 +1176,8 @@ const validatorAccount = ({
         address: "",
         id: "",
         stakeAmount: 0,
-        image: ""
+        image: "",
+        valid:""
       });
       setTransactionState(initialModalState);
     }
@@ -1173,6 +1185,7 @@ const validatorAccount = ({
 
   const getStakeAmountDelegator = async (id: any, account: any) => {
     try {
+      console.log("stake data id  == " , id , ' account ==> ' , account )
       const validators = await queryProvider.query({
         query: StakeAmount(id, account),
       });
@@ -1344,7 +1357,7 @@ const validatorAccount = ({
               </Formik>
             </div>
           </>
-        </CommonModal>  
+        </CommonModal>
         {/* retake popop ends */}
 
         {/* commission popop start */}
@@ -2290,7 +2303,7 @@ const validatorAccount = ({
                                   displayType={"text"}
                                   prefix="$ "
                                   value={addDecimalValue(
-                                   (parseInt(validatorInfoContract?.delegatorsReward) / Math.pow(10, web3Decimals)) * 
+                                    (parseInt(validatorInfoContract?.delegatorsReward) / Math.pow(10, web3Decimals)) *
                                     boneUSDValue
                                   )}
                                 // value={(
@@ -2358,9 +2371,17 @@ const validatorAccount = ({
                           >
                             Change Commission Rate
                           </button>
-                          <div className="tool-desc">
+                          {parseInt(validatorInfoContract?.status) > 1 ||
+                            parseInt(validatorInfoContract?.deactivationEpoch) >
+                            0 || parseInt(
+                              validatorInfoContract?.lastCommissionUpdate
+                            ) +
+                            parseInt(comissionHandle?.dynasty) >
+                            parseInt(comissionHandle?.epoch) ? null : 
+                            (<div className="tool-desc">
                             Change your commission rate
-                          </div>
+                          </div>)}
+
                         </div>
                       </div>
                       <div className="col-xl-3  col-lg-4 col-md-6 col-sm-6 col-12">
@@ -2397,22 +2418,27 @@ const validatorAccount = ({
                         </div>
                       </div>
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                        <div className="cus-tooltip d-inline-block ps-0">
+                        <div className={`cus-tooltip d-inline-block ps-0`}>
                           <button
                             disabled={
-                              parseInt(
-                                validatorInfoContract?.deactivationEpoch
-                              ) > 0 ||
-                              parseInt(validatorInfoContract?.status) === 3
-                                ? true
-                                : false
+                              parseInt(validatorInfoContract?.deactivationEpoch) >
+                                0 &&
+                                parseInt(validatorInfoContract?.status) != 3
+                                ? false
+                                : true
                             }
                             onClick={() => setUnStakeClaimPop(true)}
                             className="ff-mos btn black-btn w-100 d-block tool-ico"
                           >
                             Unstake claim
                           </button>
-                          <div className="tool-desc">claim your self stake</div>
+                          {parseInt(validatorInfoContract?.deactivationEpoch) >= 0 ?
+                            (
+                              <div className="tool-desc">You need to unstake first.</div>
+                            ) : (
+                              <div className="tool-desc">claim your self stake</div>
+                            )}
+
                         </div>
                       </div>
                       {/* <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
@@ -2448,7 +2474,7 @@ const validatorAccount = ({
                 <div className="row">
                   {delegationsList.length ? (
                     delegationsList.map((item: any, index: any) => (
-                      getStake(item.id) >=1 && 
+                      getStake(item.id) >= 1 &&
                       (<div
                         className="col-lg-4 col-md-6 col-12 bs-col"
                         key={index}
@@ -2588,6 +2614,7 @@ const validatorAccount = ({
                                         item.validatorAddress,
                                         item.contractAddress,
                                         item.image,
+                                        item.id,
                                         parseInt(getStake(item.id))
                                       )
                                     }
@@ -2648,7 +2675,7 @@ const validatorAccount = ({
                           </div>
                         </div>
                       </div>)
-                      
+
                     ))
                   ) : !loading && !delegationsList.length ? (
                     <div className="txt-emp">
