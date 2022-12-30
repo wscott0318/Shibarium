@@ -457,6 +457,9 @@ ul {
         &:last-child{
             text-align: right;
         }
+        &:nth-child(2){
+            text-align: center;
+        }
         @media #{$max-xxl}{
             padding: 15px 15px;
         }
@@ -472,6 +475,9 @@ ul {
     }
     .table th{
         border-bottom: 1px solid #596380;
+    }
+    .table th:nth-child(2){
+        text-align: center;
     }
     .table td span{
         padding-right: 15px;
