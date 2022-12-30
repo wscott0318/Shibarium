@@ -1234,6 +1234,7 @@ const validatorAccount = ({
         data={selectedRow}
         showdelegatepop={stakeMore}
         setdelegatepop={() => { setStakeMoreModal(false); }}
+        getDelegatorCardData={getDelegatorCardData}
       />
       <div className="main-content dark-bg-800 full-vh  cmn-input-bg">
         {/* retake popop start VALIDATOR*/}

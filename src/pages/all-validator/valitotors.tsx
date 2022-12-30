@@ -15,6 +15,7 @@ import * as Sentry from '@sentry/nextjs'
 import { inActiveCount } from 'web3/commonFunctions';
 import { useRouter } from 'next/router';
 import { LockClosedIcon, SearchIcon, XCircleIcon } from '@heroicons/react/outline';
+import { useUserType } from 'app/state/user/hooks';
 
 const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boolean }) => {
   const router = useRouter();
@@ -26,11 +27,12 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
   const [isActiveTab, setIsActiveTab] = useState<boolean>(true);
   const [searchKey, setSearchKey] = useState<string>('');
   const [sortKey, setSortKey] = useState<string>('Uptime');
+  const [userType, setUserType] = useUserType()
   const requestOptions = {
     method: 'GET',
     redirect: 'follow'
   }
-  const fetchValList = async() => {
+  const fetchValList = async () => {
     setLoading(false)
     await validatorsList(searchKey, requestOptions)
       .then((res: any) => {
@@ -70,17 +72,22 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
   }
 
   useEffect(() => {
-    if(searchKey == "") fetchValList();
+    if (searchKey == "") fetchValList();
   }, [searchKey]);
 
   const filterValidators = () => {
     let filtered = []
     if (isActiveTab) {
-      filtered = allValidators.filter(e => e.uptimePercent >= inActiveCount).sort((a:any,b:any)=>{
-        if((a.fundamental != 1) > (b.fundamental != 1)) return -1
-        return 0;
-      }
+      if (userType == "Delegator") {
+        filtered = allValidators.filter(e => e.uptimePercent >= inActiveCount).sort((a: any, b: any) => {
+          if ((a.fundamental != 1) > (b.fundamental != 1)) return -1
+          return 0;
+        }
         )
+      }
+      else{
+        filtered = allValidators.filter(e => e.uptimePercent >= inActiveCount)
+      }
     } else {
       filtered = allValidators.filter(e => e.uptimePercent <= inActiveCount)
     }
@@ -93,7 +100,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
 
   useEffect(() => {
     onSort('Uptime', 'uptimePercent', 'number');
-  },[])
+  }, [])
   const onSort = (key: string, column: string, type: string) => {
     try {
       setSortKey(key)
@@ -102,10 +109,16 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
         sortedList = validators.sort((a: any, b: any) => Number(b[column]) - Number(a[column]))
         console.log("sorted list", sortedList);
       } else {
-        sortedList = orderBy(validators, column, 'asc').sort((a:any,b:any)=>{
-          if((a.fundamental != 1) > (b.fundamental != 1)) return -1
-          return 0;
-        })
+        if (userType == "Delegator") {
+          sortedList = orderBy(validators, column, 'asc').sort((a: any, b: any) => {
+            if ((a.fundamental != 1) > (b.fundamental != 1)) return -1
+            return 0;
+          })
+        }
+        else {
+          console.log(userType, " ====> usertype");
+          sortedList = orderBy(validators, column, 'asc');
+        }
       }
       setValidators(sortedList)
     }
@@ -163,16 +176,16 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
             </div>
           </div>
           <div className="filter-row ff-mos">
-              <div className="left-section icn-wrap d-flex justify-content-between">
-                <input
-                  className="custum-search w-100 me-2 "
-                  type="search "
-                  placeholder="Search By Validator Name or Validator Address"
-                  value={searchKey}
-                  onChange={(e) => setSearchKey(e.target.value)}
-                />
-                <div className='search-icon-block btn btn-active black-btn ff-mos' onClick={() => fetchValList()}><SearchIcon width={20} /></div>
-                {searchKey ? <div className='icon-block custom-icon-block' onClick={() => setSearchKey("")}><XCircleIcon width={20} color={'black'} /></div> : null}
+            <div className="left-section icn-wrap d-flex justify-content-between">
+              <input
+                className="custum-search w-100 me-2 "
+                type="search "
+                placeholder="Search By Validator Name or Validator Address"
+                value={searchKey}
+                onChange={(e) => setSearchKey(e.target.value)}
+              />
+              <div className='search-icon-block btn btn-active black-btn ff-mos' onClick={() => fetchValList()}><SearchIcon width={20} /></div>
+              {searchKey ? <div className='icon-block custom-icon-block' onClick={() => setSearchKey("")}><XCircleIcon width={20} color={'black'} /></div> : null}
             </div>
             <div className="right-section">
               {/* <div className="switch-sec">

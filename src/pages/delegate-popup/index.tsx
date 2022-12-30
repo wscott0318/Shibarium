@@ -41,6 +41,7 @@ const DelegatePopup: React.FC<any> = ({
   onHide,
   showdelegatepop,
   setdelegatepop,
+  getDelegatorCardData,
   ...props
 }: any) => {
   const [step, setStep] = useState<number>(1);
@@ -216,11 +217,13 @@ const DelegatePopup: React.FC<any> = ({
           setdelegatepop();
           setTransactionState({ state: false, title: "" });
           setFieldValue("balance" , "");
+          resetForm();
         })
     } catch(err :any){
       if(err.code !== USER_REJECTED_TX) {
         Sentry.captureMessage("APPROVE_BONE ", err);
       }
+      resetForm();
       setdelegateState(initialModalState)
       setdelegatepop();
       setTransactionState({ state: false, title: "" });
@@ -337,6 +340,9 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                 },
               })
             );
+            setTimeout(async() => {
+              await getDelegatorCardData(account);
+            }, 3000)
             // setdelegatepop(true);
             const link = getExplorerLink(
               chainId,
@@ -354,6 +360,10 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
             });
             // setdelegatepop(true);
             callAPIforDelegator(requestBody)
+            setTimeout(() => {
+              window.location.reload()
+            }, 2000)
+            resetForm();
             // window.location.reload();
           })
           .on("error", (err: any) => {
@@ -362,6 +372,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
             setdelegatepop();
             setFieldValue("balance" , "");
             console.log("values ==> " ,values.balance);
+            resetForm();
           });
       } catch (err: any) {
         if(err.code !== USER_REJECTED_TX) {
@@ -372,6 +383,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
         setdelegatepop();
         setFieldValue("balance" , "");
         console.log("values ==> " ,values.balance);
+        resetForm();
       }
     };
 
