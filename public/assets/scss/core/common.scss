@@ -3992,11 +3992,17 @@ input:-internal-autofill-selected {
 }
 .icon-block {
   position: absolute;
-  right: 9px;
-  top: 15px;
+  right: 13px;
+  top: 11px;
   left: auto;
   bottom: auto;
   cursor: pointer;
+}
+.custom-icon-block {
+  right: 80px;
+}
+.search-icon-block:hover{
+  background: #F06500 !important; 
 }
 .wal-btn {
   background: #0c2941;
