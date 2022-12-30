@@ -15,12 +15,12 @@ import Web3 from "web3";
 import { dynamicChaining } from "web3/DynamicChaining";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json"
 import * as Sentry from "@sentry/nextjs";
-import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
+import { getUserType, getValidatorInfo } from "app/services/apis/network-details/networkOverview";
 import { useAppDispatch } from "app/state/hooks";
 import { clearAllTransactions } from "app/state/transactions/actions";
 import Image from "next/image";
 
-const StakingHeader = () => {
+const StakingHeader = (type:any) => {
   const router = useRouter();
 
   const routeCheck = (x: string) => {
@@ -60,8 +60,8 @@ const StakingHeader = () => {
       await getValidatorInfo(id).then(res => {
         if (res.data && res.data.message) {
           let info = res.data.message.val;
-          // console.log("val status = ", res.data.message.val.status);
-          // console.log("val ID = ", valId);
+          console.log("val status = ", res.data.message.val.status);
+          console.log("val ID = ", valId);
           setValInfo(info);
         }
       }).catch(err => console.log("err => ", err))
@@ -70,6 +70,26 @@ const StakingHeader = () => {
       Sentry.captureMessage("getValInfoApi ", error);
     }
   }
+  // const getUsertypeAPI = (accountAddress: any) => {
+  //   try {
+  //     getUserType(accountAddress.toLowerCase()).then(res => {
+  //       if (res.data && res.data.data) {
+  //         let ut = res.data.data.userType;
+  //         let valID = res.data.data.validatorId ? res.data.data.validatorId : "0";
+  //         // console.log(ut)
+  //         setUserType(ut)
+  //         setValId(valID)
+  //       }
+  //     })
+  //   } catch (error: any) {
+  //     Sentry.captureMessage("getUsertypeAPI", error);
+  //   }
+  // }
+  // useEffect(() => {
+  //   if (account) {
+  //     getUsertypeAPI(account)
+  //   }
+  // }, [account])
   useEffect(() => {
     try {
       if (account) {
@@ -79,8 +99,8 @@ const StakingHeader = () => {
     catch (err: any) {
       Sentry.captureMessage("useEffect, file -> staking-header/index.tsx , line no. 55 ", err);
     }
-  }, [account]);
-
+  }, [account,userType]);
+  console.log("user type ==> " , userType);
   useEffect(() => {
     if (routeCheck("unbond-history")) {
       setHistory("Unbound History");
@@ -90,8 +110,11 @@ const StakingHeader = () => {
     if (account) {
       getDynsetyValue()
     }
-  }, [router, account]);
+  }, [router, account,userType]);
 
+  // useEffect(() => {
+  //   window.location.reload();
+  // },[valInfo]);
   // console.log("usertype ==> ", valId);
 
   const getDynsetyValue = async () => {
