@@ -188,12 +188,8 @@ export default function Unbond() {
             )
             setTimeout(() => {
               getUnboundHistory(account);
-              router.push(
-                `/unbond-history`,
-                `/unbond-history`,
-                { shallow: false }
-              )
-            },2000);
+              window.location.reload();
+            },3000);
             setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
             setLoader(false)
             setClamNowModals({

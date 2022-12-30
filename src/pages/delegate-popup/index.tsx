@@ -240,7 +240,7 @@ let schema = yup.object().shape({
     .max(
       walletBalance,
       "Insufficient Balance."
-    ).positive("Enter valid Balance.")
+    ).positive("Enter valid Amount.")
     .required("Balance is required."),
 });
 
@@ -258,7 +258,7 @@ const callAPIforDelegator = async (requestBody:any) => {
 
 }
 
-const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, touched,setValues }:any =
+const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, touched,setValues ,resetForm}:any =
   useFormik({
     initialValues: initialValues,
     validationSchema: schema,
@@ -398,7 +398,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
       <CommonModal
         title={delegateState.title}
         show={showdelegatepop}
-        setshow={handleClose}
+        setshow={() => {handleClose(); resetForm();}}
         externalCls="stak-pop del-pop ffms-inherit"
       >
         <>
@@ -474,9 +474,9 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                         <span className="orange-txt fw-bold">MAX</span>
                       </button>
                     </div>
-                    {errors.balance && touched.balance ? (
+                    {errors.balance && touched.balance && (
                       <p className="primary-text error">{errors.balance}</p>
-                    ) : null}
+                    )}
 
                     <p className="inpt_fld_hlpr_txt mt-3 text-pop-right d-flex flex-wrap">
                       <span>

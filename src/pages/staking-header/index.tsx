@@ -43,13 +43,9 @@ const StakingHeader = () => {
      setValInfoModal(false);
      dispatch(clearAllTransactions({ chainId }));
    };
-  //  ethereum.on("accountsChanged", handleAccountsChanged)
   if(account) {
     ethereum.on("accountsChanged", handleAccountsChanged)
   }
-
-  // account ? ethereum.on("accountsChanged", handleAccountsChanged) : null
- 
 }, [active, account]);
 
   // useEffect(() => {
@@ -116,7 +112,9 @@ const StakingHeader = () => {
   const renderButtons = () => {
     if (account) {
       if (userType === "Validator") {
-        if (+valId <= 0) {
+        console.log("valId ==> " ,valId);
+        if (+valId === 0 || valId == null) {
+          console.log("in condition entered ");
           return (
             <>
               <li className="nav-item">
