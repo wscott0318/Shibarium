@@ -52,7 +52,7 @@ export default function Unbond() {
   const [userType, setUserType] = useUserType();
   const [loader, setLoader] = useState(false);
   const [amntTransfer,setAmntTransfer]=useState(false);
-  const [disabledClaim , setDisabledClaim] = useState<any>();
+  const [disabledClaim , setDisabledClaim] = useState<any>([]);
   const getValidatorContractAddress = async (validatorID: any) => {
     try {
       let user = account;
@@ -186,9 +186,9 @@ export default function Unbond() {
                 }
               })
             )
-            setTimeout(() => {
-              getUnboundHistory(account);
-              window.location.reload();
+            setTimeout(async() => {
+              await getUnboundHistory(account);
+              // window.location.reload();
             },3000);
             setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
             setLoader(false)
@@ -213,7 +213,7 @@ export default function Unbond() {
               completed: false
             })
             setLoader(false)
-            setDisabledClaim({});
+            setDisabledClaim([]);
           })
       }
     }
@@ -222,7 +222,7 @@ export default function Unbond() {
         Sentry.captureException("unboundClaimAPI ", err);
       }
       setTransactionState(initialModalState);
-      setDisabledClaim({});
+      setDisabledClaim([]);
     }
     // console.log(validatorContract)
   }
@@ -303,7 +303,7 @@ export default function Unbond() {
           setTransactionState(initialModalState);
           setClamNowModals(false);
           reloadOnHash();
-          setDisabledClaim({});
+          setDisabledClaim([]);
         }}
         externalCls="stak-pop del-pop ffms-inherit"
       >
@@ -559,13 +559,13 @@ export default function Unbond() {
                                     Unbound period completed
                                   </span>
                                   <button
-                                    className={`primary-badge px-2 hd-sel block ${disabledClaim?.id == value.id && "disabled"}`}
+                                    className={`primary-badge px-2 hd-sel block ${disabledClaim.includes(value.id) && "disabled"}`}
                                     type="button"
-                                    disabled={disabledClaim?.id == value.id}
+                                    disabled={disabledClaim.includes(value.id)}
                                     onClick={() => {
                                       // console.log("called ===> " , value);
                                       {
-                                        setDisabledClaim(value);
+                                        setDisabledClaim([...disabledClaim,value] );
                                         setClamNowModals({
                                           data: value,
                                           confirm: true,

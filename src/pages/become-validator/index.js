@@ -96,7 +96,7 @@ const Rewards = () => {
     if (account) {
       getUsertypeAPI(account);
     }
-  }, [account,stepState]);
+  }, [account, stepState]);
 
   // console.log("Become Validate Data in Parent",becomeValidateData)
 

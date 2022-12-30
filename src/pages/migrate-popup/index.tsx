@@ -114,7 +114,7 @@ const MigratePopup: React.FC<any> = ({
         let fromId = migrateData?.data?.migrateData?.id;
         let toId = data.validatorContractId;
         let totalAmount = (values.balance) * Math.pow(10, web3Decimals);
-        console.log("totalamount " , totalAmount);
+        console.log("totalamount ", totalAmount);
         let Amount = fromExponential(web3.utils.toBN(totalAmount));
         let instance = new web3.eth.Contract(
           stakeManagerProxyABI,
@@ -178,6 +178,7 @@ const MigratePopup: React.FC<any> = ({
             setTransactionState({ state: false, title: "" });
             // window.location.reload();
             router.back();
+            resetForm();
           })
           .on("error", (res: any) => {
             // console.log("error ", res);
@@ -186,6 +187,7 @@ const MigratePopup: React.FC<any> = ({
             setProcessing("Migrate");
             setTransactionState({ state: false, title: "" });
             setFieldValue("balance", "");
+            resetForm();
           });
       }
       else {
@@ -204,6 +206,7 @@ const MigratePopup: React.FC<any> = ({
       setTransactionState({ state: false, title: "" });
       handleClose()
       setFieldValue("balance", "");
+      resetForm();
     }
   }
 
@@ -248,6 +251,7 @@ const MigratePopup: React.FC<any> = ({
     setmigratepop(false);
     setProcessing("Migrate");
     setFieldValue("balance", "");
+    resetForm();
   };
 
   return (
@@ -255,7 +259,7 @@ const MigratePopup: React.FC<any> = ({
       <CommonModal
         title={processing}
         show={showmigratepop}
-        setshow={() => {handleClose();resetForm();}}
+        setshow={() => { handleClose(); resetForm(); }}
         externalCls="stak-pop del-pop ffms-inherit mig-popup"
       >
         <ul className="stepper mt-3 del-step">
@@ -517,14 +521,14 @@ const MigratePopup: React.FC<any> = ({
                     <div className="ax-bottom">
                       <div className="pop_btns_area row form-control mt-3">
                         <div className="col-12">
-                          <button className={`w-100 ${values.balance <= 0 && "disabled"}`} type="submit" value="submit" disabled={values.balance > 0 ? false : true}>
+                          <button onClick={(e: any) => {
+                            e.preventDefault();
+                            migrateStake(values, data, migrateData);
+                          }}
+                            disabled={values.balance > 0 ? false : true}
+                            className={`w-100 ${values.balance <= 0 && "disabled"}`} type="submit" value="submit">
                             <div className="btn primary-btn d-flex align-items-center justify-content-center" >
-                              <button onClick={(e: any) => {
-                                e.preventDefault();
-                                migrateStake(values, data, migrateData);
-                              }}
-                                disabled={values.balance > 0 ? false : true}
-                              >Continue</button>
+                              <button >Continue</button>
                             </div>
                           </button>
                         </div>
