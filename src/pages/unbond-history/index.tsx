@@ -167,7 +167,7 @@ export default function Unbond() {
             // console.log(link)
             setClamNowModals((pre: any) => ({ ...pre, progress: true, confirm: true }))
             setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
-            
+            setDisabledClaim([...disabledClaim,claimNowModals.data] );
           }).on('receipt', (res: any) => {
             // console.log(res, "receipt")
             dispatch(
@@ -200,7 +200,6 @@ export default function Unbond() {
             })
             // getUnboundHistory(account);
             setTransactionState(initialModalState);
-            
             // setAmntTransfer(!amntTransfer)
             // router.push("/unbond-history" , "/unbond-history" , {shallow:true})
           }).on('error', (res: any) => {
@@ -213,7 +212,6 @@ export default function Unbond() {
               completed: false
             })
             setLoader(false)
-            setDisabledClaim([]);
           })
       }
     }
@@ -222,7 +220,6 @@ export default function Unbond() {
         Sentry.captureException("unboundClaimAPI ", err);
       }
       setTransactionState(initialModalState);
-      setDisabledClaim([]);
     }
     // console.log(validatorContract)
   }
@@ -303,7 +300,6 @@ export default function Unbond() {
           setTransactionState(initialModalState);
           setClamNowModals(false);
           reloadOnHash();
-          setDisabledClaim([]);
         }}
         externalCls="stak-pop del-pop ffms-inherit"
       >
@@ -370,7 +366,7 @@ export default function Unbond() {
                       type="button"
                       disabled={loader}
                       className="btn primary-btn w-100"
-                      onClick={() => unboundClaimAPI()}
+                      onClick={() => {unboundClaimAPI();}}
                     >
                       Confirm
                     </button>
@@ -559,13 +555,13 @@ export default function Unbond() {
                                     Unbound period completed
                                   </span>
                                   <button
-                                    className={`primary-badge px-2 hd-sel block ${disabledClaim.includes(value.id) && "disabled"}`}
+                                    className={`primary-badge px-2 hd-sel block ${!!disabledClaim.find((key:any)=> key.id == value.id) && "disabled"}`}
                                     type="button"
-                                    disabled={disabledClaim.includes(value.id)}
+                                    disabled={!!disabledClaim.find((key:any)=> key.id == value.id)}
                                     onClick={() => {
                                       // console.log("called ===> " , value);
                                       {
-                                        setDisabledClaim([...disabledClaim,value] );
+                                        // setDisabledClaim([...disabledClaim,value]);
                                         setClamNowModals({
                                           data: value,
                                           confirm: true,
