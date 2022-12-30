@@ -6,17 +6,17 @@ import StepTwo from "./stepTwo";
 import StepThree from "./stepThree";
 import StepFour from "./stepFour";
 import * as Sentry from "@sentry/nextjs";
-import { useUserType } from "../../state/user/hooks";
+import { useUserType, useValId } from "../../state/user/hooks";
 import { useRouter } from "next/router";
 import { getValidatorInfo } from "services/apis/network-details/networkOverview";
 import { useActiveWeb3React } from "../../services/web3";
-
+import { getUserType } from "app/services/apis/user/userApi";
 const Rewards = () => {
   const [editNsave, setEditNsave] = useState(false);
   const [userStatus, setUserStatus] = useState(null);
 
   const [userType, setUserType] = useUserType();
-
+  const [valId, setValId] = useValId();
   const router = useRouter();
   const { account } = useActiveWeb3React();
 
@@ -40,13 +40,16 @@ const Rewards = () => {
   });
 
   useEffect(() => {
-    if((userStatus > 0 && userType === 'Validator') || userType === 'Delegator') {
+    if (
+      (userStatus > 0 && userType === "Validator") ||
+      userType === "Delegator"
+    ) {
       router.back();
     }
-    if(account) {
-      getValInfo()
+    if (account) {
+      getValInfo();
     }
-  },[account, userStatus,userType])
+  }, [account, userStatus, userType]);
 
   // console.log(userStatus)
 
@@ -64,7 +67,6 @@ const Rewards = () => {
           website: res.data.message.val.description,
           image: res.data.message.val.logoUrl,
         });
-        // console.log(res.data.message.val.status)
         setUserStatus(
           res.data.message.val?.status ? res.data.message.val?.status : null
         );
@@ -73,6 +75,28 @@ const Rewards = () => {
         // console.log(err);
       });
   };
+  const getUsertypeAPI = (accountAddress) => {
+    try {
+      getUserType(accountAddress.toLowerCase()).then((res) => {
+        if (res.data && res.data.data) {
+          let ut = res.data.data.userType;
+          let valID = res.data.data.validatorId
+            ? res.data.data.validatorId
+            : "0";
+          // console.log(ut)
+          setUserType(ut);
+          setValId(valID);
+        }
+      });
+    } catch (error) {
+      Sentry.captureMessage("getUsertypeAPI", error);
+    }
+  };
+  useEffect(() => {
+    if (account) {
+      getUsertypeAPI(account);
+    }
+  }, [account,stepState]);
 
   // console.log("Become Validate Data in Parent",becomeValidateData)
 
