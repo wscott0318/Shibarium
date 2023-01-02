@@ -20,17 +20,19 @@ const TokenList = ({
   linkQuery,
   setLinkQuery,
   tokenModalList,
-  tokenState
-}: any) => {
+  setTokenModalList,
+  tokenState,
+...props}: any) => {
   const [isWrong, setIsWrong] = useState(false);
   const [renderData, setRenderData] = useState<any>();
   const [defaultList, setDefaultList] = useState<any>(JSON.parse(localStorage.getItem("tokenList") || "[]"));
   const [newListing, setNewListing] = useState<any>(null);
   // const [linkQuery, setLinkQuery] = useState("");
   const { chainId = 1, account, library } = useActiveWeb3React();
-  const [importedCoins, setImportedCoins] = useState<any>();
+  const [importedCoins, setImportedCoins] = useState<any>([]);
   const [dup, setdup] = useState(false);
   const [searchedList, setSearchedList] = useState<any>(null);
+  const updateTokenModalList = props.setTokenModalList;
   useEffect(() => {
     // type URL_ARRAY_types = 'eth' | 'bsc' | 'polygon';
     const defaultTokenUrls = URL_ARRAY[defaultChain].filter(
@@ -39,7 +41,7 @@ const TokenList = ({
     // console.log("default token urls " , defaultTokenUrls , coinList);
     Promise.all(
       [defaultTokenUrls, ...coinList].map(async (item) => {
-        console.log(coinList, item, 'default token urls ')
+        // console.log(coinList, item, 'default token urls ')
         try {
           const response = await fetch(
             item?.data?.includes("http")
@@ -63,12 +65,21 @@ const TokenList = ({
         const uniqArray = uniqBy(response, "name");
         setRenderData(uniqArray);
         setNewListing(response[1].res);
-        setImportedCoins(response.slice(1));
         addToLocalStorage(uniqArray);
       })
       .catch((err) => { console.log() });
   }, [coinList, chainId]);
 
+  useEffect(() => {
+    let fetchList = JSON.parse(localStorage.getItem("tokenList") || "[]");
+    let enabledTokens = fetchList.filter((e:any) => e.enabled === true);
+    enabledTokens.map((e:any) => {
+      let uniqueTokens = uniqBy(e?.tokens , "name");
+      return setImportedCoins([...importedCoins , ...uniqueTokens]);
+    });
+  },[]);
+  
+  console.log("tokenModalList" , tokenModalList);
   const addToLocalStorage = async (response: any) => {
 
     let newImportedList = { ...response[1] };
@@ -110,15 +121,20 @@ const TokenList = ({
   const updateList = (data: any, locked: any) => {
     setTimeout(async () => {
       if (locked) return;
+      // console.log("defaultList" , defaultList);
       const copy = defaultList.slice();
-      console.log('copy' , copy);
+      // console.log('copy' , copy);
       const index = copy.findIndex((el: any) => el.data === data);
+      // console.log("index" , index);
       if (index > -1) {
         copy[index].enabled = !copy[index]?.enabled;
+        updateLocalstorage(data, index);
         const chain = await getDefaultChain();
+        const newaddedTokens = copy[index]?.tokens;
         setChain(chain);
         setCoinList(copy);
-        console.log("updated chain , " , chain , copy)
+        setImportedCoins(newaddedTokens);
+        // console.log("updated chain , " , chain , copy)
       }
     }, 1);
   };
@@ -130,7 +146,15 @@ const TokenList = ({
       setDefaultList(uniqBy(newUniqueList, "name"))
     }
   }, [renderData]);
-  // console.log("new default list -> " , defaultList);
+
+  const updateLocalstorage = (data:any, index:any) => {
+    let storedTokens:any = JSON.parse(localStorage.getItem("tokenList") || "[]");
+    // console.log("storedTokens" , storedTokens);
+    if(storedTokens != null){
+      storedTokens[index].enabled = !storedTokens[index]?.enabled;
+      localStorage.setItem("tokenList" , JSON.stringify(storedTokens));
+    }
+  }
   const checkStatus = (url: any) => {
     const index = [DEFAULT_ITEM, ...coinList].findIndex(
       (el) => el.data.includes(url) || url.includes(el.data)
@@ -145,12 +169,13 @@ const TokenList = ({
         ? tokenModalList.map((x: any) => (
           <div
             className="tokn-row"
-            key={x?.parentName}
+            key={x?.parentContract}
             onClick={() => handleTokenSelect(x)}
           >
             <div className="cryoto-box">
               <img
                 className="img-fluid"
+                width={32}
                 src={
                   x?.logo
                     ? x.logo
@@ -175,18 +200,19 @@ const TokenList = ({
         : null)
       }
       {tokenState?.step0 &&
-        renderData?.tokens?.length
-        ? renderData.slice(1).tokens.map((x: any) => {
-          console.log("value of x ", x);
+        importedCoins?.length
+        ? importedCoins.map((x: any) => {
+          // console.log("value of x ", x);
           return (
             <div
               className="tokn-row"
-              key={x?.name}
+              key={x?.address}
               onClick={() => handleTokenSelect(x)}
             >
               <div className="cryoto-box">
                 <img
                   className="img-fluid"
+                  width={32}
                   src={
                     x?.logoURI
                       ? x?.logoURI
@@ -198,7 +224,7 @@ const TokenList = ({
               <div className="tkn-grid">
                 <div>
                   <h6 className="fw-bold">{x?.symbol}</h6>
-                  {/* <p>{x?.tokens.length} tokens</p> */}
+                  <p>{x?.name}</p>
                 </div>
                 {/* <div>
                       <h6 className="fw-bold">
@@ -268,11 +294,7 @@ const TokenList = ({
                     <div>
                       <Switch
                         checked={arr[arr.findIndex((el:any) => el.data === item.data)].enabled}
-                        onChange={(e: any) => {
-                          updateList(item?.data, item?.locked);
-                          // console.log("arr ->>>>>.. " ,arr);
-                        }}
-                      />
+                        onChange={() => updateList(item?.data, item?.locked)}/>
                     </div>
                   </div>
                 )
