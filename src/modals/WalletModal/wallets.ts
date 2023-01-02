@@ -79,21 +79,21 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     mobile: true,
     mobileOnly: true,
   },
-  // WALLET_CONNECT: {
-  //   connector: async () => {
-  //     const WalletConnectConnector = (await import('@web3-react/walletconnect-connector')).WalletConnectConnector
-  //     return new WalletConnectConnector({
-  //       rpc: RPC,
-  //       bridge: 'https://bridge.walletconnect.org',
-  //       qrcode: true,
-  //       supportedChainIds,
-  //     })
-  //   },
-  //   name: 'WalletConnect', class="grid grid-cols-1 gap-4 overflow-y-auto md:grid-cols-2"
-  //   iconName: 'wallet-connect.svg',
-  //   description: 'Connect to Trust Wallet, Rainbow Wallet and more...',
-  //   href: null,
-  //   color: '#4196FC',
-  //   mobile: true,
-  // }
+  WALLET_CONNECT: {
+    connector: async () => {
+      const WalletConnectConnector = (await import('@web3-react/walletconnect-connector')).WalletConnectConnector
+      return new WalletConnectConnector({
+        rpc: RPC,
+        bridge: 'https://bridge.walletconnect.org',
+        qrcode: true,
+        supportedChainIds,
+      })
+    },
+    name: 'WalletConnect', //class="grid grid-cols-1 gap-4 overflow-y-auto md:grid-cols-2",
+    iconName: 'wallet-connect.svg',
+    description: 'Connect to Trust Wallet, Rainbow Wallet and more...',
+    href: null,
+    color: '#4196FC',
+    mobile: true,
+  }
 }
