@@ -1011,6 +1011,9 @@ td.no_record img{
     left: 50%;
     transform: translate(-50%, -50%);
 }
+.user_Wallet:first-of-type{
+    width: 97%;
+}
 @media only screen and (max-width: 991.98px){
     .shib-popup .modal-content {
         // height: 75%;
@@ -1026,7 +1029,13 @@ td.no_record img{
     .progress-tab.step_4 {
         width: 80%;
     }
-  }
+}
+@media (max-width:767.5px){
+    .user_Wallet:first-of-type{
+        width: 100%;
+        margin-bottom: 10px
+    }
+}
 @media (max-width:640px){
     .progress-tab.step_4 {
         width: 95%;
