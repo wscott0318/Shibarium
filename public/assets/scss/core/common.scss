@@ -3413,22 +3413,10 @@ input:-internal-autofill-selected {
     }
   }
 }
-
-.walletconnect-modal__base {
-  background: $body-bg-800 !important;
-  .walletconnect-modal__mobile__toggle {
-    background: $body-bg !important;
-  }
-  .walletconnect-modal__mobile__toggle_selector {
-    background: $body-bg-800 !important;
-  }
-  .walletconnect-qrcode__text {
-    color: rgba($white, 0.89) !important;
-  }
-  .walletconnect-connect__button__text {
-    color: rgba($white, 0.89) !important;
-  }
+.walletconnect-modal__mobile__toggle a {
+  color: #BFBFBF !important
 }
+
 
 .cus-arw {
   .btn {
