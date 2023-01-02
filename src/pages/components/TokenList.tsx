@@ -32,7 +32,7 @@ const TokenList = ({
   const [importedCoins, setImportedCoins] = useState<any>([]);
   const [dup, setdup] = useState(false);
   const [searchedList, setSearchedList] = useState<any>(null);
-  const updateTokenModalList = props.setTokenModalList;
+  // const updateTokenModalList = props.setTokenModalList;
   useEffect(() => {
     // type URL_ARRAY_types = 'eth' | 'bsc' | 'polygon';
     const defaultTokenUrls = URL_ARRAY[defaultChain].filter(
@@ -128,12 +128,17 @@ const TokenList = ({
       // console.log("index" , index);
       if (index > -1) {
         copy[index].enabled = !copy[index]?.enabled;
-        updateLocalstorage(data, index);
         const chain = await getDefaultChain();
-        const newaddedTokens = copy[index]?.tokens;
+        if(copy[index].enabled){
+          updateLocalstorage(data, index);
+          const newaddedTokens = copy[index]?.tokens;
+          const localTokens = JSON.parse(localStorage.getItem("newToken") || "[]")
+          let updatedLocalTokens = [...localTokens , ...newaddedTokens];
+          localStorage.setItem("newToken" , JSON.stringify(uniqBy(updatedLocalTokens,"address")))
+          setImportedCoins(newaddedTokens);
+        }
         setChain(chain);
         setCoinList(copy);
-        setImportedCoins(newaddedTokens);
         // console.log("updated chain , " , chain , copy)
       }
     }, 1);
@@ -149,9 +154,10 @@ const TokenList = ({
 
   const updateLocalstorage = (data:any, index:any) => {
     let storedTokens:any = JSON.parse(localStorage.getItem("tokenList") || "[]");
-    // console.log("storedTokens" , storedTokens);
+    console.log("storedTokens" , storedTokens);
     if(storedTokens != null){
       storedTokens[index].enabled = !storedTokens[index]?.enabled;
+      console.log("updated storedTokens" , storedTokens);
       localStorage.setItem("tokenList" , JSON.stringify(storedTokens));
     }
   }

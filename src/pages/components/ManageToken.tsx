@@ -17,6 +17,10 @@ import { fetchLink, getDefaultChain, useStorage } from "../../web3/commonFunctio
 import { useLocation, useRoutes } from "react-router-dom";
 import TokenList from "./TokenList";
 import { uniqBy } from "lodash";
+import { Spinner } from "react-bootstrap";
+import useDebounce from "app/hooks/useDebounce";
+import { useToken } from "app/hooks/Tokens";
+import { isAddress } from "app/functions";
 
 export const Warning = ({ listing, setCoinList, resetLink, addTokenHandler }: any) => {
   const [agree, setAgree] = useState(false);
@@ -56,7 +60,7 @@ export const Warning = ({ listing, setCoinList, resetLink, addTokenHandler }: an
                 ...l,
               ]);
               resetLink();
-              
+
               // console.log("listing ==> ", listing);
             }, 1);
           }}
@@ -154,15 +158,20 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   const [tokenList, setTokenList] = useState([]);
   const [modalKeyword, setmodalKeyword] = useState("");
   const [showWarning, setShowWarning] = useState(false);
+  const isAddressSearch = isAddress(newToken);
+  const searchToken:any = useToken(newToken);
   const [localTokens, setLocalTokens] = useState<any>(
     JSON.parse(localStorage.getItem("newToken") || "[]")
   );
+  const [isLoading, setIsLoading] = useState(false);
   const [tempTokens, setTempTokens] = useState<any>({
     parentContract: "",
-    childContract: "",
-    parentName: "",
-    parentSymbol: "",
+    name: "",
+    symbol: "",
+    decimals: "",
+    addedByUser: false,
   });
+  console.log("searchToken " ,searchToken)
   const getTokensList = () => {
     try {
       getWalletTokenList().then((res) => {
@@ -253,21 +262,15 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
             addTokenAbi,
             String(newToken)
           );
-          let symbol = await contractInstance.methods
-            .symbol()
-            .call({ from: String(account) })
-            .then((token: any) => token)
-            .catch((err: any) => console.log(err));
-          let name = await contractInstance.methods
-            .name()
-            .call({ from: String(account) })
-            .then((token: any) => token)
-            .catch((err: any) => console.log(err));
+          let symbol: any = await contractInstance.methods.symbol().call();
+          let name: any = await contractInstance.methods.name().call();
+          let decimals: any = await contractInstance.methods.decimals().call();
           const obj = {
-            parentContract: String(newToken),
-            childContract: String(newToken),
-            parentName: name,
-            parentSymbol: symbol,
+            contractAddress: String(newToken),
+            name: name,
+            symbol: symbol,
+            decimals: decimals,
+            addedByUser: true,
           };
           setLocalTokens([...localTokens, obj]);
           setTokenModalList([...tokenModalList, obj]);
@@ -298,68 +301,59 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       addNewToken("");
     }
   }, [showTokenModal]);
-  useEffect(() => {
-    const isValidAddress = web3.utils.isAddress(String(newToken));
-    try {
-      console.log("useEffect")
-      if ((tokenState.step2 || tokenState.step0) && isValidAddress) {
-        toast.success("Address is valid", {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 600,
-        });
-        setTokenState({
-          step0: false,
-          step1: false,
-          step2: false,
-          step3: true,
-          step4: false,
-          title: "Manage Token",
-        });
-      } else if (!isValidAddress && newToken.length > 0) {
-        toast.error("Address is Invalid", {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 600,
-        });
-        setTokenState({
-          step0: false,
-          step1: false,
-          step2: true,
-          step3: false,
-          step4: false,
-          title: "Manage Token",
-        });
-      }
-      if (tokenState.step4 && isValidAddress) {
-        // toast.success("Address is valid", {
-        //   position: toast.POSITION.TOP_RIGHT,
-        //   autoClose: 600,
-        // });
-        setTokenState({
-          step0: false,
-          step1: false,
-          step2: false,
-          step3: true,
-          step4: false,
-          title: "Manage Token",
-        });
-      }
+  // const checkValidAddress = () => {
+  //   try {
+      // console.log("useEffect")
+      // if ((tokenState.step2 || tokenState.step0) && isValidAddress) {
+      //   setTokenState({
+      //     step0: false,
+      //     step1: false,
+      //     step2: false,
+      //     step3: true,
+      //     step4: false,
+      //     title: "Manage Token",
+      //   });
+      // } else if (!isValidAddress && newToken.length > 0) {
+      //   toast.error("Invalid Address", {
+      //     position: toast.POSITION.TOP_RIGHT,
+      //     autoClose: 600,
+      //   });
+      //   setTokenState({
+      //     step0: false,
+      //     step1: false,
+      //     step2: true,
+      //     step3: false,
+      //     step4: false,
+      //     title: "Manage Token",
+      //   });
+      // }
+      // if (tokenState.step4 && isValidAddress) {
+      //   setTokenState({
+      //     step0: false,
+      //     step1: false,
+      //     step2: false,
+      //     step3: true,
+      //     step4: false,
+      //     title: "Manage Token",
+      //   });
+      // }
       // code below is to check whether tokens are already present or not
-      const checkArray = tokenModalList.map((st: any) => st?.parentContract);
-      let localtokenarray = localTokens.map((st: any) => st.parentContract);
-      const isalreadypresent = checkArray.some((item: any) =>
-        localtokenarray.includes(newToken)
-      );
-      if (isalreadypresent && newToken.length > 0) {
-        toast.error("Address is already present", {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 1500,
-          toastId: 'presentAddress',
-        });
-      }
-    } catch (err: any) {
-      Sentry.captureMessage("useEffect on line 449 in bridge > backup", err);
-    }
-  }, [newToken]);
+    //   const checkArray = tokenModalList.map((st: any) => st?.parentContract);
+    //   let localtokenarray = localTokens.map((st: any) => st.parentContract);
+    //   const isalreadypresent = checkArray.some((item: any) =>
+    //     localtokenarray.includes(newToken)
+    //   );
+    //   if (isalreadypresent && newToken.length > 0) {
+    //     toast.error("Address is already present", {
+    //       position: toast.POSITION.TOP_RIGHT,
+    //       autoClose: 1500,
+    //       toastId: 'presentAddress',
+    //     });
+    //   }
+    // } catch (err: any) {
+    //   Sentry.captureMessage("useEffect on line 449 in bridge > backup", err);
+    // }
+  // };
 
   useEffect(() => {
     try {
@@ -393,7 +387,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       if (tokenModalList.length > 0) {
         // console.log("initial page load");
         let updatedArray = [...tokenModalList, ...localTokens];
-        let uniqArray = uniqBy(updatedArray,"name");
+        let uniqArray = uniqBy(updatedArray, "name");
         setTokenModalList(uniqArray);
       }
     } catch (err: any) {
@@ -401,68 +395,75 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     }
   }, []);
 
-  const getTempTokens = async () => {
+  const getTempTokens = async (e: any,searchToken:any) => {
     try {
-      const isValidAddress = web3.utils.isAddress(String(newToken));
-      if (
-        isValidAddress &&
-        account &&
-        (tokenState.step2 || tokenState.step3 || tokenState.step4)
-      ) {
-        const contractInstance = new web3.eth.Contract(
-          addTokenAbi,
-          String(newToken)
-        );
-        console.log("getTempTokens", contractInstance)
-        let symbol: any = await contractInstance.methods
-          .symbol()
-          .call({ from: String(account) })
-          .then((token: any) => token)
-          .catch((err: any) => console.log(err));
-        let name: any = await contractInstance.methods
-          .name()
-          .call({ from: String(account) })
-          .then((token: any) => token)
-          .catch((err: any) => console.log(err));
-        const obj = {
-          parentContract: String(newToken),
-          childContract: String(newToken),
-          parentName: name,
-          parentSymbol: symbol,
-        };
-        const isalreadypresent = localTokens
-          .map((st: any) => st.parentContract)
-          .includes(obj.parentContract);
-        // console.log("isalreadypresent", isalreadypresent);
-        if (!isalreadypresent) {
-          setTempTokens({
-            parentContract: String(newToken),
-            childContract: String(newToken),
-            parentName: name,
-            parentSymbol: symbol,
-          });
-        } else if (isalreadypresent) {
-          // toast.error("Address is already present", {
-          //   position: toast.POSITION.TOP_RIGHT,
-          //   autoClose: 1500,
-          // });
-          setTempTokens({
-            // parentContract: "",
-            // childContract: "",
-            // parentName: "",
-            // parentSymbol: "",
-          });
+      setIsLoading(true);
+      if (account) {
+        const isalreadypresent = localTokens.find((st: any) => st.contractAddress == e.target.value);
+        console.log("isalreadypresent", isalreadypresent);
+        if (isalreadypresent) {
+          setDuplicateToken(true);
+        }
+        else {
+          const isValidAddress = web3.utils.isAddress(String(e.target.value));
+          if ((tokenState.step2 || tokenState.step0 || tokenState.step4) && isValidAddress) {
+            setTokenState({
+              step0: false,
+              step1: false,
+              step2: false,
+              step3: true,
+              step4: false,
+              title: "Manage Token",
+            });
+            setIsLoading(false);
+            let tokenInfo = searchToken?.tokenInfo;
+            setTempTokens({
+              parentContract: tokenInfo?.address,
+              name: tokenInfo?.adname,
+              symbol: tokenInfo?.symbol,
+              decimals: tokenInfo?.decimals,
+              addedByUser: true,
+            });
+          }
+          else if (!isValidAddress && e.target.value) {
+            setIsLoading(false);
+            toast.error("Invalid Address", {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 600,
+            });
+            setTokenState({
+              step0: false,
+              step1: false,
+              step2: true,
+              step3: false,
+              step4: false,
+              title: "Manage Token",
+            });
+          }
+          else{
+            setIsLoading(false);
+          }
         }
       }
-      // console.log("temptoken", tempTokens);
     } catch (err: any) {
       Sentry.captureMessage("getTempTokens", err);
     }
   };
 
-  useEffect(() => {
-    getTempTokens();
-  }, [newToken, tokenState]);
+  // const getSearchedToken = async (data:any) => {
+  //   const contractInstance = new web3.eth.Contract(
+  //     addTokenAbi,
+  //     data.target.value
+  //   );
+  //   let symbol: any = await contractInstance.methods.symbol().call({from : account});
+  //   console.log("contract data ==> " ,contractInstance , symbol);
+  //   let name: any = await contractInstance.methods.name().call();
+  //   let decimals: any = await contractInstance.methods.decimals().call();
+    
+  // }
+  // useEffect(() => {
+  //   getTempTokens();
+  // }, [newToken, tokenState]);
 
   const clearAllCustomTokens = () => {
     try {
@@ -551,8 +552,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                         placeholder="Search token or token address"
                         onChange={(e) => {
                           handleSearchList(e.target.value);
-                          getTempTokens()
-
+                          // getTempTokens()
                         }}
                       />
                       <div className="search-icon">
@@ -592,7 +592,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                     </div>
                   </div>
                   <div className="token-listwrap noScrollbar">
-                     {/* {console.log("setLinkquery ",setLinkQuery)} */}
+                    {/* {console.log("setLinkquery ",setLinkQuery)} */}
                     {defChain &&
                       <TokenList coinList={coinList}
                         DEFAULT_ITEM={DEFAULT_LIST}
@@ -608,7 +608,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                         setLinkQuery={setLinkQuery}
                         tokenModalList={tokenModalList}
                         tokenState={tokenState}
-                        />
+                      />
                     }
                     {!tokenModalList.length && modalKeyword ? (
                       <p className="py-3 py-md-4 py-lg-5 text-center">
@@ -666,7 +666,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                     </div>
                   </div>
                   <div className="sec-search sec-search-secondry">
-                    <div className="position-relative search-row">                      
+                    <div className="position-relative search-row">
                       <input
                         type="text"
                         className="w-100"
@@ -689,23 +689,23 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                   </div>
                   <div className="token-listwrap list-ht noScrollbar">
                     <>
-                      {isWrong ? <div>Seems like the url is broken</div> : ""}  
+                      {isWrong ? <div>Seems like the url is broken</div> : ""}
                     </>
                     {defChain &&
                       <TokenList coinList={coinList}
-                      DEFAULT_ITEM={DEFAULT_LIST}
-                      // shouldReset={firstKey}
-                      handleTokenSelect={handleTokenSelect}
-                      setCoinList={setCoinList}
-                      setTokenModalList={setTokenModalList}
-                      showWarning={showWarning}
-                      setShowWarning={setShowWarning}
-                      defaultChain={defChain}
-                      setChain={setChain}
-                      linkQuery={linkQuery}
-                      setLinkQuery={setLinkQuery}
-                      tokenModalList={tokenModalList}
-                      tokenState={tokenState}
+                        DEFAULT_ITEM={DEFAULT_LIST}
+                        // shouldReset={firstKey}
+                        handleTokenSelect={handleTokenSelect}
+                        setCoinList={setCoinList}
+                        setTokenModalList={setTokenModalList}
+                        showWarning={showWarning}
+                        setShowWarning={setShowWarning}
+                        defaultChain={defChain}
+                        setChain={setChain}
+                        linkQuery={linkQuery}
+                        setLinkQuery={setLinkQuery}
+                        tokenModalList={tokenModalList}
+                        tokenState={tokenState}
                       />
                     }
                   </div>
@@ -753,9 +753,9 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                           type="button"
                           className={`btn w-100 ${tokenState.step2 && "btn-active"
                             }`}
-                          onClick={() => {
-                            addTokenHandler();
-                          }}
+                          // onClick={() => {
+                          //   addTokenHandler();
+                          // }}
                         >
                           Add token
                         </button>
@@ -792,6 +792,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                             setDuplicateToken(true);
                           } else {
                             addNewToken(e.target.value);
+                            getTempTokens(e,searchToken);
                           }
                           // NewTokenCheck(e);
                           // addTokenHandler();
@@ -809,7 +810,8 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                     </div>
                   </div>
                   <div className="pop-bottom pt-0">
-                    <div className="">
+                    {!isLoading ? 
+                    (<div className="">
                       <div className="grid-block">
                         <div className="blk-width">
                           <div>{localTokens.length} Token Found</div>
@@ -882,7 +884,9 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                           </div>
                         ))}
                       </div>
-                    </div>
+                    </div>) :
+                      <div><Spinner/></div>
+                    }
                   </div>
                 </div>
                 {/* <div className="pop-mid">
@@ -902,7 +906,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
           {/* search popop starts */}
 
           {showTokenModal && tokenState.step3 && (
-            <div className="popmodal-body tokn-popup no-ht">
+            (<div className="popmodal-body tokn-popup no-ht">
               <button
                 className="myBackBtnInTM"
                 onClick={onBackClick}
@@ -965,7 +969,8 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                       </div>
                     </div>
                   </div>
-                  <div className="pop-bottom pt-0">
+                  {!isLoading ? 
+                  (<div className="pop-bottom pt-0">
                     {confirmImport ? (
                       <>
                         <div className="">
@@ -1009,10 +1014,10 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                                   <div className="tkn-grid">
                                     <div>
                                       <h6 className="fw-bold">
-                                        {/* {console.log("temp tokens ==> ", tempTokens)} */}
-                                        {tempTokens.parentSymbol ? tempTokens.parentSymbol : "Unknown"}
+                                        {console.log("temp tokens ==> ", tempTokens)}
+                                        {tempTokens?.parentSymbol || tempTokens?.symbol ? tempTokens.parentSymbol || tempTokens?.symbol : "Unknown"}
                                       </h6>
-                                      <p>{tempTokens.parentSymbol ? tempTokens.parentSymbol : "Unknown Token Name"}</p>
+                                      <p>{tempTokens?.parentSymbol || tempTokens?.name ? tempTokens.parentSymbol || tempTokens?.name : "example"}</p>
                                     </div>
                                     <div>
                                       <span
@@ -1173,7 +1178,8 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                           </div>
                         </>
                       )}
-                  </div>
+                  </div>) :
+                  <div><Spinner/></div>}
                 </div>
                 <div className="pop-bottom pt-0">
                   <div className="">
@@ -1272,7 +1278,8 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                   </div>
                 </div>
               </div>
-            </div>
+            </div>)
+            
             // </div>
           )}
           {/* Search popop ends */}
