@@ -127,6 +127,9 @@ export default function Withdraw() {
     childContract: "",
     parentName: "",
     parentSymbol: "",
+    symbol: "",
+    key: "",
+    logoURI:""
   });
   const getTokensList = () => {
     try {
@@ -203,7 +206,7 @@ export default function Withdraw() {
     amount: Yup.number()
       .typeError("Only digits are allowed.")
       .min(0.001, "Invalid Amount.")
-      .max(selectedToken.balance, "Insufficient Balance")
+      .max(selectedToken?.balance, "Insufficient Balance")
       .required("Amount is required."),
   });
   const withdrawValidations: any = Yup.object({
@@ -212,7 +215,7 @@ export default function Withdraw() {
     withdrawAmount: Yup.number()
       .typeError("Only digits are allowed.")
       .min(0.001, "Invalid Amount.")
-      .max(selectedToken.balance, "Insufficient Balance")
+      .max(selectedToken?.balance, "Insufficient Balance")
       .required("Amount is required."),
   });
 
@@ -972,7 +975,7 @@ export default function Withdraw() {
                           />
                         </div>
                         <h6>
-                          {depositTokenInput + " " + selectedToken.parentName}
+                          {depositTokenInput + " " + (selectedToken?.parentName ? selectedToken?.parentName : selectedToken?.symbol)}
                         </h6>
                         <p>
                           <NumberFormat
@@ -994,8 +997,8 @@ export default function Withdraw() {
                             width="22"
                             height="22"
                             src={
-                              selectedToken.logo
-                                ? selectedToken.logo
+                              (selectedToken?.logo || selectedToken?.logoURI)
+                                ? (selectedToken?.logo || selectedToken?.logoURI)
                                 : "../../assets/images/eth.png"
                             }
                             alt=""
@@ -1974,14 +1977,15 @@ export default function Withdraw() {
                                       <div className="icon-chain">
                                         <div>
                                           {
-                                            selectedToken.logo
-                                              ? (<img
+                                            (selectedToken?.logo || selectedToken?.logoURI) ?
+                                              <img
                                                 width="22"
                                                 height="22"
                                                 className="img-fluid"
-                                                src={selectedToken.logo}
+                                                src={selectedToken?.logo ? selectedToken?.logo : selectedToken?.logoURI }
                                                 alt=""
-                                              />) :
+                                              />
+                                               :
                                               (
                                                 <img
                                                   className="img-fluid"
@@ -2031,7 +2035,7 @@ export default function Withdraw() {
                                           Balance:
                                         </span>
                                         <span className="fld-txt lite-800">
-                                          {selectedToken.balance
+                                          {selectedToken?.balance
                                             ? selectedToken?.balance
                                             : "00.00"}
                                         </span>
@@ -2060,9 +2064,10 @@ export default function Withdraw() {
                                           <div>
                                             <img
                                               className="img-fluid"
+                                              width={24}
                                               src={
-                                                selectedToken.logo
-                                                  ? selectedToken.logo
+                                                (selectedToken?.logo || selectedToken?.logoURI)
+                                                  ? selectedToken.logo || selectedToken?.logoURI
                                                   : "../../assets/images/eth.png"
                                               }
                                               alt=""
@@ -2071,8 +2076,8 @@ export default function Withdraw() {
                                         </div>
                                         <div className="lite-800">
                                           <span className="lite-800 fw-bold">
-                                            {selectedToken.parentName
-                                              ? selectedToken.parentName
+                                            {selectedToken?.parentName || selectedToken?.symbol
+                                              ? selectedToken?.parentName || selectedToken?.symbol
                                               : "Select Token"}
                                           </span>
                                         </div>
@@ -2302,7 +2307,7 @@ export default function Withdraw() {
                                           Balance:
                                         </span>
                                         <span className="fld-txt lite-800">
-                                          {selectedToken.balance
+                                          {selectedToken?.balance
                                             ? selectedToken?.balance
                                             : "00.00"}
                                         </span>
@@ -2334,8 +2339,8 @@ export default function Withdraw() {
                                               height="24"
                                               className="img-fluid"
                                               src={
-                                                selectedToken.logo
-                                                  ? selectedToken.logo
+                                                selectedToken?.logo || selectedToken?.logoURI
+                                                  ? selectedToken?.logo || selectedToken?.logoURI
                                                   : "../../assets/images/shiba-round-icon.png"
                                               }
                                               alt=""
@@ -2344,8 +2349,8 @@ export default function Withdraw() {
                                         </div>
                                         <div className="lite-800">
                                           <span className="lite-800 fw-bold">
-                                            {selectedToken.parentName
-                                              ? selectedToken.parentName
+                                            {selectedToken?.parentName || selectedToken?.symbol
+                                              ? selectedToken?.parentName || selectedToken?.symbol
                                               : "Select Token"}
                                           </span>
                                         </div>
@@ -2371,7 +2376,7 @@ export default function Withdraw() {
                                         </div>
                                         <div
                                           className="rt-chain"
-                                          onClick={(e) => setFieldValue("withdrawAmount", selectedToken.balance)}
+                                          onClick={(e) => setFieldValue("withdrawAmount", selectedToken?.balance)}
                                         >
                                           <span className="orange-txt fw-bold withdrawMax">
                                             MAX
@@ -2395,12 +2400,12 @@ export default function Withdraw() {
                                       <div className="icon-chain">
                                         <div>
                                           {
-                                            selectedToken.logo
+                                            selectedToken?.logo ||selectedToken?.logoURI
                                               ? (<img
                                                 width="22"
                                                 height="22"
                                                 className="img-fluid"
-                                                src={selectedToken.logo}
+                                                src={selectedToken.logo || selectedToken?.logoURI}
                                                 alt=""
                                               />) :
                                               (

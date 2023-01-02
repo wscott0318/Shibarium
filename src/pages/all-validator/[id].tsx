@@ -32,7 +32,7 @@ export default function ValidatorDetails() {
     const [totalSupply, setTotalSupply] = useState<number>(0)
     const [selfStaked, setSelfStaked] = useState<number>(0)
 
-    
+    console.log("Delegator" , allDelegators)
     const router = useRouter()
     useEffect(() => {
         try {
@@ -80,8 +80,8 @@ export default function ValidatorDetails() {
             const valStake = await instance.methods.validators(id).call();
             let finalAMount = (+valStake.amount + +valStake.delegatedAmount) / Math.pow(10, web3Decimals)
             let selfStake = +valStake.amount / Math.pow(10, web3Decimals)
-            // console.log("getTotalSupply called again", valStake.amount , valStake.delegatedAmount);
-            // console.log(valStake, finalAMount, "data ==> ")
+            console.log("getTotalSupply called again", valStake.amount , valStake.delegatedAmount);
+            console.log(valStake ,"data ==> " , );
             setSelfStaked(selfStake);
             setTotalSupply(finalAMount)
         }

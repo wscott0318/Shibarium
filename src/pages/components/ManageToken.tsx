@@ -16,6 +16,7 @@ import Link from "next/link";
 import { fetchLink, getDefaultChain, useStorage } from "../../web3/commonFunctions";
 import { useLocation, useRoutes } from "react-router-dom";
 import TokenList from "./TokenList";
+import { uniqBy } from "lodash";
 
 export const Warning = ({ listing, setCoinList, resetLink, addTokenHandler }: any) => {
   const [agree, setAgree] = useState(false);
@@ -300,6 +301,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   useEffect(() => {
     const isValidAddress = web3.utils.isAddress(String(newToken));
     try {
+      console.log("useEffect")
       if ((tokenState.step2 || tokenState.step0) && isValidAddress) {
         toast.success("Address is valid", {
           position: toast.POSITION.TOP_RIGHT,
@@ -391,7 +393,8 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       if (tokenModalList.length > 0) {
         // console.log("initial page load");
         let updatedArray = [...tokenModalList, ...localTokens];
-        setTokenModalList(updatedArray);
+        let uniqArray = uniqBy(updatedArray,"name");
+        setTokenModalList(uniqArray);
       }
     } catch (err: any) {
       Sentry.captureMessage("UseEffect line 540", err);
@@ -401,7 +404,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   const getTempTokens = async () => {
     try {
       const isValidAddress = web3.utils.isAddress(String(newToken));
-
       if (
         isValidAddress &&
         account &&
@@ -411,6 +413,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
           addTokenAbi,
           String(newToken)
         );
+        console.log("getTempTokens", contractInstance)
         let symbol: any = await contractInstance.methods
           .symbol()
           .call({ from: String(account) })
@@ -588,13 +591,15 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                       </div>
                     </div>
                   </div>
-                  <div className="token-listwrap">
+                  <div className="token-listwrap noScrollbar">
                      {/* {console.log("setLinkquery ",setLinkQuery)} */}
                     {defChain &&
                       <TokenList coinList={coinList}
                         DEFAULT_ITEM={DEFAULT_LIST}
                         // shouldReset={firstKey}
+                        handleTokenSelect={handleTokenSelect}
                         setCoinList={setCoinList}
+                        setTokenModalList={setTokenModalList}
                         showWarning={showWarning}
                         setShowWarning={setShowWarning}
                         defaultChain={defChain}
@@ -682,22 +687,25 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                       </div>
                     </div>
                   </div>
-                  <div className="token-listwrap list-ht">
+                  <div className="token-listwrap list-ht noScrollbar">
                     <>
                       {isWrong ? <div>Seems like the url is broken</div> : ""}  
                     </>
                     {defChain &&
                       <TokenList coinList={coinList}
-                        DEFAULT_ITEM={DEFAULT_LIST}
-                        // shouldReset={firstKey}
-                        setCoinList={setCoinList}
-                        showWarning={showWarning}
-                        setShowWarning={setShowWarning}
-                        defaultChain={defChain}
-                        setChain={setChain} 
-                        linkQuery={linkQuery}
-                        setLinkQuery={setLinkQuery}
-                        tokenState={tokenState}
+                      DEFAULT_ITEM={DEFAULT_LIST}
+                      // shouldReset={firstKey}
+                      handleTokenSelect={handleTokenSelect}
+                      setCoinList={setCoinList}
+                      setTokenModalList={setTokenModalList}
+                      showWarning={showWarning}
+                      setShowWarning={setShowWarning}
+                      defaultChain={defChain}
+                      setChain={setChain}
+                      linkQuery={linkQuery}
+                      setLinkQuery={setLinkQuery}
+                      tokenModalList={tokenModalList}
+                      tokenState={tokenState}
                       />
                     }
                   </div>
