@@ -135,7 +135,6 @@ export const URL_ARRAY:{[key:string]:Array<any>} = {
   eth: [
     {
       enabled: true,
-      locked: true,
       default: true,
       data: "https://wispy-bird-88a7.uniswap.workers.dev/?url=http://tokens.1inch.eth.link",
     },
