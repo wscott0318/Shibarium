@@ -6,7 +6,8 @@ import React, { useEffect, useState } from 'react'
 import { fetchLink, generateSecondary, getDefaultChain } from 'web3/commonFunctions';
 import { toast } from 'react-toastify';
 import { Switch } from '@material-ui/core';
-
+import { TrashIcon } from '@heroicons/react/outline';
+import * as Sentry from '@sentry/nextjs';
 const TokenList = ({
   coinList = [],
   DEFAULT_ITEM,
@@ -32,16 +33,16 @@ const TokenList = ({
   const [importedCoins, setImportedCoins] = useState<any>([]);
   const [dup, setdup] = useState(false);
   const [searchedList, setSearchedList] = useState<any>(null);
-  const updateTokenModalList = props.setTokenModalList;
+  const [userAddedTokens, setUserAddedTokens] = useState<any>(
+    JSON.parse(localStorage.getItem("importedByUser") || "[]")
+  );
   useEffect(() => {
     // type URL_ARRAY_types = 'eth' | 'bsc' | 'polygon';
     const defaultTokenUrls = URL_ARRAY[defaultChain].filter(
       (item: any) => item?.default
     );
-    // console.log("default token urls " , defaultTokenUrls , coinList);
     Promise.all(
       [defaultTokenUrls, ...coinList].map(async (item) => {
-        // console.log(coinList, item, 'default token urls ')
         try {
           const response = await fetch(
             item?.data?.includes("http")
@@ -52,11 +53,8 @@ const TokenList = ({
           const tokens = res?.tokens;
           const name = res?.name;
           const logo = res?.logoURI;
-          // const data = res?.data;
-          // console.log(" response ==>", response);
           return { ...item, name, logo, tokens, locked: false };
         } catch (e) {
-          // console.log("fetching list error ", e);
           return { ...item, locked: true };
         }
       })
@@ -79,7 +77,7 @@ const TokenList = ({
     });
   },[]);
   
-  console.log("tokenModalList" , tokenModalList);
+  // console.log("tokenModalList" , tokenModalList);
   const addToLocalStorage = async (response: any) => {
 
     let newImportedList = { ...response[1] };
@@ -118,22 +116,31 @@ const TokenList = ({
   //     console.log("render data ==>",renderData);
   //   }
   // },[renderData]);
-  const updateList = (data: any, locked: any) => {
+  const updateList = (data: any) => {
     setTimeout(async () => {
-      if (locked) return;
-      // console.log("defaultList" , defaultList);
       const copy = defaultList.slice();
-      // console.log('copy' , copy);
       const index = copy.findIndex((el: any) => el.data === data);
-      // console.log("index" , index);
       if (index > -1) {
         copy[index].enabled = !copy[index]?.enabled;
-        updateLocalstorage(data, index);
         const chain = await getDefaultChain();
-        const newaddedTokens = copy[index]?.tokens;
+        updateLocalstorage(data, index);
         setChain(chain);
         setCoinList(copy);
-        setImportedCoins(newaddedTokens);
+        if(copy[index].enabled){
+          // console.log("switch enabled ==> " ,copy[index].enabled)
+          const newaddedTokens = copy[index]?.tokens;
+          const localTokens = JSON.parse(localStorage.getItem("importedByUser") || "[]")
+          let updatedLocalTokens = [...localTokens , ...newaddedTokens];
+          localStorage.setItem("importedByUser" , JSON.stringify(uniqBy(updatedLocalTokens,"address")))
+          setImportedCoins(newaddedTokens);
+        }
+        else{
+          const removeTokens = copy[index]?.tokens;
+          let localTokens = JSON.parse(localStorage.getItem("importedByUser") || "[]")
+          localTokens = localTokens.filter((e:any) => !removeTokens.find((el:any) => el.address == e.address));
+          localStorage.setItem("importedByUser" , JSON.stringify(uniqBy(localTokens, "address")));
+          console.log("else condition ", localTokens, removeTokens);
+        }
         // console.log("updated chain , " , chain , copy)
       }
     }, 1);
@@ -152,6 +159,7 @@ const TokenList = ({
     // console.log("storedTokens" , storedTokens);
     if(storedTokens != null){
       storedTokens[index].enabled = !storedTokens[index]?.enabled;
+      // console.log("updated storedTokens" , storedTokens);
       localStorage.setItem("tokenList" , JSON.stringify(storedTokens));
     }
   }
@@ -161,16 +169,28 @@ const TokenList = ({
     );
     return index !== -1;
   };
-  // {console.log("printed value ==> " ,localTokens.map((e:any)=> (e.parentContract)) == x.parentContract)}
-  // console.log("defaultList ==> ", defaultList);
+
+  const deleteList = (data:any) => {
+    try {
+      let oldList = defaultList.slice();
+      let updatedList = oldList.filter((el:any) => el.data !== data);
+      console.log("updatedList" , updatedList);
+      localStorage.setItem("tokenList" , JSON.stringify(updatedList))
+      setDefaultList(updatedList);
+      setCoinList(updatedList);
+    } catch (err: any) {
+      Sentry.captureMessage("deleteList ", err);
+    }
+  }
+  console.log("defaultList ==> ", defaultList);
   return (
     <>
       {tokenState?.step0 && (tokenModalList
         ? tokenModalList.map((x: any) => (
           <div
-            className="tokn-row"
-            key={x?.parentContract}
-            onClick={() => handleTokenSelect(x)}
+          className="tokn-row"
+          key={x?.parentContract}
+          onClick={() => handleTokenSelect(x)}
           >
             <div className="cryoto-box">
               <img
@@ -178,16 +198,19 @@ const TokenList = ({
                 width={32}
                 src={
                   x?.logo
-                    ? x.logo
-                    : "../../assets/images/shib-borderd-icon.png"
+                  ? x.logo
+                  : "../../assets/images/shib-borderd-icon.png"
                 }
                 alt=""
-              />
+                />
             </div>
             <div className="tkn-grid">
               <div>
-                <h6 className="fw-bold">{x?.parentSymbol}</h6>
-                <p>{x?.parentName}</p>
+                <div className='d-flex align-items-end'>
+                  <h6 className="fw-bold">{x?.parentSymbol || x?.symbol || "Unknown"}</h6>
+                  {x?.addedByUser && <small className='ms-2' style={{color:"#666"}}>Added By User</small>}
+                </div>
+                <p>{x?.parentName || x?.name || "Unknown"}</p>
               </div>
               <div>
                 <h6 className="fw-bold">
@@ -284,17 +307,18 @@ const TokenList = ({
                 // console.log("item contains ==> ", item);
                 return (
                   <div key={item?.data} className="flex justify-content-between mb-3">
-                    <div className="flex w-50">
-                      <img src={item?.logo} width="50" height="25" />
+                    <div className="flex w-50 align-items-center">
+                      <img src={item?.logo} width="35" className='me-2' />
                       <div>
                         <h5>{item?.name ? item?.name : item?.data}</h5>
                         <p>{item?.tokens?.length} tokens</p>
                       </div>
                     </div>
-                    <div>
+                    <div className='d-flex align-items-center'>
+                      <TrashIcon width={25} height={25} onClick={() => deleteList(item?.data)} style={{cursor:'pointer'}}/>
                       <Switch
                         checked={arr[arr.findIndex((el:any) => el.data === item.data)].enabled}
-                        onChange={() => updateList(item?.data, item?.locked)}/>
+                        onChange={() => updateList(item?.data)}/>
                     </div>
                   </div>
                 )

@@ -14,9 +14,10 @@ import * as Sentry from "@sentry/nextjs";
 import { dynamicChaining } from "web3/DynamicChaining";
 import Link from "next/link";
 import { fetchLink, getDefaultChain, useStorage } from "../../web3/commonFunctions";
-import { useLocation, useRoutes } from "react-router-dom";
 import TokenList from "./TokenList";
 import { uniqBy } from "lodash";
+import { useToken } from "app/hooks/Tokens";
+import { isAddress } from "app/functions";
 
 export const Warning = ({ listing, setCoinList, resetLink, addTokenHandler }: any) => {
   const [agree, setAgree] = useState(false);
@@ -56,7 +57,7 @@ export const Warning = ({ listing, setCoinList, resetLink, addTokenHandler }: an
                 ...l,
               ]);
               resetLink();
-              
+
               // console.log("listing ==> ", listing);
             }, 1);
           }}
@@ -154,15 +155,23 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   const [tokenList, setTokenList] = useState([]);
   const [modalKeyword, setmodalKeyword] = useState("");
   const [showWarning, setShowWarning] = useState(false);
+  const isAddressSearch = isAddress(newToken);
+  const searchToken: any = useToken(newToken);
   const [localTokens, setLocalTokens] = useState<any>(
     JSON.parse(localStorage.getItem("newToken") || "[]")
   );
+  const [importedTokens, setImportedTokens] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [tempTokens, setTempTokens] = useState<any>({
     parentContract: "",
-    childContract: "",
-    parentName: "",
-    parentSymbol: "",
+    name: "",
+    symbol: "",
+    decimals: "",
+    addedByUser: false,
+    logo: "",
+    chainId: ""
   });
+  // console.log("local tokens ==>" , localTokens);
   const getTokensList = () => {
     try {
       getWalletTokenList().then((res) => {
@@ -234,57 +243,37 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     setConfirmImport(true);
     setAgreeImport(!agreeImport);
     try {
-      const isValidAddress = await web3.utils.isAddress(String(newToken));
-      if (isValidAddress) {
-        const checkArray = tokenModalList.map((st: any) => st?.parentContract);
-        // let localtoken = JSON.parse(localStorage.getItem("newToken") || "[]");
-        let localtokenarray = localTokens.map((st: any) => st.parentContract);
-        const isalreadypresent = checkArray.some((item: any) =>
-          localtokenarray.includes(newToken)
-        );
-        if (isalreadypresent) {
-          toast.error("Address already exists !", {
-            position: toast.POSITION.BOTTOM_CENTER,
-            autoClose: 3000,
-            toastId: 'presentAddress',
-          });
-        } else {
-          const contractInstance = new web3.eth.Contract(
-            addTokenAbi,
-            String(newToken)
-          );
-          let symbol = await contractInstance.methods
-            .symbol()
-            .call({ from: String(account) })
-            .then((token: any) => token)
-            .catch((err: any) => console.log(err));
-          let name = await contractInstance.methods
-            .name()
-            .call({ from: String(account) })
-            .then((token: any) => token)
-            .catch((err: any) => console.log(err));
-          const obj = {
-            parentContract: String(newToken),
-            childContract: String(newToken),
-            parentName: name,
-            parentSymbol: symbol,
-          };
-          setLocalTokens([...localTokens, obj]);
-          setTokenModalList([...tokenModalList, obj]);
-          toast.success(`${name} successfully added.`, {
-            position: toast.POSITION.BOTTOM_CENTER,
-            autoClose: 3000,
-          });
-          setTokenState({
-            step0: false,
-            step1: false,
-            step2: false,
-            step3: false,
-            step4: true,
-            title: "Manage Token",
-          });
+      let tokenInfo = searchToken?.tokenInfo;
+      console.log("token info ", tokenInfo);
+      let obj: any;
+      if (tokenInfo) {
+        obj = {
+          parentContract: tokenInfo?.address,
+          name: tokenInfo?.name,
+          symbol: tokenInfo?.symbol,
+          decimals: tokenInfo?.decimals,
+          logo: tokenInfo?.logoURI,
+          chainId: tokenInfo?.chainId,
+          addedByUser: true,
         }
-      } else {
+        setLocalTokens([...localTokens, obj]);
+        setTokenModalList([...tokenModalList, obj]);
+        toast.success(`${obj.name} successfully added.`, {
+          position: toast.POSITION.BOTTOM_CENTER,
+          autoClose: 3000,
+        });
+        setTokenState({
+          step0: false,
+          step1: false,
+          step2: false,
+          step3: false,
+          step4: true,
+          title: "Manage Token",
+        });
+      }
+      else {
+        console.log("no record found");
+        setTempTokens({});
       }
     } catch (err: any) {
       // console.log(err, "ereerrr ===>")
@@ -298,68 +287,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       addNewToken("");
     }
   }, [showTokenModal]);
-  useEffect(() => {
-    const isValidAddress = web3.utils.isAddress(String(newToken));
-    try {
-      console.log("useEffect")
-      if ((tokenState.step2 || tokenState.step0) && isValidAddress) {
-        toast.success("Address is valid", {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 600,
-        });
-        setTokenState({
-          step0: false,
-          step1: false,
-          step2: false,
-          step3: true,
-          step4: false,
-          title: "Manage Token",
-        });
-      } else if (!isValidAddress && newToken.length > 0) {
-        toast.error("Address is Invalid", {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 600,
-        });
-        setTokenState({
-          step0: false,
-          step1: false,
-          step2: true,
-          step3: false,
-          step4: false,
-          title: "Manage Token",
-        });
-      }
-      if (tokenState.step4 && isValidAddress) {
-        // toast.success("Address is valid", {
-        //   position: toast.POSITION.TOP_RIGHT,
-        //   autoClose: 600,
-        // });
-        setTokenState({
-          step0: false,
-          step1: false,
-          step2: false,
-          step3: true,
-          step4: false,
-          title: "Manage Token",
-        });
-      }
-      // code below is to check whether tokens are already present or not
-      const checkArray = tokenModalList.map((st: any) => st?.parentContract);
-      let localtokenarray = localTokens.map((st: any) => st.parentContract);
-      const isalreadypresent = checkArray.some((item: any) =>
-        localtokenarray.includes(newToken)
-      );
-      if (isalreadypresent && newToken.length > 0) {
-        toast.error("Address is already present", {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 1500,
-          toastId: 'presentAddress',
-        });
-      }
-    } catch (err: any) {
-      Sentry.captureMessage("useEffect on line 449 in bridge > backup", err);
-    }
-  }, [newToken]);
 
   useEffect(() => {
     try {
@@ -393,7 +320,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       if (tokenModalList.length > 0) {
         // console.log("initial page load");
         let updatedArray = [...tokenModalList, ...localTokens];
-        let uniqArray = uniqBy(updatedArray,"name");
+        let uniqArray = uniqBy(updatedArray, "name");
         setTokenModalList(uniqArray);
       }
     } catch (err: any) {
@@ -401,68 +328,88 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     }
   }, []);
 
+  useEffect(() => {
+    if(newToken !== ""){
+      getTempTokens();
+    }
+  }, [searchToken, newToken]);
   const getTempTokens = async () => {
     try {
-      const isValidAddress = web3.utils.isAddress(String(newToken));
-      if (
-        isValidAddress &&
-        account &&
-        (tokenState.step2 || tokenState.step3 || tokenState.step4)
-      ) {
-        const contractInstance = new web3.eth.Contract(
-          addTokenAbi,
-          String(newToken)
-        );
-        console.log("getTempTokens", contractInstance)
-        let symbol: any = await contractInstance.methods
-          .symbol()
-          .call({ from: String(account) })
-          .then((token: any) => token)
-          .catch((err: any) => console.log(err));
-        let name: any = await contractInstance.methods
-          .name()
-          .call({ from: String(account) })
-          .then((token: any) => token)
-          .catch((err: any) => console.log(err));
-        const obj = {
-          parentContract: String(newToken),
-          childContract: String(newToken),
-          parentName: name,
-          parentSymbol: symbol,
-        };
-        const isalreadypresent = localTokens
-          .map((st: any) => st.parentContract)
-          .includes(obj.parentContract);
-        // console.log("isalreadypresent", isalreadypresent);
-        if (!isalreadypresent) {
-          setTempTokens({
-            parentContract: String(newToken),
-            childContract: String(newToken),
-            parentName: name,
-            parentSymbol: symbol,
-          });
-        } else if (isalreadypresent) {
-          // toast.error("Address is already present", {
-          //   position: toast.POSITION.TOP_RIGHT,
-          //   autoClose: 1500,
-          // });
-          setTempTokens({
-            // parentContract: "",
-            // childContract: "",
-            // parentName: "",
-            // parentSymbol: "",
-          });
+      if (account) {
+        const isalreadypresent = localTokens.find((st: any) => st.parentContract == newToken);
+        const foundInTokenModalList = tokenModalList.find((e: any) => e.parentContract == newToken);
+        const foundInimportedTokens = importedTokens.find((e: any) => e.address == newToken);
+        setTokenState({
+          step0: false,
+          step1: false,
+          step2: false,
+          step3: true,
+          step4: false,
+          title: "Manage Token",
+        });
+        if (!!isalreadypresent || !!foundInTokenModalList || !!foundInimportedTokens) {
+          setDuplicateToken(true);
+        }
+        else {
+          const isValidAddress = web3.utils.isAddress(String(newToken));
+          if (isValidAddress && newToken) {
+            console.log("line no. 349")
+            let tokenInfo = searchToken?.tokenInfo;
+            console.log("token info ", tokenInfo);
+            if (tokenInfo) {
+              setTempTokens({
+                parentContract: tokenInfo?.address,
+                name: tokenInfo?.name,
+                symbol: tokenInfo?.symbol,
+                decimals: tokenInfo?.decimals,
+                logo: tokenInfo?.logoURI,
+                chainId: tokenInfo?.chainId,
+                addedByUser: true,
+              });
+            }
+            else {
+              console.log("no record found");
+              setTempTokens({});
+            }
+          }
+          else if (!isValidAddress && newToken) {
+            setIsLoading(false);
+            toast.error("Invalid Address", {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 600,
+            });
+            setTokenState({
+              step0: false,
+              step1: false,
+              step2: true,
+              step3: false,
+              step4: false,
+              title: "Manage Token",
+            });
+          }
+          else {
+          }
         }
       }
-      // console.log("temptoken", tempTokens);
     } catch (err: any) {
       Sentry.captureMessage("getTempTokens", err);
     }
   };
 
-  useEffect(() => {
-    getTempTokens();
-  }, [newToken, tokenState]);
+  // const getSearchedToken = async (data:any) => {
+  //   const contractInstance = new web3.eth.Contract(
+  //     addTokenAbi,
+  //     data.target.value
+  //   );
+  //   let symbol: any = await contractInstance.methods.symbol().call({from : account});
+  //   console.log("contract data ==> " ,contractInstance , symbol);
+  //   let name: any = await contractInstance.methods.name().call();
+  //   let decimals: any = await contractInstance.methods.decimals().call();
+
+  // }
+  // useEffect(() => {
+  //   getTempTokens();
+  // }, [newToken, tokenState]);
 
   const clearAllCustomTokens = () => {
     try {
@@ -497,7 +444,14 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     }
   };
 
-
+  useEffect(() => {
+    let fetchList = JSON.parse(localStorage.getItem("tokenList") || "[]");
+    let enabledTokens = fetchList.filter((e:any) => e.enabled === true);
+    enabledTokens.map((e:any) => {
+      let uniqueTokens = uniqBy(e?.tokens , "name");
+      return setImportedTokens([...importedTokens , ...uniqueTokens]);
+    });
+  },[]);
 
   const onBackClick = () => {
     setTokenModal(true);
@@ -551,8 +505,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                         placeholder="Search token or token address"
                         onChange={(e) => {
                           handleSearchList(e.target.value);
-                          getTempTokens()
-
+                          // getTempTokens()
                         }}
                       />
                       <div className="search-icon">
@@ -592,7 +545,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                     </div>
                   </div>
                   <div className="token-listwrap noScrollbar">
-                     {/* {console.log("setLinkquery ",setLinkQuery)} */}
+                    {/* {console.log("setLinkquery ",setLinkQuery)} */}
                     {defChain &&
                       <TokenList coinList={coinList}
                         DEFAULT_ITEM={DEFAULT_LIST}
@@ -608,7 +561,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                         setLinkQuery={setLinkQuery}
                         tokenModalList={tokenModalList}
                         tokenState={tokenState}
-                        />
+                      />
                     }
                     {!tokenModalList.length && modalKeyword ? (
                       <p className="py-3 py-md-4 py-lg-5 text-center">
@@ -666,7 +619,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                     </div>
                   </div>
                   <div className="sec-search sec-search-secondry">
-                    <div className="position-relative search-row">                      
+                    <div className="position-relative search-row">
                       <input
                         type="text"
                         className="w-100"
@@ -689,23 +642,23 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                   </div>
                   <div className="token-listwrap list-ht noScrollbar">
                     <>
-                      {isWrong ? <div>Seems like the url is broken</div> : ""}  
+                      {isWrong ? <div>Seems like the url is broken</div> : ""}
                     </>
                     {defChain &&
                       <TokenList coinList={coinList}
-                      DEFAULT_ITEM={DEFAULT_LIST}
-                      // shouldReset={firstKey}
-                      handleTokenSelect={handleTokenSelect}
-                      setCoinList={setCoinList}
-                      setTokenModalList={setTokenModalList}
-                      showWarning={showWarning}
-                      setShowWarning={setShowWarning}
-                      defaultChain={defChain}
-                      setChain={setChain}
-                      linkQuery={linkQuery}
-                      setLinkQuery={setLinkQuery}
-                      tokenModalList={tokenModalList}
-                      tokenState={tokenState}
+                        DEFAULT_ITEM={DEFAULT_LIST}
+                        // shouldReset={firstKey}
+                        handleTokenSelect={handleTokenSelect}
+                        setCoinList={setCoinList}
+                        setTokenModalList={setTokenModalList}
+                        showWarning={showWarning}
+                        setShowWarning={setShowWarning}
+                        defaultChain={defChain}
+                        setChain={setChain}
+                        linkQuery={linkQuery}
+                        setLinkQuery={setLinkQuery}
+                        tokenModalList={tokenModalList}
+                        tokenState={tokenState}
                       />
                     }
                   </div>
@@ -753,9 +706,9 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                           type="button"
                           className={`btn w-100 ${tokenState.step2 && "btn-active"
                             }`}
-                          onClick={() => {
-                            addTokenHandler();
-                          }}
+                        // onClick={() => {
+                        //   addTokenHandler();
+                        // }}
                         >
                           Add token
                         </button>
@@ -788,13 +741,23 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                         // value={newToken}
                         onChange={(e: any) => {
                           setDuplicateToken(false);
-                          if (tokenModalList.filter((val: any) => val?.parentContract == e?.target?.value).length > 0) {
-                            setDuplicateToken(true);
-                          } else {
+                          if (e.target.value) {
                             addNewToken(e.target.value);
+                            console.log("if condition")
                           }
-                          // NewTokenCheck(e);
-                          // addTokenHandler();
+                          else {
+                            console.log("else  condition")
+                            addNewToken("");
+                            setTempTokens({});
+                            setTokenState({
+                              step0: false,
+                              step1: false,
+                              step2: true,
+                              step3: false,
+                              step4: false,
+                              title: "Manage Token",
+                            });
+                          }
                         }}
                       />
                       <div className="search-icon">
@@ -837,13 +800,13 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                           <div className="dupToken" style={{ color: "red" }}>Token already exists.</div>
                         )}
                         {localTokens.map((x: any, index: any) => (
-                          <div className="tokn-row" key={x.parentContract}>
+                          <div className="tokn-row" key={x?.parentContract}>
                             <div className="cryoto-box">
                               <img
                                 className="img-fluid"
                                 src={
-                                  x.logo
-                                    ? x.logo
+                                  x?.logo || x?.logoURI
+                                    ? x.logo || x?.logoURI
                                     : "../../../assets/images/shib-borderd-icon.png"
                                 }
                                 alt=""
@@ -851,9 +814,12 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                             </div>
                             <div className="tkn-grid">
                               <div>
-                                <h6 className="fw-bold">
-                                  {x.parentSymbol}</h6>
-                                <p>{x.parentName}</p>
+                                <div className="d-flex align-items-end">
+                                  <h6 className="fw-bold">
+                                    {x?.parentSymbol || x?.symbol}</h6>
+                                  {x?.addedByUser && <small className='ms-2' style={{ color: "#666" }}>Added By User</small>}
+                                </div>
+                                <p>{x?.parentName || x?.name}</p>
                               </div>
                               <div>
                                 <span
@@ -867,7 +833,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                                   />
                                 </span>
                                 <span>
-                                  <Link href={addUrl + x.childContract} passHref>
+                                  <Link href={addUrl + (x?.childContract || x?.address || x?.parentContract)} passHref>
                                     <a target='_blank'>
                                       <img
                                         className="img-fluid"
@@ -902,7 +868,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
           {/* search popop starts */}
 
           {showTokenModal && tokenState.step3 && (
-            <div className="popmodal-body tokn-popup no-ht">
+            (<div className="popmodal-body tokn-popup no-ht">
               <button
                 className="myBackBtnInTM"
                 onClick={onBackClick}
@@ -945,10 +911,20 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                         className="w-100"
                         placeholder="Enter Token Address"
                         onChange={(e) => {
-                          if (tokenModalList.filter((val: any) => val?.parentContract == e?.target?.value).length > 0) {
-                            setDuplicateToken(true);
-                          } else {
+                          setDuplicateToken(false);
+                          if (e.target.value) {
                             addNewToken(e.target.value);
+                          } else {
+                            addNewToken("");
+                            setTempTokens({});
+                            setTokenState({
+                              step0: false,
+                              step1: false,
+                              step2: true,
+                              step3: false,
+                              step4: false,
+                              title: "Manage Token",
+                            });
                           }
                         }}
                         autoFocus={newToken.length > 0}
@@ -992,15 +968,16 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                             </div>
                           </div>
                           <div className="token-listwrap usr-listht">
-                            <div className="token-listwrap usr-listht">
-                              {JSON.stringify(tempTokens) !== "{}" ? (
+                            <div className="token-listwrap usr-listh">
+                              {dupToken && <div style={{color:"red"}}>Token already exists.</div>}
+                              {dupToken === false && (tempTokens && Object.keys(tempTokens).length !== 0 ? (
                                 <div className="tokn-row">
                                   <div className="cryoto-box">
                                     <img
                                       className="img-fluid"
                                       src={
                                         tempTokens?.logo
-                                          ? tempTokens?.logo
+                                          ? `https://${tempTokens?.logo}`
                                           : "../../../assets/images/shib-borderd-icon.png"
                                       }
                                       alt=""
@@ -1009,10 +986,9 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                                   <div className="tkn-grid">
                                     <div>
                                       <h6 className="fw-bold">
-                                        {/* {console.log("temp tokens ==> ", tempTokens)} */}
-                                        {tempTokens.parentSymbol ? tempTokens.parentSymbol : "Unknown"}
+                                        {tempTokens?.parentSymbol || tempTokens?.symbol ? tempTokens.parentSymbol || tempTokens?.symbol : "Unknown"}
                                       </h6>
-                                      <p>{tempTokens.parentSymbol ? tempTokens.parentSymbol : "Unknown Token Name"}</p>
+                                      <p>{tempTokens?.parentSymbol || tempTokens?.name ? tempTokens.parentSymbol || tempTokens?.name : "Unknown"}</p>
                                     </div>
                                     <div>
                                       <span
@@ -1032,117 +1008,14 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                                   </div>
                                 </div>
                               ) : (
-                                ""
-                              )}
+                                <div>No token found</div>
+                              ))}
                             </div>
-                            {localTokens.map((x: any, index: any) => (
-                              <div
-                                className="tokn-row"
-                                key={x.parentContract}
-                              >
-                                <div className="cryoto-box">
-                                  <img
-                                    className="img-fluid"
-                                    src={
-                                      x.logo
-                                        ? x.logo
-                                        : "../../../assets/images/shib-borderd-icon.png"
-                                    }
-                                    alt=""
-                                  />
-                                </div>
-                                <div className="tkn-grid">
-                                  <div>
-                                    <h6 className="fw-bold">
-                                      {/* {console.log("x has values => ", x)} */}
-                                      {x.parentSymbol}
-                                    </h6>
-                                    <p>{x.parentName}</p>
-                                  </div>
-                                  <div>
-                                    <span
-                                      className="me-4"
-                                      onClick={() => spliceCustomToken(index)}
-                                    >
-                                      <img
-                                        className="img-fluid"
-                                        src="../../../assets/images/del.png"
-                                        alt=""
-                                      />
-                                    </span>
-                                    <span>
-                                      <Link href={addUrl + x.childContract} passHref>
-                                        <a target='_blank'>
-                                          <img
-                                            className="img-fluid"
-                                            src="../../../assets/images/up.png"
-                                            alt=""
-                                          />
-                                        </a>
-                                      </Link>
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
                           </div>
                         </div>
                       </>
                     ) :
                       (
-                        // showWarning ?
-                        //   (<Warning setAgreeImport={setAgreeImport}
-                        //     addTokenHandler={addTokenHandler}
-                        //     resetLink={() => {
-                        //       setLinkQuery("");
-                        //       setNewListing(null);
-                        //       setShowWarning(false);
-                        //     }}
-                        //     setCoinList={tokenModalList}
-                        //     setShowWarning={setShowWarning}
-                        //     listing={newListing} />)
-                        //   :
-                        //   (
-                        //     <>
-                        //       {isWrong ? <div>Seems like the url is broken</div> : ""}
-                        //       {newListing ? (
-                        //         <div className="tokn-row">
-                        //           <h1>newListing</h1>
-                        //           {/* <div className="cryoto-box">
-                        //             <img
-                        //               className="img-fluid"
-                        //               src={
-                        //                 newListing
-                        //                   ? newListing
-                        //                   : "../../../assets/images/shib-borderd-icon.png"
-                        //               }
-                        //               alt=""
-                        //             />
-                        //           </div>
-                        //           <div className="tkn-grid">
-                        //             <div>
-                        //               <h6 className="fw-bold">
-                        //                 {console.log("temp tokens ==> ", tempTokens)}
-                        //                 {tempTokens.parentSymbol ? tempTokens.parentSymbol : "Unknown"}
-                        //               </h6>
-                        //               <p>{tempTokens.parentSymbol ? tempTokens.parentSymbol : "Unknown Token Name"}</p>
-                        //             </div>
-                        //             <div>
-                        //               <span
-                        //                 className="primary-text"
-                        //                 onClick={() => {
-                        //                   setConfirmImport(!confirmImport);
-                        //                 }}
-                        //               >
-                        //                 Import
-
-                        //               </span>
-                        //             </div>
-                        //           </div> */}
-                        //         </div>
-                        //       ) : ("")}
-                        //     </>
-                        //   )
                         <>
                           <div style={{ display: "flex", justifyContent: "center" }}><img src="../../assets/images/alert.png" alt=""></img></div>
                           <h3 style={{ textAlign: "center", margin: "10px" }}>Import at your own risk</h3>
@@ -1175,104 +1048,17 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                       )}
                   </div>
                 </div>
-                <div className="pop-bottom pt-0">
-                  <div className="">
-                    <div className="grid-block"></div>
-                  </div>
-                </div>
-                {/* <div className="h-100">
-                    <div className="two-col position-relative">
-                      <div className="left-sec-img">
-                        <div>
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/alert.png"
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                      <p className="text-block">
-                        Anyone can create a token, including creating FAKE
-                        version of existing tokens. Interact with any new token
-                        carefully.
-                      </p>
-                    </div>
-                    <div className="row-wrap">
-                      <div className="crypto-info">
-                        <div className="left-side data">
-                          <p className="lite-color">
-                            Token Address on Ethereum
-                          </p>
-                        </div>
-                        <div className="right-side data">
-                          <p>0x95ad6...4c4ce</p>
-                        </div>
-                      </div>
-                      <div className="crypto-info">
-                        <div className="left-side data">
-                          <p className="lite-color">
-                            Token Address on Shibarium
-                          </p>
-                        </div>
-                        <div className="right-side data">
-                          <p>0x6f8a0...1d4ec</p>
-                        </div>
-                      </div>
-
-                      <div className="crypto-info">
-                        <div className="left-side data">
-                          <p className="lite-color">Project name</p>
-                        </div>
-                        <div className="right-side data">
-                          <p>BONE INU</p>
-                        </div>
-                      </div>
-                      <div className="crypto-info">
-                        <div className="left-side data">
-                          <p className="lite-color">Ticker name</p>
-                        </div>
-                        <div className="right-side data">
-                          <p>SHIB</p>
-                        </div>
-                      </div>
-                      <div className="crypto-info">
-                        <div className="left-side data">
-                          <p className="lite-color">Token Decimal</p>
-                        </div>
-                        <div className="right-side data">
-                          <p>18</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
 
                 <div className="pop-bottom">
                   <div className="">
-                    {/* <a
-                          className="btn primary-btn w-100"
-                          href="javascript:void(0)"
-                          onClick={() => {
-                            // setTokenState({
-                            //   step0: false,
-                            //   step1: false,
-                            //   step2: false,
-                            //   step3: false,
-                            //   step4: true,
-                            //   title: "Manage Token",
-                            // });
-                            addTokenHandler();
-                            addNewToken('')
-                          }}
-                        >
-                          Add Token
-                        </a> */}
                     <div className="myTipsArea">
                       Tip: Custom tokens are stored locally in your browser{" "}
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </div>)
+
             // </div>
           )}
           {/* Search popop ends */}
@@ -1318,7 +1104,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                   </div>
                   <div className="sec-search sec-search-secondry">
                     <div className="position-relative search-row">
-                      step 4
                       <input
                         type="text"
                         className="w-100"
@@ -1326,10 +1111,20 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                         autoFocus={newToken.length > 0}
                         onChange={(e: any) => {
                           setDuplicateToken(false);
-                          if (tokenModalList.filter((val: any) => val?.parentContract == e?.target?.value).length > 0) {
-                            setDuplicateToken(true);
-                          } else {
+                          if (e.target.value) {
                             addNewToken(e.target.value);
+                          }
+                          else {
+                            addNewToken("");
+                            setTempTokens({});
+                            setTokenState({
+                              step0: false,
+                              step1: false,
+                              step2: true,
+                              step3: false,
+                              step4: false,
+                              title: "Manage Token",
+                            });
                           }
                         }}
                       />
@@ -1348,7 +1143,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                     <div className="">
                       <div className="grid-block">
                         <div className="blk-width">
-                          <div>{localTokens.length} Token Found</div>
+                          <div>{localTokens?.length} Token Found</div>
                           <p className="lite-color">
                             Token stored in your browser
                           </p>
@@ -1377,7 +1172,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                           <img
                             className="img-fluid"
                             src={
-                              x.logo
+                              x?.logo
                                 ? x.logo
                                 : "../../../assets/images/shib-borderd-icon.png"
                             }
@@ -1386,8 +1181,8 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                         </div>
                         <div className="tkn-grid">
                           <div>
-                            <h6 className="fw-bold">{x.parentSymbol ? x.parentSymbol : "Unknown"}</h6>
-                            <p>{x.parentName ? x.parentName : "Unknown Token Name"}</p>
+                            <h6 className="fw-bold">{x.symbol ? x?.symbol : "Unknown"}</h6>
+                            <p>{x?.name ? x?.name : "Unknown"}</p>
                           </div>
                           <div>
                             <span
@@ -1401,7 +1196,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                               />
                             </span>
                             <span>
-                              <Link href={addUrl + x.childContract} passHref>
+                              <Link href={addUrl + x.parentContract} passHref>
                                 <a target='_blank'>
                                   <img
                                     className="img-fluid"
@@ -1415,313 +1210,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                         </div>
                       </div>
                     ))}
-                    {/* <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">SHIB</h6>
-                              <p>Shibatoken</p>
-                            </div>
-                            <div>
-                              <span
-                                className="me-4"
-                                onClick={() => {
-                                  setTokenState({
-                                    step0: false,
-                                    step1: false,
-                                    step2: true,
-                                    step3: false,
-                                    step4: false,
-                                    title: "Manage Token",
-                                  });
-                                }}
-                              >
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/del.png"
-                                  alt=""
-                                />
-                              </span>
-                              <span>
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/up.png"
-                                  alt=""
-                                />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">SHIB</h6>
-                              <p>Shibatoken</p>
-                            </div>
-                            <div>
-                              <span
-                                className="me-4"
-                                onClick={() => {
-                                  setTokenState({
-                                    step0: false,
-                                    step1: false,
-                                    step2: true,
-                                    step3: false,
-                                    step4: false,
-                                    title: "Manage Token",
-                                  });
-                                }}
-                              >
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/del.png"
-                                  alt=""
-                                />
-                              </span>
-                              <span>
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/up.png"
-                                  alt=""
-                                />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">SHIB</h6>
-                              <p>Shibatoken</p>
-                            </div>
-                            <div>
-                              <span
-                                className="me-4"
-                                onClick={() => {
-                                  setTokenState({
-                                    step0: false,
-                                    step1: false,
-                                    step2: true,
-                                    step3: false,
-                                    step4: false,
-                                    title: "Manage Token",
-                                  });
-                                }}
-                              >
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/del.png"
-                                  alt=""
-                                />
-                              </span>
-                              <span>
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/up.png"
-                                  alt=""
-                                />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">SHIB</h6>
-                              <p>Shibatoken</p>
-                            </div>
-                            <div>
-                              <span
-                                className="me-4"
-                                onClick={() => {
-                                  setTokenState({
-                                    step0: false,
-                                    step1: false,
-                                    step2: true,
-                                    step3: false,
-                                    step4: false,
-                                    title: "Manage Token",
-                                  });
-                                }}
-                              >
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/del.png"
-                                  alt=""
-                                />
-                              </span>
-                              <span>
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/up.png"
-                                  alt=""
-                                />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">SHIB</h6>
-                              <p>Shibatoken</p>
-                            </div>
-                            <div>
-                              <span
-                                className="me-4"
-                                onClick={() => {
-                                  setTokenState({
-                                    step0: false,
-                                    step1: false,
-                                    step2: true,
-                                    step3: false,
-                                    step4: false,
-                                    title: "Manage Token",
-                                  });
-                                }}
-                              >
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/del.png"
-                                  alt=""
-                                />
-                              </span>
-                              <span>
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/up.png"
-                                  alt=""
-                                />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">SHIB</h6>
-                              <p>Shibatoken</p>
-                            </div>
-                            <div>
-                              <span
-                                className="me-4"
-                                onClick={() => {
-                                  setTokenState({
-                                    step0: false,
-                                    step1: false,
-                                    step2: true,
-                                    step3: false,
-                                    step4: false,
-                                    title: "Manage Token",
-                                  });
-                                }}
-                              >
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/del.png"
-                                  alt=""
-                                />
-                              </span>
-                              <span>
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/up.png"
-                                  alt=""
-                                />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tokn-row">
-                          <div className="cryoto-box">
-                            <img
-                              className="img-fluid"
-                              src="../../assets/images/shib-borderd-icon.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="tkn-grid">
-                            <div>
-                              <h6 className="fw-bold">SHIB</h6>
-                              <p>Shibatoken</p>
-                            </div>
-                            <div>
-                              <span
-                                className="me-4"
-                                onClick={() => {
-                                  setTokenState({
-                                    step0: false,
-                                    step1: false,
-                                    step2: true,
-                                    step3: false,
-                                    step4: false,
-                                    title: "Manage Token",
-                                  });
-                                }}
-                              >
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/del.png"
-                                  alt=""
-                                />
-                              </span>
-                              <span>
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/up.png"
-                                  alt=""
-                                />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
             {/* new added token with delete action ends */}
                   </div>
                 </div>
