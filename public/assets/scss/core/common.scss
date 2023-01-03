@@ -4197,7 +4197,11 @@ input:-internal-autofill-selected {
     }
   }
 }
-
+.search-icon-block{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 @media (max-width: 400px) {
   .balance_card {
     padding: 10px 5px;
