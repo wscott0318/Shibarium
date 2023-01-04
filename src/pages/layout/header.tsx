@@ -97,22 +97,22 @@ export default function Header() {
 
   const [scroll, setScroll] = useState(false);
 
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      setScroll(window.scrollY > 5);
-    });
+  // useEffect(() => {
+  //   window.addEventListener("scroll", () => {
+  //     setScroll(window.scrollY > 5);
+  //   });
 
-    const { ethereum } = window as any
-    const handleAccountsChanged = (accounts: string[]) => {
-      // console.log("Handling 'accountsChanged' event with payload", accounts)
-      localStorage.clear()
-    }
+  //   const { ethereum } = window as any
+  //   const handleAccountsChanged = (accounts: string[]) => {
+  //     // console.log("Handling 'accountsChanged' event with payload", accounts)
+  //     localStorage.clear()
+  //   }
 
-    // ethereum.on('accountsChanged', handleAccountsChanged)
-    account ? ethereum.on('accountsChanged', handleAccountsChanged) : console.log("account not connected please connect")
+  //   // ethereum.on('accountsChanged', handleAccountsChanged)
+  //   account ? ethereum.on('accountsChanged', handleAccountsChanged) : console.log("account not connected please connect")
 
 
-  }, [active, account])
+  // }, [active, account])
 
 
   return (
@@ -344,7 +344,7 @@ export default function Header() {
                             </div>
                           </NavDropdown.Item>
                           <NavDropdown.Item href="#action/3.3">
-                            <div className="custum-row mb-0">
+                            <div className="mb-0 custum-row">
                               <div className="lft-img ps-2">
                                 <img
                                   src="../../assets/images/back.png"

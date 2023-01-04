@@ -36,17 +36,17 @@ const StakingHeader = (type:any) => {
   const [valInfo, setValInfo] = useValInfo();
   const dispatch = useAppDispatch();
 
- useEffect(() => {
-   const { ethereum } = window as any;
-   const handleAccountsChanged = (accounts: string[]) => {
-    //  console.log("Handling 'accountsChanged' event with payload", accounts);
-     setValInfoModal(false);
-     dispatch(clearAllTransactions({ chainId }));
-   };
-  if(account) {
-    ethereum.on("accountsChanged", handleAccountsChanged)
-  }
-}, [active, account]);
+//  useEffect(() => {
+//    const { ethereum } = window as any;
+//    const handleAccountsChanged = (accounts: string[]) => {
+//     //  console.log("Handling 'accountsChanged' event with payload", accounts);
+//      setValInfoModal(false);
+//      dispatch(clearAllTransactions({ chainId }));
+//    };
+//   if(account) {
+//     ethereum.on("accountsChanged", handleAccountsChanged)
+//   }
+// }, [active, account]);
 
   // useEffect(() => {
   //   if(chainId != 5){
