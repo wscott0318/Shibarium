@@ -234,9 +234,9 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
           openOptions={() => setWalletView(WALLET_VIEWS.OPTIONS)}
         />
       ) : (
-        <div className="flex flex-col w-full space-y-4">
+      <div className="flex flex-col w-full space-y-4">
           <HeadlessUiModal.Header
-            header={`Select a wallet`}
+            header={` `}
             onClose={toggleWalletModal}
             {...(walletView !== WALLET_VIEWS.ACCOUNT && { onBack: handleBack })}
           />

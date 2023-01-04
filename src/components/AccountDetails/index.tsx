@@ -34,9 +34,15 @@ const AccountDetails: FC<AccountDetailsProps> = ({
   const { chainId = 1, account,active, connector, deactivate, library } = useActiveWeb3React()
   const dispatch = useAppDispatch()
   const router = useRouter();
+  
+  const isMetaMask = useMemo(() => {
+    const { ethereum } = window
+    return !!(ethereum && ethereum.isMetaMask)
+  }, [])
+  
   const connectorName = useMemo(() => {
     const { ethereum } = window
-    const isMetaMask = !!(ethereum && ethereum.isMetaMask)
+    // const isMetaMask = !!(ethereum && ethereum.isMetaMask)
     const name = Object.keys(SUPPORTED_WALLETS)
       .filter(
         (k) =>
@@ -48,7 +54,7 @@ const AccountDetails: FC<AccountDetailsProps> = ({
         Connected with {name}
       </Typography>
     )
-  }, [connector])
+  }, [connector, isMetaMask])
 
   const clearAllTransactionsCallback = useCallback(() => {
     if (chainId) dispatch(clearAllTransactions({ chainId }))
