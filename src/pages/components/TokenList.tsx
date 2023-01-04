@@ -8,6 +8,9 @@ import { toast } from 'react-toastify';
 import { Switch } from '@material-ui/core';
 import { TrashIcon } from '@heroicons/react/outline';
 import * as Sentry from '@sentry/nextjs';
+import { Settings } from 'react-feather';
+import { Dropdown } from 'react-bootstrap';
+import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 const TokenList = ({
   coinList = [],
   DEFAULT_ITEM,
@@ -175,7 +178,7 @@ const TokenList = ({
   const deleteList = (data: any) => {
     try {
       let confirmed = confirm("Are you sure your want to delete this list?");
-      if(confirmed){
+      if (confirmed) {
         let oldList = defaultList.slice();
         let updatedList = oldList.filter((el: any) => el.data !== data);
         console.log("updatedList", updatedList);
@@ -319,11 +322,25 @@ const TokenList = ({
                       } width="35" className='me-2' />
                       <div>
                         <h5>{item?.name ? item?.name : item?.data}</h5>
-                        <p>{item?.tokens?.length} tokens</p>
+                        <div className='d-flex align-items-center'>
+                          <p className="m-0">{item?.tokens?.length} tokens</p>
+                          <div className="manageTokenDropdown ms-2">
+                            <Dropdown>
+                              <Dropdown.Toggle>
+                                <Settings />
+                              </Dropdown.Toggle>
+                              <Dropdown.Menu>
+                                <Dropdown.Item onClick={()=> window.open(`https://tokenlists.org/token-list?url=${item?.data}`, "_blank")}>View List</Dropdown.Item>
+                                <Dropdown.Item onClick={() => deleteList(item?.data)} target="_blank">Remove List</Dropdown.Item>
+                              </Dropdown.Menu>
+                            </Dropdown>
+                          </div>
+                        </div>
                       </div>
+
                     </div>
                     <div className='d-flex align-items-center'>
-                      <TrashIcon width={25} height={25} onClick={() => deleteList(item?.data)} style={{ cursor: 'pointer' }} />
+                      {/* <TrashIcon width={25} height={25} onClick={() => deleteList(item?.data)} style={{ cursor: 'pointer' }} /> */}
                       <Switch
                         checked={arr[arr.findIndex((el: any) => el.data === item.data)].enabled}
                         onChange={() => updateList(item?.data)} />
