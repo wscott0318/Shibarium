@@ -137,16 +137,21 @@ export const URL_ARRAY:{[key:string]:Array<any>} = {
       enabled: true,
       default: true,
       data: "https://wispy-bird-88a7.uniswap.workers.dev/?url=http://tokens.1inch.eth.link",
+      name:"1inch"
     },
     {
+      default: true,
       home: "https://tokenlists.org/token-list?url=https://www.gemini.com/uniswap/manifest.json",
       data: "https://www.gemini.com/uniswap/manifest.json",
       enabled: false,
+      name:"gemini"
     },
     {
+      default: true,
       home: "https://tokenlists.org/token-list?url=https://tokens.coingecko.com/uniswap/all.json",
       data: "https://tokens.coingecko.com/uniswap/all.json",
       enabled: false,
+      name:"coingecko"
     },
     //   {
     //     home: 'https://tokenlists.org/token-list?url=defi.cmc.eth',
@@ -154,14 +159,18 @@ export const URL_ARRAY:{[key:string]:Array<any>} = {
     //   enabled: false,
     // },
     {
+      default: true,
       home: "https://tokenlists.org/token-list?url=https://raw.githubusercontent.com/compound-finance/token-list/master/compound.tokenlist.json",
       data: "https://raw.githubusercontent.com/compound-finance/token-list/master/compound.tokenlist.json",
       enabled: false,
+      name:"compound"
     },
     {
+      default: true,
       home: "https://netapi.anyswap.net/bridge/v2/info",
       data: "https://www.gemini.com/uniswap/manifest.json",
       enabled: false,
+      name:"uniswap"
     },
   ],
   bsc: [

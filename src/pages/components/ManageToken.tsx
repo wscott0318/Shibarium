@@ -18,8 +18,9 @@ import TokenList from "./TokenList";
 import { uniqBy } from "lodash";
 import { useToken } from "app/hooks/Tokens";
 import { isAddress } from "app/functions";
+import { CircularProgress } from "@material-ui/core";
 
-export const Warning = ({ listing, setCoinList, resetLink, addTokenHandler }: any) => {
+export const Warning = ({ listing, setCoinList, resetLink, sortedLists }: any) => {
   const [agree, setAgree] = useState(false);
   return (
     <>
@@ -56,6 +57,7 @@ export const Warning = ({ listing, setCoinList, resetLink, addTokenHandler }: an
                 },
                 ...l,
               ]);
+              sortedLists();
               resetLink();
 
               // console.log("listing ==> ", listing);
@@ -163,6 +165,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   );
   const [importedTokens, setImportedTokens] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [searchedList, setSearchedList] = useState<any>(null);
   const [tempTokens, setTempTokens] = useState<any>({
     parentContract: "",
     name: "",
@@ -172,7 +175,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     logo: "",
     chainId: ""
   });
-  console.log("search tokens " ,  searchToken);
+  console.log("search tokens ", searchToken);
   const getTokensList = () => {
     try {
       getWalletTokenList().then((res) => {
@@ -188,17 +191,20 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
             x.balance = await getTokenBalance(lib, account, x.parentContract);
           }
         });
+        setIsLoading(false);
         setTokenList(list);
         // setTokenFilteredList(list);
         setTokenModalList([...localTokens, ...list]);
         // console.log("token modal list ==> " , tokenModalList);
       });
     } catch (err: any) {
+      setIsLoading(false);
       Sentry.captureMessage("getTokensList", err);
     }
   };
   useEffect(() => {
     if (account) {
+      setIsLoading(true);
       getTokensList();
     }
     // else {
@@ -207,25 +213,32 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   }, [account]);
 
   const handleSearchList = (key: any) => {
-
-    // console.log(key, "keyyy")
     try {
       setmodalKeyword(key);
       if (key.length) {
-        let newData = tokenList.filter((name) => {
-          return Object.values(name)
-            .join(" ")
-            .toLowerCase()
-            .includes(key.toLowerCase());
-        });
-        setTokenModalList(newData);
-        if (newData.length <= 0) {
-          addNewToken(key)
-        }
-        // console.log(newData, "new data ====")
-      } else {
+        let combinedList = [...tokenModalList, ...importedTokens];
+        // let newData = tokenList.filter((name) => {
+        //   return Object.values(name)
+        //   .join(" ")
+        //   .toLowerCase()
+        //   .includes(key.toLowerCase());
+        // });
 
-        setTokenModalList(tokenList);
+        let newData = combinedList.filter((item: any) => {
+          let result;
+          if (item.name) {
+            result = item.name.toLowerCase().includes(key.toLowerCase())
+          }
+          else {
+            result = item.parentName.toLowerCase().includes(key.toLowerCase())
+          }
+          return result;
+        });
+        console.log(newData, "keyyy if condition")
+        setSearchedList(newData);
+      } else {
+        console.log("else condition ");
+        setSearchedList(null);
       }
     } catch (err: any) {
       Sentry.captureMessage("handleSearchList", err);
@@ -248,7 +261,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       console.log("token info ", tokenInfo);
       let obj: any;
       if (tokenInfo) {
-        let logoURI = "https://ipfs.io/ipfs/"+tokenInfo?.logoURI.slice(7);
+        let logoURI = "https://ipfs.io/ipfs/" + tokenInfo?.logoURI.slice(7);
         obj = {
           parentContract: tokenInfo?.address,
           name: tokenInfo?.name,
@@ -331,7 +344,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   }, []);
 
   useEffect(() => {
-    if(newToken !== ""){
+    if (newToken !== "") {
       getTempTokens();
     }
   }, [searchToken, newToken]);
@@ -359,8 +372,8 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
             console.log("token info ", tokenInfo);
             if (tokenInfo) {
               let logoURI = tokenInfo?.logoURI;
-              if(tokenInfo.logoURI.startsWith('ipfs://')){
-                logoURI = "https://ipfs.io/ipfs/"+tokenInfo?.logoURI.slice(7);
+              if (tokenInfo.logoURI.startsWith('ipfs://')) {
+                logoURI = "https://ipfs.io/ipfs/" + tokenInfo?.logoURI.slice(7);
               }
               // console.log(tokenInfo.logoURI, logoURI);
               setTempTokens({
@@ -452,12 +465,14 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
 
   useEffect(() => {
     let fetchList = JSON.parse(localStorage.getItem("tokenList") || "[]");
-    let enabledTokens = fetchList.filter((e:any) => e.enabled === true);
-    enabledTokens.map((e:any) => {
-      let uniqueTokens = uniqBy(e?.tokens , "name");
-      return setImportedTokens([...importedTokens , ...uniqueTokens]);
-    });
-  },[]);
+    if (fetchList.length) {
+      let enabledTokens = fetchList.filter((e: any) => e?.enabled === true);
+      enabledTokens.map((e: any) => {
+        let uniqueTokens = uniqBy(e?.tokens, "name");
+        return setImportedTokens([...importedTokens, ...uniqueTokens]);
+      });
+    }
+  }, []);
 
   const onBackClick = () => {
     setTokenModal(true);
@@ -550,12 +565,13 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                       </div>
                     </div>
                   </div>
-                  <div className="token-listwrap noScrollbar">
+                  {!isLoading ? (<div className="token-listwrap noScrollbar">
                     {/* {console.log("setLinkquery ",setLinkQuery)} */}
                     {defChain &&
                       <TokenList coinList={coinList}
                         DEFAULT_ITEM={DEFAULT_LIST}
                         // shouldReset={firstKey}
+                        searchedList={searchedList}
                         handleTokenSelect={handleTokenSelect}
                         setCoinList={setCoinList}
                         setTokenModalList={setTokenModalList}
@@ -574,7 +590,12 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                         no record found
                       </p>
                     ) : null}
-                  </div>
+                  </div>)
+                    :
+                    <div className="text-center pt-5">
+                      <CircularProgress size={80} style={{ color: "#f28102" }} />
+                    </div>
+                  }
                 </div>
               </div>
             </div>
@@ -632,10 +653,10 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                         placeholder="Add list by https://"
                         value={linkQuery}
                         onChange={(e) => {
-                          if(e.target.value){
+                          if (e.target.value) {
                             setLinkQuery(e.target.value);
                           }
-                          else{
+                          else {
                             setLinkQuery("");
                           }
                         }}
@@ -659,6 +680,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                       <TokenList coinList={coinList}
                         DEFAULT_ITEM={DEFAULT_LIST}
                         // shouldReset={firstKey}
+                        searchedList={searchedList}
                         handleTokenSelect={handleTokenSelect}
                         setCoinList={setCoinList}
                         setTokenModalList={setTokenModalList}
@@ -980,7 +1002,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                           </div>
                           <div className="token-listwrap usr-listht">
                             <div className="token-listwrap usr-listh">
-                              {dupToken && <div style={{color:"red"}}>Token already exists.</div>}
+                              {dupToken && <div style={{ color: "red" }}>Token already exists.</div>}
                               {dupToken === false && (tempTokens && Object.keys(tempTokens).length !== 0 ? (
                                 <div className="tokn-row">
                                   <div className="cryoto-box">
@@ -1221,7 +1243,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                         </div>
                       </div>
                     ))}
-            {/* new added token with delete action ends */}
+                    {/* new added token with delete action ends */}
                   </div>
                 </div>
 
