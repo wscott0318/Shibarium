@@ -41,7 +41,7 @@ const AccountDetails: FC<AccountDetailsProps> = ({
   }, [])
   
   const connectorName = useMemo(() => {
-    const { ethereum } = window
+    // const { ethereum } = window
     // const isMetaMask = !!(ethereum && ethereum.isMetaMask)
     const name = Object.keys(SUPPORTED_WALLETS)
       .filter(
