@@ -16,7 +16,7 @@ import ReactGA from 'react-ga'
 import { useRouter } from 'next/router'
 import Option from './Option'
 import PendingView from './PendingView'
-import {  NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
 enum WALLET_VIEWS {
   OPTIONS,
@@ -80,6 +80,7 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
   }, [deactivate])
 
   const router = useRouter()
+  var ua = navigator.userAgent.toLowerCase();
 
   const tryActivation = useCallback(
     async (connector: (() => Promise<AbstractConnector>) | AbstractConnector | undefined, id: string) => {
@@ -118,7 +119,7 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
           // console.log(res)
         }
         )
-        // router.push('/bone-staking')
+      // router.push('/bone-staking')
     },
     [activate]
   )

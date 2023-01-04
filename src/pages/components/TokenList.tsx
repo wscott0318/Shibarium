@@ -8,6 +8,9 @@ import { toast } from 'react-toastify';
 import { Switch } from '@material-ui/core';
 import { TrashIcon } from '@heroicons/react/outline';
 import * as Sentry from '@sentry/nextjs';
+import { Settings } from 'react-feather';
+import { Dropdown } from 'react-bootstrap';
+import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 const TokenList = ({
   coinList = [],
   DEFAULT_ITEM,
@@ -23,7 +26,7 @@ const TokenList = ({
   tokenModalList,
   setTokenModalList,
   tokenState,
-...props}: any) => {
+  ...props }: any) => {
   const [isWrong, setIsWrong] = useState(false);
   const [renderData, setRenderData] = useState<any>();
   const [defaultList, setDefaultList] = useState<any>(JSON.parse(localStorage.getItem("tokenList") || "[]"));
@@ -70,13 +73,13 @@ const TokenList = ({
 
   useEffect(() => {
     let fetchList = JSON.parse(localStorage.getItem("tokenList") || "[]");
-    let enabledTokens = fetchList.filter((e:any) => e.enabled === true);
-    enabledTokens.map((e:any) => {
-      let uniqueTokens = uniqBy(e?.tokens , "name");
-      return setImportedCoins([...importedCoins , ...uniqueTokens]);
+    let enabledTokens = fetchList.filter((e: any) => e.enabled === true);
+    enabledTokens.map((e: any) => {
+      let uniqueTokens = uniqBy(e?.tokens, "name");
+      return setImportedCoins([...importedCoins, ...uniqueTokens]);
     });
-  },[]);
-  
+  }, []);
+
   // console.log("tokenModalList" , tokenModalList);
   const addToLocalStorage = async (response: any) => {
 
@@ -94,12 +97,14 @@ const TokenList = ({
     // console.log("local storage token list " ,localStorage.getItem("tokenList"));
   }
   useEffect(() => {
+    setdup(false);
     if (linkQuery) {
       if (defaultList.filter((e: any) => e.data == linkQuery).length > 0) {
         setdup(true);
         setSearchedList(defaultList.filter((e: any) => e.data == linkQuery));
       }
       else {
+        setdup(false);
         fetchLink(linkQuery, setNewListing, setIsWrong);
       }
     }
@@ -126,19 +131,19 @@ const TokenList = ({
         updateLocalstorage(data, index);
         setChain(chain);
         setCoinList(copy);
-        if(copy[index].enabled){
+        if (copy[index].enabled) {
           // console.log("switch enabled ==> " ,copy[index].enabled)
           const newaddedTokens = copy[index]?.tokens;
           const localTokens = JSON.parse(localStorage.getItem("importedByUser") || "[]")
-          let updatedLocalTokens = [...localTokens , ...newaddedTokens];
-          localStorage.setItem("importedByUser" , JSON.stringify(uniqBy(updatedLocalTokens,"address")))
+          let updatedLocalTokens = [...localTokens, ...newaddedTokens];
+          localStorage.setItem("importedByUser", JSON.stringify(uniqBy(updatedLocalTokens, "address")))
           setImportedCoins(newaddedTokens);
         }
-        else{
+        else {
           const removeTokens = copy[index]?.tokens;
           let localTokens = JSON.parse(localStorage.getItem("importedByUser") || "[]")
-          localTokens = localTokens.filter((e:any) => !removeTokens.find((el:any) => el.address == e.address));
-          localStorage.setItem("importedByUser" , JSON.stringify(uniqBy(localTokens, "address")));
+          localTokens = localTokens.filter((e: any) => !removeTokens.find((el: any) => el.address == e.address));
+          localStorage.setItem("importedByUser", JSON.stringify(uniqBy(localTokens, "address")));
           console.log("else condition ", localTokens, removeTokens);
         }
         // console.log("updated chain , " , chain , copy)
@@ -154,13 +159,13 @@ const TokenList = ({
     }
   }, [renderData]);
 
-  const updateLocalstorage = (data:any, index:any) => {
-    let storedTokens:any = JSON.parse(localStorage.getItem("tokenList") || "[]");
+  const updateLocalstorage = (data: any, index: any) => {
+    let storedTokens: any = JSON.parse(localStorage.getItem("tokenList") || "[]");
     // console.log("storedTokens" , storedTokens);
-    if(storedTokens != null){
+    if (storedTokens != null) {
       storedTokens[index].enabled = !storedTokens[index]?.enabled;
       // console.log("updated storedTokens" , storedTokens);
-      localStorage.setItem("tokenList" , JSON.stringify(storedTokens));
+      localStorage.setItem("tokenList", JSON.stringify(storedTokens));
     }
   }
   const checkStatus = (url: any) => {
@@ -170,14 +175,17 @@ const TokenList = ({
     return index !== -1;
   };
 
-  const deleteList = (data:any) => {
+  const deleteList = (data: any) => {
     try {
-      let oldList = defaultList.slice();
-      let updatedList = oldList.filter((el:any) => el.data !== data);
-      console.log("updatedList" , updatedList);
-      localStorage.setItem("tokenList" , JSON.stringify(updatedList))
-      setDefaultList(updatedList);
-      setCoinList(updatedList);
+      let confirmed = confirm("Are you sure your want to delete this list?");
+      if (confirmed) {
+        let oldList = defaultList.slice();
+        let updatedList = oldList.filter((el: any) => el.data !== data);
+        console.log("updatedList", updatedList);
+        localStorage.setItem("tokenList", JSON.stringify(updatedList))
+        setDefaultList(updatedList);
+        setCoinList(updatedList);
+      }
     } catch (err: any) {
       Sentry.captureMessage("deleteList ", err);
     }
@@ -188,9 +196,9 @@ const TokenList = ({
       {tokenState?.step0 && (tokenModalList
         ? tokenModalList.map((x: any) => (
           <div
-          className="tokn-row"
-          key={x?.parentContract}
-          onClick={() => handleTokenSelect(x)}
+            className="tokn-row"
+            key={x?.parentContract}
+            onClick={() => handleTokenSelect(x)}
           >
             <div className="cryoto-box">
               <img
@@ -198,17 +206,17 @@ const TokenList = ({
                 width={32}
                 src={
                   x?.logo
-                  ? x.logo
-                  : "../../assets/images/shib-borderd-icon.png"
+                    ? x.logo
+                    : "../../assets/images/shib-borderd-icon.png"
                 }
                 alt=""
-                />
+              />
             </div>
             <div className="tkn-grid">
               <div>
                 <div className='d-flex align-items-end'>
                   <h6 className="fw-bold">{x?.parentSymbol || x?.symbol || "Unknown"}</h6>
-                  {x?.addedByUser && <small className='ms-2' style={{color:"#666"}}>Added By User</small>}
+                  {x?.addedByUser && <small className='ms-2' style={{ color: "#666" }}>Added By User</small>}
                 </div>
                 <p>{x?.parentName || x?.name || "Unknown"}</p>
               </div>
@@ -237,9 +245,10 @@ const TokenList = ({
                   className="img-fluid"
                   width={32}
                   src={
-                    x?.logoURI
-                      ? x?.logoURI
-                      : "../../assets/images/shib-borderd-icon.png"
+                    x?.logoURI && x?.logoURI.startsWith('ipfs://')
+                      ? "https://ipfs.io/ipfs/" + x?.logoURI.slice(7)
+                      : x?.logoURI ? x?.logoURI
+                        : "../../assets/images/shib-borderd-icon.png"
                   }
                   alt=""
                 />
@@ -277,10 +286,10 @@ const TokenList = ({
             {newListing ?
               (<div className="tokn-row">
                 <div className="cryoto-box">
-                  <img src={newListing?.data?.logoURI ? newListing?.data?.logoURI : "../../assets/images/eth.png"} alt={newListing?.data?.name}
+                  <img src={newListing?.data?.logoURI ? newListing?.data?.logoURI : "../../assets/images/eth.png"} width={24}
                   />
                 </div>
-                <div className="tkn-grid">
+                <div className="tkn-grid" style={{ paddingLeft: "40px" }}>
                   <div>
                     <h6 className="fw-bold">
                       {newListing?.data?.name}
@@ -303,28 +312,44 @@ const TokenList = ({
               : ("")
             }
             {defaultList && defaultList.length > 1 ?
-              (defaultList.slice(1).map((item: any,i:any, arr: any) => {
+              (defaultList.slice(1).map((item: any, i: any, arr: any) => {
                 // console.log("item contains ==> ", item);
                 return (
                   <div key={item?.data} className="flex justify-content-between mb-3">
                     <div className="flex w-50 align-items-center">
-                      <img src={item?.logo} width="35" className='me-2' />
+                      <img src={item?.logo && item?.logo.startsWith('ipfs://') ? "https://ipfs.io/ipfs/" + item?.logo.slice(7) :
+                        item?.logo ? item?.logo : "../../assets/images/shib-borderd-icon.png"
+                      } width="35" className='me-2' />
                       <div>
                         <h5>{item?.name ? item?.name : item?.data}</h5>
-                        <p>{item?.tokens?.length} tokens</p>
+                        <div className='d-flex align-items-center'>
+                          <p className="m-0">{item?.tokens?.length} tokens</p>
+                          <div className="manageTokenDropdown ms-2">
+                            <Dropdown>
+                              <Dropdown.Toggle>
+                                <Settings />
+                              </Dropdown.Toggle>
+                              <Dropdown.Menu>
+                                <Dropdown.Item onClick={()=> window.open(`https://tokenlists.org/token-list?url=${item?.data}`, "_blank")}>View List</Dropdown.Item>
+                                <Dropdown.Item onClick={() => deleteList(item?.data)} target="_blank">Remove List</Dropdown.Item>
+                              </Dropdown.Menu>
+                            </Dropdown>
+                          </div>
+                        </div>
                       </div>
+
                     </div>
                     <div className='d-flex align-items-center'>
-                      <TrashIcon width={25} height={25} onClick={() => deleteList(item?.data)} style={{cursor:'pointer'}}/>
+                      {/* <TrashIcon width={25} height={25} onClick={() => deleteList(item?.data)} style={{ cursor: 'pointer' }} /> */}
                       <Switch
-                        checked={arr[arr.findIndex((el:any) => el.data === item.data)].enabled}
-                        onChange={() => updateList(item?.data)}/>
+                        checked={arr[arr.findIndex((el: any) => el.data === item.data)].enabled}
+                        onChange={() => updateList(item?.data)} />
                     </div>
                   </div>
                 )
               })
               )
-              : "No Lists are Imported"
+              : !newListing && "No Lists are Imported"
             }
           </div>
         ))}

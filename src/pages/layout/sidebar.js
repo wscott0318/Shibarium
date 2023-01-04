@@ -160,14 +160,14 @@ export default function Sidebar({
 
   return (
     <>
-      <ChainWarning
+      {/* <ChainWarning
         title={"Switch to Goerli Testnet"}
         show={showWarning}
         setshow={() => {
           setShowWarning(true);
         }}
         externalCls="faucet-pop no-lft chain_warning"
-      />
+      /> */}
       {/* sidebar start */}
       <div className="sidebar-toggle">
         <Navbar.Brand

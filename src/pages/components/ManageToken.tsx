@@ -123,7 +123,8 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     getDefaultChain().then(chain => {
       const map = { 'bsc': 'bsc', 'eth': 'ether' };
       //@ts-ignore
-      setAddUrl(`https://${map[chain]}scan.com/address/`);
+      // setAddUrl(`https://${map[chain]}scan.com/address/`);
+      setAddUrl('https://goerli.etherscan.io/address/');
     }).catch(() => { });
   }, []);
 
@@ -171,7 +172,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     logo: "",
     chainId: ""
   });
-  // console.log("local tokens ==>" , localTokens);
+  console.log("search tokens " ,  searchToken);
   const getTokensList = () => {
     try {
       getWalletTokenList().then((res) => {
@@ -247,12 +248,13 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       console.log("token info ", tokenInfo);
       let obj: any;
       if (tokenInfo) {
+        let logoURI = "https://ipfs.io/ipfs/"+tokenInfo?.logoURI.slice(7);
         obj = {
           parentContract: tokenInfo?.address,
           name: tokenInfo?.name,
           symbol: tokenInfo?.symbol,
           decimals: tokenInfo?.decimals,
-          logo: tokenInfo?.logoURI,
+          logo: logoURI,
           chainId: tokenInfo?.chainId,
           addedByUser: true,
         }
@@ -353,16 +355,20 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
         else {
           const isValidAddress = web3.utils.isAddress(String(newToken));
           if (isValidAddress && newToken) {
-            console.log("line no. 349")
             let tokenInfo = searchToken?.tokenInfo;
             console.log("token info ", tokenInfo);
             if (tokenInfo) {
+              let logoURI = tokenInfo?.logoURI;
+              if(tokenInfo.logoURI.startsWith('ipfs://')){
+                logoURI = "https://ipfs.io/ipfs/"+tokenInfo?.logoURI.slice(7);
+              }
+              // console.log(tokenInfo.logoURI, logoURI);
               setTempTokens({
                 parentContract: tokenInfo?.address,
                 name: tokenInfo?.name,
                 symbol: tokenInfo?.symbol,
                 decimals: tokenInfo?.decimals,
-                logo: tokenInfo?.logoURI,
+                logo: logoURI,
                 chainId: tokenInfo?.chainId,
                 addedByUser: true,
               });
@@ -626,7 +632,12 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                         placeholder="Add list by https://"
                         value={linkQuery}
                         onChange={(e) => {
-                          setLinkQuery(e.target.value);
+                          if(e.target.value){
+                            setLinkQuery(e.target.value);
+                          }
+                          else{
+                            setLinkQuery("");
+                          }
                         }}
                       />
                       <div className="search-icon">
@@ -977,7 +988,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                                       className="img-fluid"
                                       src={
                                         tempTokens?.logo
-                                          ? `https://${tempTokens?.logo}`
+                                          ? tempTokens?.logo
                                           : "../../../assets/images/shib-borderd-icon.png"
                                       }
                                       alt=""
@@ -1176,7 +1187,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                                 ? x.logo
                                 : "../../../assets/images/shib-borderd-icon.png"
                             }
-                            alt=""
+                            width={32}
                           />
                         </div>
                         <div className="tkn-grid">

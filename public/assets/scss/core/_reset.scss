@@ -1014,6 +1014,23 @@ td.no_record img{
 .user_Wallet:first-of-type{
     width: 97%;
 }
+.manageTokenDropdown .dropdown button.dropdown-toggle {
+    padding: 0;
+    background: none;
+}
+.manageTokenDropdown .dropdown button.dropdown-toggle svg{
+    width: 14px;
+    color: #666;
+}
+.manageTokenDropdown .dropdown button.dropdown-toggle::after{
+    display: none;
+}
+.manageTokenDropdown .dropdown button.dropdown-toggle:hover{
+    background-color: transparent;
+    border-color:transparent;
+    color: #666;
+
+}
 @media only screen and (max-width: 991.98px){
     .shib-popup .modal-content {
         // height: 75%;
