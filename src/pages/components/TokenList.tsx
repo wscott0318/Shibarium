@@ -14,6 +14,7 @@ import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 const TokenList = ({
   coinList = [],
   DEFAULT_ITEM,
+  searchedList,
   setCoinList,
   // shouldReset,
   showWarning,
@@ -35,17 +36,41 @@ const TokenList = ({
   const { chainId = 1, account, library } = useActiveWeb3React();
   const [importedCoins, setImportedCoins] = useState<any>([]);
   const [dup, setdup] = useState(false);
-  const [searchedList, setSearchedList] = useState<any>(null);
+  const [defaultfetched, setDefaultfetched] = useState<any>([]);
+  const [searched , setSearched] = useState<any>();
   const [userAddedTokens, setUserAddedTokens] = useState<any>(
     JSON.parse(localStorage.getItem("importedByUser") || "[]")
   );
-  useEffect(() => {
+  const sortedLists = async () => {
+    if (linkQuery) {
+      await fetch(
+        linkQuery?.includes("http")
+          ? linkQuery
+          : generateSecondary(linkQuery)
+      ).then(async (response) => {
+        const res = await response.json();
+        console.log("entered use effect try block ", res);
+        const obj = {
+          tokens: res?.tokens,
+          name: res?.name,
+          logo: res?.logoURI,
+          data: linkQuery,
+          enabled: false
+        }
+        addToLocalStorage(obj);
+      }).catch((err: any) => { })
+    }
+  }
+  console.log("searchedList", searchedList);
+  const getDefaultTokenList = () => {
     // type URL_ARRAY_types = 'eth' | 'bsc' | 'polygon';
     const defaultTokenUrls = URL_ARRAY[defaultChain].filter(
       (item: any) => item?.default
     );
+    console.log("data ", defaultTokenUrls);
+    console.log("render data ", renderData);
     Promise.all(
-      [defaultTokenUrls, ...coinList].map(async (item) => {
+      defaultTokenUrls.map(async (item) => {
         try {
           const response = await fetch(
             item?.data?.includes("http")
@@ -56,43 +81,59 @@ const TokenList = ({
           const tokens = res?.tokens;
           const name = res?.name;
           const logo = res?.logoURI;
-          return { ...item, name, logo, tokens, locked: false };
-        } catch (e) {
-          return { ...item, locked: true };
+          return { ...item, name, logo, tokens };
+        } catch (e: any) {
+          // console.log("entered use effect catch block ", item, e);
+          return { ...item };
         }
       })
     )
       .then((response) => {
-        const uniqArray = uniqBy(response, "name");
-        setRenderData(uniqArray);
-        setNewListing(response[1].res);
-        addToLocalStorage(uniqArray);
+        console.log("entered use effect try block ", response);
+        let uniqList = uniqBy(response, 'data');
+        addToLocalStorage(uniqList);
+        // setDefaultfetched(uniqList);
       })
       .catch((err) => { console.log() });
-  }, [coinList, chainId]);
+  }
 
+  console.log("default list ", defaultList);
+  useEffect(() => {
+    getDefaultTokenList();
+
+  }, []);
   useEffect(() => {
     let fetchList = JSON.parse(localStorage.getItem("tokenList") || "[]");
-    let enabledTokens = fetchList.filter((e: any) => e.enabled === true);
+    let enabledTokens = fetchList?.filter((e: any) => e?.enabled === true);
     enabledTokens.map((e: any) => {
       let uniqueTokens = uniqBy(e?.tokens, "name");
       return setImportedCoins([...importedCoins, ...uniqueTokens]);
     });
   }, []);
 
-  // console.log("tokenModalList" , tokenModalList);
+  console.log("new listing ", newListing);
   const addToLocalStorage = async (response: any) => {
-
-    let newImportedList = { ...response[1] };
     let oldList;
-    if (localStorage.getItem("tokenList")) {
-      oldList = JSON.parse(localStorage.getItem("tokenList") || "[]");
-      var newTokens = [...oldList, newImportedList];
+    oldList = JSON.parse(localStorage.getItem("tokenList") || "[]");
+    if (oldList.length) {
+      let newImportedList = response;
+      var newTokens: any;
+      if (newImportedList.length) {
+        newTokens = [...oldList, ...newImportedList];
+      }
+      else {
+        newTokens = [...oldList, newImportedList];
+      }
       newTokens = uniqBy(newTokens, "name")
+      // console.log("response ", newTokens)
+      setRenderData(newTokens);
       localStorage.setItem("tokenList", JSON.stringify(newTokens));
     }
     else {
-      localStorage.setItem("tokenList", JSON.stringify(response));
+      let newList = [...response];
+      setDefaultList(newList);
+      localStorage.setItem("tokenList", JSON.stringify(newList));
+      // console.log("local storage token list ", response);
     }
     // console.log("local storage token list " ,localStorage.getItem("tokenList"));
   }
@@ -101,7 +142,7 @@ const TokenList = ({
     if (linkQuery) {
       if (defaultList.filter((e: any) => e.data == linkQuery).length > 0) {
         setdup(true);
-        setSearchedList(defaultList.filter((e: any) => e.data == linkQuery));
+        setSearched(defaultList.filter((e: any) => e.data == linkQuery));
       }
       else {
         setdup(false);
@@ -144,7 +185,7 @@ const TokenList = ({
           let localTokens = JSON.parse(localStorage.getItem("importedByUser") || "[]")
           localTokens = localTokens.filter((e: any) => !removeTokens.find((el: any) => el.address == e.address));
           localStorage.setItem("importedByUser", JSON.stringify(uniqBy(localTokens, "address")));
-          console.log("else condition ", localTokens, removeTokens);
+          // console.log("else condition ", localTokens, removeTokens);
         }
         // console.log("updated chain , " , chain , copy)
       }
@@ -181,7 +222,7 @@ const TokenList = ({
       if (confirmed) {
         let oldList = defaultList.slice();
         let updatedList = oldList.filter((el: any) => el.data !== data);
-        console.log("updatedList", updatedList);
+        // console.log("updatedList", updatedList);
         localStorage.setItem("tokenList", JSON.stringify(updatedList))
         setDefaultList(updatedList);
         setCoinList(updatedList);
@@ -190,10 +231,11 @@ const TokenList = ({
       Sentry.captureMessage("deleteList ", err);
     }
   }
-  console.log("defaultList ==> ", defaultList);
+  // console.log("defaultList ==> ", defaultList);
   return (
     <>
-      {tokenState?.step0 && (tokenModalList
+
+      {tokenState?.step0 && !searchedList && (tokenModalList
         ? tokenModalList.map((x: any) => (
           <div
             className="tokn-row"
@@ -230,9 +272,44 @@ const TokenList = ({
         ))
         : null)
       }
-      {tokenState?.step0 &&
+      {tokenState?.step0 && !searchedList &&
         importedCoins?.length
         ? importedCoins.map((x: any) => {
+          // console.log("value of x ", x);
+          return (
+            <div
+              className="tokn-row"
+              key={x?.address}
+              onClick={() => handleTokenSelect(x)}
+            >
+              <div className="cryoto-box">
+                <img
+                  className="img-fluid"
+                  width={32}
+                  src={
+                    x?.logo ? x?.logo : x?.logoURI && x?.logoURI.startsWith('ipfs://') ? "https://ipfs.io/ipfs/" + x?.logoURI.slice(7) :
+                      x?.logoURI ? x?.logoURI : "../../assets/images/shib-borderd-icon.png"
+                  }
+                  alt=""
+                />
+              </div>
+              <div className="tkn-grid">
+                <div>
+                  <h6 className="fw-bold">{x?.symbol}</h6>
+                  <p>{x?.name}</p>
+                </div>
+                {/* <div>
+                      <h6 className="fw-bold">
+                        {x?.balance ? x.balance : "00.00"}
+                      </h6>
+                    </div> */}
+              </div>
+            </div>)
+        })
+        : null
+      }
+      {tokenState?.step0 && searchedList?.length != 0 &&
+        searchedList?.map((x: any) => {
           // console.log("value of x ", x);
           return (
             <div
@@ -255,8 +332,8 @@ const TokenList = ({
               </div>
               <div className="tkn-grid">
                 <div>
-                  <h6 className="fw-bold">{x?.symbol}</h6>
-                  <p>{x?.name}</p>
+                  <h6 className="fw-bold">{x?.symbol || x?.parentSymbol}</h6>
+                  <p>{x?.name || x?.parentName}</p>
                 </div>
                 {/* <div>
                       <h6 className="fw-bold">
@@ -266,7 +343,6 @@ const TokenList = ({
               </div>
             </div>)
         })
-        : null
       }
       {tokenState.step1 &&
         (showWarning ? (
@@ -276,6 +352,7 @@ const TokenList = ({
               setNewListing(null);
               setShowWarning(false);
             }}
+            sortedLists={sortedLists}
             setCoinList={setCoinList}
             setShowWarning={setShowWarning}
             listing={newListing}
@@ -293,6 +370,7 @@ const TokenList = ({
                   <div>
                     <h6 className="fw-bold">
                       {newListing?.data?.name}
+                      {/* {console.log("new listing" ,newListing)} */}
                     </h6>
                     <p>{newListing?.data?.tokens?.length || 0} tokens</p>
                   </div>
@@ -311,8 +389,8 @@ const TokenList = ({
               )
               : ("")
             }
-            {defaultList && defaultList.length > 1 ?
-              (defaultList.slice(1).map((item: any, i: any, arr: any) => {
+            {defaultList && defaultList.length > 0 &&
+              (defaultList.map((item: any, i: any, arr: any) => {
                 // console.log("item contains ==> ", item);
                 return (
                   <div key={item?.data} className="flex justify-content-between mb-3">
@@ -330,7 +408,7 @@ const TokenList = ({
                                 <Settings />
                               </Dropdown.Toggle>
                               <Dropdown.Menu>
-                                <Dropdown.Item onClick={()=> window.open(`https://tokenlists.org/token-list?url=${item?.data}`, "_blank")}>View List</Dropdown.Item>
+                                <Dropdown.Item onClick={() => window.open(`https://tokenlists.org/token-list?url=${item?.data}`, "_blank")}>View List</Dropdown.Item>
                                 <Dropdown.Item onClick={() => deleteList(item?.data)} target="_blank">Remove List</Dropdown.Item>
                               </Dropdown.Menu>
                             </Dropdown>
@@ -349,8 +427,44 @@ const TokenList = ({
                 )
               })
               )
-              : !newListing && "No Lists are Imported"
             }
+            {(defaultfetched && defaultfetched.map((item: any, i: any, arr: any) => {
+              // console.log("item contains ==> ", item);
+              return (
+                <div key={item?.data} className="flex justify-content-between mb-3">
+                  <div className="flex w-50 align-items-center">
+                    <img src={item?.logo && item?.logo.startsWith('ipfs://') ? "https://ipfs.io/ipfs/" + item?.logo.slice(7) :
+                      item?.logo ? item?.logo : "../../assets/images/shib-borderd-icon.png"
+                    } width="35" className='me-2' />
+                    <div>
+                      <h5>{item?.name ? item?.name : item?.data}</h5>
+                      <div className='d-flex align-items-center'>
+                        <p className="m-0">{item?.tokens?.length} tokens</p>
+                        <div className="manageTokenDropdown ms-2">
+                          <Dropdown>
+                            <Dropdown.Toggle>
+                              <Settings />
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                              <Dropdown.Item onClick={() => window.open(`https://tokenlists.org/token-list?url=${item?.data}`, "_blank")}>View List</Dropdown.Item>
+                              <Dropdown.Item onClick={() => deleteList(item?.data)} target="_blank">Remove List</Dropdown.Item>
+                            </Dropdown.Menu>
+                          </Dropdown>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div className='d-flex align-items-center'>
+                    {/* <TrashIcon width={25} height={25} onClick={() => deleteList(item?.data)} style={{ cursor: 'pointer' }} /> */}
+                    <Switch
+                      checked={arr[arr.findIndex((el: any) => el.data === item.data)].enabled}
+                      onChange={() => updateList(item?.data)} />
+                  </div>
+                </div>
+              )
+            })
+            )}
           </div>
         ))}
     </>

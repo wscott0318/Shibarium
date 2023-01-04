@@ -142,7 +142,7 @@ export default function Unbond() {
         </section>
 
         {userType === 'Validator' ? <section className="mid_cnt_area">
-          <div className="container">
+          <div className="container reward_table">
             <div className="cmn_dasdrd_table block-fix">
               <div className="table-responsive">
                 <table className="table table-borderless fix-tabl-layout text-start">
@@ -213,7 +213,7 @@ export default function Unbond() {
         </section>
           :
           <section className="mid_cnt_area">
-            <div className="container">
+            <div className="container reward_table">
               <div className="cmn_dasdrd_table block-fix">
                 <div className="table-responsive">
                   <table className="table table-borderless fix-tabl-layout text-start">

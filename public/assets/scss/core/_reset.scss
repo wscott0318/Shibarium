@@ -513,6 +513,9 @@ ul {
 .pop_main_h{
     margin-bottom: 25px;
 }
+.container.reward_table table tbody tr td:last-of-type {
+    text-align: center;
+}
 .cmn_modal{
     ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
         color: $white;
