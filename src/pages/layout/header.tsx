@@ -117,14 +117,14 @@ export default function Header() {
 
   return (
     <>
-      <ChainWarning
+      {/* <ChainWarning
         title={"Switch to Goerli Testnet"}
         show={showWarning}
         setshow={() => {
           setShowWarning(true);
         }}
         externalCls="faucet-pop no-lft chain_warning"
-      />
+      /> */}
       <header
         className={
           scroll

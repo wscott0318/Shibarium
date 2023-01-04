@@ -172,7 +172,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     logo: "",
     chainId: ""
   });
-  // console.log("local tokens ==>" , localTokens);
+  console.log("search tokens " ,  searchToken);
   const getTokensList = () => {
     try {
       getWalletTokenList().then((res) => {
@@ -1187,7 +1187,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                                 ? x.logo
                                 : "../../../assets/images/shib-borderd-icon.png"
                             }
-                            alt=""
+                            width={32}
                           />
                         </div>
                         <div className="tkn-grid">
