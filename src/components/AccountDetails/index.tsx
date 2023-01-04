@@ -66,15 +66,15 @@ const AccountDetails: FC<AccountDetailsProps> = ({
 //      }
 //  },[])
 
-  useEffect(() => {
-    const { ethereum } = window as any
-    const handleAccountsChanged = (accounts: string[]) => {
-      // console.log("Handling 'accountsChanged' event with payload", accounts)
-      dispatch(clearAllTransactions({ chainId }))
-    }
+  // useEffect(() => {
+  //   const { ethereum } = window as any
+  //   const handleAccountsChanged = (accounts: string[]) => {
+  //     // console.log("Handling 'accountsChanged' event with payload", accounts)
+  //     dispatch(clearAllTransactions({ chainId }))
+  //   }
 
-    ethereum.on('accountsChanged', handleAccountsChanged)
-  }, [active])
+  //   ethereum.on('accountsChanged', handleAccountsChanged)
+  // }, [active])
 
   // console.log({pendingTransactions})
   const logoutHandler = async () => {
