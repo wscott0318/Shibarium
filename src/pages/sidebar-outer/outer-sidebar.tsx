@@ -68,31 +68,31 @@ export default function SidebarOuter({
         <ul className="outr-links">
           <li
             className={`out-navlink ${faqType === "0" && "out-active"}`}
-            onClick={() => setFaqType("0")}
+            onClick={() => {setFaqType("0");handleMenuState(); }}
           >
             <a>Technical FAQ</a>
           </li>
           <li
             className={`out-navlink ${faqType === "1" && "out-active"}`}
-            onClick={() => setFaqType("1")}
+            onClick={() => {setFaqType("1");handleMenuState()}}
           >
             <a>Delegator FAQ</a>
           </li>
           <li
             className={`out-navlink ${faqType === "2" && "out-active"}`}
-            onClick={() => setFaqType("2")}
+            onClick={() => {setFaqType("2");handleMenuState()}}
           >
             <a>Validator FAQ</a>
           </li>
           <li
             className={`out-navlink ${faqType === "3" && "out-active"}`}
-            onClick={() => setFaqType("3")}
+            onClick={() => {setFaqType("3");handleMenuState()}}
           >
             <a>Staking FAQ</a>
           </li>
           <li
             className={`out-navlink ${faqType === "4" && "out-active"}`}
-            onClick={() => setFaqType("4")}
+            onClick={() => {setFaqType("4");handleMenuState()}}
           >
             <a>Wallet FAQ</a>
           </li>

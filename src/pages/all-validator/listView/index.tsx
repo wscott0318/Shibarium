@@ -127,11 +127,12 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                               ? "Stake here"
                               : "Delegate"}
                           </button>
-                          {!account || x.fundamental === 1 || x.uptimePercent <= inActiveCount
+                          {account && (x.fundamental === 1 || x.uptimePercent <= inActiveCount
                             ? (<div className="tool-desc">This is a fundamental node. <br /> Delegation is not enabled here.</div>)
                             : (router.asPath.split("/")[1] === "migrate-stake"
                               ? (<div className="tool-desc tool-desc-sm">{x.contractAddress == migrateData.contractAddress ? "Stakes cannot be migrated to same Validator." : "Migrate Your Stakes here."}</div>)
-                              : (<div className="tool-desc tool-desc-sm">Delegation is enabled.</div>))}
+                              : (<div className="tool-desc tool-desc-sm">Delegation is enabled.</div>)))}
+                          {!account && <div className="tool-desc tool-desc-sm">Login to enable delegation.</div>}
                         </div>
                       )}
                     </td>

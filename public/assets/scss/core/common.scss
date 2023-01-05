@@ -181,8 +181,8 @@
     background: $body-bg-secondry;
     // padding: 20px;
     color: $white;
-    right: 0;
-    left: auto;
+    left: 50%;
+    transform: translate(-80%);
     top: 50px;
     margin: 0;
     padding: 0;
@@ -218,6 +218,11 @@
     &:visited {
       color: $white;
     }
+  }
+}
+@media (max-width:992px) and (min-width:768px){
+  .cus-dd .dropdown-menu {
+    transform: translate(-60%);
   }
 }
 .grey-txt {

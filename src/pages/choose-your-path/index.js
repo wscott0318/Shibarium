@@ -30,7 +30,7 @@ const Delegatorvalidator = () => {
                 </div>
                 <div className="container">
                     <div className="row shiba-row mb-lg-5">
-                        <div className="col-lg-8 shiba-col order-2 order-lg-1">
+                        <div className="col-lg-8 shiba-col order-2 order-lg-1" style={{zIndex: 1}}>
                             <h3 className='mb-4 ff-mos'>Become a Delegator</h3>
                             <p className=" ff-mos">
                                 Participate as a delegator to earn rewards and contribute to network security. Delegators are token holders who cannot, or do not want to run a validator node themselves. Instead, they secure the network by delegating their stake to validator nodes and play a critical role in the system, as they are responsible for choosing validators. They run their delegation transaction on the staking contract on the Ethereum mainnet. 

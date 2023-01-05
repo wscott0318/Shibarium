@@ -184,7 +184,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
                 value={searchKey}
                 onChange={(e) => setSearchKey(e.target.value)}
               />
-              <div className='search-icon-block btn btn-active black-btn ff-mos' onClick={() => fetchValList()}><SearchIcon width={20} /></div>
+              <div className={`search-icon-block btn btn-active black-btn ff-mos ${!searchKey && "disabled"}`} onClick={() => fetchValList()}><SearchIcon width={20} /></div>
               {searchKey ? <div className='icon-block custom-icon-block' onClick={() => setSearchKey("")}><XCircleIcon width={20} color={'black'} /></div> : null}
             </div>
             <div className="right-section">

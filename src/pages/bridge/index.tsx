@@ -1907,6 +1907,7 @@ export default function Withdraw() {
                       <div className="col-lg-6">
                         <button
                           // type="button w-100"
+                          onClick={() => router.push("/faq")}
                           className="btn white-btn w-100"
                         >
                           FAQs
@@ -2090,9 +2091,9 @@ export default function Withdraw() {
                                     </div>
                                     <div className="col-lg-6 col-xxl-7 col-sm-12 field-col">
                                       <div className="form-field position-relative two-fld">
-                                        <div className="mid-chain w-100">
+                                        <div className={`mid-chain w-100 ${selectedToken?.type == undefined && "disabled"}`}>
                                           <input
-                                            className="w-100"
+                                            className={`w-100 ${selectedToken?.type == undefined && "disabled"}`}
                                             type="text"
                                             placeholder="0.00"
                                             name="amount"
