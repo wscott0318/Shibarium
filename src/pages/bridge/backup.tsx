@@ -1934,7 +1934,7 @@ export default function Withdraw() {
                         initialValues={{
                           amount: "",
                           fromChain: chainId,
-                          toChain: chainId == 5 ? 417 : 5,
+                          toChain: chainId == 5 ? 517 : 5,
                         }}
                         validationSchema={depositValidations}
                         onSubmit={(values, { resetForm }) => {
@@ -2201,7 +2201,7 @@ export default function Withdraw() {
                     <Formik
                       initialValues={{
                         withdrawAmount: "",
-                        fromChain: chainId == 5 ? 417 : 5,
+                        fromChain: chainId == 5 ? 517 : 5,
                         toChain: chainId,
                       }}
                       validationSchema={withdrawValidations}
