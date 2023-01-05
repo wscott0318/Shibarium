@@ -6,7 +6,7 @@ import { getBoneUSDValue } from "app/services/apis/validator";
 import NumberFormat from "react-number-format";
 import { useActiveWeb3React, useLocalWeb3 } from "app/services/web3";
 import { getExplorerLink } from "app/functions/explorer";
-import { ChainId } from "shibarium-chains";
+import { ChainId } from "shibarium-get-chains";
 import ToastNotify from "pages/components/ToastNotify";
 import { useTokenBalance, useWalletTokenBalance } from "app/hooks/useTokenBalance";
 import Web3 from "web3";

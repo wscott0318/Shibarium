@@ -11,7 +11,7 @@ import {
   KASHI_ADDRESS,
   Pair,
   Token,
-} from 'shibarium-chains'
+} from 'shibarium-get-chains'
 import { CHAINLINK_PRICE_FEED_MAP } from '../../config/oracles/chainlink'
 import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from '../../config/routing'
 import { e10 } from '../../functions/math'

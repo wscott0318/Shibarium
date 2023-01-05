@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import * as Sentry from '@sentry/browser'
-import { Pair, Token } from 'shibarium-chains'
+import { Pair, Token } from 'shibarium-get-chains'
 import { ConstantProductPool, Fee } from '@sushiswap/trident-sdk'
 // import { PoolUnion } from '../features/trident/types'
 // import { RoutingInfo } from '../hooks/useBestTridentTrade'

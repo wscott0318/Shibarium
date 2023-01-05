@@ -1,4 +1,4 @@
-import { ChainId, Token } from 'shibarium-chains'
+import { ChainId, Token } from 'shibarium-get-chains'
 
 // Default Ethereum chain tokens
 export const ALPHA = new Token(

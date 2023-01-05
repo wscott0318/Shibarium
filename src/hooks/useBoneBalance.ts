@@ -1,5 +1,5 @@
 
-import { ChainId } from "shibarium-chains";
+import { ChainId } from "shibarium-get-chains";
 import { useActiveWeb3React } from "app/services/web3"
 import { useEffect, useState } from "react"
 import { useEthBalance } from "./useEthBalance";

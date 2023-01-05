@@ -13,7 +13,7 @@ import DelegatorAccount from "../my-account/DelegatorAccount";
 import ValidatorAccount from "../my-account/ValidatorAccount";
 import LoadingSpinner from "pages/components/Loading";
 import { getBoneUSDValue } from "../../services/apis/validator/index";
-import { ChainId } from "shibarium-chains";
+import { ChainId } from "shibarium-get-chains";
 import { BONE_ID } from "../../config/constant";
 import ListData from "./ListData"
 

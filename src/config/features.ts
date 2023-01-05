@@ -1,4 +1,4 @@
-import { ChainId } from 'shibarium-chains'
+import { ChainId } from 'shibarium-get-chains'
 import { Feature } from 'app/enums'
 
 type FeatureMap = { readonly [chainId in ChainId]?: Feature[] }

@@ -1,4 +1,4 @@
-import { ChainId } from 'shibarium-chains'
+import { ChainId } from 'shibarium-get-chains'
 
 import ARBITRUM from './mappings/arbitrum'
 import AVALANCHE from './mappings/avalanche'

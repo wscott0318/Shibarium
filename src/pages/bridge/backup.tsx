@@ -1,24 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect, useContext } from "react";
-import {
-  Button,
-  Container,
-  Nav,
-  Navbar,
-  NavDropdown,
-  Dropdown,
-  Modal,
-} from "react-bootstrap";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Popup from "../components/PopUp";
 import NumberFormat from "react-number-format";
 import CommonModal from "../components/CommonModel";
 import InnerHeader from "../inner-header";
 import Link from "next/link";
 import {
-  NoEthereumProviderError,
   UserRejectedRequestError as UserRejectedRequestErrorInjected,
 } from "@web3-react/injected-connector";
 import Sidebar from "../layout/sidebar";
@@ -962,7 +951,7 @@ export default function Withdraw() {
               <div className="popmodal-body no-ht">
                 <div className="pop-block">
                   <div className="pop-top">
-                    <div className="cnfrm_box dark-bg mt-0">
+                    <div className="mt-0 cnfrm_box dark-bg">
                       <div className="top_overview col-12">
                         <div className="img-flexible">
                           <img
@@ -1039,11 +1028,11 @@ export default function Withdraw() {
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src={NETWORK_ICON[chainId == 5 ? 417 : 5]}
+                            src={NETWORK_ICON[chainId == 5 ? 517 : 5]}
                             alt=""
                           />
                         </div>
-                        <p>{NETWORK_LABEL[chainId == 5 ? 417 : 5]}</p>
+                        <p>{NETWORK_LABEL[chainId == 5 ? 517 : 5]}</p>
                       </div>
                     </div>
                     {/* <div className="amt-section position-relative">
@@ -1084,7 +1073,7 @@ export default function Withdraw() {
               <div className="popmodal-body no-ht">
                 <div className="pop-block">
                   <div className="pop-top">
-                    <div className="cnfrm_box dark-bg mt-0">
+                    <div className="mt-0 cnfrm_box dark-bg">
                       <div className="top_overview col-12">
                         <span>
                           <img
@@ -1161,16 +1150,16 @@ export default function Withdraw() {
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src={NETWORK_ICON[chainId == 5 ? 417 : 5]}
+                            src={NETWORK_ICON[chainId == 5 ? 517 : 5]}
                             alt=""
                           />
                         </div>
-                        <p>{NETWORK_LABEL[chainId == 5 ? 417 : 5]}</p>
+                        <p>{NETWORK_LABEL[chainId == 5 ? 517 : 5]}</p>
                       </div>
                     </div>
                   </div>
                   <div className="pop-bottom">
-                    <div className="text-section text-center">
+                    <div className="text-center text-section">
                       <h4 className="pop-hd-md" style={{ color: "var(--bs-orange)" }}>Moving funds</h4>
                       <p>
                         It will take up to 10 - 15 minutes to move the funds on
@@ -1207,7 +1196,7 @@ export default function Withdraw() {
               <div className="popmodal-body no-ht">
                 <div className="pop-block">
                   <div className="pop-top">
-                    <div className="cnfrm_box dark-bg mt-0">
+                    <div className="mt-0 cnfrm_box dark-bg">
                       <div className="top_overview col-12">
                         <span>
                           <img
@@ -1232,7 +1221,7 @@ export default function Withdraw() {
                       </div>
                     </div>
                     <div className="image_area row h-75">
-                      <div className="col-12 text-center watch-img-sec flex align-items-center justify-content-center">
+                      <div className="flex text-center col-12 watch-img-sec align-items-center justify-content-center">
                         <img
                           className="img-fluid img-wdth"
                           src="../../assets/images/cmpete-step.png"
@@ -1280,7 +1269,7 @@ export default function Withdraw() {
               <div className="popmodal-body no-ht">
                 <div className="pop-block withdraw_pop">
                   <div className="pop-top">
-                    <div className="cnfrm_box dark-bg mt-0">
+                    <div className="mt-0 cnfrm_box dark-bg">
                       <div className="top_overview col-12">
                         <span>
                           <img
@@ -1307,11 +1296,11 @@ export default function Withdraw() {
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src={NETWORK_ICON[chainId == 5 ? 417 : 5]}
+                            src={NETWORK_ICON[chainId == 5 ? 517 : 5]}
                             alt=""
                           />
                         </div>
-                        <p>{NETWORK_LABEL[chainId == 5 ? 417 : 5]}</p>
+                        <p>{NETWORK_LABEL[chainId == 5 ? 517 : 5]}</p>
                       </div>
                       <div className="text-center box-block">
                         <div className="d-inline-block right-arrow">
@@ -1364,7 +1353,7 @@ export default function Withdraw() {
                     </div>
                   </div>
                   <div className="pop-bottom">
-                    <div className="text-section text-center">
+                    <div className="text-center text-section">
                       <h4 className="pop-hd-md" style={{ color: "var(--bs-orange)" }}>Initialize Whitdraw</h4>
                       <p>
                         It will take up to 60 mins to 3 hours to reach the
@@ -1391,7 +1380,7 @@ export default function Withdraw() {
               <div className="popmodal-body no-ht">
                 <div className="pop-block withdraw_pop">
                   <div className="pop-top">
-                    <div className="cnfrm_box dark-bg mt-0">
+                    <div className="mt-0 cnfrm_box dark-bg">
                       <div className="top_overview col-12">
                         <span>
                           <img
@@ -1418,11 +1407,11 @@ export default function Withdraw() {
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src={NETWORK_ICON[chainId == 5 ? 417 : 5]}
+                            src={NETWORK_ICON[chainId == 5 ? 517 : 5]}
                             alt=""
                           />
                         </div>
-                        <p>{NETWORK_LABEL[chainId == 5 ? 417 : 5]}</p>
+                        <p>{NETWORK_LABEL[chainId == 5 ? 517 : 5]}</p>
                       </div>
                       <div className="text-center box-block">
                         <div className="d-inline-block right-arrow">
@@ -1483,7 +1472,7 @@ export default function Withdraw() {
 
                   <div className="myTipsArea">Tip: Custom tokens are stored locally in your browser </div>
                   <div className="pop-bottom">
-                    <div className="text-section text-center">
+                    <div className="text-center text-section">
                       <h4 className="pop-hd-md" style={{ color: "var(--bs-orange)" }}>Moving funds to Ethereum</h4>
                       <p>
                         It will take up to 60 mins to 3 hours to reach the
@@ -1545,7 +1534,7 @@ export default function Withdraw() {
                     </div>
                     {/* <div className="pop-action">
                       <a
-                        className="btn primary-btn w-100 w-100"
+                        className="btn primary-btn w-100"
                         href="javascript:void(0)"
                       >
                         ETHEREUM MAINNET
@@ -1553,7 +1542,7 @@ export default function Withdraw() {
                     </div> */}
                   </div>
                   <div className="pop-bottom">
-                    <div className="text-section text-center">
+                    <div className="text-center text-section">
                       <h4 className="pop-hd-md" style={{ color: "var(--bs-orange)" }}>Complete Withdraw</h4>
                       <p>
                         You need to confirm one more transaction to get your
@@ -1730,7 +1719,7 @@ export default function Withdraw() {
                     </div>
                     <div className="pop-action">
                       <a
-                        className="btn primary-btn w-100 w-100"
+                        className="btn primary-btn w-100"
                         href="javascript:void(0)"
                       >
                         TRANSFER COMPLETE
@@ -1891,7 +1880,7 @@ export default function Withdraw() {
                       </div>
                     </div> */}
                     <div className="sub-buttons-sec row buttons-fix">
-                      <div className="col-lg-6 mb-3 mb-lg-0">
+                      <div className="mb-3 col-lg-6 mb-lg-0">
                         {/* <button type="button" className="btn white-btn w-100">
                           How Shibarium Works
                         </button> */}
@@ -1945,7 +1934,7 @@ export default function Withdraw() {
                         initialValues={{
                           amount: "",
                           fromChain: chainId,
-                          toChain: chainId == 5 ? 417 : 5,
+                          toChain: chainId == 5 ? 517 : 5,
                         }}
                         validationSchema={depositValidations}
                         onSubmit={(values, { resetForm }) => {
@@ -2002,7 +1991,7 @@ export default function Withdraw() {
                                           ChainId.SHIBARIUM,
                                           ChainId.GÖRLI,
                                           ChainId.ETHEREUM,
-                                          ChainId.PUPPYNET, */}
+                                          ChainId.PUPPYNET517, */}
                                         {/* //  @ts-ignore
                                         ].map((key: ChainId, i: number) => {
                                           return (
@@ -2039,7 +2028,7 @@ export default function Withdraw() {
                                     </div>
                                   </div>
                                   <div className="field-grid row">
-                                    <div className="col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-3 mb-lg-0  res-align">
+                                    <div className="mb-3 col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-lg-0 res-align">
                                       <div
                                         className="form-field position-relative fix-coin-field"
                                         onClick={() => {
@@ -2107,7 +2096,7 @@ export default function Withdraw() {
                                         </div>
                                       </div>
                                       {touched.amount && errors.amount ? (
-                                        <p className="primary-text pt-0 pl-2">
+                                        <p className="pt-0 pl-2 primary-text">
                                           {errors.amount}
                                         </p>
                                       ) : null}
@@ -2128,7 +2117,7 @@ export default function Withdraw() {
                                             className="img-fluid"
                                             src={
                                               NETWORK_ICON[
-                                              chainId == 5 ? 417 : 5
+                                              chainId == 5 ? 517 : 5
                                               ]
                                             }
                                             alt=""
@@ -2143,7 +2132,7 @@ export default function Withdraw() {
                                           placeholder="Shibarium chain"
                                           value={
                                             NETWORK_LABEL[
-                                            chainId == 5 ? 417 : 5
+                                            chainId == 5 ? 517 : 5
                                             ]
                                           }
                                         />
@@ -2158,7 +2147,7 @@ export default function Withdraw() {
                                           ChainId.SHIBARIUM,
                                           ChainId.GÖRLI,
                                           ChainId.ETHEREUM,
-                                          ChainId.PUPPYNET, */}
+                                          ChainId.PUPPYNET517, */}
                                       {/* //  @ts-ignore
                                         ].map((key: ChainId, i: number) => {
                                           // console.log(values);
@@ -2212,7 +2201,7 @@ export default function Withdraw() {
                     <Formik
                       initialValues={{
                         withdrawAmount: "",
-                        fromChain: chainId == 5 ? 417 : 5,
+                        fromChain: chainId == 5 ? 517 : 5,
                         toChain: chainId,
                       }}
                       validationSchema={withdrawValidations}
@@ -2249,7 +2238,7 @@ export default function Withdraw() {
                                             className="img-fluid"
                                             src={
                                               NETWORK_ICON[
-                                              chainId == 5 ? 417 : 5
+                                              chainId == 5 ? 517 : 5
                                               ]
                                             }
                                             alt=""
@@ -2263,7 +2252,7 @@ export default function Withdraw() {
                                           // placeholder="Shibarium Mainnet"
                                           value={
                                             NETWORK_LABEL[
-                                            chainId == 5 ? 417 : 5
+                                            chainId == 5 ? 517 : 5
                                             ]
                                           }
                                           disabled={true}
@@ -2279,7 +2268,7 @@ export default function Withdraw() {
                                           ChainId.SHIBARIUM,
                                           ChainId.GÖRLI,
                                           ChainId.ETHEREUM,
-                                          ChainId.PUPPYNET, */}
+                                          ChainId.PUPPYNET517, */}
                                       {/* //  @ts-ignore
                                         ].map((key: ChainId, i: number) => {
                                           // console.log(values);
@@ -2310,7 +2299,7 @@ export default function Withdraw() {
                                     </div>
                                   </div>
                                   <div className="field-grid row">
-                                    <div className="col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-3 mb-lg-0  res-align">
+                                    <div className="mb-3 col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-lg-0 res-align">
                                       <div
                                         className="form-field position-relative fix-coin-field h-100"
                                         onClick={() => {
@@ -2379,7 +2368,7 @@ export default function Withdraw() {
                                         </div>
                                       </div>
                                       {touched.withdrawAmount && errors.withdrawAmount ? (
-                                        <p className="primary-text pt-0 pl-2">
+                                        <p className="pt-0 pl-2 primary-text">
                                           {errors.withdrawAmount}
                                         </p>
                                       ) : null}
@@ -2432,7 +2421,7 @@ export default function Withdraw() {
                                           ChainId.SHIBARIUM,
                                           ChainId.GÖRLI,
                                           ChainId.ETHEREUM,
-                                          ChainId.PUPPYNET, */}
+                                          ChainId.PUPPYNET517, */}
                                       {/* //  @ts-ignore
                                         ].map((key: ChainId, i: number) => {
                                           // console.log(values);

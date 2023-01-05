@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import React, { useEffect, useRef, useState } from "react";
-import { ChainId } from "shibarium-chains";
+import { ChainId } from "shibarium-get-chains";
 import { useFormik } from "formik";
 import { useActiveWeb3React } from "../../services/web3";
 import Web3 from 'web3';
