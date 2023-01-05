@@ -1,4 +1,4 @@
-import { ChainId } from 'shibarium-chains'
+import { ChainId } from 'shibarium-get-chains'
 import { createStore, Store } from 'redux'
 
 import { addTransaction, checkedTransaction, clearAllTransactions, finalizeTransaction } from './actions'

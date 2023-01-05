@@ -1,4 +1,4 @@
-import { ChainId } from 'shibarium-chains'
+import { ChainId } from 'shibarium-get-chains'
 import features from 'app/config/features'
 import { Feature } from 'app/enums'
 

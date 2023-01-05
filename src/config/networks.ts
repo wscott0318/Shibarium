@@ -1,4 +1,4 @@
-import { ChainId } from "shibarium-chains";
+import { ChainId } from "shibarium-get-chains";
 // import { SHIBARIUM_CHAINID } from 'app/constants'
 
 const Arbitrum =
@@ -45,7 +45,7 @@ const Telos =
   "https://raw.githubusercontent.com/sushiswap/icons/master/network/telos.jpg";
 const Shibarium =
   "https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,c_limit,w_48,q_auto/https://www.shibatoken.com/images/shib-logo.svg";
-const Puppy_net =
+const PUPPYNET517 =
   "https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,c_limit,w_48,q_auto/https://www.shibatoken.com/images/shib-logo.svg";
 
 export const NETWORK_ICON = {
@@ -78,7 +78,7 @@ export const NETWORK_ICON = {
   [ChainId.FUSE]: Fuse,
   [ChainId.TELOS]: Telos,
   [ChainId.SHIBARIUM]: Shibarium,
-  [ChainId.PUPPY_NET]: Puppy_net,
+  [ChainId.PUPPYNET517]: PUPPYNET517,
 };
 // enum SHIBARIUM{
 //   SHIBARIUM = SHIBARIUM_CHAINID
@@ -115,7 +115,7 @@ export const NETWORK_LABEL: { [chainId in ChainId]?: string } = {
   [ChainId.FUSE]: "Fuse",
   [ChainId.TELOS]: "Telos EVM",
   [ChainId.SHIBARIUM]: "Shibarium",
-  [ChainId.PUPPY_NET]: "Puppy Net",
+  [ChainId.PUPPYNET517]: "Puppy Net",
 };
 export const CHAINS = {
   Mainnet: "0x1",

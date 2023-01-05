@@ -1,4 +1,4 @@
-import { ChainId, Token } from 'shibarium-chains'
+import { ChainId, Token } from 'shibarium-get-chains'
 
 export const DAI = new Token(ChainId.BSC, '0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3', 18, 'DAI', 'Dai Stablecoin')
 export const USD = new Token(ChainId.BSC, '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', 18, 'BUSD', 'Binance USD')

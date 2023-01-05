@@ -1,5 +1,5 @@
 import { nanoid } from '@reduxjs/toolkit'
-import { ChainId } from 'shibarium-chains'
+import { ChainId } from 'shibarium-get-chains'
 import { TokenList } from '@uniswap/token-lists'
 import { resolveENSContentHash } from '../functions/ens'
 import { getNetworkLibrary } from '../functions/getNetworkLibrary'

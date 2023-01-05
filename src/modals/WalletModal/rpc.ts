@@ -1,4 +1,4 @@
-import { ChainId } from 'shibarium-chains'
+import { ChainId } from 'shibarium-get-chains'
 // import { SHIBARIUM_CHAINID } from 'app/constants'
 
 const RPC = {

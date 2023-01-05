@@ -1,6 +1,6 @@
 import Web3 from "web3";
 import ERC20abi from "../ABI/ERC20Abi.json";
-import { ChainId } from "shibarium-chains";
+import { ChainId } from "shibarium-get-chains";
 import * as Sentry from "@sentry/nextjs";
 import { CHAINS, URL_ARRAY } from "../config/networks";
 import { useEffect, useState } from "react";
@@ -35,7 +35,7 @@ export const getNetworkName = (ID) => {
     return "Ethereum Mainnet";
   } else if (ID == ChainId.GÖRLI) {
     return "Goerli Testnet";
-  } else if (ID == ChainId.PUPPY_NET) {
+  } else if (ID == ChainId.PUPPYNET517) {
     return "Puppy Net";
   } else {
     return "Shibarium Mainnet";

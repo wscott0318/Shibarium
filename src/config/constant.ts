@@ -1,4 +1,4 @@
-import { ChainId } from "shibarium-chains";
+import { ChainId } from "shibarium-get-chains";
 
 export const BONE_ID = 'bone-shibaswap';
 // 18.216.5.132:3000/api/v1/ http://18.216.5.132:3000/api/v1/tokens/getList

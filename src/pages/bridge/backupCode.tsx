@@ -1973,7 +1973,7 @@ export default function Withdraw() {
                                           ChainId.SHIBARIUM,
                                           ChainId.GÖRLI,
                                           ChainId.ETHEREUM,
-                                          ChainId.PUPPYNET, */}
+                                          ChainId.PUPPYNET517, */}
                                         {/* //  @ts-ignore
                                         ].map((key: ChainId, i: number) => {
                                           return (
@@ -2129,7 +2129,7 @@ export default function Withdraw() {
                                           ChainId.SHIBARIUM,
                                           ChainId.GÖRLI,
                                           ChainId.ETHEREUM,
-                                          ChainId.PUPPYNET, */}
+                                          ChainId.PUPPYNET517, */}
                                       {/* //  @ts-ignore
                                         ].map((key: ChainId, i: number) => {
                                           // console.log(values);
@@ -2250,7 +2250,7 @@ export default function Withdraw() {
                                           ChainId.SHIBARIUM,
                                           ChainId.GÖRLI,
                                           ChainId.ETHEREUM,
-                                          ChainId.PUPPYNET, */}
+                                          ChainId.PUPPYNET517, */}
                                       {/* //  @ts-ignore
                                         ].map((key: ChainId, i: number) => {
                                           // console.log(values);
@@ -2403,7 +2403,7 @@ export default function Withdraw() {
                                           ChainId.SHIBARIUM,
                                           ChainId.GÖRLI,
                                           ChainId.ETHEREUM,
-                                          ChainId.PUPPYNET, */}
+                                          ChainId.PUPPYNET517, */}
                                       {/* //  @ts-ignore
                                         ].map((key: ChainId, i: number) => {
                                           // console.log(values);

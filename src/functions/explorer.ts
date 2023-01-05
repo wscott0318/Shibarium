@@ -1,4 +1,4 @@
-import { ChainId } from 'shibarium-chains'
+import { ChainId } from 'shibarium-get-chains'
 // import { SHIBARIUM_CHAINID } from 'app/constants'
 
 const explorers = {
@@ -100,7 +100,7 @@ const chains: ChainObject = {
     link: 'https://goerli.etherscan.io',
     builder: explorers.etherscan,
   },
-  [ChainId.PUPPY_NET]: {
+  [ChainId.PUPPYNET517]: {
     link: 'https://goerli.etherscan.io',
     builder: explorers.etherscan,
   },

@@ -5,7 +5,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Button, Container, Nav, Navbar, NavDropdown, DropdownButton, Dropdown, Modal } from 'react-bootstrap';
 // @ts-ignore
 import Popup from "../components/PopUp";
-import { ChainId } from "shibarium-chains";
+import { ChainId } from "shibarium-get-chains";
 import Web3 from "web3";
 import CommonModal, { CommonModalNew } from "../components/CommonModel";
 import InnerHeader from "../inner-header";

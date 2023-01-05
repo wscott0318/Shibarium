@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { MenuIcon } from '@heroicons/react/outline'
-import { NATIVE } from 'shibarium-chains'
+import { NATIVE } from 'shibarium-get-chains'
 import useMenu from '../../components/Header/useMenu'
 import Web3Network from 'app/components/Web3Network'
 import Web3Status from 'app/components/Web3Status'

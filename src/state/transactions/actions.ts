@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import { ChainId } from 'shibarium-chains'
+import { ChainId } from 'shibarium-get-chains'
 
 export interface SerializableTransactionReceipt {
   to: string

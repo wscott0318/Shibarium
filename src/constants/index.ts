@@ -1,4 +1,4 @@
-import { ChainId, JSBI, Percent } from 'shibarium-chains'
+import { ChainId, JSBI, Percent } from 'shibarium-get-chains'
 
 // TODO: Move some of this to config level...
 
