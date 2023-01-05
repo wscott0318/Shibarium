@@ -1148,13 +1148,13 @@ export default function Withdraw() {
                       </div>
                       <div className="text-center box-block">
                         <div className="d-inline-block img-flexible">
-                          <img
+                          {/* <img
                             className="img-fluid"
                             src={NETWORK_ICON[chainId == 5 ? 417 : 5]}
                             alt=""
-                          />
+                          /> */}
                         </div>
-                        <p>{NETWORK_LABEL[chainId == 5 ? 417 : 5]}</p>
+                        {/* <p>{NETWORK_LABEL[chainId == 5 ? 417 : 5]}</p> */}
                       </div>
                     </div>
                   </div>
@@ -1294,13 +1294,13 @@ export default function Withdraw() {
                     <div className="pop-grid">
                       <div className="text-center box-block">
                         <div className="d-inline-block img-flexible">
-                          <img
+                          {/* <img
                             className="img-fluid"
                             src={NETWORK_ICON[chainId == 5 ? 417 : 5]}
                             alt=""
-                          />
+                          /> */}
                         </div>
-                        <p>{NETWORK_LABEL[chainId == 5 ? 417 : 5]}</p>
+                        {/* <p>{NETWORK_LABEL[chainId == 5 ? 417 : 5]}</p> */}
                       </div>
                       <div className="text-center box-block">
                         <div className="d-inline-block right-arrow">
@@ -1405,13 +1405,13 @@ export default function Withdraw() {
                     <div className="pop-grid">
                       <div className="text-center box-block">
                         <div className="d-inline-block img-flexible">
-                          <img
+                          {/* <img
                             className="img-fluid"
                             src={NETWORK_ICON[chainId == 5 ? 417 : 5]}
                             alt=""
-                          />
+                          /> */}
                         </div>
-                        <p>{NETWORK_LABEL[chainId == 5 ? 417 : 5]}</p>
+                        {/* <p>{NETWORK_LABEL[chainId == 5 ? 417 : 5]}</p> */}
                       </div>
                       <div className="text-center box-block">
                         <div className="d-inline-block right-arrow">
