@@ -22,6 +22,9 @@ const UMA_LIST = 'https://umaproject.org/uma.tokenlist.json'
 const WRAPPED_LIST = 'wrapped.tokensoft.eth'
 const DHEDGE_LIST = 'https://list.dhedge.eth.link'
 const ARBITRUM_LIST = 'https://bridge.arbitrum.io/token-list-42161.json'
+const SUSHI_LIST = 'https://token-list.sushi.com'
+const ROLL_LIST = 'https://app.tryroll.com/tokens.json'
+const CHAINLINK_LIST = 'https://token-list.sushi.com/chainlink'
 
 // lower index == higher priority for token import
 export const DEFAULT_LIST_OF_LISTS: string[] = [
@@ -42,8 +45,10 @@ export const DEFAULT_LIST_OF_LISTS: string[] = [
   ARBITRUM_LIST,
   OPTIMISM_LIST,
   DHEDGE_LIST,
+  CHAINLINK_LIST,
+  SUSHI_LIST,
   ...UNSUPPORTED_LIST_URLS, // need to load unsupported tokens as well
 ]
 
 // default lists to be 'active' aka searched across
-export const DEFAULT_ACTIVE_LIST_URLS: string[] = [NFTX_LIST, YEARN_LIST, GEMINI_LIST]
+export const DEFAULT_ACTIVE_LIST_URLS: string[] = [SUSHI_LIST, CHAINLINK_LIST, NFTX_LIST]
