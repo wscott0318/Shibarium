@@ -122,7 +122,7 @@ const InnerHeader = () => {
                   <Web3Status />
                   <Dropdown className="nav-item d-flex align-items-center cus-dd mob-drop drop-cus">
                     <div className="dot-icon" id="basic-nav-dropdown"></div>
-                    <NavDropdown className="me-3">
+                    <NavDropdown className="me-3 inner-header-dropwdown" id="account-dropdown">
                       <div className="drop-head">
                         <div className="head-brand">
                           <img
