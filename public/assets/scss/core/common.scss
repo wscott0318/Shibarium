@@ -233,6 +233,14 @@
 .custum-row {
   position: relative;
 }
+#account-dropdown ~ .dropdown-menu.show {
+  left: 0;
+  transform: translate(-90%);
+}
+.inner-header-dropwdown #account-dropdown ~ .dropdown-menu.show {
+  left: 0;
+  transform: translate(-84%);
+}
 .head-brand {
   position: absolute;
   left: auto;

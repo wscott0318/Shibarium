@@ -209,6 +209,30 @@ body.modal-open {
     }
   }
 }
+#account-dropdown ~ .dropdown-menu.show{
+  right: auto;
+}
+.app-drop .show.dropdown .dropdown-menu.show{
+  top: 40px;
+}
+@media (max-width:767.5px){
+  .app-drop .show.dropdown .dropdown-menu.show {
+    left: 50%;
+    right: 0;
+    transform: translate(-50%);
+  }
+}
+@media (max-width:395px){
+  .app-drop .show.dropdown .dropdown-menu.show {
+    transform: translate(-50%);
+    left: 100%;
+}
+}
+@media (max-width:330px){
+  .app-drop .show.dropdown .dropdown-menu.show {
+    transform: translate(-38%);
+}
+}
 .staking-header {
   border-bottom: 1px solid $grey-color;
   border-top: 1px solid $grey-color;
