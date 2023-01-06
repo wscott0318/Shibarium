@@ -252,6 +252,13 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     setTokenModal(false);
   };
 
+  const imageOnErrorHandler = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
+    event.currentTarget.className = "error";
+  };
+
   const addTokenHandler = async () => {
     addNewToken('')
     setConfirmImport(true);
@@ -842,6 +849,8 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                                     ? x.logo || x?.logoURI
                                     : "../../../assets/images/shib-borderd-icon.png"
                                 }
+                                onError={imageOnErrorHandler}
+                                width={40}
                                 alt=""
                               />
                             </div>
@@ -1013,7 +1022,9 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                                           ? tempTokens?.logo
                                           : "../../../assets/images/shib-borderd-icon.png"
                                       }
+                                      width={40}
                                       alt=""
+                                      onError={imageOnErrorHandler}
                                     />
                                   </div>
                                   <div className="tkn-grid">
@@ -1209,7 +1220,8 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                                 ? x.logo
                                 : "../../../assets/images/shib-borderd-icon.png"
                             }
-                            width={32}
+                            onError={imageOnErrorHandler}
+                            width={40}
                           />
                         </div>
                         <div className="tkn-grid">

@@ -22,8 +22,7 @@
     "e2e:run": "yarn jest --testPathPattern=test/e2e --runInBand",
     "e2e:safe": "wait-on -l http://localhost:3000 && yarn e2e:run",
     "e2e": "concurrently -k -s first -n \"app,e2e\" \"yarn dev\" \"yarn e2e:safe\"",
-    "postinstall": "yarn lingui",
-    "export" : "next export"
+    "postinstall": "yarn lingui"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

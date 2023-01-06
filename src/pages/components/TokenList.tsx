@@ -282,6 +282,7 @@ const TokenList = ({
                     ? x.logo
                     : "../../assets/images/shib-borderd-icon.png"
                 }
+                onError={imageOnErrorHandler}
                 alt=""
               />
             </div>
@@ -356,6 +357,7 @@ const TokenList = ({
                       : x?.logoURI ? x?.logoURI
                         : "../../assets/images/shib-borderd-icon.png"
                   }
+                  onError={imageOnErrorHandler}
                   alt=""
                 />
               </div>
@@ -392,7 +394,7 @@ const TokenList = ({
             {newListing ?
               (<div className="tokn-row">
                 <div className="cryoto-box">
-                  <img src={newListing?.data?.logoURI ? newListing?.data?.logoURI : "../../assets/images/eth.png"} width={24}
+                  <img src={newListing?.data?.logoURI ? newListing?.data?.logoURI : "../../assets/images/eth.png"} width={24} onError={imageOnErrorHandler}
                   />
                 </div>
                 <div className="tkn-grid" style={{ paddingLeft: "40px" }}>
@@ -426,7 +428,7 @@ const TokenList = ({
                     <div className="flex w-50 align-items-center">
                       <img src={item?.logo && item?.logo.startsWith('ipfs://') ? "https://ipfs.io/ipfs/" + item?.logo.slice(7) :
                         item?.logo ? item?.logo : "../../assets/images/shib-borderd-icon.png"
-                      } width="35" className='me-2' />
+                      } width="35" className='me-2' onError={imageOnErrorHandler} />
                       <div>
                         <h5>{item?.name ? item?.name : item?.data}</h5>
                         <div className='d-flex align-items-center'>
