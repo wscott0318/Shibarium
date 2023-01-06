@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react'
 import { fetchLink, generateSecondary, getDefaultChain } from 'web3/commonFunctions';
 import { toast } from 'react-toastify';
 import { Switch } from '@material-ui/core';
-// import { Switch } from '@mui/material';
 import { TrashIcon } from '@heroicons/react/outline';
 import * as Sentry from '@sentry/nextjs';
 import { Settings } from 'react-feather';
@@ -38,7 +37,7 @@ const TokenList = ({
   const [importedCoins, setImportedCoins] = useState<any>([]);
   const [dup, setdup] = useState(false);
   const [defaultfetched, setDefaultfetched] = useState<any>([]);
-  const [searched , setSearched] = useState<any>();
+  const [searched, setSearched] = useState<any>();
   const [userAddedTokens, setUserAddedTokens] = useState<any>(
     JSON.parse(localStorage.getItem("importedByUser") || "[]")
   );
@@ -106,9 +105,9 @@ const TokenList = ({
   useEffect(() => {
     let fetchList = JSON.parse(localStorage.getItem("tokenList") || "[]");
     let enabledTokens = fetchList?.filter((e: any) => e?.enabled === true);
-    var uniqueTokens:any = [];
+    var uniqueTokens: any = [];
     enabledTokens.forEach((e: any) => uniqueTokens.push(...e?.tokens));
-    uniqueTokens = uniqBy(uniqueTokens , 'address');
+    uniqueTokens = uniqBy(uniqueTokens, 'address');
     setImportedCoins([...importedCoins, ...uniqueTokens]);
     // console.log("uniqueTokens " )
     // uniqueTokens = uniqBy(uniqueTokens, "name");
@@ -420,151 +419,29 @@ const TokenList = ({
                       </div>
 
                     </div>
-                    <div className='d-flex align-items-center'>
+                    <div className='d-flex align-items-center switch-wrapper'>
                       {/* <TrashIcon width={25} height={25} onClick={() => deleteList(item?.data)} style={{ cursor: 'pointer' }} /> */}
-                      <Switch
+                      <label className="switch">
+                        <input className="switch-input" type="checkbox" 
+                          checked={arr[arr.findIndex((el: any) => el.data === item.data)].enabled}
+                          onChange={() => updateList(item?.data)} />
+                        <span className="switch-label" data-on="On" data-off="Off"></span>
+                        <span className="switch-handle"></span>
+                      </label>
+                      {/* <Switch
                         checked={arr[arr.findIndex((el: any) => el.data === item.data)].enabled}
-                        onChange={() => updateList(item?.data)} />
+                        onChange={() => updateList(item?.data)} /> */}
                     </div>
                   </div>
                 )
               })
               )
             }
-            {(defaultfetched && defaultfetched.map((item: any, i: any, arr: any) => {
-              // console.log("item contains ==> ", item);
-              return (
-                <div key={item?.data} className="flex mb-3 justify-content-between">
-                  <div className="flex w-50 align-items-center">
-                    <img src={item?.logo && item?.logo.startsWith('ipfs://') ? "https://ipfs.io/ipfs/" + item?.logo.slice(7) :
-                      item?.logo ? item?.logo : "../../assets/images/shib-borderd-icon.png"
-                    } width="35" className='me-2' />
-                    <div>
-                      <h5>{item?.name ? item?.name : item?.data}</h5>
-                      <div className='d-flex align-items-center'>
-                        <p className="m-0">{item?.tokens?.length} tokens</p>
-                        <div className="manageTokenDropdown ms-2">
-                          <Dropdown>
-                            <Dropdown.Toggle>
-                              <Settings />
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                              <Dropdown.Item onClick={() => window.open(`https://tokenlists.org/token-list?url=${item?.data}`, "_blank")}>View List</Dropdown.Item>
-                              <Dropdown.Item onClick={() => deleteList(item?.data)} target="_blank">Remove List</Dropdown.Item>
-                            </Dropdown.Menu>
-                          </Dropdown>
-                        </div>
-                      </div>
-                    </div>
 
-                  </div>
-                  <div className='d-flex align-items-center'>
-                    {/* <TrashIcon width={25} height={25} onClick={() => deleteList(item?.data)} style={{ cursor: 'pointer' }} /> */}
-                    <Switch
-                      checked={arr[arr.findIndex((el: any) => el.data === item.data)].enabled}
-                      onChange={() => updateList(item?.data)} />
-                  </div>
-                </div>
-              )
-            })
-            )}
           </div>
         ))}
     </>
   );
 };
 
-const SingleToken = ({
-  coinList = [],
-  DEFAULT_ITEM,
-  setCoinList,
-  // shouldReset,
-  showWarning,
-  setShowWarning,
-  defaultChain,
-  setChain,
-  handleTokenSelect,
-  linkQuery,
-  setLinkQuery,
-  tokenModalList,
-  tokenState
-}: any) => {
-  const [isWrong, setIsWrong] = useState(false);
-  const [renderData, setRenderData] = useState<any>([]);
-  const [newListing, setNewListing] = useState<any>(null);
-  // const [linkQuery, setLinkQuery] = useState("");
-  const { chainId = 1, account, library } = useActiveWeb3React();
-
-  return (
-    <>
-      {tokenState?.step0 && (tokenModalList
-        ? tokenModalList.map((x: any) => (
-          <div
-            className="tokn-row"
-            key={x?.parentName}
-            onClick={() => handleTokenSelect(x)}
-          >
-            <div className="cryoto-box">
-              <img
-                className="img-fluid"
-                src={
-                  x?.logo
-                    ? x.logo
-                    : "../../assets/images/shib-borderd-icon.png"
-                }
-                alt=""
-              />
-            </div>
-            <div className="tkn-grid">
-              <div>
-                <h6 className="fw-bold">{x?.parentSymbol}</h6>
-                <p>{x?.parentName}</p>
-              </div>
-              <div>
-                <h6 className="fw-bold">
-                  {x?.balance ? x.balance : "00.00"}
-                </h6>
-              </div>
-            </div>
-          </div>
-        ))
-        : null)
-      }
-      {tokenState?.step0 &&
-        newListing?.tokens?.length
-        ? newListing?.tokens?.map((x: any) => (
-          <div
-            className="tokn-row"
-            key={x?.name}
-            onClick={() => handleTokenSelect(x)}
-          >
-            <div className="cryoto-box">
-              <img
-                className="img-fluid"
-                src={
-                  x?.logoURI
-                    ? x?.logoURI
-                    : "../../assets/images/shib-borderd-icon.png"
-                }
-                alt=""
-              />
-            </div>
-            <div className="tkn-grid">
-              <div>
-                <h6 className="fw-bold">{x?.symbol}</h6>
-                {/* <p>{x?.tokens.length} tokens</p> */}
-              </div>
-              {/* <div>
-                      <h6 className="fw-bold">
-                        {x?.balance ? x.balance : "00.00"}
-                      </h6>
-                    </div> */}
-            </div>
-          </div>
-        ))
-        : null
-      }
-    </>
-  );
-};
 export default TokenList

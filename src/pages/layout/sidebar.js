@@ -30,7 +30,7 @@ export default function Sidebar({
   const [isVisible, setIsVisible] = useState(true);
   const router = useRouter();
   const [showWarning, setShowWarning] = useState(false);
-
+  const [width , setWidth] = useState();
   useEffect(() => {
     // if (chainId !== 5) {
     checkConnectedChain();
@@ -155,19 +155,24 @@ export default function Sidebar({
     // }
     router.push(index.route);
   };
-
-  // console.log(renderTopList)
-
+  function getWidth () {
+    const screenWidth = window.innerWidth;
+    setWidth(screenWidth);
+  }
+  // console.log("screenWidth" ,width);
+  useEffect(() => {
+    window.addEventListener('resize' , getWidth);
+  },[])
   return (
     <>
-      {/* <ChainWarning
+      <ChainWarning
         title={"Switch to Goerli Testnet"}
         show={showWarning}
         setshow={() => {
           setShowWarning(true);
         }}
         externalCls="faucet-pop no-lft chain_warning"
-      /> */}
+      />
       {/* sidebar start */}
       <div className="sidebar-toggle">
         <Navbar.Brand
@@ -180,6 +185,17 @@ export default function Sidebar({
             alt=""
           />
         </Navbar.Brand>
+        <div className="sidebar-logo">
+            <Link href="/home" passHref>
+              <a className="sidelogo-link" href="/">
+                <img
+                  className="img-fluid"
+                  src={width > 576 ? "../../assets/images/logo.png" : "../../assets/images/Shib-Logo.png"}
+                  alt=""
+                />
+              </a>
+            </Link>
+          </div>
       </div>
       <div
         className={menuState ? "sidebar sidebar-active" : "sidebar"}

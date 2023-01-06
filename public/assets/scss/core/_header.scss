@@ -200,12 +200,12 @@ body.modal-open {
     // margin-top: 8px;
     @media #{$max-lg} {
       top: 100%;
-      right: 0;
-      left: auto;
+      // right: 0;
+      // left: auto;
     }
     @media #{$max-md} {
-      left: 0;
-      right: auto;
+      // left: 0;
+      // right: auto;
     }
   }
 }
