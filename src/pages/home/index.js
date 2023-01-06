@@ -18,7 +18,7 @@ export default function Home() {
                 <div className="banner-col-s">
                   <div className="banner-content">
                     <h1 className="banner-title mb-3 ff-mos">
-                    Shibarium
+                    Shibarium test
                     </h1>
                     {/* tolltip test start*/}
 
