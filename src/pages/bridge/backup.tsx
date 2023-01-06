@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from "react";
+import { ChainId } from "shibarium-get-chains";
 import { useRouter } from "next/router";
 import NumberFormat from "react-number-format";
 import CommonModal from "../components/CommonModel";
@@ -11,10 +12,8 @@ import {
   UserRejectedRequestError as UserRejectedRequestErrorInjected,
 } from "@web3-react/injected-connector";
 import Sidebar from "../layout/sidebar";
-import Web3Status from "app/components/Web3Status";
-import { getWalletTokenList } from "../../services/apis/validator/index";
+import { getBoneUSDValue, getWalletTokenList } from "../../services/apis/validator/index";
 import { getTokenBalance } from "../../hooks/useTokenBalance";
-import { getBoneUSDValue } from "../../services/apis/validator/index";
 import { useActiveWeb3React } from "../../services/web3";
 import { BONE_ID } from "../../config/constant";
 import { Formik, Field } from "formik";
@@ -40,7 +39,7 @@ import * as Sentry from "@sentry/nextjs";
 import { MenuItem, Select } from "@material-ui/core";
 import Form from "react-bootstrap/Form";
 import SUPPORTED_NETWORKS from "../../modals/NetworkModal/index";
-import { ChainId } from "../../modals/NetworkModal/ChainIDs";
+// import { ChainId } from "../../modals/NetworkModal/ChainIDs";
 import { NETWORK_ICON, NETWORK_LABEL } from "../../config/networks";
 import Image from "next/image";
 import { dynamicChaining } from "web3/DynamicChaining";
@@ -79,7 +78,7 @@ export default function Withdraw() {
   // })
 
   useEffect(() => {
-    getBoneUSDValue(BONE_ID).then((res) => {
+    getBoneUSDValue(BONE_ID).then((res: any) => {
       setBoneUSDValue(res.data.data.price);
     });
   }, [account]);
@@ -1028,7 +1027,7 @@ export default function Withdraw() {
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src={NETWORK_ICON[chainId == 5 ? 517 : 5]}
+                            src={NETWORK_ICON[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}
                             alt=""
                           />
                         </div>

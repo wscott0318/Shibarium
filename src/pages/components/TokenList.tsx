@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { fetchLink, generateSecondary, getDefaultChain } from 'web3/commonFunctions';
 import { toast } from 'react-toastify';
 import { Switch } from '@material-ui/core';
+// import { Switch } from '@mui/material';
 import { TrashIcon } from '@heroicons/react/outline';
 import * as Sentry from '@sentry/nextjs';
 import { Settings } from 'react-feather';
@@ -395,7 +396,7 @@ const TokenList = ({
               (defaultList.map((item: any, i: any, arr: any) => {
                 // console.log("item contains ==> ", item);
                 return (
-                  <div key={item?.data} className="flex justify-content-between mb-3">
+                  <div key={item?.data} className="flex mb-3 justify-content-between">
                     <div className="flex w-50 align-items-center">
                       <img src={item?.logo && item?.logo.startsWith('ipfs://') ? "https://ipfs.io/ipfs/" + item?.logo.slice(7) :
                         item?.logo ? item?.logo : "../../assets/images/shib-borderd-icon.png"
@@ -433,7 +434,7 @@ const TokenList = ({
             {(defaultfetched && defaultfetched.map((item: any, i: any, arr: any) => {
               // console.log("item contains ==> ", item);
               return (
-                <div key={item?.data} className="flex justify-content-between mb-3">
+                <div key={item?.data} className="flex mb-3 justify-content-between">
                   <div className="flex w-50 align-items-center">
                     <img src={item?.logo && item?.logo.startsWith('ipfs://') ? "https://ipfs.io/ipfs/" + item?.logo.slice(7) :
                       item?.logo ? item?.logo : "../../assets/images/shib-borderd-icon.png"

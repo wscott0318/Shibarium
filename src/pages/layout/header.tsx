@@ -324,7 +324,7 @@ export default function Header() {
                               </div>
                             </div>
                           </NavDropdown.Item>
-                          <NavDropdown.Item href="#action/3.3">
+                          <NavDropdown.Item href="/">
                             <div className="custum-row">
                               <div className="lft-img">
                                 <img
@@ -343,7 +343,7 @@ export default function Header() {
                               </div>
                             </div>
                           </NavDropdown.Item>
-                          <NavDropdown.Item href="#action/3.3">
+                          <NavDropdown.Item href="/">
                             <div className="mb-0 custum-row">
                               <div className="lft-img ps-2">
                                 <img
