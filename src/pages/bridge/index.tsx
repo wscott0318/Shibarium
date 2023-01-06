@@ -11,6 +11,7 @@ import {
   Dropdown,
   Modal,
 } from "react-bootstrap";
+import { ChainId } from "shibarium-get-chains";
 import { useRouter } from "next/router";
 import Popup from "../components/PopUp";
 import NumberFormat from "react-number-format";
@@ -51,7 +52,7 @@ import * as Sentry from "@sentry/nextjs";
 import { MenuItem, Select } from "@material-ui/core";
 import Form from "react-bootstrap/Form";
 import SUPPORTED_NETWORKS from "../../modals/NetworkModal/index";
-import { ChainId } from "../../modals/NetworkModal/ChainIDs";
+// import { ChainId } from "../../modals/NetworkModal/ChainIDs";
 import { NETWORK_ICON, NETWORK_LABEL } from "../../config/networks";
 import Image from "next/image";
 import { dynamicChaining } from "web3/DynamicChaining";
@@ -1042,11 +1043,11 @@ export default function Withdraw() {
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src={NETWORK_ICON[chainId == 5 ? 517 : 5]}
+                            src={NETWORK_ICON[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}
                             alt=""
                           />
                         </div>
-                        <p>{NETWORK_LABEL[chainId == 5 ? 517 : 5]}</p>
+                        <p>{NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}</p>
                       </div>
                     </div>
                     {/* <div className="amt-section position-relative">
@@ -1164,11 +1165,11 @@ export default function Withdraw() {
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src={NETWORK_ICON[chainId == 5 ? 517 : 5]}
+                            src={NETWORK_ICON[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}
                             alt=""
                           />
                         </div>
-                        <p>{NETWORK_LABEL[chainId == 5 ? 517 : 5]}</p>
+                        <p>{NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}</p>
                       </div>
                     </div>
                   </div>
@@ -1310,11 +1311,11 @@ export default function Withdraw() {
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src={NETWORK_ICON[chainId == 5 ? 517 : 5]}
+                            src={NETWORK_ICON[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}
                             alt=""
                           />
                         </div>
-                        <p>{NETWORK_LABEL[chainId == 5 ? 517 : 5]}</p>
+                        <p>{NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}</p>
                       </div>
                       <div className="text-center box-block">
                         <div className="d-inline-block right-arrow">
@@ -1421,11 +1422,11 @@ export default function Withdraw() {
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src={NETWORK_ICON[chainId == 5 ? 517 : 5]}
+                            src={NETWORK_ICON[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}
                             alt=""
                           />
                         </div>
-                        <p>{NETWORK_LABEL[chainId == 5 ? 517 : 5]}</p>
+                        <p>{NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}</p>
                       </div>
                       <div className="text-center box-block">
                         <div className="d-inline-block right-arrow">
@@ -1949,7 +1950,7 @@ export default function Withdraw() {
                         initialValues={{
                           amount: "",
                           fromChain: chainId,
-                          toChain: chainId == 5 ? 517 : 5,
+                          toChain: chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI,
                         }}
                         validationSchema={depositValidations}
                         onSubmit={(values, { resetForm }) => {
@@ -2134,7 +2135,7 @@ export default function Withdraw() {
                                             className="img-fluid"
                                             src={
                                               NETWORK_ICON[
-                                              chainId == 5 ? 517 : 5
+                                              chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI
                                               ]
                                             }
                                             alt=""
@@ -2149,7 +2150,7 @@ export default function Withdraw() {
                                           placeholder="Shibarium chain"
                                           value={
                                             NETWORK_LABEL[
-                                            chainId == 5 ? 517 : 5
+                                            chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI
                                             ]
                                           }
                                         />
@@ -2218,7 +2219,7 @@ export default function Withdraw() {
                     <Formik
                       initialValues={{
                         withdrawAmount: "",
-                        fromChain: chainId == 5 ? 517 : 5,
+                        fromChain: chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI,
                         toChain: chainId,
                       }}
                       validationSchema={withdrawValidations}
@@ -2255,7 +2256,7 @@ export default function Withdraw() {
                                             className="img-fluid"
                                             src={
                                               NETWORK_ICON[
-                                              chainId == 5 ? 517 : 5
+                                              chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI
                                               ]
                                             }
                                             alt=""
@@ -2269,7 +2270,7 @@ export default function Withdraw() {
                                           // placeholder="Shibarium Mainnet"
                                           value={
                                             NETWORK_LABEL[
-                                            chainId == 5 ? 517 : 5
+                                            chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI
                                             ]
                                           }
                                           disabled={true}

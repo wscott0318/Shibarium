@@ -38,13 +38,27 @@
     cursor: pointer;
     display: none;
     @media #{$max-xl}{
-        display: block;
+        display: flex;
+        align-items: center;
     }
     @media #{$max-xsm}{
         left: 15px;
     }
+    .sidebar-logo {
+        .sidelogo-link {
+            width: 50%;
+            margin-left: 10px;
+        @media #{$max-sm}{
+            width: 40%;
+        }
+        }
+    }
 }
-
+@media (max-width:360px){
+    .sidebar-toggle .sidebar-logo .sidelogo-link{
+        display: none;
+    }
+}
 .sidebar {
     background: $body-bg;
     position: fixed;
@@ -94,7 +108,7 @@
             }
         }
     }
-
+     
     .side-menu {
         padding: 0 20px;
         @media #{$max-xxl}{
