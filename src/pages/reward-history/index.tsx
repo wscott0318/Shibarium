@@ -226,7 +226,7 @@ export default function Unbond() {
                     </thead>
                     <tbody>
                       {slicedList.length ? (
-                        slicedList.reverse().map((value: any, index: any) => (
+                        slicedList.map((value: any, index: any) => (
                           <tr key={index}>
                             <td>
                               <div className="d-flex align-items-center">

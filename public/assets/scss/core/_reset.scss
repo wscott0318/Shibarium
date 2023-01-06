@@ -516,6 +516,12 @@ ul {
 .container.reward_table table tbody tr td:last-of-type {
     text-align: center;
 }
+.cmn_dasdrd_table.checkpoint-table .table th:first-child {
+    width: 17%;
+}
+.cmn_dasdrd_table.checkpoint-table .table th:nth-child(2), .cmn_dasdrd_table.checkpoint-table .table td:nth-child(2) {
+    text-align: left;
+}
 .cmn_modal{
     ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
         color: $white;

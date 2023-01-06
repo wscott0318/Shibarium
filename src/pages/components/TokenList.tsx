@@ -105,13 +105,15 @@ const TokenList = ({
   useEffect(() => {
     let fetchList = JSON.parse(localStorage.getItem("tokenList") || "[]");
     let enabledTokens = fetchList?.filter((e: any) => e?.enabled === true);
-    enabledTokens.map((e: any) => {
-      let uniqueTokens = uniqBy(e?.tokens, "name");
-      return setImportedCoins([...importedCoins, ...uniqueTokens]);
-    });
+    var uniqueTokens:any = [];
+    enabledTokens.forEach((e: any) => uniqueTokens.push(...e?.tokens));
+    uniqueTokens = uniqBy(uniqueTokens , 'address');
+    setImportedCoins([...importedCoins, ...uniqueTokens]);
+    // console.log("uniqueTokens " )
+    // uniqueTokens = uniqBy(uniqueTokens, "name");
   }, []);
 
-  console.log("new listing ", newListing);
+  console.log("importedCoins ", importedCoins);
   const addToLocalStorage = async (response: any) => {
     let oldList;
     oldList = JSON.parse(localStorage.getItem("tokenList") || "[]");

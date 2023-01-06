@@ -273,7 +273,7 @@ body.modal-open {
   }
 
   .dropdown-menu {
-    right: 0;
+    // right: 0;
     @media #{$max-sm} {
       right: -100px;
     }
@@ -381,6 +381,7 @@ body.modal-open {
       top: 100%;
       width: 230px;
       margin-top: 5px;
+      transform: translate(0);
     }
     @media #{$max-xxsm} {
       left: 0;

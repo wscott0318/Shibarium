@@ -59,6 +59,7 @@ const AppHeader = () => {
             </span>
           </NavDropdown.Item>
           {account && (
+            <>
             <NavDropdown.Item onClick={() => router.push('/faucet', '/faucet', { shallow: true })}>
               <h6
                 className={
@@ -73,19 +74,20 @@ const AppHeader = () => {
                 Earn Puppy Net Faucets
               </span>
             </NavDropdown.Item>
+            <NavDropdown.Item onClick={() => router.push('/bridge', '/bridge', { shallow: true })}>
+              <h6
+                className={
+                  title === "Bridge"
+                    ? "fw-600 light-text left-border primary-text"
+                    : "fw-600 light-text left-border"
+                }
+              >
+                Bridge
+              </h6>
+              <span className="light-text">Deposit and withdraw between networks</span>
+            </NavDropdown.Item>
+            </>
           )}
-          <NavDropdown.Item onClick={() => router.push('/bridge', '/bridge', { shallow: true })}>
-            <h6
-              className={
-                title === "Bridge"
-                  ? "fw-600 light-text left-border primary-text"
-                  : "fw-600 light-text left-border"
-              }
-            >
-              Bridge
-            </h6>
-            <span className="light-text">Deposit and withdraw between networks</span>
-          </NavDropdown.Item>
           {/* <NavDropdown.Item href="#action/3.3">
                         <h6 className="fw-600 light-text left-border">
                           Widget Dashboard

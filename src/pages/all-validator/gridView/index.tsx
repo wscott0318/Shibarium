@@ -145,11 +145,12 @@ export default function ValidatorGrid({ validatorsList, searchKey, migrateData={
                                   : "Delegate"}
                               </span>
                             </button>
-                            {!account || validator.fundamental === 1 || validator.uptimePercent <= inActiveCount
+                            {account && (validator.fundamental === 1 || validator.uptimePercent <= inActiveCount
                               ? (<div className="tool-desc tool-desc-grid">This is a fundamental node. <br /> Delegation is not enabled here.</div>)
                               : (router.asPath.split("/")[1] === "migrate-stake"
                                 ? (<div className="tool-desc tool-desc-grid">{validator.contractAddress == migrateData.contractAddress ? "Stakes cannot be migrated to same Validator." : "Migrate Your Stakes here."}</div>)
-                                : (<div className="tool-desc tool-desc-grid">Delegate here.</div>))}
+                                : (<div className="tool-desc tool-desc-grid">Delegate here.</div>)))}
+                            {!account && <div className="tool-desc tool-desc-grid">Login to enable delegation.</div>}
                           </div>
                         )}
                       </div>
