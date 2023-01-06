@@ -52,7 +52,7 @@ import * as Sentry from "@sentry/nextjs";
 import { MenuItem, Select } from "@material-ui/core";
 import Form from "react-bootstrap/Form";
 import SUPPORTED_NETWORKS from "../../modals/NetworkModal/index";
-import { ChainId } from "../../modals/NetworkModal/ChainIDs";
+// import { ChainId } from "../../modals/NetworkModal/ChainIDs";
 import { NETWORK_ICON, NETWORK_LABEL } from "../../config/networks";
 import Image from "next/image";
 import { dynamicChaining } from "web3/DynamicChaining";
