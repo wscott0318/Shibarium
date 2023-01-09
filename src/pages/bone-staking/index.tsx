@@ -50,8 +50,6 @@ const BoneStaking = () => {
       const id = await ChainId()
       let instance = new web3test.eth.Contract(stakeManagerProxyABI, dynamicChaining[id]?.STAKE_MANAGER_PROXY);
       const validatorThreshold = await instance.methods.validatorThreshold().call();
-      // const valInfo = await instance.methods.validators(9).call({ from: account });
-      // const valStake = await instance.methods.validatorStake(9).call({ from: account });
       const totVals = await queryProvider.query({
         query: validators(),
       })
@@ -67,7 +65,6 @@ const BoneStaking = () => {
     try {
       let id: any = account
       getValidatorInfo(id.toLowerCase()).then((res: any) => {
-        // console.log(res.data.message.val?.status, " vall status ===> ")
         setNodeSetup(res?.data?.message?.val?.status ? res?.data?.message?.val?.status : null)
         setValInfoLoader(false)
         localStorage.setItem("valInfo", JSON.stringify(res.data.message.val))
@@ -80,8 +77,6 @@ const BoneStaking = () => {
 
   const myRef = useRef<any>(null)
   const executeScroll = () => myRef.current.scrollIntoView()
-
-  // console.log(nodeSetup)
 
   const renderButtons = () => {
     if (account && !valInfoLoader) {

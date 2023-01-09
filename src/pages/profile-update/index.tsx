@@ -1,8 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Header from "pages/layout/header";
-import StakingHeader from "pages/staking-header";
-import Link from 'next/link';
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { getValidatorInfo, updateValidator } from "app/services/apis/network-details/networkOverview";
@@ -83,18 +81,15 @@ export default function ProfileUpdate() {
         try {
             if ((imageData || imageURL) && verifyAddress(values.address)) {
                 setValidation({ image: false, address: false });
-                // console.log("1");
             } else if (!(imageData || imageURL) && verifyAddress(values.address)) {
                 setValidation({ address: false, image: true });
-                // console.log("2");
             } else if ((imageData || imageURL) && !verifyAddress(values.address)) {
                 setValidation({ image: false, address: true });
-                // console.log("3");
             }
             else {
                 setValidation({ image: true, address: true });
             }
-            var data = new FormData();
+            let data = new FormData();
             data.append("validatorName", values.validatorname);
             data.append("signerAddress", values.address);
             data.append("website", values.website);
