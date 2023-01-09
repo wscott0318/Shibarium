@@ -50,8 +50,8 @@ const BoneStaking = () => {
       const id = await ChainId()
       let instance = new web3test.eth.Contract(stakeManagerProxyABI, dynamicChaining[id]?.STAKE_MANAGER_PROXY);
       const validatorThreshold = await instance.methods.validatorThreshold().call();
-      const valInfo = await instance.methods.validators(9).call({ from: account });
-      const valStake = await instance.methods.validatorStake(9).call({ from: account });
+      // const valInfo = await instance.methods.validators(9).call({ from: account });
+      // const valStake = await instance.methods.validatorStake(9).call({ from: account });
       const totVals = await queryProvider.query({
         query: validators(),
       })
@@ -117,7 +117,7 @@ const BoneStaking = () => {
                 //   router.push('/all-validator')
                 //  } 
                 onClick={executeScroll}
-                className="btn  white-btn">Become a Delegator</button>
+                className="btn white-btn">Become a Delegator</button>
             </div>
             <div className="btns-wrap">
               <button onClick={() =>
@@ -134,7 +134,7 @@ const BoneStaking = () => {
 
   return (
     <>
-      <div className="main-content dark-bg-800 full-vh  font-up ffms-inherit staking-main">
+      <div className="main-content dark-bg-800 full-vh font-up ffms-inherit staking-main">
         {/* <StakingHeader /> */}
         {/* banner section start */}
         <section className="inner-banner dark-bg">

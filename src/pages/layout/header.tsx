@@ -44,7 +44,7 @@ export default function Header() {
       setShowWarning(false);   
     }
   }, [chainId, account]);
-  console.log(chainId, "chainID ==> ")
+  // console.log(chainId, "chainID ==> ")
 
   const checkConnectedChain = () => {
     if (supportedChains.includes(chainId)) {

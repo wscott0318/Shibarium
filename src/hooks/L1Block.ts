@@ -1,6 +1,6 @@
 import Web3 from 'web3'
-var HttpProvider = "https://goerli.infura.io/v3/49e2ef5f477941c1b90a222c858c574e";
-var HttpProviderPUPPYNET517 = "https://puppytestnet.hailshiba.com";
+const HttpProvider = "https://goerli.infura.io/v3/49e2ef5f477941c1b90a222c858c574e";
+const HttpProviderPUPPYNET517 = process.env.RPC_URL;
 
 export function L1Block(): any {
     try{
@@ -12,7 +12,7 @@ export function L1Block(): any {
 
 export function PUPPYNET517(): any {
     try{
-    return new Web3(new Web3.providers.HttpProvider(HttpProviderPUPPYNET517));
+    return new Web3(new Web3.providers.HttpProvider(HttpProviderPUPPYNET517 as any));
     }catch(error){
         // console.log('Connection Error',error);
     }

@@ -30,7 +30,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
     setLoading(false)
     await validatorsList(searchKey, requestOptions)
       .then((res: any) => {
-        console.log("res => ", res);
+        // console.log("res => ", res);
         setLoading(false)
         if (res.status == 200) {
           let activeList: any;
@@ -152,7 +152,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
     <>
 
       {loading && <LoadingSpinner />}
-      <section className="table-section pb-4 pb-lg-5 active-inactive">
+      <section className="pb-4 table-section pb-lg-5 active-inactive">
         <div className="container">
           <div className="heading-sec">
             <h2 className="sub-head ff-mos">{router.asPath.split("/")[1] === "migrate-stake" ? "" : "All Validators"}</h2>

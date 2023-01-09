@@ -394,7 +394,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
       >
         <>
           <div className="cmn_modal vali_deli_popups ffms-inherit">
-            <ul className="stepper mt-3 del-step">
+            <ul className="mt-3 stepper del-step">
               <li className="step active">
                 <div className="step-ico">
                   <img
@@ -431,7 +431,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
               <form className="h-100" onSubmit={handleSubmit}>
                 <div className="step_content fl-box">
                   <div className="ax-top">
-                    <div className="info-box my-3">
+                    <div className="my-3 info-box">
                       <div className="d-flex align-items-center justify-content-start">
                         <div>
                           <span className="user-icon u_icon"><img src={data.logoUrl ? data.logoUrl : "../../assets/images/shiba-round-icon.png"}/></span>
@@ -449,7 +449,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                         </div>
                       </div>
                     </div>
-                    <div className="form-field position-relative two-fld max-group extr_pd_remove bg-clr h-auto">
+                    <div className="h-auto form-field position-relative two-fld max-group extr_pd_remove bg-clr">
                       <div className="mid-chain w-100">
                         <input
                           className="w-100"
@@ -469,7 +469,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                       <p className="primary-text error">{errors.balance}</p>
                     )}
 
-                    <p className="inpt_fld_hlpr_txt mt-3 text-pop-right d-flex flex-wrap">
+                    <p className="flex-wrap mt-3 inpt_fld_hlpr_txt text-pop-right d-flex">
                       <span>
                         {/* <NumberFormat
                           value={(walletBalance * boneUSDValue).toFixed(tokenDecimal)}
@@ -484,7 +484,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                     </p>
                   </div>
                   <div className="ax-bottom">
-                    <div className="pop_btns_area row form-control mt-3">
+                    <div className="mt-3 pop_btns_area row form-control">
                       <div className="col-12">
                         <button className="w-100" type="submit" value="submit">
                           <div className="btn primary-btn d-flex align-items-center justify-content-center">
@@ -504,7 +504,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
               <div className="step_content fl-box">
                 <div className="ax-top">
                   <div className="image_area row">
-                    <div className="col-12 text-center watch-img-sec">
+                    <div className="text-center col-12 watch-img-sec">
                       <img
                         className="img-fluid img-wdth"
                         src="../../assets/images/progrs-img.png"
@@ -512,10 +512,10 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                     </div>
                   </div>
                   <div className="mid_text row">
-                    <div className="col-12 text-center">
+                    <div className="text-center col-12">
                       {/* <h4 className="ff-mos">Buy Voucher</h4> */}
                     </div>
-                    <div className="col-12 text-center">
+                    <div className="text-center col-12">
                       <p className="ff-mos">
                         Completing this transaction will stake your Bone tokens
                         and you will start earning rewards for the upcoming
@@ -573,7 +573,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
               <div className="step_content fl-box">
                 <div className="ax-top">
                   <div className="image_area row">
-                    <div className="col-12 text-center watch-img-sec">
+                    <div className="text-center col-12 watch-img-sec">
                       {/* <img
                         className="img-fluid img-wdth"
                         src="../../assets/images/progress-loading.gif"
@@ -584,10 +584,10 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                     </div>
                   </div>
                   <div className="mid_text row">
-                    <div className="col-12 text-center">
+                    <div className="text-center col-12">
                       <h4 className="ff-mos">Transaction in progress</h4>
                     </div>
-                    <div className="col-12 text-center">
+                    <div className="text-center col-12">
                       <p className="ff-mos">
                         Layer1 transactions can take longer time to complete
                         based upon network congestion. Please wait or increase
@@ -597,7 +597,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                   </div>
                 </div>
                 <div className="ax-bottom">
-                  <div className="pop_btns_area row form-control mt-3">
+                  <div className="mt-3 pop_btns_area row form-control">
                     <div className="col-12">
                       <a
                         className="btn primary-btn d-flex align-items-center"
@@ -617,7 +617,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
               <div className="step_content fl-box">
                 <div className="ax-top">
                   <div className="image_area row">
-                    <div className="col-12 text-center watch-img-sec">
+                    <div className="text-center col-12 watch-img-sec">
                       <img
                         className="img-fluid img-wdth"
                         src="../../assets/images/cmpete-step.png"
@@ -627,10 +627,10 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                     </div>
                   </div>
                   <div className="mid_text row">
-                    <div className="col-12 text-center">
+                    <div className="text-center col-12">
                       <h4 className="ff-mos">Delegation Submitted </h4>
                     </div>
-                    <div className="col-12 text-center">
+                    <div className="text-center col-12">
                       <p className="ff-mos">
                         Your tokens are staked successfully on validator.
                         Your delegation will take 4-5 mintues to reflect in your
@@ -640,7 +640,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                   </div>
                 </div>
                 <div className="ax-bottom">
-                  <div className="pop_btns_area row form-control mt-3">
+                  <div className="mt-3 pop_btns_area row form-control">
                     <div className="col-12">
                       <button className="w-100">
                         <a
