@@ -13,7 +13,7 @@ export default function Sidebar({
   onClickOutside,
 }) {
   const wrapperRef = useRef(null);
-  const { account } = useActiveWeb3React();
+  const { account,chainId=1 } = useActiveWeb3React();
   const [isVisible, setIsVisible] = useState(true);
   const router = useRouter();
   const [showWarning, setShowWarning] = useState(false);
