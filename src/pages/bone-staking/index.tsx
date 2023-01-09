@@ -49,7 +49,16 @@ const BoneStaking = () => {
     //  console.log(web3.eth, "account changes testing ")
   }
 
-  console.log(process.env.SUBH_GRAPH_URL, "provider ===> ")
+  console.log({
+    SUBH_GRAPH_URL: process.env.SUBH_GRAPH_URL,
+    RPC_517: process.env.RPC_517,
+    BONE: process.env.BONE,
+    STAKE_MANAGER_PROXY: process.env.STAKE_MANAGER_PROXY,
+    VALIDATOR_SHARE: process.env.VALIDATOR_SHARE,
+    STAKE_MANAGER: process.env.STAKE_MANAGER,
+    DEPOSIT_MANAGER_PROXY: process.env.DEPOSIT_MANAGER_PROXY,
+    WITHDRAW_MANAGER_PROXY: process.env.WITHDRAW_MANAGER_PROXY
+  }, " .env data  ===> ")
 
   const getValCount = async () => {
     try {

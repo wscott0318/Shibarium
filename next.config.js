@@ -28,7 +28,7 @@ const { withSentryConfig } = require("@sentry/nextjs");
 const nextConfig = {
   env: {
     SUBH_GRAPH_URL: process.env.SUBH_GRAPH_URL,
-    RPC_URL: process.env.RPC_URL,
+    RPC_517: process.env.RPC_517,
     BONE: process.env.BONE,
     STAKE_MANAGER_PROXY: process.env.STAKE_MANAGER_PROXY,
     VALIDATOR_SHARE: process.env.VALIDATOR_SHARE,

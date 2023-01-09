@@ -65,7 +65,7 @@ export const SUPPORTED_NETWORKS: {
       symbol: 'BONE',
       decimals: 18,
     },
-    rpcUrls: [process.env.RPC_URL as any],
+    rpcUrls: [process.env.RPC_517 as any],
     blockExplorerUrls: ['https://explorer.hailshiba.com'],
   },
   [ChainId.BSC]: {
