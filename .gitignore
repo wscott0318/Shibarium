@@ -24,7 +24,7 @@ public/workbox*.js.map
 
 /locale
 
-.env
+.env.local
 
 coverage
 yarn.lock
