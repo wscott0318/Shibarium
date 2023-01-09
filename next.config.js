@@ -26,6 +26,16 @@ const { withSentryConfig } = require("@sentry/nextjs");
  * @type {import('next').NextConfig}
  **/
 const nextConfig = {
+  env: {
+    SUBH_GRAPH_URL: process.env.SUBH_GRAPH_URL,
+    RPC_URL: process.env.RPC_URL,
+    BONE: process.env.BONE,
+    STAKE_MANAGER_PROXY: process.env.STAKE_MANAGER_PROXY,
+    VALIDATOR_SHARE: process.env.VALIDATOR_SHARE,
+    STAKE_MANAGER: process.env.STAKE_MANAGER,
+    DEPOSIT_MANAGER_PROXY: process.env.DEPOSIT_MANAGER_PROXY,
+    WITHDRAW_MANAGER_PROXY: process.env.WITHDRAW_MANAGER_PROXY
+  },
   webpack: (config, env, helpers, options) => {
     config.module.rules = [
       ...config.module.rules,
@@ -34,7 +44,7 @@ const nextConfig = {
         type: 'javascript/auto',
       },
     ]
-
+    
     return config
   },
   devIndicators: {

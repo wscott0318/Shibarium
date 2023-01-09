@@ -49,20 +49,20 @@ const BoneStaking = () => {
     //  console.log(web3.eth, "account changes testing ")
   }
 
-  // console.log(library?.provider, "provider ===> ")
+  console.log(process.env.SUBH_GRAPH_URL, "provider ===> ")
 
   const getValCount = async () => {
     try {
       const id = await ChainId()
       let instance = new web3test.eth.Contract(stakeManagerProxyABI, dynamicChaining[id]?.STAKE_MANAGER_PROXY);
       const validatorThreshold = await instance.methods.validatorThreshold().call();
-      const valInfo = await instance.methods.validators(9).call({ from: account });
-      const valStake = await instance.methods.validatorStake(9).call({ from: account });
+      // const valInfo = await instance.methods.validators(9).call({ from: account });
+      // const valStake = await instance.methods.validatorStake(9).call({ from: account });
       const totVals = await queryProvider.query({
         query: validators(),
       })
       const valCount = totVals?.data?.validators?.length;
-      console.log("instance ", totVals.data.validators.length);
+      console.log("instance qraph QL ==> ", totVals);
       setValCount(valCount)
       setValMaxCount(validatorThreshold)
     }
@@ -124,7 +124,7 @@ const BoneStaking = () => {
                 //   router.push('/all-validator')
                 //  } 
                 onClick={executeScroll}
-                className="btn  white-btn">Become a Delegator</button>
+                className="btn white-btn">Become a Delegator</button>
             </div>
             <div className="btns-wrap">
               <button onClick={() =>
@@ -141,7 +141,7 @@ const BoneStaking = () => {
 
   return (
     <>
-      <div className="main-content dark-bg-800 full-vh  font-up ffms-inherit staking-main">
+      <div className="main-content dark-bg-800 full-vh font-up ffms-inherit staking-main">
         {/* <StakingHeader /> */}
         {/* banner section start */}
         <section className="inner-banner dark-bg">

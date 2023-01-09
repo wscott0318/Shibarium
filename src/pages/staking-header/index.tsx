@@ -64,7 +64,7 @@ const StakingHeader = (type:any) => {
           console.log("val ID = ", valId);
           setValInfo(info);
         }
-      }).catch(err => console.log("err => ", err))
+      })
     } catch (error: any) {
       // console.log("catch err => ", error);
       Sentry.captureMessage("getValInfoApi ", error);
@@ -100,7 +100,7 @@ const StakingHeader = (type:any) => {
       Sentry.captureMessage("useEffect, file -> staking-header/index.tsx , line no. 55 ", err);
     }
   }, [account,userType]);
-  console.log("user type ==> " , userType);
+  // console.log("user type ==> " , userType);
   useEffect(() => {
     if (routeCheck("unbond-history")) {
       setHistory("Unbound History");

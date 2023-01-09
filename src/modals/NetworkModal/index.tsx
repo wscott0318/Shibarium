@@ -65,7 +65,7 @@ export const SUPPORTED_NETWORKS: {
       symbol: 'BONE',
       decimals: 18,
     },
-    rpcUrls: ['https://rpc-dev.analytics-shibaswap.com'],
+    rpcUrls: [process.env.RPC_URL as any],
     blockExplorerUrls: ['https://explorer.hailshiba.com'],
   },
   [ChainId.BSC]: {
