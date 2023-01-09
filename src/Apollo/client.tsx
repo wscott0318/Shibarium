@@ -1,9 +1,9 @@
-require("dotenv").config({ path: ".env" })
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
 
 export const queryProvider = new ApolloClient({
     link: createHttpLink({
-        uri: process.env.SUBH_GRAPH_URL
+        uri: process.env.SUBH_GRAPH_URL,
+        fetch,
     }),
     cache: new InMemoryCache()
 })
