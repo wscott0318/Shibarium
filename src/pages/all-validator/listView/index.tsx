@@ -3,7 +3,7 @@ import { useUserType } from 'app/state/user/hooks';
 import Link from 'next/link';
 import DelegatePopup from 'pages/delegate-popup';
 import React, { useState } from 'react';
-import { addDecimalValue, imagUrlChecking, inActiveCount, toFixedPrecent, tokenDecimal, web3Decimals } from 'web3/commonFunctions';
+import { addDecimalValue, inActiveCount, toFixedPrecent } from 'web3/commonFunctions';
 import { useWeb3React } from "@web3-react/core";
 import Scrollbar from "react-scrollbars-custom";
 import { useRouter } from 'next/router';
@@ -11,16 +11,27 @@ import MigratePopup from 'pages/migrate-popup';
 
 export default function ListView({ validatorsList, searchKey, loading, migrateData = {} }: { validatorsList: any, searchKey: string, loading: boolean, migrateData : any }) {
   const [selectedRow, setSelectedRow] = useState({})
-  const { account, deactivate, active } = useWeb3React();
+  const { account} = useWeb3React();
   const [userType, setUserType] = useUserType()
   const [showdelegatepop, setdelegatepop] = useState(false);
   const [showmigratepop, setmigratepop] = useState(false);
   
   console.log("validators list after searching " , validatorsList)
   
-  // console.log(migrateData);
   const router = useRouter();
-
+  const tootlTipDesc = (x:any) =>{
+    if(account){
+      if(x.fundamental === 1 || x.uptimePercent <= inActiveCount){
+        return <div className="tool-desc">This is a fundamental node. <br /> Delegation is not enabled here.</div>;
+      }
+      else if(router.asPath.split("/")[1] === "migrate-stake"){
+        return <div className="tool-desc tool-desc-sm">{x.contractAddress == migrateData.contractAddress ? "Stakes cannot be migrated to same Validator." : "Migrate Your Stakes here."}</div>;
+      }
+      else{
+        return <div className="tool-desc tool-desc-sm">Delegation is enabled.</div>
+      }
+    }
+  }
   return (
     <>
       <DelegatePopup
@@ -51,7 +62,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
             <tbody>
               {validatorsList?.length ? (
                 validatorsList.map((x: any, y: any) => (
-                  <tr key={y}>
+                  <tr key={x?.signer}>
                     <td>
                       <div className="self-align">
                         <span>
@@ -100,16 +111,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                         <div className="delegate_btn">
                           <button
                             className="btn primary-btn w-100"
-                            disabled={
-                              !account ? true : x.fundamental === 1
-                                ? true
-                                : x.uptimePercent <= inActiveCount
-                                  ? true
-                                  : x.contractAddress == migrateData.contractAddress ? true : false
-                            }
-                            // disabled={
-                            //   !account || x.fundamental === 1 || x.uptimePercent <= inActiveCount || x.contractAddress == migrateData.contractAddress
-                            // }
+                            disabled={!account || x.fundamental === 1 || x.uptimePercent <= inActiveCount || x.contractAddress == migrateData.contractAddress ? true : false}
                             onClick={() => {
                               setSelectedRow(x);
                               if (
@@ -127,11 +129,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                               ? "Stake here"
                               : "Delegate"}
                           </button>
-                          {account && (x.fundamental === 1 || x.uptimePercent <= inActiveCount
-                            ? (<div className="tool-desc">This is a fundamental node. <br /> Delegation is not enabled here.</div>)
-                            : (router.asPath.split("/")[1] === "migrate-stake"
-                              ? (<div className="tool-desc tool-desc-sm">{x.contractAddress == migrateData.contractAddress ? "Stakes cannot be migrated to same Validator." : "Migrate Your Stakes here."}</div>)
-                              : (<div className="tool-desc tool-desc-sm">Delegation is enabled.</div>)))}
+                          {tootlTipDesc(x)}
                           {!account && <div className="tool-desc tool-desc-sm">Login to enable delegation.</div>}
                         </div>
                       )}

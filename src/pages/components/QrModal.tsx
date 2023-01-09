@@ -41,9 +41,7 @@ const QrModal:React.FC<props> = ({show,setshow, title,address})=> {
              value={address} 
              logoWidth={30}
              bgColor='#fff' fgColor='#0C0F17' 
-             logoHeight={30}  
-            // logoImage={QrLogo}
-            // logoImage='https://www.thewistle.com/wp-content/uploads/2021/07/Shiba-Token-1.jpg'
+             logoHeight={30}
             logoImage='../../assets/images/shib-borderd-icon.png'
             />
           </div>

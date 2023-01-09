@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Header from "pages/layout/header";
-import StakingHeader from "pages/staking-header";
 import Link from 'next/link'
 
 export default function ErrorPage() {
@@ -13,12 +12,6 @@ export default function ErrorPage() {
                 
                 <div className="error-container">
                     <div className="text-center">
-                        {/* <h1 className="mb-3">
-                            <span className="fade-in" id="digit1">4</span>
-                            <span className="fade-in" id="digit2">0</span>
-                            <span className="fade-in" id="digit3">4</span>
-                        </h1>
-                        <h3 className="fadeIn mb-3">Page  Not Found</h3> */}
                         <img className='img-fluid' src="../../assets/images/404-img.gif" alt="404-error" width={600} />
                         <h5>Sorry, the page you are looking for could not be found.</h5>
                         <Link href="/" passHref>

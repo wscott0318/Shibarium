@@ -1,12 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react'
-import { Dropdown } from 'react-bootstrap';
-import InnerHeader from '../inner-header';
-import DelegatePopup from '../delegate-popup';
-import StakingHeader from '../staking-header'
+
 export default function delegator() {
-  const [modalShow, setModalShow] = React.useState(false);
   return (
     <>
       <div className="main-content dark-bg-800 full-vh">

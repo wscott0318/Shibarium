@@ -1,26 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
 import { SHIBARIUM_CHAIN_ID } from "app/config/constant";
 import { useActiveWeb3React } from "app/services/web3";
 import { useTokenBalance } from "app/hooks/useTokenBalance";
-// import { useTokenPrice } from "app/hooks/useTokenPrice";
 import { ERC20_ABI } from "app/constants/abis/erc20";
 import Web3 from "web3";
-import LoadingSpinner from "pages/components/Loading";
-import ConfirmPopUp from "pages/components/ConfirmPopUp";
 import { dynamicChaining } from "web3/DynamicChaining";
 import { tokenDecimal, USER_REJECTED_TX } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 
 export default function ImportantPopup(props) {
-  const { modalSend, handleContinueToSend, onHide } = props;
+  const { onHide } = props;
   const {
     chainId = SHIBARIUM_CHAIN_ID,
     account,
     library,
   } = useActiveWeb3React();
-  // const [modaltitle, setModaltitle] = useState("Important");
 
   const [loading, setLoading] = useState(false);
   const [recieverAddress, setRecieverAddress] = useState("");
@@ -28,11 +23,6 @@ export default function ImportantPopup(props) {
     dynamicChaining[chainId].BONE
   );
   const [amount, setAmount] = useState();
-  const [confirm, setConfirm] = useState(false);
-  const [tranHashCode, setTranHashCode] = useState("");
-  const tokenBal = useTokenBalance(tokenAddress);
-  //  const price = useTokenPrice(tokenAddress);
-  //  console.log(price)
 
   const transferToken = () => {
     try {

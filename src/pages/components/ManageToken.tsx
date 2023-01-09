@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
 import CommonModal from "../components/CommonModel";
-import { getWalletTokenList } from "../../services/apis/validator/index";
+import { getWalletTokenList ,getBoneUSDValue} from "../../services/apis/validator/index";
 import { getTokenBalance } from "../../hooks/useTokenBalance";
-import { getBoneUSDValue } from "../../services/apis/validator/index";
 import { useActiveWeb3React } from "../../services/web3";
 import { BONE_ID } from "../../config/constant";
 import Web3 from "web3";
 import { useAppDispatch } from "../../state/hooks";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import addTokenAbi from "../../ABI/custom-token-abi.json";
 import * as Sentry from "@sentry/nextjs";
 import { dynamicChaining } from "web3/DynamicChaining";
 import Link from "next/link";
-import { fetchLink, getDefaultChain, useStorage } from "../../web3/commonFunctions";
+import { getDefaultChain, useStorage } from "../../web3/commonFunctions";
 import TokenList from "./TokenList";
 import { uniqBy } from "lodash";
 import { useToken } from "app/hooks/Tokens";
@@ -59,8 +57,6 @@ export const Warning = ({ listing, setCoinList, resetLink, sortedLists }: any) =
               ]);
               sortedLists();
               resetLink();
-
-              // console.log("listing ==> ", listing);
             }, 1);
           }}
         >
@@ -78,9 +74,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   const dispatch = useAppDispatch();
 
   const bridgeType: string = localStorage.getItem("bridgeType") || "deposit";
-  // const [selectedToken, setSelectedToken] = useState(
-  //   JSON.parse(localStorage.getItem("depositToken") || "{}")
-  // );
   const [showTokenModal, setTokenModal] = useState(true);
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const [newToken, addNewToken] = useState("");
@@ -89,33 +82,11 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   const [dupToken, setDuplicateToken] = useState(false);
   const [addUrl, setAddUrl] = useState('');
   const [linkQuery, setLinkQuery] = useState("");
-  // const [newListing, setNewListing] = useState(null);
   const [coinList, setCoinList, setChain] = useStorage();
   const [isWrong, setIsWrong] = useState(false);
   const [defChain, setDefChain] = useState("");
-  // const [firstKey, setFirstKey] = useState(Math.random());
   const [DEFAULT_LIST, SET_DEFAULT_LIST] = useState({ enabled: true, locked: true, data: 'https://wispy-bird-88a7.uniswap.workers.dev/?url=http://tokens.1inch.eth.link' })
-  // const handleMenuState = () => {
-  //   setMenuState(!menuState);
-  // };
-  // const router = useRouter()
-  // useEffect(() => {
-  //   console.log("chain id  , ", SUPPORTED_NETWORKS);
-  // })
-  // const { search } = useLocation();
-  // const chain = new URLSearchParams(search).get('chain');
-  // useEffect(() => {
-  //   if(defUrl().includes('1inch')){
-  //     SET_DEFAULT_LIST({ enabled: true, locked: true, data: defUrl() });
-  //   }
-  // }, [defUrl()]);
-  // useEffect(() => {
-  //   if (chain) {
-  //     // @ts-ignore
-  //     setChain(chain);
-  //     console.log(DEFAULT_LIST);
-  //   }
-  // }, [chain])
+
   useEffect(() => {
     getDefaultChain().then((ch) => {
       setDefChain(ch);
@@ -129,17 +100,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       setAddUrl('https://goerli.etherscan.io/address/');
     }).catch(() => { });
   }, []);
-
-  // useEffect(() => {
-  //   if (linkQuery) {
-  //     fetchLink(linkQuery, setNewListing, setIsWrong);
-  //     console.log("new listing 130 ==> " , newListing, linkQuery);
-  //   }
-  //   else {
-  //     setNewListing(null);
-  //     setIsWrong(false);
-  //   }
-  // }, [linkQuery]);
 
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then((res) => {
@@ -175,10 +135,9 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     logo: "",
     chainId: ""
   });
-  console.log("search tokens ", searchToken);
-  const getTokensList = () => {
+  const getTokensList = async () => {
     try {
-      getWalletTokenList().then((res) => {
+      await getWalletTokenList().then((res) => {
         let list = res.data.message.tokens;
         list.forEach(async (x: any) => {
           if (x.parentName === "BoneToken") {
@@ -193,9 +152,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
         });
         setIsLoading(false);
         setTokenList(list);
-        // setTokenFilteredList(list);
         setTokenModalList([...localTokens, ...list]);
-        // console.log("token modal list ==> " , tokenModalList);
       });
     } catch (err: any) {
       setIsLoading(false);
@@ -207,9 +164,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       setIsLoading(true);
       getTokensList();
     }
-    // else {
-    //   router.push('/')
-    // }
   }, [account]);
 
   const handleSearchList = (key: any) => {
@@ -217,12 +171,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       setmodalKeyword(key);
       if (key.length) {
         let combinedList = [...tokenModalList, ...importedTokens];
-        // let newData = tokenList.filter((name) => {
-        //   return Object.values(name)
-        //   .join(" ")
-        //   .toLowerCase()
-        //   .includes(key.toLowerCase());
-        // });
 
         let newData = combinedList.filter((item: any) => {
           let result;
@@ -256,7 +204,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
     event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
-    event.currentTarget.className = "error";
+    event.currentTarget.className = "error me-2";
   };
 
   const addTokenHandler = async () => {
@@ -340,7 +288,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   useEffect(() => {
     try {
       if (tokenModalList.length > 0) {
-        // console.log("initial page load");
         let updatedArray = [...tokenModalList, ...localTokens];
         let uniqArray = uniqBy(updatedArray, "name");
         setTokenModalList(uniqArray);
@@ -382,7 +329,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
               if (tokenInfo.logoURI.startsWith('ipfs://')) {
                 logoURI = "https://ipfs.io/ipfs/" + tokenInfo?.logoURI.slice(7);
               }
-              // console.log(tokenInfo.logoURI, logoURI);
               setTempTokens({
                 parentContract: tokenInfo?.address,
                 name: tokenInfo?.name,
@@ -413,29 +359,12 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
               title: "Manage Token",
             });
           }
-          else {
-          }
         }
       }
     } catch (err: any) {
       Sentry.captureMessage("getTempTokens", err);
     }
   };
-
-  // const getSearchedToken = async (data:any) => {
-  //   const contractInstance = new web3.eth.Contract(
-  //     addTokenAbi,
-  //     data.target.value
-  //   );
-  //   let symbol: any = await contractInstance.methods.symbol().call({from : account});
-  //   console.log("contract data ==> " ,contractInstance , symbol);
-  //   let name: any = await contractInstance.methods.name().call();
-  //   let decimals: any = await contractInstance.methods.decimals().call();
-
-  // }
-  // useEffect(() => {
-  //   getTempTokens();
-  // }, [newToken, tokenState]);
 
   const clearAllCustomTokens = () => {
     try {
@@ -451,8 +380,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       Sentry.captureMessage("clearAllCustomTokens", err);
     }
   };
-
-  // console.log("tokenmodallist", tokenModalList);
 
   const spliceCustomToken = (index: any) => {
     try {
@@ -494,21 +421,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       title: "Select a Token",
     });
   }
-  // const NewTokenCheck = async (e:any) => {
-  //   // console.log("tokenListModal ==> " ,tokenModalList);
-  //   var duplicateToken = tokenModalList.filter((val:any) => val?.parentContract == e?.target?.value).length > 0;
-  //   if(duplicateToken){
-  //     return
-  //   }
-  //   // console.log(e.target.value);
-  // }
-  //   const checkStatus = (url: any) => {
-  //     const index = [DEFAULT_ITEM, ...tokenModalList].findIndex(
-  //       (el) => (el?.data?.includes(url) || url.includes(el.data))
-  //     );
-  //     console.log(url, " ==> " , DEFAULT_ITEM, ...tokenModalList)
-  //   return index !== -1;
-  // };
+
   return (
     <div>
       {/* Token popups start */}
@@ -573,7 +486,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                     </div>
                   </div>
                   {!isLoading ? (<div className="token-listwrap noScrollbar">
-                    {/* {console.log("setLinkquery ",setLinkQuery)} */}
                     {defChain &&
                       <TokenList coinList={coinList}
                         DEFAULT_ITEM={DEFAULT_LIST}

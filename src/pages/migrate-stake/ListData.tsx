@@ -3,20 +3,16 @@ import { migrateValidatorsList, validatorsList } from 'app/services/apis/validat
 import { filter, orderBy } from 'lodash';
 import { Dropdown } from "react-bootstrap";
 import React, { useEffect, useState } from 'react'
-import { useUserType } from 'app/state/user/hooks';
+import { useUserType,useMigrateStake } from 'app/state/user/hooks';
 import ListView from '../all-validator/listView/index';
 import GridView from '../all-validator/gridView/index';
-import ValidatorGrid from '../all-validator/listView/index';
 import Pagination from 'app/components/Pagination';
 import LoadingSpinner from 'pages/components/Loading';
-// @ts-ignore
-import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 import { queryProvider } from 'Apollo/client';
 import { allValidatorsQuery } from 'Apollo/queries';
 import * as Sentry from '@sentry/nextjs'
-import { inActiveCount, tokenDecimal, web3Decimals } from 'web3/commonFunctions';
+import { inActiveCount, web3Decimals } from 'web3/commonFunctions';
 import { useRouter } from 'next/router';
-import { useMigrateStake } from "app/state/user/hooks";
 
 
 const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boolean }) => {
@@ -78,7 +74,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
 
   useEffect(() => {
     setLoading(false)
-    var requestOptions = {
+    let requestOptions = {
       method: 'GET',
       redirect: 'follow'
     }
@@ -137,7 +133,8 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
       setSortKey(key)
       let sortedList;
       if (type === 'number') {
-        sortedList = validators.sort((a: any, b: any) => {
+        sortedList = validators;
+        sortedList.sort((a: any, b: any) => {
           return (Number(b[column]) - Number(a[column]))
         })
       } else {
@@ -178,7 +175,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
               </div>
             </div>
           </div>
-         {balance?.migrateData ? null :  <div className="d-flex align-items-center btns-space tab-btns">
+          {balance?.migrateData ? null : <div className="d-flex align-items-center btns-space tab-btns">
             <div className="me-3">
               <p onClick={() => setIsActiveTab(true)} className={`btn black-btn ff-mos ${isActiveTab ? "btn-active" : ""}`} title="">
                 <span>Active</span>

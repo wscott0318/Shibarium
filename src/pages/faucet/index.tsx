@@ -1,13 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState,useEffect, useRef } from "react";
-import { Nav } from "react-bootstrap";
-import DogTab from './dogTabfirst';
-import DogTabfirst from './dogTabsecond';
-import Footer from "../footer/index"
 import CommonModal from "../components/CommonModel";
-import Header from "../layout/header";
-import StakingHeader from '../staking-header'
 import InnerHeader from "../../pages/inner-header";
 import Sidebar from "../layout/sidebar"
 import axios from "axios";
@@ -30,7 +24,6 @@ export default function faucet() {
   const { chainId = 1, account, library } = useActiveWeb3React();
 
   const handleMenuState = () => {
-    // console.log("called click")
     setMenuState(!menuState);
   }
 
@@ -40,22 +33,14 @@ export default function faucet() {
     }
   }, [account])
   
-
-  // console.log(chainId, account, library)
   const handleTopdoG = () => {
-    // console.log("handleTopdoG");
     setIsTopdoG(true);
     setIsPuppyDog(false);
   };
   const handlePuppyDog = () => {
-    // console.log("handlePuppyDog");
     setIsTopdoG(false);
     setIsPuppyDog(true);
   };
-
-  // console.log("isTopdoG",isTopdoG);
-  // console.log("isPuppyDog",isPuppyDog);
-
   const callFaucetAPI = async () => {
     setSwapModal(true)
     setModalState({

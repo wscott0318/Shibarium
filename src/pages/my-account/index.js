@@ -31,7 +31,6 @@ export default function MyAcount() {
   const [delegatorData, setDelegatorData] = useState({});
   var availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
   var isloading = availBalance == -1;
-
   useEffect(() => {
     if(account){
       if(userType === 'Validator' && valId <= 0){

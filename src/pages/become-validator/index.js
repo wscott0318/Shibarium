@@ -51,16 +51,10 @@ const Rewards = () => {
     }
   }, [account, userStatus, userType]);
 
-  // console.log(userStatus)
-
   const getValInfo = () => {
     let id = account;
     getValidatorInfo(id.toLowerCase())
       .then((res) => {
-        // console.log(res.data.message.val, " vall inffoo ===> ")
-        // setValues('name', res?.data?.message?.val?.name)
-        // setValues('publickey', res.data.message.val.publickey)
-        // setValues('website', res.data.message.val.description)
         setBecomeValidateData({
           name: res?.data?.message?.val?.name,
           publickey: res.data.message.val.publickey,
@@ -72,7 +66,6 @@ const Rewards = () => {
         );
       })
       .catch((err) => {
-        // console.log(err);
       });
   };
   const getUsertypeAPI = (accountAddress) => {
@@ -83,7 +76,6 @@ const Rewards = () => {
           let valID = res.data.data.validatorId
             ? res.data.data.validatorId
             : "0";
-          // console.log(ut)
           setUserType(ut);
           setValId(valID);
         }
@@ -97,8 +89,6 @@ const Rewards = () => {
       getUsertypeAPI(account);
     }
   }, [account, stepState]);
-
-  // console.log("Become Validate Data in Parent",becomeValidateData)
 
   const handleEdit = (value) => {
     try {

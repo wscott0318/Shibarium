@@ -1,12 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import Footer from "../../pages/footer/index";
 import { useActiveWeb3React } from "../../services/web3";
 
 export default function Home() {
-  try {
-    const { account, chainId = 1 } = useActiveWeb3React();
+  const { account} = useActiveWeb3React();
  
     return (
       <>
@@ -20,17 +19,6 @@ export default function Home() {
                     <h1 className="banner-title mb-3 ff-mos">
                     Shibarium
                     </h1>
-                    {/* tolltip test start*/}
-
-                    {/* <div className="cus-tooltip d-inline-block">
-                          <div className="tool-ico">
-                            !
-                          </div>
-                          <div className="tool-desc">
-                            Lorem, ipsum.
-                          </div>
-                        </div> */}
-                    {/* tooltip test end*/}
 
                     <p className="banner-desc ff-mos">
                       Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus
@@ -46,13 +34,12 @@ export default function Home() {
                         </Link>
                       </div>
                       <div className="btn-col">
-                        {/* <a className="btn secondary-btn w-100 d-block ff-mos" href="/">Develop</a> */}
+                        
                       </div>
                     </div>
                   </div>
                 </div>
-                {/* <div className="banner-col-e banner-img" style={{backgroundImage: "url(" + "../images/banner-img.png" + ")",}}>
-                              </div> */}
+
                 <div className="banner-img">
                   <img
                     className="img-fluid"
@@ -75,25 +62,7 @@ export default function Home() {
                   </h2>
                 </div>
                 <div className="row cus-row justify-content-center">
-                  {/* <div className="col-lg-4 col-md-6 col-sm-8 cus-col">
-                    <div className="ftrs-card">
-                      <div className='ftrs-head'>
-                        <h3 className='fw-600 ff-mos'>Swap</h3>
-                        <div className="ftrs-icon">
-                          <img className='img-fluid' src="../../assets/images/swap.png" alt="" />
-                        </div>
-                      </div>
-                      <p className='frts-desc ff-mos'>
-                        Lorem ipsum dolor sit amet. Ut asperiores tenetur et natus laudantium eos
-                        asperiores illum.
-                      </p>
-                      <Link href="/swap-token">
-                        <a className='link'><span>Learn More</span>
-                          <img className='img-fluid' src="../../assets/images/link-arrow.png" alt="arrow-icon" />
-                        </a>
-                      </Link>
-                    </div>
-                  </div> */}
+                 
                   <div className="col-lg-4 col-md-6 col-sm-8 cus-col">
                     <div className="ftrs-card ftrs-active">
                       <div className="ftrs-head">
@@ -122,23 +91,7 @@ export default function Home() {
                       </Link>
                     </div>
                   </div>
-                  {/* <div className="col-lg-4 col-md-6 col-sm-8 cus-col">
-                    <div className="ftrs-card">
-                      <div className='ftrs-head'>
-                        <h3 className='fw-600 ff-mos'>Burn</h3>
-                        <div className="ftrs-icon">
-                          <img className='img-fluid' src="../../assets/images/burn.png" alt="" />
-                        </div>
-                      </div>
-                      <p className='frts-desc ff-mos'>
-                        Lorem ipsum sdolor sit amet. Ut asperiores tenetur et natus laudantium eos
-                        asperiores illum.
-                      </p>
-                      <a href="/" className='link'><span>Learn More</span>
-                        <img className='img-fluid' src="../../assets/images/link-arrow.png" alt="arrow-icon" />
-                      </a>
-                    </div>
-                  </div> */}
+                  
                 </div>
               </div>
             </section>
@@ -497,16 +450,5 @@ export default function Home() {
         </main>
       </>
     );
-  } catch (err) {
-    // console.log(err);
-  }
-  // const {account}=useContext(ProjectContext)
 
-  // const { active,deactivate } = useWeb3React()
-  // const [accountsAddress, setAccountsAddress] = useState("");
-  // useEffect(() => {
-  //   setAccountsAddress(localStorage.getItem("accounts"));
-  //   console.log('chainId',chainId)
-  //   console.log('account-home',account)
-  // },[account]);
 }

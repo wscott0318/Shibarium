@@ -1,11 +1,6 @@
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import * as yup from "yup";
-import Web3 from "web3";
-import {
-  getValidatorInfo,
-  registerValidator,
-} from "services/apis/network-details/networkOverview";
 import { useActiveWeb3React } from "../../services/web3";
 import LoadingSpinner from "pages/components/Loading";
 import * as Sentry from "@sentry/nextjs";
@@ -57,48 +52,29 @@ function StepTwo({
   const [apiLoading, setApiLoading] = useState(false);
   const [userAddress, setUserAddres] = useState(account);
 
-  // const getValInfo = () => {
-  //   let id : any = account
-  //   getValidatorInfo(id.toLowerCase()).then((res : any) => {
-  //     console.log(res.data.message.val, " vall inffoo ===> ")
-  //     setValues('name', res?.data?.message?.val?.name)
-  //     setValues('publickey', res.data.message.val.publickey)
-  //     setValues('website', res.data.message.val.description)
-  //   }).catch((err : any) => {
-  //     console.log(err)
-  //   })
-  // }
-
   useEffect(() => {
     if (account) {
       setUserAddres(account);
-      // getValInfo()
-      // setValues('address', account)
     }
   }, [account]);
 
   const callAPI = async (val: any) => {
-    // console.log("call API called");
     try {
       if (imageData) {
         setApiLoading(false);
         val.image = imageData;
-        // console.log(val);
         setBecomeValidateData(val);
         stepHandler("next");
       } else if (becomeValidateData.image) {
         setApiLoading(false);
         val.imageURL = becomeValidateData.image;
-        // console.log(val);
         setBecomeValidateData(val);
         stepHandler("next");
       } else {
-        // console.log("image not valid");
         setValidation({ address: false, image: true });
       }
     } catch (err: any) {
       Sentry.captureMessage("callAPI", err);
-      // console.log("image vaild");
     }
   };
 
@@ -108,14 +84,8 @@ function StepTwo({
     website: "",
   });
 
-  // console.log("Become Validate Data in Step Two", initialValues);
   useEffect(() => {
     if (account) {
-      // console.log(
-      //   becomeValidateData,
-      //   Object.values(becomeValidateData),
-      //   "data "
-      // );
       setInitialValues(becomeValidateData);
       setBecomeValidateData(becomeValidateData);
       setValues(becomeValidateData);
@@ -143,10 +113,6 @@ function StepTwo({
     initialValues: initialValues,
     validationSchema: validatorSchema,
     onSubmit: (values) => {
-      //console.log("Value", values);
-      // console.log(values.website, "values.web");
-      // console.log(values.name, "values.nem");
-      // console.log(values.publickey, "values.publickey");
       callAPI(values);
     },
   });
@@ -159,14 +125,18 @@ function StepTwo({
         setValidation({ address: false, image: false });  
       } else if(event.target.files[0]?.size > 204800){
         setImageSize(true);
+        setValidation({ address: false, image: false });
       }
     } catch (err: any) {
       Sentry.captureMessage("onImageChange", err);
     }
-    // console.log(event.target.files[0])
   };
 
-  
+  const valMsg = () => {
+    if(validation.image) return 'Image is required.';
+    else if (imageSize) return "Maximum allowed size is 200 Kb";
+    return null;
+  }
 
   return (
     // <>
@@ -209,13 +179,13 @@ function StepTwo({
                 </div>
               </div>
             </div>
-            {validation.image ? (
-              <p className="primary-text error ff-mos">image is required</p>
+            <p className="primary-text error ff-mos">{valMsg()}</p>
+            {/* {validation.image ? (
             ) : imageSize ? (
               <p className="primary-text error ff-mos">
                 only under 200 kb allowed
               </p>
-            ) : null}
+            ) : null} */}
           </div>
 
           <div className="col-sm-6 form-grid">
@@ -312,22 +282,12 @@ function StepTwo({
             type="submit"
             value="submit"
             className="btn primary-btn w-100"
-            // onClick={() => {
-            //   if (
-            //     Object.keys(errors).length === 0 &&
-            //     Object.getPrototypeOf(errors) === Object.prototype
-            //   ) {
-            //     setBecomeValidateData(values)
-            //     stepHandler("next");
-            //   }
-            // }}
           >
             <span className="ff-mos">Next</span>
           </button>
         </div>
       </div>
     </form>
-    // </>
   );
 }
 

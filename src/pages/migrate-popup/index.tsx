@@ -1,26 +1,15 @@
 import React, { useEffect, useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import { useEthBalance } from "../../hooks/useEthBalance";
 import { BONE_ID } from "app/config/constant";
 import { getBoneUSDValue } from "app/services/apis/validator";
 import NumberFormat from "react-number-format";
 import { useActiveWeb3React, useLocalWeb3 } from "app/services/web3";
 import { getExplorerLink } from "app/functions/explorer";
-import { ChainId } from "shibarium-get-chains";
-import ToastNotify from "pages/components/ToastNotify";
-import { useTokenBalance, useWalletTokenBalance } from "app/hooks/useTokenBalance";
-import Web3 from "web3";
-import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import fromExponential from "from-exponential";
 import {
-  addDecimalValue,
-  getAllowanceAmount,
-  MAXAMOUNT,
   toFixedPrecent,
   USER_REJECTED_TX,
-  web3Decimals,
+  web3Decimals,currentGasPrice,tokenDecimal
 } from "../../web3/commonFunctions";
-import ERC20 from "../../ABI/ERC20Abi.json";
 import CommonModal from "pages/components/CommonModel";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -29,15 +18,11 @@ import {
   finalizeTransaction,
 } from "../../state/transactions/actions";
 import { useAppDispatch } from "../../state/hooks";
-import { VALIDATOR_SHARE } from "../../web3/contractAddresses";
 import { dynamicChaining } from "web3/DynamicChaining";
-import { Spinner } from "react-bootstrap";
-import { currentGasPrice } from "../../web3/commonFunctions";
-import { tokenDecimal } from "../../web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 import { useRouter } from "next/router";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
-import { useMigrateStake, useValId } from "app/state/user/hooks";
+import { useMigrateStake } from "app/state/user/hooks";
 import { CircularProgress } from "@material-ui/core";
 const initialModalState = {
   step0: true,
@@ -58,9 +43,7 @@ const MigratePopup: React.FC<any> = ({
   const [boneUSDValue, setBoneUSDValue] = useState<number>(0);
   const { account, chainId = 1, library } = useActiveWeb3React();
   const web3 = useLocalWeb3();
-  // const [data, setData] = useState();
   const dispatch = useAppDispatch();
-  // const [validatorInfo , setValidatorInfo ] = useState(data);
   const [migrateState, setmigrateState] = useState(initialModalState);
   const [loader, setLoader] = useState(false);
   const [transactionState, setTransactionState] = useState({
@@ -68,7 +51,6 @@ const MigratePopup: React.FC<any> = ({
     title: "",
   });
   const [explorerLink, setExplorerLink] = useState<string>("");
-  // const [valId, setValId] = useValId();
   const [validatorID, setValidatorID] = useState<any>("");
   const [balance, setBalance] = useState(0);
   const [migrateData, setMigrateData] = useMigrateStake();
@@ -78,14 +60,10 @@ const MigratePopup: React.FC<any> = ({
     getBoneUSDValue(BONE_ID).then((res) => {
       setBoneUSDValue(res.data.data.price);
     });
-    if (account) {
-      // getBalanceG()
-    }
   }, [account]);
 
   const useMax = (e: any) => {
     e.preventDefault();
-    // setAmount(walletBalance);
     setFieldValue("balance", balance);
   };
   const closeModal = (e: any) => {
@@ -94,8 +72,6 @@ const MigratePopup: React.FC<any> = ({
 
   const totalStake = (migrateData: any) => {
     let stakeAmount = migrateData?.data?.stake;
-    // let reward = +migrateData?.data?.migrateData?.reward > 0 ? (parseInt(migrateData?.data?.migrateData?.reward) / 10 ** web3Decimals).toFixed(tokenDecimal) : "0.00";
-    // let total = (parseFloat(stakeAmount) + parseFloat(reward));
     setBalance(stakeAmount);
   }
 
@@ -152,7 +128,6 @@ const MigratePopup: React.FC<any> = ({
             let newStake = (parseFloat(migrateData?.data?.stake) - values.balance);
             setMigrateData(migrateData?.data?.migrateData, newStake);
             setmigrateState(initialModalState);
-            // setProcessing("Completed");
             setFieldValue("balance", "");
             
           })
@@ -173,15 +148,12 @@ const MigratePopup: React.FC<any> = ({
                 },
               })
             );
-            // setmigratepop(false);
             setProcessing("Completed");
             setTransactionState({ state: false, title: "" });
-            // window.location.reload();
             router.back();
             resetForm();
           })
           .on("error", (res: any) => {
-            // console.log("error ", res);
             setmigrateState(initialModalState);
             setmigratepop(false);
             setProcessing("Migrate");
@@ -189,10 +161,6 @@ const MigratePopup: React.FC<any> = ({
             setFieldValue("balance", "");
             resetForm();
           });
-      }
-      else {
-        // console.log("Account not found");
-        // setProcessing("Error");
       }
     }
     catch (err: any) {
@@ -239,14 +207,10 @@ const MigratePopup: React.FC<any> = ({
     initialValues: initialValues,
     validationSchema: schema,
     onSubmit: (values) => {
-      // console.log("Value", values);
     },
   });
 
   const handleClose = () => {
-    // if (transactionState.state) {
-    //   window.location.reload()
-    // }
     setmigrateState(initialModalState);
     setmigratepop(false);
     setProcessing("Migrate");

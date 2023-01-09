@@ -1,6 +1,4 @@
 
-import { Dropdown } from "react-bootstrap";
-
 function GasToken() {
 
     return (

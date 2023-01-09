@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Dropdown, Navbar, NavDropdown, Container, Nav } from "react-bootstrap";
+import { Dropdown, NavDropdown } from "react-bootstrap";
 import { useActiveWeb3React } from 'app/services/web3';
 import { useRouter } from "next/router";
-import Link from 'next/link';
 
 const AppHeader = () => {
   const { chainId = 1, account, active, library } = useActiveWeb3React();
@@ -25,20 +24,8 @@ const AppHeader = () => {
     }
   }, [asPath])
 
-  // console.log(title)
-  // if (account) {
   return (
     <div className="shib-dropdown d-flex justify-content-center align-items-center">
-      {/* <Link href={`/bone-staking`} passHref>
-          <div className="d-flex justify-content-center align-items-center">
-            <div className="dot-icon cursor-pointer" id="basic-nav-dropdown">
-              <img src="../../assets/images/menu-icon.png" alt="" />
-            </div>
-            <h6 className={"light-text dd-ico cursor-pointer ms-2"}>
-              Staking
-            </h6>
-          </div>
-        </Link> */}
       <Dropdown className="nav-item d-flex align-items-center cus-dd app-drop">
         <div className="dot-icon" id="basic-nav-dropdown">
           <img src="../../assets/images/menu-icon.png" alt="" />
@@ -88,23 +75,10 @@ const AppHeader = () => {
             </NavDropdown.Item>
             </>
           )}
-          {/* <NavDropdown.Item href="#action/3.3">
-                        <h6 className="fw-600 light-text left-border">
-                          Widget Dashboard
-                        </h6>
-                        <span className="light-text">
-                          Manage all your Shibarium wallet widgets at one place
-                        </span>
-                      </NavDropdown.Item> */}
         </NavDropdown>
       </Dropdown>
     </div>
   );
-  // }
-  // else {
-  //   return null;
-  // }
-
 }
 
 export default AppHeader

@@ -46,7 +46,7 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
                 <tbody>
                   {delegators.length > 0 ? (
                     delegators.map((item: any, i: any) => (
-                      <tr>
+                      <tr key={item?.address}>
                         <td>
                           <span>
                             <img src="../../assets/images/shiba-round-icon.png" />

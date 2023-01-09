@@ -2,8 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/no-unknown-property */
-import React, { useState, useEffect, useContext } from "react";
-import { Dropdown, Navbar, Container, Nav } from "react-bootstrap";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { useUserType, useValId } from "../../state/user/hooks";
 import NetworkDetails from './NetworkDetails';
@@ -15,9 +14,8 @@ import Web3 from "web3";
 import * as Sentry from "@sentry/nextjs";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
 import { L1Block, ChainId } from 'app/hooks/L1Block';
-import { useRef } from "react";
 import { queryProvider } from "Apollo/client";
-import { allValidatorsQuery, validators } from "Apollo/queries";
+import { validators } from "Apollo/queries";
 
 
 
@@ -45,11 +43,7 @@ const BoneStaking = () => {
   const checkEth = async () => {
     let lib: any = library
     let web3: any = new Web3(lib?.provider)
-    // const getTxn : any = await web3.eth.getPendingTransactions()
-    //  console.log(web3.eth, "account changes testing ")
   }
-
-  // console.log(library?.provider, "provider ===> ")
 
   const getValCount = async () => {
     try {
@@ -62,7 +56,6 @@ const BoneStaking = () => {
         query: validators(),
       })
       const valCount = totVals?.data?.validators?.length;
-      console.log("instance ", totVals.data.validators.length);
       setValCount(valCount)
       setValMaxCount(validatorThreshold)
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown, Navbar, NavDropdown, Container, Nav } from "react-bootstrap";
+import {NavDropdown } from "react-bootstrap";
 import { useNetworkModalToggle } from "../../state/application/hooks";
 import { useWeb3React } from "@web3-react/core";
 import { getNetworkName } from 'web3/commonFunctions';
@@ -18,7 +18,6 @@ const NetworkButton = () => {
     id=""
   >
     <NavDropdown.Item
-      // disabled={user ? false : true}
       onClick={toggleNetworkModal}
     >
       <h6 className="fw-600 light-text left-border">

@@ -1,12 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useRef, useEffect, useContext } from "react";
-import { Button, Container, Nav, Navbar, NavDropdown, Dropdown } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import { Container, Nav, Navbar, NavDropdown, Dropdown } from 'react-bootstrap';
 import StakingHeader from '../staking-header'
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useWeb3React } from "@web3-react/core";
-import ProjectContext from "../../context/ProjectContext";
 import Web3Status from "app/components/Web3Status";
 import { getUserType } from "app/services/apis/user/userApi";
 import { useUserType, useValInfoContract, useValId } from "app/state/user/hooks";
@@ -55,10 +54,6 @@ export default function Header() {
       console.log(showWarning);
     }
   };
-  // console.log("valInfoContract data=======>",userType,valInfoContract)
-  // const [valId, setValId] = useValId();
-
-  // console.log("valid redux ===> ",userType, valId);
 
   useEffect(() => {
     if (account) {

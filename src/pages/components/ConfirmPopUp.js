@@ -1,6 +1,4 @@
 import React,{useState} from "react";
-import { Modal } from "react-bootstrap";
-import CopyToClipboard from "react-copy-to-clipboard";
 // import copy-wht-icon from "../../assets/images/copy-wht-icon.png"
 import * as Sentry from "@sentry/nextjs";
  const ConfirmPopUp = (props) => {

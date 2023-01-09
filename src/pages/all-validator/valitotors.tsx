@@ -1,20 +1,14 @@
-import { useSearchFilter } from 'app/hooks/useSearchFilter'
 import { validatorsList } from 'app/services/apis/validator'
 import { filter, orderBy } from 'lodash';
 import { Dropdown } from "react-bootstrap";
 import React, { useEffect, useState } from 'react'
 import ListView from './listView';
 import ValidatorGrid from './gridView';
-import Pagination from 'app/components/Pagination';
 import LoadingSpinner from 'pages/components/Loading';
-// @ts-ignore
-import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
-import { queryProvider } from 'Apollo/client';
-import { allValidatorsQuery } from 'Apollo/queries';
 import * as Sentry from '@sentry/nextjs'
 import { inActiveCount } from 'web3/commonFunctions';
 import { useRouter } from 'next/router';
-import { LockClosedIcon, SearchIcon, XCircleIcon } from '@heroicons/react/outline';
+import { SearchIcon, XCircleIcon } from '@heroicons/react/outline';
 import { useUserType } from 'app/state/user/hooks';
 
 const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boolean }) => {
@@ -104,9 +98,10 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
   const onSort = (key: string, column: string, type: string) => {
     try {
       setSortKey(key)
-      let sortedList;
+      let sortedList:any;
       if (type === 'number') {
-        sortedList = validators.sort((a: any, b: any) => Number(b[column]) - Number(a[column]))
+        sortedList = validators
+        sortedList.sort((a: any, b: any) => Number(b[column]) - Number(a[column]))
         console.log("sorted list", sortedList);
       } else {
         if (userType == "Delegator") {

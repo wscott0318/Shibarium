@@ -1,5 +1,4 @@
-import CopyHelper from 'app/components/AccountDetails/Copy';
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Modal } from 'react-bootstrap'
 import * as Sentry from "@sentry/nextjs";
 
