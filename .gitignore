@@ -3,7 +3,7 @@
 /node_modules
 
 .DS_Store
-.env
+
 
 npm-debug.log*
 yarn-debug.log*
@@ -23,7 +23,7 @@ public/workbox*.js.map
 
 /locale
 
-.env.local
+
 
 coverage
 yarn.lock
