@@ -1,6 +1,6 @@
 import Web3 from 'web3'
 const HttpProvider = "https://goerli.infura.io/v3/49e2ef5f477941c1b90a222c858c574e";
-const HttpProviderPUPPYNET517 = process.env.RPC_URL;
+const HttpProviderPUPPYNET517 = process.env.RPC_517;
 
 export function L1Block(): any {
     try{
