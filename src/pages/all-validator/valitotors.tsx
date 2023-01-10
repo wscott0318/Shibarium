@@ -30,7 +30,6 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
     setLoading(false)
     await validatorsList(searchKey, requestOptions)
       .then((res: any) => {
-        // console.log("res => ", res);
         setLoading(false)
         if (res.status == 200) {
           let activeList: any;

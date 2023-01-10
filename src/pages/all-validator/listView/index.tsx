@@ -8,26 +8,26 @@ import { useWeb3React } from "@web3-react/core";
 import Scrollbar from "react-scrollbars-custom";
 import { useRouter } from 'next/router';
 import MigratePopup from 'pages/migrate-popup';
+import DynamicShimmer from 'app/components/Shimmer/DynamicShimmer';
 
-export default function ListView({ validatorsList, searchKey, loading, migrateData = {} }: { validatorsList: any, searchKey: string, loading: boolean, migrateData : any }) {
+export default function ListView({ validatorsList, searchKey, loading, migrateData = {} }: { validatorsList: any, searchKey: string, loading: boolean, migrateData: any }) {
   const [selectedRow, setSelectedRow] = useState({})
-  const { account} = useWeb3React();
+  const { account } = useWeb3React();
   const [userType, setUserType] = useUserType()
   const [showdelegatepop, setdelegatepop] = useState(false);
   const [showmigratepop, setmigratepop] = useState(false);
-  
-  // console.log("validators list after searching " , validatorsList)
-  
+  const removeLoader = !!validatorsList?.length;
+
   const router = useRouter();
-  const tootlTipDesc = (x:any) =>{
-    if(account){
-      if(x.fundamental === 1 || x.uptimePercent <= inActiveCount){
+  const tootlTipDesc = (x: any) => {
+    if (account) {
+      if (x.fundamental === 1 || x.uptimePercent <= inActiveCount) {
         return <div className="tool-desc">This is a fundamental node. <br /> Delegation is not enabled here.</div>;
       }
-      else if(router.asPath.split("/")[1] === "migrate-stake"){
+      else if (router.asPath.split("/")[1] === "migrate-stake") {
         return <div className="tool-desc tool-desc-sm">{x.contractAddress == migrateData.contractAddress ? "Stakes cannot be migrated to same Validator." : "Migrate Your Stakes here."}</div>;
       }
-      else{
+      else {
         return <div className="tool-desc tool-desc-sm">Delegation is enabled.</div>
       }
     }
@@ -60,14 +60,14 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
             </thead>
             <Scrollbar></Scrollbar>
             <tbody>
-              {validatorsList?.length ? (
+              {removeLoader && validatorsList?.length ? (
                 validatorsList.map((x: any, y: any) => (
                   <tr key={x?.signer}>
                     <td>
                       <div className="self-align">
                         <span>
                           <img
-                            style={{ height: 24,width:24 }}
+                            style={{ height: 24, width: 24 }}
                             src={
                               x.logoUrl?.startsWith("http")
                                 ? x.logoUrl
@@ -103,8 +103,8 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                       {userType === "Validator" ? (
                         <Link href={`/all-validator/${x.signer}`} passHref>
                           <div className='delegate_btn'>
-                          <p className="btn primary-btn w-100">View</p>
-                          <div className="tool-desc tool-desc-sm">View Validator Info.</div>
+                            <p className="btn primary-btn w-100">View</p>
+                            <div className="tool-desc tool-desc-sm">View Validator Info.</div>
                           </div>
                         </Link>
                       ) : (
@@ -136,10 +136,16 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                     </td>
                   </tr>
                 ))
-              ) : (
+              ) :
                 <tr>
                   <td colSpan={6}>
-                    {/* <DynamicShimmer type={"table"} rows={13} cols={6} /> */}
+                    <DynamicShimmer type={"table"} rows={13} cols={6} />
+                  </td>
+                </tr>
+              }
+              {removeLoader && !validatorsList?.length && (
+                <tr>
+                  <td colSpan={6}>
                     <div className="no-found">
                       <img src="../../assets/images/no-record.png" />
                     </div>

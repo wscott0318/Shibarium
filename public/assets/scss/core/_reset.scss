@@ -1084,7 +1084,9 @@ td.no_record img {
   border-color: transparent;
   color: #666;
 }
-
+.MuiSlider-valueLabel{
+  display: none;
+}
 .switch-wrapper {
   .switch {
     position: relative;
