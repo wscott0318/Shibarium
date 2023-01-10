@@ -1,29 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import Modal from 'react-bootstrap/Modal'
 import { useEthBalance } from "../../hooks/useEthBalance";
 import { BONE_ID } from 'app/config/constant';
 import { getBoneUSDValue } from 'app/services/apis/validator';
-import NumberFormat from 'react-number-format';
 import { useActiveWeb3React, useLocalWeb3 } from 'app/services/web3';
 import { getExplorerLink } from 'app/functions/explorer';
 import { ChainId } from 'shibarium-get-chains';
-import ToastNotify from 'pages/components/ToastNotify';
 import { useWalletTokenBalance } from 'app/hooks/useTokenBalance';
 import Web3 from "web3";
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import fromExponential from 'from-exponential';
-import { getAllowanceAmount, MAXAMOUNT, toFixedPrecent, USER_REJECTED_TX } from "../../web3/commonFunctions";
+import { getAllowanceAmount, MAXAMOUNT, toFixedPrecent, USER_REJECTED_TX,currentGasPrice } from "../../web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json"
 import CommonModal from 'pages/components/CommonModel';
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { addTransaction , finalizeTransaction} from "../../state/transactions/actions";
 import {useAppDispatch} from "../../state/hooks"
-import {VALIDATOR_SHARE} from "../../web3/contractAddresses";
 import { dynamicChaining } from 'web3/DynamicChaining';
 import { Spinner } from 'react-bootstrap';
-import { currentGasPrice } from "../../web3/commonFunctions"; 
-import { tokenDecimal } from '../../web3/commonFunctions';
 import * as Sentry from "@sentry/nextjs";
 import {setDelegatorData} from "../../services/apis/user/userApi"
 import { CircularProgress } from '@material-ui/core';
@@ -48,7 +42,6 @@ const DelegatePopup: React.FC<any> = ({
   const [amount, setAmount] = useState<number | string>("");
   const [tnxCompleted, setTnxCompleted] = useState(false);
   const [boneUSDValue, setBoneUSDValue] = useState<number>(0);
-  // const [walletBalance, setWalletBalance] = useState<number>(0);
   const [expectedGas, setExpectedGas] = useState<number>(0);
   const [explorerLink, setExplorerLink] = useState<string>("");
   const [msgType, setMsgType] = useState<"error" | "success" | undefined>();
@@ -71,7 +64,6 @@ const DelegatePopup: React.FC<any> = ({
   const [isMax, setIsMax] = useState(false);
   const getBalanceG = () => {
     web3?.eth?.getBalance().then((lastBlock: number) => {
-      // console.log(lastBlock);
     });
   };
   useEffect(() => {
@@ -96,7 +88,7 @@ const DelegatePopup: React.FC<any> = ({
   // console.log(data, "parent Data ==> ")
 
 
-  const useMax = (e :any) => {
+  const maxBal = (e :any) => {
     e.preventDefault()
     setIsMax(true);
     setFieldValue("balance", `${walletBalance}`)
@@ -110,7 +102,7 @@ const DelegatePopup: React.FC<any> = ({
 
   const approveHandler = () => {
     try {
-      if (!amount || !(amount > 0)) {
+      if (!amount || (amount <= 0)) {
       setToastMassage("Amount must be greater than 0");
       setMsgType("error");
       return;
@@ -135,9 +127,7 @@ const DelegatePopup: React.FC<any> = ({
       amount: values.balance,
       valID: data.validatorContractId
     };
-    // console.log(requestBody)
     setTnxCompleted(false);
-    // console.log(requestBody);
     if (account) {
       let lib: any = library;
       let web3: any = new Web3(lib?.provider);
@@ -231,8 +221,6 @@ const DelegatePopup: React.FC<any> = ({
     }
 
   }
-
-  // console.log(data);
   const initialValues = {
     balance: "",
   };
@@ -308,7 +296,6 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
               })
             );
             setLoader(true);
-            // setdelegatepop(true);
             setFieldValue("balance",'')
             const link = getExplorerLink(chainId, res, "transaction");
             setExplorerLink(link);
@@ -343,7 +330,6 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
             setTimeout(async() => {
               await getDelegatorCardData(account);
             }, 3000)
-            // setdelegatepop(true);
             const link = getExplorerLink(
               chainId,
               res.transactionHash,
@@ -358,13 +344,11 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
               step3: true,
               title: "Transaction Done",
             });
-            // setdelegatepop(true);
             callAPIforDelegator(requestBody)
             setTimeout(() => {
               window.location.reload()
             }, 2000)
             resetForm();
-            // window.location.reload();
           })
           .on("error", (err: any) => {
             console.log(err)
@@ -398,13 +382,8 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
     setdelegateState(initialModalState);
     setdelegatepop();
     setFieldValue("balance" , 0);
-    // if(transactionState.state){
-      //   window.location.reload();
-      // }
     }
-    // console.log("values => == " ,values);
 
-// console.log("Balance", data);
   return (
     <>
       <CommonModal
@@ -482,7 +461,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                           onBlur={handleBlur}
                         />
                       </div>
-                      <button disabled={walletBalance > 0 ? false : true} onClick={(e) => useMax(e)} className="rt-chain">
+                      <button disabled={walletBalance > 0 ? false : true} onClick={(e) => maxBal(e)} className="rt-chain">
                         <span className="orange-txt fw-bold">MAX</span>
                       </button>
                     </div>

@@ -1,41 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 
-import { Button, Container, Nav, Navbar, NavDropdown, DropdownButton, Dropdown, Modal } from 'react-bootstrap';
-// @ts-ignore
-import Popup from "../components/PopUp";
 import { ChainId } from "shibarium-get-chains";
 import Web3 from "web3";
-import CommonModal, { CommonModalNew } from "../components/CommonModel";
 import InnerHeader from "../inner-header";
 // @ts-ignore
-import Link from 'next/link'
-import { useRouter } from "next/router";
-import {
-  NoEthereumProviderError,
-  UserRejectedRequestError as UserRejectedRequestErrorInjected
-} from '@web3-react/injected-connector'
+import Router, { useRouter } from "next/router";
 import Sidebar from "../layout/sidebar"
-import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
 import { useEthBalance } from "../../hooks/useEthBalance";
-import { useTokenBalance, getTokenBalance } from '../../hooks/useTokenBalance';
+import { useTokenBalance } from '../../hooks/useTokenBalance';
 import { BONE_ID } from '../../config/constant';
 import ERC20 from "../../ABI/ERC20Abi.json";
 import fromExponential from "from-exponential";
 import { useAppDispatch } from "../../state/hooks"
 import { addTransaction, finalizeTransaction } from "../../state/transactions/actions"
-import QrModal from "../components/QrModal";
 import { getBoneUSDValue, getWalletTokenList } from "../../services/apis/validator/index";
-import NumberFormat from 'react-number-format';
 import { useSearchFilter } from "app/hooks/useSearchFilter";
 import { dynamicChaining } from "../../web3/DynamicChaining";
-import Pagination from 'app/components/Pagination';
-// @ts-ignore
-import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
-import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
-import Router from "next/router";
 import { getExplorerLink } from "app/functions";
 import { currentGasPrice } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
@@ -50,9 +33,9 @@ const sendInitialState = {
 }
 
 export const SortData = (a: any, b: any) => {
-  return (a > b)
-    ? 1 : ((b > a)
-      ? -1 : 0);
+  if (a > b) return 1;
+  else if (b > a) return -1;
+  else return 0;
 }
 
 export default function Wallet() {
@@ -347,7 +330,6 @@ export default function Wallet() {
   }
 
   const handledropDown = (x: any) => {
-    // console.log(x)
     setSelectedToken(x)
   }
 
@@ -369,7 +351,6 @@ export default function Wallet() {
 
   const sendTokenWithRoute = async (x: any, type: any = "deposit") => {
     try {
-      // console.log("Router data for send", x)
       localStorage.setItem("depositToken", JSON.stringify(x))
       localStorage.setItem("bridgeType", type)
       await Router.push(`/bridge`);
@@ -378,11 +359,6 @@ export default function Wallet() {
       Sentry.captureException("sendTokenWithRoute ", err);
     }
   }
-
-
-  // const cardShimmerEffects = (lines:any, gaps:any) => {
-  //   return <ShimmerTitle line={lines} gap={gaps} variant="primary" />;
-  // };
 
   return (
     <>

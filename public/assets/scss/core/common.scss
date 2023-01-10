@@ -2127,18 +2127,18 @@ input:checked + .slider:before {
       padding: 4px 12px 1px;
       border-radius: 30px;
       position: absolute;
-      bottom: -48px;
+      bottom: 42px;
       font-weight: bold;
       color: #fff;
       text-align: center;
       &::before {
         content: "";
         position: absolute;
-        top: -10px;
+        top: 100%;
         left: 50%;
         border-left: 10px solid transparent;
         border-right: 10px solid transparent;
-        border-bottom: 10px solid #f06700;
+        border-top: 10px solid #f06700;
         transform: translateX(-50%);
       }
       &::after {
@@ -2152,6 +2152,7 @@ input:checked + .slider:before {
         border-radius: 100%;
         background: #f06700;
         z-index: 1;
+        display: none;
       }
     }
     .progress {

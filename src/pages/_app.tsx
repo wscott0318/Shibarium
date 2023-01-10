@@ -1,17 +1,13 @@
 
-import { useContext, useEffect, useState } from "react";
-import { i18n } from '@lingui/core'
-import { I18nProvider } from '@lingui/react';
+import { useState } from "react";
 // @ts-ignore
 import SnackbarProvider from 'react-simple-snackbar'
 import "../styles/globals.scss";
-import Header from "./layout/header";
-import store, { persistor } from '../state'
+import store from '../state'
 import { useRouter } from "next/router";
 import { ProjectContext } from "../context/ProjectContext";
 import { Provider as ReduxProvider } from 'react-redux'
 import { Web3ReactProvider } from "@web3-react/core";
-import { Web3Provider } from "@ethersproject/providers";
 import Web3ReactManager from '../components/Web3ReactManager';
 import getLibrary from '../functions/getLibrary'
 import dynamic from "next/dynamic";

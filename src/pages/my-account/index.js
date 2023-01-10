@@ -1,24 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link";
-import React, { useState, useEffect, useContext } from "react";
-import { useWeb3React } from "@web3-react/core";
+import React, { useState, useEffect } from "react";
 import { useActiveWeb3React } from "../../services/web3"
-import  CommonModal from "../components/CommonModel";
-import Header from "../layout/header";
-import StakingHeader from '../staking-header'
 import { useRouter } from "next/router";
 import { useUserType, useValId } from "../../state/user/hooks";
 import UserAccount from "./UserAccount";
-import DelegatorAccount from "./DelegatorAccount";
 import ValidatorAccount from "./ValidatorAccount";
-import LoadingSpinner from 'pages/components/Loading';
 import { getBoneUSDValue } from "../../services/apis/validator/index";
 import { ChainId } from "shibarium-get-chains";
 import { BONE_ID } from '../../config/constant';
 import {useEthBalance} from '../../hooks/useEthBalance';
 import {useTokenBalance} from '../../hooks/useTokenBalance';
 import { dynamicChaining } from "web3/DynamicChaining";
-import { addDecimalValue } from "web3/commonFunctions"
 import { web3Decimals } from "../../web3/commonFunctions";
 
 
@@ -29,9 +21,10 @@ export default function MyAcount() {
   const [valId, setValId] = useValId();
   const router = useRouter();
   const [delegatorData, setDelegatorData] = useState({});
-  var availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
-  var isloading = availBalance == -1;
-
+  const ethBal = useEthBalance();
+  const tokenBal = useTokenBalance(dynamicChaining[chainId].BONE);
+  const availBalance = chainId === ChainId.SHIBARIUM ?  ethBal : tokenBal ;
+  let isloading = availBalance == -1;
   useEffect(() => {
     if(account){
       if(userType === 'Validator' && valId <= 0){
@@ -47,7 +40,6 @@ export default function MyAcount() {
   },[account])
 
   const getDelegatorAmount = (data) => {
-    // console.log(data)
     setDelegatorData({stakes: (data.totalStake) / 10 ** web3Decimals, rewards: data.totalReward / 10 ** web3Decimals})
   }
   
@@ -55,8 +47,6 @@ export default function MyAcount() {
   return (
     <>
       <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh staking-main">
-        {/* <Header /> */}
-        {/* <StakingHeader /> */}
         <section className="dark-bg mn-ht">
           <div className="container">
             <div className="section-info">

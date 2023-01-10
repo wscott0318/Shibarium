@@ -1,17 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Header from "pages/layout/header";
-import StakingHeader from "pages/staking-header";
-import Link from 'next/link';
-import { useFormik } from "formik";
-import * as yup from "yup";
-import { getValidatorInfo, updateValidator } from "app/services/apis/network-details/networkOverview";
-import Web3 from "web3";
-import { useActiveWeb3React } from "app/services/web3";
-import LoadingSpinner from 'pages/components/Loading';
-import { useUserType } from "app/state/user/hooks";
-import { useRouter } from "next/router";
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Accordion from 'react-bootstrap/Accordion';
 import SidebarOuter from "pages/sidebar-outer/outer-sidebar";

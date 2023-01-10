@@ -1,24 +1,28 @@
 /* eslint-disable @next/next/no-img-element */
-import { UserType } from 'app/enums/UserType';
 import { useUserType } from 'app/state/user/hooks';
 import Link from 'next/link';
 import React, { useState } from 'react'
 import NumberFormat from 'react-number-format';
 import DelegatePopup from '../../delegate-popup';
 import { useWeb3React } from "@web3-react/core";
-import { addDecimalValue, inActiveCount, toFixedPrecent, tokenDecimal, web3Decimals } from 'web3/commonFunctions';
+import { addDecimalValue, inActiveCount, toFixedPrecent } from 'web3/commonFunctions';
 import MigratePopup from 'pages/migrate-popup';
 import { useRouter } from 'next/router';
 
-export default function ValidatorGrid({ validatorsList, searchKey, migrateData={} }: { validatorsList: any, searchKey: any, migrateData : any }) {
-  const [modalShow, setModalShow] = React.useState(false);
-  const { account, deactivate, active } = useWeb3React();
+export default function ValidatorGrid({ validatorsList, searchKey, migrateData = {} }: { validatorsList: any, searchKey: any, migrateData: any }) {
+  const { account } = useWeb3React();
   const [selectedRow, setSelectedRow] = useState({});
   const [userType, setUserType] = useUserType()
   const [showdelegatepop, setdelegatepop] = useState(false);
   const router = useRouter();
   const [showmigratepop, setmigratepop] = useState(false);
-
+  const tootlTipDesc = (x: any) => {
+    if (account) {
+      if (x.fundamental === 1 || x.uptimePercent <= inActiveCount) return <div className="tool-desc tool-desc-grid">This is a fundamental node. <br /> Delegation is not enabled here.</div>;
+      else if (router.asPath.split("/")[1] === "migrate-stake") return <div className="tool-desc tool-desc-grid"> {x.contractAddress == migrateData.contractAddress ? "Stakes cannot be migrated to same Validator." : "Migrate Your Stakes here."}</div>;
+      else return <div className = "tool-desc tool-desc-grid">Delegate here.</div>
+    }
+  }
   return (
     <>
       <DelegatePopup
@@ -37,7 +41,7 @@ export default function ValidatorGrid({ validatorsList, searchKey, migrateData={
           {validatorsList && validatorsList.length ? (
             <div className="row side-cover">
               {validatorsList.map((validator: any) => (
-                <div className="col-xl-3 col-sm-6 col-12 side-space mb-sm-4 mb-4">
+                <div key={validator?.signer} className="col-xl-3 col-sm-6 col-12 side-space mb-sm-4 mb-4">
                   <div className="box">
                     <div className="box-head">
                       <div className="d-flex align-items-center justify-content-start">
@@ -116,15 +120,7 @@ export default function ValidatorGrid({ validatorsList, searchKey, migrateData={
                         ) : (
                           <div className="delegate_btn">
                             <button
-                              disabled={
-                                !account
-                                  ? true
-                                  : validator.fundamental === 1
-                                    ? true
-                                    : validator.uptimePercent <= inActiveCount
-                                      ? true
-                                    : validator.contractAddress == migrateData.contractAddress ? true : false
-                              }
+                              disabled={!account || validator.fundamental === 1 || validator.uptimePercent <= inActiveCount || validator.contractAddress == migrateData.contractAddress ? true : false}
                               type="button"
                               onClick={() => {
                                 setSelectedRow(validator);
@@ -145,32 +141,28 @@ export default function ValidatorGrid({ validatorsList, searchKey, migrateData={
                                   : "Delegate"}
                               </span>
                             </button>
-                            {account && (validator.fundamental === 1 || validator.uptimePercent <= inActiveCount
-                              ? (<div className="tool-desc tool-desc-grid">This is a fundamental node. <br /> Delegation is not enabled here.</div>)
-                              : (router.asPath.split("/")[1] === "migrate-stake"
-                                ? (<div className="tool-desc tool-desc-grid">{validator.contractAddress == migrateData.contractAddress ? "Stakes cannot be migrated to same Validator." : "Migrate Your Stakes here."}</div>)
-                                : (<div className="tool-desc tool-desc-grid">Delegate here.</div>)))}
-                            {!account && <div className="tool-desc tool-desc-grid">Login to enable delegation.</div>}
-                          </div>
-                        )}
+                            {tootlTipDesc(validator)}
+                        {!account && <div className="tool-desc tool-desc-grid">Login to enable delegation.</div>}
                       </div>
+                        )}
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          ) : (
-            //   : <div className='no-record' style={{display:'flex',justifyContent:'center',padding: '3rem'}}>No Record Found.</div>
-            <div className="no-found no-records-wrapper">
-              <div>
-                <div>
-                  <img src="../../assets/images/no-record.png" />
-                </div>
-              </div>
-            </div>
-          )}
+                </div>)
+              )}
         </div>
+        ) : (
+            //   : <div className='no-record' style={{ display: 'flex', justifyContent: 'center', padding: '3rem' }}>No Record Found.</div>
+        <div className="no-found no-records-wrapper">
+          <div>
+            <div>
+              <img src="../../assets/images/no-record.png" />
+            </div>
+          </div>
+        </div>
+          )}
       </div>
+    </div>
     </>
   )
 }

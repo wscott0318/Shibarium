@@ -20,7 +20,7 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue, loading })
     }
   }, [allCheckpoints])
 
-  const pageChangeHandler = (index: number) => {
+  function pageChangeHandler(index: number) {
     try {
       const slicedList = allCheckpoints.slice((index - 1) * pageSize, (index * pageSize))
       setCheckpoints(slicedList)
@@ -49,9 +49,9 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue, loading })
                 </tr>
               </thead>
               <tbody>
-                {checkpoints.length ? (
+                {checkpoints?.length ? (
                   checkpoints.map((checkpoint: any, i: any) => (
-                    <tr>
+                    <tr key={checkpoint.checkpointNumber}>
                       <td>
                         <NumberFormat
                           displayType="text"
@@ -74,34 +74,23 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue, loading })
                       </td>
                     </tr>
                   ))
-                ) : !checkpoints.length && loading ? (
+                ) : (
                   <tr>
-                    <td colSpan={4}>
-                      <DynamicShimmer type={"table"} rows={13} cols={4} />
+                    <td colSpan={5}>
+                      <DynamicShimmer type={"table"} rows={13} cols={5} />
                     </td>
                   </tr>
-                ) : (
+                )}
+                {!checkpoints.length && !loading && (
                   <tr className='no_record_wrapper'>
                     <td colSpan={5} className="no_record text-left">
-                    <img className="d-inline-block mb-3" src="../../assets/images/no-record.png" />
+                      <img className="d-inline-block mb-3" src="../../assets/images/no-record.png" />
                     </td>
                   </tr>
-                    // <td>
-                    //   <img className="d-inline-block mb-3" src="../../assets/images/no-record.png" />
-                    // </td>
                 )}
               </tbody>
             </table>
           </div>
-          {/* {!loading && !checkpoints.length ? (
-              <div className="no-found top-spcsm">
-                <div>
-                  <div className="text-center">
-                    <img className="d-inline-block mb-3" src="../../assets/images/no-record.png" />
-                  </div>
-                </div>
-              </div>
-            ) : null} */}
         </div>
         <div className="mt-sm-4 mt-3">
           {checkpoints.length > 0 ? (
@@ -110,7 +99,7 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue, loading })
               pageSize={pageSize}
               totalCount={allCheckpoints.length || 1}
               currentPage={pageIndex}
-            />
+            ></Pagination>
           ) : null}
         </div>
       </div>

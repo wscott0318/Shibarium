@@ -1,41 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link";
-import React, { useState, useEffect, useContext } from "react";
-// import { validators, validatorsList } from "../service/validator";
-import { useWeb3React } from "@web3-react/core";
-import ProjectContext from "../../context/ProjectContext";
-import Footer from "../../pages/footer/index"
-import { useActiveWeb3React } from "../../services/web3"
-import  CommonModal from "../components/CommonModel";
-import Header from "../layout/header";
-import StakingHeader from '../staking-header'
+import React from "react";
 export default function rewardHistoryNew() {
-  // const {account}=useContext(ProjectContext)
 
-  // const { active,deactivate } = useWeb3React()
-  // const [accountsAddress, setAccountsAddress] = useState("");
-  // useEffect(() => {
-  //   setAccountsAddress(localStorage.getItem("accounts"));
-  //   console.log('chainId',chainId)
-  //   console.log('account-home',account)
-  // },[account]);
-  const { account, chainId = 1 } = useActiveWeb3React();
-  
-  /**
-   * 
-    useEffect(()=>{
-      let userDetails = localStorage.getItem('ShibariumUser');
-      userDetails = userDetails ? JSON.parse(userDetails)?.objectId: ''
-      if (!userDetails && active) {
-        deactivate()
-      }
-
-    },[active])
-  */
-
- 
-
-  //  console.log('account---------------', account)
   return (
     <>
       <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh  font-up ffms-inherit staking-main">

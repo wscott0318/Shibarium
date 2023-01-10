@@ -3,12 +3,11 @@ import { useRouter } from "next/router";
 import CommonModal from "../components/CommonModel";
 import { useActiveWeb3React } from "../../services/web3";
 import {
-  getDelegatorData,
-  getUserType,
+  getDelegatorData
 } from "../../services/apis/user/userApi";
 import LoadingSpinner from "pages/components/Loading";
 import NumberFormat from "react-number-format";
-import { Formik, Form, Field } from "formik";
+import { Formik } from "formik";
 import * as Yup from "yup";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import Web3 from "web3";
@@ -27,6 +26,7 @@ import {
   getAllowanceAmount,
   USER_REJECTED_TX,
   web3Decimals,
+  tokenDecimal
 } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { getExplorerLink } from "app/functions";
@@ -36,7 +36,6 @@ import { queryProvider } from "Apollo/client";
 import { StakeAmount } from "Apollo/queries";
 import { dynamicChaining } from "web3/DynamicChaining";
 import { getValidatorsDetail } from "app/services/apis/validator";
-import { tokenDecimal } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 import { useValId, useEpochDyna, useValInfoContract, useMigrateStake } from 'app/state/user/hooks';
 import { CircularProgress } from "@material-ui/core";
@@ -73,7 +72,6 @@ const validatorAccount = ({
   const isLoading = availBalance === -1;
   const [valInfoContract, setValInfoContract] = useValInfoContract()
   console.log("initial availbalance", availBalance);
-  // console.log("valInfoContract my account =========>>>>", valInfoContract)
 
   const [transactionState, setTransactionState] = useState(initialModalState);
   const [hashLink, setHashLink] = useState('');
@@ -105,7 +103,7 @@ const validatorAccount = ({
     id: "",
     stakeAmount: 0,
     image: "",
-    valid:""
+    valid: ""
   });
 
   const [comissionHandle, setComissionHandle] = useState({
@@ -114,20 +112,18 @@ const validatorAccount = ({
   });
 
   useEffect(() => {
-    if(userType === "Validator" && (+valId == 0 || valId == null)){
+    if (userType === "Validator" && (+valId == 0 || valId == null)) {
       router.push("/bone-staking");
     }
-  },[]);
+  }, []);
   const getDelegatorStake = async (valContract: any) => {
     let instance = new web3.eth.Contract(ValidatorShareABI, valContract);
     let liquidRewards = await instance.methods
       .getLiquidRewards(valContract)
       .call({ from: account });
-    // console.log(liquidRewards);
   };
 
   const getValidatorData = async (valId: any) => {
-    // console.log("val id", valId)
     try {
       let instance = new web3.eth.Contract(
         stakeManagerProxyABI,
@@ -142,7 +138,6 @@ const validatorAccount = ({
       const dynasty = await instance.methods.dynasty().call({ from: account });
       const epoch = await instance.methods.epoch().call({ from: account });
 
-      // set 
       setComissionHandle({ dynasty, epoch });
       console.log({ dynasty, epoch });
 
@@ -153,15 +148,13 @@ const validatorAccount = ({
       setEpochDyna({ epoch, dynasty })
       console.log(valFromContract, "val info ===> ");
     } catch (err: any) {
-      // console.log(err)
       Sentry.captureException("getValidatorData ", err);
     }
   };
 
-  // console.log(comissionHandle, "comissionHandle => ");
-  const validatorInfoAPI = () => {
+  const validatorInfoAPI = async() => {
     try {
-      getValidatorsDetail(`${account}`).then((res) => {
+      await getValidatorsDetail(`${account}`).then((res) => {
         setValidatorInfo(res?.data?.data?.validatorSet.validatorInfo);
       });
     } catch (err: any) {
@@ -179,24 +172,20 @@ const validatorAccount = ({
   }, [stakeAmounts, delegationsList])
 
   const getDelegatorCardData = async (accountAddress: any) => {
-    // console.log(" card data ", accountAddress)
     setLoading(true);
     try {
       getDelegatorData(accountAddress.toLowerCase())
         .then((res: any) => {
           if (res.data) {
             let newArray: any = [];
-            // console.log(res.data, "delegator card data")
             let sortedData = res.data.data.validators
               .filter((x: any) => +(x.stake) > 0)
               .sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake));
-            // here
             sortedData.forEach(async (x: any) => {
               let stakeData = await getStakeAmountDelegator(
                 +x.id,
                 accountAddress.toLowerCase()
               );
-              // console.log(stakeData, "delegator card data");
               setStakeAmounts((pre: any) => [...pre, stakeData]);
             });
             setDelegationsList(sortedData);
@@ -205,8 +194,6 @@ const validatorAccount = ({
           }
         })
         .catch((e: any) => {
-          // console.log(e);
-          //  setUserType('NA')
           setLoading(false);
         });
     } catch (err: any) {
@@ -214,14 +201,12 @@ const validatorAccount = ({
     }
   };
 
-  // console.log(stakeAmounts)
-
   const handleModal = (
-    btn: String,
+    btn: string,
     valAddress: any,
     id: any = null,
     image: any = null,
-    valid:any=null,
+    valid: any = null,
     stakeAmount: any = null
   ) => {
     try {
@@ -261,7 +246,7 @@ const validatorAccount = ({
             address: valAddress,
             id: id,
             image: image,
-            valid:valid,
+            valid: valid,
           }));
           break;
         default:
@@ -272,8 +257,6 @@ const validatorAccount = ({
     }
   };
 
-  // console.log(unboundModal)
-
   useEffect(() => {
     if (account && userType === "Delegator") {
       getDelegatorCardData(account);
@@ -282,17 +265,12 @@ const validatorAccount = ({
       if (valId) {
         getValidatorData(valId);
       }
-      // validatorInfoAPI()
-      // getVaiIDFromDB();
     }
   }, [account, userType, chainId, valId]);
-
-  // console.log(restakeModal)
 
   const restakeValidation: any = Yup.object({
     amount: Yup.number()
       .typeError('Amount should be a number.')
-      // .matches(/^[1-9][0-9]*$/, "You must enter valid amount.")
       .min(0, "Invalid Amount")
       .max(availBalance, "Insufficient Balance.").moreThan(0, "You must enter valid amount.")
       .required("Amount is required."),
@@ -314,7 +292,6 @@ const validatorAccount = ({
 
   const comissionValidation: any = Yup.object({
     comission: Yup.number()
-      // .matches(/^[1-9][0-9]*$/, "You must enter valid amount.")
       .min(0).moreThan(0, "You must enter valid amount.")
       .max(100)
       .required("Comission is required."),
@@ -325,8 +302,6 @@ const validatorAccount = ({
     try {
       setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Pending" });
       let user: any = account;
-      // let valID = validatorID;
-      // console.log({ valId, c: +value.comission }, "comission called ==> ");
       let instance = new web3.eth.Contract(
         stakeManagerProxyABI,
         dynamicChaining[chainId].STAKE_MANAGER_PROXY
@@ -338,22 +313,15 @@ const validatorAccount = ({
         .updateCommissionRate(valId, +value.comission)
         .encodeABI();
       let CurrentgasPrice: any = await currentGasPrice(web3);
-      // console.log(
-      //   ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-      //   Math.pow(10, web3Decimals),
-      //   " Gas fees for transaction  ==> "
-      // );
       await web3.eth
         .sendTransaction({
           from: user,
           to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
           gas: (parseInt(gasFee) + 30000).toString(),
           gasPrice: CurrentgasPrice,
-          // value : web3.utils.toHex(combinedFees),
           data: encodedAbi,
         })
         .on("transactionHash", (res: any) => {
-          // console.log(res, "hash");
           dispatch(
             addTransaction({
               hash: res,
@@ -368,7 +336,6 @@ const validatorAccount = ({
           setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
         })
         .on("receipt", (res: any) => {
-          // console.log(res, "receipt");
           dispatch(
             finalizeTransaction({
               hash: res.transactionHash,
@@ -391,7 +358,6 @@ const validatorAccount = ({
           }, 2000)
         })
         .on("error", (res: any) => {
-          // console.log(res, "error");
           setTransactionState(initialModalState);
           if (res.code === 4001) {
             setCommiModal({ value: false, address: "" });
@@ -408,7 +374,6 @@ const validatorAccount = ({
 
   // RESTAKE AS VALIDATORS
   const callRestakeValidators = async (values: any) => {
-    // console.log("called restake ==> ")
     try {
       if (account) {
         setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Pending" });
@@ -431,11 +396,8 @@ const validatorAccount = ({
           fromExponential(+values.amount * Math.pow(10, web3Decimals))
         );
         if (+values.amount > +allowance) {
-          // console.log("need approval");
           approveAmount(ID, amountWei, values.reward == 0 ? false : true);
         } else {
-          // console.log(ID, "no approval needed");
-          // console.log({ ID, amountWei, bool: values.reward });
           let gasFee = await instance.methods
             .restake(ID, amountWei, values.reward == 0 ? 0 : 1)
             .estimateGas({ from: walletAddress });
@@ -443,22 +405,15 @@ const validatorAccount = ({
             .restake(ID, amountWei, values.reward == 0 ? 0 : 1)
             .encodeABI();
           let CurrentgasPrice: any = await currentGasPrice(web3);
-          // console.log(
-          //   ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-          //   Math.pow(10, web3Decimals),
-          //   " Gas fees for transaction  ==> "
-          // );
           await web3.eth
             .sendTransaction({
               from: walletAddress,
               to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
               gas: (parseInt(gasFee) + 30000).toString(),
               gasPrice: CurrentgasPrice,
-              // value : web3.utils.toHex(combinedFees),
               data: encodedAbi,
             })
             .on("transactionHash", (res: any) => {
-              // console.log(res, "hash");
               dispatch(
                 addTransaction({
                   hash: res,
@@ -467,14 +422,12 @@ const validatorAccount = ({
                   summary: `${res}`,
                 })
               );
-              // getActiveTransaction
               let link = getExplorerLink(chainId, res, "transaction");
               setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
               setHashLink(link);
               setRestakeModal({ value1: false, value2: false, address: "" });
             })
             .on("receipt", (res: any) => {
-              // console.log(res, "receipt");
               dispatch(
                 finalizeTransaction({
                   hash: res.transactionHash,
@@ -496,15 +449,12 @@ const validatorAccount = ({
               setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
             })
             .on("error", (res: any) => {
-              // console.log(res, "error");
               setTransactionState(initialModalState);
               if (res.code === 4001) {
                 setRestakeModal({ value1: false, value2: false, address: "" });
               }
             });
         }
-      } else {
-        // console.log("account addres not found");
       }
     } catch (err: any) {
       if (err.code !== USER_REJECTED_TX) {
@@ -542,17 +492,11 @@ const validatorAccount = ({
               .restake(id, amounts, reward)
               .encodeABI();
             let CurrentgasPrice: any = await currentGasPrice(web3);
-            // console.log(
-            //   ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-            //   Math.pow(10, web3Decimals),
-            //   " Gas fees for transaction  ==> "
-            // );
             await web3.eth.sendTransaction({
               from: user,
               to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
               gas: (parseInt(gasFee) + 30000).toString(),
               gasPrice: CurrentgasPrice,
-              // value : web3.utils.toHex(combinedFees),
               data: encodedAbi,
             });
 
@@ -560,7 +504,6 @@ const validatorAccount = ({
               .restake(id, amounts, reward)
               .send({ from: user })
               .on("transactionHash", (res: any) => {
-                // console.log(res, "hash");
                 dispatch(
                   addTransaction({
                     hash: res,
@@ -571,7 +514,6 @@ const validatorAccount = ({
                 );
               })
               .on("receipt", (res: any) => {
-                // console.log(res, "receipt");
                 dispatch(
                   finalizeTransaction({
                     hash: res.transactionHash,
@@ -588,21 +530,14 @@ const validatorAccount = ({
                     },
                   })
                 );
-                // router.push("/my-account", "/my-account", { shallow: false });
               })
               .on("error", (res: any) => {
-                // console.log(res, "error");
                 if (res.code === 4001) {
                   setCommiModal({ value: false, address: "" });
                 }
               });
           })
-          .catch((err: any) => {
-            // console.log(err);
-            if (err.code === 4001) {
-              // console.log("User denied this transaction! ");
-            }
-          });
+          .catch((err: any) => { });
       }
     } catch (err: any) {
       if (err.code !== USER_REJECTED_TX) {
@@ -631,21 +566,15 @@ const validatorAccount = ({
           .withdrawRewards(valID)
           .encodeABI();
         let CurrentgasPrice: any = await currentGasPrice(web3);
-        // console.log(
-        //   (parseInt(gasFee) + 30000) * CurrentgasPrice,
-        //   " Gas fees for transaction  ==> "
-        // );
         await web3.eth
           .sendTransaction({
             from: walletAddress,
             to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
             gas: (parseInt(gasFee) + 30000).toString(),
             gasPrice: CurrentgasPrice,
-            // value : web3.utils.toHex(combinedFees),
             data: encodedAbi,
           })
           .on("transactionHash", (res: any) => {
-            // console.log(res, "hash");
             dispatch(
               addTransaction({
                 hash: res,
@@ -660,7 +589,6 @@ const validatorAccount = ({
             setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
           })
           .on("receipt", (res: any) => {
-            // console.log(res, "receipt");
             dispatch(
               finalizeTransaction({
                 hash: res.transactionHash,
@@ -678,21 +606,16 @@ const validatorAccount = ({
               })
             );
             setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
-            // router.push("/my-account", "/my-account", { shallow: false });
-            //
             setTimeout(() => {
               window.location.reload()
             }, 2000)
           })
           .on("error", (res: any) => {
-            // console.log(res, "error");
             setTransactionState(initialModalState);
             if (res.code === 4001) {
               setWithdrawModal({ value: false, address: "" });
             }
           });
-      } else {
-        // console.log("account not connected");
       }
     } catch (err: any) {
       if (err.code !== USER_REJECTED_TX) {
@@ -715,22 +638,15 @@ const validatorAccount = ({
           .estimateGas({ from: walletAddress });
         let encodedAbi = await instance.methods.withdrawRewards().encodeABI();
         let CurrentgasPrice: any = await currentGasPrice(web3);
-        // console.log(
-        //   ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-        //   Math.pow(10, web3Decimals),
-        //   " Gas fees for transaction  ==> "
-        // );
         await web3.eth
           .sendTransaction({
             from: walletAddress,
             to: address,
             gas: (parseInt(gasFee) + 30000).toString(),
             gasPrice: CurrentgasPrice,
-            // value : web3.utils.toHex(combinedFees),
             data: encodedAbi,
           })
           .on("transactionHash", (res: any) => {
-            // console.log(res, "hash");
             dispatch(
               addTransaction({
                 hash: res,
@@ -745,7 +661,6 @@ const validatorAccount = ({
             setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
           })
           .on("receipt", (res: any) => {
-            // console.log(res, "receipt");
             dispatch(
               finalizeTransaction({
                 hash: res.transactionHash,
@@ -766,17 +681,13 @@ const validatorAccount = ({
             setTimeout(() => {
               window.location.reload()
             }, 2000)
-            // router.push("/my-account", "/my-account", { shallow: false });
           })
           .on("error", (res: any) => {
-            // console.log(res, "error");
             setTransactionState(initialModalState);
             if (res.code === 4001) {
               setWithdrawModal({ value: false, address: "" });
             }
           });
-      } else {
-        // console.log("account not connected");
       }
     } catch (err: any) {
       if (err.code !== USER_REJECTED_TX) {
@@ -786,8 +697,6 @@ const validatorAccount = ({
       setWithdrawModal({ value: false, address: "" });
     }
   };
-
-  // console.log({ check : new web3.eth})
 
   // UnstakeClaim VALIDATOR
   const unStakeClaimValidator = async () => {
@@ -805,22 +714,15 @@ const validatorAccount = ({
           .estimateGas({ from: walletAddress });
         let encodedAbi = await instance.methods.unstakeClaim(ID).encodeABI();
         let CurrentgasPrice: any = await currentGasPrice(web3);
-        // console.log(
-        //   ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-        //   Math.pow(10, web3Decimals),
-        //   " Gas fees for transaction  ==> "
-        // );
         await web3.eth
           .sendTransaction({
             from: walletAddress,
             to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
             gas: (parseInt(gasFee) + 30000).toString(),
             gasPrice: CurrentgasPrice,
-            // value : web3.utils.toHex(combinedFees),
             data: encodedAbi,
           })
           .on("transactionHash", (res: any) => {
-            // console.log(res, "hash");
             dispatch(
               addTransaction({
                 hash: res,
@@ -829,14 +731,12 @@ const validatorAccount = ({
                 summary: `${res}`,
               })
             );
-            // getActiveTransaction
             let link = getExplorerLink(chainId, res, "transaction");
             setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
             setHashLink(link);
             setUnStakePop(false);
           })
           .on("receipt", (res: any) => {
-            // console.log(res, "receipt");
             dispatch(
               finalizeTransaction({
                 hash: res.transactionHash,
@@ -857,9 +757,6 @@ const validatorAccount = ({
             setTimeout(() => {
               window.location.reload()
             }, 2000)
-            // router.push("/my-account", "/my-account", { shallow: false });
-            // setTransactionState({ state: false, title: "" });
-            // setHashLink("");
           })
           .on("error", (res: any) => {
             console.log(res, "error");
@@ -868,8 +765,6 @@ const validatorAccount = ({
               setUnStakePop(false);
             }
           });
-      } else {
-        // console.log("account addres not found");
       }
     } catch (err: any) {
       if (err.code !== USER_REJECTED_TX) {
@@ -897,22 +792,15 @@ const validatorAccount = ({
           .estimateGas({ from: walletAddress });
         let encodedAbi = await instance.methods.unstake(ID).encodeABI();
         let CurrentgasPrice: any = await currentGasPrice(web3);
-        // console.log(
-        //   ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-        //   Math.pow(10, web3Decimals),
-        //   " Gas fees for transaction  ==> "
-        // );
         await web3.eth
           .sendTransaction({
             from: walletAddress,
             to: dynamicChaining[chainId].STAKE_MANAGER_PROXY,
             gas: (parseInt(gasFee) + 30000).toString(),
             gasPrice: CurrentgasPrice,
-            // value : web3.utils.toHex(combinedFees),
             data: encodedAbi,
           })
           .on("transactionHash", (res: any) => {
-            // console.log(res, "hash");
             dispatch(
               addTransaction({
                 hash: res,
@@ -921,14 +809,12 @@ const validatorAccount = ({
                 summary: `${res}`,
               })
             );
-            // getActiveTransaction
             let link = getExplorerLink(chainId, res, "transaction");
             setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
             setHashLink(link);
             setUnStakePop(false);
           })
           .on("receipt", (res: any) => {
-            // console.log(res, "receipt");
             dispatch(
               finalizeTransaction({
                 hash: res.transactionHash,
@@ -949,22 +835,15 @@ const validatorAccount = ({
             setTimeout(() => {
               window.location.reload()
             }, 2000)
-            // router.push("/my-account", "/my-account", { shallow: false });
-            // setTransactionState({ state: false, title: "" });
-            // setHashLink("");
           })
           .on("error", (res: any) => {
-            // console.log(res, "error");
             setTransactionState(initialModalState);
             if (res.code === 4001) {
               setUnStakePop(false);
             }
           });
-      } else {
-        // console.log("account addres not found");
       }
     } catch (err: any) {
-      // console.log(err)
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureException("unStakeClaimValidator", err);
       }
@@ -976,7 +855,6 @@ const validatorAccount = ({
   // restake DELEGATOR
   const restakeDelegator = async () => {
     try {
-      // console.log("withdraw Reward Delegator called");
       if (account) {
         setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Pending" });
         let walletAddress: any = account;
@@ -989,22 +867,15 @@ const validatorAccount = ({
           .estimateGas({ from: walletAddress });
         let encodedAbi = await instance.methods.restake().encodeABI();
         let CurrentgasPrice: any = await currentGasPrice(web3);
-        // console.log(
-        //   ((parseInt(gasFee) + 30000) * CurrentgasPrice) /
-        //   Math.pow(10, web3Decimals),
-        //   " Gas fees for transaction  ==> "
-        // );
         await web3.eth
           .sendTransaction({
             from: walletAddress,
             to: restakeModal.address,
             gas: (parseInt(gasFee) + 30000).toString(),
             gasPrice: CurrentgasPrice,
-            // value : web3.utils.toHex(combinedFees),
             data: encodedAbi,
           })
           .on("transactionHash", (res: any) => {
-            // console.log(res, "hash");
             dispatch(
               addTransaction({
                 hash: res,
@@ -1013,14 +884,12 @@ const validatorAccount = ({
                 summary: `${res}`,
               })
             );
-            // getActiveTransaction
             let link = getExplorerLink(chainId, res, "transaction");
             setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
             setHashLink(link);
             setRestakeModal({ value1: false, value2: false, address: "" });
           })
           .on("receipt", (res: any) => {
-            // console.log(res, "receipt");
             dispatch(
               finalizeTransaction({
                 hash: res.transactionHash,
@@ -1041,19 +910,14 @@ const validatorAccount = ({
             setTimeout(() => {
               window.location.reload()
             }, 2000)
-            // router.push("/my-account", "/my-account", { shallow: true });
-            // getDelegatorCardData(walletAddress);
           })
           .on("error", (res: any) => {
-            // console.log(res, "error");
             setTransactionState(initialModalState);
             setRestakeModal({ value1: false, value2: false, address: "" });
             if (res.code === 4001) {
               setRestakeModal({ value1: false, value2: false, address: "" });
             }
           });
-      } else {
-        // console.log("account addres not found");
       }
     } catch (err: any) {
       if (err.code !== USER_REJECTED_TX) {
@@ -1067,20 +931,17 @@ const validatorAccount = ({
   // unbound DELEGATOR
   const unboundDelegator = async () => {
     try {
-      // console.log(unboundModal);
       setUnboundModal({
         ...unboundModal,
         startValue: false,
       });
       setUnboundModal((preVal: any) => ({ ...preVal, startValue: false }));
       setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Pending" });
-      // console.log("called ===>");
       let data = {
         delegatorAddress: account,
         validatorContract: unboundModal.id,
         amount: unboundInput,
       };
-      // console.log(data);
       if (account) {
         let walletAddress = account;
         let amount = web3.utils.toBN(
@@ -1094,7 +955,6 @@ const validatorAccount = ({
           .sellVoucher_new(amount, amount)
           .send({ from: walletAddress })
           .on("transactionHash", (res: any) => {
-            // console.log(res, "hash");
             dispatch(
               addTransaction({
                 hash: res,
@@ -1103,7 +963,6 @@ const validatorAccount = ({
                 summary: `${res}`,
               })
             );
-            // getActiveTransaction
             let link = getExplorerLink(chainId, res, "transaction");
             setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
             setHashLink(link);
@@ -1113,12 +972,11 @@ const validatorAccount = ({
               id: "",
               stakeAmount: 0,
               image: "",
-              valid:""
+              valid: ""
             });
             setUnboundInput("");
           })
-          .on("receipt", async(res: any) => {
-            // console.log(res, "receipt");
+          .on("receipt", async (res: any) => {
             dispatch(
               finalizeTransaction({
                 hash: res.transactionHash,
@@ -1135,18 +993,15 @@ const validatorAccount = ({
                 },
               })
             );
-            setTimeout(async() => {
+            setTimeout(async () => {
               await getDelegatorCardData(account);
               setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
             }, 3000)
             setTimeout(() => {
               window.location.reload()
             }, 2000)
-            // setTimeout(() => window.location.reload(), 1000)
-            // getDelegatorCardData(walletAddress);
           })
           .on("error", (res: any) => {
-            // console.log(res, "error");
             setUnboundInput("");
             setUnboundModal((preVal: any) => ({
               ...preVal,
@@ -1160,7 +1015,7 @@ const validatorAccount = ({
                 id: "",
                 stakeAmount: 0,
                 image: "",
-                valid:""
+                valid: ""
               });
               setTransactionState(initialModalState);
             }
@@ -1177,7 +1032,7 @@ const validatorAccount = ({
         id: "",
         stakeAmount: 0,
         image: "",
-        valid:""
+        valid: ""
       });
       setTransactionState(initialModalState);
     }
@@ -1185,7 +1040,7 @@ const validatorAccount = ({
 
   const getStakeAmountDelegator = async (id: any, account: any) => {
     try {
-      console.log("stake data id  == " , id , ' account ==> ' , account )
+      console.log("stake data id  == ", id, ' account ==> ', account)
       const validators = await queryProvider.query({
         query: StakeAmount(id, account),
       });
@@ -1195,9 +1050,8 @@ const validatorAccount = ({
     }
   };
 
-  const getStake = (id: String) => {
+  const getStake = (id: string) => {
     try {
-      // console.log
       let item = stakeAmounts?.length
         ? stakeAmounts.filter((x: any) => +(x.validatorId) === +id)[0]?.tokens
         : 0;
@@ -1220,11 +1074,6 @@ const validatorAccount = ({
   const reloadOnHash = () => {
     if (transactionState.onHash) {
       window.location.reload()
-      // router.push(
-      //   `/my-account`,
-      //   `/my-account`,
-      //   { shallow: true }
-      // )
     }
   }
   return (
@@ -1308,9 +1157,7 @@ const validatorAccount = ({
                             onClick={() => {
                               setFieldValue(
                                 "text",
-                                (values.amount = (
-                                  availBalance - 0.000001
-                                ).toString())
+                                ((availBalance - 0.000001).toString())
                               );
                             }}
                           >
@@ -1379,7 +1226,6 @@ const validatorAccount = ({
               }}
               validationSchema={comissionValidation}
               onSubmit={(values, actions) => {
-                // console.log(values);
                 callComission(values);
               }}
             >
@@ -1681,11 +1527,7 @@ const validatorAccount = ({
                   publickey: "",
                 }}
                 validationSchema={signersAddress}
-                onSubmit={(values, actions) => {
-                  // console.log(values);
-                  // callRestakeValidators(values);
-                  // console.log(values, "<<<<------Values");
-                }}
+                onSubmit={(values, actions) => { }}
               >
                 {({
                   errors,
@@ -1924,10 +1766,8 @@ const validatorAccount = ({
                         <div className="col-12">
                           <button
                             className={`btn primary-btn d-flex align-items-center justify-content-center w-100`}
-                            // target="_blank"
                             disabled={hashLink ? false : true}
                             onClick={() => window.open(hashLink)}
-                          // href={hashLink}
                           >
                             <span>View on Block Explorer</span>
                           </button>
@@ -1963,10 +1803,8 @@ const validatorAccount = ({
                       <div className="col-12">
                         <button
                           className={`btn primary-btn d-flex align-items-center justify-content-center w-100`}
-                          // target="_blank"
                           disabled={hashLink ? false : true}
                           onClick={() => window.open(hashLink)}
-                        // href={hashLink}
                         >
                           <span>View on Block Explorer</span>
                         </button>
@@ -2020,46 +1858,6 @@ const validatorAccount = ({
               }
             </div>
           </div>
-          {/* <div className="popmodal-body tokn-popup no-ht trans-mod">
-            <div className="pop-block">
-              <div className="pop-top">
-                <div className="dark-bg-800 h-100 status-sec sec-ht position-relative">
-                  {hashLink ? (
-                    <div className="trans-loader text-center">
-                      <div className="d-inline-block img-size-succ">
-                        <img
-                          width="150"
-                          height="150"
-                          className="img-fluid"
-                          src="../../assets/images/cmpete-step.png"
-                          alt=""
-                        />
-                      </div>
-                    </div>
-                  ) : (
-                    // </span>
-                    <div className="trans-loader">
-                      <span className="spiner-lg">
-                        <span className="spinner-border text-secondary pop-spiner"></span>
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="pop-bottom">
-                <div className="staus-btn">
-                  <button
-                    type="button"
-                    className="btn primary-btn w-100"
-                    disabled={hashLink ? false : true}
-                    onClick={() => window.open(hashLink)}
-                  >
-                    View on Block Explorer
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div> */}
           {/* Transaction Pending popup version 2 end*/}
         </CommonModal>
         {/* pending & submit modal end */}
@@ -2075,7 +1873,7 @@ const validatorAccount = ({
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
-                              <span>{isLoading == true ? "0.00" : addDecimalValue(availBalance)}</span> BONE
+                              <span>{isLoading ? "0.00" : addDecimalValue(availBalance)}</span> BONE
                             </div>
                             <div className="mid-head">
                               <span>
@@ -2083,7 +1881,7 @@ const validatorAccount = ({
                                   thousandSeparator
                                   displayType={"text"}
                                   prefix="$ "
-                                  value={isLoading == true ? "0.00" : (addDecimalValue(
+                                  value={isLoading ? "0.00" : (addDecimalValue(
                                     (availBalance || 0.0) * boneUSDValue))}
                                 />
                               </span>
@@ -2109,7 +1907,6 @@ const validatorAccount = ({
                               %
                             </div>
                             <div className="mid-head">
-                              {/* <span>some info here...</span> */}
                             </div>
                           </div>
 
@@ -2154,41 +1951,11 @@ const validatorAccount = ({
                           </div>
                         </div>
                       </div>
-                      {/* <div className="col-md-6 col-xl-4 mob-margin col-custum">
-                        <div className="cus-box">
-                          <div className="head-sec">
-                            <div className="top-head">
-                              <span>{validatorTotalReward} </span> BONE
-                            </div>
-                            <div className="mid-head">
-                              <span>
-                              <NumberFormat
-                                thousandSeparator
-                                displayType={"text"}
-                                prefix="$ "
-                                value={addDecimalValue(+(parseInt(validatorTotalReward) / Math.pow(10, web3Decimals)) * boneUSDValue)}
-                              />
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className="botom-sec">
-                            <div className="botom-headsec">
-                              <span className="ff-mos">Total Rewards</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div> */}
                       <div className="col-md-6 col-xl-4 mob-margin col-custum">
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
                               <span>
-                                {/* {validatorInfoContract?.amount
-                                ? addDecimalValue(+validatorInfoContract?.amount) /
-                                  10 ** web3Decimals
-                                : "0.00"} */}
-
                                 {validatorInfoContract?.amount
                                   ? addDecimalValue(
                                     +validatorInfoContract?.amount /
@@ -2204,11 +1971,6 @@ const validatorAccount = ({
                                   thousandSeparator
                                   displayType={"text"}
                                   prefix="$ "
-                                  // value={(
-                                  //   (+validatorInfoContract?.amount /
-                                  //     10 ** web3Decimals) *
-                                  //   boneUSDValue
-                                  // ).toFixed(tokenDecimal)}
                                   value={addDecimalValue(
                                     (+validatorInfoContract?.amount /
                                       10 ** web3Decimals) *
@@ -2231,12 +1993,6 @@ const validatorAccount = ({
                           <div className="head-sec">
                             <div className="top-head">
                               <span>
-                                {/* {validatorInfoContract?.delegatedAmount
-                                ? addDecimalValue(
-                                    +validatorInfoContract?.delegatedAmount /
-                                      Math.pow(10, web3Decimals)
-                                  )
-                                : "0.00"} */}
                                 {validatorInfoContract?.delegatedAmount
                                   ? addDecimalValue(
                                     +validatorInfoContract?.delegatedAmount /
@@ -2257,12 +2013,7 @@ const validatorAccount = ({
                                       Math.pow(10, web3Decimals)) *
                                     boneUSDValue
                                   )}
-                                // value={(
-                                //   addDecimalValue(
-                                //     +validatorInfoContract?.delegatedAmount /
-                                //       Math.pow(10, web3Decimals)
-                                //   ) * boneUSDValue
-                                // ).toFixed(tokenDecimal)}
+
                                 />
                               </span>
                             </div>
@@ -2288,12 +2039,6 @@ const validatorAccount = ({
                                     parseInt(validatorInfoContract?.delegatorsReward) / Math.pow(10, 18)
                                   )
                                   : "0.00"}
-                                {/* {validatorInfoContract?.delegatorsReward
-                                ? addDecimalValue(
-                                    +validatorInfoContract?.delegatorsReward /
-                                      Math.pow(10, web3Decimals)
-                                  )
-                                : "0.00"} */}
                               </span>{" "}
                               BONE
                             </div>
@@ -2307,12 +2052,6 @@ const validatorAccount = ({
                                     (parseInt(validatorInfoContract?.delegatorsReward) / Math.pow(10, web3Decimals)) *
                                     boneUSDValue
                                   )}
-                                // value={(
-                                //   addDecimalValue(
-                                //     +validatorInfoContract?.delegatorsReward /
-                                //       Math.pow(10, web3Decimals)
-                                //   ) * boneUSDValue
-                                // ).toFixed(tokenDecimal)}
                                 />
                               </span>
                             </div>
@@ -2355,15 +2094,13 @@ const validatorAccount = ({
                             disabled={
                               parseInt(validatorInfoContract?.status) > 1 ||
                                 parseInt(validatorInfoContract?.deactivationEpoch) >
-                                0
-                                ? true
-                                : parseInt(
+                                0 || parseInt(
                                   validatorInfoContract?.lastCommissionUpdate
                                 ) +
-                                  parseInt(comissionHandle?.dynasty) <=
-                                  parseInt(comissionHandle?.epoch)
-                                  ? false
-                                  : true
+                                parseInt(comissionHandle?.dynasty) >=
+                                parseInt(comissionHandle?.epoch)
+                                ? true
+                                : false
                             }
                             onClick={() =>
                               handleModal("Change Commission Rate", account)
@@ -2378,10 +2115,10 @@ const validatorAccount = ({
                               validatorInfoContract?.lastCommissionUpdate
                             ) +
                             parseInt(comissionHandle?.dynasty) >
-                            parseInt(comissionHandle?.epoch) ? null : 
+                            parseInt(comissionHandle?.epoch) ? null :
                             (<div className="tool-desc">
-                            Change your commission rate
-                          </div>)}
+                              Change your commission rate
+                            </div>)}
 
                         </div>
                       </div>
@@ -2392,7 +2129,7 @@ const validatorAccount = ({
                             disabled={
                               parseInt(validatorInfoContract?.status) > 1
                                 ? true
-                                : !(validatorTotalReward > 0)
+                                : (validatorTotalReward <= 0)
                             }
                             className="ff-mos btn black-btn w-100 d-block tool-ico"
                           >
@@ -2442,18 +2179,6 @@ const validatorAccount = ({
 
                         </div>
                       </div>
-                      {/* <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                      <div className="cus-tooltip d-inline-block ps-0">
-                        <button
-                          // disabled={    }
-                          onClick={() => setSignerAddressPop(true)}
-                          className="ff-mos btn black-btn w-100 d-block tool-ico"
-                        >
-                          Update Signer Address
-                        </button>
-                        <div className="tool-desc">Update Signer Address</div>
-                      </div>
-                    </div> */}
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                         <div className="cus-tooltip d-inline-block ps-0">
                           <Link href="/profile-update" passHref>
@@ -2478,7 +2203,7 @@ const validatorAccount = ({
                       getStake(item.id) >= 1 &&
                       (<div
                         className="col-lg-4 col-md-6 col-12 bs-col"
-                        key={index}
+                        key={item.id}
                       >
                         <div className="border-sec">
                           <div className="top-sec">
@@ -2529,10 +2254,7 @@ const validatorAccount = ({
                                   <div>Your Stake</div>
                                   <div className="fw-bold">
                                     {getStake(item.id)}
-                                    {/* {item.stake / Math.pow(10, web3Decimals)} */}
                                   </div>
-                                  {/* <div className="fw-bold">{stakeAmounts?.filter((x:any) => x.validatorId === item.id)[0]?.tokens}</div> */}
-                                  {/* {/ <div>$0</div> /} */}
                                 </div>
                               </div>
                               <div className="cus-width">
@@ -2546,7 +2268,6 @@ const validatorAccount = ({
                                       ).toFixed(tokenDecimal)
                                       : "0.00"}
                                   </div>
-                                  {/* {/ <div>$0</div> /} */}
                                 </div>
                               </div>
                             </div>
@@ -2649,10 +2370,6 @@ const validatorAccount = ({
                               <li className="btn-grp-lst">
                                 <div className="cus-tooltip d-inline-block">
                                   <button
-                                    // disabled={
-                                    //   parseInt(item.commission) < comissionVal ||
-                                    //   item.checkpointSignedPercent < checkpointVal || item.deactivationepoch === "true"
-                                    // }
                                     onClick={() => {
                                       setSelectedRow({
                                         owner: item.contractAddress,
@@ -2676,13 +2393,12 @@ const validatorAccount = ({
                           </div>
                         </div>
                       </div>)
-
                     ))
-                  ) : !loading && !delegationsList.length ? (
+                  ) : !loading && !delegationsList.length && (
                     <div className="txt-emp">
                       <div className="no-fount-txt">No Record Found</div>
                     </div>
-                  ) : null}
+                  ) }
                 </div>
               </div>
             </section>

@@ -1,22 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-import React from "react";
-import { useState, useRef, useEffect } from "react";
-import PerfectScrollbar from "react-perfect-scrollbar";
-import {
-  Container,
-  Navbar,
-  Nav,
-  NavItem,
-  NavDropdown,
-  MenuItem,
-} from "react-bootstrap";
-import NavLink from "../components/NavLink";
-import SideNavTab from "../../constants/Resources/sideNavTab";
+import React, { useState, useRef, useEffect } from "react";
+import { Navbar } from "react-bootstrap";
 import { useRouter } from "next/router";
 import * as Sentry from "@sentry/nextjs";
 import ChainWarning from "pages/components/ChainWarning";
-import { useWeb3React } from "@web3-react/core";
 import { useActiveWeb3React } from "app/services/web3";
 
 export default function Sidebar({
@@ -25,22 +13,18 @@ export default function Sidebar({
   onClickOutside,
 }) {
   const wrapperRef = useRef(null);
-  const { account, deactivate, active } = useWeb3React();
-  const { chainId } = useActiveWeb3React();
+  const { account,chainId=1 } = useActiveWeb3React();
   const [isVisible, setIsVisible] = useState(true);
   const router = useRouter();
   const [showWarning, setShowWarning] = useState(false);
-  const [width , setWidth] = useState();
+  const [width, setWidth] = useState();
   useEffect(() => {
-    // if (chainId !== 5) {
     checkConnectedChain();
-    // }
   }, [chainId, account]);
 
   const checkConnectedChain = () => {
     if (chainId === 5) {
       setShowWarning(false);
-      // router.push("/bone-staking");
     } else {
       setShowWarning(true);
       console.log(showWarning);
@@ -144,25 +128,15 @@ export default function Sidebar({
   };
 
   const handelClick = (index, type) => {
-    // if(type === 'top'){
-    //   let newData = activateBtn(renderTopList, index.name)
-    //   setRenderTopList(newData)
-    //   setRenderBottomList(bottomList)
-    // } else {
-    //   let newData = activateBtn(renderBottomList, index.name)
-    //   setRenderTopList(topList)
-    //   setRenderBottomList(newData)
-    // }
     router.push(index.route);
   };
-  function getWidth () {
+  function getWidth() {
     const screenWidth = window.innerWidth;
     setWidth(screenWidth);
   }
-  // console.log("screenWidth" ,width);
   useEffect(() => {
-    window.addEventListener('resize' , getWidth);
-  },[])
+    window.addEventListener("resize", getWidth);
+  }, []);
   return (
     <>
       <ChainWarning
@@ -186,16 +160,20 @@ export default function Sidebar({
           />
         </Navbar.Brand>
         <div className="sidebar-logo">
-            <Link href="/home" passHref>
-              <a className="sidelogo-link" href="/">
-                <img
-                  className="img-fluid"
-                  src={width > 576 ? "../../assets/images/logo.png" : "../../assets/images/Shib-Logo.png"}
-                  alt=""
-                />
-              </a>
-            </Link>
-          </div>
+          <Link href="/home" passHref>
+            <a className="sidelogo-link" href="/">
+              <img
+                className="img-fluid"
+                src={
+                  width > 576
+                    ? "../../assets/images/logo.png"
+                    : "../../assets/images/Shib-Logo.png"
+                }
+                alt=""
+              />
+            </a>
+          </Link>
+        </div>
       </div>
       <div
         className={menuState ? "sidebar sidebar-active" : "sidebar"}

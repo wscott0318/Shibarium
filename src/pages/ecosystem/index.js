@@ -1,13 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-import React, { useState, useEffect, useContext } from "react";
-// import { validators, validatorsList } from "../service/validator";
-import { useWeb3React } from "@web3-react/core";
-import ProjectContext from "../../context/ProjectContext";
-import Footer from "../../pages/footer/index"
-import { useActiveWeb3React } from "../../services/web3"
-import CommonModal from "../components/CommonModel";
-import StakingHeader from '../staking-header';
+import React from "react";
 import Header from "../layout/header";
 export default function ecosystem() {
     

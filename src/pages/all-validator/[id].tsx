@@ -1,16 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useActiveWeb3React } from "../../services/web3"
 import Header from "../layout/header";
 import { useRouter } from "next/router";
 import { getBoneUSDValue, getValidatorsDetail } from 'app/services/apis/validator';
 import { BONE_ID } from 'app/config/constant';
 import NumberFormat from 'react-number-format';
-import ProgressBar from 'react-bootstrap/ProgressBar';
 import Delegators from './validator-details/Delegators';
 import Checkpoints from './validator-details/Checkpoints';
-import { addDecimalValue, checkImageType, tokenDecimal, web3Decimals } from "web3/commonFunctions";
-import Web3 from "web3";
+import { addDecimalValue, checkImageType, web3Decimals } from "web3/commonFunctions";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { dynamicChaining } from "web3/DynamicChaining";
 import LoadingSpinner from 'pages/components/Loading';
@@ -18,21 +16,15 @@ import * as Sentry from "@sentry/nextjs";
 import { ChainId, L1Block } from "app/hooks/L1Block";
 
 export default function ValidatorDetails() {
-    const pageSize = 4;
     const { account, library, chainId = 1 } = useActiveWeb3React()
     const [validatorInfo, setValidatorInfo] = useState<any>();
     const [allDelegators, setAllDelegators] = useState([]);
     const [allCheckpoints, setAllCheckpoints] = useState<any>([]);
     const [boneUsdValue, setBoneUsdValue] = useState(0);
     const [loading, setLoading] = useState<boolean>(false);
-    const [msgType, setMsgType] = useState<'error' | 'success' | undefined>()
-    const [toastMassage, setToastMassage] = useState('')
-
-    const [lastBlock, setLastBlock] = useState<any>();
     const [totalSupply, setTotalSupply] = useState<number>(0)
     const [selfStaked, setSelfStaked] = useState<number>(0)
 
-    console.log("Delegator" , allDelegators)
     const router = useRouter()
     useEffect(() => {
         try {
@@ -43,14 +35,11 @@ export default function ValidatorDetails() {
                     setValidatorInfo(res?.data?.data?.validatorSet.validatorInfo)
                     setAllDelegators(res?.data?.data?.validatorSet?.delegators || []);
                     setAllCheckpoints(res?.data?.data?.validatorSet?.checkpoints || [])
-                    setLastBlock(res?.data?.data?.validatorSet?.lastBlock);
 
 
                     // console.log(res?.data?.data?.validatorSet)
                     setLoading(false);
                 }).catch((error: any) => {
-                    setToastMassage(error?.response?.data?.message);
-                    setMsgType('error')
                     setLoading(false);
                 })
             }
@@ -73,7 +62,6 @@ export default function ValidatorDetails() {
 
     const getTotalSupply = async (id: any) => {
         try{
-            const lib: any = library;
             const Cid = await ChainId();
             const web3 = L1Block();
             let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[Cid]?.STAKE_MANAGER_PROXY);
@@ -92,7 +80,11 @@ export default function ValidatorDetails() {
         // amount delegatedAmount
     }
 
-
+    const getValCondition = (uptime:any) => {
+        if(uptime>=90)return 'Good';
+        else if (uptime >=70) return 'Okay';
+        return 'Bad';
+    }
     return (
         <>
             <Header />
@@ -170,7 +162,7 @@ export default function ValidatorDetails() {
                                             <li className='info-data-lst'>
                                                 <h6 className='mb-0 trs-3 fix-wid fw-600 ff-mos'>Condition</h6>
                                                 <p className="mb-0 trs-3 fw-600 up-text ff-mos">
-                                                    {validatorInfo?.uptimePercent >= 90 ? `Good` : validatorInfo?.uptimePercent < 90 && validatorInfo?.uptimePercent >= 70 ? `Okay` : 'Bad'}
+                                                    {getValCondition(validatorInfo?.uptimePercent)}
                                                 </p>
                                             </li>
                                         </ul>

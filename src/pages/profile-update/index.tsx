@@ -1,8 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Header from "pages/layout/header";
-import StakingHeader from "pages/staking-header";
-import Link from 'next/link';
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { getValidatorInfo, updateValidator } from "app/services/apis/network-details/networkOverview";
@@ -22,7 +20,6 @@ export default function ProfileUpdate() {
     const [imageData, setImageData] = useState<any>('');
     const [imageURL, setImageURL] = useState<any>('');
     const [loader, setLoader] = useState(false)
-
     const [userType, setUserType] = useUserType();
     const router = useRouter()
     const [validation, setValidation] = useState({
@@ -83,18 +80,15 @@ export default function ProfileUpdate() {
         try {
             if ((imageData || imageURL) && verifyAddress(values.address)) {
                 setValidation({ image: false, address: false });
-                // console.log("1");
             } else if (!(imageData || imageURL) && verifyAddress(values.address)) {
                 setValidation({ address: false, image: true });
-                // console.log("2");
             } else if ((imageData || imageURL) && !verifyAddress(values.address)) {
                 setValidation({ image: false, address: true });
-                // console.log("3");
             }
             else {
                 setValidation({ image: true, address: true });
             }
-            var data = new FormData();
+            let data = new FormData();
             data.append("validatorName", values.validatorname);
             data.append("signerAddress", values.address);
             data.append("website", values.website);
@@ -140,13 +134,11 @@ export default function ProfileUpdate() {
             initialValues: initialValues,
             validationSchema: schema,
             onSubmit: (values) => {
-                // console.log("Value", values);
                 callAPI(values);
             },
         });
 
     const notify = () => {
-        // toast("Profile Updated successfully");
         toast("Profile Updated successfully!", {
             position: toast.POSITION.BOTTOM_CENTER, autoClose: 5000
         });
@@ -175,8 +167,17 @@ export default function ProfileUpdate() {
           Sentry.captureMessage("trimSpace", err);
         }
       };
-    
-
+    const getimage = () => {
+        if(imageData) return URL.createObjectURL(imageData.image);
+        else if(imageURL) return imageURL;
+        else return "../../assets/images/file-icon.png";
+    }
+    let image = getimage();
+    const valMsg = () => {
+        if(validation.image) return 'Image is required.';
+        else if (imgsize) return "Maximum allowed size is 200 Kb";
+        return null;
+      }
     return (
         <>
             {loader && <LoadingSpinner />}
@@ -222,9 +223,7 @@ export default function ProfileUpdate() {
                                                     <label className="form-label ff-mos">Validator logo</label>
                                                     <div className="file-wrap">
                                                         <div className="file-icons">
-                                                            <img src={imageData ? URL.createObjectURL(imageData.image)
-                                                                : imageURL ? imageURL : "../../assets/images/file-icon.png"
-                                                            } alt="" className="img-fluid" width={22} />
+                                                            <img src={image} alt="" className="img-fluid" width={22} />
                                                         </div>
                                                         <div className="file-input">
                                                             <input
@@ -241,9 +240,7 @@ export default function ProfileUpdate() {
                                                     </div>
                                                 </div>
 
-                                                {validation.image ? (
-                                                    <p className="primary-text error ff-mos">image is required</p>
-                                                ) : imgsize ? <p className="primary-text error ff-mos" >only under 200 kb allowed</p> : null}
+                                                <p className="primary-text error ff-mos">{valMsg()}</p>
                                             </div>
                                             <div className="col-sm-6 form-grid">
                                                 <div className="form-group">

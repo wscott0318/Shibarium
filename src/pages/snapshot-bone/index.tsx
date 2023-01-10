@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
-import Footer from "../footer/index"
+import React from "react";
 export default function SnapshotPolygon() {
 
     // const { active, deactivate } = useWeb3React()

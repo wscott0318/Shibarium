@@ -13,7 +13,7 @@ import * as Sentry from "@sentry/nextjs";
 export const Allvalidator: React.FC = () => {
 
   const [userType, setUserType] = useUserType();
-  const { account, chainId = 1, library } = useActiveWeb3React();
+  const { account, chainId = 1 } = useActiveWeb3React();
   const myRef = useRef<any>(null)
   const router = useRouter();
   const executeScroll = () => myRef.current.scrollIntoView()

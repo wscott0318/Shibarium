@@ -93,7 +93,7 @@ const delegatorAccount = () => {
           <div className='row'>
             {delegationsList.length ?
               delegationsList.map((item: any) =>
-                <div className="col-lg-4 col-md-6 col-12 bs-col">
+                <div className="col-lg-4 col-md-6 col-12 bs-col" key={item?.validatorAddress}>
                   <div className="border-sec">
                     <div className="top-sec">
                       <div className="info-block">

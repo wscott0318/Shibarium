@@ -1,5 +1,4 @@
-import CopyHelper from 'app/components/AccountDetails/Copy';
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Modal } from 'react-bootstrap'
 import * as Sentry from "@sentry/nextjs";
 import { useActiveWeb3React } from '../../services/web3'
@@ -25,18 +24,20 @@ const ChainWarning: React.FC<props> = ({ show, setshow, title, externalCls }) =>
 
         try {
             await library?.send('wallet_switchEthereumChain', [{ chainId: `0x${(5).toString(16)}` }, account])
-        } catch (switchError) {
+        } catch (switchError:any) {
             // This error code indicates that the chain has not been added to MetaMask.
             // @ts-ignore TYPE NEEDS FIXING
             if (switchError.code === 4902) {
                 try {
                     await library?.send('wallet_addEthereumChain', [params, account])
-                } catch (addError) {
+                } catch (addError:any) {
                     // handle "add" error
+                    Sentry.captureMessage("switchNetwork ", addError);
                     console.error(`Add chain error ${addError}`)
                 }
             }
             console.error(`Switch chain error ${switchError}`)
+            Sentry.captureMessage("switchNetwork ", switchError);
             // handle other "switch" errors
         }
     }

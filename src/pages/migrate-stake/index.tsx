@@ -1,19 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link";
-import React, { useState, useEffect, useContext, useRef } from "react";
-import { useWeb3React } from "@web3-react/core";
+import React, { useState, useEffect, useRef } from "react";
 import { useActiveWeb3React } from "../../services/web3";
-import CommonModal from "../components/CommonModel";
 import Header from "../layout/header";
-import StakingHeader from "../staking-header";
 import { useRouter } from "next/router";
 import { useUserType } from "../../state/user/hooks";
-import UserAccount from "../my-account/UserAccount";
-import DelegatorAccount from "../my-account/DelegatorAccount";
-import ValidatorAccount from "../my-account/ValidatorAccount";
-import LoadingSpinner from "pages/components/Loading";
 import { getBoneUSDValue } from "../../services/apis/validator/index";
-import { ChainId } from "shibarium-get-chains";
 import { BONE_ID } from "../../config/constant";
 import ListData from "./ListData"
 

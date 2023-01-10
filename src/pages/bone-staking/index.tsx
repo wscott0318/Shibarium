@@ -2,8 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/no-unknown-property */
-import React, { useState, useEffect, useContext } from "react";
-import { Dropdown, Navbar, Container, Nav } from "react-bootstrap";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { useUserType, useValId } from "../../state/user/hooks";
 import NetworkDetails from './NetworkDetails';
@@ -15,9 +14,8 @@ import Web3 from "web3";
 import * as Sentry from "@sentry/nextjs";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
 import { L1Block, ChainId } from 'app/hooks/L1Block';
-import { useRef } from "react";
 import { queryProvider } from "Apollo/client";
-import { allValidatorsQuery, validators } from "Apollo/queries";
+import { validators } from "Apollo/queries";
 
 
 
@@ -45,33 +43,17 @@ const BoneStaking = () => {
   const checkEth = async () => {
     let lib: any = library
     let web3: any = new Web3(lib?.provider)
-    // const getTxn : any = await web3.eth.getPendingTransactions()
-    //  console.log(web3.eth, "account changes testing ")
   }
-
-  console.log({
-    SUBH_GRAPH_URL: process.env.SUBH_GRAPH_URL,
-    RPC_517: process.env.RPC_517,
-    BONE: process.env.BONE,
-    STAKE_MANAGER_PROXY: process.env.STAKE_MANAGER_PROXY,
-    VALIDATOR_SHARE: process.env.VALIDATOR_SHARE,
-    STAKE_MANAGER: process.env.STAKE_MANAGER,
-    DEPOSIT_MANAGER_PROXY: process.env.DEPOSIT_MANAGER_PROXY,
-    WITHDRAW_MANAGER_PROXY: process.env.WITHDRAW_MANAGER_PROXY
-  }, " .env data  ===> ")
 
   const getValCount = async () => {
     try {
       const id = await ChainId()
       let instance = new web3test.eth.Contract(stakeManagerProxyABI, dynamicChaining[id]?.STAKE_MANAGER_PROXY);
       const validatorThreshold = await instance.methods.validatorThreshold().call();
-      // const valInfo = await instance.methods.validators(9).call({ from: account });
-      // const valStake = await instance.methods.validatorStake(9).call({ from: account });
       const totVals = await queryProvider.query({
         query: validators(),
       })
       const valCount = totVals?.data?.validators?.length;
-      console.log("instance qraph QL ==> ", totVals);
       setValCount(valCount)
       setValMaxCount(validatorThreshold)
     }
@@ -83,7 +65,6 @@ const BoneStaking = () => {
     try {
       let id: any = account
       getValidatorInfo(id.toLowerCase()).then((res: any) => {
-        // console.log(res.data.message.val?.status, " vall status ===> ")
         setNodeSetup(res?.data?.message?.val?.status ? res?.data?.message?.val?.status : null)
         setValInfoLoader(false)
         localStorage.setItem("valInfo", JSON.stringify(res.data.message.val))
@@ -96,8 +77,6 @@ const BoneStaking = () => {
 
   const myRef = useRef<any>(null)
   const executeScroll = () => myRef.current.scrollIntoView()
-
-  // console.log(nodeSetup)
 
   const renderButtons = () => {
     if (account && !valInfoLoader) {

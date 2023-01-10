@@ -1,5 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
-import { Dropdown } from 'react-bootstrap';
+import React from 'react'
 
 function Swap() {
     return (

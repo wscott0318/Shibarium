@@ -1,26 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect, useContext } from "react";
-
-import { Button, Container, Nav, Navbar, NavDropdown, DropdownButton, Dropdown, Modal } from 'react-bootstrap';
-// @ts-ignore
-import Popup from "../components/PopUp";
+import React, { useState, useEffect } from "react";
 import { ChainId } from "shibarium-get-chains";
 import Web3 from "web3";
-import CommonModal, { CommonModalNew } from "../components/CommonModel";
+import { CommonModalNew } from "../components/CommonModel";
 import InnerHeader from "../inner-header";
 // @ts-ignore
 import Link from 'next/link'
-import { useRouter } from "next/router";
-import {
-  NoEthereumProviderError,
-  UserRejectedRequestError as UserRejectedRequestErrorInjected
-} from '@web3-react/injected-connector'
+import Router, { useRouter } from "next/router";
 import Sidebar from "../layout/sidebar"
-import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
 import { useEthBalance } from "../../hooks/useEthBalance";
-import { useTokenBalance, getTokenBalance } from '../../hooks/useTokenBalance';
+import { useTokenBalance } from '../../hooks/useTokenBalance';
 import { BONE_ID } from '../../config/constant';
 import ERC20 from "../../ABI/ERC20Abi.json";
 import fromExponential from "from-exponential";
@@ -32,10 +23,7 @@ import NumberFormat from 'react-number-format';
 import { useSearchFilter } from "app/hooks/useSearchFilter";
 import { dynamicChaining } from "../../web3/DynamicChaining";
 import Pagination from 'app/components/Pagination';
-// @ts-ignore
-import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
-import Router from "next/router";
 import { getExplorerLink } from "app/functions";
 import { currentGasPrice } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
@@ -48,9 +36,9 @@ const sendInitialState = {
 }
 
 export const SortData = (a: any, b: any) => {
-  return (a > b)
-    ? 1 : ((b > a)
-      ? -1 : 0);
+  if (a > b) return 1;
+  else if (b > a) return -1;
+  else return 0;
 }
 
 export default function Wallet() {
@@ -58,9 +46,9 @@ export default function Wallet() {
   const router = useRouter()
   const { chainId = 1, account, library } = useActiveWeb3React();
   const id: any = chainId
-  // console.log(dynamicChaining[id].BONE)
-
-  const availBalance = chainId === ChainId.SHIBARIUM ? useEthBalance() : useTokenBalance(dynamicChaining[chainId].BONE);
+  const ethBal = useEthBalance();
+  const tokenBal = useTokenBalance(dynamicChaining[chainId].BONE);
+  const availBalance = chainId === ChainId.SHIBARIUM ? ethBal : tokenBal;
   const lib: any = library
   const web3: any = new Web3(lib?.provider)
   const dispatch = useAppDispatch()
@@ -84,7 +72,7 @@ export default function Wallet() {
   const [selectedToken, setSelectedToken] = useState<any>({})
   const [searchKey, setSearchKey] = useState<string>('');
   const [modalKeyword, setmodalKeyword] = useState<string>('');
-  const [nullAddress,setNullAddress]=useState(false)
+  const [nullAddress, setNullAddress] = useState(false)
 
   const searchResult = useSearchFilter(tokenList, searchKey.trim());
 
@@ -98,51 +86,51 @@ export default function Wallet() {
   // console.log(selectedToken)
 
   const verifyAddress = (address: any) => {
-    try{
+    try {
       let result = Web3.utils.isAddress(address)
-    setIsValidAddress(result)
-    return result
+      setIsValidAddress(result)
+      return result
     }
-    catch(err:any){
+    catch (err: any) {
       Sentry.captureException("verifyAddress ", err);
     }
   }
 
   const getNetworkName = () => {
-    try{
+    try {
       if (chainId == 1) {
-      return "Ethereum Mainnet"
-    } else if (chainId == 5) {
-      return "Goerli Testnet"
-    } else {
-      return "Shibarium Mainnet"
+        return "Ethereum Mainnet"
+      } else if (chainId == 5) {
+        return "Goerli Testnet"
+      } else {
+        return "Shibarium Mainnet"
+      }
     }
-  }
-  catch(err:any){
-    Sentry.captureException("getNetworkName ", err);
-  }
+    catch (err: any) {
+      Sentry.captureException("getNetworkName ", err);
+    }
   }
 
   const getTokensList = () => {
-    try{// console.log("token list called ==> ")
-    setListLoader(true)
-    getWalletTokenList().then(res => {
-      let list = res.data.message.tokens
-      // .sort((a: any, b: any) => {
-      //   return (parseInt(b.balance) - parseInt(a.balance));
-      // });
-      list.forEach(async (x: any) => {
-        x.balance = 0 //await getTokenBalance(lib, account, x.parentContract)
+    try {// console.log("token list called ==> ")
+      setListLoader(true)
+      getWalletTokenList().then(res => {
+        let list = res.data.message.tokens
+        // .sort((a: any, b: any) => {
+        //   return (parseInt(b.balance) - parseInt(a.balance));
+        // });
+        list.forEach(async (x: any) => {
+          x.balance = 0 //await getTokenBalance(lib, account, x.parentContract)
+        })
+        setTokenList(list)
+        setTokenFilteredList(list)
+        setTokenModalList(list)
+        setListLoader(false)
       })
-      setTokenList(list)
-      setTokenFilteredList(list)
-      setTokenModalList(list)
-      setListLoader(false)
-    })
-  }
-  catch(err:any){
-    Sentry.captureException("getTokensList ", err);
-  }
+    }
+    catch (err: any) {
+      Sentry.captureException("getTokensList ", err);
+    }
   }
 
 
@@ -176,24 +164,24 @@ export default function Wallet() {
     setMenuState(!menuState);
   }
 
-  const handleSend = (e :any) => {
-    try{
+  const handleSend = (e: any) => {
+    try {
       e.preventDefault()
-    // console.log("called handleSend")
-    if (isValidAddress && sendAmount && senderAddress) {
       // console.log("called handleSend")
-      setSendModal({
-        step0: false,
-        step1: false,
-        step2: true,
-        step3: false,
-        showTokens: false
-      })
+      if (isValidAddress && sendAmount && senderAddress) {
+        // console.log("called handleSend")
+        setSendModal({
+          step0: false,
+          step1: false,
+          step2: true,
+          step3: false,
+          showTokens: false
+        })
+      }
     }
-  }
-  catch(err:any){
-    Sentry.captureException("handleSend ", err);
-  }
+    catch (err: any) {
+      Sentry.captureException("handleSend ", err);
+    }
   }
   const pageSize = 4;
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -212,74 +200,74 @@ export default function Wallet() {
   }, [tokenFilteredList]);
 
   const pageChangeHandler = (index: number) => {
-    try{
+    try {
       const slicedList = tokenFilteredList.sort((a: any, b: any) => {
-      return (b.balance - a.balance);
-    }).slice(
-      (index - 1) * pageSize,
-      index * pageSize
-    );
-    setSliceTokenFilteredList(slicedList);
-    setCurrentPage(index);
-    }catch(err:any){
+        return (b.balance - a.balance);
+      }).slice(
+        (index - 1) * pageSize,
+        index * pageSize
+      );
+      setSliceTokenFilteredList(slicedList);
+      setCurrentPage(index);
+    } catch (err: any) {
       Sentry.captureException("pageChangeHandler ", err);
     }
   };
 
   const handleSearchList = (key: any, type: any = 'main') => {
-    try{
+    try {
       if (type === 'modal') {
-      setmodalKeyword(key)
-    } else {
-      setSearchKey(key)
-    }
-    if (key.length) {
-      let newData = tokenList.filter((name: any) => {
-        return Object.values(name)
-          .join(" ")
-          .toLowerCase()
-          .includes(key.toLowerCase());
-      });
-      if (type === 'modal') {
-        setTokenModalList(newData)
+        setmodalKeyword(key)
       } else {
-        setTokenFilteredList(newData)
-        pageChangeHandler(currentPage);
+        setSearchKey(key)
       }
-    } else {
-      if (type === 'modal') {
-        setTokenModalList(tokenList)
+      if (key.length) {
+        let newData = tokenList.filter((name: any) => {
+          return Object.values(name)
+            .join(" ")
+            .toLowerCase()
+            .includes(key.toLowerCase());
+        });
+        if (type === 'modal') {
+          setTokenModalList(newData)
+        } else {
+          setTokenFilteredList(newData)
+          pageChangeHandler(currentPage);
+        }
       } else {
-        setTokenFilteredList(tokenList)
+        if (type === 'modal') {
+          setTokenModalList(tokenList)
+        } else {
+          setTokenFilteredList(tokenList)
+        }
       }
     }
-  }
-  catch(err:any){
-    Sentry.captureException("handleSearchList ", err);
-  }
+    catch (err: any) {
+      Sentry.captureException("handleSearchList ", err);
+    }
   }
 
   // console.log(tokenList, tokenFilteredList, slicedTokenFilteredList)
 
   const submitTransaction = async () => {
-    try{
+    try {
       let user: any = account;
-    let amount = web3.utils.toBN(fromExponential(+sendAmount * Math.pow(10, 18)));
-    let instance = new web3.eth.Contract(ERC20, '0x5063b1215bbF268ab00a5F47cDeC0A4783c3Ab58');
-    instance.methods.transfer(senderAddress, amount).send({ from: user })
+      let amount = web3.utils.toBN(fromExponential(+sendAmount * Math.pow(10, 18)));
+      let instance = new web3.eth.Contract(ERC20, '0x5063b1215bbF268ab00a5F47cDeC0A4783c3Ab58');
+      instance.methods.transfer(senderAddress, amount).send({ from: user })
 
-    let gasFee =  await instance.methods.transfer(senderAddress, amount).estimateGas({from: user})
-    let encodedAbi =  await instance.methods.transfer(senderAddress, amount).encodeABI()
-    let CurrentgasPrice : any = await currentGasPrice(web3)
+      let gasFee = await instance.methods.transfer(senderAddress, amount).estimateGas({ from: user })
+      let encodedAbi = await instance.methods.transfer(senderAddress, amount).encodeABI()
+      let CurrentgasPrice: any = await currentGasPrice(web3)
       //  console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
-       await web3.eth.sendTransaction({
-         from: user,
-         to: '0x5063b1215bbF268ab00a5F47cDeC0A4783c3Ab58',
-         gas: (parseInt(gasFee) + 30000).toString(),
-         gasPrice: CurrentgasPrice,
-         // value : web3.utils.toHex(combinedFees),
-         data: encodedAbi
-       }).on('transactionHash', (res: any) => {
+      await web3.eth.sendTransaction({
+        from: user,
+        to: '0x5063b1215bbF268ab00a5F47cDeC0A4783c3Ab58',
+        gas: (parseInt(gasFee) + 30000).toString(),
+        gasPrice: CurrentgasPrice,
+        // value : web3.utils.toHex(combinedFees),
+        data: encodedAbi
+      }).on('transactionHash', (res: any) => {
         // console.log(res, "hash")
         setTransactionHash(res)
         setSendModal({
@@ -327,11 +315,11 @@ export default function Wallet() {
           setSendModal(sendInitialState)
         }
       })
+    }
+    catch (err: any) {
+      Sentry.captureException("submitTransaction ", err);
+    }
   }
-  catch(err:any){
-    Sentry.captureException("submitTransaction ", err);
-  }
-}
 
 
   // transactionCounts()
@@ -350,38 +338,47 @@ export default function Wallet() {
   }
 
   const handleSendAmount = () => {
-    try{
+    try {
       if (sendAmount > selectedToken.balance) {
-      return true
-    } else if (!sendAmount) {
-      return true
-    } else {
-      return false
+        return true
+      } else if (!sendAmount) {
+        return true
+      } else {
+        return false
+      }
+    }
+    catch (err: any) {
+      Sentry.captureException("handleSendAmount ", err);
     }
   }
-  catch(err:any){
-    Sentry.captureException("handleSendAmount ", err);
-  }
-}
   const [sendToken, setSendToken] = useState('');
 
   const sendTokenWithRoute = async (x: any, type: any = "deposit") => {
-    try{
+    try {
       // console.log("Router data for send", x)
-    localStorage.setItem("depositToken", JSON.stringify(x))
-    localStorage.setItem("bridgeType", type)
-    await Router.push(`/bridge`);
+      localStorage.setItem("depositToken", JSON.stringify(x))
+      localStorage.setItem("bridgeType", type)
+      await Router.push(`/bridge`);
     }
-    catch(err:any){
+    catch (err: any) {
       Sentry.captureException("sendTokenWithRoute ", err);
     }
   }
+  const setTitle = () => {
+    if (showSendModal.step0) return "Transferring funds";
+    else if (showSendModal.step1) return "Send";
+    else if (showSendModal.step2) return "Confirm Send";
+    else if (showSendModal.showTokens) return "Select Token";
+    else return "Submitted";
+  }
+  const displayErr = () => {
+    if (sendAmount && +sendAmount > selectedToken.balance && !selectedToken) return <label className="mb-0">Select token</label>;
+    else if ((sendAmount && +sendAmount > selectedToken.balance) || selectedToken?.balance <= 0)
+      return <label className="primary-text mb-0">Insufficient balance</label>
+    else if (sendAmount === "" || +sendAmount <= 0) return <label className="primary-text mb-0">Balance Required</label>
 
-
-  // const cardShimmerEffects = (lines:any, gaps:any) => {
-  //   return <ShimmerTitle line={lines} gap={gaps} variant="primary" />;
-  // };
-
+    return null;
+  }
   return (
     <>
       <main className="main-content">
@@ -405,17 +402,7 @@ export default function Wallet() {
         {/* QR modal ends */}
         <div className="">
           <CommonModalNew
-            title={
-              showSendModal.step0
-                ? "Transferring funds"
-                : showSendModal.step1
-                ? "Send"
-                : showSendModal.step2
-                ? "Confirm Send"
-                : showSendModal.showTokens
-                ? "Select Token"
-                : "Submitted"
-            }
+            title={setTitle()}
             showClose={false}
             show={senderModal}
             setshow={handleCloseModal}
@@ -513,11 +500,11 @@ export default function Wallet() {
                             placeholder="Receiver address"
                           />
                           <div className="error-msg">
-                            {nullAddress?(!isValidAddress &&(
-                              <label className="mb-0 red-txt" style={{color:"#F06500"}}>
-                                {senderAddress?<>Enter a valid receiver address</> : <>receiver address should not be null</>}
+                            {nullAddress ? (!isValidAddress && (
+                              <label className="mb-0 red-txt" style={{ color: "#F06500" }}>
+                                {senderAddress ? <>Enter a valid receiver address</> : <>receiver address should not be null</>}
                               </label>
-                            )):null}
+                            )) : null}
                           </div>
                         </div>
                         <div className="form-group">
@@ -576,21 +563,7 @@ export default function Wallet() {
                               </div>
                             </div>
                             <div className="error-msg">
-                              {sendAmount &&
-                              +sendAmount > selectedToken.balance &&
-                              !selectedToken ? (
-                                <label className="mb-0">Select token</label>
-                              ) : (sendAmount &&
-                                  +sendAmount > selectedToken.balance) ||
-                                selectedToken?.balance <= 0 ? (
-                                <label className="primary-text mb-0">
-                                  Insufficient balance
-                                </label>
-                              ) : sendAmount === "" || +sendAmount <= 0 ? (
-                                <label className="primary-text mb-0">
-                                  Balance Required
-                                </label>
-                              ) : null}
+                              {displayErr()}
                             </div>
                           </div>
                           <p className="inpt_fld_hlpr_txt">
@@ -850,21 +823,6 @@ export default function Wallet() {
                       </div>
                       <div className="token-sec">
                         <div className="info-grid">
-                          {/* <p
-                            className="mb-0"
-                            onClick={() => {
-                              setSendModal({
-                                step0: false,
-                                step1: true,
-                                step2: false,
-                                step3: false,
-                                showTokens: false,
-                              });
-                              setmodalKeyword("");
-                            }}
-                          >
-                            Back
-                          </p> */}
                           <div>
                             <p>Token List</p>
                           </div>
@@ -881,42 +839,42 @@ export default function Wallet() {
                       <div className="token-listwrap">
                         {tokenModalList
                           ? tokenModalList.map((x: any) => (
-                              <div
-                                className="tokn-row"
-                                key={x.parentName}
-                                onClick={() => {
-                                  setSelectedToken(x);
-                                  setSendModal({
-                                    step0: false,
-                                    step1: true,
-                                    step2: false,
-                                    step3: false,
-                                    showTokens: false,
-                                  });
-                                }}
-                              >
-                                <div className="cryoto-box">
-                                  <img
-                                    className="img-fluid"
-                                    src="../../assets/images/shib-borderd-icon.png"
-                                    alt=""
-                                  />
+                            <div
+                              className="tokn-row"
+                              key={x.parentName}
+                              onClick={() => {
+                                setSelectedToken(x);
+                                setSendModal({
+                                  step0: false,
+                                  step1: true,
+                                  step2: false,
+                                  step3: false,
+                                  showTokens: false,
+                                });
+                              }}
+                            >
+                              <div className="cryoto-box">
+                                <img
+                                  className="img-fluid"
+                                  src="../../assets/images/shib-borderd-icon.png"
+                                  alt=""
+                                />
+                              </div>
+                              <div className="tkn-grid">
+                                <div>
+                                  <h6 className="fw-bold">
+                                    {x.parentSymbol}
+                                  </h6>
+                                  <p>{x.parentName}</p>
                                 </div>
-                                <div className="tkn-grid">
-                                  <div>
-                                    <h6 className="fw-bold">
-                                      {x.parentSymbol}
-                                    </h6>
-                                    <p>{x.parentName}</p>
-                                  </div>
-                                  <div>
-                                    <h6 className="fw-bold">
-                                      {x.balance ? x.balance : "00.00"}
-                                    </h6>
-                                  </div>
+                                <div>
+                                  <h6 className="fw-bold">
+                                    {x.balance ? x.balance : "00.00"}
+                                  </h6>
                                 </div>
                               </div>
-                            ))
+                            </div>
+                          ))
                           : null}
                         {!tokenModalList.length && modalKeyword ? (
                           <p className="py-3 py-md-4 py-lg-5 text-center">
@@ -1111,7 +1069,7 @@ export default function Wallet() {
                           ))
                         ) : listLoader &&
                           !searchKey.length &&
-                          !tokenFilteredList.length ? (
+                          !tokenFilteredList.length && (
                           <tr>
                             <td colSpan={6}>
                               <DynamicShimmer
@@ -1121,18 +1079,11 @@ export default function Wallet() {
                               />
                             </td>
                           </tr>
-                        ) : null}
+                        )}
                       </tbody>
                     </table>
                   </div>
                   {searchKey.length && !tokenFilteredList.length ? (
-                    // <tr>
-                    //   <td colSpan={6}>
-                    //     <p className="p-3 p-sm-4 p-xl-5 text-center float-found">
-                    //       No record found
-                    //     </p>
-                    //   </td>
-                    // </tr>
                     <div className="no-found">
                       <div className="no-found-img">
                         <img
@@ -1140,7 +1091,6 @@ export default function Wallet() {
                           src="../../assets/images/no-record.png"
                         />
                       </div>
-                      {/* <p className="float-found text-center">No Record Found</p */}
                     </div>
                   ) : null}
                 </div>

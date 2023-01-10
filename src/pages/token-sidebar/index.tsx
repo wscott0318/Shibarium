@@ -1,6 +1,4 @@
 import React, { useRef, useState } from 'react'
-import { Container, Navbar, Nav, NavItem, NavDropdown, } from 'react-bootstrap';
-import Sidebar from '../layout/sidebar';
 function ShibaSidebar(props:any) {
     const wrapperRef = useRef(null);
   const [isVisible, setIsVisible] = useState(true);
@@ -13,13 +11,7 @@ function ShibaSidebar(props:any) {
       <>
       {isVisible ? (
       <aside
-        className={
-          isVisible
-            ? props.isOpen
-              ? "token-sidebar active "
-              : "token-sidebar"
-            : "token-sidebar d-none"
-        }
+        className={`token-sidebar ${ isVisible && props.isOpen ? "active" : "d-none"}`}
         ref={wrapperRef}
       >
           <a href="#!" className="close-icon" onClick={handlClick}>

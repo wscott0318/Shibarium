@@ -1,16 +1,12 @@
 import { URL_ARRAY } from 'app/config/networks';
 import { Warning } from './ManageToken';
 import { useActiveWeb3React } from 'app/services/web3';
-import { uniq, uniqBy, update } from 'lodash';
+import { uniqBy } from 'lodash';
 import React, { useEffect, useState } from 'react'
 import { fetchLink, generateSecondary, getDefaultChain } from 'web3/commonFunctions';
-import { toast } from 'react-toastify';
-import { Switch } from '@material-ui/core';
-import { TrashIcon } from '@heroicons/react/outline';
 import * as Sentry from '@sentry/nextjs';
 import { Settings } from 'react-feather';
 import { Dropdown } from 'react-bootstrap';
-import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 const TokenList = ({
   coinList = [],
   DEFAULT_ITEM,
@@ -31,8 +27,7 @@ const TokenList = ({
   const [isWrong, setIsWrong] = useState(false);
   const [renderData, setRenderData] = useState<any>();
   const [defaultList, setDefaultList] = useState<any>(JSON.parse(localStorage.getItem("tokenList") || "[]"));
-  const [newListing, setNewListing] = useState<any>(null);
-  // const [linkQuery, setLinkQuery] = useState("");
+  const [newListing, setNewListing] = useState<any>(null); 
   const { chainId = 1, account, library } = useActiveWeb3React();
   const [importedCoins, setImportedCoins] = useState<any>([]);
   const [dup, setdup] = useState(false);
@@ -41,7 +36,6 @@ const TokenList = ({
   const [userAddedTokens, setUserAddedTokens] = useState<any>(
     JSON.parse(localStorage.getItem("importedByUser") || "[]")
   );
-  // const [logoImg, setLogoImg] = useState();
   const sortedLists = async () => {
     if (linkQuery) {
       await fetch(
@@ -64,7 +58,6 @@ const TokenList = ({
   }
   console.log("searchedList", searchedList);
   const getDefaultTokenList = () => {
-    // type URL_ARRAY_types = 'eth' | 'bsc' | 'polygon';
     const defaultTokenUrls = URL_ARRAY[defaultChain].filter(
       (item: any) => item?.default
     );
@@ -84,7 +77,6 @@ const TokenList = ({
           const logo = res?.logoURI;
           return { ...item, name, logo, tokens };
         } catch (e: any) {
-          // console.log("entered use effect catch block ", item, e);
           return { ...item };
         }
       })
@@ -93,7 +85,6 @@ const TokenList = ({
         console.log("entered use effect try block ", response);
         let uniqList = uniqBy(response, 'data');
         addToLocalStorage(uniqList);
-        // setDefaultfetched(uniqList);
       })
       .catch((err) => { console.log() });
   }
@@ -106,12 +97,10 @@ const TokenList = ({
   useEffect(() => {
     let fetchList = JSON.parse(localStorage.getItem("tokenList") || "[]");
     let enabledTokens = fetchList?.filter((e: any) => e?.enabled === true);
-    var uniqueTokens: any = [];
+    let uniqueTokens: any = [];
     enabledTokens.forEach((e: any) => uniqueTokens.push(...e?.tokens));
     uniqueTokens = uniqBy(uniqueTokens, 'address');
     setImportedCoins([...importedCoins, ...uniqueTokens]);
-    // console.log("uniqueTokens " )
-    // uniqueTokens = uniqBy(uniqueTokens, "name");
   }, []);
 
   console.log("importedCoins ", importedCoins);
@@ -120,7 +109,7 @@ const TokenList = ({
     oldList = JSON.parse(localStorage.getItem("tokenList") || "[]");
     if (oldList.length) {
       let newImportedList = response;
-      var newTokens: any;
+      let newTokens: any;
       if (newImportedList.length) {
         newTokens = [...oldList, ...newImportedList];
       }
@@ -136,9 +125,7 @@ const TokenList = ({
       let newList = [...response];
       setDefaultList(newList);
       localStorage.setItem("tokenList", JSON.stringify(newList));
-      // console.log("local storage token list ", response);
     }
-    // console.log("local storage token list " ,localStorage.getItem("tokenList"));
   }
   useEffect(() => {
     setdup(false);
@@ -158,13 +145,6 @@ const TokenList = ({
     }
   }, [linkQuery]);
 
-  // useEffect(() => {
-  //   if(localStorage.getItem("tokenList")){
-  //     const tokenList: string = JSON.parse(localStorage.getItem("tokenList") || "[]");
-  //     setRenderData(tokenList);
-  //     console.log("render data ==>",renderData);
-  //   }
-  // },[renderData]);
   const updateList = (data: any) => {
     setTimeout(async () => {
       const copy = defaultList.slice();
@@ -188,9 +168,7 @@ const TokenList = ({
           let localTokens = JSON.parse(localStorage.getItem("importedByUser") || "[]")
           localTokens = localTokens.filter((e: any) => !removeTokens.find((el: any) => el.address == e.address));
           localStorage.setItem("importedByUser", JSON.stringify(uniqBy(localTokens, "address")));
-          // console.log("else condition ", localTokens, removeTokens);
         }
-        // console.log("updated chain , " , chain , copy)
       }
     }, 1);
   };
@@ -205,10 +183,8 @@ const TokenList = ({
 
   const updateLocalstorage = (data: any, index: any) => {
     let storedTokens: any = JSON.parse(localStorage.getItem("tokenList") || "[]");
-    // console.log("storedTokens" , storedTokens);
     if (storedTokens != null) {
       storedTokens[index].enabled = !storedTokens[index]?.enabled;
-      // console.log("updated storedTokens" , storedTokens);
       localStorage.setItem("tokenList", JSON.stringify(storedTokens));
     }
   }
@@ -225,7 +201,6 @@ const TokenList = ({
       if (confirmed) {
         let oldList = defaultList.slice();
         let updatedList = oldList.filter((el: any) => el.data !== data);
-        // console.log("updatedList", updatedList);
         localStorage.setItem("tokenList", JSON.stringify(updatedList))
         setDefaultList(updatedList);
         setCoinList(updatedList);
@@ -260,9 +235,8 @@ const TokenList = ({
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
     event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
-    event.currentTarget.className = "error";
+    event.currentTarget.className = "error me-2";
   };
-  // console.log("defaultList ==> ", defaultList);
   return (
     <>
 
@@ -282,6 +256,7 @@ const TokenList = ({
                     ? x.logo
                     : "../../assets/images/shib-borderd-icon.png"
                 }
+                onError={imageOnErrorHandler}
                 alt=""
               />
             </div>
@@ -339,7 +314,7 @@ const TokenList = ({
       }
       {tokenState?.step0 && searchedList?.length != 0 &&
         searchedList?.map((x: any) => {
-          // console.log("value of x ", x);
+          let logoImg = getLogo(x);
           return (
             <div
               className="tokn-row"
@@ -350,12 +325,8 @@ const TokenList = ({
                 <img
                   className="img-fluid"
                   width={32}
-                  src={
-                    x?.logoURI && x?.logoURI.startsWith('ipfs://')
-                      ? "https://ipfs.io/ipfs/" + x?.logoURI.slice(7)
-                      : x?.logoURI ? x?.logoURI
-                        : "../../assets/images/shib-borderd-icon.png"
-                  }
+                  src={logoImg}
+                  onError={imageOnErrorHandler}
                   alt=""
                 />
               </div>
@@ -364,11 +335,6 @@ const TokenList = ({
                   <h6 className="fw-bold">{x?.symbol || x?.parentSymbol}</h6>
                   <p>{x?.name || x?.parentName}</p>
                 </div>
-                {/* <div>
-                      <h6 className="fw-bold">
-                        {x?.balance ? x.balance : "00.00"}
-                      </h6>
-                    </div> */}
               </div>
             </div>)
         })
@@ -392,14 +358,13 @@ const TokenList = ({
             {newListing ?
               (<div className="tokn-row">
                 <div className="cryoto-box">
-                  <img src={newListing?.data?.logoURI ? newListing?.data?.logoURI : "../../assets/images/eth.png"} width={24}
+                  <img src={newListing?.data?.logoURI ? newListing?.data?.logoURI : "../../assets/images/eth.png"} width={24} onError={imageOnErrorHandler}
                   />
                 </div>
                 <div className="tkn-grid" style={{ paddingLeft: "40px" }}>
                   <div>
                     <h6 className="fw-bold">
                       {newListing?.data?.name}
-                      {/* {console.log("new listing" ,newListing)} */}
                     </h6>
                     <p>{newListing?.data?.tokens?.length || 0} tokens</p>
                   </div>
@@ -420,13 +385,11 @@ const TokenList = ({
             }
             {defaultList && defaultList.length > 0 &&
               (defaultList.map((item: any, i: any, arr: any) => {
-                // console.log("item contains ==> ", item);
+                let logo = getLogo(item);
                 return (
                   <div key={item?.data} className="flex mb-3 justify-content-between">
                     <div className="flex w-50 align-items-center">
-                      <img src={item?.logo && item?.logo.startsWith('ipfs://') ? "https://ipfs.io/ipfs/" + item?.logo.slice(7) :
-                        item?.logo ? item?.logo : "../../assets/images/shib-borderd-icon.png"
-                      } width="35" className='me-2' />
+                      <img src={logo} width="35" className='me-2' onError={imageOnErrorHandler} />
                       <div>
                         <h5>{item?.name ? item?.name : item?.data}</h5>
                         <div className='d-flex align-items-center'>

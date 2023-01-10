@@ -3,12 +3,8 @@ import { Dropdown, Navbar, NavDropdown, Container, Nav } from "react-bootstrap";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import useENSName from "../../hooks/useENSName";
-import { innerNavTab } from "app/constants/Resources/sideNavTab";
-import GlobleHeader from "../components/GlobleHeader";
 import Web3Status from "app/components/Web3Status";
-import CommonModal from "../components/CommonModel";
 import { useWeb3React } from "@web3-react/core";
-import { shortenAddress } from "../../functions/format";
 import QrModal from "pages/components/QrModal";
 import NetworkModel from "../../modals/NetworkModal";
 import { useNetworkModalToggle } from "../../state/application/hooks";
@@ -48,7 +44,6 @@ const InnerHeader = () => {
   const [menuState, setMenuState] = useState(false);
 
   const handleMenuState = () => {
-    // console.log("called menue")
     setMenuState(false)
   }
 
@@ -61,11 +56,9 @@ const InnerHeader = () => {
       getUserType(accountAddress.toLowerCase()).then(res => {
         if (res.data && res.data.data) {
           let ut = res.data.data.userType;
-          // console.log(ut)
           setUserType(ut)
         }
       }).catch(e => {
-        // console.log(e);
         setUserType('NA')
       })
     } catch (error) {

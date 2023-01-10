@@ -1,27 +1,26 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import Header from "../layout/header";
-import {ProgressBar } from "react-bootstrap";
+import { ProgressBar } from "react-bootstrap";
+import { Slider } from "@material-ui/core";
 
 const Rewards = () => {
   const [proVal, setProVal] = useState(70);
+  const [bonePercent, setBonePercent] = useState<any>(0);
+  // console.log(bonePercent);
   return (
     <>
       <Header />
       <main className="main-content dark-bg-800 full-vh  cmn-input-bg ffms-inherit staking-main">
-      {/* <StakingHeader /> */}
-        <section className="top_bnr_area dark-bg darkbg py-4 py-md-5">
-            <div className="container">
-                <h1 className="text-white trs-6 fw-500 ff-mos">Rewards Calculator</h1>
-            </div>
-        </section>
+        {/* <StakingHeader /> */}
         <section className="rewards-section-cal">
           <div className="container">
+            <h4 className="fw-600 mb-4 ff-mos">
+              Calculate Your Delegation Rewards With BONE Staking
+            </h4>
+            <hr />
             <div className="row">
               <div className="col-xl-7 col-lg-7 col-md-10 mx-auto me-md-auto order-2 order-lg-1 mb-4 mb-lg-0">
-                <h4 className="fw-600 mb-4 ff-mos">
-                  Calculate Your Delegation Rewards With BONE Staking
-                </h4>
                 <div className="input-wrap mb-4">
                   <p className="mb-2 light-text fw-600 ff-mos">
                     How much BONE will you delegate?
@@ -35,50 +34,33 @@ const Rewards = () => {
                     <span className="over-text primary-text trs-3">BONE</span>
                   </div>
                 </div>
-                <div className="dark-bg low-radius sec-spc-low position-relative mb-4 stat">
-                  <div className="image-section mb-0">
-                    <img
-                      width="189"
-                      height="147"
-                      className="img-fluid"
-                      src="../../assets/images/shadow-img.png"
-                      alt=""
-                    />
-                  </div>
+                <div className="low-radius position-relative text-end pt-4 pb-4 mt-3 mb-3">
                   <div className="row ff-mos">
-                    <div className="col-sm-6 col-12 text-sm-start text-center rt-border">
-                      <h6 className="fw-600 light-text mb-2 mb-sm-4 ff-mos">
-                        <span className="ms-2 align ff-mos">
-                          Current Shiba Tokens Staked %
-                        </span>
-                      </h6>
-                      <h2 className="light-text low-font-wt mb-2 mb-sm-0 ff-mos">
-                        <span className="ff-mos">101233%</span>
-                      </h2>
+                    <div className="col-6">
+                      <p className="text-sm">Drag Slider below to increase BONE tokens staked %</p>
                     </div>
-                    <div className="col-sm-6 col-12 text-sm-start text-center left-space">
-                      <h6 className="fw-600 light-text mb-2 mb-sm-4">
-                        <span className="ms-2 align ff-mos">
-                          Projected Shiba Tokens Staked
-                        </span>
-                      </h6>
-                      <h2 className="light-text low-font-wt mb-2 mb-sm-0">
-                        <span className="ff-mos">2936975.6985</span>
-                      </h2>
+                    <div className="col-6">
+                      <div className="d-flex align-items-center justify-content-end">
+                        <p className="fw-600 light-text ff-mos">
+                          <span className="align ff-mos text-sm">
+                            Current Shiba Tokens Staked % :
+                          </span>
+                        </p>
+                        <p className="light-text low-font-wt ff-mos ms-2">
+                          <span className="ff-mos text-sm">101233%</span>
+                        </p>
+                      </div>
+                      <div className="d-flex align-items-center justify-content-end">
+                        <p className="fw-600 light-text">
+                          <span className=" align ff-mos text-sm">
+                            Projected Shiba Tokens Staked :
+                          </span>
+                        </p>
+                        <p className="light-text low-font-wt ms-2">
+                          <span className="ff-mos text-sm">2936975.6985</span>
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div className="input-wrap mb-4">
-                  <p className="mb-2 light-text fw-600  ff-mos">
-                    How much BONE will you delegate?
-                  </p>
-                  <div className="input-box">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="10000"
-                    />
-                    <span className="over-text primary-text">BONE</span>
                   </div>
                 </div>
                 <div className="progresbar-wrap mb-4">
@@ -87,12 +69,14 @@ const Rewards = () => {
                       htmlFor=""
                       className="prog-label"
                       style={{
-                        left: `calc(${proVal}% - 27px)`,
+                        left: `calc(${bonePercent}% - 27px)`,
                       }}
                     >
-                      {proVal}%
+                      {bonePercent}%
                     </label>
-                    <ProgressBar now={proVal} />
+                    <Slider defaultValue={proVal} aria-label="Default" valueLabelDisplay="auto" value={bonePercent} style={{color:"#F06700"}}
+                    onChange={(e,val) => setBonePercent(val)}
+                    />
                   </div>
                 </div>
                 <div className="whitebg content-card">
@@ -128,28 +112,8 @@ const Rewards = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-xl-4 col-lg-5 col-md-10 mx-auto ms-md-auto order-1 order-lg-2 mb-4 mb-lg-0">
+              <div className="col-xl-5 col-lg-5 col-md-10 mx-auto ms-md-auto order-1 order-lg-2 mb-4 mb-lg-0">
                 <div className="side-card">
-                  <div className="sid-card-header primary-bg2">
-                    <div className="imgae-wrap">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/reward-calculator.png"
-                        alt="reward-img"
-                      />
-                    </div>
-                    <h4 className="mb-0 fwb-600 text-white">
-                      <span className="trs-3 ff-mos">Project Rewards</span>
-                    </h4>
-                  </div>
-                  <div className="shib-img text-center pt-4">
-                    <img
-                      className="img-fluid m-auto"
-                      src="../../assets/images/shib-img-2.png"
-                      alt="shiba-img"
-                      width={200}
-                    />
-                  </div>
                   <ul className="side-card-lst">
                     <li className="card-list-item">
                       <div className="card-icon lightBg lightbg">

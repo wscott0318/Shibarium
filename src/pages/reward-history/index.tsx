@@ -1,17 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import InnerHeader from "../inner-header";
-import { useWeb3React } from "@web3-react/core";
 import Web3 from "web3";
 import { unbondRewards } from "../../services/apis/delegator";
 import { useActiveWeb3React } from '../../services/web3'
 import Header from "pages/layout/header";
-import StakingHeader from "pages/staking-header";
 import Pagination from "app/components/Pagination";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import { useRouter } from "next/router";
 import { useUserType } from "../../state/user/hooks";
-import { addDecimalValue, getUserTimeZone, tokenDecimal, web3Decimals } from "web3/commonFunctions";
+import { addDecimalValue, getUserTimeZone, web3Decimals } from "web3/commonFunctions";
 import { dynamicChaining } from 'web3/DynamicChaining';
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { queryProvider } from "Apollo/client";
@@ -31,11 +28,10 @@ export default function Unbond() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [validatorData, setValidatorData] = useState<any>([])
 
-  const getRewardsList = (account: any) => {
+  const getRewardsList = async(account: any) => {
     try {
-      unbondRewards(account).then((res: any) => {
+      await unbondRewards(account).then((res: any) => {
         if (res.status == 200) {
-          // console.log(res.data.result);
 
           const decOrder = res.data.result.sort(
             (a: any, b: any) =>
@@ -59,11 +55,8 @@ export default function Unbond() {
       let user = account;
       if (account) {
         const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-        const ID = await instance.methods.getValidatorId(user).call({ from: account }); // read
-        // console.log(ID)
+        const ID = await instance.methods.getValidatorId(user).call({ from: account });
         return ID
-      } else {
-        // console.log("account addres not found")
       }
     }
     catch (err: any) {
@@ -79,8 +72,6 @@ export default function Unbond() {
       const validators = await queryProvider.query({
         query: validatorRewardHistory(valID),
       })
-      console.log(validators.data.validatorClaimRewards, valID, "added ===> ")
-      // return validators.data
       setValidatorData(validators.data.validatorClaimRewards)
       setListLoader(false)
     }
@@ -108,8 +99,6 @@ export default function Unbond() {
       setSlicedList(slicedList);
     } else if (validatorData.length === 0) {
       setSlicedList([]);
-    } else {
-      // console.log("check state");
     }
   }, [validatorData]);
 
@@ -156,7 +145,7 @@ export default function Unbond() {
                   <tbody>
                     {slicedList.length ? (
                       slicedList.map((value: any, index: any) => (
-                        <tr key={index}>
+                        <tr key={value.timestamp}>
                           <td>
                             <span className="tb-data">
                               {index + 1}
@@ -169,7 +158,6 @@ export default function Unbond() {
                               )}{" "}
                               Bone
                             </span>
-                            {/* <p className="mb-0 fs-12 mute-text">$8.2</p> */}
                           </td>
                           <td>
                             <span className="tb-data align">
@@ -178,18 +166,18 @@ export default function Unbond() {
                           </td>
                         </tr>
                       ))
-                    ) : !validatorData.length && !validatorData.length && listLoader ? (
+                    ) : !validatorData.length && listLoader && (
                       <tr>
                         <td colSpan={3}>
                           <DynamicShimmer type={"table"} rows={13} cols={3} />
                         </td>
                       </tr>
-                    ) : null}
+                    )}
                   </tbody>
                 </table>
               </div>
 
-              {!listLoader && !validatorData.length && !validatorData.length ? (
+              {!listLoader && !validatorData.length ? (
                 <div className="no-found">
                   <div>
                     <div className="text-center">
@@ -227,7 +215,7 @@ export default function Unbond() {
                     <tbody>
                       {slicedList.length ? (
                         slicedList.map((value: any, index: any) => (
-                          <tr key={index}>
+                          <tr key={value?.timestamp}>
                             <td>
                               <div className="d-flex align-items-center">
                                 <div className="coin-img me-2">

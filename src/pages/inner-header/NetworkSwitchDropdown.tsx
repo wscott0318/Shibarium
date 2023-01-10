@@ -32,7 +32,6 @@ const NetworkSwitchDropdown = () => {
         id=""
       >
         <NavDropdown.Item
-          // disabled={user ? false : true}
           onClick={toggleNetworkModal}
         >
           <h6 className="fw-600 light-text left-border">Switch Network</h6>
