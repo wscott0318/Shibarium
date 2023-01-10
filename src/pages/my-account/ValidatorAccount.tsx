@@ -152,7 +152,7 @@ const validatorAccount = ({
     }
   };
 
-  const validatorInfoAPI = async() => {
+  const validatorInfoAPI = async () => {
     try {
       await getValidatorsDetail(`${account}`).then((res) => {
         setValidatorInfo(res?.data?.data?.validatorSet.validatorInfo);
@@ -2394,11 +2394,13 @@ const validatorAccount = ({
                         </div>
                       </div>)
                     ))
-                  ) : !loading && !delegationsList.length && (
+                  ) : !loading && delegationsList.length && (
                     <div className="txt-emp">
-                      <div className="no-fount-txt">No Record Found</div>
+                        <div className="no-fount-txt">
+                         <img className="d-inline-block mb-3" src="../../assets/images/no-record.png" />
+                      </div>
                     </div>
-                  ) }
+                  )}
                 </div>
               </div>
             </section>

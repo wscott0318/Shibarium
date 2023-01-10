@@ -81,7 +81,7 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue, loading })
                     </td>
                   </tr>
                 )}
-                {!checkpoints.length && !loading && (
+                {!loading && !checkpoints.length && (
                   <tr className='no_record_wrapper'>
                     <td colSpan={5} className="no_record text-left">
                       <img className="d-inline-block mb-3" src="../../assets/images/no-record.png" />
