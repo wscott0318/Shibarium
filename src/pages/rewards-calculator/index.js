@@ -1,16 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useRef, useState } from "react";
-
-import Link from "next/link";
-// import { validators, validatorsList } from "../service/validator";
-import { useWeb3React } from "@web3-react/core";
-import ProjectContext from "../../context/ProjectContext";
-import Footer from "../../pages/footer/index"
-import { useActiveWeb3React } from "../../services/web3"
-import CommonModal from "../components/CommonModel";
-import StakingHeader from '../staking-header';
+import React, { useState } from "react";
 import Header from "../layout/header";
-import { Dropdown, Navbar, Container, Nav, ProgressBar } from "react-bootstrap";
+import {ProgressBar } from "react-bootstrap";
 
 const Rewards = () => {
   const [proVal, setProVal] = useState(70);

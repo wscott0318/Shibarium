@@ -1,13 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dropdown,
-  Navbar,
-  Container,
-  Nav,
   DropdownButton,
 } from "react-bootstrap";
 import Link from "next/link";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useUserType, useValId, useValInfo } from "../../state/user/hooks";
 import { useActiveWeb3React } from "../../services/web3";
 import { ValInfoModals } from "pages/components/CommonModel";
@@ -15,12 +12,10 @@ import Web3 from "web3";
 import { dynamicChaining } from "web3/DynamicChaining";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json"
 import * as Sentry from "@sentry/nextjs";
-import { getUserType, getValidatorInfo } from "app/services/apis/network-details/networkOverview";
+import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
 import { useAppDispatch } from "app/state/hooks";
-import { clearAllTransactions } from "app/state/transactions/actions";
-import Image from "next/image";
 
-const StakingHeader = (type:any) => {
+const StakingHeader = (type: any) => {
   const router = useRouter();
 
   const routeCheck = (x: string) => {
@@ -36,24 +31,6 @@ const StakingHeader = (type:any) => {
   const [valInfo, setValInfo] = useValInfo();
   const dispatch = useAppDispatch();
 
-//  useEffect(() => {
-//    const { ethereum } = window as any;
-//    const handleAccountsChanged = (accounts: string[]) => {
-//     //  console.log("Handling 'accountsChanged' event with payload", accounts);
-//      setValInfoModal(false);
-//      dispatch(clearAllTransactions({ chainId }));
-//    };
-//   if(account) {
-//     ethereum.on("accountsChanged", handleAccountsChanged)
-//   }
-// }, [active, account]);
-
-  // useEffect(() => {
-  //   if(chainId != 5){
-  //     router.push("/home");
-  //   }
-  // },[chainId]);
-
   const [stakingHeader, showStakingHeader] = useState(false);
   const getValInfoApi = async (id: any) => {
     try {
@@ -66,41 +43,16 @@ const StakingHeader = (type:any) => {
         }
       })
     } catch (error: any) {
-      // console.log("catch err => ", error);
       Sentry.captureMessage("getValInfoApi ", error);
     }
   }
-  // const getUsertypeAPI = (accountAddress: any) => {
-  //   try {
-  //     getUserType(accountAddress.toLowerCase()).then(res => {
-  //       if (res.data && res.data.data) {
-  //         let ut = res.data.data.userType;
-  //         let valID = res.data.data.validatorId ? res.data.data.validatorId : "0";
-  //         // console.log(ut)
-  //         setUserType(ut)
-  //         setValId(valID)
-  //       }
-  //     })
-  //   } catch (error: any) {
-  //     Sentry.captureMessage("getUsertypeAPI", error);
-  //   }
-  // }
-  // useEffect(() => {
-  //   if (account) {
-  //     getUsertypeAPI(account)
-  //   }
-  // }, [account])
+
   useEffect(() => {
-    try {
-      if (account) {
-        getValInfoApi(account);
-      }
+    if (account) {
+      getValInfoApi(account);
     }
-    catch (err: any) {
-      Sentry.captureMessage("useEffect, file -> staking-header/index.tsx , line no. 55 ", err);
-    }
-  }, [account,userType]);
-  // console.log("user type ==> " , userType);
+  }, [account, userType]);
+
   useEffect(() => {
     if (routeCheck("unbond-history")) {
       setHistory("Unbound History");
@@ -110,12 +62,8 @@ const StakingHeader = (type:any) => {
     if (account) {
       getDynsetyValue()
     }
-  }, [router, account,userType]);
+  }, [router, account, userType]);
 
-  // useEffect(() => {
-  //   window.location.reload();
-  // },[valInfo]);
-  // console.log("usertype ==> ", valId);
 
   const getDynsetyValue = async () => {
     try {
@@ -135,7 +83,7 @@ const StakingHeader = (type:any) => {
   const renderButtons = () => {
     if (account) {
       if (userType === "Validator") {
-        console.log("valId ==> " ,valId);
+        console.log("valId ==> ", valId);
         if (+valId === 0 || valId == null) {
           console.log("in condition entered ");
           return (

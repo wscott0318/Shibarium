@@ -1,17 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link";
-import React from "react";
-import { useState, useRef, useEffect } from "react";
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import {
-  Container,
-  Navbar,
-  Nav,
-  NavItem,
-  NavDropdown,
-} from "react-bootstrap";
-import NavLink from "../components/NavLink";
-import SideNavTab from "../../constants/Resources/sideNavTab";
+import React,{ useState, useRef, useEffect } from "react";
 import { useRouter } from 'next/router'
 import * as Sentry from "@sentry/nextjs";
 

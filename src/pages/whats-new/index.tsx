@@ -1,7 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
-import { useWeb3React } from "@web3-react/core";
-import Header from "../layout/header";
+import React from "react";
 
 export default function Unbond() {
 

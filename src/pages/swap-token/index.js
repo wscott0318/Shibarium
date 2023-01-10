@@ -1,14 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useRef, useState, useEffect } from 'react'
-import Header from '../layout/header'
-import { Container, Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
-import { Dropdown } from 'react-bootstrap';
+import React, {  useState } from 'react'
 import Sidebar from '../layout/sidebar';
-import Selection from './selection';
-import Swap from './swap';
-import Amount from './amount';
-import Footer from '../footer/index';
-import Web3Status from "app/components/Web3Status";
 import CommonModal from "../components/CommonModel";
 import InnerHeader from "../../pages/inner-header";
 

@@ -1,17 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import InnerHeader from "../inner-header";
-import { useWeb3React } from "@web3-react/core";
 import Web3 from "web3";
 import { unbondRewards } from "../../services/apis/delegator";
 import { useActiveWeb3React } from '../../services/web3'
 import Header from "pages/layout/header";
-import StakingHeader from "pages/staking-header";
 import Pagination from "app/components/Pagination";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import { useRouter } from "next/router";
 import { useUserType } from "../../state/user/hooks";
-import { addDecimalValue, getUserTimeZone, tokenDecimal, web3Decimals } from "web3/commonFunctions";
+import { addDecimalValue, getUserTimeZone, web3Decimals } from "web3/commonFunctions";
 import { dynamicChaining } from 'web3/DynamicChaining';
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { queryProvider } from "Apollo/client";
@@ -148,7 +145,7 @@ export default function Unbond() {
                   <tbody>
                     {slicedList.length ? (
                       slicedList.map((value: any, index: any) => (
-                        <tr key={index}>
+                        <tr key={value.timestamp}>
                           <td>
                             <span className="tb-data">
                               {index + 1}
@@ -169,18 +166,18 @@ export default function Unbond() {
                           </td>
                         </tr>
                       ))
-                    ) : !validatorData.length && !validatorData.length && listLoader ? (
+                    ) : !validatorData.length && listLoader && (
                       <tr>
                         <td colSpan={3}>
                           <DynamicShimmer type={"table"} rows={13} cols={3} />
                         </td>
                       </tr>
-                    ) : null}
+                    )}
                   </tbody>
                 </table>
               </div>
 
-              {!listLoader && !validatorData.length && !validatorData.length ? (
+              {!listLoader && !validatorData.length ? (
                 <div className="no-found">
                   <div>
                     <div className="text-center">
@@ -218,7 +215,7 @@ export default function Unbond() {
                     <tbody>
                       {slicedList.length ? (
                         slicedList.map((value: any, index: any) => (
-                          <tr key={index}>
+                          <tr key={value?.timestamp}>
                             <td>
                               <div className="d-flex align-items-center">
                                 <div className="coin-img me-2">

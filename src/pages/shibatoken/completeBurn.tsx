@@ -1,5 +1,4 @@
 import React from "react";
-import PerfectScrollbar from 'react-perfect-scrollbar';
 
 function CompleteBurn() {
 

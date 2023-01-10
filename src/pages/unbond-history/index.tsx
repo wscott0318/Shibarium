@@ -1,22 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import InnerHeader from "../inner-header";
-import { useWeb3React } from "@web3-react/core";
 import Web3 from "web3";
-import { unbondsHistory, unboundClaim } from "../../services/apis/delegator";
+import { unbondsHistory } from "../../services/apis/delegator";
 import { useActiveWeb3React } from '../../services/web3'
-import { parse } from "path";
 import { getExplorerLink } from 'app/functions'
-import ConfirmPopUp from "../components/ConfirmPopUp";
-import LoadingSpinner from "../components/Loading";
-import { CommonModalNew } from "../components/CommonModel";
-import { TailSpin } from "react-loader-spinner";
-import { STAKE_MANAGER_PROXY } from "web3/contractAddresses";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
-import fromExponential from "from-exponential";
 import Header from "pages/layout/header";
-import StakingHeader from "pages/staking-header";
 import Pagination from "app/components/Pagination";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import CommonModal from "../components/CommonModel";
@@ -43,7 +33,6 @@ export default function Unbond() {
   const [confirm, setConfirm] = useState(false);
   const [transactionLink, setTransactionLink] = useState('')
   const dispatch = useAppDispatch();
-  // const {account,chainId=1} = useActiveWeb3React()
   const [transactionState, setTransactionState] = useState(initialModalState);
   const pageSize = 10;
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -51,25 +40,22 @@ export default function Unbond() {
   const web3: any = new Web3(lib?.provider)
   const [userType, setUserType] = useUserType();
   const [loader, setLoader] = useState(false);
-  const [amntTransfer,setAmntTransfer]=useState(false);
-  const [disabledClaim , setDisabledClaim] = useState<any>([]);
+  const [amntTransfer, setAmntTransfer] = useState(false);
+  const [disabledClaim, setDisabledClaim] = useState<any>([]);
   const getValidatorContractAddress = async (validatorID: any) => {
     try {
       let user = account;
       if (account) {
         const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
         const ID = await instance.methods.getValidatorContract(validatorID).call({ from: account });
-        // console.log(ID)
         return ID
-      } else {
-        // console.log("account addres not found")
       }
     }
     catch (err: any) {
       Sentry.captureException("getValidatorContractAddress ", err);
     }
   }
-  console.log("disabledClaim" , disabledClaim);
+  console.log("disabledClaim", disabledClaim);
   const [claimNowModals, setClamNowModals] = useState<any>({
     data: {},
     confirm: false,
@@ -82,14 +68,10 @@ export default function Unbond() {
       await unbondsHistory(account).then(res => {
         if (res.status == 200) {
           const decOrder = res.data.data.result.sort((a: any, b: any) => Date.parse(b.unbondStartedTimeStampFormatted) - Date.parse(a.unbondStartedTimeStampFormatted));
-          console.log("decorder => " ,decOrder);
+          console.log("decorder => ", decOrder);
           setList(decOrder)
           updateListFunc();
-          // let newL = decOrder.slice(0, pageSize);
-          // setSlicedList(newL);
           setListLoader(false)
-          // setAmntTransfer(false)
-          
         }
       })
     }
@@ -98,15 +80,15 @@ export default function Unbond() {
     }
   }
 
-  const updateListFunc = () =>{
+  const updateListFunc = () => {
     console.log("check state")
     if (list.length) {
-      const newList  = list.slice(0, pageSize);
+      const newList = list.slice(0, pageSize);
       setSlicedList(newList);
-      console.log("list updated" , newList, list);
+      console.log("list updated", newList, list);
     } else if (list.length === 0) {
       setSlicedList([]);
-    } 
+    }
   }
 
   useEffect(() => {
@@ -120,13 +102,7 @@ export default function Unbond() {
   // console.log(claimNowModals)
   const unboundClaimAPI = async () => {
     setLoader(true)
-    // setAmntTransfer(true)
-    // router.push(
-    //   `/unbond-history`,
-    //   `/unbond-history`,
-    //   { shallow: true }
-    // )
-    
+
     try {
       setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Pending" });
       setTransactionLink("");
@@ -167,7 +143,7 @@ export default function Unbond() {
             // console.log(link)
             setClamNowModals((pre: any) => ({ ...pre, progress: true, confirm: true }))
             setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
-            setDisabledClaim([...disabledClaim,claimNowModals.data] );
+            setDisabledClaim([...disabledClaim, claimNowModals.data]);
           }).on('receipt', (res: any) => {
             // console.log(res, "receipt")
             dispatch(
@@ -186,10 +162,9 @@ export default function Unbond() {
                 }
               })
             )
-            setTimeout(async() => {
+            setTimeout(async () => {
               await getUnboundHistory(account);
-              // window.location.reload();
-            },3000);
+            }, 3000);
             setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
             setLoader(false)
             setClamNowModals({
@@ -198,12 +173,8 @@ export default function Unbond() {
               progress: false,
               completed: false
             })
-            // getUnboundHistory(account);
             setTransactionState(initialModalState);
-            // setAmntTransfer(!amntTransfer)
-            // router.push("/unbond-history" , "/unbond-history" , {shallow:true})
           }).on('error', (res: any) => {
-            // console.log(res, "error")
             setTransactionState(initialModalState);
             setClamNowModals({
               data: {},
@@ -255,7 +226,7 @@ export default function Unbond() {
   };
 
 
-  var countDecimals = function (value: any) {
+  const countDecimals = function (value: any) {
     if (Math.floor(value) === value) return 0;
     return value.toString().split(".")[1].length || 0;
   };
@@ -366,7 +337,7 @@ export default function Unbond() {
                       type="button"
                       disabled={loader}
                       className="btn primary-btn w-100"
-                      onClick={() => {unboundClaimAPI();}}
+                      onClick={() => { unboundClaimAPI(); }}
                     >
                       Confirm
                     </button>
@@ -509,7 +480,7 @@ export default function Unbond() {
                             {/* <p className="mb-0 fs-12 mute-text">$8.2</p> */}
                           </td>
                           <td>
-                            {value.completed ? (
+                            {value.completed && (
                               <>
                                 <div className="align-items-center claim_btn_wrapper">
                                   <span className="tb-data align up-text">
@@ -521,7 +492,8 @@ export default function Unbond() {
                                   <div className="tool-desc">You have already claimed this reward.</div>
                                 </div>
                               </>
-                            ) : value.remainingEpoch > 0 ? (
+                            )}
+                            {!value.completed && value.remainingEpoch > 0 && (
                               <>
                                 <div className="claim_btn_wrapper">
                                   <span className="d-block align up-text mb-1">
@@ -548,20 +520,19 @@ export default function Unbond() {
                                   <div className="tool-desc">This reward cannot be claimed at the moment.</div>
                                 </div>
                               </>
-                            ) : (
+                            )}
+                            {!value.completed && value.remainingEpoch <= 0 && (
                               <>
                                 <div className="claim_btn_wrapper">
                                   <span className="d-block align up-text mb-1">
                                     Unbound period completed
                                   </span>
                                   <button
-                                    className={`primary-badge px-2 hd-sel block ${!!disabledClaim.find((key:any)=> key.id == value.id) && "disabled"}`}
+                                    className={`primary-badge px-2 hd-sel block ${!!disabledClaim.find((key: any) => key.id == value.id) && "disabled"}`}
                                     type="button"
-                                    disabled={!!disabledClaim.find((key:any)=> key.id == value.id)}
+                                    disabled={!!disabledClaim.find((key: any) => key.id == value.id)}
                                     onClick={() => {
-                                      // console.log("called ===> " , value);
                                       {
-                                        // setDisabledClaim([...disabledClaim,value]);
                                         setClamNowModals({
                                           data: value,
                                           confirm: true,
@@ -593,13 +564,13 @@ export default function Unbond() {
                           </td>
                         </tr>
                       ))
-                    ) : !list.length && !slicedList.length && listLoader ? (
+                    ) : !list.length && !slicedList.length && listLoader && (
                       <tr>
                         <td colSpan={4}>
                           <DynamicShimmer type={"table"} rows={13} cols={4} />
                         </td>
                       </tr>
-                    ) : null}
+                    )}
                   </tbody>
                 </table>
               </div>

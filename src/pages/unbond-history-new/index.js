@@ -1,43 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link";
-import React, { useState, useEffect, useContext } from "react";
-// import { validators, validatorsList } from "../service/validator";
-import { useWeb3React } from "@web3-react/core";
-import ProjectContext from "../../context/ProjectContext";
-import Footer from "../../pages/footer/index"
+import React from "react";
 import { useActiveWeb3React } from "../../services/web3"
-import  CommonModal from "../components/CommonModel";
 import Header from "../layout/header";
-import { tokenDecimal } from "web3/commonFunctions";
-import StakingHeader from '../staking-header'
 
 export default function unbondHistoryNew() {
-  // const {account}=useContext(ProjectContext)
 
-  // const { active,deactivate } = useWeb3React()
-  // const [accountsAddress, setAccountsAddress] = useState("");
-  // useEffect(() => {
-  //   setAccountsAddress(localStorage.getItem("accounts"));
-  //   console.log('chainId',chainId)
-  //   console.log('account-home',account)
-  // },[account]);
   const { account, chainId = 1 } = useActiveWeb3React();
   
-  /**
-   * 
-    useEffect(()=>{
-      let userDetails = localStorage.getItem('ShibariumUser');
-      userDetails = userDetails ? JSON.parse(userDetails)?.objectId: ''
-      if (!userDetails && active) {
-        deactivate()
-      }
-
-    },[active])
-  */
-
- 
-
-  //  console.log('account---------------', account)
   return (
     <>
     <Header />
