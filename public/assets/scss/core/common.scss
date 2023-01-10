@@ -224,7 +224,7 @@
     }
   }
 }
-@media (max-width:992px) and (min-width:768px){
+@media (max-width: 992px) and (min-width: 768px) {
   .cus-dd .dropdown-menu {
     transform: translate(-60%);
   }
@@ -1963,6 +1963,7 @@ input:checked + .slider:before {
     }
     .form-control {
       padding-right: 75px;
+      padding-bottom: 10px;
       // border: solid 1px #414042;
       // background-color: #212027;
       // border-radius: 30px;
@@ -2131,18 +2132,19 @@ input:checked + .slider:before {
       padding: 4px 12px 1px;
       border-radius: 30px;
       position: absolute;
-      bottom: 42px;
+      bottom: -48px;
       font-weight: bold;
       color: #fff;
       text-align: center;
       &::before {
         content: "";
         position: absolute;
-        top: 100%;
+        top: -10px;
         left: 50%;
         border-left: 10px solid transparent;
         border-right: 10px solid transparent;
-        border-top: 10px solid #f06700;
+        border-bottom: 10px solid #f06700;
+        border-top: 0px;
         transform: translateX(-50%);
       }
       &::after {
@@ -2156,7 +2158,6 @@ input:checked + .slider:before {
         border-radius: 100%;
         background: #f06700;
         z-index: 1;
-        display: none;
       }
     }
     .progress {
@@ -2169,6 +2170,114 @@ input:checked + .slider:before {
       border-radius: 30px;
     }
   }
+}
+.reward-calculator {
+  .progresbar-wrap {
+    .prog-group {
+      .prog-label {
+        bottom: 42px;
+        &::before {
+          top: 100%;
+          border-top: 10px solid #f06700;
+          border-bottom: 0;
+        }
+        &::after {
+          display: none;
+        }
+      }
+    }
+  }
+}
+.reward-calculator .rewards-section-cal .side-card .card-list-item {
+  flex-direction: column;
+  text-align: center;
+  padding: 1.5rem 0;
+  background: none;
+  margin: 0;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid #666;
+  border-right: 1px solid #666;
+}
+.reward-calculator .rewards-section-cal .side-card {
+  background: none;
+  border: none;
+}
+.rewards-section-cal .input-box .form-control::-webkit-inner-spin-button,
+.rewards-section-cal .input-box .form-control::-webkit-outer-spin-button{
+  -webkit-appearance: none;
+  margin: 0;
+}
+.rewards-section-cal .input-box .form-control[type=number]{
+  -moz-appearance: textfield;
+}
+.reward-calculator section.rewards-section-cal {
+  .main-heading {
+    padding-bottom: 1rem;
+    padding-left: 1rem;
+  }
+  .main-container {
+    border-bottom: 1px solid #666;
+    .custom-column {
+      border-top: 1px solid #666;
+      padding-top: 1.5rem;
+    }
+    .custom-column:last-of-type {
+      padding-top: 0;
+    }
+    .custom-column:first-of-type {
+      border-right: 1px solid #666;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+  .side-card-lst-new {
+    .icon-wrap {
+      background: #f06500;
+      padding: 2px;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+    }
+    .card-content-new {
+      padding-top: 1rem;
+    }
+  }
+  .card-list-item:first-of-type .card-icon-new .icon-wrap {
+    width: 60px;
+    height: 60px;
+    padding: 0;
+  }
+  .sid-card-footer-new {
+    padding: 1rem 0;
+  }
+  .card-list-item:first-of-type h2 span {
+    font-size: 45px;
+  }
+  .content-card{
+    background:transparent;
+    font-size: 16px;
+  }
+}
+.reward-calculator .rewards-section-cal .side-card .card-list-item:nth-child(odd) {
+  border-right: none;
+}
+.container.reward-container-wrapper .container {
+  background: #151B28;
+  padding-top: 1rem;
+}
+.container.reward-container-wrapper .container:first-of-type{
+  border-radius: 16px 16px 0 0;
+  border: 1px solid #666;
+  border-bottom: none;
+}
+.container.reward-container-wrapper .container:last-of-type{
+  border-radius: 0 0 16px 16px;
+  border: 1px solid #666;
+  border-top: none;
 }
 .content-wrap {
   display: flex;
@@ -3417,6 +3526,18 @@ input:-internal-autofill-selected {
     min-height: auto;
   }
 }
+section.del-grid-section .txt-emp {
+  background: #151b28;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  min-height: 50vh;
+}
+@media (max-width:1120px){
+  section.del-grid-section .txt-emp {
+    width: 95%;
+    margin: 0 auto;
+}
+}
 .staking-header {
   .btn {
     font-family: "MADE Okine Sans PERSONAL USE";
@@ -3432,9 +3553,8 @@ input:-internal-autofill-selected {
   }
 }
 .walletconnect-modal__mobile__toggle a {
-  color: #BFBFBF !important
+  color: #bfbfbf !important;
 }
-
 
 .cus-arw {
   .btn {
@@ -3739,7 +3859,7 @@ input:-internal-autofill-selected {
   overflow: auto;
 }
 .block-fix.tb-ubd .table-responsive::-webkit-scrollbar {
-  width:8px;
+  width: 8px;
   height: 8px;
 }
 
@@ -3853,7 +3973,7 @@ input:-internal-autofill-selected {
       padding: 80px 0 0;
     }
     @media #{$max-xsm} {
-      padding: 200px 0 0;
+      padding: 70px 0 0;
     }
   }
 }
@@ -4007,8 +4127,8 @@ input:-internal-autofill-selected {
 .custom-icon-block {
   right: 80px;
 }
-.search-icon-block:hover{
-  background: #F06500 !important; 
+.search-icon-block:hover {
+  background: #f06500 !important;
 }
 .wal-btn {
   background: #0c2941;
@@ -4032,7 +4152,7 @@ input:-internal-autofill-selected {
   font-size: 15px;
   width: auto;
 }
-.row-st.cst-row{
+.row-st.cst-row {
   align-items: flex-start;
   flex-wrap: nowrap;
 }
@@ -4215,7 +4335,7 @@ input:-internal-autofill-selected {
     }
   }
 }
-.search-icon-block{
+.search-icon-block {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4539,7 +4659,26 @@ body::-webkit-scrollbar,
 //     display: none !important;
 //   }
 // }
-
+@media (max-width:992px){
+  .reward-calculator section.rewards-section-cal .main-container{
+    flex-direction: column-reverse;
+  }
+  .reward-calculator section.rewards-section-cal .main-container .custom-column:first-of-type{
+    border-right: none;
+  }
+  .reward-calculator .rewards-section-cal .side-card .card-list-item:nth-child(3){
+    border-right: 1px solid #666;
+  }
+  .reward-calculator section.rewards-section-cal .main-container .custom-column:last-of-type{
+    margin-bottom: 0 !important;
+  }
+  .reward-calculator section.rewards-section-cal .progresbar-wrap{
+    padding-bottom: 20px;
+  }
+  .reward-calculator section.rewards-section-cal .card-list-item:first-of-type h2 span {
+    font-size: 40px;
+}
+}
 @media (max-width: 576px) {
   .del-pop .modal-content {
     height: 600px;

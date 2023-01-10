@@ -103,7 +103,6 @@ const TokenList = ({
     setImportedCoins([...importedCoins, ...uniqueTokens]);
   }, []);
 
-  console.log("importedCoins ", importedCoins);
   const addToLocalStorage = async (response: any) => {
     let oldList;
     oldList = JSON.parse(localStorage.getItem("tokenList") || "[]");
@@ -117,7 +116,6 @@ const TokenList = ({
         newTokens = [...oldList, newImportedList];
       }
       newTokens = uniqBy(newTokens, "name")
-      // console.log("response ", newTokens)
       setRenderData(newTokens);
       localStorage.setItem("tokenList", JSON.stringify(newTokens));
     }

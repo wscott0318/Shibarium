@@ -150,9 +150,13 @@ const delegatorAccount = () => {
                   </div>
                 </div>
               )
-              : <p>
-                No Record Found
-              </p>
+              : (
+                <div className="txt-emp">
+                  <div className="no-fount-txt">
+                    <img className="d-inline-block mb-3" src="../../assets/images/no-record.png" />
+                  </div>
+                </div>
+              )
             }
           </div>
         </div>
