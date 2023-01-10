@@ -74,7 +74,7 @@ const Rewards = () => {
                     >
                       {bonePercent}%
                     </label>
-                    <Slider defaultValue={proVal} aria-label="Default" valueLabelDisplay="auto" value={bonePercent}
+                    <Slider defaultValue={proVal} aria-label="Default" valueLabelDisplay="auto" value={bonePercent} style={{color:"#F06700"}}
                     onChange={(e,val) => setBonePercent(val)}
                     />
                   </div>
