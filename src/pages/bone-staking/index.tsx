@@ -61,10 +61,11 @@ const BoneStaking = () => {
       Sentry.captureMessage("getValCount", err);
     }
   }
+  
   const getValInfo = () => {
     try {
       let id: any = account
-      getValidatorInfo(id.toLowerCase()).then((res: any) => {
+      getValidatorInfo(id).then((res: any) => {
         setNodeSetup(res?.data?.message?.val?.status ? res?.data?.message?.val?.status : null)
         setValInfoLoader(false)
         localStorage.setItem("valInfo", JSON.stringify(res.data.message.val))
