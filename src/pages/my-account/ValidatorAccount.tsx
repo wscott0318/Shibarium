@@ -164,7 +164,6 @@ const validatorAccount = ({
   };
 
 
-
   useEffect(() => {
     if (stakeAmounts.length) {
       let totalStake = stakeAmounts.map((x: any) => +(x.tokens)).reduce((accumulator: any, currentValue: any) => accumulator + currentValue)
@@ -2401,11 +2400,13 @@ const validatorAccount = ({
                         </div>
                       </div>)
                     ))
-                  ) : !loading && !delegationsList.length && (
+                  ) : !loading && delegationsList.length && (
                     <div className="txt-emp">
-                      <div className="no-fount-txt">No Record Found</div>
+                        <div className="no-fount-txt">
+                         <img className="d-inline-block mb-3" src="../../assets/images/no-record.png" />
+                      </div>
                     </div>
-                  ) }
+                  )}
                 </div>
               </div>
             </section>
