@@ -39,6 +39,7 @@ import { getValidatorsDetail } from "app/services/apis/validator";
 import * as Sentry from "@sentry/nextjs";
 import { useValId, useEpochDyna, useValInfoContract, useMigrateStake } from 'app/state/user/hooks';
 import { CircularProgress } from "@material-ui/core";
+import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
 
 const initialModalState = {
   show: false,
@@ -64,7 +65,7 @@ const validatorAccount = ({
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   const [unboundInput, setUnboundInput] = useState<any>("");
-  const [validatorInfo, setValidatorInfo] = useState<any>();
+  const [validatorInfo, setValidatorInfo] = useState<any>({});
   const [validatorTotalReward, setValidatorTotalReward] = useState<any>();
   const [validatorInfoContract, setValidatorInfoContract] = useState<any>();
   const [epochDyna, setEpochDyna] = useEpochDyna();
@@ -114,14 +115,24 @@ const validatorAccount = ({
   useEffect(() => {
     if (userType === "Validator" && (+valId == 0 || valId == null)) {
       router.push("/bone-staking");
+    } else {
+      getValInfo()
     }
   }, []);
-  const getDelegatorStake = async (valContract: any) => {
-    let instance = new web3.eth.Contract(ValidatorShareABI, valContract);
-    let liquidRewards = await instance.methods
-      .getLiquidRewards(valContract)
-      .call({ from: account });
-  };
+
+  const getValInfo = () => {
+    try {
+      let id: any = account
+      getValidatorInfo(id).then((res: any) => {
+        // setNodeSetup(res?.data?.message?.val?.status ? res?.data?.message?.val?.status : null)
+        setValidatorInfo(res?.data?.message?.val)
+      })
+    } catch (err: any) {
+      setValidatorInfo({})
+      Sentry.captureMessage("getValCount", err);
+    }
+  }
+  
 
   const getValidatorData = async (valId: any) => {
     try {
@@ -152,15 +163,6 @@ const validatorAccount = ({
     }
   };
 
-  const validatorInfoAPI = async () => {
-    try {
-      await getValidatorsDetail(`${account}`).then((res) => {
-        setValidatorInfo(res?.data?.data?.validatorSet.validatorInfo);
-      });
-    } catch (err: any) {
-      Sentry.captureException("validatorInfoAPI ", err);
-    }
-  };
 
   useEffect(() => {
     if (stakeAmounts.length) {
@@ -200,6 +202,9 @@ const validatorAccount = ({
       Sentry.captureException("getDelegatorCardData ", err);
     }
   };
+
+  console.log(validatorInfo);
+  
 
   const handleModal = (
     btn: string,
@@ -1085,7 +1090,7 @@ const validatorAccount = ({
         setdelegatepop={() => { setStakeMoreModal(false); }}
         getDelegatorCardData={getDelegatorCardData}
       />
-      <div className="main-content dark-bg-800 full-vh  cmn-input-bg">
+      <div className="main-content dark-bg-800 full-vh cmn-input-bg">
         {/* retake popop start VALIDATOR*/}
         <CommonModal
           title={"Restake"}
@@ -1120,7 +1125,7 @@ const validatorAccount = ({
                 }) => (
                   <>
                     <div className="image_area row">
-                      <div className="col-12 text-center d-flex justify-content-center">
+                      <div className="text-center col-12 d-flex justify-content-center">
                         <img
                           className="img-fluid img-wdth"
                           src={"../../assets/images/shiba-col-2.png"}
@@ -1131,7 +1136,7 @@ const validatorAccount = ({
                     </div>
                     <div className="cmn_inpt_row">
                       <div className="form-control">
-                        <label className="mb-2 mb-md-2 text-white">
+                        <label className="mb-2 text-white mb-md-2">
                           Enter amount
                         </label>
                         <input
@@ -1142,7 +1147,7 @@ const validatorAccount = ({
                           onChange={handleChange("amount")}
                         />
                         {touched.amount && errors.amount ? (
-                          <p className="primary-text mb-0 pl-2">
+                          <p className="pl-2 mb-0 primary-text">
                             {errors.amount}
                           </p>
                         ) : null}
@@ -1168,7 +1173,7 @@ const validatorAccount = ({
                     </div>
                     <div className="cmn_inpt_row">
                       <div className="form-control">
-                        <label className="mb-2 mb-md-2 text-white">
+                        <label className="mb-2 text-white mb-md-2">
                           Select Restake reward
                         </label>
                         {/* <input type="text" placeholder="Stakereward" className="w-100" /> */}
@@ -1240,7 +1245,7 @@ const validatorAccount = ({
                 <div className="cmn_modal val_popups">
                   <div className="cmn_inpt_row">
                     <div className="image_area row">
-                      <div className="col-12 text-center d-flex justify-content-center">
+                      <div className="text-center col-12 d-flex justify-content-center">
                         <img
                           className="img-fluid img-wdth"
                           src={"../../assets/images/shiba-col-2.png"}
@@ -1252,7 +1257,7 @@ const validatorAccount = ({
                   </div>
                   <div className="cmn_inpt_row">
                     <div className="form-control">
-                      <label className="mb-2 mb-md-2 text-white">
+                      <label className="mb-2 text-white mb-md-2">
                         Enter new commission
                       </label>
                       <input
@@ -1263,7 +1268,7 @@ const validatorAccount = ({
                         onChange={handleChange("comission")}
                       />
                       {touched.comission && errors.comission ? (
-                        <p className="primary-text pt-1 pl-2">
+                        <p className="pt-1 pl-2 primary-text">
                           {errors.comission}
                         </p>
                       ) : null}
@@ -1300,7 +1305,7 @@ const validatorAccount = ({
           <>
             <div className="cmn_modal val_popups">
               <div className="image_area row">
-                <div className="col-12 text-center d-flex justify-content-center">
+                <div className="text-center col-12 d-flex justify-content-center">
                   <img
                     className="img-fluid img-wdth"
                     src={"../../assets/images/shiba-col-2.png"}
@@ -1312,7 +1317,7 @@ const validatorAccount = ({
               <>
                 <div className="cmn_inpt_row">
                   <div className="form-control">
-                    <label className="mb-2 mb-md-2 text-white">
+                    <label className="mb-2 text-white mb-md-2">
                       Enter validator address
                     </label>
                     <input
@@ -1354,7 +1359,7 @@ const validatorAccount = ({
           <>
             <div className="cmn_modal val_popups">
               <div className="image_area row">
-                <div className="col-12 text-center d-flex justify-content-center">
+                <div className="text-center col-12 d-flex justify-content-center">
                   <img
                     className="img-fluid img-wdth"
                     src={unboundModal.image ? unboundModal.image : "../../assets/images/shiba-col-2.png"}
@@ -1366,7 +1371,7 @@ const validatorAccount = ({
               <>
                 <div className="cmn_inpt_row">
                   <div className="form-control">
-                    <label className="mb-2 mb-md-2 text-white">
+                    <label className="mb-2 text-white mb-md-2">
                       validator address
                     </label>
                     <input
@@ -1407,8 +1412,8 @@ const validatorAccount = ({
           <>
             <div className="cmn_modal val_popups">
               <form>
-                <div className="image_area row mt-5 mb-5">
-                  <div className="col-12 text-center d-flex justify-content-center">
+                <div className="mt-5 mb-5 image_area row">
+                  <div className="text-center col-12 d-flex justify-content-center">
                     <img
                       className="img-fluid img-wdth"
                       src={"../../assets/images/shiba-col-2.png"}
@@ -1417,7 +1422,7 @@ const validatorAccount = ({
                     />
                   </div>
                 </div>
-                <div className="only_text mt-5">
+                <div className="mt-5 only_text">
                   <p className="text-center">
                     Are you sure you want to unstake ?
                   </p>
@@ -1429,7 +1434,7 @@ const validatorAccount = ({
                         e.preventDefault();
                         setUnStakePop(false);
                       }}
-                      className="btn blue-btn w-100 dark-bg-800 text-white"
+                      className="text-white btn blue-btn w-100 dark-bg-800"
                     >
                       Cancel
                     </button>
@@ -1464,8 +1469,8 @@ const validatorAccount = ({
           <>
             <div className="cmn_modal val_popups">
               <form>
-                <div className="image_area row mt-5 mb-5">
-                  <div className="col-12 text-center d-flex justify-content-center">
+                <div className="mt-5 mb-5 image_area row">
+                  <div className="text-center col-12 d-flex justify-content-center">
                     <img
                       className="img-fluid img-wdth"
                       src={"../../assets/images/shiba-col-2.png"}
@@ -1474,7 +1479,7 @@ const validatorAccount = ({
                     />
                   </div>
                 </div>
-                <div className="only_text  mt-5">
+                <div className="mt-5 only_text">
                   <p className="text-center">
                     Are you sure you want to unstake claim ?
                   </p>
@@ -1486,7 +1491,7 @@ const validatorAccount = ({
                         e.preventDefault();
                         setUnStakeClaimPop(false);
                       }}
-                      className="btn blue-btn w-100 dark-bg-800 text-white"
+                      className="text-white btn blue-btn w-100 dark-bg-800"
                     >
                       Cancel
                     </button>
@@ -1541,7 +1546,7 @@ const validatorAccount = ({
                   <>
                     <div className="cmn_inpt_row">
                       <div className="image_area row">
-                        <div className="col-12 text-center d-flex justify-content-center">
+                        <div className="text-center col-12 d-flex justify-content-center">
                           <img
                             className="img-fluid img-wdth"
                             src={"../../assets/images/shiba-col-2.png"}
@@ -1553,7 +1558,7 @@ const validatorAccount = ({
                     </div>
                     <div className="cmn_inpt_row">
                       <div className="form-control">
-                        <label className="mb-2 mb-md-2 text-white">
+                        <label className="mb-2 text-white mb-md-2">
                           Signer’s address
                         </label>
                         <input
@@ -1567,13 +1572,13 @@ const validatorAccount = ({
                         // onChange={handleChange("amount")}
                         />
                         {touched.address && errors.address ? (
-                          <p className="primary-text pt-1 pl-2">
+                          <p className="pt-1 pl-2 primary-text">
                             {errors.address}
                           </p>
                         ) : null}
                       </div>
                       <div style={{ marginTop: "20px" }} className="form-control">
-                        <label className="mb-2 mb-md-2 text-white">
+                        <label className="mb-2 text-white mb-md-2">
                           Signer’s Public key
                         </label>
                         <input
@@ -1587,7 +1592,7 @@ const validatorAccount = ({
                           onBlur={handleBlur}
                         />
                         {touched.publickey && errors.publickey ? (
-                          <p className="primary-text pt-1 pl-2">
+                          <p className="pt-1 pl-2 primary-text">
                             {errors.publickey}
                           </p>
                         ) : null}
@@ -1627,7 +1632,7 @@ const validatorAccount = ({
             {unboundModal.startValue && (
               <div className=".cmn_modal del-tab-content">
                 <div className="image_area row">
-                  <div className="col-12 text-center d-flex justify-content-center">
+                  <div className="text-center col-12 d-flex justify-content-center">
                     <img
                       className="img-fluid img-wdth"
                       src={unboundModal.image ? unboundModal.image : "../../assets/images/shiba-col-2.png"}
@@ -1636,7 +1641,7 @@ const validatorAccount = ({
                     />
                   </div>
                 </div>
-                <div className="center-align mb-4">
+                <div className="mb-4 center-align">
                   <h5 className="text-center ff-mos">
                     Are you sure you want to unbound?
                   </h5>
@@ -1644,13 +1649,13 @@ const validatorAccount = ({
                 <div className="p-2 p-sm-3">
                   {/* old input */}
                   <div className="form-group float-group sec-format">
-                    <div className="d-flex justify-content-between flex-wrap">
+                    <div className="flex-wrap d-flex justify-content-between">
                       <h6 className="mb-1 ff-mos">Withdraw Stake</h6>
                       <h6 className="mb-1 ff-mos">
                         {unboundModal.stakeAmount} Bone
                       </h6>
                     </div>
-                    <div className="cmn_inpt_row max-input inpt-bg mb-0">
+                    <div className="mb-0 cmn_inpt_row max-input inpt-bg">
                       <div className="max-input dark-bg-800">
                         <input
                           value={unboundInput}
@@ -1671,7 +1676,7 @@ const validatorAccount = ({
                       </div>
                     </div>
                   </div>
-                  <p className="mb-0 info-txt mt-1 ff-mos">
+                  <p className="mt-1 mb-0 info-txt ff-mos">
                     Your Funds will be locked for{" "}
                     <p className="dark-text primary-text ff-mos">Checkpoints</p>
                   </p>
@@ -1680,7 +1685,7 @@ const validatorAccount = ({
                   onClick={() => unboundDelegator()}
                   disabled={unboundInput > 0 ? false : true}
                   type="button"
-                  className="btn primary-btn mt-3 mt-sm-4 w-100 ff-mos"
+                  className="mt-3 btn primary-btn mt-sm-4 w-100 ff-mos"
                 >
                   Confirm Unbound
                 </button>
@@ -1704,7 +1709,7 @@ const validatorAccount = ({
         >
           <div className="popmodal-body tokn-popup no-ht trans-mod">
             <div className="pop-block">
-              <ul className="stepper mt-3 del-step">
+              <ul className="mt-3 stepper del-step">
                 <li className="step active">
                   <div className="step-ico">
                     <img
@@ -1741,7 +1746,7 @@ const validatorAccount = ({
                   <div className="step_content fl-box">
                     <div className="ax-top">
                       <div className="image_area row">
-                        <div className="col-12 text-center watch-img-sec">
+                        <div className="text-center col-12 watch-img-sec">
                           <img
                             className="img-fluid img-wdth"
                             src="../../assets/images/progrs-img.png"
@@ -1751,10 +1756,10 @@ const validatorAccount = ({
                         </div>
                       </div>
                       <div className="mid_text row">
-                        <div className="col-12 text-center">
+                        <div className="text-center col-12">
                           <h4 className="ff-mos">Processing Transaction</h4>
                         </div>
-                        <div className="col-12 text-center">
+                        <div className="text-center col-12">
                           <p className="ff-mos">
                             Approve the transaction in Metamask to proceed.
                           </p>
@@ -1762,7 +1767,7 @@ const validatorAccount = ({
                       </div>
                     </div>
                     <div className="ax-bottom">
-                      <div className="pop_btns_area row form-control mt-3">
+                      <div className="mt-3 pop_btns_area row form-control">
                         <div className="col-12">
                           <button
                             className={`btn primary-btn d-flex align-items-center justify-content-center w-100`}
@@ -1781,15 +1786,15 @@ const validatorAccount = ({
                 <div className="step_content fl-box">
                   <div className="ax-top">
                     <div className="image_area row">
-                      <div className="col-12 text-center watch-img-sec">
+                      <div className="text-center col-12 watch-img-sec">
                         <CircularProgress color="inherit" size={120} style={{ color: "#f06500" }} />
                       </div>
                     </div>
                     <div className="mid_text row">
-                      <div className="col-12 text-center">
+                      <div className="text-center col-12">
                         <h4 className="ff-mos">Transaction Submitted</h4>
                       </div>
-                      <div className="col-12 text-center">
+                      <div className="text-center col-12">
                         <p className="ff-mos">
                           BONE transactions can take longer time to complete
                           based upon network congestion. Please wait or increase
@@ -1799,7 +1804,7 @@ const validatorAccount = ({
                     </div>
                   </div>
                   <div className="ax-bottom">
-                    <div className="pop_btns_area row form-control mt-3">
+                    <div className="mt-3 pop_btns_area row form-control">
                       <div className="col-12">
                         <button
                           className={`btn primary-btn d-flex align-items-center justify-content-center w-100`}
@@ -1818,7 +1823,7 @@ const validatorAccount = ({
                   <div className="step_content fl-box">
                     <div className="ax-top">
                       <div className="image_area row">
-                        <div className="col-12 text-center watch-img-sec">
+                        <div className="text-center col-12 watch-img-sec">
                           <img
                             className="img-fluid img-wdth"
                             src="../../assets/images/cmpete-step.png"
@@ -1828,10 +1833,10 @@ const validatorAccount = ({
                         </div>
                       </div>
                       <div className="mid_text row">
-                        <div className="col-12 text-center">
+                        <div className="text-center col-12">
                           <h4 className="ff-mos">Transaction Completed</h4>
                         </div>
-                        <div className="col-12 text-center">
+                        <div className="text-center col-12">
                           <p className="ff-mos">
                             Transaction is completed. Visit link to see details.
                           </p>
@@ -1839,7 +1844,7 @@ const validatorAccount = ({
                       </div>
                     </div>
                     <div className="ax-bottom">
-                      <div className="pop_btns_area row form-control mt-3">
+                      <div className="mt-3 pop_btns_area row form-control">
                         <div className="col-12">
                           <button className="w-100">
                             <a
@@ -1988,7 +1993,7 @@ const validatorAccount = ({
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-6 col-xl-4 mob-margin col-custum text-center">
+                      <div className="text-center col-md-6 col-xl-4 mob-margin col-custum">
                         <div className="cus-box">
                           <div className="head-sec">
                             <div className="top-head">
@@ -2069,7 +2074,7 @@ const validatorAccount = ({
                     </div>
 
                     {/* grid sec end */}
-                    <div className="btns_sec val_all_bts row mt-3 actions-btn">
+                    <div className="mt-3 btns_sec val_all_bts row actions-btn">
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                         <div className="cus-tooltip d-inline-block ps-0">
                           <button
@@ -2122,7 +2127,7 @@ const validatorAccount = ({
 
                         </div>
                       </div>
-                      <div className="col-xl-3  col-lg-4 col-md-6 col-sm-6 col-12">
+                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                         <div className="cus-tooltip d-inline-block ps-0">
                           <button
                             onClick={() => withdrawRewardValidator()}
@@ -2143,8 +2148,8 @@ const validatorAccount = ({
                           <button
                             disabled={
                               parseInt(validatorInfoContract?.deactivationEpoch) >
-                                0
-                                ? true
+                                0 ||
+                              validatorInfo?.fundamental === 1  ? true
                                 : false
                             }
                             onClick={() => setUnStakePop(true)}
@@ -2247,7 +2252,7 @@ const validatorAccount = ({
                               </div>
                             </div>
                           </div>
-                          <div className="mid-sec bs-card h-auto">
+                          <div className="h-auto mid-sec bs-card">
                             <div className="block-container">
                               <div className="cus-width">
                                 <div className="text-center">
