@@ -14,6 +14,7 @@ import { useUserType } from 'app/state/user/hooks';
 const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boolean }) => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
+  const [loadingVal , setLoadingVal] = useState<boolean>(true);
   const [validatorsByStatus, setValidatorsByStatus] = useState<any[]>([]);
   const [allValidators, setAllValidators] = useState<any[]>([]);
   const [validators, setValidators] = useState<any[]>([]);
@@ -28,40 +29,48 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
   }
   const fetchValList = async () => {
     setLoading(false)
-    await validatorsList(searchKey, requestOptions)
-      .then((res: any) => {
-        setLoading(false)
-        if (res.status == 200) {
-          let activeList: any;
-          setAllValidators(res.data.validatorsList);
-          if (searchKey != "") {
-            if (isActiveTab) {
+    try{
+      await validatorsList(searchKey, requestOptions)
+        .then((res: any) => {
+          setLoading(false)
+          setLoadingVal(false);
+          if (res.status == 200) {
+            let activeList: any;
+            setAllValidators(res.data.validatorsList);
+            if (searchKey != "") {
+              if (isActiveTab) {
+                activeList = filter(
+                  res.data.validatorsList,
+                  (e) => e.uptimePercent !== 0
+                );
+              }
+              else {
+                activeList = filter(
+                  res.data.validatorsList,
+                  (e) => e.uptimePercent == 0
+                );
+              }
+            }
+            else {
+              setAllValidators(res.data.data.validatorsList);
               activeList = filter(
-                res.data.validatorsList,
+                res.data.data.validatorsList,
                 (e) => e.uptimePercent !== 0
               );
             }
-            else {
-              activeList = filter(
-                res.data.validatorsList,
-                (e) => e.uptimePercent == 0
-              );
-            }
+            setValidatorsByStatus(activeList);
+            setValidators(activeList);
           }
-          else {
-            setAllValidators(res.data.data.validatorsList);
-            activeList = filter(
-              res.data.data.validatorsList,
-              (e) => e.uptimePercent !== 0
-            );
-          }
-          setValidatorsByStatus(activeList);
-          setValidators(activeList);
-        }
-      })
-      .catch((err: any) => {
-        setLoading(false)
-      });
+        })
+        .catch((err: any) => {
+          setLoading(false)
+          setLoadingVal(false);
+        });
+    }catch(err:any){
+      Sentry.captureMessage("fetchValList" , err);
+      setLoading(false)
+      setLoadingVal(false);
+    }
   }
 
   useEffect(() => {
@@ -120,7 +129,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
       Sentry.captureMessage("onSort", err);
     }
   }
-
+  console.log("validators " , validators)
   // useEffect(() => {
   //   validatorsList(searchKey , requestOptions)
   //   .then((res:any) => {
@@ -225,10 +234,10 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
             </div>
           </div>
           {isListView ? (
-            <ListView migrateData={{}} loading={loading} searchKey={searchKey} validatorsList={validators} />
+            <ListView migrateData={{}} loading={loadingVal} searchKey={searchKey} validatorsList={validators} />
           ) : (
             <div className="grid-view-wrap">
-              <ValidatorGrid migrateData={{}} searchKey={searchKey} validatorsList={validators} />
+              <ValidatorGrid migrateData={{}} loading={loadingVal} searchKey={searchKey} validatorsList={validators} />
             </div>
           )}
         </div>

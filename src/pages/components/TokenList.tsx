@@ -7,6 +7,7 @@ import { fetchLink, generateSecondary, getDefaultChain } from 'web3/commonFuncti
 import * as Sentry from '@sentry/nextjs';
 import { Settings } from 'react-feather';
 import { Dropdown } from 'react-bootstrap';
+import useLocalStorageState from 'use-local-storage-state'
 const TokenList = ({
   coinList = [],
   DEFAULT_ITEM,
@@ -26,7 +27,7 @@ const TokenList = ({
   ...props }: any) => {
   const [isWrong, setIsWrong] = useState(false);
   const [renderData, setRenderData] = useState<any>();
-  const [defaultList, setDefaultList] = useState<any>(JSON.parse(localStorage.getItem("tokenList") || "[]"));
+  const [defaultList, setDefaultList,{removeItem}] = useLocalStorageState<any>("tokenList");
   const [newListing, setNewListing] = useState<any>(null); 
   const { chainId = 1, account, library } = useActiveWeb3React();
   const [importedCoins, setImportedCoins] = useState<any>([]);
@@ -44,7 +45,6 @@ const TokenList = ({
           : generateSecondary(linkQuery)
       ).then(async (response) => {
         const res = await response.json();
-        console.log("entered use effect try block ", res);
         const obj = {
           tokens: res?.tokens,
           name: res?.name,
@@ -56,13 +56,10 @@ const TokenList = ({
       }).catch((err: any) => { })
     }
   }
-  console.log("searchedList", searchedList);
   const getDefaultTokenList = () => {
     const defaultTokenUrls = URL_ARRAY[defaultChain].filter(
       (item: any) => item?.default
     );
-    console.log("data ", defaultTokenUrls);
-    console.log("render data ", renderData);
     Promise.all(
       defaultTokenUrls.map(async (item) => {
         try {
@@ -82,21 +79,18 @@ const TokenList = ({
       })
     )
       .then((response) => {
-        console.log("entered use effect try block ", response);
         let uniqList = uniqBy(response, 'data');
         addToLocalStorage(uniqList);
       })
       .catch((err) => { console.log() });
   }
 
-  console.log("default list ", defaultList);
   useEffect(() => {
     getDefaultTokenList();
 
   }, []);
   useEffect(() => {
-    let fetchList = JSON.parse(localStorage.getItem("tokenList") || "[]");
-    let enabledTokens = fetchList?.filter((e: any) => e?.enabled === true);
+    let enabledTokens = defaultList?.filter((e: any) => e?.enabled === true);
     let uniqueTokens: any = [];
     enabledTokens.forEach((e: any) => uniqueTokens.push(...e?.tokens));
     uniqueTokens = uniqBy(uniqueTokens, 'address');
@@ -105,7 +99,7 @@ const TokenList = ({
 
   const addToLocalStorage = async (response: any) => {
     let oldList;
-    oldList = JSON.parse(localStorage.getItem("tokenList") || "[]");
+    oldList = defaultList;
     if (oldList.length) {
       let newImportedList = response;
       let newTokens: any;
@@ -117,12 +111,11 @@ const TokenList = ({
       }
       newTokens = uniqBy(newTokens, "name")
       setRenderData(newTokens);
-      localStorage.setItem("tokenList", JSON.stringify(newTokens));
+      setDefaultList(newTokens);
     }
     else {
       let newList = [...response];
       setDefaultList(newList);
-      localStorage.setItem("tokenList", JSON.stringify(newList));
     }
   }
   useEffect(() => {
@@ -153,8 +146,8 @@ const TokenList = ({
         updateLocalstorage(data, index);
         setChain(chain);
         setCoinList(copy);
+        // console.log("switch enabled ==> " ,copy[index])
         if (copy[index].enabled) {
-          // console.log("switch enabled ==> " ,copy[index].enabled)
           const newaddedTokens = copy[index]?.tokens;
           const localTokens = JSON.parse(localStorage.getItem("importedByUser") || "[]")
           let updatedLocalTokens = [...localTokens, ...newaddedTokens];
@@ -171,19 +164,22 @@ const TokenList = ({
     }, 1);
   };
   useEffect(() => {
-    let uniqueList = uniqBy(defaultList, "name");
-    setDefaultList(uniqueList);
-    if (renderData?.length > 1) {
-      let newUniqueList = [...uniqueList, ...uniqBy(renderData, "name")];
-      setDefaultList(uniqBy(newUniqueList, "name"))
+    if(defaultList.length){
+      let uniqueList = uniqBy(defaultList, "name");
+      setDefaultList(uniqueList);
+      if (renderData?.length > 1) {
+        let newUniqueList = [...uniqueList, ...uniqBy(renderData, "name")];
+        setDefaultList(uniqBy(newUniqueList, "name"))
+      }
     }
   }, [renderData]);
 
   const updateLocalstorage = (data: any, index: any) => {
-    let storedTokens: any = JSON.parse(localStorage.getItem("tokenList") || "[]");
+    let storedTokens: any = defaultList;
     if (storedTokens != null) {
-      storedTokens[index].enabled = !storedTokens[index]?.enabled;
-      localStorage.setItem("tokenList", JSON.stringify(storedTokens));
+      defaultList[index].enabled = !defaultList[index].enabled;
+      storedTokens[index].enabled = !storedTokens[index].enabled;
+      setDefaultList([...defaultList]);
     }
   }
   const checkStatus = (url: any) => {
@@ -199,8 +195,7 @@ const TokenList = ({
       if (confirmed) {
         let oldList = defaultList.slice();
         let updatedList = oldList.filter((el: any) => el.data !== data);
-        localStorage.setItem("tokenList", JSON.stringify(updatedList))
-        setDefaultList(updatedList);
+        setDefaultList([...updatedList]);
         setCoinList(updatedList);
       }
     } catch (err: any) {
