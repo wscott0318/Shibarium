@@ -8,9 +8,6 @@ import { useWeb3React } from "@web3-react/core";
 import { addDecimalValue, inActiveCount, toFixedPrecent } from 'web3/commonFunctions';
 import MigratePopup from 'pages/migrate-popup';
 import { useRouter } from 'next/router';
-import DynamicShimmer from 'app/components/Shimmer/DynamicShimmer';
-import { Spinner } from 'react-bootstrap';
-import LoadingSpinner from 'pages/components/Loading';
 import { CircularProgress } from '@material-ui/core';
 
 export default function ValidatorGrid({ validatorsList, loading, searchKey, migrateData = {} }: { validatorsList: any, loading: boolean, searchKey: any, migrateData: any }) {
