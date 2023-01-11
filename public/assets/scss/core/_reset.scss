@@ -1197,6 +1197,16 @@ td.no_record img {
     -o-transition: All 0.3s ease;
   }
 }
+.grid-view-shimmer{
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  padding: 1rem;
+  background: #151b28;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
 @media only screen and (max-width: 991.98px) {
   .shib-popup .modal-content {
     // height: 75%;

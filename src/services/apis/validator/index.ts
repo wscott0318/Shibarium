@@ -8,7 +8,6 @@ export function migrateValidatorsList(requestOptions:any){
     return http.get(`validators/getMigrationList`,requestOptions)
 }
 export function restake(reqBody:RetakeFormInterface){
-    // console.log(reqBody,'asdsa');
     return http.post(`validators/restake`,reqBody)
 }
 export function commission(reqBody:any){

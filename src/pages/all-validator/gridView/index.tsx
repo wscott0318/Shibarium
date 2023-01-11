@@ -8,8 +8,9 @@ import { useWeb3React } from "@web3-react/core";
 import { addDecimalValue, inActiveCount, toFixedPrecent } from 'web3/commonFunctions';
 import MigratePopup from 'pages/migrate-popup';
 import { useRouter } from 'next/router';
+import { CircularProgress } from '@material-ui/core';
 
-export default function ValidatorGrid({ validatorsList, searchKey, migrateData = {} }: { validatorsList: any, searchKey: any, migrateData: any }) {
+export default function ValidatorGrid({ validatorsList, loading, searchKey, migrateData = {} }: { validatorsList: any, loading: boolean, searchKey: any, migrateData: any }) {
   const { account } = useWeb3React();
   const [selectedRow, setSelectedRow] = useState({});
   const [userType, setUserType] = useUserType()
@@ -20,7 +21,7 @@ export default function ValidatorGrid({ validatorsList, searchKey, migrateData =
     if (account) {
       if (x.fundamental === 1 || x.uptimePercent <= inActiveCount) return <div className="tool-desc tool-desc-grid">This is a fundamental node. <br /> Delegation is not enabled here.</div>;
       else if (router.asPath.split("/")[1] === "migrate-stake") return <div className="tool-desc tool-desc-grid"> {x.contractAddress == migrateData.contractAddress ? "Stakes cannot be migrated to same Validator." : "Migrate Your Stakes here."}</div>;
-      else return <div className = "tool-desc tool-desc-grid">Delegate here.</div>
+      else return <div className="tool-desc tool-desc-grid">Delegate here.</div>
     }
   }
   return (
@@ -142,27 +143,33 @@ export default function ValidatorGrid({ validatorsList, searchKey, migrateData =
                               </span>
                             </button>
                             {tootlTipDesc(validator)}
-                        {!account && <div className="tool-desc tool-desc-grid">Login to enable delegation.</div>}
-                      </div>
+                            {!account && <div className="tool-desc tool-desc-grid">Login to enable delegation.</div>}
+                          </div>
                         )}
+                      </div>
                     </div>
                   </div>
-                </div>
                 </div>)
               )}
-        </div>
-        ) : (
-            //   : <div className='no-record' style={{ display: 'flex', justifyContent: 'center', padding: '3rem' }}>No Record Found.</div>
-        <div className="no-found no-records-wrapper">
-          <div>
-            <div>
-              <img src="../../assets/images/no-record.png" />
             </div>
-          </div>
-        </div>
+          ) : (
+            //   : <div className='no-record' style={{ display: 'flex', justifyContent: 'center', padding: '3rem' }}>No Record Found.</div>
+              <div className='grid-view-shimmer'>
+                {/* <DynamicShimmer type={"table"} rows={2} cols={2} /> */}
+                <CircularProgress style={{color:" #F28B03"}} size={100} />
+              </div>
           )}
+          {!loading && !validatorsList?.length &&
+            (<div className="no-found no-records-wrapper">
+              <div>
+                <div>
+                  <img src="../../assets/images/no-record.png" />
+                </div>
+              </div>
+            </div>)
+          }
+        </div>
       </div>
-    </div>
     </>
   )
 }

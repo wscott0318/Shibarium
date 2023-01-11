@@ -3,7 +3,7 @@ import { migrateValidatorsList, validatorsList } from 'app/services/apis/validat
 import { filter, orderBy } from 'lodash';
 import { Dropdown } from "react-bootstrap";
 import React, { useEffect, useState } from 'react'
-import { useUserType,useMigrateStake } from 'app/state/user/hooks';
+import { useUserType, useMigrateStake } from 'app/state/user/hooks';
 import ListView from '../all-validator/listView/index';
 import GridView from '../all-validator/gridView/index';
 import Pagination from 'app/components/Pagination';
@@ -19,6 +19,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
   const pageSize = 10;
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
+  const [loadingVal, setLoadingVal] = useState<boolean>(true);
   const [validatorsByStatus, setValidatorsByStatus] = useState<any[]>([]);
   const [allValidators, setAllValidators] = useState<any[]>([]);
   const [validators, setValidators] = useState<any[]>([]);
@@ -71,39 +72,48 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
   // },[isActiveTab])
 
   // console.log(allValidators, "list ")
-
-  useEffect(() => {
-    setLoading(false)
-    let requestOptions = {
-      method: 'GET',
-      redirect: 'follow'
-    }
-    migrateValidatorsList(requestOptions)
-      .then((res: any) => {
-        setLoading(false)
-        if (res.status == 200) {
-          setAllValidators(res.data.data.validatorsList);
-          let activeList = filter(
-            res.data.data.validatorsList,
-            (e) => e.uptimePercent !== 0
-          );
-          // console.log(activeList)
-          if (withStatusFilter) {
-            setValidatorsByStatus(activeList);
-            const slicedList = activeList.slice(0, pageSize)
-            setValidators(slicedList)
+  const getMigrateValidators = async () => {
+    setLoading(false);
+    try {
+      let requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      }
+      await migrateValidatorsList(requestOptions)
+        .then((res: any) => {
+          setLoading(false)
+          setLoadingVal(false);
+          if (res.status == 200) {
+            setAllValidators(res.data.data.validatorsList);
+            let activeList = filter(
+              res.data.data.validatorsList,
+              (e) => e.uptimePercent !== 0
+            );
+            // console.log(activeList)
+            if (withStatusFilter) {
+              setValidatorsByStatus(activeList);
+              const slicedList = activeList.slice(0, pageSize)
+              setValidators(slicedList)
+            }
+            //  else {
+            //   setValidatorsByStatus(activeList);
+            //   const slicedList = activeList.slice(0, pageSize)
+            //   setValidators(slicedList)
+            // }
           }
-          //  else {
-          //   setValidatorsByStatus(activeList);
-          //   const slicedList = activeList.slice(0, pageSize)
-          //   setValidators(slicedList)
-          // }
-        }
-      })
-      .catch((err: any) => {
-        setLoading(false)
-      });
-
+        })
+        .catch((err: any) => {
+          setLoading(false)
+          setLoadingVal(false);
+        });
+    } catch (err: any) {
+      Sentry.captureMessage("fetchValList", err);
+      setLoading(false)
+      setLoadingVal(false);
+    }
+  }
+  useEffect(() => {
+    getMigrateValidators();
     fetchValidators()
   }, []);
 
@@ -243,10 +253,10 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
             </div>
           </div>
           {isListView ? (
-            <ListView migrateData={balance.migrateData} loading={loading} searchKey={searchKey} validatorsList={validators} />
+            <ListView migrateData={balance.migrateData} loading={loadingVal} searchKey={searchKey} validatorsList={validators} />
           ) : (
             <div className="grid-view-wrap">
-              <GridView migrateData={balance.migrateData} searchKey={searchKey} validatorsList={validators} />
+              <GridView migrateData={balance.migrateData} loading={loadingVal} searchKey={searchKey} validatorsList={validators} />
             </div>
           )}
           {isListView && validatorsList.length ? <div className='mt-sm-4 mt-3'>

@@ -16,8 +16,6 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
   const [userType, setUserType] = useUserType()
   const [showdelegatepop, setdelegatepop] = useState(false);
   const [showmigratepop, setmigratepop] = useState(false);
-  const removeLoader = !!validatorsList?.length;
-
   const router = useRouter();
   const tootlTipDesc = (x: any) => {
     if (account) {
@@ -60,7 +58,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
             </thead>
             <Scrollbar></Scrollbar>
             <tbody>
-              {removeLoader && validatorsList?.length ? (
+              {!loading && (validatorsList?.length ? (
                 validatorsList.map((x: any, y: any) => (
                   <tr key={x?.signer}>
                     <td>
@@ -136,19 +134,19 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                     </td>
                   </tr>
                 ))
-              ) :
-                <tr>
-                  <td colSpan={6}>
-                    <DynamicShimmer type={"table"} rows={13} cols={6} />
-                  </td>
-                </tr>
-              }
-              {removeLoader && !validatorsList?.length && (
+              ) : (
                 <tr>
                   <td colSpan={6}>
                     <div className="no-found">
                       <img src="../../assets/images/no-record.png" />
                     </div>
+                  </td>
+                </tr>
+              ))}
+              {loading && (
+                <tr>
+                  <td colSpan={6}>
+                    <DynamicShimmer type={"table"} rows={13} cols={6} />
                   </td>
                 </tr>
               )}

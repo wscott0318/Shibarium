@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CommonModal from "../components/CommonModel";
-import { getWalletTokenList ,getBoneUSDValue} from "../../services/apis/validator/index";
+import { getWalletTokenList, getBoneUSDValue } from "../../services/apis/validator/index";
 import { getTokenBalance } from "../../hooks/useTokenBalance";
 import { useActiveWeb3React } from "../../services/web3";
 import { BONE_ID } from "../../config/constant";
@@ -136,9 +136,11 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     chainId: ""
   });
   const getTokensList = async () => {
+    setIsLoading(true);
     try {
       await getWalletTokenList().then((res) => {
         let list = res.data.message.tokens;
+        console.log("list ==> ", list);
         list.forEach(async (x: any) => {
           if (x.parentName === "BoneToken") {
             x.balance = await getTokenBalance(
@@ -161,7 +163,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   };
   useEffect(() => {
     if (account) {
-      setIsLoading(true);
       getTokensList();
     }
   }, [account]);
@@ -421,7 +422,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       title: "Select a Token",
     });
   }
-
+  console.log("dafult chain ", defChain, isLoading)
   return (
     <div>
       {/* Token popups start */}
