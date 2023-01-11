@@ -149,6 +149,8 @@
     "@sentry/nextjs": "^7.21.0",
     "@sentry/utils": "^7.15.0",
     "@sentry/wizard": "^2.2.2",
+    "@shibarmy/shibariumjs": "^0.1.0",
+    "@shibarmy/shibariumjs-plasma": "^0.1.0",
     "@web3modal/ethereum": "^2.0.0-beta.10",
     "@web3modal/react": "^2.0.0-beta.10",
     "bootstrap": "^5.2.1",
