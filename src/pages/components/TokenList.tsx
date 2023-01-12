@@ -24,19 +24,18 @@ const TokenList = ({
   tokenModalList,
   setTokenModalList,
   tokenState,
+  offset,
   ...props }: any) => {
   const [isWrong, setIsWrong] = useState(false);
   const [renderData, setRenderData] = useState<any>();
-  const [defaultList, setDefaultList,{removeItem}] = useLocalStorageState<any>("tokenList");
-  const [newListing, setNewListing] = useState<any>(null); 
+  const [defaultList, setDefaultList, { removeItem }] = useLocalStorageState<any>("tokenList");
+  const [newListing, setNewListing] = useState<any>(null);
   const { chainId = 1, account, library } = useActiveWeb3React();
   const [importedCoins, setImportedCoins] = useState<any>([]);
   const [dup, setdup] = useState(false);
   const [defaultfetched, setDefaultfetched] = useState<any>([]);
   const [searched, setSearched] = useState<any>();
-  const [userAddedTokens, setUserAddedTokens] = useState<any>(
-    JSON.parse(localStorage.getItem("importedByUser") || "[]")
-  );
+  const [userAddedTokens, setUserAddedTokens] = useState<any>([]);
   const sortedLists = async () => {
     if (linkQuery) {
       await fetch(
@@ -56,7 +55,15 @@ const TokenList = ({
       }).catch((err: any) => { })
     }
   }
-  const getDefaultTokenList = () => {
+  useEffect(() => {
+    console.log("console 1");
+    getDefaultTokenList();
+    // setTimeout(() => {
+    // getEnabledTokens();
+    // },3000);
+  }, []);
+  const getDefaultTokenList = async () => {
+    console.log("console 2")
     const defaultTokenUrls = URL_ARRAY[defaultChain].filter(
       (item: any) => item?.default
     );
@@ -81,43 +88,50 @@ const TokenList = ({
       .then((response) => {
         let uniqList = uniqBy(response, 'data');
         addToLocalStorage(uniqList);
+        console.log('console follow 3')
       })
-      .catch((err) => { console.log() });
+      .catch((err) => { console.log("error") });
   }
-
-  useEffect(() => {
-    getDefaultTokenList();
-
-  }, []);
-  useEffect(() => {
-    let enabledTokens = defaultList?.filter((e: any) => e?.enabled === true);
-    let uniqueTokens: any = [];
-    enabledTokens.forEach((e: any) => uniqueTokens.push(...e?.tokens));
-    uniqueTokens = uniqBy(uniqueTokens, 'address');
-    setImportedCoins([...importedCoins, ...uniqueTokens]);
-  }, []);
-
-  const addToLocalStorage = async (response: any) => {
+  const addToLocalStorage = (response: any) => {
     let oldList;
     oldList = defaultList;
-    if (oldList.length) {
+    console.log("console 3", oldList)
+    if (oldList) {
       let newImportedList = response;
       let newTokens: any;
       if (newImportedList.length) {
+        console.log("console 3 if if")
         newTokens = [...oldList, ...newImportedList];
       }
       else {
+        console.log("console 3 els eelse")
         newTokens = [...oldList, newImportedList];
       }
+      console.log("newTokens", newTokens);
       newTokens = uniqBy(newTokens, "name")
+      // useLocalStorageState('tokenList', { defaultValue: newTokens })
       setRenderData(newTokens);
-      setDefaultList(newTokens);
+      setDefaultList([...newTokens]);
     }
     else {
+      console.log("console 3 else")
       let newList = [...response];
       setDefaultList(newList);
+      useLocalStorageState('tokenList', { defaultValue: newList })
+    }
+    getEnabledTokens();
+  }
+  const getEnabledTokens = () => {
+    console.log("console 4", defaultList)
+    if (defaultList?.length > 0) {
+      let enabledTokens = defaultList?.filter((e: any) => e?.enabled === true);
+      let uniqueTokens: any = [];
+      enabledTokens.forEach((e: any) => uniqueTokens.push(...e?.tokens));
+      uniqueTokens = uniqBy(uniqueTokens, 'address');
+      setImportedCoins([...importedCoins, ...uniqueTokens]);
     }
   }
+
   useEffect(() => {
     setdup(false);
     if (linkQuery) {
@@ -164,7 +178,7 @@ const TokenList = ({
     }, 1);
   };
   useEffect(() => {
-    if(defaultList.length){
+    if (defaultList?.length) {
       let uniqueList = uniqBy(defaultList, "name");
       setDefaultList(uniqueList);
       if (renderData?.length > 1) {
@@ -206,7 +220,7 @@ const TokenList = ({
   const getLogo = (x: any) => {
     let logoURL: string;
     if (x?.logo) {
-      logoURL= x?.logo
+      logoURL = x?.logo
     }
     else if (x?.logoURI) {
       if (x?.logoURI.startsWith('ipfs://')) {
@@ -230,11 +244,20 @@ const TokenList = ({
     event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
     event.currentTarget.className = "error me-2";
   };
-  return (
-    <>
 
-      {tokenState?.step0 && !searchedList && (tokenModalList
-        ? tokenModalList.map((x: any) => (
+  useEffect(() => {
+      let tokens = tokenModalList;
+      let imported = importedCoins;
+      imported = imported.slice(0,offset);
+      tokens = tokens.slice(0,offset);
+      setDefaultfetched(tokens);
+      setUserAddedTokens(imported);
+  },[offset,tokenModalList,importedCoins]);
+
+  return (
+    <div id='scrollable-tokenList'>
+      {tokenState?.step0 && !searchedList && (defaultfetched
+        ? defaultfetched.map((x: any) => (
           <div
             className="tokn-row"
             key={x?.parentContract}
@@ -272,8 +295,8 @@ const TokenList = ({
         : null)
       }
       {tokenState?.step0 && !searchedList &&
-        importedCoins?.length
-        ? importedCoins.map((x: any) => {
+        userAddedTokens?.length
+        ? userAddedTokens.map((x: any) => {
           let logoImg = getLogo(x);
           return (
             <div
@@ -423,7 +446,7 @@ const TokenList = ({
 
           </div>
         ))}
-    </>
+    </div>
   );
 };
 
