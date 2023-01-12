@@ -13,7 +13,7 @@ import { dynamicChaining } from "web3/DynamicChaining";
 import Link from "next/link";
 import { getDefaultChain, useStorage } from "../../web3/commonFunctions";
 import TokenList from "./TokenList";
-import { uniqBy } from "lodash";
+import { floor, uniqBy } from "lodash";
 import { useToken } from "app/hooks/Tokens";
 import { isAddress } from "app/functions";
 import { CircularProgress } from "@material-ui/core";
@@ -126,6 +126,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   const [importedTokens, setImportedTokens] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchedList, setSearchedList] = useState<any>(null);
+  const [offset , setOffset] = useState<any>(10);
   const [tempTokens, setTempTokens] = useState<any>({
     parentContract: "",
     name: "",
@@ -183,11 +184,13 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
           }
           return result;
         });
-        console.log(newData, "keyyy if condition")
+        // console.log(newData, "keyyy if condition")
         setSearchedList(newData);
+        setOffset(10);
       } else {
-        console.log("else condition ");
+        // console.log("else condition ");
         setSearchedList(null);
+        setOffset(10);
       }
     } catch (err: any) {
       Sentry.captureMessage("handleSearchList", err);
@@ -422,7 +425,13 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       title: "Select a Token",
     });
   }
-  console.log("dafult chain ", defChain, isLoading)
+  const handleScroll = (e:any) => {
+    const bottom = e.target.scrollHeight - Math.floor(e.target.scrollTop) == e.target.clientHeight+1;
+    if(bottom){
+      let newOffset = offset+10;
+      setOffset(newOffset);
+    }
+  };
   return (
     <div>
       {/* Token popups start */}
@@ -479,6 +488,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                               step4: false,
                               title: "Manage Token",
                             });
+                            setOffset(10);
                           }}
                         >
                           Manage Tokens
@@ -486,7 +496,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                       </div>
                     </div>
                   </div>
-                  {!isLoading ? (<div className="token-listwrap noScrollbar">
+                  {!isLoading ? (<div className="token-listwrap noScrollbar" onScroll={(e) => handleScroll(e)}>
                     {defChain &&
                       <TokenList coinList={coinList}
                         DEFAULT_ITEM={DEFAULT_LIST}
@@ -503,6 +513,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                         setLinkQuery={setLinkQuery}
                         tokenModalList={tokenModalList}
                         tokenState={tokenState}
+                        offset={offset}
                       />
                     }
                     {!tokenModalList.length && modalKeyword ? (

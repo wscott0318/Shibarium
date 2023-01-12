@@ -152,7 +152,7 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
                 </div>)
               )}
             </div>
-          ) : (
+          ) : loading && (
             //   : <div className='no-record' style={{ display: 'flex', justifyContent: 'center', padding: '3rem' }}>No Record Found.</div>
               <div className='grid-view-shimmer'>
                 {/* <DynamicShimmer type={"table"} rows={2} cols={2} /> */}

@@ -2219,8 +2219,8 @@ const validatorAccount = ({
                                   <img
                                     className="img-fluid"
                                     src={
-                                      item.logoUrl
-                                        ? item.logoUrl
+                                      item.image
+                                        ? item.image
                                         : "../../assets/images/Shib-Logo.png"
                                     }
                                     width="69"

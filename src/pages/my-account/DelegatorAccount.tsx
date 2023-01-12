@@ -99,7 +99,7 @@ const delegatorAccount = () => {
                       <div className="info-block">
                         <div className="image-blk">
                           <div>
-                            <img className="img-fluid" src={item.logoUrl} width="69" height="70" alt="coin-icon" />
+                            <img className="img-fluid" src={item?.image} width="69" height="70" alt="coin-icon" />
                           </div>
                         </div>
                         <div className="grid-info text-start">
