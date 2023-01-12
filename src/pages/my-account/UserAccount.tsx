@@ -13,7 +13,7 @@ const userAccount = ({ boneUSDValue, availBalance }: { boneUSDValue: any, availB
                     <div className="val_del_outr">
                         <h4 className="ff-mos">Wallet Balance</h4>
                         <h3 className="ff-mos"><b>{isLoading ? "0.00" : addDecimalValue(availBalance)}  Bone</b></h3>
-                        <h4 className="ff-mos"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={addDecimalValue((availBalance || 0) * boneUSDValue)} /></h4>
+                        <h4 className="ff-mos"><NumberFormat thousandSeparator displayType={"text"} prefix='$ ' value={addDecimalValue((availBalance > 0 ? availBalance : 0) * boneUSDValue)} /></h4>
                         <div className="btns_sec val_all_bts row">
                             <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
                                 <Link href='all-validator' passHref>

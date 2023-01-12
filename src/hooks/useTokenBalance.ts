@@ -16,12 +16,18 @@ export const useTokenBalance = (address:string)=>{
                 const contract = new web3.eth.Contract(ERC20_ABI,address);
                 contract.methods.balanceOf(account).call().then((res:any) => {
                     contract.methods.decimals().call().then((d:number)=>{
+                        console.log({res, d});
                         setBalance(+(+res / Math.pow(10, d)).toFixed(tokenDecimal));
                     })
+                }).catch((err:any) => {
+                    console.log(err);
                 })
             } catch (error :any) {
+                console.log(error);
                 Sentry.captureException("getTokenBalance ", error);
             }
+        } else {
+            console.log({library, account ,address}); 
         }
     }, [library,account,address])
     return balance
@@ -52,6 +58,7 @@ export const useWalletTokenBalance = (address:string)=>{
     }, [library,account,address])
     return {newBalance , updateBalance};
 }
+
 export const getTokenBalance = async (library :any, account :any, address :any) => {
     var balance :any = 0
     // console.log({library,account, address})

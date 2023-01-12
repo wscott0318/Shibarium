@@ -23,7 +23,10 @@ export default function MyAcount() {
   const [delegatorData, setDelegatorData] = useState({});
   const ethBal = useEthBalance();
   const tokenBal = useTokenBalance(dynamicChaining[chainId].BONE);
-  const availBalance = chainId === ChainId.SHIBARIUM ?  ethBal : tokenBal ;
+  const availBalance = tokenBal ;
+
+  console.log(dynamicChaining[chainId].BONE)
+  
   let isloading = availBalance == -1;
   useEffect(() => {
     if(account){
