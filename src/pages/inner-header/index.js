@@ -53,7 +53,7 @@ const InnerHeader = () => {
 
   const getUsertypeAPI = (accountAddress) => {
     try {
-      getUserType(accountAddress.toLowerCase()).then(res => {
+      getUserType(accountAddress).then(res => {
         if (res.data && res.data.data) {
           let ut = res.data.data.userType;
           setUserType(ut)
@@ -211,7 +211,7 @@ const InnerHeader = () => {
                         </div>
                       </NavDropdown.Item>
                       <NavDropdown.Item href="#action/3.3">
-                        <div className="custum-row mb-0">
+                        <div className="mb-0 custum-row">
                           <div className="lft-img ps-2">
                             <img
                               src="../../assets/images/back.png"

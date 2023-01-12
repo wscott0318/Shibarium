@@ -70,7 +70,7 @@ const Rewards = () => {
   };
   const getUsertypeAPI = (accountAddress) => {
     try {
-      getUserType(accountAddress.toLowerCase()).then((res) => {
+      getUserType(accountAddress).then((res) => {
         if (res.data && res.data.data) {
           let ut = res.data.data.userType;
           let valID = res.data.data.validatorId
@@ -175,9 +175,9 @@ const Rewards = () => {
   return (
     <>
       <Header />
-      <main className="main-content dark-bg-800 full-vh  cmn-input-bg ffms-inherit staking-main">
+      <main className="main-content dark-bg-800 full-vh cmn-input-bg ffms-inherit staking-main">
         {/* <StakingHeader /> */}
-        <section className="top_bnr_area dark-bg darkbg py-4 py-md-5 mn-ht">
+        <section className="py-4 top_bnr_area dark-bg darkbg py-md-5 mn-ht">
           <div className="container">
             <div className="section-info">
               <h1 className="text-white trs-6 fw-500 ff-mos">
@@ -302,7 +302,7 @@ const Rewards = () => {
                 )}
 
                 {/* step 4 end */}
-                {/* <div className="btn-wrap col-sm-3 mt-4 ">
+                {/* <div className="mt-4 btn-wrap col-sm-3 ">
                   <button
                     type="button"
                     className="btn primary-btn w-100"

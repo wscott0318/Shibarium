@@ -70,7 +70,7 @@ export default function Header() {
 
   const getUsertypeAPI = (accountAddress: any) => {
     try {
-      getUserType(accountAddress.toLowerCase()).then(res => {
+      getUserType(accountAddress).then(res => {
         if (res.data && res.data.data) {
           let ut = res.data.data.userType;
           let valID = res.data.data.validatorId ? res.data.data.validatorId : "0";
