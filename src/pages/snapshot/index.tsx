@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
-// import {getSnapshots} from '../../services/apis/common'
+import {getSnapshots} from '../../services/apis/common'
 const index = () => {
-    const [snapshots, setSnapshots] = useState<any>([]);
+    const [snapshots, setSnapshots] = useState<any>();
 
     const fetchSnapshots = async () => {
-        let response = await fetch("http://10.59.4.183:3002/getList")
-        const data = await response.json();
-        setSnapshots(data);
+        await getSnapshots().then((res:any) => setSnapshots(res?.data));
     }
     useEffect(() => {
         fetchSnapshots();
