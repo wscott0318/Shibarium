@@ -16,7 +16,7 @@ const index = () => {
             </div>
             <div>
                 <div className="row">
-                    {Object.keys(snapshots).filter((key: any) => key != "success").map((key: any) => (
+                    {snapshots && Object.keys(snapshots).filter((key: any) => key != "success").map((key: any) => (
                         <>
                             <div className="col-3" key={key}>
                                 <p>{key}</p>
