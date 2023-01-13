@@ -1,19 +1,24 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import Header from "../layout/header";
-import {ProgressBar } from "react-bootstrap";
+import { ProgressBar } from "react-bootstrap";
+import { Slider } from "@material-ui/core";
 
 const Rewards = () => {
   const [proVal, setProVal] = useState(70);
+  const [bonePercent, setBonePercent] = useState<any>(0);
+  const [duration, setDuration] = useState<any>(365);
   return (
     <>
       <Header />
       <main className="main-content dark-bg-800 full-vh  cmn-input-bg ffms-inherit staking-main">
-      {/* <StakingHeader /> */}
+        {/* <StakingHeader /> */}
         <section className="top_bnr_area dark-bg darkbg py-4 py-md-5">
-            <div className="container">
-                <h1 className="text-white trs-6 fw-500 ff-mos">Rewards Calculator</h1>
-            </div>
+          <div className="container">
+            <h1 className="text-white trs-6 fw-500 ff-mos">
+              Rewards Calculator
+            </h1>
+          </div>
         </section>
         <section className="rewards-section-cal">
           <div className="container">
@@ -68,31 +73,43 @@ const Rewards = () => {
                     </div>
                   </div>
                 </div>
-                <div className="input-wrap mb-4">
-                  <p className="mb-2 light-text fw-600  ff-mos">
-                    How much BONE will you delegate?
-                  </p>
-                  <div className="input-box">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="10000"
-                    />
-                    <span className="over-text primary-text">BONE</span>
-                  </div>
-                </div>
-                <div className="progresbar-wrap mb-4">
+                <div className="progresbar-wrap ps-2 pe-2">
                   <div className="prog-group">
                     <label
                       htmlFor=""
                       className="prog-label"
                       style={{
-                        left: `calc(${proVal}% - 27px)`,
+                        left: `calc(${bonePercent}% - 27px)`,
                       }}
                     >
-                      {proVal}%
+                      {bonePercent}%
                     </label>
-                    <ProgressBar now={proVal} />
+                    <Slider
+                      defaultValue={proVal}
+                      aria-label="Default"
+                      valueLabelDisplay="auto"
+                      value={bonePercent}
+                      style={{ color: "#F06700" }}
+                      onChange={(e, val) => setBonePercent(val)}
+                    />
+                  </div>
+                </div>
+                <div className="input-wrap mb-4">
+                  <p className="mb-2 light-text fw-600 ff-mos">
+                    How many days do you want to delegate BONE for?
+                  </p>
+                  <div className="input-box">
+                    <input
+                      type="number"
+                      name="duration"
+                      className="form-control"
+                      placeholder="365"
+                      value={duration}
+                      defaultValue={duration}
+                      onChange={(e) => setDuration(e.target.value)}
+                      max="365"
+                    />
+                    <span className="over-text primary-text trs-3">DAYS</span>
                   </div>
                 </div>
                 <div className="whitebg content-card">
@@ -106,24 +123,24 @@ const Rewards = () => {
                   </div>
                   <div className="content-wrap">
                     <p className="dark-text mb-sm-3 mb-2 ff-mos">
-                      All reward figures given here are indicative. Actual rewards
-                      earned will depend on the actual total locked supply in the
-                      network at each checkpoint. This is expected to vary
-                      significantly as more BONE tokens get locked in the staking
-                      contracts.
+                      All reward figures given here are indicative. Actual
+                      rewards earned will depend on the actual total locked
+                      supply in the network at each checkpoint. This is expected
+                      to vary significantly as more BONE tokens get locked in
+                      the staking contracts.
                     </p>
                     <p className="dark-text mb-sm-3 mb-2 ff-mos">
-                      Please refer to this article for more details on the staking
-                      economics. Broadly speaking, the target locked supply in 30%
-                      of the BONE token circulating supply.
+                      Please refer to this article for more details on the
+                      staking economics. Broadly speaking, the target locked
+                      supply in 30% of the BONE token circulating supply.
                     </p>
                     <p className="dark-text mb-sm-3 mb-2 ff-mos">
                       Rewards will be higher to begin with, and will keep
                       decreasing as the locked supply % goes up. This change in
                       locked supply is captured at every checkpoint, and rewards
                       are calculated based on this. The presented results are
-                      based on prediction formulae and we cannot guarantee any kind
-                      of accuracy.
+                      based on prediction formulae and we cannot guarantee any
+                      kind of accuracy.
                     </p>
                   </div>
                 </div>
@@ -184,7 +201,9 @@ const Rewards = () => {
                           <span className="trs-3 ff-mos">~5639.26585%</span>
                         </h2>
                         <div className="hr"></div>
-                        <span className="light-text ff-mos">Absolute Reward %</span>
+                        <span className="light-text ff-mos">
+                          Absolute Reward %
+                        </span>
                       </div>
                     </li>
                     <li className="card-list-item">
@@ -202,7 +221,9 @@ const Rewards = () => {
                           <span className="trs-3 ff-mos">~253.69358%</span>
                         </h2>
                         <div className="hr"></div>
-                        <span className="light-text ff-mos">Annual Reward % (APR)</span>
+                        <span className="light-text ff-mos">
+                          Annual Reward % (APR)
+                        </span>
                       </div>
                     </li>
                     <li className="card-list-item">
@@ -220,7 +241,9 @@ const Rewards = () => {
                           <span className="trs-3 ff-mos">~25 Mins</span>
                         </h2>
                         <div className="hr"></div>
-                        <span className="light-text ff-mos">Reward Frequency</span>
+                        <span className="light-text ff-mos">
+                          Reward Frequency
+                        </span>
                       </div>
                     </li>
                     <li className="card-list-item">
@@ -238,7 +261,9 @@ const Rewards = () => {
                           <span className="trs-3 ff-mos">0.03658% </span>
                         </h2>
                         <div className="hr"></div>
-                        <span className="light-text ff-mos">Your Network Share</span>
+                        <span className="light-text ff-mos">
+                          Your Network Share
+                        </span>
                       </div>
                     </li>
                   </ul>
@@ -246,7 +271,9 @@ const Rewards = () => {
                     <h2 className="text-white">
                       <span className="trs-6 ff-mos">
                         6,698,789,231{" "}
-                        <span className="text-100 fw-600 ff-mos">Shiba Tokens</span>
+                        <span className="text-100 fw-600 ff-mos">
+                          Shiba Tokens
+                        </span>
                       </span>
                     </h2>
                     <span className="text-100 text-white ff-mos">

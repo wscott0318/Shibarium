@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import * as Sentry from "@sentry/nextjs";
 import ChainWarning from "pages/components/ChainWarning";
 import { useActiveWeb3React } from "app/services/web3";
+import { ChainId } from "shibarium-get-chains";
 
 export default function Sidebar({
   menuState,
@@ -18,18 +19,28 @@ export default function Sidebar({
   const router = useRouter();
   const [showWarning, setShowWarning] = useState(false);
   const [width, setWidth] = useState();
-  useEffect(() => {
-    checkConnectedChain();
-  }, [chainId, account]);
+  // useEffect(() => {
+  //   checkConnectedChain();
+  // }, [chainId, account]);
 
-  const checkConnectedChain = () => {
-    if (chainId === 5) {
-      setShowWarning(false);
-    } else {
-      setShowWarning(true);
-      console.log(showWarning);
-    }
-  };
+  // const checkConnectedChain = () => {
+    // if(router.asPath.split("/")[1] === "faucet"){
+    //   if (chainId === ChainId.PUPPYNET517) {
+    //     setShowWarning(false);
+    //   } else {
+    //     setShowWarning(true);
+    //     console.log(showWarning);
+    //   }
+    // }
+    // if(router.asPath.split("/")[1] === "bridge"){
+    //   if (chainId === ChainId.PUPPYNET517) {
+    //     setShowWarning(false);
+    //   } else {
+    //     setShowWarning(true);
+    //     console.log(showWarning);
+    //   }
+    // }
+  // };
   const handlClick = () => {
     setIsVisible((prev) => !prev);
   };
@@ -139,14 +150,6 @@ export default function Sidebar({
   }, []);
   return (
     <>
-      <ChainWarning
-        title={"Switch to Goerli Testnet"}
-        show={showWarning}
-        setshow={() => {
-          setShowWarning(true);
-        }}
-        externalCls="faucet-pop no-lft chain_warning"
-      />
       {/* sidebar start */}
       <div className="sidebar-toggle">
         <Navbar.Brand

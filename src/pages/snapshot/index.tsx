@@ -1,30 +1,36 @@
-import React from 'react'
-
+import React, { useEffect, useState } from 'react'
+// import {getSnapshots} from '../../services/apis/common'
 const index = () => {
+    const [snapshots, setSnapshots] = useState<any>([]);
+
+    const fetchSnapshots = async () => {
+        let response = await fetch("http://10.59.4.183:3002/getList")
+        const data = await response.json();
+        setSnapshots(data);
+    }
+    useEffect(() => {
+        fetchSnapshots();
+    }, []);
     return (
-        <div>
+        <>
             <div className="heading">
                 <p>Shibarium Chains Snapshots</p>
             </div>
-            <div className="row">
-                <div className="col-2">
-                    <p>Mainnet FullNode Bor</p>
+            <div>
+                <div className="row">
+                    {Object.keys(snapshots).filter((key: any) => key != "success").map((key: any) => (
+                        <>
+                            <div className="col-3" key={key}>
+                                <p>{key}</p>
+                            </div>
+                            <div className="col-9">
+                                <p>{snapshots[key]}</p>
+                            </div>
+                        </>
+                    ))}
                 </div>
-                <div className="col-9">
-                    <p>https://matic-blockchain-snapshots.s3-accelerate.amazonaws.com/matic-mainnet/bor-fullnode-snapshot-2022-12-26.tar.gz</p>
-                </div>
-                <div className="col-1"></div>
             </div>
-            <div className="row">
-                <div className="col-2">
-                    <p>Mainnet Heimdall snapshot</p>
-                </div>
-                <div className="col-9">
-                    <p>https://matic-blockchain-snapshots.s3-accelerate.amazonaws.com/matic-mainnet/heimdall-snapshot-2022-12-26.tar.gz</p>
-                </div>
-                <div className="col-1"></div>
-            </div>
-        </div>
+        </>
     )
 }
 
