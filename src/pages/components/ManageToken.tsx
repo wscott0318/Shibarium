@@ -220,7 +220,13 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       console.log("token info ", tokenInfo);
       let obj: any;
       if (tokenInfo) {
-        let logoURI = "https://ipfs.io/ipfs/" + tokenInfo?.logoURI.slice(7);
+        let logoURI:any;
+        if(tokenInfo?.logoURI.startsWith("ipfs://")){
+          logoURI = "https://ipfs.io/ipfs/" + tokenInfo?.logoURI.slice(7);
+        }
+        else{
+          logoURI= tokenInfo?.logoURI;
+        }
         obj = {
           parentContract: tokenInfo?.address,
           name: tokenInfo?.name,
@@ -425,13 +431,8 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       title: "Select a Token",
     });
   }
-  const handleScroll = (e:any) => {
-    const bottom = e.target.scrollHeight - Math.floor(e.target.scrollTop) == e.target.clientHeight+1;
-    if(bottom){
-      let newOffset = offset+10;
-      setOffset(newOffset);
-    }
-  };
+
+  console.log("local tokens ," , localTokens);
   return (
     <div>
       {/* Token popups start */}
@@ -482,8 +483,8 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                           onClick={() => {
                             setTokenState({
                               step0: false,
-                              step1: true,
-                              step2: false,
+                              step1: false,
+                              step2: true,
                               step3: false,
                               step4: false,
                               title: "Manage Token",
@@ -496,7 +497,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                       </div>
                     </div>
                   </div>
-                  {!isLoading ? (<div className="token-listwrap noScrollbar" onScroll={(e) => handleScroll(e)}>
+                  {!isLoading ? (<div className="token-listwrap noScrollbar" id='scrollable-tokenList'>
                     {defChain &&
                       <TokenList coinList={coinList}
                         DEFAULT_ITEM={DEFAULT_LIST}
@@ -645,40 +646,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
               </button>
               <div className="pop-block">
                 <div className="pop-top">
-                  <div className="black-bg-sec">
-                    <div className="token-btn-sec pop-btns-grid">
-                      <div className="blk-width">
-                        <button
-                          type="button"
-                          className={`btn w-100 ${tokenState.step1 && "btn-active"}`}
-                          onClick={() => {
-                            setTokenState({
-                              step0: false,
-                              step1: true,
-                              step2: false,
-                              step3: false,
-                              step4: false,
-                              title: "Manage Token",
-                            });
-                          }}
-                        >
-                          Token Lists
-                        </button>
-                      </div>
-                      <div className="blk-width">
-                        <button
-                          type="button"
-                          className={`btn w-100 ${tokenState.step2 && "btn-active"
-                            }`}
-                        // onClick={() => {
-                        //   addTokenHandler();
-                        // }}
-                        >
-                          Add token
-                        </button>
-                      </div>
-                    </div>
-                  </div>
                   <div className="sec-search sec-search-secondry">
                     <div
                       className="position-relative search-row"
@@ -843,33 +810,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
               </button>
               <div className="pop-block">
                 <div className="pop-top">
-                  <div className="black-bg-sec">
-                    <div className="token-btn-sec pop-btns-grid">
-                      <div className="blk-width">
-                        <button
-                          type="button"
-                          className={`btn w-100 ${tokenState.step1 && "btn-active"}`}
-                          onClick={() => {
-                            setTokenState({
-                              step0: false,
-                              step1: true,
-                              step2: false,
-                              step3: false,
-                              step4: false,
-                              title: "Manage Token",
-                            });
-                          }}
-                        >
-                          Token Lists
-                        </button>
-                      </div>
-                      <div className="blk-width">
-                        <button type="button" className={`btn w-100 ${tokenState.step3 && "btn-active"}`}>
-                          Add token
-                        </button>
-                      </div>
-                    </div>
-                  </div>
                   <div className="sec-search sec-search-secondry">
                     <div className="position-relative search-row">
                       <input
@@ -1043,33 +983,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
               </button>
               <div className="pop-block">
                 <div className="pop-top">
-                  <div className="black-bg-sec">
-                    <div className="token-btn-sec pop-btns-grid">
-                      <div className="blk-width">
-                        <button
-                          type="button"
-                          className={`btn w-100 ${tokenState.step1 && "btn-active"}`}
-                          onClick={() => {
-                            setTokenState({
-                              step0: false,
-                              step1: true,
-                              step2: false,
-                              step3: false,
-                              step4: false,
-                              title: "Manage Token",
-                            });
-                          }}
-                        >
-                          Token Lists
-                        </button>
-                      </div>
-                      <div className="blk-width">
-                        <button type="button" className={`btn w-100 ${tokenState.step4 && "btn-active"}`}>
-                          Add token
-                        </button>
-                      </div>
-                    </div>
-                  </div>
                   <div className="sec-search sec-search-secondry">
                     <div className="position-relative search-row">
                       <input
