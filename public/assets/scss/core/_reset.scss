@@ -1207,6 +1207,9 @@ td.no_record img {
   justify-content: center;
   min-height: 300px;
 }
+.infinite-scroll-component::-webkit-scrollbar{
+  display: none;
+}
 @media only screen and (max-width: 991.98px) {
   .shib-popup .modal-content {
     // height: 75%;

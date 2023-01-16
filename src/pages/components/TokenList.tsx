@@ -7,7 +7,8 @@ import { fetchLink, generateSecondary, getDefaultChain } from 'web3/commonFuncti
 import * as Sentry from '@sentry/nextjs';
 import { Settings } from 'react-feather';
 import { Dropdown } from 'react-bootstrap';
-import useLocalStorageState from 'use-local-storage-state'
+import useLocalStorageState from 'use-local-storage-state';
+import InfiniteScroll from "react-infinite-scroll-component";
 const TokenList = ({
   coinList = [],
   DEFAULT_ITEM,
@@ -36,6 +37,7 @@ const TokenList = ({
   const [defaultfetched, setDefaultfetched] = useState<any>([]);
   const [searched, setSearched] = useState<any>();
   const [userAddedTokens, setUserAddedTokens] = useState<any>([]);
+  const [hasMore, setHasMore] = useState(true);
   const sortedLists = async () => {
     if (linkQuery) {
       await fetch(
@@ -100,14 +102,11 @@ const TokenList = ({
       let newImportedList = response;
       let newTokens: any;
       if (newImportedList.length) {
-        console.log("console 3 if if")
         newTokens = [...oldList, ...newImportedList];
       }
       else {
-        console.log("console 3 els eelse")
         newTokens = [...oldList, newImportedList];
       }
-      console.log("newTokens", newTokens);
       newTokens = uniqBy(newTokens, "name")
       // useLocalStorageState('tokenList', { defaultValue: newTokens })
       setRenderData(newTokens);
@@ -246,18 +245,26 @@ const TokenList = ({
   };
 
   useEffect(() => {
-      let tokens = tokenModalList;
-      let imported = importedCoins;
-      imported = imported.slice(0,offset);
-      tokens = tokens.slice(0,offset);
-      setDefaultfetched(tokens);
-      setUserAddedTokens(imported);
-  },[offset,tokenModalList,importedCoins]);
+    let imported = importedCoins;
+    imported = imported.slice(0, 15);
+    setDefaultfetched(imported);
+  }, [offset, tokenModalList, importedCoins]);
 
+  const fetchData = () => {
+    console.log("fetch data called")
+    if (defaultfetched?.length >= importedCoins?.length) {
+      setHasMore(false);
+      return;
+    }
+    setTimeout(() => {
+      const mergeCoinsList = () => [...defaultfetched, ...importedCoins.slice(defaultfetched.length, defaultfetched.length+5)];
+      setDefaultfetched(mergeCoinsList);
+    }, 500);
+  }
   return (
-    <div id='scrollable-tokenList'>
-      {tokenState?.step0 && !searchedList && (defaultfetched
-        ? defaultfetched.map((x: any) => (
+    <div>
+      {tokenState?.step0 && !searchedList && (tokenModalList
+        ? tokenModalList.map((x: any) => (
           <div
             className="tokn-row"
             key={x?.parentContract}
@@ -294,38 +301,53 @@ const TokenList = ({
         ))
         : null)
       }
-      {tokenState?.step0 && !searchedList &&
-        userAddedTokens?.length
-        ? userAddedTokens.map((x: any) => {
-          let logoImg = getLogo(x);
-          return (
-            <div
-              className="tokn-row"
-              key={x?.address}
-              onClick={() => handleTokenSelect(x)}
-            >
-              <div className="cryoto-box">
-                <img
-                  className="img-fluid"
-                  width={32}
-                  src={logoImg}
-                  onError={imageOnErrorHandler}
-                  alt=""
-                />
-              </div>
-              <div className="tkn-grid">
-                <div>
-                  <h6 className="fw-bold">{x?.symbol}</h6>
-                  <p>{x?.name}</p>
+      {tokenState?.step0 && !searchedList && defaultfetched?.length ?
+        (<InfiniteScroll
+          dataLength={defaultfetched?.length}
+          next={() => { fetchData() }}
+          hasMore={true}
+          loader={<small>Loading...</small>}
+          endMessage={
+            <p style={{ textAlign: 'center' }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
+          scrollableTarget="scrollable-tokenList"
+          scrollThreshold="245px"
+        >
+
+          {defaultfetched.map((x: any) => {
+            let logoImg = getLogo(x);
+            return (
+              <div
+                className="tokn-row"
+                key={x?.address}
+                onClick={() => handleTokenSelect(x)}
+              >
+                <div className="cryoto-box">
+                  <img
+                    className="img-fluid"
+                    width={32}
+                    src={logoImg}
+                    onError={imageOnErrorHandler}
+                    alt=""
+                  />
                 </div>
-                {/* <div>
+                <div className="tkn-grid">
+                  <div>
+                    <h6 className="fw-bold">{x?.symbol}</h6>
+                    <p>{x?.name}</p>
+                  </div>
+                  {/* <div>
                       <h6 className="fw-bold">
                         {x?.balance ? x.balance : "00.00"}
                       </h6>
                     </div> */}
-              </div>
-            </div>)
-        })
+                </div>
+              </div>)
+          })}
+
+        </InfiniteScroll>)
         : null
       }
       {tokenState?.step0 && searchedList?.length != 0 &&
