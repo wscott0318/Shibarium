@@ -8,12 +8,13 @@ import { BONE_ID } from 'app/config/constant';
 import NumberFormat from 'react-number-format';
 import Delegators from './validator-details/Delegators';
 import Checkpoints from './validator-details/Checkpoints';
-import { addDecimalValue, checkImageType, web3Decimals } from "web3/commonFunctions";
+import { addDecimalValue, checkImageType } from "web3/commonFunctions";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { dynamicChaining } from "web3/DynamicChaining";
 import LoadingSpinner from 'pages/components/Loading';
 import * as Sentry from "@sentry/nextjs";
 import { ChainId, L1Block } from "app/hooks/L1Block";
+import { useWeb3Decimals } from "app/hooks/useTokenBalance";
 
 export default function ValidatorDetails() {
     const { account, library, chainId = 1 } = useActiveWeb3React()
@@ -24,7 +25,7 @@ export default function ValidatorDetails() {
     const [loading, setLoading] = useState<boolean>(false);
     const [totalSupply, setTotalSupply] = useState<number>(0)
     const [selfStaked, setSelfStaked] = useState<number>(0)
-
+    const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
     const router = useRouter()
     useEffect(() => {
         try {
@@ -66,8 +67,8 @@ export default function ValidatorDetails() {
             const web3 = L1Block();
             let instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[Cid]?.STAKE_MANAGER_PROXY);
             const valStake = await instance.methods.validators(id).call();
-            let finalAMount = (+valStake.amount + +valStake.delegatedAmount) / Math.pow(10, web3Decimals)
-            let selfStake = +valStake.amount / Math.pow(10, web3Decimals)
+            let finalAMount = (+valStake.amount + +valStake.delegatedAmount) / Math.pow(10, decimal)
+            let selfStake = +valStake.amount / Math.pow(10, decimal)
             console.log("getTotalSupply called again", valStake.amount , valStake.delegatedAmount);
             console.log(valStake ,"data ==> " , );
             setSelfStaked(selfStake);

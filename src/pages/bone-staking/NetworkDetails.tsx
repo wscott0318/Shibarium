@@ -7,12 +7,13 @@ import NumberFormat from 'react-number-format';
 // @ts-ignore
 import { ShimmerTitle } from "react-shimmer-effects";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json"
-import { addDecimalValue, web3Decimals } from 'web3/commonFunctions';
+import { addDecimalValue } from 'web3/commonFunctions';
 import { useWeb3React } from '@web3-react/core'
 import { dynamicChaining } from 'web3/DynamicChaining';
 import * as Sentry from "@sentry/nextjs";
 import { queryProvider } from 'Apollo/client';
 import { validators } from 'Apollo/queries';
+import { useWeb3Decimals } from 'app/hooks/useTokenBalance';
 
 function NetworkDetails({ valCount }: any) {
 
@@ -25,7 +26,7 @@ function NetworkDetails({ valCount }: any) {
   const { account, library, chainId = 1 } = useWeb3React()
   const web3test = PUPPYNET517();
   const web3test2 = L1Block();
-
+  const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
 
   // console.log(account,chainId, library, "web3 instance ===> ")
 
@@ -62,7 +63,7 @@ function NetworkDetails({ valCount }: any) {
       const totVals = await queryProvider.query({
         query: validators(),
       })
-      let stake = +ID.amount / Math.pow(10, web3Decimals)
+      let stake = +ID.amount / Math.pow(10, decimal)
       let vals = totVals.data.validators;
       let initialVal: any = 0;
       vals.forEach((element: any) => {
