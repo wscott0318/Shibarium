@@ -43,7 +43,6 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
     const sortAgain = slicedList.slice(0, pageSize).sort((a: any, b: any) => +(b.totalStaked) - +(a.totalStaked))
     setValidators(sortAgain)
   }, [searchResult])
-  // console.log("validatorsByStatus",validatorsByStatus)
 
   const fetchValidators = async () => {
     try {
@@ -54,8 +53,6 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
     catch (err: any) {
       Sentry.captureMessage("fetchValidators", err);
     }
-
-    // console.log(validators, " graphQL query ==== >")
   }
 
   useEffect(() => {

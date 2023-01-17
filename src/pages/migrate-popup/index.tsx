@@ -82,7 +82,6 @@ const MigratePopup: React.FC<any> = ({
 
 
   const migrateStake = async (values: any, data: any, migrateData: any) => {
-    console.log(values, data, migrateData);
     try {
       if (account && migrateData?.data?.migrateData?.id != data.validatorContractId) {
         setTransactionState({ state: true, title: "Pending" });
@@ -91,7 +90,6 @@ const MigratePopup: React.FC<any> = ({
         let fromId = migrateData?.data?.migrateData?.id;
         let toId = data.validatorContractId;
         let totalAmount = (values.balance) * Math.pow(10, decimal);
-        console.log("totalamount ", totalAmount);
         let Amount = fromExponential(web3.utils.toBN(totalAmount));
         let instance = new web3.eth.Contract(
           stakeManagerProxyABI,
@@ -168,7 +166,6 @@ const MigratePopup: React.FC<any> = ({
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureMessage("migrateStake ", err);
       }
-      console.log("error", err);
       setmigrateState(initialModalState);
       setmigratepop(false);
       setProcessing("Migrate");

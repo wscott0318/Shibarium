@@ -20,7 +20,7 @@ export const useWeb3Decimals = (address: any) => {
           setDecimal(d);
         });
     } catch (error: any) {
-        setDecimal(18);
+      setDecimal(18);
       Sentry.captureException("useWeb3Decimals ", error);
     }
   }, [library, account, address]);
@@ -98,7 +98,7 @@ export const getTokenBalance = async (
   account: any,
   address: any
 ) => {
-  var balance: any = 0;
+  let balance: any = 0;
   // console.log({library,account, address})
   if (library && account && address) {
     try {
