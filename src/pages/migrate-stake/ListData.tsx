@@ -11,11 +11,15 @@ import LoadingSpinner from 'pages/components/Loading';
 import { queryProvider } from 'Apollo/client';
 import { allValidatorsQuery } from 'Apollo/queries';
 import * as Sentry from '@sentry/nextjs'
-import { inActiveCount, web3Decimals } from 'web3/commonFunctions';
+import { inActiveCount } from 'web3/commonFunctions';
 import { useRouter } from 'next/router';
+import { useWeb3Decimals } from 'app/hooks/useTokenBalance';
+import { useActiveWeb3React } from 'app/services/web3';
+import { dynamicChaining } from 'web3/DynamicChaining';
 
 
 const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boolean }) => {
+  const { chainId=1} = useActiveWeb3React();
   const pageSize = 10;
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
@@ -31,6 +35,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
   const [sortKey, setSortKey] = useState<string>('Uptime');
   const [migrateData, setMigrateData] = useMigrateStake();
   const searchResult = useSearchFilter(validatorsByStatus, searchKey.trim());
+  const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
   // @ts-ignore
   const balance = migrateData?.data;
   useEffect(() => {
@@ -180,7 +185,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
                 </div>
                 <div className='bl-rt col-md-6'>
                   <p className='txt-xsm mb-0'>Added Rewards to your wallet</p>
-                  <div className='txt-sm'>{balance?.migrateData?.reward > 0 ? (parseInt('' + (+(balance?.migrateData?.reward) / 10 ** web3Decimals * 100)) / 100) : "0.00"} BONE</div>
+                  <div className='txt-sm'>{balance?.migrateData?.reward > 0 ? (parseInt('' + (+(balance?.migrateData?.reward) / 10 ** decimal * 100)) / 100) : "0.00"} BONE</div>
                 </div>
               </div>
             </div>

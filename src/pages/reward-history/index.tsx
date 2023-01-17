@@ -8,12 +8,13 @@ import Pagination from "app/components/Pagination";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import { useRouter } from "next/router";
 import { useUserType } from "../../state/user/hooks";
-import { addDecimalValue, getUserTimeZone, web3Decimals } from "web3/commonFunctions";
+import { addDecimalValue, getUserTimeZone } from "web3/commonFunctions";
 import { dynamicChaining } from 'web3/DynamicChaining';
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { queryProvider } from "Apollo/client";
 import { validatorRewardHistory } from "Apollo/queries";
 import * as Sentry from "@sentry/nextjs";
+import { useWeb3Decimals } from "app/hooks/useTokenBalance";
 
 export default function Unbond() {
 
@@ -27,7 +28,7 @@ export default function Unbond() {
   const [userType, setUserType] = useUserType();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [validatorData, setValidatorData] = useState<any>([])
-
+  const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
   const getRewardsList = async(account: any) => {
     try {
       await unbondRewards(account).then((res: any) => {
@@ -154,7 +155,7 @@ export default function Unbond() {
                           <td>
                             <span className="tb-data align">
                               {addDecimalValue(
-                                +(value?.amount) / Math.pow(10, web3Decimals)
+                                +(value?.amount) / Math.pow(10, decimal)
                               )}{" "}
                               Bone
                             </span>

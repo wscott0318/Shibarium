@@ -5,7 +5,6 @@ import { addDecimalValue } from 'web3/commonFunctions';
 
 const userAccount = ({ boneUSDValue, availBalance }: { boneUSDValue: any, availBalance: any }) => {
     const isLoading = availBalance == -1;
-    console.log("availbalance", availBalance);
     return (
         <section className="mid_cnt_area">
             <div className="container">

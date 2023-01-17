@@ -4,6 +4,8 @@ import { ChainId } from "shibarium-get-chains";
 import * as Sentry from "@sentry/nextjs";
 import { CHAINS, URL_ARRAY } from "../config/networks";
 import { useEffect, useState } from "react";
+import { ERC20_ABI } from "app/constants/abis/erc20";
+import { useActiveWeb3React } from "app/services/web3";
 
 export const getAllowanceAmount = async (library, token, account, contract) => {
   if (account) {
@@ -50,19 +52,15 @@ export const toFixedPrecent = 2;
 
 export const supportedChains = [5];
 
-export const web3Decimals = 18;
+// export const web3Decimals = 18;
 
 export const addDecimalValue = (value) => {
   let num = value % 1;
-  // if(num){
-    if (num > 0) {
-      return value.toFixed(tokenDecimal);
-    } else {
-      return value.toFixed(toFixedNull);
-    }
-  // } else {
-    // return "0.00"
-  // }
+  if (num > 0) {
+    return value.toFixed(tokenDecimal);
+  } else {
+    return value.toFixed(toFixedNull);
+  }
 };
 
 export const MAXAMOUNT = 100000;
@@ -197,10 +195,10 @@ export const clearCacheData = () => {
   //     caches.delete(name);
   //   });
   // });
-//   caches.keys().then(function(names) {
-//     for (let name of names)
-//         caches.delete(name);
-// });
+  //   caches.keys().then(function(names) {
+  //     for (let name of names)
+  //         caches.delete(name);
+  // });
   // self.addEventListener('activate', function(event) {
   //   event.waitUntil(
   //     caches.keys().then(function(cacheNames) {
@@ -215,23 +213,22 @@ export const clearCacheData = () => {
   // });
   self.addEventListener("activate", (event) => {
     const cachesToKeep = ["v2"];
-      console.log("in clearing cache")
-        event.waitUntil(
-          caches.keys().then((keyList) =>
-            Promise.all(
-              keyList.map((key) => {
-                if (!cachesToKeep.includes(key)) {
-                  return caches.delete(key);
-                }
-              })
-            )
-          )
-        );
+    console.log("in clearing cache");
+    event.waitUntil(
+      caches.keys().then((keyList) =>
+        Promise.all(
+          keyList.map((key) => {
+            if (!cachesToKeep.includes(key)) {
+              return caches.delete(key);
+            }
+          })
+        )
+      )
+    );
   });
 };
 
-
 export const getUserTimeZone = (time) => {
-  let date = new Date(time) 
-  return date.toLocaleString()
-}
+  let date = new Date(time);
+  return date.toLocaleString();
+};
