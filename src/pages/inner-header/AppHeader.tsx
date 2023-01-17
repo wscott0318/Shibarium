@@ -12,11 +12,12 @@ const AppHeader = () => {
 
   useEffect(() => {
     if (asPath) {
-      if (asPath === '/wallet') {
-        setTitle("Wallet")
-      } else if (asPath === '/bridge') {
-        setTitle("Bridge")
-      } else if (asPath === '/bone-staking') {
+      // if (asPath === '/wallet') {
+      //   setTitle("Wallet")
+      // } else if (asPath === '/bridge') {
+      //   setTitle("Bridge")
+      // } 
+      if (asPath === '/bone-staking') {
         setTitle("Staking")
       } else if (asPath === '/faucet') {
         setTitle("Faucet")
@@ -61,7 +62,7 @@ const AppHeader = () => {
                 Earn Puppy Net Faucets
               </span>
             </NavDropdown.Item>
-            <NavDropdown.Item onClick={() => router.push('/bridge', '/bridge', { shallow: true })}>
+            {/* <NavDropdown.Item onClick={() => router.push('/bridge', '/bridge', { shallow: true })}>
               <h6
                 className={
                   title === "Bridge"
@@ -72,7 +73,7 @@ const AppHeader = () => {
                 Bridge
               </h6>
               <span className="light-text">Deposit and withdraw between networks</span>
-            </NavDropdown.Item>
+            </NavDropdown.Item> */}
             </>
           )}
         </NavDropdown>
