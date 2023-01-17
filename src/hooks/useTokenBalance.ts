@@ -20,7 +20,7 @@ export const useWeb3Decimals = (address: any) => {
           setDecimal(d);
         });
     } catch (error: any) {
-      console.log(error);
+        setDecimal(18);
       Sentry.captureException("useWeb3Decimals ", error);
     }
   }, [library, account, address]);
