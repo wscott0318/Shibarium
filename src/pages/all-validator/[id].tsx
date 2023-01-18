@@ -26,6 +26,7 @@ export default function ValidatorDetails() {
     const [totalSupply, setTotalSupply] = useState<number>(0)
     const [selfStaked, setSelfStaked] = useState<number>(0)
     const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
+    // console.log("decimal  ==> " , typeof(decimal));
     const router = useRouter()
     useEffect(() => {
         try {
