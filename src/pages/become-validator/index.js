@@ -53,7 +53,7 @@ const Rewards = () => {
 
   const getValInfo = () => {
     let id = account;
-    getValidatorInfo(id.toLowerCase())
+    getValidatorInfo(id)
       .then((res) => {
         setBecomeValidateData({
           name: res?.data?.message?.val?.name,

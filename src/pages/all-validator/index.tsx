@@ -31,7 +31,7 @@ export const Allvalidator: React.FC = () => {
         setNodeSetup(valData.status)
       } else {
         let id : any = account
-        getValidatorInfo(id.toLowerCase()).then((res : any) => {
+        getValidatorInfo(id).then((res : any) => {
           // console.log(res.data.message.val?.status, " vall status ===> ")
           setNodeSetup(res.data.message.val?.status ? res.data.message.val?.status : null)
           setValInfoLoader(false)
@@ -105,7 +105,7 @@ export const Allvalidator: React.FC = () => {
                       //   router.push('/all-validator')
                       //  } 
                       onClick={executeScroll}
-                       className="btn  white-btn">Become a Delegator</button>
+                       className="btn white-btn">Become a Delegator</button>
                     </div>
                     <div className="btns-wrap">
                       <button onClick={()=>
@@ -132,7 +132,7 @@ export const Allvalidator: React.FC = () => {
                 <div className="col-md-7 col-sm-12">
                   <div className="lft-txt">
                     <h1 className="mb-2 mb-sm-3 mb-md-4 ff-mos">All Validators</h1>
-                    <div className="btns-sec mt-2">
+                    <div className="mt-2 btns-sec">
                       {renderButtons()}
                     </div>
                   </div>
