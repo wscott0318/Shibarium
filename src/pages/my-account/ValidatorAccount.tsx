@@ -25,7 +25,8 @@ import {
   currentGasPrice,
   getAllowanceAmount,
   USER_REJECTED_TX,
-  tokenDecimal
+  tokenDecimal,
+  web3Decimals
 } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { getExplorerLink } from "app/functions";
@@ -79,7 +80,7 @@ const validatorAccount = ({
   const { account, chainId = 1, library } = useActiveWeb3React();
   const lib: any = library;
   const web3: any = new Web3(lib?.provider);
-  const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
+  // const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
   const [delegationsList, setDelegationsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState<any>({});
   const [stakeMore, setStakeMoreModal] = useState(false);
@@ -111,7 +112,7 @@ const validatorAccount = ({
     dynasty: "",
     epoch: "",
   });
-  console.log(decimal , " value of d  ")
+  // console.log(web3Decimals , " value of d  ")
   useEffect(() => {
     if (userType === "Validator" && (+valId == 0 || valId == null)) {
       router.push("/bone-staking");
@@ -152,7 +153,7 @@ const validatorAccount = ({
       setComissionHandle({ dynasty, epoch });
       console.log({ dynasty, epoch });
 
-      const reward = addDecimalValue(valReward / Math.pow(10, decimal));
+      const reward = addDecimalValue(valReward / Math.pow(10, web3Decimals));
       setValidatorInfoContract(valFromContract);
       setValInfoContract(valFromContract)
       setValidatorTotalReward(reward);
@@ -398,7 +399,7 @@ const validatorAccount = ({
         );
 
         const amountWei = web3.utils.toBN(
-          fromExponential(+values.amount * Math.pow(10, decimal))
+          fromExponential(+values.amount * Math.pow(10, web3Decimals))
         );
         if (+values.amount > +allowance) {
           approveAmount(ID, amountWei, values.reward == 0 ? false : true);
@@ -476,7 +477,7 @@ const validatorAccount = ({
       if (account) {
         let user = account;
         let amount = web3.utils.toBN(
-          fromExponential(1000 * Math.pow(10, decimal))
+          fromExponential(1000 * Math.pow(10, web3Decimals))
         );
         let instance = new web3.eth.Contract(
           ERC20,
@@ -950,7 +951,7 @@ const validatorAccount = ({
       if (account) {
         let walletAddress = account;
         let amount = web3.utils.toBN(
-          fromExponential(+unboundInput * Math.pow(10, decimal))
+          fromExponential(+unboundInput * Math.pow(10, web3Decimals))
         );
         let instance = new web3.eth.Contract(
           ValidatorShareABI,
@@ -1061,7 +1062,7 @@ const validatorAccount = ({
         ? stakeAmounts.filter((x: any) => +(x.validatorId) === +id)[0]?.tokens
         : 0;
       return item > 0
-        ? addDecimalValue(parseInt(item) / 10 ** decimal)
+        ? addDecimalValue(parseInt(item) / 10 ** web3Decimals)
         : "0.00";
     } catch (err: any) {
       Sentry.captureException("getStake ", err);
@@ -1964,7 +1965,7 @@ const validatorAccount = ({
                                 {validatorInfoContract?.amount
                                   ? addDecimalValue(
                                     +validatorInfoContract?.amount /
-                                    10 ** decimal
+                                    10 ** web3Decimals
                                   )
                                   : "0.00"}
                               </span>{" "}
@@ -1978,7 +1979,7 @@ const validatorAccount = ({
                                   prefix="$ "
                                   value={addDecimalValue(
                                     (+validatorInfoContract?.amount /
-                                      10 ** decimal) *
+                                      10 ** web3Decimals) *
                                     boneUSDValue
                                   )}
                                 />
@@ -2001,7 +2002,7 @@ const validatorAccount = ({
                                 {validatorInfoContract?.delegatedAmount
                                   ? addDecimalValue(
                                     +validatorInfoContract?.delegatedAmount /
-                                    Math.pow(10, decimal)
+                                    Math.pow(10, web3Decimals)
                                   )
                                   : "0.00"}
                               </span>{" "}
@@ -2015,7 +2016,7 @@ const validatorAccount = ({
                                   prefix="$ "
                                   value={addDecimalValue(
                                     (+validatorInfoContract?.delegatedAmount /
-                                      Math.pow(10, decimal)) *
+                                      Math.pow(10, web3Decimals)) *
                                     boneUSDValue
                                   )}
 
@@ -2054,7 +2055,7 @@ const validatorAccount = ({
                                   displayType={"text"}
                                   prefix="$ "
                                   value={addDecimalValue(
-                                    (parseInt(validatorInfoContract?.delegatorsReward) / Math.pow(10, decimal)) *
+                                    (parseInt(validatorInfoContract?.delegatorsReward) / Math.pow(10, web3Decimals)) *
                                     boneUSDValue
                                   )}
                                 />
@@ -2270,7 +2271,7 @@ const validatorAccount = ({
                                     {+item.reward > 0
                                       ? (
                                         parseInt(item.reward) /
-                                        10 ** decimal
+                                        10 ** web3Decimals
                                       ).toFixed(tokenDecimal)
                                       : "0.00"}
                                   </div>
@@ -2286,7 +2287,7 @@ const validatorAccount = ({
                                       parseInt(item.commission) == comissionVal ||
                                       item.checkpointSignedPercent <
                                       checkpointVal ||
-                                      parseInt(item.reward) / 10 ** decimal <
+                                      parseInt(item.reward) / 10 ** web3Decimals <
                                       1 ||
                                       item.deactivationepoch === "true"
                                     }
@@ -2301,7 +2302,7 @@ const validatorAccount = ({
                                     {parseInt(item.commission) == comissionVal ||
                                       item.checkpointSignedPercent <
                                       checkpointVal ||
-                                      parseInt(item.reward) / 10 ** decimal <
+                                      parseInt(item.reward) / 10 ** web3Decimals <
                                       1 ? "Restaking is disabled." : "Restake your total rewards"}
 
                                   </div>
@@ -2311,7 +2312,7 @@ const validatorAccount = ({
                                 <div className="cus-tooltip d-inline-block">
                                   <button
                                     disabled={
-                                      parseInt(item.reward) / 10 ** decimal <
+                                      parseInt(item.reward) / 10 ** web3Decimals <
                                       1
                                     }
                                     onClick={() =>
@@ -2325,7 +2326,7 @@ const validatorAccount = ({
                                     Withdraw Rewards
                                   </button>
                                   <div className="tool-desc">
-                                    {parseInt(item.reward) / 10 ** decimal <
+                                    {parseInt(item.reward) / 10 ** web3Decimals <
                                       1 ? "Withdrawal is disabled." : "withdraw you total reward"}
 
                                   </div>

@@ -7,7 +7,7 @@ import { getExplorerLink } from "app/functions/explorer";
 import fromExponential from "from-exponential";
 import {
   toFixedPrecent,
-  USER_REJECTED_TX,currentGasPrice,tokenDecimal
+  USER_REJECTED_TX,currentGasPrice,tokenDecimal, web3Decimals
 } from "../../web3/commonFunctions";
 import CommonModal from "pages/components/CommonModel";
 import { useFormik } from "formik";
@@ -56,7 +56,7 @@ const MigratePopup: React.FC<any> = ({
   const [migrateData, setMigrateData] = useMigrateStake();
   const router = useRouter();
   const [processing, setProcessing] = useState("Migrate");
-  const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
+  // const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then((res) => {
       setBoneUSDValue(res.data.data.price);
@@ -89,7 +89,7 @@ const MigratePopup: React.FC<any> = ({
         let walletAddress: any = account;
         let fromId = migrateData?.data?.migrateData?.id;
         let toId = data.validatorContractId;
-        let totalAmount = (values.balance) * Math.pow(10, decimal);
+        let totalAmount = (values.balance) * Math.pow(10, web3Decimals);
         let Amount = fromExponential(web3.utils.toBN(totalAmount));
         let instance = new web3.eth.Contract(
           stakeManagerProxyABI,

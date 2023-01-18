@@ -14,7 +14,7 @@ import { useUserType } from "../../state/user/hooks";
 import { useRouter } from "next/router";
 import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
 import { useAppDispatch } from "../../state/hooks"
-import { currentGasPrice, getUserTimeZone, tokenDecimal, USER_REJECTED_TX } from "web3/commonFunctions";
+import { currentGasPrice, getUserTimeZone, tokenDecimal, USER_REJECTED_TX, web3Decimals } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 import { dynamicChaining } from "web3/DynamicChaining";
 import { CircularProgress } from "@material-ui/core";
@@ -43,7 +43,7 @@ export default function Unbond() {
   const [loader, setLoader] = useState(false);
   const [amntTransfer, setAmntTransfer] = useState(false);
   const [disabledClaim, setDisabledClaim] = useState<any>([]);
-  const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
+  // const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
   const getValidatorContractAddress = async (validatorID: any) => {
     try {
       let user = account;
@@ -325,7 +325,7 @@ export default function Unbond() {
                   </div>
                   <div className="dark-bg-800 p-2 p-sm-3 text-center">
                     <p className="lite-color fw-600">Stake to claim</p>
-                    <h3>{claimNowModals?.data?.amount ? parseInt(claimNowModals?.data?.amount) / 10 ** decimal + " BONE " : null} </h3>
+                    <h3>{claimNowModals?.data?.amount ? parseInt(claimNowModals?.data?.amount) / 10 ** web3Decimals + " BONE " : null} </h3>
                     {/* <p className="lite-color fw-600">$8.17</p> */}
                   </div>
                   {/* <div className="arrow-block mt-2 mt-sm-3">

@@ -9,7 +9,7 @@ import { addTransaction, finalizeTransaction } from 'app/state/transactions/acti
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { useAppDispatch } from "../../state/hooks";
 import fromExponential from 'from-exponential';
-import { addDecimalValue, currentGasPrice, getAllowanceAmount, stakeForErrMsg, USER_REJECTED_TX } from "web3/commonFunctions";
+import { addDecimalValue, currentGasPrice, getAllowanceAmount, stakeForErrMsg, USER_REJECTED_TX, web3Decimals } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { MAXAMOUNT,checkImageType } from "../../web3/commonFunctions";
 import { useEthBalance } from '../../hooks/useEthBalance';
@@ -39,7 +39,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const tokenBalance = useTokenBalance(dynamicChaining[chainId].BONE);
   const availBalance = chainId === ChainId.SHIBARIUM ? ethBalance : tokenBalance;
   const isLoading = availBalance == -1;
-  const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
+  // const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
   let schema = yup.object().shape({
     amount: yup.number()
       .typeError("Only digits are allowed.")
@@ -70,8 +70,8 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
         const MinimumFees = await instance.methods.minDeposit().call({ from: user }); // read
         const MinimumHeimDallFee = await instance.methods.minHeimdallFee().call({ from: user }); // read
-        const fees = +MinimumFees / 10 ** decimal
-        const feesHeimdall = +MinimumHeimDallFee / 10 ** decimal
+        const fees = +MinimumFees / 10 ** web3Decimals
+        const feesHeimdall = +MinimumHeimDallFee / 10 ** web3Decimals
         setMinDeposit(fees)
         setMinHeimdallFee(feesHeimdall)
       }
@@ -84,11 +84,10 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
   const checkPubKey = async (values: any) => {
     try {
-      console.log(decimal, decimal)
       const user: any = account
-      const amount = web3.utils.toBN(fromExponential((parseInt(values.amount) - 1) * Math.pow(10, decimal)));
+      const amount = web3.utils.toBN(fromExponential((parseInt(values.amount) - 1) * Math.pow(10, web3Decimals)));
       const acceptDelegation = 1
-      const heimdallFee = web3.utils.toBN(fromExponential(minHeimdallFee * Math.pow(10, decimal)));
+      const heimdallFee = web3.utils.toBN(fromExponential(minHeimdallFee * Math.pow(10, web3Decimals)));
       const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
       await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).estimateGas({ from: user }).
       then((gas:any) => {
@@ -173,9 +172,9 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const submitTransaction = async (values: any) => {
     try {
       const user: any = account
-      const amount = web3.utils.toBN(fromExponential((parseInt(values.amount) - 1) * Math.pow(10, decimal)));
+      const amount = web3.utils.toBN(fromExponential((parseInt(values.amount) - 1) * Math.pow(10, web3Decimals)));
       const acceptDelegation = 1
-      const heimdallFee = web3.utils.toBN(fromExponential(minHeimdallFee * Math.pow(10, decimal)));
+      const heimdallFee = web3.utils.toBN(fromExponential(minHeimdallFee * Math.pow(10, web3Decimals)));
       const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
       const gasFee = await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).estimateGas({ from: user })
       const encodedAbi = await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).encodeABI()
