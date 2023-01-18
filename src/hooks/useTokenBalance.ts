@@ -17,7 +17,7 @@ export const useWeb3Decimals = (address: any) => {
         .decimals()
         .call()
         .then((d: number) => {
-          setDecimal(+d);
+          setDecimal(18);
         });
     } catch (error: any) {
       setDecimal(18);
