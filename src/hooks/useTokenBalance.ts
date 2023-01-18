@@ -17,7 +17,6 @@ export const useWeb3Decimals = (address: any) => {
         .decimals()
         .call()
         .then((d: number) => {
-          console.log("type of decimal => " , typeof(+d))
           setDecimal(18);
         });
     } catch (error: any) {
@@ -45,7 +44,6 @@ export const useTokenBalance = (address: string) => {
               .decimals()
               .call()
               .then((d: number) => {
-                console.log("type of in balance => " , typeof(d));
                 setBalance(+(+res / Math.pow(10, d)).toFixed(tokenDecimal));
               });
           })
