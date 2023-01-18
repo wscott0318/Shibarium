@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState,useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CommonModal from "../components/CommonModel";
 import InnerHeader from "../../pages/inner-header";
 import Sidebar from "../layout/sidebar"
@@ -8,6 +8,7 @@ import axios from "axios";
 import { useActiveWeb3React } from "app/services/web3";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useRouter } from "next/router";
+import { Form } from "react-bootstrap";
 
 export default function faucet() {
   const [isTopdoG, setIsTopdoG] = useState(true);
@@ -16,6 +17,7 @@ export default function faucet() {
   const [menuState, setMenuState] = useState(false);
   const router = useRouter()
   const captchaRef = useRef<any>(null)
+  const [selectedChain, setSelectedChain] = useState(1);
   const [modalState, setModalState] = useState({
     pending: true,
     done: false,
@@ -26,13 +28,15 @@ export default function faucet() {
   const handleMenuState = () => {
     setMenuState(!menuState);
   }
-
+  const handleChange = (e: any) => {
+    setSelectedChain(e.target.value);
+  }
   useEffect(() => {
-    if(!account){
+    if (!account) {
       router.back()
     }
   }, [account])
-  
+
   const handleTopdoG = () => {
     setIsTopdoG(true);
     setIsPuppyDog(false);
@@ -48,7 +52,7 @@ export default function faucet() {
       done: false,
       hash: ''
     })
-    await axios.get(`https://dev-faucet.hailshiba.com/api/faucet/${account}`)
+    await axios.get(`https://dev-faucet.hailshiba.com/api/faucet/${account}?type=${selectedChain}`)
       .then((res: any) => {
         // console.log(res.data)
         setModalState({
@@ -65,17 +69,17 @@ export default function faucet() {
           hash: ''
         })
       })
-     
+
   }
 
   const [clickedCaptcha, setClickedCaptcha] = useState(false)
 
   const handleCaptcha = (e: any) => {
-  
+
     // console.log("receptcha event ", e)
     setClickedCaptcha(true);
   }
-  
+
   return (
     <>
       <main className="main-content">
@@ -116,6 +120,28 @@ export default function faucet() {
                         <form>
                           <div className="botom-spc">
                             <div className="form-group">
+                              {/* <div className="form-field dark-input mb-2">
+                                <div className="mid-chain w-100 position-relative"> */}
+                                  <Form.Select
+                                    name="toChain"
+                                    defaultValue={selectedChain}
+                                    value={selectedChain}
+                                    onChange={handleChange}
+                                    style={{
+                                      background: '#0c0f17',
+                                      border: 'none',
+                                      color: '#fff',
+                                      marginBottom:"10px",
+                                      height:"41px"
+                                    }}
+                                  >
+                                    <option value="1">Goerli</option>
+                                    <option value="2">Puppy Net</option>
+                                  </Form.Select>
+                                </div>
+                              {/* </div>
+                            </div> */}
+                            <div className="form-group">
                               <div className="form-field dark-input">
                                 <div className="mid-chain w-100 position-relative">
                                   <input
@@ -140,7 +166,7 @@ export default function faucet() {
                             <ReCAPTCHA
                               sitekey='6LdDZXQiAAAAAPUZI155WAGKKhM1vACSu05hOLGP'
                               onChange={handleCaptcha}
-                              onExpired={()=>setClickedCaptcha(false)}
+                              onExpired={() => setClickedCaptcha(false)}
                             />
                           </div>
                         </form>
