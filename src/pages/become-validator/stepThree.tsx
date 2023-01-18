@@ -442,6 +442,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                   type="text"
                   className="mb-2 form-control"
                   placeholder="00.00"
+                  name="amount"
                   value={values.amount}
                   readOnly={availBalance <= 0}
                   onChange={handleChange("amount")}
@@ -451,7 +452,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                   className="absolute MaxAmountButton orange-txt fw-bold amt-val max-bdge"
                   onClick={() => {
                     setFieldValue(
-                      "text",(addDecimalValue(+(availBalance - 0.000001).toString()))
+                      "amount",(addDecimalValue(+(availBalance - 0.000001).toString()))
                     );
                   }}
                 >
