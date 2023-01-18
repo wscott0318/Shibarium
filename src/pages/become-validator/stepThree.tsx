@@ -84,6 +84,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
   const checkPubKey = async (values: any) => {
     try {
+      console.log(decimal, decimal)
       const user: any = account
       const amount = web3.utils.toBN(fromExponential((parseInt(values.amount) - 1) * Math.pow(10, decimal)));
       const acceptDelegation = 1
@@ -337,7 +338,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       <ToastContainer />
       <div className="progress-tab">
         <div className="mb-4 mb-xl-5">
-          <h5 className="fw-700 mb-2 ff-mos">Add your stake amount</h5>
+          <h5 className="mb-2 fw-700 ff-mos">Add your stake amount</h5>
           <p className="ff-mos">Please provide your stake amount detail here</p>
         </div>
         <div className="row">
@@ -437,10 +438,10 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                   Additional 1 Bone will be deducted for Heimdall fee
                 </div>
               </label>
-              <div className="maxButtonFloat relative">
+              <div className="relative maxButtonFloat">
                 <input
                   type="text"
-                  className=" mb-2 form-control"
+                  className="mb-2 form-control"
                   placeholder="00.00"
                   value={values.amount}
                   readOnly={availBalance <= 0}
@@ -448,7 +449,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                 />
                 <button
                   disabled={availBalance <= 0}
-                  className="MaxAmountButton orange-txt fw-bold amt-val max-bdge absolute"
+                  className="absolute MaxAmountButton orange-txt fw-bold amt-val max-bdge"
                   onClick={() => {
                     setFieldValue(
                       "text",(addDecimalValue(+(availBalance - 0.000001).toString()))
@@ -483,7 +484,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
             </div>
           </div>
         </div>
-        <div className="btn-wrap col-sm-5 mt-4 flx">
+        <div className="mt-4 btn-wrap col-sm-5 flx">
           <button
             type="button"
             className="btn grey-btn w-100"
