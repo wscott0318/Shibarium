@@ -1643,7 +1643,7 @@ const validatorAccount = ({
                   </div>
                 </div>
                 <div className="mb-4 center-align">
-                  <h5 className="text-center ff-mos">
+                  <h5 className="text-center">
                     Are you sure you want to unbound?
                   </h5>
                 </div>
@@ -1651,8 +1651,8 @@ const validatorAccount = ({
                   {/* old input */}
                   <div className="form-group float-group sec-format">
                     <div className="flex-wrap d-flex justify-content-between">
-                      <h6 className="mb-1 ff-mos">Withdraw Stake</h6>
-                      <h6 className="mb-1 ff-mos">
+                      <h6 className="mb-1">Withdraw Stake</h6>
+                      <h6 className="mb-1">
                         {unboundModal.stakeAmount} Bone
                       </h6>
                     </div>
@@ -1662,11 +1662,11 @@ const validatorAccount = ({
                           value={unboundInput}
                           onChange={(e) => { setUnboundInput(e.target.value) }}
                           type="number"
-                          className="w-100 form-control ff-mos"
+                          className="w-100 form-control"
                           placeholder="Enter amount"
                         />
                         <span
-                          className="primary-text over-text fw-600 ff-mos"
+                          className="primary-text over-text fw-600 "
                           style={{ cursor: "pointer" }}
                           onClick={() =>
                             setUnboundInput(unboundModal.stakeAmount)
@@ -1677,16 +1677,16 @@ const validatorAccount = ({
                       </div>
                     </div>
                   </div>
-                  <p className="mt-1 mb-0 info-txt ff-mos">
+                  <p className="mt-1 mb-0 info-txt">
                     Your Funds will be locked for{" "}
-                    <p className="dark-text primary-text ff-mos">Checkpoints</p>
+                    <p className="dark-text primary-text">Checkpoints</p>
                   </p>
                 </div>
                 <button
                   onClick={() => unboundDelegator()}
                   disabled={unboundInput > 0 ? false : true}
                   type="button"
-                  className="mt-3 btn primary-btn mt-sm-4 w-100 ff-mos"
+                  className="mt-3 btn primary-btn mt-sm-4 w-100"
                 >
                   Confirm Unbound
                 </button>

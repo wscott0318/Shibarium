@@ -181,7 +181,7 @@ const Rewards = () => {
           <div className="container">
             <div className="section-info">
               <h1 className="text-white trs-6 fw-500 ff-mos">
-                Become a validator
+                {stepState.step4 ? "Setup Complete" : "Become a validator"}
               </h1>
             </div>
           </div>
