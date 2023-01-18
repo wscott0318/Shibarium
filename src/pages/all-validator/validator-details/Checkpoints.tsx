@@ -30,7 +30,6 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue, loading })
       Sentry.captureMessage("pageChangeHandler", err);
     }
   }
-  console.log("checkpoints " , checkpoints);
   return (
     <>
       <div className="h-auto p-4 mb-4 cus-card mb-lg-5">
