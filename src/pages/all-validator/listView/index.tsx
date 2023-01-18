@@ -30,6 +30,12 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
       }
     }
   }
+  const imageOnErrorHandler = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
+    event.currentTarget.className = "error";
+  };
   return (
     <>
       <DelegatePopup
@@ -71,6 +77,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                                 ? x.logoUrl
                                 : "../../assets/images/shiba-round-icon.png"
                             }
+                            onError={imageOnErrorHandler}
                           // src={imagUrlChecking(x.logoUrl)}
                           />
                         </span>

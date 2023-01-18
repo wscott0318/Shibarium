@@ -54,7 +54,6 @@ export default function faucet() {
     })
     await axios.get(`https://dev-faucet.hailshiba.com/api/faucet/${account}?type=${selectedChain}`)
       .then((res: any) => {
-        // console.log(res.data)
         setModalState({
           pending: false,
           done: true,
@@ -62,7 +61,6 @@ export default function faucet() {
         })
         window.location.reload();
       }).catch((err) => {
-        // console.log(err)
         setModalState({
           pending: false,
           done: true,
@@ -126,13 +124,13 @@ export default function faucet() {
                                     name="toChain"
                                     defaultValue={selectedChain}
                                     value={selectedChain}
+                                    className="form-field"
                                     onChange={handleChange}
                                     style={{
                                       background: '#0c0f17',
                                       border: 'none',
                                       color: '#fff',
-                                      marginBottom:"10px",
-                                      height:"41px"
+                                      marginBottom:"10px"
                                     }}
                                   >
                                     <option value="1">Goerli</option>

@@ -24,6 +24,12 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
       else return <div className="tool-desc tool-desc-grid">Delegate here.</div>
     }
   }
+  const imageOnErrorHandler = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
+    event.currentTarget.className = "error me-3";
+  };
   return (
     <>
       <DelegatePopup
@@ -56,6 +62,7 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
                                   ? validator.logoUrl
                                   : "../../assets/images/shiba-round-icon.png"
                               }
+                              onError={imageOnErrorHandler}
                               alt="logo"
                               className="me-3"
                             />

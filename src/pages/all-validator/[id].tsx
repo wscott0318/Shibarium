@@ -87,6 +87,12 @@ export default function ValidatorDetails() {
         else if (uptime >=70) return 'Okay';
         return 'Bad';
     }
+    const imageOnErrorHandler = (
+        event: React.SyntheticEvent<HTMLImageElement, Event>
+      ) => {
+        event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
+        event.currentTarget.className = "img-fluid error";
+      };
     return (
         <>
             <Header />
@@ -100,7 +106,7 @@ export default function ValidatorDetails() {
                             <div className="mb-4 col-sm-5 col-lg-5 col-xl-4 mb-sm-0">
                                 <div className="text-center shib-card card h-100 p-3">
                                     <div className='image-wrap'>
-                                        <img className='img-fluid' src={validatorInfo?.logoUrl ? checkImageType(validatorInfo?.logoUrl) : "../../assets/images/shib-borderd-icon.png"} alt="fundborn-img" width={50} />
+                                        <img className='img-fluid' onError={imageOnErrorHandler} src={validatorInfo?.logoUrl ? checkImageType(validatorInfo?.logoUrl) : "../../assets/images/shib-borderd-icon.png"} alt="fundborn-img" width={50} />
                                     </div>
                                     <h4 className='py-2 mt-2'>
                                         <span className='text-white trs-3 ff-mos'>{validatorInfo?.name}</span>

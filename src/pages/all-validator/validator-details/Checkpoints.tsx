@@ -30,6 +30,7 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue, loading })
       Sentry.captureMessage("pageChangeHandler", err);
     }
   }
+  console.log("checkpoints " , checkpoints);
   return (
     <>
       <div className="h-auto p-4 mb-4 cus-card mb-lg-5">
@@ -49,7 +50,7 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue, loading })
                 </tr>
               </thead>
               <tbody>
-                {checkpoints?.length ? (
+                {!loading ? (checkpoints?.length > 0 && (
                   checkpoints.map((checkpoint: any, i: any) => (
                     <tr key={checkpoint.checkpointNumber}>
                       <td>
@@ -74,7 +75,7 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue, loading })
                       </td>
                     </tr>
                   ))
-                ) : (
+                )) : (
                   <tr>
                     <td colSpan={5}>
                       <DynamicShimmer type={"table"} rows={13} cols={5} />
