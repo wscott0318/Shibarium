@@ -11,6 +11,7 @@ import { BONE_ID } from '../../config/constant';
 import {useEthBalance} from '../../hooks/useEthBalance';
 import {useTokenBalance, useWeb3Decimals} from '../../hooks/useTokenBalance';
 import { dynamicChaining } from "web3/DynamicChaining";
+import {web3Decimals} from "../../web3/commonFunctions"
 
 
 export default function MyAcount() {
@@ -23,7 +24,7 @@ export default function MyAcount() {
   const ethBal = useEthBalance();
   const tokenBal = useTokenBalance(dynamicChaining[chainId].BONE);
   const availBalance = tokenBal ;
-  const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
+  // const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
 
   let isloading = availBalance == -1;
   useEffect(() => {
@@ -41,7 +42,7 @@ export default function MyAcount() {
   },[account])
 
   const getDelegatorAmount = (data) => {
-    setDelegatorData({stakes: (data.totalStake) / 10 ** decimal, rewards: data.totalReward / 10 ** decimal})
+    setDelegatorData({stakes: (data.totalStake) / 10 ** web3Decimals, rewards: data.totalReward / 10 ** web3Decimals})
   }
   
 

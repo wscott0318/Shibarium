@@ -52,7 +52,7 @@ export const toFixedPrecent = 2;
 
 export const supportedChains = [5];
 
-// export const web3Decimals = 18;
+export const web3Decimals = 18;
 
 export const addDecimalValue = (value) => {
   let num = value % 1;
