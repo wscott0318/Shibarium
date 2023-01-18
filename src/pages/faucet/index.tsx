@@ -133,8 +133,8 @@ export default function faucet() {
                                       marginBottom:"10px"
                                     }}
                                   >
-                                    <option value="1">Goerli</option>
-                                    <option value="2">Puppy Net</option>
+                                    <option value="1">Goerli BONE</option>
+                                    <option value="2">Puppy Net BONE</option>
                                   </Form.Select>
                                 </div>
                               {/* </div>
