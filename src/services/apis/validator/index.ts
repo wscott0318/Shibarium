@@ -4,8 +4,8 @@ import {RetakeFormInterface} from "../../../interface/reTakeFormInterface"
 export function validatorsList(name:string,requestOptions:any){
     return http.get(`validators/getList?value=${name}`,requestOptions)
 }
-export function migrateValidatorsList(requestOptions:any){
-    return http.get(`validators/getMigrationList`,requestOptions)
+export function migrateValidatorsList(name:string ,requestOptions:any){
+    return http.get(`validators/getMigrationList?value=${name}`,requestOptions)
 }
 export function restake(reqBody:RetakeFormInterface){
     return http.post(`validators/restake`,reqBody)

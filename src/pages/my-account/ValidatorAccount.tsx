@@ -1143,6 +1143,7 @@ const validatorAccount = ({
                         <input
                           type="text"
                           placeholder="Amount"
+                          name="amount"
                           className="w-100"
                           value={values.amount}
                           onChange={handleChange("amount")}
@@ -1162,8 +1163,8 @@ const validatorAccount = ({
                             className="orange-txt fw-bold"
                             onClick={() => {
                               setFieldValue(
-                                "text",
-                                ((availBalance - 0.000001).toString())
+                                "amount",
+                                (availBalance)
                               );
                             }}
                           >

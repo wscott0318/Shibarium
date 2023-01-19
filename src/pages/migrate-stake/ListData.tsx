@@ -16,10 +16,11 @@ import { useRouter } from 'next/router';
 import { useWeb3Decimals } from 'app/hooks/useTokenBalance';
 import { useActiveWeb3React } from 'app/services/web3';
 import { dynamicChaining } from 'web3/DynamicChaining';
+import { SearchIcon, XCircleIcon } from '@heroicons/react/outline';
 
 
 const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boolean }) => {
-  const { chainId=1} = useActiveWeb3React();
+  const { chainId = 1 } = useActiveWeb3React();
   const pageSize = 10;
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
@@ -34,16 +35,15 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
   const [userType, setUserType] = useUserType()
   const [sortKey, setSortKey] = useState<string>('Uptime');
   const [migrateData, setMigrateData] = useMigrateStake();
-  const searchResult = useSearchFilter(validatorsByStatus, searchKey.trim());
+  // const searchResult = useSearchFilter(validatorsByStatus, searchKey.trim());
   const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
   // @ts-ignore
   const balance = migrateData?.data;
-  useEffect(() => {
-    const slicedList = searchResult.slice(0, pageSize).sort((a: any, b: any) => +(b.uptimePercent) - +(a.uptimePercent))
-    const sortAgain = slicedList.slice(0, pageSize).sort((a: any, b: any) => +(b.totalStaked) - +(a.totalStaked))
-    setValidators(sortAgain)
-  }, [searchResult])
-  console.log("decimal => " , decimal);
+  // useEffect(() => {
+  //   const slicedList = searchResult.slice(0, pageSize).sort((a: any, b: any) => +(b.uptimePercent) - +(a.uptimePercent))
+  //   const sortAgain = slicedList.slice(0, pageSize).sort((a: any, b: any) => +(b.totalStaked) - +(a.totalStaked))
+  //   setValidators(sortAgain)
+  // }, [searchResult])
   const fetchValidators = async () => {
     try {
       const validators = await queryProvider.query({
@@ -54,7 +54,6 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
       Sentry.captureMessage("fetchValidators", err);
     }
   }
-
   useEffect(() => {
     if (userType != "Delegator") {
       router.push('/bone-staking')
@@ -81,27 +80,32 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
         method: 'GET',
         redirect: 'follow'
       }
-      await migrateValidatorsList(requestOptions)
+      await migrateValidatorsList(searchKey, requestOptions)
         .then((res: any) => {
           setLoading(false)
           setLoadingVal(false);
+          console.log("res => " , res);
           if (res.status == 200) {
-            setAllValidators(res.data.data.validatorsList);
-            let activeList = filter(
-              res.data.data.validatorsList,
-              (e) => e.uptimePercent !== 0
-            );
-            // console.log(activeList)
+            setAllValidators(res.data.validatorsList);
+            let activeList :any;
+            if (searchKey != "") {
+              activeList = filter(
+                res.data.validatorsList,
+                (e) => e.uptimePercent !== 0
+              );
+            }
+            else {
+              setAllValidators(res.data.validatorsList);
+              activeList = filter(
+                res.data.validatorsList,
+                (e) => e.uptimePercent !== 0
+              );
+            }
             if (withStatusFilter) {
               setValidatorsByStatus(activeList);
               const slicedList = activeList.slice(0, pageSize)
-              setValidators(slicedList)
+              setValidators(slicedList);
             }
-            //  else {
-            //   setValidatorsByStatus(activeList);
-            //   const slicedList = activeList.slice(0, pageSize)
-            //   setValidators(slicedList)
-            // }
           }
         })
         .catch((err: any) => {
@@ -115,9 +119,9 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
     }
   }
   useEffect(() => {
-    getMigrateValidators();
+    if(searchKey == "" ) getMigrateValidators();
     fetchValidators()
-  }, []);
+  }, [searchKey]);
 
   useEffect(() => {
     let filtered = []
@@ -200,16 +204,16 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
             </div>
           </div>}
           <div className="filter-row ff-mos">
-            <div className="left-section icn-wrap">
+          <div className="left-section icn-wrap d-flex justify-content-between">
               <input
-                className="custum-search w-100"
+                className="custum-search w-100 me-2 "
                 type="search "
                 placeholder="Search By Validator Name or Validator Address"
                 value={searchKey}
                 onChange={(e) => setSearchKey(e.target.value)}
               />
-              {searchKey ? <div className='icon-block' onClick={() => setSearchKey("")}><img className="white-icon img-fluid" src="../../assets/images/cross-icon.png" /></div> : null}
-
+              <div className={`search-icon-block btn btn-active black-btn ff-mos ${!searchKey && "disabled"}`} onClick={() => getMigrateValidators()}><SearchIcon width={20} /></div>
+              {searchKey ? <div className='icon-block custom-icon-block' onClick={() => setSearchKey("")}><XCircleIcon width={20} color={'black'} /></div> : null}
             </div>
             <div className="right-section">
               {/* <div className="switch-sec">
@@ -262,7 +266,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
             </div>
           )}
           {isListView && validatorsList.length ? <div className='mt-sm-4 mt-3'>
-            <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={searchKey ? searchResult.length : validatorsByStatus.length || 1} currentPage={currentPage} />
+            <Pagination onPageChange={pageChangeHandler} pageSize={pageSize} totalCount={validatorsByStatus.length || 1} currentPage={currentPage} />
           </div> : null
           }
         </div>
