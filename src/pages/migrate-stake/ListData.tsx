@@ -35,7 +35,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
   const [sortKey, setSortKey] = useState<string>('Uptime');
   const [migrateData, setMigrateData] = useMigrateStake();
   const searchResult = useSearchFilter(validatorsByStatus, searchKey.trim());
-  // const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
+  const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
   // @ts-ignore
   const balance = migrateData?.data;
   useEffect(() => {
@@ -43,7 +43,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
     const sortAgain = slicedList.slice(0, pageSize).sort((a: any, b: any) => +(b.totalStaked) - +(a.totalStaked))
     setValidators(sortAgain)
   }, [searchResult])
-
+  console.log("decimal => " , decimal);
   const fetchValidators = async () => {
     try {
       const validators = await queryProvider.query({
