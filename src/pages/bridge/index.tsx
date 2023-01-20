@@ -879,7 +879,7 @@ export default function Withdraw() {
                         />
                         <p className="ps-2">Approve Deposit</p>
                       </div>
-                      <div className="col-5 text-end"><small className="text-md">~</small><NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(allowance * boneUSDValue).toFixed(4)} />
+                      <div className="col-5 text-end"><small className="text-md">~</small><NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(allowance * boneUSDValue).toFixed(6)} />
                       </div>
                     </div>
                     <div className="row pt-2">
@@ -899,7 +899,7 @@ export default function Withdraw() {
                       </div>
                       <div className="col-5 text-end">
                         <small className="text-md">~</small>
-                        <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(4)} />
+                        <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(6)} />
                       </div>
                     </div>
                   </div>
@@ -1024,7 +1024,7 @@ export default function Withdraw() {
                       <div>
                         <p className="fw-bold">
                         <small className="text-md">~</small>
-                          <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={estGas * boneUSDValue} />
+                          <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(6)} />
                         </p>
                       </div>
                     </div>
