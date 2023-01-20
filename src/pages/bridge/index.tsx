@@ -9,7 +9,7 @@ import CommonModal from "../components/CommonModel";
 import InnerHeader from "../inner-header";
 import Link from "next/link";
 import Sidebar from "../layout/sidebar";
-import { getWalletTokenList ,getBoneUSDValue} from "../../services/apis/validator/index";
+import { getWalletTokenList, getBoneUSDValue } from "../../services/apis/validator/index";
 import { getTokenBalance } from "../../hooks/useTokenBalance";
 import { useActiveWeb3React } from "../../services/web3";
 import { BONE_ID } from "../../config/constant";
@@ -24,7 +24,7 @@ import {
 import { useAppDispatch } from "../../state/hooks";
 import fromExponential from "from-exponential";
 import { getExplorerLink } from "app/functions";
-import { currentGasPrice, getAllowanceAmount, USER_REJECTED_TX ,tokenDecimal} from "web3/commonFunctions";
+import { currentGasPrice, getAllowanceAmount, USER_REJECTED_TX, tokenDecimal, addDecimalValue, web3Decimals } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -33,7 +33,8 @@ import * as Sentry from "@sentry/nextjs";
 import { NETWORK_ICON, NETWORK_LABEL } from "../../config/networks";
 import { dynamicChaining } from "web3/DynamicChaining";
 import ManageToken from "../components/ManageToken"
-import Comingsoon from "app/components/coming-soon";
+import { X, Check } from "react-feather";
+import { ArrowCircleLeftIcon } from "@heroicons/react/outline";
 
 export default function Withdraw() {
   const { chainId = 1, account, library } = useActiveWeb3React();
@@ -52,23 +53,26 @@ export default function Withdraw() {
   const [showTokenModal, setTokenModal] = useState(false);
   const [depositTokenInput, setDepositTokenInput] = useState("");
   const [withdrawTokenInput, setWithdrawTokenInput] = useState("");
+  const [amountApproval, setAmountApproval] = useState(false);
+  const [allowance, setAllowance] = useState(0);
   const [dWState, setDWState] = useState(
     bridgeType === "deposit" ? true : false
   );
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const [hashLink, setHashLink] = useState("");
   const [newToken, addNewToken] = useState("");
+  const [estGas, setEstGas] = useState<any>(0);
   const [openManageToken, setOpenManageToken] = useState(false)
   const handleMenuState = () => {
     setMenuState(!menuState);
   };
   const router = useRouter();
-
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then((res) => {
       setBoneUSDValue(res.data.data.price);
     });
   }, [account]);
+  console.log("bone usd value ", boneUSDValue);
 
   const [withModalState, setWidModState] = useState({
     step0: true,
@@ -82,7 +86,9 @@ export default function Withdraw() {
     step0: true,
     step1: false,
     step2: false,
-    title: "Confirm deposit",
+    step3: false,
+    step4: false,
+    title: "Please Note",
   });
   const [tokenState, setTokenState] = useState({
     step0: true,
@@ -104,9 +110,9 @@ export default function Withdraw() {
     parentSymbol: "",
     symbol: "",
     key: "",
-    logoURI:""
+    logoURI: ""
   });
-  const getTokensList = async() => {
+  const getTokensList = async () => {
     try {
       await getWalletTokenList().then((res) => {
         let list = res.data.message.tokens;
@@ -155,14 +161,14 @@ export default function Withdraw() {
       .required("Amount is required."),
   });
 
-  const approvalForDeposit = (amount: any, token: any, contract: any) => {
+  const approvalForDeposit = async (amount: any, token: any, contract: any) => {
     try {
       let user: any = account;
       const amountWei = web3.utils.toBN(
         fromExponential(1000 * Math.pow(10, 18))
       );
       let instance = new web3.eth.Contract(ERC20, token);
-      instance.methods
+      await instance.methods
         .approve(contract, amountWei)
         .send({ from: user })
         .on("transactionHash", (res: any) => {
@@ -175,6 +181,7 @@ export default function Withdraw() {
               summary: `${res}`,
             })
           );
+          setAmountApproval(true);
         })
         .on("receipt", (res: any) => {
           // console.log(res, "receipt")
@@ -194,62 +201,6 @@ export default function Withdraw() {
               },
             })
           );
-          // call deposit contract
-          let instance = new web3.eth.Contract(
-            depositManagerABI,
-            dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-          );
-          instance.methods
-            .depositERC20(dynamicChaining[chainId].BONE, user, amount)
-            .send({ from: account })
-            .on("transactionHash", (res: any) => {
-              dispatch(
-                addTransaction({
-                  hash: res,
-                  from: user,
-                  chainId,
-                  summary: `${res}`,
-                })
-              );
-              let link = getExplorerLink(chainId, res, "transaction");
-              setHashLink(link);
-              setDepModState({
-                step0: false,
-                step1: false,
-                step2: true,
-                title: "Transaction Submitted",
-              });
-            })
-            .on("receipt", (res: any) => {
-              dispatch(
-                finalizeTransaction({
-                  hash: res.transactionHash,
-                  chainId,
-                  receipt: {
-                    to: res.to,
-                    from: res.from,
-                    contractAddress: res.contractAddress,
-                    transactionIndex: res.transactionIndex,
-                    blockHash: res.blockHash,
-                    transactionHash: res.transactionHash,
-                    blockNumber: res.blockNumber,
-                    status: 1,
-                  },
-                })
-              );
-              setDepositModal(false);
-            })
-            .on("error", (res: any) => {
-              if (res.code === 4001) {
-                setDepModState({
-                  step0: true,
-                  step1: false,
-                  step2: false,
-                  title: "Confirm deposit",
-                });
-                setDepositModal(false);
-              }
-            });
         })
         .on("error", (res: any) => {
           if (res.code === 4001) {
@@ -257,7 +208,9 @@ export default function Withdraw() {
               step0: true,
               step1: false,
               step2: false,
-              title: "Confirm deposit",
+              step3: false,
+              step4: false,
+              title: "Please Note",
             });
             setDepositModal(false);
           }
@@ -270,7 +223,9 @@ export default function Withdraw() {
         step0: true,
         step1: false,
         step2: false,
-        title: "Confirm deposit",
+        step3: false,
+        step4: false,
+        title: "Please Note",
       });
       setDepositModal(false);
     }
@@ -278,14 +233,16 @@ export default function Withdraw() {
 
   const callDepositModal = (values: any, resetForm: any) => {
     try {
-      console.log("deposit values =>  ", values);
+      // console.log("deposit values =>  ", values);
       setDepositTokenInput(values.amount);
       {
         setDepModState({
           step0: true,
           step1: false,
           step2: false,
-          title: "Confirm deposit",
+          step3: false,
+          step4: false,
+          title: "Please Note",
         });
         setDepositModal(true);
         resetForm();
@@ -295,7 +252,7 @@ export default function Withdraw() {
     }
   };
   const callWithdrawModal = (values: any) => {
-    console.log("withdraw values =>  ", values);
+    // console.log("withdraw values =>  ", values);
     try {
       setWithdrawTokenInput(values.withdrawAmount);
       {
@@ -313,15 +270,111 @@ export default function Withdraw() {
       Sentry.captureMessage("callWithdrawModal", err);
     }
   };
+  const estGasFee = async () => {
+    setAmountApproval(false);
+    setEstGas(0);
+    let user: any = account;
+    const amountWei = web3.utils.toBN(
+      fromExponential(+depositTokenInput * Math.pow(10, 18))
+    );
+    let allowance =
+      (await getAllowanceAmount(
+        library,
+        dynamicChaining[chainId].BONE,
+        account,
+        dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+      )) || 0;
+    let instance = new web3.eth.Contract(
+      depositManagerABI,
+      dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+    )
+    let approvalInstance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
+    let currentprice: any = await currentGasPrice(web3);
+    await approvalInstance.methods.approve(dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY, amountWei).estimateGas({ from: user }).then((gas: any) => {
+      setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
+    })
+    await instance.methods.depositERC20ForUser(dynamicChaining[chainId].BONE, user, amountWei).estimateGas({ from: user })
+      .then(async (gas: any) => {
+        let gasFee = (+gas * +currentprice) / Math.pow(10, 18);
+        setEstGas(+gasFee);
+      }).catch((err: any) => {
+        console.log(err);
+      })
+  }
+  console.log("est gas ", estGas);
 
+  const depositContract = async (user: any, amount: any) => {
+    // call deposit contract
+    let instance = new web3.eth.Contract(
+      depositManagerABI,
+      dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+    );
+    instance.methods
+      .depositERC20ForUser(dynamicChaining[chainId].BONE, user, amount)
+      .send({ from: account })
+      .on("transactionHash", (res: any) => {
+        dispatch(
+          addTransaction({
+            hash: res,
+            from: user,
+            chainId,
+            summary: `${res}`,
+          })
+        );
+        let link = getExplorerLink(chainId, res, "transaction");
+        setHashLink(link);
+        setDepModState({
+          step0: false,
+          step1: false,
+          step2: false,
+          step3: false,
+          step4: true,
+          title: "Transaction Submitted",
+        });
+      })
+      .on("receipt", (res: any) => {
+        dispatch(
+          finalizeTransaction({
+            hash: res.transactionHash,
+            chainId,
+            receipt: {
+              to: res.to,
+              from: res.from,
+              contractAddress: res.contractAddress,
+              transactionIndex: res.transactionIndex,
+              blockHash: res.blockHash,
+              transactionHash: res.transactionHash,
+              blockNumber: res.blockNumber,
+              status: 1,
+            },
+          })
+        );
+        setDepositModal(false);
+      })
+      .on("error", (res: any) => {
+        if (res.code === 4001) {
+          setDepModState({
+            step0: true,
+            step1: false,
+            step2: false,
+            step3: false,
+            step4: false,
+            title: "Please Note",
+          });
+          setDepositModal(false);
+        }
+      });
+  }
   const callDepositContract = async () => {
     try {
       if (account) {
         setDepModState({
           step0: false,
-          step1: true,
+          step1: false,
           step2: false,
-          title: "Transaction Pending",
+          step3: true,
+          step4: false,
+          title: "Transfer in Progress",
         });
         let user: any = account;
         const amountWei = web3.utils.toBN(
@@ -341,73 +394,20 @@ export default function Withdraw() {
             dynamicChaining[chainId].BONE,
             dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
           );
-        } else {
-          let instance = new web3.eth.Contract(
-            depositManagerABI,
-            dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-          );
-          instance.methods
-            .depositERC20ForUser(dynamicChaining[chainId].BONE, user, amountWei)
-            .send({ from: account })
-            .on("transactionHash", (res: any) => {
-              dispatch(
-                addTransaction({
-                  hash: res,
-                  from: user,
-                  chainId,
-                  summary: `${res}`,
-                })
-              );
-              let link = getExplorerLink(chainId, res, "transaction");
-              setHashLink(link);
-              setDepModState({
-                step0: false,
-                step1: false,
-                step2: true,
-                title: "Transaction Submitted",
-              });
-            })
-            .on("receipt", (res: any) => {
-              dispatch(
-                finalizeTransaction({
-                  hash: res.transactionHash,
-                  chainId,
-                  receipt: {
-                    to: res.to,
-                    from: res.from,
-                    contractAddress: res.contractAddress,
-                    transactionIndex: res.transactionIndex,
-                    blockHash: res.blockHash,
-                    transactionHash: res.transactionHash,
-                    blockNumber: res.blockNumber,
-                    status: 1,
-                  },
-                })
-              );
-              setDepositModal(false);
-            })
-            .on("error", (res: any) => {
-              if (res.code === 4001) {
-                setDepModState({
-                  step0: true,
-                  step1: false,
-                  step2: false,
-                  title: "Confirm deposit",
-                });
-                setDepositModal(false);
-              }
-            });
         }
+        depositContract(user, amountWei);
       }
     } catch (err: any) {
-      if(err.code !== USER_REJECTED_TX) {
+      if (err.code !== USER_REJECTED_TX) {
         Sentry.captureMessage("callDepositContract", err);
       }
       setDepModState({
         step0: true,
         step1: false,
         step2: false,
-        title: "Confirm deposit",
+        step3: false,
+        step4: false,
+        title: "Please Note",
       });
       setDepositModal(false);
     }
@@ -567,21 +567,21 @@ export default function Withdraw() {
             setWithdrawModal(false);
           }
         });
-        
+
+    }
+    catch (err: any) {
+      if (err.code !== USER_REJECTED_TX) {
+        Sentry.captureMessage("submitWithdraw ", err);
       }
-      catch (err: any) {
-        if(err.code !== USER_REJECTED_TX) {
-          Sentry.captureMessage("submitWithdraw ", err);
-        }
-        setWidModState({
-          step0: true,
-          step1: false,
-          step2: false,
-          step3: false,
-          step4: false,
-          title: "Initialize Withdraw",
-        });
-        setWithdrawModal(false);
+      setWidModState({
+        step0: true,
+        step1: false,
+        step2: false,
+        step3: false,
+        step4: false,
+        title: "Initialize Withdraw",
+      });
+      setWithdrawModal(false);
     }
   }
 
@@ -771,7 +771,23 @@ export default function Withdraw() {
       Sentry.captureMessage("spliceCustomToken ", err);
     }
   };
-
+  useEffect(() => {
+    depositChainTokenBalance();
+  }, [selectedToken]);
+  const depositChainTokenBalance = async () => {
+    let chain = chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI;
+    let bal: any;
+    if (selectedToken?.parentName === "BoneToken") {
+      bal = await getTokenBalance(
+        lib,
+        account,
+        dynamicChaining[chain].BONE
+      );
+    } else {
+      let address = selectedToken?.parentContract || selectedToken?.address;
+      bal = await getTokenBalance(lib, account, address);
+    }
+  }
   return (
     <>
       <ToastContainer />
@@ -793,10 +809,118 @@ export default function Withdraw() {
         >
           {/* Deposit popups start */}
           <>
-            {/* confirm deposit popop starts */}
-
+            {/* note popup start*/}
             {dWState && depModalState.step0 && (
               <div className="popmodal-body no-ht">
+                <div className="pop-block withdraw_pop">
+                  <div className="pop-top">
+                    <div className="inner-top p-2">
+                      <h4 className="text-md ff-mos pb-3">What isn't possible</h4>
+                      <div className="row">
+                        <div className="col-1"><X style={{ background: "red", borderRadius: "50px", padding: "2px" }} /> </div>
+                        <div className="col-11">
+                          <h6 className="text-sm ff-mos pb-1">Delegation to Validators</h6>
+                          <p className="text-sm">You cannot delegate or stake on the Puppy Net Network. You may do that on the Goerli Network. You can stake funds here.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="inner-top p-2">
+                      <h4 className="text-md ff-mos pb-3">What's possible</h4>
+                      <div className="row">
+                        <div className="col-1"><Check style={{ background: "green", borderRadius: "50px", padding: "2px" }} /> </div>
+                        <div className="col-11">
+                          <h6 className="text-sm ff-mos pb-1">Moving funds from Goerli to Puppy Net</h6>
+                          <p className="text-sm">Here you can move frunds from the Goerli network to Puppu Net network on the Puppy Net Chain. This will take 20-30 minutes.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pop-bottom">
+                    <div>
+                      <a
+                        className="btn primary-btn w-100"
+                        onClick={() => { setDepModState({ ...depModalState, step0: false, step1: true, title: "Transfer Overview" }); estGasFee(); }}
+                      >
+                        Continue
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* note popup end */}
+            {/* confirm deposit popop starts */}
+            {dWState && depModalState.step1 && (
+              <div className="popmodal-body no-ht">
+                <div className="backDepState" onClick={() => {
+                  setDepModState({ ...depModalState, step0: true, step1: false, title: "Please Note" }); estGasFee();
+                }}><ArrowCircleLeftIcon /></div>
+                <div className="pop-block">
+                  <div className="pop-top">
+                    <div className="border-2 rounded-circle d-flex align-item-center justify-content-center p-3 w-25 m-auto" style={{ borderColor: "#F28B03" }}>
+                      <img width="80" src="../../assets/images/gas-station.png" alt="" />
+                    </div>
+                    <div className="text-center">
+                      <h4 className="ff-mos fs-6 pt-4">There are two transactions in the deposit process.</h4>
+                      <p className="text-sm pt-1">Estimated total gas required for these transactions.</p>
+                    </div>
+                    <div className="row pt-3">
+                      <div className="col-7 d-flex align-items-center">
+                        <img
+                          className="img-fluid"
+                          width="22"
+                          height="22"
+                          src={
+                            (selectedToken?.logo || selectedToken?.logoURI)
+                              ? (selectedToken?.logo || selectedToken?.logoURI)
+                              : "../../assets/images/eth.png"
+                          }
+                          alt=""
+                        />
+                        <p className="ps-2">Approve Deposit</p>
+                      </div>
+                      <div className="col-5 text-end"><small className="text-md">~</small><NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(allowance * boneUSDValue).toFixed(6)} />
+                      </div>
+                    </div>
+                    <div className="row pt-2">
+                      <div className="col-7 d-flex align-items-center">
+                        <img
+                          className="img-fluid"
+                          width="22"
+                          height="22"
+                          src={
+                            (selectedToken?.logo || selectedToken?.logoURI)
+                              ? (selectedToken?.logo || selectedToken?.logoURI)
+                              : "../../assets/images/eth.png"
+                          }
+                          alt=""
+                        />
+                        <p className="ps-2">Complete Deposit</p>
+                      </div>
+                      <div className="col-5 text-end">
+                        <small className="text-md">~</small>
+                        <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(6)} />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pop-bottom">
+                    <div>
+                      <a
+                        className="btn primary-btn w-100"
+                        onClick={() => setDepModState({ ...depModalState, step1: false, step2: true, title: "Confirm Transfer" })}
+                      >
+                        Continue
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {dWState && depModalState.step2 && (
+              <div className="popmodal-body no-ht">
+                <div className="backDepState" onClick={() => {
+                  setDepModState({ ...depModalState, step1: true, step2: false, title: "Transfer Overview" })
+                }}><ArrowCircleLeftIcon /></div>
                 <div className="pop-block">
                   <div className="pop-top">
                     <div className="mt-0 cnfrm_box dark-bg">
@@ -838,7 +962,7 @@ export default function Withdraw() {
                             alt=""
                           />
                         </div>
-                        <p>{NETWORK_LABEL[chainId]}</p>
+                        <p>{NETWORK_LABEL[chainId]} Network</p>
                       </div>
                       <div className="text-center box-block">
                         <div className="d-inline-block arow-block right-arrow">
@@ -880,24 +1004,30 @@ export default function Withdraw() {
                             alt=""
                           />
                         </div>
-                        <p>{NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}</p>
+                        <p>{NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]} Network</p>
                       </div>
                     </div>
-                    {/* <div className="amt-section position-relative">
+                    <hr />
+                    <div className="position-relative d-flex justify-content-between align-items-center">
                       <div className="coin-blk">
-                        <div className="coin-sec">
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/eth.png"
-                            alt=""
-                          />
-                        </div>
-                        <p>Estimation of GAS fee required</p>
+                        <p className="fs-6 ff-mos">Estimated Time</p>
                       </div>
                       <div>
-                        <p className="fw-bold">$10.00</p>
+                        <p className="fw-bold">Est. 20-30 mins</p>
                       </div>
-                    </div> */}
+                    </div>
+                    <hr />
+                    <div className="position-relative d-flex justify-content-between align-items-center">
+                      <div className="coin-blk">
+                        <p className="fs-6 ff-mos">Estimated fee</p>
+                      </div>
+                      <div>
+                        <p className="fw-bold">
+                        <small className="text-md">~</small>
+                          <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(6)} />
+                        </p>
+                      </div>
+                    </div>
                   </div>
                   <div className="pop-bottom">
                     <div>
@@ -917,7 +1047,7 @@ export default function Withdraw() {
 
             {/* Transaction pending popup start */}
 
-            {dWState && depModalState.step1 && (
+            {dWState && depModalState.step3 && (
               <div className="popmodal-body no-ht">
                 <div className="pop-block">
                   <div className="pop-top">
@@ -1020,7 +1150,9 @@ export default function Withdraw() {
                           setDepModState({
                             step0: false,
                             step1: false,
-                            step2: true,
+                            step2: false,
+                            step3: false,
+                            step4: true,
                             title: "Transaction Submitted",
                           });
                         }}
@@ -1040,7 +1172,7 @@ export default function Withdraw() {
 
             {/* Transaction completed popup start */}
 
-            {dWState && depModalState.step2 && (
+            {dWState && depModalState.step4 && (
               <div className="popmodal-body no-ht">
                 <div className="pop-block">
                   <div className="pop-top">
@@ -1621,7 +1753,699 @@ export default function Withdraw() {
           <div className="cmn_dashbord_main_outr">
             <InnerHeader />
             {/* withdraw main section start */}
-            <Comingsoon/>
+            <div className="box-wrap">
+              {/* Left section start */}
+              <div className="left-box">
+                <div className="block-card">
+                  <div className="box-top">
+                    <h3 className="mb-3">Shibarium Bridge</h3>
+                    {dWState ? (
+                      <div className="txt-row">
+                        <div className="row-hd">Transfer Overview:</div>
+                        <p className="row-description">
+                          The deposit process consists of a single transaction.
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="txt-row">
+                        <div className="row-hd">Withdraw Overview:</div>
+                        <p className="row-description">
+                          The Withdraw process consists of three transactions.
+                        </p>
+                      </div>
+                    )}
+                    {dWState ? (
+                      <div className="txt-row">
+                        <div className="row-hd">Transfer Time:</div>
+                        <p className="row-description">
+                          Moving your funds from Ethereum to Shibarium take up
+                          to 10 - 15 Minutes.
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="txt-row">
+                        <div className="row-hd">Withdraw Time:</div>
+                        <p className="row-description">
+                          Moving your funds from Ethereum to Shibarium take up
+                          to 60 mins to 3 hours.
+                        </p>
+                      </div>
+                    )}
+                    {
+                      <div
+                        className={`txt-row ${dWState ? "visVisible" : "visInvisible"
+                          }`}
+                      >
+                        <div className="row-hd">
+                          <span className="icon-image">
+                            <img
+                              className="img-fluid"
+                              src="../../assets/images/i-info-icon.png"
+                              alt=""
+                            />
+                          </span>
+                          <span className="alignment">
+                            Delegation/Staking Advice:
+                          </span>
+                        </div>
+                        <p className="row-description">
+                          Delegation/Staking takes place on Ethereum. Do not
+                          deposit funds to Shibarium for this purpose.{" "}
+                          {/* <a className="orange-txt" href="javascript:void(0);">
+                            Staking UI
+                          </a> */}
+                        </p>
+                      </div>
+                    }
+                  </div>
+                  <div className="blank-box"></div>
+                  <div className="box-bottom d-flex flex-column justify-content-end">
+                    {/* <div
+                      className={`amt-section position-relative ${!dWState ? "visVisible" : "visInvisible"
+                        }`}
+                    >
+                      <div className="coin-blk">
+                        <div className="coin-sec">
+                          <img
+                            className="img-fluid"
+                            width="20"
+                            height="20"
+                            src="../../assets/images/red-bone.png"
+                            alt=""
+                          />
+                        </div>
+                        <p className="lite-color">
+                          Estimation of GAS fee required
+                        </p>
+                      </div>
+                      <div>
+                        <p className="lite-color fw-bold">$10.00</p>
+                      </div>
+                    </div> */}
+                    {/* <div className="amt-section position-relative">
+                      <div className="coin-blk">
+                        <div className="coin-sec">
+                          <img
+                            className="img-fluid"
+                            src="../../assets/images/eth.png"
+                            alt=""
+                          />
+                        </div>
+                        <p className="lite-color">
+                          Estimation of GAS fee required
+                        </p>
+                      </div>
+                      <div>
+                        <p className="lite-color fw-bold">$10.00</p>
+                      </div>
+                    </div> */}
+                    <div className="sub-buttons-sec row buttons-fix">
+                      <div className="mb-3 col-lg-6 mb-lg-0">
+                        {/* <button type="button" className="btn white-btn w-100">
+                          How Shibarium Works
+                        </button> */}
+                        <Link href="how-it-works" passHref>
+                          <a target="_blank" className="btn white-btn w-100">
+                            How Shibarium Works
+                          </a>
+                        </Link>
+                      </div>
+                      <div className="col-lg-6">
+                        <button
+                          // type="button w-100"
+                          onClick={() => router.push("/faq")}
+                          className="btn white-btn w-100"
+                        >
+                          FAQs
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* Left section end */}
+              {/* Right section start */}
+
+              <div className="right-box">
+                <div className="block-card d-flex flex-column justify-content-between bridge_form_sec">
+                  <div className="tab-sec botom-spcing">
+                    <ul className="tab-links">
+                      <li>
+                        <a
+                          className={`tb-link ${dWState && "tab-active"}`}
+                          onClick={() => setDWState(true)}
+                        >
+                          Deposit
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          className={`tb-link ${!dWState && "tab-active"}`}
+                          onClick={() => setDWState(false)}
+                        >
+                          Withdraw
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  {/* Deposit tab content section start */}
+                  {dWState && (
+                    <div className="tab-content-sec h-100">
+                      <Formik
+                        initialValues={{
+                          amount: "",
+                          fromChain: chainId,
+                          toChain: chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI,
+                        }}
+                        validationSchema={depositValidations}
+                        onSubmit={(values, { resetForm }) => {
+                          callDepositModal(values, resetForm);
+                        }}
+                      >
+                        {({
+                          errors,
+                          touched,
+                          handleChange,
+                          handleBlur,
+                          values,
+                          handleSubmit,
+                          setFieldValue
+                        }) => (
+                          <div className="h-100">
+                            <div className="sec-wrapper">
+                              <div className="wrap-top">
+                                <div className="botom-spcing">
+                                  <div>
+                                    <label className="mb-2 mb-xxl-3 mb-md-2">
+                                      From
+                                    </label>
+                                    <div className="form-field position-relative txt-fix">
+                                      <div className="icon-chain">
+                                        <div>
+                                          {
+                                            (selectedToken?.logo || selectedToken?.logoURI) ?
+                                              <img
+                                                width="22"
+                                                height="22"
+                                                className="img-fluid"
+                                                src={selectedToken?.logo ? selectedToken?.logo : selectedToken?.logoURI}
+                                                alt=""
+                                              />
+                                              :
+                                              (
+                                                <img
+                                                  className="img-fluid"
+                                                  src={"../../assets/images/eth.png"}
+                                                  alt=""
+                                                />
+                                              )
+                                          }
+                                        </div>
+                                      </div>
+                                      <div className="mid-chain">
+                                        {/* <Form.Select
+                                        name="fromChain"
+                                        defaultValue={`${chainId}`}
+                                        value={values.fromChain}
+                                        onChange={(e) => {handleChange(e)}}>
+                                        {[
+                                          ChainId.SHIBARIUM,
+                                          ChainId.GÖRLI,
+                                          ChainId.ETHEREUM,
+                                          ChainId.PUPPYNET517, */}
+                                        {/* //  @ts-ignore
+                                        ].map((key: ChainId, i: number) => {
+                                          return (
+                                            <> */}
+                                        {/* @ts-ignore TYPE NEEDS FIXING */}
+                                        {/* <Image src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md" width="32px" height="32px" />
+                                              <option value={key}> */}
+                                        {/*@ts-ignore TYPE NEEDS FIXING*/}
+                                        {/* {NETWORK_LABEL[key]}
+                                              </option>
+                                            </>
+                                          )
+
+                                        })}
+                                      </Form.Select> */}
+                                        <input
+                                          className="w-100"
+                                          type="text"
+                                          value={NETWORK_LABEL[chainId]}
+                                          disabled={true}
+                                        // placeholder="Ethereum chain"
+                                        />
+                                      </div>
+                                      <div className="rt-chain">
+                                        <span className="fld-head lite-800">
+                                          Balance:
+                                        </span>
+                                        <span className="fld-txt lite-800">
+                                          {selectedToken?.balance
+                                            ? selectedToken?.balance
+                                            : "00.00"} {selectedToken?.key || selectedToken?.symbol}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="field-grid row">
+                                    <div className="mb-3 col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-lg-0 res-align">
+                                      <div
+                                        className="form-field position-relative fix-coin-field"
+                                        onClick={() => {
+                                          setOpenManageToken(!openManageToken)
+                                        }}
+                                      >
+                                        <div className="right-spacing">
+                                          <div>
+                                            <img
+                                              className="img-fluid"
+                                              width={24}
+                                              src={
+                                                (selectedToken?.logo || selectedToken?.logoURI)
+                                                  ? selectedToken.logo || selectedToken?.logoURI
+                                                  : "../../assets/images/eth.png"
+                                              }
+                                              alt=""
+                                            />
+                                          </div>
+                                        </div>
+                                        <div className="lite-800">
+                                          <span className="lite-800 fw-bold">
+                                            {selectedToken?.parentName || selectedToken?.symbol
+                                              ? selectedToken?.parentName || selectedToken?.symbol
+                                              : "Select Token"}
+                                          </span>
+                                        </div>
+                                        <div className="lft-spc">
+                                          <div className="arow-outer">
+                                            <span className="arrow-down"></span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-lg-6 col-xxl-7 col-sm-12 field-col">
+                                      <div className="form-field position-relative two-fld">
+                                        <div className={`mid-chain w-100 ${selectedToken?.type == undefined && "disabled"}`}>
+                                          <input
+                                            className={`w-100 ${selectedToken?.type == undefined && "disabled"}`}
+                                            type="text"
+                                            placeholder="0.00"
+                                            name="amount"
+                                            disabled={selectedToken?.type == undefined ? true : false}
+                                            // defaultValue={depositTokenInput}
+                                            value={values.amount}
+                                            onChange={handleChange("amount")}
+                                          />
+                                        </div>
+                                        <div
+                                          className="rt-chain"
+                                          onClick={(e) => setFieldValue("amount", selectedToken.balance)}
+                                        >
+                                          <span className="orange-txt fw-bold depositMax">
+                                            MAX
+                                          </span>
+                                        </div>
+                                      </div>
+                                      {touched.amount && errors.amount ? (
+                                        <p className="pt-0 pl-2 primary-text">
+                                          {errors.amount}
+                                        </p>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="botom-spcing">
+                                  <div>
+                                    <label className="mb-2 mb-xxl-3 mb-md-2">
+                                      To
+                                    </label>
+                                    <div className="form-field position-relative txt-fix">
+                                      <div className="icon-chain">
+                                        <div>
+                                          <img
+                                            width="22"
+                                            height="22"
+                                            className="img-fluid"
+                                            src={
+                                              NETWORK_ICON[
+                                              chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI
+                                              ]
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                      </div>
+                                      <div className="mid-chain">
+                                        <input
+                                          className="w-100"
+                                          type="text"
+                                          disabled={true}
+                                          placeholder="Shibarium chain"
+                                          value={
+                                            NETWORK_LABEL[
+                                            chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI
+                                            ]
+                                          }
+                                        />
+                                      </div>
+                                      {/* <Form.Select
+                                        name="toChain"
+                                        defaultValue={`${chainId}`}
+                                        value={values.toChain}
+                                        onChange={(e) => {handleChange(e)}}
+                                      >
+                                        {[
+                                          ChainId.SHIBARIUM,
+                                          ChainId.GÖRLI,
+                                          ChainId.ETHEREUM,
+                                          ChainId.PUPPYNET517, */}
+                                      {/* //  @ts-ignore
+                                        ].map((key: ChainId, i: number) => {
+                                          // console.log(values);
+                                          return (
+                                            <> */}
+                                      {/* @ts-ignore TYPE NEEDS FIXING */}
+                                      {/* <Image src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md" width="32px" height="32px" />
+
+                                              <option value={key} disabled={values.fromChain == key ? true : false}> */}
+                                      {/*@ts-ignore TYPE NEEDS FIXING*/}
+                                      {/* {NETWORK_LABEL[key]}
+                                              </option>
+                                            </>
+                                          )
+
+                                        })}
+                                      </Form.Select> */}
+                                      <div className="rt-chain">
+                                        <span className="fld-head lite-800">
+                                          Balance:
+                                        </span>
+                                        <span className="fld-txt lite-800">
+                                          00.00 {selectedToken?.key || selectedToken?.symbol}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="wrap-bottom">
+                                <div className="btn-modify">
+                                  <button
+                                    onClick={() => handleSubmit()}
+                                    type="button"
+                                    className="btn primary-btn w-100"
+                                  >
+                                    Transfer
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </Formik>
+                    </div>
+                  )}
+                  {/* Deposit tab content section end */}
+
+                  {/* Withdraw tab content section start */}
+                  {!dWState && (
+                    <Formik
+                      initialValues={{
+                        withdrawAmount: "",
+                        fromChain: chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI,
+                        toChain: chainId,
+                      }}
+                      validationSchema={withdrawValidations}
+                      onSubmit={(values, { resetForm }) => {
+                        // console.log("values ==>>", values);
+                        callWithdrawModal(values);
+                        resetForm();
+                      }}
+                    >
+                      {({
+                        errors,
+                        touched,
+                        handleChange,
+                        handleBlur,
+                        values,
+                        handleSubmit,
+                        setFieldValue
+                      }) => (
+                        <div className="tab-content-sec h-100">
+                          <form className="h-100" onSubmit={handleSubmit}>
+                            <div className="sec-wrapper">
+                              <div className="wrap-top">
+                                <div className="botom-spcing">
+                                  <div>
+                                    <label className="mb-2 mb-xxl-3 mb-md-2">
+                                      From
+                                    </label>
+                                    <div className="form-field position-relative txt-fix">
+                                      <div className="icon-chain">
+                                        <div>
+                                          <img
+                                            width="22"
+                                            height="22"
+                                            className="img-fluid"
+                                            src={
+                                              NETWORK_ICON[
+                                              chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI
+                                              ]
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                      </div>
+                                      <div className="mid-chain">
+                                        <input
+                                          className="w-100"
+                                          type="text"
+                                          // placeholder="Shibarium Mainnet"
+                                          value={
+                                            NETWORK_LABEL[
+                                            chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI
+                                            ]
+                                          }
+                                          disabled={true}
+                                        />
+                                      </div>
+                                      {/* <Form.Select
+                                        name="fromChain"
+                                        defaultValue={`${chainId}`}
+                                        value={values.fromChain}
+                                        onChange={handleChange}
+                                      >
+                                        {[
+                                          ChainId.SHIBARIUM,
+                                          ChainId.GÖRLI,
+                                          ChainId.ETHEREUM,
+                                          ChainId.PUPPYNET517, */}
+                                      {/* //  @ts-ignore
+                                        ].map((key: ChainId, i: number) => {
+                                          // console.log(values);
+                                          return (
+                                            <> */}
+                                      {/* @ts-ignore TYPE NEEDS FIXING */}
+                                      {/* <Image src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md" width="32px" height="32px" />
+
+                                              <option value={key}> */}
+                                      {/*@ts-ignore TYPE NEEDS FIXING*/}
+                                      {/* {NETWORK_LABEL[key]}
+                                              </option>
+                                            </>
+                                          )
+
+                                        })}
+                                      </Form.Select> */}
+                                      <div className="rt-chain">
+                                        <span className="fld-head lite-800">
+                                          Balance:
+                                        </span>
+                                        <span className="fld-txt lite-800">
+                                          {selectedToken?.balance
+                                            ? selectedToken?.balance
+                                            : "00.00"} {selectedToken?.key || selectedToken?.symbol}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="field-grid row">
+                                    <div className="mb-3 col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-lg-0 res-align">
+                                      <div
+                                        className="form-field position-relative fix-coin-field h-100"
+                                        onClick={() => {
+                                          setOpenManageToken(!openManageToken)
+                                          // onClick={() => {
+                                          //   setTokenModal(true);
+                                          //   setTokenState({
+                                          //     step0: true,
+                                          //     step1: false,
+                                          //     step2: false,
+                                          //     step3: false,
+                                          //     step4: false,
+                                          //     title: "Select a Token",
+                                          //   });
+                                        }}
+                                      >
+                                        <div className="right-spacing">
+                                          <div>
+                                            <img
+                                              width="24"
+                                              height="24"
+                                              className="img-fluid"
+                                              src={
+                                                selectedToken?.logo || selectedToken?.logoURI
+                                                  ? selectedToken?.logo || selectedToken?.logoURI
+                                                  : "../../assets/images/shiba-round-icon.png"
+                                              }
+                                              alt=""
+                                            />
+                                          </div>
+                                        </div>
+                                        <div className="lite-800">
+                                          <span className="lite-800 fw-bold">
+                                            {selectedToken?.parentName || selectedToken?.symbol
+                                              ? selectedToken?.parentName || selectedToken?.symbol
+                                              : "Select Token"}
+                                          </span>
+                                        </div>
+                                        <div className="lft-spc">
+                                          <div className="arow-outer">
+                                            <span className="arrow-down"></span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-lg-6 col-xxl-7 col-sm-12 field-col h-100">
+                                      <div className="form-field position-relative two-fld">
+                                        <div className="mid-chain w-100">
+                                          <input
+                                            className="w-100"
+                                            type="text"
+                                            placeholder="0.00"
+                                            name="withdrawAmount"
+                                            disabled={selectedToken?.type == undefined ? true : false}
+                                            value={values.withdrawAmount}
+                                            onChange={handleChange("withdrawAmount")}
+                                          />
+                                        </div>
+                                        <div
+                                          className="rt-chain"
+                                          onClick={(e) => setFieldValue("withdrawAmount", selectedToken?.balance)}
+                                        >
+                                          <span className="orange-txt fw-bold withdrawMax">
+                                            MAX
+                                          </span>
+                                        </div>
+                                      </div>
+                                      {touched.withdrawAmount && errors.withdrawAmount ? (
+                                        <p className="pt-0 pl-2 primary-text">
+                                          {errors.withdrawAmount}
+                                        </p>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="botom-spcing">
+                                  <div>
+                                    <label className="mb-2 mb-xxl-3 mb-md-2">
+                                      To
+                                    </label>
+                                    <div className="form-field position-relative txt-fix">
+                                      <div className="icon-chain">
+                                        <div>
+                                          {
+                                            selectedToken?.logo || selectedToken?.logoURI
+                                              ? (<img
+                                                width="22"
+                                                height="22"
+                                                className="img-fluid"
+                                                src={selectedToken.logo || selectedToken?.logoURI}
+                                                alt=""
+                                              />) :
+                                              (
+                                                <img
+                                                  className="img-fluid"
+                                                  src={"../../assets/images/eth.png"}
+                                                  alt=""
+                                                />
+                                              )
+                                          }
+                                        </div>
+                                      </div>
+                                      <div className="mid-chain">
+                                        <input
+                                          className="w-100"
+                                          type="text"
+                                          // placeholder="Shibarium Mainnet"
+                                          value={NETWORK_LABEL[chainId]}
+                                          disabled={true}
+                                        />
+                                      </div>
+                                      {/* <Form.Select
+                                        name="toChain"
+                                        defaultValue={`${chainId}`}
+                                        value={values.toChain}
+                                        onChange={handleChange}
+                                      >
+                                        {[
+                                          ChainId.SHIBARIUM,
+                                          ChainId.GÖRLI,
+                                          ChainId.ETHEREUM,
+                                          ChainId.PUPPYNET517, */}
+                                      {/* //  @ts-ignore
+                                        ].map((key: ChainId, i: number) => {
+                                          // console.log(values);
+                                          return (
+                                            <> */}
+                                      {/* @ts-ignore TYPE NEEDS FIXING */}
+                                      {/* <Image src={NETWORK_ICON[key]} alt="Switch Network" className="rounded-md" width="32px" height="32px" />
+
+                                              <option value={key} disabled={values.fromChain == key ? true : false}> */}
+                                      {/*@ts-ignore TYPE NEEDS FIXING*/}
+                                      {/* {NETWORK_LABEL[key]}
+                                              </option>
+                                            </>
+                                          )
+
+                                        })}
+                                      </Form.Select> */}
+                                      <div className="rt-chain">
+                                        <span className="fld-head lite-800">
+                                          Balance:
+                                        </span>
+                                        <span className="fld-txt lite-800">
+                                          00.00 {selectedToken?.key || selectedToken?.symbol}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="wrap-bottom">
+                                <div className="btn-modify">
+                                  <button
+                                    onClick={() => handleSubmit()}
+                                    type="submit"
+                                    className="btn primary-btn w-100"
+                                  >
+                                    Transfer
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      )}
+                    </Formik>
+                  )}
+
+                  {/* Withdraw   tab content section end */}
+                </div>
+              </div>
+              {/* right section start */}
+            </div>
             {/* withdraw main section end */}
           </div>
         </section>

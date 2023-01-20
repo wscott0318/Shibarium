@@ -1210,6 +1210,13 @@ td.no_record img {
 .infinite-scroll-component::-webkit-scrollbar{
   display: none;
 }
+.backDepState {
+  width: 27px;
+  position: absolute;
+  top: -40px;
+  left: -1px;
+  cursor: pointer;
+}
 @media only screen and (max-width: 991.98px) {
   .shib-popup .modal-content {
     // height: 75%;

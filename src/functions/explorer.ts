@@ -101,7 +101,7 @@ const chains: ChainObject = {
     builder: explorers.etherscan,
   },
   [ChainId.PUPPYNET517]: {
-    link: 'https://goerli.etherscan.io',
+    link: 'https://shibascan-517.hailshiba.com',
     builder: explorers.etherscan,
   },
   [ChainId.KOVAN]: {
@@ -197,7 +197,7 @@ const chains: ChainObject = {
     builder: explorers.telos,
   },
   [ChainId.SHIBARIUM]: {
-    link: 'https://goerli.etherscan.io',
+    link: 'https://shibascan-517.hailshiba.com',
     builder: explorers.etherscan,
   },
 }

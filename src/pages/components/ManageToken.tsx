@@ -97,7 +97,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       const map = { 'bsc': 'bsc', 'eth': 'ether' };
       //@ts-ignore
       // setAddUrl(`https://${map[chain]}scan.com/address/`);
-      setAddUrl('https://goerli.etherscan.io/address/');
+      setAddUrl('https://shibascan-517.hailshiba.com/address/');
     }).catch(() => { });
   }, []);
 
