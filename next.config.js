@@ -34,7 +34,7 @@ const nextConfig = {
     VALIDATOR_SHARE: process.env.VALIDATOR_SHARE,
     STAKE_MANAGER: process.env.STAKE_MANAGER,
     DEPOSIT_MANAGER_PROXY: process.env.DEPOSIT_MANAGER_PROXY,
-    WITHDRAW_MANAGER_PROXY: process.env.WITHDRAW_MANAGER_PROXY
+    WITHDRAW_MANAGER_PROXY: process.env.WITHDRAW_MANAGER_PROXY,
   },
   webpack: (config, env, helpers, options) => {
     config.module.rules = [

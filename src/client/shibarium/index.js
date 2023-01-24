@@ -3,10 +3,11 @@ import { POSClient, setProofApi, setAbiApi, use } from "@shibarmy/shibariumjs"
 import { PlasmaClient } from "@shibarmy/shibariumjs-plasma"
 // import { Web3ClientPlugin } from "@shibarmy/shibariumjs-web3"
 import { utils } from "web3"
-import { apis,account, network as _network } from "../../config/withdraw"
+import {apis,account, network as _network } from "../../config/withdraw"
 
-setProofApi(apis.proof_api)
-setAbiApi(apis.abi_api)
+console.log("proof api ==>" , apis);
+// setProofApi(apis.proof_api)
+// setAbiApi(apis.abi_api)
 // use(Web3ClientPlugin)
 
 // const parentProvider = new HDWalletProvider({

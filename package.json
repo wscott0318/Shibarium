@@ -170,6 +170,7 @@
     "react-perfect-scrollbar": "^1.5.8",
     "react-qrcode-logo": "^2.8.0",
     "react-router-dom": "^6.3.0",
+    "react-scripts": "^5.0.1",
     "react-scrollbar": "^0.5.6",
     "react-scrollbars-custom": "^4.1.1",
     "react-shimmer-effects": "^1.0.2",

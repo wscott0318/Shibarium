@@ -7,7 +7,7 @@ export const startBurn = async (clientType, token, from, amount) => {
   console.log(`begin exit from L2 -> L1 using ${clientType}`)
 
   const stakingApi = new StakingAPI()
-
+  
   try {
     console.log(`Get token data from Staking API for ${token}`)
     const tokenAddr = utils.toChecksumAddress(token)

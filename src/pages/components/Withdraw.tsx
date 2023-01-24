@@ -108,7 +108,7 @@ const WithdrawModal: React.FC<{
                         approveWithdraw();
                     }
                     else {
-                        await switchNetwork();
+                        // await switchNetwork();
                         setWidModState({ ...withModalState, step2: false, step3: true, title: "Transaction Pending" });
                         setStep("Initialized");
                         setProcessing((processing: any) => [...processing, "Initialized"])
@@ -189,7 +189,7 @@ const WithdrawModal: React.FC<{
                 const amountWei = web3.utils.toBN(
                     fromExponential(+withdrawTokenInput * Math.pow(10, 18))
                 );
-                // startBurn(selectedToken?.type , selectedToken?.parentContract, user, amountWei);
+                startBurn(selectedToken?.type , selectedToken?.parentContract, user, amountWei);
                 let instance = new webL2.eth.Contract(
                     l2withdrawABI,
                     contract
