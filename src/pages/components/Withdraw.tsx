@@ -189,12 +189,12 @@ const WithdrawModal: React.FC<{
                 const amountWei = web3.utils.toBN(
                     fromExponential(+withdrawTokenInput * Math.pow(10, 18))
                 );
-                startBurn(selectedToken?.type , selectedToken?.parentContract, user, amountWei);
+                startBurn(selectedToken?.bridgetype , selectedToken?.parentContract, user, amountWei);
                 let instance = new webL2.eth.Contract(
                     l2withdrawABI,
                     contract
                 );
-                console.log("submit Withdraw ", instance);
+                // console.log("submit Withdraw ", instance);
                 // setTimeout(() => {
                 // setStep("Checkpoint");
                 // setProcessing((processing:any) => [...processing, "Checkpoint"])

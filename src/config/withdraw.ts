@@ -1,4 +1,3 @@
-
     const ADMIN_WALLET = process.env.NEXT_PUBLIC_ADMIN_WALLET
     const MNEMONIC = process.env.NEXT_PUBLIC_MNEMONIC
     const NET_NAME = process.env.NEXT_PUBLIC_NET_NAME
