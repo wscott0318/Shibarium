@@ -53,6 +53,6 @@
     "inlineSources": true,
     "sourceRoot": "/"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/hooks/useTokenPrice.js", "src/pages/important-popup/index.js", "src/pages/components/Button.js", "src/pages/swap-token/index.js", "src/pages/components/TokenList.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/hooks/useTokenPrice.js", "src/pages/important-popup/index.js", "src/pages/components/Button.js", "src/pages/swap-token/index.js", "src/pages/components/TokenList.js", "src/config/withdraw.ts"],
   "exclude": ["node_modules"]
 }

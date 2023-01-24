@@ -9,17 +9,17 @@ import { useWalletTokenBalance } from 'app/hooks/useTokenBalance';
 import Web3 from "web3";
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import fromExponential from 'from-exponential';
-import { getAllowanceAmount, MAXAMOUNT, toFixedPrecent, USER_REJECTED_TX,currentGasPrice } from "../../web3/commonFunctions";
+import { getAllowanceAmount, MAXAMOUNT, toFixedPrecent, USER_REJECTED_TX, currentGasPrice } from "../../web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json"
 import CommonModal from 'pages/components/CommonModel';
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { addTransaction , finalizeTransaction} from "../../state/transactions/actions";
-import {useAppDispatch} from "../../state/hooks"
+import { addTransaction, finalizeTransaction } from "../../state/transactions/actions";
+import { useAppDispatch } from "../../state/hooks"
 import { dynamicChaining } from 'web3/DynamicChaining';
 import { Spinner } from 'react-bootstrap';
 import * as Sentry from "@sentry/nextjs";
-import {setDelegatorData} from "../../services/apis/user/userApi"
+import { setDelegatorData } from "../../services/apis/user/userApi"
 import { CircularProgress } from '@material-ui/core';
 
 const initialModalState = {
@@ -56,10 +56,10 @@ const DelegatePopup: React.FC<any> = ({
   const dispatch = useAppDispatch()
 
   const [delegateState, setdelegateState] = useState(initialModalState);
-  const [loader,setLoader] = useState(false);
+  const [loader, setLoader] = useState(false);
   const ethBalance = useEthBalance();
-  const {newBalance , updateBalance} =  useWalletTokenBalance(dynamicChaining[chainId]?.BONE);
-  const [walletBalance , setWalletBalance] = useState<any>();
+  const { newBalance, updateBalance } = useWalletTokenBalance(dynamicChaining[chainId]?.BONE);
+  const [walletBalance, setWalletBalance] = useState<any>();
   const isLoading = walletBalance == -1;
   const [isMax, setIsMax] = useState(false);
   const getBalanceG = () => {
@@ -67,13 +67,13 @@ const DelegatePopup: React.FC<any> = ({
     });
   };
   useEffect(() => {
-    if(chainId === ChainId.SHIBARIUM){
+    if (chainId === ChainId.SHIBARIUM) {
       setWalletBalance(ethBalance);
     }
-    else{
+    else {
       setWalletBalance(newBalance);
     }
-  },[walletBalance, ethBalance , newBalance]);
+  }, [walletBalance, ethBalance, newBalance]);
 
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then((res) => {
@@ -88,7 +88,7 @@ const DelegatePopup: React.FC<any> = ({
   // console.log(data, "parent Data ==> ")
 
 
-  const maxBal = (e :any) => {
+  const maxBal = (e: any) => {
     e.preventDefault()
     setIsMax(true);
     setFieldValue("balance", `${walletBalance}`)
@@ -103,55 +103,55 @@ const DelegatePopup: React.FC<any> = ({
   const approveHandler = () => {
     try {
       if (!amount || (amount <= 0)) {
-      setToastMassage("Amount must be greater than 0");
-      setMsgType("error");
-      return;
+        setToastMassage("Amount must be greater than 0");
+        setMsgType("error");
+        return;
+      }
+      setTnxCompleted(false);
+      setTimeout(() => {
+        setTnxCompleted(true);
+      }, 1000);
+      setStep(2);
     }
-    setTnxCompleted(false);
-    setTimeout(() => {
-      setTnxCompleted(true);
-    }, 1000);
-    setStep(2);
-  }
-  catch(err:any){
-    Sentry.captureMessage("approveHandler ", err);
-  }
+    catch (err: any) {
+      Sentry.captureMessage("approveHandler ", err);
+    }
   };
-  
+
   const buyVouchers = async () => {
     try {
       setLoader(true);
-    const requestBody = {
-      validatorAddress: data.contractAddress,
-      delegatorAddress: account,
-      amount: values.balance,
-      valID: data.validatorContractId
-    };
-    setTnxCompleted(false);
-    if (account) {
-      let lib: any = library;
-      let web3: any = new Web3(lib?.provider);
-      let allowance =
-        (await getAllowanceAmount(lib, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].STAKE_MANAGER_PROXY)) || 0;
-     
-      if (+requestBody.amount > allowance) {
-        APPROVE_BONE(requestBody)
-        // BUY_VOUCHER(requestBody)
-      } else {
-        BUY_VOUCHER(requestBody)
+      const requestBody = {
+        validatorAddress: data.contractAddress,
+        delegatorAddress: account,
+        amount: values.balance,
+        valID: data.validatorContractId
+      };
+      setTnxCompleted(false);
+      if (account) {
+        let lib: any = library;
+        let web3: any = new Web3(lib?.provider);
+        let allowance =
+          (await getAllowanceAmount(lib, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].STAKE_MANAGER_PROXY)) || 0;
+
+        if (+requestBody.amount > allowance) {
+          APPROVE_BONE(requestBody)
+          // BUY_VOUCHER(requestBody)
+        } else {
+          BUY_VOUCHER(requestBody)
+        }
       }
     }
-  }
-  catch(err:any){
-    Sentry.captureMessage("buyVouchers ", err);
-  }
+    catch (err: any) {
+      Sentry.captureMessage("buyVouchers ", err);
+    }
   };
 
 
 
-  const APPROVE_BONE = async (requestBody :any) => {
-    let walletAddress : any = account;
-    try{
+  const APPROVE_BONE = async (requestBody: any) => {
+    let walletAddress: any = account;
+    try {
       console.log("need Approval", amount);
       setTransactionState({ state: true, title: "Pending" });
       let approvalAmount = web3.utils.toBN(
@@ -159,18 +159,18 @@ const DelegatePopup: React.FC<any> = ({
       );
       console.log("approvalAmount ", approvalAmount);
       let approvalInstance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
-     let gasFee =  await approvalInstance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, approvalAmount).estimateGas({from: walletAddress})
-     let encodedAbi =  await approvalInstance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, approvalAmount).encodeABI()
-     let CurrentgasPrice : any = await currentGasPrice(web3)
-        // console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
-        await web3.eth.sendTransaction({
-          from: walletAddress,
-          to: dynamicChaining[chainId].BONE,
-          gas: (parseInt(gasFee) + 30000).toString(),
-          gasPrice: CurrentgasPrice,
-          // value : web3.utils.toHex(combinedFees),
-          data: encodedAbi
-        })
+      let gasFee = await approvalInstance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, approvalAmount).estimateGas({ from: walletAddress })
+      let encodedAbi = await approvalInstance.methods.approve(dynamicChaining[chainId].STAKE_MANAGER_PROXY, approvalAmount).encodeABI()
+      let CurrentgasPrice: any = await currentGasPrice(web3)
+      // console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
+      await web3.eth.sendTransaction({
+        from: walletAddress,
+        to: dynamicChaining[chainId].BONE,
+        gas: (parseInt(gasFee) + 30000).toString(),
+        gasPrice: CurrentgasPrice,
+        // value : web3.utils.toHex(combinedFees),
+        data: encodedAbi
+      })
         .on('transactionHash', (res: any) => {
           dispatch(
             addTransaction({
@@ -181,195 +181,196 @@ const DelegatePopup: React.FC<any> = ({
             })
           )
           setTransactionState({ state: true, title: "Submitted" });
-          setFieldValue("balance" , "");
+          setFieldValue("balance", "");
         })
-          .on('receipt', (res: any) => {
-            dispatch(
-              finalizeTransaction({
-                hash: res.transactionHash,
-                chainId,
-                receipt: {
-                  to: res.to,
-                  from: res.from,
-                  contractAddress: res.contractAddress,
-                  transactionIndex: res.transactionIndex,
-                  blockHash: res.blockHash,
-                  transactionHash: res.transactionHash,
-                  blockNumber: res.blockNumber,
-                  status: 1
-                }
-              })
-            )
-            BUY_VOUCHER(requestBody)
-          })
+        .on('receipt', (res: any) => {
+          dispatch(
+            finalizeTransaction({
+              hash: res.transactionHash,
+              chainId,
+              receipt: {
+                to: res.to,
+                from: res.from,
+                contractAddress: res.contractAddress,
+                transactionIndex: res.transactionIndex,
+                blockHash: res.blockHash,
+                transactionHash: res.transactionHash,
+                blockNumber: res.blockNumber,
+                status: 1
+              }
+            })
+          )
+          BUY_VOUCHER(requestBody)
+        })
         .on('error', (err: any) => {
           setdelegateState(initialModalState)
           setdelegatepop();
           setTransactionState({ state: false, title: "" });
-          setFieldValue("balance" , "");
+          setFieldValue("balance", "");
           resetForm();
         })
-    } catch(err :any){
-      if(err.code !== USER_REJECTED_TX) {
+    } catch (err: any) {
+      if (err.code !== USER_REJECTED_TX) {
         Sentry.captureMessage("APPROVE_BONE ", err);
       }
       resetForm();
       setdelegateState(initialModalState)
       setdelegatepop();
       setTransactionState({ state: false, title: "" });
-      setFieldValue("balance" , "");
+      setFieldValue("balance", "");
     }
 
   }
   const initialValues = {
-    balance: "",
+    balance: 0,
   };
 
-let schema = yup.object().shape({
-  balance: yup
-    .number().typeError("Only digits are allowed.")
-    .max(
-      walletBalance,
-      "Insufficient Balance."
-    ).positive("Enter valid Amount.")
-    .required("Balance is required."),
-});
-
-const callAPIforDelegator = async (requestBody:any) => {
-  try {
-    const valID = requestBody.valID
-    const wallet : any = account
-    await setDelegatorData(wallet.toLowerCase(), valID).then((res:any) => {
-      // console.log(res.data, "callAPIforDelegator data res ==> ")
-    })
-  } catch(err :any) {
-    // console.log(err)
-  }
-
-
-}
-
-const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, touched,setValues ,resetForm}:any =
-  useFormik({
-    initialValues: initialValues,
-    validationSchema: schema,
-    onSubmit: (values) => {
-      console.log("Value", values);
-      setdelegateState({
-        step0:false,
-        step1:true,
-        step2: false,
-        step3:false,
-        title:"Delegate"
-      })
-    },
+  let schema = yup.object().shape({
+    balance: yup
+      .number().typeError("Only digits are allowed.")
+      .min(1, "Invalid amount.")
+      .max(
+        walletBalance,
+        "Insufficient Balance."
+      )
+      .required("Balance is required."),
   });
 
-    const BUY_VOUCHER = async (requestBody: any) => {
-      setTransactionState({ state: true, title: "Pending" });
-      let walletAddress: any = account;
-      let _minSharesToMint = web3.utils.toBN(
-        fromExponential(1 * Math.pow(10, 18))
-      );
-      let amount = web3.utils.toBN(
-        fromExponential(+requestBody.amount * Math.pow(10, 18))
-      );
+  const callAPIforDelegator = async (requestBody: any) => {
+    try {
+      const valID = requestBody.valID
+      const wallet: any = account
+      await setDelegatorData(wallet.toLowerCase(), valID).then((res: any) => {
+        // console.log(res.data, "callAPIforDelegator data res ==> ")
+      })
+    } catch (err: any) {
+      // console.log(err)
+    }
 
-      try {
-        console.log("No approval needed", amount);
-        let instance = new web3.eth.Contract(
-          ValidatorShareABI,
-          requestBody.validatorAddress
-        );
-        // console.log({amount, _minSharesToMint})
-        await instance.methods
-          .buyVoucher(amount, _minSharesToMint)
-          .send({ from: walletAddress })
-          .on("transactionHash", (res: any) => {
-            setLoader(false);
-            dispatch(
-              addTransaction({
-                hash: res,
-                from: walletAddress,
-                chainId,
-                summary: `${res}`,
-              })
-            );
-            setLoader(true);
-            setFieldValue("balance",'')
-            const link = getExplorerLink(chainId, res, "transaction");
-            setExplorerLink(link);
-            setdelegateState({
-              step0: false,
-              step1: false,
-              step2: true,
-              step3: false,
-              title: "Transaction In Progress",
-            });
-            setTransactionState({ state: true, title: "Submitted" });
-            setFieldValue("balance" , "");
-          })
-          .on("receipt", (res: any) => {
-            updateBalance();
-            dispatch(
-              finalizeTransaction({
-                hash: res.transactionHash,
-                chainId,
-                receipt: {
-                  to: res.to,
-                  from: res.from,
-                  contractAddress: res.contractAddress,
-                  transactionIndex: res.transactionIndex,
-                  blockHash: res.blockHash,
-                  transactionHash: res.transactionHash,
-                  blockNumber: res.blockNumber,
-                  status: 1,
-                },
-              })
-            );
-            setTimeout(async() => {
-              await getDelegatorCardData(account);
-            }, 3000)
-            const link = getExplorerLink(
+
+  }
+
+  const { values, errors, handleBlur, handleChange, setFieldValue, handleSubmit, touched, setValues, resetForm }: any =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: schema,
+      onSubmit: (values) => {
+        console.log("Value", values);
+        setdelegateState({
+          step0: false,
+          step1: true,
+          step2: false,
+          step3: false,
+          title: "Delegate"
+        })
+      },
+    });
+
+  const BUY_VOUCHER = async (requestBody: any) => {
+    setTransactionState({ state: true, title: "Pending" });
+    let walletAddress: any = account;
+    let _minSharesToMint = web3.utils.toBN(
+      fromExponential(1 * Math.pow(10, 18))
+    );
+    let amount = web3.utils.toBN(
+      fromExponential(+requestBody.amount * Math.pow(10, 18))
+    );
+
+    try {
+      console.log("No approval needed", amount);
+      let instance = new web3.eth.Contract(
+        ValidatorShareABI,
+        requestBody.validatorAddress
+      );
+      // console.log({amount, _minSharesToMint})
+      await instance.methods
+        .buyVoucher(amount, _minSharesToMint)
+        .send({ from: walletAddress })
+        .on("transactionHash", (res: any) => {
+          setLoader(false);
+          dispatch(
+            addTransaction({
+              hash: res,
+              from: walletAddress,
               chainId,
-              res.transactionHash,
-              "transaction"
-            );
-            
-            setExplorerLink(link);
-            setdelegateState({
-              step0: false,
-              step1: false,
-              step2: false,
-              step3: true,
-              title: "Transaction Done",
-            });
-            callAPIforDelegator(requestBody)
-            setTimeout(() => {
-              window.location.reload()
-            }, 2000)
-            resetForm();
-          })
-          .on("error", (err: any) => {
-            console.log(err)
-            setdelegateState(initialModalState);
-            setdelegatepop();
-            setFieldValue("balance" , "");
-            console.log("values ==> " ,values.balance);
-            resetForm();
+              summary: `${res}`,
+            })
+          );
+          setLoader(true);
+          setFieldValue("balance", '')
+          const link = getExplorerLink(chainId, res, "transaction");
+          setExplorerLink(link);
+          setdelegateState({
+            step0: false,
+            step1: false,
+            step2: true,
+            step3: false,
+            title: "Transaction In Progress",
           });
-      } catch (err: any) {
-        if(err.code !== USER_REJECTED_TX) {
-          Sentry.captureMessage("BUY_VOUCHER ", err);
-        }
-        setTransactionState({ state: false, title: "" });
-        setdelegateState(initialModalState);
-        setdelegatepop();
-        setFieldValue("balance" , "");
-        console.log("values ==> " ,values.balance);
-        resetForm();
+          setTransactionState({ state: true, title: "Submitted" });
+          setFieldValue("balance", "");
+        })
+        .on("receipt", (res: any) => {
+          updateBalance();
+          dispatch(
+            finalizeTransaction({
+              hash: res.transactionHash,
+              chainId,
+              receipt: {
+                to: res.to,
+                from: res.from,
+                contractAddress: res.contractAddress,
+                transactionIndex: res.transactionIndex,
+                blockHash: res.blockHash,
+                transactionHash: res.transactionHash,
+                blockNumber: res.blockNumber,
+                status: 1,
+              },
+            })
+          );
+          setTimeout(async () => {
+            await getDelegatorCardData(account);
+          }, 3000)
+          const link = getExplorerLink(
+            chainId,
+            res.transactionHash,
+            "transaction"
+          );
+
+          setExplorerLink(link);
+          setdelegateState({
+            step0: false,
+            step1: false,
+            step2: false,
+            step3: true,
+            title: "Transaction Done",
+          });
+          callAPIforDelegator(requestBody)
+          setTimeout(() => {
+            window.location.reload()
+          }, 2000)
+          resetForm();
+        })
+        .on("error", (err: any) => {
+          console.log(err)
+          setdelegateState(initialModalState);
+          setdelegatepop();
+          setFieldValue("balance", "");
+          console.log("values ==> ", values.balance);
+          resetForm();
+        });
+    } catch (err: any) {
+      if (err.code !== USER_REJECTED_TX) {
+        Sentry.captureMessage("BUY_VOUCHER ", err);
       }
-    };
+      setTransactionState({ state: false, title: "" });
+      setdelegateState(initialModalState);
+      setdelegatepop();
+      setFieldValue("balance", "");
+      console.log("values ==> ", values.balance);
+      resetForm();
+    }
+  };
 
   useEffect(() => {
     if (!showdelegatepop) {
@@ -381,15 +382,15 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
   const handleClose = () => {
     setdelegateState(initialModalState);
     setdelegatepop();
-    setFieldValue("balance" , 0);
-    }
+    setFieldValue("balance", 0);
+  }
 
   return (
     <>
       <CommonModal
         title={delegateState.title}
         show={showdelegatepop}
-        setshow={() => {handleClose(); resetForm();}}
+        setshow={() => { handleClose(); resetForm(); }}
         externalCls="stak-pop del-pop ffms-inherit"
       >
         <>
@@ -434,7 +435,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                     <div className="my-3 info-box">
                       <div className="d-flex align-items-center justify-content-start">
                         <div>
-                          <span className="user-icon u_icon"><img src={data.logoUrl ? data.logoUrl : "../../assets/images/shiba-round-icon.png"}/></span>
+                          <span className="user-icon u_icon"><img src={data.logoUrl ? data.logoUrl : "../../assets/images/shiba-round-icon.png"} /></span>
                         </div>
                         <div className="fw-700">
                           <span className="vertical-align ft-22">
@@ -442,7 +443,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                           </span>
                           <p>
                             <span className="light-text">
-                              {data?.uptimePercent?.toFixed(toFixedPrecent)}% Performance <br/>{data.commissionrate} %
+                              {data?.uptimePercent?.toFixed(toFixedPrecent)}% Performance <br />{data.commissionrate} %
                               Commission
                             </span>
                           </p>
@@ -457,7 +458,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                           name="balance"
                           autoComplete="off"
                           value={isMax ? (parseInt('' + (values.balance * 100)) / 100) : values.balance}
-                          onChange={(e) => {handleChange(e); setIsMax(false);}}
+                          onChange={(e) => { handleChange(e); setIsMax(false); }}
                           onBlur={handleBlur}
                         />
                       </div>
@@ -479,7 +480,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                         /> */}
                       </span>
                       <span className="text-right">
-                        Balance: {isLoading ? 0.00 :(parseInt('' + (walletBalance * 100)) / 100)} BONE
+                        Balance: {isLoading ? 0.00 : (parseInt('' + (walletBalance * 100)) / 100)} BONE
                       </span>
                     </p>
                   </div>
@@ -580,7 +581,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                         height="150"
                         width="150"
                       /> */}
-                       <CircularProgress color="inherit" size={120} style={{color:"#f06500"}}/>
+                      <CircularProgress color="inherit" size={120} style={{ color: "#f06500" }} />
                     </div>
                   </div>
                   <div className="mid_text row">
@@ -622,7 +623,7 @@ const { values, errors, handleBlur, handleChange,setFieldValue, handleSubmit, to
                         className="img-fluid img-wdth"
                         src="../../assets/images/cmpete-step.png"
                         width="150"
-                          height="150"
+                        height="150"
                       />
                     </div>
                   </div>
