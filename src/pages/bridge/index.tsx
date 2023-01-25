@@ -1090,6 +1090,7 @@ export default function Withdraw() {
         {/* Withdraw popups start */}
         {showWithdrawModal ?
           <WithdrawModal
+            page="bridge"
             show={showWithdrawModal}
             dWState={dWState}
             setWithdrawModalOpen={setShowWithdrawModal}

@@ -17,6 +17,7 @@ import { floor, uniqBy } from "lodash";
 import { useToken } from "app/hooks/Tokens";
 import { isAddress } from "app/functions";
 import { CircularProgress } from "@material-ui/core";
+import { ChainId } from "shibarium-get-chains";
 
 export const Warning = ({ listing, setCoinList, resetLink, sortedLists }: any) => {
   const [agree, setAgree] = useState(false);
@@ -143,12 +144,22 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
         let list = res.data.message.tokens;
         console.log("list ==> ", list);
         list.forEach(async (x: any) => {
-          if (x.parentName === "BoneToken") {
-            x.balance = await getTokenBalance(
-              lib,
-              account,
-              dynamicChaining[chainId].BONE
-            );
+          if (x.parentName === "BONE") {
+            console.log("value of x ==> " , lib , account ," bone address=>" , dynamicChaining[chainId].BONE);
+            if(chainId === ChainId.GÖRLI){
+              x.balance = await getTokenBalance(
+                lib,
+                account,
+                dynamicChaining[chainId].BONE
+              );
+            }
+            else {
+              x.balance = await getTokenBalance(
+                lib,
+                account,
+                x.childContract
+              );
+            }
           } else {
             x.balance = await getTokenBalance(lib, account, x.parentContract);
           }
