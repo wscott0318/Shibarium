@@ -35,6 +35,7 @@ import { dynamicChaining } from "web3/DynamicChaining";
 import ManageToken from "../components/ManageToken"
 import { X, Check } from "react-feather";
 import { ArrowCircleLeftIcon } from "@heroicons/react/outline";
+import WithdrawModal from "pages/components/Withdraw";
 
 export default function Withdraw() {
   const { chainId = 1, account, library } = useActiveWeb3React();
@@ -49,12 +50,12 @@ export default function Withdraw() {
     JSON.parse(localStorage.getItem("depositToken") || "{}")
   );
   const [showDepositModal, setDepositModal] = useState(false);
-  const [showWithdrawModal, setWithdrawModal] = useState(false);
+  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [showTokenModal, setTokenModal] = useState(false);
   const [depositTokenInput, setDepositTokenInput] = useState("");
   const [withdrawTokenInput, setWithdrawTokenInput] = useState("");
   const [amountApproval, setAmountApproval] = useState(false);
-  const [allowance, setAllowance] = useState(0);
+  const [allowance, setAllowance] = useState<any>(0);
   const [dWState, setDWState] = useState(
     bridgeType === "deposit" ? true : false
   );
@@ -182,6 +183,7 @@ export default function Withdraw() {
             })
           );
           setAmountApproval(true);
+          setAllowance(0);
         })
         .on("receipt", (res: any) => {
           // console.log(res, "receipt")
@@ -252,9 +254,9 @@ export default function Withdraw() {
     }
   };
   const callWithdrawModal = (values: any) => {
-    // console.log("withdraw values =>  ", values);
     try {
       setWithdrawTokenInput(values.withdrawAmount);
+      console.log("withdraw values =>  ", values,showWithdrawModal);
       {
         setWidModState({
           step0: true,
@@ -264,9 +266,10 @@ export default function Withdraw() {
           step4: false,
           title: "Initialize Withdraw",
         });
-        setWithdrawModal(true);
+        setShowWithdrawModal(true);
       }
     } catch (err: any) {
+      console.log("callWithdrawModal err" , err);
       Sentry.captureMessage("callWithdrawModal", err);
     }
   };
@@ -277,6 +280,7 @@ export default function Withdraw() {
     const amountWei = web3.utils.toBN(
       fromExponential(+depositTokenInput * Math.pow(10, 18))
     );
+    let currentprice: any = await currentGasPrice(web3);
     let allowance =
       (await getAllowanceAmount(
         library,
@@ -284,15 +288,18 @@ export default function Withdraw() {
         account,
         dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
       )) || 0;
+    console.log("allowance  ", allowance);
+    if (+allowance < +depositTokenInput) {
+      let approvalInstance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
+      await approvalInstance.methods.approve(dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY, amountWei).estimateGas({ from: user }).then((gas: any) => {
+        setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
+      })
+    }
     let instance = new web3.eth.Contract(
       depositManagerABI,
       dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
     )
-    let approvalInstance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
-    let currentprice: any = await currentGasPrice(web3);
-    await approvalInstance.methods.approve(dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY, amountWei).estimateGas({ from: user }).then((gas: any) => {
-      setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
-    })
+
     await instance.methods.depositERC20ForUser(dynamicChaining[chainId].BONE, user, amountWei).estimateGas({ from: user })
       .then(async (gas: any) => {
         let gasFee = (+gas * +currentprice) / Math.pow(10, 18);
@@ -412,178 +419,7 @@ export default function Withdraw() {
       setDepositModal(false);
     }
   };
-  const callWithdrawContract = async () => {
-    try {
-      if (account) {
-        setWidModState({
-          step0: false,
-          step1: true,
-          step2: false,
-          step3: false,
-          step4: false,
-          title: "Withdrawal Pending",
-        });
-        let allowance =
-          (await getAllowanceAmount(
-            library,
-            dynamicChaining[chainId].BONE,
-            account,
-            dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
-          )) || 0;
-        if (+withdrawTokenInput > +allowance) {
 
-          approveWithdraw();
-        }
-        else {
-          submitWithdraw();
-        }
-      }
-    } catch (err: any) {
-      Sentry.captureMessage("callDepositContract", err);
-    }
-  };
-  const approveWithdraw = async () => {
-    try {
-      if (account) {
-        let user = account;
-        let amount = web3.utils.toBN(fromExponential(+withdrawTokenInput * Math.pow(10, 18)));
-        let instance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
-        let gasFee = await instance.methods.approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount).estimateGas({ from: user })
-        let encodedAbi = await instance.methods.approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount).encodeABI()
-        let CurrentgasPrice: any = await currentGasPrice(web3)
-        await web3.eth.sendTransaction({
-          from: user,
-          to: dynamicChaining[chainId].BONE,
-          gas: (parseInt(gasFee) + 30000).toString(),
-          gasPrice: CurrentgasPrice,
-          data: encodedAbi
-        })
-          .on('transactionHash', (res: any) => {
-            dispatch(
-              addTransaction({
-                hash: res,
-                from: user,
-                chainId,
-                summary: `${res}`,
-              })
-            )
-            let link = getExplorerLink(chainId, res, 'transaction')
-            setHashLink(link)
-          }).on('receipt', async (res: any) => {
-            dispatch(
-              finalizeTransaction({
-                hash: res.transactionHash,
-                chainId,
-                receipt: {
-                  to: res.to,
-                  from: res.from,
-                  contractAddress: res.contractAddress,
-                  transactionIndex: res.transactionIndex,
-                  blockHash: res.blockHash,
-                  transactionHash: res.transactionHash,
-                  blockNumber: res.blockNumber,
-                  status: 1
-                }
-              })
-            )
-            submitWithdraw();
-          })
-      }
-    } catch (err: any) {
-      Sentry.captureMessage("approvewithdraw ", err);
-    }
-
-  }
-
-  const submitWithdraw = async () => {
-    try {
-      let user: any = account;
-      const amountWei = web3.utils.toBN(
-        fromExponential(+depositTokenInput * Math.pow(10, 18))
-      );
-      let instance = new web3.eth.Contract(
-        depositManagerABI,
-        dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
-      );
-      instance.methods
-        .depositERC20ForUser(dynamicChaining[chainId].BONE, user, amountWei)
-        .send({ from: account })
-        .on("transactionHash", (res: any) => {
-          dispatch(
-            addTransaction({
-              hash: res,
-              from: user,
-              chainId,
-              summary: `${res}`,
-            })
-          );
-          let link = getExplorerLink(chainId, res, "transaction");
-          setHashLink(link);
-          setWidModState({
-            step0: false,
-            step1: false,
-            step2: true,
-            step3: false,
-            step4: false,
-            title: "Transaction Submitted",
-          });
-        })
-        .on("receipt", (res: any) => {
-          dispatch(
-            finalizeTransaction({
-              hash: res.transactionHash,
-              chainId,
-              receipt: {
-                to: res.to,
-                from: res.from,
-                contractAddress: res.contractAddress,
-                transactionIndex: res.transactionIndex,
-                blockHash: res.blockHash,
-                transactionHash: res.transactionHash,
-                blockNumber: res.blockNumber,
-                status: 1,
-              },
-            })
-          );
-          setWidModState({
-            step0: false,
-            step1: false,
-            step2: false,
-            step3: true,
-            step4: false,
-            title: "Processing Transfer",
-          });
-        })
-        .on("error", (res: any) => {
-          if (res.code === 4001) {
-            setWidModState({
-              step0: true,
-              step1: false,
-              step2: false,
-              step3: false,
-              step4: false,
-              title: "Initialize Withdraw",
-            });
-            setWithdrawModal(false);
-          }
-        });
-
-    }
-    catch (err: any) {
-      if (err.code !== USER_REJECTED_TX) {
-        Sentry.captureMessage("submitWithdraw ", err);
-      }
-      setWidModState({
-        step0: true,
-        step1: false,
-        step2: false,
-        step3: false,
-        step4: false,
-        title: "Initialize Withdraw",
-      });
-      setWithdrawModal(false);
-    }
-  }
 
   useEffect(() => {
     if (!showTokenModal) {
@@ -788,6 +624,15 @@ export default function Withdraw() {
       bal = await getTokenBalance(lib, account, address);
     }
   }
+
+  const handleShow = () => {
+    setShowWithdrawModal(false);
+  }
+  const imageOnErrorHandler = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
+  };
   return (
     <>
       <ToastContainer />
@@ -830,7 +675,7 @@ export default function Withdraw() {
                         <div className="col-1"><Check style={{ background: "green", borderRadius: "50px", padding: "2px" }} /> </div>
                         <div className="col-11">
                           <h6 className="text-sm ff-mos pb-1">Moving funds from Goerli to Puppy Net</h6>
-                          <p className="text-sm">Here you can move frunds from the Goerli network to Puppu Net network on the Puppy Net Chain. This will take 20-30 minutes.</p>
+                          <p className="text-sm">Here you can move frunds from the {NETWORK_LABEL[chainId]} network to {NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]} network on the Puppy Net Chain. This will take 20-30 minutes.</p>
                         </div>
                       </div>
                     </div>
@@ -879,7 +724,12 @@ export default function Withdraw() {
                         />
                         <p className="ps-2">Approve Deposit</p>
                       </div>
-                      <div className="col-5 text-end"><small className="text-md">~</small><NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(allowance * boneUSDValue).toFixed(6)} />
+                      <div className="col-5 text-end">
+                        {allowance > 0 ?
+                          <>
+                            <small className="text-lg">~ </small>
+                            <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(allowance * boneUSDValue).toFixed(6)} />
+                          </> : "Approved"}
                       </div>
                     </div>
                     <div className="row pt-2">
@@ -898,7 +748,7 @@ export default function Withdraw() {
                         <p className="ps-2">Complete Deposit</p>
                       </div>
                       <div className="col-5 text-end">
-                        <small className="text-md">~</small>
+                        <small className="text-lg">~ </small>
                         <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(6)} />
                       </div>
                     </div>
@@ -959,6 +809,7 @@ export default function Withdraw() {
                                 ? (selectedToken?.logo || selectedToken?.logoURI)
                                 : "../../assets/images/eth.png"
                             }
+                            onError={imageOnErrorHandler}
                             alt=""
                           />
                         </div>
@@ -1001,6 +852,7 @@ export default function Withdraw() {
                           <img
                             className="img-fluid"
                             src={NETWORK_ICON[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}
+                            onError={imageOnErrorHandler}
                             alt=""
                           />
                         </div>
@@ -1023,7 +875,7 @@ export default function Withdraw() {
                       </div>
                       <div>
                         <p className="fw-bold">
-                        <small className="text-md">~</small>
+                          <small className="text-lg">~ </small>
                           <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(6)} />
                         </p>
                       </div>
@@ -1140,8 +992,8 @@ export default function Withdraw() {
                     <div className="text-center text-section">
                       <h4 className="pop-hd-md" style={{ color: "var(--bs-orange)" }}>Moving funds</h4>
                       <p>
-                        It will take up to 10 - 15 minutes to move the funds on
-                        Shibarium Mainnet.
+                        It will take up to 20 - 30 minutes to move the funds on{" "}
+                        {NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]} Mainnet.
                       </p>
                     </div>
                     <div>
@@ -1236,512 +1088,16 @@ export default function Withdraw() {
         {/* Deposit popup end */}
 
         {/* Withdraw popups start */}
-        <CommonModal
-          title={withModalState.title}
-          show={showWithdrawModal}
-          setshow={setWithdrawModal}
-          externalCls="dark-modal-100 bridge-ht2"
-        >
-          {/* Withdraw tab popups start */}
-          <>
-            {/* Initialize withdraw popup start */}
-            {withModalState.step0 && !dWState && (
-              <div className="popmodal-body no-ht">
-                <div className="pop-block withdraw_pop">
-                  <div className="pop-top">
-                    <div className="mt-0 cnfrm_box dark-bg">
-                      <div className="top_overview col-12">
-                        <span>
-                          <img
-                            className="img-fluid"
-                            src={selectedToken.logo ? selectedToken.logo : "../../assets/images/red-bone.png"}
-                            alt=""
-                          />
-                        </span>
-                        <h6>
-                          {withdrawTokenInput + " " + selectedToken.parentName}
-                        </h6>
-                        <p><NumberFormat
-                          thousandSeparator
-                          displayType={"text"}
-                          prefix="$ "
-                          value={(
-                            (+withdrawTokenInput || 0) * boneUSDValue
-                          ).toFixed(tokenDecimal)}
-                        /></p>
-                      </div>
-                    </div>
-                    <div className="pop-grid">
-                      <div className="text-center box-block">
-                        <div className="d-inline-block img-flexible">
-                          <img
-                            className="img-fluid"
-                            src={NETWORK_ICON[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}
-                            alt=""
-                          />
-                        </div>
-                        <p>{NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}</p>
-                      </div>
-                      <div className="text-center box-block">
-                        <div className="d-inline-block right-arrow">
-                          <div className="scrolldown-container">
-                            <div className="scrolldown-btn">
-                              <svg
-                                version="1.1"
-                                id="Слой_1"
-                                xmlns="http://www.w3.org/2000/svg"
-                                xmlnsXlink="http://www.w3.org/1999/xlink"
-                                x="0px"
-                                y="0px"
-                                width="50px"
-                                height="80px"
-                                viewBox="0 0 50 80"
-                                enableBackground="new 0 0 50 80"
-                                xmlSpace="preserve"
-                              >
-                                <path
-                                  className="first-path"
-                                  fill="#FFFFFF"
-                                  d="M24.752,79.182c-0.397,0-0.752-0.154-1.06-0.463L2.207,57.234c-0.306-0.305-0.458-0.656-0.458-1.057                  s0.152-0.752,0.458-1.059l2.305-2.305c0.309-0.309,0.663-0.461,1.06-0.461c0.398,0,0.752,0.152,1.061,0.461l18.119,18.119                  l18.122-18.119c0.306-0.309,0.657-0.461,1.057-0.461c0.402,0,0.753,0.152,1.059,0.461l2.306,2.305                  c0.308,0.307,0.461,0.658,0.461,1.059s-0.153,0.752-0.461,1.057L25.813,78.719C25.504,79.027,25.15,79.182,24.752,79.182z"
-                                />
-                                <path
-                                  className="second-path"
-                                  fill="#FFFFFF"
-                                  d="M24.752,58.25c-0.397,0-0.752-0.154-1.06-0.463L2.207,36.303c-0.306-0.304-0.458-0.655-0.458-1.057                  c0-0.4,0.152-0.752,0.458-1.058l2.305-2.305c0.309-0.308,0.663-0.461,1.06-0.461c0.398,0,0.752,0.153,1.061,0.461l18.119,18.12                  l18.122-18.12c0.306-0.308,0.657-0.461,1.057-0.461c0.402,0,0.753,0.153,1.059,0.461l2.306,2.305                  c0.308,0.306,0.461,0.657,0.461,1.058c0,0.401-0.153,0.753-0.461,1.057L25.813,57.787C25.504,58.096,25.15,58.25,24.752,58.25z"
-                                />
-                              </svg>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="text-center box-block">
-                        <div className="d-inline-block img-flexible">
-                          <img
-                            className="img-fluid"
-                            width="22"
-                            height="22"
-                            src={
-                              selectedToken.logo
-                                ? selectedToken.logo
-                                : "../../assets/images/eth.png"
-                            }
-                            alt=""
-                          />
-                        </div>
-                        <p>{NETWORK_LABEL[chainId]}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="pop-bottom">
-                    <div className="text-center text-section">
-                      <h4 className="pop-hd-md" style={{ color: "var(--bs-orange)" }}>Initialize Whitdraw</h4>
-                      <p>
-                        It will take up to 60 mins to 3 hours to reach the
-                        checkpoint.{" "}
-                      </p>
-                    </div>
-                    <div>
-                      <a
-                        className="btn primary-btn w-100"
-                        onClick={() => callWithdrawContract()}
-                      >
-                        Continue
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Initialize withdraw popup end */}
-
-            {/* Reaching checkpoint popup start */}
-            {withModalState.step1 && !dWState && (
-              <div className="popmodal-body no-ht">
-                <div className="pop-block withdraw_pop">
-                  <div className="pop-top">
-                    <div className="mt-0 cnfrm_box dark-bg">
-                      <div className="top_overview col-12">
-                        <span>
-                          <img
-                            className="img-fluid"
-                            src={selectedToken.logo ? selectedToken.logo : "../../assets/images/red-bone.png"}
-                            alt=""
-                          />
-                        </span>
-                        <h6>
-                          {withdrawTokenInput + " " + selectedToken.parentName}
-                        </h6>
-                        <p><NumberFormat
-                          thousandSeparator
-                          displayType={"text"}
-                          prefix="$ "
-                          value={(
-                            (+withdrawTokenInput || 0) * boneUSDValue
-                          ).toFixed(tokenDecimal)}
-                        /></p>
-                      </div>
-                    </div>
-                    <div className="pop-grid">
-                      <div className="text-center box-block">
-                        <div className="d-inline-block img-flexible">
-                          <img
-                            className="img-fluid"
-                            src={NETWORK_ICON[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}
-                            alt=""
-                          />
-                        </div>
-                        <p>{NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}</p>
-                      </div>
-                      <div className="text-center box-block">
-                        <div className="d-inline-block right-arrow">
-                          <div className="scrolldown-container">
-                            <div className="scrolldown-btn">
-                              <svg
-                                version="1.1"
-                                id="Слой_1"
-                                xmlns="http://www.w3.org/2000/svg"
-                                xmlnsXlink="http://www.w3.org/1999/xlink"
-                                x="0px"
-                                y="0px"
-                                width="50px"
-                                height="80px"
-                                viewBox="0 0 50 80"
-                                enableBackground="new 0 0 50 80"
-                                xmlSpace="preserve"
-                              >
-                                <path
-                                  className="first-path"
-                                  fill="#FFFFFF"
-                                  d="M24.752,79.182c-0.397,0-0.752-0.154-1.06-0.463L2.207,57.234c-0.306-0.305-0.458-0.656-0.458-1.057                  s0.152-0.752,0.458-1.059l2.305-2.305c0.309-0.309,0.663-0.461,1.06-0.461c0.398,0,0.752,0.152,1.061,0.461l18.119,18.119                  l18.122-18.119c0.306-0.309,0.657-0.461,1.057-0.461c0.402,0,0.753,0.152,1.059,0.461l2.306,2.305                  c0.308,0.307,0.461,0.658,0.461,1.059s-0.153,0.752-0.461,1.057L25.813,78.719C25.504,79.027,25.15,79.182,24.752,79.182z"
-                                />
-                                <path
-                                  className="second-path"
-                                  fill="#FFFFFF"
-                                  d="M24.752,58.25c-0.397,0-0.752-0.154-1.06-0.463L2.207,36.303c-0.306-0.304-0.458-0.655-0.458-1.057                  c0-0.4,0.152-0.752,0.458-1.058l2.305-2.305c0.309-0.308,0.663-0.461,1.06-0.461c0.398,0,0.752,0.153,1.061,0.461l18.119,18.12                  l18.122-18.12c0.306-0.308,0.657-0.461,1.057-0.461c0.402,0,0.753,0.153,1.059,0.461l2.306,2.305                  c0.308,0.306,0.461,0.657,0.461,1.058c0,0.401-0.153,0.753-0.461,1.057L25.813,57.787C25.504,58.096,25.15,58.25,24.752,58.25z"
-                                />
-                              </svg>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="text-center box-block">
-                        <div className="d-inline-block img-flexible">
-                          <img
-                            className="img-fluid"
-                            width="22"
-                            height="22"
-                            src={
-                              selectedToken.logo
-                                ? selectedToken.logo
-                                : "../../assets/images/eth.png"
-                            }
-                            alt=""
-                          />
-                        </div>
-                        <p>{NETWORK_LABEL[chainId]}</p>
-                      </div>
-                    </div>
-                  </div>
-                  {/* <div className="pop-mid">
-                    <div className="center-content">
-                      <p>Custom token not found Add your first custom token</p>
-                    </div>
-                  </div> */}
-
-
-                  <div className="myTipsArea">Tip: Custom tokens are stored locally in your browser </div>
-                  <div className="pop-bottom">
-                    <div className="text-center text-section">
-                      <h4 className="pop-hd-md" style={{ color: "var(--bs-orange)" }}>Moving funds to Ethereum</h4>
-                      <p>
-                        It will take up to 60 mins to 3 hours to reach the
-                        checkpoint.
-                      </p>
-                    </div>
-                    <div>
-                      <a
-                        onClick={() =>
-                          setWidModState({
-                            step0: false,
-                            step1: false,
-                            step2: true,
-                            step3: false,
-                            step4: false,
-                            title: "Checkpoint reached",
-                          })
-                        }
-                        className={`btn grey-btn w-100 relative ${withModalState.step1 && "disabled btn-disabled"}`}
-                        href="javascript:void(0)"
-                      >
-                        <span className="spinner-border text-secondary pop-spiner fix_spinner"></span>
-                        <span>Moving funds</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            )}
-            {/* Reaching checkpoint  popup end */}
-
-            {/* checkpoint Reached popup start */}
-            {withModalState.step2 && !dWState && (
-              <div className="popmodal-body no-ht">
-                <div className="pop-block withdraw_pop">
-                  <div className="pop-top">
-                    <div className="cnfrm_box dark-bg">
-                      <div className="top_overview col-12">
-                        <span>
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/red-bone.png"
-                            alt=""
-                          />
-                        </span>
-                        <h6>
-                          {withdrawTokenInput + " " + selectedToken.parentName}
-                        </h6>
-                        <p><NumberFormat
-                          thousandSeparator
-                          displayType={"text"}
-                          prefix="$ "
-                          value={(
-                            (+withdrawTokenInput || 0) * boneUSDValue
-                          ).toFixed(tokenDecimal)}
-                        /></p>
-                      </div>
-                    </div>
-                    {/* <div className="pop-action">
-                      <a
-                        className="btn primary-btn w-100"
-                        href="javascript:void(0)"
-                      >
-                        ETHEREUM MAINNET
-                      </a>
-                    </div> */}
-                  </div>
-                  <div className="pop-bottom">
-                    <div className="text-center text-section">
-                      <h4 className="pop-hd-md" style={{ color: "var(--bs-orange)" }}>Complete Withdraw</h4>
-                      <p>
-                        You need to confirm one more transaction to get your
-                        funds in your Ethereum Account.
-                      </p>
-                    </div>
-                    <div>
-                      <a
-                        className="btn primary-btn w-100"
-                        onClick={() =>
-                          setWidModState({
-                            step0: false,
-                            step1: false,
-                            step2: false,
-                            step3: true,
-                            step4: false,
-                            title: "Complete Withdraw",
-                          })
-                        }
-                      >
-                        Confirm
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            {/* checkpoint Reached popup end */}
-
-            {/* Complete withdraw popup start */}
-            {withModalState.step3 && !dWState && (
-              <div className="popmodal-body no-ht">
-                <div className="pop-block withdraw_pop">
-                  <div className="pop-top">
-                    <div className="cnfrm_box dark-bg">
-                      <div className="top_overview col-12">
-                        <span>
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/red-bone.png"
-                            alt=""
-                          />
-                        </span>
-                        <h6>
-                          {withdrawTokenInput + " " + selectedToken.parentName}
-                        </h6>
-                        <p><NumberFormat
-                          thousandSeparator
-                          displayType={"text"}
-                          prefix="$ "
-                          value={(
-                            (+withdrawTokenInput || 0) * boneUSDValue
-                          ).toFixed(tokenDecimal)}
-                        /></p>
-                      </div>
-                    </div>
-                    <div className="pop-grid">
-                      <div className="text-center box-block">
-                        <div className="d-inline-block">
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/etharium.png"
-                            alt=""
-                          />
-                        </div>
-                        <p>{NETWORK_LABEL[chainId]}</p>
-                      </div>
-                      <div className="text-center box-block">
-                        <div className="d-inline-block right-arrow">
-                          <div className="scrolldown-container">
-                            <div className="scrolldown-btn">
-                              <svg
-                                version="1.1"
-                                id="Слой_1"
-                                xmlns="http://www.w3.org/2000/svg"
-                                xmlnsXlink="http://www.w3.org/1999/xlink"
-                                x="0px"
-                                y="0px"
-                                width="50px"
-                                height="80px"
-                                viewBox="0 0 50 80"
-                                enableBackground="new 0 0 50 80"
-                                xmlSpace="preserve"
-                              >
-                                <path
-                                  className="first-path"
-                                  fill="#FFFFFF"
-                                  d="M24.752,79.182c-0.397,0-0.752-0.154-1.06-0.463L2.207,57.234c-0.306-0.305-0.458-0.656-0.458-1.057                  s0.152-0.752,0.458-1.059l2.305-2.305c0.309-0.309,0.663-0.461,1.06-0.461c0.398,0,0.752,0.152,1.061,0.461l18.119,18.119                  l18.122-18.119c0.306-0.309,0.657-0.461,1.057-0.461c0.402,0,0.753,0.152,1.059,0.461l2.306,2.305                  c0.308,0.307,0.461,0.658,0.461,1.059s-0.153,0.752-0.461,1.057L25.813,78.719C25.504,79.027,25.15,79.182,24.752,79.182z"
-                                />
-                                <path
-                                  className="second-path"
-                                  fill="#FFFFFF"
-                                  d="M24.752,58.25c-0.397,0-0.752-0.154-1.06-0.463L2.207,36.303c-0.306-0.304-0.458-0.655-0.458-1.057                  c0-0.4,0.152-0.752,0.458-1.058l2.305-2.305c0.309-0.308,0.663-0.461,1.06-0.461c0.398,0,0.752,0.153,1.061,0.461l18.119,18.12                  l18.122-18.12c0.306-0.308,0.657-0.461,1.057-0.461c0.402,0,0.753,0.153,1.059,0.461l2.306,2.305                  c0.308,0.306,0.461,0.657,0.461,1.058c0,0.401-0.153,0.753-0.461,1.057L25.813,57.787C25.504,58.096,25.15,58.25,24.752,58.25z"
-                                />
-                              </svg>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="text-center box-block">
-                        <div className="d-inline-block">
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/etharium.png"
-                            alt=""
-                          />
-                        </div>
-                        <p>Wallet X25654a5</p>
-                      </div>
-                    </div>
-                    {/* <div className="amt-section position-relative">
-                      <div className="coin-blk">
-                        <div className="coin-sec">
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/eth.png"
-                            alt=""
-                          />
-                        </div>
-                        <p>Estimation of GAS fee required</p>
-                      </div>
-                      <div>
-                        <p className="fw-bold">$20.00</p>
-                      </div>
-                    </div> */}
-                  </div>
-                  <div className="pop-bottom">
-                    <div className="text-section">
-                      <h4 className="pop-hd-md">Withdrawing funds</h4>
-                      <p>Moving funds to your {NETWORK_LABEL[chainId]} Account.</p>
-                    </div>
-                    <div>
-                      <a
-                        onClick={() =>
-                          setWidModState({
-                            step0: false,
-                            step1: false,
-                            step2: false,
-                            step3: false,
-                            step4: true,
-                            title: "Withdraw Complete",
-                          })
-                        }
-                        className="btn grey-btn w-100"
-                        href="javascript:void(0)"
-                      >
-                        <span className="spinner-border text-secondary pop-spiner"></span>
-                        <span>Moving funds</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            {/* Complete withdraw popup end */}
-
-            {/* withdraw complete popup start */}
-            {withModalState.step4 && !dWState && (
-              <div className="popmodal-body no-ht">
-                <div className="pop-block withdraw_pop">
-                  <div className="pop-top">
-                    <div className="cnfrm_box dark-bg">
-                      <div className="top_overview col-12">
-                        <span>
-                          <img
-                            className="img-fluid"
-                            src="../../assets/images/red-bone.png"
-                            alt=""
-                          />
-                        </span>
-                        <h6>100 SHIB</h6>
-                        <p>500.00$</p>
-                      </div>
-                    </div>
-                    <div className="pop-action">
-                      <a
-                        className="btn primary-btn w-100"
-                        href="javascript:void(0)"
-                      >
-                        TRANSFER COMPLETE
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="myTipsArea">Tip: Custom tokens are stored locally in your browser </div>
-
-                </div>
-                <div className="pop-bottom">
-                  <div className="text-section">
-                    <h4 className="pop-hd-md">Transaction Completed</h4>
-                    <p className="lite-color">
-                      Transaction completed succesfully. Your Ethereum wallet
-                      Balance will be updated in few minute. In case of
-                      problems contact our{" "}
-                      <a
-                        title="Support"
-                        href="javascript:void(0);"
-                        className="orange-txt"
-                      >
-                        Support.
-                      </a>
-                    </p>
-                  </div>
-                  <div>
-                    <a
-                      className="btn primary-btn w-100"
-                      onClick={() => setWithdrawModal(false)}
-                    >
-                      View on Shibascan
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-            )}
-            {/* withdraw complete popup start */}
-          </>
-          {/* Withdraw tab popups end */}
-        </CommonModal>
+        {showWithdrawModal ?
+          <WithdrawModal
+            page="bridge"
+            show={showWithdrawModal}
+            dWState={dWState}
+            setWithdrawModalOpen={setShowWithdrawModal}
+            selectedToken={selectedToken}
+            withdrawTokenInput={withdrawTokenInput}
+            boneUSDValue={boneUSDValue}
+          /> : null}
         {/* Withdraw tab popups end */}
 
         {/* Token popups start */}

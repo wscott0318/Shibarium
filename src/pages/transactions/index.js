@@ -5,56 +5,57 @@ import { useRouter } from "next/dist/client/router";
 import CommonModal from "../components/CommonModel";
 import {
   NoEthereumProviderError,
-  UserRejectedRequestError as UserRejectedRequestErrorInjected
-} from '@web3-react/injected-connector'
-import Sidebar from "../layout/sidebar"
+  UserRejectedRequestError as UserRejectedRequestErrorInjected,
+} from "@web3-react/injected-connector";
+import Sidebar from "../layout/sidebar";
 import { useActiveWeb3React } from "app/services/web3";
 import InnerHeader from "../../pages/inner-header";
-
+import useLocalStorageState from "use-local-storage-state";
+import WithdrawModal from "../components/Withdraw";
 export default function Transaction() {
-  const router = useRouter()
+  const router = useRouter();
   const [onlyPending, setOnlyPending] = useState(false);
+  const [txState, setTxState] = useLocalStorageState("txState");
   const [showSendModal, setSendModal] = useState({
     step0: true,
     step1: false,
     step2: false,
     step3: false,
-    title:"Reaching Checkpoint"
+    title: "Reaching Checkpoint",
   });
+  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [menuState, setMenuState] = useState(false);
 
-  const { account } = useActiveWeb3React()
+  const { account } = useActiveWeb3React();
   // const account = useAccount()
 
   const connectToMetamask = () => {
     // authenticate()
     // activate(walletConnector)
-  }
+  };
 
-  const [showModal,setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   function getErrorMessage(error) {
     if (error instanceof NoEthereumProviderError) {
-      return 'Please install metamask and try again.'
+      return "Please install metamask and try again.";
     } else if (error instanceof UnsupportedChainIdError) {
-      return "You're connected to an unsupported network."
+      return "You're connected to an unsupported network.";
     } else if (
       error instanceof UserRejectedRequestErrorInjected ||
       error instanceof UserRejectedRequestErrorWalletConnect
     ) {
-      return 'Please authorize this website to access your Ethereum account.'
-    }
-    else {
-      console.error(error)
-      return ''
+      return "Please authorize this website to access your Ethereum account.";
+    } else {
+      console.error(error);
+      return "";
     }
   }
-
 
   const handleMenuState = () => {
     setMenuState(!menuState);
-  }
-
+  };
+  console.log("txState", txState);
   return (
     <>
       <main className="main-content">
@@ -66,405 +67,13 @@ export default function Transaction() {
           menuState={menuState}
         />
 
-        <CommonModal
-          title={showSendModal.title}
-          show={showModal}
-          setshow={setShowModal}
-          externalCls="dark-modal-100 pop-fix"
-        >
-          <>
-            {/* Reaching Checkpoint popop start  */}
-            {showSendModal.step0 && (
-              <div className="cmn_modal trans_popups trans-ht">
-                <ul className="stepper">
-                  <li className="step active">
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Reaching Checkpoint</div>
-                  </li>
-                  <li className="step">
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Checkpoint</div>
-                  </li>
-                  <li className="step">
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Withdrawing Funds</div>
-                  </li>
-                  <li className="step">
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Withdraw Completed</div>
-                  </li>
-                </ul>
-                <div className="step-content">
-                  <div className="image_area row">
-                    <div className="col-12 text-center watch-img-sec">
-                      <div className="set-block">
-                        <img className="img-fluid" src="../../assets/images/watch.png" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mid_text row">
-                    <div className="col-12 text-center">
-                      <h4>Bridging funds</h4>
-                    </div>
-                    <div className="col-12 text-center">
-                      <p className="mb-0">
-                        Bridging funds from Shibarium Chain to Ethereum Chain the
-                        transaction will take from 60 min to 3 hrs.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="fees_text">
-                    <div className="icon_name">
-                      <img src="../../assets/images/eth-icon.png" />
-                      <span>Estimation of GAS fee required</span>
-                    </div>
-                    <div className="">
-                      <p>$10.00</p>
-                    </div>
-                  </div>
-                  <div className="pop_btns_area row form-control">
-                    <div className="col-12">
-                      <a
-                        className="btn grey-btn d-flex align-items-center"
-                        href="/"
-                        onClick={() =>
-                          setSendModal({
-                            step0: false,
-                            step1: true,
-                            step2: false,
-                            step3: false,
-                            title: "Checkpoint Reached",
-                          })
-                        }
-                      >
-                          <span className="spinner-border text-secondary pop-spiner"></span>
-                          Moving funds
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            {/* Reaching Checkpoint popop end  */}
-
-            {/* Checkpoint reached popop start  */}
-            {showSendModal.step1 && (
-              <div className="cmn_modal trans_popups trans-ht">
-                <ul className="stepper">
-                  <li className="step active">
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Reaching Checkpoint</div>
-                  </li>
-                  <li className="step active">
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Checkpoint</div>
-                  </li>
-                  <li className="step">
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Withdrawing Funds</div>
-                  </li>
-                  <li className="step">
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Withdraw Completed</div>
-                  </li>
-                </ul>
-                <div className="step-content">
-                  <div className="image_area row">
-                    <div className="col-12 text-center">
-                      <div className="set-block">
-                        <img
-                          className="img-fluid"
-                          src="../../assets/images/funds-coin.png"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mid_text row">
-                    <div className="col-12 text-center">
-                      <h4>Move Funds to your account</h4>
-                    </div>
-                    <div className="col-12 text-center">
-                      <p className="mb-0">
-                        Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="fees_text">
-                    <div className="icon_name">
-                      <img src="../../assets/images/eth-icon.png" />
-                      <span>Estimation of GAS fee required</span>
-                    </div>
-                    <div className="">
-                      <p>$10.00</p>
-                    </div>
-                  </div>
-                  <div className="pop_btns_area row form-control">
-                    <div className="col-12">
-                      <a
-                          onClick={() =>
-                            setSendModal({
-                              step0: false,
-                              step1: false,
-                              step2: true,
-                              step3: false,
-                              title: "Withdrawing Funds",
-                            })
-                          }
-                        className="btn primary-btn d-flex align-items-center"
-                        href="/"
-                      >
-                        <span
-                          
-                        >
-                          Confirm
-                        </span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            {/* Checkpoint reached popop ends  */}
-
-            {/* Checkpoint reached popop 2 start  */}
-            {showSendModal.step2 && (
-              <div className="cmn_modal trans_popups">
-                <ul className="stepper">
-                  <li className="step active">
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Reaching Checkpoint</div>
-                  </li>
-                  <li className="step active">
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Checkpoint</div>
-                  </li>
-                  <li className="step active">
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Withdrawing Funds</div>
-                  </li>
-                  <li className="step">
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Withdraw Completed</div>
-                  </li>
-                </ul>
-                <div className="step-content">
-                  <div className="image_area row">
-                    <div className="col-12 text-center">
-                      <div className="set-block">
-                        <img className="img-fluid" src="../../assets/images/watch.png" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mid_text row">
-                    <div className="col-12 text-center">
-                      <h4>Move Funds to your account</h4>
-                    </div>
-                    <div className="col-12 text-center">
-                      <p className="mb-0">
-                        Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="fees_text">
-                    <div className="icon_name">
-                      <img src="../../assets/images/eth-icon.png" />
-                      <span>Estimation of GAS fee required</span>
-                    </div>
-                    <div className="">
-                      <p>$10.00</p>
-                    </div>
-                  </div>
-                  <div className="pop_btns_area row form-control">
-                    <div className="col-12">
-                      <a
-                        className="btn grey-btn d-flex align-items-center"
-                        href="/"
-                        onClick={() => {
-                          setSendModal({
-                            step0: false,
-                            step1: false,
-                            step2: false,
-                            step3: true,
-                            title: "Withdraw Completed",
-                          });
-                        }}
-                      >
-                        <span className="spinner-border text-secondary pop-spiner"></span>
-                        <span
-                        >
-                          Moving funds
-                        </span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            {/* Checkpoint reached popop 2 ends  */}
-
-            {/* Checkpoint reached popop 3 start  */}
-            {showSendModal.step3 && (
-              <div className="cmn_modal trans_popups">
-                <ul className="stepper">
-                  <li className="step active">
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Reaching Checkpoint</div>
-                  </li>
-                  <li className="step active">
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Checkpoint</div>
-                  </li>
-                  <li className="step active">
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Withdrawing Funds</div>
-                  </li>
-                  <li className="step active">
-                    <div className="step-ico">
-                      <img
-                        className="img-fluid"
-                        src="../../assets/images/tick-yes.png"
-                        alt="check-icon"
-                      />
-                    </div>
-                    <div className="step-title">Withdraw Completed</div>
-                  </li>
-                </ul>
-                <div className="step-content">
-                  <div className="image_area row">
-                    <div className="col-12 text-center">
-                      <div className="set-block">
-                        <img
-                          className="img-fluid"
-                          src="../../assets/images/thumb-up-icon.png"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mid_text row">
-                    <div className="col-12 text-center">
-                      <h4>Move Funds to your account</h4>
-                    </div>
-                    <div className="col-12 text-center">
-                      <p className="mb-0">
-                        Moving funds from Ethereum Mainnet to Wallet: 0x21a...48a5.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="fees_text">
-                    <div className="icon_name">
-                      <img src="../../assets/images/eth-icon.png" />
-                      <span>Estimation of GAS fee required</span>
-                    </div>
-                    <div className="">
-                      <p>$10.00</p>
-                    </div>
-                  </div>
-                  <div className="pop_btns_area row form-control">
-                    <div className="col-12">
-                      <a onClick={() => setShowModal(false)}
-                        className="btn primary-btn d-block"
-                        href="/"
-                      >
-                        <span className="d-block">Confirm</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            {/* Checkpoint reached popop 3 ends  */}
-          </>
-        </CommonModal>
+        {showWithdrawModal && <WithdrawModal
+          page="tx"
+          dWState={true}
+          setWithdrawModalOpen={setShowWithdrawModal}
+          show={showWithdrawModal}
+          withdrawTokenInput={txState?.amount}
+        />}
 
         <section className="assets-section">
           <div className="cmn_dashbord_main_outr">
@@ -552,9 +161,11 @@ export default function Transaction() {
                               step1: false,
                               step2: false,
                               step3: false,
-                              title: "Reached Checkpoint",
+                              title: txState?.checkpointSigned
+                                ? "Reached Checkpoint"
+                                : "Signing Checkpoints",
                             });
-                            setShowModal(true);
+                            setShowWithdrawModal(true);
                           }}
                           className="btn primary-btn w-100"
                         >
@@ -566,7 +177,7 @@ export default function Transaction() {
                 </div>
                 {/* all transactions table start */}
                 <div className="transac-data">
-                {!onlyPending && (
+                  {!onlyPending && (
                     <div className="transactions_list_outr">
                       <div className="single_trns_row">
                         <div className="row trns_date">
@@ -712,7 +323,7 @@ export default function Transaction() {
                         </div>
                       </div>
                     </div>
-                )}
+                  )}
                 </div>
                 {/* all transactions table ends */}
 

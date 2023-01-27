@@ -1054,6 +1054,9 @@ input:checked + .slider:before {
   margin-top: 16px;
   margin-bottom: 16px;
 }
+.stepper.del-step.withdraw_steps .step:nth-child(1), .stepper.del-step .step:nth-child(4) {
+  width: 18%;
+}
 // .popmodal-body.no-ht{
 //     min-height: 100%;
 //     .pop-block{
