@@ -1,4 +1,4 @@
-import CopyHelper from 'app/components/AccountDetails/Copy'
+
 import React from 'react'
 
 const AddressDetails: React.FC<any> = ({ validatorInfo }) => {

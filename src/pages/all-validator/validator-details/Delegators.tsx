@@ -1,8 +1,7 @@
 import Pagination from 'app/components/Pagination';
 import React, { useEffect, useState } from 'react'
-import { Nav } from 'react-bootstrap'
 import NumberFormat from 'react-number-format';
-import { addDecimalValue, tokenDecimal } from 'web3/commonFunctions';
+import { addDecimalValue } from 'web3/commonFunctions';
 import * as Sentry from "@sentry/nextjs";
 interface Props{
     allDelegators:any[];

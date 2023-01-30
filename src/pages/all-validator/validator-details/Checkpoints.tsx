@@ -1,6 +1,5 @@
 import Pagination from 'app/components/Pagination';
-import React, { useEffect, useState } from 'react'
-import { Nav } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react';
 import NumberFormat from 'react-number-format';
 import TimeAgo from 'timeago-react';
 import * as Sentry from "@sentry/nextjs";

@@ -58,6 +58,8 @@ function StepTwo({
     }
   }, [account]);
 
+  console.log(userAddress, 'userAddress');
+  
   const callAPI = async (val: any) => {
     try {
       if (imageData) {

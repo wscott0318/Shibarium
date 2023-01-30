@@ -13,7 +13,7 @@ import { addDecimalValue, currentGasPrice, getAllowanceAmount, stakeForErrMsg, U
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { MAXAMOUNT,checkImageType } from "../../web3/commonFunctions";
 import { useEthBalance } from '../../hooks/useEthBalance';
-import { useTokenBalance, useWeb3Decimals } from '../../hooks/useTokenBalance';
+import { useTokenBalance } from '../../hooks/useTokenBalance';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { registerValidator } from "services/apis/network-details/networkOverview";
@@ -33,13 +33,11 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     title: 'Pending',
   })
   const [hashLink, setHashLink] = useState('')
-  const [minDeposit, setMinDeposit] = useState<number>(0);
   const [minHeimdallFee, setMinHeimdallFee] = useState<number>(0);
   const ethBalance =  useEthBalance();
   const tokenBalance = useTokenBalance(dynamicChaining[chainId].BONE);
   const availBalance = chainId === ChainId.SHIBARIUM ? ethBalance : tokenBalance;
   const isLoading = availBalance == -1;
-  // const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
   let schema = yup.object().shape({
     amount: yup.number()
       .typeError("Only digits are allowed.")
@@ -68,11 +66,9 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       let user = account;
       if (account) {
         const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-        const MinimumFees = await instance.methods.minDeposit().call({ from: user }); // read
         const MinimumHeimDallFee = await instance.methods.minHeimdallFee().call({ from: user }); // read
-        const fees = +MinimumFees / 10 ** web3Decimals
+     
         const feesHeimdall = +MinimumHeimDallFee / 10 ** web3Decimals
-        setMinDeposit(fees)
         setMinHeimdallFee(feesHeimdall)
       }
     }
@@ -253,7 +249,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     }
   }
 
-  const { values, errors, handleBlur, setFieldValue, handleChange, handleSubmit, touched, setValues } =
+  const { values, errors, handleBlur, setFieldValue, handleChange, handleSubmit, touched } =
     useFormik({
       initialValues: {
         amount: ''
@@ -330,7 +326,77 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     })
   };
 
+const loaderStep1 = ()=>{
+  if(loader == "step1"){
+    return(
+      <CircularProgress color="inherit" />
+    )
+  }else{
+    return( <div>
+      <img
+        className={`img-fluid tick-img ${StepComplete.one ? "" : "disabled"
+          }`}
+        src="../../assets/images/green-tick.png"
+        alt=""
+        width="20"
+      />
+    </div>)
+  }
+}
 
+const loaderStep2 = ()=>{
+  if(loader == "step2"){
+    return(
+      <CircularProgress color="inherit" />
+    )
+  }else{
+    return(   <div>
+      <img
+        className={`img-fluid tick-img ${StepComplete.two ? "" : "disabled"
+      }`}
+      src="../../assets/images/green-tick.png"
+      alt=""
+      width="20"
+      />
+    </div>)
+  }
+}
+
+const loaderStep3 = ()=>{
+  if(loader == "step3"){
+    return(
+      <CircularProgress color="inherit" />
+    )
+  }else{
+    return(   <div>
+      <img
+        className={`img-fluid tick-img ${StepComplete.three ? "" : "disabled"
+          }`}
+        src="../../assets/images/green-tick.png"
+        alt=""
+        width="20"
+      />
+    </div>)
+  }
+}
+
+const loaderStep4 = ()=>{
+  if(loader == "step4"){
+    return(
+      <CircularProgress color="inherit" />
+    )
+  }else{
+    return( <div>
+      <img
+        className={`img-fluid tick-img ${StepComplete.four ? "" : "disabled"
+          }`}
+        src="../../assets/images/green-tick.png"
+        alt=""
+        width="20"
+      />
+    </div>)
+  }
+}
 
   return (
     <>
@@ -520,19 +586,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                           }`}
                       >
                         <div className={`step1`}>
-                          {loader == "step1" ? (
-                            <CircularProgress color="inherit" />
-                          ) : (
-                            <div>
-                              <img
-                                className={`img-fluid tick-img ${StepComplete.one ? "" : "disabled"
-                                  }`}
-                                src="../../assets/images/green-tick.png"
-                                alt=""
-                                width="20"
-                              />
-                            </div>
-                          )}
+                          {loaderStep1()}
                         </div>
                         <span>Approval for BONE.</span>
                       </div>
@@ -541,19 +595,9 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                       }`}
                       >
                         <div className={`step2`}>
-                          {loader == "step2" ? (
-                            <CircularProgress color="inherit" />
-                            ) : (
-                              <div>
-                              <img
-                                className={`img-fluid tick-img ${StepComplete.two ? "" : "disabled"
-                              }`}
-                              src="../../assets/images/green-tick.png"
-                              alt=""
-                              width="20"
-                              />
-                            </div>
-                          )}
+                          {
+                            loaderStep2()
+                          }
                         </div>
                           <span>Saving info in database.</span>
                       </div>
@@ -562,19 +606,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                           }`}
                       >
                         <div className={`step3`}>
-                          {loader == "step3" ? (
-                            <CircularProgress color="inherit" />
-                          ) : (
-                            <div>
-                              <img
-                                className={`img-fluid tick-img ${StepComplete.three ? "" : "disabled"
-                                  }`}
-                                src="../../assets/images/green-tick.png"
-                                alt=""
-                                width="20"
-                              />
-                            </div>
-                          )}
+                          {loaderStep3()}
                         </div>
                         <span>Processing Transaction.</span>
                       </div>
@@ -583,19 +615,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
                           }`}
                       >
                         <div className={`step4`}>
-                          {loader == "step4" ? (
-                            <CircularProgress color="inherit" />
-                          ) : (
-                            <div>
-                              <img
-                                className={`img-fluid tick-img ${StepComplete.four ? "" : "disabled"
-                                  }`}
-                                src="../../assets/images/green-tick.png"
-                                alt=""
-                                width="20"
-                              />
-                            </div>
-                          )}
+                          {loaderStep4()}
                         </div>
                         <span>Successfully Completed.</span>
                       </div>

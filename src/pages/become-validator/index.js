@@ -172,6 +172,8 @@ const Rewards = () => {
     }
   };
 
+  console.log(valId, 'valID');
+
   return (
     <>
       <Header />

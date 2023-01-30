@@ -24,7 +24,7 @@ import {
 import { useAppDispatch } from "../../state/hooks";
 import fromExponential from "from-exponential";
 import { getExplorerLink } from "app/functions";
-import { currentGasPrice, getAllowanceAmount, USER_REJECTED_TX, tokenDecimal, addDecimalValue, web3Decimals } from "web3/commonFunctions";
+import { currentGasPrice, getAllowanceAmount, USER_REJECTED_TX, tokenDecimal } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -51,10 +51,9 @@ export default function Withdraw() {
   );
   const [showDepositModal, setDepositModal] = useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
-  const [showTokenModal, setTokenModal] = useState(false);
+  const showTokenModal = false
   const [depositTokenInput, setDepositTokenInput] = useState("");
   const [withdrawTokenInput, setWithdrawTokenInput] = useState("");
-  const [amountApproval, setAmountApproval] = useState(false);
   const [allowance, setAllowance] = useState<any>(0);
   const [dWState, setDWState] = useState(
     bridgeType === "deposit" ? true : false
@@ -75,14 +74,6 @@ export default function Withdraw() {
   }, [account]);
   console.log("bone usd value ", boneUSDValue);
 
-  const [withModalState, setWidModState] = useState({
-    step0: true,
-    step1: false,
-    step2: false,
-    step3: false,
-    step4: false,
-    title: "Initialize Withdraw",
-  });
   const [depModalState, setDepModState] = useState({
     step0: true,
     step1: false,
@@ -100,10 +91,8 @@ export default function Withdraw() {
     title: "Select a Token",
   });
   const [tokenModalList, setTokenModalList] = useState<any>([]);
-  const [tokenList, setTokenList] = useState([]);
-  const [localTokens, setLocalTokens] = useState<any>(
-    JSON.parse(localStorage.getItem("newToken") || "[]")
-  );
+  const localTokens = JSON.parse(localStorage.getItem("newToken") || "[]")
+
   const [tempTokens, setTempTokens] = useState<any>({
     parentContract: "",
     childContract: "",
@@ -128,7 +117,6 @@ export default function Withdraw() {
             x.balance = await getTokenBalance(lib, account, x.parentContract);
           }
         });
-        setTokenList(list);
         setTokenModalList([...localTokens, ...list]);
       });
     } catch (err: any) {
@@ -182,7 +170,7 @@ export default function Withdraw() {
               summary: `${res}`,
             })
           );
-          setAmountApproval(true);
+         
           setAllowance(0);
         })
         .on("receipt", (res: any) => {
@@ -235,7 +223,6 @@ export default function Withdraw() {
 
   const callDepositModal = (values: any, resetForm: any) => {
     try {
-      // console.log("deposit values =>  ", values);
       setDepositTokenInput(values.amount);
       {
         setDepModState({
@@ -256,16 +243,8 @@ export default function Withdraw() {
   const callWithdrawModal = (values: any) => {
     try {
       setWithdrawTokenInput(values.withdrawAmount);
-      console.log("withdraw values =>  ", values,showWithdrawModal);
+      console.log("withdraw values =>  ", values,showWithdrawModal,);
       {
-        setWidModState({
-          step0: true,
-          step1: false,
-          step2: false,
-          step3: false,
-          step4: false,
-          title: "Initialize Withdraw",
-        });
         setShowWithdrawModal(true);
       }
     } catch (err: any) {
@@ -274,7 +253,7 @@ export default function Withdraw() {
     }
   };
   const estGasFee = async () => {
-    setAmountApproval(false);
+   
     setEstGas(0);
     let user: any = account;
     const amountWei = web3.utils.toBN(
@@ -567,6 +546,8 @@ export default function Withdraw() {
         } else if (isalreadypresent) {
           setTempTokens({});
         }
+        console.log(tempTokens,'tempTokens');
+        
       }
     } catch (err: any) {
       Sentry.captureMessage("getTempTokens", err);
@@ -577,36 +558,9 @@ export default function Withdraw() {
     getTempTokens();
   }, [newToken, tokenState]);
 
-  // const clearAllCustomTokens = () => {
-  //   try {
-  //     let checkArray = tokenModalList;
-  //     let localtokenarray = localTokens.map((st: any) => st.parentContract);
-  //     const notLocalTokens = checkArray.filter(
-  //       (item: any) => !localtokenarray.includes(item.parentContract)
-  //     );
-  //     setTokenModalList(notLocalTokens);
-  //     setLocalTokens([]);
-  //     localStorage.setItem("newToken", "[]");
-  //   } catch (err: any) {
-  //     Sentry.captureMessage("clearAllCustomTokens", err);
-  //   }
-  // };
 
-  const spliceCustomToken = (index: any) => {
-    try {
-      let incomingObject = localTokens[index];
-      const filteredModallist = localTokens.filter((ss: any) => {
-        return ss.parentContract !== incomingObject.parentContract;
-      });
-      setLocalTokens(filteredModallist);
-      const filtered2 = tokenModalList.filter((ss: any) => {
-        return ss.parentContract !== incomingObject.parentContract;
-      });
-      setTokenModalList(filtered2);
-    } catch (err: any) {
-      Sentry.captureMessage("spliceCustomToken ", err);
-    }
-  };
+
+
   useEffect(() => {
     depositChainTokenBalance();
   }, [selectedToken]);
@@ -623,16 +577,38 @@ export default function Withdraw() {
       let address = selectedToken?.parentContract || selectedToken?.address;
       bal = await getTokenBalance(lib, account, address);
     }
+    console.log(bal, 'bal');
+    
   }
 
-  const handleShow = () => {
-    setShowWithdrawModal(false);
-  }
   const imageOnErrorHandler = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
     event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
   };
+
+  const selectedTokenRender = ()=>{
+    if(selectedToken?.logo || selectedToken?.logoURI){
+      return(
+        <img
+        width="22"
+        height="22"
+        className="img-fluid"
+        src={selectedToken?.logo ? selectedToken?.logo : selectedToken?.logoURI}
+        alt=""
+      />
+      )
+    }else{
+      return(
+        <img
+        className="img-fluid"
+        src={"../../assets/images/eth.png"}
+        alt=""
+      />
+      )
+    }
+
+  }
   return (
     <>
       <ToastContainer />
@@ -1298,24 +1274,9 @@ export default function Withdraw() {
                                     <div className="form-field position-relative txt-fix">
                                       <div className="icon-chain">
                                         <div>
-                                          {
-                                            (selectedToken?.logo || selectedToken?.logoURI) ?
-                                              <img
-                                                width="22"
-                                                height="22"
-                                                className="img-fluid"
-                                                src={selectedToken?.logo ? selectedToken?.logo : selectedToken?.logoURI}
-                                                alt=""
-                                              />
-                                              :
-                                              (
-                                                <img
-                                                  className="img-fluid"
-                                                  src={"../../assets/images/eth.png"}
-                                                  alt=""
-                                                />
-                                              )
-                                          }
+                                          {selectedTokenRender()}
+                                            
+                                            
                                         </div>
                                       </div>
                                       <div className="mid-chain">
@@ -1534,7 +1495,7 @@ export default function Withdraw() {
                       }}
                       validationSchema={withdrawValidations}
                       onSubmit={(values, { resetForm }) => {
-                        // console.log("values ==>>", values);
+                     
                         callWithdrawModal(values);
                         resetForm();
                       }}

@@ -20,9 +20,8 @@ export const Allvalidator: React.FC = () => {
   const [nodeSetup, setNodeSetup] = useState<any>('')
   const [valCount, setValCount] = useState(0);
   const [valMaxCount, setValMaxCount] = useState(0);
-  const [valId, setValId] = useValId();
   const [valInfoLoader, setValInfoLoader] = useState(true)
-
+  const valId = useValId();
 
   const getValInfo = () => {
     try {
