@@ -13,7 +13,7 @@ export const startWithdraw = async (clientType, burnOrExitTxHash, fast = 0) => {
     // console.log("step 4 withdraw");
     let addressData;
     await burnGetAPI(clientType, tokenAddr).then((res) => {
-      console.log("step 6 withdraw");
+      console.log("step 6 withdraw" , clientType);
       console.log("response ", res);
       addressData = res.data.data.token;
       console.log("address data", addressData);
@@ -29,7 +29,7 @@ export const startWithdraw = async (clientType, burnOrExitTxHash, fast = 0) => {
       console.log("Burn transaction has not been checkpointed as yet");
     //   return false;
     }
-
+    console.log("clientType " , clientType)
     console.log("step 2 withdraw" , inclusion);
     const burnExitTxReceipt =
       await client.client.child.web3_.eth.getTransactionReceipt(

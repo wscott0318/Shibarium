@@ -127,7 +127,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   const [importedTokens, setImportedTokens] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchedList, setSearchedList] = useState<any>(null);
-  const [offset , setOffset] = useState<any>(10);
+  const [offset, setOffset] = useState<any>(10);
   const [tempTokens, setTempTokens] = useState<any>({
     parentContract: "",
     name: "",
@@ -145,28 +145,46 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
         console.log("list ==> ", list);
         list.forEach(async (x: any) => {
           if (x.parentName === "BONE") {
-            console.log("value of x ==> " , lib , account ," bone address=>" , dynamicChaining[chainId].BONE);
-            if(chainId === ChainId.GÖRLI){
-              x.balance = await getTokenBalance(
+            console.log("value of x ==> ", lib, account, " bone address=>", dynamicChaining[chainId].BONE);
+            if (chainId === ChainId.GÖRLI) {
+              await getTokenBalance(
                 lib,
                 account,
                 dynamicChaining[chainId].BONE
-              );
+              ).then((res: any) => {
+                x.balance = res;
+                console.log("executed 1", res);
+              }).catch((err: any) => {
+                console.log("Error fetching balance => ", err);
+              })
             }
             else {
-              x.balance = await getTokenBalance(
+              await getTokenBalance(
                 lib,
                 account,
                 x.childContract
-              );
+              ).then((res: any) => {
+                x.balance = res;
+                console.log("executed 2 if", res);
+              }).catch((err: any) => {
+                console.log("Error fetching balance => ", err);
+              })
             }
           } else {
-            x.balance = await getTokenBalance(lib, account, x.parentContract);
+            await getTokenBalance(lib, account, x.parentContract).then((res: any) => {
+              x.balance = res;
+              console.log("executed 2 else");
+            }).catch((err: any) => {
+              console.log("Error fetching balance => ", err);
+            })
           }
         });
-        setIsLoading(false);
+        console.log("executed 3");
         setTokenList(list);
         setTokenModalList([...localTokens, ...list]);
+        setTimeout(()=>{
+          setIsLoading(false);
+        },3000);
       });
     } catch (err: any) {
       setIsLoading(false);
@@ -231,12 +249,12 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       console.log("token info ", tokenInfo);
       let obj: any;
       if (tokenInfo) {
-        let logoURI:any;
-        if(tokenInfo?.logoURI.startsWith("ipfs://")){
+        let logoURI: any;
+        if (tokenInfo?.logoURI.startsWith("ipfs://")) {
           logoURI = "https://ipfs.io/ipfs/" + tokenInfo?.logoURI.slice(7);
         }
-        else{
-          logoURI= tokenInfo?.logoURI;
+        else {
+          logoURI = tokenInfo?.logoURI;
         }
         obj = {
           parentContract: tokenInfo?.address,
@@ -443,7 +461,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     });
   }
 
-  console.log("local tokens ," , localTokens);
+  console.log("local tokens ,", localTokens);
   return (
     <div>
       {/* Token popups start */}

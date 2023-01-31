@@ -12,53 +12,59 @@ const StepThree: React.FC<any> = ({
     step,
     hashLink,
     checkpointSigned,
-    challengePeriodCompleted,
+    challengePeriodCompleted=true,
     setProcessing,
     setStep,
     setHashLink,
     switchNetwork,
     setChallengePeriodCompleted,
     completed,
-    setCompleted}) => {
-        
+    setCompleted, page }) => {
+
     const [txState, setTxState] = useLocalStorageState<any>("txState");
-    const { account,chainId=1 } = useActiveWeb3React();
-    
+    const { account, chainId = 1 } = useActiveWeb3React();
+
     useEffect(() => {
-        if(txState){
+        if (txState && page == "tx") {
             let link = getExplorerLink(chainId, txState?.txHash, 'transaction')
             setHashLink(link);
         }
-    },[]);
-    const startExitWithBurntTokens = async () => {
+    }, []);
+
+    const processExit = async () => {
         console.log("step 6");
         // switch network to Goerli chain
-        await switchNetwork();
+        // await switchNetwork();
         setProcessing((processing: any) => [...processing, "Challenge Period"])
-        // let exitWithBurn = await finalise(txState?.token?.childContract,account);
-        let exitWithBurn = await finalise("0x664456257bC8cfFc605C74Ab8Fea6bd04CCe3BB6", account);
-        console.log("exitWithBurn => ", exitWithBurn);
-        if (exitWithBurn) {
+        await finalise(txState?.token?.parentContract,account).then((res:any) => {
             setStep("Challenge Period");
             setTxState({ ...txState, "challengePeriod": true });
             setChallengePeriodCompleted(true);
-            let link = getExplorerLink(chainId, exitWithBurn, 'transaction')
+            let link = getExplorerLink(chainId, res, 'transaction');
             setHashLink(link)
-        }
+        });
     }
 
-    const processExit = async() => {
-        // let exit = startWithdraw(txState?.token?.bridgeType,hashLink,1);
-        // let exit = await startWithdraw("plasma","0x6cf665ac6027bc35ac5cb82eda29c3b7a2881623712f8077128223f38c1852d0",0);
-        // console.log("exit ==> " ,exit);
-        // if(exit){
-        //     setProcessing((processing: any) => [...processing, "Completed"])
-        //     setTxState({ ...txState, "txHash": exit, "processExit": true });
-        //     setStep("Completed");
-        //     setCompleted(true);
-        //     let link = getExplorerLink(chainId, exit, 'transaction')
-        //     setHashLink(link)
-        // }
+    const startExitWithBurntTokens = async () => {
+        let type = selectedToken?.bridgetype || txState?.token?.bridgetype;
+        let withdrawState:any = await startWithdraw(type, txState?.txHash, 0);
+        if (withdrawState) {
+            if (selectedToken?.bridgetype == "pos") {
+                setProcessing((processing: any) => [...processing, "Challenge Period", "Completed"])
+                setStep("Completed");
+                setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true, "processExit": true });
+            }
+            else {
+                setStep("Challenge Period");
+                setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true });
+                setChallengePeriodCompleted(true);
+                setProcessing((processing: any) => [...processing, "Challenge Period"])
+            }
+            console.log("step 3");
+            console.log("entered withdraw state => ", withdrawState);
+        }
+        console.log("did not enter withdraw state => ", withdrawState);
+        console.log("step 5");
 
     }
     return (
@@ -92,16 +98,17 @@ const StepThree: React.FC<any> = ({
                             </div>
                             <div className="step-title">Checkpoint</div>
                         </li>
-                        <li className={`step ${(processing.includes("Challenge Period")) && "active"}`}>
-                            <div className="step-ico">
-                                <img
-                                    className="img-fluid"
-                                    src="../../assets/images/tick-yes.png"
-                                    alt="check-icon"
-                                />
-                            </div>
-                            <div className="step-title">Challenge Period</div>
-                        </li>
+                        {selectedToken && selectedToken?.bridgetype == "plasma" || txState && txState?.token?.bridgetype == "plasma" &&
+                            <li className={`step ${(processing.includes("Challenge Period")) && "active"}`}>
+                                <div className="step-ico">
+                                    <img
+                                        className="img-fluid"
+                                        src="../../assets/images/tick-yes.png"
+                                        alt="check-icon"
+                                    />
+                                </div>
+                                <div className="step-title">Challenge Period</div>
+                            </li>}
                         <li className={`step ${(processing.includes("Completed")) && "active"}`}>
                             <div className="step-ico">
                                 <img
@@ -196,7 +203,7 @@ const StepThree: React.FC<any> = ({
                     }
                     {step == "Completed" &&
                         <>
-                           {completed ? <div className='pop-grid flex-column align-items-center justify-content-center text-center'>
+                            {completed ? <div className='pop-grid flex-column align-items-center justify-content-center text-center'>
                                 <img src="../../assets/images/cmpete-step.png" alt="" />
                                 <h5 className='pt-4 pb-2'>Transfer completed successfully</h5>
                                 <p className='pb-3 ps-2 pe-2'>Your transfer is completed successfully.</p>
@@ -204,8 +211,8 @@ const StepThree: React.FC<any> = ({
                                     View on Block Explorer
                                 </a>
                             </div>
-                            :
-                            
+                                :
+
                                 <div className='pop-grid flex-column align-items-center justify-content-center text-center'>
                                     <div className='text-center'>
                                         <CircularProgress style={{ color: " #F28B03" }} size={100} />

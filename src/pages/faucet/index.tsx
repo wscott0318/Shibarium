@@ -9,6 +9,7 @@ import { useActiveWeb3React } from "app/services/web3";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useRouter } from "next/router";
 import { Form } from "react-bootstrap";
+import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 
 export default function faucet() {
   const [isTopdoG, setIsTopdoG] = useState(true);
@@ -23,6 +24,7 @@ export default function faucet() {
     done: false,
     hash: ''
   })
+  const [isActive , setIsActive] = useState(0);
   const { chainId = 1, account, library } = useActiveWeb3React();
 
   const handleMenuState = () => {
@@ -30,6 +32,8 @@ export default function faucet() {
   }
   const handleChange = (e: any) => {
     setSelectedChain(e.target.value);
+    console.log("value inside e" , e.target.value)
+    setIsActive(e.target.value);
   }
   useEffect(() => {
     if (!account) {
@@ -120,7 +124,7 @@ export default function faucet() {
                             <div className="form-group">
                               {/* <div className="form-field dark-input mb-2">
                                 <div className="mid-chain w-100 position-relative"> */}
-                                  <Form.Select
+                              {/* <Form.Select
                                     name="toChain"
                                     defaultValue={selectedChain}
                                     value={selectedChain}
@@ -135,9 +139,23 @@ export default function faucet() {
                                   >
                                     <option value="1">Goerli BONE</option>
                                     <option value="2">Puppy Net BONE</option>
-                                  </Form.Select>
-                                </div>
-                              {/* </div>
+                                  </Form.Select> */}
+                              <RadioGroup
+                                aria-labelledby="demo-controlled-radio-buttons-group"
+                                name="controlled-radio-buttons-group"
+                                value={selectedChain}
+                                className="radioGroup"
+                                onChange={handleChange}
+                              >
+                                <FormControlLabel value="1" control={<Radio />} 
+                                label={<div className="d-flex justify-content-center align-items-center" style={{height:"34px"}}><img width={18} src="../../assets/images/eth.png" className="me-2"/> Goerli BONE</div>} 
+                                className={`radioButtons ${isActive == 1 && "active"}`}/>
+                                <FormControlLabel value="2" control={<Radio />} 
+                                label={<div className="d-flex justify-content-center align-items-center" style={{height:"34px"}}><img width={24} src="../../assets/images/shib-logo.png" className="me-2"/> Puppy Net BONE</div>} 
+                                className={`radioButtons ${isActive == 2 && "active"}`} />
+                              </RadioGroup>
+                            </div>
+                            {/* </div>
                             </div> */}
                             <div className="form-group">
                               <div className="form-field dark-input">

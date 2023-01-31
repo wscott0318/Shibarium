@@ -1217,6 +1217,24 @@ td.no_record img {
   left: -1px;
   cursor: pointer;
 }
+.MuiFormGroup-root.radioGroup {
+  flex-direction: row;
+}
+.radioButtons {
+  width: 38%;
+  border: 1px solid;
+  margin: 10px auto !important;
+  padding: 1rem 0;
+  justify-content: center;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+.radioButtons.active{
+  border: 5px solid #f27c02;
+}
+.radioButtons span:first-of-type{
+  display: none;
+}
 @media only screen and (max-width: 991.98px) {
   .shib-popup .modal-content {
     // height: 75%;

@@ -722,7 +722,11 @@
   position: absolute;
   left: 47%;
   top: 11%;
+  @media #{$max-sm} {
+    top:25%;
+  }
 }
+
 .relative.btn-disabled.disabled {
   background-color: grey;
 }

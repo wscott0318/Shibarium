@@ -115,7 +115,7 @@ const WithdrawModal: React.FC<{
                         approveWithdraw();
                     }
                     else {
-                        await switchNetwork();
+                        // await switchNetwork();
                         setWidModState({ ...withModalState, step2: false, step3: true, title: "Transaction Pending" });
                         setStep("Initialized");
                         setProcessing((processing: any) => [...processing, "Initialized"])
@@ -197,10 +197,9 @@ const WithdrawModal: React.FC<{
                 if (burn) {
                     console.log("step 2");
                     console.log("burn => ", burn)
-                    let link = getExplorerLink(chainId, burn, 'transaction')
+                    let link = `https://shibascan-517.hailshiba.com/tx/${burn}`;
                     setHashLink(link)
                     setStep("Checkpoint");
-                    setProcessing((processing: any) => [...processing, "Checkpoint"]);
                     setTxState({
                         "checkpointSigned": false,
                         "challengePeriod": false,
@@ -210,10 +209,6 @@ const WithdrawModal: React.FC<{
                         "txHash": burn
                     });
                 }
-                // if checkpoint signed 
-                // setCheckpointSigned(true);
-                // 
-
             }
             catch (err: any) {
                 if (err.code !== USER_REJECTED_TX) {
@@ -240,30 +235,9 @@ const WithdrawModal: React.FC<{
             let status = await burnStatus(txState?.token?.bridgetype, txHash);
             console.log("status ", status);
             if (status) {
+                setProcessing((processing: any) => [...processing, "Checkpoint"]);
                 setTxState({ ...txState, "checkpointSigned": true });
                 setCheckpointSigned(true);
-                let withdrawState = await startWithdraw(selectedToken?.bridgetype, txHash, 0);
-                if (withdrawState) {
-                    if(selectedToken?.bridgetype == "pos"){
-                        setProcessing((processing:any)=>[...processing,"Challenge Period","Completed"])
-                        setStep("Completed");
-                        setTxState({ ...txState, "checkpointSigned": true ,"challengePeriod":true,"processExit":true});
-                    }
-                    else{
-                        // setProcessing((processing:any)=>[...processing,"Challenge Period"])
-                        setStep("Challenge Period");
-                    }
-                    console.log("step 3");
-                    console.log("entered withdraw state => ", withdrawState);
-
-                    // getBurnStatus(txHash)
-
-
-                }
-                console.log("did not enter withdraw state => ", withdrawState);
-                console.log("step 5");
-                // setProcessing((processing:any) => [...processing,"Challenge Period"]);
-                // setStep("Challenge Period");
             }
         }
 
@@ -306,10 +280,13 @@ const WithdrawModal: React.FC<{
 
         useEffect(() => {
             if (page == "tx") {
-                let tempStep: any = txState.processExit ? "Completed" : txState.challengePeriod ? "Challenge Period" : "Checkpoint"
+                let tempStep: any = txState?.processExit ? "Completed" : txState?.challengePeriod ? "Challenge Period" : txState?.checkpointSigned ? "Checkpoint" : "Initialized";
                 setStep(tempStep);
+                let processStep: any = txState?.processExit ? "Completed" : txState?.challengePeriod ? "Challenge Period" : "Checkpoint";
+                console.log("tempstep",tempStep);
                 const process = ["Initialized", "Checkpoint", "Challenge Period", "Completed"];
-                process.splice(process.indexOf(tempStep) + 1, (process.length - 1) - process.indexOf(tempStep));
+                console.log("process =>" ,(process.length - 1) - (process.indexOf(tempStep)));
+                process.splice(process.indexOf(processStep)+1, (process.length - 1) - (process.indexOf(processStep)));
                 setProcessing(process);
                 if (tempStep == "Checkpoint") {
                     console.log("Checkpoint entered")
@@ -367,7 +344,7 @@ const WithdrawModal: React.FC<{
                                         <div className="pop-bottom">
                                             <div>
                                                 <a
-                                                    className="btn primary-btn w-100"
+                                                    className="btn primary-btn w-100 d-flex align-items-center justify-content-center"
                                                     onClick={() => { setWidModState({ ...withModalState, step0: false, step1: true, title: "Transfer Overview" }); estGasFee(); }}
                                                 >
                                                     Continue
@@ -427,7 +404,7 @@ const WithdrawModal: React.FC<{
                                                     {loader ? <Loader /> :
                                                         <>
                                                             <small className="text-lg">~ </small>
-                                                            <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(allowance * boneUSDValue).toFixed(6)} />
+                                                            <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(allowance * boneUSDValue).toFixed(3)} />
                                                         </>
                                                     }
                                                 </div>
@@ -452,7 +429,7 @@ const WithdrawModal: React.FC<{
                                                     {loader ? <Loader /> :
                                                         <>
                                                             <small className="text-lg">~ </small>
-                                                            <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(6)} />
+                                                            <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(3)} />
                                                         </>}
                                                 </div>
                                             </div>
@@ -460,7 +437,7 @@ const WithdrawModal: React.FC<{
                                         <div className="pop-bottom">
                                             <div>
                                                 <a
-                                                    className="btn primary-btn w-100"
+                                                    className="btn primary-btn w-100 d-flex align-items-center justify-content-center"
                                                     onClick={() => { setWidModState({ ...withModalState, step1: false, step2: true, title: "Confirm Transfer" }); }}
                                                 >
                                                     Continue
@@ -589,7 +566,7 @@ const WithdrawModal: React.FC<{
                                         <div className="pop-bottom">
                                             <div>
                                                 <a
-                                                    className={`btn primary-btn w-100 relative ${buttonloader && "disabled btn-disabled"}`}
+                                                    className={` d-flex align-items-center justify-content-center btn primary-btn w-100 relative ${buttonloader && "disabled btn-disabled"}`}
                                                     onClick={() => {
                                                         callWithdrawContract();
                                                     }}
@@ -616,6 +593,7 @@ const WithdrawModal: React.FC<{
                                             step,
                                             switchNetwork,
                                             withdrawTokenInput,
+                                            page
                                         }}
                                     />
                                 </>
@@ -638,7 +616,8 @@ const WithdrawModal: React.FC<{
                                     setChallengePeriodCompleted,
                                     setHashLink,
                                     completed,
-                                    setCompleted
+                                    setCompleted,
+                                    page
                                 }}
                             />
                         </>

@@ -36,13 +36,15 @@ import ManageToken from "../components/ManageToken"
 import { X, Check } from "react-feather";
 import { ArrowCircleLeftIcon } from "@heroicons/react/outline";
 import WithdrawModal from "pages/components/Withdraw";
+import { PUPPYNET517 } from "app/hooks/L1Block";
+import { ERC20_ABI } from "app/constants/abis/erc20";
 
 export default function Withdraw() {
   const { chainId = 1, account, library } = useActiveWeb3React();
   const lib: any = library;
   const web3: any = new Web3(lib?.provider);
   const dispatch = useAppDispatch();
-
+  const web3L2 = PUPPYNET517();
   const bridgeType: string = localStorage.getItem("bridgeType") || "deposit";
 
   const [menuState, setMenuState] = useState(false);
@@ -59,6 +61,7 @@ export default function Withdraw() {
   const [dWState, setDWState] = useState(
     bridgeType === "deposit" ? true : false
   );
+  const [tokenBalanceL2, setTokenBalanceL2] = useState("0.00");
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const [hashLink, setHashLink] = useState("");
   const [newToken, addNewToken] = useState("");
@@ -256,7 +259,7 @@ export default function Withdraw() {
   const callWithdrawModal = (values: any) => {
     try {
       setWithdrawTokenInput(values.withdrawAmount);
-      console.log("withdraw values =>  ", values,showWithdrawModal);
+      console.log("withdraw values =>  ", values, showWithdrawModal);
       {
         setWidModState({
           step0: true,
@@ -269,7 +272,7 @@ export default function Withdraw() {
         setShowWithdrawModal(true);
       }
     } catch (err: any) {
-      console.log("callWithdrawModal err" , err);
+      console.log("callWithdrawModal err", err);
       Sentry.captureMessage("callWithdrawModal", err);
     }
   };
@@ -611,17 +614,23 @@ export default function Withdraw() {
     depositChainTokenBalance();
   }, [selectedToken]);
   const depositChainTokenBalance = async () => {
-    let chain = chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI;
-    let bal: any;
-    if (selectedToken?.parentName === "BoneToken") {
-      bal = await getTokenBalance(
-        lib,
-        account,
-        dynamicChaining[chain].BONE
-      );
-    } else {
-      let address = selectedToken?.parentContract || selectedToken?.address;
-      bal = await getTokenBalance(lib, account, address);
+    if (Object.keys(selectedToken).length) {
+      let address = selectedToken?.childContract || selectedToken?.address;
+      let bal: any;
+      const contract = new web3L2.eth.Contract(ERC20_ABI, address);
+      await contract.methods
+        .balanceOf(account)
+        .call()
+        .then(async (res: any) => {
+          await contract.methods
+            .decimals()
+            .call()
+            .then((d: number) => {
+              bal = +(+res / Math.pow(10, d)).toFixed(tokenDecimal);
+              console.log("balance", bal);
+            });
+        });
+      setTokenBalanceL2(bal);
     }
   }
 
@@ -1498,7 +1507,7 @@ export default function Withdraw() {
                                           Balance:
                                         </span>
                                         <span className="fld-txt lite-800">
-                                          00.00 {selectedToken?.key || selectedToken?.symbol}
+                                          {tokenBalanceL2} {selectedToken?.key || selectedToken?.symbol}
                                         </span>
                                       </div>
                                     </div>
@@ -1619,9 +1628,7 @@ export default function Withdraw() {
                                           Balance:
                                         </span>
                                         <span className="fld-txt lite-800">
-                                          {selectedToken?.balance
-                                            ? selectedToken?.balance
-                                            : "00.00"} {selectedToken?.key || selectedToken?.symbol}
+                                          {tokenBalanceL2} {selectedToken?.key || selectedToken?.symbol}
                                         </span>
                                       </div>
                                     </div>
@@ -1772,7 +1779,9 @@ export default function Withdraw() {
                                           Balance:
                                         </span>
                                         <span className="fld-txt lite-800">
-                                          00.00 {selectedToken?.key || selectedToken?.symbol}
+                                          {selectedToken?.balance
+                                            ? selectedToken?.balance
+                                            : "00.00"} {selectedToken?.key || selectedToken?.symbol}
                                         </span>
                                       </div>
                                     </div>
