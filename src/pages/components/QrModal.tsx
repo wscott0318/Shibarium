@@ -1,24 +1,26 @@
 import CopyHelper from 'app/components/AccountDetails/Copy';
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Modal } from 'react-bootstrap'
 import { QRCode } from 'react-qrcode-logo';
-// import QrLogo from "../../assets/images/shiba-round-icon.png"
 
-interface props{
+interface Props{
     show:boolean;
     setshow: React.Dispatch<React.SetStateAction<boolean>>
     title:string;
     address:string
 }
 
-const QrModal:React.FC<props> = ({show,setshow, title,address})=> {
+const QrModal:React.FC<Props> = ({show,setshow, title,address})=> {
   const abc = {show,setshow, title,address};
+
+  const handleShow = useCallback(()=>{setshow(false)},[])
+
   return (
     <Modal
     {...abc}
     centered
     show={show}
-    onHide={() => setshow(false)}
+    onHide={handleShow}
     backdrop="static"
     keyboard={false}
     className="shib-popup"

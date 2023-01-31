@@ -1,15 +1,15 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Modal } from 'react-bootstrap'
 import * as Sentry from "@sentry/nextjs";
 
-interface props{
+interface Props{
     show:boolean;
     setshow: React.Dispatch<React.SetStateAction<boolean>>
     title:string;
     externalCls:string;
     children:React.ReactNode;
 }
-interface propsNew {
+interface PropsNew {
   show: boolean;
   setshow: any;
   title: any;
@@ -23,11 +23,11 @@ interface propsNew {
 
 
 
-const CommonModal:React.FC<props> = ({show,setshow, title,externalCls,children})=> {
+const CommonModal:React.FC<Props> = ({show,setshow, title,externalCls,children})=> {
   const abc = {show,setshow, title,externalCls,children};
-  const onClosingBtn = () =>{
+  const onClosingBtn = useCallback(() =>{
     setshow(false)
-  }
+  },[])
   
 
   return (
@@ -68,15 +68,17 @@ const CommonModal:React.FC<props> = ({show,setshow, title,externalCls,children})
   )
 }
 
-export const ValInfoModals:React.FC<props> = ({show,setshow, title,externalCls,children})=> {
+export const ValInfoModals:React.FC<Props> = ({show,setshow, title,externalCls,children})=> {
   const abc = {show,setshow, title,externalCls,children};
+
+  const handleShow = useCallback(()=>{setshow(false)},[])
   return (
     <Modal
     {...abc}
     
     centered
     show={show}
-    onHide={() => setshow(false)}
+    onHide={handleShow}
     backdrop="static"
     keyboard={false}
     className={`shib-popup ${externalCls}`}
@@ -108,7 +110,7 @@ export const ValInfoModals:React.FC<props> = ({show,setshow, title,externalCls,c
   )
 }
 
-export const CommonModalNew: React.FC<propsNew> = ({
+export const CommonModalNew: React.FC<PropsNew> = ({
   show,
   setshow = null,
   title,
@@ -145,12 +147,13 @@ export const CommonModalNew: React.FC<propsNew> = ({
     }
   };
 
+  const handleShow = useCallback(()=>{setshow()},[])
   return (
     <Modal
       {...abc}
       centered
       show={show}
-      onHide={() => setshow()}
+      onHide={handleShow }
       backdrop="static"
       keyboard={false}
       className={`shib-popup ${externalCls}`}

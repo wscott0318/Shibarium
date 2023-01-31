@@ -1,21 +1,21 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Modal } from 'react-bootstrap'
 import * as Sentry from "@sentry/nextjs";
 import { useActiveWeb3React } from '../../services/web3'
 // @ts-ignore
 import cookie from 'cookie-cutter'
 
-interface props {
+interface Props {
     show: boolean;
     setshow: React.Dispatch<React.SetStateAction<boolean>>
     title: string;
     externalCls: string;
 }
 
-const ChainWarning: React.FC<props> = ({ show, setshow, title, externalCls }) => {
+const ChainWarning: React.FC<Props> = ({ show, setshow, title, externalCls }) => {
     const abc = { show, setshow, title, externalCls };
 
-    const { chainId, library, account } = useActiveWeb3React()
+    const { library, account } = useActiveWeb3React()
     const switchNetwork = async () => {
         console.debug(`Switching to chain 5`, 5)
         // toggleNetworkModal()
@@ -42,12 +42,14 @@ const ChainWarning: React.FC<props> = ({ show, setshow, title, externalCls }) =>
         }
     }
 
+const handleShow = useCallback(()=>{setshow(false)},[])
+    
     return (
         <Modal
             {...abc}
             centered
             show={show}
-            onHide={() => setshow(false)}
+            onHide={handleShow}
             backdrop="static"
             keyboard={false}
             className={`shib-popup ${externalCls}`}

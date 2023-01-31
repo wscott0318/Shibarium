@@ -3,8 +3,9 @@ import React from "react";
 import Header from "pages/layout/header";
 import Link from 'next/link'
 
-export default function ErrorPage() {
 
+export default function ErrorPage() {
+    
     return (
         <>
             <Header />

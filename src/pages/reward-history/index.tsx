@@ -82,13 +82,17 @@ export default function Unbond() {
   }
 
   const pageChangeHandler = (index: number) => {
+
     try {
       const slicedList = validatorData.slice(
         (index - 1) * pageSize,
         index * pageSize
       );
+
+
       setSlicedList(slicedList);
       setCurrentPage(index);
+      
     }
     catch (err: any) {
       Sentry.captureException("pageChangeHandler ", err);
@@ -98,9 +102,13 @@ export default function Unbond() {
     if (validatorData.length) {
       let slicedList = validatorData.slice(0, pageSize);
       setSlicedList(slicedList);
+    console.log(slicedList,'use');
+
     } else if (validatorData.length === 0) {
       setSlicedList([]);
     }
+
+    
   }, [validatorData]);
 
   useEffect(() => {
@@ -117,6 +125,8 @@ export default function Unbond() {
   }, [account])
 
   const router = useRouter();
+
+
 
   return (
     <>
@@ -146,7 +156,7 @@ export default function Unbond() {
                   <tbody>
                     {slicedList.length ? (
                       slicedList.map((value: any, index: any) => (
-                        <tr key={value.timestamp}>
+                        <tr key={index}>
                           <td>
                             <span className="tb-data">
                               {index + 1}
@@ -216,7 +226,7 @@ export default function Unbond() {
                     <tbody>
                       {slicedList.length ? (
                         slicedList.map((value: any, index: any) => (
-                          <tr key={value?.timestamp}>
+                          <tr key={index}>
                             <td>
                               <div className="d-flex align-items-center">
                                 <div className="coin-img me-2">

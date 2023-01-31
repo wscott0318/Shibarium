@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ChainId } from "shibarium-get-chains";
 import { useFormik } from "formik";
 import { useActiveWeb3React } from "../../services/web3";
@@ -398,6 +398,8 @@ const loaderStep4 = ()=>{
   }
 }
 
+const handleTransactionState = useCallback(() => setTransactionState({ state: false, title: "Pending" }),[])
+
   return (
     <>
       <ToastContainer />
@@ -570,9 +572,7 @@ const loaderStep4 = ()=>{
         <CommonModal
           title={transactionState.title}
           show={transactionState.state}
-          setshow={() =>
-            setTransactionState({ state: false, title: "Pending" })
-          }
+          setshow={handleTransactionState}
           externalCls="faucet-pop no-lft"
         >
           <div className="popmodal-body tokn-popup no-ht trans-mod">

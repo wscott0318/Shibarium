@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Header from "../layout/header";
 import StepOne from "./stepOne";
 import StepTwo from "./stepTwo";
@@ -90,7 +90,7 @@ const Rewards = () => {
     }
   }, [account, stepState]);
 
-  const handleEdit = (value) => {
+  const handleEdit = useCallback((value) => {
     try {
       switch (value) {
         case "name":
@@ -124,9 +124,9 @@ const Rewards = () => {
     } catch (err) {
       Sentry.captureMessage("handleEdit", err);
     }
-  };
+  },[]);
 
-  const stepHandler = (type) => {
+  const stepHandler = useCallback((type) => {
     if (type === "next") {
       if (stepState.step1) {
         setStepState({
@@ -170,7 +170,7 @@ const Rewards = () => {
         });
       }
     }
-  };
+  },[]);
 
   console.log(valId, 'valID');
 

@@ -1,10 +1,9 @@
 import { CircularProgress } from '@material-ui/core'
 import { getExplorerLink } from 'app/functions';
 import { useActiveWeb3React } from 'app/services/web3';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import useLocalStorageState from 'use-local-storage-state';
 import { finalise } from "../../../exit/finalise"
-import { startWithdraw } from "../../../exit/withdraw"
 const StepThree: React.FC<any> = ({
     withdrawTokenInput,
     selectedToken,
@@ -35,7 +34,6 @@ const StepThree: React.FC<any> = ({
         // switch network to Goerli chain
         await switchNetwork();
         setProcessing((processing: any) => [...processing, "Challenge Period"])
-        // let exitWithBurn = await finalise(txState?.token?.childContract,account);
         let exitWithBurn = await finalise("0x664456257bC8cfFc605C74Ab8Fea6bd04CCe3BB6", account);
         console.log("exitWithBurn => ", exitWithBurn);
         if (exitWithBurn) {
