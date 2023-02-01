@@ -102,28 +102,29 @@ const WithdrawModal: React.FC<{
                 if (account) {
                     setButtonLoader(true);
                     console.log("approve amount entered");
-                    let allowance =
-                        (await getAllowanceAmount(
-                            library,
-                            dynamicChaining[chainId].BONE,
-                            account,
-                            dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
-                        )) || 0;
-                    console.log("step 2");
-                    if (+withdrawTokenInput > +allowance) {
-                        console.log("step 3");
-                        approveWithdraw();
-                    }
-                    else {
+                    // let allowance =
+                    //     (await getAllowanceAmount(
+                    //         library,
+                    //         dynamicChaining[chainId].BONE,
+                    //         account,
+                    //         dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
+                    //     )) || 0;
+                    // console.log("step 2");
+                    // if (+withdrawTokenInput > +allowance) {
+                    //     console.log("step 3");
+                    //     setWidModState({ ...withModalState, step2: false, step3: true, title: "Transaction Pending" });
+                    //     setStep("Initialized");
+                    //     approveWithdraw();
+                    // }
+                    // else {
                         // await switchNetwork();
                         setWidModState({ ...withModalState, step2: false, step3: true, title: "Transaction Pending" });
                         setStep("Initialized");
-                        setProcessing((processing: any) => [...processing, "Initialized"])
                         // setTimeout(() => { 
                         submitWithdraw()
                         // }, 3000);
 
-                    }
+                    // }
                 }
             } catch (err: any) {
                 if (err.code !== USER_REJECTED_TX) {
@@ -178,6 +179,7 @@ const WithdrawModal: React.FC<{
                                     }
                                 })
                             )
+                            setProcessing((processing: any) => [...processing, "Initialized"])
                             submitWithdraw();
                         })
                 }
@@ -195,6 +197,7 @@ const WithdrawModal: React.FC<{
                 let user: any = account;
                 let burn = await startBurn(selectedToken?.bridgetype, selectedToken?.childContract, user, withdrawTokenInput);
                 if (burn) {
+                    setProcessing((processing: any) => [...processing, "Initialized"])
                     console.log("step 2");
                     console.log("burn => ", burn)
                     let link = `https://shibascan-517.hailshiba.com/tx/${burn}`;
@@ -283,10 +286,10 @@ const WithdrawModal: React.FC<{
                 let tempStep: any = txState?.processExit ? "Completed" : txState?.challengePeriod ? "Challenge Period" : txState?.checkpointSigned ? "Checkpoint" : "Initialized";
                 setStep(tempStep);
                 let processStep: any = txState?.processExit ? "Completed" : txState?.challengePeriod ? "Challenge Period" : "Checkpoint";
-                console.log("tempstep",tempStep);
+                console.log("tempstep", tempStep);
                 const process = ["Initialized", "Checkpoint", "Challenge Period", "Completed"];
-                console.log("process =>" ,(process.length - 1) - (process.indexOf(tempStep)));
-                process.splice(process.indexOf(processStep)+1, (process.length - 1) - (process.indexOf(processStep)));
+                console.log("process =>", (process.length - 1) - (process.indexOf(tempStep)));
+                process.splice(process.indexOf(processStep) + 1, (process.length - 1) - (process.indexOf(processStep)));
                 setProcessing(process);
                 if (tempStep == "Checkpoint") {
                     console.log("Checkpoint entered")
