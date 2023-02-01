@@ -3,6 +3,7 @@ import  {getClient} from "../../client/shibarium"
 import { getToWeiUnitFromDecimal } from "../../utils/weiDecimal"
 // import { StakingAPI } from "../../client/staking-api"
 import {burnGetAPI} from "../../services/apis/bridge/burn"
+import { PUPPYNET517 } from "app/hooks/L1Block"
 
 export const startBurn = async (clientType, token, from, amount) => {
   console.log(`begin exit from L2 -> L1 using ${clientType}`)
@@ -45,8 +46,9 @@ export const startBurn = async (clientType, token, from, amount) => {
     const client = await getClient(clientType);
     // console.log("client ==> " , client);
     const erc20Token = client.erc20(childAddr, false);
-
-    console.log("sending burn/burn tx on Child Contract, L2:")
+    // const web3 = PUPPYNET517();
+    // const instance = web3.eth.Contract();
+    // console.log("sending burn/burn tx on Child Contract, L2:" , erc20Token.getPOSContracts());
     const result = await erc20Token.withdrawStart(amountWei, { from })
 
     const txHash = await result.getTransactionHash()

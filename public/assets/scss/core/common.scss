@@ -1057,6 +1057,12 @@ input:checked + .slider:before {
 .stepper.del-step.withdraw_steps .step:nth-child(1), .stepper.del-step .step:nth-child(4) {
   width: 18%;
 }
+.stepper.del-step.withdraw_steps.pos_view .step:nth-child(1), .stepper.del-step .step:nth-child(4){
+  width: 41%;
+}
+.stepper.del-step.pos_view .step {
+  width: 41%;
+}
 // .popmodal-body.no-ht{
 //     min-height: 100%;
 //     .pop-block{

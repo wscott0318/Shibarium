@@ -36,27 +36,30 @@ const StepThree: React.FC<any> = ({
         // switch network to Goerli chain
         // await switchNetwork();
         setProcessing((processing: any) => [...processing, "Challenge Period"])
+        setChallengePeriodCompleted(false);
         await finalise(txState?.token?.parentContract,account).then((res:any) => {
-            setStep("Challenge Period");
-            setTxState({ ...txState, "challengePeriod": true });
+            setTxState({ ...txState, "processExit": true , "finalHash" : res});
             setChallengePeriodCompleted(true);
+            setStep("Completed");
+            setCompleted(true);
             let link = getExplorerLink(chainId, res, 'transaction');
             setHashLink(link)
         });
     }
 
     const startExitWithBurntTokens = async () => {
+        setStep("Complete");
         let type = selectedToken?.bridgetype || txState?.token?.bridgetype;
         let withdrawState:any = await startWithdraw(type, txState?.txHash, 0);
         if (withdrawState) {
-            if (selectedToken?.bridgetype == "pos") {
-                setProcessing((processing: any) => [...processing, "Challenge Period", "Completed"])
+            if (selectedToken?.bridgetype == "pos" || txState?.token?.bridgetype=="pos") {
+                setProcessing((processing: any) => [...processing, "Completed"])
                 setStep("Completed");
-                setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true, "processExit": true });
+                setCompleted(true);
+                setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true, "processExit": true, 'withdrawHash':withdrawState });
             }
             else {
-                setStep("Challenge Period");
-                setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true });
+                setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true ,'withdrawHash':withdrawState});
                 setChallengePeriodCompleted(true);
                 setProcessing((processing: any) => [...processing, "Challenge Period"])
             }
@@ -77,7 +80,7 @@ const StepThree: React.FC<any> = ({
                         <div className="col-6 text-end">{+withdrawTokenInput}{" "}{selectedToken?.symbol || selectedToken?.key || txState?.token?.symbol || txState?.token?.key}</div>
                     </div>
                     <hr />
-                    <ul className="stepper mt-3 del-step withdraw_steps">
+                    <ul className={`stepper mt-3 del-step withdraw_steps ${selectedToken && selectedToken?.bridgetype == "pos" || txState && txState?.token?.bridgetype == "pos" ? "pos_view" : ""}`}>
                         <li className={`step ${(processing.includes("Initialized")) && "active"}`}>
                             <div className="step-ico">
                                 <img

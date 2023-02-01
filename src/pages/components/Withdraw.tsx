@@ -117,12 +117,12 @@ const WithdrawModal: React.FC<{
                     //     approveWithdraw();
                     // }
                     // else {
-                        // await switchNetwork();
-                        setWidModState({ ...withModalState, step2: false, step3: true, title: "Transaction Pending" });
-                        setStep("Initialized");
-                        // setTimeout(() => { 
-                        submitWithdraw()
-                        // }, 3000);
+                    // await switchNetwork();
+                    setWidModState({ ...withModalState, step2: false, step3: true, title: "Transaction Pending" });
+                    setStep("Initialized");
+                    // setTimeout(() => { 
+                    submitWithdraw()
+                    // }, 3000);
 
                     // }
                 }
@@ -282,21 +282,26 @@ const WithdrawModal: React.FC<{
         }
 
         useEffect(() => {
-            if (page == "tx") {
-                let tempStep: any = txState?.processExit ? "Completed" : txState?.challengePeriod ? "Challenge Period" : txState?.checkpointSigned ? "Checkpoint" : "Initialized";
-                setStep(tempStep);
-                let processStep: any = txState?.processExit ? "Completed" : txState?.challengePeriod ? "Challenge Period" : "Checkpoint";
-                console.log("tempstep", tempStep);
-                const process = ["Initialized", "Checkpoint", "Challenge Period", "Completed"];
-                console.log("process =>", (process.length - 1) - (process.indexOf(tempStep)));
-                process.splice(process.indexOf(processStep) + 1, (process.length - 1) - (process.indexOf(processStep)));
-                setProcessing(process);
-                if (tempStep == "Checkpoint") {
-                    console.log("Checkpoint entered")
-                    getBurnStatus(txState?.txHash);
-                } else if (tempStep == "Challenge Period") {
-                    setChallengePeriodCompleted(true);
-                }
+            let tempStep: any;
+            let process :any;
+            if (page == "tx" && txState?.token?.bridgetype == "plasma") {
+                tempStep= txState?.processExit ? "Completed" : txState?.challengePeriod ? "Challenge Period" : "Checkpoint";
+                process= ["Initialized", "Checkpoint", "Challenge Period", "Completed"];
+            }
+            else {
+                tempStep = txState?.processExit ? "Completed" : "Checkpoint";
+                process = ["Initialized", "Checkpoint", "Completed"];
+            }
+            setStep(tempStep);
+            console.log("tempstep", tempStep);
+            console.log("process =>",process.indexOf(tempStep)+1, (process.length - 1) - (process.indexOf(tempStep)));
+            process.splice(process.indexOf(tempStep), (process.length - 1) - (process.indexOf(tempStep))+1);
+            setProcessing(process);
+            if (tempStep == "Checkpoint") {
+                console.log("Checkpoint entered")
+                getBurnStatus(txState?.txHash);
+            } else if (tempStep == "Challenge Period") {
+                setChallengePeriodCompleted(true);
             }
         }, []);
         const imageOnErrorHandler = (
@@ -305,8 +310,7 @@ const WithdrawModal: React.FC<{
             event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
             event.currentTarget.className = "error me-3";
         };
-        console.log("processing array", processing);
-        console.log("step", step);
+        
         return (
             <CommonModal
                 title={withModalState.title}
