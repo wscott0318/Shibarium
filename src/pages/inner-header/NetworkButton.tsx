@@ -7,7 +7,7 @@ import { getNetworkName } from 'web3/commonFunctions';
 const NetworkButton = () => {
 
     const toggleNetworkModal = useNetworkModalToggle();
-    const { account,chainId = 1,  connector, library,deactivate } = useWeb3React()
+    const { chainId = 1 } = useWeb3React()
 
 
   return (

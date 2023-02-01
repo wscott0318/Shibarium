@@ -1,10 +1,8 @@
 
-import { useState } from "react";
 // @ts-ignore
 import SnackbarProvider from 'react-simple-snackbar'
 import "../styles/globals.scss";
 import store from '../state'
-import { useRouter } from "next/router";
 import { ProjectContext } from "../context/ProjectContext";
 import { Provider as ReduxProvider } from 'react-redux'
 import { Web3ReactProvider } from "@web3-react/core";
@@ -30,9 +28,7 @@ declare global {
 const Web3ProviderNetwork = dynamic(() => import('../components/Web3ProviderNetwork'), { ssr: false })
 
 function MyApp({ Component, pageProps }:any) {
-  const router = useRouter();
-  const [isSideNav, setIsSideNav] = useState(false);
-  const routeWithoutHeader = ['/login']
+
   // if (process.env.NODE_ENV === "production") {
   //   console.log = () => { };
   // }

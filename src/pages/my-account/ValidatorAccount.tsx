@@ -35,12 +35,10 @@ import DelegatePopup from "pages/delegate-popup";
 import { queryProvider } from "Apollo/client";
 import { StakeAmount } from "Apollo/queries";
 import { dynamicChaining } from "web3/DynamicChaining";
-import { getValidatorsDetail } from "app/services/apis/validator";
 import * as Sentry from "@sentry/nextjs";
-import { useValId, useEpochDyna, useValInfoContract, useMigrateStake } from 'app/state/user/hooks';
+import { useValId, useEpochDyna, useMigrateStake,useValInfoContract } from 'app/state/user/hooks';
 import { CircularProgress } from "@material-ui/core";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
-import { useWeb3Decimals } from "app/hooks/useTokenBalance";
 
 const initialModalState = {
   show: false,
@@ -48,7 +46,7 @@ const initialModalState = {
   onReceipt: false,
   title: ""
 }
-const validatorAccount = ({
+const ValidatorAccount = ({
   userType,
   boneUSDValue,
   availBalance,
@@ -80,7 +78,6 @@ const validatorAccount = ({
   const { account, chainId = 1, library } = useActiveWeb3React();
   const lib: any = library;
   const web3: any = new Web3(lib?.provider);
-  // const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
   const [delegationsList, setDelegationsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState<any>({});
   const [stakeMore, setStakeMoreModal] = useState(false);
@@ -159,6 +156,8 @@ const validatorAccount = ({
       setValidatorTotalReward(reward);
       setEpochDyna({ epoch, dynasty })
       console.log(valFromContract, "val info ===> ");
+      console.log(epochDyna, 'epochDyna');
+      
     } catch (err: any) {
       Sentry.captureException("getValidatorData ", err);
     }
@@ -2419,4 +2418,4 @@ const validatorAccount = ({
   );
 };
 
-export default validatorAccount;
+export default ValidatorAccount;

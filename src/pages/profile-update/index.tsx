@@ -15,7 +15,7 @@ import * as Sentry from "@sentry/nextjs";
 
 export default function ProfileUpdate() {
 
-    const { chainId = 1, account, library } = useActiveWeb3React();
+    const { chainId = 1, account } = useActiveWeb3React();
     const userAccount: any = account
     const [imageData, setImageData] = useState<any>('');
     const [imageURL, setImageURL] = useState<any>('');
@@ -60,12 +60,12 @@ export default function ProfileUpdate() {
         }
     }, [account, userType])
 
-    const [initialValues, setInitialValues] = useState({
+    const initialValues = {
         validatorname: '',
         address: userAccount,
         website: '',
         publickey: ''
-    });
+    }
 
     const verifyAddress = (address: any) => {
         let result = Web3.utils.isAddress(address);

@@ -14,7 +14,6 @@ import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { queryProvider } from "Apollo/client";
 import { validatorRewardHistory } from "Apollo/queries";
 import * as Sentry from "@sentry/nextjs";
-import { useWeb3Decimals } from "app/hooks/useTokenBalance";
 
 export default function Unbond() {
 
@@ -28,7 +27,6 @@ export default function Unbond() {
   const [userType, setUserType] = useUserType();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [validatorData, setValidatorData] = useState<any>([])
-  // const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
   const getRewardsList = async(account: any) => {
     try {
       await unbondRewards(account).then((res: any) => {
@@ -126,36 +124,11 @@ export default function Unbond() {
 
   const router = useRouter();
 
-
-
-  return (
-    <>
-      <Header />
-      <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh font-up ffms-inherit staking-main">
-
-        {/* <StakingHeader /> */}
-
-        <section className="top_bnr_area dark-bg">
-          <div className="container">
-            <h1 className="ff-mos">Your Reward History</h1>
-          </div>
-        </section>
-
-        {userType === 'Validator' ? <section className="mid_cnt_area">
-          <div className="container reward_table">
-            <div className="cmn_dasdrd_table block-fix">
-              <div className="table-responsive">
-                <table className="table table-borderless fix-tabl-layout text-start">
-                  <thead>
-                    <tr>
-                      <th>S. No.</th>
-                      <th>Amount</th>
-                      <th className="text-center">Time</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {slicedList.length ? (
-                      slicedList.map((value: any, index: any) => (
+const slicedListRender = () =>{
+  if(slicedList.length){
+    return(
+      <>
+      { slicedList.map((value: any, index: any) => (
                         <tr key={index}>
                           <td>
                             <span className="tb-data">
@@ -176,14 +149,40 @@ export default function Unbond() {
                             </span>
                           </td>
                         </tr>
-                      ))
-                    ) : !validatorData.length && listLoader && (
-                      <tr>
-                        <td colSpan={3}>
-                          <DynamicShimmer type={"table"} rows={13} cols={3} />
-                        </td>
-                      </tr>
-                    )}
+                      ))}
+      </>
+    )
+  }else{
+    if(!validatorData.length && listLoader){
+      return(
+        <tr>
+    <td colSpan={3}>
+      <DynamicShimmer type={"table"} rows={13} cols={3} />
+    </td>
+  </tr> 
+      )
+    }
+   
+  }
+}
+
+const userTypeRender = ()=>{
+  if(userType === 'Validator'){
+    return(
+<section className="mid_cnt_area">
+          <div className="container reward_table">
+            <div className="cmn_dasdrd_table block-fix">
+              <div className="table-responsive">
+                <table className="table table-borderless fix-tabl-layout text-start">
+                  <thead>
+                    <tr>
+                      <th>S. No.</th>
+                      <th>Amount</th>
+                      <th className="text-center">Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+            {slicedListRender()}
                   </tbody>
                 </table>
               </div>
@@ -210,8 +209,10 @@ export default function Unbond() {
             </div>
           </div>
         </section>
-          :
-          <section className="mid_cnt_area">
+    )
+  }else{
+    return(
+      <section className="mid_cnt_area">
             <div className="container reward_table">
               <div className="cmn_dasdrd_table block-fix">
                 <div className="table-responsive">
@@ -293,7 +294,25 @@ export default function Unbond() {
                 ) : null}
               </div>
             </div>
-          </section>}
+          </section>
+    )
+  }
+}
+
+  return (
+    <>
+      <Header />
+      <main className="main-content val_account_outr cmn-input-bg dark-bg-800 full-vh font-up ffms-inherit staking-main">
+
+        {/* <StakingHeader /> */}
+
+        <section className="top_bnr_area dark-bg">
+          <div className="container">
+            <h1 className="ff-mos">Your Reward History</h1>
+          </div>
+        </section>
+
+       {userTypeRender()}
       </main>
     </>
   );

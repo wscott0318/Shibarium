@@ -1,4 +1,4 @@
-import { useSearchFilter } from 'app/hooks/useSearchFilter'
+
 import { migrateValidatorsList, validatorsList } from 'app/services/apis/validator'
 import { filter, orderBy } from 'lodash';
 import { Dropdown } from "react-bootstrap";
@@ -8,14 +8,10 @@ import ListView from '../all-validator/listView/index';
 import GridView from '../all-validator/gridView/index';
 import Pagination from 'app/components/Pagination';
 import LoadingSpinner from 'pages/components/Loading';
-import { queryProvider } from 'Apollo/client';
-import { allValidatorsQuery } from 'Apollo/queries';
 import * as Sentry from '@sentry/nextjs'
 import { inActiveCount, web3Decimals } from 'web3/commonFunctions';
 import { useRouter } from 'next/router';
-import { useWeb3Decimals } from 'app/hooks/useTokenBalance';
 import { useActiveWeb3React } from 'app/services/web3';
-import { dynamicChaining } from 'web3/DynamicChaining';
 import { SearchIcon, XCircleIcon } from '@heroicons/react/outline';
 
 
@@ -34,9 +30,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
   const [searchKey, setSearchKey] = useState<string>('');
   const [userType, setUserType] = useUserType()
   const [sortKey, setSortKey] = useState<string>('Uptime');
-  const [migrateData, setMigrateData] = useMigrateStake();
-  // const searchResult = useSearchFilter(validatorsByStatus, searchKey.trim());
-  const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
+  const migrateData = useMigrateStake();
   // @ts-ignore
   const balance = migrateData?.data;
   // useEffect(() => {
@@ -44,16 +38,6 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
   //   const sortAgain = slicedList.slice(0, pageSize).sort((a: any, b: any) => +(b.totalStaked) - +(a.totalStaked))
   //   setValidators(sortAgain)
   // }, [searchResult])
-  const fetchValidators = async () => {
-    try {
-      const validators = await queryProvider.query({
-        query: allValidatorsQuery(),
-      })
-    }
-    catch (err: any) {
-      Sentry.captureMessage("fetchValidators", err);
-    }
-  }
   useEffect(() => {
     if (userType != "Delegator") {
       router.push('/bone-staking')
@@ -120,7 +104,6 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
   }
   useEffect(() => {
     if(searchKey == "" ) getMigrateValidators();
-    fetchValidators()
   }, [searchKey]);
 
   useEffect(() => {

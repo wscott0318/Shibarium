@@ -1,56 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
-import { useRouter } from "next/dist/client/router";
-import CommonModal from "../components/CommonModel";
-import {
-  NoEthereumProviderError,
-  UserRejectedRequestError as UserRejectedRequestErrorInjected,
-} from "@web3-react/injected-connector";
 import Sidebar from "../layout/sidebar";
-import { useActiveWeb3React } from "app/services/web3";
 import InnerHeader from "../../pages/inner-header";
 import useLocalStorageState from "use-local-storage-state";
 import WithdrawModal from "../components/Withdraw";
 export default function Transaction() {
-  const router = useRouter();
   const [onlyPending, setOnlyPending] = useState(false);
   const [txState, setTxState] = useLocalStorageState("txState");
-  const [showSendModal, setSendModal] = useState({
-    step0: true,
-    step1: false,
-    step2: false,
-    step3: false,
-    title: "Reaching Checkpoint",
-  });
+
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [menuState, setMenuState] = useState(false);
 
-  const { account } = useActiveWeb3React();
-  // const account = useAccount()
 
-  const connectToMetamask = () => {
-    // authenticate()
-    // activate(walletConnector)
-  };
 
-  const [showModal, setShowModal] = useState(false);
-
-  function getErrorMessage(error) {
-    if (error instanceof NoEthereumProviderError) {
-      return "Please install metamask and try again.";
-    } else if (error instanceof UnsupportedChainIdError) {
-      return "You're connected to an unsupported network.";
-    } else if (
-      error instanceof UserRejectedRequestErrorInjected ||
-      error instanceof UserRejectedRequestErrorWalletConnect
-    ) {
-      return "Please authorize this website to access your Ethereum account.";
-    } else {
-      console.error(error);
-      return "";
-    }
-  }
 
   const handleMenuState = () => {
     setMenuState(!menuState);
@@ -156,15 +119,7 @@ export default function Transaction() {
                       <div className="col-md-3 col-lg-3 col-xs-12">
                         <button
                           onClick={() => {
-                            setSendModal({
-                              step0: true,
-                              step1: false,
-                              step2: false,
-                              step3: false,
-                              title: txState?.checkpointSigned
-                                ? "Reached Checkpoint"
-                                : "Signing Checkpoints",
-                            });
+                           
                             setShowWithdrawModal(true);
                           }}
                           className="btn primary-btn w-100"

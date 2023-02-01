@@ -4,19 +4,14 @@ import { useActiveWeb3React } from 'app/services/web3';
 import { useRouter } from "next/router";
 
 const AppHeader = () => {
-  const { chainId = 1, account, active, library } = useActiveWeb3React();
-  const user: any = account
+  const { chainId = 1, account } = useActiveWeb3React();
   const { asPath } = useRouter()
   const [title, setTitle] = useState("Staking")
   const router = useRouter()
 
   useEffect(() => {
     if (asPath) {
-      // if (asPath === '/wallet') {
-      //   setTitle("Wallet")
-      // } else if (asPath === '/bridge') {
-      //   setTitle("Bridge")
-      // } 
+
       if (asPath === '/bone-staking') {
         setTitle("Staking")
       } else if (asPath === '/faucet') {

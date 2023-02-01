@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Dropdown, Navbar, NavDropdown, Container, Nav } from "react-bootstrap";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import useENSName from "../../hooks/useENSName";
 import Web3Status from "app/components/Web3Status";
 import { useWeb3React } from "@web3-react/core";
 import QrModal from "pages/components/QrModal";
@@ -19,12 +18,9 @@ import * as Sentry from "@sentry/nextjs";
 
 const InnerHeader = () => {
   const router = useRouter();
-  const [show, setshow] = useState();
-  const [offset, setOffset] = useState(0);
-  const [accountAddress, setAccountAddress] = useState("")
   const [userQrCode, setUserQrCode] = useState(false);
 
-  const {account, active, error, library, activate, deactivate } = useWeb3React();
+  const {account, deactivate } = useWeb3React();
   const { chainId } = useActiveWeb3React();
 
   const [userType, setUserType] = useUserType();
@@ -37,19 +33,6 @@ const InnerHeader = () => {
       }
   }, [account, chainId]);
 
-
-  const { ENSName } = useENSName(account ?? undefined);
-  const [showScanpop, setScanpop] = useState(false);
-
-  const [menuState, setMenuState] = useState(false);
-
-  const handleMenuState = () => {
-    setMenuState(false)
-  }
-
-  const copyAddress = () => {
-    navigator.clipboard.writeText(account);
-  }
 
   const getUsertypeAPI = (accountAddress) => {
     try {
@@ -70,7 +53,6 @@ const InnerHeader = () => {
     deactivate();
      router.push("/home");
   }
-  const [selectNet, setSelectNet] = useState("Shibarium Mainnet")
 
   if (!chainId) return null;
 

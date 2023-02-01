@@ -1,25 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/dist/client/router";
-import {
-  NoEthereumProviderError,
-  UserRejectedRequestError as UserRejectedRequestErrorInjected,
-} from "@web3-react/injected-connector";
 import Link from "next/link";
 import Web3Status from "app/components/Web3Status";
 import { useActiveWeb3React } from "app/services/web3";
 
 export default function Login() {
   const router = useRouter();
-  const [showInsModal, setShowInsModal] = useState(false);
 
   const { account } = useActiveWeb3React();
 
-  const connectToMetamask = () => {
-    // authenticate()
-    // activate(walletConnector)
-  };
 
   useEffect(() => {
     if (account) {
@@ -28,21 +19,6 @@ export default function Login() {
     }
   }, [account]);
 
-  function getErrorMessage(error) {
-    if (error instanceof NoEthereumProviderError) {
-      return "Please install metamask and try again.";
-    } else if (error instanceof UnsupportedChainIdError) {
-      return "You're connected to an unsupported network.";
-    } else if (
-      error instanceof UserRejectedRequestErrorInjected ||
-      error instanceof UserRejectedRequestErrorWalletConnect
-    ) {
-      return "Please authorize this website to access your Ethereum account.";
-    } else {
-      console.error(error);
-      return "";
-    }
-  }
 
   return (
     <>

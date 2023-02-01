@@ -1,17 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect, useRef } from "react";
+import React, {  useEffect, useRef } from "react";
 import { useActiveWeb3React } from "../../services/web3";
 import Header from "../layout/header";
 import { useRouter } from "next/router";
-import { useUserType } from "../../state/user/hooks";
 import { getBoneUSDValue } from "../../services/apis/validator/index";
 import { BONE_ID } from "../../config/constant";
 import ListData from "./ListData"
 
 export default function MyAcount() {
   const { account, chainId = 1 } = useActiveWeb3React();
-  const [userType, setUserType] = useUserType();
-  const [boneUSDValue, setBoneUSDValue] = useState(0);
   const router = useRouter();
 
     const myRef = useRef<any>(null);
@@ -19,7 +16,6 @@ export default function MyAcount() {
   useEffect(() => {
     if (account) {
       getBoneUSDValue(BONE_ID).then((res) => {
-        setBoneUSDValue(res.data.data.price);
       });
     } else {
       router.push("/");
