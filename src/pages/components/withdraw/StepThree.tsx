@@ -12,11 +12,10 @@ const StepThree: React.FC<any> = ({
     step,
     hashLink,
     checkpointSigned,
-    challengePeriodCompleted=true,
+    challengePeriodCompleted = true,
     setProcessing,
     setStep,
     setHashLink,
-    switchNetwork,
     setChallengePeriodCompleted,
     completed,
     setCompleted, page }) => {
@@ -32,15 +31,10 @@ const StepThree: React.FC<any> = ({
     }, []);
 
     const processExit = async () => {
-        console.log("step 6");
-        // switch network to Goerli chain
-        // await switchNetwork();
-        setProcessing((processing: any) => [...processing, "Challenge Period"])
-        setChallengePeriodCompleted(false);
-        await finalise(txState?.token?.parentContract,account).then((res:any) => {
-            setTxState({ ...txState, "processExit": true , "finalHash" : res});
-            setChallengePeriodCompleted(true);
-            setStep("Completed");
+        setStep("Completed");
+        await finalise(txState?.token?.parentContract, account).then((res: any) => {
+            setTxState({ ...txState, "processExit": true, "finalHash": res });
+            setProcessing((processing: any) => [...processing, "Completed"])
             setCompleted(true);
             let link = getExplorerLink(chainId, res, 'transaction');
             setHashLink(link)
@@ -48,27 +42,22 @@ const StepThree: React.FC<any> = ({
     }
 
     const startExitWithBurntTokens = async () => {
-        setStep("Complete");
+        setStep("Challenge Period");
         let type = selectedToken?.bridgetype || txState?.token?.bridgetype;
-        let withdrawState:any = await startWithdraw(type, txState?.txHash, 0);
+        let withdrawState: any = await startWithdraw(type, txState?.txHash, 0);
         if (withdrawState) {
-            if (selectedToken?.bridgetype == "pos" || txState?.token?.bridgetype=="pos") {
+            if (type === "pos") {
                 setProcessing((processing: any) => [...processing, "Completed"])
                 setStep("Completed");
                 setCompleted(true);
-                setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true, "processExit": true, 'withdrawHash':withdrawState });
+                setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true, "processExit": true, 'withdrawHash': withdrawState });
             }
             else {
-                setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true ,'withdrawHash':withdrawState});
+                setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true, 'withdrawHash': withdrawState });
                 setChallengePeriodCompleted(true);
                 setProcessing((processing: any) => [...processing, "Challenge Period"])
             }
-            console.log("step 3");
-            console.log("entered withdraw state => ", withdrawState);
         }
-        console.log("did not enter withdraw state => ", withdrawState);
-        console.log("step 5");
-
     }
     return (
         <div className="popmodal-body no-ht">
@@ -101,7 +90,19 @@ const StepThree: React.FC<any> = ({
                             </div>
                             <div className="step-title">Checkpoint</div>
                         </li>
-                        {selectedToken && selectedToken?.bridgetype == "plasma" || txState && txState?.token?.bridgetype == "plasma" &&
+                        {page === "bridge" ? selectedToken && selectedToken?.bridgetype === "plasma" &&
+                            <li className={`step ${(processing.includes("Challenge Period")) && "active"}`}>
+                                <div className="step-ico">
+                                    <img
+                                        className="img-fluid"
+                                        src="../../assets/images/tick-yes.png"
+                                        alt="check-icon"
+                                    />
+                                </div>
+                                <div className="step-title">Challenge Period</div>
+                            </li> :
+                            txState && txState?.token?.bridgetype === "plasma"
+                            &&
                             <li className={`step ${(processing.includes("Challenge Period")) && "active"}`}>
                                 <div className="step-ico">
                                     <img
@@ -215,7 +216,6 @@ const StepThree: React.FC<any> = ({
                                 </a>
                             </div>
                                 :
-
                                 <div className='pop-grid flex-column align-items-center justify-content-center text-center'>
                                     <div className='text-center'>
                                         <CircularProgress style={{ color: " #F28B03" }} size={100} />
@@ -235,4 +235,4 @@ const StepThree: React.FC<any> = ({
     )
 }
 
-export default StepThree
+export default StepThree;

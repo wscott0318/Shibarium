@@ -58,14 +58,14 @@ const TokenList = ({
     }
   }
   useEffect(() => {
-    console.log("console 1");
+    // console.log("console 1");
     getDefaultTokenList();
     // setTimeout(() => {
     // getEnabledTokens();
     // },3000);
   }, []);
   const getDefaultTokenList = async () => {
-    console.log("console 2")
+    // console.log("console 2")
     const defaultTokenUrls = URL_ARRAY[defaultChain].filter(
       (item: any) => item?.default
     );
@@ -90,14 +90,14 @@ const TokenList = ({
       .then((response) => {
         let uniqList = uniqBy(response, 'data');
         addToLocalStorage(uniqList);
-        console.log('console follow 3')
+        // console.log('console follow 3')
       })
       .catch((err) => { console.log("error") });
   }
   const addToLocalStorage = (response: any) => {
     let oldList;
     oldList = defaultList;
-    console.log("console 3", oldList)
+    // console.log("console 3", oldList)
     if (oldList) {
       let newImportedList = response;
       let newTokens: any;
@@ -113,7 +113,7 @@ const TokenList = ({
       setDefaultList([...newTokens]);
     }
     else {
-      console.log("console 3 else")
+      // console.log("console 3 else")
       let newList = [...response];
       setDefaultList(newList);
       useLocalStorageState('tokenList', { defaultValue: newList })
@@ -121,7 +121,7 @@ const TokenList = ({
     getEnabledTokens();
   }
   const getEnabledTokens = () => {
-    console.log("console 4", defaultList)
+    // console.log("console 4", defaultList)
     if (defaultList?.length > 0) {
       let enabledTokens = defaultList?.filter((e: any) => e?.enabled === true);
       let uniqueTokens: any = [];
@@ -251,7 +251,7 @@ const TokenList = ({
   }, [offset, tokenModalList, importedCoins]);
 
   const fetchData = () => {
-    console.log("fetch data called")
+    // console.log("fetch data called")
     if (defaultfetched?.length >= importedCoins?.length) {
       setHasMore(false);
       return;

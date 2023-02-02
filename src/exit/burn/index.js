@@ -1,108 +1,96 @@
-import { utils } from "web3"
-import  {getClient} from "../../client/shibarium"
-import { getToWeiUnitFromDecimal } from "../../utils/weiDecimal"
+import { utils } from "web3";
+import { getClient } from "../../client/shibarium";
+import { getToWeiUnitFromDecimal } from "../../utils/weiDecimal";
 // import { StakingAPI } from "../../client/staking-api"
-import {burnGetAPI} from "../../services/apis/bridge/burn"
-import { PUPPYNET517 } from "app/hooks/L1Block"
+import { burnGetAPI } from "../../services/apis/bridge/burn";
+import { PUPPYNET517 } from "app/hooks/L1Block";
 
 export const startBurn = async (clientType, token, from, amount) => {
-  console.log(`begin exit from L2 -> L1 using ${clientType}`)
-
-  // const stakingApi = new StakingAPI()
-  const handleBurn = async(tokenAddr) => {
-      let addressData;
-      await burnGetAPI(clientType, tokenAddr).then((res) => 
-      {
-        console.log("response " , res);
-        addressData=res.data.data.token;
-        console.log("address data" ,addressData)
-      }
-      )
-      return addressData;
-   
-  }
+  console.log(`begin exit from L2 -> L1 using ${clientType}`);
+  const handleBurn = async (tokenAddr) => {
+    let addressData;
+    await burnGetAPI(clientType, tokenAddr).then((res) => {
+      addressData = res.data.data.token;
+    });
+    return addressData;
+  };
   try {
-    console.log(`Get token data from Staking API for ${token}`)
-    const tokenAddr = utils.toChecksumAddress(token)
+    console.log(`Get token data from Staking API for ${token}`);
+    const tokenAddr = utils.toChecksumAddress(token);
     const tokenData = await handleBurn(tokenAddr);
 
-    console.table("token data " ,tokenData);
+    const childAddr = tokenData?.childAddress;
+    const parentAddr = tokenData?.parentAddress;
+    const format = getToWeiUnitFromDecimal(tokenData?.childDecimals);
+    const { tokenType } = tokenData;
+    const amountWei = utils.toWei(String(amount), format);
 
-    const childAddr = tokenData?.childAddress
-    const parentAddr = tokenData?.parentAddress
-    const format = getToWeiUnitFromDecimal(tokenData?.childDecimals)
-    const { tokenType } = tokenData
-    const amountWei = utils.toWei(String(amount), format)
-    // console.log("amount => " , amount)
     if (tokenType !== "ERC20") {
-      console.log(`${tokenType} not implemented yet`)
-      process.exit(1)
-    } 
-    // console.log("get client => " , getClient)
-
-    // console.log(`Root contract  : ${parentAddr}`)
-    // console.log(`Child contract : ${childAddr}`)
+      console.log(`${tokenType} not implemented yet`);
+      process.exit(1);
+    }
 
     const client = await getClient(clientType);
-    // console.log("client ==> " , client);
-    const erc20Token = client.erc20(childAddr, false);
-    // const web3 = PUPPYNET517();
-    // const instance = web3.eth.Contract();
-    // console.log("sending burn/burn tx on Child Contract, L2:" , erc20Token.getPOSContracts());
-    const result = await erc20Token.withdrawStart(amountWei, { from })
 
-    const txHash = await result.getTransactionHash()
-    console.log("txHash", txHash)
-    const receipt = await result.getReceipt()
-    console.log("receipt", receipt)
-    console.log(`Burn/Exit Tx: ${txHash}`)
-    console.log("Use the Tx to track the burn/burn and check checkpoint inclusion on Parent chain:")
-    console.log(`   sandbox-wallet exit burn-status ${clientType} ${txHash}`)
-    console.log("Use the Tx to finalise and withdraw when ready:")
-    console.log(`   sandbox-wallet exit withdraw ${clientType} ${txHash}`)
+    const erc20Token = client.erc20(childAddr, false);
+    console.log("sending burn/burn tx on Child Contract, L2:");
+    const result = await erc20Token.withdrawStart(amountWei, { from });
+
+    const txHash = await result.getTransactionHash();
+    console.log("txHash", txHash);
+    const receipt = await result.getReceipt();
+    console.log("receipt", receipt);
+    console.log(`Burn/Exit Tx: ${txHash}`);
+    console.log(
+      "Use the Tx to track the burn/burn and check checkpoint inclusion on Parent chain:"
+    );
+    console.log(`   sandbox-wallet exit burn-status ${clientType} ${txHash}`);
+    console.log("Use the Tx to finalise and withdraw when ready:");
+    console.log(`   sandbox-wallet exit withdraw ${clientType} ${txHash}`);
     return txHash;
     // process.exit(0);
-
   } catch (e) {
-    console.log(e)
+    console.log(e);
     // process.exit(1)
   }
-}
+};
 
 export const burnStatus = async (clientType, txHash) => {
   try {
-    console.log("")
-    const client = await getClient(clientType)
-    const burnExitTx = await client.client.child.web3_.eth.getTransaction(txHash)
+    console.log("");
+    const client = await getClient(clientType);
+    const burnExitTx = await client.client.child.web3_.eth.getTransaction(
+      txHash
+    );
 
-    const from = String(burnExitTx.from)
+    const from = String(burnExitTx.from);
 
-    console.log(`Exit type            : ${clientType}`)
-    console.log(`Tx was sent from     : ${from}`)
-    console.log(`L2 Tx Hash           : ${txHash}`)
+    console.log(`Exit type            : ${clientType}`);
+    console.log(`Tx was sent from     : ${from}`);
+    console.log(`L2 Tx Hash           : ${txHash}`);
 
-    const inclusion = await client.isCheckPointed(txHash)
+    const inclusion = await client.isCheckPointed(txHash);
 
-    console.log(`Checkpoint Inclusion : ${inclusion}`)
+    console.log(`Checkpoint Inclusion : ${inclusion}`);
 
     if (!inclusion) {
-      console.log("")
-      console.log("Burn transaction has not been checkpointed as yet")
+      console.log("");
+      console.log("Burn transaction has not been checkpointed as yet");
       // process.exit(0)
     }
 
-    console.log("")
-    console.log("withdraw process can be executed with:")
-    console.log(`  sandbox-wallet exit withdraw ${clientType} ${txHash}`)
-    console.log("")
+    console.log("");
+    console.log("withdraw process can be executed with:");
+    console.log(`  sandbox-wallet exit withdraw ${clientType} ${txHash}`);
+    console.log("");
     return inclusion;
     // process.exit(0)
   } catch (e) {
-    console.log(e)
-    process.exit(1)
+    console.log(e);
+    process.exit(1);
   }
-}
+};
 
 export default {
-  burnStatus
-}
+  burnStatus,
+};

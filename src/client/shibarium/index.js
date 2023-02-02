@@ -80,7 +80,7 @@ async function getPlasmaClient() {
   }
 }
 
-export const getClient = async (clientType = "pos") => {
+export const getClient = async (clientType) => {
   console.log("client type => ", clientType);
   if (clientType === "pos") {
     return getPOSClient();

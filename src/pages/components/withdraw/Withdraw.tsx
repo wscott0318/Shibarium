@@ -1,49 +1,59 @@
-import { NETWORK_ICON, NETWORK_LABEL } from 'app/config/networks';
-import { useActiveWeb3React } from 'app/services/web3';
-import React, { useEffect, useState } from 'react'
-import NumberFormat from 'react-number-format';
-import { ChainId } from 'shibarium-get-chains';
-import { currentGasPrice, getAllowanceAmount, tokenDecimal, USER_REJECTED_TX } from 'web3/commonFunctions';
-import { dynamicChaining } from 'web3/DynamicChaining';
-import CommonModal from './CommonModel'
-import ERC20 from "../../ABI/ERC20Abi.json";
+import { NETWORK_ICON, NETWORK_LABEL } from "app/config/networks";
+import { useActiveWeb3React } from "app/services/web3";
+import React, { useEffect, useState } from "react";
+import NumberFormat from "react-number-format";
+import { ChainId } from "shibarium-get-chains";
+import {
+    currentGasPrice,
+    getAllowanceAmount,
+    tokenDecimal,
+    USER_REJECTED_TX,
+} from "web3/commonFunctions";
+import { dynamicChaining } from "web3/DynamicChaining";
+import CommonModal from "../CommonModel";
+import ERC20 from "../../../ABI/ERC20Abi.json";
 import * as Sentry from "@sentry/nextjs";
-import Web3 from 'web3';
+import Web3 from "web3";
 import { SUPPORTED_NETWORKS } from "app/modals/NetworkModal";
-import { useAppDispatch } from 'app/state/hooks';
-import fromExponential from 'from-exponential';
-import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
-import { getExplorerLink } from 'app/functions';
-import withdrawManagerABI from "../../ABI/withdrawManagerABI.json";
-import l2withdrawABI from "../../ABI/l2withdrawABI.json";
-import { ArrowCircleLeftIcon } from '@heroicons/react/outline';
-import { Check, X } from 'react-feather';
-import Loader from 'app/components/Loader';
-import { PUPPYNET517 } from 'app/hooks/L1Block';
-import { Spinner } from 'react-bootstrap';
-import { CircularProgress } from '@material-ui/core';
+import { useAppDispatch } from "app/state/hooks";
+import fromExponential from "from-exponential";
+import {
+    addTransaction,
+    finalizeTransaction,
+} from "app/state/transactions/actions";
+import { getExplorerLink } from "app/functions";
+import withdrawManagerABI from "../../../ABI/withdrawManagerABI.json";
+import l2withdrawABI from "../../../ABI/l2withdrawABI.json";
+import { ArrowCircleLeftIcon } from "@heroicons/react/outline";
+import { Check, X } from "react-feather";
+import Loader from "app/components/Loader";
+import { PUPPYNET517 } from "app/hooks/L1Block";
+import { Spinner } from "react-bootstrap";
+import { CircularProgress } from "@material-ui/core";
 // @ts-ignore TYPE NEEDS FIXING
-import cookie from 'cookie-cutter'
-import { startBurn, burnStatus } from "../../exit/burn";
-import useLocalStorageState from 'use-local-storage-state';
-import StepThree from './withdraw/StepThree';
-import { startWithdraw } from 'exit/withdraw';
+import cookie from "cookie-cutter";
+import { startBurn, burnStatus } from "../../../exit/burn";
+import useLocalStorageState from "use-local-storage-state";
+import StepThree from "./StepThree";
+import { startWithdraw } from "exit/withdraw";
 
 const WithdrawModal: React.FC<{
-    page: string,
-    dWState: boolean,
-    setWithdrawModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    selectedToken: any,
-    withdrawTokenInput: any,
-    boneUSDValue: any,
-    show: any
+    page: string;
+    dWState: boolean;
+    setWithdrawModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    selectedToken: any;
+    withdrawTokenInput: any;
+    boneUSDValue: any;
+    show: any;
 }> = ({
     page,
     dWState,
     setWithdrawModalOpen,
     selectedToken,
     withdrawTokenInput,
-    boneUSDValue, show }) => {
+    boneUSDValue,
+    show,
+}) => {
         const { chainId = 1, account, library } = useActiveWeb3React();
         const lib: any = library;
         const web3: any = new Web3(lib?.provider);
@@ -59,7 +69,8 @@ const WithdrawModal: React.FC<{
         const [processing, setProcessing] = useState<any>([]);
         const [step, setStep] = useState<any>();
         const [checkpointSigned, setCheckpointSigned] = useState(false);
-        const [challengePeriodCompleted, setChallengePeriodCompleted] = useState(false);
+        const [challengePeriodCompleted, setChallengePeriodCompleted] =
+            useState(false);
         const [buttonloader, setButtonLoader] = useState(false);
         const [completed, setCompleted] = useState(false);
         const [withModalState, setWidModState] = useState({
@@ -73,147 +84,57 @@ const WithdrawModal: React.FC<{
             title: "Please Note",
         });
 
-        const switchNetwork = async () => {
-            let key = chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI;
-            console.debug(`Switching to chain ${key}`, SUPPORTED_NETWORKS[key])
-            const params = SUPPORTED_NETWORKS[key]
-            cookie.set('chainId', key, params)
-            try {
-                await library?.send('wallet_switchEthereumChain', [{ chainId: `0x${key.toString(16)}` }, account])
-            } catch (switchError) {
-                // This error code indicates that the chain has not been added to MetaMask.
-                // @ts-ignore TYPE NEEDS FIXING
-                if (switchError.code === 4902) {
-                    try {
-                        console.log({ params, account });
-                        await library?.send('wallet_addEthereumChain', [params, account])
-                    } catch (addError) {
-                        // handle "add" error
-                        console.error(`Add chain error ${addError}`)
-                    }
-                }
-                console.error(`Switch chain error ${switchError}`)
-                // handle other "switch" errors
-            }
-        }
-
         const callWithdrawContract = async () => {
             try {
                 if (account) {
                     setButtonLoader(true);
-                    console.log("approve amount entered");
-                    // let allowance =
-                    //     (await getAllowanceAmount(
-                    //         library,
-                    //         dynamicChaining[chainId].BONE,
-                    //         account,
-                    //         dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
-                    //     )) || 0;
-                    // console.log("step 2");
-                    // if (+withdrawTokenInput > +allowance) {
-                    //     console.log("step 3");
-                    //     setWidModState({ ...withModalState, step2: false, step3: true, title: "Transaction Pending" });
-                    //     setStep("Initialized");
-                    //     approveWithdraw();
-                    // }
-                    // else {
-                    // await switchNetwork();
-                    setWidModState({ ...withModalState, step2: false, step3: true, title: "Transaction Pending" });
+                    setWidModState({
+                        ...withModalState,
+                        step2: false,
+                        step3: true,
+                        title: "Transaction Pending",
+                    });
                     setStep("Initialized");
-                    // setTimeout(() => { 
-                    submitWithdraw()
-                    // }, 3000);
-
-                    // }
+                    submitWithdraw();
                 }
             } catch (err: any) {
                 if (err.code !== USER_REJECTED_TX) {
                     Sentry.captureMessage("callDepositContract", err);
                 }
-
             }
         };
-        console.log("selected token", selectedToken)
-        const approveWithdraw = async () => {
-            try {
-                console.log("step 5");
-                if (account) {
-                    let user = account;
-                    let amount = web3.utils.toBN(fromExponential(+withdrawTokenInput * Math.pow(10, 18)));
-                    let instance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
-                    let gasFee = await instance.methods.approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount).estimateGas({ from: user })
-                    let encodedAbi = await instance.methods.approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount).encodeABI()
-                    let CurrentgasPrice: any = await currentGasPrice(web3)
-                    await web3.eth.sendTransaction({
-                        from: user,
-                        to: dynamicChaining[chainId].BONE,
-                        gas: (parseInt(gasFee) + 30000).toString(),
-                        gasPrice: CurrentgasPrice,
-                        data: encodedAbi
-                    })
-                        .on('transactionHash', (res: any) => {
-                            dispatch(
-                                addTransaction({
-                                    hash: res,
-                                    from: user,
-                                    chainId,
-                                    summary: `${res}`,
-                                })
-                            )
-                            let link = getExplorerLink(chainId, res, 'transaction')
-                            setHashLink(link)
-                        }).on('receipt', async (res: any) => {
-                            dispatch(
-                                finalizeTransaction({
-                                    hash: res.transactionHash,
-                                    chainId,
-                                    receipt: {
-                                        to: res.to,
-                                        from: res.from,
-                                        contractAddress: res.contractAddress,
-                                        transactionIndex: res.transactionIndex,
-                                        blockHash: res.blockHash,
-                                        transactionHash: res.transactionHash,
-                                        blockNumber: res.blockNumber,
-                                        status: 1
-                                    }
-                                })
-                            )
-                            setProcessing((processing: any) => [...processing, "Initialized"])
-                            submitWithdraw();
-                        })
-                }
-            } catch (err: any) {
-                Sentry.captureMessage("approvewithdraw ", err);
-            }
-
-        }
 
         const submitWithdraw = async () => {
             try {
-                console.log("step 1");
                 setHashLink("");
                 setButtonLoader(false);
                 let user: any = account;
-                let burn = await startBurn(selectedToken?.bridgetype, selectedToken?.childContract, user, withdrawTokenInput);
+                let burn = await startBurn(
+                    selectedToken?.bridgetype,
+                    selectedToken?.childContract,
+                    user,
+                    withdrawTokenInput
+                );
+                // let burn: boolean = false;
+                // setTimeout(() => {
+                //     burn = true;
                 if (burn) {
-                    setProcessing((processing: any) => [...processing, "Initialized"])
-                    console.log("step 2");
-                    console.log("burn => ", burn)
+                    setProcessing((processing: any) => [...processing, "Initialized"]);
                     let link = `https://shibascan-517.hailshiba.com/tx/${burn}`;
-                    setHashLink(link)
+                    setHashLink(link);
                     setStep("Checkpoint");
                     setTxState({
-                        "checkpointSigned": false,
-                        "challengePeriod": false,
-                        "processExit": false,
-                        "amount": withdrawTokenInput,
-                        "token": selectedToken,
-                        "txHash": burn
+                        checkpointSigned: false,
+                        challengePeriod: false,
+                        processExit: false,
+                        amount: withdrawTokenInput,
+                        token: selectedToken,
+                        txHash: burn,
                     });
                 }
-            }
-            catch (err: any) {
+                // }, 3000);
+
+            } catch (err: any) {
                 if (err.code !== USER_REJECTED_TX) {
                     Sentry.captureMessage("submitWithdraw ", err);
                 }
@@ -229,20 +150,21 @@ const WithdrawModal: React.FC<{
                     title: "Initialize Withdraw",
                 });
                 setWithdrawModal(false);
-                console.log("error =>> ", err)
+                setStep("Initialized");
+                setProcessing([]);
+                // console.log("error =>> ", err);
             }
-        }
+        };
 
         const getBurnStatus = async (txHash: any) => {
-            console.log("step 4");
             let status = await burnStatus(txState?.token?.bridgetype, txHash);
             console.log("status ", status);
             if (status) {
                 setProcessing((processing: any) => [...processing, "Checkpoint"]);
-                setTxState({ ...txState, "checkpointSigned": true });
+                setTxState({ ...txState, checkpointSigned: true });
                 setCheckpointSigned(true);
             }
-        }
+        };
 
         const estGasFee = async () => {
             setAmountApproval(false);
@@ -259,91 +181,138 @@ const WithdrawModal: React.FC<{
                     dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
                 )) || 0;
             let currentprice: any = await currentGasPrice(web3);
-            console.log("allowance", allowance);
+            // console.log("allowance", allowance);
             if (+allowance < +withdrawTokenInput) {
-                let approvalInstance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
-                await approvalInstance.methods.approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amountWei).estimateGas({ from: user }).then((gas: any) => {
-                    setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
-                })
+                let approvalInstance = new web3.eth.Contract(
+                    ERC20,
+                    dynamicChaining[chainId].BONE
+                );
+                await approvalInstance.methods
+                    .approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amountWei)
+                    .estimateGas({ from: user })
+                    .then((gas: any) => {
+                        setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
+                    });
             }
             let instance = new web3.eth.Contract(
                 withdrawManagerABI,
                 dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
-            )
+            );
 
-            await instance.methods.processExits(dynamicChaining[chainId].BONE).estimateGas({ from: user })
+            await instance.methods
+                .processExits(dynamicChaining[chainId].BONE)
+                .estimateGas({ from: user })
                 .then(async (gas: any) => {
                     let gasFee = (+gas * +currentprice) / Math.pow(10, 18);
                     setEstGas(+gasFee);
                     setLoader(false);
-                }).catch((err: any) => {
-                    console.log(err);
                 })
-        }
+                .catch((err: any) => {
+                    console.log(err);
+                });
+        };
 
         useEffect(() => {
-            let tempStep: any;
-            let process :any;
-            if (page == "tx" && txState?.token?.bridgetype == "plasma") {
-                tempStep= txState?.processExit ? "Completed" : txState?.challengePeriod ? "Challenge Period" : "Checkpoint";
-                process= ["Initialized", "Checkpoint", "Challenge Period", "Completed"];
-            }
-            else {
-                tempStep = txState?.processExit ? "Completed" : "Checkpoint";
-                process = ["Initialized", "Checkpoint", "Completed"];
-            }
-            setStep(tempStep);
-            console.log("tempstep", tempStep);
-            console.log("process =>",process.indexOf(tempStep)+1, (process.length - 1) - (process.indexOf(tempStep)));
-            process.splice(process.indexOf(tempStep), (process.length - 1) - (process.indexOf(tempStep))+1);
-            setProcessing(process);
-            if (tempStep == "Checkpoint") {
-                console.log("Checkpoint entered")
-                getBurnStatus(txState?.txHash);
-            } else if (tempStep == "Challenge Period") {
-                setChallengePeriodCompleted(true);
+            if (page == "tx") {
+                let tempStep: any;
+                let process: any;
+                if (txState?.token?.bridgetype == "plasma") {
+                    tempStep = txState?.processExit
+                        ? "Completed"
+                        : txState?.challengePeriod
+                            ? "Challenge Period"
+                            : "Checkpoint";
+                    process = ["Initialized", "Checkpoint", "Challenge Period", "Completed"];
+                } else {
+                    tempStep = txState?.processExit ? "Completed" : "Checkpoint";
+                    process = ["Initialized", "Checkpoint", "Completed"];
+                }
+                setStep(tempStep);
+                process.splice(
+                    process.indexOf(tempStep),
+                    process.length - 1 - process.indexOf(tempStep) + 1
+                );
+                setProcessing(process);
+                if (tempStep == "Checkpoint") {
+                    getBurnStatus(txState?.txHash);
+                } else if (tempStep == "Challenge Period") {
+                    setChallengePeriodCompleted(true);
+                }
             }
         }, []);
+
         const imageOnErrorHandler = (
             event: React.SyntheticEvent<HTMLImageElement, Event>
         ) => {
             event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
             event.currentTarget.className = "error me-3";
         };
-        
+
         return (
             <CommonModal
                 title={withModalState.title}
                 show={show}
-                setshow={() => { setWithdrawModal(false); setWithdrawModalOpen(false) }}
+                setshow={() => {
+                    setWithdrawModal(false);
+                    setWithdrawModalOpen(false);
+                }}
                 externalCls="dark-modal-100 bridge-ht2"
             >
                 {/* Withdraw tab popups start */}
                 <>
                     {/* note popup start*/}
-                    {page == "bridge" ?
+                    {page == "bridge" ? (
                         <>
                             {!dWState && withModalState.step0 && (
                                 <div className="popmodal-body no-ht">
                                     <div className="pop-block withdraw_pop">
                                         <div className="pop-top">
                                             <div className="inner-top p-2">
-                                                <h4 className="text-md ff-mos pb-3">What isn't possible</h4>
+                                                <h4 className="text-md ff-mos pb-3">
+                                                    What isn't possible
+                                                </h4>
                                                 <div className="row">
-                                                    <div className="col-1"><X style={{ background: "red", borderRadius: "50px", padding: "2px" }} /> </div>
+                                                    <div className="col-1">
+                                                        <X
+                                                            style={{
+                                                                background: "red",
+                                                                borderRadius: "50px",
+                                                                padding: "2px",
+                                                            }}
+                                                        />{" "}
+                                                    </div>
                                                     <div className="col-11">
-                                                        <h6 className="text-sm ff-mos pb-1">Cancelling any withdraw</h6>
-                                                        <p className="text-sm">You cannot cancel a withdrawal once you have begun the process.</p>
+                                                        <h6 className="text-sm ff-mos pb-1">
+                                                            Cancelling any withdraw
+                                                        </h6>
+                                                        <p className="text-sm">
+                                                            You cannot cancel a withdrawal once you have begun
+                                                            the process.
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="inner-top p-2">
                                                 <h4 className="text-md ff-mos pb-3">What's possible</h4>
                                                 <div className="row">
-                                                    <div className="col-1"><Check style={{ background: "green", borderRadius: "50px", padding: "2px" }} /> </div>
+                                                    <div className="col-1">
+                                                        <Check
+                                                            style={{
+                                                                background: "green",
+                                                                borderRadius: "50px",
+                                                                padding: "2px",
+                                                            }}
+                                                        />{" "}
+                                                    </div>
                                                     <div className="col-11">
-                                                        <h6 className="text-sm ff-mos pb-1">Moving funds from Puppy Net to Goerli</h6>
-                                                        <p className="text-sm">Here you can move frunds from the Puppy Net network to Goerli network on the Puppy Net Chain. This will take 20-30 minutes.</p>
+                                                        <h6 className="text-sm ff-mos pb-1">
+                                                            Moving funds from Puppy Net to Goerli
+                                                        </h6>
+                                                        <p className="text-sm">
+                                                            Here you can move frunds from the Puppy Net network
+                                                            to Goerli network on the Puppy Net Chain. This will
+                                                            take 20-30 minutes.
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -352,7 +321,15 @@ const WithdrawModal: React.FC<{
                                             <div>
                                                 <a
                                                     className="btn primary-btn w-100 d-flex align-items-center justify-content-center"
-                                                    onClick={() => { setWidModState({ ...withModalState, step0: false, step1: true, title: "Transfer Overview" }); estGasFee(); }}
+                                                    onClick={() => {
+                                                        setWidModState({
+                                                            ...withModalState,
+                                                            step0: false,
+                                                            step1: true,
+                                                            title: "Transfer Overview",
+                                                        });
+                                                        estGasFee();
+                                                    }}
                                                 >
                                                     Continue
                                                 </a>
@@ -365,17 +342,40 @@ const WithdrawModal: React.FC<{
                             {/* confirm deposit popop starts */}
                             {!dWState && withModalState.step1 && (
                                 <div className="popmodal-body no-ht">
-                                    <div className="backDepState" onClick={() => {
-                                        setWidModState({ ...withModalState, step0: true, step1: false, title: "Please Note" }); estGasFee();
-                                    }}><ArrowCircleLeftIcon /></div>
+                                    <div
+                                        className="backDepState"
+                                        onClick={() => {
+                                            setWidModState({
+                                                ...withModalState,
+                                                step0: true,
+                                                step1: false,
+                                                title: "Please Note",
+                                            });
+                                            estGasFee();
+                                        }}
+                                    >
+                                        <ArrowCircleLeftIcon />
+                                    </div>
                                     <div className="pop-block">
                                         <div className="pop-top">
-                                            <div className="border-2 rounded-circle d-flex align-item-center justify-content-center p-3 w-25 m-auto" style={{ borderColor: "#F28B03" }}>
-                                                <img width="80" src="../../assets/images/gas-station.png" alt="" />
+                                            <div
+                                                className="border-2 rounded-circle d-flex align-item-center justify-content-center p-3 w-25 m-auto"
+                                                style={{ borderColor: "#F28B03" }}
+                                            >
+                                                <img
+                                                    width="80"
+                                                    src="../../assets/images/gas-station.png"
+                                                    alt=""
+                                                />
                                             </div>
                                             <div className="text-center">
-                                                <h4 className="ff-mos fs-6 pt-4">Withdrawal process for Proof of Stake consists of 2 transactions</h4>
-                                                <p className="text-sm pt-1">Estimated total gas required for these transactions.</p>
+                                                <h4 className="ff-mos fs-6 pt-4">
+                                                    Withdrawal process for Proof of Stake consists of 2
+                                                    transactions
+                                                </h4>
+                                                <p className="text-sm pt-1">
+                                                    Estimated total gas required for these transactions.
+                                                </p>
                                             </div>
                                             <div className="row pt-3">
                                                 <div className="col-7 d-flex align-items-center">
@@ -388,34 +388,50 @@ const WithdrawModal: React.FC<{
                                                     />
                                                     <p className="ps-2">Withdrawal Initialized</p>
                                                 </div>
-                                                <div className="col-5 text-end"><small className="text-lg">~ </small><NumberFormat thousandSeparator displayType={"text"} prefix='$' value={0} />
+                                                <div className="col-5 text-end">
+                                                    <small className="text-lg">~ </small>
+                                                    <NumberFormat
+                                                        thousandSeparator
+                                                        displayType={"text"}
+                                                        prefix="$"
+                                                        value={0}
+                                                    />
                                                 </div>
                                             </div>
-                                            {allowance > 0 && <div className="row pt-3">
-                                                <div className="col-7 d-flex align-items-center">
-                                                    <img
-                                                        className="img-fluid"
-                                                        width="22"
-                                                        height="22"
-                                                        src={
-                                                            (selectedToken?.logo || selectedToken?.logoURI)
-                                                                ? (selectedToken?.logo || selectedToken?.logoURI)
-                                                                : "../../assets/images/eth.png"
-                                                        }
-                                                        onError={imageOnErrorHandler}
-                                                        alt=""
-                                                    />
-                                                    <p className="ps-2">Confirm Withdrawal</p>
+                                            {allowance > 0 && (
+                                                <div className="row pt-3">
+                                                    <div className="col-7 d-flex align-items-center">
+                                                        <img
+                                                            className="img-fluid"
+                                                            width="22"
+                                                            height="22"
+                                                            src={
+                                                                selectedToken?.logo || selectedToken?.logoURI
+                                                                    ? selectedToken?.logo || selectedToken?.logoURI
+                                                                    : "../../assets/images/eth.png"
+                                                            }
+                                                            onError={imageOnErrorHandler}
+                                                            alt=""
+                                                        />
+                                                        <p className="ps-2">Confirm Withdrawal</p>
+                                                    </div>
+                                                    <div className="col-5 d-flex align-items-center justify-content-end">
+                                                        {loader ? (
+                                                            <Loader />
+                                                        ) : (
+                                                            <>
+                                                                <small className="text-lg">~ </small>
+                                                                <NumberFormat
+                                                                    thousandSeparator
+                                                                    displayType={"text"}
+                                                                    prefix="$"
+                                                                    value={(allowance * boneUSDValue).toFixed(3)}
+                                                                />
+                                                            </>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                                <div className="col-5 d-flex align-items-center justify-content-end">
-                                                    {loader ? <Loader /> :
-                                                        <>
-                                                            <small className="text-lg">~ </small>
-                                                            <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(allowance * boneUSDValue).toFixed(3)} />
-                                                        </>
-                                                    }
-                                                </div>
-                                            </div>}
+                                            )}
                                             <div className="row pt-2">
                                                 <div className="col-7 d-flex align-items-center">
                                                     <img
@@ -423,8 +439,8 @@ const WithdrawModal: React.FC<{
                                                         width="22"
                                                         height="22"
                                                         src={
-                                                            (selectedToken?.logo || selectedToken?.logoURI)
-                                                                ? (selectedToken?.logo || selectedToken?.logoURI)
+                                                            selectedToken?.logo || selectedToken?.logoURI
+                                                                ? selectedToken?.logo || selectedToken?.logoURI
                                                                 : "../../assets/images/eth.png"
                                                         }
                                                         onError={imageOnErrorHandler}
@@ -433,11 +449,19 @@ const WithdrawModal: React.FC<{
                                                     <p className="ps-2">Withdrawal Complete</p>
                                                 </div>
                                                 <div className="col-5 d-flex align-items-center justify-content-end">
-                                                    {loader ? <Loader /> :
+                                                    {loader ? (
+                                                        <Loader />
+                                                    ) : (
                                                         <>
                                                             <small className="text-lg">~ </small>
-                                                            <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(3)} />
-                                                        </>}
+                                                            <NumberFormat
+                                                                thousandSeparator
+                                                                displayType={"text"}
+                                                                prefix="$"
+                                                                value={(estGas * boneUSDValue).toFixed(3)}
+                                                            />
+                                                        </>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -445,7 +469,14 @@ const WithdrawModal: React.FC<{
                                             <div>
                                                 <a
                                                     className="btn primary-btn w-100 d-flex align-items-center justify-content-center"
-                                                    onClick={() => { setWidModState({ ...withModalState, step1: false, step2: true, title: "Confirm Transfer" }); }}
+                                                    onClick={() => {
+                                                        setWidModState({
+                                                            ...withModalState,
+                                                            step1: false,
+                                                            step2: true,
+                                                            title: "Confirm Transfer",
+                                                        });
+                                                    }}
                                                 >
                                                     Continue
                                                 </a>
@@ -457,10 +488,20 @@ const WithdrawModal: React.FC<{
                             {/* Initialize withdraw popup start */}
                             {withModalState.step2 && !dWState && (
                                 <div className="popmodal-body no-ht">
-                                    <div className="backDepState" onClick={() => {
-                                        setWidModState({ ...withModalState, step1: true, step2: false, title: "Transfer Overview" });
-                                        estGasFee();
-                                    }}><ArrowCircleLeftIcon /></div>
+                                    <div
+                                        className="backDepState"
+                                        onClick={() => {
+                                            setWidModState({
+                                                ...withModalState,
+                                                step1: true,
+                                                step2: false,
+                                                title: "Transfer Overview",
+                                            });
+                                            estGasFee();
+                                        }}
+                                    >
+                                        <ArrowCircleLeftIcon />
+                                    </div>
                                     <div className="pop-block withdraw_pop">
                                         <div className="pop-top">
                                             <div className="mt-0 cnfrm_box dark-bg">
@@ -468,7 +509,11 @@ const WithdrawModal: React.FC<{
                                                     <span>
                                                         <img
                                                             className="img-fluid"
-                                                            src={selectedToken.logo ? selectedToken.logo : "../../assets/images/red-bone.png"}
+                                                            src={
+                                                                selectedToken.logo
+                                                                    ? selectedToken.logo
+                                                                    : "../../assets/images/red-bone.png"
+                                                            }
                                                             onError={imageOnErrorHandler}
                                                             alt=""
                                                         />
@@ -476,14 +521,16 @@ const WithdrawModal: React.FC<{
                                                     <h6>
                                                         {withdrawTokenInput + " " + selectedToken.parentName}
                                                     </h6>
-                                                    <p><NumberFormat
-                                                        thousandSeparator
-                                                        displayType={"text"}
-                                                        prefix="$ "
-                                                        value={(
-                                                            (+withdrawTokenInput || 0) * boneUSDValue
-                                                        ).toFixed(tokenDecimal)}
-                                                    /></p>
+                                                    <p>
+                                                        <NumberFormat
+                                                            thousandSeparator
+                                                            displayType={"text"}
+                                                            prefix="$ "
+                                                            value={(
+                                                                (+withdrawTokenInput || 0) * boneUSDValue
+                                                            ).toFixed(tokenDecimal)}
+                                                        />
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div className="pop-grid">
@@ -491,12 +538,26 @@ const WithdrawModal: React.FC<{
                                                     <div className="d-inline-block img-flexible">
                                                         <img
                                                             className="img-fluid"
-                                                            src={NETWORK_ICON[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}
+                                                            src={
+                                                                NETWORK_ICON[
+                                                                chainId == ChainId.GÖRLI
+                                                                    ? ChainId.PUPPYNET517
+                                                                    : ChainId.GÖRLI
+                                                                ]
+                                                            }
                                                             onError={imageOnErrorHandler}
                                                             alt=""
                                                         />
                                                     </div>
-                                                    <p>{NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}</p>
+                                                    <p>
+                                                        {
+                                                            NETWORK_LABEL[
+                                                            chainId == ChainId.GÖRLI
+                                                                ? ChainId.PUPPYNET517
+                                                                : ChainId.GÖRLI
+                                                            ]
+                                                        }
+                                                    </p>
                                                 </div>
                                                 <div className="text-center box-block">
                                                     <div className="d-inline-block right-arrow">
@@ -565,7 +626,12 @@ const WithdrawModal: React.FC<{
                                                 <div>
                                                     <p className="fw-bold">
                                                         <small className="text-lg">~ </small>
-                                                        <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(6)} />
+                                                        <NumberFormat
+                                                            thousandSeparator
+                                                            displayType={"text"}
+                                                            prefix="$"
+                                                            value={(estGas * boneUSDValue).toFixed(6)}
+                                                        />
                                                     </p>
                                                 </div>
                                             </div>
@@ -573,12 +639,15 @@ const WithdrawModal: React.FC<{
                                         <div className="pop-bottom">
                                             <div>
                                                 <a
-                                                    className={` d-flex align-items-center justify-content-center btn primary-btn w-100 relative ${buttonloader && "disabled btn-disabled"}`}
+                                                    className={` d-flex align-items-center justify-content-center btn primary-btn w-100 relative ${buttonloader && "disabled btn-disabled"
+                                                        }`}
                                                     onClick={() => {
                                                         callWithdrawContract();
                                                     }}
                                                 >
-                                                    {buttonloader && <span className="spinner-border text-secondary pop-spiner fix_spinner"></span>}
+                                                    {buttonloader && (
+                                                        <span className="spinner-border text-secondary pop-spiner fix_spinner"></span>
+                                                    )}
                                                     <span>Continue</span>
                                                 </a>
                                             </div>
@@ -598,15 +667,14 @@ const WithdrawModal: React.FC<{
                                             setProcessing,
                                             setStep,
                                             step,
-                                            switchNetwork,
                                             withdrawTokenInput,
-                                            page
+                                            page,
                                         }}
                                     />
                                 </>
                             )}
                         </>
-                        :
+                    ) : (
                         <>
                             <StepThree
                                 {...{
@@ -618,28 +686,26 @@ const WithdrawModal: React.FC<{
                                     setProcessing,
                                     setStep,
                                     step,
-                                    switchNetwork,
                                     withdrawTokenInput,
                                     setChallengePeriodCompleted,
                                     setHashLink,
                                     completed,
                                     setCompleted,
-                                    page
+                                    page,
                                 }}
                             />
                         </>
-                    }
+                    )}
 
                     {/* Initialize withdraw popup end */}
 
                     {/* Reaching checkpoint popup start */}
 
                     {/* Reaching checkpoint  popup end */}
-
                 </>
                 {/* Withdraw tab popups end */}
-            </CommonModal >
-        )
-    }
+            </CommonModal>
+        );
+    };
 
-export default WithdrawModal
+export default WithdrawModal;

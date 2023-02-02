@@ -142,10 +142,10 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     try {
       await getWalletTokenList().then((res) => {
         let list = res.data.message.tokens;
-        console.log("list ==> ", list);
+        // console.log("list ==> ", list);
         list.forEach(async (x: any) => {
           if (x.parentName === "BONE") {
-            console.log("value of x ==> ", lib, account, " bone address=>", dynamicChaining[chainId].BONE);
+            // console.log("value of x ==> ", lib, account, " bone address=>", dynamicChaining[chainId].BONE);
             if (chainId === ChainId.GÖRLI) {
               await getTokenBalance(
                 lib,
@@ -153,7 +153,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                 dynamicChaining[chainId].BONE
               ).then((res: any) => {
                 x.balance = res;
-                console.log("executed 1", res);
+                // console.log("executed 1", res);
               }).catch((err: any) => {
                 console.log("Error fetching balance => ", err);
               })
@@ -165,7 +165,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                 x.childContract
               ).then((res: any) => {
                 x.balance = res;
-                console.log("executed 2 if", res);
+                // console.log("executed 2 if", res);
               }).catch((err: any) => {
                 console.log("Error fetching balance => ", err);
               })
@@ -173,18 +173,18 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
           } else {
             await getTokenBalance(lib, account, x.parentContract).then((res: any) => {
               x.balance = res;
-              console.log("executed 2 else");
+              // console.log("executed 2 else");
             }).catch((err: any) => {
               console.log("Error fetching balance => ", err);
             })
           }
         });
-        console.log("executed 3");
+        // console.log("executed 3");
         setTokenList(list);
         setTokenModalList([...localTokens, ...list]);
         setTimeout(()=>{
           setIsLoading(false);
-        },3000);
+        },1000);
       });
     } catch (err: any) {
       setIsLoading(false);
@@ -246,7 +246,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     setAgreeImport(!agreeImport);
     try {
       let tokenInfo = searchToken?.tokenInfo;
-      console.log("token info ", tokenInfo);
+      // console.log("token info ", tokenInfo);
       let obj: any;
       if (tokenInfo) {
         let logoURI: any;
@@ -362,7 +362,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
           const isValidAddress = web3.utils.isAddress(String(newToken));
           if (isValidAddress && newToken) {
             let tokenInfo = searchToken?.tokenInfo;
-            console.log("token info ", tokenInfo);
+            // console.log("token info ", tokenInfo);
             if (tokenInfo) {
               let logoURI = tokenInfo?.logoURI;
               if (tokenInfo.logoURI.startsWith('ipfs://')) {
@@ -379,7 +379,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
               });
             }
             else {
-              console.log("no record found");
+              // console.log("no record found");
               setTempTokens({});
             }
           }
@@ -461,7 +461,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     });
   }
 
-  console.log("local tokens ,", localTokens);
+  // console.log("local tokens ,", localTokens);
   return (
     <div>
       {/* Token popups start */}
@@ -703,10 +703,10 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
                           setDuplicateToken(false);
                           if (e.target.value) {
                             addNewToken(e.target.value);
-                            console.log("if condition")
+                            // console.log("if condition")
                           }
                           else {
-                            console.log("else  condition")
+                            // console.log("else  condition")
                             addNewToken("");
                             setTempTokens({});
                             setTokenState({

@@ -10,37 +10,28 @@ export const startWithdraw = async (clientType, burnOrExitTxHash, fast = 0) => {
   );
 
   const handleBurn = async (tokenAddr) => {
-    // console.log("step 4 withdraw");
     let addressData;
     await burnGetAPI(clientType, tokenAddr).then((res) => {
-      console.log("step 6 withdraw" , clientType);
-      console.log("response ", res);
       addressData = res.data.data.token;
-      console.log("address data", addressData);
     });
     return addressData;
   };
 
   try {
     const client = await getClient(clientType);
-    console.log("step 1 withdraw", client);
     const inclusion = await client.isCheckPointed(burnOrExitTxHash);
     if (!inclusion) {
       console.log("Burn transaction has not been checkpointed as yet");
-    //   return false;
     }
-    console.log("clientType " , clientType)
-    console.log("step 2 withdraw" , inclusion);
+
     const burnExitTxReceipt =
       await client.client.child.web3_.eth.getTransactionReceipt(
         burnOrExitTxHash
       );
 
     const childTokenAddress = utils.toChecksumAddress(burnExitTxReceipt.to);
-    console.log("step 3 withdraw");
 
     const tokenData = await handleBurn(childTokenAddress);
-    console.log("step 5 withdraw");
 
     if (!tokenData) {
       console.log(
@@ -52,7 +43,6 @@ export const startWithdraw = async (clientType, burnOrExitTxHash, fast = 0) => {
 
     // todo - other types in addition to erc20
     const erc20Token = client.erc20(parentTokenAddress, true);
-    console.log("step 7 withdraw");
     let result;
     if (clientType === "pos") {
       if (useFast) {
@@ -73,13 +63,11 @@ export const startWithdraw = async (clientType, burnOrExitTxHash, fast = 0) => {
         from: burnExitTxReceipt.from,
       });
     }
-    console.log("step 8 withdraw");
+
     const txHash = await result.getTransactionHash();
     console.log("txHash", txHash);
     const receipt = await result.getReceipt();
     console.log("receipt", receipt);
-    console.log("step 9 withdraw");
-    console.log(`Withdraw Tx: ${txHash}`);
 
     if (clientType === "plasma") {
       console.log("Plasma withdrawal can be finalised in 7 days with:");

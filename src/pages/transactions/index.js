@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
 import CommonModal from "../components/CommonModel";
 import {
@@ -9,9 +9,11 @@ import {
 } from "@web3-react/injected-connector";
 import Sidebar from "../layout/sidebar";
 import { useActiveWeb3React } from "app/services/web3";
-import InnerHeader from "../../pages/inner-header";
+import InnerHeader from "../inner-header";
 import useLocalStorageState from "use-local-storage-state";
-import WithdrawModal from "../components/Withdraw";
+import WithdrawModal from "../components/withdraw/Withdraw";
+import { getBoneUSDValue } from "app/services/apis/validator";
+import { BONE_ID } from "app/config/constant";
 export default function Transaction() {
   const router = useRouter();
   const [onlyPending, setOnlyPending] = useState(false);
@@ -23,39 +25,19 @@ export default function Transaction() {
     step3: false,
     title: "Reaching Checkpoint",
   });
+  const {account} = useActiveWeb3React();
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [menuState, setMenuState] = useState(false);
-
-  const { account } = useActiveWeb3React();
-  // const account = useAccount()
-
-  const connectToMetamask = () => {
-    // authenticate()
-    // activate(walletConnector)
-  };
-
-  const [showModal, setShowModal] = useState(false);
-
-  function getErrorMessage(error) {
-    if (error instanceof NoEthereumProviderError) {
-      return "Please install metamask and try again.";
-    } else if (error instanceof UnsupportedChainIdError) {
-      return "You're connected to an unsupported network.";
-    } else if (
-      error instanceof UserRejectedRequestErrorInjected ||
-      error instanceof UserRejectedRequestErrorWalletConnect
-    ) {
-      return "Please authorize this website to access your Ethereum account.";
-    } else {
-      console.error(error);
-      return "";
-    }
-  }
-
+  const [boneUSDValue, setBoneUSDValue] = useState(0);
   const handleMenuState = () => {
     setMenuState(!menuState);
   };
-  console.log("txState", txState);
+  useEffect(() => {
+    getBoneUSDValue(BONE_ID).then((res) => {
+      setBoneUSDValue(res.data.data.price);
+    });
+  }, [account]);
+  console.log("txState", txState?.amount);
   return (
     <>
       <main className="main-content">
@@ -67,13 +49,16 @@ export default function Transaction() {
           menuState={menuState}
         />
 
-        {showWithdrawModal && <WithdrawModal
-          page="tx"
-          dWState={true}
-          setWithdrawModalOpen={setShowWithdrawModal}
-          show={showWithdrawModal}
-          withdrawTokenInput={txState?.amount}
-        />}
+        {showWithdrawModal && (
+          <WithdrawModal
+            page="tx"
+            dWState={true}
+            setWithdrawModalOpen={setShowWithdrawModal}
+            show={showWithdrawModal}
+            withdrawTokenInput={txState?.amount}
+            selectedToken={txState?.token}
+          />
+        )}
 
         <section className="assets-section">
           <div className="cmn_dashbord_main_outr">
