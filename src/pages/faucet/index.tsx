@@ -9,7 +9,7 @@ import { useActiveWeb3React } from "app/services/web3";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useRouter } from "next/router";
 import { Form } from "react-bootstrap";
-import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
+import { CircularProgress, FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 
 export default function faucet() {
   const [isTopdoG, setIsTopdoG] = useState(true);
@@ -24,7 +24,7 @@ export default function faucet() {
     done: false,
     hash: ''
   })
-  const [isActive , setIsActive] = useState(0);
+  const [isActive , setIsActive] = useState(1);
   const { chainId = 1, account, library } = useActiveWeb3React();
 
   const handleMenuState = () => {
@@ -63,7 +63,7 @@ export default function faucet() {
           done: true,
           hash: res.data.transectionHash
         })
-        window.location.reload();
+        // window.location.reload();
       }).catch((err) => {
         setModalState({
           pending: false,
@@ -207,9 +207,14 @@ export default function faucet() {
           <div className="pop-block">
             <div className="pop-top">
               <div className='dark-bg-800 h-100 status-sec'>
+                {modalState.pending ? 
+                <span className="p-5">
+                  <CircularProgress size={130} style={{color:"#f27c02"}}/>
+                </span> : 
                 <span>
-                  <div><img width="224" height="224" className="img-fluid" src="../../assets/images/Ellipse.png" alt="" /></div>
+                  <div><img width="220" height="220" className="img-fluid" src="../../assets/images/Ellipse.png" alt="" /></div>
                 </span>
+                }
               </div>
             </div>
             <div className="pop-bottom">

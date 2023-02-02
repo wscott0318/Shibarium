@@ -292,10 +292,12 @@ export default function Withdraw() {
         dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
       )) || 0;
     console.log("allowance  ", allowance);
+    let allowanceGas:any=0;
     if (+allowance < +depositTokenInput) {
       let approvalInstance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
       await approvalInstance.methods.approve(dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY, amountWei).estimateGas({ from: user }).then((gas: any) => {
         setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
+        allowanceGas= +(+gas * +currentprice) / Math.pow(10, 18);
       })
     }
     let instance = new web3.eth.Contract(
@@ -306,12 +308,14 @@ export default function Withdraw() {
     await instance.methods.depositERC20ForUser(dynamicChaining[chainId].BONE, user, amountWei).estimateGas({ from: user })
       .then(async (gas: any) => {
         let gasFee = (+gas * +currentprice) / Math.pow(10, 18);
+        // if(allowanceGas > 0) gasFee = (+gas * +currentprice) / Math.pow(10, 18) + +allowanceGas;
+        // else gasFee = (+gas * +currentprice) / Math.pow(10, 18);
         setEstGas(+gasFee);
       }).catch((err: any) => {
         console.log(err);
       })
   }
-  console.log("est gas ", estGas);
+  console.log("est gas ", estGas , estGas * boneUSDValue);
 
   const depositContract = async (user: any, amount: any) => {
     // call deposit contract
