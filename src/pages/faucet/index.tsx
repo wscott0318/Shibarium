@@ -63,7 +63,7 @@ export default function faucet() {
           done: true,
           hash: res.data.transectionHash
         })
-        // window.location.reload();
+        window.location.reload();
       }).catch((err) => {
         setModalState({
           pending: false,
