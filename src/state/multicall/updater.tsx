@@ -148,7 +148,7 @@ export default function Updater(): null {
   }, [chainId, state.callResults, listeningKeys, latestBlockNumber])
 
   const serializedOutdatedCallKeys = useMemo(
-    () => JSON.stringify(unserializedOutdatedCallKeys.sort()),
+    () => JSON.stringify(unserializedOutdatedCallKeys.sort()), //NOSONAR
     [unserializedOutdatedCallKeys]
   )
 

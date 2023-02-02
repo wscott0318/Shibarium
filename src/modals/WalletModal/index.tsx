@@ -13,10 +13,8 @@ import { useModalOpen, useWalletModalToggle } from '../../state/application/hook
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import ReactGA from 'react-ga'
-import { useRouter } from 'next/router'
 import Option from './Option'
 import PendingView from './PendingView'
-import { NextResponse } from 'next/server'
 
 enum WALLET_VIEWS {
   OPTIONS,
@@ -24,13 +22,13 @@ enum WALLET_VIEWS {
   PENDING,
 }
 
-interface WalletModal {
+interface WalletModals {
   pendingTransactions: string[] // hashes of pending
   confirmedTransactions: string[] // hashes of confirmed
   ENSName?: string
 }
 
-const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactions, ENSName }) => {
+const WalletModal: FC<WalletModals> = ({ pendingTransactions, confirmedTransactions, ENSName }) => {
   const { active, account, connector, activate, error, deactivate } = useWeb3React()
   const [walletView, setWalletView] = useState(WALLET_VIEWS.ACCOUNT)
   const [pendingWallet, setPendingWallet] = useState<{ connector?: AbstractConnector; id: string }>()
@@ -79,8 +77,6 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
     setWalletView(WALLET_VIEWS.ACCOUNT)
   }, [deactivate])
 
-  const router = useRouter()
-  var ua = navigator.userAgent.toLowerCase();
 
   const tryActivation = useCallback(
     async (connector: (() => Promise<AbstractConnector>) | AbstractConnector | undefined, id: string) => {
@@ -207,6 +203,53 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
       })
     }
   }, [connector, tryActivation])
+
+  const walletViewRender = () =>{
+    if(account && walletView === WALLET_VIEWS.ACCOUNT ){
+      return (
+        <AccountDetails
+        toggleWalletModal={toggleWalletModal}
+        pendingTransactions={pendingTransactions}
+        confirmedTransactions={confirmedTransactions}
+        ENSName={ENSName}
+        openOptions={() => setWalletView(WALLET_VIEWS.OPTIONS)}
+      />
+      )
+    }else{
+      return (
+        <div className="flex flex-col w-full space-y-4">
+        <HeadlessUiModal.Header
+          header={` `}
+          onClose={toggleWalletModal}
+          {...(walletView !== WALLET_VIEWS.ACCOUNT && { onBack: handleBack })}
+        />
+        {walletView === WALLET_VIEWS.PENDING ? (
+          <PendingView
+            // @ts-ignore TYPE NEEDS FIXING
+            id={pendingWallet.id}
+            // @ts-ignore TYPE NEEDS FIXING
+            connector={pendingWallet.connector}
+            error={pendingError}
+            setPendingError={setPendingError}
+            tryActivation={tryActivation}
+          />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2">{options}</div>
+        )}
+        <div className="pop-txtblk">
+          <p className="text-secondary pe-1">
+            {`New to Ethereum?`}{' '}
+          </p>
+          <p className="text-blue">
+            <ExternalLink href="https://ethereum.org/wallets/" color="blue">
+              {`Learn more about wallets`}
+            </ExternalLink>
+          </p>
+        </div>
+      </div>
+      )
+    }
+  }
   return (
     <HeadlessUiModal.Controlled isOpen={walletModalOpen} onDismiss={toggleWalletModal} maxWidth="md">
       {error ? (
@@ -226,46 +269,7 @@ const WalletModal: FC<WalletModal> = ({ pendingTransactions, confirmedTransactio
             {`Disconnect`}
           </Button>
         </div>
-      ) : account && walletView === WALLET_VIEWS.ACCOUNT ? (
-        <AccountDetails
-          toggleWalletModal={toggleWalletModal}
-          pendingTransactions={pendingTransactions}
-          confirmedTransactions={confirmedTransactions}
-          ENSName={ENSName}
-          openOptions={() => setWalletView(WALLET_VIEWS.OPTIONS)}
-        />
-      ) : (
-      <div className="flex flex-col w-full space-y-4">
-          <HeadlessUiModal.Header
-            header={` `}
-            onClose={toggleWalletModal}
-            {...(walletView !== WALLET_VIEWS.ACCOUNT && { onBack: handleBack })}
-          />
-          {walletView === WALLET_VIEWS.PENDING ? (
-            <PendingView
-              // @ts-ignore TYPE NEEDS FIXING
-              id={pendingWallet.id}
-              // @ts-ignore TYPE NEEDS FIXING
-              connector={pendingWallet.connector}
-              error={pendingError}
-              setPendingError={setPendingError}
-              tryActivation={tryActivation}
-            />
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2">{options}</div>
-          )}
-          <div className="pop-txtblk">
-            <p className="text-secondary pe-1">
-              {`New to Ethereum?`}{' '}
-            </p>
-            <p className="text-blue">
-              <ExternalLink href="https://ethereum.org/wallets/" color="blue">
-                {`Learn more about wallets`}
-              </ExternalLink>
-            </p>
-          </div>
-        </div>
-      )}
+      ) : walletViewRender() }
     </HeadlessUiModal.Controlled>
   )
 }

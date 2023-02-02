@@ -28,7 +28,6 @@ export const startBurn = async (clientType, token, from, amount) => {
     console.table("token data " ,tokenData);
 
     const childAddr = tokenData?.childAddress
-    const parentAddr = tokenData?.parentAddress
     const format = getToWeiUnitFromDecimal(tokenData?.childDecimals)
     const { tokenType } = tokenData
     const amountWei = utils.toWei(String(amount), format)
@@ -43,7 +42,7 @@ export const startBurn = async (clientType, token, from, amount) => {
     // console.log(`Child contract : ${childAddr}`)
 
     const client = await getClient(clientType);
-    // console.log("client ==> " , client);
+
     const erc20Token = client.erc20(childAddr, false);
 
     console.log("sending burn/burn tx on Child Contract, L2:")
@@ -59,7 +58,6 @@ export const startBurn = async (clientType, token, from, amount) => {
     console.log("Use the Tx to finalise and withdraw when ready:")
     console.log(`   sandbox-wallet exit withdraw ${clientType} ${txHash}`)
     return txHash;
-    // process.exit(0);
 
   } catch (e) {
     console.log(e)

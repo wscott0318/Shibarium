@@ -11,8 +11,7 @@ import ModalError, { ModalActionErrorProps } from './Error'
 import ModalHeader, { ModalHeaderProps } from './Header'
 import SubmittedModalContent, { SubmittedModalContentProps } from './SubmittedModalContent'
 import { classNames } from '../../functions'
-import { cloneElement, FC, isValidElement, ReactNode, useCallback, useMemo, useState } from 'react'
-import React, { Fragment } from 'react'
+import React, { cloneElement, FC, isValidElement, ReactNode, useCallback, useMemo, useState, Fragment } from 'react'
 
 const MAX_WIDTH_CLASS_MAPPING = {
   sm: 'lg:max-w-sm',

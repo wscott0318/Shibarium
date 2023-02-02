@@ -12,18 +12,11 @@ export default function Web3Connect({ color = 'gray', size = 'sm', className = '
   const toggleWalletModal = useWalletModalToggle()
   const { error } = useWeb3React()
   const router = useRouter()
-  return error ? (
-    <div
-      className="wallet-pop"
-      onClick={toggleWalletModal}
-    >
-      <div className="">
-        <Activity className="w-4 h-4" />
-      </div>
-      {error instanceof UnsupportedChainIdError ? 'You are on the wrong network' : 'Error'}
-    </div>
-  ) : router.asPath === '/login' ? 
-  <>
+
+  const walletRender = ()=>{
+    if(router.asPath === '/login'){
+      return(
+              <>
    <Button
      {...rest}
      id="connect-wallet"
@@ -36,17 +29,32 @@ export default function Web3Connect({ color = 'gray', size = 'sm', className = '
       </div>
       <span className='white_arw'><img className='img-fluid' src="../../assets/images/white-arrow.png" alt="white-arrow" /></span>
   </Button>
-  </> : (
-    <Button 
-      id="connect-wallet"
+  </> 
+      )
+    }else{
+      return(
+        <Button 
+        id="connect-wallet"
+        onClick={toggleWalletModal}
+        className={classNames(className, '!border-none btn primary-btn')}
+        
+        {...rest}
+      >
+        {`Connect to a wallet`}
+      </Button>
+      )
+    }
+  }
+
+  return error ? (
+    <div
+      className="wallet-pop"
       onClick={toggleWalletModal}
-      // variant="outlined"
-      // color={color}
-      className={classNames(className, '!border-none btn primary-btn')}
-      
-      {...rest}
     >
-      {`Connect to a wallet`}
-    </Button>
-  )
+      <div className="">
+        <Activity className="w-4 h-4" />
+      </div>
+      {error instanceof UnsupportedChainIdError ? 'You are on the wrong network' : 'Error'}
+    </div>
+  ) : walletRender()
 }

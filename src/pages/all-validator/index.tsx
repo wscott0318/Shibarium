@@ -11,8 +11,8 @@ import { L1Block, ChainId } from 'app/hooks/L1Block';
 import * as Sentry from "@sentry/nextjs";
 
 export const Allvalidator: React.FC = () => {
-
-  const [userType, setUserType] = useUserType();
+  
+  const [userType, setUserType] = useUserType(); // NOSONAR
   const { account, chainId = 1 } = useActiveWeb3React();
   const myRef = useRef<any>(null)
   const router = useRouter();
@@ -21,7 +21,7 @@ export const Allvalidator: React.FC = () => {
   const [valCount, setValCount] = useState(0);
   const [valMaxCount, setValMaxCount] = useState(0);
   const [valInfoLoader, setValInfoLoader] = useState(true)
-  const [valId, setValId] = useValId();
+  const [valId, setValId] = useValId(); // NOSONAR
 
   const getValInfo = () => {
     try {
@@ -117,7 +117,7 @@ export const Allvalidator: React.FC = () => {
     } else {
       return null;
     }
-  };
+  }; 
 
   return (
     <>

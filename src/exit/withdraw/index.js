@@ -10,7 +10,6 @@ export const startWithdraw = async (clientType, burnOrExitTxHash, fast = 0) => {
   );
 
   const handleBurn = async (tokenAddr) => {
-    // console.log("step 4 withdraw");
     let addressData;
     await burnGetAPI(clientType, tokenAddr).then((res) => {
       console.log("step 6 withdraw");
@@ -27,7 +26,6 @@ export const startWithdraw = async (clientType, burnOrExitTxHash, fast = 0) => {
     const inclusion = await client.isCheckPointed(burnOrExitTxHash);
     if (!inclusion) {
       console.log("Burn transaction has not been checkpointed as yet");
-    //   return false;
     }
 
     console.log("step 2 withdraw" , inclusion);

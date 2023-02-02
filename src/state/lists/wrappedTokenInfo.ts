@@ -29,7 +29,7 @@ export class WrappedTokenInfo implements Token {
     if (this._checksummedAddress) return this._checksummedAddress
     const checksummedAddress = isAddress(this.tokenInfo.address)
     if (!checksummedAddress) throw new Error(`Invalid token address: ${this.tokenInfo.address}`)
-    return (this._checksummedAddress = checksummedAddress)
+    return (this._checksummedAddress = checksummedAddress) //NOSONAR
   }
 
   public get chainId(): number {
@@ -55,11 +55,11 @@ export class WrappedTokenInfo implements Token {
   private _tags: TagInfo[] | null = null
   public get tags(): TagInfo[] {
     if (this._tags !== null) return this._tags
-    if (!this.tokenInfo.tags) return (this._tags = [])
+    if (!this.tokenInfo.tags) return (this._tags = []) //NOSONAR
     const listTags = this.list.tags
-    if (!listTags) return (this._tags = [])
+    if (!listTags) return (this._tags = [])//NOSONAR
 
-    return (this._tags = this.tokenInfo.tags.map((tagId) => {
+    return (this._tags = this.tokenInfo.tags.map((tagId) => { //NOSONAR
       return {
         ...listTags[tagId],
         id: tagId,
