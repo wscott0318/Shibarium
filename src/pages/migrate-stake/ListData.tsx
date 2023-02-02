@@ -30,7 +30,7 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
   const [searchKey, setSearchKey] = useState<string>('');
   const [userType, setUserType] = useUserType()
   const [sortKey, setSortKey] = useState<string>('Uptime');
-  const migrateData = useMigrateStake();
+  const [migrateData, setMigrateData] = useMigrateStake();
   // @ts-ignore
   const balance = migrateData?.data;
   // useEffect(() => {

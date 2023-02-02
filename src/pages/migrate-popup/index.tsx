@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { BONE_ID } from "app/config/constant";
 import { getBoneUSDValue } from "app/services/apis/validator";
 import NumberFormat from "react-number-format";
@@ -54,10 +54,10 @@ const MigratePopup: React.FC<any> = ({
     });
   }, [account]);
 
-  const useMax = useCallback((e: any) => {
+  const useMax = (e: any) => {
     e.preventDefault();
     setFieldValue("balance", balance);
-  },[]);
+  }
 
   const totalStake = (migrateData: any) => {
     let stakeAmount = migrateData?.data?.stake;

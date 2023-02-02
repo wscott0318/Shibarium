@@ -201,12 +201,12 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     }
   };
 
-  const handleTokenSelect = useCallback((token: any) => {
+  const handleTokenSelect = (token: any) => {
     // console.log(token)
     setOpenManageToken(false)
     setSelectedToken(token);
     setTokenModal(false);
-  },[]);
+  }
 
   const imageOnErrorHandler = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
