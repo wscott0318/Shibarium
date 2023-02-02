@@ -211,8 +211,8 @@ export default function faucet() {
                 <span className="p-5">
                   <CircularProgress size={130} style={{color:"#f27c02"}}/>
                 </span> : 
-                <span>
-                  <div><img width="220" height="220" className="img-fluid" src="../../assets/images/Ellipse.png" alt="" /></div>
+                <span className="p-4">
+                  <div><img width="180" height="170" className="img-fluid" src="../../assets/images/Ellipse.png" alt="" /></div>
                 </span>
                 }
               </div>

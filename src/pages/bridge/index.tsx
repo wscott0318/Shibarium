@@ -741,7 +741,7 @@ export default function Withdraw() {
                         {allowance > 0 ?
                           <>
                             <small className="text-lg">~ </small>
-                            <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(allowance * boneUSDValue).toFixed(6)} />
+                            <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(allowance * boneUSDValue)} />
                           </> : "Approved"}
                       </div>
                     </div>
@@ -762,7 +762,7 @@ export default function Withdraw() {
                       </div>
                       <div className="col-5 text-end">
                         <small className="text-lg">~ </small>
-                        <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(6)} />
+                        <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue)} />
                       </div>
                     </div>
                   </div>
