@@ -53,14 +53,14 @@ const Deposit: React.FC<any> =
             let allowance =
                 (await getAllowanceAmount(
                     library,
-                    dynamicChaining[chainId].BONE,
+                    selectedToken?.parentContract,
                     account,
                     dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
                 )) || 0;
             // console.log("allowance  ", allowance);
             let allowanceGas: any = 0;
             if (+allowance < +depositTokenInput) {
-                let approvalInstance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
+                let approvalInstance = new web3.eth.Contract(ERC20, selectedToken?.parentContract);
                 await approvalInstance.methods.approve(dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY, amountWei).estimateGas({ from: user }).then((gas: any) => {
                     setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
                     allowanceGas = +(+gas * +currentprice) / Math.pow(10, 18);
@@ -70,15 +70,15 @@ const Deposit: React.FC<any> =
                 depositManagerABI,
                 dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
             )
-
-            await instance.methods.depositERC20ForUser(dynamicChaining[chainId].BONE, user, amountWei).estimateGas({ from: user })
+                console.log("token =>" , selectedToken?.parentContract)
+            await instance.methods.depositERC20ForUser(selectedToken?.parentContract, user, amountWei).estimateGas({ from: user })
                 .then(async (gas: any) => {
                     let gasFee = (+gas * +currentprice) / Math.pow(10, 18);
                     // if(allowanceGas > 0) gasFee = (+gas * +currentprice) / Math.pow(10, 18) + +allowanceGas;
                     // else gasFee = (+gas * +currentprice) / Math.pow(10, 18);
                     setEstGas(+gasFee);
                 }).catch((err: any) => {
-                    console.log(err);
+                    console.log("error calculating gas fee" ,err);
                 })
         }
         const approvalForDeposit = async (amount: any, token: any, contract: any) => {
@@ -122,6 +122,8 @@ const Deposit: React.FC<any> =
                                 },
                             })
                         );
+
+                        depositContract(user, amount);
                     })
                     .on("error", (res: any) => {
                         if (res.code === 4001) {
@@ -159,7 +161,7 @@ const Deposit: React.FC<any> =
                 dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
             );
             instance.methods
-                .depositERC20ForUser(dynamicChaining[chainId].BONE, user, amount)
+                .depositERC20ForUser(selectedToken?.parentContract, user, amount)
                 .send({ from: account })
                 .on("transactionHash", (res: any) => {
                     dispatch(
@@ -172,14 +174,6 @@ const Deposit: React.FC<any> =
                     );
                     let link = getExplorerLink(chainId, res, "transaction");
                     setHashLink(link);
-                    setDepModState({
-                        step0: false,
-                        step1: false,
-                        step2: false,
-                        step3: false,
-                        step4: true,
-                        title: "Transaction Submitted",
-                    });
                 })
                 .on("receipt", (res: any) => {
                     dispatch(
@@ -198,6 +192,14 @@ const Deposit: React.FC<any> =
                             },
                         })
                     );
+                    setDepModState({
+                        step0: false,
+                        step1: false,
+                        step2: false,
+                        step3: false,
+                        step4: true,
+                        title: "Transaction Submitted",
+                    });
                     setDepositModal(false);
                 })
                 .on("error", (res: any) => {
@@ -233,7 +235,7 @@ const Deposit: React.FC<any> =
                     let allowance =
                         (await getAllowanceAmount(
                             library,
-                            dynamicChaining[chainId].BONE,
+                            selectedToken?.parentContract,
                             account,
                             dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
                         )) || 0;
@@ -241,11 +243,14 @@ const Deposit: React.FC<any> =
                     if (+depositTokenInput > +allowance) {
                         approvalForDeposit(
                             amountWei,
-                            dynamicChaining[chainId].BONE,
+                            selectedToken?.parentContract,
                             dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
                         );
                     }
-                    depositContract(user, amountWei);
+                    else {
+                        depositContract(user, amountWei);
+                    }
+
                 }
             } catch (err: any) {
                 if (err.code !== USER_REJECTED_TX) {
@@ -350,7 +355,7 @@ const Deposit: React.FC<any> =
                                             {allowance > 0 ?
                                                 <>
                                                     <small className="text-lg">~ </small>
-                                                    <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(allowance * boneUSDValue)} />
+                                                    <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(allowance * boneUSDValue).toFixed(3)} />
                                                 </> : "Approved"}
                                         </div>
                                     </div>
@@ -371,7 +376,7 @@ const Deposit: React.FC<any> =
                                         </div>
                                         <div className="col-5 text-end">
                                             <small className="text-lg">~ </small>
-                                            <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue)} />
+                                            <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(3)} />
                                         </div>
                                     </div>
                                 </div>
@@ -620,21 +625,11 @@ const Deposit: React.FC<any> =
                                     </div>
                                     <div>
                                         <a
-                                            onClick={() => {
-                                                setDepModState({
-                                                    step0: false,
-                                                    step1: false,
-                                                    step2: false,
-                                                    step3: false,
-                                                    step4: true,
-                                                    title: "Transaction Submitted",
-                                                });
-                                            }}
                                             className={`btn grey-btn w-100 relative ${depModalState.step1 && "disabled btn-disabled"}`}
-                                            href="javascript:void(0)"
+                                            type={'button'}
                                         >
                                             <span className="spinner-border text-secondary pop-spiner fix_spinner"></span>
-                                            <span>Continue</span>
+                                            <span className={`${depModalState.step1 && "disabled"}`}>Continue</span>
                                         </a>
                                     </div>
                                 </div>
