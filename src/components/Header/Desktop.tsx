@@ -1,7 +1,6 @@
 import { NATIVE } from 'shibarium-get-chains'
 import Container from 'app/components/Container'
 import { NAV_CLASS } from 'app/components/Header/styles'
-import useMenu from 'app/components/Header/useMenu'
 // import LanguageSwitch from 'app/components/LanguageSwitch'
 import Web3Network from 'app/components/Web3Network'
 import Web3Status from 'app/components/Web3Status'
@@ -12,13 +11,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { FC } from 'react'
 
-import { NavigationItem } from './NavigationItem'
-
 const HEADER_HEIGHT = 64
 
 const Desktop: FC = () => {
-  const menu = useMenu()
-  const { account, chainId, library } = useActiveWeb3React()
   // const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
   // const isCoinbaseWallet = useIsCoinbaseWallet()
 
@@ -32,9 +27,7 @@ const Desktop: FC = () => {
                 <div className="flex items-center w-6 mr-4">
                   <Image src="https://www.shibatoken.com/images/shib-logo.svg" alt="Sushi logo" width="24" height="24" />
                 </div>
-                {/* {menu.map((node) => {
-                  return <NavigationItem node={node} key={node.key} />
-                })} */}
+              
               </div>
              <RightMenu />
             </div>

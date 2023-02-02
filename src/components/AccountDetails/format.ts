@@ -190,6 +190,7 @@ export function formatPrice(price: Price<Currency, Currency> | undefined, sigFig
   return price.toSignificant(sigFigs)
 }
 
+
 export function formatDateAgo(date: Date) {
   const currentDate = new Date()
   const secondsAgo = Math.floor((currentDate.getTime() - date.getTime()) / 1000)

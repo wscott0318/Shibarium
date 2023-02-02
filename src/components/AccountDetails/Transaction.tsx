@@ -19,23 +19,38 @@ const Transaction: FC<{ hash: string }> = ({ hash }) => {
 
   if (!chainId) return null
 
+  const pendingRender = ()=>{
+    if(pending){
+      return "text-primary"
+    }else{
+      if(success){
+        return 'text-green'
+      }else{
+          return  'text-red'
+      }
+    }
+  }
+
+  const circleIconRender = ()=>{
+    if(success){
+      return <CheckCircleIcon width={16} height={16} />
+    }else{
+      return cancelled ?  <XCircleIcon width={16} height={16} /> :  <ExclamationIcon width={16} height={16} />
+    }
+  }
+
+
   return (
     <div className="flex flex-col w-full py-1">
       <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')} className="flex items-center gap-2">
         <div
           className={classNames(
-            pending ? 'text-primary' : success ? 'text-green' : cancelled ? 'text-red' : 'text-red'
+           pendingRender()
           )}
         >
           {pending ? (
             <Loader />
-          ) : success ? (
-            <CheckCircleIcon width={16} height={16} />
-          ) : cancelled ? (
-            <XCircleIcon width={16} height={16} />
-          ) : (
-            <ExclamationIcon width={16} height={16} />
-          )}
+          ) : circleIconRender()}
         </div>
         <Typography variant="xs" weight={700} className="flex items-center hover:underline py-0.5">
           {summary ?? hash}

@@ -52,12 +52,9 @@ const getPOSClient = () => {
 };
 
 async function getPlasmaClient() {
-  // console.log("get plasma client entered");
   try {
     const plasmaClient = new PlasmaClient();
-    // console.log("plasma client ==>", plasmaClient);
-    // console.log("parent provider ", parentProvider);
-    // console.log("shibariumProvider ", shibariumProvider);
+
     return plasmaClient.init({
       network: _network.network,
       version: _network.version,

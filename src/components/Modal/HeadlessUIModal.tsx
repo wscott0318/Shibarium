@@ -57,6 +57,8 @@ const HeadlessUiModal: HeadlessUiModalType<Props> = ({ children: childrenProp, t
 
   // If trigger is a function, render props
   // Else (default), check if element is valid and pass click handler
+
+
   const trigger = useMemo(
     () =>
       typeof triggerProp === 'function'
@@ -75,6 +77,7 @@ const HeadlessUiModal: HeadlessUiModalType<Props> = ({ children: childrenProp, t
     () => (typeof childrenProp === 'function' ? childrenProp({ onClick, open, setOpen }) : children),
     [onClick, open, childrenProp]
   )
+
 
   return (
     <>

@@ -6,8 +6,7 @@ import { shortenAddress } from '../../functions/format'
 import { useActiveWeb3React } from '../../services/web3'
 import { useAppDispatch } from '../../state/hooks'
 import { clearAllTransactions } from '../../state/transactions/actions'
-import Image from 'next/image'
-import React, { FC, useCallback, useMemo, useEffect } from 'react'
+import React, { FC, useCallback, useMemo } from 'react'
 import { ExternalLink as LinkIcon } from 'react-feather'
 import Button from '../Button'
 import ExternalLink from '../ExternalLink'
@@ -31,7 +30,7 @@ const AccountDetails: FC<AccountDetailsProps> = ({
   ENSName,
   openOptions,
 }) => {
-  const { chainId = 1, account,active, connector, deactivate, library } = useActiveWeb3React()
+  const { chainId = 1, account, connector, deactivate, library } = useActiveWeb3React()
   const dispatch = useAppDispatch()
   const router = useRouter();
   
