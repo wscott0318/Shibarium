@@ -1,8 +1,7 @@
 import Pagination from 'app/components/Pagination';
-import React, { useEffect, useState } from 'react'
-import { Nav } from 'react-bootstrap'
+import React, { useCallback, useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format';
-import { addDecimalValue, tokenDecimal } from 'web3/commonFunctions';
+import { addDecimalValue } from 'web3/commonFunctions';
 import * as Sentry from "@sentry/nextjs";
 interface Props{
     allDelegators:any[];
@@ -19,7 +18,7 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
         }
     }, [allDelegators])
 
-    const pageChangeHandler = (index: number) => {
+    const pageChangeHandler = useCallback((index: number) => {
         try{
             const slicedList = allDelegators.slice((index - 1) * pageSize, (index * pageSize))
         setDelegators(slicedList)
@@ -28,7 +27,7 @@ const Delegators:React.FC<Props> = ({ allDelegators,boneUsdValue }) => {
         catch(err:any){
             Sentry.captureMessage("pageChangeHandler", err);
         }
-    }
+    },[])
     return (
       <>
         <div className="h-auto p-4 mb-4 cus-card mb-lg-5">

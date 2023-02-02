@@ -4,7 +4,7 @@ import Sidebar from '../layout/sidebar';
 import CommonModal from "../components/CommonModel";
 import InnerHeader from "../../pages/inner-header";
 
-export default function differentchainbridge() {
+export default function Differentchainbridge() {
 
     const [menuState, setMenuState] = useState(false);
 

@@ -15,7 +15,6 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const [loadingVal , setLoadingVal] = useState<boolean>(true);
-  const [validatorsByStatus, setValidatorsByStatus] = useState<any[]>([]);
   const [allValidators, setAllValidators] = useState<any[]>([]);
   const [validators, setValidators] = useState<any[]>([]);
   const [isListView, setListView] = useState<boolean>(true);
@@ -58,7 +57,6 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
                 (e) => e.uptimePercent !== 0
               );
             }
-            setValidatorsByStatus(activeList);
             setValidators(activeList);
           }
         })

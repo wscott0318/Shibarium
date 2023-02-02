@@ -1,11 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import { useActiveWeb3React } from "../../services/web3"
 import Header from "../layout/header";
 
-export default function unbondHistoryNew() {
+export default function UnbondHistoryNew() {
 
-  const { account, chainId = 1 } = useActiveWeb3React();
   
   return (
     <>

@@ -29,15 +29,12 @@ const TokenList = ({
   ...props }: any) => {
   const [isWrong, setIsWrong] = useState(false);
   const [renderData, setRenderData] = useState<any>();
-  const [defaultList, setDefaultList, { removeItem }] = useLocalStorageState<any>("tokenList");
+  const [defaultList, setDefaultList] = useLocalStorageState<any>("tokenList");
   const [newListing, setNewListing] = useState<any>(null);
-  const { chainId = 1, account, library } = useActiveWeb3React();
+  const { chainId = 1 } = useActiveWeb3React();
   const [importedCoins, setImportedCoins] = useState<any>([]);
   const [dup, setdup] = useState(false);
   const [defaultfetched, setDefaultfetched] = useState<any>([]);
-  const [searched, setSearched] = useState<any>();
-  const [userAddedTokens, setUserAddedTokens] = useState<any>([]);
-  const [hasMore, setHasMore] = useState(true);
   const sortedLists = async () => {
     if (linkQuery) {
       await fetch(
@@ -60,9 +57,6 @@ const TokenList = ({
   useEffect(() => {
     console.log("console 1");
     getDefaultTokenList();
-    // setTimeout(() => {
-    // getEnabledTokens();
-    // },3000);
   }, []);
   const getDefaultTokenList = async () => {
     console.log("console 2")
@@ -136,7 +130,7 @@ const TokenList = ({
     if (linkQuery) {
       if (defaultList.filter((e: any) => e.data == linkQuery).length > 0) {
         setdup(true);
-        setSearched(defaultList.filter((e: any) => e.data == linkQuery));
+       
       }
       else {
         setdup(false);
@@ -147,6 +141,9 @@ const TokenList = ({
       setNewListing(null);
       setIsWrong(false);
     }
+
+    console.log(isWrong, 'isWrong');
+    
   }, [linkQuery]);
 
   const updateList = (data: any) => {
@@ -195,12 +192,6 @@ const TokenList = ({
       setDefaultList([...defaultList]);
     }
   }
-  const checkStatus = (url: any) => {
-    const index = [DEFAULT_ITEM, ...coinList].findIndex(
-      (el) => el.data.includes(url) || url.includes(el.data)
-    );
-    return index !== -1;
-  };
 
   const deleteList = (data: any) => {
     try {
@@ -253,7 +244,7 @@ const TokenList = ({
   const fetchData = () => {
     console.log("fetch data called")
     if (defaultfetched?.length >= importedCoins?.length) {
-      setHasMore(false);
+   
       return;
     }
     setTimeout(() => {
@@ -261,6 +252,8 @@ const TokenList = ({
       setDefaultfetched(mergeCoinsList);
     }, 500);
   }
+
+
   return (
     <div>
       {tokenState?.step0 && !searchedList && (tokenModalList

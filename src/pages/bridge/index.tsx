@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { ChainId } from "shibarium-get-chains";
 import { useRouter } from "next/router";
 import NumberFormat from "react-number-format";
@@ -9,7 +9,10 @@ import CommonModal from "../components/CommonModel";
 import InnerHeader from "../inner-header";
 import Link from "next/link";
 import Sidebar from "../layout/sidebar";
-import { getWalletTokenList, getBoneUSDValue } from "../../services/apis/validator/index";
+import {
+  getWalletTokenList,
+  getBoneUSDValue,
+} from "../../services/apis/validator/index";
 import { getTokenBalance } from "../../hooks/useTokenBalance";
 import { useActiveWeb3React } from "../../services/web3";
 import { BONE_ID } from "../../config/constant";
@@ -24,7 +27,12 @@ import {
 import { useAppDispatch } from "../../state/hooks";
 import fromExponential from "from-exponential";
 import { getExplorerLink } from "app/functions";
-import { currentGasPrice, getAllowanceAmount, USER_REJECTED_TX, tokenDecimal, addDecimalValue, web3Decimals } from "web3/commonFunctions";
+import {
+  currentGasPrice,
+  getAllowanceAmount,
+  USER_REJECTED_TX,
+  tokenDecimal,
+} from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -32,57 +40,44 @@ import addTokenAbi from "../../ABI/custom-token-abi.json";
 import * as Sentry from "@sentry/nextjs";
 import { NETWORK_ICON, NETWORK_LABEL } from "../../config/networks";
 import { dynamicChaining } from "web3/DynamicChaining";
-import ManageToken from "../components/ManageToken"
+import ManageToken from "../components/ManageToken";
 import { X, Check } from "react-feather";
 import { ArrowCircleLeftIcon } from "@heroicons/react/outline";
 import WithdrawModal from "pages/components/Withdraw";
+import useLocalStorageState from "use-local-storage-state";
 
 export default function Withdraw() {
   const { chainId = 1, account, library } = useActiveWeb3React();
   const lib: any = library;
   const web3: any = new Web3(lib?.provider);
   const dispatch = useAppDispatch();
-
-  const bridgeType: string = localStorage.getItem("bridgeType") || "deposit";
-
+  const [bridgeType] = useLocalStorageState('bridgeType')
   const [menuState, setMenuState] = useState(false);
   const [selectedToken, setSelectedToken] = useState(
-    JSON.parse(localStorage.getItem("depositToken") || "{}")
+    JSON.parse(localStorage.getItem("depositToken") || "{}"),
   );
   const [showDepositModal, setDepositModal] = useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
-  const [showTokenModal, setTokenModal] = useState(false);
+  const showTokenModal = false;
   const [depositTokenInput, setDepositTokenInput] = useState("");
   const [withdrawTokenInput, setWithdrawTokenInput] = useState("");
-  const [amountApproval, setAmountApproval] = useState(false);
   const [allowance, setAllowance] = useState<any>(0);
   const [dWState, setDWState] = useState(
-    bridgeType === "deposit" ? true : false
+    bridgeType === "deposit" ? true : false,
   );
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const [hashLink, setHashLink] = useState("");
   const [newToken, addNewToken] = useState("");
   const [estGas, setEstGas] = useState<any>(0);
-  const [openManageToken, setOpenManageToken] = useState(false)
-  const handleMenuState = () => {
-    setMenuState(!menuState);
-  };
+  const [openManageToken, setOpenManageToken] = useState(false);
+  const handleMenuState = useCallback(()=>{setMenuState(!menuState)},[])
+  
   const router = useRouter();
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then((res) => {
       setBoneUSDValue(res.data.data.price);
     });
   }, [account]);
-  console.log("bone usd value ", boneUSDValue);
-
-  const [withModalState, setWidModState] = useState({
-    step0: true,
-    step1: false,
-    step2: false,
-    step3: false,
-    step4: false,
-    title: "Initialize Withdraw",
-  });
   const [depModalState, setDepModState] = useState({
     step0: true,
     step1: false,
@@ -100,10 +95,9 @@ export default function Withdraw() {
     title: "Select a Token",
   });
   const [tokenModalList, setTokenModalList] = useState<any>([]);
-  const [tokenList, setTokenList] = useState([]);
-  const [localTokens, setLocalTokens] = useState<any>(
-    JSON.parse(localStorage.getItem("newToken") || "[]")
-  );
+  const localTokens = useLocalStorageState('newToken')
+  
+
   const [tempTokens, setTempTokens] = useState<any>({
     parentContract: "",
     childContract: "",
@@ -111,7 +105,7 @@ export default function Withdraw() {
     parentSymbol: "",
     symbol: "",
     key: "",
-    logoURI: ""
+    logoURI: "",
   });
   const getTokensList = async () => {
     try {
@@ -122,13 +116,12 @@ export default function Withdraw() {
             x.balance = await getTokenBalance(
               lib,
               account,
-              dynamicChaining[chainId].BONE
+              dynamicChaining[chainId].BONE,
             );
           } else {
             x.balance = await getTokenBalance(lib, account, x.parentContract);
           }
         });
-        setTokenList(list);
         setTokenModalList([...localTokens, ...list]);
       });
     } catch (err: any) {
@@ -139,9 +132,9 @@ export default function Withdraw() {
     if (account) {
       getTokensList();
     } else {
-      router.push('/')
+      router.push("/");
     }
-  }, [account])
+  }, [account]);
 
   const depositValidations: any = Yup.object({
     fromChain: Yup.number().required("Required Field"),
@@ -166,23 +159,22 @@ export default function Withdraw() {
     try {
       let user: any = account;
       const amountWei = web3.utils.toBN(
-        fromExponential(1000 * Math.pow(10, 18))
+        fromExponential(1000 * Math.pow(10, 18)),
       );
       let instance = new web3.eth.Contract(ERC20, token);
       await instance.methods
         .approve(contract, amountWei)
         .send({ from: user })
         .on("transactionHash", (res: any) => {
-          // console.log(res, "hash")
           dispatch(
             addTransaction({
               hash: res,
               from: user,
               chainId,
               summary: `${res}`,
-            })
+            }),
           );
-          setAmountApproval(true);
+
           setAllowance(0);
         })
         .on("receipt", (res: any) => {
@@ -201,7 +193,7 @@ export default function Withdraw() {
                 blockNumber: res.blockNumber,
                 status: 1,
               },
-            })
+            }),
           );
         })
         .on("error", (res: any) => {
@@ -235,7 +227,6 @@ export default function Withdraw() {
 
   const callDepositModal = (values: any, resetForm: any) => {
     try {
-      // console.log("deposit values =>  ", values);
       setDepositTokenInput(values.amount);
       {
         setDepModState({
@@ -256,29 +247,20 @@ export default function Withdraw() {
   const callWithdrawModal = (values: any) => {
     try {
       setWithdrawTokenInput(values.withdrawAmount);
-      console.log("withdraw values =>  ", values,showWithdrawModal);
+      console.log("withdraw values =>  ", values, showWithdrawModal);
       {
-        setWidModState({
-          step0: true,
-          step1: false,
-          step2: false,
-          step3: false,
-          step4: false,
-          title: "Initialize Withdraw",
-        });
         setShowWithdrawModal(true);
       }
     } catch (err: any) {
-      console.log("callWithdrawModal err" , err);
+      console.log("callWithdrawModal err", err);
       Sentry.captureMessage("callWithdrawModal", err);
     }
   };
   const estGasFee = async () => {
-    setAmountApproval(false);
     setEstGas(0);
     let user: any = account;
     const amountWei = web3.utils.toBN(
-      fromExponential(+depositTokenInput * Math.pow(10, 18))
+      fromExponential(+depositTokenInput * Math.pow(10, 18)),
     );
     let currentprice: any = await currentGasPrice(web3);
     let allowance =
@@ -286,35 +268,44 @@ export default function Withdraw() {
         library,
         dynamicChaining[chainId].BONE,
         account,
-        dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+        dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY,
       )) || 0;
     console.log("allowance  ", allowance);
     if (+allowance < +depositTokenInput) {
-      let approvalInstance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
-      await approvalInstance.methods.approve(dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY, amountWei).estimateGas({ from: user }).then((gas: any) => {
-        setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
-      })
+      let approvalInstance = new web3.eth.Contract(
+        ERC20,
+        dynamicChaining[chainId].BONE,
+      );
+      await approvalInstance.methods
+        .approve(dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY, amountWei)
+        .estimateGas({ from: user })
+        .then((gas: any) => {
+          setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
+        });
     }
     let instance = new web3.eth.Contract(
       depositManagerABI,
-      dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-    )
+      dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY,
+    );
 
-    await instance.methods.depositERC20ForUser(dynamicChaining[chainId].BONE, user, amountWei).estimateGas({ from: user })
+    await instance.methods
+      .depositERC20ForUser(dynamicChaining[chainId].BONE, user, amountWei)
+      .estimateGas({ from: user })
       .then(async (gas: any) => {
         let gasFee = (+gas * +currentprice) / Math.pow(10, 18);
         setEstGas(+gasFee);
-      }).catch((err: any) => {
-        console.log(err);
       })
-  }
+      .catch((err: any) => {
+        console.log(err);
+      });
+  };
   console.log("est gas ", estGas);
 
   const depositContract = async (user: any, amount: any) => {
     // call deposit contract
     let instance = new web3.eth.Contract(
       depositManagerABI,
-      dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+      dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY,
     );
     instance.methods
       .depositERC20ForUser(dynamicChaining[chainId].BONE, user, amount)
@@ -326,7 +317,7 @@ export default function Withdraw() {
             from: user,
             chainId,
             summary: `${res}`,
-          })
+          }),
         );
         let link = getExplorerLink(chainId, res, "transaction");
         setHashLink(link);
@@ -354,7 +345,7 @@ export default function Withdraw() {
               blockNumber: res.blockNumber,
               status: 1,
             },
-          })
+          }),
         );
         setDepositModal(false);
       })
@@ -371,7 +362,7 @@ export default function Withdraw() {
           setDepositModal(false);
         }
       });
-  }
+  };
   const callDepositContract = async () => {
     try {
       if (account) {
@@ -385,21 +376,21 @@ export default function Withdraw() {
         });
         let user: any = account;
         const amountWei = web3.utils.toBN(
-          fromExponential(+depositTokenInput * Math.pow(10, 18))
+          fromExponential(+depositTokenInput * Math.pow(10, 18)),
         );
         let allowance =
           (await getAllowanceAmount(
             library,
             dynamicChaining[chainId].BONE,
             account,
-            dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+            dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY,
           )) || 0;
 
         if (+depositTokenInput > +allowance) {
           approvalForDeposit(
             amountWei,
             dynamicChaining[chainId].BONE,
-            dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+            dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY,
           );
         }
         depositContract(user, amountWei);
@@ -419,7 +410,6 @@ export default function Withdraw() {
       setDepositModal(false);
     }
   };
-
 
   useEffect(() => {
     if (!showTokenModal) {
@@ -474,7 +464,7 @@ export default function Withdraw() {
       const checkArray = tokenModalList.map((st: any) => st?.parentContract);
       let localtokenarray = localTokens.map((st: any) => st.parentContract);
       const isalreadypresent = checkArray.some((item: any) =>
-        localtokenarray.includes(newToken)
+        localtokenarray.includes(newToken),
       );
       if (isalreadypresent && newToken.length > 0) {
         toast.error("Address is already present", {
@@ -493,18 +483,18 @@ export default function Withdraw() {
         localStorage.setItem("newToken", JSON.stringify(localTokens));
         let uniqueObjArray = [
           ...new Map(
-            localTokens.map((item: any) => [item["parentContract"], item])
+            localTokens.map((item: any) => [item["parentContract"], item]),
           ).values(),
         ];
         let uniqueObjArray2 = [
           ...new Map(
-            tokenModalList.map((item: any) => [item["parentContract"], item])
+            tokenModalList.map((item: any) => [item["parentContract"], item]),
           ).values(),
         ];
         let combineArray = [...uniqueObjArray, ...uniqueObjArray2];
         let finalUniqueArray = [
           ...new Map(
-            combineArray.map((item: any) => [item["parentContract"], item])
+            combineArray.map((item: any) => [item["parentContract"], item]),
           ).values(),
         ];
         setTokenModalList(finalUniqueArray);
@@ -536,7 +526,7 @@ export default function Withdraw() {
       ) {
         const contractInstance = new web3.eth.Contract(
           addTokenAbi,
-          String(newToken)
+          String(newToken),
         );
         let symbol: any = await contractInstance.methods
           .symbol()
@@ -567,6 +557,7 @@ export default function Withdraw() {
         } else if (isalreadypresent) {
           setTempTokens({});
         }
+        console.log(tempTokens, "tempTokens");
       }
     } catch (err: any) {
       Sentry.captureMessage("getTempTokens", err);
@@ -577,36 +568,6 @@ export default function Withdraw() {
     getTempTokens();
   }, [newToken, tokenState]);
 
-  // const clearAllCustomTokens = () => {
-  //   try {
-  //     let checkArray = tokenModalList;
-  //     let localtokenarray = localTokens.map((st: any) => st.parentContract);
-  //     const notLocalTokens = checkArray.filter(
-  //       (item: any) => !localtokenarray.includes(item.parentContract)
-  //     );
-  //     setTokenModalList(notLocalTokens);
-  //     setLocalTokens([]);
-  //     localStorage.setItem("newToken", "[]");
-  //   } catch (err: any) {
-  //     Sentry.captureMessage("clearAllCustomTokens", err);
-  //   }
-  // };
-
-  const spliceCustomToken = (index: any) => {
-    try {
-      let incomingObject = localTokens[index];
-      const filteredModallist = localTokens.filter((ss: any) => {
-        return ss.parentContract !== incomingObject.parentContract;
-      });
-      setLocalTokens(filteredModallist);
-      const filtered2 = tokenModalList.filter((ss: any) => {
-        return ss.parentContract !== incomingObject.parentContract;
-      });
-      setTokenModalList(filtered2);
-    } catch (err: any) {
-      Sentry.captureMessage("spliceCustomToken ", err);
-    }
-  };
   useEffect(() => {
     depositChainTokenBalance();
   }, [selectedToken]);
@@ -614,36 +575,50 @@ export default function Withdraw() {
     let chain = chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI;
     let bal: any;
     if (selectedToken?.parentName === "BoneToken") {
-      bal = await getTokenBalance(
-        lib,
-        account,
-        dynamicChaining[chain].BONE
-      );
+      bal = await getTokenBalance(lib, account, dynamicChaining[chain].BONE);
     } else {
       let address = selectedToken?.parentContract || selectedToken?.address;
       bal = await getTokenBalance(lib, account, address);
     }
-  }
+    console.log(bal, "bal");
+  };
 
-  const handleShow = () => {
-    setShowWithdrawModal(false);
-  }
   const imageOnErrorHandler = (
-    event: React.SyntheticEvent<HTMLImageElement, Event>
+    event: React.SyntheticEvent<HTMLImageElement, Event>,
   ) => {
     event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
   };
+
+  const selectedTokenRender = () => {
+    if (selectedToken?.logo || selectedToken?.logoURI) {
+      return (
+        <img
+          width="22"
+          height="22"
+          className="img-fluid"
+          src={
+            selectedToken?.logo ? selectedToken?.logo : selectedToken?.logoURI
+          }
+          alt=""
+        />
+      );
+    } else {
+      return (
+        <img className="img-fluid" src={"../../assets/images/eth.png"} alt="" />
+      );
+    }
+  };
+  const  handleClickOutside = useCallback(()=> setMenuState(false),[]) 
+
   return (
     <>
       <ToastContainer />
       <main className="main-content">
         <Sidebar
           handleMenuState={handleMenuState}
-          onClickOutside={() => {
-            setMenuState(false);
-          }}
+          onClickOutside={handleClickOutside}
           menuState={menuState}
-        />
+        ></Sidebar>
         {/* modal code start */}
         {/* Deposit popup start */}
         <CommonModal
@@ -660,22 +635,60 @@ export default function Withdraw() {
                 <div className="pop-block withdraw_pop">
                   <div className="pop-top">
                     <div className="inner-top p-2">
-                      <h4 className="text-md ff-mos pb-3">What isn't possible</h4>
+                      <h4 className="text-md ff-mos pb-3">
+                        What isn't possible
+                      </h4>
                       <div className="row">
-                        <div className="col-1"><X style={{ background: "red", borderRadius: "50px", padding: "2px" }} /> </div>
+                        <div className="col-1">
+                          <X
+                            style={{
+                              background: "red",
+                              borderRadius: "50px",
+                              padding: "2px",
+                            }}
+                          />{" "}
+                        </div>
                         <div className="col-11">
-                          <h6 className="text-sm ff-mos pb-1">Delegation to Validators</h6>
-                          <p className="text-sm">You cannot delegate or stake on the Puppy Net Network. You may do that on the Goerli Network. You can stake funds here.</p>
+                          <h6 className="text-sm ff-mos pb-1">
+                            Delegation to Validators
+                          </h6>
+                          <p className="text-sm">
+                            You cannot delegate or stake on the Puppy Net
+                            Network. You may do that on the Goerli Network. You
+                            can stake funds here.
+                          </p>
                         </div>
                       </div>
                     </div>
                     <div className="inner-top p-2">
                       <h4 className="text-md ff-mos pb-3">What's possible</h4>
                       <div className="row">
-                        <div className="col-1"><Check style={{ background: "green", borderRadius: "50px", padding: "2px" }} /> </div>
+                        <div className="col-1">
+                          <Check
+                            style={{
+                              background: "green",
+                              borderRadius: "50px",
+                              padding: "2px",
+                            }}
+                          />{" "}
+                        </div>
                         <div className="col-11">
-                          <h6 className="text-sm ff-mos pb-1">Moving funds from Goerli to Puppy Net</h6>
-                          <p className="text-sm">Here you can move frunds from the {NETWORK_LABEL[chainId]} network to {NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]} network on the Puppy Net Chain. This will take 20-30 minutes.</p>
+                          <h6 className="text-sm ff-mos pb-1">
+                            Moving funds from Goerli to Puppy Net
+                          </h6>
+                          <p className="text-sm">
+                            Here you can move frunds from the{" "}
+                            {NETWORK_LABEL[chainId]} network to{" "}
+                            {
+                              NETWORK_LABEL[
+                                chainId == ChainId.GÖRLI
+                                  ? ChainId.PUPPYNET517
+                                  : ChainId.GÖRLI
+                              ]
+                            }{" "}
+                            network on the Puppy Net Chain. This will take 20-30
+                            minutes.
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -684,7 +697,15 @@ export default function Withdraw() {
                     <div>
                       <a
                         className="btn primary-btn w-100"
-                        onClick={() => { setDepModState({ ...depModalState, step0: false, step1: true, title: "Transfer Overview" }); estGasFee(); }}
+                        onClick={() => {
+                          setDepModState({
+                            ...depModalState,
+                            step0: false,
+                            step1: true,
+                            title: "Transfer Overview",
+                          });
+                          estGasFee();
+                        }}
                       >
                         Continue
                       </a>
@@ -697,17 +718,39 @@ export default function Withdraw() {
             {/* confirm deposit popop starts */}
             {dWState && depModalState.step1 && (
               <div className="popmodal-body no-ht">
-                <div className="backDepState" onClick={() => {
-                  setDepModState({ ...depModalState, step0: true, step1: false, title: "Please Note" }); estGasFee();
-                }}><ArrowCircleLeftIcon /></div>
+                <div
+                  className="backDepState"
+                  onClick={() => {
+                    setDepModState({
+                      ...depModalState,
+                      step0: true,
+                      step1: false,
+                      title: "Please Note",
+                    });
+                    estGasFee();
+                  }}
+                >
+                  <ArrowCircleLeftIcon />
+                </div>
                 <div className="pop-block">
                   <div className="pop-top">
-                    <div className="border-2 rounded-circle d-flex align-item-center justify-content-center p-3 w-25 m-auto" style={{ borderColor: "#F28B03" }}>
-                      <img width="80" src="../../assets/images/gas-station.png" alt="" />
+                    <div
+                      className="border-2 rounded-circle d-flex align-item-center justify-content-center p-3 w-25 m-auto"
+                      style={{ borderColor: "#F28B03" }}
+                    >
+                      <img
+                        width="80"
+                        src="../../assets/images/gas-station.png"
+                        alt=""
+                      />
                     </div>
                     <div className="text-center">
-                      <h4 className="ff-mos fs-6 pt-4">There are two transactions in the deposit process.</h4>
-                      <p className="text-sm pt-1">Estimated total gas required for these transactions.</p>
+                      <h4 className="ff-mos fs-6 pt-4">
+                        There are two transactions in the deposit process.
+                      </h4>
+                      <p className="text-sm pt-1">
+                        Estimated total gas required for these transactions.
+                      </p>
                     </div>
                     <div className="row pt-3">
                       <div className="col-7 d-flex align-items-center">
@@ -716,8 +759,8 @@ export default function Withdraw() {
                           width="22"
                           height="22"
                           src={
-                            (selectedToken?.logo || selectedToken?.logoURI)
-                              ? (selectedToken?.logo || selectedToken?.logoURI)
+                            selectedToken?.logo || selectedToken?.logoURI
+                              ? selectedToken?.logo || selectedToken?.logoURI
                               : "../../assets/images/eth.png"
                           }
                           alt=""
@@ -725,11 +768,19 @@ export default function Withdraw() {
                         <p className="ps-2">Approve Deposit</p>
                       </div>
                       <div className="col-5 text-end">
-                        {allowance > 0 ?
+                        {allowance > 0 ? (
                           <>
                             <small className="text-lg">~ </small>
-                            <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(allowance * boneUSDValue).toFixed(6)} />
-                          </> : "Approved"}
+                            <NumberFormat
+                              thousandSeparator
+                              displayType={"text"}
+                              prefix="$"
+                              value={(allowance * boneUSDValue).toFixed(6)}
+                            />
+                          </>
+                        ) : (
+                          "Approved"
+                        )}
                       </div>
                     </div>
                     <div className="row pt-2">
@@ -739,8 +790,8 @@ export default function Withdraw() {
                           width="22"
                           height="22"
                           src={
-                            (selectedToken?.logo || selectedToken?.logoURI)
-                              ? (selectedToken?.logo || selectedToken?.logoURI)
+                            selectedToken?.logo || selectedToken?.logoURI
+                              ? selectedToken?.logo || selectedToken?.logoURI
                               : "../../assets/images/eth.png"
                           }
                           alt=""
@@ -749,7 +800,12 @@ export default function Withdraw() {
                       </div>
                       <div className="col-5 text-end">
                         <small className="text-lg">~ </small>
-                        <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(6)} />
+                        <NumberFormat
+                          thousandSeparator
+                          displayType={"text"}
+                          prefix="$"
+                          value={(estGas * boneUSDValue).toFixed(6)}
+                        />
                       </div>
                     </div>
                   </div>
@@ -757,7 +813,14 @@ export default function Withdraw() {
                     <div>
                       <a
                         className="btn primary-btn w-100"
-                        onClick={() => setDepModState({ ...depModalState, step1: false, step2: true, title: "Confirm Transfer" })}
+                        onClick={() =>
+                          setDepModState({
+                            ...depModalState,
+                            step1: false,
+                            step2: true,
+                            title: "Confirm Transfer",
+                          })
+                        }
                       >
                         Continue
                       </a>
@@ -768,9 +831,19 @@ export default function Withdraw() {
             )}
             {dWState && depModalState.step2 && (
               <div className="popmodal-body no-ht">
-                <div className="backDepState" onClick={() => {
-                  setDepModState({ ...depModalState, step1: true, step2: false, title: "Transfer Overview" })
-                }}><ArrowCircleLeftIcon /></div>
+                <div
+                  className="backDepState"
+                  onClick={() => {
+                    setDepModState({
+                      ...depModalState,
+                      step1: true,
+                      step2: false,
+                      title: "Transfer Overview",
+                    });
+                  }}
+                >
+                  <ArrowCircleLeftIcon />
+                </div>
                 <div className="pop-block">
                   <div className="pop-top">
                     <div className="mt-0 cnfrm_box dark-bg">
@@ -783,7 +856,11 @@ export default function Withdraw() {
                           />
                         </div>
                         <h6>
-                          {depositTokenInput + " " + (selectedToken?.parentName ? selectedToken?.parentName : selectedToken?.symbol)}
+                          {depositTokenInput +
+                            " " +
+                            (selectedToken?.parentName
+                              ? selectedToken?.parentName
+                              : selectedToken?.symbol)}
                         </h6>
                         <p>
                           <NumberFormat
@@ -805,8 +882,8 @@ export default function Withdraw() {
                             width="22"
                             height="22"
                             src={
-                              (selectedToken?.logo || selectedToken?.logoURI)
-                                ? (selectedToken?.logo || selectedToken?.logoURI)
+                              selectedToken?.logo || selectedToken?.logoURI
+                                ? selectedToken?.logo || selectedToken?.logoURI
                                 : "../../assets/images/eth.png"
                             }
                             onError={imageOnErrorHandler}
@@ -851,12 +928,27 @@ export default function Withdraw() {
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src={NETWORK_ICON[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}
+                            src={
+                              NETWORK_ICON[
+                                chainId == ChainId.GÖRLI
+                                  ? ChainId.PUPPYNET517
+                                  : ChainId.GÖRLI
+                              ]
+                            }
                             onError={imageOnErrorHandler}
                             alt=""
                           />
                         </div>
-                        <p>{NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]} Network</p>
+                        <p>
+                          {
+                            NETWORK_LABEL[
+                              chainId == ChainId.GÖRLI
+                                ? ChainId.PUPPYNET517
+                                : ChainId.GÖRLI
+                            ]
+                          }{" "}
+                          Network
+                        </p>
                       </div>
                     </div>
                     <hr />
@@ -876,7 +968,12 @@ export default function Withdraw() {
                       <div>
                         <p className="fw-bold">
                           <small className="text-lg">~ </small>
-                          <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(6)} />
+                          <NumberFormat
+                            thousandSeparator
+                            displayType={"text"}
+                            prefix="$"
+                            value={(estGas * boneUSDValue).toFixed(6)}
+                          />
                         </p>
                       </div>
                     </div>
@@ -980,20 +1077,46 @@ export default function Withdraw() {
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            src={NETWORK_ICON[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}
+                            src={
+                              NETWORK_ICON[
+                                chainId == ChainId.GÖRLI
+                                  ? ChainId.PUPPYNET517
+                                  : ChainId.GÖRLI
+                              ]
+                            }
                             alt=""
                           />
                         </div>
-                        <p>{NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}</p>
+                        <p>
+                          {
+                            NETWORK_LABEL[
+                              chainId == ChainId.GÖRLI
+                                ? ChainId.PUPPYNET517
+                                : ChainId.GÖRLI
+                            ]
+                          }
+                        </p>
                       </div>
                     </div>
                   </div>
                   <div className="pop-bottom">
                     <div className="text-center text-section">
-                      <h4 className="pop-hd-md" style={{ color: "var(--bs-orange)" }}>Moving funds</h4>
+                      <h4
+                        className="pop-hd-md"
+                        style={{ color: "var(--bs-orange)" }}
+                      >
+                        Moving funds
+                      </h4>
                       <p>
                         It will take up to 20 - 30 minutes to move the funds on{" "}
-                        {NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]} Mainnet.
+                        {
+                          NETWORK_LABEL[
+                            chainId == ChainId.GÖRLI
+                              ? ChainId.PUPPYNET517
+                              : ChainId.GÖRLI
+                          ]
+                        }{" "}
+                        Mainnet.
                       </p>
                     </div>
                     <div>
@@ -1008,7 +1131,9 @@ export default function Withdraw() {
                             title: "Transaction Submitted",
                           });
                         }}
-                        className={`btn grey-btn w-100 relative ${depModalState.step1 && "disabled btn-disabled"}`}
+                        className={`btn grey-btn w-100 relative ${
+                          depModalState.step1 && "disabled btn-disabled"
+                        }`}
                         href="javascript:void(0)"
                       >
                         <span className="spinner-border text-secondary pop-spiner fix_spinner"></span>
@@ -1088,7 +1213,7 @@ export default function Withdraw() {
         {/* Deposit popup end */}
 
         {/* Withdraw popups start */}
-        {showWithdrawModal ?
+        {showWithdrawModal ? (
           <WithdrawModal
             page="bridge"
             show={showWithdrawModal}
@@ -1097,11 +1222,17 @@ export default function Withdraw() {
             selectedToken={selectedToken}
             withdrawTokenInput={withdrawTokenInput}
             boneUSDValue={boneUSDValue}
-          /> : null}
+          />
+        ) : null}
         {/* Withdraw tab popups end */}
 
         {/* Token popups start */}
-        {openManageToken ? <ManageToken setSelectedToken={setSelectedToken} setOpenManageToken={setOpenManageToken} /> : null}
+        {openManageToken ? (
+          <ManageToken
+            setSelectedToken={setSelectedToken}
+            setOpenManageToken={setOpenManageToken}
+          />
+        ) : null}
         {/* Token popups end */}
 
         {/* modal code closed */}
@@ -1149,8 +1280,9 @@ export default function Withdraw() {
                     )}
                     {
                       <div
-                        className={`txt-row ${dWState ? "visVisible" : "visInvisible"
-                          }`}
+                        className={`txt-row ${
+                          dWState ? "visVisible" : "visInvisible"
+                        }`}
                       >
                         <div className="row-hd">
                           <span className="icon-image">
@@ -1271,7 +1403,10 @@ export default function Withdraw() {
                         initialValues={{
                           amount: "",
                           fromChain: chainId,
-                          toChain: chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI,
+                          toChain:
+                            chainId == ChainId.GÖRLI
+                              ? ChainId.PUPPYNET517
+                              : ChainId.GÖRLI,
                         }}
                         validationSchema={depositValidations}
                         onSubmit={(values, { resetForm }) => {
@@ -1285,7 +1420,7 @@ export default function Withdraw() {
                           handleBlur,
                           values,
                           handleSubmit,
-                          setFieldValue
+                          setFieldValue,
                         }) => (
                           <div className="h-100">
                             <div className="sec-wrapper">
@@ -1297,26 +1432,7 @@ export default function Withdraw() {
                                     </label>
                                     <div className="form-field position-relative txt-fix">
                                       <div className="icon-chain">
-                                        <div>
-                                          {
-                                            (selectedToken?.logo || selectedToken?.logoURI) ?
-                                              <img
-                                                width="22"
-                                                height="22"
-                                                className="img-fluid"
-                                                src={selectedToken?.logo ? selectedToken?.logo : selectedToken?.logoURI}
-                                                alt=""
-                                              />
-                                              :
-                                              (
-                                                <img
-                                                  className="img-fluid"
-                                                  src={"../../assets/images/eth.png"}
-                                                  alt=""
-                                                />
-                                              )
-                                          }
-                                        </div>
+                                        <div>{selectedTokenRender()}</div>
                                       </div>
                                       <div className="mid-chain">
                                         {/* <Form.Select
@@ -1349,7 +1465,7 @@ export default function Withdraw() {
                                           type="text"
                                           value={NETWORK_LABEL[chainId]}
                                           disabled={true}
-                                        // placeholder="Ethereum chain"
+                                          // placeholder="Ethereum chain"
                                         />
                                       </div>
                                       <div className="rt-chain">
@@ -1359,7 +1475,9 @@ export default function Withdraw() {
                                         <span className="fld-txt lite-800">
                                           {selectedToken?.balance
                                             ? selectedToken?.balance
-                                            : "00.00"} {selectedToken?.key || selectedToken?.symbol}
+                                            : "00.00"}{" "}
+                                          {selectedToken?.key ||
+                                            selectedToken?.symbol}
                                         </span>
                                       </div>
                                     </div>
@@ -1369,7 +1487,7 @@ export default function Withdraw() {
                                       <div
                                         className="form-field position-relative fix-coin-field"
                                         onClick={() => {
-                                          setOpenManageToken(!openManageToken)
+                                          setOpenManageToken(!openManageToken);
                                         }}
                                       >
                                         <div className="right-spacing">
@@ -1378,8 +1496,10 @@ export default function Withdraw() {
                                               className="img-fluid"
                                               width={24}
                                               src={
-                                                (selectedToken?.logo || selectedToken?.logoURI)
-                                                  ? selectedToken.logo || selectedToken?.logoURI
+                                                selectedToken?.logo ||
+                                                selectedToken?.logoURI
+                                                  ? selectedToken.logo ||
+                                                    selectedToken?.logoURI
                                                   : "../../assets/images/eth.png"
                                               }
                                               alt=""
@@ -1388,8 +1508,10 @@ export default function Withdraw() {
                                         </div>
                                         <div className="lite-800">
                                           <span className="lite-800 fw-bold">
-                                            {selectedToken?.parentName || selectedToken?.symbol
-                                              ? selectedToken?.parentName || selectedToken?.symbol
+                                            {selectedToken?.parentName ||
+                                            selectedToken?.symbol
+                                              ? selectedToken?.parentName ||
+                                                selectedToken?.symbol
                                               : "Select Token"}
                                           </span>
                                         </div>
@@ -1402,13 +1524,25 @@ export default function Withdraw() {
                                     </div>
                                     <div className="col-lg-6 col-xxl-7 col-sm-12 field-col">
                                       <div className="form-field position-relative two-fld">
-                                        <div className={`mid-chain w-100 ${selectedToken?.type == undefined && "disabled"}`}>
+                                        <div
+                                          className={`mid-chain w-100 ${
+                                            selectedToken?.type == undefined &&
+                                            "disabled"
+                                          }`}
+                                        >
                                           <input
-                                            className={`w-100 ${selectedToken?.type == undefined && "disabled"}`}
+                                            className={`w-100 ${
+                                              selectedToken?.type ==
+                                                undefined && "disabled"
+                                            }`}
                                             type="text"
                                             placeholder="0.00"
                                             name="amount"
-                                            disabled={selectedToken?.type == undefined ? true : false}
+                                            disabled={
+                                              selectedToken?.type == undefined
+                                                ? true
+                                                : false
+                                            }
                                             // defaultValue={depositTokenInput}
                                             value={values.amount}
                                             onChange={handleChange("amount")}
@@ -1416,7 +1550,12 @@ export default function Withdraw() {
                                         </div>
                                         <div
                                           className="rt-chain"
-                                          onClick={(e) => setFieldValue("amount", selectedToken.balance)}
+                                          onClick={(e) =>
+                                            setFieldValue(
+                                              "amount",
+                                              selectedToken.balance,
+                                            )
+                                          }
                                         >
                                           <span className="orange-txt fw-bold depositMax">
                                             MAX
@@ -1445,7 +1584,9 @@ export default function Withdraw() {
                                             className="img-fluid"
                                             src={
                                               NETWORK_ICON[
-                                              chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI
+                                                chainId == ChainId.GÖRLI
+                                                  ? ChainId.PUPPYNET517
+                                                  : ChainId.GÖRLI
                                               ]
                                             }
                                             alt=""
@@ -1460,7 +1601,9 @@ export default function Withdraw() {
                                           placeholder="Shibarium chain"
                                           value={
                                             NETWORK_LABEL[
-                                            chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI
+                                              chainId == ChainId.GÖRLI
+                                                ? ChainId.PUPPYNET517
+                                                : ChainId.GÖRLI
                                             ]
                                           }
                                         />
@@ -1498,7 +1641,9 @@ export default function Withdraw() {
                                           Balance:
                                         </span>
                                         <span className="fld-txt lite-800">
-                                          00.00 {selectedToken?.key || selectedToken?.symbol}
+                                          00.00{" "}
+                                          {selectedToken?.key ||
+                                            selectedToken?.symbol}
                                         </span>
                                       </div>
                                     </div>
@@ -1529,12 +1674,14 @@ export default function Withdraw() {
                     <Formik
                       initialValues={{
                         withdrawAmount: "",
-                        fromChain: chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI,
+                        fromChain:
+                          chainId == ChainId.GÖRLI
+                            ? ChainId.PUPPYNET517
+                            : ChainId.GÖRLI,
                         toChain: chainId,
                       }}
                       validationSchema={withdrawValidations}
                       onSubmit={(values, { resetForm }) => {
-                        // console.log("values ==>>", values);
                         callWithdrawModal(values);
                         resetForm();
                       }}
@@ -1546,7 +1693,7 @@ export default function Withdraw() {
                         handleBlur,
                         values,
                         handleSubmit,
-                        setFieldValue
+                        setFieldValue,
                       }) => (
                         <div className="tab-content-sec h-100">
                           <form className="h-100" onSubmit={handleSubmit}>
@@ -1566,7 +1713,9 @@ export default function Withdraw() {
                                             className="img-fluid"
                                             src={
                                               NETWORK_ICON[
-                                              chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI
+                                                chainId == ChainId.GÖRLI
+                                                  ? ChainId.PUPPYNET517
+                                                  : ChainId.GÖRLI
                                               ]
                                             }
                                             alt=""
@@ -1580,7 +1729,9 @@ export default function Withdraw() {
                                           // placeholder="Shibarium Mainnet"
                                           value={
                                             NETWORK_LABEL[
-                                            chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI
+                                              chainId == ChainId.GÖRLI
+                                                ? ChainId.PUPPYNET517
+                                                : ChainId.GÖRLI
                                             ]
                                           }
                                           disabled={true}
@@ -1621,7 +1772,9 @@ export default function Withdraw() {
                                         <span className="fld-txt lite-800">
                                           {selectedToken?.balance
                                             ? selectedToken?.balance
-                                            : "00.00"} {selectedToken?.key || selectedToken?.symbol}
+                                            : "00.00"}{" "}
+                                          {selectedToken?.key ||
+                                            selectedToken?.symbol}
                                         </span>
                                       </div>
                                     </div>
@@ -1631,7 +1784,7 @@ export default function Withdraw() {
                                       <div
                                         className="form-field position-relative fix-coin-field h-100"
                                         onClick={() => {
-                                          setOpenManageToken(!openManageToken)
+                                          setOpenManageToken(!openManageToken);
                                           // onClick={() => {
                                           //   setTokenModal(true);
                                           //   setTokenState({
@@ -1651,8 +1804,10 @@ export default function Withdraw() {
                                               height="24"
                                               className="img-fluid"
                                               src={
-                                                selectedToken?.logo || selectedToken?.logoURI
-                                                  ? selectedToken?.logo || selectedToken?.logoURI
+                                                selectedToken?.logo ||
+                                                selectedToken?.logoURI
+                                                  ? selectedToken?.logo ||
+                                                    selectedToken?.logoURI
                                                   : "../../assets/images/shiba-round-icon.png"
                                               }
                                               alt=""
@@ -1661,8 +1816,10 @@ export default function Withdraw() {
                                         </div>
                                         <div className="lite-800">
                                           <span className="lite-800 fw-bold">
-                                            {selectedToken?.parentName || selectedToken?.symbol
-                                              ? selectedToken?.parentName || selectedToken?.symbol
+                                            {selectedToken?.parentName ||
+                                            selectedToken?.symbol
+                                              ? selectedToken?.parentName ||
+                                                selectedToken?.symbol
                                               : "Select Token"}
                                           </span>
                                         </div>
@@ -1681,21 +1838,33 @@ export default function Withdraw() {
                                             type="text"
                                             placeholder="0.00"
                                             name="withdrawAmount"
-                                            disabled={selectedToken?.type == undefined ? true : false}
+                                            disabled={
+                                              selectedToken?.type == undefined
+                                                ? true
+                                                : false
+                                            }
                                             value={values.withdrawAmount}
-                                            onChange={handleChange("withdrawAmount")}
+                                            onChange={handleChange(
+                                              "withdrawAmount",
+                                            )}
                                           />
                                         </div>
                                         <div
                                           className="rt-chain"
-                                          onClick={(e) => setFieldValue("withdrawAmount", selectedToken?.balance)}
+                                          onClick={(e) =>
+                                            setFieldValue(
+                                              "withdrawAmount",
+                                              selectedToken?.balance,
+                                            )
+                                          }
                                         >
                                           <span className="orange-txt fw-bold withdrawMax">
                                             MAX
                                           </span>
                                         </div>
                                       </div>
-                                      {touched.withdrawAmount && errors.withdrawAmount ? (
+                                      {touched.withdrawAmount &&
+                                      errors.withdrawAmount ? (
                                         <p className="pt-0 pl-2 primary-text">
                                           {errors.withdrawAmount}
                                         </p>
@@ -1711,23 +1880,27 @@ export default function Withdraw() {
                                     <div className="form-field position-relative txt-fix">
                                       <div className="icon-chain">
                                         <div>
-                                          {
-                                            selectedToken?.logo || selectedToken?.logoURI
-                                              ? (<img
-                                                width="22"
-                                                height="22"
-                                                className="img-fluid"
-                                                src={selectedToken.logo || selectedToken?.logoURI}
-                                                alt=""
-                                              />) :
-                                              (
-                                                <img
-                                                  className="img-fluid"
-                                                  src={"../../assets/images/eth.png"}
-                                                  alt=""
-                                                />
-                                              )
-                                          }
+                                          {selectedToken?.logo ||
+                                          selectedToken?.logoURI ? (
+                                            <img
+                                              width="22"
+                                              height="22"
+                                              className="img-fluid"
+                                              src={
+                                                selectedToken.logo ||
+                                                selectedToken?.logoURI
+                                              }
+                                              alt=""
+                                            />
+                                          ) : (
+                                            <img
+                                              className="img-fluid"
+                                              src={
+                                                "../../assets/images/eth.png"
+                                              }
+                                              alt=""
+                                            />
+                                          )}
                                         </div>
                                       </div>
                                       <div className="mid-chain">
@@ -1772,7 +1945,9 @@ export default function Withdraw() {
                                           Balance:
                                         </span>
                                         <span className="fld-txt lite-800">
-                                          00.00 {selectedToken?.key || selectedToken?.symbol}
+                                          00.00{" "}
+                                          {selectedToken?.key ||
+                                            selectedToken?.symbol}
                                         </span>
                                       </div>
                                     </div>

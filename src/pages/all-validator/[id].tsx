@@ -14,7 +14,6 @@ import { dynamicChaining } from "web3/DynamicChaining";
 import LoadingSpinner from 'pages/components/Loading';
 import * as Sentry from "@sentry/nextjs";
 import { ChainId, L1Block } from "app/hooks/L1Block";
-import { useWeb3Decimals } from "app/hooks/useTokenBalance";
 
 export default function ValidatorDetails() {
     const { account, library, chainId = 1 } = useActiveWeb3React()
@@ -25,8 +24,7 @@ export default function ValidatorDetails() {
     const [loading, setLoading] = useState<boolean>(false);
     const [totalSupply, setTotalSupply] = useState<number>(0)
     const [selfStaked, setSelfStaked] = useState<number>(0)
-    // const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
-    // console.log("decimal  ==> " , typeof(decimal));
+
     const router = useRouter()
     useEffect(() => {
         try {

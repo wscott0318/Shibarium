@@ -1,27 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react";
 import Header from "../layout/header";
-import { ProgressBar } from "react-bootstrap";
 import { Slider } from "@material-ui/core";
-import { ChainId, L1Block } from "app/hooks/L1Block";
-import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { dynamicChaining } from "web3/DynamicChaining";
 import { ERC20_ABI } from "app/constants/abis/erc20";
 import { useActiveWeb3React } from "app/services/web3";
 import Web3 from "web3";
 import { tokenDecimal } from "web3/commonFunctions";
 import LoadingSpinner from "pages/components/Loading";
-import { queryProvider } from "Apollo/client";
 const Rewards = () => {
-  const { library, account, chainId = 1, }: any = useActiveWeb3React()
-  const web3: any = new Web3(library?.provider)
-  const [proVal, setProVal] = useState(70);
+  const { library, chainId = 1, }: any = useActiveWeb3React()
+  const proVal =70
   const [bonePercent, setBonePercent] = useState<any>(1);
   const [duration, setDuration] = useState<any>(365);
   const [totalSupply, setTotalSupply] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [myStake, setMyStake] = useState<any>(10000);
-  const [currentStake,setCurrentStake] = useState(90527);
+  const currentStake = 90527
   const rewardPerCheckpoint = 505;
   const checkpointPerDay = 48;
   const dailyReward = rewardPerCheckpoint*checkpointPerDay;

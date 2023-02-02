@@ -20,7 +20,6 @@ import { addTransaction, finalizeTransaction } from "../../state/transactions/ac
 import QrModal from "../components/QrModal";
 import { getBoneUSDValue, getWalletTokenList } from "../../services/apis/validator/index";
 import NumberFormat from 'react-number-format';
-import { useSearchFilter } from "app/hooks/useSearchFilter";
 import { dynamicChaining } from "../../web3/DynamicChaining";
 import Pagination from 'app/components/Pagination';
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
@@ -45,7 +44,6 @@ export default function Wallet() {
 
   const router = useRouter()
   const { chainId = 1, account, library } = useActiveWeb3React();
-  const id: any = chainId
   const ethBal = useEthBalance();
   const tokenBal = useTokenBalance(dynamicChaining[chainId].BONE);
   const availBalance = chainId === ChainId.SHIBARIUM ? ethBal : tokenBal;
@@ -58,7 +56,7 @@ export default function Wallet() {
 
   const [senderAddress, setSenderAdress] = useState('');
   const [userQrCode, setUserQrCode] = useState(false)
-  const [isValidAddress, setIsValidAddress] = useState(false)
+  const isValidAddress = false
   const [sendAmount, setSendAmount] = useState('')
   const [senderModal, setSenderModal] = useState(false)
   const [verifyAmount, setVerifyAmount] = useState(false)
@@ -74,7 +72,6 @@ export default function Wallet() {
   const [modalKeyword, setmodalKeyword] = useState<string>('');
   const [nullAddress, setNullAddress] = useState(false)
 
-  const searchResult = useSearchFilter(tokenList, searchKey.trim());
 
   useEffect(() => {
     if (tokenFilteredList.length) {
@@ -85,16 +82,6 @@ export default function Wallet() {
 
   // console.log(selectedToken)
 
-  const verifyAddress = (address: any) => {
-    try {
-      let result = Web3.utils.isAddress(address)
-      setIsValidAddress(result)
-      return result
-    }
-    catch (err: any) {
-      Sentry.captureException("verifyAddress ", err);
-    }
-  }
 
   const getNetworkName = () => {
     try {
@@ -154,8 +141,6 @@ export default function Wallet() {
   const handleChange = (e: any) => {
     setNullAddress(true)
     setSenderAdress(e.target.value)
-    const isValid = verifyAddress(e.target.value)
-    // console.log(isValid)
   }
 
 
@@ -332,26 +317,6 @@ export default function Wallet() {
     setSendModal(sendInitialState)
   }
 
-  const handledropDown = (x: any) => {
-    // console.log(x)
-    setSelectedToken(x)
-  }
-
-  const handleSendAmount = () => {
-    try {
-      if (sendAmount > selectedToken.balance) {
-        return true
-      } else if (!sendAmount) {
-        return true
-      } else {
-        return false
-      }
-    }
-    catch (err: any) {
-      Sentry.captureException("handleSendAmount ", err);
-    }
-  }
-  const [sendToken, setSendToken] = useState('');
 
   const sendTokenWithRoute = async (x: any, type: any = "deposit") => {
     try {
@@ -379,6 +344,62 @@ export default function Wallet() {
 
     return null;
   }
+
+  const nullAddressRender = ()=>{
+    if( nullAddress ){
+       if( !isValidAddress ){
+        return (
+          <label className="mb-0 red-txt" style={{ color: "#F06500" }}>
+          {senderAddress ? <>Enter a valid receiver address</> : <>receiver address should not be null</>}
+        </label>
+        )
+       }else{
+        return null
+       }
+    }
+  }
+
+  const selectedTokenRender = () =>{
+    if(selectedToken){
+      return(
+        <div className="drop-ico">
+          <img
+            className="img-fluid"
+            src="../../assets/images/shiba-round-icon.png"
+            alt="icon"
+            width={24}
+          />
+          <span>
+            {selectedToken.parentName
+              ? selectedToken.parentName
+              : "Select Token"}
+          </span>
+        </div>
+      ) 
+    }else{
+      return(
+        <div className="drop-text">
+          <span>Select Token</span>
+        </div>
+      )
+    }
+  }
+
+const paginationRender = ()=>{
+  if(slicedTokenFilteredList.length){
+    return(
+      <Pagination
+      currentPage={currentPage}
+      pageSize={pageSize}
+      totalCount={tokenFilteredList.length}
+      onPageChange={pageChangeHandler}
+    />
+    )
+  }else{
+    return null
+  }
+}
+
   return (
     <>
       <main className="main-content">
@@ -500,11 +521,7 @@ export default function Wallet() {
                             placeholder="Receiver address"
                           />
                           <div className="error-msg">
-                            {nullAddress ? (!isValidAddress && (
-                              <label className="mb-0 red-txt" style={{ color: "#F06500" }}>
-                                {senderAddress ? <>Enter a valid receiver address</> : <>receiver address should not be null</>}
-                              </label>
-                            )) : null}
+                           {nullAddressRender()}
                           </div>
                         </div>
                         <div className="form-group">
@@ -539,25 +556,7 @@ export default function Wallet() {
                                         alt="chev-ico"
                                       />
                                     </div>
-                                    {selectedToken ? (
-                                      <div className="drop-ico">
-                                        <img
-                                          className="img-fluid"
-                                          src="../../assets/images/shiba-round-icon.png"
-                                          alt="icon"
-                                          width={24}
-                                        />
-                                        <span>
-                                          {selectedToken.parentName
-                                            ? selectedToken.parentName
-                                            : "Select Token"}
-                                        </span>
-                                      </div>
-                                    ) : (
-                                      <div className="drop-text">
-                                        <span>Select Token</span>
-                                      </div>
-                                    )}
+                                   {selectedTokenRender()}
                                   </div>
                                 </div>
                               </div>
@@ -1094,14 +1093,9 @@ export default function Wallet() {
                     </div>
                   ) : null}
                 </div>
-                {slicedTokenFilteredList.length ? (
-                  <Pagination
-                    currentPage={currentPage}
-                    pageSize={pageSize}
-                    totalCount={tokenFilteredList.length}
-                    onPageChange={pageChangeHandler}
-                  />
-                ) : null}
+                {
+                  paginationRender()
+                }
               </div>
             </div>
             {/* assets section end */}

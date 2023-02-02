@@ -30,6 +30,55 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
     event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
     event.currentTarget.className = "error me-3";
   };
+
+  
+  const userTypeValidator = (validator:any) => {
+     if(userType === "Validator"){
+      return(
+        <Link
+        href={`/all-validator/${validator.signer}`}
+        passHref
+      >
+        <div className="delegate_btn">
+          <p className="btn primary-btn  light-text w-100">
+            View
+          </p>
+          <div className="tool-desc tool-desc-grid">View Validator Info.</div>
+        </div>
+      </Link>
+      )
+     }else{
+      return(
+        <div className="delegate_btn">
+                            <button
+                              disabled={!account || validator.fundamental === 1 || validator.uptimePercent <= inActiveCount || validator.contractAddress == migrateData.contractAddress ? true : false}
+                              type="button"
+                              onClick={() => {
+                                setSelectedRow(validator);
+                                if (
+                                  router.asPath.split("/")[1] ===
+                                  "migrate-stake"
+                                ) {
+                                  setmigratepop(true);
+                                } else {
+                                  setdelegatepop(true);
+                                }
+                              }}
+                              className="btn primary-btn  light-text w-100"
+                            >
+                              <span>
+                                {router.asPath.split("/")[1] === "migrate-stake"
+                                  ? "Stake here"
+                                  : "Delegate"}
+                              </span>
+                            </button>
+                            {tootlTipDesc(validator)}
+                            {!account && <div className="tool-desc tool-desc-grid">Login to enable delegation.</div>}
+                          </div>
+      )
+     }
+  };
+
   return (
     <>
       <DelegatePopup
@@ -45,7 +94,7 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
       />
       <div className="ffms-inherit">
         <div className="grid-sec">
-          {validatorsList && validatorsList.length ? (
+          {validatorsList.length ? (
             <div className="row side-cover">
               {validatorsList.map((validator: any) => (
                 <div key={validator?.signer} className="col-xl-3 col-sm-6 col-12 side-space mb-sm-4 mb-4">
@@ -113,46 +162,9 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
                         </div>
                       </div>
                       <div className="text-center mt-3">
-                        {userType === "Validator" ? (
-                          <Link
-                            href={`/all-validator/${validator.signer}`}
-                            passHref
-                          >
-                            <div className="delegate_btn">
-                              <p className="btn primary-btn  light-text w-100">
-                                View
-                              </p>
-                              <div className="tool-desc tool-desc-grid">View Validator Info.</div>
-                            </div>
-                          </Link>
-                        ) : (
-                          <div className="delegate_btn">
-                            <button
-                              disabled={!account || validator.fundamental === 1 || validator.uptimePercent <= inActiveCount || validator.contractAddress == migrateData.contractAddress ? true : false}
-                              type="button"
-                              onClick={() => {
-                                setSelectedRow(validator);
-                                if (
-                                  router.asPath.split("/")[1] ===
-                                  "migrate-stake"
-                                ) {
-                                  setmigratepop(true);
-                                } else {
-                                  setdelegatepop(true);
-                                }
-                              }}
-                              className="btn primary-btn  light-text w-100"
-                            >
-                              <span>
-                                {router.asPath.split("/")[1] === "migrate-stake"
-                                  ? "Stake here"
-                                  : "Delegate"}
-                              </span>
-                            </button>
-                            {tootlTipDesc(validator)}
-                            {!account && <div className="tool-desc tool-desc-grid">Login to enable delegation.</div>}
-                          </div>
-                        )}
+                      {
+                        userTypeValidator(validator)
+                      }
                       </div>
                     </div>
                   </div>

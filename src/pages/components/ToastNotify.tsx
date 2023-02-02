@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 
-const ToastNotify = ({toastMassage,type}:{toastMassage:String,type:'error'|'success'|undefined}) => {
+const ToastNotify = ({toastMassage,type}:{toastMassage:string,type:'error'|'success'|undefined}) => {
   useEffect(() => {
    if (toastMassage && type) {
      toast[type](toastMassage,{autoClose:3000})

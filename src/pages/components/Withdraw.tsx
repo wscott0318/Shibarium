@@ -1,6 +1,6 @@
 import { NETWORK_ICON, NETWORK_LABEL } from 'app/config/networks';
 import { useActiveWeb3React } from 'app/services/web3';
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format';
 import { ChainId } from 'shibarium-get-chains';
 import { currentGasPrice, getAllowanceAmount, tokenDecimal, USER_REJECTED_TX } from 'web3/commonFunctions';
@@ -15,13 +15,10 @@ import fromExponential from 'from-exponential';
 import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
 import { getExplorerLink } from 'app/functions';
 import withdrawManagerABI from "../../ABI/withdrawManagerABI.json";
-import l2withdrawABI from "../../ABI/l2withdrawABI.json";
 import { ArrowCircleLeftIcon } from '@heroicons/react/outline';
 import { Check, X } from 'react-feather';
 import Loader from 'app/components/Loader';
 import { PUPPYNET517 } from 'app/hooks/L1Block';
-import { Spinner } from 'react-bootstrap';
-import { CircularProgress } from '@material-ui/core';
 // @ts-ignore TYPE NEEDS FIXING
 import cookie from 'cookie-cutter'
 import { startBurn, burnStatus } from "../../exit/burn";
@@ -47,11 +44,8 @@ const WithdrawModal: React.FC<{
         const { chainId = 1, account, library } = useActiveWeb3React();
         const lib: any = library;
         const web3: any = new Web3(lib?.provider);
-        const webL2: any = PUPPYNET517();
         const dispatch = useAppDispatch();
-        const [showWithdrawModal, setWithdrawModal] = useState(true);
         const [hashLink, setHashLink] = useState("");
-        const [amountApproval, setAmountApproval] = useState(false);
         const [allowance, setAllowance] = useState(0);
         const [txState, setTxState] = useLocalStorageState<any>("txState");
         const [loader, setLoader] = useState(true);
@@ -230,7 +224,6 @@ const WithdrawModal: React.FC<{
                     step6: false,
                     title: "Initialize Withdraw",
                 });
-                setWithdrawModal(false);
                 console.log("error =>> ", err)
             }
         }
@@ -262,13 +255,10 @@ const WithdrawModal: React.FC<{
                 }
                 console.log("did not enter withdraw state => ", withdrawState);
                 console.log("step 5");
-                // setProcessing((processing:any) => [...processing,"Challenge Period"]);
-                // setStep("Challenge Period");
             }
         }
 
         const estGasFee = async () => {
-            setAmountApproval(false);
             setEstGas(0);
             let user: any = account;
             const amountWei = web3.utils.toBN(
@@ -306,7 +296,17 @@ const WithdrawModal: React.FC<{
 
         useEffect(() => {
             if (page == "tx") {
-                let tempStep: any = txState.processExit ? "Completed" : txState.challengePeriod ? "Challenge Period" : "Checkpoint"
+
+                const temp = () => { 
+                    if(txState.processExit){
+                        return "Completed"
+                    }
+
+                return txState.challengePeriod ? "Challenge Period" : "Checkpoint"
+                }
+
+                let tempStep = temp();
+
                 setStep(tempStep);
                 const process = ["Initialized", "Checkpoint", "Challenge Period", "Completed"];
                 process.splice(process.indexOf(tempStep) + 1, (process.length - 1) - process.indexOf(tempStep));
@@ -327,11 +327,150 @@ const WithdrawModal: React.FC<{
         };
         console.log("processing array", processing);
         console.log("step", step);
+
+        const withModalStep0 = () =>{
+            if(!dWState && withModalState.step0){
+                return(
+                    <div className="popmodal-body no-ht">
+                    <div className="pop-block withdraw_pop">
+                        <div className="pop-top">
+                            <div className="inner-top p-2">
+                                <h4 className="text-md ff-mos pb-3">What isn't possible</h4>
+                                <div className="row">
+                                    <div className="col-1"><X style={{ background: "red", borderRadius: "50px", padding: "2px" }} /> </div>
+                                    <div className="col-11">
+                                        <h6 className="text-sm ff-mos pb-1">Cancelling any withdraw</h6>
+                                        <p className="text-sm">You cannot cancel a withdrawal once you have begun the process.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="inner-top p-2">
+                                <h4 className="text-md ff-mos pb-3">What's possible</h4>
+                                <div className="row">
+                                    <div className="col-1"><Check style={{ background: "green", borderRadius: "50px", padding: "2px" }} /> </div>
+                                    <div className="col-11">
+                                        <h6 className="text-sm ff-mos pb-1">Moving funds from Puppy Net to Goerli</h6>
+                                        <p className="text-sm">Here you can move frunds from the Puppy Net network to Goerli network on the Puppy Net Chain. This will take 20-30 minutes.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="pop-bottom">
+                            <div>
+                                <a
+                                    className="btn primary-btn w-100"
+                                    onClick={() => { setWidModState({ ...withModalState, step0: false, step1: true, title: "Transfer Overview" }); estGasFee(); }}
+                                >
+                                    Continue
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                )
+            }
+        }
+
+        const withModalStep1 = ()=>{
+            if(!dWState && withModalState.step1){
+                return(    <div className="popmodal-body no-ht">
+                <div className="backDepState" onClick={() => {
+                    setWidModState({ ...withModalState, step0: true, step1: false, title: "Please Note" }); estGasFee();
+                }}><ArrowCircleLeftIcon /></div>
+                <div className="pop-block">
+                    <div className="pop-top">
+                        <div className="border-2 rounded-circle d-flex align-item-center justify-content-center p-3 w-25 m-auto" style={{ borderColor: "#F28B03" }}>
+                            <img width="80" src="../../assets/images/gas-station.png" alt="" />
+                        </div>
+                        <div className="text-center">
+                            <h4 className="ff-mos fs-6 pt-4">Withdrawal process for Proof of Stake consists of 2 transactions</h4>
+                            <p className="text-sm pt-1">Estimated total gas required for these transactions.</p>
+                        </div>
+                        <div className="row pt-3">
+                            <div className="col-7 d-flex align-items-center">
+                                <img
+                                    className="img-fluid"
+                                    width="22"
+                                    height="22"
+                                    src="../../assets/images/shib-logo.png"
+                                    alt=""
+                                />
+                                <p className="ps-2">Withdrawal Initialized</p>
+                            </div>
+                            <div className="col-5 text-end"><small className="text-lg">~ </small><NumberFormat thousandSeparator displayType={"text"} prefix='$' value={0} />
+                            </div>
+                        </div>
+                        {allowance > 0 && <div className="row pt-3">
+                            <div className="col-7 d-flex align-items-center">
+                                <img
+                                    className="img-fluid"
+                                    width="22"
+                                    height="22"
+                                    src={
+                                        (selectedToken?.logo || selectedToken?.logoURI)
+                                            ? (selectedToken?.logo || selectedToken?.logoURI)
+                                            : "../../assets/images/eth.png"
+                                    }
+                                    onError={imageOnErrorHandler}
+                                    alt=""
+                                />
+                                <p className="ps-2">Confirm Withdrawal</p>
+                            </div>
+                            <div className="col-5 d-flex align-items-center justify-content-end">
+                                {loader ? <Loader /> :
+                                    <>
+                                        <small className="text-lg">~ </small>
+                                        <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(allowance * boneUSDValue).toFixed(6)} />
+                                    </>
+                                }
+                            </div>
+                        </div>}
+                        <div className="row pt-2">
+                            <div className="col-7 d-flex align-items-center">
+                                <img
+                                    className="img-fluid"
+                                    width="22"
+                                    height="22"
+                                    src={
+                                        (selectedToken?.logo || selectedToken?.logoURI)
+                                            ? (selectedToken?.logo || selectedToken?.logoURI)
+                                            : "../../assets/images/eth.png"
+                                    }
+                                    onError={imageOnErrorHandler}
+                                    alt=""
+                                />
+                                <p className="ps-2">Withdrawal Complete</p>
+                            </div>
+                            <div className="col-5 d-flex align-items-center justify-content-end">
+                                {loader ? <Loader /> :
+                                    <>
+                                        <small className="text-lg">~ </small>
+                                        <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(6)} />
+                                    </>}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="pop-bottom">
+                        <div>
+                            <a
+                                className="btn primary-btn w-100"
+                                onClick={() => { setWidModState({ ...withModalState, step1: false, step2: true, title: "Confirm Transfer" }); }}
+                            >
+                                Continue
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>)
+            }
+        }
+
+        const withDrawModalOpen = useCallback(()=>{setWithdrawModalOpen(false)},[])
         return (
             <CommonModal
                 title={withModalState.title}
                 show={show}
-                setshow={() => { setWithdrawModal(false); setWithdrawModalOpen(false) }}
+                setshow={withDrawModalOpen}
                 externalCls="dark-modal-100 bridge-ht2"
             >
                 {/* Withdraw tab popups start */}
@@ -339,137 +478,12 @@ const WithdrawModal: React.FC<{
                     {/* note popup start*/}
                     {page == "bridge" ?
                         <>
-                            {!dWState && withModalState.step0 && (
-                                <div className="popmodal-body no-ht">
-                                    <div className="pop-block withdraw_pop">
-                                        <div className="pop-top">
-                                            <div className="inner-top p-2">
-                                                <h4 className="text-md ff-mos pb-3">What isn't possible</h4>
-                                                <div className="row">
-                                                    <div className="col-1"><X style={{ background: "red", borderRadius: "50px", padding: "2px" }} /> </div>
-                                                    <div className="col-11">
-                                                        <h6 className="text-sm ff-mos pb-1">Cancelling any withdraw</h6>
-                                                        <p className="text-sm">You cannot cancel a withdrawal once you have begun the process.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="inner-top p-2">
-                                                <h4 className="text-md ff-mos pb-3">What's possible</h4>
-                                                <div className="row">
-                                                    <div className="col-1"><Check style={{ background: "green", borderRadius: "50px", padding: "2px" }} /> </div>
-                                                    <div className="col-11">
-                                                        <h6 className="text-sm ff-mos pb-1">Moving funds from Puppy Net to Goerli</h6>
-                                                        <p className="text-sm">Here you can move frunds from the Puppy Net network to Goerli network on the Puppy Net Chain. This will take 20-30 minutes.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="pop-bottom">
-                                            <div>
-                                                <a
-                                                    className="btn primary-btn w-100"
-                                                    onClick={() => { setWidModState({ ...withModalState, step0: false, step1: true, title: "Transfer Overview" }); estGasFee(); }}
-                                                >
-                                                    Continue
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
+                            {withModalStep0()}
                             {/* note popup end */}
                             {/* confirm deposit popop starts */}
-                            {!dWState && withModalState.step1 && (
-                                <div className="popmodal-body no-ht">
-                                    <div className="backDepState" onClick={() => {
-                                        setWidModState({ ...withModalState, step0: true, step1: false, title: "Please Note" }); estGasFee();
-                                    }}><ArrowCircleLeftIcon /></div>
-                                    <div className="pop-block">
-                                        <div className="pop-top">
-                                            <div className="border-2 rounded-circle d-flex align-item-center justify-content-center p-3 w-25 m-auto" style={{ borderColor: "#F28B03" }}>
-                                                <img width="80" src="../../assets/images/gas-station.png" alt="" />
-                                            </div>
-                                            <div className="text-center">
-                                                <h4 className="ff-mos fs-6 pt-4">Withdrawal process for Proof of Stake consists of 2 transactions</h4>
-                                                <p className="text-sm pt-1">Estimated total gas required for these transactions.</p>
-                                            </div>
-                                            <div className="row pt-3">
-                                                <div className="col-7 d-flex align-items-center">
-                                                    <img
-                                                        className="img-fluid"
-                                                        width="22"
-                                                        height="22"
-                                                        src="../../assets/images/shib-logo.png"
-                                                        alt=""
-                                                    />
-                                                    <p className="ps-2">Withdrawal Initialized</p>
-                                                </div>
-                                                <div className="col-5 text-end"><small className="text-lg">~ </small><NumberFormat thousandSeparator displayType={"text"} prefix='$' value={0} />
-                                                </div>
-                                            </div>
-                                            {allowance > 0 && <div className="row pt-3">
-                                                <div className="col-7 d-flex align-items-center">
-                                                    <img
-                                                        className="img-fluid"
-                                                        width="22"
-                                                        height="22"
-                                                        src={
-                                                            (selectedToken?.logo || selectedToken?.logoURI)
-                                                                ? (selectedToken?.logo || selectedToken?.logoURI)
-                                                                : "../../assets/images/eth.png"
-                                                        }
-                                                        onError={imageOnErrorHandler}
-                                                        alt=""
-                                                    />
-                                                    <p className="ps-2">Confirm Withdrawal</p>
-                                                </div>
-                                                <div className="col-5 d-flex align-items-center justify-content-end">
-                                                    {loader ? <Loader /> :
-                                                        <>
-                                                            <small className="text-lg">~ </small>
-                                                            <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(allowance * boneUSDValue).toFixed(6)} />
-                                                        </>
-                                                    }
-                                                </div>
-                                            </div>}
-                                            <div className="row pt-2">
-                                                <div className="col-7 d-flex align-items-center">
-                                                    <img
-                                                        className="img-fluid"
-                                                        width="22"
-                                                        height="22"
-                                                        src={
-                                                            (selectedToken?.logo || selectedToken?.logoURI)
-                                                                ? (selectedToken?.logo || selectedToken?.logoURI)
-                                                                : "../../assets/images/eth.png"
-                                                        }
-                                                        onError={imageOnErrorHandler}
-                                                        alt=""
-                                                    />
-                                                    <p className="ps-2">Withdrawal Complete</p>
-                                                </div>
-                                                <div className="col-5 d-flex align-items-center justify-content-end">
-                                                    {loader ? <Loader /> :
-                                                        <>
-                                                            <small className="text-lg">~ </small>
-                                                            <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(6)} />
-                                                        </>}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="pop-bottom">
-                                            <div>
-                                                <a
-                                                    className="btn primary-btn w-100"
-                                                    onClick={() => { setWidModState({ ...withModalState, step1: false, step2: true, title: "Confirm Transfer" }); }}
-                                                >
-                                                    Continue
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
+                            {
+                                withModalStep1()
+                            }
                             {/* Initialize withdraw popup start */}
                             {withModalState.step2 && !dWState && (
                                 <div className="popmodal-body no-ht">

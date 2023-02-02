@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Header from "../layout/header";
 import StepOne from "./stepOne";
 import StepTwo from "./stepTwo";
@@ -124,7 +124,7 @@ const Rewards = () => {
     } catch (err) {
       Sentry.captureMessage("handleEdit", err);
     }
-  };
+  }
 
   const stepHandler = (type) => {
     if (type === "next") {
@@ -170,7 +170,9 @@ const Rewards = () => {
         });
       }
     }
-  };
+  }
+
+  console.log(valId, 'valID');
 
   return (
     <>
