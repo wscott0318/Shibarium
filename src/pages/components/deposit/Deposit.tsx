@@ -50,35 +50,53 @@ const Deposit: React.FC<any> =
                 fromExponential(+depositTokenInput * Math.pow(10, 18))
             );
             let currentprice: any = await currentGasPrice(web3);
-            let allowance =
+            let checkAllowance =
                 (await getAllowanceAmount(
                     library,
                     selectedToken?.parentContract,
                     account,
                     dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
                 )) || 0;
-            // console.log("allowance  ", allowance);
+            console.log("allowance  ", checkAllowance);
             let allowanceGas: any = 0;
-            if (+allowance < +depositTokenInput) {
-                let approvalInstance = new web3.eth.Contract(ERC20, selectedToken?.parentContract);
-                await approvalInstance.methods.approve(dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY, amountWei).estimateGas({ from: user }).then((gas: any) => {
-                    setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
-                    allowanceGas = +(+gas * +currentprice) / Math.pow(10, 18);
-                })
+            console.log(" step 1")
+            if (+checkAllowance < +depositTokenInput) {
+                console.log("amount is greater than allowance step 2")
+                getFeeForApproval(currentprice, amountWei, user);
             }
+            else {
+                console.log("step 3")
+                getFeeForDeposit(allowanceGas, currentprice, user, amountWei)
+            }
+        }
+
+        const getFeeForApproval = async (currentprice: any, amountWei: any, user: any) => {
+            console.log("step 4")
+            let allowGas:any=0;
+            let approvalInstance = new web3.eth.Contract(ERC20, selectedToken?.parentContract);
+            await approvalInstance.methods.approve(dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY, amountWei).estimateGas({ from: user })
+                .then((gas: any) => {
+                    setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
+                    allowGas = +(+gas * +currentprice) / Math.pow(10, 18);
+                    console.log(" step 5")
+                    getFeeForDeposit(allowGas, currentprice, user, amountWei);
+                })
+        }
+        const getFeeForDeposit = async (allowanceGas: any, currentprice: any, user: any, amountWei: any) => {
             let instance = new web3.eth.Contract(
                 depositManagerABI,
                 dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
             )
-                console.log("token =>" , selectedToken?.parentContract)
+            console.log(" step 6")
+            console.log("token =>", selectedToken?.parentContract, instance)
             await instance.methods.depositERC20ForUser(selectedToken?.parentContract, user, amountWei).estimateGas({ from: user })
                 .then(async (gas: any) => {
-                    let gasFee = (+gas * +currentprice) / Math.pow(10, 18);
-                    // if(allowanceGas > 0) gasFee = (+gas * +currentprice) / Math.pow(10, 18) + +allowanceGas;
-                    // else gasFee = (+gas * +currentprice) / Math.pow(10, 18);
+                    let gasFee;
+                    if (allowanceGas > 0) gasFee = (+gas * +currentprice) / Math.pow(10, 18) + +allowanceGas;
+                    else gasFee = (+gas * +currentprice) / Math.pow(10, 18);
                     setEstGas(+gasFee);
                 }).catch((err: any) => {
-                    console.log("error calculating gas fee" ,err);
+                    console.log("error calculating gas fee", err);
                 })
         }
         const approvalForDeposit = async (amount: any, token: any, contract: any) => {
