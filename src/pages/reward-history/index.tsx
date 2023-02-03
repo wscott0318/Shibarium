@@ -146,7 +146,7 @@ export default function Unbond() {
                   <tbody>
                     {slicedList.length ? (
                       slicedList.map((value: any, index: any) => (
-                        <tr key={value.timestamp}>
+                        <tr key={index}>
                           <td>
                             <span className="tb-data">
                               {index + 1}
@@ -216,7 +216,7 @@ export default function Unbond() {
                     <tbody>
                       {slicedList.length ? (
                         slicedList.map((value: any, index: any) => (
-                          <tr key={value?.timestamp}>
+                          <tr key={index}>
                             <td>
                               <div className="d-flex align-items-center">
                                 <div className="coin-img me-2">
