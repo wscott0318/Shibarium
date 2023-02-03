@@ -13,6 +13,9 @@ export const startWithdraw = async (clientType, burnOrExitTxHash, fast = 0) => {
     let addressData;
     await burnGetAPI(clientType, tokenAddr).then((res) => {
       addressData = res.data.data.token;
+    }).catch((err) => {
+      addressData = {};
+      console.log(err);
     });
     return addressData;
   };

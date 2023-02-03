@@ -38,7 +38,7 @@ const StepThree: React.FC<any> = ({
             setCompleted(true);
             let link = getExplorerLink(chainId, res, 'transaction');
             setHashLink(link)
-        });
+        }).catch((err:any) => console.log(err));
     }
 
     const startExitWithBurntTokens = async () => {

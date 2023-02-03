@@ -9,9 +9,14 @@ export const startBurn = async (clientType, token, from, amount) => {
   console.log(`begin exit from L2 -> L1 using ${clientType}`);
   const handleBurn = async (tokenAddr) => {
     let addressData;
-    await burnGetAPI(clientType, tokenAddr).then((res) => {
-      addressData = res.data.data.token;
-    });
+    await burnGetAPI(clientType, tokenAddr)
+      .then((res) => {
+        addressData = res.data.data.token;
+      })
+      .catch((err) => {
+        addressData = {};
+        console.log(err);
+      });
     return addressData;
   };
   try {

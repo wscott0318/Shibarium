@@ -192,7 +192,7 @@ const WithdrawModal: React.FC<{
                     .estimateGas({ from: user })
                     .then((gas: any) => {
                         setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
-                    });
+                    }).catch((err:any)=>console.log(err));
             }
             let instance = new web3.eth.Contract(
                 withdrawManagerABI,
@@ -202,7 +202,7 @@ const WithdrawModal: React.FC<{
             await instance.methods
                 .processExits(dynamicChaining[chainId].BONE)
                 .estimateGas({ from: user })
-                .then(async (gas: any) => {
+                .then((gas: any) => {
                     let gasFee = (+gas * +currentprice) / Math.pow(10, 18);
                     setEstGas(+gasFee);
                     setLoader(false);

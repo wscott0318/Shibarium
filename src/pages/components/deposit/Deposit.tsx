@@ -71,36 +71,46 @@ const Deposit: React.FC<any> =
         }
 
         const getFeeForApproval = async (currentprice: any, amountWei: any, user: any) => {
-            console.log("step 4")
-            let allowGas:any=0;
-            let approvalInstance = new web3.eth.Contract(ERC20, selectedToken?.parentContract);
-            await approvalInstance.methods.approve(dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY, amountWei).estimateGas({ from: user })
-                .then((gas: any) => {
-                    setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
-                    allowGas = +(+gas * +currentprice) / Math.pow(10, 18);
-                    console.log(" step 5")
-                    console.log("allow gas => " , allowGas);
-                    getFeeForDeposit(allowGas, currentprice, user, amountWei);
-                }).catch((err:any)=>{
-                    console.log("Error in calculating approval gas fee ",err );
-                })
+            try {
+                console.log("step 4")
+                let allowGas: any = 0;
+                let approvalInstance = new web3.eth.Contract(ERC20, selectedToken?.parentContract);
+                await approvalInstance.methods.approve(dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY, amountWei).estimateGas({ from: user })
+                    .then((gas: any) => {
+                        setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
+                        allowGas = +(+gas * +currentprice) / Math.pow(10, 18);
+                        console.log(" step 5")
+                        console.log("allow gas => ", allowGas);
+                        getFeeForDeposit(allowGas, currentprice, user, amountWei);
+                    }).catch((err: any) => {
+                        console.log("Error in calculating approval gas fee ", err);
+                    })
+            }
+            catch (error: any) {
+                console.log("error => line no. 90", error);
+            }
         }
         const getFeeForDeposit = async (allowanceGas: any, currentprice: any, user: any, amountWei: any) => {
-            let instance = new web3.eth.Contract(
-                depositManagerABI,
-                dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-            )
-            console.log(" step 6")
-            console.log("token =>", selectedToken?.parentContract, instance)
-            await instance.methods.depositERC20ForUser(selectedToken?.parentContract, user, amountWei).estimateGas({ from: user })
-                .then(async (gas: any) => {
-                    let gasFee;
-                    if (allowanceGas > 0) gasFee = (+gas * +currentprice) / Math.pow(10, 18) + +allowanceGas;
-                    else gasFee = (+gas * +currentprice) / Math.pow(10, 18);
-                    setEstGas(+gasFee);
-                }).catch((err: any) => {
-                    console.log("error calculating gas fee", err);
-                })
+            try {
+                let instance = new web3.eth.Contract(
+                    depositManagerABI,
+                    dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+                )
+                console.log(" step 6")
+                console.log("token =>", selectedToken?.parentContract, instance)
+                await instance.methods.depositERC20ForUser(selectedToken?.parentContract, user, amountWei).estimateGas({ from: user })
+                    .then((gas: any) => {
+                        let gasFee;
+                        if (allowanceGas > 0) gasFee = (+gas * +currentprice) / Math.pow(10, 18) + +allowanceGas;
+                        else gasFee = (+gas * +currentprice) / Math.pow(10, 18);
+                        setEstGas(+gasFee);
+                    }).catch((err: any) => {
+                        console.log("error calculating gas fee", err);
+                    })
+            }
+            catch (error: any) {
+                console.log("error => line no. 112", error);
+            }
         }
         const approvalForDeposit = async (amount: any, token: any, contract: any) => {
             try {
