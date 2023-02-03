@@ -13,10 +13,7 @@ yarn.lock*
 .idea/
 .vercel
 .next
-.env
-.env.local
-.env.development
-.env.production
+
 /.next/
 
 public/sw.js

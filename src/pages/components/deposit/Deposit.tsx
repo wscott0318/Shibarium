@@ -79,7 +79,10 @@ const Deposit: React.FC<any> =
                     setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
                     allowGas = +(+gas * +currentprice) / Math.pow(10, 18);
                     console.log(" step 5")
+                    console.log("allow gas => " , allowGas);
                     getFeeForDeposit(allowGas, currentprice, user, amountWei);
+                }).catch((err:any)=>{
+                    console.log("Error in calculating approval gas fee ",err );
                 })
         }
         const getFeeForDeposit = async (allowanceGas: any, currentprice: any, user: any, amountWei: any) => {
