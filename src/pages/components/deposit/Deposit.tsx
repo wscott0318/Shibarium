@@ -97,7 +97,7 @@ const Deposit: React.FC<any> =
                     dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
                 )
                 console.log(" step 6")
-                console.log("token =>", selectedToken?.parentContract, instance)
+                console.log("token =>", selectedToken?.parentContract,selectedToken?.childContract, user, amountWei)
                 await instance.methods.depositERC20ForUser(selectedToken?.parentContract, user, amountWei).estimateGas({ from: user })
                     .then((gas: any) => {
                         let gasFee;

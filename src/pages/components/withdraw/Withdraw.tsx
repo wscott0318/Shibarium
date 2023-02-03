@@ -14,28 +14,16 @@ import CommonModal from "../CommonModel";
 import ERC20 from "../../../ABI/ERC20Abi.json";
 import * as Sentry from "@sentry/nextjs";
 import Web3 from "web3";
-import { SUPPORTED_NETWORKS } from "app/modals/NetworkModal";
 import { useAppDispatch } from "app/state/hooks";
 import fromExponential from "from-exponential";
-import {
-    addTransaction,
-    finalizeTransaction,
-} from "app/state/transactions/actions";
-import { getExplorerLink } from "app/functions";
 import withdrawManagerABI from "../../../ABI/withdrawManagerABI.json";
-import l2withdrawABI from "../../../ABI/l2withdrawABI.json";
 import { ArrowCircleLeftIcon } from "@heroicons/react/outline";
 import { Check, X } from "react-feather";
 import Loader from "app/components/Loader";
 import { PUPPYNET517 } from "app/hooks/L1Block";
-import { Spinner } from "react-bootstrap";
-import { CircularProgress } from "@material-ui/core";
-// @ts-ignore TYPE NEEDS FIXING
-import cookie from "cookie-cutter";
 import { startBurn, burnStatus } from "../../../exit/burn";
 import useLocalStorageState from "use-local-storage-state";
 import StepThree from "./StepThree";
-import { startWithdraw } from "exit/withdraw";
 
 const WithdrawModal: React.FC<{
     page: string;
