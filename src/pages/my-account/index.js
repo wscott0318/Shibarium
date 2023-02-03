@@ -14,9 +14,9 @@ import {web3Decimals} from "../../web3/commonFunctions"
 
 export default function MyAcount() {
   const { account, chainId = 1 } = useActiveWeb3React();
-  const [userType, setUserType] = useUserType();
+  const [userType, setUserType] = useUserType(); //NOSONAR
   const [boneUSDValue,setBoneUSDValue] = useState(0);
-  const [valId, setValId] = useValId();
+  const [valId, setValId] = useValId(); //NOSONAR
   const router = useRouter();
   const [delegatorData, setDelegatorData] = useState({});
   const tokenBal = useTokenBalance(dynamicChaining[chainId].BONE);

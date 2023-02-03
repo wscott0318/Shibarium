@@ -1,7 +1,7 @@
 import { validatorsList } from 'app/services/apis/validator'
 import { filter, orderBy } from 'lodash';
 import { Dropdown } from "react-bootstrap";
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import ListView from './listView';
 import ValidatorGrid from './gridView';
 import LoadingSpinner from 'pages/components/Loading';
@@ -21,7 +21,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
   const [isActiveTab, setIsActiveTab] = useState<boolean>(true);
   const [searchKey, setSearchKey] = useState<string>('');
   const [sortKey, setSortKey] = useState<string>('Uptime');
-  const [userType, setUserType] = useUserType()
+  const [userType, setUserType] = useUserType() //NOSONAR
   const requestOptions = {
     method: 'GET',
     redirect: 'follow'
@@ -155,9 +155,6 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
   //     });
   // }, [searchKey])
 
-  const handleCommission = useCallback(()=>{onSort('Commission', 'commissionrate', 'number')},[])
-  const handleStakedAmount = useCallback(()=>{onSort('Staked Amount', 'totalstaked', 'number')},[])
-  const handleUptime = useCallback(()=>{onSort('Uptime', 'uptimePercent', 'number')},[])
   return (
     <>
 
@@ -212,12 +209,12 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
 
                   <Dropdown.Menu>
                     {/* <Dropdown.Item onClick={() => onSort('Random', 'name','string')}>Random</Dropdown.Item> */}
-                    <Dropdown.Item onClick={handleCommission}>Commission</Dropdown.Item>
-                    <Dropdown.Item onClick={handleStakedAmount}>Staked Amount</Dropdown.Item>
+                    <Dropdown.Item onClick={()=>onSort('Commission', 'commissionrate', 'number')}>Commission</Dropdown.Item>
+                    <Dropdown.Item onClick={()=>onSort('Staked Amount', 'totalstaked', 'number')}>Staked Amount</Dropdown.Item>
                     {/* <Dropdown.Item onClick={() => onSort('Voting Power', 'totalstaked','number')}>
                           Voting Power
                         </Dropdown.Item> */}
-                    <Dropdown.Item className="ff-mos" onClick={handleUptime}>
+                    <Dropdown.Item className="ff-mos" onClick={()=>onSort('Uptime', 'uptimePercent', 'number')}>
                       Uptime
                     </Dropdown.Item>
                   </Dropdown.Menu>

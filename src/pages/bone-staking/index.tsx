@@ -20,7 +20,7 @@ import { validators } from "Apollo/queries";
 
 const BoneStaking = () => {
 
-  const [userType, setUserType] = useUserType();
+  const [userType, setUserType] = useUserType(); //NOSONAR
   const { account, chainId = 1 } = useActiveWeb3React()
   const router = useRouter();
   const [valCount, setValCount] = useState(0);

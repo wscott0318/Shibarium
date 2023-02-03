@@ -80,7 +80,7 @@ const HeadlessUiModal: HeadlessUiModalType<Props> = ({ children: childrenProp, t
 
   return (
     <>
-      {trigger && trigger}
+      {trigger && trigger} 
       <HeadlessUiModalControlled isOpen={open} onDismiss={() => setOpen(false)}>
         {children}
       </HeadlessUiModalControlled>

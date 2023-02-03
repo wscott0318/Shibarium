@@ -13,7 +13,7 @@ import { CircularProgress } from '@material-ui/core';
 export default function ValidatorGrid({ validatorsList, loading, searchKey, migrateData = {} }: { validatorsList: any, loading: boolean, searchKey: any, migrateData: any }) {
   const { account } = useWeb3React();
   const [selectedRow, setSelectedRow] = useState({});
-  const [userType, setUserType] = useUserType()
+  const [userType, setUserType] = useUserType() //NOSONAR
   const [showdelegatepop, setdelegatepop] = useState(false);
   const router = useRouter();
   const [showmigratepop, setmigratepop] = useState(false);

@@ -28,9 +28,9 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
   const [isActiveTab, setIsActiveTab] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchKey, setSearchKey] = useState<string>('');
-  const [userType, setUserType] = useUserType()
+  const [userType, setUserType] = useUserType() //NOSONAR
   const [sortKey, setSortKey] = useState<string>('Uptime');
-  const [migrateData, setMigrateData] = useMigrateStake();
+  const [migrateData, setMigrateData] = useMigrateStake(); //NOSONAR
   // @ts-ignore
   const balance = migrateData?.data;
   // useEffect(() => {

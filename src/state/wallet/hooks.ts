@@ -3,7 +3,7 @@ import { Currency, CurrencyAmount, JSBI, NATIVE, Token } from 'shibarium-get-cha
 import ERC20_ABI from '../../constants/abis/erc20.json'
 import { isAddress } from '../../functions/validate'
 import { useAllTokens } from '../../hooks/Tokens'
-import { useMulticall2Contract, useMulticallContract } from '../../hooks/useContract'
+import { useMulticallContract } from '../../hooks/useContract'
 import { useActiveWeb3React } from '../../services/web3'
 import { useMultipleContractSingleData, useSingleContractMultipleData } from '../../state/multicall/hooks'
 import { useMemo } from 'react'
@@ -154,31 +154,4 @@ export function useAllTokenBalancesWithLoadingIndicator() {
   return useTokenBalancesWithLoadingIndicator(account ?? undefined, allTokensArray)
 }
 
-// TODO: Replace
-// get the total owned, unclaimed, and unharvested UNI for account
-// export function useAggregateUniBalance(): CurrencyAmount<Token> | undefined {
-//   const { account, chainId } = useActiveWeb3React();
 
-//   const uni = chainId ? UNI[chainId] : undefined;
-
-//   const uniBalance: CurrencyAmount<Token> | undefined = useTokenBalance(
-//     account ?? undefined,
-//     uni
-//   );
-//   const uniUnclaimed: CurrencyAmount<Token> | undefined =
-//     useUserUnclaimedAmount(account);
-//   const uniUnHarvested: CurrencyAmount<Token> | undefined = useTotalUniEarned();
-
-//   if (!uni) return undefined;
-
-//   return CurrencyAmount.fromRawAmount(
-//     uni,
-//     JSBI.add(
-//       JSBI.add(
-//         uniBalance?.quotient ?? JSBI.BigInt(0),
-//         uniUnclaimed?.quotient ?? JSBI.BigInt(0)
-//       ),
-//       uniUnHarvested?.quotient ?? JSBI.BigInt(0)
-//     )
-//   );
-// }

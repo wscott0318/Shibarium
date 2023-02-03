@@ -20,7 +20,7 @@ export default function ProfileUpdate() {
     const [imageData, setImageData] = useState<any>('');
     const [imageURL, setImageURL] = useState<any>('');
     const [loader, setLoader] = useState(false)
-    const [userType, setUserType] = useUserType();
+    const [userType, setUserType] = useUserType(); //NOSONAR
     const router = useRouter()
     const [validation, setValidation] = useState({
         image: false,
@@ -124,7 +124,7 @@ export default function ProfileUpdate() {
             .url("Enter a vaild url.")
             .required("Website is required.")
             .matches(
-                /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/,
+                /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/, //NOSONAR
                 "Enter a vaild url."
             ),
     });

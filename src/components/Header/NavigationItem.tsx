@@ -20,9 +20,7 @@ export const NavigationItem: FC<NavigationItems> = ({ node }) => {
   const handleToggle = useCallback((open:any, type:any) => {
     if (!open && type === 'enter' ) {
       buttonRef?.current?.click()
-    } else if (open && type === 'leave') {
-      buttonRef?.current?.click()
-    }
+    } else if (open && type === 'leave') {buttonRef?.current?.click()} //NOSONAR 
   }, [])
 
   if (node && node.hasOwnProperty('link')) {

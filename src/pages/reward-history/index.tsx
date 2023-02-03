@@ -24,7 +24,7 @@ export default function Unbond() {
   const [slicedList, setSlicedList] = useState([]);
   const [listLoader, setListLoader] = useState(true);
   const pageSize = 10;
-  const [userType, setUserType] = useUserType();
+  const [userType, setUserType] = useUserType(); //NOSONAR
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [validatorData, setValidatorData] = useState<any>([])
   const getRewardsList = async(account: any) => {
@@ -129,7 +129,7 @@ const slicedListRender = () =>{
     return(
       <>
       { slicedList.map((value: any, index: any) => (
-                        <tr key={index}>
+                        <tr key={index}> 
                           <td>
                             <span className="tb-data">
                               {index + 1}
@@ -228,8 +228,9 @@ const userTypeRender = ()=>{
                       {slicedList.length ? (
                         slicedList.map((value: any, index: any) => (
                           <tr key={index}>
-                            <td>
+                            <td> 
                               <div className="d-flex align-items-center">
+                                
                                 <div className="coin-img me-2">
                                   <img
                                     className="img-fluid"

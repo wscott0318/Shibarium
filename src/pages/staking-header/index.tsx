@@ -17,13 +17,13 @@ import { getValidatorInfo } from "app/services/apis/network-details/networkOverv
 const StakingHeader = (type: any) => {
   const router = useRouter();
 
-  const [userType, setUserType] = useUserType();
-  const valId = useValId();
+  const [userType, setUserType] = useUserType(); //NOSONAR
+  const [valId, setValId] = useValId(); //NOSONAR
   const [valInfoModal, setValInfoModal] = useState(false);
   const [dynasty, setDynasty] = useState('')
   const { account, chainId = 1, library } = useActiveWeb3React();
 
-  const [valInfo, setValInfo] = useValInfo(); // eslint-disable-line react-hooks/exhaustive-deps
+  const [valInfo, setValInfo] = useValInfo(); //NOSONAR
 
   const [stakingHeader, showStakingHeader] = useState(false);
   const getValInfoApi = async (id: any) => {

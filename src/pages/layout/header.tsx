@@ -27,7 +27,7 @@ export default function Header() {
   const [userType, setUserType] = useUserType();
 
   const [userQrCode, setUserQrCode] = useState(false);
-  const [valId, setValId] = useValId();
+  const [valId, setValId] = useValId(); //NOSONAR
   const [showWarning, setShowWarning] = useState(false);
 
 

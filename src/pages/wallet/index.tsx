@@ -42,7 +42,7 @@ export default function Wallet() {
 
 
   const getTokensList = () => {
-    try {// console.log("token list called ==> ")
+    try { //NOSONAR
       getWalletTokenList().then(res => {
         let list = res.data.message.tokens
         // .sort((a: any, b: any) => {

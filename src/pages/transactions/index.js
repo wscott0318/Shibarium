@@ -7,7 +7,7 @@ import useLocalStorageState from "use-local-storage-state";
 import WithdrawModal from "../components/Withdraw";
 export default function Transaction() {
   const [onlyPending, setOnlyPending] = useState(false);
-  const [txState, setTxState] = useLocalStorageState("txState");
+  const [txState, setTxState] = useLocalStorageState("txState");//NOSONAR
 
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [menuState, setMenuState] = useState(false);

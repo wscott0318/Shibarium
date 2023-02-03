@@ -1,5 +1,5 @@
 import Pagination from 'app/components/Pagination';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NumberFormat from 'react-number-format';
 import TimeAgo from 'timeago-react';
 import * as Sentry from "@sentry/nextjs";
@@ -19,7 +19,7 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue, loading })
     }
   }, [allCheckpoints])
 
-  const pageChangeHandler = useCallback((index: number) => {
+  const pageChangeHandler = (index: number) => {
     try {
       const slicedList = allCheckpoints.slice((index - 1) * pageSize, (index * pageSize))
       setCheckpoints(slicedList)
@@ -28,7 +28,7 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue, loading })
     catch (err: any) {
       Sentry.captureMessage("pageChangeHandler", err);
     }
-  },[])
+  }
   return (
     <>
       <div className="h-auto p-4 mb-4 cus-card mb-lg-5">
