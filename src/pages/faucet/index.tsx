@@ -81,7 +81,12 @@ export default function faucet() {
     // console.log("receptcha event ", e)
     setClickedCaptcha(true);
   }
-
+  const imageOnErrorHandler = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
+    event.currentTarget.className = "error me-3";
+  };
   return (
     <>
       <main className="main-content">
@@ -148,10 +153,12 @@ export default function faucet() {
                                 onChange={handleChange}
                               >
                                 <FormControlLabel value="1" control={<Radio />} 
-                                label={<div className="d-flex justify-content-center align-items-center" style={{height:"34px"}}><img width={18} src="../../assets/images/eth.png" className="me-2"/> Goerli BONE</div>} 
+                                label={<div className="d-flex justify-content-center align-items-center" style={{height:"34px"}}>
+                                  <img width={18} src="../../assets/images/eth.png" className="me-2" onError={imageOnErrorHandler}/> Goerli BONE</div>} 
                                 className={`radioButtons ${isActive == 1 && "active"}`}/>
                                 <FormControlLabel value="2" control={<Radio />} 
-                                label={<div className="d-flex justify-content-center align-items-center" style={{height:"34px"}}><img width={24} src="../../assets/images/shib-logo.png" className="me-2"/> Puppy Net BONE</div>} 
+                                label={<div className="d-flex justify-content-center align-items-center" style={{height:"34px"}}>
+                                  <img width={24} src="../../assets/images/shib-logo.png" className="me-2" onError={imageOnErrorHandler}/> Puppy Net BONE</div>} 
                                 className={`radioButtons ${isActive == 2 && "active"}`} />
                               </RadioGroup>
                             </div>
@@ -212,7 +219,7 @@ export default function faucet() {
                   <CircularProgress size={130} style={{color:"#f27c02"}}/>
                 </span> : 
                 <span className="p-4">
-                  <div><img width="180" height="170" className="img-fluid" src="../../assets/images/Ellipse.png" alt="" /></div>
+                  <div><img width="180" height="170" className="img-fluid" src="../../assets/images/Ellipse.png" alt="" onError={imageOnErrorHandler}/></div>
                 </span>
                 }
               </div>

@@ -24,13 +24,16 @@ import { NETWORK_ICON, NETWORK_LABEL } from "../../config/networks";
 import { dynamicChaining } from "web3/DynamicChaining";
 import ManageToken from "../components/ManageToken"
 import WithdrawModal from "pages/components/withdraw/Withdraw";
-import { PUPPYNET517 } from "app/hooks/L1Block";
+import { L1Block, PUPPYNET517 } from "app/hooks/L1Block";
 import { ERC20_ABI } from "app/constants/abis/erc20";
 import Deposit from "pages/components/deposit/Deposit";
+import Loader from "app/components/Loader";
 
 export default function Withdraw() {
-  const { chainId = 1, account } = useActiveWeb3React();
+  const { chainId = 1, account, library } = useActiveWeb3React();
+  const lib: any = library;
   const web3L2 = PUPPYNET517();
+  const web3 = L1Block();
   const bridgeType: string = localStorage.getItem("bridgeType") || "deposit";
   const [menuState, setMenuState] = useState(false);
   const [selectedToken, setSelectedToken] = useState(
@@ -43,7 +46,8 @@ export default function Withdraw() {
   const [dWState, setDWState] = useState(
     bridgeType === "deposit" ? true : false
   );
-  const [tokenBalanceL2, setTokenBalanceL2] = useState("0.00");
+  const [loader, setLoader] = useState(true);
+  const [tokenBalanceL2, setTokenBalanceL2] = useState(0);
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const [hashLink, setHashLink] = useState("");
   const [openManageToken, setOpenManageToken] = useState(false)
@@ -71,7 +75,7 @@ export default function Withdraw() {
     withdrawAmount: Yup.number()
       .typeError("Only digits are allowed.")
       .min(0.001, "Invalid Amount.")
-      .max(selectedToken?.balance, "Insufficient Balance")
+      .max(tokenBalanceL2, "Insufficient Balance")
       .required("Amount is required."),
   });
   const callDepositModal = (values: any, resetForm: any) => {
@@ -93,13 +97,24 @@ export default function Withdraw() {
   };
 
   useEffect(() => {
+    setLoader(true);
     depositChainTokenBalance();
   }, [selectedToken]);
   const depositChainTokenBalance = async () => {
     if (Object.keys(selectedToken).length) {
-      let address = selectedToken?.childContract || selectedToken?.address;
+      let address: any;
       let bal: any;
-      const contract = new web3L2.eth.Contract(ERC20_ABI, address);
+      let contract: any;
+      if (chainId === ChainId.GÖRLI) {
+        address = selectedToken?.childContract || selectedToken?.address;
+        contract = new web3L2.eth.Contract(ERC20_ABI, address);
+        console.log("get l2 balance  => ", chainId)
+      }
+      else {
+        address = selectedToken?.parentContract || selectedToken?.address;
+        contract = new web3.eth.Contract(ERC20_ABI, address);
+        console.log("get l1 balance  => ", address, contract)
+      }
       await contract.methods
         .balanceOf(account)
         .call()
@@ -109,13 +124,19 @@ export default function Withdraw() {
             .call()
             .then((d: number) => {
               bal = +(+res / Math.pow(10, d)).toFixed(tokenDecimal);
-              // console.log("balance", bal);
+              console.log("l2 balance  => ", bal)
+              setLoader(false);
             });
         });
       setTokenBalanceL2(bal);
     }
   }
-
+  const imageOnErrorHandler = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
+    event.currentTarget.className = "error me-3";
+  };
   return (
     <>
       <ToastContainer />
@@ -217,6 +238,7 @@ export default function Withdraw() {
                               className="img-fluid"
                               src="../../assets/images/i-info-icon.png"
                               alt=""
+                              onError={imageOnErrorHandler}
                             />
                           </span>
                           <span className="alignment">
@@ -319,6 +341,7 @@ export default function Withdraw() {
                                                 className="img-fluid"
                                                 src={selectedToken?.logo ? selectedToken?.logo : selectedToken?.logoURI}
                                                 alt=""
+                                                onError={imageOnErrorHandler}
                                               />
                                               :
                                               (
@@ -326,6 +349,7 @@ export default function Withdraw() {
                                                   className="img-fluid"
                                                   src={"../../assets/images/eth.png"}
                                                   alt=""
+                                                  onError={imageOnErrorHandler}
                                                 />
                                               )
                                           }
@@ -340,15 +364,19 @@ export default function Withdraw() {
                                         // placeholder="Ethereum chain"
                                         />
                                       </div>
-                                      <div className="rt-chain">
+                                      <div className="rt-chain d-flex align-items-center">
                                         <span className="fld-head lite-800">
                                           Balance:
                                         </span>
-                                        <span className="fld-txt lite-800">
-                                          {selectedToken?.balance
-                                            ? selectedToken?.balance
-                                            : "00.00"} {selectedToken?.key || selectedToken?.symbol}
-                                        </span>
+                                        {loader ? (
+                                          <Loader stroke="orange" />
+                                        ) : (
+                                          <span className="fld-txt lite-800 wrap_txt">
+                                            {selectedToken?.balance
+                                              ? selectedToken?.balance
+                                              : "00.00"} {selectedToken?.key || selectedToken?.symbol}
+                                          </span>
+                                        )}
                                       </div>
                                     </div>
                                   </div>
@@ -358,6 +386,7 @@ export default function Withdraw() {
                                         className="form-field position-relative fix-coin-field"
                                         onClick={() => {
                                           setOpenManageToken(!openManageToken)
+                                          setLoader(true);
                                         }}
                                       >
                                         <div className="right-spacing">
@@ -370,6 +399,7 @@ export default function Withdraw() {
                                                   ? selectedToken.logo || selectedToken?.logoURI
                                                   : "../../assets/images/eth.png"
                                               }
+                                              onError={imageOnErrorHandler}
                                               alt=""
                                             />
                                           </div>
@@ -435,6 +465,7 @@ export default function Withdraw() {
                                               chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI
                                               ]
                                             }
+                                            onError={imageOnErrorHandler}
                                             alt=""
                                           />
                                         </div>
@@ -452,13 +483,17 @@ export default function Withdraw() {
                                           }
                                         />
                                       </div>
-                                      <div className="rt-chain">
+                                      <div className="rt-chain d-flex align-items-center">
                                         <span className="fld-head lite-800">
                                           Balance:
                                         </span>
-                                        <span className="fld-txt lite-800">
-                                          {tokenBalanceL2} {selectedToken?.key || selectedToken?.symbol}
-                                        </span>
+                                        {loader ? (
+                                          <Loader stroke="orange" />
+                                        ) : (
+                                          <span className="fld-txt lite-800 wrap_txt">
+                                            {tokenBalanceL2} {selectedToken?.key || selectedToken?.symbol}
+                                          </span>
+                                        )}
                                       </div>
                                     </div>
                                   </div>
@@ -527,6 +562,7 @@ export default function Withdraw() {
                                               chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI
                                               ]
                                             }
+                                            onError={imageOnErrorHandler}
                                             alt=""
                                           />
                                         </div>
@@ -544,13 +580,17 @@ export default function Withdraw() {
                                           disabled={true}
                                         />
                                       </div>
-                                      <div className="rt-chain">
+                                      <div className="rt-chain d-flex align-items-center">
                                         <span className="fld-head lite-800">
                                           Balance:
                                         </span>
-                                        <span className="fld-txt lite-800">
-                                          {tokenBalanceL2} {selectedToken?.key || selectedToken?.symbol}
-                                        </span>
+                                        {loader ? (
+                                          <Loader stroke="orange" />
+                                        ) : (
+                                          <span className="fld-txt lite-800 wrap_txt">
+                                            {tokenBalanceL2} {selectedToken?.key || selectedToken?.symbol}
+                                          </span>
+                                        )}
                                       </div>
                                     </div>
                                   </div>
@@ -560,6 +600,7 @@ export default function Withdraw() {
                                         className="form-field position-relative fix-coin-field h-100"
                                         onClick={() => {
                                           setOpenManageToken(!openManageToken)
+                                          setLoader(true);
                                         }}
                                       >
                                         <div className="right-spacing">
@@ -573,6 +614,7 @@ export default function Withdraw() {
                                                   ? selectedToken?.logo || selectedToken?.logoURI
                                                   : "../../assets/images/shiba-round-icon.png"
                                               }
+                                              onError={imageOnErrorHandler}
                                               alt=""
                                             />
                                           </div>
@@ -606,7 +648,7 @@ export default function Withdraw() {
                                         </div>
                                         <div
                                           className="rt-chain"
-                                          onClick={(e) => setFieldValue("withdrawAmount", selectedToken?.balance)}
+                                          onClick={(e) => setFieldValue("withdrawAmount", tokenBalanceL2)}
                                         >
                                           <span className="orange-txt fw-bold withdrawMax">
                                             MAX
@@ -637,12 +679,14 @@ export default function Withdraw() {
                                                 className="img-fluid"
                                                 src={selectedToken.logo || selectedToken?.logoURI}
                                                 alt=""
+                                                onError={imageOnErrorHandler}
                                               />) :
                                               (
                                                 <img
                                                   className="img-fluid"
                                                   src={"../../assets/images/eth.png"}
                                                   alt=""
+                                                  onError={imageOnErrorHandler}
                                                 />
                                               )
                                           }
@@ -656,15 +700,19 @@ export default function Withdraw() {
                                           disabled={true}
                                         />
                                       </div>
-                                      <div className="rt-chain">
+                                      <div className="rt-chain d-flex align-items-center">
                                         <span className="fld-head lite-800">
                                           Balance:
                                         </span>
-                                        <span className="fld-txt lite-800">
-                                          {selectedToken?.balance
-                                            ? selectedToken?.balance
-                                            : "00.00"} {selectedToken?.key || selectedToken?.symbol}
-                                        </span>
+                                        {loader ? (
+                                          <Loader stroke="orange" />
+                                        ) : (
+                                          <span className="fld-txt lite-800 wrap_txt">
+                                            {selectedToken?.balance
+                                              ? selectedToken?.balance
+                                              : "00.00"} {selectedToken?.key || selectedToken?.symbol}
+                                          </span>
+                                        )}
                                       </div>
                                     </div>
                                   </div>

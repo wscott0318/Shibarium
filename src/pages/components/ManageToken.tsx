@@ -142,49 +142,19 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     try {
       await getWalletTokenList().then((res) => {
         let list = res.data.message.tokens;
-        // console.log("list ==> ", list);
         list.forEach(async (x: any) => {
-          if (x.parentName === "BONE") {
-            // console.log("value of x ==> ", lib, account, " bone address=>", dynamicChaining[chainId].BONE);
-            if (chainId === ChainId.GÖRLI) {
-              await getTokenBalance(
-                lib,
-                account,
-                dynamicChaining[chainId].BONE
-              ).then((res: any) => {
-                x.balance = res;
-                // console.log("executed 1", res);
-              }).catch((err: any) => {
-                console.log("Error fetching balance => ", err);
-              })
-            }
-            else {
-              await getTokenBalance(
-                lib,
-                account,
-                x.childContract
-              ).then((res: any) => {
-                x.balance = res;
-                // console.log("executed 2 if", res);
-              }).catch((err: any) => {
-                console.log("Error fetching balance => ", err);
-              })
-            }
-          } else {
-            await getTokenBalance(lib, account, x.parentContract).then((res: any) => {
+            let tokenAddress = chainId === ChainId.GÖRLI ? x?.parentContract : x?.childContract;
+            await getTokenBalance(lib, account, tokenAddress).then((res: any) => {
               x.balance = res;
-              // console.log("executed 2 else");
             }).catch((err: any) => {
               console.log("Error fetching balance => ", err);
             })
-          }
         });
-        // console.log("executed 3");
         setTokenList(list);
         setTokenModalList([...localTokens, ...list]);
-        setTimeout(()=>{
+        setTimeout(() => {
           setIsLoading(false);
-        },1000);
+        }, 1000);
       });
     } catch (err: any) {
       setIsLoading(false);

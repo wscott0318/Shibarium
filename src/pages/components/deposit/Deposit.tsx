@@ -2,7 +2,7 @@ import { useActiveWeb3React } from 'app/services/web3';
 import fromExponential from 'from-exponential';
 import React, { useState } from 'react'
 import Web3 from 'web3';
-import { currentGasPrice, getAllowanceAmount, tokenDecimal, USER_REJECTED_TX } from 'web3/commonFunctions';
+import { currentGasPrice, getAllowanceAmount, parseError, tokenDecimal, USER_REJECTED_TX } from 'web3/commonFunctions';
 import { dynamicChaining } from 'web3/DynamicChaining';
 import CommonModal from '../CommonModel';
 import ERC20 from "../../../ABI/ERC20Abi.json";
@@ -32,7 +32,8 @@ const Deposit: React.FC<any> =
         const web3: any = new Web3(lib?.provider);
         const [allowance, setAllowance] = useState<any>(0);
         const [estGas, setEstGas] = useState<any>(0);
-        const dispatch = useAppDispatch();
+        const dispatch:any = useAppDispatch();
+        const [error, setError] = useState("");
         const [depModalState, setDepModState] = useState({
             step0: true,
             step1: false,
@@ -81,12 +82,17 @@ const Deposit: React.FC<any> =
                         allowGas = +(+gas * +currentprice) / Math.pow(10, 18);
                         console.log(" step 5")
                         console.log("allow gas => ", allowGas);
+                        // await approvalForDeposit(amountWei, selectedToken?.parentContract, dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY)
                         getFeeForDeposit(allowGas, currentprice, user, amountWei);
                     }).catch((err: any) => {
+                        setEstGas(0);
+                        setAllowance(0);
                         console.log("Error in calculating approval gas fee ", err);
                     })
             }
             catch (error: any) {
+                setEstGas(0);
+                setAllowance(0);
                 console.log("error => line no. 90", error);
             }
         }
@@ -97,7 +103,7 @@ const Deposit: React.FC<any> =
                     dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
                 )
                 console.log(" step 6")
-                console.log("token =>", selectedToken?.parentContract,selectedToken?.childContract, user, amountWei)
+                console.log("token =>", selectedToken?.parentContract, selectedToken?.childContract, user, amountWei)
                 await instance.methods.depositERC20ForUser(selectedToken?.parentContract, user, amountWei).estimateGas({ from: user })
                     .then((gas: any) => {
                         let gasFee;
@@ -105,10 +111,21 @@ const Deposit: React.FC<any> =
                         else gasFee = (+gas * +currentprice) / Math.pow(10, 18);
                         setEstGas(+gasFee);
                     }).catch((err: any) => {
-                        console.log("error calculating gas fee", err);
+                        setEstGas(0);
+                        let error = parseError(err);
+                        if (error.message == "execution reverted: exceed maximum deposit amount") {
+                            setError("Exceeded maximum deposit amount.")
+                        }
+                        else if (error.message == "execution reverted: TOKEN_NOT_SUPPORTED") {
+                            setError("Token not supported.");
+                        }
+                        else {
+                            setError("Unable to process request.");
+                        }
                     })
             }
             catch (error: any) {
+                setEstGas(0);
                 console.log("error => line no. 112", error);
             }
         }
@@ -244,6 +261,8 @@ const Deposit: React.FC<any> =
                             title: "Please Note",
                         });
                         setDepositModal(false);
+                        setEstGas(0);
+                        setAllowance(0);
                     }
                 });
         }
@@ -251,6 +270,8 @@ const Deposit: React.FC<any> =
         const callDepositContract = async () => {
             try {
                 if (account) {
+                    setEstGas(0);
+                    setAllowance(0);
                     setDepModState({
                         step0: false,
                         step1: false,
@@ -298,6 +319,11 @@ const Deposit: React.FC<any> =
                 setDepositModal(false);
             }
         };
+
+        const handleStepOne = () => {
+            if (estGas > 0) setDepModState({ ...depModalState, step1: false, step2: true, title: "Confirm Transfer" });
+        }
+
         const imageOnErrorHandler = (
             event: React.SyntheticEvent<HTMLImageElement, Event>
         ) => {
@@ -412,10 +438,13 @@ const Deposit: React.FC<any> =
                                     </div>
                                 </div>
                                 <div className="pop-bottom">
+                                    {error !== "" &&
+                                        <div className='text-center pb-2 warning-color'>{error}</div>
+                                    }
                                     <div>
                                         <a
-                                            className="btn primary-btn w-100"
-                                            onClick={() => setDepModState({ ...depModalState, step1: false, step2: true, title: "Confirm Transfer" })}
+                                            className={`btn primary-btn w-100 ${estGas <= 0 && "disabled btn-disabled"}`}
+                                            onClick={() => handleStepOne()}
                                         >
                                             Continue
                                         </a>

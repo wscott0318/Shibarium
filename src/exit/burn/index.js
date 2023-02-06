@@ -1,10 +1,12 @@
-import { utils } from "web3";
+import Web3, { utils } from "web3";
 import { getClient } from "../../client/shibarium";
 import { getToWeiUnitFromDecimal } from "../../utils/weiDecimal";
 // import { StakingAPI } from "../../client/staking-api"
 import { burnGetAPI } from "../../services/apis/bridge/burn";
 import { PUPPYNET517 } from "app/hooks/L1Block";
-
+import { useActiveWeb3React } from "app/services/web3";
+import { dynamicChaining } from "web3/DynamicChaining";
+import {withdrawManagerABI} from "../../ABI/withdrawManagerABI.json"
 export const startBurn = async (clientType, token, from, amount) => {
   console.log(`begin exit from L2 -> L1 using ${clientType}`);
   const handleBurn = async (tokenAddr) => {
@@ -29,7 +31,8 @@ export const startBurn = async (clientType, token, from, amount) => {
     const format = getToWeiUnitFromDecimal(tokenData?.childDecimals);
     const { tokenType } = tokenData;
     const amountWei = utils.toWei(String(amount), format);
-
+   
+    
     if (tokenType !== "ERC20") {
       console.log(`${tokenType} not implemented yet`);
       process.exit(1);
@@ -39,6 +42,7 @@ export const startBurn = async (clientType, token, from, amount) => {
 
     const erc20Token = client.erc20(childAddr, false);
     console.log("sending burn/burn tx on Child Contract, L2:");
+    console.log("erc20 token => " , erc20Token , client)
     const result = await erc20Token.withdrawStart(amountWei, { from });
 
     const txHash = await result.getTransactionHash();

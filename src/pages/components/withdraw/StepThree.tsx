@@ -3,8 +3,16 @@ import { getExplorerLink } from 'app/functions';
 import { useActiveWeb3React } from 'app/services/web3';
 import React, { useEffect, useState } from 'react'
 import useLocalStorageState from 'use-local-storage-state';
+import Web3 from 'web3';
 import { finalise } from "../../../exit/finalise"
 import { startWithdraw } from "../../../exit/withdraw"
+import ExitTokenABI from "../../../ABI/ExitTokenABI.json";
+import withdrawManagerABI from "../../../ABI/withdrawManagerABI.json";
+import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
+import { useAppDispatch } from 'app/state/hooks';
+import { dynamicChaining } from 'web3/DynamicChaining';
+import { ChainId } from 'shibarium-get-chains';
+import { parseError } from 'web3/commonFunctions';
 const StepThree: React.FC<any> = ({
     withdrawTokenInput,
     selectedToken,
@@ -14,6 +22,7 @@ const StepThree: React.FC<any> = ({
     checkpointSigned,
     challengePeriodCompleted = true,
     setProcessing,
+    switchNetwork,
     setStep,
     setHashLink,
     setChallengePeriodCompleted,
@@ -21,8 +30,10 @@ const StepThree: React.FC<any> = ({
     setCompleted, page }) => {
 
     const [txState, setTxState] = useLocalStorageState<any>("txState");
-    const { account, chainId = 1 } = useActiveWeb3React();
-
+    const { account, chainId = 1, library } = useActiveWeb3React();
+    const lib: any = library;
+    const web3: any = new Web3(lib?.provider);
+    const dispatch: any = useAppDispatch();
     useEffect(() => {
         if (txState && page == "tx") {
             let link = getExplorerLink(chainId, txState?.txHash, 'transaction')
@@ -31,31 +42,128 @@ const StepThree: React.FC<any> = ({
     }, []);
 
     const processExit = async () => {
-        setStep("Completed");
-        await finalise(txState?.token?.parentContract, account).then((res: any) => {
-            setTxState({ ...txState, "processExit": true, "finalHash": res });
-            setProcessing((processing: any) => [...processing, "Completed"])
-            setCompleted(true);
-            let link = getExplorerLink(chainId, res, 'transaction');
-            setHashLink(link)
-        }).catch((err:any) => console.log(err));
+        try {
+            setStep("Completed");
+            let user: any = account
+            let instance = new web3.eth.Contract(withdrawManagerABI, dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY);
+            // let withdrawState: any = await startWithdraw(type, txState?.txHash, 0);
+            let token = selectedToken?.parentContract || txState?.token?.parentContract;
+            instance.methods.processExits(token)
+                .send({ from: account })
+                .on("transactionHash", (res: any) => {
+                    dispatch(
+                        addTransaction({
+                            hash: res,
+                            from: user,
+                            chainId,
+                            summary: `${res}`,
+                        })
+                    );
+                    let link = getExplorerLink(chainId, res, 'transaction');
+                    setHashLink(link)
+                })
+                .on("receipt", (res: any) => {
+                    dispatch(
+                        finalizeTransaction({
+                            hash: res.transactionHash,
+                            chainId,
+                            receipt: {
+                                to: res.to,
+                                from: res.from,
+                                contractAddress: res.contractAddress,
+                                transactionIndex: res.transactionIndex,
+                                blockHash: res.blockHash,
+                                transactionHash: res.transactionHash,
+                                blockNumber: res.blockNumber,
+                                status: 1,
+                            },
+                        })
+                    );
+                    setTxState({ ...txState, "processExit": true, "finalHash": res });
+                    setProcessing((processing: any) => [...processing, "Completed"])
+                    setCompleted(true);
+
+                })
+                .on("error", (res: any) => {
+                    console.log("processExit ", res);
+                });
+        }
+        catch (err: any) {
+            console.log("processExit ", err);
+        }
+        // await finalise(txState?.token?.parentContract, account).then((res: any) => {
+
+        // }).catch((err: any) => console.log(err));
     }
 
     const startExitWithBurntTokens = async () => {
-        setStep("Challenge Period");
-        let type = selectedToken?.bridgetype || txState?.token?.bridgetype;
-        let withdrawState: any = await startWithdraw(type, txState?.txHash, 0);
-        if (withdrawState) {
-            if (type === "pos") {
-                setProcessing((processing: any) => [...processing, "Completed"])
-                setStep("Completed");
-                setCompleted(true);
-                setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true, "processExit": true, 'withdrawHash': withdrawState });
+        try {
+            if(chainId === ChainId.PUPPYNET517){
+                await switchNetwork();
             }
-            else {
-                setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true, 'withdrawHash': withdrawState });
-                setChallengePeriodCompleted(true);
-                setProcessing((processing: any) => [...processing, "Challenge Period"])
+            setStep("Challenge Period");
+            let user: any = account;
+            let type = selectedToken?.bridgetype || txState?.token?.bridgetype;
+            let contract = "0x03E00CA773C76c496aF9194d0C4840cD785929D4";
+            let instance = new web3.eth.Contract(ExitTokenABI, contract);
+            console.log("instance" , instance);
+            // let withdrawState: any = await startWithdraw(type, txState?.txHash, 0);
+            instance.methods.startExitWithBurntTokens(txState?.txHash)
+                .send({ from: account })
+                .on("transactionHash", (res: any) => {
+                    dispatch(
+                        addTransaction({
+                            hash: res,
+                            from: user,
+                            chainId,
+                            summary: `${res}`,
+                        })
+                    );
+                })
+                .on("receipt", (res: any) => {
+                    dispatch(
+                        finalizeTransaction({
+                            hash: res.transactionHash,
+                            chainId,
+                            receipt: {
+                                to: res.to,
+                                from: res.from,
+                                contractAddress: res.contractAddress,
+                                transactionIndex: res.transactionIndex,
+                                blockHash: res.blockHash,
+                                transactionHash: res.transactionHash,
+                                blockNumber: res.blockNumber,
+                                status: 1,
+                            },
+                        })
+                    );
+                    if (type === "pos") {
+                        setProcessing((processing: any) => [...processing, "Completed"]);
+                        setStep("Completed");
+                        setCompleted(true);
+                        setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true, "processExit": true, 'withdrawHash': res });
+                    }
+                    else {
+                        setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true, 'withdrawHash': res });
+                        setChallengePeriodCompleted(true);
+                        setProcessing((processing: any) => [...processing, "Challenge Period"]);
+                    }
+
+                })
+                .on("error", (res: any) => {
+                    console.log("startExitWithBurntTokens ", res);
+                    setStep("Checkpoint");
+                    if(res.code === 4001){
+                        console.log("user denied transaction");
+                    }
+                });
+        }
+        catch (err: any) {
+            console.log("startExitWithBurntTokens ", err);
+            let error = parseError(err);
+            setStep("Checkpoint");
+            if(error.code === 4001){
+                console.log("user denied transaction");
             }
         }
     }

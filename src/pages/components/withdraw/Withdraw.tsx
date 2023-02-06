@@ -11,7 +11,7 @@ import {
 } from "web3/commonFunctions";
 import { dynamicChaining } from "web3/DynamicChaining";
 import CommonModal from "../CommonModel";
-import ERC20 from "../../../ABI/ERC20Abi.json";
+import MRC20 from "../../../ABI/MRC20ABI.json";
 import * as Sentry from "@sentry/nextjs";
 import Web3 from "web3";
 import { useAppDispatch } from "app/state/hooks";
@@ -24,7 +24,11 @@ import { PUPPYNET517 } from "app/hooks/L1Block";
 import { startBurn, burnStatus } from "../../../exit/burn";
 import useLocalStorageState from "use-local-storage-state";
 import StepThree from "./StepThree";
-
+import { SUPPORTED_NETWORKS } from "app/modals/NetworkModal";
+// @ts-ignore TYPE NEEDS FIXING
+import cookie from 'cookie-cutter'
+import { addTransaction, finalizeTransaction } from "app/state/transactions/actions";
+import { getExplorerLink } from "app/functions";
 const WithdrawModal: React.FC<{
     page: string;
     dWState: boolean;
@@ -71,19 +75,61 @@ const WithdrawModal: React.FC<{
             step6: false,
             title: "Please Note",
         });
-
+        const switchNetwork = async () => {
+            let key = chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI;
+            console.debug(`Switching to chain ${key}`, SUPPORTED_NETWORKS[key])
+            const params = SUPPORTED_NETWORKS[key]
+            cookie.set('chainId', key, params)
+            try {
+                await library?.send('wallet_switchEthereumChain', [{ chainId: `0x${key.toString(16)}` }, account])
+            } catch (switchError) {
+                // This error code indicates that the chain has not been added to MetaMask.
+                // @ts-ignore TYPE NEEDS FIXING
+                if (switchError.code === 4902) {
+                    try {
+                        console.log({ params, account });
+                        await library?.send('wallet_addEthereumChain', [params, account])
+                    } catch (addError) {
+                        // handle "add" error
+                        console.error(`Add chain error ${addError}`)
+                    }
+                }
+                console.error(`Switch chain error ${switchError}`)
+                // handle other "switch" errors
+            }
+        }
         const callWithdrawContract = async () => {
             try {
                 if (account) {
                     setButtonLoader(true);
-                    setWidModState({
-                        ...withModalState,
-                        step2: false,
-                        step3: true,
-                        title: "Transaction Pending",
-                    });
-                    setStep("Initialized");
-                    submitWithdraw();
+                    console.log("approve amount entered");
+                    let allowance =
+                        (await getAllowanceAmount(
+                            library,
+                            dynamicChaining[chainId].BONE,
+                            account,
+                            dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
+                        )) || 0;
+                    console.log("step 2");
+                    if (+withdrawTokenInput > +allowance) {
+                        console.log("step 3");
+                        approveWithdraw();
+                    }
+                    else {
+                        setButtonLoader(true);
+                        setWidModState({
+                            ...withModalState,
+                            step2: false,
+                            step3: true,
+                            title: "Transaction Pending",
+                        });
+                        setStep("Initialized");
+                        if (chainId == ChainId.GÖRLI) {
+                            await switchNetwork();
+                        }
+                        submitWithdraw();
+
+                    }
                 }
             } catch (err: any) {
                 if (err.code !== USER_REJECTED_TX) {
@@ -91,41 +137,149 @@ const WithdrawModal: React.FC<{
                 }
             }
         };
+        const approveWithdraw = async () => {
+            try {
+                console.log("step 5");
+                if (account) {
+                    let user = account;
+                    let amount = web3.utils.toBN(fromExponential(+withdrawTokenInput * Math.pow(10, 18)));
+                    let instance = new web3.eth.Contract(MRC20, selectedToken?.parentContract);
+                    let gasFee = await instance.methods.approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount).estimateGas({ from: user })
+                    let encodedAbi = await instance.methods.approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount).encodeABI()
+                    let CurrentgasPrice: any = await currentGasPrice(web3)
+                    await web3.eth.sendTransaction({
+                        from: user,
+                        to: dynamicChaining[chainId].BONE,
+                        gas: (parseInt(gasFee) + 30000).toString(),
+                        gasPrice: CurrentgasPrice,
+                        data: encodedAbi
+                    })
+                        .on('transactionHash', (res: any) => {
+                            dispatch(
+                                addTransaction({
+                                    hash: res,
+                                    from: user,
+                                    chainId,
+                                    summary: `${res}`,
+                                })
+                            )
+                            let link = getExplorerLink(chainId, res, 'transaction')
+                            setHashLink(link)
+                        }).on('receipt', async (res: any) => {
+                            dispatch(
+                                finalizeTransaction({
+                                    hash: res.transactionHash,
+                                    chainId,
+                                    receipt: {
+                                        to: res.to,
+                                        from: res.from,
+                                        contractAddress: res.contractAddress,
+                                        transactionIndex: res.transactionIndex,
+                                        blockHash: res.blockHash,
+                                        transactionHash: res.transactionHash,
+                                        blockNumber: res.blockNumber,
+                                        status: 1
+                                    }
+                                })
+                            )
+                            submitWithdraw();
+                        })
+                }
+            } catch (err: any) {
+                Sentry.captureMessage("approvewithdraw ", err);
+            }
+
+        }
 
         const submitWithdraw = async () => {
             try {
                 setHashLink("");
                 setButtonLoader(false);
                 let user: any = account;
-                let burn = await startBurn(
-                    selectedToken?.bridgetype,
-                    selectedToken?.childContract,
-                    user,
-                    withdrawTokenInput
+                const amountWei = web3.utils.toBN(
+                    fromExponential(+withdrawTokenInput * Math.pow(10, 18))
                 );
-                // let burn: boolean = false;
-                // setTimeout(() => {
-                //     burn = true;
-                if (burn) {
-                    setProcessing((processing: any) => [...processing, "Initialized"]);
-                    let link = `https://shibascan-517.hailshiba.com/tx/${burn}`;
-                    setHashLink(link);
-                    setStep("Checkpoint");
-                    setTxState({
-                        checkpointSigned: false,
-                        challengePeriod: false,
-                        processExit: false,
-                        amount: withdrawTokenInput,
-                        token: selectedToken,
-                        txHash: burn,
+                const instance = new web3.eth.Contract(MRC20, selectedToken?.parentContract);
+                console.log("instance ", instance.methods)
+                instance.methods.withdraw(amountWei)
+                    .send({ from: account })
+                    .on("transactionHash", (res: any) => {
+                        dispatch(
+                            addTransaction({
+                                hash: res,
+                                from: user,
+                                chainId,
+                                summary: `${res}`,
+                            })
+                        );
+                        setProcessing((processing: any) => [...processing, "Initialized"]);
+                        setStep("Checkpoint");
+                        setTxState({
+                            checkpointSigned: false,
+                            challengePeriod: false,
+                            processExit: false,
+                            amount: withdrawTokenInput,
+                            token: selectedToken,
+                            txHash: res,
+                        });
+                        console.log("transaction hash ", res)
+                        let link = getExplorerLink(chainId, res, "transaction");
+                        setHashLink(link);
+                    })
+                    .on("receipt", (res: any) => {
+                        dispatch(
+                            finalizeTransaction({
+                                hash: res.transactionHash,
+                                chainId,
+                                receipt: {
+                                    to: res.to,
+                                    from: res.from,
+                                    contractAddress: res.contractAddress,
+                                    transactionIndex: res.transactionIndex,
+                                    blockHash: res.blockHash,
+                                    transactionHash: res.transactionHash,
+                                    blockNumber: res.blockNumber,
+                                    status: 1,
+                                },
+                            })
+                        );
+
+                    })
+                    .on("error", (res: any) => {
+                        if (res.code === 4001) {
+
+                        }
                     });
-                }
+                // let burn = await startBurn(
+                //     selectedToken?.bridgetype,
+                //     selectedToken?.childContract,
+                //     user,
+                //     withdrawTokenInput
+                // );
+                // // let burn: boolean = false;
+                // // setTimeout(() => {
+                // //     burn = true;
+                // if (burn) {
+                //     setProcessing((processing: any) => [...processing, "Initialized"]);
+                //     let link = `https://shibascan-517.hailshiba.com/tx/${burn}`;
+                //     setHashLink(link);
+                //     setStep("Checkpoint");
+                //     setTxState({
+                //         checkpointSigned: false,
+                //         challengePeriod: false,
+                //         processExit: false,
+                //         amount: withdrawTokenInput,
+                //         token: selectedToken,
+                //         txHash: burn,
+                //     });
+                // }
                 // }, 3000);
 
             } catch (err: any) {
                 if (err.code !== USER_REJECTED_TX) {
                     Sentry.captureMessage("submitWithdraw ", err);
                 }
+                console.log("error => ", err);
                 setWithdrawModalOpen(false);
                 setWidModState({
                     step0: true,
@@ -140,7 +294,7 @@ const WithdrawModal: React.FC<{
                 setWithdrawModal(false);
                 setStep("Initialized");
                 setProcessing([]);
-                // console.log("error =>> ", err);
+                console.log("error =>> ", err);
             }
         };
 
@@ -172,7 +326,7 @@ const WithdrawModal: React.FC<{
             // console.log("allowance", allowance);
             if (+allowance < +withdrawTokenInput) {
                 let approvalInstance = new web3.eth.Contract(
-                    ERC20,
+                    MRC20,
                     dynamicChaining[chainId].BONE
                 );
                 await approvalInstance.methods
@@ -180,7 +334,7 @@ const WithdrawModal: React.FC<{
                     .estimateGas({ from: user })
                     .then((gas: any) => {
                         setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
-                    }).catch((err:any)=>console.log(err));
+                    }).catch((err: any) => console.log(err));
             }
             let instance = new web3.eth.Contract(
                 withdrawManagerABI,
@@ -652,6 +806,7 @@ const WithdrawModal: React.FC<{
                                             hashLink,
                                             processing,
                                             selectedToken,
+                                            switchNetwork,
                                             setProcessing,
                                             setStep,
                                             step,
@@ -673,6 +828,7 @@ const WithdrawModal: React.FC<{
                                     selectedToken,
                                     setProcessing,
                                     setStep,
+                                    switchNetwork,
                                     step,
                                     withdrawTokenInput,
                                     setChallengePeriodCompleted,

@@ -232,3 +232,11 @@ export const getUserTimeZone = (time) => {
   let date = new Date(time);
   return date.toLocaleString();
 };
+
+export const parseError = (err) => {
+  let error = `${err}`;
+  let splitError = error.split("{");
+  splitError.shift();
+  let stringErr = JSON.parse("{" + splitError.join("{"));
+  return stringErr.originalError;
+};
