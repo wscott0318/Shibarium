@@ -183,6 +183,7 @@
     "shibarium-chains": "^1.0.0",
     "shibarium-get-chains": "^1.0.0",
     "timeago-react": "^3.0.5",
+    "ts-node": "^10.9.1",
     "use-local-storage-state": "^17.2.0",
     "wagmi": "^0.9.5",
     "web3": "^1.8.0",

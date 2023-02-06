@@ -156,7 +156,7 @@ function toCallState(
 }
 
 export function useSingleContractMultipleData(
-  contract: Contract | null | undefined, //NOSONAR 
+  contract: Contract | null | undefined,  //NOSONAR 
   methodName: string,
   callInputs: OptionalMethodInputs[],
   options?: ListenerOptions,

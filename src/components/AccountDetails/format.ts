@@ -156,7 +156,7 @@ export const formatBalance = (value: BigNumberish, decimals = 18, maxFraction = 
   if (maxFraction > 0) {
     const split = formatted.split('.')
     if (split.length > 1) {
-      return split[0] + '.' + split[1].substr(0, maxFraction) //NOSONAR
+      return split[0] + '.' + split[1].substr(0, maxFraction)  //NOSONAR
     }
   }
   return formatted

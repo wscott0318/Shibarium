@@ -21,7 +21,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
   const [isActiveTab, setIsActiveTab] = useState<boolean>(true);
   const [searchKey, setSearchKey] = useState<string>('');
   const [sortKey, setSortKey] = useState<string>('Uptime');
-  const [userType, setUserType] = useUserType() //NOSONAR
+  const [userType, setUserType] = useUserType()  //NOSONAR
   const requestOptions = {
     method: 'GET',
     redirect: 'follow'

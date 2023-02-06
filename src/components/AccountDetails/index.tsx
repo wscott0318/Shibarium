@@ -172,10 +172,10 @@ const AccountDetails: FC<AccountDetailsProps> = ({
             {!!pendingTransactions.length || !!confirmedTransactions.length ? (
               <>
                 {pendingTransactions.map((el, index) => (
-                  <Transaction key={index} hash={el} /> //NOSONAR 
+                  <Transaction key={index} hash={el} />  //NOSONAR 
                 ))}
                 {confirmedTransactions.map((el, index) => (
-                  <Transaction key={index} hash={el} /> //NOSONAR 
+                  <Transaction key={index} hash={el} />  //NOSONAR 
                 ))}
               </>
             ) : (
