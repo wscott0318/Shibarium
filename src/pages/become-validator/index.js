@@ -18,7 +18,7 @@ const Rewards = () => {
   const [userType, setUserType] = useUserType();
   const [valId, setValId] = useValId();
   const router = useRouter();
-  const { account } = useActiveWeb3React();
+  const { account, active } = useActiveWeb3React();
 
   const [activInput, setActivInput] = useState({
     name: false,
@@ -50,6 +50,15 @@ const Rewards = () => {
       getValInfo();
     }
   }, [account, userStatus, userType]);
+
+  useEffect(() => {
+    const { ethereum } = window 
+    const handleAccountsChanged = () => {
+      router.push("/bone-staking")
+    }
+
+    ethereum.on('accountsChanged', handleAccountsChanged)
+  }, [active, account, userStatus, userType])
 
   const getValInfo = () => {
     let id = account;
