@@ -47,7 +47,7 @@
     "@ethersproject/strings": "^5.4.0",
     "@ethersproject/units": "^5.4.0",
     "@gnosis.pm/safe-apps-web3-react": "^0.6.0",
-    "@headlessui/react": "^1.4.0",
+    "@headlessui/react": "^1.7.9",
     "@heroicons/react": "^1.0.0",
     "@lingui/cli": "^3.12.1",
     "@lingui/core": "^3.12.1",
