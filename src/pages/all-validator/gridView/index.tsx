@@ -17,19 +17,42 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
   const [showdelegatepop, setdelegatepop] = useState(false);
   const router = useRouter();
   const [showmigratepop, setmigratepop] = useState(false);
+  
   const tootlTipDesc = (x: any) => {
     if (account) {
-      if (x.fundamental === 1 || x.uptimePercent <= inActiveCount) return <div className="tool-desc tool-desc-grid">This is a fundamental node. <br /> Delegation is not enabled here.</div>;
-      else if (router.asPath.split("/")[1] === "migrate-stake") return <div className="tool-desc tool-desc-grid"> {x.contractAddress == migrateData.contractAddress ? "Stakes cannot be migrated to same Validator." : "Migrate Your Stakes here."}</div>;
-      else return <div className="tool-desc tool-desc-grid">Delegate here.</div>
+      if (x.fundamental === 1) {
+        return <div className="tool-desc">This is a fundamental node. <br /> Delegation is not enabled here.</div>;
+      } else if (x.uptimePercent <= inActiveCount) {
+        return <div className="tool-desc">Offline since <br/> {x.missedLatestCheckpointcount}  <br /> checkpoints</div>
+      }
+      else if (router.asPath.split("/")[1] === "migrate-stake") {
+        return <div className="tool-desc tool-desc-sm">{x.contractAddress == migrateData.contractAddress ? "Stakes cannot be migrated to same Validator." : "Migrate Your Stakes here."}</div>;
+      }
+      else {
+        return <div className="tool-desc tool-desc-sm">Delegation is enabled.</div>
+      }
     }
   }
+  
   const imageOnErrorHandler = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
     event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
     event.currentTarget.className = "error me-3";
   };
+
+  const buttonText = (x: any) => {
+    if(router.asPath.split("/")[1] === "migrate-stake") {
+      return "Stake here"
+    } else {
+      if(x.checkpointstatus === 0 && +(x.missedLatestCheckpointcount) >= 500 && x.fundamental === 2) {
+        return <p style={{ fontSize: '12px'}}>Offline since <br/> {x.missedLatestCheckpointcount}  <br /> checkpoints</p> 
+      } else {
+        return "Delegate"
+      }
+    }
+  }
+  
   return (
     <>
       <DelegatePopup
@@ -48,7 +71,7 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
           {validatorsList && validatorsList.length ? (
             <div className="row side-cover">
               {validatorsList.map((validator: any) => (
-                <div key={validator?.signer} className="col-xl-3 col-sm-6 col-12 side-space mb-sm-4 mb-4">
+                <div key={validator?.signer} className="mb-4 col-xl-3 col-sm-6 col-12 side-space mb-sm-4">
                   <div className="box">
                     <div className="box-head">
                       <div className="d-flex align-items-center justify-content-start">
@@ -112,14 +135,14 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
                           </span>
                         </div>
                       </div>
-                      <div className="text-center mt-3">
+                      <div className="mt-3 text-center">
                         {userType === "Validator" ? (
                           <Link
                             href={`/all-validator/${validator.signer}`}
                             passHref
                           >
                             <div className="delegate_btn">
-                              <p className="btn primary-btn  light-text w-100">
+                              <p className="btn primary-btn light-text w-100">
                                 View
                               </p>
                               <div className="tool-desc tool-desc-grid">View Validator Info.</div>
@@ -141,12 +164,10 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
                                   setdelegatepop(true);
                                 }
                               }}
-                              className="btn primary-btn  light-text w-100"
+                              className="btn primary-btn light-text w-100"
                             >
                               <span>
-                                {router.asPath.split("/")[1] === "migrate-stake"
-                                  ? "Stake here"
-                                  : "Delegate"}
+                                {buttonText(validator)}
                               </span>
                             </button>
                             {tootlTipDesc(validator)}
