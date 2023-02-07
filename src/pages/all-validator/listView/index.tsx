@@ -17,10 +17,13 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
   const [showdelegatepop, setdelegatepop] = useState(false);
   const [showmigratepop, setmigratepop] = useState(false);
   const router = useRouter();
+  
   const tootlTipDesc = (x: any) => {
     if (account) {
-      if (x.fundamental === 1 || x.uptimePercent <= inActiveCount) {
+      if (x.fundamental === 1) {
         return <div className="tool-desc">This is a fundamental node. <br /> Delegation is not enabled here.</div>;
+      } else if (x.uptimePercent <= inActiveCount) {
+        return <div className="tool-desc">Offline since <br/> {x.missedLatestCheckpointcount}  <br /> checkpoints</div>
       }
       else if (router.asPath.split("/")[1] === "migrate-stake") {
         return <div className="tool-desc tool-desc-sm">{x.contractAddress == migrateData.contractAddress ? "Stakes cannot be migrated to same Validator." : "Migrate Your Stakes here."}</div>;
@@ -30,12 +33,26 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
       }
     }
   }
+  
   const imageOnErrorHandler = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
     event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
     event.currentTarget.className = "error";
   };
+
+  const buttonText = (x: any) => {
+    if(router.asPath.split("/")[1] === "migrate-stake") {
+      return "Stake here"
+    } else {
+      if(x.checkpointstatus === 0 && +(x.missedLatestCheckpointcount) >= 500 && x.fundamental === 2) {
+        return <p style={{ fontSize: '12px'}}>Offline since <br/> {x.missedLatestCheckpointcount}  <br /> checkpoints</p> 
+      } else {
+        return "Delegate"
+      }
+    }
+  }
+  
   return (
     <>
       <DelegatePopup
@@ -130,9 +147,8 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                               }
                             }}
                           >
-                            {router.asPath.split("/")[1] === "migrate-stake"
-                              ? "Stake here"
-                              : "Delegate"}
+                            {buttonText(x)}
+                            
                           </button>
                           {tootlTipDesc(x)}
                           {!account && <div className="tool-desc tool-desc-sm">Login to enable delegation.</div>}
