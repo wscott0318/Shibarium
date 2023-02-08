@@ -19,7 +19,7 @@ function useTokensFromMap(tokenMap: TokenAddressMap, includeUserAdded: boolean):
 
   return useMemo(() => {
     if (!chainId) return {}
-    console.log("token map" , {tokenMap})
+    // console.log("token map" , {tokenMap})
     // reduce to just tokens
     const mapWithoutUrls = Object.keys(tokenMap[chainId]).reduce<{
       [address: string]: Token
@@ -140,7 +140,7 @@ export function useToken(tokenAddress?: string | null): Token | undefined | null
   const tokenContract = useTokenContract(address ? address : undefined, false)
   const tokenContractBytes32 = useBytes32TokenContract(address ? address : undefined, false)
   const token: Token | undefined = address ? tokens[address] : undefined
-  console.log('tokens ', token , address);
+  // console.log('tokens ', token , address);
   const tokenName = useSingleCallResult(token ? undefined : tokenContract, 'name', undefined, NEVER_RELOAD)
   const tokenNameBytes32 = useSingleCallResult(
     token ? undefined : tokenContractBytes32,

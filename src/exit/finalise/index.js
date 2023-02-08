@@ -19,6 +19,6 @@ export const finalise = async (token, from) => {
   } catch (e) {
     console.log(e)
   }
-  return false;
+  return null;
 }
 

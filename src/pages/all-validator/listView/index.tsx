@@ -17,10 +17,13 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
   const [showdelegatepop, setdelegatepop] = useState(false);
   const [showmigratepop, setmigratepop] = useState(false);
   const router = useRouter();
+  
   const tootlTipDesc = (x: any) => {
     if (account) {
-      if (x.fundamental === 1 || x.uptimePercent <= inActiveCount) {
+      if (x.fundamental === 1) {
         return <div className="tool-desc">This is a fundamental node. <br /> Delegation is not enabled here.</div>;
+      } else if (x.uptimePercent <= inActiveCount) {
+        return <div className="tool-desc tool-desc-sm">Offline since {x.missedLatestCheckpointcount} checkpoints</div>
       }
       else if (router.asPath.split("/")[1] === "migrate-stake") {
         return <div className="tool-desc tool-desc-sm">{x.contractAddress == migrateData.contractAddress ? "Stakes cannot be migrated to same Validator." : "Migrate Your Stakes here."}</div>;
@@ -30,6 +33,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
       }
     }
   }
+  
   const imageOnErrorHandler = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
@@ -37,45 +41,18 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
     event.currentTarget.className = "error";
   };
 
-  const userTypeValidator = (x:any) => {
-    if(userType === "Validator"){
-      return(
-        <Link href={`/all-validator/${x.signer}`} passHref>
-        <div className='delegate_btn'>
-          <p className="btn primary-btn w-100">View</p>
-          <div className="tool-desc tool-desc-sm">View Validator Info.</div>
-        </div>
-      </Link>
-      )
-    }else{
-      return(
-        <div className="delegate_btn">
-        <button
-          className="btn primary-btn w-100"
-          disabled={!account || x.fundamental === 1 || x.uptimePercent <= inActiveCount || x.contractAddress == migrateData.contractAddress ? true : false}
-          onClick={() => {
-            setSelectedRow(x);
-            if (
-              router.asPath.split("/")[1] === "migrate-stake"
-            ) {
-              setmigratepop(true);
-              setSelectedRow(x);
-            }
-            else {
-              setdelegatepop(true);
-            }
-          }}
-        >
-          {router.asPath.split("/")[1] === "migrate-stake"
-            ? "Stake here"
-            : "Delegate"}
-        </button>
-        {tootlTipDesc(x)}
-        {!account && <div className="tool-desc tool-desc-sm">Login to enable delegation.</div>}
-      </div>
-      )
+  const buttonText = (x: any) => {
+    if(router.asPath.split("/")[1] === "migrate-stake") {
+      return "Stake here"
+    } else {
+      if(x.checkpointstatus === 0 && +(x.missedLatestCheckpointcount) >= 500 && x.fundamental === 2) {
+        return <p style={{ fontSize: '12px'}}>Offline since<br/>{x.missedLatestCheckpointcount} checkpoints</p> 
+      } else {
+        return "Delegate"
+      }
     }
   }
+  
   return (
     <>
       <DelegatePopup
@@ -145,7 +122,38 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                     <td>{x.uptimePercent?.toFixed(toFixedPrecent)}%</td>
 
                     <td className="text-start">
-                      {userTypeValidator(x)}
+                      {userType === "Validator" ? (
+                        <Link href={`/all-validator/${x.signer}`} passHref>
+                          <div className='delegate_btn'>
+                            <p className="btn primary-btn w-100">View</p>
+                            <div className="tool-desc tool-desc-sm">View Validator Info.</div>
+                          </div>
+                        </Link>
+                      ) : (
+                        <div className="delegate_btn">
+                          <button
+                            className="btn primary-btn w-100"
+                            disabled={!account || x.fundamental === 1 || x.uptimePercent <= inActiveCount || x.contractAddress == migrateData.contractAddress ? true : false}
+                            onClick={() => {
+                              setSelectedRow(x);
+                              if (
+                                router.asPath.split("/")[1] === "migrate-stake"
+                              ) {
+                                setmigratepop(true);
+                                setSelectedRow(x);
+                              }
+                              else {
+                                setdelegatepop(true);
+                              }
+                            }}
+                          >
+                            {buttonText(x)}
+                            
+                          </button>
+                          {tootlTipDesc(x)}
+                          {!account && <div className="tool-desc tool-desc-sm">Login to enable delegation.</div>}
+                        </div>
+                      )}
                     </td>
                   </tr>
                 ))

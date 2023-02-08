@@ -73,27 +73,11 @@ async function getPlasmaClient() {
     });
   } catch (error) {
     console.error("error unable to initiate plasmaClient", error);
-    console.log("plasma client catch block ==>", {
-      network: _network.network,
-      version: _network.version,
-      parent: {
-        provider: parentProvider,
-        defaultConfig: {
-          from: account.from,
-        },
-      },
-      child: {
-        provider: shibariumProvider,
-        defaultConfig: {
-          from: account.from,
-        },
-      },
-    });
     return null;
   }
 }
 
-export const getClient = async (clientType = "pos") => {
+export const getClient = async (clientType) => {
   console.log("client type => ", clientType);
   if (clientType === "pos") {
     return getPOSClient();

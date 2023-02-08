@@ -3,7 +3,14 @@ import { getExplorerLink } from 'app/functions';
 import { useActiveWeb3React } from 'app/services/web3';
 import React, { useEffect } from 'react'
 import useLocalStorageState from 'use-local-storage-state';
-import { finalise } from "../../../exit/finalise"
+import Web3 from 'web3';
+import ExitTokenABI from "../../../ABI/ExitTokenABI.json";
+import withdrawManagerABI from "../../../ABI/withdrawManagerABI.json";
+import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
+import { useAppDispatch } from 'app/state/hooks';
+import { dynamicChaining } from 'web3/DynamicChaining';
+import { ChainId } from 'shibarium-get-chains';
+import { parseError } from 'web3/commonFunctions';
 const StepThree: React.FC<any> = ({
     withdrawTokenInput,
     selectedToken,
@@ -11,53 +18,150 @@ const StepThree: React.FC<any> = ({
     step,
     hashLink,
     checkpointSigned,
-    challengePeriodCompleted,
+    challengePeriodCompleted = true,
     setProcessing,
+    switchNetwork,
     setStep,
     setHashLink,
-    switchNetwork,
     setChallengePeriodCompleted,
     completed,
-    setCompleted}) => {
-        
+    setCompleted, page }) => {
+
     const [txState, setTxState] = useLocalStorageState<any>("txState");
-    const { account,chainId=1 } = useActiveWeb3React();
-    
+    const { account, chainId = 1, library } = useActiveWeb3React();
+    const lib: any = library;
+    const web3: any = new Web3(lib?.provider);
+    const dispatch: any = useAppDispatch();
     useEffect(() => {
-        if(txState){
+        if (txState && page == "tx") {
             let link = getExplorerLink(chainId, txState?.txHash, 'transaction')
             setHashLink(link);
         }
-    },[]);
-    const startExitWithBurntTokens = async () => {
-        console.log("step 6");
-        // switch network to Goerli chain
-        await switchNetwork();
-        setProcessing((processing: any) => [...processing, "Challenge Period"])
-        let exitWithBurn = await finalise("0x664456257bC8cfFc605C74Ab8Fea6bd04CCe3BB6", account);
-        console.log("exitWithBurn => ", exitWithBurn);
-        if (exitWithBurn) {
-            setStep("Challenge Period");
-            setTxState({ ...txState, "challengePeriod": true });
-            setChallengePeriodCompleted(true);
-            let link = getExplorerLink(chainId, exitWithBurn, 'transaction')
-            setHashLink(link)
+    }, []);
+
+    const processExit = async () => {
+        try {
+            setStep("Completed");
+            let user: any = account
+            let instance = new web3.eth.Contract(withdrawManagerABI, dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY);
+            let token = selectedToken?.parentContract || txState?.token?.parentContract;
+            instance.methods.processExits(token)
+                .send({ from: account })
+                .on("transactionHash", (res: any) => {
+                    dispatch(
+                        addTransaction({
+                            hash: res,
+                            from: user,
+                            chainId,
+                            summary: `${res}`,
+                        })
+                    );
+                    let link = getExplorerLink(chainId, res, 'transaction');
+                    setHashLink(link)
+                })
+                .on("receipt", (res: any) => {
+                    dispatch(
+                        finalizeTransaction({
+                            hash: res.transactionHash,
+                            chainId,
+                            receipt: {
+                                to: res.to,
+                                from: res.from,
+                                contractAddress: res.contractAddress,
+                                transactionIndex: res.transactionIndex,
+                                blockHash: res.blockHash,
+                                transactionHash: res.transactionHash,
+                                blockNumber: res.blockNumber,
+                                status: 1,
+                            },
+                        })
+                    );
+                    setTxState({ ...txState, "processExit": true, "finalHash": res });
+                    setProcessing((processing: any) => [...processing, "Completed"])
+                    setCompleted(true);
+
+                })
+                .on("error", (res: any) => {
+                    console.log("processExit ", res);
+                });
         }
+        catch (err: any) {
+            console.log("processExit ", err);
+        }
+        // await finalise(txState?.token?.parentContract, account).then((res: any) => {
+
+        // }).catch((err: any) => console.log(err));
     }
 
-    const processExit = async() => {
-        // let exit = startWithdraw(txState?.token?.bridgeType,hashLink,1);
-        // let exit = await startWithdraw("plasma","0x6cf665ac6027bc35ac5cb82eda29c3b7a2881623712f8077128223f38c1852d0",0);
-        // console.log("exit ==> " ,exit);
-        // if(exit){
-        //     setProcessing((processing: any) => [...processing, "Completed"])
-        //     setTxState({ ...txState, "txHash": exit, "processExit": true });
-        //     setStep("Completed");
-        //     setCompleted(true);
-        //     let link = getExplorerLink(chainId, exit, 'transaction')
-        //     setHashLink(link)
-        // }
+    const startExitWithBurntTokens = async () => {
+        try {
+            if(chainId === ChainId.PUPPYNET517){
+                await switchNetwork();
+            }
+            setStep("Challenge Period");
+            let user: any = account;
+            let type = selectedToken?.bridgetype || txState?.token?.bridgetype;
+            let contract = "0x03E00CA773C76c496aF9194d0C4840cD785929D4";
+            let instance = new web3.eth.Contract(ExitTokenABI, contract);
+            console.log("instance" , instance);
+            instance.methods.startExitWithBurntTokens(txState?.txHash)
+                .send({ from: account })
+                .on("transactionHash", (res: any) => {
+                    dispatch(
+                        addTransaction({
+                            hash: res,
+                            from: user,
+                            chainId,
+                            summary: `${res}`,
+                        })
+                    );
+                })
+                .on("receipt", (res: any) => {
+                    dispatch(
+                        finalizeTransaction({
+                            hash: res.transactionHash,
+                            chainId,
+                            receipt: {
+                                to: res.to,
+                                from: res.from,
+                                contractAddress: res.contractAddress,
+                                transactionIndex: res.transactionIndex,
+                                blockHash: res.blockHash,
+                                transactionHash: res.transactionHash,
+                                blockNumber: res.blockNumber,
+                                status: 1,
+                            },
+                        })
+                    );
+                    if (type === "pos") {
+                        setProcessing((processing: any) => [...processing, "Completed"]);
+                        setStep("Completed");
+                        setCompleted(true);
+                        setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true, "processExit": true, 'withdrawHash': res });
+                    }
+                    else {
+                        setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true, 'withdrawHash': res });
+                        setChallengePeriodCompleted(true);
+                        setProcessing((processing: any) => [...processing, "Challenge Period"]);
+                    }
 
+                })
+                .on("error", (res: any) => {
+                    console.log("startExitWithBurntTokens ", res);
+                    setStep("Checkpoint");
+                    if(res.code === 4001){
+                        console.log("user denied transaction");
+                    }
+                });
+        }
+        catch (err: any) {
+            console.log("startExitWithBurntTokens ", err);
+            let error = parseError(err);
+            setStep("Checkpoint");
+            if(error.code === 4001){
+                console.log("user denied transaction");
+            }
+        }
     }
     return (
         <div className="popmodal-body no-ht">
@@ -69,7 +173,7 @@ const StepThree: React.FC<any> = ({
                         <div className="col-6 text-end">{+withdrawTokenInput}{" "}{selectedToken?.symbol || selectedToken?.key || txState?.token?.symbol || txState?.token?.key}</div>
                     </div>
                     <hr />
-                    <ul className="stepper mt-3 del-step withdraw_steps">
+                    <ul className={`stepper mt-3 del-step withdraw_steps ${selectedToken && selectedToken?.bridgetype == "pos" || txState && txState?.token?.bridgetype == "pos" ? "pos_view" : ""}`}>
                         <li className={`step ${(processing.includes("Initialized")) && "active"}`}>
                             <div className="step-ico">
                                 <img
@@ -90,16 +194,29 @@ const StepThree: React.FC<any> = ({
                             </div>
                             <div className="step-title">Checkpoint</div>
                         </li>
-                        <li className={`step ${(processing.includes("Challenge Period")) && "active"}`}>
-                            <div className="step-ico">
-                                <img
-                                    className="img-fluid"
-                                    src="../../assets/images/tick-yes.png"
-                                    alt="check-icon"
-                                />
-                            </div>
-                            <div className="step-title">Challenge Period</div>
-                        </li>
+                        {page === "bridge" ? selectedToken && selectedToken?.bridgetype === "plasma" &&
+                            <li className={`step ${(processing.includes("Challenge Period")) && "active"}`}>
+                                <div className="step-ico">
+                                    <img
+                                        className="img-fluid"
+                                        src="../../assets/images/tick-yes.png"
+                                        alt="check-icon"
+                                    />
+                                </div>
+                                <div className="step-title">Challenge Period</div>
+                            </li> :
+                            txState && txState?.token?.bridgetype === "plasma"
+                            &&
+                            <li className={`step ${(processing.includes("Challenge Period")) && "active"}`}>
+                                <div className="step-ico">
+                                    <img
+                                        className="img-fluid"
+                                        src="../../assets/images/tick-yes.png"
+                                        alt="check-icon"
+                                    />
+                                </div>
+                                <div className="step-title">Challenge Period</div>
+                            </li>}
                         <li className={`step ${(processing.includes("Completed")) && "active"}`}>
                             <div className="step-ico">
                                 <img
@@ -194,7 +311,7 @@ const StepThree: React.FC<any> = ({
                     }
                     {step == "Completed" &&
                         <>
-                           {completed ? <div className='pop-grid flex-column align-items-center justify-content-center text-center'>
+                            {completed ? <div className='pop-grid flex-column align-items-center justify-content-center text-center'>
                                 <img src="../../assets/images/cmpete-step.png" alt="" />
                                 <h5 className='pt-4 pb-2'>Transfer completed successfully</h5>
                                 <p className='pb-3 ps-2 pe-2'>Your transfer is completed successfully.</p>
@@ -202,8 +319,7 @@ const StepThree: React.FC<any> = ({
                                     View on Block Explorer
                                 </a>
                             </div>
-                            :
-                            
+                                :
                                 <div className='pop-grid flex-column align-items-center justify-content-center text-center'>
                                     <div className='text-center'>
                                         <CircularProgress style={{ color: " #F28B03" }} size={100} />
@@ -223,4 +339,4 @@ const StepThree: React.FC<any> = ({
     )
 }
 
-export default StepThree
+export default StepThree;

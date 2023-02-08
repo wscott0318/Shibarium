@@ -8,7 +8,7 @@ import axios from "axios";
 import { useActiveWeb3React } from "app/services/web3";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useRouter } from "next/router";
-import { Form } from "react-bootstrap";
+import { CircularProgress, FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 
 export default function Faucet() {
   const [showSwapModal, setSwapModal] = useState(false);
@@ -20,6 +20,7 @@ export default function Faucet() {
     done: false,
     hash: ''
   })
+  const [isActive , setIsActive] = useState(1);
   const { chainId = 1, account } = useActiveWeb3React();
 
   const handleMenuState = () => {
@@ -27,6 +28,8 @@ export default function Faucet() {
   }
   const handleChange = (e: any) => {
     setSelectedChain(e.target.value);
+    console.log("value inside e" , e.target.value)
+    setIsActive(e.target.value);
   }
   useEffect(() => {
     if (!account) {
@@ -66,7 +69,12 @@ export default function Faucet() {
     // console.log("receptcha event ", e)
     setClickedCaptcha(true);
   }
-
+  const imageOnErrorHandler = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
+    event.currentTarget.className = "error me-3";
+  };
   return (
     <>
       <main className="main-content">
@@ -109,7 +117,7 @@ export default function Faucet() {
                             <div className="form-group">
                               {/* <div className="form-field dark-input mb-2">
                                 <div className="mid-chain w-100 position-relative"> */}
-                                  <Form.Select
+                              {/* <Form.Select
                                     name="toChain"
                                     defaultValue={selectedChain}
                                     value={selectedChain}
@@ -124,9 +132,25 @@ export default function Faucet() {
                                   >
                                     <option value="1">Goerli BONE</option>
                                     <option value="2">Puppy Net BONE</option>
-                                  </Form.Select>
-                                </div>
-                              {/* </div>
+                                  </Form.Select> */}
+                              <RadioGroup
+                                aria-labelledby="demo-controlled-radio-buttons-group"
+                                name="controlled-radio-buttons-group"
+                                value={selectedChain}
+                                className="radioGroup"
+                                onChange={handleChange}
+                              >
+                                <FormControlLabel value="1" control={<Radio />} 
+                                label={<div className="d-flex justify-content-center align-items-center" style={{height:"34px"}}>
+                                  <img width={18} src="../../assets/images/eth.png" className="me-2" onError={imageOnErrorHandler}/> Goerli BONE</div>} 
+                                className={`radioButtons ${isActive == 1 && "active"}`}/>
+                                <FormControlLabel value="2" control={<Radio />} 
+                                label={<div className="d-flex justify-content-center align-items-center" style={{height:"34px"}}>
+                                  <img width={24} src="../../assets/images/shib-logo.png" className="me-2" onError={imageOnErrorHandler}/> Puppy Net BONE</div>} 
+                                className={`radioButtons ${isActive == 2 && "active"}`} />
+                              </RadioGroup>
+                            </div>
+                            {/* </div>
                             </div> */}
                             <div className="form-group">
                               <div className="form-field dark-input">
@@ -178,9 +202,14 @@ export default function Faucet() {
           <div className="pop-block">
             <div className="pop-top">
               <div className='dark-bg-800 h-100 status-sec'>
-                <span>
-                  <div><img width="224" height="224" className="img-fluid" src="../../assets/images/Ellipse.png" alt="" /></div>
+                {modalState.pending ? 
+                <span className="p-5">
+                  <CircularProgress size={130} style={{color:"#f27c02"}}/>
+                </span> : 
+                <span className="p-4">
+                  <div><img width="180" height="170" className="img-fluid" src="../../assets/images/Ellipse.png" alt="" onError={imageOnErrorHandler}/></div>
                 </span>
+                }
               </div>
             </div>
             <div className="pop-bottom">

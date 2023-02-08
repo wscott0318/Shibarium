@@ -1,24 +1,29 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../layout/sidebar";
-import InnerHeader from "../../pages/inner-header";
+import { useActiveWeb3React } from "app/services/web3";
+import InnerHeader from "../inner-header";
 import useLocalStorageState from "use-local-storage-state";
-import WithdrawModal from "../components/Withdraw";
+import WithdrawModal from "../components/withdraw/Withdraw";
+import { getBoneUSDValue } from "app/services/apis/validator";
+import { BONE_ID } from "app/config/constant";
 export default function Transaction() {
   const [onlyPending, setOnlyPending] = useState(false);
   const [txState, setTxState] = useLocalStorageState("txState"); //NOSONAR
-
+  const {account} = useActiveWeb3React();
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [menuState, setMenuState] = useState(false);
-
-
-
-
+  const [boneUSDValue, setBoneUSDValue] = useState(0); //NOSONAR
   const handleMenuState = () => {
     setMenuState(!menuState);
   };
-  console.log("txState", txState);
+  useEffect(() => {
+    getBoneUSDValue(BONE_ID).then((res) => {
+      setBoneUSDValue(res.data.data.price);
+    });
+  }, [account]);
+  console.log("txState", txState?.amount);
   return (
     <>
       <main className="main-content">
@@ -30,13 +35,16 @@ export default function Transaction() {
           menuState={menuState}
         />
 
-        {showWithdrawModal && <WithdrawModal
-          page="tx"
-          dWState={true}
-          setWithdrawModalOpen={setShowWithdrawModal}
-          show={showWithdrawModal}
-          withdrawTokenInput={txState?.amount}
-        />}
+        {showWithdrawModal && (
+          <WithdrawModal
+            page="tx"
+            dWState={true}
+            setWithdrawModalOpen={setShowWithdrawModal}
+            show={showWithdrawModal}
+            withdrawTokenInput={txState?.amount}
+            selectedToken={txState?.token}
+          />
+        )}
 
         <section className="assets-section">
           <div className="cmn_dashbord_main_outr">

@@ -2,10 +2,12 @@
     width: 600px;
     margin: 0 auto;
     max-width: 100%;
-    position: absolute;
-    top: calc(50% + 16px);
-    left: 50%;
-    transform: translate(-50%, calc(-50% + 16px));
+    height: 100%;
+    margin-top: 1rem;
+    // position: absolute;
+    // top: calc(50% + 16px);
+    // left: 50%;
+    // transform: translate(-50%, calc(-50% + 16px));
     // @media #{$max-xl}{
     //     margin-top: 16px;
     //     margin-bottom: 16px;
