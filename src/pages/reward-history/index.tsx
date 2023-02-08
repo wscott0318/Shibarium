@@ -24,7 +24,7 @@ export default function Unbond() {
   const [slicedList, setSlicedList] = useState([]);
   const [listLoader, setListLoader] = useState(true);
   const pageSize = 10;
-  const [userType, setUserType] = useUserType(); //NOSONAR
+  const [userType, setUserType] = useUserType();  //NOSONAR
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [validatorData, setValidatorData] = useState<any>([])
   const getRewardsList = async(account: any) => {

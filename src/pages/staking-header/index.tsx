@@ -17,7 +17,7 @@ import { getValidatorInfo } from "app/services/apis/network-details/networkOverv
 const StakingHeader = (type: any) => {
   const router = useRouter();
 
-  const [userType, setUserType] = useUserType(); //NOSONAR
+  const [userType, setUserType] = useUserType();  //NOSONAR
   const [valId, setValId] = useValId(); //NOSONAR
   const [valInfoModal, setValInfoModal] = useState(false);
   const [dynasty, setDynasty] = useState('')

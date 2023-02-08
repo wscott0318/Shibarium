@@ -20,7 +20,7 @@ export default function ProfileUpdate() {
     const [imageData, setImageData] = useState<any>('');
     const [imageURL, setImageURL] = useState<any>('');
     const [loader, setLoader] = useState(false)
-    const [userType, setUserType] = useUserType(); //NOSONAR
+    const [userType, setUserType] = useUserType();  //NOSONAR
     const router = useRouter()
     const [validation, setValidation] = useState({
         image: false,

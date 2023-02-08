@@ -37,7 +37,7 @@ export default function Unbond() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const lib: any = library
   const web3: any = new Web3(lib?.provider)
-  const [userType, setUserType] = useUserType();//NOSONAR
+  const [userType, setUserType] = useUserType(); //NOSONAR
   const [loader, setLoader] = useState(false);
   const [disabledClaim, setDisabledClaim] = useState<any>([]);
   const getValidatorContractAddress = async (validatorID: any) => {

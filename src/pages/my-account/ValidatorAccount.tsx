@@ -68,9 +68,9 @@ const ValidatorAccount = ({
   const [validatorTotalReward, setValidatorTotalReward] = useState<any>();
   const [validatorInfoContract, setValidatorInfoContract] = useState<any>();
   const [epochDyna, setEpochDyna] = useEpochDyna();
-  const [valId, setValId] = useValId(); //NOSONAR
+  const [valId, setValId] = useValId();  //NOSONAR
   const isLoading = availBalance === -1;
-  const [valInfoContract, setValInfoContract] = useValInfoContract() //NOSONAR
+  const [valInfoContract, setValInfoContract] = useValInfoContract()  //NOSONAR
   console.log("initial availbalance", availBalance);
   const [transactionState, setTransactionState] = useState(initialModalState);
   const [hashLink, setHashLink] = useState('');
