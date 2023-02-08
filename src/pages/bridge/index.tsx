@@ -368,7 +368,7 @@ export default function Withdraw() {
                                         <span className="fld-head lite-800">
                                           Balance:
                                         </span>
-                                        {loader ? (
+                                        {loader && !selectedToken?.balance ? (
                                           <Loader stroke="orange" />
                                         ) : (
                                           <span className="fld-txt lite-800 wrap_txt">
@@ -387,6 +387,7 @@ export default function Withdraw() {
                                         onClick={() => {
                                           setOpenManageToken(!openManageToken)
                                           setLoader(true);
+                                          setSelectedToken({});
                                         }}
                                       >
                                         <div className="right-spacing">
@@ -601,6 +602,7 @@ export default function Withdraw() {
                                         onClick={() => {
                                           setOpenManageToken(!openManageToken)
                                           setLoader(true);
+                                          setSelectedToken({});
                                         }}
                                       >
                                         <div className="right-spacing">
@@ -704,7 +706,7 @@ export default function Withdraw() {
                                         <span className="fld-head lite-800">
                                           Balance:
                                         </span>
-                                        {loader ? (
+                                        {loader && !selectedToken?.balance ? (
                                           <Loader stroke="orange" />
                                         ) : (
                                           <span className="fld-txt lite-800 wrap_txt">
