@@ -4694,3 +4694,38 @@ body::-webkit-scrollbar,
     height: 600px;
   }
 }
+
+// burn sass
+.burn-wrap{
+  .cus-card {
+    background: #151b28;
+  }
+}
+.border-radius-8 {
+  border-radius: 8px !important;
+}
+.burn-top {
+  display: flex;
+  align-items: center;
+}
+.burn-flex {
+  display: flex;
+  align-items: center;
+  .item-grp{
+     margin-right: 12px;
+     &:last-child{
+       margin-right: 0;
+     }
+  }
+}
+.cus-card-head {
+  padding: 16px;
+  border-bottom: 1px solid #BBBBBE;
+}
+.cus-card-body {
+  padding: 16px;
+}
+.bs-fs {
+  font-size: 18px;
+  font-weight: 600;
+}
