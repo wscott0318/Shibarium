@@ -4699,6 +4699,7 @@ body::-webkit-scrollbar,
 .burn-wrap{
   .cus-card {
     background: #151b28;
+    border: 0;
   }
 }
 .border-radius-8 {
@@ -4720,7 +4721,7 @@ body::-webkit-scrollbar,
 }
 .cus-card-head {
   padding: 16px;
-  border-bottom: 1px solid #BBBBBE;
+  border-bottom: 0.5px solid #596380;
 }
 .cus-card-body {
   padding: 16px;
@@ -4728,4 +4729,41 @@ body::-webkit-scrollbar,
 .bs-fs {
   font-size: 18px;
   font-weight: 600;
+}
+.card-list{
+  margin-bottom: 40px;
+  &:last-child{
+    margin-bottom: 0;
+  }
+}
+
+.burn-table{
+  table{
+    th,td{
+      color: rgba($white, 0.8);
+      font-size: 14px;
+      font-weight: 500;
+      vertical-align: -webkit-baseline-middle;
+    }
+    th{
+      border-bottom: 0.5px solid #596380;
+      &:first-child{
+        padding-left: 16px;
+      }
+      &:last-child{
+        padding-right: 16px;
+      }
+    }
+  }
+}
+.btn-disabled {
+  opacity: 0.45;
+}
+.trans-td {
+  display: flex;
+  align-items: center;
+}
+.trans-icon {
+  width: 10px;
+  margin-right: 10px;
 }

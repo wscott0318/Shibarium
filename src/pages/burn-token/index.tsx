@@ -2,172 +2,322 @@ import Link from "next/link";
 import React from "react";
 
 export default function BurnCrypto() {
- 
-    return (
-      <>
-        <main className="main-content">
-  <div className="sidebar-toggle">
-    <span className="menu-btn navbar-brand">
-      <img className="img-fluid" src="../../assets/images/menu.png" alt=""/>
-    </span>
-    <div className="sidebar-logo">
-      <a className="sidelogo-link" href="/home">
-        <img className="img-fluid" src="../../assets/images/logo.png" alt=""/>
-      </a>
-    </div>
-  </div>
-  <div className="sidebar">
-    <div className="sidbar-top-menu">
-      <div className="sidebar-logo">
-        <span className="close-icon" >
-          <img className="img-fluid" src="../../assets/images/close-icon.png" alt="close-icon" />
-        </span>
-        <a className="sidelogo-link" href="/home">
-          <img className="img-fluid" src="../../assets/images/logo.png" alt=""/>
-        </a>
-      </div>
-      <ul className="side-menu">
-        <li className="side-menu-item">
-          <button className="side-link btn w-100">
-            <span>
-              <span className="side-ico">
-                <img className="img-fluid" src="../../assets/images/sidebar/transaction.png" alt="side-icon" />
-              </span>
-              <span>Staking</span>
-            </span>
-          </button>
-        </li>
-        <li className="side-menu-item">
-          <button className="side-link btn primary-btn w-100">
-            <span>
-              <span className="side-ico">
-                <img className="img-fluid" src="../../assets/images/sidebar/wallet.png" alt="side-icon" />
-              </span>
-              <span>Wallet</span>
-            </span>
-          </button>
-        </li>
-      </ul>
-    </div>
-    <div className="sidebar-bottom-menu">
-      <ul className="side-menu">
-        <li className="side-menu-item">
-          <button className="side-link btn w-100">
-            <span>
-              <span className="side-ico">
-                <img className="img-fluid" src="../../assets/images/sidebar/faq.png" alt="side-icon"/>
-              </span>
-              <span>FAQs</span>
-            </span>
-          </button>
-        </li>
-        <li className="side-menu-item">
-          <button className="side-link btn w-100">
-            <span>
-              <span className="side-ico">
-                <img className="img-fluid" src="../../assets/images/sidebar/tools.png" alt="side-icon"/>
-              </span>
-              <span>Faucet</span>
-            </span>
-          </button>
-        </li>
-        <li className="side-menu-item">
-          <button className="side-link btn w-100">
-            <span>
-              <span className="side-ico">
-                <img className="img-fluid" src="../../assets/images/sidebar/wallet.png" alt="side-icon" />
-              </span>
-              <span>Support</span>
-            </span>
-          </button>
-        </li>
-      </ul>
-    </div>
-  </div>
-    <div className="cmn_dashbord_main_outr">
-      <header className="inner-header">
-        <nav className="py-0 navbar navbar-expand navbar-dark">
-          <div className="container">
-            <div className="left-widget"></div>
-            <button aria-controls="basic-navbar-nav" type="button" aria-label="Toggle navigation" className="navbar-toggler collapsed">
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="navbar-collapse collapse" id="basic-navbar-nav">
-              <div className="ms-auto align-items-center navbar-nav">
-                <div className="shib-dropdown d-flex justify-content-center align-items-center">
-                  <div className="nav-item d-flex align-items-center cus-dd app-drop dropdown">
-                    <div className="dot-icon" id="basic-nav-dropdown">
-                      <img src="../../assets/images/menu-icon.png" alt="" />
-                    </div>
-                    <div className="light-text dd-ico nav-item dropdown">
-                      <a id="" aria-expanded="false" role="button" className="dropdown-toggle nav-link" href="#">Staking</a>
-                    </div>
-                  </div>
-                </div>
-                <div className="d-flex align-items-center cus_dropdown nav-item">
-                  <button>
-                    <a className="d-md-none swap-btn">
-                      <img className="img-fluid" src="../../assets/images/switch-icon.png" alt="" width="30" />
-                    </a>
-                  </button>
-                  <div>
-                    <div className="form-select hd-sel hd-sel-over nav-item dropdown">
-                      <a id="" aria-expanded="false" role="button" className="dropdown-toggle nav-link" href="#">Goerli Testnet</a>
-                    </div>
-                  </div>
-                </div>
-                <div className="btn-status nav-item">
-                  <div id="web3-status-connected" className="flex items-center gap-2 px-3 py-2 text-sm rounded-lg bg-dark-1000 text-primary">
-                    <div className="flex items-center gap-2">
-                      <div className="btn-fonts">0x993E...1D93</div>
-                      <span>
-                        <span>
-                          <img alt="" aria-hidden="true" src="data:image/svg+xml,%3csvg%20
-																									xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%2722%27%20height=%2722%27/%3e"  />
-                        </span>
-                        <img alt="shiba" src="https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,c_limit,w_48,q_auto/https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,c_limit,w_48,q_auto/https://www.shibatoken.com/images/shib-logo.svg" decoding="async" data-nimg="intrinsic" />
-                      </span>
-                    </div>
-                  </div>
-                  <div className="nav-item d-flex align-items-center cus-dd mob-drop drop-cus dropdown">
-                    <div className="dot-icon" id="basic-nav-dropdown"></div>
-                    <div className="me-3 inner-header-dropwdown nav-item dropdown">
-                      <a id="account-dropdown" aria-expanded="false" role="button" className="dropdown-toggle nav-link"  href="#"></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+
+  return (
+    <>
+      <main className="main-content">
+        <div className="sidebar-toggle">
+          <span className="menu-btn navbar-brand">
+            <img className="img-fluid" src="../../assets/images/menu.png" alt="" />
+          </span>
+          <div className="sidebar-logo">
+            <a className="sidelogo-link" href="/home">
+              <img className="img-fluid" src="../../assets/images/logo.png" alt="" />
+            </a>
           </div>
-        </nav>
-      </header>
-      <div className="burn-wrap">
-        <div className="mb-3 mb-sm-4 mb-xxxl-5">
-          <h3>Burn Bone Token</h3>
-          <p className="lite-color">Trigger and watch BONE tokens get burned with EIP-1559</p>
         </div>
-        <div className="cus-card border-radius-8 p-0">
-            <div className="cus-card-head">
-              <div  className="burn-top">
-                <div  className="burn-step grey-btn btn-sm me-2 me-sm-3">Step 1</div>
-                <div  className="burn-flex">
-                  <div className="item-grp bs-fs lite-color">Initiate burn on</div>
-                  <div className="item-grp burn-img">
-                    <img className="img-fluid"  src="../../assets/images/Shib-Logo.png" alt="chain-logo" width={20}/>
+        <div className="sidebar">
+          <div className="sidbar-top-menu">
+            <div className="sidebar-logo">
+              <span className="close-icon" >
+                <img className="img-fluid" src="../../assets/images/close-icon.png" alt="close-icon" />
+              </span>
+              <a className="sidelogo-link" href="/home">
+                <img className="img-fluid" src="../../assets/images/logo.png" alt="" />
+              </a>
+            </div>
+            <ul className="side-menu">
+              <li className="side-menu-item">
+                <button className="side-link btn w-100">
+                  <span>
+                    <span className="side-ico">
+                      <img className="img-fluid" src="../../assets/images/sidebar/transaction.png" alt="side-icon" />
+                    </span>
+                    <span>Staking</span>
+                  </span>
+                </button>
+              </li>
+              <li className="side-menu-item">
+                <button className="side-link btn primary-btn w-100">
+                  <span>
+                    <span className="side-ico">
+                      <img className="img-fluid" src="../../assets/images/sidebar/wallet.png" alt="side-icon" />
+                    </span>
+                    <span>Wallet</span>
+                  </span>
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div className="sidebar-bottom-menu">
+            <ul className="side-menu">
+              <li className="side-menu-item">
+                <button className="side-link btn w-100">
+                  <span>
+                    <span className="side-ico">
+                      <img className="img-fluid" src="../../assets/images/sidebar/faq.png" alt="side-icon" />
+                    </span>
+                    <span>FAQs</span>
+                  </span>
+                </button>
+              </li>
+              <li className="side-menu-item">
+                <button className="side-link btn w-100">
+                  <span>
+                    <span className="side-ico">
+                      <img className="img-fluid" src="../../assets/images/sidebar/tools.png" alt="side-icon" />
+                    </span>
+                    <span>Faucet</span>
+                  </span>
+                </button>
+              </li>
+              <li className="side-menu-item">
+                <button className="side-link btn w-100">
+                  <span>
+                    <span className="side-ico">
+                      <img className="img-fluid" src="../../assets/images/sidebar/wallet.png" alt="side-icon" />
+                    </span>
+                    <span>Support</span>
+                  </span>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="cmn_dashbord_main_outr">
+          <header className="inner-header">
+            <nav className="py-0 navbar navbar-expand navbar-dark">
+              <div className="container">
+                <div className="left-widget"></div>
+                <button aria-controls="basic-navbar-nav" type="button" aria-label="Toggle navigation" className="navbar-toggler collapsed">
+                  <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className="navbar-collapse collapse" id="basic-navbar-nav">
+                  <div className="ms-auto align-items-center navbar-nav">
+                    <div className="shib-dropdown d-flex justify-content-center align-items-center">
+                      <div className="nav-item d-flex align-items-center cus-dd app-drop dropdown">
+                        <div className="dot-icon" id="basic-nav-dropdown">
+                          <img src="../../assets/images/menu-icon.png" alt="" />
+                        </div>
+                        <div className="light-text dd-ico nav-item dropdown">
+                          <a id="" aria-expanded="false" role="button" className="dropdown-toggle nav-link" href="#">Staking</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="d-flex align-items-center cus_dropdown nav-item">
+                      <button>
+                        <a className="d-md-none swap-btn">
+                          <img className="img-fluid" src="../../assets/images/switch-icon.png" alt="" width="30" />
+                        </a>
+                      </button>
+                      <div>
+                        <div className="form-select hd-sel hd-sel-over nav-item dropdown">
+                          <a id="" aria-expanded="false" role="button" className="dropdown-toggle nav-link" href="#">Goerli Testnet</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="btn-status nav-item">
+                      <div id="web3-status-connected" className="flex items-center gap-2 px-3 py-2 text-sm rounded-lg bg-dark-1000 text-primary">
+                        <div className="flex items-center gap-2">
+                          <div className="btn-fonts">0x993E...1D93</div>
+                          <span>
+                            <span>
+                              <img alt="" aria-hidden="true" src="data:image/svg+xml,%3csvg%20
+																									xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%2722%27%20height=%2722%27/%3e"  />
+                            </span>
+                            <img alt="shiba" src="https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,c_limit,w_48,q_auto/https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,c_limit,w_48,q_auto/https://www.shibatoken.com/images/shib-logo.svg" decoding="async" data-nimg="intrinsic" />
+                          </span>
+                        </div>
+                      </div>
+                      <div className="nav-item d-flex align-items-center cus-dd mob-drop drop-cus dropdown">
+                        <div className="dot-icon" id="basic-nav-dropdown"></div>
+                        <div className="me-3 inner-header-dropwdown nav-item dropdown">
+                          <a id="account-dropdown" aria-expanded="false" role="button" className="dropdown-toggle nav-link" href="#"></a>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="item-grp bs-fs lite-color">Shibarium</div>
+                </div>
+              </div>
+            </nav>
+          </header>
+
+          {/* burn content start */}
+          <div className="burn-wrap">
+            <div className="mb-3 mb-sm-4 mb-xxxl-5">
+              <h3>Burn Bone Token</h3>
+              <p className="lite-color">Trigger and watch BONE tokens get burned with EIP-1559</p>
+            </div>
+
+            {/* burn step 1 start */}
+            <div className="card-list cus-card border-radius-8 p-0">
+              <div className="cus-card-head">
+                <div className="burn-top">
+                  <div className="burn-step grey-btn btn-sm me-2 me-sm-3">Step 1</div>
+                  <div className="burn-flex">
+                    <div className="item-grp bs-fs lite-color">Initiate burn on</div>
+                    <div className="item-grp burn-img">
+                      <img className="img-fluid" src="../../assets/images/Shib-Logo.png" alt="chain-logo" width={20} />
+                    </div>
+                    <div className="item-grp bs-fs lite-color">Shibarium</div>
+                  </div>
+                </div>
+              </div>
+              <div className="cus-card-body">
+                <div className="row align-items-center">
+                  <div className="col-sm-6 col-xl-9 col-xxl-10 box-item ">
+                    <p className="fs-14 fw-600 lite-color mb-0">Amount of BONE waiting to be burned</p>
+                    <h2 className="bone-amnt fw-600"><span>42941.05 <span className="lite-color">4080</span> BONE</span></h2>
+                  </div>
+                  <div className="col-sm-6 col-xl-3 col-xxl-2 box-item text-sm-end">
+                    <button type="button" className="btn primary-btn">Initiate Burn</button>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="cus-card-body">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias sit aliquid magni, ad perferendis saepe ea harum praesentium numquam, asperiores, dolore suscipit a error porro provident consequatur tenetur repellendus? At atque amet ea quos ipsum assumenda, ipsam autem ullam commodi dolor maiores recusandae excepturi ipsa aliquid maxime numquam, dolore eos iusto praesentium. Amet reiciendis facere dolor, id consequuntur quos voluptate corporis magni a fugit consectetur ipsum doloremque molestias eveniet nulla ratione aspernatur. Enim, atque. Impedit soluta officiis asperiores sapiente quisquam iste incidunt est, tenetur nostrum voluptates? Consectetur, aspernatur quis obcaecati voluptatibus expedita sint magnam possimus nesciunt, quasi est necessitatibus ullam.
+            {/* brun step 1 end */}
+
+            {/* burn step 2 start */}
+            <div className="card-list cus-card border-radius-8 p-0">
+              <div className="cus-card-head">
+                <div className="row align-items-center">
+                  <div className="col-md-6 mb-2 mb-md-0">
+                    <div className="burn-top">
+                      <div className="burn-step grey-btn btn-sm me-2 me-sm-3">Step 2</div>
+                      <div className="burn-flex">
+                        <div className="item-grp bs-fs lite-color">
+                          Continue and complete burn on
+                        </div>
+                        <div className="item-grp burn-img">
+                          <img className="img-fluid" src="../../assets/images/Shib-Logo.png" alt="chain-logo" width={20} />
+                        </div>
+                        <div className="item-grp bs-fs lite-color">Ethereum</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-6 text-md-end">
+                    <span className="fs-14 fw-600">0 transaction left</span>
+                  </div>
+                </div>
+              </div>
+              <div className="cus-card-body p-0">
+                <div className="table-responsive burn-table">
+                  <table className="table table-borderless fxd-layout tbl-mob mb-0">
+                    <thead>
+                      <tr>
+                        <th>Burn</th>
+                        <th>#Block</th>
+                        <th>Trasaction Hash</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td colSpan={4}>
+                          <div className="text-center">
+                            No ongoing transactions
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
+            {/* burn step 2 end */}
+
+            {/* burn step 3 start */}
+
+            <div className="card-list cus-card border-radius-8 p-0">
+              <div className="cus-card-head">
+                <div className="burn-top">
+                  <div className="burn-step grey-btn btn-sm me-2 me-sm-3">Step 3</div>
+                  <div className="burn-flex">
+                    <div className="item-grp bs-fs lite-color">Complete burn on</div>
+                    <div className="item-grp burn-img">
+                      <img className="img-fluid" src="../../assets/images/Shib-Logo.png" alt="chain-logo" width={20} />
+                    </div>
+                    <div className="item-grp bs-fs lite-color">Shibarium</div>
+                  </div>
+                </div>
+              </div>
+              <div className="cus-card-body">
+                <div className="row align-items-center">
+                  <div className="col-sm-6 col-xl-9 col-xxl-10 box-item ">
+                    <p className="fs-14 fw-600 lite-color mb-0">Amount of BONE waiting to be burned</p>
+                    <h2 className="bone-amnt fw-600"><span>0.00 <span className="lite-color">0000</span> BONE</span></h2>
+                  </div>
+                  <div className="col-sm-6 col-xl-3 col-xxl-2 box-item text-sm-end">
+                    <button type="button" className="btn black-btn btn-disabled">Complete Burn</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* burn step 3 end */}
+
+            {/* burn step 4 start */}
+
+            <div className="card-list cus-card border-radius-8 p-0">
+              <div className="cus-card-head">
+                <div className="row align-items-center">
+                  <div className="col-md-6 mb-2 mb-md-0">
+                    <div className="burn-top">
+                      <div className="item-grp bs-fs lite-color">Completed Burns</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="cus-card-body p-0">
+                <div className="table-responsive burn-table">
+                  <table className="table table-borderless fxd-layout tbl-mob mb-0">
+                    <thead>
+                      <tr>
+                        <th>Burned</th>
+                        <th>Trasaction Hash</th>
+                        <th colSpan={2}>Date & Time (UTC)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          27194.34 BONE
+                        </td>
+                        <td>
+                          <div className="trans-td">
+                              <div className="trans-icon">
+                                <img className="img-fluid" src="../../assets/images/eth.png" alt="chain-logo" width={10} />
+                              </div>
+                              <div className="trans-item">
+                                0x74...e28a
+                              </div>
+                          </div>
+                        </td>
+                        <td>
+                          3 Feb 2023, 3:31pm
+                        </td>
+                        <td>
+                          <div className="btn-wrap text-end">
+                            <button type="button" className="btn warning-btn">
+                              <img className="img-fluid" src="" alt="" />
+                              Burn Completed
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            {/* burn step 4 end */}
+          </div>
+          {/* burn content end */}
         </div>
-      </div>
-    </div>
-</main>
-      </>
-    );
+      </main>
+    </>
+  );
 
 }
 
