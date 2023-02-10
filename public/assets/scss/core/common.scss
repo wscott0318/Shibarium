@@ -4744,15 +4744,16 @@ body::-webkit-scrollbar,
       font-size: 14px;
       font-weight: 500;
       vertical-align: -webkit-baseline-middle;
-    }
-    th{
-      border-bottom: 0.5px solid #596380;
+      padding: 14px 10px;
       &:first-child{
         padding-left: 16px;
       }
       &:last-child{
         padding-right: 16px;
       }
+    }
+    th{
+      border-bottom: 0.5px solid #596380;
     }
   }
 }
@@ -4766,4 +4767,23 @@ body::-webkit-scrollbar,
 .trans-icon {
   width: 10px;
   margin-right: 10px;
+}
+
+.cus-nav-pills {
+  border-bottom: 0.5px solid #596380;
+  &.nav-pills{
+    .nav-link{
+      border-radius: 0;
+      margin-bottom: -1px;
+      border-bottom: 1px solid transparent;
+      &.active{
+        color: $primary;
+        background-color: transparent;
+        border-bottom: 1px solid $primary
+      }
+    }
+  }
+}
+.collapse {
+  visibility: visible;
 }

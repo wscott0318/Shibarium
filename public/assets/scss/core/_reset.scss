@@ -398,7 +398,16 @@ ul {
   background-clip: text;
   text-fill-color: transparent;
 }
-
+.primary-btn-outline{
+  background-color: transparent;
+  border: 1px solid $primary;
+  color: $primary;
+  &:hover{
+     background-color: $primary !important;
+     color: $white !important;
+     border: 1px solid $primary !important;
+  }
+}
 .grey-btn {
   background-color: $grey-color;
   border-radius: 10px;

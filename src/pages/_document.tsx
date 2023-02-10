@@ -29,6 +29,7 @@ export default function Document() {
 
         {/* <link rel="manifest" href="/manifest.json" /> */}
         <link rel="shortcut icon" href="../../assets/images/favicon.ico" />
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
       </Head>
       <body>
         <Main />

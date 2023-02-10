@@ -285,12 +285,12 @@ export default function BurnCrypto() {
                         </td>
                         <td>
                           <div className="trans-td">
-                              <div className="trans-icon">
-                                <img className="img-fluid" src="../../assets/images/eth.png" alt="chain-logo" width={10} />
-                              </div>
-                              <div className="trans-item">
-                                0x74...e28a
-                              </div>
+                            <div className="trans-icon">
+                              <img className="img-fluid" src="../../assets/images/eth.png" alt="chain-logo" width={10} />
+                            </div>
+                            <div className="trans-item">
+                              0x74...e28a
+                            </div>
                           </div>
                         </td>
                         <td>
@@ -298,8 +298,138 @@ export default function BurnCrypto() {
                         </td>
                         <td>
                           <div className="btn-wrap text-end">
-                            <button type="button" className="btn warning-btn">
-                              <img className="img-fluid" src="" alt="" />
+                            <button type="button" className="btn primary-btn-outline d-flex align-items-center ms-auto">
+                              <img className="img-fluid me-2" src="../../assets/images/check.png" alt="" width={16} />
+                              Burn Completed
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          27194.34 BONE
+                        </td>
+                        <td>
+                          <div className="trans-td">
+                            <div className="trans-icon">
+                              <img className="img-fluid" src="../../assets/images/eth.png" alt="chain-logo" width={10} />
+                            </div>
+                            <div className="trans-item">
+                              0x74...e28a
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          3 Feb 2023, 3:31pm
+                        </td>
+                        <td>
+                          <div className="btn-wrap text-end">
+                            <button type="button" className="btn primary-btn-outline d-flex align-items-center ms-auto">
+                              <img className="img-fluid me-2" src="../../assets/images/check.png" alt="" width={16} />
+                              Burn Completed
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          27194.34 BONE
+                        </td>
+                        <td>
+                          <div className="trans-td">
+                            <div className="trans-icon">
+                              <img className="img-fluid" src="../../assets/images/eth.png" alt="chain-logo" width={10} />
+                            </div>
+                            <div className="trans-item">
+                              0x74...e28a
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          3 Feb 2023, 3:31pm
+                        </td>
+                        <td>
+                          <div className="btn-wrap text-end">
+                            <button type="button" className="btn primary-btn-outline d-flex align-items-center ms-auto">
+                              <img className="img-fluid me-2" src="../../assets/images/check.png" alt="" width={16} />
+                              Burn Completed
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          27194.34 BONE
+                        </td>
+                        <td>
+                          <div className="trans-td">
+                            <div className="trans-icon">
+                              <img className="img-fluid" src="../../assets/images/eth.png" alt="chain-logo" width={10} />
+                            </div>
+                            <div className="trans-item">
+                              0x74...e28a
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          3 Feb 2023, 3:31pm
+                        </td>
+                        <td>
+                          <div className="btn-wrap text-end">
+                            <button type="button" className="btn primary-btn-outline d-flex align-items-center ms-auto">
+                              <img className="img-fluid me-2" src="../../assets/images/check.png" alt="" width={16} />
+                              Burn Completed
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          27194.34 BONE
+                        </td>
+                        <td>
+                          <div className="trans-td">
+                            <div className="trans-icon">
+                              <img className="img-fluid" src="../../assets/images/eth.png" alt="chain-logo" width={10} />
+                            </div>
+                            <div className="trans-item">
+                              0x74...e28a
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          3 Feb 2023, 3:31pm
+                        </td>
+                        <td>
+                          <div className="btn-wrap text-end">
+                            <button type="button" className="btn primary-btn-outline d-flex align-items-center ms-auto">
+                              <img className="img-fluid me-2" src="../../assets/images/check.png" alt="" width={16} />
+                              Burn Completed
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          27194.34 BONE
+                        </td>
+                        <td>
+                          <div className="trans-td">
+                            <div className="trans-icon">
+                              <img className="img-fluid" src="../../assets/images/eth.png" alt="chain-logo" width={10} />
+                            </div>
+                            <div className="trans-item">
+                              0x74...e28a
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          3 Feb 2023, 3:31pm
+                        </td>
+                        <td>
+                          <div className="btn-wrap text-end">
+                            <button type="button" className="btn primary-btn-outline d-flex align-items-center ms-auto">
+                              <img className="img-fluid me-2" src="../../assets/images/check.png" alt="" width={16} />
                               Burn Completed
                             </button>
                           </div>
@@ -308,9 +438,36 @@ export default function BurnCrypto() {
                     </tbody>
                   </table>
                 </div>
+                <div className="row align-items-center px-3 px-lg-4">
+                  <div className="col-sm-6 my-3 px-0">
+                    <div className="cus-pagination">
+                      <nav aria-label="Page navigation example">
+                        <ul className="pagination">
+                          <li className="page-item">
+                            <a className="page-link" href="#" aria-label="Previous">
+                              <span aria-hidden="true">&laquo;</span>
+                            </a>
+                          </li>
+                          <li className="page-item active"><a className="page-link" href="#">1</a></li>
+                          <li className="page-item"><a className="page-link" href="#">2</a></li>
+                          <li className="page-item"><a className="page-link" href="#">3</a></li>
+                          <li className="page-item">
+                            <a className="page-link" href="#" aria-label="Next">
+                              <span aria-hidden="true">&raquo;</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
+                  <div className="col-sm-6 text-sm-end">
+                    <p className="mb-0">
+                      Showing <span>16-20</span> of <span>123</span>
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-
             {/* burn step 4 end */}
           </div>
           {/* burn content end */}
