@@ -4708,10 +4708,12 @@ body::-webkit-scrollbar,
 .burn-top {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 .burn-flex {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   .item-grp{
      margin-right: 12px;
      &:last-child{
@@ -4719,12 +4721,24 @@ body::-webkit-scrollbar,
      }
   }
 }
+.burn-step {
+  @media #{$max-xxsm}{
+    margin-bottom: 14px;
+  }
+}
 .cus-card-head {
-  padding: 16px;
+  padding: 24px 20px;
   border-bottom: 0.5px solid #596380;
 }
 .cus-card-body {
-  padding: 16px;
+  padding: 24px 20px;
+  position: relative;
+  &.fire-body {
+    padding: 60px 40px;
+    @media #{$max-sm}{
+      padding: 40px 20px;
+    }
+}
 }
 .bs-fs {
   font-size: 18px;
@@ -4745,11 +4759,14 @@ body::-webkit-scrollbar,
       font-weight: 500;
       vertical-align: -webkit-baseline-middle;
       padding: 14px 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       &:first-child{
-        padding-left: 16px;
+        padding-left: 24px;
       }
       &:last-child{
-        padding-right: 16px;
+        padding-right: 24px;
       }
     }
     th{
@@ -4784,6 +4801,17 @@ body::-webkit-scrollbar,
     }
   }
 }
-.collapse {
-  visibility: visible;
+.cus-accordian{
+  .collapse {
+    visibility: visible;
+  }
+} 
+.fire-flaot {
+  max-width: 110px;
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+}
+.brn-warn-icon {
+  flex: 0 0 30px;
 }

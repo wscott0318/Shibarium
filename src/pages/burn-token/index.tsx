@@ -163,14 +163,28 @@ export default function BurnCrypto() {
                   </div>
                 </div>
               </div>
-              <div className="cus-card-body">
-                <div className="row align-items-center">
-                  <div className="col-sm-6 col-xl-9 col-xxl-10 box-item ">
+              <div className="cus-card-body lightbg">
+                <div className="burn-warn d-flex align-items-center">
+                  <div className="brn-warn-icon me-2 me-sm-3">
+                    <img className="img-fluid" src="../../assets/images/alert.png" alt="alert-icon" width={20}/>
+                  </div>
+                    <p className="mb-0 fs-14 fw-600 lite-color">
+                      You will be able to Initiate burn once the amount of BONE ready to be 
+                      burned is greater than 25000 BONE.
+                    </p>
+                </div>
+              </div>
+              <div className="cus-card-body oh fire-body">
+                <div className="fire-flaot">
+                  <img className="img-fluid" src="../../assets/images/dark-fire.png" alt="" />
+                </div>
+                <div className="row align-items-center position-relative">
+                  <div className="col-sm-6 col-xl-9 col-xxl-10 box-item mb-4 mb-sm-0">
                     <p className="fs-14 fw-600 lite-color mb-0">Amount of BONE waiting to be burned</p>
                     <h2 className="bone-amnt fw-600"><span>42941.05 <span className="lite-color">4080</span> BONE</span></h2>
                   </div>
                   <div className="col-sm-6 col-xl-3 col-xxl-2 box-item text-sm-end">
-                    <button type="button" className="btn primary-btn">Initiate Burn</button>
+                    <button type="button" className="btn black-btn btn-disabled">Initiate Burn</button>
                   </div>
                 </div>
               </div>
@@ -208,17 +222,61 @@ export default function BurnCrypto() {
                         <th>Burn</th>
                         <th>#Block</th>
                         <th>Trasaction Hash</th>
-                        <th>Action</th>
+                        <th className="text-center">Action</th>
                       </tr>
                     </thead>
                     <tbody>
+                      <tr >
+                        <td>
+                          <span className="fw-600 fs-16">
+                            24.5 BONE
+                          </span>
+                        </td>
+                        <td>
+                          38737376
+                        </td>
+                        <td>
+                          <div className="trans-td">
+                            <div className="trans-icon">
+                              <img className="img-fluid" src="../../assets/images/eth.png" alt="chain-logo" width="10"/>
+                            </div>
+                            <div className="trans-item">0x74...e28a</div>
+                          </div>
+                        </td>
+                        <td className="text-center">
+                          <button type="button" className="btn black-btn btn-disabled">Waiting for exit</button>
+                        </td>
+                      </tr>
+                      <tr >
+                        <td>
+                          <span className="fw-600 fs-16">
+                            24.5 BONE
+                          </span>
+                        </td>
+                        <td>
+                          38737376
+                        </td>
+                        <td>
+                          <div className="trans-td">
+                            <div className="trans-icon">
+                              <img className="img-fluid" src="../../assets/images/eth.png" alt="chain-logo" width="10"/>
+                            </div>
+                            <div className="trans-item">0x74...e28a</div>
+                          </div>
+                        </td>
+                        <td className="text-center">
+                          <button type="button" className="btn primary-btn">Confirm Burn</button>
+                        </td>
+                      </tr>
+                      {/* Empty table start  */}
                       <tr>
-                        <td colSpan={4}>
+                        <td colSpan={4} className="d-none">
                           <div className="text-center">
                             No ongoing transactions
                           </div>
                         </td>
                       </tr>
+                      {/* Empty table end */}
                     </tbody>
                   </table>
                 </div>
@@ -241,9 +299,12 @@ export default function BurnCrypto() {
                   </div>
                 </div>
               </div>
-              <div className="cus-card-body">
-                <div className="row align-items-center">
-                  <div className="col-sm-6 col-xl-9 col-xxl-10 box-item ">
+              <div className="cus-card-body oh fire-body">
+                <div className="fire-flaot">
+                  <img className="img-fluid" src="../../assets/images/dark-fire.png" alt="" />
+                </div>
+                <div className="row align-items-center position-relative">
+                  <div className="col-sm-6 col-xl-9 col-xxl-10 box-item mb-4 mb-sm-0">
                     <p className="fs-14 fw-600 lite-color mb-0">Amount of BONE waiting to be burned</p>
                     <h2 className="bone-amnt fw-600"><span>0.00 <span className="lite-color">0000</span> BONE</span></h2>
                   </div>
