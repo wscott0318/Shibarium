@@ -65,7 +65,6 @@ const WithdrawModal: React.FC<{
         const dispatch = useAppDispatch();
         const [showWithdrawModal, setWithdrawModal] = useState(true);
         const [hashLink, setHashLink] = useState("");
-        const [amountApproval, setAmountApproval] = useState(false);
         const [allowance, setAllowance] = useState(0);
         const [txState, setTxState] = useLocalStorageState<any>("txState");
         const [loader, setLoader] = useState(true);
@@ -208,14 +207,14 @@ const WithdrawModal: React.FC<{
                 setHashLink("");
                 setButtonLoader(false);
                 let user: any = account;
-                let amount: any = 0;
+                let amount= web3.utils.toWei(withdrawTokenInput, 'ether');
                 let abi: any;
                 if (selectedToken?.parentName === "BONE") {
-                    amount = web3.utils.toWei(withdrawTokenInput, 'ether');
+                    // amount = 
                     abi = MRC20;
                 }
                 else {
-                    amount = web3.utils.toWei(withdrawTokenInput, 'ether');
+                    // amount = web3.utils.toWei(withdrawTokenInput, 'ether');
                     abi = ChildERC20;
                 }
                 console.log("amount", amount);
@@ -276,7 +275,6 @@ const WithdrawModal: React.FC<{
                                     step6: false,
                                     title: "Initialize Withdraw",
                                 });
-                                setWithdrawModal(false);
                                 setStep("Initialized");
                                 setProcessing([]);
                             }
@@ -339,7 +337,6 @@ const WithdrawModal: React.FC<{
                                     step6: false,
                                     title: "Initialize Withdraw",
                                 });
-                                setWithdrawModal(false);
                                 setStep("Initialized");
                                 setProcessing([]);
                             }
@@ -363,7 +360,6 @@ const WithdrawModal: React.FC<{
                     step6: false,
                     title: "Initialize Withdraw",
                 });
-                setWithdrawModal(false);
                 setStep("Initialized");
                 setProcessing([]);
                 // console.log("error =>> ", err);
@@ -390,14 +386,12 @@ const WithdrawModal: React.FC<{
 
         const estGasFee = async () => {
             setLoader(true);
-            setAmountApproval(false);
             setEstGas(0);
             let user: any = account;
             const amountWei = web3.utils.toBN(
                 fromExponential(10000 * Math.pow(10, 18))
             );
             let currentprice: any = await currentGasPrice(web3);
-            // if (selectedToken?.parentName !== "BONE") {
             let allowanceForExit =
                 (await getAllowanceAmount(
                     library,
@@ -420,7 +414,6 @@ const WithdrawModal: React.FC<{
                         setAllowance(+processExitAllowance);
                     }).catch((err: any) => console.log(err));
             }
-            // }
             let instance = new web3.eth.Contract(
                 withdrawManagerABI,
                 dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
@@ -459,6 +452,7 @@ const WithdrawModal: React.FC<{
                     process.length - 1 - process.indexOf(tempStep) + 1
                 );
                 setProcessing(process);
+                console.log("processing",process , tempStep)
                 if (tempStep == "Checkpoint") {
                     getBurnStatus(txState?.txHash?.transactionHash);
                 } else if (tempStep == "Challenge Period") {
@@ -479,7 +473,6 @@ const WithdrawModal: React.FC<{
                 title={withModalState.title}
                 show={show}
                 setshow={() => {
-                    setWithdrawModal(false);
                     setWithdrawModalOpen(false);
                 }}
                 externalCls="dark-modal-100 bridge-ht2"
