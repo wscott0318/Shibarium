@@ -4695,6 +4695,9 @@ body::-webkit-scrollbar,
   }
 }
 
+.collapse{
+  visibility: visible !important;
+}
 // burn sass
 .burn-wrap{
   .cus-card {
@@ -4801,11 +4804,7 @@ body::-webkit-scrollbar,
     }
   }
 }
-.cus-accordian{
-  .collapse {
-    visibility: visible;
-  }
-} 
+
 .fire-flaot {
   max-width: 110px;
   position: absolute;
