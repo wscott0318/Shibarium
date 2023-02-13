@@ -71,7 +71,10 @@ export const burnStatus = async (clientType, txHash) => {
     const burnExitTx = await client.client.child.web3_.eth.getTransaction(
       txHash
     );
-
+    const burnExitTxreceipt = await client.client.child.web3_.eth.getTransactionReceipt(
+      txHash
+    );
+      console.log("burn exit tx " , burnExitTx , burnExitTxreceipt)
     const from = String(burnExitTx.from);
 
     console.log(`Exit type            : ${clientType}`);
@@ -92,7 +95,7 @@ export const burnStatus = async (clientType, txHash) => {
     console.log("withdraw process can be executed with:");
     console.log(`  sandbox-wallet exit withdraw ${clientType} ${txHash}`);
     console.log("");
-    return inclusion;
+    return {inclusion,burnExitTxreceipt};
     // process.exit(0)
   } catch (e) {
     console.log(e);

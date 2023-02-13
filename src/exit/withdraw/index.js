@@ -46,6 +46,7 @@ export const startWithdraw = async (clientType, burnOrExitTxHash, fast = 0) => {
 
     // todo - other types in addition to erc20
     const erc20Token = client.erc20(parentTokenAddress, true);
+    console.log("burn exit tx receipt => " ,burnExitTxReceipt);
     let result;
     if (clientType === "pos") {
       if (useFast) {

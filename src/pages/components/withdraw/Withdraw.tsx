@@ -12,6 +12,7 @@ import {
 import { dynamicChaining } from "web3/DynamicChaining";
 import CommonModal from "../CommonModel";
 import MRC20 from "../../../ABI/MRC20ABI.json";
+import ChildERC20 from "../../../ABI/childERC20.json";
 import * as Sentry from "@sentry/nextjs";
 import Web3 from "web3";
 import { useAppDispatch } from "app/state/hooks";
@@ -29,6 +30,13 @@ import { SUPPORTED_NETWORKS } from "app/modals/NetworkModal";
 import cookie from 'cookie-cutter'
 import { addTransaction, finalizeTransaction } from "app/state/transactions/actions";
 import { getExplorerLink } from "app/functions";
+import { ExitUtil, POSClient } from "@shibarmy/shibariumjs";
+import { RootChain } from "@shibarmy/shibariumjs";
+import { getClient } from "client/shibarium";
+import { PlasmaClient } from "@shibarmy/shibariumjs-plasma";
+import burn from "../../../exit/burn";
+
+
 const WithdrawModal: React.FC<{
     page: string;
     dWState: boolean;
@@ -50,6 +58,8 @@ const WithdrawModal: React.FC<{
         const lib: any = library;
         const web3: any = new Web3(lib?.provider);
         const webL2: any = PUPPYNET517();
+        // console.log("library ", library);
+        console.log("chainId ", chainId);
         const dispatch = useAppDispatch();
         const [showWithdrawModal, setWithdrawModal] = useState(true);
         const [hashLink, setHashLink] = useState("");
@@ -65,6 +75,7 @@ const WithdrawModal: React.FC<{
             useState(false);
         const [buttonloader, setButtonLoader] = useState(false);
         const [completed, setCompleted] = useState(false);
+        const [inclusion, setInclusion] = useState({});
         const [withModalState, setWidModState] = useState({
             step0: true,
             step1: false,
@@ -102,20 +113,23 @@ const WithdrawModal: React.FC<{
             try {
                 if (account) {
                     setButtonLoader(true);
-                    console.log("approve amount entered");
-                    let allowance =
-                        (await getAllowanceAmount(
-                            library,
-                            dynamicChaining[chainId].BONE,
-                            account,
-                            dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
-                        )) || 0;
-                    console.log("step 2");
-                    if (+withdrawTokenInput > +allowance) {
-                        console.log("step 3");
-                        approveWithdraw();
-                    }
-                    else {
+
+                    // let allowance =
+                    //     (await getAllowanceAmount(
+                    //         library,
+                    //         selectedToken?.parentContract,
+                    //         account,
+                    //         dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
+                    //     )) || 0;
+                    // console.log("step 2", chainId, allowance);
+                    // if (+withdrawTokenInput > +allowance) {
+                    //     console.log("step 3");
+                    //     await approveWithdraw();
+                    // }
+                    // else {
+                        // if (chainId == ChainId.GÖRLI) {
+                        await switchNetwork();
+                        // }
                         setButtonLoader(true);
                         setWidModState({
                             ...withModalState,
@@ -124,12 +138,12 @@ const WithdrawModal: React.FC<{
                             title: "Transaction Pending",
                         });
                         setStep("Initialized");
-                        if (chainId == ChainId.GÖRLI) {
-                            await switchNetwork();
-                        }
-                        submitWithdraw();
+                        setTimeout(() => {
 
-                    }
+                            submitWithdraw();
+                        }, 2000)
+
+                    // }
                 }
             } catch (err: any) {
                 if (err.code !== USER_REJECTED_TX) {
@@ -143,7 +157,8 @@ const WithdrawModal: React.FC<{
                 if (account) {
                     let user = account;
                     let amount = web3.utils.toBN(fromExponential(+withdrawTokenInput * Math.pow(10, 18)));
-                    let instance = new web3.eth.Contract(MRC20, selectedToken?.parentContract);
+
+                    let instance = new web3.eth.Contract(ChildERC20, selectedToken?.parentContract);
                     let gasFee = await instance.methods.approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount).estimateGas({ from: user })
                     let encodedAbi = await instance.methods.approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount).encodeABI()
                     let CurrentgasPrice: any = await currentGasPrice(web3)
@@ -182,7 +197,7 @@ const WithdrawModal: React.FC<{
                                     }
                                 })
                             )
-                            submitWithdraw();
+                            // submitWithdraw();
                         })
                 }
             } catch (err: any) {
@@ -199,11 +214,31 @@ const WithdrawModal: React.FC<{
                 const amountWei = web3.utils.toBN(
                     fromExponential(+withdrawTokenInput * Math.pow(10, 18))
                 );
-                const instance = new web3.eth.Contract(MRC20, selectedToken?.parentContract);
-                console.log("instance ", instance.methods)
-                instance.methods.withdraw(amountWei)
-                    .send({ from: account })
-                    .on("transactionHash", (res: any) => {
+                let abi: any;
+                if (selectedToken?.parentName === "BONE") {
+                    abi = MRC20;
+                }
+                else {
+                    abi = ChildERC20;
+                }
+                console.log("chain id " , chainId , library);
+                // const burn = startBurn(selectedToken?.bridgetype , selectedToken?.childContract , user, +withdrawTokenInput);
+                console.log("amountWei ", withdrawTokenInput);
+                const instance = new web3.eth.Contract(abi, selectedToken?.childContract);
+                console.log("instance created", instance , chainId)
+                let gasFee = await instance.methods.withdraw(amountWei).estimateGas({ from: user })
+                console.log("gas fee calculated")
+                let encodedAbi = await instance.methods.withdraw(amountWei).encodeABI()
+                console.log("abi encoded")
+                let CurrentgasPrice: any = await currentGasPrice(web3)
+                console.log("current gas price calculated");
+                await web3.eth.sendTransaction({
+                    from: user,
+                    to: selectedToken?.childContract,
+                    gas: (parseInt(gasFee) + 30000).toString(),
+                    gasPrice: CurrentgasPrice,
+                    data: encodedAbi
+                }).on("transactionHash", (res: any) => {
                         dispatch(
                             addTransaction({
                                 hash: res,
@@ -212,18 +247,8 @@ const WithdrawModal: React.FC<{
                                 summary: `${res}`,
                             })
                         );
-                        setProcessing((processing: any) => [...processing, "Initialized"]);
-                        setStep("Checkpoint");
-                        setTxState({
-                            checkpointSigned: false,
-                            challengePeriod: false,
-                            processExit: false,
-                            amount: withdrawTokenInput,
-                            token: selectedToken,
-                            txHash: res,
-                        });
                         console.log("transaction hash ", res)
-                        let link = getExplorerLink(chainId, res, "transaction");
+                        let link = getExplorerLink(ChainId.PUPPYNET517, res, "transaction");
                         setHashLink(link);
                     })
                     .on("receipt", (res: any) => {
@@ -243,12 +268,35 @@ const WithdrawModal: React.FC<{
                                 },
                             })
                         );
-
+                        setProcessing((processing: any) => [...processing, "Initialized"]);
+                        setStep("Checkpoint");
+                        setTxState({
+                            checkpointSigned: false,
+                            challengePeriod: false,
+                            processExit: false,
+                            amount: withdrawTokenInput,
+                            token: selectedToken,
+                            txHash: res,
+                        });
                     })
                     .on("error", (res: any) => {
                         if (res.code === 4001) {
-
+                            setWithdrawModalOpen(false);
+                            setWidModState({
+                                step0: true,
+                                step1: false,
+                                step2: false,
+                                step3: false,
+                                step4: false,
+                                step5: false,
+                                step6: false,
+                                title: "Initialize Withdraw",
+                            });
+                            setWithdrawModal(false);
+                            setStep("Initialized");
+                            setProcessing([]);
                         }
+                        console.log("error ", res)
                     });
                 // let burn = await startBurn(
                 //     selectedToken?.bridgetype,
@@ -300,11 +348,19 @@ const WithdrawModal: React.FC<{
 
         const getBurnStatus = async (txHash: any) => {
             let status = await burnStatus(txState?.token?.bridgetype, txHash);
-            console.log("status ", status);
-            if (status) {
+            console.log("status ", status.inclusion);
+            if (status?.inclusion) {
                 setProcessing((processing: any) => [...processing, "Checkpoint"]);
                 setTxState({ ...txState, checkpointSigned: true });
                 setCheckpointSigned(true);
+                setInclusion(status?.burnExitTxreceipt);
+                // let client = txState?.token?.bridgetype;
+                // const root = new RootChain(client, account as string);
+                // console.log("root" ,root);
+                // const exitUtil = new ExitUtil(client , root);
+                // let res = exitUtil.buildPayloadForExit(txHash , status?.burnExitTxreceipt , false, 0)
+                // console.log("exitUtil" ,exitUtil , res);
+                // let res = exitUtil.buildPayloadForExit(txHash,false,0);
             }
         };
 
@@ -376,7 +432,7 @@ const WithdrawModal: React.FC<{
                 );
                 setProcessing(process);
                 if (tempStep == "Checkpoint") {
-                    getBurnStatus(txState?.txHash);
+                    getBurnStatus(txState?.txHash?.transactionHash);
                 } else if (tempStep == "Challenge Period") {
                     setChallengePeriodCompleted(true);
                 }
@@ -812,6 +868,7 @@ const WithdrawModal: React.FC<{
                                             step,
                                             withdrawTokenInput,
                                             page,
+                                            inclusion
                                         }}
                                     />
                                 </>
@@ -836,6 +893,7 @@ const WithdrawModal: React.FC<{
                                     completed,
                                     setCompleted,
                                     page,
+                                    inclusion
                                 }}
                             />
                         </>

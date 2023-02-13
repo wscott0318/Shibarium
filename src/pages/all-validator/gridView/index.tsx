@@ -17,7 +17,7 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
   const [showdelegatepop, setdelegatepop] = useState(false);
   const router = useRouter();
   const [showmigratepop, setmigratepop] = useState(false);
-  
+
   const tootlTipDesc = (x: any) => {
     if (account) {
       if (x.fundamental === 1) {
