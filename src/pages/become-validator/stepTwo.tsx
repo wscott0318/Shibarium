@@ -146,7 +146,7 @@ function StepTwo({
       {apiLoading && <LoadingSpinner />}
       <div className="progress-tab">
         <div className="mb-4 mb-xl-5">
-          <h5 className="fwb fw-700 mb-2 ff-mos">Add node details</h5>
+          <h5 className="mb-2 fwb fw-700 ff-mos">Add node details</h5>
           <p className="ff-mos">
             Please provide your node details for better recognizability
           </p>
@@ -155,7 +155,7 @@ function StepTwo({
           <div className="col-sm-6 form-grid">
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
-                Validator logo
+                Validator logo (Upload logo only)
               </label>
               <div className="file-wrap">
                 <div className="file-icons">
@@ -272,7 +272,7 @@ function StepTwo({
             </div>
           </div>
         </div>
-        <div className="btn-wrap col-sm-5 mt-4 flx">
+        <div className="mt-4 btn-wrap col-sm-5 flx">
           <button
             type="button"
             className="btn grey-btn w-100"
