@@ -8,10 +8,12 @@ import {
     getAllowanceAmount,
     tokenDecimal,
     USER_REJECTED_TX,
+    web3Decimals,
 } from "web3/commonFunctions";
 import { dynamicChaining } from "web3/DynamicChaining";
 import CommonModal from "../CommonModel";
 import MRC20 from "../../../ABI/MRC20ABI.json";
+import ChildERC20 from "../../../ABI/childERC20.json";
 import * as Sentry from "@sentry/nextjs";
 import Web3 from "web3";
 import { useAppDispatch } from "app/state/hooks";
@@ -29,6 +31,14 @@ import { SUPPORTED_NETWORKS } from "app/modals/NetworkModal";
 import cookie from 'cookie-cutter'
 import { addTransaction, finalizeTransaction } from "app/state/transactions/actions";
 import { getExplorerLink } from "app/functions";
+import { ExitUtil, POSClient } from "@shibarmy/shibariumjs";
+import { RootChain } from "@shibarmy/shibariumjs";
+import { getClient } from "client/shibarium";
+import { PlasmaClient } from "@shibarmy/shibariumjs-plasma";
+import burn from "../../../exit/burn";
+import ERC20 from "../../../ABI/ERC20Abi.json";
+
+
 const WithdrawModal: React.FC<{
     page: string;
     dWState: boolean;
@@ -49,6 +59,9 @@ const WithdrawModal: React.FC<{
         const { chainId = 1, account, library } = useActiveWeb3React();
         const lib: any = library;
         const web3: any = new Web3(lib?.provider);
+        const webL2: any = PUPPYNET517();
+        // console.log("library ", library);
+        console.log("chainId ", chainId);
         const dispatch = useAppDispatch();
         const [hashLink, setHashLink] = useState("");
         const [allowance, setAllowance] = useState(0);
@@ -62,6 +75,7 @@ const WithdrawModal: React.FC<{
             useState(false);
         const [buttonloader, setButtonLoader] = useState(false);
         const [completed, setCompleted] = useState(false);
+        const [inclusion, setInclusion] = useState({});
         const [withModalState, setWidModState] = useState({
             step0: true,
             step1: false,
@@ -93,27 +107,25 @@ const WithdrawModal: React.FC<{
                 }
                 console.error(`Switch chain error ${switchError}`)
                 // handle other "switch" errors
+                setButtonLoader(false);
             }
         }
         const callWithdrawContract = async () => {
             try {
                 if (account) {
                     setButtonLoader(true);
-                    console.log("approve amount entered");
-                    let allowance =
-                        (await getAllowanceAmount(
-                            library,
-                            dynamicChaining[chainId].BONE,
-                            account,
-                            dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
-                        )) || 0;
-                    console.log("step 2");
-                    if (+withdrawTokenInput > +allowance) {
-                        console.log("step 3");
-                        approveWithdraw();
+                    if (chainId === ChainId.GÖRLI) {
+                        console.log("entered first if")
+                        if (+allowance > 0) {
+                            await approveWithdraw();
+                        }
+                        await switchNetwork();
+                        setButtonLoader(false);
+                        console.log("first if completed")
                     }
-                    else {
+                    if (chainId === ChainId.PUPPYNET517) {
                         setButtonLoader(true);
+                        console.log("entered second if")
                         setWidModState({
                             ...withModalState,
                             step2: false,
@@ -121,14 +133,14 @@ const WithdrawModal: React.FC<{
                             title: "Transaction Pending",
                         });
                         setStep("Initialized");
-                        if (chainId == ChainId.GÖRLI) {
-                            await switchNetwork();
-                        }
-                        submitWithdraw();
-
+                        setTimeout(() => {
+                            console.log("entered submit withdraw")
+                            submitWithdraw();
+                        }, 2000)
                     }
                 }
             } catch (err: any) {
+                console.log("entered catch block")
                 if (err.code !== USER_REJECTED_TX) {
                     Sentry.captureMessage("callDepositContract", err);
                 }
@@ -139,14 +151,14 @@ const WithdrawModal: React.FC<{
                 console.log("step 5");
                 if (account) {
                     let user = account;
-                    let amount = web3.utils.toBN(fromExponential(+withdrawTokenInput * Math.pow(10, 18)));
-                    let instance = new web3.eth.Contract(MRC20, selectedToken?.parentContract);
+                    let amount = web3.utils.toBN(fromExponential(10000 * Math.pow(10, 18)));
+                    let instance = new web3.eth.Contract(ERC20, selectedToken?.parentContract);
                     let gasFee = await instance.methods.approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount).estimateGas({ from: user })
                     let encodedAbi = await instance.methods.approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount).encodeABI()
                     let CurrentgasPrice: any = await currentGasPrice(web3)
                     await web3.eth.sendTransaction({
                         from: user,
-                        to: dynamicChaining[chainId].BONE,
+                        to: selectedToken?.parentContract,
                         gas: (parseInt(gasFee) + 30000).toString(),
                         gasPrice: CurrentgasPrice,
                         data: encodedAbi
@@ -179,7 +191,8 @@ const WithdrawModal: React.FC<{
                                     }
                                 })
                             )
-                            submitWithdraw();
+                            setAllowance(0);
+                            // submitWithdraw();
                         })
                 }
             } catch (err: any) {
@@ -193,84 +206,144 @@ const WithdrawModal: React.FC<{
                 setHashLink("");
                 setButtonLoader(false);
                 let user: any = account;
-                const amountWei = web3.utils.toBN(
-                    fromExponential(+withdrawTokenInput * Math.pow(10, 18))
-                );
-                const instance = new web3.eth.Contract(MRC20, selectedToken?.parentContract);
-                console.log("instance ", instance.methods)
-                instance.methods.withdraw(amountWei)
-                    .send({ from: account })
-                    .on("transactionHash", (res: any) => {
-                        dispatch(
-                            addTransaction({
-                                hash: res,
-                                from: user,
-                                chainId,
-                                summary: `${res}`,
-                            })
-                        );
-                        setProcessing((processing: any) => [...processing, "Initialized"]);
-                        setStep("Checkpoint");
-                        setTxState({
-                            checkpointSigned: false,
-                            challengePeriod: false,
-                            processExit: false,
-                            amount: withdrawTokenInput,
-                            token: selectedToken,
-                            txHash: res,
+                let amount: any = 0;
+                let abi: any;
+                if (selectedToken?.parentName === "BONE") {
+                    amount = web3.utils.toWei(withdrawTokenInput, 'ether');
+                    abi = MRC20;
+                }
+                else {
+                    amount = web3.utils.toWei(withdrawTokenInput, 'ether');
+                    abi = ChildERC20;
+                }
+                console.log("amount", amount);
+                const instance = new web3.eth.Contract(abi, selectedToken?.childContract);
+                if (selectedToken?.parentName === "BONE") {
+                    await instance.methods.withdraw(amount).send({ "from": user, gas: 100000, "value": amount })
+                        .on("transactionHash", (res: any) => {
+                            dispatch(
+                                addTransaction({
+                                    hash: res,
+                                    from: user,
+                                    chainId,
+                                    summary: `${res}`,
+                                })
+                            );
+                            console.log("transaction hash ", res)
+                            let link = getExplorerLink(ChainId.PUPPYNET517, res, "transaction");
+                            setHashLink(link);
+                        })
+                        .on("receipt", (res: any) => {
+                            dispatch(
+                                finalizeTransaction({
+                                    hash: res.transactionHash,
+                                    chainId,
+                                    receipt: {
+                                        to: res.to,
+                                        from: res.from,
+                                        contractAddress: res.contractAddress,
+                                        transactionIndex: res.transactionIndex,
+                                        blockHash: res.blockHash,
+                                        transactionHash: res.transactionHash,
+                                        blockNumber: res.blockNumber,
+                                        status: 1,
+                                    },
+                                })
+                            );
+                            setProcessing((processing: any) => [...processing, "Initialized"]);
+                            setStep("Checkpoint");
+                            setTxState({
+                                checkpointSigned: false,
+                                challengePeriod: false,
+                                processExit: false,
+                                amount: withdrawTokenInput,
+                                token: selectedToken,
+                                txHash: res,
+                            });
+                        })
+                        .on("error", (res: any) => {
+                            if (res.code === 4001) {
+                                setWithdrawModalOpen(false);
+                                setWidModState({
+                                    step0: true,
+                                    step1: false,
+                                    step2: false,
+                                    step3: false,
+                                    step4: false,
+                                    step5: false,
+                                    step6: false,
+                                    title: "Initialize Withdraw",
+                                });
+                               
+                                setStep("Initialized");
+                                setProcessing([]);
+                            }
+                            console.log("error ", res)
                         });
-                        console.log("transaction hash ", res)
-                        let link = getExplorerLink(chainId, res, "transaction");
-                        setHashLink(link);
-                    })
-                    .on("receipt", (res: any) => {
-                        dispatch(
-                            finalizeTransaction({
-                                hash: res.transactionHash,
-                                chainId,
-                                receipt: {
-                                    to: res.to,
-                                    from: res.from,
-                                    contractAddress: res.contractAddress,
-                                    transactionIndex: res.transactionIndex,
-                                    blockHash: res.blockHash,
-                                    transactionHash: res.transactionHash,
-                                    blockNumber: res.blockNumber,
-                                    status: 1,
-                                },
-                            })
-                        );
-
-                    })
-                    .on("error", (res: any) => {
-                        if (res.code === 4001) {
-                            console.log(res)
-                        }
-                    });
-                // let burn = await startBurn(
-                //     selectedToken?.bridgetype,
-                //     selectedToken?.childContract,
-                //     user,
-                //     withdrawTokenInput
-                // );
-                // // let burn: boolean = false;
-                // // setTimeout(() => {
-                // //     burn = true;
-                // if (burn) {
-                //     setProcessing((processing: any) => [...processing, "Initialized"]);
-                //     let link = `https://shibascan-517.hailshiba.com/tx/${burn}`;
-                //     setHashLink(link);
-                //     setStep("Checkpoint");
-                //     setTxState({
-                //         checkpointSigned: false,
-                //         challengePeriod: false,
-                //         processExit: false,
-                //         amount: withdrawTokenInput,
-                //         token: selectedToken,
-                //         txHash: burn,
-                //     });
-                // }
-                // }, 3000);
+                }
+                else {
+                    await instance.methods.withdraw(amount).send({ "from": user })
+                        .on("transactionHash", (res: any) => {
+                            dispatch(
+                                addTransaction({
+                                    hash: res,
+                                    from: user,
+                                    chainId,
+                                    summary: `${res}`,
+                                })
+                            );
+                            console.log("transaction hash ", res)
+                            let link = getExplorerLink(ChainId.PUPPYNET517, res, "transaction");
+                            setHashLink(link);
+                        })
+                        .on("receipt", (res: any) => {
+                            dispatch(
+                                finalizeTransaction({
+                                    hash: res.transactionHash,
+                                    chainId,
+                                    receipt: {
+                                        to: res.to,
+                                        from: res.from,
+                                        contractAddress: res.contractAddress,
+                                        transactionIndex: res.transactionIndex,
+                                        blockHash: res.blockHash,
+                                        transactionHash: res.transactionHash,
+                                        blockNumber: res.blockNumber,
+                                        status: 1,
+                                    },
+                                })
+                            );
+                            setProcessing((processing: any) => [...processing, "Initialized"]);
+                            setStep("Checkpoint");
+                            setTxState({
+                                checkpointSigned: false,
+                                challengePeriod: false,
+                                processExit: false,
+                                amount: withdrawTokenInput,
+                                token: selectedToken,
+                                txHash: res,
+                            });
+                        })
+                        .on("error", (res: any) => {
+                            if (res.code === 4001) {
+                                setWithdrawModalOpen(false);
+                                setWidModState({
+                                    step0: true,
+                                    step1: false,
+                                    step2: false,
+                                    step3: false,
+                                    step4: false,
+                                    step5: false,
+                                    step6: false,
+                                    title: "Initialize Withdraw",
+                                });
+                               
+                                setStep("Initialized");
+                                setProcessing([]);
+                            }
+                            console.log("error ", res)
+                        });
+                }
 
             } catch (err: any) {
                 if (err.code !== USER_REJECTED_TX) {
@@ -290,51 +363,64 @@ const WithdrawModal: React.FC<{
                 });
                 setStep("Initialized");
                 setProcessing([]);
-                console.log("error =>> ", err);
+                // console.log("error =>> ", err);
             }
         };
 
         const getBurnStatus = async (txHash: any) => {
             let status = await burnStatus(txState?.token?.bridgetype, txHash);
-            console.log("status ", status);
-            if (status) {
+            console.log("status ", status.inclusion);
+            if (status?.inclusion) {
                 setProcessing((processing: any) => [...processing, "Checkpoint"]);
                 setTxState({ ...txState, checkpointSigned: true });
                 setCheckpointSigned(true);
+                setInclusion(status?.burnExitTxreceipt);
+                // let client = txState?.token?.bridgetype;
+                // const root = new RootChain(client, account as string);
+                // console.log("root" ,root);
+                // const exitUtil = new ExitUtil(client , root);
+                // let res = exitUtil.buildPayloadForExit(txHash , status?.burnExitTxreceipt , false, 0)
+                // console.log("exitUtil" ,exitUtil , res);
+                // let res = exitUtil.buildPayloadForExit(txHash,false,0);
             }
         };
 
         const estGasFee = async () => {
+            setLoader(true);
             setEstGas(0);
             let user: any = account;
             const amountWei = web3.utils.toBN(
-                fromExponential(+withdrawTokenInput * Math.pow(10, 18))
+                fromExponential(10000 * Math.pow(10, 18))
             );
-            let allowance =
+            let currentprice: any = await currentGasPrice(web3);
+            // if (selectedToken?.parentName !== "BONE") {
+            let allowanceForExit =
                 (await getAllowanceAmount(
                     library,
-                    dynamicChaining[chainId].BONE,
+                    selectedToken?.parentContract,
                     account,
                     dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
                 )) || 0;
-            let currentprice: any = await currentGasPrice(web3);
-            if (+allowance < +withdrawTokenInput) {
-                let approvalInstance = new web3.eth.Contract(
-                    MRC20,
-                    dynamicChaining[chainId].BONE
-                );
+            let approvalInstance = new web3.eth.Contract(
+                ERC20,
+                selectedToken?.parentContract
+            );
+            console.log("allowance ", allowanceForExit)
+            let processExitAllowance: any = 0;
+            if (+allowanceForExit < +withdrawTokenInput) {
                 await approvalInstance.methods
                     .approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amountWei)
                     .estimateGas({ from: user })
                     .then((gas: any) => {
-                        setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
+                        processExitAllowance = +(+gas * +currentprice) / Math.pow(10, 18);
+                        setAllowance(+processExitAllowance);
                     }).catch((err: any) => console.log(err));
             }
+            // }
             let instance = new web3.eth.Contract(
                 withdrawManagerABI,
                 dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
             );
-
             await instance.methods
                 .processExits(dynamicChaining[chainId].BONE)
                 .estimateGas({ from: user })
@@ -370,7 +456,7 @@ const WithdrawModal: React.FC<{
                 );
                 setProcessing(process);
                 if (tempStep == "Checkpoint") {
-                    getBurnStatus(txState?.txHash);
+                    getBurnStatus(txState?.txHash?.transactionHash);
                 } else if (tempStep == "Challenge Period") {
                     setChallengePeriodCompleted(true);
                 }
@@ -559,7 +645,7 @@ const WithdrawModal: React.FC<{
                                                                     thousandSeparator
                                                                     displayType={"text"}
                                                                     prefix="$"
-                                                                    value={(allowance * boneUSDValue).toFixed(3)}
+                                                                    value={(allowance * boneUSDValue).toFixed(8)}
                                                                 />
                                                             </>
                                                         )}
@@ -592,7 +678,7 @@ const WithdrawModal: React.FC<{
                                                                 thousandSeparator
                                                                 displayType={"text"}
                                                                 prefix="$"
-                                                                value={(estGas * boneUSDValue).toFixed(3)}
+                                                                value={((allowance ? +estGas + +allowance : +estGas) * boneUSDValue).toFixed(8)}
                                                             />
                                                         </>
                                                     )}
@@ -764,7 +850,7 @@ const WithdrawModal: React.FC<{
                                                             thousandSeparator
                                                             displayType={"text"}
                                                             prefix="$"
-                                                            value={(estGas * boneUSDValue).toFixed(6)}
+                                                            value={((allowance ? +estGas + +allowance : +estGas) * boneUSDValue).toFixed(8)}
                                                         />
                                                     </p>
                                                 </div>
@@ -804,6 +890,7 @@ const WithdrawModal: React.FC<{
                                             step,
                                             withdrawTokenInput,
                                             page,
+                                            inclusion
                                         }}
                                     />
                                 </>
@@ -828,6 +915,7 @@ const WithdrawModal: React.FC<{
                                     completed,
                                     setCompleted,
                                     page,
+                                    inclusion
                                 }}
                             />
                         </>

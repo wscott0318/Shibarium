@@ -10,7 +10,13 @@ import { addTransaction, finalizeTransaction } from 'app/state/transactions/acti
 import { useAppDispatch } from 'app/state/hooks';
 import { dynamicChaining } from 'web3/DynamicChaining';
 import { ChainId } from 'shibarium-get-chains';
-import { parseError } from 'web3/commonFunctions';
+import MRC20 from "../../../ABI/MRC20ABI.json";
+import ERC20 from "../../../ABI/ERC20Abi.json";
+import * as Sentry from '@sentry/nextjs';
+import { currentGasPrice, getAllowanceAmount, parseError } from 'web3/commonFunctions';
+import fromExponential from 'from-exponential';
+import { getClient } from 'client/shibarium';
+import { ExitUtil, RootChain } from '@shibarmy/shibariumjs';
 const StepThree: React.FC<any> = ({
     withdrawTokenInput,
     selectedToken,
@@ -25,7 +31,7 @@ const StepThree: React.FC<any> = ({
     setHashLink,
     setChallengePeriodCompleted,
     completed,
-    setCompleted, page }) => {
+    setCompleted, page, inclusion }) => {
 
     const [txState, setTxState] = useLocalStorageState<any>("txState");
     const { account, chainId = 1, library } = useActiveWeb3React();
@@ -34,7 +40,7 @@ const StepThree: React.FC<any> = ({
     const dispatch: any = useAppDispatch();
     useEffect(() => {
         if (txState && page == "tx") {
-            let link = getExplorerLink(chainId, txState?.txHash, 'transaction')
+            let link = getExplorerLink(chainId, txState?.txHash?.transactionHash, 'transaction')
             setHashLink(link);
         }
     }, []);
@@ -95,16 +101,35 @@ const StepThree: React.FC<any> = ({
 
     const startExitWithBurntTokens = async () => {
         try {
-            if(chainId === ChainId.PUPPYNET517){
+            if (chainId === ChainId.PUPPYNET517) {
                 await switchNetwork();
             }
+            let contract = "0x03E00CA773C76c496aF9194d0C4840cD785929D4";
             setStep("Challenge Period");
             let user: any = account;
             let type = selectedToken?.bridgetype || txState?.token?.bridgetype;
-            let contract = "0x03E00CA773C76c496aF9194d0C4840cD785929D4";
             let instance = new web3.eth.Contract(ExitTokenABI, contract);
-            console.log("instance" , instance);
-            instance.methods.startExitWithBurntTokens(txState?.txHash)
+            let data = txState?.txHash?.events?.Withdraw?.signature || txState?.txHash?.events?.Transfer?.signature;
+            const client = await getClient(type);
+            let erc20Token: any;
+            console.log("data", data);
+            if (client) {
+                erc20Token = await client.exitUtil.buildPayloadForExit(
+                    txState?.txHash?.transactionHash, data.toLowerCase(), false, 0
+                    )
+                }
+                // let rootchain = new RootChain(erc20Token,txState?.token?.parentContract as string);
+                console.log(erc20Token);
+                
+                console.log("instance", instance, inclusion);
+            await instance.methods.startExitWithBurntTokens(erc20Token).estimateGas({from:user}).then((res:any) => {
+                console.log("est gas calculated" , res);
+            }).catch((err:any) => {
+                console.log("error calculating gas fee" , err);
+            });
+
+            // let withdrawState: any = await startWithdraw(type, txState?.txHash, 0);
+            await instance.methods.startExitWithBurntTokens(erc20Token)
                 .send({ from: account })
                 .on("transactionHash", (res: any) => {
                     dispatch(
@@ -149,20 +174,21 @@ const StepThree: React.FC<any> = ({
                 .on("error", (res: any) => {
                     console.log("startExitWithBurntTokens ", res);
                     setStep("Checkpoint");
-                    if(res.code === 4001){
+                    if (res.code === 4001) {
                         console.log("user denied transaction");
                     }
                 });
         }
         catch (err: any) {
             console.log("startExitWithBurntTokens ", err);
-            let error = parseError(err);
+            // let error = parseError(err);
             setStep("Checkpoint");
-            if(error.code === 4001){
-                console.log("user denied transaction");
-            }
+            // if (error?.code === 4001) {
+            //     console.log("user denied transaction");
+            // }
         }
     }
+
     return (
         <div className="popmodal-body no-ht">
             <div className="pop-block withdraw_pop">
@@ -237,7 +263,7 @@ const StepThree: React.FC<any> = ({
                                 <h5 className='pt-4 pb-2'>Processing your request</h5>
                                 <p className='pb-3'>Your transaction will be confirmed in a few seconds.</p>
                                 {hashLink &&
-                                    <a href={hashLink ? hashLink : txState?.txHash} className="primary-text">
+                                    <a href={hashLink ? hashLink : txState?.txHash?.transactionHash} className="primary-text">
                                         View on Block Explorer
                                     </a>}
                             </div>
@@ -269,7 +295,7 @@ const StepThree: React.FC<any> = ({
                                     <img src="../../assets/images/waiting-small.png" alt="" className='img-fluid' height="120" width="120" />
                                     <h5 className='pt-4 pb-2'>Waiting for Checkpoint</h5>
                                     <p className='pb-3 ps-2 pe-2'>Checkpointing creates better security on the chain. Checkpointing will take from 45 minutes to 3 hours. </p>
-                                    <a href={hashLink ? hashLink : txState?.txHash} className="primary-text">
+                                    <a href={hashLink ? hashLink : txState?.txHash?.transactionHash} className="primary-text">
                                         View on Block Explorer
                                     </a>
                                 </div>
@@ -285,7 +311,7 @@ const StepThree: React.FC<any> = ({
                                         <img src="../../assets/images/check.png" alt="" className='img-fluid' height="120" width="120" />
                                         <h5 className='pt-3 pb-2'>Challenge period completed</h5>
                                         <p className='pb-2 ps-2 pe-2'>Your token is ready to move from Puppy Net to Goerli Network. Complete the last transaction and you're done.</p>
-                                        <a href={hashLink ? hashLink : txState?.txHash} className="primary-text">
+                                        <a href={hashLink ? hashLink : txState?.txHash?.transactionHash} className="primary-text">
                                             View on Block Explorer
                                         </a>
                                     </div>
@@ -315,7 +341,7 @@ const StepThree: React.FC<any> = ({
                                 <img src="../../assets/images/cmpete-step.png" alt="" />
                                 <h5 className='pt-4 pb-2'>Transfer completed successfully</h5>
                                 <p className='pb-3 ps-2 pe-2'>Your transfer is completed successfully.</p>
-                                <a href={hashLink ? hashLink : txState?.txHash} className="primary-text">
+                                <a href={hashLink ? hashLink : txState?.txHash?.transactionHash} className="primary-text">
                                     View on Block Explorer
                                 </a>
                             </div>

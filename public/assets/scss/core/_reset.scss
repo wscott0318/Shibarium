@@ -205,6 +205,12 @@ h6 {
     font-size: 13px;
   }
 }
+.fs-16{
+  font-size: 16px;
+  @media #{$max-lg} {
+    font-size: 14px;
+  }
+}
 p {
   color: rgba(14, 14, 14, 0.89);
   color: rgba($white, 0.89);
@@ -398,7 +404,16 @@ ul {
   background-clip: text;
   text-fill-color: transparent;
 }
-
+.primary-btn-outline{
+  background-color: transparent;
+  border: 1px solid $primary;
+  color: $primary;
+  &:hover{
+     background-color: $primary !important;
+     color: $white !important;
+     border: 1px solid $primary !important;
+  }
+}
 .grey-btn {
   background-color: $grey-color;
   border-radius: 10px;
@@ -499,7 +514,11 @@ ul {
     }
     &:nth-child(2) {
       text-align: center;
+      // width: 16%;
     }
+    // &:nth-child(5) {
+    //   width: 12%;
+    // }
     @media #{$max-xxl} {
       padding: 15px 15px;
     }
@@ -523,8 +542,10 @@ ul {
     padding-right: 15px;
     vertical-align: middle;
     display: inline-block;
+    @media #{$max-sm} {
+      padding-right: 6px;
+    }
     @media #{$max-xsm} {
-      padding-right: 10px;
       max-width: 100%;
     }
   }
@@ -550,9 +571,18 @@ ul {
     color: #596380;
   }
 }
-.cmn_dasdrd_table .table th:first-child {
-  width: 20%;
+@media (max-width: 576px) {
+  .cmn_dasdrd_table .table th:first-child,
+  .cmn_dasdrd_table .table td:first-child,
+  .cmn_dasdrd_table .table th:nth-child(2),
+  .cmn_dasdrd_table .table td:nth-child(2) {
+    width: 15% !important;
+  }
 }
+.cmn_dasdrd_table .table th:first-child {
+  width: 16%;
+}
+
 .pop_main_h {
   margin-bottom: 25px;
 }
@@ -1084,7 +1114,7 @@ td.no_record img {
   border-color: transparent;
   color: #666;
 }
-.MuiSlider-valueLabel{
+.MuiSlider-valueLabel {
   display: none;
 }
 .switch-wrapper {
@@ -1197,7 +1227,7 @@ td.no_record img {
     -o-transition: All 0.3s ease;
   }
 }
-.grid-view-shimmer{
+.grid-view-shimmer {
   border: 1px solid #ccc;
   border-radius: 15px;
   padding: 1rem;
@@ -1207,7 +1237,7 @@ td.no_record img {
   justify-content: center;
   min-height: 300px;
 }
-.infinite-scroll-component::-webkit-scrollbar{
+.infinite-scroll-component::-webkit-scrollbar {
   display: none;
 }
 .backDepState {
@@ -1229,10 +1259,10 @@ td.no_record img {
   border-radius: 6px;
   box-sizing: border-box;
 }
-.radioButtons.active{
+.radioButtons.active {
   border: 5px solid #f27c02;
 }
-.radioButtons span:first-of-type{
+.radioButtons span:first-of-type {
   display: none;
 }
 @media only screen and (max-width: 991.98px) {

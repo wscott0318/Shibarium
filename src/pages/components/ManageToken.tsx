@@ -1092,4 +1092,3 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     </div >
   )
 }
-

@@ -355,6 +355,16 @@ console.log(transactionState,'transactionState');
 
 const handleShow = useCallback(()=>{ handleClose(); resetForm()},[])
 
+  const handleUserInput = (input : any) => {
+    if(isMax) {
+      return parseInt('' + (input * 100)) / 100
+    } else if (input === 0) {
+      return null
+    } else {
+      return input 
+    }
+  }
+
   return (
     <>
       <CommonModal
@@ -427,7 +437,8 @@ const handleShow = useCallback(()=>{ handleClose(); resetForm()},[])
                           placeholder="0.00"
                           name="balance"
                           autoComplete="off"
-                          value={isMax ? (parseInt('' + (values.balance * 100)) / 100) : values.balance}
+                          // value={isMax ? (parseInt('' + (values.balance * 100)) / 100) : values.balance === 0 ? null : values.balance}
+                          value={handleUserInput(values.balance)}
                           onChange={(e) => { handleChange(e); setIsMax(false); }}
                           onBlur={handleBlur}
                         />
