@@ -4694,3 +4694,124 @@ body::-webkit-scrollbar,
     height: 600px;
   }
 }
+
+// burn sass
+.burn-wrap{
+  .cus-card {
+    background: #151b28;
+    border: 0;
+  }
+}
+.border-radius-8 {
+  border-radius: 8px !important;
+}
+.burn-top {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.burn-flex {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  .item-grp{
+     margin-right: 12px;
+     &:last-child{
+       margin-right: 0;
+     }
+  }
+}
+.burn-step {
+  @media #{$max-xxsm}{
+    margin-bottom: 14px;
+  }
+}
+.cus-card-head {
+  padding: 24px 20px;
+  border-bottom: 0.5px solid #596380;
+}
+.cus-card-body {
+  padding: 24px 20px;
+  position: relative;
+  &.fire-body {
+    padding: 60px 40px;
+    @media #{$max-sm}{
+      padding: 40px 20px;
+    }
+}
+}
+.bs-fs {
+  font-size: 18px;
+  font-weight: 600;
+}
+.card-list{
+  margin-bottom: 40px;
+  &:last-child{
+    margin-bottom: 0;
+  }
+}
+
+.burn-table{
+  table{
+    th,td{
+      color: rgba($white, 0.8);
+      font-size: 14px;
+      font-weight: 500;
+      vertical-align: -webkit-baseline-middle;
+      padding: 14px 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      &:first-child{
+        padding-left: 24px;
+      }
+      &:last-child{
+        padding-right: 24px;
+      }
+    }
+    th{
+      border-bottom: 0.5px solid #596380;
+    }
+  }
+}
+.btn-disabled {
+  opacity: 0.45;
+}
+.trans-td {
+  display: flex;
+  align-items: center;
+}
+.trans-icon {
+  width: 10px;
+  margin-right: 10px;
+}
+
+.cus-nav-pills {
+  border-bottom: 0.5px solid #596380;
+  &.nav-pills{
+    .nav-link{
+      border-radius: 0;
+      margin-bottom: -1px;
+      border-bottom: 1px solid transparent;
+      &.active{
+        color: $primary;
+        background-color: transparent;
+        border-bottom: 1px solid $primary
+      }
+    }
+  }
+}
+.cus-accordian{
+  .collapse {
+    visibility: visible;
+  }
+} 
+.fire-flaot {
+  max-width: 110px;
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+}
+.brn-warn-icon {
+  flex: 0 0 30px;
+}

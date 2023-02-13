@@ -205,6 +205,12 @@ h6 {
     font-size: 13px;
   }
 }
+.fs-16{
+  font-size: 16px;
+  @media #{$max-lg} {
+    font-size: 14px;
+  }
+}
 p {
   color: rgba(14, 14, 14, 0.89);
   color: rgba($white, 0.89);
@@ -398,7 +404,16 @@ ul {
   background-clip: text;
   text-fill-color: transparent;
 }
-
+.primary-btn-outline{
+  background-color: transparent;
+  border: 1px solid $primary;
+  color: $primary;
+  &:hover{
+     background-color: $primary !important;
+     color: $white !important;
+     border: 1px solid $primary !important;
+  }
+}
 .grey-btn {
   background-color: $grey-color;
   border-radius: 10px;
