@@ -468,8 +468,8 @@ const DelegatePopup: React.FC<any> = ({
                           placeholder="0.00"
                           name="balance"
                           autoComplete="off"
-                          value={isMax ? (parseInt('' + (values.balance * 100)) / 100) : values.balance === 0 ? null : values.balance}
-                          // value={() => handleUserInput(values.balance)}
+                          // value={isMax ? (parseInt('' + (values.balance * 100)) / 100) : values.balance === 0 ? null : values.balance}
+                          value={handleUserInput(values.balance)}
                           onChange={(e) => { handleChange(e); setIsMax(false); }}
                           onBlur={handleBlur}
                         />
