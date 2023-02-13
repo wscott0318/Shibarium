@@ -49,7 +49,8 @@ const Rewards = () => {
     if (account) {
       getValInfo();
     }
-  }, [account, userStatus, userType]);
+  }, [account, userStatus]);
+
 
   useEffect(() => {
     const { ethereum } = window 
@@ -58,7 +59,7 @@ const Rewards = () => {
     }
 
     ethereum.on('accountsChanged', handleAccountsChanged)
-  }, [active, account, userStatus, userType])
+  }, [active, account, userStatus])
 
   const getValInfo = () => {
     let id = account;
