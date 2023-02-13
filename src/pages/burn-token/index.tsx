@@ -529,7 +529,10 @@ export default function BurnCrypto() {
                 </div>
               </div>
             </div>
+
             {/* burn step 4 end */}
+
+            
           </div>
           {/* burn content end */}
         </div>
