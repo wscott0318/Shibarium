@@ -13,6 +13,7 @@ import { useAppDispatch } from 'app/state/hooks';
 import { dynamicChaining } from 'web3/DynamicChaining';
 import { ChainId } from 'shibarium-get-chains';
 import MRC20 from "../../../ABI/MRC20ABI.json";
+import ERC20 from "../../../ABI/ERC20Abi.json";
 import * as Sentry from '@sentry/nextjs';
 import { currentGasPrice, getAllowanceAmount, parseError } from 'web3/commonFunctions';
 import fromExponential from 'from-exponential';
@@ -51,7 +52,6 @@ const StepThree: React.FC<any> = ({
             setStep("Completed");
             let user: any = account
             let instance = new web3.eth.Contract(withdrawManagerABI, dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY);
-            // let withdrawState: any = await startWithdraw(type, txState?.txHash, 0);
             let token = selectedToken?.parentContract || txState?.token?.parentContract;
             instance.methods.processExits(token)
                 .send({ from: account })
@@ -107,34 +107,31 @@ const StepThree: React.FC<any> = ({
                 await switchNetwork();
             }
             let contract = "0x03E00CA773C76c496aF9194d0C4840cD785929D4";
-            let allowance =
-                (await getAllowanceAmount(
-                    library,
-                    selectedToken?.parentContract,
-                    account,
-                    contract
-                )) || 0;
-            if (+withdrawTokenInput > +allowance) {
-                await approveWithdraw();
-            }
             setStep("Challenge Period");
             let user: any = account;
             let type = selectedToken?.bridgetype || txState?.token?.bridgetype;
             let instance = new web3.eth.Contract(ExitTokenABI, contract);
-            let data = inclusion?.logs[0]?.topics[0];
+            let data = txState?.txHash?.events?.Withdraw?.signature || txState?.txHash?.events?.Transfer?.signature;
             const client = await getClient(type);
-            let erc20Token :any;
-            if(client){
-                erc20Token = client.erc20(txState?.token?.childContract, false);
-            }
-            let rootchain = new RootChain(erc20Token,txState?.token?.parentContract as string);
-            console.log(rootchain, erc20Token);
-            let exitUtil = new ExitUtil(erc20Token , rootchain);
-            exitUtil.buildPayloadForExit(txState?.txHash?.transactionHash , data , false , 0);
+            let erc20Token: any;
+            console.log("data", data);
+            if (client) {
+                erc20Token = await client.exitUtil.buildPayloadForExit(
+                    txState?.txHash?.transactionHash, data.toLowerCase(), false, 0
+                    )
+                }
+                // let rootchain = new RootChain(erc20Token,txState?.token?.parentContract as string);
+                console.log(erc20Token);
+                
+                console.log("instance", instance, inclusion);
+            await instance.methods.startExitWithBurntTokens(erc20Token).estimateGas({from:user}).then((res:any) => {
+                console.log("est gas calculated" , res);
+            }).catch((err:any) => {
+                console.log("error calculating gas fee" , err);
+            });
 
-            console.log("instance", instance, inclusion);
             // let withdrawState: any = await startWithdraw(type, txState?.txHash, 0);
-            instance.methods.startExitWithBurntTokens(inclusion?.logs[0]?.data)
+            await instance.methods.startExitWithBurntTokens(erc20Token)
                 .send({ from: account })
                 .on("transactionHash", (res: any) => {
                     dispatch(
@@ -186,67 +183,14 @@ const StepThree: React.FC<any> = ({
         }
         catch (err: any) {
             console.log("startExitWithBurntTokens ", err);
-            let error = parseError(err);
+            // let error = parseError(err);
             setStep("Checkpoint");
-            if (error.code === 4001) {
-                console.log("user denied transaction");
-            }
+            // if (error?.code === 4001) {
+            //     console.log("user denied transaction");
+            // }
         }
     }
 
-    const approveWithdraw = async () => {
-        try {
-            console.log("step 5");
-            if (account) {
-                let user = account;
-                let amount = web3.utils.toBN(fromExponential(+withdrawTokenInput * Math.pow(10, 18)));
-                let instance = new web3.eth.Contract(MRC20, selectedToken?.parentContract);
-                let gasFee = await instance.methods.approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount).estimateGas({ from: user })
-                let encodedAbi = await instance.methods.approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount).encodeABI()
-                let CurrentgasPrice: any = await currentGasPrice(web3)
-                await web3.eth.sendTransaction({
-                    from: user,
-                    to: dynamicChaining[chainId].BONE,
-                    gas: (parseInt(gasFee) + 30000).toString(),
-                    gasPrice: CurrentgasPrice,
-                    data: encodedAbi
-                })
-                    .on('transactionHash', (res: any) => {
-                        dispatch(
-                            addTransaction({
-                                hash: res,
-                                from: user,
-                                chainId,
-                                summary: `${res}`,
-                            })
-                        )
-                        let link = getExplorerLink(chainId, res, 'transaction')
-                        setHashLink(link)
-                    }).on('receipt', async (res: any) => {
-                        dispatch(
-                            finalizeTransaction({
-                                hash: res.transactionHash,
-                                chainId,
-                                receipt: {
-                                    to: res.to,
-                                    from: res.from,
-                                    contractAddress: res.contractAddress,
-                                    transactionIndex: res.transactionIndex,
-                                    blockHash: res.blockHash,
-                                    transactionHash: res.transactionHash,
-                                    blockNumber: res.blockNumber,
-                                    status: 1
-                                }
-                            })
-                        )
-                        // submitWithdraw();
-                    })
-            }
-        } catch (err: any) {
-            Sentry.captureMessage("approvewithdraw ", err);
-        }
-
-    }
     return (
         <div className="popmodal-body no-ht">
             <div className="pop-block withdraw_pop">
