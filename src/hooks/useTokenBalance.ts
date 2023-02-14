@@ -82,7 +82,6 @@ export const useWalletTokenBalance = (address: string) => {
         });
     } catch (error: any) {
       Sentry.captureException("getTokenBalance ", error);
-      // console.log("error in usetoken wallet balance" , error);
     }
   }
   useEffect(() => {

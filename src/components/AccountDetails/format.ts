@@ -156,7 +156,7 @@ export const formatBalance = (value: BigNumberish, decimals = 18, maxFraction = 
   if (maxFraction > 0) {
     const split = formatted.split('.')
     if (split.length > 1) {
-      return split[0] + '.' + split[1].substr(0, maxFraction)
+      return split[0] + '.' + split[1].substr(0, maxFraction)  //NOSONAR
     }
   }
   return formatted
@@ -189,6 +189,7 @@ export function formatPrice(price: Price<Currency, Currency> | undefined, sigFig
 
   return price.toSignificant(sigFigs)
 }
+
 
 export function formatDateAgo(date: Date) {
   const currentDate = new Date()

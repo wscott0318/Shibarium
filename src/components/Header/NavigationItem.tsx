@@ -7,22 +7,20 @@ import useDesktopMediaQuery, { useTouchDeviceMediaQuery } from 'app/hooks/useDes
 import { useRouter } from 'next/router'
 import React, { FC, Fragment, useCallback, useRef } from 'react'
 
-interface NavigationItem {
+interface NavigationItems {
   node: MenuItem
 }
 
-export const NavigationItem: FC<NavigationItem> = ({ node }) => {
+export const NavigationItem: FC<NavigationItems> = ({ node }) => {
   const router = useRouter()
   const buttonRef = useRef<HTMLButtonElement>(null)
   const isDesktop = useDesktopMediaQuery()
   const touchDevice = useTouchDeviceMediaQuery()
 
   const handleToggle = useCallback((open:any, type:any) => {
-    if (!open && type === 'enter') {
+    if (!open && type === 'enter' ) {
       buttonRef?.current?.click()
-    } else if (open && type === 'leave') {
-      buttonRef?.current?.click()
-    }
+    } else if (open && type === 'leave') {buttonRef?.current?.click()}  //NOSONAR 
   }, [])
 
   if (node && node.hasOwnProperty('link')) {

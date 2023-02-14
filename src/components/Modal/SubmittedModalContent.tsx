@@ -35,6 +35,8 @@ const SubmittedModalContent: FC<SubmittedModalContentProps> = ({
   const { chainId } = useActiveWeb3React()
   const txStatus = useAppSelector(selectTxStatus(txHash))
 
+  
+
   return (
     <HeadlessUiModal.Body>
       {animationData && (
@@ -63,26 +65,37 @@ const SubmittedModalContent: FC<SubmittedModalContentProps> = ({
             Status
             </Typography>
             <Typography id={`div-tx-status`} variant="sm" weight={700} className="flex items-center gap-2 italic">
-              {txStatus === 'PENDING'
-                ? 'Processing'
-                : txStatus === 'SUCCESS'
-                ? 'Success'
-                : txStatus === 'CANCELLED'
-                ? 'Cancelled'
-                : txStatus === 'FAILED'
-                ? 'Cancelled'
-                : ''}
-              {txStatus === 'PENDING' ? (
-                <div className="w-4 h-4">
-                  <Lottie animationData={loadingCircle} autoplay loop />
-                </div>
-              ) : txStatus === 'SUCCESS' ? (
-                <CheckCircleIcon className="w-4 h-4 text-green" />
-              ) : txStatus === 'CANCELLED' || txStatus === 'FAILED' ? (
-                <XCircleIcon className="w-4 h-4 text-high-emphesis" />
-              ) : (
-                ''
-              )}
+                {(() => {
+                  switch (txStatus) {
+                    case 'PENDING':
+                      return 'Processing'
+                    case 'SUCCESS':
+                      return 'Success'
+                    case 'CANCELLED':
+                      return 'Cancelled'
+                    case 'FAILED':
+                      return 'Cancelled'
+                    default:
+                      return ''
+        }
+      })()}
+       {(() => {
+                  switch (txStatus) {
+                    case 'PENDING':
+                      return (   <div className="w-4 h-4">
+                      <Lottie animationData={loadingCircle} autoplay loop />
+                    </div>)
+                    case 'SUCCESS':
+                      return   <CheckCircleIcon className="w-4 h-4 text-green" />
+                    case 'CANCELLED':
+                      return  <XCircleIcon className="w-4 h-4 text-high-emphesis" />
+                    case 'FAILED':
+                      return  <XCircleIcon className="w-4 h-4 text-high-emphesis" />
+                    default:
+                      return ''
+        }
+      })()}
+              
             </Typography>
           </div>
         </div>

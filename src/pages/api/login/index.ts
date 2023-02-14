@@ -1,4 +1,3 @@
-import { withSentry } from '@sentry/nextjs'
 import type { NextApiRequest, NextApiResponse } from "next"
 import * as Sentry from '@sentry/nextjs'
 

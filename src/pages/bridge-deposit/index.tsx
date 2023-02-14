@@ -1,26 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import { Container, Nav, Navbar, NavDropdown,Dropdown} from 'react-bootstrap';
 
-import { useRouter } from "next/dist/client/router";
 import  CommonModal from "../components/CommonModel";
 import Link from 'next/link'
 import Sidebar  from "../layout/sidebar"
 import { useActiveWeb3React } from "app/services/web3";
 
 export default function Deposit() {
-  const router = useRouter()
   const [showSendModal, setSendModal] = useState(false);
   const [menuState, setMenuState] = useState(false);
  
   const { account } = useActiveWeb3React()
    
-  const connectToMetamask=()=>{
-    // authenticate()
-    // activate(walletConnector)
-  }
 
   useEffect(() => {
     if(account){
@@ -29,18 +23,22 @@ export default function Deposit() {
     }
     },[account]);
   
-    const handleMenuState = () => {
+    const handleMenuState = useCallback(() => {
         setMenuState(!menuState)
-    }
+    },[])
 
+    const handleMenuFalse = useCallback(() => {
+      setMenuState(false);
+  },[])
+  const handleMenuTrue = useCallback(() => {
+    setMenuState(true);
+},[])
   return (
     <>
       <main className="main-content">
         <Sidebar
           handleMenuState={handleMenuState}
-          onClickOutside={() => {
-            setMenuState(false);
-          }}
+          onClickOutside={handleMenuFalse}
           menuState={menuState}
         />
         <CommonModal
@@ -118,7 +116,7 @@ export default function Deposit() {
               <Navbar className="py-0">
                 <Container>
                   <Navbar.Brand
-                    onClick={() => setMenuState(true)}
+                    onClick={handleMenuTrue}
                     className="menu-btn"
                   >
                     <img

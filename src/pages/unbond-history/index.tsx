@@ -18,7 +18,6 @@ import { currentGasPrice, getUserTimeZone, tokenDecimal, USER_REJECTED_TX, web3D
 import * as Sentry from "@sentry/nextjs";
 import { dynamicChaining } from "web3/DynamicChaining";
 import { CircularProgress } from "@material-ui/core";
-import { useWeb3Decimals } from "app/hooks/useTokenBalance";
 const initialModalState = {
   show: false,
   onHash: false,
@@ -31,7 +30,6 @@ export default function Unbond() {
   const [listLoader, setListLoader] = useState(true);
   const { account, chainId = 1, library } = useActiveWeb3React();
   const [slicedList, setSlicedList] = useState([]);
-  const [confirm, setConfirm] = useState(false);
   const [transactionLink, setTransactionLink] = useState('')
   const dispatch = useAppDispatch();
   const [transactionState, setTransactionState] = useState(initialModalState);
@@ -39,14 +37,11 @@ export default function Unbond() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const lib: any = library
   const web3: any = new Web3(lib?.provider)
-  const [userType, setUserType] = useUserType();
+  const [userType, setUserType] = useUserType(); //NOSONAR
   const [loader, setLoader] = useState(false);
-  const [amntTransfer, setAmntTransfer] = useState(false);
   const [disabledClaim, setDisabledClaim] = useState<any>([]);
-  // const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
   const getValidatorContractAddress = async (validatorID: any) => {
     try {
-      let user = account;
       if (account) {
         const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
         const ID = await instance.methods.getValidatorContract(validatorID).call({ from: account });
@@ -204,14 +199,6 @@ export default function Unbond() {
 
 
 
-  const handleModalClosing = () => {
-    setClamNowModals((pre: any) => ({
-      ...pre,
-      confirm: false,
-      progress: false,
-      completed: false,
-    }))
-  }
   const router = useRouter();
 
   useEffect(() => {
@@ -222,10 +209,6 @@ export default function Unbond() {
     }
   }, [userType, account]);
 
-  const removeGMT = (x: any) => {
-    let lastIndex = x.lastIndexOf(" ");
-    return x.substring(0, lastIndex);
-  };
 
 
   const countDecimals = function (value: any) {

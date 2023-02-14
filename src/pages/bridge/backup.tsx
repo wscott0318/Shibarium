@@ -48,7 +48,7 @@ export default function Withdraw() {
   );
   const [showDepositModal, setDepositModal] = useState(false);
   const [showWithdrawModal, setWithdrawModal] = useState(false);
-  const [showTokenModal, setTokenModal] = useState(false);
+  const showTokenModal = false ;
   const [depositTokenInput, setDepositTokenInput] = useState("");
   const [withdrawTokenInput, setWithdrawTokenInput] = useState("");
   const [dWState, setDWState] = useState(
@@ -62,6 +62,7 @@ export default function Withdraw() {
     setMenuState(!menuState);
   };
   const router = useRouter();
+
 
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then((res) => {
@@ -92,10 +93,8 @@ export default function Withdraw() {
     title: "Select a Token",
   });
   const [tokenModalList, setTokenModalList] = useState<any>([]);
-  const [tokenList, setTokenList] = useState([]);
-  const [localTokens, setLocalTokens] = useState<any>(
-    JSON.parse(localStorage.getItem("newToken") || "[]")
-  );
+  const localTokens = JSON.parse(localStorage.getItem("newToken") || "[]");
+  
   const [tempTokens, setTempTokens] = useState<any>({
     parentContract: "",
     childContract: "",
@@ -120,7 +119,7 @@ export default function Withdraw() {
             x.balance = await getTokenBalance(lib, account, x.parentContract);
           }
         });
-        setTokenList(list);
+      
         setTokenModalList([...localTokens, ...list]);
       });
     } catch (err: any) {
@@ -730,6 +729,8 @@ export default function Withdraw() {
         } else if (isalreadypresent) {
           setTempTokens({});
         }
+        console.log(tempTokens,'tempTokens');
+        
       }
     } catch (err: any) {
       Sentry.captureMessage("getTempTokens", err);
@@ -755,21 +756,6 @@ export default function Withdraw() {
   //   }
   // };
 
-  const spliceCustomToken = (index: any) => {
-    try {
-      let incomingObject = localTokens[index];
-      const filteredModallist = localTokens.filter((ss: any) => {
-        return ss.parentContract !== incomingObject.parentContract;
-      });
-      setLocalTokens(filteredModallist);
-      const filtered2 = tokenModalList.filter((ss: any) => {
-        return ss.parentContract !== incomingObject.parentContract;
-      });
-      setTokenModalList(filtered2);
-    } catch (err: any) {
-      Sentry.captureMessage("spliceCustomToken ", err);
-    }
-  };
 
   return (
     <>
@@ -1812,7 +1798,7 @@ export default function Withdraw() {
                                           {
                                             (selectedToken?.logo || selectedToken?.logoURI) ?
                                               <img
-                                                width="22"
+                                             width="22"
                                                 height="22"
                                                 className="img-fluid"
                                                 src={selectedToken?.logo ? selectedToken?.logo : selectedToken?.logoURI }

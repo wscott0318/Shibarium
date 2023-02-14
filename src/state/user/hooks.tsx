@@ -42,7 +42,7 @@ import {
   updateEpochDyna,
   updateMigrateData
 } from "./actions";
-import { update } from 'lodash'
+
 
 function serializeToken(token: Token): SerializedToken {
   return {

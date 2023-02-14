@@ -62,9 +62,6 @@ const VARIANT = {
   empty: EMPTY,
 }
 
-type Button = React.ForwardRefExoticComponent<ButtonProps & React.RefAttributes<HTMLButtonElement>> & {
-  Dotted: FC<DottedButtonProps>
-}
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   startIcon?: ReactNode
@@ -94,6 +91,17 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
+
+    const startIconRender =()=>{
+      if(startIcon){
+        return startIcon
+      }
+    }
+    const endIconRender =()=>{
+      if(endIcon){
+        return endIcon
+      }
+    }
     return (
       <button
         {...rest}
@@ -116,9 +124,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           <Loader stroke="currentColor" />
         ) : (
           <>
-            {startIcon && startIcon}
+            {startIconRender()}
             {children}
-            {endIcon && endIcon}
+            {endIconRender()}
           </>
         )}
       </button>

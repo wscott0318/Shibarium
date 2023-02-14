@@ -10,8 +10,7 @@ export default function Home() {
   },[])
   return (
     <div className={styles.container}>
-      <h1>Shibarium setup...</h1>
-      
+      <h1>Shibarium setup...</h1>      
     </div> 
   )
 }

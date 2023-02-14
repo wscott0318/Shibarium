@@ -7,7 +7,6 @@ import { useAddPopup, useBlockNumber } from '../../state/application/hooks'
 import { useAppDispatch, useAppSelector } from '../../state/hooks'
 import { selectTransactions } from '../../state/transactions/selectors'
 import { useCallback, useEffect, useMemo } from 'react'
-import { useRecoilValue } from 'recoil'
 
 import { checkedTransaction, finalizeTransaction } from './actions'
 import { sendRevertTransactionLog } from './sentryLogger'

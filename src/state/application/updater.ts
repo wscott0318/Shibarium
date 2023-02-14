@@ -12,7 +12,7 @@ import * as Sentry from "@sentry/nextjs";
 import { updateBlockNumber, updateBlockTimestamp, updateChainId } from './actions'
 
 export default function Updater(): null {
-  const { library, chainId, account } = useActiveWeb3React()
+  const { library, chainId } = useActiveWeb3React()
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -123,15 +123,6 @@ export default function Updater(): null {
     // @ts-ignore TYPE NEEDS FIXING
     dispatch(updateChainId({ chainId: debouncedState.chainId in ChainId ? debouncedState.chainId ?? null : null }))
   }, [dispatch, debouncedState.chainId])
-
-  // useEffect(() => {
-  //   if (!account || !library?.provider?.request || !library?.provider?.isMetaMask) {
-  //     return;
-  //   }
-  //   switchToNetwork({ library })
-  //     .then((x) => x ?? dispatch(setImplements3085({ implements3085: true })))
-  //     .catch(() => dispatch(setImplements3085({ implements3085: false })));
-  // }, [account, chainId, dispatch, library]);
 
   return null
 }

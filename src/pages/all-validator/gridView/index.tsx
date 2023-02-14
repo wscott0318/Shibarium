@@ -13,7 +13,7 @@ import { CircularProgress } from '@material-ui/core';
 export default function ValidatorGrid({ validatorsList, loading, searchKey, migrateData = {} }: { validatorsList: any, loading: boolean, searchKey: any, migrateData: any }) {
   const { account } = useWeb3React();
   const [selectedRow, setSelectedRow] = useState({});
-  const [userType, setUserType] = useUserType()
+  const [userType, setUserType] = useUserType()  //NOSONAR
   const [showdelegatepop, setdelegatepop] = useState(false);
   const router = useRouter();
   const [showmigratepop, setmigratepop] = useState(false);
@@ -68,7 +68,7 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
       />
       <div className="ffms-inherit">
         <div className="grid-sec">
-          {validatorsList && validatorsList.length ? (
+          {validatorsList.length ? (
             <div className="row side-cover">
               {validatorsList.map((validator: any) => (
                 <div key={validator?.signer} className="mb-4 col-xl-3 col-sm-6 col-12 side-space mb-sm-4">

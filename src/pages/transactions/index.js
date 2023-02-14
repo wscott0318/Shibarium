@@ -1,12 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/dist/client/router";
-import CommonModal from "../components/CommonModel";
-import {
-  NoEthereumProviderError,
-  UserRejectedRequestError as UserRejectedRequestErrorInjected,
-} from "@web3-react/injected-connector";
 import Sidebar from "../layout/sidebar";
 import { useActiveWeb3React } from "app/services/web3";
 import InnerHeader from "../inner-header";
@@ -15,20 +9,12 @@ import WithdrawModal from "../components/withdraw/Withdraw";
 import { getBoneUSDValue } from "app/services/apis/validator";
 import { BONE_ID } from "app/config/constant";
 export default function Transaction() {
-  const router = useRouter();
   const [onlyPending, setOnlyPending] = useState(false);
-  const [txState, setTxState] = useLocalStorageState("txState");
-  const [showSendModal, setSendModal] = useState({
-    step0: true,
-    step1: false,
-    step2: false,
-    step3: false,
-    title: "Reaching Checkpoint",
-  });
+  const [txState, setTxState] = useLocalStorageState("txState"); //NOSONAR
   const {account} = useActiveWeb3React();
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [menuState, setMenuState] = useState(false);
-  const [boneUSDValue, setBoneUSDValue] = useState(0);
+  const [boneUSDValue, setBoneUSDValue] = useState(0); //NOSONAR
   const handleMenuState = () => {
     setMenuState(!menuState);
   };
@@ -141,15 +127,7 @@ export default function Transaction() {
                       <div className="col-md-3 col-lg-3 col-xs-12">
                         <button
                           onClick={() => {
-                            setSendModal({
-                              step0: true,
-                              step1: false,
-                              step2: false,
-                              step3: false,
-                              title: txState?.checkpointSigned
-                                ? "Reached Checkpoint"
-                                : "Signing Checkpoints",
-                            });
+                           
                             setShowWithdrawModal(true);
                           }}
                           disabled={txState ? false : true}

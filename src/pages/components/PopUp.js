@@ -1,11 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import Link from "next/link";
+import React from "react";
 export default function Popup(props) {
-  const { show, setshow, title } = props;
-  const [modaltitle, setModaltitle] = useState("Important");
 
   return (
    <>

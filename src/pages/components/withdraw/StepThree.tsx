@@ -1,7 +1,7 @@
 import { CircularProgress } from '@material-ui/core'
 import { getExplorerLink } from 'app/functions';
 import { useActiveWeb3React } from 'app/services/web3';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import useLocalStorageState from 'use-local-storage-state';
 import Web3 from 'web3';
 import { finalise } from "../../../exit/finalise"

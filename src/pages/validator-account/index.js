@@ -1,12 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState} from "react";
-import { useActiveWeb3React } from "../../services/web3"
 import CommonModal from "../components/CommonModel";
 import Header from "../layout/header";
 export default function ValidatorAccount() {
     // const {account}=useContext(ProjectContext)
 
-    const { account, chainId = 1 } = useActiveWeb3React();
     const [showretakepop, setretakepop] = useState(false);
     const [showcommissionpop, setcommissionpop] = useState(false);
     const [showwithdrawpop, setwithdrawpop] = useState(false);

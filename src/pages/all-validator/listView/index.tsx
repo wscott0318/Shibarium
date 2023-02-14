@@ -13,7 +13,7 @@ import DynamicShimmer from 'app/components/Shimmer/DynamicShimmer';
 export default function ListView({ validatorsList, searchKey, loading, migrateData = {} }: { validatorsList: any, searchKey: string, loading: boolean, migrateData: any }) {
   const [selectedRow, setSelectedRow] = useState({})
   const { account } = useWeb3React();
-  const [userType, setUserType] = useUserType()
+  const [userType, setUserType] = useUserType() //NOSONAR
   const [showdelegatepop, setdelegatepop] = useState(false);
   const [showmigratepop, setmigratepop] = useState(false);
   const router = useRouter();

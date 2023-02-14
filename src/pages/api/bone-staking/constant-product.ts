@@ -1,4 +1,4 @@
-import { withSentry } from '@sentry/nextjs'
+
 import type { NextApiRequest, NextApiResponse } from "next"
 // @ts-ignore TYPE NEEDS FIXING
 import * as Sentry from '@sentry/nextjs'

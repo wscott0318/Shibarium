@@ -1,5 +1,4 @@
-import { createContext, Component } from "react";
-import React from "react";
+import React, { createContext, Component } from "react";
 
 const Context = createContext();
 export class ProjectContext extends Component {

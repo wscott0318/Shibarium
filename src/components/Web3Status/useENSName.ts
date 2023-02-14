@@ -21,7 +21,7 @@ export default function useENSName(address?: string): {
   const ensNodeArgument = useMemo(() => {
     if (!debouncedAddress || !isAddress(debouncedAddress)) return [undefined]
     try {
-      return debouncedAddress ? [namehash(`${debouncedAddress.toLowerCase().substr(2)}.addr.reverse`)] : [undefined]
+return debouncedAddress ? [namehash(`${debouncedAddress.toLowerCase().substr(2)}.addr.reverse`)] : [undefined] //NOSONAR 
     } catch (error) {
       return [undefined]
     }

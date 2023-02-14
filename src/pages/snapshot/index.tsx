@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {getSnapshots} from '../../services/apis/common'
-const index = () => {
+const Index = () => {
     const [snapshots, setSnapshots] = useState<any>();
 
     const fetchSnapshots = async () => {
@@ -32,4 +32,4 @@ const index = () => {
     )
 }
 
-export default index
+export default Index

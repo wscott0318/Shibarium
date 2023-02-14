@@ -11,8 +11,7 @@ import ModalError, { ModalActionErrorProps } from './Error'
 import ModalHeader, { ModalHeaderProps } from './Header'
 import SubmittedModalContent, { SubmittedModalContentProps } from './SubmittedModalContent'
 import { classNames } from '../../functions'
-import { cloneElement, FC, isValidElement, ReactNode, useCallback, useMemo, useState } from 'react'
-import React, { Fragment } from 'react'
+import React, { cloneElement, FC, isValidElement, ReactNode, useCallback, useMemo, useState, Fragment } from 'react'
 
 const MAX_WIDTH_CLASS_MAPPING = {
   sm: 'lg:max-w-sm',
@@ -57,6 +56,8 @@ const HeadlessUiModal: HeadlessUiModalType<Props> = ({ children: childrenProp, t
 
   // If trigger is a function, render props
   // Else (default), check if element is valid and pass click handler
+
+
   const trigger = useMemo(
     () =>
       typeof triggerProp === 'function'
@@ -76,9 +77,10 @@ const HeadlessUiModal: HeadlessUiModalType<Props> = ({ children: childrenProp, t
     [onClick, open, childrenProp]
   )
 
+
   return (
     <>
-      {trigger && trigger}
+      {trigger && trigger} 
       <HeadlessUiModalControlled isOpen={open} onDismiss={() => setOpen(false)}>
         {children}
       </HeadlessUiModalControlled>

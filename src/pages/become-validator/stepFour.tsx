@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { validatorSchema } from "./stepTwo"
 import  Link  from "next/link"
@@ -7,7 +7,7 @@ import  Link  from "next/link"
 function StepFour({ activInput, handleEdit, stepState, stepHandler, becomeValidateData, setBecomeValidateData, editNsave }: any) {
 
 
-  const { values, errors, handleBlur, handleChange, handleSubmit, touched, setValues } =
+  const { handleSubmit} =
     useFormik({
       initialValues: becomeValidateData,
       validationSchema: validatorSchema,

@@ -4,13 +4,12 @@
 /* eslint-disable react/no-unknown-property */
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
-import { useUserType, useValId } from "../../state/user/hooks";
+import { useUserType } from "../../state/user/hooks";
 import NetworkDetails from './NetworkDetails';
 import ValidatorsCard from "../all-validator/valitotors";
 import { useActiveWeb3React } from "../../services/web3"
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { dynamicChaining } from 'web3/DynamicChaining';
-import Web3 from "web3";
 import * as Sentry from "@sentry/nextjs";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
 import { L1Block, ChainId } from 'app/hooks/L1Block';
@@ -21,13 +20,12 @@ import { validators } from "Apollo/queries";
 
 const BoneStaking = () => {
 
-  const [userType, setUserType] = useUserType();
-  const { account, library, chainId = 1 } = useActiveWeb3React()
+  const [userType, setUserType] = useUserType(); //NOSONAR
+  const { account, chainId = 1 } = useActiveWeb3React()
   const router = useRouter();
   const [valCount, setValCount] = useState(0);
   const [valMaxCount, setValMaxCount] = useState(0);
   const [nodeSetup, setNodeSetup] = useState<any>('')
-  const [valId, setValId] = useValId();
   const [valInfoLoader, setValInfoLoader] = useState(true)
 
   const web3test = L1Block();
@@ -37,13 +35,9 @@ const BoneStaking = () => {
       getValInfo()
     }
     getValCount()
-    checkEth()
+   
   }, [account])
 
-  const checkEth = async () => {
-    let lib: any = library
-    let web3: any = new Web3(lib?.provider)
-  }
 
   const getValCount = async () => {
     try {
@@ -62,10 +56,10 @@ const BoneStaking = () => {
     }
   }
   
-  const getValInfo = () => {
+  const getValInfo = async () => {
     try {
       let id: any = account
-      getValidatorInfo(id).then((res: any) => {
+     await getValidatorInfo(id).then((res: any) => {
         setNodeSetup(res?.data?.message?.val?.status ? res?.data?.message?.val?.status : null)
         setValInfoLoader(false)
         localStorage.setItem("valInfo", JSON.stringify(res.data.message.val))

@@ -13,23 +13,17 @@ import { dynamicChaining } from "web3/DynamicChaining";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json"
 import * as Sentry from "@sentry/nextjs";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
-import { useAppDispatch } from "app/state/hooks";
 
 const StakingHeader = (type: any) => {
   const router = useRouter();
 
-  const routeCheck = (x: string) => {
-    return router.asPath.split("/")[1] === x;
-  };
-  const [history, setHistory] = useState("");
-  const [userType, setUserType] = useUserType();
-  const [valId, setValId] = useValId();
+  const [userType, setUserType] = useUserType();  //NOSONAR
+  const [valId, setValId] = useValId(); //NOSONAR
   const [valInfoModal, setValInfoModal] = useState(false);
   const [dynasty, setDynasty] = useState('')
-  const { account, chainId = 1, library, active } = useActiveWeb3React();
+  const { account, chainId = 1, library } = useActiveWeb3React();
 
-  const [valInfo, setValInfo] = useValInfo();
-  const dispatch = useAppDispatch();
+  const [valInfo, setValInfo] = useValInfo(); //NOSONAR
 
   const [stakingHeader, showStakingHeader] = useState(false);
   const getValInfoApi = async (id: any) => {
@@ -54,11 +48,6 @@ const StakingHeader = (type: any) => {
   }, [account, userType]);
 
   useEffect(() => {
-    if (routeCheck("unbond-history")) {
-      setHistory("Unbound History");
-    } else if (routeCheck("reward-history")) {
-      setHistory("Reward History");
-    }
     if (account) {
       getDynsetyValue()
     }

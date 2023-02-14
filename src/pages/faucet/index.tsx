@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import CommonModal from "../components/CommonModel";
 import InnerHeader from "../../pages/inner-header";
 import Sidebar from "../layout/sidebar"
@@ -8,16 +8,12 @@ import axios from "axios";
 import { useActiveWeb3React } from "app/services/web3";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useRouter } from "next/router";
-import { Form } from "react-bootstrap";
 import { CircularProgress, FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 
-export default function faucet() {
-  const [isTopdoG, setIsTopdoG] = useState(true);
-  const [isPuppyDog, setIsPuppyDog] = useState(false);
+export default function Faucet() {
   const [showSwapModal, setSwapModal] = useState(false);
   const [menuState, setMenuState] = useState(false);
   const router = useRouter()
-  const captchaRef = useRef<any>(null)
   const [selectedChain, setSelectedChain] = useState(1);
   const [modalState, setModalState] = useState({
     pending: true,
@@ -25,7 +21,7 @@ export default function faucet() {
     hash: ''
   })
   const [isActive , setIsActive] = useState(1);
-  const { chainId = 1, account, library } = useActiveWeb3React();
+  const { chainId = 1, account } = useActiveWeb3React();
 
   const handleMenuState = () => {
     setMenuState(!menuState);
@@ -41,14 +37,6 @@ export default function faucet() {
     }
   }, [account])
 
-  const handleTopdoG = () => {
-    setIsTopdoG(true);
-    setIsPuppyDog(false);
-  };
-  const handlePuppyDog = () => {
-    setIsTopdoG(false);
-    setIsPuppyDog(true);
-  };
   const callFaucetAPI = async () => {
     setSwapModal(true)
     setModalState({

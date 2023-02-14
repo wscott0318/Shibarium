@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useEthBalance } from "../../hooks/useEthBalance";
 import { BONE_ID } from 'app/config/constant';
 import { getBoneUSDValue } from 'app/services/apis/validator';
@@ -6,7 +6,6 @@ import { useActiveWeb3React, useLocalWeb3 } from 'app/services/web3';
 import { getExplorerLink } from 'app/functions/explorer';
 import { ChainId } from 'shibarium-get-chains';
 import { useWalletTokenBalance } from 'app/hooks/useTokenBalance';
-import Web3 from "web3";
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import fromExponential from 'from-exponential';
 import { getAllowanceAmount, MAXAMOUNT, toFixedPrecent, USER_REJECTED_TX, currentGasPrice } from "../../web3/commonFunctions";
@@ -38,14 +37,8 @@ const DelegatePopup: React.FC<any> = ({
   getDelegatorCardData,
   ...props
 }: any) => {
-  const [step, setStep] = useState<number>(1);
-  const [amount, setAmount] = useState<number | string>("");
-  const [tnxCompleted, setTnxCompleted] = useState(false);
-  const [boneUSDValue, setBoneUSDValue] = useState<number>(0);
-  const [expectedGas, setExpectedGas] = useState<number>(0);
+  const amount = ""
   const [explorerLink, setExplorerLink] = useState<string>("");
-  const [msgType, setMsgType] = useState<"error" | "success" | undefined>();
-  const [toastMassage, setToastMassage] = useState("");
   const { account, chainId = 1, library } = useActiveWeb3React();
   const web3 = useLocalWeb3();
   const [transactionState, setTransactionState] = useState({
@@ -62,10 +55,7 @@ const DelegatePopup: React.FC<any> = ({
   const [walletBalance, setWalletBalance] = useState<any>();
   const isLoading = walletBalance == -1;
   const [isMax, setIsMax] = useState(false);
-  const getBalanceG = () => {
-    web3?.eth?.getBalance().then((lastBlock: number) => {
-    });
-  };
+
   useEffect(() => {
     if (chainId === ChainId.SHIBARIUM) {
       setWalletBalance(ethBalance);
@@ -77,7 +67,7 @@ const DelegatePopup: React.FC<any> = ({
 
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then((res) => {
-      setBoneUSDValue(res.data.data.price);
+    
     });
     if (account) {
       // getBalanceG()
@@ -93,30 +83,8 @@ const DelegatePopup: React.FC<any> = ({
     setIsMax(true);
     setFieldValue("balance", `${walletBalance}`)
   };
-  const closeModal = (e: any) => {
-    setStep(1);
-    setAmount("");
-    setTnxCompleted(false);
-    onHide();
-  };
 
-  const approveHandler = () => {
-    try {
-      if (!amount || (amount <= 0)) {
-        setToastMassage("Amount must be greater than 0");
-        setMsgType("error");
-        return;
-      }
-      setTnxCompleted(false);
-      setTimeout(() => {
-        setTnxCompleted(true);
-      }, 1000);
-      setStep(2);
-    }
-    catch (err: any) {
-      Sentry.captureMessage("approveHandler ", err);
-    }
-  };
+
 
   const buyVouchers = async () => {
     try {
@@ -127,10 +95,9 @@ const DelegatePopup: React.FC<any> = ({
         amount: values.balance,
         valID: data.validatorContractId
       };
-      setTnxCompleted(false);
+    
       if (account) {
         let lib: any = library;
-        let web3: any = new Web3(lib?.provider);
         let allowance =
           (await getAllowanceAmount(lib, dynamicChaining[chainId].BONE, account, dynamicChaining[chainId].STAKE_MANAGER_PROXY)) || 0;
 
@@ -219,6 +186,7 @@ const DelegatePopup: React.FC<any> = ({
       setTransactionState({ state: false, title: "" });
       setFieldValue("balance", "");
     }
+console.log(transactionState,'transactionState');
 
   }
   const initialValues = {
@@ -385,6 +353,7 @@ const DelegatePopup: React.FC<any> = ({
     setFieldValue("balance", 0);
   }
 
+const handleShow = useCallback(()=>{ handleClose(); resetForm()},[])
 
   const handleUserInput = (input : any) => {
     if(isMax) {
@@ -401,7 +370,7 @@ const DelegatePopup: React.FC<any> = ({
       <CommonModal
         title={delegateState.title}
         show={showdelegatepop}
-        setshow={() => { handleClose(); resetForm(); }}
+        setshow={handleShow}
         externalCls="stak-pop del-pop ffms-inherit"
       >
         <>

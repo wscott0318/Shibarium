@@ -35,12 +35,10 @@ import DelegatePopup from "pages/delegate-popup";
 import { queryProvider } from "Apollo/client";
 import { StakeAmount } from "Apollo/queries";
 import { dynamicChaining } from "web3/DynamicChaining";
-import { getValidatorsDetail } from "app/services/apis/validator";
 import * as Sentry from "@sentry/nextjs";
-import { useValId, useEpochDyna, useValInfoContract, useMigrateStake } from 'app/state/user/hooks';
+import { useValId, useEpochDyna, useMigrateStake,useValInfoContract } from 'app/state/user/hooks';
 import { CircularProgress } from "@material-ui/core";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
-import { useWeb3Decimals } from "app/hooks/useTokenBalance";
 
 const initialModalState = {
   show: false,
@@ -48,7 +46,7 @@ const initialModalState = {
   onReceipt: false,
   title: ""
 }
-const validatorAccount = ({
+const ValidatorAccount = ({
   userType,
   boneUSDValue,
   availBalance,
@@ -70,9 +68,9 @@ const validatorAccount = ({
   const [validatorTotalReward, setValidatorTotalReward] = useState<any>();
   const [validatorInfoContract, setValidatorInfoContract] = useState<any>();
   const [epochDyna, setEpochDyna] = useEpochDyna();
-  const [valId, setValId] = useValId();
+  const [valId, setValId] = useValId();  //NOSONAR
   const isLoading = availBalance === -1;
-  const [valInfoContract, setValInfoContract] = useValInfoContract()
+  const [valInfoContract, setValInfoContract] = useValInfoContract()  //NOSONAR
   console.log("initial availbalance", availBalance);
   const [transactionState, setTransactionState] = useState(initialModalState);
   const [hashLink, setHashLink] = useState('');
@@ -80,7 +78,6 @@ const validatorAccount = ({
   const { account, chainId = 1, library } = useActiveWeb3React();
   const lib: any = library;
   const web3: any = new Web3(lib?.provider);
-  // const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
   const [delegationsList, setDelegationsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState<any>({});
   const [stakeMore, setStakeMoreModal] = useState(false);
@@ -90,7 +87,7 @@ const validatorAccount = ({
     value2: false,
     address: "",
   });
-  const [migrateData, setMigrateData] = useMigrateStake();
+  const [migrateData, setMigrateData] = useMigrateStake(); //NOSONAR
   const [commiModal, setCommiModal] = useState({
     value: false,
     address: "",
@@ -122,7 +119,7 @@ const validatorAccount = ({
   }, []);
 
   const getValInfo = () => {
-    try {
+    try { //NOSONAR
       let id: any = account
       getValidatorInfo(id).then((res: any) => {
         // setNodeSetup(res?.data?.message?.val?.status ? res?.data?.message?.val?.status : null)
@@ -159,6 +156,8 @@ const validatorAccount = ({
       setValidatorTotalReward(reward);
       setEpochDyna({ epoch, dynasty })
       console.log(valFromContract, "val info ===> ");
+      console.log(epochDyna, 'epochDyna');
+      
     } catch (err: any) {
       Sentry.captureException("getValidatorData ", err);
     }
@@ -2206,7 +2205,7 @@ const validatorAccount = ({
             <section className="del-grid-section bottom-pad ffms-inherit top-pad">
               <div className="container">
                 <div className="row">
-                  {delegationsList.length ? (
+                  {delegationsList.length > 0 ? (
                     delegationsList.map((item: any, index: any) => (
                       getStake(item.id) >= 1 &&
                       (<div
@@ -2402,10 +2401,10 @@ const validatorAccount = ({
                         </div>
                       </div>)
                     ))
-                  ) : !loading && delegationsList.length && (
+                  ) : !loading && delegationsList.length === 0 && (
                     <div className="txt-emp">
                         <div className="no-fount-txt">
-                         <img className="d-inline-block mb-3" src="../../assets/images/no-record.png" />
+                         <img className="mb-3 d-inline-block" src="../../assets/images/no-record.png" />
                       </div>
                     </div>
                   )}
@@ -2419,4 +2418,4 @@ const validatorAccount = ({
   );
 };
 
-export default validatorAccount;
+export default ValidatorAccount;

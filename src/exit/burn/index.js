@@ -1,12 +1,8 @@
-import Web3, { utils } from "web3";
+import { utils } from "web3";
 import { getClient } from "../../client/shibarium";
 import { getToWeiUnitFromDecimal } from "../../utils/weiDecimal";
 // import { StakingAPI } from "../../client/staking-api"
 import { burnGetAPI } from "../../services/apis/bridge/burn";
-import { PUPPYNET517 } from "app/hooks/L1Block";
-import { useActiveWeb3React } from "app/services/web3";
-import { dynamicChaining } from "web3/DynamicChaining";
-import {withdrawManagerABI} from "../../ABI/withdrawManagerABI.json"
 export const startBurn = async (clientType, token, from, amount) => {
   console.log(`begin exit from L2 -> L1 using ${clientType}`);
   const handleBurn = async (tokenAddr) => {
@@ -27,7 +23,6 @@ export const startBurn = async (clientType, token, from, amount) => {
     const tokenData = await handleBurn(tokenAddr);
 
     const childAddr = tokenData?.childAddress;
-    const parentAddr = tokenData?.parentAddress;
     const format = getToWeiUnitFromDecimal(tokenData?.childDecimals);
     const { tokenType } = tokenData;
     const amountWei = utils.toWei(String(amount), format);
@@ -57,10 +52,8 @@ export const startBurn = async (clientType, token, from, amount) => {
     console.log("Use the Tx to finalise and withdraw when ready:");
     console.log(`   sandbox-wallet exit withdraw ${clientType} ${txHash}`);
     return txHash;
-    // process.exit(0);
   } catch (e) {
     console.log(e);
-    // process.exit(1)
   }
 };
 

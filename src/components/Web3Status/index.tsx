@@ -93,7 +93,7 @@ function StatusIcon({ connector }: { connector: AbstractConnector; account: stri
 
 function Web3StatusInner() {
   // const { i18n } = useLingui()
-  const { account, connector, library } = useWeb3React()
+  const { account, library } = useWeb3React()
 
   const { ENSName } = useENSName(account ?? undefined)
 
@@ -138,9 +138,7 @@ function Web3StatusInner() {
             />
           </div>
         )}
-        {/* {!hasPendingTransactions && connector && (
-          <StatusIcon connector={connector} account={account} provider={library} />
-        )} */}
+  
       </div>
     )
   } else {

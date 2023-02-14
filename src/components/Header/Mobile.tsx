@@ -1,7 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { MenuIcon } from '@heroicons/react/outline'
 import { NATIVE } from 'shibarium-get-chains'
-import useMenu from '../../components/Header/useMenu'
 import Web3Network from 'app/components/Web3Network'
 import Web3Status from 'app/components/Web3Status'
 import useIsCoinbaseWallet from 'app/hooks/useIsCoinbaseWallet'
@@ -11,10 +10,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { FC, Fragment, useState } from 'react'
 
-import { NavigationItem } from './NavigationItem'
 
 const Mobile: FC = () => {
-  const menu = useMenu()
   const { account, chainId, library } = useActiveWeb3React()
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
   const [open, setOpen] = useState(false)

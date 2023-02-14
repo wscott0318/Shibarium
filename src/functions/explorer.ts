@@ -3,12 +3,13 @@ import { ChainId } from 'shibarium-get-chains'
 
 const explorers = {
   etherscan: (link: string, data: string, type: 'transaction' | 'token' | 'address' | 'block') => {
-    switch (type) {
-      case 'transaction':
-        return `${link}/tx/${data}`
-      default:
-        return `${link}/${type}/${data}`
-    }
+   
+   if(type == "transaction"){
+    return `${link}/tx/${data}`
+   }else{
+    return `${link}/${type}/${data}`
+   }
+   
   },
 
   blockscout: (link: string, data: string, type: 'transaction' | 'token' | 'address' | 'block') => {

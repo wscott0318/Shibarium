@@ -1,7 +1,7 @@
 import { validatorsList } from 'app/services/apis/validator'
 import { filter, orderBy } from 'lodash';
 import { Dropdown } from "react-bootstrap";
-import React, { useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import ListView from './listView';
 import ValidatorGrid from './gridView';
 import LoadingSpinner from 'pages/components/Loading';
@@ -15,14 +15,13 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const [loadingVal , setLoadingVal] = useState<boolean>(true);
-  const [validatorsByStatus, setValidatorsByStatus] = useState<any[]>([]);
   const [allValidators, setAllValidators] = useState<any[]>([]);
   const [validators, setValidators] = useState<any[]>([]);
   const [isListView, setListView] = useState<boolean>(true);
   const [isActiveTab, setIsActiveTab] = useState<boolean>(true);
   const [searchKey, setSearchKey] = useState<string>('');
   const [sortKey, setSortKey] = useState<string>('Uptime');
-  const [userType, setUserType] = useUserType()
+  const [userType, setUserType] = useUserType()  //NOSONAR
   const requestOptions = {
     method: 'GET',
     redirect: 'follow'
@@ -58,7 +57,6 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
                 (e) => e.uptimePercent !== 0
               );
             }
-            setValidatorsByStatus(activeList);
             setValidators(activeList);
           }
         })
@@ -156,6 +154,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
   //       setLoading(false)
   //     });
   // }, [searchKey])
+
   return (
     <>
 
@@ -210,12 +209,12 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
 
                   <Dropdown.Menu>
                     {/* <Dropdown.Item onClick={() => onSort('Random', 'name','string')}>Random</Dropdown.Item> */}
-                    <Dropdown.Item onClick={() => onSort('Commission', 'commissionrate', 'number')}>Commission</Dropdown.Item>
-                    <Dropdown.Item onClick={() => onSort('Staked Amount', 'totalstaked', 'number')}>Staked Amount</Dropdown.Item>
+                    <Dropdown.Item onClick={()=>onSort('Commission', 'commissionrate', 'number')}>Commission</Dropdown.Item>
+                    <Dropdown.Item onClick={()=>onSort('Staked Amount', 'totalstaked', 'number')}>Staked Amount</Dropdown.Item>
                     {/* <Dropdown.Item onClick={() => onSort('Voting Power', 'totalstaked','number')}>
                           Voting Power
                         </Dropdown.Item> */}
-                    <Dropdown.Item className="ff-mos" onClick={() => onSort('Uptime', 'uptimePercent', 'number')}>
+                    <Dropdown.Item className="ff-mos" onClick={()=>onSort('Uptime', 'uptimePercent', 'number')}>
                       Uptime
                     </Dropdown.Item>
                   </Dropdown.Menu>

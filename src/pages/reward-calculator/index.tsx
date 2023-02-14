@@ -1,14 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import Header from "../layout/header";
-import { ProgressBar } from "react-bootstrap";
 import { Slider } from "@material-ui/core";
 
 const Rewards = () => {
-  const [proVal, setProVal] = useState(70);
+  const proVal = 70
   const [bonePercent, setBonePercent] = useState<any>(0);
   const [duration, setDuration] = useState<any>(365);
-  // console.log(bonePercent);
+
   return (
     <>
       <Header />

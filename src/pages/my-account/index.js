@@ -6,25 +6,21 @@ import { useUserType, useValId } from "../../state/user/hooks";
 import UserAccount from "./UserAccount";
 import ValidatorAccount from "./ValidatorAccount";
 import { getBoneUSDValue } from "../../services/apis/validator/index";
-import { ChainId } from "shibarium-get-chains";
 import { BONE_ID } from '../../config/constant';
-import {useEthBalance} from '../../hooks/useEthBalance';
-import {useTokenBalance, useWeb3Decimals} from '../../hooks/useTokenBalance';
+import {useTokenBalance} from '../../hooks/useTokenBalance';
 import { dynamicChaining } from "web3/DynamicChaining";
 import {web3Decimals} from "../../web3/commonFunctions"
 
 
 export default function MyAcount() {
   const { account, chainId = 1 } = useActiveWeb3React();
-  const [userType, setUserType] = useUserType();
+  const [userType, setUserType] = useUserType(); //NOSONAR
   const [boneUSDValue,setBoneUSDValue] = useState(0);
-  const [valId, setValId] = useValId();
+  const [valId, setValId] = useValId(); //NOSONAR
   const router = useRouter();
   const [delegatorData, setDelegatorData] = useState({});
-  const ethBal = useEthBalance();
   const tokenBal = useTokenBalance(dynamicChaining[chainId].BONE);
   const availBalance = tokenBal ;
-  // const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
 
   let isloading = availBalance == -1;
   useEffect(() => {

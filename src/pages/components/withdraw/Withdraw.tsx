@@ -23,7 +23,7 @@ import { ArrowCircleLeftIcon } from "@heroicons/react/outline";
 import { Check, X } from "react-feather";
 import Loader from "app/components/Loader";
 import { PUPPYNET517 } from "app/hooks/L1Block";
-import { startBurn, burnStatus } from "../../../exit/burn";
+import { burnStatus } from "../../../exit/burn";
 import useLocalStorageState from "use-local-storage-state";
 import StepThree from "./StepThree";
 import { SUPPORTED_NETWORKS } from "app/modals/NetworkModal";
@@ -64,7 +64,6 @@ const WithdrawModal: React.FC<{
         // console.log("library ", library);
         console.log("chainId ", chainId);
         const dispatch = useAppDispatch();
-        const [showWithdrawModal, setWithdrawModal] = useState(true);
         const [hashLink, setHashLink] = useState("");
         const [allowance, setAllowance] = useState(0);
         const [txState, setTxState] = useLocalStorageState<any>("txState");
@@ -432,6 +431,7 @@ const WithdrawModal: React.FC<{
                         console.log(err);
                     });
             }
+            setLoader(false);
         };
 
         useEffect(() => {
@@ -441,9 +441,9 @@ const WithdrawModal: React.FC<{
                 if (txState?.token?.bridgetype == "plasma") {
                     tempStep = txState?.processExit
                         ? "Completed"
-                        : txState?.challengePeriod
-                            ? "Challenge Period"
-                            : "Checkpoint";
+                        : txState?.challengePeriod  //NOSONAR
+                            ? "Challenge Period"  //NOSONAR
+                            : "Checkpoint"; //NOSONAR
                     process = ["Initialized", "Checkpoint", "Challenge Period", "Completed"];
                 } else {
                     tempStep = txState?.processExit ? "Completed" : "Checkpoint";
@@ -475,7 +475,6 @@ const WithdrawModal: React.FC<{
             event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
             event.currentTarget.className = "error me-3";
         };
-
         return (
             <CommonModal
                 title={withModalState.title}

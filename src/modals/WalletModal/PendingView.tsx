@@ -10,7 +10,7 @@ import React, { FC } from 'react'
 
 import Option from './Option'
 
-interface PendingView {
+interface PendingViews {
   id: string
   connector?: AbstractConnector
   error?: boolean
@@ -18,7 +18,7 @@ interface PendingView {
   tryActivation(connector: AbstractConnector, key: string): void
 }
 
-const PendingView: FC<PendingView> = ({ id, connector, error = false, setPendingError, tryActivation }) => {
+const PendingView: FC<PendingViews> = ({ id, connector, error = false, setPendingError, tryActivation }) => {
   const isMetamask = window?.ethereum?.isMetaMask
 
   return (

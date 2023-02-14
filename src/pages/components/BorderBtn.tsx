@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 interface BorderBtnProps {
   lable: string,
   handleModal: (lable: string) => any,

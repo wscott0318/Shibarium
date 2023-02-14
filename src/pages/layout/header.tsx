@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { useWeb3React } from "@web3-react/core";
 import Web3Status from "app/components/Web3Status";
 import { getUserType } from "app/services/apis/user/userApi";
-import { useUserType, useValInfoContract, useValId } from "app/state/user/hooks";
+import { useUserType,useValId } from "app/state/user/hooks";
 import AppHeader from "../inner-header/AppHeader";
 import { useNetworkModalToggle } from "../../state/application/hooks";
 import { useActiveWeb3React } from "../../services/web3";
@@ -20,17 +20,14 @@ import ChainWarning from "pages/components/ChainWarning";
 import {supportedChains} from "../../web3/commonFunctions";
 export default function Header() {
 
-  const { account, deactivate, active } = useWeb3React();
+  const { account, deactivate } = useWeb3React();
   const { chainId=1 } = useActiveWeb3React();
   const router = useRouter();
 
   const [userType, setUserType] = useUserType();
 
-  const [valInfoContract, setValInfoContract] = useValInfoContract()
-
   const [userQrCode, setUserQrCode] = useState(false);
-  const [valId, setValId] = useValId();
-
+  const [valId, setValId] = useValId(); //NOSONAR
   const [showWarning, setShowWarning] = useState(false);
 
 
@@ -68,21 +65,23 @@ export default function Header() {
     router.push("/home");
   };
 
-  const getUsertypeAPI = (accountAddress: any) => {
+  const getUsertypeAPI = async (accountAddress: any) => {
     try {
-      getUserType(accountAddress).then(res => {
+      await getUserType(accountAddress).then(res => {
         if (res.data && res.data.data) {
           let ut = res.data.data.userType;
           let valID = res.data.data.validatorId ? res.data.data.validatorId : "0";
           // console.log(ut)
           setUserType(ut)
           setValId(valID)
+
         }
       })
     } catch (error: any) {
       // console.log(error)
       setUserType('NA')
       setValId("0")
+
       Sentry.captureMessage("getUsertypeAPI", error);
     }
   }
@@ -90,7 +89,7 @@ export default function Header() {
   const toggleNetworkModal = useNetworkModalToggle();
 
 
-  const [scroll, setScroll] = useState(false);
+  const scroll= false
 
   // useEffect(() => {
   //   window.addEventListener("scroll", () => {

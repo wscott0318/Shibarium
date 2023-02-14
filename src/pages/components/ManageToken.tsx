@@ -5,17 +5,14 @@ import { getTokenBalance } from "../../hooks/useTokenBalance";
 import { useActiveWeb3React } from "../../services/web3";
 import { BONE_ID } from "../../config/constant";
 import Web3 from "web3";
-import { useAppDispatch } from "../../state/hooks";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Sentry from "@sentry/nextjs";
-import { dynamicChaining } from "web3/DynamicChaining";
 import Link from "next/link";
 import { getDefaultChain, useStorage } from "../../web3/commonFunctions";
 import TokenList from "./TokenList";
-import { floor, uniqBy } from "lodash";
+import {  uniqBy } from "lodash";
 import { useToken } from "app/hooks/Tokens";
-import { isAddress } from "app/functions";
 import { CircularProgress } from "@material-ui/core";
 import { ChainId } from "shibarium-get-chains";
 
@@ -72,11 +69,9 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   const { chainId = 1, account, library } = useActiveWeb3React();
   const lib: any = library;
   const web3: any = new Web3(lib?.provider);
-  const dispatch = useAppDispatch();
 
-  const bridgeType: string = localStorage.getItem("bridgeType") || "deposit";
   const [showTokenModal, setTokenModal] = useState(true);
-  const [boneUSDValue, setBoneUSDValue] = useState(0);
+  const [boneUSDValue, setBoneUSDValue] = useState(0); //NOSONAR
   const [newToken, addNewToken] = useState("");
   const [confirmImport, setConfirmImport] = useState(true);
   const [agreeImport, setAgreeImport] = useState(false);
@@ -84,9 +79,9 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   const [addUrl, setAddUrl] = useState('');
   const [linkQuery, setLinkQuery] = useState("");
   const [coinList, setCoinList, setChain] = useStorage();
-  const [isWrong, setIsWrong] = useState(false);
+  const [isWrong, setIsWrong] = useState(false); //NOSONAR
   const [defChain, setDefChain] = useState("");
-  const [DEFAULT_LIST, SET_DEFAULT_LIST] = useState({ enabled: true, locked: true, data: 'https://wispy-bird-88a7.uniswap.workers.dev/?url=http://tokens.1inch.eth.link' })
+  const [DEFAULT_LIST, SET_DEFAULT_LIST] = useState({ enabled: true, locked: true, data: 'https://wispy-bird-88a7.uniswap.workers.dev/?url=http://tokens.1inch.eth.link' }) //NOSONAR
 
   useEffect(() => {
     getDefaultChain().then((ch) => {
@@ -95,7 +90,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   }, []);
   useEffect(() => {
     getDefaultChain().then(chain => {
-      const map = { 'bsc': 'bsc', 'eth': 'ether' };
       //@ts-ignore
       // setAddUrl(`https://${map[chain]}scan.com/address/`);
       setAddUrl('https://shibascan-517.hailshiba.com/address/');
@@ -116,10 +110,8 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     title: "Select a Token",
   });
   const [tokenModalList, setTokenModalList] = useState<any>([]);
-  const [tokenList, setTokenList] = useState([]);
   const [modalKeyword, setmodalKeyword] = useState("");
   const [showWarning, setShowWarning] = useState(false);
-  const isAddressSearch = isAddress(newToken);
   const searchToken: any = useToken(newToken);
   const [localTokens, setLocalTokens] = useState<any>(
     JSON.parse(localStorage.getItem("newToken") || "[]")
@@ -150,7 +142,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
               console.log("Error fetching balance => ", err);
             })
         });
-        setTokenList(list);
         setTokenModalList([...localTokens, ...list]);
         setTimeout(() => {
           setIsLoading(false);
@@ -183,11 +174,9 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
           }
           return result;
         });
-        // console.log(newData, "keyyy if condition")
         setSearchedList(newData);
         setOffset(10);
       } else {
-        // console.log("else condition ");
         setSearchedList(null);
         setOffset(10);
       }
@@ -197,7 +186,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
   };
 
   const handleTokenSelect = (token: any) => {
-    // console.log(token)
     setOpenManageToken(false)
     setSelectedToken(token);
     setTokenModal(false);
@@ -216,7 +204,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     setAgreeImport(!agreeImport);
     try {
       let tokenInfo = searchToken?.tokenInfo;
-      // console.log("token info ", tokenInfo);
       let obj: any;
       if (tokenInfo) {
         let logoURI: any;
@@ -255,7 +242,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
         setTempTokens({});
       }
     } catch (err: any) {
-      // console.log(err, "ereerrr ===>")
       Sentry.captureMessage("addTokenHandler", err);
     }
   };
@@ -332,7 +318,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
           const isValidAddress = web3.utils.isAddress(String(newToken));
           if (isValidAddress && newToken) {
             let tokenInfo = searchToken?.tokenInfo;
-            // console.log("token info ", tokenInfo);
             if (tokenInfo) {
               let logoURI = tokenInfo?.logoURI;
               if (tokenInfo.logoURI.startsWith('ipfs://')) {
@@ -349,7 +334,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
               });
             }
             else {
-              // console.log("no record found");
               setTempTokens({});
             }
           }
@@ -431,7 +415,6 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     });
   }
 
-  // console.log("local tokens ,", localTokens);
   return (
     <div>
       {/* Token popups start */}

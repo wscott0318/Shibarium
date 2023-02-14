@@ -4,8 +4,7 @@ import { ChainId, Currency, NATIVE, Token, WNATIVE, WNATIVE_ADDRESS } from 'shib
 import { createTokenFilterFunction } from '../functions/filtering'
 import { isAddress } from '../functions/validate'
 import { useActiveWeb3React } from '../services/web3'
-import { useCombinedActiveList } from '../state/lists/hooks'
-import { TokenAddressMap, useAllLists, useInactiveListUrls, useUnsupportedTokenList } from '../state/lists/hooks'
+import { useCombinedActiveList, TokenAddressMap, useAllLists, useInactiveListUrls, useUnsupportedTokenList } from '../state/lists/hooks'
 import { WrappedTokenInfo } from '../state/lists/wrappedTokenInfo'
 import { NEVER_RELOAD, useSingleCallResult } from '../state/multicall/hooks'
 import { useUserAddedTokens } from '../state/user/hooks'
@@ -118,12 +117,16 @@ export function useIsUserAddedToken(currency: Currency | undefined | null): bool
 const BYTES32_REGEX = /^0x[a-fA-F0-9]{64}$/
 
 function parseStringOrBytes32(str: string | undefined, bytes32: string | undefined, defaultValue: string): string {
-  return str && str.length > 0
-    ? str
-    : // need to check for proper bytes string and valid terminator
-    bytes32 && BYTES32_REGEX.test(bytes32) && arrayify(bytes32)[31] === 0
-    ? parseBytes32String(bytes32)
-    : defaultValue
+
+  const parseStringRender =()=>{
+    if( bytes32 && BYTES32_REGEX.test(bytes32) && arrayify(bytes32)[31] === 0){
+      return  parseBytes32String(bytes32)
+    }else{
+      return defaultValue
+    }
+  }
+
+  return str && str.length > 0 ? str :parseStringRender()
 }
 
 // undefined if invalid or does not exist

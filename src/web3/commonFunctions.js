@@ -4,8 +4,6 @@ import { ChainId } from "shibarium-get-chains";
 import * as Sentry from "@sentry/nextjs";
 import { CHAINS, URL_ARRAY } from "../config/networks";
 import { useEffect, useState } from "react";
-import { ERC20_ABI } from "app/constants/abis/erc20";
-import { useActiveWeb3React } from "app/services/web3";
 
 export const getAllowanceAmount = async (library, token, account, contract) => {
   if (account) {
@@ -121,11 +119,7 @@ export const fetchLink = async (link, setter, errorSetter) => {
 export const useStorage = (defaultChain = "") => {
   const [coinList, setCoinList] = useState([]);
   const [chain, setChain] = useState(defaultChain);
-  // useEffect(() => {
-  //   getDefaultChain().then((ch) => {
-  //     setChain(ch);
-  //   });
-  // }, []);
+
 
   useEffect(() => {
     if (chain) {
@@ -140,13 +134,12 @@ export const useStorage = (defaultChain = "") => {
       }
 
       if (!parsed) {
-        // console.log(URL_ARRAY);
+
         setCoinList(URL_ARRAY[chain]);
         localStorage.setItem("coinList", JSON.stringify(URL_ARRAY));
       } else {
         setCoinList(parsed[chain]);
-        // setCoinList(URL_ARRAY);
-        // localStorage.setItem('coinList', JSON.stringify(URL_ARRAY));
+
       }
     } else {
       setCoinList([]);
@@ -159,7 +152,7 @@ export const useStorage = (defaultChain = "") => {
         let tempList = URL_ARRAY;
         tempList[chain] = coinList;
         localStorage.setItem("coinList", JSON.stringify(tempList));
-        // console.log(coinList);
+
       }
     } catch (error) {
       localStorage.removeItem("coinList");
@@ -172,7 +165,7 @@ export const useStorage = (defaultChain = "") => {
 
 export const getDefaultChain = async () => {
   const chainId = await window?.ethereum?.request({ method: "eth_chainId" });
-  // console.log(chainId);
+
   if (chainId == CHAINS.Ropsten || chainId == CHAINS.Mainnet) {
     return "eth";
   } else if (chainId == CHAINS.BSCTESTNET || chainId == CHAINS.BSCMAINNET) {
@@ -190,27 +183,7 @@ export const getDefaultChain = async () => {
 };
 
 export const clearCacheData = () => {
-  // caches.keys().then((names) => {
-  //   names.forEach((name) => {
-  //     caches.delete(name);
-  //   });
-  // });
-  //   caches.keys().then(function(names) {
-  //     for (let name of names)
-  //         caches.delete(name);
-  // });
-  // self.addEventListener('activate', function(event) {
-  //   event.waitUntil(
-  //     caches.keys().then(function(cacheNames) {
-  //       return Promise.all(
-  //         cacheNames.filter(function(cacheName) {
-  //         }).map(function(cacheName) {
-  //           return caches.delete(cacheName)
-  //         })
-  //       );
-  //     })
-  //   );
-  // });
+
   self.addEventListener("activate", (event) => {
     const cachesToKeep = ["v2"];
     console.log("in clearing cache");

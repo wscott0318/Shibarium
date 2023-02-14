@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { NavLink } from 'react-bootstrap';
 
 interface Entites {
@@ -22,9 +22,6 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
         pageSize
     });
 
-    // if (currentPage === 0 || paginationRange.length < 2) {
-    //     return null;
-    // }
 
     const onNext = () => {
         onPageChange(currentPage + 1);
@@ -122,42 +119,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalCount, pageSize, onPageCha
             </div>
           </div>
         </div>
-        {/* <div className="text-center pagination-sec">
-            <div className="row align-items-center">
-                <div className="col-lg-7 col-md-12 cus-pagination ms-auto">
-                    <div className="d-inline-block">
-                        <ul className="pagination">
-                            <li className={`page-item ${currentPage ===1 ? 'disable':''}`} >
-                                <a  className="page-link" href="#"  onClick={onPrevious}>
-                                    <span>Previous</span>
-                                </a>
-                            </li>
-                            {paginationRange.map((pageNumber: any) => {
-                                if (pageNumber === DOTS) {
-                                    return <li className="pagination-item dots">&#8230;</li>;
-                                }
-                                return (
-                                    <li className={`page-item ${pageNumber === currentPage ? 'active':''}`} onClick={() => onPageChange(pageNumber)}>
-                                        <a className="page-link" href="#">
-                                            <span>{pageNumber}</span>
-                                        </a>
-                                    </li>)
-                            }
-                            )}
-
-                            <li className={`page-item ${currentPage === lastPage ? 'disable':''}`} onClick={onNext}>
-                                <a className="page-link" href="#">
-                                    <span>Next</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div className="mt-3 text-center col-lg-3 col-md-12 text-lg-end mt-lg-0">
-                    <span className="fw-700">Showing {((currentPage-1)*pageSize)+1 }-{((currentPage)*pageSize) } of {totalCount}</span>
-                </div>
-            </div>
-        </div> */}
+       
       </>
     );
 }

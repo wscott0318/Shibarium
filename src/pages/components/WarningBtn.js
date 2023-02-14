@@ -1,4 +1,4 @@
-import Link from "next/link";
+
 import React from "react";
 
 const WarningBtn = ({lable,link,handleModal}) => {

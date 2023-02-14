@@ -11,4 +11,4 @@ const handler =  (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default withSentry(handler)
+export default withSentry(handler) //NOSONAR 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { BONE_ID } from "app/config/constant";
 import { getBoneUSDValue } from "app/services/apis/validator";
 import NumberFormat from "react-number-format";
@@ -23,7 +23,6 @@ import { useRouter } from "next/router";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { useMigrateStake } from "app/state/user/hooks";
 import { CircularProgress } from "@material-ui/core";
-import { useWeb3Decimals } from "app/hooks/useTokenBalance";
 const initialModalState = {
   step0: true,
   step1: false,
@@ -41,22 +40,14 @@ const MigratePopup: React.FC<any> = ({
   ...props
 }: any) => {
   const [boneUSDValue, setBoneUSDValue] = useState<number>(0);
-  const { account, chainId = 1, library } = useActiveWeb3React();
+  const { account, chainId = 1 } = useActiveWeb3React();
   const web3 = useLocalWeb3();
   const dispatch = useAppDispatch();
-  const [migrateState, setmigrateState] = useState(initialModalState);
-  const [loader, setLoader] = useState(false);
-  const [transactionState, setTransactionState] = useState({
-    state: false,
-    title: "",
-  });
   const [explorerLink, setExplorerLink] = useState<string>("");
-  const [validatorID, setValidatorID] = useState<any>("");
   const [balance, setBalance] = useState(0);
   const [migrateData, setMigrateData] = useMigrateStake();
   const router = useRouter();
   const [processing, setProcessing] = useState("Migrate");
-  // const decimal = useWeb3Decimals(dynamicChaining[chainId].BONE);
   useEffect(() => {
     getBoneUSDValue(BONE_ID).then((res) => {
       setBoneUSDValue(res.data.data.price);
@@ -66,10 +57,7 @@ const MigratePopup: React.FC<any> = ({
   const useMax = (e: any) => {
     e.preventDefault();
     setFieldValue("balance", balance);
-  };
-  const closeModal = (e: any) => {
-    onHide();
-  };
+  }
 
   const totalStake = (migrateData: any) => {
     let stakeAmount = migrateData?.data?.stake;
@@ -84,7 +72,6 @@ const MigratePopup: React.FC<any> = ({
   const migrateStake = async (values: any, data: any, migrateData: any) => {
     try {
       if (account && migrateData?.data?.migrateData?.id != data.validatorContractId) {
-        setTransactionState({ state: true, title: "Pending" });
         setProcessing("Processing");
         let walletAddress: any = account;
         let fromId = migrateData?.data?.migrateData?.id;
@@ -123,10 +110,8 @@ const MigratePopup: React.FC<any> = ({
               "transaction"
             );
             setExplorerLink(link);
-            setTransactionState({ state: true, title: "Submitted" });
             let newStake = (parseFloat(migrateData?.data?.stake) - values.balance);
             setMigrateData(migrateData?.data?.migrateData, newStake);
-            setmigrateState(initialModalState);
             setFieldValue("balance", "");
             
           })
@@ -148,15 +133,12 @@ const MigratePopup: React.FC<any> = ({
               })
             );
             setProcessing("Completed");
-            setTransactionState({ state: false, title: "" });
             router.back();
             resetForm();
           })
           .on("error", (res: any) => {
-            setmigrateState(initialModalState);
             setmigratepop(false);
             setProcessing("Migrate");
-            setTransactionState({ state: false, title: "" });
             setFieldValue("balance", "");
             resetForm();
           });
@@ -166,10 +148,8 @@ const MigratePopup: React.FC<any> = ({
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureMessage("migrateStake ", err);
       }
-      setmigrateState(initialModalState);
       setmigratepop(false);
       setProcessing("Migrate");
-      setTransactionState({ state: false, title: "" });
       handleClose()
       setFieldValue("balance", "");
       resetForm();
@@ -198,7 +178,6 @@ const MigratePopup: React.FC<any> = ({
     setFieldValue,
     handleSubmit,
     touched,
-    setValues,
     resetForm
   } = useFormik({
     initialValues: initialValues,
@@ -208,7 +187,6 @@ const MigratePopup: React.FC<any> = ({
   });
 
   const handleClose = () => {
-    setmigrateState(initialModalState);
     setmigratepop(false);
     setProcessing("Migrate");
     setFieldValue("balance", "");
@@ -448,7 +426,7 @@ const MigratePopup: React.FC<any> = ({
                           </div>
                           <button
                             disabled={balance > 0 ? false : true}
-                            onClick={(e) => useMax(e)}
+                            onClick={useMax}
                             className="rt-chain"
                           >
                             <span className="orange-txt fw-bold">MAX</span>

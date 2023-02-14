@@ -3,10 +3,7 @@ import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 import { Navbar } from "react-bootstrap";
 import { useRouter } from "next/router";
-import * as Sentry from "@sentry/nextjs";
-import ChainWarning from "pages/components/ChainWarning";
-import { useActiveWeb3React } from "app/services/web3";
-import { ChainId } from "shibarium-get-chains";
+
 
 export default function Sidebar({
   menuState,
@@ -14,36 +11,9 @@ export default function Sidebar({
   onClickOutside,
 }) {
   const wrapperRef = useRef(null);
-  const { account,chainId=1 } = useActiveWeb3React();
-  const [isVisible, setIsVisible] = useState(true);
   const router = useRouter();
-  const [showWarning, setShowWarning] = useState(false);
   const [width, setWidth] = useState();
-  // useEffect(() => {
-  //   checkConnectedChain();
-  // }, [chainId, account]);
 
-  // const checkConnectedChain = () => {
-    // if(router.asPath.split("/")[1] === "faucet"){
-    //   if (chainId === ChainId.PUPPYNET517) {
-    //     setShowWarning(false);
-    //   } else {
-    //     setShowWarning(true);
-    //     console.log(showWarning);
-    //   }
-    // }
-    // if(router.asPath.split("/")[1] === "bridge"){
-    //   if (chainId === ChainId.PUPPYNET517) {
-    //     setShowWarning(false);
-    //   } else {
-    //     setShowWarning(true);
-    //     console.log(showWarning);
-    //   }
-    // }
-  // };
-  const handlClick = () => {
-    setIsVisible((prev) => !prev);
-  };
 
   const handleClickOutside = (event) => {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
@@ -125,24 +95,8 @@ export default function Sidebar({
     },
   ];
 
-  const [renderTopList, setRenderTopList] = useState(topList);
-  const [renderBottomList, setRenderBottomList] = useState(bottomList);
-
-  const activateBtn = (arr, index) => {
-    try {
-      let newData = arr.map((elm) => {
-        if (elm.name === index) {
-          elm.isSelected = true;
-        } else {
-          elm.isSelected = false;
-        }
-        return elm;
-      });
-      return newData;
-    } catch (error) {
-      Sentry.captureMessage("activateBtn ", err);
-    }
-  };
+  const renderTopList= topList
+  const renderBottomList  = bottomList
 
   const handelClick = (index, type) => {
     router.push(index.route);
