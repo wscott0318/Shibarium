@@ -155,7 +155,7 @@ function StepTwo({
           <div className="col-sm-6 form-grid">
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
-                Validator logo (Upload logo only)
+                Validator logo 
               </label>
               <div className="file-wrap">
                 <div className="file-icons">
@@ -182,6 +182,7 @@ function StepTwo({
               </div>
             </div>
             <p className="primary-text error ff-mos">{valMsg()}</p>
+            {imageData ? null : <p className="val-logo-text">upload logo only*</p>}
             {/* {validation.image ? (
             ) : imageSize ? (
               <p className="primary-text error ff-mos">

@@ -40,7 +40,7 @@ const DelegatorAccount = () => {
       <section className='del-grid-section top-pad bottom-pad ffms-inherit'>
         <div className="container">
           <div className='row'>
-            {delegationsList.length ?
+            {delegationsList.length > 0?
               delegationsList.map((item: any) =>
                 <div className="col-lg-4 col-md-6 col-12 bs-col" key={item?.validatorAddress}>
                   <div className="border-sec">
@@ -62,7 +62,7 @@ const DelegatorAccount = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="mid-sec bs-card h-auto">
+                    <div className="h-auto mid-sec bs-card">
                       <div className="block-container">
                         <div className="cus-width">
                           <div className="text-center">
@@ -102,7 +102,7 @@ const DelegatorAccount = () => {
               : (
                 <div className="txt-emp">
                   <div className="no-fount-txt">
-                    <img className="d-inline-block mb-3" src="../../assets/images/no-record.png" />
+                    <img className="mb-3 d-inline-block" src="../../assets/images/no-record.png" />
                   </div>
                 </div>
               )

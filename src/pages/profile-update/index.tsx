@@ -186,7 +186,7 @@ export default function ProfileUpdate() {
                 <div className="shape bottom-right">
                     <img className="img-fluid" src="../../assets/images/shape3.png" alt="shape-img" />
                 </div>
-                <section className="top_bnr_area dark-bg darkbg py-0">
+                <section className="py-0 top_bnr_area dark-bg darkbg">
                     <div className="container">
                         <div className="section-info ps-0 position-relative">
                             <div className="row align-items-center">
@@ -199,7 +199,7 @@ export default function ProfileUpdate() {
                                     </div>
                                 </div>
                             </div>
-
+                            
                         </div>
                     </div>
                 </section>
@@ -209,12 +209,12 @@ export default function ProfileUpdate() {
                     </div>
 
                     <div className="container">
-                        <div className="row mx-0 position-relative">
-                            <div className="col-lg-8 mx-auto cus-card-800 py-3 py-sm-4 py-md-5">
+                        <div className="mx-0 row position-relative">
+                            <div className="py-3 mx-auto col-lg-8 cus-card-800 py-sm-4 py-md-5">
                                 <form onSubmit={handleSubmit}>
                                     <div className="progress-tab">
                                         <div className="mb-4 mb-xl-5">
-                                            <h5 className="fwb fw-700 mb-2 ff-mos">Update node details</h5>
+                                            <h5 className="mb-2 fwb fw-700 ff-mos">Update node details</h5>
                                             <p className="ff-mos">You can update/edit your node details for better recognizability</p>
                                         </div>
                                         <div className="row">
@@ -238,6 +238,7 @@ export default function ProfileUpdate() {
                                                             </a>
                                                         </div>
                                                     </div>
+                                                    <p className="val-logo-text">upload logo only*</p>
                                                 </div>
 
                                                 <p className="primary-text error ff-mos">{valMsg()}</p>
@@ -312,7 +313,7 @@ export default function ProfileUpdate() {
                                                 </div>
                                             </div> */}
                                         </div>
-                                        <div className="btn-wrap col-sm-5 mt-4 flx mx-auto">
+                                        <div className="mx-auto mt-4 btn-wrap col-sm-5 flx">
                                             <button type="submit" value="submit" className="btn primary-btn w-100">
                                                 <span className="ff-mos">Update</span>
                                             </button>

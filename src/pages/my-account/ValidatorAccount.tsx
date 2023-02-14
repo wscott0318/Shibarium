@@ -2205,7 +2205,7 @@ const ValidatorAccount = ({
             <section className="del-grid-section bottom-pad ffms-inherit top-pad">
               <div className="container">
                 <div className="row">
-                  {delegationsList.length ? (
+                  {delegationsList.length > 0 ? (
                     delegationsList.map((item: any, index: any) => (
                       getStake(item.id) >= 1 &&
                       (<div
@@ -2401,10 +2401,10 @@ const ValidatorAccount = ({
                         </div>
                       </div>)
                     ))
-                  ) : !loading && delegationsList.length && (
+                  ) : !loading && delegationsList.length === 0 && (
                     <div className="txt-emp">
                         <div className="no-fount-txt">
-                         <img className="d-inline-block mb-3" src="../../assets/images/no-record.png" />
+                         <img className="mb-3 d-inline-block" src="../../assets/images/no-record.png" />
                       </div>
                     </div>
                   )}
