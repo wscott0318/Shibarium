@@ -87,7 +87,7 @@ export const getClient = async (clientType) => {
   } else return getPlasmaClient();
 };
 
-const loadContract = async (path, abi, layer = "l1", type = "plasma") => {
+export const loadContract = async (path, abi, layer = "l1", type = "plasma") => {
   const client = await getPOSClient();
   const abiJson = await client.client.abiManager.getABI(abi, type);
   const contractAddress = utils.isAddress(path)
@@ -119,7 +119,7 @@ const getAbiJson = async (abi, type = "plasma") => {
 
 export default {
   // getClient,
-  loadContract,
+  // loadContract,
   getContractAddress,
   getAbiJson,
 };

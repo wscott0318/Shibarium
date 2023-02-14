@@ -33,7 +33,7 @@
 }
 @media (max-width:1300px){
   .wrap_txt {
-    width: 80px;
+    max-width: 110px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

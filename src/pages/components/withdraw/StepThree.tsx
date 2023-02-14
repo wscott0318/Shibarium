@@ -6,7 +6,7 @@ import useLocalStorageState from 'use-local-storage-state';
 import Web3 from 'web3';
 import { finalise } from "../../../exit/finalise"
 import { startWithdraw } from "../../../exit/withdraw"
-import ExitTokenABI from "../../../ABI/ExitTokenABI.json";
+import PlasmaExitABI from "../../../ABI/PlasmaExitABI.json";
 import withdrawManagerABI from "../../../ABI/withdrawManagerABI.json";
 import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
 import { useAppDispatch } from 'app/state/hooks';
@@ -14,11 +14,14 @@ import { dynamicChaining } from 'web3/DynamicChaining';
 import { ChainId } from 'shibarium-get-chains';
 import MRC20 from "../../../ABI/MRC20ABI.json";
 import ERC20 from "../../../ABI/ERC20Abi.json";
+import POSExitABI from "../../../ABI/POSExitABI.json";
 import * as Sentry from '@sentry/nextjs';
 import { currentGasPrice, getAllowanceAmount, parseError } from 'web3/commonFunctions';
 import fromExponential from 'from-exponential';
 import { getClient } from 'client/shibarium';
 import { ExitUtil, RootChain } from '@shibarmy/shibariumjs';
+import { withdrawHistory } from "./WithdrawHistory"
+
 const StepThree: React.FC<any> = ({
     withdrawTokenInput,
     selectedToken,
@@ -53,7 +56,13 @@ const StepThree: React.FC<any> = ({
             let user: any = account
             let instance = new web3.eth.Contract(withdrawManagerABI, dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY);
             let token = selectedToken?.parentContract || txState?.token?.parentContract;
-            instance.methods.processExits(token)
+            console.log("token ", instance)
+            await instance.methods.processExits(token).estimateGas({ from: user }).then((res: any) => {
+                console.log("gas fee calculated =>", res);
+            }).catch((err: any) => {
+                console.log("error calculating gas fee", err);
+            })
+            await instance.methods.processExits(token)
                 .send({ from: account })
                 .on("transactionHash", (res: any) => {
                     dispatch(
@@ -107,32 +116,106 @@ const StepThree: React.FC<any> = ({
                 await switchNetwork();
             }
             let contract = "0x03E00CA773C76c496aF9194d0C4840cD785929D4";
+            let type = selectedToken?.bridgetype || txState?.token?.bridgetype;
             setStep("Challenge Period");
             let user: any = account;
-            let type = selectedToken?.bridgetype || txState?.token?.bridgetype;
-            let instance = new web3.eth.Contract(ExitTokenABI, contract);
-            let data = txState?.txHash?.events?.Withdraw?.signature || txState?.txHash?.events?.Transfer?.signature;
             const client = await getClient(type);
             let erc20Token: any;
-            console.log("data", data);
+            const instance = new web3.eth.Contract(PlasmaExitABI, contract);
+            const data = txState?.txHash?.events?.Withdraw?.signature;
             if (client) {
                 erc20Token = await client.exitUtil.buildPayloadForExit(
                     txState?.txHash?.transactionHash, data.toLowerCase(), false, 0
-                    )
-                }
-                // let rootchain = new RootChain(erc20Token,txState?.token?.parentContract as string);
-                console.log(erc20Token);
-                
-                console.log("instance", instance, inclusion);
-            await instance.methods.startExitWithBurntTokens(erc20Token).estimateGas({from:user}).then((res:any) => {
-                console.log("est gas calculated" , res);
-            }).catch((err:any) => {
-                console.log("error calculating gas fee" , err);
-            });
+                )
+            }
+            let gasFee = await instance.methods.startExitWithBurntTokens(erc20Token).estimateGas({ from: user });
+            console.log("erc20 token=>", erc20Token, instance);
+            let encodedAbi = await instance.methods.startExitWithBurntTokens(erc20Token).encodeABI();
+            let CurrentgasPrice: any = await currentGasPrice(web3);
+            await web3.eth.sendTransaction({
+                from: user,
+                to: contract,
+                gas: (parseInt(gasFee) + 30000).toString(),
+                gasPrice: CurrentgasPrice,
+                data: encodedAbi
+            }).on("transactionHash", (res: any) => {
+                    dispatch(
+                        addTransaction({
+                            hash: res,
+                            from: user,
+                            chainId,
+                            summary: `${res}`,
+                        })
+                    );
+                })
+                .on("receipt", (res: any) => {
+                    dispatch(
+                        finalizeTransaction({
+                            hash: res.transactionHash,
+                            chainId,
+                            receipt: {
+                                to: res.to,
+                                from: res.from,
+                                contractAddress: res.contractAddress,
+                                transactionIndex: res.transactionIndex,
+                                blockHash: res.blockHash,
+                                transactionHash: res.transactionHash,
+                                blockNumber: res.blockNumber,
+                                status: 1,
+                            },
+                        })
+                    );
+                    setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true, 'withdrawHash': res });
+                    setChallengePeriodCompleted(true);
+                    setProcessing((processing: any) => [...processing, "Challenge Period"]);
+                })
+                .on("error", (res: any) => {
+                    console.log("startExitWithBurntTokens ", res);
+                    setStep("Checkpoint");
+                    if (res.code === 4001) {
+                        console.log("user denied transaction");
+                        setChallengePeriodCompleted(false);
+                    }
+                });
+        }
+        catch (err: any) {
+            console.log("startExitWithBurntTokens ", err);
+            let error = parseError(err);
+            setStep("Checkpoint");
+            if (error?.code === 4001) {
+                console.log("user denied transaction");
+                setChallengePeriodCompleted(false);
+            }
+        }
+    }
 
-            // let withdrawState: any = await startWithdraw(type, txState?.txHash, 0);
-            await instance.methods.startExitWithBurntTokens(erc20Token)
-                .send({ from: account })
+    const posExit = async () => {
+        try {
+            console.log("entered pos exit")
+            setStep("Completed");
+            const user: any = account;
+            const type = selectedToken?.bridgetype || txState?.token?.bridgetype;
+            const client = await getClient(type);
+            console.log("client done", client);
+            let contract = "0xDE1203ab41b3E4920A99Ea427E71D19Ae46696C3";
+            const instance = new web3.eth.Contract(POSExitABI, contract);
+            console.log("instance done", instance);
+            const data = txState?.txHash?.events?.Transfer?.signature;
+            let erc20Token: any;
+            if (client) {
+                erc20Token = await client.exitUtil.buildPayloadForExit(txState?.txHash?.transactionHash, data.toLowerCase(), false, 0);
+            }
+            console.log("erx 20 token data ", erc20Token);
+            let gasFee = await instance.methods.exit(erc20Token).estimateGas({ from: user });
+            let encodedAbi = await instance.methods.exit(erc20Token).encodeABI();
+            let CurrentgasPrice: any = await currentGasPrice(web3);
+            await web3.eth.sendTransaction({
+                from: user,
+                to: contract,
+                gas: (parseInt(gasFee) + 30000).toString(),
+                gasPrice: CurrentgasPrice,
+                data: encodedAbi
+            })
                 .on("transactionHash", (res: any) => {
                     dispatch(
                         addTransaction({
@@ -160,37 +243,35 @@ const StepThree: React.FC<any> = ({
                             },
                         })
                     );
-                    if (type === "pos") {
-                        setProcessing((processing: any) => [...processing, "Completed"]);
-                        setStep("Completed");
-                        setCompleted(true);
-                        setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true, "processExit": true, 'withdrawHash': res });
-                    }
-                    else {
-                        setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true, 'withdrawHash': res });
-                        setChallengePeriodCompleted(true);
-                        setProcessing((processing: any) => [...processing, "Challenge Period"]);
-                    }
-
+                    setProcessing((processing: any) => [...processing, "Completed"]);
+                    setStep("Completed");
+                    setCompleted(true);
+                    setTxState({ ...txState, "checkpointSigned": true, "challengePeriod": true, "processExit": true, 'withdrawHash': res });
                 })
                 .on("error", (res: any) => {
-                    console.log("startExitWithBurntTokens ", res);
+                    console.log("posExit ", res);
                     setStep("Checkpoint");
                     if (res.code === 4001) {
                         console.log("user denied transaction");
+                        setChallengePeriodCompleted(false);
                     }
                 });
         }
         catch (err: any) {
-            console.log("startExitWithBurntTokens ", err);
-            // let error = parseError(err);
+            console.log("posExit error ", err);
             setStep("Checkpoint");
-            // if (error?.code === 4001) {
-            //     console.log("user denied transaction");
-            // }
+            setChallengePeriodCompleted(false);
         }
     }
 
+    const handleStepTwo = async () => {
+        if (txState?.token?.bridgetype === "pos") {
+            await posExit();
+        }
+        else {
+            startExitWithBurntTokens();
+        }
+    }
     return (
         <div className="popmodal-body no-ht">
             <div className="pop-block withdraw_pop">
@@ -286,9 +367,9 @@ const StepThree: React.FC<any> = ({
                                     </div>
                                     <div className="pop-bottom">
                                         <div>
-                                            <a onClick={() => { startExitWithBurntTokens() }}
+                                            <a onClick={() => { handleStepTwo() }}
                                                 className={`btn primary w-100 primary-btn`}
-                                                href="javascript:void(0)">Continue</a>
+                                            >Continue</a>
                                         </div>
                                     </div>
                                 </>

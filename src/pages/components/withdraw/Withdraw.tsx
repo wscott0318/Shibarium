@@ -37,6 +37,7 @@ import { getClient } from "client/shibarium";
 import { PlasmaClient } from "@shibarmy/shibariumjs-plasma";
 import burn from "../../../exit/burn";
 import ERC20 from "../../../ABI/ERC20Abi.json";
+import POSExitABI from "../../../ABI/POSExitABI.json";
 
 
 const WithdrawModal: React.FC<{
@@ -207,7 +208,7 @@ const WithdrawModal: React.FC<{
                 setHashLink("");
                 setButtonLoader(false);
                 let user: any = account;
-                let amount= web3.utils.toWei(withdrawTokenInput, 'ether');
+                let amount = web3.utils.toWei(withdrawTokenInput, 'ether');
                 let abi: any;
                 if (selectedToken?.parentName === "BONE") {
                     // amount = 
@@ -368,7 +369,6 @@ const WithdrawModal: React.FC<{
 
         const getBurnStatus = async (txHash: any) => {
             let status = await burnStatus(txState?.token?.bridgetype, txHash);
-            console.log("status ", status.inclusion);
             if (status?.inclusion) {
                 setProcessing((processing: any) => [...processing, "Checkpoint"]);
                 setTxState({ ...txState, checkpointSigned: true });
@@ -412,23 +412,26 @@ const WithdrawModal: React.FC<{
                     .then((gas: any) => {
                         processExitAllowance = +(+gas * +currentprice) / Math.pow(10, 18);
                         setAllowance(+processExitAllowance);
+                        setLoader(false);
                     }).catch((err: any) => console.log(err));
             }
-            let instance = new web3.eth.Contract(
-                withdrawManagerABI,
-                dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
-            );
-            await instance.methods
-                .processExits(dynamicChaining[chainId].BONE)
-                .estimateGas({ from: user })
-                .then((gas: any) => {
-                    let gasFee = (+gas * +currentprice) / Math.pow(10, 18);
-                    setEstGas(+gasFee);
-                    setLoader(false);
-                })
-                .catch((err: any) => {
-                    console.log(err);
-                });
+            if (selectedToken?.bridgetype === "plasma") {
+                let instance = new web3.eth.Contract(
+                    withdrawManagerABI,
+                    dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
+                );
+                await instance.methods
+                    .processExits(selectedToken?.parentContract)
+                    .estimateGas({ from: user })
+                    .then((gas: any) => {
+                        let gasFee = (+gas * +currentprice) / Math.pow(10, 18);
+                        setEstGas(+gasFee);
+                        setLoader(false);
+                    })
+                    .catch((err: any) => {
+                        console.log(err);
+                    });
+            }
         };
 
         useEffect(() => {
@@ -452,11 +455,16 @@ const WithdrawModal: React.FC<{
                     process.length - 1 - process.indexOf(tempStep) + 1
                 );
                 setProcessing(process);
-                console.log("processing",process , tempStep)
+                console.log("processing", process, tempStep)
                 if (tempStep == "Checkpoint") {
                     getBurnStatus(txState?.txHash?.transactionHash);
                 } else if (tempStep == "Challenge Period") {
+                    setProcessing((processing: any) => [...processing, "Challenge Period"])
                     setChallengePeriodCompleted(true);
+                }
+                else if (tempStep == "Completed") {
+                    setCompleted(true);
+                    setProcessing((processing: any) => [...processing, "Completed"])
                 }
             }
         }, []);
@@ -617,41 +625,45 @@ const WithdrawModal: React.FC<{
                                                     />
                                                 </div>
                                             </div>
-                                            {allowance > 0 && (
-                                                <div className="row pt-3">
-                                                    <div className="col-7 d-flex align-items-center">
-                                                        <img
-                                                            className="img-fluid"
-                                                            width="22"
-                                                            height="22"
-                                                            src={
-                                                                selectedToken?.logo || selectedToken?.logoURI
-                                                                    ? selectedToken?.logo || selectedToken?.logoURI
-                                                                    : "../../assets/images/eth.png"
-                                                            }
-                                                            onError={imageOnErrorHandler}
-                                                            alt=""
-                                                        />
-                                                        <p className="ps-2">Confirm Withdrawal</p>
-                                                    </div>
-                                                    <div className="col-5 d-flex align-items-center justify-content-end">
-                                                        {loader ? (
-                                                            <Loader />
-                                                        ) : (
-                                                            <>
-                                                                <small className="text-lg">~ </small>
-                                                                <NumberFormat
-                                                                    thousandSeparator
-                                                                    displayType={"text"}
-                                                                    prefix="$"
-                                                                    value={(allowance * boneUSDValue).toFixed(8)}
-                                                                />
-                                                            </>
-                                                        )}
-                                                    </div>
+
+                                            <div className="row pt-3">
+                                                <div className="col-7 d-flex align-items-center">
+                                                    <img
+                                                        className="img-fluid"
+                                                        width="22"
+                                                        height="22"
+                                                        src={
+                                                            selectedToken?.logo || selectedToken?.logoURI
+                                                                ? selectedToken?.logo || selectedToken?.logoURI
+                                                                : "../../assets/images/eth.png"
+                                                        }
+                                                        onError={imageOnErrorHandler}
+                                                        alt=""
+                                                    />
+                                                    <p className="ps-2">Approve Withdrawal</p>
                                                 </div>
-                                            )}
-                                            <div className="row pt-2">
+                                                <div className="col-5 d-flex align-items-center justify-content-end">
+                                                    {loader ? (
+                                                        <Loader />
+                                                    ) : (
+                                                        <>
+                                                            {allowance > 0 ?
+                                                                <>
+                                                                    <small className="text-lg">~ </small>
+                                                                    <NumberFormat
+                                                                        thousandSeparator
+                                                                        displayType={"text"}
+                                                                        prefix="$"
+                                                                        value={(allowance * boneUSDValue).toFixed(8)}
+                                                                    />
+                                                                </>
+                                                                : <small className="text-sm">Approved</small>}
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            {selectedToken?.bridgetype === "plasma" && <div className="row pt-2">
                                                 <div className="col-7 d-flex align-items-center">
                                                     <img
                                                         className="img-fluid"
@@ -682,7 +694,7 @@ const WithdrawModal: React.FC<{
                                                         </>
                                                     )}
                                                 </div>
-                                            </div>
+                                            </div>}
                                         </div>
                                         <div className="pop-bottom">
                                             <div>

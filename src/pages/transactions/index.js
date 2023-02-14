@@ -152,6 +152,7 @@ export default function Transaction() {
                             });
                             setShowWithdrawModal(true);
                           }}
+                          disabled={txState ? false : true}
                           className="btn primary-btn w-100"
                         >
                           Continue

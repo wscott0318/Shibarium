@@ -99,7 +99,7 @@ export const burnStatus = async (clientType, txHash) => {
     // process.exit(0)
   } catch (e) {
     console.log(e);
-    process.exit(1);
+    // process.exit(1);
   }
 };
 

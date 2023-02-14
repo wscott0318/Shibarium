@@ -14,6 +14,7 @@ export const dynamicChaining :any  =
     STAKE_MANAGER: process.env.STAKE_MANAGER,
     DEPOSIT_MANAGER_PROXY: process.env.DEPOSIT_MANAGER_PROXY,
     WITHDRAW_MANAGER_PROXY: process.env.WITHDRAW_MANAGER_PROXY,
+    ROOTCHAIN_MANAGER_PROXY:process.env.ROOTCHAIN_MANAGER_PROXY
    },
    517:{ // puppy test net 517
     BONE: process.env.BONE,
@@ -22,5 +23,6 @@ export const dynamicChaining :any  =
     STAKE_MANAGER: process.env.STAKE_MANAGER,
     DEPOSIT_MANAGER_PROXY: process.env.DEPOSIT_MANAGER_PROXY,
     WITHDRAW_MANAGER_PROXY: process.env.WITHDRAW_MANAGER_PROXY,
+    ROOTCHAIN_MANAGER_PROXY:process.env.ROOTCHAIN_MANAGER_PROXY
    },
 }

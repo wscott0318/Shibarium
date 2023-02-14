@@ -46,7 +46,7 @@ export default function Withdraw() {
   const [dWState, setDWState] = useState(
     bridgeType === "deposit" ? true : false
   );
-  const [loader, setLoader] = useState(true);
+  const [loader, setLoader] = useState(false);
   const [tokenBalanceL2, setTokenBalanceL2] = useState(0);
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const [hashLink, setHashLink] = useState("");
@@ -97,8 +97,10 @@ export default function Withdraw() {
   };
 
   useEffect(() => {
-    setLoader(true);
-    depositChainTokenBalance();
+    if(Object.keys(selectedToken).length){
+      setLoader(true);
+      depositChainTokenBalance();
+    }
   }, [selectedToken]);
   const depositChainTokenBalance = async () => {
     if (Object.keys(selectedToken).length) {
@@ -492,7 +494,7 @@ export default function Withdraw() {
                                           <Loader stroke="orange" />
                                         ) : (
                                           <span className="fld-txt lite-800 wrap_txt">
-                                            {tokenBalanceL2} {selectedToken?.key || selectedToken?.symbol}
+                                            {tokenBalanceL2 ? tokenBalanceL2 : "00.00"} {selectedToken?.key || selectedToken?.symbol}
                                           </span>
                                         )}
                                       </div>
@@ -589,7 +591,7 @@ export default function Withdraw() {
                                           <Loader stroke="orange" />
                                         ) : (
                                           <span className="fld-txt lite-800 wrap_txt">
-                                            {tokenBalanceL2} {selectedToken?.key || selectedToken?.symbol}
+                                            {tokenBalanceL2 ? tokenBalanceL2 : "00.00"} {selectedToken?.key || selectedToken?.symbol}
                                           </span>
                                         )}
                                       </div>
