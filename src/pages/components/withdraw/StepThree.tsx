@@ -20,7 +20,6 @@ import { currentGasPrice, getAllowanceAmount, parseError } from 'web3/commonFunc
 import fromExponential from 'from-exponential';
 import { getClient } from 'client/shibarium';
 import { ExitUtil, RootChain } from '@shibarmy/shibariumjs';
-import { withdrawHistory } from "./WithdrawHistory"
 
 const StepThree: React.FC<any> = ({
     withdrawTokenInput,
