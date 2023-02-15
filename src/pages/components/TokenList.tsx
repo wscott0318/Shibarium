@@ -9,6 +9,7 @@ import { Settings } from 'react-feather';
 import { Dropdown } from 'react-bootstrap';
 import useLocalStorageState from 'use-local-storage-state';
 import InfiniteScroll from "react-infinite-scroll-component";
+import Loader from "app/components/Loader";
 const TokenList = ({
   coinList = [],
   DEFAULT_ITEM,
@@ -130,7 +131,7 @@ const TokenList = ({
     if (linkQuery) {
       if (defaultList.filter((e: any) => e.data == linkQuery).length > 0) {
         setdup(true);
-       
+
       }
       else {
         setdup(false);
@@ -143,7 +144,7 @@ const TokenList = ({
     }
 
     console.log(isWrong, 'isWrong');
-    
+
   }, [linkQuery]);
 
   const updateList = (data: any) => {
@@ -244,11 +245,11 @@ const TokenList = ({
   const fetchData = () => {
     // console.log("fetch data called")
     if (defaultfetched?.length >= importedCoins?.length) {
-   
+
       return;
     }
     setTimeout(() => {
-      const mergeCoinsList = () => [...defaultfetched, ...importedCoins.slice(defaultfetched.length, defaultfetched.length+5)];
+      const mergeCoinsList = () => [...defaultfetched, ...importedCoins.slice(defaultfetched.length, defaultfetched.length + 5)];
       setDefaultfetched(mergeCoinsList);
     }, 500);
   }
@@ -285,9 +286,10 @@ const TokenList = ({
                 <p>{x?.parentName || x?.name || "Unknown"}</p>
               </div>
               <div>
-                <h6 className="fw-bold">
+                {x?.balance === 0 ? <Loader stroke="orange"/> :
+                 <h6 className="fw-bold">
                   {x?.balance ? x.balance : "00.00"}
-                </h6>
+                </h6>}
               </div>
             </div>
           </div>

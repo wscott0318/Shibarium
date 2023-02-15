@@ -22,7 +22,7 @@ import withdrawManagerABI from "../../../ABI/withdrawManagerABI.json";
 import { ArrowCircleLeftIcon } from "@heroicons/react/outline";
 import { Check, X } from "react-feather";
 import Loader from "app/components/Loader";
-import { PUPPYNET517 } from "app/hooks/L1Block";
+import { L1Block, PUPPYNET517 } from "app/hooks/L1Block";
 import { burnStatus } from "../../../exit/burn";
 import useLocalStorageState from "use-local-storage-state";
 import StepThree from "./StepThree";
@@ -38,7 +38,7 @@ import { PlasmaClient } from "@shibarmy/shibariumjs-plasma";
 import burn from "../../../exit/burn";
 import ERC20 from "../../../ABI/ERC20Abi.json";
 import POSExitABI from "../../../ABI/POSExitABI.json";
-
+import ERC20abi from "../../../ABI/ERC20Abi.json";
 
 const WithdrawModal: React.FC<{
     page: string;
@@ -61,6 +61,7 @@ const WithdrawModal: React.FC<{
         const lib: any = library;
         const web3: any = new Web3(lib?.provider);
         const webL2: any = PUPPYNET517();
+        const webL1 = L1Block();
         // console.log("library ", library);
         console.log("chainId ", chainId);
         const dispatch = useAppDispatch();
@@ -391,14 +392,12 @@ const WithdrawModal: React.FC<{
                 fromExponential(10000 * Math.pow(10, 18))
             );
             let currentprice: any = await currentGasPrice(web3);
-            let allowanceForExit =
-                (await getAllowanceAmount(
-                    library,
-                    selectedToken?.parentContract,
-                    account,
-                    dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
-                )) || 0;
-            let approvalInstance = new web3.eth.Contract(
+            let instance = new webL1.eth.Contract(ERC20abi, selectedToken?.parentContract,);
+            let allowance = await instance.methods
+                .allowance(account, dynamicChaining[ChainId.GÖRLI].WITHDRAW_MANAGER_PROXY)
+                .call({ from: account });
+            let allowanceForExit = parseInt(allowance) / 10 ** 18;
+            let approvalInstance = new webL1.eth.Contract(
                 ERC20,
                 selectedToken?.parentContract
             );
@@ -406,7 +405,7 @@ const WithdrawModal: React.FC<{
             let processExitAllowance: any = 0;
             if (+allowanceForExit < +withdrawTokenInput) {
                 await approvalInstance.methods
-                    .approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amountWei)
+                    .approve(dynamicChaining[ChainId.GÖRLI].WITHDRAW_MANAGER_PROXY, amountWei)
                     .estimateGas({ from: user })
                     .then((gas: any) => {
                         processExitAllowance = +(+gas * +currentprice) / Math.pow(10, 18);
@@ -415,9 +414,9 @@ const WithdrawModal: React.FC<{
                     }).catch((err: any) => console.log(err));
             }
             if (selectedToken?.bridgetype === "plasma") {
-                let instance = new web3.eth.Contract(
+                let instance = new webL1.eth.Contract(
                     withdrawManagerABI,
-                    dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY
+                    dynamicChaining[ChainId.GÖRLI].WITHDRAW_MANAGER_PROXY
                 );
                 await instance.methods
                     .processExits(selectedToken?.parentContract)
@@ -860,7 +859,7 @@ const WithdrawModal: React.FC<{
                                                             thousandSeparator
                                                             displayType={"text"}
                                                             prefix="$"
-                                                            value={((allowance ? +estGas + +allowance : +estGas) * boneUSDValue).toFixed(8)}
+                                                            value={((allowance > 0 ? +estGas + +allowance : +estGas) * boneUSDValue).toFixed(8)}
                                                         />
                                                     </p>
                                                 </div>

@@ -185,6 +185,7 @@ export default function Withdraw() {
           <ManageToken
             setSelectedToken={setSelectedToken}
             setOpenManageToken={setOpenManageToken}
+            setLoader={setLoader}
           />
         ) : null}
         {/* Token popups end */}

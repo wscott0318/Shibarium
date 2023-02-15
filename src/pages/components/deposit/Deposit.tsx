@@ -32,7 +32,7 @@ const Deposit: React.FC<any> =
         const web3: any = new Web3(lib?.provider);
         const [allowance, setAllowance] = useState<any>(0);
         const [estGas, setEstGas] = useState<any>(0);
-        const dispatch:any = useAppDispatch();
+        const dispatch: any = useAppDispatch();
         const [error, setError] = useState("");
         const [depModalState, setDepModState] = useState({
             step0: true,
@@ -63,12 +63,10 @@ const Deposit: React.FC<any> =
             console.log(" step 1")
             if (+checkAllowance < +depositTokenInput) {
                 console.log("amount is greater than allowance step 2")
-                getFeeForApproval(currentprice, amountWei, user);
+                allowanceGas = await getFeeForApproval(currentprice, amountWei, user);
             }
-            else {
-                console.log("step 3")
-                getFeeForDeposit(allowanceGas, currentprice, user, amountWei)
-            }
+            console.log("step 3")
+            await getFeeForDeposit(allowanceGas, currentprice, user, amountWei)
         }
 
         const getFeeForApproval = async (currentprice: any, amountWei: any, user: any) => {
@@ -83,17 +81,19 @@ const Deposit: React.FC<any> =
                         console.log(" step 5")
                         console.log("allow gas => ", allowGas);
                         // await approvalForDeposit(amountWei, selectedToken?.parentContract, dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY)
-                        getFeeForDeposit(allowGas, currentprice, user, amountWei);
+                        // getFeeForDeposit(allowGas, currentprice, user, amountWei);
                     }).catch((err: any) => {
                         setEstGas(0);
                         setAllowance(0);
                         console.log("Error in calculating approval gas fee ", err);
                     })
+                return allowGas;
             }
             catch (error: any) {
                 setEstGas(0);
                 setAllowance(0);
                 console.log("error => line no. 90", error);
+                return 0;
             }
         }
         const getFeeForDeposit = async (allowanceGas: any, currentprice: any, user: any, amountWei: any) => {
@@ -102,30 +102,27 @@ const Deposit: React.FC<any> =
                     depositManagerABI,
                     dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
                 )
-                console.log(" step 6")
-                console.log("token =>", selectedToken?.parentContract, selectedToken?.childContract, user, amountWei)
-                await instance.methods.depositERC20ForUser(selectedToken?.parentContract, user, amountWei).estimateGas({ from: user })
-                    .then((gas: any) => {
-                        let gasFee;
-                        if (allowanceGas > 0) gasFee = (+gas * +currentprice) / Math.pow(10, 18) + +allowanceGas;
-                        else gasFee = (+gas * +currentprice) / Math.pow(10, 18);
-                        setEstGas(+gasFee);
-                    }).catch((err: any) => {
-                        setEstGas(0);
-                        let error = parseError(err);
-                        if (error.message == "execution reverted: exceed maximum deposit amount") {
-                            setError("Exceeded maximum deposit amount.")
-                        }
-                        else if (error.message == "execution reverted: TOKEN_NOT_SUPPORTED") {
-                            setError("Token not supported.");
-                        }
-                        else {
-                            setError("Unable to process request.");
-                        }
-                    })
+                console.log("before calculating gas fee", instance.methods.depositERC20ForUser(selectedToken?.parentContract, user, amountWei));
+                let gasFee = await instance.methods.depositERC20ForUser(selectedToken?.parentContract, user, amountWei).estimateGas({ from: account });
+                console.log("after calculating gas fee");
+                if (+allowanceGas > 0) gasFee = (+gasFee * +currentprice) / Math.pow(10, 18) + +allowanceGas;
+                else gasFee = (+gasFee * +currentprice) / Math.pow(10, 18);
+                setEstGas(+gasFee);
             }
             catch (error: any) {
                 setEstGas(0);
+                let err: any;
+                if (typeof error === "object") err = error;
+                else err = parseError(error);
+                if (err.message == "execution reverted: exceed maximum deposit amount") {
+                    setError("Exceeded maximum deposit amount.")
+                }
+                else if (err.message == "execution reverted: TOKEN_NOT_SUPPORTED") {
+                    setError("Token not supported.");
+                }
+                else {
+                    setError("Unable to process request.");
+                }
                 console.log("error => line no. 112", error);
             }
         }
@@ -133,7 +130,7 @@ const Deposit: React.FC<any> =
             try {
                 let user: any = account;
                 const amountWei = web3.utils.toBN(
-                    fromExponential(1000 * Math.pow(10, 18))
+                    fromExponential(10000 * Math.pow(10, 18))
                 );
                 let instance = new web3.eth.Contract(ERC20, token);
                 await instance.methods
@@ -248,7 +245,6 @@ const Deposit: React.FC<any> =
                         step4: true,
                         title: "Transaction Submitted",
                     });
-                    setDepositModal(false);
                 })
                 .on("error", (res: any) => {
                     if (res.code === 4001) {
@@ -412,7 +408,7 @@ const Deposit: React.FC<any> =
                                             {allowance > 0 ?
                                                 <>
                                                     <small className="text-lg">~ </small>
-                                                    <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(allowance * boneUSDValue).toFixed(3)} />
+                                                    <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(allowance * boneUSDValue).toFixed(15)} />
                                                 </> : "Approved"}
                                         </div>
                                     </div>
@@ -433,7 +429,7 @@ const Deposit: React.FC<any> =
                                         </div>
                                         <div className="col-5 text-end">
                                             <small className="text-lg">~ </small>
-                                            <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(3)} />
+                                            <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(15)} />
                                         </div>
                                     </div>
                                 </div>
@@ -729,25 +725,25 @@ const Deposit: React.FC<any> =
                                             </p>
                                         </div>
                                     </div>
-                                    <div className="image_area row h-75">
+                                    <div className="image_area row h-50">
                                         <div className="flex text-center col-12 watch-img-sec align-items-center justify-content-center">
                                             <img
                                                 className="img-fluid img-wdth"
                                                 src="../../assets/images/cmpete-step.png"
-                                                width="150"
-                                                height="150"
+                                                width="100"
+                                                height="100"
                                             />
                                         </div>
                                     </div>
                                 </div>
-                                <div className="pop-bottom">
+                                <div className="pop-bottom text-center h-50">
                                     <div className="text-section complete-modal">
-                                        {/* <h4 className="pop-hd-md">Transaction Completed</h4>
-                <p>Transaction completed succesfully.</p> */}
+                                        <h4 className="pop-hd-sm">Transfer en route</h4>
+                                        <p>Your transfer is underway and will be completed in 22-30 minutes. Once completed, your token balance will be automatically updated.</p>
                                     </div>
                                     <div>
                                         <a
-                                            className="btn primary-btn w-100"
+                                            className="w-100 warning"
                                             onClick={() => window.open(hashLink)}
                                         >
                                             View on Block Explorer

@@ -64,7 +64,7 @@ export const Warning = ({ listing, setCoinList, resetLink, sortedLists }: any) =
     </>
   );
 };
-export default function ManageToken({ setOpenManageToken, setSelectedToken, defUrl = (id: any) => `https://api.1inch.exchange/v3.0/${id}/tokens`, ...props }: any) {
+export default function ManageToken({ setLoader,setOpenManageToken, setSelectedToken, defUrl = (id: any) => `https://api.1inch.exchange/v3.0/${id}/tokens`, ...props }: any) {
 
   const { chainId = 1, account, library } = useActiveWeb3React();
   const lib: any = library;
@@ -134,18 +134,20 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
     try {
       await getWalletTokenList().then((res) => {
         let list = res.data.message.tokens;
+        console.log("balance => " , list)
         list.forEach(async (x: any) => {
             let tokenAddress = chainId === ChainId.GÖRLI ? x?.parentContract : x?.childContract;
             await getTokenBalance(lib, account, tokenAddress).then((res: any) => {
-              x.balance = res;
+              x.balance = res > 0 ? res : '00.00';
             }).catch((err: any) => {
               console.log("Error fetching balance => ", err);
             })
         });
+        setIsLoading(false);
         setTokenModalList([...localTokens, ...list]);
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1000);
+        // setTimeout(() => {
+        // }, 1000);
+        console.log("updated balance " , list)
       });
     } catch (err: any) {
       setIsLoading(false);
@@ -187,6 +189,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
 
   const handleTokenSelect = (token: any) => {
     setOpenManageToken(false)
+    setLoader(false);
     setSelectedToken(token);
     setTokenModal(false);
   };
@@ -421,7 +424,7 @@ export default function ManageToken({ setOpenManageToken, setSelectedToken, defU
       <CommonModal
         title={"Select token"}
         show={showTokenModal}
-        setshow={() => { setOpenManageToken(false); setTokenModal(false); }}
+        setshow={() => { setOpenManageToken(false); setTokenModal(false);setLoader(false) }}
         externalCls="tkn-ht"
       >
         {/* Token popups start */}
