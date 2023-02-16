@@ -97,7 +97,7 @@ export default function Faucet() {
                 <h6 className='mb-2'>
                   Get Gas Coin
                 </h6>
-                <p className='grey-txt'>This faucet transfers Gas Coin on Shibarium testnet. Confirms details before submitting.</p>
+                <p className='grey-txt'>This faucet transfers Gas Coin on Shibarium testnet. Confirm details before submitting.</p>
               </div>
             </div>
             <div className="fau_tabs_area">

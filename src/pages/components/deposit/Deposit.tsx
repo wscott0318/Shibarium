@@ -103,7 +103,7 @@ const Deposit: React.FC<any> =
                     dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
                 )
                 console.log("before calculating gas fee", instance.methods.depositERC20ForUser(selectedToken?.parentContract, user, amountWei));
-                let gasFee = await instance.methods.depositERC20ForUser(selectedToken?.parentContract, user, amountWei).estimateGas({ from: account });
+                let gasFee = await instance.methods.depositERC20ForUser(selectedToken?.parentContract, user, amountWei).estimateGas({ from: user });
                 console.log("after calculating gas fee");
                 if (+allowanceGas > 0) gasFee = (+gasFee * +currentprice) / Math.pow(10, 18) + +allowanceGas;
                 else gasFee = (+gasFee * +currentprice) / Math.pow(10, 18);

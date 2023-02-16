@@ -420,7 +420,7 @@ const MigratePopup: React.FC<any> = ({
                               name="balance"
                               autoComplete="off"
                               value={values.balance}
-                              onChange={handleChange}
+                              onChange={handleChange("balance")}
                               onBlur={handleBlur}
                             />
                           </div>
@@ -464,8 +464,8 @@ const MigratePopup: React.FC<any> = ({
                             e.preventDefault();
                             migrateStake(values, data, migrateData);
                           }}
-                            disabled={values.balance > 0 ? false : true}
-                            className={`w-100 ${values.balance <= 0 && "disabled"}`} type="submit" value="submit">
+                            disabled={values.balance > 1 ? false : true}
+                            className={`w-100 ${values.balance < 1 && "disabled"}`} type="submit" value="submit">
                             <div className="btn primary-btn d-flex align-items-center justify-content-center" >
                               <button >Continue</button>
                             </div>
