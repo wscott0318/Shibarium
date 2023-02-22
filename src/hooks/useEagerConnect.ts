@@ -21,18 +21,17 @@ function useEagerConnect() {
               });
             // @ts-ignore TYPE NEEDS FIXING
             window.ethereum.removeAllListeners(["networkChanged"]);
-            console.log("entered 1");
-          } 
-        else {
+          } else {
             if (isMobile && window.ethereum) {
-              activate(injected, undefined, true)
-              // .then(() => window.ethereum.removeAllListeners(['networkChanged']))
-              .catch(() => {
-                setTried(true);
-              });
-              // @ts-ignore TYPE NEEDS FIXING
-              window.ethereum.removeAllListeners(["networkChanged"]);
-              console.log("entered 2");
+              if (!isConnected) {
+                activate(injected, undefined, true)
+                  // .then(() => window.ethereum.removeAllListeners(['networkChanged']))
+                  .catch(() => {
+                    setTried(true);
+                  });
+                // @ts-ignore TYPE NEEDS FIXING
+                window.ethereum.removeAllListeners(["networkChanged"]);
+              }
               // setIsConnected(false);
             } else {
               setTried(true);
