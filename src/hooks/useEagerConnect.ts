@@ -19,6 +19,7 @@ function useEagerConnect() {
               .catch(() => {
                 setTried(true);
               });
+              console.log("entered 1");
             // @ts-ignore TYPE NEEDS FIXING
             window.ethereum.removeAllListeners(["networkChanged"]);
           } else {
@@ -30,13 +31,26 @@ function useEagerConnect() {
                 });
               // @ts-ignore TYPE NEEDS FIXING
               window.ethereum.removeAllListeners(["networkChanged"]);
-              
+              console.log("entered 2");
             } else {
               setTried(true);
             }
           }
         }
+        else{
+          if (!LogOut) {
+            activate(injected, undefined, true)
+              // .then(() => window.ethereum.removeAllListeners(['networkChanged']))
+              .catch(() => {
+                setTried(true);
+              });
+              console.log("entered 1");
+            // @ts-ignore TYPE NEEDS FIXING
+            window.ethereum.removeAllListeners(["networkChanged"]);
+          }
+        }
       }
+      console.log(window)
     });
   }, [activate]); // intentionally only running on mount (make sure it's only mounted once :))
   useEffect(() => {
