@@ -38,7 +38,14 @@ function useEagerConnect() {
       }
     });
   }, [activate]); // intentionally only running on mount (make sure it's only mounted once :))
-
+  useEffect(() => {
+    if(localStorage.getItem("LogOut")){
+      console.log(true);
+    }
+    else{
+      setLogOut(false);
+    }
+  },[]);
   // if the connection worked, wait until we get confirmation of that to flip the flag
   useEffect(() => {
     if (active) {
