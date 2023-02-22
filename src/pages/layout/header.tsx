@@ -30,7 +30,7 @@ export default function Header() {
   const [userQrCode, setUserQrCode] = useState(false);
   const [valId, setValId] = useValId(); //NOSONAR
   const [showWarning, setShowWarning] = useState(false);
-  const [isConnected, setIsConnected] = useLocalStorageState("isConnected");
+  const [LogOut, setLogOut] = useLocalStorageState("LogOut");
 
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function Header() {
     deactivate();
     clearCacheData();
     router.push("/home");
-    setIsConnected(true);
+    setLogOut(true);
   };
 
   const getUsertypeAPI = async (accountAddress: any) => {

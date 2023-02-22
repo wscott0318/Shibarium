@@ -34,7 +34,7 @@ const AccountDetails: FC<AccountDetailsProps> = ({
   const { chainId = 1, account, connector, deactivate, library } = useActiveWeb3React()
   const dispatch = useAppDispatch()
   const router = useRouter();
-  const [isConnected, setIsConnected] = useLocalStorageState("isConnected");
+  const [LogOut, setLogOut] = useLocalStorageState("LogOut");
   const isMetaMask = useMemo(() => {
     const { ethereum } = window
     return !!(ethereum && ethereum.isMetaMask)
@@ -80,7 +80,7 @@ const AccountDetails: FC<AccountDetailsProps> = ({
   const logoutHandler = () => {
     deactivate();
     router.push("/home");
-    setIsConnected(true);
+    setLogOut(true);
   };
   return (
     <div className="space-y-3">

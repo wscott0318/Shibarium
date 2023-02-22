@@ -8,12 +8,12 @@ import { injected } from "../config/wallets";
 function useEagerConnect() {
   const { activate, active } = useWeb3ReactCore(); // specifically using useWeb3ReactCore because of what this hook does
   const [tried, setTried] = useState(false);
-  const [isConnected, setIsConnected] = useLocalStorageState("isConnected");
+  const [LogOut, setLogOut] = useLocalStorageState("LogOut");
   useEffect(() => {
     injected.isAuthorized().then((isAuthorized) => {
       if (typeof window !== "undefined") {
         if (isAuthorized) {
-          if (!isConnected) {
+          if (!LogOut) {
             activate(injected, undefined, true)
               // .then(() => window.ethereum.removeAllListeners(['networkChanged']))
               .catch(() => {
@@ -23,16 +23,13 @@ function useEagerConnect() {
             window.ethereum.removeAllListeners(["networkChanged"]);
           } else {
             if (isMobile && window.ethereum) {
-              if (!isConnected) {
-                activate(injected, undefined, true)
-                  // .then(() => window.ethereum.removeAllListeners(['networkChanged']))
-                  .catch(() => {
-                    setTried(true);
-                  });
-                // @ts-ignore TYPE NEEDS FIXING
-                window.ethereum.removeAllListeners(["networkChanged"]);
-              }
-              // setIsConnected(false);
+              activate(injected, undefined, true)
+                // .then(() => window.ethereum.removeAllListeners(['networkChanged']))
+                .catch(() => {
+                  setTried(true);
+                });
+              // @ts-ignore TYPE NEEDS FIXING
+              window.ethereum.removeAllListeners(["networkChanged"]);
             } else {
               setTried(true);
             }
