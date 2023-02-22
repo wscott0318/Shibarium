@@ -23,7 +23,6 @@ function useEagerConnect() {
             window.ethereum.removeAllListeners(["networkChanged"]);
           } else {
             if (isMobile && window.ethereum) {
-              if (!LogOut) {
               activate(injected, undefined, true)
                 // .then(() => window.ethereum.removeAllListeners(['networkChanged']))
                 .catch(() => {
@@ -31,7 +30,7 @@ function useEagerConnect() {
                 });
               // @ts-ignore TYPE NEEDS FIXING
               window.ethereum.removeAllListeners(["networkChanged"]);
-              }
+              
             } else {
               setTried(true);
             }
