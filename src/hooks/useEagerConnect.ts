@@ -1,26 +1,19 @@
 import { useWeb3React as useWeb3ReactCore } from "@web3-react/core";
 import { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
+import useLocalStorageState from "use-local-storage-state";
 
 import { injected } from "../config/wallets";
 
 function useEagerConnect() {
   const { activate, active } = useWeb3ReactCore(); // specifically using useWeb3ReactCore because of what this hook does
   const [tried, setTried] = useState(false);
-
+  const [isConnected, setIsConnected] = useLocalStorageState("isConnected");
   useEffect(() => {
     injected.isAuthorized().then((isAuthorized) => {
       if (typeof window !== "undefined") {
         if (isAuthorized) {
-          activate(injected, undefined, true)
-            // .then(() => window.ethereum.removeAllListeners(['networkChanged']))
-            .catch(() => {
-              setTried(true);
-            });
-          // @ts-ignore TYPE NEEDS FIXING
-          window.ethereum.removeAllListeners(["networkChanged"]);
-        } else {
-          if (isMobile && window.ethereum) {
+          if (!isConnected) {
             activate(injected, undefined, true)
               // .then(() => window.ethereum.removeAllListeners(['networkChanged']))
               .catch(() => {
@@ -28,8 +21,22 @@ function useEagerConnect() {
               });
             // @ts-ignore TYPE NEEDS FIXING
             window.ethereum.removeAllListeners(["networkChanged"]);
-          } else {
-            setTried(true);
+            console.log("entered 1");
+          } 
+        else {
+            if (isMobile && window.ethereum) {
+              activate(injected, undefined, true)
+              // .then(() => window.ethereum.removeAllListeners(['networkChanged']))
+              .catch(() => {
+                setTried(true);
+              });
+              // @ts-ignore TYPE NEEDS FIXING
+              window.ethereum.removeAllListeners(["networkChanged"]);
+              console.log("entered 2");
+              // setIsConnected(false);
+            } else {
+              setTried(true);
+            }
           }
         }
       }

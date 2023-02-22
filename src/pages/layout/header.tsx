@@ -18,6 +18,7 @@ import { clearCacheData, getNetworkName } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 import ChainWarning from "pages/components/ChainWarning";
 import {supportedChains} from "../../web3/commonFunctions";
+import useLocalStorageState from "use-local-storage-state";
 export default function Header() {
 
   const { account, deactivate } = useWeb3React();
@@ -29,7 +30,7 @@ export default function Header() {
   const [userQrCode, setUserQrCode] = useState(false);
   const [valId, setValId] = useValId(); //NOSONAR
   const [showWarning, setShowWarning] = useState(false);
-
+  const [isConnected, setIsConnected] = useLocalStorageState("isConnected");
 
 
   useEffect(() => {
@@ -63,6 +64,7 @@ export default function Header() {
     deactivate();
     clearCacheData();
     router.push("/home");
+    setIsConnected(true);
   };
 
   const getUsertypeAPI = async (accountAddress: any) => {

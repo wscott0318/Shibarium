@@ -15,6 +15,7 @@ import { isMobile } from 'react-device-detect'
 import ReactGA from 'react-ga'
 import Option from './Option'
 import PendingView from './PendingView'
+import useLocalStorageState from 'use-local-storage-state'
 
 enum WALLET_VIEWS {
   OPTIONS,
@@ -38,7 +39,7 @@ const WalletModal: FC<WalletModals> = ({ pendingTransactions, confirmedTransacti
   const previousAccount = usePrevious(account)
   const activePrevious = usePrevious(active)
   const connectorPrevious = usePrevious(connector)
-
+  const [isConnected , setIsConnected] = useLocalStorageState("isConnected");
 
   useEffect(() => {
     if (account && !previousAccount && walletModalOpen) toggleWalletModal()
@@ -112,6 +113,7 @@ const WalletModal: FC<WalletModals> = ({ pendingTransactions, confirmedTransacti
             setPendingError(true)
           }
         }).then((res: any) => {
+          setIsConnected(false);
           // console.log(res)
         }
         )

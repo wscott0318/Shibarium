@@ -14,6 +14,7 @@ import Typography from '../Typography'
 import Copy from './Copy'
 import Transaction from './Transaction'
 import { useRouter } from 'next/router'
+import useLocalStorageState from 'use-local-storage-state'
 
 interface AccountDetailsProps {
   toggleWalletModal: () => void
@@ -33,7 +34,7 @@ const AccountDetails: FC<AccountDetailsProps> = ({
   const { chainId = 1, account, connector, deactivate, library } = useActiveWeb3React()
   const dispatch = useAppDispatch()
   const router = useRouter();
-  
+  const [isConnected, setIsConnected] = useLocalStorageState("isConnected");
   const isMetaMask = useMemo(() => {
     const { ethereum } = window
     return !!(ethereum && ethereum.isMetaMask)
@@ -76,9 +77,10 @@ const AccountDetails: FC<AccountDetailsProps> = ({
   // }, [active])
 
   // console.log({pendingTransactions})
-  const logoutHandler = async () => {
+  const logoutHandler = () => {
     deactivate();
-    await router.push("/home");
+    router.push("/home");
+    setIsConnected(true);
   };
   return (
     <div className="space-y-3">
