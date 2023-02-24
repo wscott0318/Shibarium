@@ -12,8 +12,7 @@ function useEagerConnect() {
   useEffect(() => {
     injected.isAuthorized().then((isAuthorized) => {
       if (typeof window !== "undefined") {
-        if (isAuthorized) {
-          if (!LogOut) {
+        if (isAuthorized && !LogOut) {
             activate(injected, undefined, true)
               // .then(() => window.ethereum.removeAllListeners(['networkChanged']))
               .catch(() => {
@@ -36,21 +35,7 @@ function useEagerConnect() {
               setTried(true);
             }
           }
-        }
-        else{
-          if (!LogOut) {
-            activate(injected, undefined, true)
-              // .then(() => window.ethereum.removeAllListeners(['networkChanged']))
-              .catch(() => {
-                setTried(true);
-              });
-              console.log("entered 1");
-            // @ts-ignore TYPE NEEDS FIXING
-            window.ethereum.removeAllListeners(["networkChanged"]);
-          }
-        }
       }
-      console.log(window)
     });
   }, [activate]); // intentionally only running on mount (make sure it's only mounted once :))
   useEffect(() => {
