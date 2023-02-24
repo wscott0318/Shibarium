@@ -97,11 +97,11 @@ const nextConfig = {
     defaultChainId: ChainId.SHIBARIUM,
     domains: [
       {
-        domain: 'devui.hailshiba.com',
+        domain: 'devui-517.hailshiba.com',
         defaultChainId: ChainId.ETHEREUM,
       },
       {
-        domain: 'devui.hailshiba.com',
+        domain: 'devui-517.hailshiba.com',
         defaultChainId: ChainId.PUPPY_NET,
       },
     ],
