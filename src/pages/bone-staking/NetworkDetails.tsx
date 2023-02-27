@@ -31,6 +31,7 @@ function NetworkDetails({ valCount }: any) {
     try {
       getNetworkOverviewData().then((res: any) => {
         setNetworkDetails(res.data && res.data.data && res.data.data.networkDetail ? res.data.data.networkDetail : {})
+        console.log("res => " ,res)
       })
       getBoneUSDValue(BONE_ID).then((res: any) => {
         setBoneUSDValue(res.data.data.price);
