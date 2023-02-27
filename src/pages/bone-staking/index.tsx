@@ -38,7 +38,7 @@ const BoneStaking = () => {
    
   }, [account])
 
-
+  
   const getValCount = async () => {
     try {
       const id = await ChainId()
