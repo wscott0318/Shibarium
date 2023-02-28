@@ -95,7 +95,7 @@ export const stakeForErrMsg = (msg) => {
   if (msg === "Error: execution reverted: not pub\n") {
     return "Public key is invalid! ";
   } else {
-    return "something went wrong please try again later! ";
+    return "Something went wrong. Please try again later! ";
   }
 };
 

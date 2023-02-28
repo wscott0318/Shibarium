@@ -211,7 +211,7 @@ export default function Faucet() {
       </main>
       {/* Review model code start */}
       <CommonModal
-        title={modalState.pending ? "Pending" : 'Done'}
+        title={modalState.pending ? "Transaction Pending" : 'Transaction Submitted'}
         show={showSwapModal}
         setshow={setSwapModal}
         externalCls="faucet-pop">

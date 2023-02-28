@@ -84,9 +84,9 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       const amount = web3.utils.toBN(fromExponential((parseInt(values.amount) - 1) * Math.pow(10, web3Decimals)));
       const acceptDelegation = 1
       const heimdallFee = web3.utils.toBN(fromExponential(minHeimdallFee * Math.pow(10, web3Decimals)));
-      // console.log("step 1")
+      console.log("step 1")
       const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-      // console.log("step 2" ,becomeValidateData.publickey)
+      console.log("step 2" ,user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey)
       await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).estimateGas({ from: user }).
       then((gas:any) => {
         console.log("step 3")
@@ -101,14 +101,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         }
       })
     } catch (err: any) {
-      let message:any;
-      if(typeof err === "object"){
-        message = err.message;
-      }
-      else{
-        message = stakeForErrMsg(err.toString().split("{")[0])
-      }
-      console.log("error in pub key" ,message);
+      let message = stakeForErrMsg(err.toString().split("{")[0])
       setTransactionState({ state: false, title: '' })
       toast.error(message, {
         position: toast.POSITION.BOTTOM_CENTER, autoClose: 5000
