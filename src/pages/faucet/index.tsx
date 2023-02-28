@@ -44,7 +44,7 @@ export default function Faucet() {
       done: false,
       hash: ''
     })
-    await axios.get(`https://dev-faucet.hailshiba.com/api/faucet/${account}?type=${selectedChain}`)
+    await axios.get(`https://faucet.shib.io/api/faucet/${account}?type=${selectedChain}`)
       .then((res: any) => {
         setModalState({
           pending: false,

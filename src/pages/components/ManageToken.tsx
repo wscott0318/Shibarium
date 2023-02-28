@@ -92,7 +92,7 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
     getDefaultChain().then(chain => {
       //@ts-ignore
       // setAddUrl(`https://${map[chain]}scan.com/address/`);
-      setAddUrl('https://shibascan-517.hailshiba.com/address/');
+      setAddUrl('https://puppyscan.shib.io/address/');
     }).catch(() => { });
   }, []);
 
