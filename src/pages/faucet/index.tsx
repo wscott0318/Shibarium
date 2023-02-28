@@ -9,6 +9,8 @@ import { useActiveWeb3React } from "app/services/web3";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useRouter } from "next/router";
 import { CircularProgress, FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
+import { getExplorerLink } from "app/functions";
+import { ChainId } from "shibarium-get-chains";
 
 export default function Faucet() {
   const [showSwapModal, setSwapModal] = useState(false);
@@ -44,8 +46,10 @@ export default function Faucet() {
       done: false,
       hash: ''
     })
+    console.log("entered faucet api");
     await axios.get(`https://faucet.shib.io/api/faucet/${account}?type=${selectedChain}`)
-      .then((res: any) => {
+    .then((res: any) => {
+        console.log("response " , res);
         setModalState({
           pending: false,
           done: true,
@@ -58,6 +62,7 @@ export default function Faucet() {
           done: true,
           hash: ''
         })
+        console.log("err" , err)
       })
 
   }
@@ -75,6 +80,17 @@ export default function Faucet() {
     event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
     event.currentTarget.className = "error me-3";
   };
+
+  const handleExplorer = () => {
+    let link:any;
+    if(selectedChain == 1){
+      link = getExplorerLink(ChainId.GÖRLI , modalState?.hash , "transaction")
+    }
+    else{
+      link = getExplorerLink(ChainId.PUPPYNET917 , modalState?.hash , "transaction")
+    }
+    router.push(link);
+  }
   return (
     <>
       <main className="main-content">
@@ -219,6 +235,7 @@ export default function Faucet() {
                   type='button'
                   className='btn primary-btn w-100'
                   disabled={modalState.hash ? false : true}
+                  onClick={handleExplorer}
                 >
                   View on Shibascan</button>
               </div>

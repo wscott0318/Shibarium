@@ -29,9 +29,9 @@ const Web3ProviderNetwork = dynamic(() => import('../components/Web3ProviderNetw
 
 function MyApp({ Component, pageProps }:any) {
 
-  // if (process.env.NODE_ENV === "production") {
-  //   console.log = () => { };
-  // }
+  if (process.env.NODE_ENV === "production") {
+    console.log = () => { };
+  }
   // useEffect(() => {
   //  console.log(screen.orientation );
  

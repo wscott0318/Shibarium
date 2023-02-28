@@ -91,6 +91,7 @@ export const comissionVal = 10;
 export const ErrorMessage = "execution reverted: not pub";
 
 export const stakeForErrMsg = (msg) => {
+  console.log("err => " , msg);
   if (msg === "Error: execution reverted: not pub\n") {
     return "Public key is invalid! ";
   } else {
