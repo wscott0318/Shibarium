@@ -40,10 +40,10 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const isLoading = availBalance == -1;
   let schema = yup.object().shape({
     amount: yup.number()
-      .typeError("Only digits are allowed.")
-      .max(availBalance)
-      .min(2, "Minimum 2 BONES required including Heimdal fee.")
-      .required("Amount is required."),
+    .typeError("Only digits are allowed.")
+    .max(availBalance)
+    .min(2, "Minimum 2 BONES required including Heimdal fee.")
+    .required("Amount is required."),
   })
   const [loader, setLoader] = useState("step1");
 
