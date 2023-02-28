@@ -57,17 +57,6 @@ export const SUPPORTED_NETWORKS: {
   //   rpcUrls: ['https://puppytestnet.hailshiba.com'],
   //   blockExplorerUrls: ['https://bscscan.com'],
   // },
-  [ChainId.PUPPYNET517]: {
-    chainId: '0x205',
-    chainName: 'Puppy Net-517',
-    nativeCurrency: {
-      name: 'BONE',
-      symbol: 'BONE',
-      decimals: 18,
-    },
-    rpcUrls: [process.env.RPC_517 as any],
-    blockExplorerUrls: ['https://explorer.hailshiba.com'],
-  },
   [ChainId.PUPPYNET917]: {
     chainId: '0x395',
     chainName: 'Puppy Net-917',

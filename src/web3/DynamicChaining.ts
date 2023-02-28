@@ -16,7 +16,7 @@ export const dynamicChaining :any  =
     WITHDRAW_MANAGER_PROXY: process.env.WITHDRAW_MANAGER_PROXY,
     ROOTCHAIN_MANAGER_PROXY:process.env.ROOTCHAIN_MANAGER_PROXY
    },
-   517:{ // puppy test net 517
+   917:{ // puppy test net 917
     BONE: process.env.BONE,
     STAKE_MANAGER_PROXY:process.env.STAKE_MANAGER_PROXY,
     VALIDATOR_SHARE: process.env.VALIDATOR_SHARE,

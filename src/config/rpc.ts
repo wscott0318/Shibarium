@@ -33,7 +33,6 @@ const RPC = {
   [ChainId.MOONRIVER]: 'https://rpc.moonriver.moonbeam.network',
   [ChainId.TELOS]: 'https://mainnet.telos.net/evm',
   [ChainId.SHIBARIUM]: 'https://3.145.115.238:8545',
-  [ChainId.PUPPYNET517]: process.env.RPC_517 as any,
   [ChainId.PUPPYNET917]: process.env.RPC_517 as any,
 }
 
