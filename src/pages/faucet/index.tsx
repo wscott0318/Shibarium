@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { CircularProgress, FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 import { getExplorerLink } from "app/functions";
 import { ChainId } from "shibarium-get-chains";
+import * as Sentry from '@sentry/nextjs';
 
 export default function Faucet() {
   const [showSwapModal, setSwapModal] = useState(false);
@@ -47,23 +48,23 @@ export default function Faucet() {
       hash: ''
     })
     console.log("entered faucet api");
+    try {
     await axios.get(`https://faucet.shib.io/api/faucet/${account}?type=${selectedChain}`)
     .then((res: any) => {
         console.log("response " , res);
         setModalState({
           pending: false,
           done: true,
-          hash: res.data.transectionHash
+          hash: res.data.data.transactionHash
         })
-        window.location.reload();
       }).catch((err) => {
-        setModalState({
-          pending: false,
-          done: true,
-          hash: ''
-        })
+        setSwapModal(false)
         console.log("err" , err)
       })
+    } catch (err :any) {
+      Sentry.captureMessage("callFaucetAPI" + selectedChain, err);
+      console.log(err)
+    }
 
   }
 
@@ -89,7 +90,7 @@ export default function Faucet() {
     else{
       link = getExplorerLink(ChainId.PUPPYNET917 , modalState?.hash , "transaction")
     }
-    router.push(link);
+    window.open(link)
   }
   return (
     <>
@@ -108,7 +109,7 @@ export default function Faucet() {
 
           <div className='swap-card cus-card-800'>
             <div className="swp-header">
-              <div className='swp-left-col mb-3 mb-lg-3 mb-xl-4'>
+              <div className='mb-3 swp-left-col mb-lg-3 mb-xl-4'>
                 <h2 className="mb-4">Faucet</h2>
                 <h6 className='mb-2'>
                   Get Gas Coin
@@ -127,11 +128,11 @@ export default function Faucet() {
                 <div className="faucet-form">
                   <div className="form-section">
                     <div className="">
-                      <div className=" ">
+                      <div className="">
                         <form>
                           <div className="botom-spc">
                             <div className="form-group">
-                              {/* <div className="form-field dark-input mb-2">
+                              {/* <div className="mb-2 form-field dark-input">
                                 <div className="mid-chain w-100 position-relative"> */}
                               {/* <Form.Select
                                     name="toChain"
@@ -189,7 +190,7 @@ export default function Faucet() {
                             <button disabled={!clickedCaptcha} onClick={() => callFaucetAPI()} type="button" className="btn primary-btn w-100">Submit</button>
                           </div>
 
-                          <div className="captcha-wrap mt-3 mt-sm-4" >
+                          <div className="mt-3 captcha-wrap mt-sm-4" >
                             <ReCAPTCHA
                               sitekey='6LdDZXQiAAAAAPUZI155WAGKKhM1vACSu05hOLGP'
                               onChange={handleCaptcha}
@@ -229,7 +230,7 @@ export default function Faucet() {
               </div>
             </div>
             <div className="pop-bottom">
-              <p className='elip-text mt-3'>{modalState.hash}</p>
+              {/* <p className='mt-3 elip-text'>{modalState.hash}</p> */}
               <div className='staus-btn'>
                 <button
                   type='button'
