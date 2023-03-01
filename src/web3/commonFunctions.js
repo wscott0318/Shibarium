@@ -4,7 +4,7 @@ import { ChainId } from "shibarium-get-chains";
 import * as Sentry from "@sentry/nextjs";
 import { CHAINS, URL_ARRAY } from "../config/networks";
 import { useEffect, useState } from "react";
-
+import axios from "axios";
 export const getAllowanceAmount = async (library, token, account, contract) => {
   if (account) {
     let lib = library;
@@ -215,3 +215,9 @@ export const parseError = (err) => {
   let stringErr = JSON.parse("{" + splitError.join("{"));
   return stringErr.originalError;
 };
+
+export const ethGasStation = async() => {
+  await axios.get("https://ethgasstation.info/api/ethgasAPI.json?").then((res) => {
+    return res;
+  })
+}

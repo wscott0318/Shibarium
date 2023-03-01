@@ -1081,6 +1081,12 @@ const ValidatorAccount = ({
       window.location.reload()
     }
   }
+  const imageOnErrorHandler = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    event.currentTarget.src = "../../assets/images/Shib-Logo.png";
+    event.currentTarget.className = "error w-75";
+  };
   return (
     <>
       {loading && <LoadingSpinner />}
@@ -1636,7 +1642,7 @@ const ValidatorAccount = ({
                   <div className="text-center col-12 d-flex justify-content-center">
                     <img
                       className="img-fluid img-wdth"
-                      src={unboundModal.image ? unboundModal.image : "../../assets/images/shiba-col-2.png"}
+                      src={"../../assets/images/shiba-col-2.png"}
                       width="180"
                       height="180"
                     />
@@ -2224,6 +2230,7 @@ const ValidatorAccount = ({
                                         ? item.image
                                         : "../../assets/images/Shib-Logo.png"
                                     }
+                                    onError={imageOnErrorHandler}
                                     width="69"
                                     height="70"
                                     alt="coin-icon"
