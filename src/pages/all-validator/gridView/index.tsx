@@ -10,7 +10,7 @@ import MigratePopup from 'pages/migrate-popup';
 import { useRouter } from 'next/router';
 import { CircularProgress } from '@material-ui/core';
 
-export default function ValidatorGrid({ validatorsList, loading, searchKey, migrateData = {} }: { validatorsList: any, loading: boolean, searchKey: any, migrateData: any }) {
+export default function ValidatorGrid({ validatorsList, loading, searchKey, migrateData = {},nodeSetup }: { validatorsList: any, loading: boolean, searchKey: any, migrateData: any ,nodeSetup:number}) {
   const { account } = useWeb3React();
   const [selectedRow, setSelectedRow] = useState({});
   const [userType, setUserType] = useUserType()  //NOSONAR
@@ -136,7 +136,7 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
                         </div>
                       </div>
                       <div className="mt-3 text-center">
-                        {userType === "Validator" ? (
+                        {userType === "Validator" && nodeSetup === 1? (
                           <Link
                             href={`/all-validator/${validator.signer}`}
                             passHref

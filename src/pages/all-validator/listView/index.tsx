@@ -9,8 +9,9 @@ import Scrollbar from "react-scrollbars-custom";
 import { useRouter } from 'next/router';
 import MigratePopup from 'pages/migrate-popup';
 import DynamicShimmer from 'app/components/Shimmer/DynamicShimmer';
+import { number } from '@lingui/core/cjs/formats';
 
-export default function ListView({ validatorsList, searchKey, loading, migrateData = {} }: { validatorsList: any, searchKey: string, loading: boolean, migrateData: any }) {
+export default function ListView({ validatorsList, searchKey, loading, migrateData = {}, nodeSetup }: { validatorsList: any, searchKey: string, loading: boolean, migrateData: any,  nodeSetup:number }) {
   const [selectedRow, setSelectedRow] = useState({})
   const { account } = useWeb3React();
   const [userType, setUserType] = useUserType() //NOSONAR
@@ -122,7 +123,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                     <td>{x.uptimePercent?.toFixed(toFixedPrecent)}%</td>
 
                     <td className="text-start">
-                      {userType === "Validator" ? (
+                      {userType === "Validator" && nodeSetup === 1 ? (
                         <Link href={`/all-validator/${x.signer}`} passHref>
                           <div className='delegate_btn'>
                             <p className="btn primary-btn w-100">View</p>

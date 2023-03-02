@@ -93,7 +93,7 @@ h6{
   font-family: Nexa !important;
 }
 
-p , span , li , div{
+p , span , li , div , label, input, ::placeholder{
   font-size: 16px;
   font-weight: 400;
   // line-height: 1.1;
@@ -2792,22 +2792,10 @@ input:-internal-autofill-selected {
     margin-bottom: 17px;
   }
 }
-.font-up {
-  .pagination,
-  .text-white,
-  .table {
-    font-family: "MADE Okine Sans PERSONAL USE" !important;
-  }
-}
+
 .smb-0 {
   .shimmer-title {
     margin-bottom: 0;
-  }
-}
-
-.inner-btn {
-  .btn-fonts {
-    font-family: "MADE Okine Sans PERSONAL USE" !important;
   }
 }
 
@@ -3227,7 +3215,7 @@ input:-internal-autofill-selected {
 }
 .innerDivBgBlack > a {
   line-height: 1.25rem;
-  font-family: "MADE Okine Sans PERSONAL USE" !important;
+  // font-family: "MADE Okine Sans PERSONAL USE" !important;
   font-size: 16px !important;
   font-weight: 500 !important;
 }

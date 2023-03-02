@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import { SearchIcon, XCircleIcon } from '@heroicons/react/outline';
 import { useUserType } from 'app/state/user/hooks';
 
-const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boolean }) => {
+const Valitotors: React.FC<any> = ({ withStatusFilter ,nodeSetup}: { withStatusFilter: boolean ,nodeSetup:number}) => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const [loadingVal , setLoadingVal] = useState<boolean>(true);
@@ -233,10 +233,10 @@ const Valitotors: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boo
             </div>
           </div>
           {isListView ? (
-            <ListView migrateData={{}} loading={loadingVal} searchKey={searchKey} validatorsList={validators} />
+            <ListView migrateData={{}} loading={loadingVal} searchKey={searchKey} validatorsList={validators} nodeSetup={nodeSetup}/>
           ) : (
             <div className="grid-view-wrap">
-              <ValidatorGrid migrateData={{}} loading={loadingVal} searchKey={searchKey} validatorsList={validators} />
+              <ValidatorGrid migrateData={{}} loading={loadingVal} searchKey={searchKey} validatorsList={validators}  nodeSetup={nodeSetup}/>
             </div>
           )}
         </div>

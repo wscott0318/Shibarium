@@ -77,7 +77,7 @@ const BoneStaking = () => {
     if (account && !valInfoLoader) {
       if (userType === "Validator") {
         if (nodeSetup || (nodeSetup == '3' || nodeSetup == '2')) {
-          console.log("here in if")
+          console.log("here in if" , nodeSetup)
           return null
         } else {
           console.log("here in else")
@@ -88,6 +88,19 @@ const BoneStaking = () => {
                   router.push('/become-validator')
                 }} className="btn primary-btn">Become a Validator</button>
               </div>
+              <div className="btns-wrap">
+              <button
+                // onClick={()=>
+                //   router.push('/all-validator')
+                //  } 
+                onClick={executeScroll}
+                className="btn white-btn">Become a Delegator</button>
+            </div>
+            <div className="btns-wrap">
+              <button onClick={() =>
+                router.push('/choose-your-path')
+              } className="btn grey-btn">Choose Your Path</button>
+            </div>
             </div>
           );
         }
@@ -147,7 +160,7 @@ const BoneStaking = () => {
         {/* banner section closed */}
         <NetworkDetails valCount={valCount} />
         {/* ValidatorsCard starts  */}
-        <div ref={myRef}><ValidatorsCard /></div>
+        <div ref={myRef}><ValidatorsCard nodeSetup={nodeSetup}/></div>
         {/* ValidatorsCard ends  */}
       </div>
     </>
