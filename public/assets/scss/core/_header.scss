@@ -40,8 +40,6 @@ body.modal-open {
     }
     @media #{$max-md} {
       max-width: 120px;
-      padding-top: 15px;
-      padding-bottom: 15px;
     }
     @media #{$max-sm} {
       max-width: 110px;
@@ -471,8 +469,14 @@ body.modal-open {
   }
 }
 .me-3 .dropdown-menu {
-  padding: 15px;
+  padding: 15px !important;
 }
+.custom_navbar {
+  @media #{$max-sm} {
+    padding-top: 7px !important;
+    padding-bottom: 7px !important;
+  }
+  }
 .header-overide {
   .btn-status {
     position: relative;
@@ -637,7 +641,7 @@ div#web3-status-connected {
 }
 @media (max-width:767px){
     .navbar-expand .navbar-collapse > div .btn-status {
-        width: auto;
+        width: 35%;
     }
 }
 .tool-desc {

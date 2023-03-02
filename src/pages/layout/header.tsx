@@ -128,7 +128,7 @@ export default function Header() {
             : "main-header header-overide"
         }
       >
-        <Navbar className="py-0">
+        <Navbar className="py-0 custom_navbar">
           <Container>
             <Navbar.Brand href="/">
               {/* <img className='img-fluid' src="../../assets/images/logo.png" alt="site-logo" width={250} /> */}
@@ -136,15 +136,15 @@ export default function Header() {
                 <div className="lg-lft">
                   <img
                     className="img-fluid"
-                    src="../../assets/images/shibarium-logo.png"
+                    src="../../assets/images/Shibarium white@2x.png"
                     alt="site-logo"
-                    width={50}
+                    width={220}
                   />
                 </div>
                 <div className="lg-rt">
                   <img
                     className="img-fluid"
-                    src="../../assets/images/shib-text.png"
+                    src="../../assets/images/Shibarium Pictogram@2x.png"
                     alt="site-logo"
                     width={150}
                   />

@@ -129,9 +129,10 @@ export default function Sidebar({
                 className="img-fluid"
                 src={
                   width > 576
-                    ? "../../assets/images/logo.png"
-                    : "../../assets/images/Shib-Logo.png"
+                    ? "../../assets/images/Shibarium white@2x.png"
+                    : "../../assets/images/Shibarium Pictogram@2x.png"
                 }
+                width={width > 576 ? 250 : 100}
                 alt=""
               />
             </a>
@@ -159,7 +160,7 @@ export default function Sidebar({
               <a className="sidelogo-link" href="/">
                 <img
                   className="img-fluid"
-                  src="../../assets/images/logo.png"
+                  src="../../assets/images/Shibarium white@2x.png"
                   alt=""
                 />
               </a>

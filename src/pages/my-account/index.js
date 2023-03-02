@@ -82,7 +82,7 @@ export default function MyAcount() {
                       className="img-fluid d-inline-block"
                       width="423"
                       height="266"
-                      src="../../assets/images/my-account.png"
+                      src="../../assets/images/shib-bg.png"
                       alt=""
                     />
                   </div>

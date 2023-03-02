@@ -1,3 +1,132 @@
+// Defining font family
+@font-face {
+  font-family: 'Nexa_Heavy';
+  src: url('../fonts/Nexa-Heavy.otf');
+  font-style: normal;
+  }
+  @font-face {
+    font-family: 'Nexa';
+    src: url('../fonts/Nexa-Bold.otf');
+    font-style: normal;
+    }
+body, .ffms-inherit *{
+  font-family: Nexa;
+}
+h1 , .ffms-inherit h1{
+  font-size: 48px !important;
+  font-weight: bold !important;
+  // line-height: 1.1 !important;
+  font-family: Nexa_Heavy !important;
+  @media #{$max-lg}{
+    font-size: 40px !important;
+  }
+  @media #{$max-md}{
+    font-size: 36px !important;
+  }
+  @media #{$max-sm}{
+    font-size: 30px !important;
+  }
+}
+
+h2{
+  font-size: 40px !important;
+  font-weight: bold !important;
+  // line-height: 1.1 !important;
+  font-family: Nexa_Heavy !important;
+  @media #{$max-lg}{
+    font-size: 32px !important;
+  }
+  @media #{$max-md}{
+    font-size: 28px !important;
+  }
+  @media #{$max-sm}{
+    font-size: 22px !important;
+  }
+}
+
+h3{
+  font-size: 32px !important;
+  font-weight: bold !important;
+  // line-height: 1.1 !important;
+  font-family: Nexa !important;
+  @media #{$max-lg}{
+    font-size: 28px !important;
+  }
+  @media #{$max-md}{
+    font-size: 24px !important;
+  }
+  @media #{$max-sm}{
+    font-size: 20px !important;
+  }
+}
+
+h4{
+  font-size: 24px !important;
+  font-weight: bold !important;
+  // line-height: 1.2 !important;
+  font-family: Nexa !important;
+  @media #{$max-lg}{
+    font-size: 22px !important;
+  }
+  @media #{$max-md}{
+    font-size: 20px !important;
+  }
+  @media #{$max-sm}{
+    font-size: 18px !important;
+  }
+}
+
+h5{
+  font-size: 20px !important;
+  font-weight: bold !important;
+  // line-height: 1.1 !important;
+  font-family: Nexa !important;
+  @media #{$max-sm}{
+    font-size: 16px !important;
+  }
+}
+
+h6{
+  font-size: 16px !important;
+  font-weight: bold !important;
+  // line-height: 1.1 !important;
+  font-family: Nexa !important;
+}
+
+p , span , li , div{
+  font-size: 16px;
+  font-weight: 400;
+  // line-height: 1.1;
+  font-family: Nexa !important;
+}
+
+small{
+  font-size: 10px !important;
+  font-weight: 400;
+  // line-height: 1.2;
+  font-family: Nexa !important;
+}
+
+a{
+  font-size: 16px;
+  font-weight: 400 !important;
+  // line-height: 1.2 !important;
+  font-family: Nexa !important;
+}
+
+button{
+  font-size: 16px;
+  font-weight: 600 !important;
+  // line-height: 1.2 !important;
+  font-family: Nexa !important;
+}
+
+caption{
+  font-size: 10px !important;
+  font-weight: 400 !important;
+  // line-height: 1.2 !important;
+  font-family: Nexa !important;
+}
 /** background color start **/
 .dark-bg-800 {
   background-color: $body-bg-800 !important;
@@ -3122,21 +3251,17 @@ input:-internal-autofill-selected {
 .header-overide {
   .lg-rt {
     padding-left: 12px;
+    display:none;
     @media #{$max-sm} {
       padding-left: 5px;
-    }
-    @media #{$max-xxsml} {
-      display: none;
+      display: block;
     }
     img {
       @media #{$max-sm} {
-        width: 110px;
+        width: 40%;
       }
-      @media #{$max-xsm} {
-        width: 80px;
-      }
-      @media #{$max-xsmm} {
-        width: 60px;
+      @media #{$max-xxsm} {
+        width: 75%;
       }
     }
   }
@@ -3231,6 +3356,11 @@ input:-internal-autofill-selected {
     @media #{$max-md} {
       width: 82px;
     }
+    @media #{$max-md} {
+      width: 80px;
+      font-size: 12px;
+    }
+
   }
 }
 .main-header.header-overide {
@@ -3238,12 +3368,20 @@ input:-internal-autofill-selected {
     @media #{$max-lg} {
       max-width: 170px;
     }
+    @media #{$max-sm}{
+      margin: 0;
+    }
+    .lg-lft{
+      @media #{$max-sm}{
+        display: none;
+      }
+    }
   }
 }
 .lg-lft {
   img {
     @media #{$max-sm} {
-      max-width: 25px;
+      max-width: auto;
     }
   }
 }
@@ -4270,6 +4408,7 @@ section.del-grid-section .txt-emp {
 }
 .balance_card span {
   font-weight: 600;
+  padding-bottom: 4px;
 }
 .step_wrapper.completed > div {
   background: #f16e0f;
@@ -4281,7 +4420,7 @@ section.del-grid-section .txt-emp {
   width: 32%;
 }
 .balance_card h4.heading-sm {
-  font-size: 14px;
+  font-size: 14px !important;
   color: #ccc;
 }
 .loading-steps > div.completed::after {

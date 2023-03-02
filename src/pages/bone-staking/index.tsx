@@ -137,7 +137,7 @@ const BoneStaking = () => {
                 </div>
                 <div className="col-md-5 col-sm-12 m-hide">
                   <div className="shib-img-sec text-end">
-                    <img src="../../assets/images/shiba-img.png" />
+                    <img src="../../assets/images/shib-bg.png" />
                   </div>
                 </div>
               </div>

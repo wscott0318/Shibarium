@@ -1,3 +1,13 @@
+
+@font-face {
+  font-family: 'Nexa_Heavy';
+  src: url('../fonts/Nexa-Heavy.otf');
+  // src: url('../fonts/Nexa-Bold.otf');
+  // src: url('../fonts/Nexa-BoldItalic.otf');
+  // src: url('../fonts/Nexa-HeavyItalic.otf');
+  font-weight: 400;
+  font-style: normal;
+  }
 /** Bone staking start **/
 .lft-links {
   display: flex;
@@ -31,6 +41,18 @@
   padding: 5px 10px;
   font-weight: 800;
   margin-top: 15px;
+  font-size: 48px !important;
+  font-weight: Bold !important;
+  font-family: Nexa_Heavy !important;
+  @media #{$max-lg}{
+    font-size: 40px !important;
+  }
+  @media #{$max-md}{
+    font-size: 36px !important;
+  }
+  @media #{$max-sm}{
+    font-size: 30px !important;
+  }
 }
 .section-info {
   padding: 30px;
@@ -131,6 +153,9 @@
   border-top: 1px solid $grey-color;
   margin-top: 10px;
   padding-top: 10px;
+}
+.top-head span {
+  font-size: 28px;
 }
 .col-custum {
   margin-bottom: 20px;
@@ -342,10 +367,10 @@
   }
 }
 span.user-icon.u_icon::before {
-    display: none;
+  display: none;
 }
 span.user-icon.u_icon img {
-    width: 50%;
+  width: 50%;
 }
 .shib-popup {
   .user-icon {
@@ -397,7 +422,13 @@ span.user-icon.u_icon img {
 }
 
 .staking-main {
-  padding-top: 109px;
+  padding-top: 96px;
+  @media #{$max-lg} {
+    padding-top: 88px;
+  }
+  @media #{$max-sm} {
+    padding-top: 110px;
+  }
   @media #{$max-xsm} {
     padding-top: 240px;
   }
