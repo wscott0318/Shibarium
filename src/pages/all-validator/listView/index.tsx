@@ -9,7 +9,6 @@ import Scrollbar from "react-scrollbars-custom";
 import { useRouter } from 'next/router';
 import MigratePopup from 'pages/migrate-popup';
 import DynamicShimmer from 'app/components/Shimmer/DynamicShimmer';
-import { number } from '@lingui/core/cjs/formats';
 
 export default function ListView({ validatorsList, searchKey, loading, migrateData = {}, nodeSetup }: { validatorsList: any, searchKey: string, loading: boolean, migrateData: any,  nodeSetup:number }) {
   const [selectedRow, setSelectedRow] = useState({})
