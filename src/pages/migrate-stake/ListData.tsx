@@ -15,7 +15,7 @@ import { useActiveWeb3React } from 'app/services/web3';
 import { SearchIcon, XCircleIcon } from '@heroicons/react/outline';
 
 
-const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boolean }) => {
+const ListData: React.FC<any> = ({ withStatusFilter, nodeSetup }: { withStatusFilter: boolean,nodeSetup:number }) => {
   const { chainId = 1 } = useActiveWeb3React();
   const pageSize = 10;
   const router = useRouter();
@@ -242,10 +242,10 @@ const ListData: React.FC<any> = ({ withStatusFilter }: { withStatusFilter: boole
             </div>
           </div>
           {isListView ? (
-            <ListView migrateData={balance.migrateData} loading={loadingVal} searchKey={searchKey} validatorsList={validators} />
+            <ListView migrateData={balance.migrateData} loading={loadingVal} searchKey={searchKey} validatorsList={validators} nodeSetup={nodeSetup}/>
           ) : (
             <div className="grid-view-wrap">
-              <GridView migrateData={balance.migrateData} loading={loadingVal} searchKey={searchKey} validatorsList={validators} />
+              <GridView migrateData={balance.migrateData} loading={loadingVal} searchKey={searchKey} validatorsList={validators} nodeSetup={nodeSetup} />
             </div>
           )}
           {isListView && validatorsList.length ? <div className='mt-sm-4 mt-3'>

@@ -69,12 +69,12 @@ export default function Sidebar({
   }, []);
 
   const bottomList = [
-    {
-      name: "FAQs",
-      route: "/faq",
-      isSelected: false,
-      img: "../../assets/images/sidebar/faq.png",
-    },
+    // {
+    //   name: "FAQs",
+    //   route: "/faq",
+    //   isSelected: false,
+    //   img: "../../assets/images/sidebar/faq.png",
+    // },
     // {
     //   name: "Developer Tools",
     //   route: "",
