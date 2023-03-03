@@ -521,7 +521,9 @@ ul {
   }
 }
 .cmn_dasdrd_table .table th:first-child {
-  width: 16%;
+  @media #{$max-md} {
+    width: 18% !important;
+  }
 }
 
 .pop_main_h {

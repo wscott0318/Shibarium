@@ -19,7 +19,6 @@ import { validators } from "Apollo/queries";
 
 
 const BoneStaking = () => {
-
   const [userType, setUserType] = useUserType(); //NOSONAR
   const { account, chainId = 1 } = useActiveWeb3React()
   const router = useRouter();
@@ -27,9 +26,7 @@ const BoneStaking = () => {
   const [valMaxCount, setValMaxCount] = useState(0);
   const [nodeSetup, setNodeSetup] = useState<any>('')
   const [valInfoLoader, setValInfoLoader] = useState(true)
-
   const web3test = L1Block();
-
   useEffect(() => {
     if (account) {
       getValInfo()

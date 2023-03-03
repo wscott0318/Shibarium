@@ -221,3 +221,8 @@ export const ethGasStation = async() => {
     return res;
   })
 }
+
+export const sentryErrors = (func , err) => {
+  Sentry.captureMessage("New Error Captured in " , func , err);
+  Sentry.captureException("Exception captured in " , func , err);
+}

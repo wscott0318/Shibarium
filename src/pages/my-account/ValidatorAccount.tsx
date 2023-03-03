@@ -36,7 +36,7 @@ import { queryProvider } from "Apollo/client";
 import { StakeAmount } from "Apollo/queries";
 import { dynamicChaining } from "web3/DynamicChaining";
 import * as Sentry from "@sentry/nextjs";
-import { useValId, useEpochDyna, useMigrateStake,useValInfoContract } from 'app/state/user/hooks';
+import { useValId, useEpochDyna, useMigrateStake, useValInfoContract } from 'app/state/user/hooks';
 import { CircularProgress } from "@material-ui/core";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
 
@@ -74,7 +74,7 @@ const ValidatorAccount = ({
   console.log("initial availbalance", availBalance);
   const [transactionState, setTransactionState] = useState(initialModalState);
   const [hashLink, setHashLink] = useState('');
-  
+
   const { account, chainId = 1, library } = useActiveWeb3React();
   const lib: any = library;
   const web3: any = new Web3(lib?.provider);
@@ -130,7 +130,7 @@ const ValidatorAccount = ({
       Sentry.captureMessage("getValCount", err);
     }
   }
-  
+
 
   const getValidatorData = async (valId: any) => {
     try {
@@ -157,7 +157,7 @@ const ValidatorAccount = ({
       setEpochDyna({ epoch, dynasty })
       console.log(valFromContract, "val info ===> ");
       console.log(epochDyna, 'epochDyna');
-      
+
     } catch (err: any) {
       Sentry.captureException("getValidatorData ", err);
     }
@@ -203,8 +203,8 @@ const ValidatorAccount = ({
     }
   };
 
-  console.log(validatorInfo);
-  
+  console.log("val info ", validatorInfo, validatorInfoContract);
+
 
   const handleModal = (
     btn: string,
@@ -2156,7 +2156,7 @@ const ValidatorAccount = ({
                             disabled={
                               parseInt(validatorInfoContract?.deactivationEpoch) >
                                 0 ||
-                              validatorInfo?.fundamental === 1  ? true
+                                validatorInfo?.fundamental === 1 ? true
                                 : false
                             }
                             onClick={() => setUnStakePop(true)}
@@ -2171,10 +2171,10 @@ const ValidatorAccount = ({
                         <div className={`cus-tooltip d-inline-block ps-0`}>
                           <button
                             disabled={
-                             ( parseInt(validatorInfoContract?.deactivationEpoch) >
+                              (parseInt(validatorInfoContract?.deactivationEpoch) >
                                 0 &&
-                                parseInt(validatorInfoContract?.status) != 3 ) &&
-                                validatorInfo?.fundamental === 2  
+                                parseInt(validatorInfoContract?.status) === 2) &&
+                                validatorInfo?.fundamental === 2
                                 ? false
                                 : true
                             }
@@ -2410,8 +2410,8 @@ const ValidatorAccount = ({
                     ))
                   ) : !loading && delegationsList.length === 0 && (
                     <div className="txt-emp">
-                        <div className="no-fount-txt">
-                         <img className="mb-3 d-inline-block" src="../../assets/images/no-record.png" />
+                      <div className="no-fount-txt">
+                        <img className="mb-3 d-inline-block" src="../../assets/images/no-record.png" />
                       </div>
                     </div>
                   )}

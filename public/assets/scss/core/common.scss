@@ -4947,3 +4947,11 @@ body::-webkit-scrollbar,
 .brn-warn-icon {
   flex: 0 0 30px;
 }
+button:has(> p.no_btn) {
+  background: none;
+  padding: 0;
+}
+p.no_btn{
+  color: red;
+  font-weight: 6006;
+}

@@ -9,7 +9,7 @@ import { addTransaction, finalizeTransaction } from 'app/state/transactions/acti
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import { useAppDispatch } from "../../state/hooks";
 import fromExponential from 'from-exponential';
-import { addDecimalValue, currentGasPrice, getAllowanceAmount, stakeForErrMsg, USER_REJECTED_TX, web3Decimals } from "web3/commonFunctions";
+import { addDecimalValue, currentGasPrice, getAllowanceAmount, sentryErrors, stakeForErrMsg, USER_REJECTED_TX, web3Decimals } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { MAXAMOUNT,checkImageType } from "../../web3/commonFunctions";
 import { useEthBalance } from '../../hooks/useEthBalance';
@@ -74,6 +74,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     }
     catch (err: any) {
       Sentry.captureMessage("getMinimunFee", err);
+      sentryErrors("getMinimunFee", err);
     }
   }
 
@@ -101,6 +102,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         }
       })
     } catch (err: any) {
+      sentryErrors("checkPubKey", err);
       let message = stakeForErrMsg(err.toString().split("{")[0])
       setTransactionState({ state: false, title: '' })
       toast.error(message, {
@@ -163,6 +165,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       }
     } catch (err: any) {
       setTransactionState({ state: false, title: '' })
+      sentryErrors("approveAmount" , err);
     }
 
   }
@@ -247,6 +250,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureException("stake for method for validators submit transaction", err);
       }
+      sentryErrors("submitTransaction" , err);
       setTransactionState({ state: false, title: '' })
     }
   }
@@ -289,43 +293,54 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       }
     } catch (err: any) {
       Sentry.captureMessage("handleTransaction", err);
+      sentryErrors("handleTransaction" , err);
     }
   }
 
   const callAPI = async (val: any) => {
-    setTransactionState({ state: true, title: 'Pending' })
-    let data = new FormData();
-    data.append("validatorName", becomeValidateData.name);
-    data.append("public_key", becomeValidateData.publickey);
-    data.append("signerAddress", account || '');
-    data.append("website", becomeValidateData.website);
-    data.append("img", becomeValidateData.image);
-    data.append("status", "0");
-    await registerValidator(data).then((res: any) => {
-      setLoader("step3");
-      setStepComplete((preState: any) => ({ ...preState, two: true }))
-      submitTransaction(values)
-    }).catch((err: any) => {
-      notifyError()
-    })
+    try{
+      setTransactionState({ state: true, title: 'Pending' })
+      let data = new FormData();
+      data.append("validatorName", becomeValidateData.name);
+      data.append("public_key", becomeValidateData.publickey);
+      data.append("signerAddress", account || '');
+      data.append("website", becomeValidateData.website);
+      data.append("img", becomeValidateData.image);
+      data.append("status", "0");
+      await registerValidator(data).then((res: any) => {
+        setLoader("step3");
+        setStepComplete((preState: any) => ({ ...preState, two: true }))
+        submitTransaction(values)
+      }).catch((err: any) => {
+        notifyError()
+      })
+    }
+    catch(err){
+      sentryErrors("callAPI" , err);
+    }
   };
 
   const changeStatus = async () => {
-    let data = new FormData();
-    data.append("validatorName", becomeValidateData.name);
-    data.append("public_key", becomeValidateData.publickey);
-    data.append("signerAddress", account || '');
-    data.append("website", becomeValidateData.website);
-    data.append("img", becomeValidateData.image);
-    data.append("status", "1");
-    await registerValidator(data).then((res: any) => {
-      setLoader("");
-      setStepComplete((preState: any) => ({ ...preState, four: true }))
-      notifySuccess()
-      stepHandler("next");
-    }).catch((err: any) => {
-      notifyError()
-    })
+    try{
+      let data = new FormData();
+      data.append("validatorName", becomeValidateData.name);
+      data.append("public_key", becomeValidateData.publickey);
+      data.append("signerAddress", account || '');
+      data.append("website", becomeValidateData.website);
+      data.append("img", becomeValidateData.image);
+      data.append("status", "1");
+      await registerValidator(data).then((res: any) => {
+        setLoader("");
+        setStepComplete((preState: any) => ({ ...preState, four: true }))
+        notifySuccess()
+        stepHandler("next");
+      }).catch((err: any) => {
+        notifyError()
+      })
+    }
+    catch(err){
+      sentryErrors("changeStatus" , err);
+    }
   };
 
 const loaderStep1 = ()=>{

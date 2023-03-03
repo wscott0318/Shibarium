@@ -11,10 +11,11 @@ import { useRouter } from "next/router";
 import { getValidatorInfo } from "services/apis/network-details/networkOverview";
 import { useActiveWeb3React } from "../../services/web3";
 import { getUserType } from "app/services/apis/user/userApi";
+import { sentryErrors } from "../../web3/commonFunctions";
+
 const Rewards = () => {
   const [editNsave, setEditNsave] = useState(false);
   const [userStatus, setUserStatus] = useState(null);
-
   const [userType, setUserType] = useUserType();
   const [valId, setValId] = useValId();
   const router = useRouter();
@@ -51,32 +52,34 @@ const Rewards = () => {
     }
   }, [account, userStatus]);
 
-
   useEffect(() => {
-    const { ethereum } = window 
+    const { ethereum } = window;
     const handleAccountsChanged = () => {
-      router.push("/bone-staking")
-    }
+      router.push("/bone-staking");
+    };
 
-    ethereum.on('accountsChanged', handleAccountsChanged)
-  }, [active, account, userStatus])
+    ethereum.on("accountsChanged", handleAccountsChanged);
+  }, [active, account, userStatus]);
 
   const getValInfo = () => {
-    let id = account;
-    getValidatorInfo(id)
-      .then((res) => {
-        setBecomeValidateData({
-          name: res?.data?.message?.val?.name,
-          publickey: res.data.message.val.publickey,
-          website: res.data.message.val.description,
-          image: res.data.message.val.logoUrl,
-        });
-        setUserStatus(
-          res.data.message.val?.status ? res.data.message.val?.status : null
-        );
-      })
-      .catch((err) => {
-      });
+    try {
+      let id = account;
+      getValidatorInfo(id)
+        .then((res) => {
+          setBecomeValidateData({
+            name: res?.data?.message?.val?.name,
+            publickey: res.data.message.val.publickey,
+            website: res.data.message.val.description,
+            image: res.data.message.val.logoUrl,
+          });
+          setUserStatus(
+            res.data.message.val?.status ? res.data.message.val?.status : null
+          );
+        })
+        .catch((err) => {});
+    } catch (err) {
+      sentryErrors("getValInfo" , err);
+    }
   };
   const getUsertypeAPI = (accountAddress) => {
     try {
@@ -91,12 +94,14 @@ const Rewards = () => {
         }
       });
     } catch (error) {
+      sentryErrors("getUsertypeAPI" , error);
       Sentry.captureMessage("getUsertypeAPI", error);
     }
   };
   useEffect(() => {
     if (account) {
       getUsertypeAPI(account);
+      // fs.writeFileSync('./logs.json', JSON.stringify(users, null, 4));
     }
   }, [account, stepState]);
 
@@ -133,8 +138,9 @@ const Rewards = () => {
       setEditNsave(!editNsave);
     } catch (err) {
       Sentry.captureMessage("handleEdit", err);
+      sentryErrors("handleEdit" , err);
     }
-  }
+  };
 
   const stepHandler = (type) => {
     if (type === "next") {
@@ -180,9 +186,9 @@ const Rewards = () => {
         });
       }
     }
-  }
+  };
 
-  console.log(valId, 'valID');
+  console.log(valId, "valID");
 
   return (
     <>

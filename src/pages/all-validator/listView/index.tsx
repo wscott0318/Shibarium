@@ -22,8 +22,11 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
     if (account) {
       if (x.fundamental === 1) {
         return <div className="tool-desc">This is a fundamental node. <br /> Delegation is not enabled here.</div>;
-      } else if (x.uptimePercent <= inActiveCount) {
+      } else if (x.checkpointstatus === 0 && +(x.missedLatestCheckpointcount) >= 500 && x.fundamental === 2) {
         return <div className="tool-desc tool-desc-sm">Offline since {x.missedLatestCheckpointcount} checkpoints</div>
+      }
+      else if (x.lastcheckpointsigned === 0 && x.fundamental === 2){
+        return <div className="tool-desc tool-desc-sm">Not signing checkpoints.</div>
       }
       else if (router.asPath.split("/")[1] === "migrate-stake") {
         return <div className="tool-desc tool-desc-sm">{x.contractAddress == migrateData.contractAddress ? "Stakes cannot be migrated to same Validator." : "Migrate Your Stakes here."}</div>;
@@ -46,7 +49,10 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
       return "Stake here"
     } else {
       if(x.checkpointstatus === 0 && +(x.missedLatestCheckpointcount) >= 500 && x.fundamental === 2) {
-        return <p style={{ fontSize: '12px'}}>Offline since<br/>{x.missedLatestCheckpointcount} checkpoints</p> 
+        return <p style={{ fontSize: '12px'}} className="no_btn">Offline since<br/>{x.missedLatestCheckpointcount} checkpoints</p> 
+      }
+      else if(x.lastcheckpointsigned === 0 && x.fundamental === 2) {
+        return <p style={{ fontSize: '12px', whiteSpace:"pre-wrap"}} className="no_btn">Not signing checkpoints.</p> 
       } else {
         return "Delegate"
       }
