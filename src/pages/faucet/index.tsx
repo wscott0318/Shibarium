@@ -186,10 +186,6 @@ export default function Faucet() {
                             </div>
                           </div>
 
-                          <div>
-                            <button disabled={!clickedCaptcha} onClick={() => callFaucetAPI()} type="button" className="btn primary-btn w-100">Submit</button>
-                          </div>
-
                           <div className="mt-3 captcha-wrap mt-sm-4" >
                             <ReCAPTCHA
                               sitekey='6LdDZXQiAAAAAPUZI155WAGKKhM1vACSu05hOLGP'
@@ -197,6 +193,10 @@ export default function Faucet() {
                               onExpired={() => setClickedCaptcha(false)}
                             />
                           </div>
+                          <div className="mt-3 ">
+                            <button disabled={!clickedCaptcha} onClick={() => callFaucetAPI()} type="button" className="btn primary-btn w-100">Submit</button>
+                          </div>
+
                         </form>
                       </div>
                     </div>

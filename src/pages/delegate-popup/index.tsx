@@ -540,7 +540,7 @@ const handleShow = useCallback(()=>{ handleClose(); resetForm()},[])
                             className="btn primary-btn d-flex align-items-center"
                             href="javascript:void(0)"
                           >
-                            <span>Buy Voucher</span>
+                            <span>Delegate</span>
                           </a>
                         )}
                       </button>
