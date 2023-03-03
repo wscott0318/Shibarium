@@ -12,7 +12,7 @@ import { CircularProgress, FormControlLabel, Radio, RadioGroup } from "@material
 import { getExplorerLink } from "app/functions";
 import { ChainId } from "shibarium-get-chains";
 import * as Sentry from '@sentry/nextjs';
-
+import {toast } from 'react-toastify';
 export default function Faucet() {
   const [showSwapModal, setSwapModal] = useState(false);
   const [menuState, setMenuState] = useState(false);
@@ -64,6 +64,9 @@ export default function Faucet() {
     } catch (err :any) {
       Sentry.captureMessage("callFaucetAPI" + selectedChain, err);
       console.log(err)
+      toast.error("Something went wrong.", {
+        position: toast.POSITION.BOTTOM_CENTER, autoClose: 5000
+      });
     }
 
   }
