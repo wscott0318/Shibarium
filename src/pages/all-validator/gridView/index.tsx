@@ -22,11 +22,18 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
     if (account) {
       if (x.fundamental === 1) {
         return <div className="tool-desc tool-desc-grid">This is a fundamental node. <br /> Delegation is not enabled here.</div>;
-      } else if (x.uptimePercent <= inActiveCount) {
+      }
+      else if (x.checkpointstatus === 0 && +(x.missedLatestCheckpointcount) >= 500 && x.fundamental === 2) {
         return <div className="tool-desc tool-desc-grid">Offline since {x.missedLatestCheckpointcount} checkpoints</div>
+      }
+      else if (x.lastcheckpointsigned === 0 && x.fundamental === 2){
+        return <div className="tool-desc tool-desc-grid">Not signing checkpoints.</div>
       }
       else if (router.asPath.split("/")[1] === "migrate-stake") {
         return <div className="tool-desc tool-desc-grid">{x.contractAddress == migrateData.contractAddress ? "Stakes cannot be migrated to same Validator." : "Migrate Your Stakes here."}</div>;
+      }
+      else if(x.uptimePercent <= inActiveCount){
+        return <div className="tool-desc tool-desc-grid">Delegation is disabled.</div>
       }
       else {
         return <div className="tool-desc tool-desc-grid">Delegation is enabled.</div>
@@ -46,8 +53,15 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
       return "Stake here"
     } else {
       if(x.checkpointstatus === 0 && +(x.missedLatestCheckpointcount) >= 500 && x.fundamental === 2) {
-        return <p style={{ fontSize: '12px'}}>Offline since<br/>{x.missedLatestCheckpointcount} checkpoints</p> 
-      } else {
+        return <p style={{ fontSize: '12px'}} className="no_btn">Offline since<br/>{x.missedLatestCheckpointcount} checkpoints</p> 
+      }
+      else if(x.lastcheckpointsigned === 0 && x.fundamental === 2) {
+        return <p style={{ fontSize: '12px', whiteSpace:"pre-wrap"}} className="no_btn">Not signing checkpoints.</p> 
+      }
+      else if(x.uptimePercent <= inActiveCount){
+        return "Delegation Disabled"
+      }
+      else {
         return "Delegate"
       }
     }
@@ -166,9 +180,9 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
                               }}
                               className="btn primary-btn light-text w-100"
                             >
-                              <span>
+                              
                                 {buttonText(validator)}
-                              </span>
+                              
                             </button>
                             {tootlTipDesc(validator)}
                             {!account && <div className="tool-desc tool-desc-grid">Login to enable delegation.</div>}

@@ -148,7 +148,7 @@ export const Allvalidator: React.FC = () => {
         {/* banner section closed */}
 
         <div id="all-validators-section" ref={myRef} className=" ffms-inherit">
-          <Valitotors withStatusFilter={true} />
+          <Valitotors withStatusFilter={true} nodeSetup={nodeSetup}/>
         </div>
       </div>
     </>

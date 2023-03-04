@@ -1247,7 +1247,7 @@ td.no_record img {
   }
 }
 @media (max-width: 576px) {
-  .modal-content .primary-btn {
+  .modal-content .primary-btn , .blue-btn {
     min-height: 55px;
     line-height: 35px;
   }

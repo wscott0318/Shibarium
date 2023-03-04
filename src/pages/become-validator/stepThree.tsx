@@ -28,10 +28,12 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const lib: any = library
   const web3: any = new Web3(lib?.provider)
   const dispatch = useAppDispatch();
+  const  minStakeAmount:any = process.env.NEXT_PUBLIC_MIN_STAKE_AMOUNT;
   const [transactionState, setTransactionState] = useState({
     state: false,
     title: 'Pending',
   })
+  console.log("min stake" , minStakeAmount);
   const [hashLink, setHashLink] = useState('')
   const [minHeimdallFee, setMinHeimdallFee] = useState<number>(0);
   const ethBalance =  useEthBalance();
@@ -42,7 +44,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     amount: yup.number()
     .typeError("Only digits are allowed.")
     .max(availBalance)
-    .min(2, "Minimum 2 BONES required including Heimdal fee.")
+    .min(minStakeAmount, `Minimum ${minStakeAmount} BONES required including Heimdal fee.`)
     .required("Amount is required."),
   })
   const [loader, setLoader] = useState("step1");
@@ -557,7 +559,7 @@ const handleTransactionState = useCallback(() => setTransactionState({ state: fa
               <div className="row-st cst-row">
                 <div className="blk-dta">
                   <p className="amt-val bold">
-                    Minimum 2 BONES required
+                    Minimum {minStakeAmount} BONES required
                   </p>
                 </div>
                 <div className="blk-dta text-nowrap">

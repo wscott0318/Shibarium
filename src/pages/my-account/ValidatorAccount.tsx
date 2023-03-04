@@ -74,7 +74,6 @@ const ValidatorAccount = ({
   console.log("initial availbalance", availBalance);
   const [transactionState, setTransactionState] = useState(initialModalState);
   const [hashLink, setHashLink] = useState('');
-
   const { account, chainId = 1, library } = useActiveWeb3React();
   const lib: any = library;
   const web3: any = new Web3(lib?.provider);
@@ -104,7 +103,6 @@ const ValidatorAccount = ({
     image: "",
     valid: ""
   });
-
   const [comissionHandle, setComissionHandle] = useState({
     dynasty: "",
     epoch: "",
@@ -1631,6 +1629,7 @@ const ValidatorAccount = ({
           setshow={() => {
             setUnboundModal({ ...unboundModal, startValue: false });
             reloadOnHash();
+            setUnboundInput(0);
           }
           }
           externalCls="stak-pop del-pop ffms-inherit"
@@ -2320,7 +2319,7 @@ const ValidatorAccount = ({
                                   <button
                                     disabled={
                                       parseInt(item.reward) / 10 ** web3Decimals <
-                                      1
+                                      0
                                     }
                                     onClick={() =>
                                       withdrawRewardDelegator(

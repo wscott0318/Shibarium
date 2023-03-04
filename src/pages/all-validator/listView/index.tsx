@@ -31,6 +31,9 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
       else if (router.asPath.split("/")[1] === "migrate-stake") {
         return <div className="tool-desc tool-desc-sm">{x.contractAddress == migrateData.contractAddress ? "Stakes cannot be migrated to same Validator." : "Migrate Your Stakes here."}</div>;
       }
+      else if(x.uptimePercent <= inActiveCount){
+        return <div className="tool-desc tool-desc-sm">Delegation is disabled.</div>
+      }
       else {
         return <div className="tool-desc tool-desc-sm">Delegation is enabled.</div>
       }
@@ -53,12 +56,16 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
       }
       else if(x.lastcheckpointsigned === 0 && x.fundamental === 2) {
         return <p style={{ fontSize: '12px', whiteSpace:"pre-wrap"}} className="no_btn">Not signing checkpoints.</p> 
-      } else {
+      }
+      else if(x.uptimePercent <= inActiveCount){
+        return "Delegation Disabled"
+      }
+       else {
         return "Delegate"
       }
     }
   }
-  
+  console.log("node setup ",nodeSetup)
   return (
     <>
       <DelegatePopup
@@ -138,7 +145,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                       ) : (
                         <div className="delegate_btn">
                           <button
-                            className="btn primary-btn w-100"
+                            className={`btn primary-btn w-100 text-wrap`}
                             disabled={!account || x.fundamental === 1 || x.uptimePercent <= inActiveCount || x.contractAddress == migrateData.contractAddress ? true : false}
                             onClick={() => {
                               setSelectedRow(x);

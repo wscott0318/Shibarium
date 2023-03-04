@@ -196,7 +196,6 @@ console.log(transactionState,'transactionState');
   let schema = yup.object().shape({
     balance: yup
       .number().typeError("Only digits are allowed.")
-      .min(1, "Invalid amount.")
       .max(
         walletBalance,
         "Insufficient Balance."

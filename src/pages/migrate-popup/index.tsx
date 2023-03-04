@@ -164,7 +164,6 @@ const MigratePopup: React.FC<any> = ({
         balance,
         "Insufficient Balance"
       )
-      .min(1, "Invalid amount.")
       .required("Balance is required."),
   });
   const initialValues = {
@@ -464,8 +463,8 @@ const MigratePopup: React.FC<any> = ({
                             e.preventDefault();
                             migrateStake(values, data, migrateData);
                           }}
-                            disabled={values.balance > 1 ? false : true}
-                            className={`w-100 ${values.balance < 1 && "disabled"}`} type="submit" value="submit">
+                            // disabled={values.balance > 1 ? false : true}
+                            className={`w-100`} type="submit" value="submit">
                             <div className="btn primary-btn d-flex align-items-center justify-content-center" >
                               <button >Continue</button>
                             </div>
