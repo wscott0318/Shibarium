@@ -65,7 +65,7 @@ export const MAXAMOUNT = 100000;
 
 export const inActiveCount = 5;
 
-export const mobileWalletEndpoint = "shibarium.shib.io";
+export const mobileWalletEndpoint = "beta.shibariumtech.com";
 
 export const imagUrlChecking = (imgURL) => {
   if ((imgURL && imgURL.split("/")[0] === "http") || "https") {

@@ -97,11 +97,11 @@ const nextConfig = {
     defaultChainId: ChainId.SHIBARIUM,
     domains: [
       {
-        domain: 'shibarium.shib.io',
+        domain: 'beta.shibariumtech.com',
         defaultChainId: ChainId.ETHEREUM,
       },
       {
-        domain: 'shibarium.shib.io',
+        domain: 'beta.shibariumtech.com',
         defaultChainId: ChainId.PUPPY_NET,
       },
     ],
