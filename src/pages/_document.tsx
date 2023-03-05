@@ -2,6 +2,7 @@
 // pages/_document.js
 import { Head, Html, Main, NextScript } from 'next/document'
 import {GTMBody } from "../functions/gtmBody";
+import {GTMHead} from "../functions/gtmHead";
 const APP_NAME = 'ShibaSwap'
 const APP_DESCRIPTION = 'Swap, yield, lend, borrow, leverage, limit, launch all on one community driven ecosystem'
 
@@ -10,7 +11,7 @@ export default function Document() {
     <Html>
       <Head>
         {/* @ts-ignore */}
-        <script src='../functions/gtmHead.js'></script>
+        <GTMHead/>
         <meta name="application-name" content={APP_NAME} />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
