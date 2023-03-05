@@ -15,7 +15,8 @@ export default function Document() {
             __html: ` window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-S2TGREN362');`,
+          
+            gtag('config', 'G-S2TGREN362');;`,
           }}
         />
         <meta name="application-name" content={APP_NAME} />
