@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-document-import-in-page */
 // pages/_document.js
 import { Head, Html, Main, NextScript } from 'next/document'
-import { GTMBody } from "../functions/gtmBody";
 const APP_NAME = 'ShibaSwap'
 const APP_DESCRIPTION = 'Swap, yield, lend, borrow, leverage, limit, launch all on one community driven ecosystem'
 
@@ -44,9 +43,6 @@ export default function Document() {
 
       </Head>
       <body>
-        {/* <!-- Google Tag Manager (noscript) --> */}
-        <GTMBody />
-        {/* <!-- End Google Tag Manager (noscript) --> */}
         <Main />
         <NextScript />
       </body>
