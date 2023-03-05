@@ -13,7 +13,6 @@ export default function Document() {
         <script
           dangerouslySetInnerHTML={{
             __html: ` window.dataLayer = window.dataLayer || [];
-            {/* @ts-ignore */}
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-S2TGREN362');`,
