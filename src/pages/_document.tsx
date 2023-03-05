@@ -1,8 +1,7 @@
 /* eslint-disable @next/next/no-document-import-in-page */
 // pages/_document.js
 import { Head, Html, Main, NextScript } from 'next/document'
-import {GTMBody } from "../functions/gtmBody";
-import {GTMHead} from "../functions/gtmHead";
+import { GTMBody } from "../functions/gtmBody";
 const APP_NAME = 'ShibaSwap'
 const APP_DESCRIPTION = 'Swap, yield, lend, borrow, leverage, limit, launch all on one community driven ecosystem'
 
@@ -10,8 +9,15 @@ export default function Document() {
   return (
     <Html>
       <Head>
-        {/* @ts-ignore */}
-        <GTMHead/>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-XXXX');`,
+          }}
+        />
         <meta name="application-name" content={APP_NAME} />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -36,7 +42,7 @@ export default function Document() {
 
       </Head>
       <body>
-        <GTMBody/>
+        <GTMBody />
         <Main />
         <NextScript />
       </body>
