@@ -62,7 +62,7 @@ const AccountDetails: FC<AccountDetailsProps> = ({
 
 //  useEffect(() => {
 //      if(account){
-//       router.push("/bone-staking")
+//       router.push("/home")
 //      }
 //  },[])
 

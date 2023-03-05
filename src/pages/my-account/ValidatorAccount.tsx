@@ -110,7 +110,7 @@ const ValidatorAccount = ({
   // console.log(web3Decimals , " value of d  ")
   useEffect(() => {
     if (userType === "Validator" && (+valId == 0 || valId == null)) {
-      router.push("/bone-staking");
+      router.push("/home");
     } else {
       getValInfo()
     }

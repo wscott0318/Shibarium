@@ -55,7 +55,7 @@ const Rewards = () => {
   useEffect(() => {
     const { ethereum } = window;
     const handleAccountsChanged = () => {
-      router.push("/bone-staking");
+      router.push("/home");
     };
 
     ethereum.on("accountsChanged", handleAccountsChanged);

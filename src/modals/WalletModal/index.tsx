@@ -117,7 +117,7 @@ const WalletModal: FC<WalletModals> = ({ pendingTransactions, confirmedTransacti
           // console.log(res)
         }
         )
-      // router.push('/bone-staking')
+      // router.push('/home')
     },
     [activate]
   )

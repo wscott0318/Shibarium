@@ -231,9 +231,9 @@ const StakingHeader = (type: any) => {
             <div className="lft-sec">
               <ul className="lft-links ms-auto">
                 <li className="nav-item">
-                  <Link href="/bone-staking" passHref>
+                  <Link href="/home" passHref>
                     <p
-                      className={`nav-link ff-mos ${router.asPath === "/bone-staking" ? "active" : ""
+                      className={`nav-link ff-mos ${router.asPath === "/home" ? "active" : ""
                         }`}
                     >
                       Overview

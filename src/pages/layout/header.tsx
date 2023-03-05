@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { useWeb3React } from "@web3-react/core";
 import Web3Status from "app/components/Web3Status";
 import { getUserType } from "app/services/apis/user/userApi";
-import { useUserType,useValId } from "app/state/user/hooks";
+import { useUserType, useValId } from "app/state/user/hooks";
 import AppHeader from "../inner-header/AppHeader";
 import { useNetworkModalToggle } from "../../state/application/hooks";
 import { useActiveWeb3React } from "../../services/web3";
@@ -17,12 +17,12 @@ import QrModal from "pages/components/QrModal";
 import { clearCacheData, getNetworkName } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 import ChainWarning from "pages/components/ChainWarning";
-import {supportedChains} from "../../web3/commonFunctions";
+import { supportedChains } from "../../web3/commonFunctions";
 import useLocalStorageState from "use-local-storage-state";
 export default function Header() {
 
   const { account, deactivate } = useWeb3React();
-  const { chainId=1 } = useActiveWeb3React();
+  const { chainId = 1 } = useActiveWeb3React();
   const router = useRouter();
 
   const [userType, setUserType] = useUserType();
@@ -34,12 +34,10 @@ export default function Header() {
 
 
   useEffect(() => {
-    if(account) {
-      if(router.asPath != '/home'){
-        checkConnectedChain();
-      }
+    if (account) {
+      checkConnectedChain();
     } else {
-      setShowWarning(false);   
+      setShowWarning(false);
     }
   }, [chainId, account]);
   // console.log(chainId, "chainID ==> ")
@@ -59,7 +57,7 @@ export default function Header() {
     }
   }, [account])
 
-//@ts-ignore
+  //@ts-ignore
   const logoutHandler = () => {
     deactivate();
     clearCacheData();
@@ -91,7 +89,7 @@ export default function Header() {
   const toggleNetworkModal = useNetworkModalToggle();
 
 
-  const scroll= false
+  const scroll = false
 
   // useEffect(() => {
   //   window.addEventListener("scroll", () => {
@@ -380,9 +378,7 @@ export default function Header() {
             address={account}
           />
         )}
-        {router.asPath !== "/home" && router.asPath !== "/faq" && (
-          <StakingHeader />
-        )}
+        <StakingHeader />
       </header>
     </>
   );

@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import React from "react";
-import Footer from "../../pages/footer/index";
+import Footer from "../footer/index";
 import { useActiveWeb3React } from "../../services/web3";
 
 export default function Home() {
@@ -27,7 +27,7 @@ export default function Home() {
                     </p>
                     <div className="banner-btn">
                       <div className="btn-col">
-                        <Link href={account ? "/bone-staking" : "/login"} passHref>
+                        <Link href={account ? "/home" : "/login"} passHref>
                           <a className="btn primary-btn w-100 d-block ff-mos">
                             Launch App
                           </a>
@@ -79,7 +79,7 @@ export default function Home() {
                         Lorem ipsum dolor sit amet. Ut asperiores tenetur et
                         natus laudantium eos asperiores illum.
                       </p>
-                      <Link href="/bone-staking" passHref>
+                      <Link href="/home" passHref>
                         <a className="link ff-mos">
                           <span>Learn More</span>
                           <img

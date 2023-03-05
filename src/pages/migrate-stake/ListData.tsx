@@ -40,7 +40,7 @@ const ListData: React.FC<any> = ({ withStatusFilter, nodeSetup }: { withStatusFi
   // }, [searchResult])
   useEffect(() => {
     if (userType != "Delegator") {
-      router.push('/bone-staking')
+      router.push('/home')
     }
   }, [userType])
   // useEffect(() => {

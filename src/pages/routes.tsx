@@ -6,7 +6,6 @@ import Header from './layout/header';
 
 const headerRoutes = [
   '/home',
-  '/bone-staking',
   '/all-validator',
   '/my-account',
   '/migrate-stake'

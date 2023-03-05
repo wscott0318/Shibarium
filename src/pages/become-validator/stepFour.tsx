@@ -27,7 +27,7 @@ function StepFour({ activInput, handleEdit, stepState, stepHandler, becomeValida
           <p>your details has been submitted ,
             please spin up your node </p>
           <div className="btn-wrap col-sm-5 mt-4 flx">
-            <Link href='bone-staking'  passHref className="btn primary-btn w-100">
+            <Link href='/home'  passHref className="btn primary-btn w-100">
               <span className="btn primary-btn w-100"> Go to Home Page </span>
             </Link>
 

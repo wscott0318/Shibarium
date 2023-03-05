@@ -79,7 +79,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
         data={selectedRow}
         migrateDataRow={migrateData}
       />
-      <div className="cmn_dasdrd_table ffms-inherit table-fix block-fix scroll-cus">
+      <div className="cmn_dasdrd_table ffms-inherit table-fix block-fix scroll-cus validator_table">
         <div className="table-responsive">
           <table className="table table-borderless fxd-layout tbl-mob">
             <thead>

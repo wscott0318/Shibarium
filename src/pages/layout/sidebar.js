@@ -24,7 +24,7 @@ export default function Sidebar({
   const topList = [
     {
       name: "Staking",
-      route: "/bone-staking",
+      route: "/home",
       isSelected: router.asPath == "/transactions" ? true : false,
       img: "../../assets/images/sidebar/transaction.png",
     },

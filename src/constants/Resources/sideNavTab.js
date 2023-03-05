@@ -110,7 +110,7 @@ const SideNavTab=[
     {
       id:0,
       title:"Overview",
-      link:"/bone-staking",
+      link:"/home",
       isActive:true
     },
     {
