@@ -200,6 +200,7 @@ console.log(transactionState,'transactionState');
         walletBalance,
         "Insufficient Balance."
       )
+      .min(1,"Invalid amount.")
       .required("Balance is required."),
   });
 

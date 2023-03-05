@@ -2319,7 +2319,7 @@ const ValidatorAccount = ({
                                   <button
                                     disabled={
                                       parseInt(item.reward) / 10 ** web3Decimals <
-                                      0
+                                      1
                                     }
                                     onClick={() =>
                                       withdrawRewardDelegator(
