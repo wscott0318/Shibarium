@@ -10,7 +10,8 @@ import Web3ReactManager from '../components/Web3ReactManager';
 import getLibrary from '../functions/getLibrary'
 import dynamic from "next/dynamic";
 import ComponentRouters from "./routes";
-
+import Head from 'next/head';
+const APP_NAME = 'Shibarium Beta'
 declare global {
    interface Window {
   walletLinkExtension?: any
@@ -36,8 +37,11 @@ function MyApp({ Component, pageProps }:any) {
   //  console.log(screen.orientation );
  
   // })
-  
   return (
+    <>
+    <Head>
+    <title>{APP_NAME}</title>
+    </Head>
     <ProjectContext>
         {/* <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}> */}
           <Web3ReactProvider getLibrary={getLibrary}>
@@ -53,6 +57,7 @@ function MyApp({ Component, pageProps }:any) {
           </Web3ReactProvider>
         {/* </I18nProvider> */}
     </ProjectContext>
+    </>
   );
 }
 

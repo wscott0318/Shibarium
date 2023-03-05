@@ -15,7 +15,7 @@ export default function Login() {
   useEffect(() => {
     if (account) {
       // handleAccount(account)
-      router.push("/home");
+      router.push("/");
     }
   }, [account]);
 

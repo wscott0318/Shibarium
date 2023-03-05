@@ -27,7 +27,7 @@ export default function Home() {
                     </p>
                     <div className="banner-btn">
                       <div className="btn-col">
-                        <Link href={account ? "/home" : "/login"} passHref>
+                        <Link href={account ? "/" : "/login"} passHref>
                           <a className="btn primary-btn w-100 d-block ff-mos">
                             Launch App
                           </a>
@@ -79,7 +79,7 @@ export default function Home() {
                         Lorem ipsum dolor sit amet. Ut asperiores tenetur et
                         natus laudantium eos asperiores illum.
                       </p>
-                      <Link href="/home" passHref>
+                      <Link href="/" passHref>
                         <a className="link ff-mos">
                           <span>Learn More</span>
                           <img

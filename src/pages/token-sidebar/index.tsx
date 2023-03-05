@@ -18,7 +18,7 @@ function ShibaSidebar(props:any) {
               <img className="img-fluid" src="../../assets/images/download.svg" alt="" />
           </a>
           <div className="side-logo d-none">
-              <a href="./home">
+              <a href="/">
                   <img className="img-fluid" src="../../assets/images/logo-white.png" alt="logo" />
               </a>
           </div>

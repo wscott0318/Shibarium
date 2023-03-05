@@ -231,7 +231,7 @@ export default function Unbond() {
 
   useEffect(() => {
     if (userType != "Delegator") {
-      router.push('/home')
+      router.push('/')
     }
   }, [userType])
 

@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-document-import-in-page */
 // pages/_document.js
 import { Head, Html, Main, NextScript } from 'next/document'
-const APP_NAME = 'ShibaSwap'
+const APP_NAME = 'Shibarium Beta'
 const APP_DESCRIPTION = 'Swap, yield, lend, borrow, leverage, limit, launch all on one community driven ecosystem'
 
 export default function Document() {
@@ -27,7 +27,6 @@ export default function Document() {
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="theme-color" content="#0993ec" />
-
         <link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png" />
         <link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png" />
         <link rel="apple-touch-icon" sizes="128x128" href="/icons/icon-128x128.png" />

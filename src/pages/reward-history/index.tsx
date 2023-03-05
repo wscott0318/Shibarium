@@ -27,7 +27,7 @@ export default function Unbond() {
   const [userType, setUserType] = useUserType();  //NOSONAR
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [validatorData, setValidatorData] = useState<any>([])
-  const getRewardsList = async(account: any) => {
+  const getRewardsList = async (account: any) => {
     try {
       await unbondRewards(account).then((res: any) => {
         if (res.status == 200) {
@@ -90,7 +90,7 @@ export default function Unbond() {
 
       setSlicedList(slicedList);
       setCurrentPage(index);
-      
+
     }
     catch (err: any) {
       Sentry.captureException("pageChangeHandler ", err);
@@ -100,13 +100,13 @@ export default function Unbond() {
     if (validatorData.length) {
       let slicedList = validatorData.slice(0, pageSize);
       setSlicedList(slicedList);
-    console.log(slicedList,'use');
+      console.log(slicedList, 'use');
 
     } else if (validatorData.length === 0) {
       setSlicedList([]);
     }
 
-    
+
   }, [validatorData]);
 
   useEffect(() => {
@@ -124,52 +124,52 @@ export default function Unbond() {
 
   const router = useRouter();
 
-const slicedListRender = () =>{
-  if(slicedList.length){
-    return(
-      <>
-      { slicedList.map((value: any, index: any) => (
-                        <tr key={index}> 
-                          <td>
-                            <span className="tb-data">
-                              {index + 1}
-                            </span>
-                          </td>
-                          <td>
-                            <span className="tb-data align">
-                              {addDecimalValue(
-                                +(value?.amount) / Math.pow(10, web3Decimals)
-                              )}{" "}
-                              Bone
-                            </span>
-                          </td>
-                          <td>
-                            <span className="tb-data align">
-                              {getUserTimeZone(+(value.timestamp) * 1000)}
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-      </>
-    )
-  }else{
-    if(!validatorData.length && listLoader){
-      return(
-        <tr>
-    <td colSpan={3}>
-      <DynamicShimmer type={"table"} rows={13} cols={3} />
-    </td>
-  </tr> 
+  const slicedListRender = () => {
+    if (slicedList.length) {
+      return (
+        <>
+          {slicedList.map((value: any, index: any) => (
+            <tr key={index}>
+              <td>
+                <span className="tb-data">
+                  {index + 1}
+                </span>
+              </td>
+              <td>
+                <span className="tb-data align">
+                  {addDecimalValue(
+                    +(value?.amount) / Math.pow(10, web3Decimals)
+                  )}{" "}
+                  Bone
+                </span>
+              </td>
+              <td>
+                <span className="tb-data align">
+                  {getUserTimeZone(+(value.timestamp) * 1000)}
+                </span>
+              </td>
+            </tr>
+          ))}
+        </>
       )
-    }
-   
-  }
-}
+    } else {
+      if (!validatorData.length && listLoader) {
+        return (
+          <tr>
+            <td colSpan={3}>
+              <DynamicShimmer type={"table"} rows={13} cols={3} />
+            </td>
+          </tr>
+        )
+      }
 
-const userTypeRender = ()=>{
-  if(userType === 'Validator'){
-    return(
-<section className="mid_cnt_area">
+    }
+  }
+
+  const userTypeRender = () => {
+    if (userType === 'Validator') {
+      return (
+        <section className="mid_cnt_area">
           <div className="container reward_table">
             <div className="cmn_dasdrd_table block-fix">
               <div className="table-responsive">
@@ -182,7 +182,7 @@ const userTypeRender = ()=>{
                     </tr>
                   </thead>
                   <tbody>
-            {slicedListRender()}
+                    {slicedListRender()}
                   </tbody>
                 </table>
               </div>
@@ -209,96 +209,96 @@ const userTypeRender = ()=>{
             </div>
           </div>
         </section>
-    )
-  }else{
-    return(
-      <section className="mid_cnt_area">
-            <div className="container reward_table">
-              <div className="cmn_dasdrd_table block-fix">
-                <div className="table-responsive">
-                  <table className="table table-borderless fix-tabl-layout text-start">
-                    <thead>
-                      <tr>
-                        <th>Validator Name</th>
-                        <th>Amount</th>
-                        <th className="text-center">Time</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {slicedList.length ? (
-                        slicedList.map((value: any, index: any) => (
-                          <tr key={index}>
-                            <td> 
-                              <div className="d-flex align-items-center">
-                                
-                                <div className="coin-img me-2">
-                                  <img
-                                    className="img-fluid"
-                                    src="../../assets/images/bear.png"
-                                    alt="coin"
-                                    width={50}
-                                    height={50}
-                                  />
-                                </div>
-                                <div>
-                                  <span className="tb-data">
-                                    {value.valName}
-                                  </span>
-                                </div>
+      )
+    } else {
+      return (
+        <section className="mid_cnt_area">
+          <div className="container reward_table">
+            <div className="cmn_dasdrd_table block-fix">
+              <div className="table-responsive">
+                <table className="table table-borderless fix-tabl-layout text-start">
+                  <thead>
+                    <tr>
+                      <th>Validator Name</th>
+                      <th>Amount</th>
+                      <th className="text-center">Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {slicedList.length ? (
+                      slicedList.map((value: any, index: any) => (
+                        <tr key={index}>
+                          <td>
+                            <div className="d-flex align-items-center">
+
+                              <div className="coin-img me-2">
+                                <img
+                                  className="img-fluid"
+                                  src="../../assets/images/bear.png"
+                                  alt="coin"
+                                  width={50}
+                                  height={50}
+                                />
                               </div>
-                            </td>
-                            <td>
-                              <span className="tb-data align">
-                                {addDecimalValue(
-                                  parseInt(value?.rewards) / Math.pow(10, 18)
-                                )}{" "}
-                                Bone
-                              </span>
-                            </td>
-                            <td>
-                              <span className="tb-data align">
-                                {getUserTimeZone(parseInt(value.timestamp) * 1000)}
-                              </span>
-                            </td>
-                          </tr>
-                        ))
-                      ) : null}
-                      {!list.length && !slicedList.length && listLoader && (
-                        <tr>
-                          <td colSpan={3}> 
-                            <DynamicShimmer type={"table"} rows={13} cols={3} />
+                              <div>
+                                <span className="tb-data">
+                                  {value.valName}
+                                </span>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <span className="tb-data align">
+                              {addDecimalValue(
+                                parseInt(value?.rewards) / Math.pow(10, 18)
+                              )}{" "}
+                              Bone
+                            </span>
+                          </td>
+                          <td>
+                            <span className="tb-data align">
+                              {getUserTimeZone(parseInt(value.timestamp) * 1000)}
+                            </span>
                           </td>
                         </tr>
-                        )}
-                    </tbody>
-                  </table>
-                </div>
+                      ))
+                    ) : null}
+                    {!list.length && !slicedList.length && listLoader && (
+                      <tr>
+                        <td colSpan={3}>
+                          <DynamicShimmer type={"table"} rows={13} cols={3} />
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
 
-                {!listLoader && !list.length && !slicedList.length ? (
-                  <div className="no-found">
-                    <div>
-                      <div className="text-center">
-                        <img src="../../assets/images/no-record.png" />
-                      </div>
+              {!listLoader && !list.length && !slicedList.length ? (
+                <div className="no-found">
+                  <div>
+                    <div className="text-center">
+                      <img src="../../assets/images/no-record.png" />
                     </div>
                   </div>
-                ) : null}
-              </div>
-              <div className="mt-sm-4 mt-3">
-                {slicedList.length > 0 ? (
-                  <Pagination
-                    currentPage={currentPage}
-                    pageSize={pageSize}
-                    totalCount={validatorData.length}
-                    onPageChange={pageChangeHandler}
-                  />
-                ) : null}
-              </div>
+                </div>
+              ) : null}
             </div>
-          </section>
-    )
+            <div className="mt-sm-4 mt-3">
+              {slicedList.length > 0 ? (
+                <Pagination
+                  currentPage={currentPage}
+                  pageSize={pageSize}
+                  totalCount={validatorData.length}
+                  onPageChange={pageChangeHandler}
+                />
+              ) : null}
+            </div>
+          </div>
+        </section>
+      )
+    }
   }
-}
 
   return (
     <>
@@ -313,7 +313,7 @@ const userTypeRender = ()=>{
           </div>
         </section>
 
-       {userTypeRender()}
+        {userTypeRender()}
       </main>
     </>
   );

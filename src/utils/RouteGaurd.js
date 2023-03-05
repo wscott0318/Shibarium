@@ -38,7 +38,7 @@ function RouteGuard({ children }) {
         if (!isLoggedIn && publicPaths.includes(path)) {
                 setAuthorized(false);
                 router.push({
-                    pathname: '/home'
+                    pathname: '/'
                 });
         } else {
             setAuthorized(true);

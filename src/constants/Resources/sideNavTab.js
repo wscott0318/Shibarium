@@ -110,7 +110,7 @@ const SideNavTab=[
     {
       id:0,
       title:"Overview",
-      link:"/home",
+      link:"/",
       isActive:true
     },
     {

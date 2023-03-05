@@ -11,7 +11,7 @@ export default function BurnCrypto() {
             <img className="img-fluid" src="../../assets/images/menu.png" alt="" />
           </span>
           <div className="sidebar-logo">
-            <a className="sidelogo-link" href="/home">
+            <a className="sidelogo-link" href="/">
               <img className="img-fluid" src="../../assets/images/logo.png" alt="" />
             </a>
           </div>
@@ -22,7 +22,7 @@ export default function BurnCrypto() {
               <span className="close-icon" >
                 <img className="img-fluid" src="../../assets/images/close-icon.png" alt="close-icon" />
               </span>
-              <a className="sidelogo-link" href="/home">
+              <a className="sidelogo-link" href="/">
                 <img className="img-fluid" src="../../assets/images/logo.png" alt="" />
               </a>
             </div>

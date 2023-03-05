@@ -24,7 +24,7 @@ export default function Sidebar({
   const topList = [
     {
       name: "Staking",
-      route: "/home",
+      route: "/",
       isSelected: router.asPath == "/transactions" ? true : false,
       img: "../../assets/images/sidebar/transaction.png",
     },
@@ -123,7 +123,7 @@ export default function Sidebar({
           />
         </Navbar.Brand>
         <div className="sidebar-logo">
-          <Link href="/home" passHref>
+          <Link href="/" passHref>
             <a className="sidelogo-link" href="/">
               <img
                 className="img-fluid"
@@ -156,7 +156,7 @@ export default function Sidebar({
                 alt="close-icon"
               />
             </span>
-            <Link href="/home" passHref>
+            <Link href="/" passHref>
               <a className="sidelogo-link" href="/">
                 <img
                   className="img-fluid"

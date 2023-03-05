@@ -61,7 +61,7 @@ export default function Header() {
   const logoutHandler = () => {
     deactivate();
     clearCacheData();
-    router.push("/home");
+    router.push("/");
     setLogOut(true);
   };
 

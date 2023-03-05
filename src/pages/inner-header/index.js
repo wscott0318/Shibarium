@@ -51,7 +51,7 @@ const InnerHeader = () => {
 
   const logoutHandler = () => {
     deactivate();
-     router.push("/home");
+     router.push("/");
   }
 
   if (!chainId) return null;

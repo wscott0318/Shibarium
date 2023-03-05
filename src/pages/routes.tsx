@@ -5,7 +5,7 @@ import { RouteGuard } from 'utils/RouteGaurd'
 import Header from './layout/header';
 
 const headerRoutes = [
-  '/home',
+  '/',
   '/all-validator',
   '/my-account',
   '/migrate-stake'

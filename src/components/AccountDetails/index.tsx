@@ -62,7 +62,7 @@ const AccountDetails: FC<AccountDetailsProps> = ({
 
 //  useEffect(() => {
 //      if(account){
-//       router.push("/home")
+//       router.push("/")
 //      }
 //  },[])
 
@@ -79,7 +79,7 @@ const AccountDetails: FC<AccountDetailsProps> = ({
   // console.log({pendingTransactions})
   const logoutHandler = () => {
     deactivate();
-    router.push("/home");
+    router.push("/");
     setLogOut(true);
   };
   return (

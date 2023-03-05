@@ -117,7 +117,7 @@ const WalletModal: FC<WalletModals> = ({ pendingTransactions, confirmedTransacti
           // console.log(res)
         }
         )
-      // router.push('/home')
+      // router.push('/')
     },
     [activate]
   )

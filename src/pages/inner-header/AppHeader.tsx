@@ -9,13 +9,13 @@ const AppHeader = () => {
   const { asPath } = useRouter()
   const [title, setTitle] = useState("Staking")
   const router = useRouter()
-  const [url, setUrl] = useState("/home");
+  const [url, setUrl] = useState("/");
 
   useEffect(() => {
     if (asPath) {
-      if (asPath === '/home') {
+      if (asPath === '/') {
         setTitle("Staking")
-        setUrl("/home");
+        setUrl("/");
       } else if (asPath === '/faucet') {
         setTitle("Faucet")
         setUrl("/faucet");
@@ -38,7 +38,7 @@ const AppHeader = () => {
         </div>
         <Link href={url} passHref>
           <NavDropdown className="light-text dd-ico" title={title} id="navDropdown_custom" menuRole="menu">
-            <Link href="/home" passHref>
+            <Link href="/" passHref>
               <NavDropdown.Item>
                 <h6
                   className={
