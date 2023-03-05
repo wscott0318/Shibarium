@@ -11,4 +11,5 @@ export const GTMHead = () => {
       f.parentNode.insertBefore(j, f);
     })(window, document, "script", "dataLayer", "GTM-KG67G9K");
   }
+  return null;
 };
