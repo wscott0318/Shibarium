@@ -84,7 +84,7 @@ function NetworkDetails({ valCount }: any) {
 
       <section className="card-section">
         <div className="container">
-          <div className="heading-sec"><h2 className="sub-head ff-mos">Network Overview</h2></div>
+          <div className="heading-sec"><h2 className="sub-head ff-mos">Network Overview test</h2></div>
           <div className="grid-contain">
             {
               Object.keys(networkDetails).length ?
