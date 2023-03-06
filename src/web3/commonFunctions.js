@@ -94,7 +94,10 @@ export const stakeForErrMsg = (msg) => {
   console.log("err => " , msg);
   if (msg === "Error: execution reverted: not pub\n") {
     return "Public key is invalid! ";
-  } else {
+  } else if (msg === "Error: execution reverted: Invalid signer\n") {
+    return "Signer Address is invalid!";
+  }
+  else {
     return "Something went wrong. Please try again later! ";
   }
 };

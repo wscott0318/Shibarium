@@ -184,7 +184,7 @@ export default function Header() {
                       </a>
                     </Link>
                     <Link href={account ? "/wallet" : "/login"} passHref>
-                      <a className="btn primary-btn ff-mos">Launch App</a>
+                      <a className="btn primary-btn ff-mos">Connect Wallet</a>
                     </Link>
                   </Nav.Item>
                 ) : (

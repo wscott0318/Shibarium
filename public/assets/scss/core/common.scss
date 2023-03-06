@@ -1960,7 +1960,7 @@ input:checked + .slider:before {
     width: 170px;
     @media #{$max-md} {
       font-size: 14px;
-      width: 155px;
+      width: 180px;
     }
     &:focus {
       box-shadow: none;

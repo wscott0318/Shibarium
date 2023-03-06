@@ -29,7 +29,7 @@ export default function Home() {
                       <div className="btn-col">
                         <Link href={account ? "/" : "/login"} passHref>
                           <a className="btn primary-btn w-100 d-block ff-mos">
-                            Launch App
+                            Connect Wallet
                           </a>
                         </Link>
                       </div>

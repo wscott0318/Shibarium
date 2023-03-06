@@ -106,6 +106,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
     } catch (err: any) {
       sentryErrors("checkPubKey", err);
       let message = stakeForErrMsg(err.toString().split("{")[0])
+      console.log("message ==> " , message)
       setTransactionState({ state: false, title: '' })
       toast.error(message, {
         position: toast.POSITION.BOTTOM_CENTER, autoClose: 5000

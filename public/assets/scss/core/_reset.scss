@@ -146,7 +146,7 @@ h6 {
     font-size: 13px;
   }
 }
-.fs-16{
+.fs-16 {
   font-size: 16px;
   @media #{$max-lg} {
     font-size: 14px;
@@ -345,14 +345,14 @@ ul {
   background-clip: text;
   text-fill-color: transparent;
 }
-.primary-btn-outline{
+.primary-btn-outline {
   background-color: transparent;
   border: 1px solid $primary;
   color: $primary;
-  &:hover{
-     background-color: $primary !important;
-     color: $white !important;
-     border: 1px solid $primary !important;
+  &:hover {
+    background-color: $primary !important;
+    color: $white !important;
+    border: 1px solid $primary !important;
   }
 }
 .grey-btn {
@@ -910,6 +910,15 @@ body {
   padding: 5px;
   display: none;
   line-height: 1.5;
+  @media #{$max-md} {
+    left: 60%;
+    transform: translate(-50%, 0%);
+  }
+  @media #{$max-sm} {
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: -75%;
+  }
 }
 .delegate_btn_grid .tool-desc {
   left: 38px;
@@ -922,6 +931,11 @@ body {
   left: -50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  @media #{$max-sm}{
+    left: 50%;
+    top: -25%;
+    z-index: 11111;
+  }
 }
 .delegate_btn .tool-desc::before {
   content: "";
@@ -933,6 +947,12 @@ body {
   border-width: 0 10px 14px;
   left: 98%;
   top: 17px;
+  @media #{$max-sm}{
+    -webkit-transform: rotate(0deg);
+    border-width: 14px 14px 0px;
+    left: 43%;
+    top: 45px;
+  }
 }
 .delegate_btn_grid .tool-desc::before {
   content: "";
@@ -948,6 +968,11 @@ body {
 .delegate_btn .tool-desc.tool-desc-sm::before {
   top: 23%;
   left: 97%;
+  @media #{$max-sm}{
+    top: 94%;
+    left: 42%;
+  }
+  
 }
 .delegate_btn .tool-desc.tool-desc-grid {
   left: 50%;
@@ -959,6 +984,9 @@ body {
   top: 97%;
   -webkit-transform: rotate(180deg);
   left: 50%;
+  @media #{$max-sm}{
+    -webkit-transform: rotate(0deg);
+  }
 }
 .claim_btn_wrapper .tool-desc::before {
   content: "";
@@ -1247,7 +1275,8 @@ td.no_record img {
   }
 }
 @media (max-width: 576px) {
-  .modal-content .primary-btn , .blue-btn {
+  .modal-content .primary-btn,
+  .blue-btn {
     min-height: 55px;
     line-height: 35px;
   }

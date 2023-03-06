@@ -1367,7 +1367,7 @@ const ValidatorAccount = ({
                 <div className="text-center col-12 d-flex justify-content-center">
                   <img
                     className="img-fluid img-wdth"
-                    src={unboundModal.image ? unboundModal.image : "../../assets/images/shiba-col-2.png"}
+                    src={"../../assets/images/shiba-col-2.png"}
                     width="150"
                     height="150"
                   />
@@ -1680,6 +1680,11 @@ const ValidatorAccount = ({
                           MAX
                         </span>
                       </div>
+                      {unboundInput > unboundModal.stakeAmount ? 
+                      (
+                        <p className="warning">Insufficient Amount</p>
+                      )
+                    : null}
                     </div>
                   </div>
                   <p className="mt-1 mb-0 info-txt">
@@ -1689,7 +1694,7 @@ const ValidatorAccount = ({
                 </div>
                 <button
                   onClick={() => unboundDelegator()}
-                  disabled={unboundInput > 0 ? false : true}
+                  disabled={unboundInput > 0 && unboundInput <= unboundModal.stakeAmount ? false : true}
                   type="button"
                   className="mt-3 btn primary-btn mt-sm-4 w-100"
                 >
