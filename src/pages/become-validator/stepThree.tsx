@@ -565,7 +565,7 @@ const handleTransactionState = useCallback(() => setTransactionState({ state: fa
                 </div>
                 <div className="blk-dta text-nowrap">
                   <p className="amt-val">
-                    Balance: {addDecimalValue(+availBalance) >= 0? addDecimalValue(+availBalance) : "0.00"}
+                    Bal: {addDecimalValue(+availBalance) >= 0? addDecimalValue(+availBalance) : "0.00"}
                   </p>
                 </div>
               </div>

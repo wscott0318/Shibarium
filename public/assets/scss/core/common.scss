@@ -256,6 +256,7 @@ caption {
       input {
         background: $body-bg-800;
         color: $grey-color-800;
+        text-overflow: ellipsis;
       }
     }
   }
@@ -3261,6 +3262,9 @@ input:-internal-autofill-selected {
       @media #{$max-sm} {
         width: 40%;
       }
+      @media #{$max-xsm} {
+        width: 60%;
+      }
       @media #{$max-xxsm} {
         width: 75%;
       }
@@ -5001,4 +5005,15 @@ p.no_btn {
 .cmn_dasdrd_table.validator_table .table th:nth-child(3),
 .cmn_dasdrd_table.validator_table .table td:nth-child(3) {
   width: 12%;
+}
+
+.navbar-expand .navbar-collapse {
+  @media #{$max-xsm} {
+    min-width: 75%;
+  }
+}
+.button-wrap.cus_dropdown.nav-item .btn {
+  @media #{$max-xsm} {
+    padding: 7px 6px;
+  }
 }

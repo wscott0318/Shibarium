@@ -79,17 +79,18 @@ const Valitotors: React.FC<any> = ({ withStatusFilter ,nodeSetup}: { withStatusF
     let filtered = []
     if (isActiveTab) {
       if (userType == "Delegator") {
-        filtered = allValidators.filter(e => e.uptimePercent >= inActiveCount).sort((a: any, b: any) => {
+        filtered = allValidators.filter(e => e?.uptimePercent >= inActiveCount).sort((a: any, b: any) => {
           if ((a.fundamental != 1) > (b.fundamental != 1)) return -1
           return 0;
         }
         )
       }
       else{
-        filtered = allValidators.filter(e => e.uptimePercent >= inActiveCount)
+        console.log("all vals " , allValidators)
+        filtered = allValidators.filter(e => e?.uptimePercent >= inActiveCount)
       }
     } else {
-      filtered = allValidators.filter(e => e.uptimePercent <= inActiveCount)
+      filtered = allValidators.filter(e => e?.uptimePercent <= inActiveCount)
     }
     setValidators(filtered)
   }
@@ -127,7 +128,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter ,nodeSetup}: { withStatusF
       Sentry.captureMessage("onSort", err);
     }
   }
-  console.log("validators " , validators)
+  // console.log("validators " , validators)
   // useEffect(() => {
   //   validatorsList(searchKey , requestOptions)
   //   .then((res:any) => {
