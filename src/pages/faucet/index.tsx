@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CommonModal from "../components/CommonModel";
 import InnerHeader from "../../pages/inner-header";
 import Sidebar from "../layout/sidebar"
@@ -12,18 +12,21 @@ import { CircularProgress, FormControlLabel, Radio, RadioGroup } from "@material
 import { getExplorerLink } from "app/functions";
 import { ChainId } from "shibarium-get-chains";
 import * as Sentry from '@sentry/nextjs';
-import {toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function Faucet() {
   const [showSwapModal, setSwapModal] = useState(false);
   const [menuState, setMenuState] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
+  const siteKey:any = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
   const [selectedChain, setSelectedChain] = useState(1);
   const [modalState, setModalState] = useState({
     pending: true,
     done: false,
     hash: ''
-  })
-  const [isActive , setIsActive] = useState(1);
+  });
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [isActive, setIsActive] = useState(1);
   const { chainId = 1, account } = useActiveWeb3React();
 
   const handleMenuState = () => {
@@ -31,7 +34,7 @@ export default function Faucet() {
   }
   const handleChange = (e: any) => {
     setSelectedChain(e.target.value);
-    console.log("value inside e" , e.target.value)
+    console.log("value inside e", e.target.value)
     setIsActive(e.target.value);
   }
   useEffect(() => {
@@ -47,26 +50,33 @@ export default function Faucet() {
       done: false,
       hash: ''
     })
-    console.log("entered faucet api");
+    console.log("entered faucet api" ,recaptchaRef);
     try {
-    await axios.get(`https://faucet.shib.io/api/faucet/${account}?type=${selectedChain}`)
-    .then((res: any) => {
-        console.log("response " , res);
-        setModalState({
-          pending: false,
-          done: true,
-          hash: res.data.data.transactionHash
+      await axios.get(`https://faucet.shib.io/api/faucet/${account}?type=${selectedChain}`)
+        .then((res: any) => {
+          recaptchaRef.current?.reset()
+          // console.log("response ", res);
+          setModalState({
+            pending: false,
+            done: true,
+            hash: res.data.data.transactionHash
+          })
+          toast.success('Faucet claimed! Check wallet.', {
+            position: toast.POSITION.TOP_RIGHT, autoClose: 3000,
+            type:toast.TYPE.SUCCESS
+          });
+        }).catch((err: any) => {
+          toast.error("Faucet can be claimed once every 24 hours.", {
+            position: toast.POSITION.TOP_RIGHT, autoClose: 5000
+          });
+          setSwapModal(false)
+          // console.log("err =>", err)
+          setClickedCaptcha(false);
+          recaptchaRef.current?.reset()
         })
-      }).catch((err) => {
-        setSwapModal(false)
-        console.log("err" , err)
-      })
-    } catch (err :any) {
+    } catch (err: any) {
       Sentry.captureMessage("callFaucetAPI" + selectedChain, err);
-      console.log(err)
-      toast.error("Something went wrong.", {
-        position: toast.POSITION.BOTTOM_CENTER, autoClose: 5000
-      });
+      console.log("error-> ", err)
     }
 
   }
@@ -86,17 +96,18 @@ export default function Faucet() {
   };
 
   const handleExplorer = () => {
-    let link:any;
-    if(selectedChain == 1){
-      link = getExplorerLink(ChainId.GÖRLI , modalState?.hash , "transaction")
+    let link: any;
+    if (selectedChain == 1) {
+      link = getExplorerLink(ChainId.GÖRLI, modalState?.hash, "transaction")
     }
-    else{
-      link = getExplorerLink(ChainId.PUPPYNET917 , modalState?.hash , "transaction")
+    else {
+      link = getExplorerLink(ChainId.PUPPYNET917, modalState?.hash, "transaction")
     }
     window.open(link)
   }
   return (
     <>
+      <ToastContainer />
       <main className="main-content">
 
         <Sidebar
@@ -160,14 +171,14 @@ export default function Faucet() {
                                 className="radioGroup"
                                 onChange={handleChange}
                               >
-                                <FormControlLabel value="1" control={<Radio />} 
-                                label={<div className="d-flex justify-content-center align-items-center" style={{height:"34px"}}>
-                                  <img width={18} src="../../assets/images/eth.png" className="me-2" onError={imageOnErrorHandler}/> Goerli BONE</div>} 
-                                className={`radioButtons ${isActive == 1 && "active"}`}/>
-                                <FormControlLabel value="2" control={<Radio />} 
-                                label={<div className="d-flex justify-content-center align-items-center" style={{height:"34px"}}>
-                                  <img width={24} src="../../assets/images/shib-logo.png" className="me-2" onError={imageOnErrorHandler}/> Puppy Net BONE</div>} 
-                                className={`radioButtons ${isActive == 2 && "active"}`} />
+                                <FormControlLabel value="1" control={<Radio />}
+                                  label={<div className="d-flex justify-content-center align-items-center" style={{ height: "34px" }}>
+                                    <img width={18} src="../../assets/images/eth.png" className="me-2" onError={imageOnErrorHandler} /> Goerli BONE</div>}
+                                  className={`radioButtons ${isActive == 1 && "active"}`} />
+                                <FormControlLabel value="2" control={<Radio />}
+                                  label={<div className="d-flex justify-content-center align-items-center" style={{ height: "34px" }}>
+                                    <img width={24} src="../../assets/images/shib-logo.png" className="me-2" onError={imageOnErrorHandler} /> Puppy Net BONE</div>}
+                                  className={`radioButtons ${isActive == 2 && "active"}`} />
                               </RadioGroup>
                             </div>
                             {/* </div>
@@ -191,9 +202,11 @@ export default function Faucet() {
 
                           <div className="mt-3 captcha-wrap mt-sm-4" >
                             <ReCAPTCHA
-                              sitekey='6LdDZXQiAAAAAPUZI155WAGKKhM1vACSu05hOLGP'
+                              ref={recaptchaRef}
+                              sitekey={siteKey}
+                              asyncScriptOnLoad={() => { }}
                               onChange={handleCaptcha}
-                              onExpired={() => setClickedCaptcha(false)}
+                              onExpired={() => {setClickedCaptcha(false); recaptchaRef.current?.reset()}}
                             />
                           </div>
                           <div className="mt-3 ">
@@ -222,13 +235,13 @@ export default function Faucet() {
           <div className="pop-block">
             <div className="pop-top">
               <div className='dark-bg-800 h-100 status-sec'>
-                {modalState.pending ? 
-                <span className="p-5">
-                  <CircularProgress size={130} style={{color:"#f27c02"}}/>
-                </span> : 
-                <span className="p-4">
-                  <div><img width="180" height="170" className="img-fluid" src="../../assets/images/Ellipse.png" alt="" onError={imageOnErrorHandler}/></div>
-                </span>
+                {modalState.pending ?
+                  <span className="p-5">
+                    <CircularProgress size={130} style={{ color: "#f27c02" }} />
+                  </span> :
+                  <span className="p-4">
+                    <div><img width="180" height="170" className="img-fluid" src="../../assets/images/Ellipse.png" alt="" onError={imageOnErrorHandler} /></div>
+                  </span>
                 }
               </div>
             </div>

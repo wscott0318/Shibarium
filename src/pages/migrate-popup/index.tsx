@@ -16,7 +16,7 @@ import {
   addTransaction,
   finalizeTransaction,
 } from "../../state/transactions/actions";
-import { toast } from 'react-toastify';
+import { ToastContainer,toast } from 'react-toastify';
 import { useAppDispatch } from "../../state/hooks";
 import { dynamicChaining } from "web3/DynamicChaining";
 import * as Sentry from "@sentry/nextjs";
@@ -136,7 +136,8 @@ const MigratePopup: React.FC<any> = ({
             setProcessing("Completed");
             resetForm();
             toast.success("Stakes migrated.", {
-              position: toast.POSITION.TOP_RIGHT, autoClose: 5000
+              position: toast.POSITION.TOP_RIGHT, autoClose: 5000,
+              type:toast.TYPE.SUCCESS
             });
             setTimeout(() => {
               router.back();
@@ -203,6 +204,7 @@ const MigratePopup: React.FC<any> = ({
 
   return (
     <>
+      <ToastContainer/>
       <CommonModal
         title={processing}
         show={showmigratepop}
