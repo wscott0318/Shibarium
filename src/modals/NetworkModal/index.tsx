@@ -227,7 +227,7 @@ const NetworkModal: FC = () => {
 
   return (
     <HeadlessUiModal.Controlled isOpen={networkModalOpen} onDismiss={toggleNetworkModal}>
-      <div className="flex flex-col gap-4 wallet-network" style={{maxHeight:'90vh', overflow: 'auto'}}>
+      <div className="flex flex-col gap-4 wallet-network" style={{ maxHeight: '90vh', overflow: 'auto' }}>
         <HeadlessUiModal.Header header={`Select a network`} onClose={toggleNetworkModal} />
         <div className="grid grid-flow-row-dense grid-cols-1 gap-4 overflow-y-auto md:grid-cols-2 net-block">
           {[
@@ -235,7 +235,7 @@ const NetworkModal: FC = () => {
             ChainId.GÖRLI,
             // ChainId.ETHEREUM,
             ChainId.PUPPYNET917,
-            
+
             // ChainId.MATIC,
             // ChainId.BSC,
             // ChainId.ARBITRUM,
@@ -279,15 +279,25 @@ const NetworkModal: FC = () => {
                   toggleNetworkModal()
                   const params = SUPPORTED_NETWORKS[key]
                   cookie.set('chainId', key, params)
-
                   try {
-                    await library?.send('wallet_switchEthereumChain', [{ chainId: `0x${key.toString(16)}` }, account])
+                    await library?.send('wallet_addEthereumChain', [{
+                      chainId: `0x${key.toString(16)}`,
+                      rpcUrls: ["https://puppynet.shibrpc.com"],
+                      chainName: "Puppy Net",
+                      nativeCurrency: {
+                        name: "BONE",
+                        symbol: "BONE",
+                        decimals: 18
+                      },
+                      blockExplorerUrls: ["https://puppyscan.shib.io/"]
+                    }, account])
+                    // await library?.send('wallet_switchEthereumChain', [{ chainId: `0x${key.toString(16)}` }, account])
                   } catch (switchError) {
                     // This error code indicates that the chain has not been added to MetaMask.
                     // @ts-ignore TYPE NEEDS FIXING
                     if (switchError.code === 4902) {
                       try {
-                        console.log({params, account});
+                        console.log({ params, account });
                         await library?.send('wallet_addEthereumChain', [params, account])
                       } catch (addError) {
                         // handle "add" error
