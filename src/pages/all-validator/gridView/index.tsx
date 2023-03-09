@@ -27,7 +27,7 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
         return <div className="tool-desc tool-desc-grid">Offline since {x.missedLatestCheckpointcount} checkpoints</div>
       }
       else if (x.lastcheckpointsigned === 0 && x.fundamental === 2){
-        return <div className="tool-desc tool-desc-grid">Not signing checkpoints.</div>
+        return  null;
       }
       else if (router.asPath.split("/")[1] === "migrate-stake") {
         return <div className="tool-desc tool-desc-grid">{x.contractAddress == migrateData.contractAddress ? "Stakes cannot be migrated to same Validator." : "Migrate Your Stakes here."}</div>;
@@ -37,6 +37,14 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
       }
       else {
         return <div className="tool-desc tool-desc-grid">Delegation is enabled.</div>
+      }
+    }
+    else{
+      if (x.lastcheckpointsigned === 0 && x.fundamental === 2){
+        return null;
+      }
+      else{
+        return <div className="tool-desc tool-desc-grid">Login to enable delegation.</div>
       }
     }
   }
@@ -185,7 +193,7 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
                               
                             </button>
                             {tootlTipDesc(validator)}
-                            {!account && <div className="tool-desc tool-desc-grid">Login to enable delegation.</div>}
+                          
                           </div>
                         )}
                       </div>
