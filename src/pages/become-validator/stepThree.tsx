@@ -503,7 +503,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               <label htmlFor="" className="form-label ff-mos">
                 Signer’s Public Key <span className="get-info">i</span>
                 <div className="tool-desc">
-                  Signer's Public Key
+                  Signer’s Public Key should be without the "0x04" prefix.
                 </div>
               </label>
 

@@ -1,33 +1,57 @@
+import { Checkbox } from "@material-ui/core";
+import CommonModal from "pages/components/CommonModel";
 import { useEffect, useState } from "react";
 
 
-function StepOne({stepHandler,stepState}:any) {
-  const [check,setCheck] = useState({
-    ansible:false,
-    binary:false
-  }) 
+function StepOne({ stepHandler, stepState }: any) {
+  const [check, setCheck] = useState({
+    ansible: false,
+    binary: false
+  })
 
-  const [selectSecA,setSelectSecA] = useState(false)
-  const [selectSecB,setSelectSecB] = useState(false)
+  const [selectSecA, setSelectSecA] = useState(false)
+  const [selectSecB, setSelectSecB] = useState(false)
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [checked, setChecked] = useState(false);
   useEffect(() => {
     setCheck({
       ansible: false,
       binary: false,
     });
   }, [])
-  
-  
+
+
   return (
     <>
+      <CommonModal
+        title={"User Confirmation"}
+        show={showConfirmation}
+        setshow={() => { setShowConfirmation(false);setChecked(false) }}
+        externalCls="faucet-pop no-lft"
+      >
+        <div className="popmodal-body tokn-popup no-ht trans-mod">
+          <div className="pop-block">
+            <div className="pop-top d-flex align-items-center"  >
+              <Checkbox checked={checked} onChange={() => { setChecked(!checked) }}
+                color="primary" />
+              <p>I verify that my heimdall and bor nodes are fully synced.</p>
+            </div>
+          </div>
+          <div className="pop-bottom">
+            <button onClick={() => stepHandler("next")} disabled={!checked} className="primary-btn btn w-100">Continue</button>
+          </div>
+        </div>
+
+      </CommonModal>
       <div className="progress-tab">
         <h5 className="mb-2 fw-700 ff-mos">Setup a node</h5>
         <p className="mb-0 fw-700 ff-mos">
           You can setup your node using any of the options from below
         </p>
         <div
-        // style={selectSec==="1"?{border : "1rem"}:null}
+          // style={selectSec==="1"?{border : "1rem"}:null}
           className="box-alert -lg"
-          style={selectSecA?{border : "0.2rem solid #F06500"}:{border : " 1px solid #575757"}}
+          style={selectSecA ? { border: "0.2rem solid #F06500" } : { border: " 1px solid #575757" }}
           onClick={() => {
             setCheck({
               ansible: true,
@@ -37,7 +61,7 @@ function StepOne({stepHandler,stepState}:any) {
             setSelectSecB(false)
           }}
         >
-          <div  className="d-flex align-items-center">
+          <div className="d-flex align-items-center">
             <div>
               <div className="circle-box lt-warning me-3">
                 <img
@@ -58,7 +82,7 @@ function StepOne({stepHandler,stepState}:any) {
           </div>
         </div>
         <div
-        style={selectSecB?{border : "0.2rem solid #F06500"}:{border : " 1px solid #575757"}}
+          style={selectSecB ? { border: "0.2rem solid #F06500" } : { border: " 1px solid #575757" }}
           className="mt-4 box-alert box-active"
           onClick={() => {
             setCheck({
@@ -111,7 +135,10 @@ function StepOne({stepHandler,stepState}:any) {
           <button
             type="button"
             className="btn primary-btn w-100 ff-mos"
-            onClick={() => stepHandler("next")}
+            onClick={() =>
+              // stepHandler("next")
+              setShowConfirmation(true)
+            }
             disabled={!(check.binary || check.ansible)}
           >
             <span className="ff-mos">Next</span>
