@@ -19,6 +19,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
   const router = useRouter();
   
   const tootlTipDesc = (x: any) => {
+    console.log("account " , account)
     if (account) {
       if (x.fundamental === 1) {
         return <div className="tool-desc">This is a fundamental node. <br /> Delegation is not enabled here.</div>;
@@ -26,7 +27,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
         return <div className="tool-desc tool-desc-sm">Offline since {x.missedLatestCheckpointcount} checkpoints</div>
       }
       else if (x.lastcheckpointsigned === 0 && x.fundamental === 2){
-        return <div className="tool-desc tool-desc-sm">Not signing checkpoints.</div>
+        return null;
       }
       else if (router.asPath.split("/")[1] === "migrate-stake") {
         return <div className="tool-desc tool-desc-sm">{x.contractAddress == migrateData.contractAddress ? "Stakes cannot be migrated to same Validator." : "Migrate Your Stakes here."}</div>;
@@ -36,6 +37,14 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
       }
       else {
         return <div className="tool-desc tool-desc-sm">Delegation is enabled.</div>
+      }
+    }
+    else{
+      if (x.lastcheckpointsigned === 0 && x.fundamental === 2){
+        return null;
+      }
+      else{
+        return <div className="tool-desc tool-desc-sm">Login to enable delegation.</div>
       }
     }
   }
@@ -65,7 +74,6 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
       }
     }
   }
-  console.log("node setup ",nodeSetup)
   return (
     <>
       <DelegatePopup
@@ -164,7 +172,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                             
                           </button>
                           {tootlTipDesc(x)}
-                          {!account && <div className="tool-desc tool-desc-sm">Login to enable delegation.</div>}
+                          
                         </div>
                       )}
                     </td>

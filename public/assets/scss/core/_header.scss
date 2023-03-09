@@ -424,6 +424,12 @@ body.modal-open {
         height: 16px;
       }
     }
+    span.drop_span{
+      @media #{$max-xxsm} {
+        width: auto;
+        height: 16px;
+      }
+    }
   }
 }
 

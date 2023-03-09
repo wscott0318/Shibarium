@@ -121,12 +121,7 @@ export default function ProfileUpdate() {
         website: yup
             .string()
             .typeError("Website is required.")
-            .url("Enter a vaild url.")
             .required("Website is required.")
-            .matches(
-                /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/, //NOSONAR
-                "Enter a vaild url."
-            ),
     });
 
     const { values, errors, setFieldValue, handleBlur, handleChange, handleSubmit, touched, setValues } =
