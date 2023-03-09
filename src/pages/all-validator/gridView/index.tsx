@@ -119,7 +119,7 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
                               href={`/all-validator/${validator.signer}`}
                               passHref
                             >
-                              <p className="tb-value">{validator?.name}</p>
+                              <p className="tb-value">{validator?.name ? validator?.name : "-"}</p>
                             </Link>
                           </span>
                           <p>

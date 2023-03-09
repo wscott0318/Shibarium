@@ -157,7 +157,7 @@ function NetworkDetails({ valCount }: any) {
                       </div>
                       <div className="botom-sec">
                         <div className="botom-headsec">
-                          <span className="ff-mos">Bor Block Height</span>
+                          <span className="ff-mos">Shibarium Block Height</span>
                         </div>
                       </div>
                     </div>

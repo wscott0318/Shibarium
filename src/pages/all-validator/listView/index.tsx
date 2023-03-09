@@ -112,7 +112,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                           />
                         </span>
                         <Link href={`/all-validator/${x.signer}`} passHref>
-                          <p className="tb-value">{x.name}</p>
+                          <p className="tb-value">{x.name ? x.name : "-"}</p>
                         </Link>
                       </div>
                     </td>

@@ -16,6 +16,7 @@ import {
   addTransaction,
   finalizeTransaction,
 } from "../../state/transactions/actions";
+import { toast } from 'react-toastify';
 import { useAppDispatch } from "../../state/hooks";
 import { dynamicChaining } from "web3/DynamicChaining";
 import * as Sentry from "@sentry/nextjs";
@@ -133,14 +134,22 @@ const MigratePopup: React.FC<any> = ({
               })
             );
             setProcessing("Completed");
-            router.back();
             resetForm();
+            toast.success("Stakes migrated.", {
+              position: toast.POSITION.TOP_RIGHT, autoClose: 5000
+            });
+            setTimeout(() => {
+              router.back();
+            },1000);
           })
           .on("error", (res: any) => {
             setmigratepop(false);
             setProcessing("Migrate");
             setFieldValue("balance", "");
             resetForm();
+            toast.error("Something went wrong.", {
+              position: toast.POSITION.BOTTOM_CENTER, autoClose: 5000
+            });
           });
       }
     }
