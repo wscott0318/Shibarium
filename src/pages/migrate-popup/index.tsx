@@ -435,7 +435,7 @@ const MigratePopup: React.FC<any> = ({
                             />
                           </div>
                           <button
-                            disabled={balance > 0 ? false : true}
+                            disabled={balance >= 1 ? false : true}
                             onClick={useMax}
                             className="rt-chain"
                           >
