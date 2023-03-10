@@ -41,6 +41,8 @@ export default function ProfileUpdate() {
                     publickey: res.data.message.val.publickey,
 
                 })
+               
+
                 setLoader(false)
             })
         }
@@ -138,7 +140,7 @@ export default function ProfileUpdate() {
             position: toast.POSITION.BOTTOM_CENTER, autoClose: 5000
         });
     }
-
+    console.log("values " , values)
     const imgSizeCheck = (e: any) => {
         try {
 

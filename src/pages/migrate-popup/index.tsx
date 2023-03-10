@@ -173,7 +173,7 @@ const MigratePopup: React.FC<any> = ({
       .max(
         balance,
         "Insufficient Balance"
-      )
+      ).min(1,"Invalid Amount.")
       .required("Balance is required."),
   });
   const initialValues = {
