@@ -254,7 +254,7 @@ export default function Faucet() {
                   disabled={modalState.hash ? false : true}
                   onClick={handleExplorer}
                 >
-                  View on Shibascan</button>
+                  View on Explorer</button>
               </div>
             </div>
           </div>
