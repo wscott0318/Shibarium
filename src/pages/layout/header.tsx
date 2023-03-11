@@ -327,7 +327,7 @@ export default function Header() {
                                 />
                               </div>
                               <div className="center-txt">
-                                <span>View on Shibariumscan</span>
+                                <span className="text-wrap drop_span">View on Shibariumscan</span>
                               </div>
                               <div className="rt-image">
                                 <img

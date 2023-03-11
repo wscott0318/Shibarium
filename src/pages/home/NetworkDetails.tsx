@@ -18,8 +18,6 @@ function NetworkDetails({ valCount }: any) {
 
   const [boneUSDValue, setBoneUSDValue] = useState<number>(0);
   const [latestBlock, setLatestBlock] = useState<number>(0);
-
-
   const [totalStake, setTotalStake] = useState(0);
   const [networkDetails, setNetworkDetails] = useState<any>({})
   const { account, chainId = 1 } = useWeb3React()
@@ -31,7 +29,7 @@ function NetworkDetails({ valCount }: any) {
     try {
       getNetworkOverviewData().then((res: any) => {
         setNetworkDetails(res.data && res.data.data && res.data.data.networkDetail ? res.data.data.networkDetail : {})
-        console.log("res => " ,res)
+        console.log("network details  => " ,res)
       })
       getBoneUSDValue(BONE_ID).then((res: any) => {
         setBoneUSDValue(res.data.data.price);

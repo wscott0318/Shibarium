@@ -1159,7 +1159,7 @@ const ValidatorAccount = ({
                         <div className="row-st">
                           <p className="mt-2 text-white">
                             {" "}
-                            balance : <b>{addDecimalValue(availBalance)} </b>
+                            Balance : <b>{addDecimalValue(availBalance)} </b>
                           </p>
                           <button
                             disabled={availBalance <= 0}

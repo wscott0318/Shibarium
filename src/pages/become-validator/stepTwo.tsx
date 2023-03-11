@@ -251,7 +251,7 @@ function StepTwo({
             <div className="form-group">
               <label htmlFor="" className="form-label ff-mos">
                 Signer’s Public key <span className="get-info">i</span>
-              <div className="tool-desc">Signer’s Public Key</div>
+              <div className="tool-desc">Signer’s Public Key should be without the "0x04" prefix.</div>
               </label>
               <input
                 type="text"

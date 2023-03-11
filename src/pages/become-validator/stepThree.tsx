@@ -11,7 +11,7 @@ import { useAppDispatch } from "../../state/hooks";
 import fromExponential from 'from-exponential';
 import { addDecimalValue, currentGasPrice, getAllowanceAmount, sentryErrors, stakeForErrMsg, USER_REJECTED_TX, web3Decimals } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
-import { MAXAMOUNT,checkImageType } from "../../web3/commonFunctions";
+import { MAXAMOUNT, checkImageType } from "../../web3/commonFunctions";
 import { useEthBalance } from '../../hooks/useEthBalance';
 import { useTokenBalance } from '../../hooks/useTokenBalance';
 import { ToastContainer, toast } from 'react-toastify';
@@ -28,24 +28,24 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const lib: any = library
   const web3: any = new Web3(lib?.provider)
   const dispatch = useAppDispatch();
-  const  minStakeAmount:any = process.env.NEXT_PUBLIC_MIN_STAKE_AMOUNT;
+  const minStakeAmount: any = process.env.NEXT_PUBLIC_MIN_STAKE_AMOUNT;
   const [transactionState, setTransactionState] = useState({
     state: false,
     title: 'Pending',
   })
-  console.log("min stake" , minStakeAmount);
+  console.log("min stake", minStakeAmount);
   const [hashLink, setHashLink] = useState('')
   const [minHeimdallFee, setMinHeimdallFee] = useState<number>(0);
-  const ethBalance =  useEthBalance();
+  const ethBalance = useEthBalance();
   const tokenBalance = useTokenBalance(dynamicChaining[chainId].BONE);
   const availBalance = chainId === ChainId.SHIBARIUM ? ethBalance : tokenBalance;
   const isLoading = availBalance == -1;
   let schema = yup.object().shape({
     amount: yup.number()
-    .typeError("Only digits are allowed.")
-    .max(availBalance)
-    .min(minStakeAmount, `Minimum ${minStakeAmount} BONES required including Heimdal fee.`)
-    .required("Amount is required."),
+      .typeError("Only digits are allowed.")
+      .max(availBalance)
+      .min(minStakeAmount, `Minimum ${minStakeAmount} BONES required including Heimdal fee.`)
+      .required("Amount is required."),
   })
   const [loader, setLoader] = useState("step1");
 
@@ -69,7 +69,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       if (account) {
         const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
         const MinimumHeimDallFee = await instance.methods.minHeimdallFee().call({ from: user }); // read
-     
+
         const feesHeimdall = +MinimumHeimDallFee / 10 ** web3Decimals
         setMinHeimdallFee(feesHeimdall)
       }
@@ -89,24 +89,24 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       const heimdallFee = web3.utils.toBN(fromExponential(minHeimdallFee * Math.pow(10, web3Decimals)));
       console.log("step 1")
       const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-      console.log("step 2" ,user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey)
+      console.log("step 2", user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey)
       await instance.methods.stakeFor(user, amount, heimdallFee, acceptDelegation, becomeValidateData.publickey).estimateGas({ from: user }).
-      then((gas:any) => {
-        console.log("step 3")
-        console.log("gas" ,gas);
-        if(gas > 0){
-          callAPI(values)
-        } else {
-          setTransactionState({ state: false, title: '' })
-          toast.error("Unable to calculate gas fees", {
-            position: toast.POSITION.BOTTOM_CENTER, autoClose: 5000
-          });
-        }
-      })
+        then((gas: any) => {
+          console.log("step 3")
+          console.log("gas", gas);
+          if (gas > 0) {
+            callAPI(values)
+          } else {
+            setTransactionState({ state: false, title: '' })
+            toast.error("Unable to calculate gas fees", {
+              position: toast.POSITION.BOTTOM_CENTER, autoClose: 5000
+            });
+          }
+        })
     } catch (err: any) {
       sentryErrors("checkPubKey", err);
       let message = stakeForErrMsg(err.toString().split("{")[0])
-      console.log("message ==> " , message)
+      console.log("message ==> ", message)
       setTransactionState({ state: false, title: '' })
       toast.error(message, {
         position: toast.POSITION.BOTTOM_CENTER, autoClose: 5000
@@ -168,7 +168,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       }
     } catch (err: any) {
       setTransactionState({ state: false, title: '' })
-      sentryErrors("approveAmount" , err);
+      sentryErrors("approveAmount", err);
     }
 
   }
@@ -241,11 +241,11 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               }
             })
           )
-          if(res.code === 4001) {
+          if (res.code === 4001) {
             setTransactionState({ state: false, title: '' })
             toast.error("User denied this transaction", {
               position: toast.POSITION.BOTTOM_CENTER, autoClose: 5000
-            });         
+            });
           }
         })
 
@@ -253,7 +253,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureException("stake for method for validators submit transaction", err);
       }
-      sentryErrors("submitTransaction" , err);
+      sentryErrors("submitTransaction", err);
       setTransactionState({ state: false, title: '' })
     }
   }
@@ -282,7 +282,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
 
   const handleTransaction = async (val: any) => {
     try {
-      setTransactionState({state: true, title: 'Checking for approval'})
+      setTransactionState({ state: true, title: 'Checking for approval' })
       let user: any = account
       let allowance: any = await getAllowanceAmount(library, dynamicChaining[chainId].BONE, user, dynamicChaining[chainId].STAKE_MANAGER_PROXY)
       if (allowance < +val.amount) {
@@ -296,12 +296,12 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
       }
     } catch (err: any) {
       Sentry.captureMessage("handleTransaction", err);
-      sentryErrors("handleTransaction" , err);
+      sentryErrors("handleTransaction", err);
     }
   }
 
   const callAPI = async (val: any) => {
-    try{
+    try {
       setTransactionState({ state: true, title: 'Pending' })
       let data = new FormData();
       data.append("validatorName", becomeValidateData.name);
@@ -318,13 +318,13 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         notifyError()
       })
     }
-    catch(err){
-      sentryErrors("callAPI" , err);
+    catch (err) {
+      sentryErrors("callAPI", err);
     }
   };
 
   const changeStatus = async () => {
-    try{
+    try {
       let data = new FormData();
       data.append("validatorName", becomeValidateData.name);
       data.append("public_key", becomeValidateData.publickey);
@@ -341,84 +341,84 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         notifyError()
       })
     }
-    catch(err){
-      sentryErrors("changeStatus" , err);
+    catch (err) {
+      sentryErrors("changeStatus", err);
     }
   };
 
-const loaderStep1 = ()=>{
-  if(loader == "step1"){
-    return(
-      <CircularProgress color="inherit" />
-    )
-  }else{
-    return( <div>
-      <img
-        className={`img-fluid tick-img ${StepComplete.one ? "" : "disabled"
-          }`}
-        src="../../assets/images/green-tick.png"
-        alt=""
-        width="20"
-      />
-    </div>)
+  const loaderStep1 = () => {
+    if (loader == "step1") {
+      return (
+        <CircularProgress color="inherit" />
+      )
+    } else {
+      return (<div>
+        <img
+          className={`img-fluid tick-img ${StepComplete.one ? "" : "disabled"
+            }`}
+          src="../../assets/images/green-tick.png"
+          alt=""
+          width="20"
+        />
+      </div>)
+    }
   }
-}
 
-const loaderStep2 = ()=>{
-  if(loader == "step2"){
-    return(
-      <CircularProgress color="inherit" />
-    )
-  }else{
-    return(   <div>
-      <img
-        className={`img-fluid tick-img ${StepComplete.two ? "" : "disabled"
-      }`}
-      src="../../assets/images/green-tick.png"
-      alt=""
-      width="20"
-      />
-    </div>)
+  const loaderStep2 = () => {
+    if (loader == "step2") {
+      return (
+        <CircularProgress color="inherit" />
+      )
+    } else {
+      return (<div>
+        <img
+          className={`img-fluid tick-img ${StepComplete.two ? "" : "disabled"
+            }`}
+          src="../../assets/images/green-tick.png"
+          alt=""
+          width="20"
+        />
+      </div>)
+    }
   }
-}
 
-const loaderStep3 = ()=>{
-  if(loader == "step3"){
-    return(
-      <CircularProgress color="inherit" />
-    )
-  }else{
-    return(   <div>
-      <img
-        className={`img-fluid tick-img ${StepComplete.three ? "" : "disabled"
-          }`}
-        src="../../assets/images/green-tick.png"
-        alt=""
-        width="20"
-      />
-    </div>)
+  const loaderStep3 = () => {
+    if (loader == "step3") {
+      return (
+        <CircularProgress color="inherit" />
+      )
+    } else {
+      return (<div>
+        <img
+          className={`img-fluid tick-img ${StepComplete.three ? "" : "disabled"
+            }`}
+          src="../../assets/images/green-tick.png"
+          alt=""
+          width="20"
+        />
+      </div>)
+    }
   }
-}
 
-const loaderStep4 = ()=>{
-  if(loader == "step4"){
-    return(
-      <CircularProgress color="inherit" />
-    )
-  }else{
-    return( <div>
-      <img
-        className={`img-fluid tick-img ${StepComplete.four ? "" : "disabled"
-          }`}
-        src="../../assets/images/green-tick.png"
-        alt=""
-        width="20"
-      />
-    </div>)
+  const loaderStep4 = () => {
+    if (loader == "step4") {
+      return (
+        <CircularProgress color="inherit" />
+      )
+    } else {
+      return (<div>
+        <img
+          className={`img-fluid tick-img ${StepComplete.four ? "" : "disabled"
+            }`}
+          src="../../assets/images/green-tick.png"
+          alt=""
+          width="20"
+        />
+      </div>)
+    }
   }
-}
 
-const handleTransactionState = useCallback(() => setTransactionState({ state: false, title: "Pending" }),[])
+  const handleTransactionState = useCallback(() => setTransactionState({ state: false, title: "Pending" }), [])
 
   return (
     <>
@@ -503,7 +503,7 @@ const handleTransactionState = useCallback(() => setTransactionState({ state: fa
               <label htmlFor="" className="form-label ff-mos">
                 Signer’s Public Key <span className="get-info">i</span>
                 <div className="tool-desc">
-                  Signer's Public Key
+                  Signer’s Public Key should be without the "0x04" prefix.
                 </div>
               </label>
 
@@ -540,21 +540,21 @@ const handleTransactionState = useCallback(() => setTransactionState({ state: fa
                   className="absolute MaxAmountButton orange-txt fw-bold amt-val max-bdge"
                   onClick={() => {
                     setFieldValue(
-                      "amount",(addDecimalValue(+(availBalance - 0.000001).toString()))
+                      "amount", (addDecimalValue(+(availBalance - 0.000001).toString()))
                     );
                   }}
                 >
                   MAX
                 </button>
               </div>
-                <div className="blk-dta cst-blk">
-                  {touched.amount && errors.amount ? (
-                    <p className="primary-text">{errors.amount}</p>
-                  ) : null}
-                  {!isLoading && (availBalance <= 0 ? (
-                    <p className="primary-text">Insufficient Balance</p>
-                  ) : null)}
-                </div>
+              <div className="blk-dta cst-blk">
+                {touched.amount && errors.amount ? (
+                  <p className="primary-text">{errors.amount}</p>
+                ) : null}
+                {!isLoading && (availBalance <= 0 ? (
+                  <p className="primary-text">Insufficient Balance</p>
+                ) : null)}
+              </div>
 
 
               <div className="row-st cst-row">
@@ -565,7 +565,7 @@ const handleTransactionState = useCallback(() => setTransactionState({ state: fa
                 </div>
                 <div className="blk-dta text-nowrap">
                   <p className="amt-val">
-                    Bal: {addDecimalValue(+availBalance) >= 0? addDecimalValue(+availBalance) : "0.00"}
+                    Bal: {addDecimalValue(+availBalance) >= 0 ? addDecimalValue(+availBalance) : "0.00"}
                   </p>
                 </div>
               </div>
@@ -612,14 +612,14 @@ const handleTransactionState = useCallback(() => setTransactionState({ state: fa
                       </div>
                       <div
                         className={`step_wrapper ${StepComplete.two ? "completed" : ""
-                      }`}
+                          }`}
                       >
                         <div className={`step2`}>
                           {
                             loaderStep2()
                           }
                         </div>
-                          <span>Saving info in database.</span>
+                        <span>Saving info in database.</span>
                       </div>
                       <div
                         className={`step_wrapper ${StepComplete.three ? "completed" : ""

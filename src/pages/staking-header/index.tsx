@@ -13,6 +13,8 @@ import { dynamicChaining } from "web3/DynamicChaining";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json"
 import * as Sentry from "@sentry/nextjs";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
+import { PUPPYNET517 } from "app/hooks/L1Block";
+import NumberFormat from "react-number-format";
 
 const StakingHeader = (type: any) => {
   const router = useRouter();
@@ -22,9 +24,9 @@ const StakingHeader = (type: any) => {
   const [valInfoModal, setValInfoModal] = useState(false);
   const [dynasty, setDynasty] = useState('')
   const { account, chainId = 1, library } = useActiveWeb3React();
-
+  const web3Test = PUPPYNET517();
   const [valInfo, setValInfo] = useValInfo(); //NOSONAR
-
+  const [latestBlock , setLatestBlock] = useState<number>(0);
   const [stakingHeader, showStakingHeader] = useState(false);
   const getValInfoApi = async (id: any) => {
     try {
@@ -49,6 +51,7 @@ const StakingHeader = (type: any) => {
 
   useEffect(() => {
     if (account) {
+      console.log("step 1")
       getDynsetyValue()
     }
   }, [router, account, userType]);
@@ -56,14 +59,22 @@ const StakingHeader = (type: any) => {
 
   const getDynsetyValue = async () => {
     try {
+      console.log("step 2 ");
       const lib: any = library;
+      console.log("step 3 ");
       const web3: any = new Web3(lib?.provider);
+      console.log("step 4 ");
       let instance = new web3.eth.Contract(
         stakeManagerProxyABI,
         dynamicChaining[chainId].STAKE_MANAGER_PROXY
-      );
-      const dynasty = await instance.methods.dynasty().call({ from: account });
-      setDynasty(dynasty)
+        );
+        console.log("step 5 ",instance);
+      const dynasty = await instance.methods.checkPointBlockInterval().call({from:account});
+      web3Test?.eth?.getBlockNumber().then((lastBlock: number) => {
+        setLatestBlock(lastBlock)
+      })
+      console.log("last checkpoint " , dynasty)
+      setDynasty(dynasty);
     } catch (err: any) {
 
     }
@@ -203,7 +214,8 @@ const StakingHeader = (type: any) => {
                   src="../../assets/images/waiting-small.png"
                   alt="Wait"
                 />
-                <p className="light-text primary-text"> Wait for {dynasty} checkpoints to see your account info...</p>
+                <p className="light-text primary-text"> Wait for <NumberFormat style={{fontSize:"24px"}} displayType='text' thousandSeparator value={+dynasty + +latestBlock} /> blocks to see your account info...
+                <br/><span style={{color:"red"}}>**If your NODE is fully synced**</span></p>
               </div>
             </div>
           </div>
