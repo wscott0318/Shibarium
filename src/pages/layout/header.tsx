@@ -297,7 +297,7 @@ export default function Header() {
                             </div>
                           </NavDropdown.Item>
                           <NavDropdown.Item
-                            href={`https://etherscan.io/address/${account}`}
+                            href={`https://goreli.etherscan.io/address/${account}`}
                             target="blank"
                           >
                             <div className="custum-row">
@@ -308,7 +308,7 @@ export default function Header() {
                                 />
                               </div>
                               <div className="center-txt">
-                                <span>View on Etherscan</span>
+                                <span>View on Goreli Etherscan</span>
                               </div>
                               <div className="rt-image">
                                 <img
@@ -318,7 +318,7 @@ export default function Header() {
                               </div>
                             </div>
                           </NavDropdown.Item>
-                          <NavDropdown.Item href="/">
+                          <NavDropdown.Item href={`https://puppyscan.shib.io/address/${account}`}>
                             <div className="custum-row">
                               <div className="lft-img">
                                 <img
