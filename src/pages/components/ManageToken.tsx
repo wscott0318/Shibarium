@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CommonModal from "../components/CommonModel";
-import { getWalletTokenList, getBoneUSDValue } from "../../services/apis/validator/index";
+import { getWalletTokenList} from "../../services/apis/validator/index";
 import { getTokenBalance } from "../../hooks/useTokenBalance";
 import { useActiveWeb3React } from "../../services/web3";
 import { BONE_ID } from "../../config/constant";
@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Sentry from "@sentry/nextjs";
 import Link from "next/link";
-import { getDefaultChain, useStorage } from "../../web3/commonFunctions";
+import { getBoneUSDValue, getDefaultChain, useStorage } from "../../web3/commonFunctions";
 import TokenList from "./TokenList";
 import {  uniqBy } from "lodash";
 import { useToken } from "app/hooks/Tokens";
@@ -97,8 +97,8 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
   }, []);
 
   useEffect(() => {
-    getBoneUSDValue(BONE_ID).then((res) => {
-      setBoneUSDValue(res.data.data.price);
+    getBoneUSDValue().then((res: any) => {
+      setBoneUSDValue(res);
     });
   }, [account]);
   const [tokenState, setTokenState] = useState({

@@ -91,13 +91,12 @@ export const comissionVal = 10;
 export const ErrorMessage = "execution reverted: not pub";
 
 export const stakeForErrMsg = (msg) => {
-  console.log("err => " , msg);
+  console.log("err => ", msg);
   if (msg === "Error: execution reverted: not pub\n") {
     return "Public key is invalid! ";
   } else if (msg === "Error: execution reverted: Invalid signer\n") {
     return "Signer Address is invalid!";
-  }
-  else {
+  } else {
     return "Something went wrong. Please try again later! ";
   }
 };
@@ -124,7 +123,6 @@ export const useStorage = (defaultChain = "") => {
   const [coinList, setCoinList] = useState([]);
   const [chain, setChain] = useState(defaultChain);
 
-
   useEffect(() => {
     if (chain) {
       const coinListRaw = localStorage.getItem("coinList");
@@ -138,12 +136,10 @@ export const useStorage = (defaultChain = "") => {
       }
 
       if (!parsed) {
-
         setCoinList(URL_ARRAY[chain]);
         localStorage.setItem("coinList", JSON.stringify(URL_ARRAY));
       } else {
         setCoinList(parsed[chain]);
-
       }
     } else {
       setCoinList([]);
@@ -156,7 +152,6 @@ export const useStorage = (defaultChain = "") => {
         let tempList = URL_ARRAY;
         tempList[chain] = coinList;
         localStorage.setItem("coinList", JSON.stringify(tempList));
-
       }
     } catch (error) {
       localStorage.removeItem("coinList");
@@ -187,7 +182,6 @@ export const getDefaultChain = async () => {
 };
 
 export const clearCacheData = () => {
-
   self.addEventListener("activate", (event) => {
     const cachesToKeep = ["v2"];
     console.log("in clearing cache");
@@ -214,18 +208,36 @@ export const parseError = (err) => {
   let error = `${err}`;
   let splitError = error.split("{");
   splitError.shift();
-  console.log("string error " , splitError)
+  console.log("string error ", splitError);
   let stringErr = JSON.parse("{" + splitError.join("{"));
   return stringErr.originalError;
 };
 
-export const ethGasStation = async() => {
-  await axios.get("https://ethgasstation.info/api/ethgasAPI.json?").then((res) => {
-    return res;
-  })
-}
+export const ethGasStation = async () => {
+  await axios
+    .get("https://ethgasstation.info/api/ethgasAPI.json?")
+    .then((res) => {
+      return res;
+    });
+};
 
-export const sentryErrors = (func , err) => {
-  Sentry.captureMessage("New Error Captured in " , func , err);
-  Sentry.captureException("Exception captured in " , func , err);
-}
+export const sentryErrors = (func, err) => {
+  Sentry.captureMessage("New Error Captured in ", func, err);
+  Sentry.captureException("Exception captured in ", func, err);
+};
+
+export const getBoneUSDValue = async () => {
+  let usd;
+  await axios
+    .get(
+      `https://api.coingecko.com/api/v3/simple/price?ids=bone-shibaswap&vs_currencies=usd`
+    )
+    .then((res) => {
+      usd = res.data["bone-shibaswap"].usd;
+      console.log("usd => " , usd)
+    })
+    .catch((err) => {
+      usd = 0;
+    });
+  return usd;
+};

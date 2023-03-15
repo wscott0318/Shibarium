@@ -18,13 +18,13 @@ import fromExponential from "from-exponential";
 import { useAppDispatch } from "../../state/hooks"
 import { addTransaction, finalizeTransaction } from "../../state/transactions/actions"
 import QrModal from "../components/QrModal";
-import { getBoneUSDValue, getWalletTokenList } from "../../services/apis/validator/index";
+import { getWalletTokenList } from "../../services/apis/validator/index";
 import NumberFormat from 'react-number-format';
 import { dynamicChaining } from "../../web3/DynamicChaining";
 import Pagination from 'app/components/Pagination';
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import { getExplorerLink } from "app/functions";
-import { currentGasPrice } from "web3/commonFunctions";
+import { currentGasPrice, getBoneUSDValue } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 const sendInitialState = {
   step0: true,
@@ -125,9 +125,9 @@ export default function Wallet() {
 
   useEffect(() => {
     if (account) {
-      getBoneUSDValue(BONE_ID).then(res => {
-        setBoneUSDValue(res.data.data.price);
-      })
+      getBoneUSDValue().then((res: any) => {
+        setBoneUSDValue(res);
+      });
       getTokensList()
     } else {
       router.push('/')

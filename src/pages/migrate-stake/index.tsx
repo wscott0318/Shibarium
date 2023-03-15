@@ -3,7 +3,6 @@ import React, {  useEffect, useRef } from "react";
 import { useActiveWeb3React } from "../../services/web3";
 import Header from "../layout/header";
 import { useRouter } from "next/router";
-import { getBoneUSDValue } from "../../services/apis/validator/index";
 import { BONE_ID } from "../../config/constant";
 import ListData from "./ListData"
 
@@ -15,8 +14,6 @@ export default function MyAcount() {
     
   useEffect(() => {
     if (account) {
-      getBoneUSDValue(BONE_ID).then((res) => {
-      });
     } else {
       router.push("/");
     }

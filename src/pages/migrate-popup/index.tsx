@@ -1,13 +1,12 @@
 import React, {  useEffect, useState } from "react";
 import { BONE_ID } from "app/config/constant";
-import { getBoneUSDValue } from "app/services/apis/validator";
 import NumberFormat from "react-number-format";
 import { useActiveWeb3React, useLocalWeb3 } from "app/services/web3";
 import { getExplorerLink } from "app/functions/explorer";
 import fromExponential from "from-exponential";
 import {
   toFixedPrecent,
-  USER_REJECTED_TX,currentGasPrice,tokenDecimal, web3Decimals
+  USER_REJECTED_TX,currentGasPrice,tokenDecimal, web3Decimals, getBoneUSDValue
 } from "../../web3/commonFunctions";
 import CommonModal from "pages/components/CommonModel";
 import { useFormik } from "formik";
@@ -50,8 +49,8 @@ const MigratePopup: React.FC<any> = ({
   const router = useRouter();
   const [processing, setProcessing] = useState("Migrate");
   useEffect(() => {
-    getBoneUSDValue(BONE_ID).then((res) => {
-      setBoneUSDValue(res.data.data.price);
+    getBoneUSDValue().then((res: any) => {
+      setBoneUSDValue(res);
     });
   }, [account]);
 

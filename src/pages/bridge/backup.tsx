@@ -7,14 +7,11 @@ import { useRouter } from "next/router";
 import InnerHeader from "../inner-header";
 import Link from "next/link";
 import Sidebar from "../layout/sidebar";
-import {
-  getBoneUSDValue,
-} from "../../services/apis/validator/index";
 import { useActiveWeb3React } from "../../services/web3";
 import { BONE_ID } from "../../config/constant";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { tokenDecimal } from "web3/commonFunctions";
+import { getBoneUSDValue, tokenDecimal } from "web3/commonFunctions";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Sentry from "@sentry/nextjs";
@@ -52,8 +49,8 @@ export default function Withdraw() {
   };
   const router = useRouter();
   useEffect(() => {
-    getBoneUSDValue(BONE_ID).then((res) => {
-      setBoneUSDValue(res.data.data.price);
+    getBoneUSDValue().then((res: any) => {
+      setBoneUSDValue(res);
     });
   }, [account]);
   const depositValidations: any = Yup.object({
@@ -93,7 +90,7 @@ export default function Withdraw() {
   };
 
   useEffect(() => {
-    if(Object.keys(selectedToken).length){
+    if (Object.keys(selectedToken).length) {
       setLoader(true);
       depositChainTokenBalance();
     }
@@ -136,7 +133,7 @@ export default function Withdraw() {
     event.currentTarget.className = "error me-3";
   };
 
-  const  handleClickOutside = useCallback(()=> setMenuState(false),[]) 
+  const handleClickOutside = useCallback(() => setMenuState(false), [])
 
   return (
     <>
@@ -235,9 +232,8 @@ export default function Withdraw() {
                     )}
                     {
                       <div
-                        className={`txt-row ${
-                          dWState ? "visVisible" : "visInvisible"
-                        }`}
+                        className={`txt-row ${dWState ? "visVisible" : "visInvisible"
+                          }`}
                       >
                         <div className="row-hd">
                           <span className="icon-image">
@@ -371,7 +367,7 @@ export default function Withdraw() {
                                           type="text"
                                           value={NETWORK_LABEL[chainId]}
                                           disabled={true}
-                                          // placeholder="Ethereum chain"
+                                        // placeholder="Ethereum chain"
                                         />
                                       </div>
                                       <div className="rt-chain d-flex align-items-center">
@@ -407,9 +403,9 @@ export default function Withdraw() {
                                               width={24}
                                               src={
                                                 selectedToken?.logo ||
-                                                selectedToken?.logoURI
+                                                  selectedToken?.logoURI
                                                   ? selectedToken.logo ||
-                                                    selectedToken?.logoURI
+                                                  selectedToken?.logoURI
                                                   : "../../assets/images/eth.png"
                                               }
                                               onError={imageOnErrorHandler}
@@ -420,9 +416,9 @@ export default function Withdraw() {
                                         <div className="lite-800">
                                           <span className="lite-800 fw-bold">
                                             {selectedToken?.parentName ||
-                                            selectedToken?.symbol
+                                              selectedToken?.symbol
                                               ? selectedToken?.parentName ||
-                                                selectedToken?.symbol
+                                              selectedToken?.symbol
                                               : "Select Token"}
                                           </span>
                                         </div>
@@ -436,16 +432,14 @@ export default function Withdraw() {
                                     <div className="col-lg-6 col-xxl-7 col-sm-12 field-col">
                                       <div className="form-field position-relative two-fld">
                                         <div
-                                          className={`mid-chain w-100 ${
-                                            selectedToken?.type == undefined &&
+                                          className={`mid-chain w-100 ${selectedToken?.type == undefined &&
                                             "disabled"
-                                          }`}
+                                            }`}
                                         >
                                           <input
-                                            className={`w-100 ${
-                                              selectedToken?.type ==
-                                                undefined && "disabled"
-                                            }`}
+                                            className={`w-100 ${selectedToken?.type ==
+                                              undefined && "disabled"
+                                              }`}
                                             type="text"
                                             placeholder="0.00"
                                             name="amount"
@@ -490,9 +484,9 @@ export default function Withdraw() {
                                             className="img-fluid"
                                             src={
                                               NETWORK_ICON[
-                                                chainId == ChainId.GÖRLI
-                                                  ? ChainId.PUPPYNET517
-                                                  : ChainId.GÖRLI
+                                              chainId == ChainId.GÖRLI
+                                                ? ChainId.PUPPYNET517
+                                                : ChainId.GÖRLI
                                               ]
                                             }
                                             onError={imageOnErrorHandler}
@@ -508,9 +502,9 @@ export default function Withdraw() {
                                           placeholder="Shibarium chain"
                                           value={
                                             NETWORK_LABEL[
-                                              chainId == ChainId.GÖRLI
-                                                ? ChainId.PUPPYNET517
-                                                : ChainId.GÖRLI
+                                            chainId == ChainId.GÖRLI
+                                              ? ChainId.PUPPYNET517
+                                              : ChainId.GÖRLI
                                             ]
                                           }
                                         />
@@ -594,9 +588,9 @@ export default function Withdraw() {
                                             className="img-fluid"
                                             src={
                                               NETWORK_ICON[
-                                                chainId == ChainId.GÖRLI
-                                                  ? ChainId.PUPPYNET517
-                                                  : ChainId.GÖRLI
+                                              chainId == ChainId.GÖRLI
+                                                ? ChainId.PUPPYNET517
+                                                : ChainId.GÖRLI
                                               ]
                                             }
                                             onError={imageOnErrorHandler}
@@ -611,9 +605,9 @@ export default function Withdraw() {
                                           // placeholder="Shibarium Mainnet"
                                           value={
                                             NETWORK_LABEL[
-                                              chainId == ChainId.GÖRLI
-                                                ? ChainId.PUPPYNET517
-                                                : ChainId.GÖRLI
+                                            chainId == ChainId.GÖRLI
+                                              ? ChainId.PUPPYNET517
+                                              : ChainId.GÖRLI
                                             ]
                                           }
                                           disabled={true}
@@ -651,9 +645,9 @@ export default function Withdraw() {
                                               className="img-fluid"
                                               src={
                                                 selectedToken?.logo ||
-                                                selectedToken?.logoURI
+                                                  selectedToken?.logoURI
                                                   ? selectedToken?.logo ||
-                                                    selectedToken?.logoURI
+                                                  selectedToken?.logoURI
                                                   : "../../assets/images/shiba-round-icon.png"
                                               }
                                               onError={imageOnErrorHandler}
@@ -664,9 +658,9 @@ export default function Withdraw() {
                                         <div className="lite-800">
                                           <span className="lite-800 fw-bold">
                                             {selectedToken?.parentName ||
-                                            selectedToken?.symbol
+                                              selectedToken?.symbol
                                               ? selectedToken?.parentName ||
-                                                selectedToken?.symbol
+                                              selectedToken?.symbol
                                               : "Select Token"}
                                           </span>
                                         </div>
@@ -706,7 +700,7 @@ export default function Withdraw() {
                                         </div>
                                       </div>
                                       {touched.withdrawAmount &&
-                                      errors.withdrawAmount ? (
+                                        errors.withdrawAmount ? (
                                         <p className="pt-0 pl-2 primary-text">
                                           {errors.withdrawAmount}
                                         </p>

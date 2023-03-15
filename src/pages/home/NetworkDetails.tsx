@@ -1,13 +1,12 @@
 import { BONE_ID } from 'app/config/constant'
 import { getNetworkOverviewData } from 'app/services/apis/network-details/networkOverview'
-import { getBoneUSDValue } from 'app/services/apis/validator'
 import { L1Block, ChainId, PUPPYNET517 } from 'app/hooks/L1Block';
 import React, { useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format';
 // @ts-ignore
 import { ShimmerTitle } from "react-shimmer-effects";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json"
-import { addDecimalValue } from 'web3/commonFunctions';
+import { addDecimalValue, getBoneUSDValue } from 'web3/commonFunctions';
 import { useWeb3React } from '@web3-react/core'
 import { dynamicChaining } from 'web3/DynamicChaining';
 import * as Sentry from "@sentry/nextjs";
@@ -29,13 +28,13 @@ function NetworkDetails({ valCount }: any) {
     try {
       getNetworkOverviewData().then((res: any) => {
         setNetworkDetails(res.data && res.data.data && res.data.data.networkDetail ? res.data.data.networkDetail : {})
-        console.log("network details  => " ,res)
+        console.log("network details  => ", res)
       })
-      getBoneUSDValue(BONE_ID).then((res: any) => {
-        setBoneUSDValue(res.data.data.price);
-      })
-      console.log(boneUSDValue,'boneUSDValue');
-      
+      getBoneUSDValue().then((res: any) => {
+        setBoneUSDValue(res);
+      });
+      console.log(boneUSDValue, 'boneUSDValue');
+
       web3test?.eth?.getBlockNumber().then((lastBlock: number) => {
         setLatestBlock(lastBlock)
       })

@@ -20,9 +20,9 @@ export function withdrawReward(reqBody:any){
 export function unbound(body:any){
     return http.post(`unbond`,body)
 }
-export function getBoneUSDValue(coinId:string){
-    return http.get(`coins/rate/${coinId}`)
-}
+// export function getBoneUSDValue(coinId:string){
+//     return http.get(`coins/rate/${coinId}`)
+// }
 
 export function getWalletTokenList(){
     return http.get(`tokens/getList`)

@@ -5,12 +5,12 @@ import { useRouter } from "next/router";
 import { useUserType, useValId } from "../../state/user/hooks";
 import UserAccount from "./UserAccount";
 import ValidatorAccount from "./ValidatorAccount";
-import { getBoneUSDValue } from "../../services/apis/validator/index";
+import { getBoneUSDValue } from "../../web3/commonFunctions";
 import { BONE_ID } from '../../config/constant';
 import {useTokenBalance} from '../../hooks/useTokenBalance';
 import { dynamicChaining } from "web3/DynamicChaining";
 import {web3Decimals} from "../../web3/commonFunctions"
-
+import axios from 'axios';
 
 export default function MyAcount() {
   const { account, chainId = 1 } = useActiveWeb3React();
@@ -27,10 +27,9 @@ export default function MyAcount() {
       if(userType === 'Validator' && valId <= 0){
         router.back()   
       } else {
-        getBoneUSDValue(BONE_ID).then(res=>{
-          setBoneUSDValue(res.data.data.price);
-          console.log("userAccount " , res)
-        })
+        getBoneUSDValue().then((res) => {
+          setBoneUSDValue(res);
+        });
       }
     } else {
       router.back()

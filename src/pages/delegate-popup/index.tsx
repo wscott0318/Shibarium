@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useEthBalance } from "../../hooks/useEthBalance";
 import { BONE_ID } from 'app/config/constant';
-import { getBoneUSDValue } from 'app/services/apis/validator';
 import { useActiveWeb3React, useLocalWeb3 } from 'app/services/web3';
 import { getExplorerLink } from 'app/functions/explorer';
 import { ChainId } from 'shibarium-get-chains';
 import { useWalletTokenBalance } from 'app/hooks/useTokenBalance';
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import fromExponential from 'from-exponential';
-import { getAllowanceAmount, MAXAMOUNT, toFixedPrecent, USER_REJECTED_TX, currentGasPrice } from "../../web3/commonFunctions";
+import { getAllowanceAmount, MAXAMOUNT, toFixedPrecent, USER_REJECTED_TX, currentGasPrice, getBoneUSDValue } from "../../web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json"
 import CommonModal from 'pages/components/CommonModel';
 import { useFormik } from "formik";
@@ -47,7 +46,7 @@ const DelegatePopup: React.FC<any> = ({
   });
 
   const dispatch = useAppDispatch()
-
+  const [boneUSDValue, setBoneUSDValue] = useState(0); //NOSONAR
   const [delegateState, setdelegateState] = useState(initialModalState);
   const [loader, setLoader] = useState(false);
   const ethBalance = useEthBalance();
@@ -66,8 +65,8 @@ const DelegatePopup: React.FC<any> = ({
   }, [walletBalance, ethBalance, newBalance]);
 
   useEffect(() => {
-    getBoneUSDValue(BONE_ID).then((res) => {
-    
+    getBoneUSDValue().then((res: any) => {
+      setBoneUSDValue(res);
     });
     if (account) {
       // getBalanceG()

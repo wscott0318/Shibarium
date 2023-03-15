@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useActiveWeb3React } from "../../services/web3"
 import Header from "../layout/header";
 import { useRouter } from "next/router";
-import { getBoneUSDValue, getValidatorsDetail } from 'app/services/apis/validator';
+import { getValidatorsDetail } from 'app/services/apis/validator';
+import { getBoneUSDValue } from "../../web3/commonFunctions";
 import { BONE_ID } from 'app/config/constant';
 import NumberFormat from 'react-number-format';
 import Delegators from './validator-details/Delegators';
@@ -49,9 +50,9 @@ export default function ValidatorDetails() {
         }
     }, [])
     useEffect(() => {
-        getBoneUSDValue(BONE_ID).then((res:any) => {
-            setBoneUsdValue(res.data.data.price);
-        })
+        getBoneUSDValue().then((res:any) => {
+            setBoneUsdValue(res);
+        });
         if (validatorInfo) {
             console.log("entered");
             getTotalSupply(validatorInfo?.id)

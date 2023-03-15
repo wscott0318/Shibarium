@@ -6,8 +6,8 @@ import { useActiveWeb3React } from "app/services/web3";
 import InnerHeader from "../inner-header";
 import useLocalStorageState from "use-local-storage-state";
 import WithdrawModal from "../components/withdraw/Withdraw";
-import { getBoneUSDValue } from "app/services/apis/validator";
 import { BONE_ID } from "app/config/constant";
+import { getBoneUSDValue } from "web3/commonFunctions";
 export default function Transaction() {
   const [onlyPending, setOnlyPending] = useState(false);
   const [txState, setTxState] = useLocalStorageState("txState"); //NOSONAR
@@ -19,8 +19,8 @@ export default function Transaction() {
     setMenuState(!menuState);
   };
   useEffect(() => {
-    getBoneUSDValue(BONE_ID).then((res) => {
-      setBoneUSDValue(res.data.data.price);
+    getBoneUSDValue().then((res) => {
+      setBoneUSDValue(res);
     });
   }, [account]);
   console.log("txState", txState?.amount);

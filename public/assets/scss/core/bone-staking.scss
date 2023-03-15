@@ -358,19 +358,19 @@ span.user-icon.u_icon::before {
   display: none;
 }
 span.user-icon.u_icon img {
-  width: 50%;
+  width: 90%;
 }
 .shib-popup {
   .user-icon {
-    width: 60px;
-    height: 60px;
+    width: 100px;
+    height: 100px;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     background: none;
-    border: 1px solid #f17b02;
-    border-radius: 50px;
+    border: 1px solid #fff;
+    border-radius: 0;
     @media #{$max-xsm} {
       width: 50px;
       height: 50px;

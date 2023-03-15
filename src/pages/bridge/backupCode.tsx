@@ -9,7 +9,7 @@ import InnerHeader from "../inner-header";
 import Link from "next/link";
 import { ChainId } from "shibarium-get-chains";
 import Sidebar from "../layout/sidebar";
-import { getWalletTokenList, getBoneUSDValue } from "../../services/apis/validator/index";
+import { getWalletTokenList } from "../../services/apis/validator/index";
 import { getTokenBalance } from "../../hooks/useTokenBalance";
 import { useActiveWeb3React } from "../../services/web3";
 import { BONE_ID } from "../../config/constant";
@@ -24,7 +24,7 @@ import {
 import { useAppDispatch } from "../../state/hooks";
 import fromExponential from "from-exponential";
 import { getExplorerLink } from "app/functions";
-import { currentGasPrice, getAllowanceAmount ,tokenDecimal } from "web3/commonFunctions";
+import { currentGasPrice, getAllowanceAmount, getBoneUSDValue, tokenDecimal } from "web3/commonFunctions";
 import ERC20 from "../../ABI/ERC20Abi.json";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -64,9 +64,9 @@ export default function Withdraw() {
   const router = useRouter();
 
   useEffect(() => {
-    getBoneUSDValue(BONE_ID).then((res) => {
-      setBoneUSDValue(res.data.data.price);
-    });
+    getBoneUSDValue().then((res:any) => {
+      setBoneUSDValue(res);
+  });
   }, [account]);
 
   const [withModalState, setWidModState] = useState({
@@ -92,8 +92,8 @@ export default function Withdraw() {
     title: "Select a Token",
   });
   const [tokenModalList, setTokenModalList] = useState<any>([]);
-  const localTokens =  JSON.parse(localStorage.getItem("newToken") || "[]")
- 
+  const localTokens = JSON.parse(localStorage.getItem("newToken") || "[]")
+
   const [tempTokens, setTempTokens] = useState<any>({
     parentContract: "",
     childContract: "",
@@ -115,8 +115,8 @@ export default function Withdraw() {
             x.balance = await getTokenBalance(lib, account, x.parentContract);
           }
         });
-     
- 
+
+
         setTokenModalList([...localTokens, ...list]);
       });
     } catch (err: any) {
@@ -126,7 +126,7 @@ export default function Withdraw() {
   useEffect(() => {
     if (account) {
       getTokensList();
-     
+
     } else {
       router.push('/')
     }
@@ -174,7 +174,7 @@ export default function Withdraw() {
           );
         })
         .on("receipt", (res: any) => {
-        
+
           dispatch(
             finalizeTransaction({
               hash: res.transactionHash,
@@ -191,7 +191,7 @@ export default function Withdraw() {
               },
             })
           );
-        
+
           let instance = new web3.eth.Contract(
             depositManagerABI,
             dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
@@ -217,10 +217,10 @@ export default function Withdraw() {
                 step2: true,
                 title: "Transaction Submitted",
               });
-           
+
             })
             .on("receipt", (res: any) => {
-              
+
               dispatch(
                 finalizeTransaction({
                   hash: res.transactionHash,
@@ -240,7 +240,7 @@ export default function Withdraw() {
               setDepositModal(false);
             })
             .on("error", (res: any) => {
-              
+
               if (res.code === 4001) {
                 setDepModState({
                   step0: true,
@@ -251,10 +251,10 @@ export default function Withdraw() {
                 setDepositModal(false);
               }
             });
-       
+
         })
         .on("error", (res: any) => {
-         
+
           if (res.code === 4001) {
             setDepModState({
               step0: true,
@@ -330,14 +330,14 @@ export default function Withdraw() {
           )) || 0;
 
         if (+depositTokenInput > +allowance) {
-        
+
           approvalForDeposit(
             amountWei,
             dynamicChaining[chainId].BONE,
             dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
           );
         } else {
-       
+
           let instance = new web3.eth.Contract(
             depositManagerABI,
             dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
@@ -346,7 +346,7 @@ export default function Withdraw() {
             .depositERC20ForUser(dynamicChaining[chainId].BONE, user, amountWei)
             .send({ from: account })
             .on("transactionHash", (res: any) => {
-             
+
               dispatch(
                 addTransaction({
                   hash: res,
@@ -363,10 +363,10 @@ export default function Withdraw() {
                 step2: true,
                 title: "Transaction Submitted",
               });
-           
+
             })
             .on("receipt", (res: any) => {
-            
+
               dispatch(
                 finalizeTransaction({
                   hash: res.transactionHash,
@@ -386,7 +386,7 @@ export default function Withdraw() {
               setDepositModal(false);
             })
             .on("error", (res: any) => {
-           
+
               if (res.code === 4001) {
                 setDepModState({
                   step0: true,
@@ -398,7 +398,7 @@ export default function Withdraw() {
               }
             });
         }
-      } 
+      }
     } catch (err: any) {
       Sentry.captureMessage("callDepositContract", err);
     }
@@ -434,27 +434,27 @@ export default function Withdraw() {
     }
   };
   const approveWithdraw = async () => {
-    
+
     try {
       if (account) {
-      
+
         let user = account;
         let amount = web3.utils.toBN(fromExponential(+withdrawTokenInput * Math.pow(10, 18)));
         let instance = new web3.eth.Contract(ERC20, dynamicChaining[chainId].BONE);
         let gasFee = await instance.methods.approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount).estimateGas({ from: user })
         let encodedAbi = await instance.methods.approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount).encodeABI()
         let CurrentgasPrice: any = await currentGasPrice(web3)
-       
+
         await web3.eth.sendTransaction({
           from: user,
           to: dynamicChaining[chainId].BONE,
           gas: (parseInt(gasFee) + 30000).toString(),
           gasPrice: CurrentgasPrice,
-       
+
           data: encodedAbi
         })
           .on('transactionHash', (res: any) => {
-       
+
             dispatch(
               addTransaction({
                 hash: res,
@@ -466,7 +466,7 @@ export default function Withdraw() {
             let link = getExplorerLink(chainId, res, 'transaction')
             setHashLink(link)
           }).on('receipt', async (res: any) => {
-         
+
             dispatch(
               finalizeTransaction({
                 hash: res.transactionHash,
@@ -527,10 +527,10 @@ export default function Withdraw() {
             step4: false,
             title: "Transaction Submitted",
           });
-       
+
         })
         .on("receipt", (res: any) => {
-         
+
           dispatch(
             finalizeTransaction({
               hash: res.transactionHash,
@@ -557,7 +557,7 @@ export default function Withdraw() {
           });
         })
         .on("error", (res: any) => {
-       
+
           if (res.code === 4001) {
             setWidModState({
               step0: true,
@@ -576,7 +576,7 @@ export default function Withdraw() {
       Sentry.captureMessage("submitWithdraw ", err);
     }
   }
- 
+
   useEffect(() => {
     if (!showTokenModal) {
       addNewToken("");
@@ -673,7 +673,7 @@ export default function Withdraw() {
   useEffect(() => {
     try {
       if (tokenModalList.length > 0) {
-       
+
         let updatedArray = [...tokenModalList, ...localTokens];
         setTokenModalList(updatedArray);
       }
@@ -714,7 +714,7 @@ export default function Withdraw() {
         const isalreadypresent = localTokens
           .map((st: any) => st.parentContract)
           .includes(obj.parentContract);
-     
+
         if (!isalreadypresent) {
           setTempTokens({
             parentContract: String(newToken),
@@ -724,9 +724,9 @@ export default function Withdraw() {
           });
         }
         console.log(tempTokens, 'tempTokens');
-        
+
       }
-      
+
     } catch (err: any) {
       Sentry.captureMessage("getTempTokens", err);
     }
@@ -1180,7 +1180,7 @@ export default function Withdraw() {
                     <div>
                       <a
                         className="btn primary-btn w-100"
-                        onClick={() =>callWithdrawContract()}
+                        onClick={() => callWithdrawContract()}
                       >
                         Continue
                       </a>
@@ -1755,7 +1755,7 @@ export default function Withdraw() {
                         }}
                         validationSchema={depositValidations}
                         onSubmit={(values, { resetForm }) => {
-                      
+
                           callDepositModal(values, resetForm);
                         }}
                       >
@@ -1850,7 +1850,7 @@ export default function Withdraw() {
                                         className="form-field position-relative fix-coin-field"
                                         onClick={() => {
                                           setOpenManageToken(!openManageToken)
-                                        
+
 
                                         }}
                                       >

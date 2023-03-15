@@ -7,14 +7,11 @@ import { useRouter } from "next/router";
 import InnerHeader from "../inner-header";
 import Link from "next/link";
 import Sidebar from "../layout/sidebar";
-import {
-  getBoneUSDValue,
-} from "../../services/apis/validator/index";
 import { useActiveWeb3React } from "../../services/web3";
 import { BONE_ID } from "../../config/constant";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { tokenDecimal } from "web3/commonFunctions";
+import { getBoneUSDValue, tokenDecimal } from "web3/commonFunctions";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Sentry from "@sentry/nextjs";
@@ -53,9 +50,9 @@ export default function Withdraw() {
   };
   const router = useRouter();
   useEffect(() => {
-    getBoneUSDValue(BONE_ID).then((res) => {
-      setBoneUSDValue(res.data.data.price);
-    });
+    getBoneUSDValue().then((res:any) => {
+      setBoneUSDValue(res);
+  });
   }, [account]);
   const depositValidations: any = Yup.object({
     fromChain: Yup.number().required("Required Field"),

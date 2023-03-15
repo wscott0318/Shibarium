@@ -7,7 +7,7 @@ import  { useRouter } from "next/router";
 import Sidebar from "../layout/sidebar"
 import { useActiveWeb3React } from "app/services/web3";
 import { BONE_ID } from '../../config/constant';
-import { getBoneUSDValue, getWalletTokenList } from "../../services/apis/validator/index";
+import { getWalletTokenList } from "../../services/apis/validator/index";
 import * as Sentry from "@sentry/nextjs";
 import Comingsoon from "app/components/coming-soon";
 
@@ -66,9 +66,6 @@ export default function Wallet() {
 
   useEffect(() => {
     if (account) {
-      getBoneUSDValue(BONE_ID).then(res => {
-      
-      })
       getTokensList()
     } else {
       router.push('/')

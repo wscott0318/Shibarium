@@ -146,6 +146,7 @@ export default function Unbond() {
               <td>
                 <span className="tb-data align">
                   {getUserTimeZone(+(value.timestamp) * 1000)}
+                  
                 </span>
               </td>
             </tr>
@@ -257,7 +258,8 @@ export default function Unbond() {
                           </td>
                           <td>
                             <span className="tb-data align">
-                              {getUserTimeZone(parseInt(value.timestamp) * 1000)}
+                              {getUserTimeZone(parseInt(value.timestamp) * 1000)}.
+                              
                             </span>
                           </td>
                         </tr>
