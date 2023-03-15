@@ -1,11 +1,13 @@
 import Web3 from 'web3'
-const HttpProvider = "https://goerli.infura.io/v3/49e2ef5f477941c1b90a222c858c574e";
+const HttpProvider = "https://eth-goerli.g.alchemy.com/v2/xv2JiP-gGcBNnTwaqOoKJDj917JFIMXp";
 const HttpProviderPUPPYNET517 = process.env.RPC_517;
 
 export function L1Block(): any {
     try{
     return new Web3(new Web3.providers.HttpProvider(HttpProvider));
     }catch(error){
+        console.log(error,'9');
+        
     }
 }
 
