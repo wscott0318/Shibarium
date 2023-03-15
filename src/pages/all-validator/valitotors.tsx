@@ -1,7 +1,7 @@
 import { validatorsList } from 'app/services/apis/validator'
 import { filter, orderBy } from 'lodash';
 import { Dropdown } from "react-bootstrap";
-import React, {  useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ListView from './listView';
 import ValidatorGrid from './gridView';
 import LoadingSpinner from 'pages/components/Loading';
@@ -11,10 +11,10 @@ import { useRouter } from 'next/router';
 import { SearchIcon, XCircleIcon } from '@heroicons/react/outline';
 import { useUserType } from 'app/state/user/hooks';
 
-const Valitotors: React.FC<any> = ({ withStatusFilter ,nodeSetup}: { withStatusFilter: boolean ,nodeSetup:number}) => {
+const Valitotors: React.FC<any> = ({ withStatusFilter, nodeSetup }: { withStatusFilter: boolean, nodeSetup: number }) => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
-  const [loadingVal , setLoadingVal] = useState<boolean>(true);
+  const [loadingVal, setLoadingVal] = useState<boolean>(true);
   const [allValidators, setAllValidators] = useState<any[]>([]);
   const [validators, setValidators] = useState<any[]>([]);
   const [isListView, setListView] = useState<boolean>(true);
@@ -22,13 +22,14 @@ const Valitotors: React.FC<any> = ({ withStatusFilter ,nodeSetup}: { withStatusF
   const [searchKey, setSearchKey] = useState<string>('');
   const [sortKey, setSortKey] = useState<string>('Uptime');
   const [userType, setUserType] = useUserType()  //NOSONAR
+  const [isMobile, setIsMobile] = useState(true);
   const requestOptions = {
     method: 'GET',
     redirect: 'follow'
   }
   const fetchValList = async () => {
     setLoading(false)
-    try{
+    try {
       await validatorsList(searchKey, requestOptions)
         .then((res: any) => {
           setLoading(false)
@@ -64,8 +65,8 @@ const Valitotors: React.FC<any> = ({ withStatusFilter ,nodeSetup}: { withStatusF
           setLoading(false)
           setLoadingVal(false);
         });
-    }catch(err:any){
-      Sentry.captureMessage("fetchValList" , err);
+    } catch (err: any) {
+      Sentry.captureMessage("fetchValList", err);
       setLoading(false)
       setLoadingVal(false);
     }
@@ -74,6 +75,18 @@ const Valitotors: React.FC<any> = ({ withStatusFilter ,nodeSetup}: { withStatusF
   useEffect(() => {
     if (searchKey == "") fetchValList();
   }, [searchKey]);
+
+  useEffect(() => {
+    if (navigator.userAgent.match(/Android/i)
+      || navigator.userAgent.match(/webOS/i)
+      || navigator.userAgent.match(/iPhone/i)
+      || navigator.userAgent.match(/iPad/i)
+      || navigator.userAgent.match(/iPod/i)
+      || navigator.userAgent.match(/BlackBerry/i)
+      || navigator.userAgent.match(/Windows Phone/i)) {
+      setListView(false);
+    }
+  }, []);
 
   const filterValidators = () => {
     let filtered = []
@@ -85,8 +98,8 @@ const Valitotors: React.FC<any> = ({ withStatusFilter ,nodeSetup}: { withStatusF
         }
         )
       }
-      else{
-        console.log("all vals " , allValidators)
+      else {
+        console.log("all vals ", allValidators)
         filtered = allValidators.filter(e => e?.uptimePercent >= inActiveCount)
       }
     } else {
@@ -105,7 +118,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter ,nodeSetup}: { withStatusF
   const onSort = (key: string, column: string, type: string) => {
     try {
       setSortKey(key)
-      let sortedList:any;
+      let sortedList: any;
       if (type === 'number') {
         sortedList = validators
         sortedList.sort((a: any, b: any) => Number(b[column]) - Number(a[column]))
@@ -210,12 +223,12 @@ const Valitotors: React.FC<any> = ({ withStatusFilter ,nodeSetup}: { withStatusF
 
                   <Dropdown.Menu>
                     {/* <Dropdown.Item onClick={() => onSort('Random', 'name','string')}>Random</Dropdown.Item> */}
-                    <Dropdown.Item onClick={()=>onSort('Commission', 'commissionrate', 'number')}>Commission</Dropdown.Item>
-                    <Dropdown.Item onClick={()=>onSort('Staked Amount', 'totalstaked', 'number')}>Staked Amount</Dropdown.Item>
+                    <Dropdown.Item onClick={() => onSort('Commission', 'commissionrate', 'number')}>Commission</Dropdown.Item>
+                    <Dropdown.Item onClick={() => onSort('Staked Amount', 'totalstaked', 'number')}>Staked Amount</Dropdown.Item>
                     {/* <Dropdown.Item onClick={() => onSort('Voting Power', 'totalstaked','number')}>
                           Voting Power
                         </Dropdown.Item> */}
-                    <Dropdown.Item className="ff-mos" onClick={()=>onSort('Uptime', 'uptimePercent', 'number')}>
+                    <Dropdown.Item className="ff-mos" onClick={() => onSort('Uptime', 'uptimePercent', 'number')}>
                       Uptime
                     </Dropdown.Item>
                   </Dropdown.Menu>
@@ -234,10 +247,10 @@ const Valitotors: React.FC<any> = ({ withStatusFilter ,nodeSetup}: { withStatusF
             </div>
           </div>
           {isListView ? (
-            <ListView migrateData={{}} loading={loadingVal} searchKey={searchKey} validatorsList={validators} nodeSetup={nodeSetup}/>
+            <ListView migrateData={{}} loading={loadingVal} searchKey={searchKey} validatorsList={validators} nodeSetup={nodeSetup} />
           ) : (
             <div className="grid-view-wrap">
-              <ValidatorGrid migrateData={{}} loading={loadingVal} searchKey={searchKey} validatorsList={validators}  nodeSetup={nodeSetup}/>
+              <ValidatorGrid migrateData={{}} loading={loadingVal} searchKey={searchKey} validatorsList={validators} nodeSetup={nodeSetup} />
             </div>
           )}
         </div>

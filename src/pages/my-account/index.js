@@ -21,7 +21,6 @@ export default function MyAcount() {
   const [delegatorData, setDelegatorData] = useState({});
   const tokenBal = useTokenBalance(dynamicChaining[chainId].BONE);
   const availBalance = tokenBal ;
-
   let isloading = availBalance == -1;
   useEffect(() => {
     if(account){
@@ -30,6 +29,7 @@ export default function MyAcount() {
       } else {
         getBoneUSDValue(BONE_ID).then(res=>{
           setBoneUSDValue(res.data.data.price);
+          console.log("userAccount " , res)
         })
       }
     } else {

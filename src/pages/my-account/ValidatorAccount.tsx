@@ -554,7 +554,7 @@ const ValidatorAccount = ({
 
   const withdrawRewardValidator = async () => {
     try {
-      setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Pending" });
+      setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Withdraw Rewards" });
       if (account) {
         let walletAddress = account;
         let valID = valId;
@@ -632,7 +632,7 @@ const ValidatorAccount = ({
 
   const withdrawRewardDelegator = async (address: any, id: any) => {
     try {
-      setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Pending" });
+      setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Withdraw Rewards" });
       if (account) {
         let walletAddress = account;
         let instance = new web3.eth.Contract(ValidatorShareABI, address);

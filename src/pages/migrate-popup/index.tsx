@@ -435,7 +435,7 @@ const MigratePopup: React.FC<any> = ({
                             />
                           </div>
                           <button
-                            disabled={balance >= 1 ? false : true}
+                            disabled={balance > 0 ? false : true}
                             onClick={useMax}
                             className="rt-chain"
                           >
@@ -474,10 +474,9 @@ const MigratePopup: React.FC<any> = ({
                             e.preventDefault();
                             migrateStake(values, data, migrateData);
                           }}
-                            // disabled={values.balance > 1 ? false : true}
                             className={`w-100`} type="submit" value="submit">
-                            <div className="btn primary-btn d-flex align-items-center justify-content-center" >
-                              <button >Continue</button>
+                            <div className={`btn primary-btn d-flex align-items-center justify-content-center ${(values.balance < 1 || values.balance > balance) && "disabled" }`} >
+                              <button disabled={values.balance < 1 || values.balance > balance}>Continue</button>
                             </div>
                           </button>
                         </div>
