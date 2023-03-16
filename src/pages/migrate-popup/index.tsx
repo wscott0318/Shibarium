@@ -473,6 +473,7 @@ const MigratePopup: React.FC<any> = ({
                             e.preventDefault();
                             migrateStake(values, data, migrateData);
                           }}
+                          disabled={values.balance < 1 || values.balance > balance}
                             className={`w-100`} type="submit" value="submit">
                             <div className={`btn primary-btn d-flex align-items-center justify-content-center ${(values.balance < 1 || values.balance > balance) && "disabled" }`} >
                               <button disabled={values.balance < 1 || values.balance > balance}>Continue</button>
