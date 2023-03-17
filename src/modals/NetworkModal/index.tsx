@@ -57,9 +57,9 @@ export const SUPPORTED_NETWORKS: {
   //   rpcUrls: ['https://puppytestnet.hailshiba.com'],
   //   blockExplorerUrls: ['https://bscscan.com'],
   // },
-  [ChainId.PUPPYNET917]: {
+  [ChainId.PUPPYNET719]: {
     chainId: '0x395',
-    chainName: 'Puppy Net-917',
+    chainName: 'Puppy Net-719',
     nativeCurrency: {
       name: 'BONE',
       symbol: 'BONE',
@@ -234,7 +234,7 @@ const NetworkModal: FC = () => {
             // ChainId.SHIBARIUM,
             ChainId.GÖRLI,
             // ChainId.ETHEREUM,
-            ChainId.PUPPYNET917,
+            ChainId.PUPPYNET719,
 
             // ChainId.MATIC,
             // ChainId.BSC,
@@ -282,7 +282,7 @@ const NetworkModal: FC = () => {
                   try {
                     await library?.send('wallet_addEthereumChain', [{
                       chainId: `0x${key.toString(16)}`,
-                      rpcUrls: ["https://puppynet.shibrpc.com"],
+                      rpcUrls: ["https://puppynet1.shibrpc.com"],
                       chainName: "Puppy Net",
                       nativeCurrency: {
                         name: "BONE",

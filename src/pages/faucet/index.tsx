@@ -101,7 +101,7 @@ export default function Faucet() {
       link = getExplorerLink(ChainId.GÖRLI, modalState?.hash, "transaction")
     }
     else {
-      link = getExplorerLink(ChainId.PUPPYNET917, modalState?.hash, "transaction")
+      link = getExplorerLink(ChainId.PUPPYNET719, modalState?.hash, "transaction")
     }
     window.open(link)
   }

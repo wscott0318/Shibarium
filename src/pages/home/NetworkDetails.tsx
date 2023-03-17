@@ -49,7 +49,7 @@ function NetworkDetails({ valCount }: any) {
       <ShimmerTitle line={3} gap={10} className="cus-shimer" variant="primary" />
     )
   }
-
+  console.log("chain id " , chainId)
 
   // GET VALIDATOR ID 
   const getTotalStakes = async () => {

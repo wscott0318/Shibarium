@@ -2396,7 +2396,8 @@ const ValidatorAccount = ({
                                         name: item.name,
                                         uptimePercent:
                                           item.checkpointSignedPercent,
-                                        validatorContractId: item.id
+                                        validatorContractId: item.id,
+                                        image:item.image
                                       });
                                       setStakeMoreModal(true);
                                     }}

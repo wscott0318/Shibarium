@@ -179,6 +179,7 @@ export class NetworkConnector extends AbstractConnector {
   }
 
   public async getProvider(): Promise<MiniRpcProvider> {
+    console.log("chain id => " , this)
     return this.providers[this.currentChainId]
   }
 

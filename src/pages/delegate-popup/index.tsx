@@ -44,7 +44,6 @@ const DelegatePopup: React.FC<any> = ({
     state: false,
     title: "",
   });
-
   const dispatch = useAppDispatch()
   const [boneUSDValue, setBoneUSDValue] = useState(0); //NOSONAR
   const [delegateState, setdelegateState] = useState(initialModalState);
@@ -185,7 +184,6 @@ const DelegatePopup: React.FC<any> = ({
       setTransactionState({ state: false, title: "" });
       setFieldValue("balance", "");
     }
-console.log(transactionState,'transactionState');
 
   }
   const initialValues = {
@@ -414,7 +412,7 @@ const handleShow = useCallback(()=>{ handleClose(); resetForm()},[])
                     <div className="my-3 info-box">
                       <div className="d-flex align-items-center justify-content-start">
                         <div>
-                          <span className="user-icon u_icon"><img src={data.logoUrl ? data.logoUrl : "../../assets/images/shiba-round-icon.png"} /></span>
+                          <span className="user-icon u_icon"><img src={data.image ? data.image : "../../assets/images/shiba-round-icon.png"} /></span>
                         </div>
                         <div className="fw-700">
                           <span className="vertical-align ft-22">

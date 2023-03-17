@@ -4409,6 +4409,9 @@ section.del-grid-section .txt-emp {
   align-items: center;
   justify-content: space-between;
   padding-top: 1rem;
+  @media #{$max-xsm} {
+    flex-direction: column;
+  }
 }
 .balance_card span {
   font-weight: 600;
@@ -4422,6 +4425,10 @@ section.del-grid-section .txt-emp {
   padding: 10px;
   border: 1px solid;
   width: 32%;
+  @media #{$max-xsm} {
+    width: 100%;
+    margin-bottom: 10px;
+  }
 }
 .balance_card h4.heading-sm {
   font-size: 14px !important;
@@ -4502,8 +4509,9 @@ section.del-grid-section .txt-emp {
 @media (max-width: 400px) {
   .balance_card {
     padding: 10px 5px;
-    width: 33%;
+    width: 100%;
     white-space: nowrap;
+    margin-bottom: 7px;
   }
 }
 // .inputMaxBg.max-group.form-field {

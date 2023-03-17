@@ -105,7 +105,7 @@ const chains: ChainObject = {
     link: 'https://shibascan-517.hailshiba.com',
     builder: explorers.etherscan,
   },
-  [ChainId.PUPPYNET917]: {
+  [ChainId.PUPPYNET719]: {
     link: 'https://puppyscan.shib.io',
     builder: explorers.etherscan,
   },

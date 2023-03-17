@@ -1,6 +1,7 @@
 import { Checkbox } from "@material-ui/core";
 import CommonModal from "pages/components/CommonModel";
 import { useEffect, useState } from "react";
+import { Copy } from "react-feather";
 
 
 function StepOne({ stepHandler, stepState }: any) {
@@ -13,6 +14,8 @@ function StepOne({ stepHandler, stepState }: any) {
   const [selectSecB, setSelectSecB] = useState(false)
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [checked, setChecked] = useState(false);
+  const ansible = "https://shiba-inu-ecosystem.gitbook.io/shibarium/staking/validator/validator-node-setup/add-new-validator-using-ansible";
+  const binary = "";
   useEffect(() => {
     setCheck({
       ansible: false,
@@ -20,13 +23,22 @@ function StepOne({ stepHandler, stepState }: any) {
     });
   }, [])
 
+  const copyText = () => {
+    let link = selectSecA ? ansible : binary;
+    navigator.clipboard
+      .writeText(link)
+      .then(
+        (success) => console.log("text copied"),
+        (err) => console.log("error copying text")
+      );
+  }
 
   return (
     <>
       <CommonModal
         title={"User Confirmation"}
         show={showConfirmation}
-        setshow={() => { setShowConfirmation(false);setChecked(false) }}
+        setshow={() => { setShowConfirmation(false); setChecked(false) }}
         externalCls="faucet-pop no-lft"
       >
         <div className="popmodal-body tokn-popup no-ht trans-mod">

@@ -308,7 +308,7 @@ export default function Header() {
                                 />
                               </div>
                               <div className="center-txt">
-                                <span>View on Goreli Etherscan</span>
+                                <span className="text-wrap">View on Goerli Etherscan</span>
                               </div>
                               <div className="rt-image">
                                 <img

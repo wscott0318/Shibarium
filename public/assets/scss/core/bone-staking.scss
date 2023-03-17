@@ -351,7 +351,7 @@
   border-radius: 3px;
   background: $black;
   @media #{$max-xsm} {
-    padding: 10px;
+    padding: 5px;
   }
 }
 span.user-icon.u_icon::before {
@@ -374,6 +374,7 @@ span.user-icon.u_icon img {
     @media #{$max-xsm} {
       width: 50px;
       height: 50px;
+      margin-right: 4px;
     }
     // &::before {
     // //   width: 35px;

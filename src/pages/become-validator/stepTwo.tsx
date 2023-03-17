@@ -29,7 +29,10 @@ export const validatorSchema = yup.object().shape({
   website: yup
     .string()
     .required("Website is required.")
+    // @ts-ignore
+    .test('len', 'Invalid URL', val => val?.indexOf(".") > -1)
 });
+
 
 function StepTwo({
   stepState,

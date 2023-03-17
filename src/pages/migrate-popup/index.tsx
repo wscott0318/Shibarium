@@ -76,16 +76,17 @@ const MigratePopup: React.FC<any> = ({
         let walletAddress: any = account;
         let fromId = migrateData?.data?.migrateData?.id;
         let toId = data.validatorContractId;
-        let totalAmount = (values.balance) * Math.pow(10, web3Decimals);
-        let Amount = fromExponential(web3.utils.toBN(totalAmount));
+        let amount = web3.utils.toBN(
+          fromExponential(+values.balance * Math.pow(10, 18))
+        );
         let instance = new web3.eth.Contract(
           stakeManagerProxyABI,
           dynamicChaining[chainId].STAKE_MANAGER_PROXY
         );
         let gasFee = await instance.methods
-          .migrateDelegation(fromId, toId, Amount)
+          .migrateDelegation(fromId, toId, amount)
           .estimateGas({ from: walletAddress });
-        let encodedAbi = await instance.methods.migrateDelegation(fromId, toId, Amount).encodeABI();
+        let encodedAbi = await instance.methods.migrateDelegation(fromId, toId, amount).encodeABI();
         let CurrentgasPrice: any = await currentGasPrice(web3);
         await web3.eth
           .sendTransaction({
@@ -175,6 +176,7 @@ const MigratePopup: React.FC<any> = ({
       ).min(1,"Invalid Amount.")
       .required("Balance is required."),
   });
+
   const initialValues = {
     balance: 0,
   };
@@ -434,7 +436,7 @@ const MigratePopup: React.FC<any> = ({
                             />
                           </div>
                           <button
-                            disabled={balance > 0 ? false : true}
+                            disabled={+balance > 0 ? false : true}
                             onClick={useMax}
                             className="rt-chain"
                           >
@@ -473,10 +475,10 @@ const MigratePopup: React.FC<any> = ({
                             e.preventDefault();
                             migrateStake(values, data, migrateData);
                           }}
-                          disabled={values.balance < 1 || values.balance > balance}
+                          disabled={+values.balance < 1 || +values.balance > +balance}
                             className={`w-100`} type="submit" value="submit">
-                            <div className={`btn primary-btn d-flex align-items-center justify-content-center ${(values.balance < 1 || values.balance > balance) && "disabled" }`} >
-                              <button disabled={values.balance < 1 || values.balance > balance}>Continue</button>
+                            <div className={`btn primary-btn d-flex align-items-center justify-content-center ${(+values.balance < 1 || +values.balance > +balance) && "disabled" }`} >
+                              <button disabled={+values.balance < 1 || +values.balance > +balance}>Continue</button>
                             </div>
                           </button>
                         </div>
