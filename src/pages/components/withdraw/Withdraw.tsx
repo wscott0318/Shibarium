@@ -89,7 +89,7 @@ const WithdrawModal: React.FC<{
             title: "Please Note",
         });
         const switchNetwork = async () => {
-            let key = chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI;
+            let key = chainId == ChainId.GÖRLI ? ChainId.PUPPYNET917 : ChainId.GÖRLI;
             console.debug(`Switching to chain ${key}`, SUPPORTED_NETWORKS[key])
             const params = SUPPORTED_NETWORKS[key]
             cookie.set('chainId', key, params)

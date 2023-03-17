@@ -48,6 +48,12 @@ function StepOne({ stepHandler, stepState }: any) {
                 color="primary" />
               <p>I verify that my heimdall and bor nodes are fully synced.</p>
             </div>
+            <div className="d-flex align-items-center justify-content-center primary-text">
+              <a href={selectSecA ? ansible : binary} className="pe-2" id="doc_url" target={"_blank"}>
+                Link to Doc
+              </a>
+              <Copy onClick={copyText} className="cursor-pointer"/>
+            </div>
           </div>
           <div className="pop-bottom">
             <button onClick={() => stepHandler("next")} disabled={!checked} className="primary-btn btn w-100">Continue</button>

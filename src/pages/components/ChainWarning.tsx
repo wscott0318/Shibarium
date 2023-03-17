@@ -18,7 +18,7 @@ const ChainWarning: React.FC<Props> = ({ show, setshow, title, externalCls }) =>
     const { library, account } = useActiveWeb3React()
     const switchNetwork = async () => {
         console.debug(`Switching to chain 5`, 5)
-        // toggleNetworkModal()
+        // toggleNetworkModal() 
         const params = 5
         cookie.set('chainId', 5, params)
 
