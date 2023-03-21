@@ -48,12 +48,12 @@ function StepOne({ stepHandler, stepState }: any) {
                 color="primary" />
               <p>I verify that my heimdall and bor nodes are fully synced.</p>
             </div>
-            {/* <div className="d-flex align-items-center justify-content-center primary-text">
+            <div className="d-flex align-items-center justify-content-center primary-text">
               <a href={selectSecA ? ansible : binary} className="pe-2" id="doc_url" target={"_blank"}>
                 Link to Doc
               </a>
               <Copy onClick={copyText} className="cursor-pointer"/>
-            </div> */}
+            </div>
           </div>
           <div className="pop-bottom">
             <button onClick={() => stepHandler("next")} disabled={!checked} className="primary-btn btn w-100">Continue</button>
@@ -95,38 +95,6 @@ function StepOne({ stepHandler, stepState }: any) {
               <h6 className="fw-600 ff-mos">Ansible</h6>
               <p className="ft-14 fw-600 ff-mos">
                 Your Ansible playbooks for setting up Shiba Validator node
-              </p>
-            </div>
-          </div>
-        </div>
-        <div
-          style={selectSecB ? { border: "0.2rem solid #F06500" } : { border: " 1px solid #575757" }}
-          className="mt-4 box-alert box-active"
-          onClick={() => {
-            setCheck({
-              ansible: false,
-              binary: true,
-            });
-            setSelectSecA(false)
-            setSelectSecB(true)
-          }}
-        >
-          <div className="d-flex align-items-center">
-            <div>
-              <div className="circle-box lt-white me-3">
-                <img
-                  className="img-fluid"
-                  width="26"
-                  height="30"
-                  src="../../assets/images/binaries.png"
-                  alt=""
-                />
-              </div>
-            </div>
-            <div className="trs-3">
-              <h6 className="fw-600 ff-mos">Binaries</h6>
-              <p className="ft-14 fw-600 ff-mos">
-                Build from Source to setup your validator node.
               </p>
             </div>
           </div>
