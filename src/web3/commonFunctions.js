@@ -35,7 +35,7 @@ export const getNetworkName = (ID) => {
     return "Ethereum Mainnet";
   } else if (ID == ChainId.GÖRLI) {
     return "Goerli Testnet";
-  } else if (ID == ChainId.PUPPYNET917) {
+  } else if (ID == ChainId.PUPPYNET719) {
     return "Puppy Net";
   } else {
     return "Shibarium Mainnet";

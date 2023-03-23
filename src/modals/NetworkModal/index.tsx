@@ -68,6 +68,17 @@ export const SUPPORTED_NETWORKS: {
     rpcUrls: [process.env.RPC_517 as any],
     blockExplorerUrls: ['https://puppyscan.shib.io'],
   },
+  [ChainId.PUPPYNET719]: {
+    chainId: '0x2CF',
+    chainName: 'Puppy Net-719',
+    nativeCurrency: {
+      name: 'BONE',
+      symbol: 'BONE',
+      decimals: 18,
+    },
+    rpcUrls: [process.env.RPC_517 as any],
+    blockExplorerUrls: ['https://puppyscan.shib.io'],
+  },
   [ChainId.BSC]: {
     chainId: '0x38',
     chainName: 'Binance Smart Chain',
@@ -234,7 +245,7 @@ const NetworkModal: FC = () => {
             // ChainId.SHIBARIUM,
             ChainId.GÖRLI,
             // ChainId.ETHEREUM,
-            ChainId.PUPPYNET917,
+            ChainId.PUPPYNET719,
 
             // ChainId.MATIC,
             // ChainId.BSC,
