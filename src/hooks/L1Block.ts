@@ -1,5 +1,5 @@
 import Web3 from 'web3'
-const HttpProvider = "https://eth-goerli.g.alchemy.com/v2/xv2JiP-gGcBNnTwaqOoKJDj917JFIMXp";
+const HttpProvider = "https://eth-goerli.g.alchemy.com/v2/QByB-7rEWPmSdYADtUoUWog-DBUIEZpv";
 const HttpProviderPUPPYNET517 = process.env.RPC_517;
 
 export function L1Block(): any {
