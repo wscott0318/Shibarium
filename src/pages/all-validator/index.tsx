@@ -11,7 +11,7 @@ import { L1Block, ChainId } from 'app/hooks/L1Block';
 import * as Sentry from "@sentry/nextjs";
 
 export const Allvalidator: React.FC = () => {
-  
+
   const [userType, setUserType] = useUserType(); // NOSONAR
   const { account, chainId = 1 } = useActiveWeb3React();
   const myRef = useRef<any>(null)
@@ -29,8 +29,8 @@ export const Allvalidator: React.FC = () => {
       if (Object.keys(valData).length) {
         setNodeSetup(valData.status)
       } else {
-        let id : any = account
-        getValidatorInfo(id).then((res : any) => {
+        let id: any = account
+        getValidatorInfo(id).then((res: any) => {
           // console.log(res.data.message.val?.status, " vall status ===> ")
           setNodeSetup(res.data.message.val?.status ? res.data.message.val?.status : null)
           setValInfoLoader(false)
@@ -53,7 +53,7 @@ export const Allvalidator: React.FC = () => {
       const validatorThreshold = await instance.methods.validatorThreshold().call();
       const valInfo = await instance.methods.validators(valId).call({ from: account });
       const valStake = await instance.methods.validatorStake(valId).call({ from: account });
-      console.log(valInfo,valStake,valCount, "val info ===> ")
+      console.log(valInfo, valStake, valCount, "val info ===> ")
       setValCount(valCount)
       setValMaxCount(validatorThreshold)
     }
@@ -63,7 +63,7 @@ export const Allvalidator: React.FC = () => {
   }
 
   useEffect(() => {
-    if(account) {
+    if (account) {
       getValInfo()
     }
     getValCount()
@@ -80,44 +80,57 @@ export const Allvalidator: React.FC = () => {
           console.log("here in else")
           return (
             <div className="btns-sec btn-width">
-             <div className="btns-wrap ">
-                <button disabled={+valCount <= +valMaxCount ?  false : true} onClick={()=>{
-                router.push('/become-validator')
-               }} className="btn primary-btn">Become a Validator</button>
-             </div>
-          </div>
+              <div className="btns-wrap ">
+                <button disabled={+valCount <= +valMaxCount ? false : true} onClick={() => {
+                  router.push('/become-validator')
+                }} className="btn primary-btn">Become a Validator</button>
+              </div>
+              <div className="btns-wrap">
+                <button
+                  // onClick={()=>
+                  //   router.push('/all-validator')
+                  //  } 
+                  onClick={executeScroll}
+                  className="btn white-btn">Become a Delegator</button>
+              </div>
+              <div className="btns-wrap">
+                <button onClick={() =>
+                  router.push('/choose-your-path')
+                } className="btn grey-btn">Choose Your Path</button>
+              </div>
+            </div>
           );
         }
       } else if (userType === "Delegator") {
         return null
       } else {
         return (
-        <div className="btns-sec btn-width">
-                    <div className="btns-wrap ">
-                       <button disabled={+valCount <= +valMaxCount ?  false : true} onClick={()=>{
-                        router.push('/become-validator')
-                       }} className="btn primary-btn">Become a Validator</button>
-                    </div>
-                    <div className="btns-wrap">
-                      <button 
-                      // onClick={()=>
-                      //   router.push('/all-validator')
-                      //  } 
-                      onClick={executeScroll}
-                       className="btn white-btn">Become a Delegator</button>
-                    </div>
-                    <div className="btns-wrap">
-                      <button onClick={()=>
-                        router.push('/choose-your-path')
-                       } className="btn grey-btn">Choose Your Path</button>
-                    </div>
-              </div>
+          <div className="btns-sec btn-width">
+            <div className="btns-wrap ">
+              <button disabled={+valCount <= +valMaxCount ? false : true} onClick={() => {
+                router.push('/become-validator')
+              }} className="btn primary-btn">Become a Validator</button>
+            </div>
+            <div className="btns-wrap">
+              <button
+                // onClick={()=>
+                //   router.push('/all-validator')
+                //  } 
+                onClick={executeScroll}
+                className="btn white-btn">Become a Delegator</button>
+            </div>
+            <div className="btns-wrap">
+              <button onClick={() =>
+                router.push('/choose-your-path')
+              } className="btn grey-btn">Choose Your Path</button>
+            </div>
+          </div>
         )
       }
     } else {
       return null;
     }
-  }; 
+  };
 
   return (
     <>
@@ -148,7 +161,7 @@ export const Allvalidator: React.FC = () => {
         {/* banner section closed */}
 
         <div id="all-validators-section" ref={myRef} className=" ffms-inherit">
-          <Valitotors withStatusFilter={true} nodeSetup={nodeSetup}/>
+          <Valitotors withStatusFilter={true} nodeSetup={nodeSetup} />
         </div>
       </div>
     </>
