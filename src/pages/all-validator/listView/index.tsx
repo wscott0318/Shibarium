@@ -154,7 +154,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                         <div className="delegate_btn">
                           <button
                             className={`btn primary-btn w-100 text-wrap`}
-                            disabled={!account || x.fundamental === 1 || x.uptimePercent <= inActiveCount || x.contractAddress == migrateData.contractAddress ? true : false}
+                            disabled={!account || x.fundamental === 1 || x.uptimePercent <= inActiveCount || x.contractAddress == migrateData.contractAddress || (x.lastcheckpointsigned === 0 && x.fundamental === 2)? true : false}
                             onClick={() => {
                               setSelectedRow(x);
                               if (

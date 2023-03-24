@@ -173,7 +173,7 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
                         ) : (
                           <div className="delegate_btn">
                             <button
-                              disabled={!account || validator.fundamental === 1 || validator.uptimePercent <= inActiveCount || validator.contractAddress == migrateData.contractAddress ? true : false}
+                              disabled={!account || validator.fundamental === 1 || validator.uptimePercent <= inActiveCount || validator.contractAddress == migrateData.contractAddress || validator.lastcheckpointsigned === 0 && validator.fundamental === 2 ? true : false}
                               type="button"
                               onClick={() => {
                                 setSelectedRow(validator);
