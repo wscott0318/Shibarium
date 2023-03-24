@@ -52,7 +52,7 @@ export default function Faucet() {
     })
     console.log("entered faucet api" ,recaptchaRef);
     try {
-      await axios.get(`https://faucet1.shib.io/api/faucet/${account}?type=${selectedChain}`)
+      await axios.get(`https://faucet.shib.io/api/faucet/${account}?type=${selectedChain}`)
         .then((res: any) => {
           recaptchaRef.current?.reset()
           // console.log("response ", res);
