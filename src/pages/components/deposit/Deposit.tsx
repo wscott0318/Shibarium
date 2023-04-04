@@ -65,8 +65,9 @@ const Deposit: React.FC<any> =
                 console.log("amount is greater than allowance step 2")
                 allowanceGas = await getFeeForApproval(currentprice, amountWei, user);
             }
-            console.log("step 3")
-            await getFeeForDeposit(allowanceGas, currentprice, user, amountWei)
+            else{
+                await getFeeForDeposit(allowanceGas, currentprice, user, amountWei)
+            }
         }
 
         const getFeeForApproval = async (currentprice: any, amountWei: any, user: any) => {
@@ -102,9 +103,8 @@ const Deposit: React.FC<any> =
                     depositManagerABI,
                     dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
                 )
-                console.log("before calculating gas fee", instance.methods.depositERC20ForUser(selectedToken?.parentContract, user, amountWei));
+                console.log("before calculating gas fee", chainId,selectedToken ,amountWei ,dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY);
                 let gasFee = await instance.methods.depositERC20ForUser(selectedToken?.parentContract, user, amountWei).estimateGas({ from: user });
-                console.log("after calculating gas fee");
                 if (+allowanceGas > 0) gasFee = (+gasFee * +currentprice) / Math.pow(10, 18) + +allowanceGas;
                 else gasFee = (+gasFee * +currentprice) / Math.pow(10, 18);
                 setEstGas(+gasFee);
@@ -126,7 +126,7 @@ const Deposit: React.FC<any> =
                 console.log("error => line no. 112", error);
             }
         }
-        const approvalForDeposit = async (amount: any, token: any, contract: any) => {
+        const approvalForDeposit = async (token: any, contract: any) => {
             try {
                 let user: any = account;
                 const amountWei = web3.utils.toBN(
@@ -167,8 +167,7 @@ const Deposit: React.FC<any> =
                                 },
                             })
                         );
-
-                        depositContract(user, amount);
+                        estGasFee();
                     })
                     .on("error", (res: any) => {
                         if (res.code === 4001) {
@@ -280,24 +279,24 @@ const Deposit: React.FC<any> =
                     const amountWei = web3.utils.toBN(
                         fromExponential(+depositTokenInput * Math.pow(10, 18))
                     );
-                    let allowance =
-                        (await getAllowanceAmount(
-                            library,
-                            selectedToken?.parentContract,
-                            account,
-                            dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-                        )) || 0;
+                    // let allowance =
+                    //     (await getAllowanceAmount(
+                    //         library,
+                    //         selectedToken?.parentContract,
+                    //         account,
+                    //         dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+                    //     )) || 0;
 
-                    if (+depositTokenInput > +allowance) {
-                        approvalForDeposit(
-                            amountWei,
-                            selectedToken?.parentContract,
-                            dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-                        );
-                    }
-                    else {
+                    // if (+depositTokenInput > +allowance) {
+                    //     approvalForDeposit(
+                    //         amountWei,
+                    //         selectedToken?.parentContract,
+                    //         dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+                    //     );
+                    // }
+                    // else {
                         depositContract(user, amountWei);
-                    }
+                    // }
 
                 }
             } catch (err: any) {
@@ -316,8 +315,9 @@ const Deposit: React.FC<any> =
             }
         };
 
-        const handleStepOne = () => {
+        const handleStepOne = async() => {
             if (estGas > 0) setDepModState({ ...depModalState, step1: false, step2: true, title: "Confirm Transfer" });
+            else await approvalForDeposit(selectedToken?.parentContract, dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY)
         }
 
         const imageOnErrorHandler = (
@@ -355,7 +355,7 @@ const Deposit: React.FC<any> =
                                             <div className="col-1"><Check style={{ background: "green", borderRadius: "50px", padding: "2px" }} /> </div>
                                             <div className="col-11">
                                                 <h6 className="text-sm ff-mos pb-1">Moving funds from Goerli to Puppy Net</h6>
-                                                <p className="text-sm">Here you can move frunds from the {NETWORK_LABEL[chainId]} network to {NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]} network on the Puppy Net Chain. This will take 20-30 minutes.</p>
+                                                <p className="text-sm">Here you can move frunds from the {NETWORK_LABEL[chainId]} network to {NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET719 : ChainId.GÖRLI]} network on the Puppy Net Chain. This will take 20-30 minutes.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -408,11 +408,11 @@ const Deposit: React.FC<any> =
                                             {allowance > 0 ?
                                                 <>
                                                     <small className="text-lg">~ </small>
-                                                    <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(allowance * boneUSDValue).toFixed(15)} />
+                                                    <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(allowance * boneUSDValue).toFixed(6)} />
                                                 </> : "Approved"}
                                         </div>
                                     </div>
-                                    <div className="row pt-2">
+                                    {!allowance && <div className="row pt-2">
                                         <div className="col-7 d-flex align-items-center">
                                             <img
                                                 className="img-fluid"
@@ -429,9 +429,9 @@ const Deposit: React.FC<any> =
                                         </div>
                                         <div className="col-5 text-end">
                                             <small className="text-lg">~ </small>
-                                            <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(15)} />
+                                            <NumberFormat thousandSeparator displayType={"text"} prefix='$' value={(estGas * boneUSDValue).toFixed(6)} />
                                         </div>
-                                    </div>
+                                    </div>}
                                 </div>
                                 <div className="pop-bottom">
                                     {error !== "" &&
@@ -439,7 +439,7 @@ const Deposit: React.FC<any> =
                                     }
                                     <div>
                                         <a
-                                            className={`btn primary-btn w-100 ${estGas <= 0 && "disabled btn-disabled"}`}
+                                            className={`btn primary-btn w-100`}
                                             onClick={() => handleStepOne()}
                                         >
                                             Continue
@@ -534,12 +534,12 @@ const Deposit: React.FC<any> =
                                             <div className="d-inline-block img-flexible">
                                                 <img
                                                     className="img-fluid"
-                                                    src={NETWORK_ICON[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}
+                                                    src={NETWORK_ICON[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET719 : ChainId.GÖRLI]}
                                                     onError={imageOnErrorHandler}
                                                     alt=""
                                                 />
                                             </div>
-                                            <p>{NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]} Network</p>
+                                            <p>{NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET719 : ChainId.GÖRLI]} Network</p>
                                         </div>
                                     </div>
                                     <hr />
@@ -663,11 +663,11 @@ const Deposit: React.FC<any> =
                                             <div className="d-inline-block img-flexible">
                                                 <img
                                                     className="img-fluid"
-                                                    src={NETWORK_ICON[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}
+                                                    src={NETWORK_ICON[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET719 : ChainId.GÖRLI]}
                                                     alt=""
                                                 />
                                             </div>
-                                            <p>{NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]}</p>
+                                            <p>{NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET719 : ChainId.GÖRLI]}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -676,7 +676,7 @@ const Deposit: React.FC<any> =
                                         <h4 className="pop-hd-md" style={{ color: "var(--bs-orange)" }}>Moving funds</h4>
                                         <p>
                                             It will take up to 20 - 30 minutes to move the funds on{" "}
-                                            {NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET517 : ChainId.GÖRLI]} Mainnet.
+                                            {NETWORK_LABEL[chainId == ChainId.GÖRLI ? ChainId.PUPPYNET719 : ChainId.GÖRLI]} Mainnet.
                                         </p>
                                     </div>
                                     <div>

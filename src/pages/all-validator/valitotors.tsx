@@ -107,7 +107,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter, nodeSetup }: { withStatus
     }
     setValidators(filtered)
   }
-
+  console.log("validators list => " , validators)
   useEffect(() => {
     filterValidators();
   }, [isActiveTab, allValidators]);

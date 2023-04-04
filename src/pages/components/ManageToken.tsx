@@ -134,20 +134,18 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
     try {
       await getWalletTokenList().then((res) => {
         let list = res.data.message.tokens;
-        console.log("balance => " , list)
         list.forEach(async (x: any) => {
             let tokenAddress = chainId === ChainId.GÖRLI ? x?.parentContract : x?.childContract;
             await getTokenBalance(lib, account, tokenAddress).then((res: any) => {
-              x.balance = res > 0 ? res : '00.00';
+              x.balance = res > 0 ? res : "00.00";
             }).catch((err: any) => {
               console.log("Error fetching balance => ", err);
             })
         });
-        setIsLoading(false);
         setTokenModalList([...localTokens, ...list]);
-        // setTimeout(() => {
-        // }, 1000);
-        console.log("updated balance " , list)
+        setTimeout(() => {
+          setIsLoading(false);
+        },2000)
       });
     } catch (err: any) {
       setIsLoading(false);
@@ -165,14 +163,15 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
       setmodalKeyword(key);
       if (key.length) {
         let combinedList = [...tokenModalList, ...importedTokens];
-
+        console.log("combinedList", combinedList);
         let newData = combinedList.filter((item: any) => {
           let result;
+          console.log("item=-> " , item);
           if (item.name) {
             result = item.name.toLowerCase().includes(key.toLowerCase())
           }
           else {
-            result = item.parentName.toLowerCase().includes(key.toLowerCase())
+            result = item.parentName.toLowerCase().includes(key.toLowerCase()) || item.key.toLowerCase().includes(key.toLowerCase()) || item.childName.toLowerCase().includes(key.toLowerCase())
           }
           return result;
         });

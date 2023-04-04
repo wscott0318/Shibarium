@@ -254,7 +254,7 @@ const TokenList = ({
     }, 500);
   }
 
-
+  console.log("step 5", tokenModalList)
   return (
     <div>
       {tokenState?.step0 && !searchedList && (tokenModalList
@@ -264,6 +264,7 @@ const TokenList = ({
             key={x?.parentContract}
             onClick={() => handleTokenSelect(x)}
           >
+            {/* @ts-ignore */}
             <div className="cryoto-box">
               <img
                 className="img-fluid"
@@ -276,6 +277,7 @@ const TokenList = ({
                 onError={imageOnErrorHandler}
                 alt=""
               />
+              {console.log("step 6 ", x)}
             </div>
             <div className="tkn-grid">
               <div>
@@ -286,10 +288,10 @@ const TokenList = ({
                 <p>{x?.parentName || x?.name || "Unknown"}</p>
               </div>
               <div>
-                {x?.balance === 0 ? <Loader stroke="orange"/> :
-                 <h6 className="fw-bold">
-                  {x?.balance ? x.balance : "00.00"}
-                </h6>}
+                {x?.balance === 0 ? <Loader stroke="orange" /> :
+                  <h6 className="fw-bold">
+                    {x?.balance}
+                  </h6>}
               </div>
             </div>
           </div>

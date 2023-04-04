@@ -416,7 +416,7 @@ const handleShow = useCallback(()=>{ handleClose(); resetForm()},[])
                         </div>
                         <div className="fw-700">
                           <span className="vertical-align ft-22">
-                            {data.name}
+                            {data.name ? data.name : "-"}
                           </span>
                           <p>
                             <span className="light-text">
