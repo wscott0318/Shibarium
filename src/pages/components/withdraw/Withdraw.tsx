@@ -89,7 +89,7 @@ const WithdrawModal: React.FC<{
             title: "Please Note",
         });
         const switchNetwork = async () => {
-            let key = chainId == ChainId.GÖRLI ? ChainId.PUPPYNET917 : ChainId.GÖRLI;
+            let key = chainId == ChainId.GÖRLI ? ChainId.PUPPYNET719 : ChainId.GÖRLI;
             console.debug(`Switching to chain ${key}`, SUPPORTED_NETWORKS[key])
             const params = SUPPORTED_NETWORKS[key]
             cookie.set('chainId', key, params)
@@ -125,7 +125,7 @@ const WithdrawModal: React.FC<{
                         setButtonLoader(false);
                         console.log("first if completed")
                     }
-                    if (chainId === ChainId.PUPPYNET517) {
+                    if (chainId === ChainId.PUPPYNET719) {
                         setButtonLoader(true);
                         console.log("entered second if")
                         setWidModState({
@@ -232,7 +232,7 @@ const WithdrawModal: React.FC<{
                                 })
                             );
                             console.log("transaction hash ", res)
-                            let link = getExplorerLink(ChainId.PUPPYNET517, res, "transaction");
+                            let link = getExplorerLink(ChainId.PUPPYNET719, res, "transaction");
                             setHashLink(link);
                         })
                         .on("receipt", (res: any) => {
@@ -294,7 +294,7 @@ const WithdrawModal: React.FC<{
                                 })
                             );
                             console.log("transaction hash ", res)
-                            let link = getExplorerLink(ChainId.PUPPYNET517, res, "transaction");
+                            let link = getExplorerLink(ChainId.PUPPYNET719, res, "transaction");
                             setHashLink(link);
                         })
                         .on("receipt", (res: any) => {
@@ -770,7 +770,7 @@ const WithdrawModal: React.FC<{
                                                             src={
                                                                 NETWORK_ICON[
                                                                 chainId == ChainId.GÖRLI
-                                                                    ? ChainId.PUPPYNET517
+                                                                    ? ChainId.PUPPYNET719
                                                                     : ChainId.GÖRLI
                                                                 ]
                                                             }
@@ -782,7 +782,7 @@ const WithdrawModal: React.FC<{
                                                         {
                                                             NETWORK_LABEL[
                                                             chainId == ChainId.GÖRLI
-                                                                ? ChainId.PUPPYNET517
+                                                                ? ChainId.PUPPYNET719
                                                                 : ChainId.GÖRLI
                                                             ]
                                                         }
