@@ -34,6 +34,7 @@ const Deposit: React.FC<any> =
         const [estGas, setEstGas] = useState<any>(0);
         const dispatch: any = useAppDispatch();
         const [error, setError] = useState("");
+        const [loader, setLoader] = useState(false);
         const [depModalState, setDepModState] = useState({
             step0: true,
             step1: false,
@@ -65,7 +66,7 @@ const Deposit: React.FC<any> =
                 console.log("amount is greater than allowance step 2")
                 allowanceGas = await getFeeForApproval(currentprice, amountWei, user);
             }
-            else{
+            else {
                 await getFeeForDeposit(allowanceGas, currentprice, user, amountWei)
             }
         }
@@ -103,7 +104,7 @@ const Deposit: React.FC<any> =
                     depositManagerABI,
                     dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
                 )
-                console.log("before calculating gas fee", chainId,selectedToken ,amountWei ,dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY);
+                console.log("before calculating gas fee", chainId, selectedToken, amountWei, dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY);
                 let gasFee = await instance.methods.depositERC20ForUser(selectedToken?.parentContract, user, amountWei).estimateGas({ from: user });
                 if (+allowanceGas > 0) gasFee = (+gasFee * +currentprice) / Math.pow(10, 18) + +allowanceGas;
                 else gasFee = (+gasFee * +currentprice) / Math.pow(10, 18);
@@ -128,6 +129,7 @@ const Deposit: React.FC<any> =
         }
         const approvalForDeposit = async (token: any, contract: any) => {
             try {
+                setLoader(true);
                 let user: any = account;
                 const amountWei = web3.utils.toBN(
                     fromExponential(10000 * Math.pow(10, 18))
@@ -167,6 +169,7 @@ const Deposit: React.FC<any> =
                                 },
                             })
                         );
+                        setLoader(false);
                         estGasFee();
                     })
                     .on("error", (res: any) => {
@@ -200,53 +203,53 @@ const Deposit: React.FC<any> =
 
         const depositContract = async (user: any, amount: any) => {
             // call deposit contract
-            let instance = new web3.eth.Contract(
-                depositManagerABI,
-                dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-            );
-            instance.methods
-                .depositERC20ForUser(selectedToken?.parentContract, user, amount)
-                .send({ from: account })
-                .on("transactionHash", (res: any) => {
-                    dispatch(
-                        addTransaction({
-                            hash: res,
-                            from: user,
-                            chainId,
-                            summary: `${res}`,
-                        })
-                    );
-                    let link = getExplorerLink(chainId, res, "transaction");
-                    setHashLink(link);
-                })
-                .on("receipt", (res: any) => {
-                    dispatch(
-                        finalizeTransaction({
-                            hash: res.transactionHash,
-                            chainId,
-                            receipt: {
-                                to: res.to,
-                                from: res.from,
-                                contractAddress: res.contractAddress,
-                                transactionIndex: res.transactionIndex,
-                                blockHash: res.blockHash,
-                                transactionHash: res.transactionHash,
-                                blockNumber: res.blockNumber,
-                                status: 1,
-                            },
-                        })
-                    );
-                    setDepModState({
-                        step0: false,
-                        step1: false,
-                        step2: false,
-                        step3: false,
-                        step4: true,
-                        title: "Transaction Submitted",
-                    });
-                })
-                .on("error", (res: any) => {
-                    if (res.code === 4001) {
+            try {
+                let instance = new web3.eth.Contract(
+                    depositManagerABI,
+                    dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+                );
+                instance.methods
+                    .depositERC20ForUser(selectedToken?.parentContract, user, amount)
+                    .send({ from: account })
+                    .on("transactionHash", (res: any) => {
+                        dispatch(
+                            addTransaction({
+                                hash: res,
+                                from: user,
+                                chainId,
+                                summary: `${res}`,
+                            })
+                        );
+                        let link = getExplorerLink(chainId, res, "transaction");
+                        setHashLink(link);
+                    })
+                    .on("receipt", (res: any) => {
+                        dispatch(
+                            finalizeTransaction({
+                                hash: res.transactionHash,
+                                chainId,
+                                receipt: {
+                                    to: res.to,
+                                    from: res.from,
+                                    contractAddress: res.contractAddress,
+                                    transactionIndex: res.transactionIndex,
+                                    blockHash: res.blockHash,
+                                    transactionHash: res.transactionHash,
+                                    blockNumber: res.blockNumber,
+                                    status: 1,
+                                },
+                            })
+                        );
+                        setDepModState({
+                            step0: false,
+                            step1: false,
+                            step2: false,
+                            step3: false,
+                            step4: true,
+                            title: "Transaction Submitted",
+                        });
+                    })
+                    .on("error", (res: any) => {
                         setDepModState({
                             step0: true,
                             step1: false,
@@ -258,8 +261,24 @@ const Deposit: React.FC<any> =
                         setDepositModal(false);
                         setEstGas(0);
                         setAllowance(0);
-                    }
+                    });
+            }
+            catch (err: any) {
+                if (err.code !== USER_REJECTED_TX) {
+                    Sentry.captureMessage("depositContract", err);
+                }
+                setDepModState({
+                    step0: true,
+                    step1: false,
+                    step2: false,
+                    step3: false,
+                    step4: false,
+                    title: "Please Note",
                 });
+                setDepositModal(false);
+                setEstGas(0);
+                setAllowance(0);
+            }
         }
 
         const callDepositContract = async () => {
@@ -295,7 +314,7 @@ const Deposit: React.FC<any> =
                     //     );
                     // }
                     // else {
-                        depositContract(user, amountWei);
+                    depositContract(user, amountWei);
                     // }
 
                 }
@@ -315,9 +334,11 @@ const Deposit: React.FC<any> =
             }
         };
 
-        const handleStepOne = async() => {
+        const handleStepOne = async () => {
             if (estGas > 0) setDepModState({ ...depModalState, step1: false, step2: true, title: "Confirm Transfer" });
-            else await approvalForDeposit(selectedToken?.parentContract, dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY)
+            else {
+                await approvalForDeposit(selectedToken?.parentContract, dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY);
+            }
         }
 
         const imageOnErrorHandler = (
@@ -439,7 +460,7 @@ const Deposit: React.FC<any> =
                                     }
                                     <div>
                                         <a
-                                            className={`btn primary-btn w-100`}
+                                            className={`btn primary-btn w-100 ${loader && "disabled"}`}
                                             onClick={() => handleStepOne()}
                                         >
                                             Continue

@@ -71,7 +71,6 @@ const ValidatorAccount = ({
   const [valId, setValId] = useValId();  //NOSONAR
   const isLoading = availBalance === -1;
   const [valInfoContract, setValInfoContract] = useValInfoContract()  //NOSONAR
-  console.log("initial availbalance", availBalance);
   const [transactionState, setTransactionState] = useState(initialModalState);
   const [hashLink, setHashLink] = useState('');
   const { account, chainId = 1, library } = useActiveWeb3React();

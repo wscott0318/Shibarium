@@ -60,3 +60,6 @@ export const updateMigrateData = createAction<{
   migrateData: object;
   stake:number;
 }>("user/updateMigrateData");
+export const updateTotalValCount = createAction<{
+  totalValCount:number;
+}>("user/updateTotalValCount");

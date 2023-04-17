@@ -19,7 +19,8 @@ import {
   updateValId,
   updateValInfo,
   updateEpochDyna,
-  updateMigrateData
+  updateMigrateData,
+  updateTotalValCount
 } from "./actions";
 
 const currentTimestamp = () => new Date().getTime()
@@ -60,6 +61,7 @@ export interface UserState {
   epochDyna: object;
   migrateData:object;
   stake:number;
+  totalValCount:number;
 }
 
 function pairKey(token0Address: string, token1Address: string) {
@@ -81,7 +83,8 @@ export const initialState: UserState = {
   valInfoContract: {},
   epochDyna: {},
   migrateData:{},
-  stake: 0
+  stake: 0,
+  totalValCount:0,
 };
 
 export default createReducer(initialState, (builder) =>
@@ -169,5 +172,8 @@ export default createReducer(initialState, (builder) =>
     })
     .addCase(updateMigrateData, (state, action) => {
       state.migrateData = action.payload;
+    })
+    .addCase(updateTotalValCount, (state, action) => {
+      state.totalValCount = action.payload.totalValCount;
     })
 );

@@ -58,6 +58,8 @@ function combineMaps(map1: TokenAddressMap, map2: TokenAddressMap): TokenAddress
     42: { ...map1[42], ...map2[42] }, // kovan
     250: { ...map1[250], ...map2[250] }, // fantom
     517: { ...map1[517], ...map2[517] }, // puppy net
+    917: { ...map1[517], ...map2[517] }, // puppy net
+    719: { ...map1[517], ...map2[517] }, // puppy net
     4002: { ...map1[4002], ...map2[4002] }, // fantom testnet
     137: { ...map1[137], ...map2[137] }, // matic
     80001: { ...map1[80001], ...map2[80001] }, // matic testnet

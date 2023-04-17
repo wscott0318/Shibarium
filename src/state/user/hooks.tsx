@@ -40,7 +40,8 @@ import {
   updateValId,
   updateValInfo,
   updateEpochDyna,
-  updateMigrateData
+  updateMigrateData,
+  updateTotalValCount
 } from "./actions";
 
 
@@ -472,4 +473,20 @@ export function useMigrateStake(): [object, (newUseUserType: object, stake:numbe
     (fetchedMigrateData: object, stake:number) => dispatch(updateMigrateData({ migrateData: fetchedMigrateData ,  stake:stake})), [dispatch]
   );
   return [migrateData, setMigrateData];
+}
+
+export function useValCount(): [object, (newUseUserType: number) => object] {
+  const dispatch = useAppDispatch()
+
+  // @ts-ignore TYPE NEEDS FIXING
+  const totalValCount = useSelector<AppState, AppState["totalValCount"]["setTotalValCount"]>(
+    (state) => state.user.totalValCount
+  );
+
+  const setTotalValCount = useCallback(
+    (newTotalValCount: number) => dispatch(updateTotalValCount({ totalValCount: newTotalValCount })),
+    [dispatch]
+  )
+
+  return [totalValCount, setTotalValCount]
 }

@@ -9,7 +9,7 @@ import * as Sentry from '@sentry/nextjs'
 import { inActiveCount } from 'web3/commonFunctions';
 import { useRouter } from 'next/router';
 import { SearchIcon, XCircleIcon } from '@heroicons/react/outline';
-import { useUserType } from 'app/state/user/hooks';
+import { useUserType, useValCount } from 'app/state/user/hooks';
 
 const Valitotors: React.FC<any> = ({ withStatusFilter, nodeSetup }: { withStatusFilter: boolean, nodeSetup: number }) => {
   const router = useRouter();
@@ -23,6 +23,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter, nodeSetup }: { withStatus
   const [sortKey, setSortKey] = useState<string>('Uptime');
   const [userType, setUserType] = useUserType()  //NOSONAR
   const [isMobile, setIsMobile] = useState(true);
+  const [totalValCount, setTotalValCount] = useValCount();
   const requestOptions = {
     method: 'GET',
     redirect: 'follow'
@@ -35,6 +36,8 @@ const Valitotors: React.FC<any> = ({ withStatusFilter, nodeSetup }: { withStatus
           setLoading(false)
           setLoadingVal(false);
           if (res.status == 200) {
+            console.log("total validators => " , res.data)
+            setTotalValCount(res.data.validatorsList.length);
             let activeList: any;
             setAllValidators(res.data.validatorsList);
             if (searchKey != "") {
@@ -107,7 +110,7 @@ const Valitotors: React.FC<any> = ({ withStatusFilter, nodeSetup }: { withStatus
     }
     setValidators(filtered)
   }
-  console.log("validators list => " , validators)
+  // console.log("validators list => " , validators)
   useEffect(() => {
     filterValidators();
   }, [isActiveTab, allValidators]);

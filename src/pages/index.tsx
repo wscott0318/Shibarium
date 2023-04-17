@@ -4,7 +4,7 @@
 /* eslint-disable react/no-unknown-property */
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
-import { useUserType } from "../state/user/hooks";
+import { useUserType, useValCount } from "../state/user/hooks";
 import NetworkDetails from './home/NetworkDetails';
 import ValidatorsCard from "./all-validator/valitotors";
 import { useActiveWeb3React } from "../services/web3"
@@ -27,6 +27,7 @@ const BoneStaking = () => {
   const [nodeSetup, setNodeSetup] = useState<any>('')
   const [valInfoLoader, setValInfoLoader] = useState(true)
   const web3test = L1Block();
+  const [totalValCount, setTotalValCount] = useValCount();
   useEffect(() => {
     if (account) {
       getValInfo()
@@ -34,7 +35,7 @@ const BoneStaking = () => {
     getValCount()
    
   }, [account])
-
+  console.log("total validator count" ,totalValCount);
   
   const getValCount = async () => {
     try {
@@ -46,6 +47,7 @@ const BoneStaking = () => {
       })
       const valCount = totVals?.data?.validators?.length;
       setValCount(valCount)
+      console.log("validator count " , valCount)
       setValMaxCount(validatorThreshold)
     }
     catch (err: any) {

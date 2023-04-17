@@ -100,6 +100,7 @@ export default function Withdraw() {
       let address: any;
       let bal: any;
       let contract: any;
+      // console.log("selected token" , selectedToken, chainId)
       if (chainId === ChainId.GÖRLI) {
         address = selectedToken?.childContract || selectedToken?.address;
         contract = new web3L2.eth.Contract(ERC20_ABI, address);
@@ -122,7 +123,7 @@ export default function Withdraw() {
               console.log("l2 balance  => ", bal)
               setLoader(false);
             });
-        });
+        }).catch((err:any) => console.log("error fetching token bal" , err));
       setTokenBalanceL2(bal);
     }
   }
