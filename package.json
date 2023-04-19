@@ -8,7 +8,7 @@
     "inspect": "NODE_OPTIONS='--inspect' next dev",
     "build": "yarn lingui && next build",
     "export": "next export",
-    "start": "next start -p 3000",
+    "start": "next start -p 3001",
     "lingui": "lingui extract --clean --overwrite && lingui compile",
     "circular": "madge --circular src --extensions ts,tsx,js,jsx",
     "unused": "next-unused",
