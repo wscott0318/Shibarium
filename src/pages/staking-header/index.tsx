@@ -26,7 +26,7 @@ const StakingHeader = (type: any) => {
   const { account, chainId = 1, library } = useActiveWeb3React();
   const web3Test = PUPPYNET517();
   const [valInfo, setValInfo] = useValInfo(); //NOSONAR
-  const [latestBlock , setLatestBlock] = useState<number>(0);
+  const [latestBlock, setLatestBlock] = useState<number>(0);
   const [stakingHeader, showStakingHeader] = useState(false);
   const getValInfoApi = async (id: any) => {
     try {
@@ -67,13 +67,13 @@ const StakingHeader = (type: any) => {
       let instance = new web3.eth.Contract(
         stakeManagerProxyABI,
         dynamicChaining[chainId].STAKE_MANAGER_PROXY
-        );
-        console.log("step 5 ",instance);
-      const dynasty = await instance.methods.checkPointBlockInterval().call({from:account});
+      );
+      console.log("step 5 ", instance);
+      const dynasty = await instance.methods.checkPointBlockInterval().call({ from: account });
       web3Test?.eth?.getBlockNumber().then((lastBlock: number) => {
         setLatestBlock(lastBlock)
       })
-      console.log("last checkpoint " , dynasty)
+      console.log("last checkpoint ", dynasty)
       setDynasty(dynasty);
     } catch (err: any) {
 
@@ -196,7 +196,7 @@ const StakingHeader = (type: any) => {
       return null;
     }
   };
-
+  console.log("val ifno", valInfo)
   return (
     <>
       <ValInfoModals
@@ -214,8 +214,8 @@ const StakingHeader = (type: any) => {
                   src="../../assets/images/waiting-small.png"
                   alt="Wait"
                 />
-                <p className="light-text primary-text"> Wait for <NumberFormat style={{fontSize:"24px"}} displayType='text' thousandSeparator value={+dynasty + +latestBlock} /> blocks to see your account info...
-                <br/><span style={{color:"red"}}>**If your NODE is fully synced**</span></p>
+                <p className="light-text primary-text"> Wait for <NumberFormat style={{ fontSize: "24px" }} displayType='text' thousandSeparator value={+dynasty + +latestBlock} /> blocks to see your account info...
+                  <br /><span style={{ color: "red" }}>**If your NODE is fully synced**</span></p>
               </div>
             </div>
           </div>
@@ -267,6 +267,8 @@ const StakingHeader = (type: any) => {
             </div>
           </div>
         </div>
+      {/* @ts-ignore */}
+      {userType === "Validator" && valInfo?.valInfo.signer === account && <div className="signer_warning">Please switch to your staker account to enable transactions.</div>}
       </div>
     </>
   );

@@ -55,12 +55,12 @@
   }
 }
 .section-info {
-  padding: 30px;
+  padding: 50px 0px;
   @media #{$max-lg} {
     padding: 30px;
   }
   @media #{$max-sm} {
-    padding: 30px 0;
+    padding: 80px 0;
   }
 }
 .btns-sec {

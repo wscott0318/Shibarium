@@ -36,7 +36,7 @@ import { queryProvider } from "Apollo/client";
 import { StakeAmount } from "Apollo/queries";
 import { dynamicChaining } from "web3/DynamicChaining";
 import * as Sentry from "@sentry/nextjs";
-import { useValId, useEpochDyna, useMigrateStake, useValInfoContract } from 'app/state/user/hooks';
+import { useValId, useEpochDyna, useMigrateStake, useValInfoContract, useValInfo } from 'app/state/user/hooks';
 import { CircularProgress } from "@material-ui/core";
 import { getValidatorInfo } from "app/services/apis/network-details/networkOverview";
 
@@ -68,6 +68,7 @@ const ValidatorAccount = ({
   const [validatorTotalReward, setValidatorTotalReward] = useState<any>();
   const [validatorInfoContract, setValidatorInfoContract] = useState<any>();
   const [epochDyna, setEpochDyna] = useEpochDyna();
+  const [valInfo, setValInfo] = useValInfo();
   const [valId, setValId] = useValId();  //NOSONAR
   const isLoading = availBalance === -1;
   const [valInfoContract, setValInfoContract] = useValInfoContract()  //NOSONAR
@@ -553,7 +554,7 @@ const ValidatorAccount = ({
 
   const withdrawRewardValidator = async () => {
     try {
-      setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Withdraw Rewards" });
+      setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Pending" });
       if (account) {
         let walletAddress = account;
         let valID = valId;
@@ -1679,11 +1680,11 @@ const ValidatorAccount = ({
                           MAX
                         </span>
                       </div>
-                      {unboundInput > unboundModal.stakeAmount ? 
-                      (
-                        <p className="warning">Insufficient Amount</p>
-                      )
-                    : null}
+                      {unboundInput > unboundModal.stakeAmount ?
+                        (
+                          <p className="warning">Insufficient Amount</p>
+                        )
+                        : null}
                     </div>
                   </div>
                   <p className="mt-1 mb-0 info-txt">
@@ -2090,8 +2091,8 @@ const ValidatorAccount = ({
                           <button
                             disabled={
                               parseInt(validatorInfoContract?.status) > 1 ||
-                                parseInt(validatorInfoContract?.deactivationEpoch) >
-                                0
+                                parseInt(validatorInfoContract?.deactivationEpoch) > 0 || //@ts-ignore
+                                valInfo.valInfo.signer == account
                                 ? true
                                 : false
                             }
@@ -2100,7 +2101,9 @@ const ValidatorAccount = ({
                           >
                             Restake
                           </button>
-                          <div className="tool-desc">Restake</div>
+                          <div className="tool-desc">
+                            {/* @ts-ignore */}
+                            {valInfo.valInfo.signer == account ? "Switch to your staker account" : "Restake"}</div>
                         </div>
                       </div>
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
@@ -2113,7 +2116,8 @@ const ValidatorAccount = ({
                                   validatorInfoContract?.lastCommissionUpdate
                                 ) +
                                 parseInt(comissionHandle?.dynasty) >=
-                                parseInt(comissionHandle?.epoch)
+                                parseInt(comissionHandle?.epoch) //@ts-ignore
+                                || valInfo.valInfo.signer == account
                                 ? true
                                 : false
                             }
@@ -2132,7 +2136,8 @@ const ValidatorAccount = ({
                             parseInt(comissionHandle?.dynasty) >
                             parseInt(comissionHandle?.epoch) ? null :
                             (<div className="tool-desc">
-                              Change your commission rate
+                              {/* @ts-ignore */}
+                              {valInfo.valInfo.signer == account ? "Switch to your staker account" : "Change your commission rate"}
                             </div>)}
 
                         </div>
@@ -2140,17 +2145,17 @@ const ValidatorAccount = ({
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                         <div className="cus-tooltip d-inline-block ps-0">
                           <button
-                            onClick={() => withdrawRewardValidator()}
-                            disabled={
-                              parseInt(validatorInfoContract?.status) > 1
+                            onClick={() => { withdrawRewardValidator() }}
+                            disabled={ //@ts-ignore
+                              parseInt(validatorInfoContract?.status) > 1 || valInfo.valInfo.signer == account
                                 ? true
                                 : (validatorTotalReward <= 0)
                             }
                             className="ff-mos btn black-btn w-100 d-block tool-ico"
                           >
                             Withdraw Rewards
-                          </button>
-                          <div className="tool-desc">Withdraw rewards</div>
+                          </button> {/*@ts-ignore*/}
+                          <div className="tool-desc">{valInfo.valInfo.signer == account ? "Switch to your staker account" : "Withdraw rewards"}</div>
                         </div>
                       </div>
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
@@ -2159,7 +2164,9 @@ const ValidatorAccount = ({
                             disabled={
                               parseInt(validatorInfoContract?.deactivationEpoch) >
                                 0 ||
-                                validatorInfo?.fundamental === 1 ? true
+                                validatorInfo?.fundamental === 1 ||
+                                // @ts-ignore
+                                valInfo.valInfo.signer == account ? true
                                 : false
                             }
                             onClick={() => setUnStakePop(true)}
@@ -2167,7 +2174,8 @@ const ValidatorAccount = ({
                           >
                             Unstake
                           </button>
-                          <div className="tool-desc">unstake from network</div>
+                          <div className="tool-desc-grid tool-desc">{/*@ts-ignore*/}
+                            {valInfo.valInfo.signer == account ? "Switch to your staker account" : "Unstake from network"}</div>
                         </div>
                       </div>
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
@@ -2177,20 +2185,27 @@ const ValidatorAccount = ({
                               (parseInt(validatorInfoContract?.deactivationEpoch) >
                                 0 &&
                                 parseInt(validatorInfoContract?.status) === 2) &&
-                                validatorInfo?.fundamental === 2
+                                validatorInfo?.fundamental === 2 || //@ts-ignore
+                                valInfo.valInfo.signer != account
                                 ? false
                                 : true
                             }
                             onClick={() => setUnStakeClaimPop(true)}
                             className="ff-mos btn black-btn w-100 d-block tool-ico"
                           >
-                            Unstake claim
+                            Unstake Claim
                           </button>
                           {parseInt(validatorInfoContract?.deactivationEpoch) >= 0 ?
                             (
-                              <div className="tool-desc">You need to unstake first.</div>
+
+                              <div className="tool-desc">
+                                {/*@ts-ignore*/}
+                                {valInfo.valInfo.signer == account ? "Switch to your staker account" : "You need to unstake first."}
+                              </div>
                             ) : (
-                              <div className="tool-desc">claim your self stake</div>
+                              <div className="tool-desc">
+                                {/*@ts-ignore*/}
+                                {valInfo.valInfo.signer == account ? "Switch to your staker account" : "Claim your self stake"}</div>
                             )}
 
                         </div>
@@ -2396,7 +2411,7 @@ const ValidatorAccount = ({
                                         uptimePercent:
                                           item.checkpointSignedPercent,
                                         validatorContractId: item.id,
-                                        image:item.image
+                                        image: item.image
                                       });
                                       setStakeMoreModal(true);
                                     }}

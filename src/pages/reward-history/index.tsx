@@ -7,7 +7,7 @@ import Header from "pages/layout/header";
 import Pagination from "app/components/Pagination";
 import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import { useRouter } from "next/router";
-import { useUserType } from "../../state/user/hooks";
+import { useUserType, useValId } from "../../state/user/hooks";
 import { addDecimalValue, getUserTimeZone, web3Decimals } from "web3/commonFunctions";
 import { dynamicChaining } from 'web3/DynamicChaining';
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
@@ -27,6 +27,7 @@ export default function Unbond() {
   const [userType, setUserType] = useUserType();  //NOSONAR
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [validatorData, setValidatorData] = useState<any>([])
+  const [valId, setValInfo] = useValId();
   const getRewardsList = async (account: any) => {
     try {
       await unbondRewards(account).then((res: any) => {
@@ -48,28 +49,33 @@ export default function Unbond() {
       Sentry.captureException("getRewardsList ", err);
     }
   }
-
-  const getValidatorId = async () => {
-    try {
-      let user = account;
-      if (account) {
-        const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-        const ID = await instance.methods.getValidatorId(user).call({ from: account });
-        return ID
-      }
-    }
-    catch (err: any) {
-      Sentry.captureException("getValidatorId ", err);
-    }
-  }
+  // console.log("val info " , valId);
+  // const getValidatorId = async () => {
+  //   try {
+  //     let user = account;
+  //     if (account) {
+  //       const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
+  //       console.log("validator id=>" , instance , user)
+  //       try{
+  //         const ID = await instance.methods.getValidatorId(user).call({ from: account })
+  //         return ID;
+  //       }catch(err){
+  //         console.log("error catching " , err);
+  //       }
+  //     }
+  //   }
+  //   catch (err: any) {
+  //     Sentry.captureException("getValidatorId ", err);
+  //   }
+  // }
 
 
   const validatorReward = async () => {
     try {
       setListLoader(true)
-      let valID = await getValidatorId()
+      // let valID = await getValidatorId()
       const validators = await queryProvider.query({
-        query: validatorRewardHistory(valID),
+        query: validatorRewardHistory(valId),
       })
       setValidatorData(validators.data.validatorClaimRewards)
       setListLoader(false)
