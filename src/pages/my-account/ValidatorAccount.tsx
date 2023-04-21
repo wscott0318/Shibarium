@@ -2092,7 +2092,7 @@ const ValidatorAccount = ({
                             disabled={
                               parseInt(validatorInfoContract?.status) > 1 ||
                                 parseInt(validatorInfoContract?.deactivationEpoch) > 0 || //@ts-ignore
-                                valInfo.valInfo.signer == account
+                                valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account
                                 ? true
                                 : false
                             }
@@ -2103,7 +2103,7 @@ const ValidatorAccount = ({
                           </button>
                           <div className="tool-desc">
                             {/* @ts-ignore */}
-                            {valInfo.valInfo.signer == account ? "Switch to your staker account" : "Restake"}</div>
+                            {valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account ? "Switch to your staker account" : "Restake"}</div>
                         </div>
                       </div>
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
@@ -2117,7 +2117,7 @@ const ValidatorAccount = ({
                                 ) +
                                 parseInt(comissionHandle?.dynasty) >=
                                 parseInt(comissionHandle?.epoch) //@ts-ignore
-                                || valInfo.valInfo.signer == account
+                                || valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account
                                 ? true
                                 : false
                             }
@@ -2137,7 +2137,7 @@ const ValidatorAccount = ({
                             parseInt(comissionHandle?.epoch) ? null :
                             (<div className="tool-desc">
                               {/* @ts-ignore */}
-                              {valInfo.valInfo.signer == account ? "Switch to your staker account" : "Change your commission rate"}
+                              {valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account ? "Switch to your staker account" : "Change your commission rate"}
                             </div>)}
 
                         </div>
@@ -2147,7 +2147,7 @@ const ValidatorAccount = ({
                           <button
                             onClick={() => { withdrawRewardValidator() }}
                             disabled={ //@ts-ignore
-                              parseInt(validatorInfoContract?.status) > 1 || valInfo.valInfo.signer == account
+                              parseInt(validatorInfoContract?.status) > 1 || valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account
                                 ? true
                                 : (validatorTotalReward <= 0)
                             }
@@ -2155,7 +2155,7 @@ const ValidatorAccount = ({
                           >
                             Withdraw Rewards
                           </button> {/*@ts-ignore*/}
-                          <div className="tool-desc">{valInfo.valInfo.signer == account ? "Switch to your staker account" : "Withdraw rewards"}</div>
+                          <div className="tool-desc">{valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account ? "Switch to your staker account" : "Withdraw rewards"}</div>
                         </div>
                       </div>
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
@@ -2166,7 +2166,7 @@ const ValidatorAccount = ({
                                 0 ||
                                 validatorInfo?.fundamental === 1 ||
                                 // @ts-ignore
-                                valInfo.valInfo.signer == account ? true
+                                valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account ? true
                                 : false
                             }
                             onClick={() => setUnStakePop(true)}
@@ -2175,7 +2175,7 @@ const ValidatorAccount = ({
                             Unstake
                           </button>
                           <div className="tool-desc-grid tool-desc">{/*@ts-ignore*/}
-                            {valInfo.valInfo.signer == account ? "Switch to your staker account" : "Unstake from network"}</div>
+                            {valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account ? "Switch to your staker account" : "Unstake from network"}</div>
                         </div>
                       </div>
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
@@ -2186,7 +2186,7 @@ const ValidatorAccount = ({
                                 0 &&
                                 parseInt(validatorInfoContract?.status) === 2) &&
                                 validatorInfo?.fundamental === 2 || //@ts-ignore
-                                valInfo.valInfo.signer != account
+                                valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer != account
                                 ? false
                                 : true
                             }
@@ -2200,12 +2200,12 @@ const ValidatorAccount = ({
 
                               <div className="tool-desc">
                                 {/*@ts-ignore*/}
-                                {valInfo.valInfo.signer == account ? "Switch to your staker account" : "You need to unstake first."}
+                                {valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account ? "Switch to your staker account" : "You need to unstake first."}
                               </div>
                             ) : (
                               <div className="tool-desc">
                                 {/*@ts-ignore*/}
-                                {valInfo.valInfo.signer == account ? "Switch to your staker account" : "Claim your self stake"}</div>
+                                {valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account ? "Switch to your staker account" : "Claim your self stake"}</div>
                             )}
 
                         </div>

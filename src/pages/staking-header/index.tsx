@@ -268,7 +268,7 @@ const StakingHeader = (type: any) => {
           </div>
         </div>
       {/* @ts-ignore */}
-      {userType === "Validator" && valInfo?.valInfo.signer === account && <div className="signer_warning">Please switch to your staker account to enable transactions.</div>}
+      {userType === "Validator" && valInfo.valInfo.signer !== valInfo.valInfo.staker && valInfo?.valInfo.signer === account && <div className="signer_warning">Please switch to your staker account to enable transactions.</div>}
       </div>
     </>
   );
