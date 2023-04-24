@@ -2166,7 +2166,7 @@ const ValidatorAccount = ({
                                 0 ||
                                 validatorInfo?.fundamental === 1 ||
                                 // @ts-ignore
-                                valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account ? true
+                               (valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer == account) ? true
                                 : false
                             }
                             onClick={() => setUnStakePop(true)}
@@ -2182,11 +2182,12 @@ const ValidatorAccount = ({
                         <div className={`cus-tooltip d-inline-block ps-0`}>
                           <button
                             disabled={
-                              (parseInt(validatorInfoContract?.deactivationEpoch) >
+                              ((parseInt(validatorInfoContract?.deactivationEpoch) >
                                 0 &&
-                                parseInt(validatorInfoContract?.status) === 2) &&
-                                validatorInfo?.fundamental === 2 || //@ts-ignore
-                                valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer != account
+                                parseInt(validatorInfoContract?.status) === 2 && //@ts-ignore
+                                (valInfo.valInfo.signer != valInfo.valInfo.staker && valInfo?.valInfo.signer != account)) &&
+                                validatorInfo?.fundamental === 2)
+
                                 ? false
                                 : true
                             }
