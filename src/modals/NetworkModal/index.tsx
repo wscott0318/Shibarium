@@ -35,6 +35,17 @@ export const SUPPORTED_NETWORKS: {
     rpcUrls: ['https://mainnet.infura.io/v3'],
     blockExplorerUrls: ['https://etherscan.com'],
   },
+  // [ChainId.GÖRLI]: {
+  //   chainId: '0x5',
+  //   chainName: 'Goerli test network',
+  //   nativeCurrency: {
+  //     name: 'Goerli Ethereum',
+  //     symbol: 'GoerliETH',
+  //     decimals: 18,
+  //   },
+  //   rpcUrls: ['https://goerli.infura.io/v3/'],
+  //   blockExplorerUrls: ['https://goerli.etherscan.io'],
+  // },
   [ChainId.FANTOM]: {
     chainId: '0xfa',
     chainName: 'Fantom',
@@ -290,18 +301,9 @@ const NetworkModal: FC = () => {
                   toggleNetworkModal()
                   const params = SUPPORTED_NETWORKS[key]
                   cookie.set('chainId', key, params)
+                  console.log("params => " , key);
                   try {
-                    await library?.send('wallet_addEthereumChain', [{
-                      chainId: `0x${key.toString(16)}`,
-                      rpcUrls: ["https://puppynet.shibrpc.com"],
-                      chainName: "Puppy Net",
-                      nativeCurrency: {
-                        name: "BONE",
-                        symbol: "BONE",
-                        decimals: 18
-                      },
-                      blockExplorerUrls: ["https://puppyscan.shib.io/"]
-                    }, account])
+                    await library?.send('wallet_switchEthereumChain', [{ chainId: `0x${key.toString(16)}` }, account])
                     // await library?.send('wallet_switchEthereumChain', [{ chainId: `0x${key.toString(16)}` }, account])
                   } catch (switchError) {
                     // This error code indicates that the chain has not been added to MetaMask.
