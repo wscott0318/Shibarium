@@ -10,45 +10,45 @@ import { useRouter } from 'next/router';
 import MigratePopup from 'pages/migrate-popup';
 import DynamicShimmer from 'app/components/Shimmer/DynamicShimmer';
 
-export default function ListView({ validatorsList, searchKey, loading, migrateData = {}, nodeSetup }: { validatorsList: any, searchKey: string, loading: boolean, migrateData: any,  nodeSetup:number }) {
+export default function ListView({ validatorsList, searchKey, loading, migrateData = {}, nodeSetup }: { validatorsList: any, searchKey: string, loading: boolean, migrateData: any, nodeSetup: number }) {
   const [selectedRow, setSelectedRow] = useState({})
   const { account } = useWeb3React();
   const [userType, setUserType] = useUserType() //NOSONAR
   const [showdelegatepop, setdelegatepop] = useState(false);
   const [showmigratepop, setmigratepop] = useState(false);
   const router = useRouter();
-  
+
   const tootlTipDesc = (x: any) => {
-    console.log("account " , account)
+    console.log("account ", account)
     if (account) {
       if (x.fundamental === 1) {
         return <div className="tool-desc">This is a fundamental node. <br /> Delegation is not enabled here.</div>;
       } else if (x.checkpointstatus === 0 && +(x.missedLatestCheckpointcount) >= 500 && x.fundamental === 2) {
         return <div className="tool-desc tool-desc-sm">Offline since {x.missedLatestCheckpointcount} checkpoints</div>
       }
-      else if (x.lastcheckpointsigned === 0 && x.fundamental === 2){
+      else if (x.lastcheckpointsigned === 0 && x.fundamental === 2) {
         return null;
       }
       else if (router.asPath.split("/")[1] === "migrate-stake") {
         return <div className="tool-desc tool-desc-sm">{x.contractAddress == migrateData.contractAddress ? "Stakes cannot be migrated to same Validator." : "Migrate Your Stakes here."}</div>;
       }
-      else if(x.uptimePercent <= inActiveCount){
+      else if (x.uptimePercent <= inActiveCount) {
         return <div className="tool-desc tool-desc-sm">Delegation is disabled.</div>
       }
       else {
         return <div className="tool-desc tool-desc-sm">Delegation is enabled.</div>
       }
     }
-    else{
-      if (x.lastcheckpointsigned === 0 && x.fundamental === 2){
+    else {
+      if (x.lastcheckpointsigned === 0 && x.fundamental === 2) {
         return null;
       }
-      else{
+      else {
         return <div className="tool-desc tool-desc-sm">Login to enable delegation.</div>
       }
     }
   }
-  
+
   const imageOnErrorHandler = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
@@ -57,19 +57,19 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
   };
 
   const buttonText = (x: any) => {
-    if(router.asPath.split("/")[1] === "migrate-stake") {
+    if (router.asPath.split("/")[1] === "migrate-stake") {
       return "Stake here"
     } else {
-      if(x.checkpointstatus === 0 && +(x.missedLatestCheckpointcount) >= 500 && x.fundamental === 2) {
-        return <p style={{ fontSize: '12px'}} className="no_btn">Offline since<br/>{x.missedLatestCheckpointcount} checkpoints</p> 
+      if (x.checkpointstatus === 0 && +(x.missedLatestCheckpointcount) >= 500 && x.fundamental === 2) {
+        return <p style={{ fontSize: '12px' }} className="no_btn">Offline since<br />{x.missedLatestCheckpointcount} checkpoints</p>
       }
-      else if(x.lastcheckpointsigned === 0 && x.fundamental === 2) {
-        return <p style={{ fontSize: '12px', whiteSpace:"pre-wrap"}} className="no_btn">Not signing checkpoints.</p> 
+      else if (x.lastcheckpointsigned === 0 && x.fundamental === 2) {
+        return <p style={{ fontSize: '12px', whiteSpace: "pre-wrap" }} className="no_btn">Not signing checkpoints.</p>
       }
-      else if(x.uptimePercent <= inActiveCount){
+      else if (x.uptimePercent <= inActiveCount) {
         return "Delegation Disabled"
       }
-       else {
+      else {
         return "Delegate"
       }
     }
@@ -100,7 +100,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                 <th className="text-center">Action</th>
               </tr>
             </thead>
-            <Scrollbar></Scrollbar>
+            {/* <Scrollbar></Scrollbar> */}
             <tbody>
               {!loading && (validatorsList?.length ? (
                 validatorsList.map((x: any, y: any) => (
@@ -154,7 +154,7 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                         <div className="delegate_btn">
                           <button
                             className={`btn primary-btn w-100 text-wrap`}
-                            disabled={!account || x.fundamental === 1 || x.uptimePercent <= inActiveCount || x.contractAddress == migrateData.contractAddress || (x.lastcheckpointsigned === 0 && x.fundamental === 2)? true : false}
+                            disabled={!account || x.fundamental === 1 || x.uptimePercent <= inActiveCount || x.contractAddress == migrateData.contractAddress || (x.lastcheckpointsigned === 0 && x.fundamental === 2) ? true : false}
                             onClick={() => {
                               setSelectedRow(x);
                               if (
@@ -169,10 +169,10 @@ export default function ListView({ validatorsList, searchKey, loading, migrateDa
                             }}
                           >
                             {buttonText(x)}
-                            
+
                           </button>
                           {tootlTipDesc(x)}
-                          
+
                         </div>
                       )}
                     </td>

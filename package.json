@@ -174,7 +174,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
     "react-scrollbar": "^0.5.6",
-    "react-scrollbars-custom": "^4.1.1",
+    "react-scrollbars-custom": "^4.0.0-alpha.7",
     "react-shimmer-effects": "^1.0.2",
     "react-simple-snackbar": "^1.1.11",
     "react-toastify": "^9.0.5",
