@@ -22,6 +22,7 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue, loading })
   const pageChangeHandler = (index: number) => {
     try {
       const slicedList = allCheckpoints.slice((index - 1) * pageSize, (index * pageSize))
+      slicedList.sort((a, b) => a - b);
       setCheckpoints(slicedList)
       setPageIndex(index)
     }
@@ -29,6 +30,7 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue, loading })
       Sentry.captureMessage("pageChangeHandler", err);
     }
   }
+  console.log("checkpoints " , allCheckpoints)
   return (
     <>
       <div className="h-auto p-4 mb-4 cus-card mb-lg-5">
@@ -50,7 +52,7 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue, loading })
               <tbody>
                 {!loading ? (checkpoints?.length > 0 && (
                   checkpoints.map((checkpoint: any, i: any) => (
-                    <tr key={checkpoint.checkpointNumber}>
+                    <tr key={checkpoint.checkpointNumber+i}>
                       <td>
                         <NumberFormat
                           displayType="text"
