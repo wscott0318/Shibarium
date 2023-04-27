@@ -16,7 +16,7 @@ export default function delegator() {
                   <div className="lft-txt">
                     <h1 className="mb-2 mb-sm-3 mb-md-4">All Validators</h1>
                     <div className="btns-sec mt-2">
-                      <div className="btns-wrap">
+                      <div className="btns-wrap d-none">
                         <button onClick={()=>{
                         router.push('/become-validator')
                        }} className="btn primary-btn">Become a Validator</button>

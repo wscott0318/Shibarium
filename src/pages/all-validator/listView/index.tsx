@@ -5,7 +5,6 @@ import DelegatePopup from 'pages/delegate-popup';
 import React, { useState } from 'react';
 import { addDecimalValue, inActiveCount, toFixedPrecent } from 'web3/commonFunctions';
 import { useWeb3React } from "@web3-react/core";
-import Scrollbar from "react-scrollbars-custom";
 import { useRouter } from 'next/router';
 import MigratePopup from 'pages/migrate-popup';
 import DynamicShimmer from 'app/components/Shimmer/DynamicShimmer';

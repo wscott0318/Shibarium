@@ -80,7 +80,7 @@ export const Allvalidator: React.FC = () => {
           console.log("here in else")
           return (
             <div className="btns-sec btn-width">
-             <div className="btns-wrap ">
+             <div className="btns-wrap d-none">
                 <button disabled={+valCount <= +valMaxCount ?  false : true} onClick={()=>{
                 router.push('/become-validator')
                }} className="btn primary-btn">Become a Validator</button>
@@ -106,7 +106,7 @@ export const Allvalidator: React.FC = () => {
       } else {
         return (
           <div className="btns-sec btn-width">
-            <div className="btns-wrap ">
+            <div className="btns-wrap d-none">
               <button disabled={+valCount <= +valMaxCount ? false : true} onClick={() => {
                 router.push('/become-validator')
               }} className="btn primary-btn">Become a Validator</button>

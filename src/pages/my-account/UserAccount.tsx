@@ -27,7 +27,7 @@ const userAccount = ({ boneUSDValue, availBalance }: { boneUSDValue: any, availB
                                 </Link>
 
                             </div>
-                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space">
+                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 blk-space d-none">
                                 <Link href='become-validator' passHref>
                                     <div className="cus-tooltip d-inline-block ps-0">
                                         <a className="ff-mos btn black-btn w-100 d-block tool-ico">
