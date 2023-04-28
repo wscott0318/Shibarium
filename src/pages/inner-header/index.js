@@ -123,7 +123,7 @@ const InnerHeader = () => {
                       </div>
                       {userType === "Validator" && (
                         <NavDropdown.Item>
-                          <div className="custum-row">
+                          <div className="custum-row d-none">
                             <div className="lft-img prof-icon">
                               <img
                                 className="img-fluid"

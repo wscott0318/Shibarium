@@ -2211,7 +2211,7 @@ const ValidatorAccount = ({
 
                         </div>
                       </div>
-                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 d-none">
                         <div className="cus-tooltip d-inline-block ps-0">
                           <Link href="/profile-update" passHref>
                             <button className="ff-mos btn black-btn w-100 d-block tool-ico">
