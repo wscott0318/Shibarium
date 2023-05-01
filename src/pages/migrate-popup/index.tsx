@@ -15,7 +15,8 @@ import {
   addTransaction,
   finalizeTransaction,
 } from "../../state/transactions/actions";
-import { ToastContainer,toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useAppDispatch } from "../../state/hooks";
 import { dynamicChaining } from "web3/DynamicChaining";
 import * as Sentry from "@sentry/nextjs";
