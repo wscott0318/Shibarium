@@ -16,13 +16,12 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Sentry from "@sentry/nextjs";
 import { NETWORK_ICON, NETWORK_LABEL } from "../../config/networks";
-import ManageToken from "../components/ManageToken"
+import ManageToken from "../components/ManageToken";
 import WithdrawModal from "pages/components/withdraw/Withdraw";
 import { L1Block, PUPPYNET517 } from "app/hooks/L1Block";
 import { ERC20_ABI } from "app/constants/abis/erc20";
 import Deposit from "pages/components/deposit/Deposit";
 import Loader from "app/components/Loader";
-import Comingsoon from "app/components/coming-soon";
 
 export default function Withdraw() {
   const { chainId = 1, account } = useActiveWeb3React();
@@ -31,20 +30,20 @@ export default function Withdraw() {
   const bridgeType: string = localStorage.getItem("bridgeType") || "deposit";
   const [menuState, setMenuState] = useState(false);
   const [selectedToken, setSelectedToken] = useState(
-    JSON.parse(localStorage.getItem("depositToken") || "{}"),
+    JSON.parse(localStorage.getItem("depositToken") || "{}")
   );
   const [showDepositModal, setDepositModal] = useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [depositTokenInput, setDepositTokenInput] = useState("");
   const [withdrawTokenInput, setWithdrawTokenInput] = useState("");
   const [dWState, setDWState] = useState(
-    bridgeType === "deposit" ? true : false,
+    bridgeType === "deposit" ? true : false
   );
   const [loader, setLoader] = useState(false);
   const [tokenBalanceL2, setTokenBalanceL2] = useState(0);
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const [hashLink, setHashLink] = useState("");
-  const [openManageToken, setOpenManageToken] = useState(false)
+  const [openManageToken, setOpenManageToken] = useState(false);
   const handleMenuState = () => {
     setMenuState(!menuState);
   };
@@ -64,7 +63,7 @@ export default function Withdraw() {
       .required("Amount is required."),
   });
   const withdrawValidations: any = Yup.object({
-    fromChain: Yup.number(),
+    fromChain: Yup.number().required("Required Field"),
     toChain: Yup.number(),
     withdrawAmount: Yup.number()
       .typeError("Only digits are allowed.")
@@ -81,10 +80,11 @@ export default function Withdraw() {
       Sentry.captureMessage("callDepositModal", err);
     }
   };
-  const callWithdrawModal = (values: any) => {
+  const callWithdrawModal = (values: any, resetForm: any) => {
     try {
       setWithdrawTokenInput(values.withdrawAmount);
       setShowWithdrawModal(true);
+      resetForm();
     } catch (err: any) {
       Sentry.captureMessage("callWithdrawModal", err);
     }
@@ -101,16 +101,17 @@ export default function Withdraw() {
       let address: any;
       let bal: any;
       let contract: any;
-      // console.log("selected token" , selectedToken, chainId)
       if (chainId === ChainId.GÖRLI) {
-        address = selectedToken?.childContract || selectedToken?.address;
+        address =
+          selectedToken?.childContract ||
+          selectedToken?.address ||
+          selectedToken?.parentContract;
         contract = new web3L2.eth.Contract(ERC20_ABI, address);
-        console.log("get l2 balance  => ", chainId)
-      }
-      else {
+        console.log("get l2 balance  => ", chainId);
+      } else {
         address = selectedToken?.parentContract || selectedToken?.address;
         contract = new web3.eth.Contract(ERC20_ABI, address);
-        console.log("get l1 balance  => ", address, contract)
+        console.log("get l1 balance  => ", address, contract);
       }
       await contract.methods
         .balanceOf(account)
@@ -121,21 +122,21 @@ export default function Withdraw() {
             .call()
             .then((d: number) => {
               bal = +(+res / Math.pow(10, d)).toFixed(tokenDecimal);
-              console.log("l2 balance  => ", bal)
+              console.log("l2 balance  => ", bal);
               setLoader(false);
             });
-        }).catch((err:any) => console.log("error fetching token bal" , err));
+        });
       setTokenBalanceL2(bal);
     }
-  }
+  };
   const imageOnErrorHandler = (
-    event: React.SyntheticEvent<HTMLImageElement, Event>,
+    event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
     event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
     event.currentTarget.className = "error me-3";
   };
 
-  const handleClickOutside = useCallback(() => setMenuState(false), [])
+  const handleClickOutside = useCallback(() => setMenuState(false), []);
 
   return (
     <>
@@ -148,7 +149,7 @@ export default function Withdraw() {
         ></Sidebar>
         {/* modal code start */}
         {/* Deposit popup start */}
-        {showDepositModal ?
+        {showDepositModal ? (
           <Deposit
             {...{
               depositTokenInput,
@@ -158,10 +159,10 @@ export default function Withdraw() {
               dWState,
               selectedToken,
               hashLink,
-              setHashLink
+              setHashLink,
             }}
-          /> :
-          null}
+          />
+        ) : null}
 
         {/* Deposit popup end */}
 
@@ -194,7 +195,637 @@ export default function Withdraw() {
           <div className="cmn_dashbord_main_outr">
             <InnerHeader />
             {/* withdraw main section start */}
-           <Comingsoon/>
+            <div className="box-wrap">
+              {/* Left section start */}
+              <div className="left-box">
+                <div className="block-card">
+                  <div className="box-top">
+                    <h3 className="mb-3">Shibarium Bridge</h3>
+                    {dWState ? (
+                      <div className="txt-row">
+                        <div className="row-hd">Transfer Overview:</div>
+                        <p className="row-description">
+                          The deposit process consists of a single transaction.
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="txt-row">
+                        <div className="row-hd">Withdraw Overview:</div>
+                        <p className="row-description">
+                          The Withdraw process consists of three transactions.
+                        </p>
+                      </div>
+                    )}
+                    {dWState ? (
+                      <div className="txt-row">
+                        <div className="row-hd">Transfer Time:</div>
+                        <p className="row-description">
+                          Moving your funds from Ethereum to Shibarium take up
+                          to 10 - 15 Minutes.
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="txt-row">
+                        <div className="row-hd">Withdraw Time:</div>
+                        <p className="row-description">
+                          Moving your funds from Ethereum to Shibarium take up
+                          to 60 mins to 3 hours.
+                        </p>
+                      </div>
+                    )}
+                    {
+                      <div
+                        className={`txt-row ${
+                          dWState ? "visVisible" : "visInvisible"
+                        }`}
+                      >
+                        <div className="row-hd">
+                          <span className="icon-image">
+                            <img
+                              className="img-fluid"
+                              src="../../assets/images/i-info-icon.png"
+                              alt=""
+                              onError={imageOnErrorHandler}
+                            />
+                          </span>
+                          <span className="alignment">
+                            Delegation/Staking Advice:
+                          </span>
+                        </div>
+                        <p className="row-description">
+                          Delegation/Staking takes place on Ethereum. Do not
+                          deposit funds to Shibarium for this purpose.{" "}
+                        </p>
+                      </div>
+                    }
+                  </div>
+                  <div className="blank-box"></div>
+                  <div className="box-bottom d-flex flex-column justify-content-end">
+                    <div className="sub-buttons-sec row buttons-fix">
+                      <div className="mb-3 col-lg-6 mb-lg-0">
+                        <Link href="how-it-works" passHref>
+                          <a target="_blank" className="btn white-btn w-100">
+                            How Shibarium Works
+                          </a>
+                        </Link>
+                      </div>
+                      <div className="col-lg-6">
+                        <button
+                          onClick={() => router.push("/faq")}
+                          className="btn white-btn w-100"
+                        >
+                          FAQs
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* Left section end */}
+              {/* Right section start */}
+
+              <div className="right-box">
+                <div className="block-card d-flex flex-column justify-content-between bridge_form_sec">
+                  <div className="tab-sec botom-spcing">
+                    <ul className="tab-links">
+                      <li>
+                        <a
+                          className={`tb-link ${dWState && "tab-active"}`}
+                          onClick={() => setDWState(true)}
+                        >
+                          Deposit
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          className={`tb-link ${!dWState && "tab-active"}`}
+                          onClick={() => setDWState(false)}
+                        >
+                          Withdraw
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  {/* Deposit tab content section start */}
+                  {dWState && (
+                    <div className="tab-content-sec h-100">
+                      <Formik
+                        initialValues={{
+                          amount: "",
+                          fromChain: chainId,
+                          toChain:
+                            chainId == ChainId.GÖRLI
+                              ? ChainId.PUPPYNET719
+                              : ChainId.GÖRLI,
+                        }}
+                        validationSchema={depositValidations}
+                        onSubmit={(values, { resetForm }) => {
+                          callDepositModal(values, resetForm);
+                        }}
+                      >
+                        {({
+                          errors,
+                          touched,
+                          handleChange,
+                          handleBlur,
+                          values,
+                          handleSubmit,
+                          setFieldValue,
+                        }) => (
+                          <div className="h-100">
+                            <div className="sec-wrapper">
+                              <div className="wrap-top">
+                                <div className="botom-spcing">
+                                  <div>
+                                    <label className="mb-2 mb-xxl-3 mb-md-2">
+                                      From
+                                    </label>
+                                    <div className="form-field position-relative txt-fix">
+                                      <div className="icon-chain">
+                                        <div>
+                                          {selectedToken?.logo ||
+                                          selectedToken?.logoURI ? (
+                                            <img
+                                              width="22"
+                                              height="22"
+                                              className="img-fluid"
+                                              src={
+                                                selectedToken?.logo
+                                                  ? selectedToken?.logo
+                                                  : selectedToken?.logoURI
+                                              }
+                                              alt=""
+                                              onError={imageOnErrorHandler}
+                                            />
+                                          ) : (
+                                            <img
+                                              className="img-fluid"
+                                              src={
+                                                "../../assets/images/eth.png"
+                                              }
+                                              alt=""
+                                              onError={imageOnErrorHandler}
+                                            />
+                                          )}
+                                        </div>
+                                      </div>
+                                      <div className="mid-chain">
+                                        <input
+                                          className="w-100"
+                                          type="text"
+                                          value={NETWORK_LABEL[chainId]}
+                                          disabled={true}
+                                          // placeholder="Ethereum chain"
+                                        />
+                                      </div>
+                                      <div className="rt-chain d-flex align-items-center">
+                                        <span className="fld-head lite-800">
+                                          Balance:
+                                        </span>
+                                        {loader && !selectedToken?.balance ? (
+                                          <Loader stroke="orange" />
+                                        ) : (
+                                          <span className="fld-txt lite-800 wrap_txt">
+                                            {selectedToken?.balance
+                                              ? selectedToken?.balance
+                                              : "00.00"}{" "}
+                                            {selectedToken?.key ||
+                                              selectedToken?.symbol}
+                                          </span>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="field-grid row">
+                                    <div className="mb-3 col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-lg-0 res-align">
+                                      <div
+                                        className="form-field position-relative fix-coin-field"
+                                        onClick={() => {
+                                          setOpenManageToken(!openManageToken);
+                                          setLoader(true);
+                                          setSelectedToken({});
+                                        }}
+                                      >
+                                        <div className="right-spacing">
+                                          <div>
+                                            <img
+                                              className="img-fluid"
+                                              width={24}
+                                              src={
+                                                selectedToken?.logo ||
+                                                selectedToken?.logoURI
+                                                  ? selectedToken.logo ||
+                                                    selectedToken?.logoURI
+                                                  : "../../assets/images/eth.png"
+                                              }
+                                              onError={imageOnErrorHandler}
+                                              alt=""
+                                            />
+                                          </div>
+                                        </div>
+                                        <div className="lite-800">
+                                          <span className="lite-800 fw-bold">
+                                            {selectedToken?.parentName ||
+                                            selectedToken?.symbol
+                                              ? selectedToken?.parentName ||
+                                                selectedToken?.symbol
+                                              : "Select Token"}
+                                          </span>
+                                        </div>
+                                        <div className="lft-spc">
+                                          <div className="arow-outer">
+                                            <span className="arrow-down"></span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-lg-6 col-xxl-7 col-sm-12 field-col">
+                                      <div className="form-field position-relative two-fld">
+                                        <div
+                                          className={`mid-chain w-100 ${
+                                            selectedToken?.type == undefined &&
+                                            "disabled"
+                                          }`}
+                                        >
+                                          <input
+                                            className={`w-100 ${
+                                              selectedToken?.type ==
+                                                undefined && "disabled"
+                                            }`}
+                                            type="text"
+                                            placeholder="0.00"
+                                            name="amount"
+                                            disabled={
+                                              selectedToken?.type == undefined
+                                                ? true
+                                                : false
+                                            }
+                                            value={values.amount}
+                                            onChange={handleChange("amount")}
+                                          />
+                                        </div>
+                                        <div
+                                          className="rt-chain"
+                                          onClick={(e) =>
+                                            setFieldValue(
+                                              "amount",
+                                              selectedToken.balance
+                                            )
+                                          }
+                                        >
+                                          <span className="orange-txt fw-bold depositMax">
+                                            MAX
+                                          </span>
+                                        </div>
+                                      </div>
+                                      {touched.amount && errors.amount ? (
+                                        <p className="pt-0 pl-2 primary-text">
+                                          {errors.amount}
+                                        </p>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="botom-spcing">
+                                  <div>
+                                    <label className="mb-2 mb-xxl-3 mb-md-2">
+                                      To
+                                    </label>
+                                    <div className="form-field position-relative txt-fix">
+                                      <div className="icon-chain">
+                                        <div>
+                                          <img
+                                            width="22"
+                                            height="22"
+                                            className="img-fluid"
+                                            src={
+                                              NETWORK_ICON[
+                                                chainId == ChainId.GÖRLI
+                                                  ? ChainId.PUPPYNET719
+                                                  : ChainId.GÖRLI
+                                              ]
+                                            }
+                                            onError={imageOnErrorHandler}
+                                            alt=""
+                                          />
+                                        </div>
+                                      </div>
+                                      <div className="mid-chain">
+                                        <input
+                                          className="w-100"
+                                          type="text"
+                                          disabled={true}
+                                          placeholder="Shibarium chain"
+                                          value={
+                                            NETWORK_LABEL[
+                                              chainId == ChainId.GÖRLI
+                                                ? ChainId.PUPPYNET719
+                                                : ChainId.GÖRLI
+                                            ]
+                                          }
+                                        />
+                                      </div>
+                                      <div className="rt-chain d-flex align-items-center">
+                                        <span className="fld-head lite-800">
+                                          Balance:
+                                        </span>
+                                        {loader ? (
+                                          <Loader stroke="orange" />
+                                        ) : (
+                                          <span className="fld-txt lite-800 wrap_txt">
+                                            {tokenBalanceL2
+                                              ? tokenBalanceL2
+                                              : "00.00"}{" "}
+                                            {selectedToken?.key ||
+                                              selectedToken?.symbol}
+                                          </span>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="wrap-bottom">
+                                <div className="btn-modify">
+                                  <button
+                                    onClick={() => handleSubmit()}
+                                    type="button"
+                                    className="btn primary-btn w-100"
+                                  >
+                                    Transfer
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </Formik>
+                    </div>
+                  )}
+                  {/* Deposit tab content section end */}
+
+                  {/* Withdraw tab content section start */}
+                  {!dWState && (
+                    <Formik
+                      initialValues={{
+                        withdrawAmount: "",
+                        fromChain:
+                          chainId == ChainId.GÖRLI
+                            ? ChainId.PUPPYNET719
+                            : ChainId.GÖRLI,
+                        toChain: chainId,
+                      }}
+                      validationSchema={withdrawValidations}
+                      onSubmit={(values, { resetForm }) => {
+                        callWithdrawModal(values, resetForm);
+                      }}
+                    >
+                      {({
+                        errors,
+                        touched,
+                        handleChange,
+                        handleBlur,
+                        values,
+                        handleSubmit,
+                        setFieldValue,
+                      }) => (
+                        <div className="tab-content-sec h-100">
+                          <form className="h-100" onSubmit={handleSubmit}>
+                            <div className="sec-wrapper">
+                              <div className="wrap-top">
+                                <div className="botom-spcing">
+                                  <div>
+                                    <label className="mb-2 mb-xxl-3 mb-md-2">
+                                      From
+                                    </label>
+                                    <div className="form-field position-relative txt-fix">
+                                      <div className="icon-chain">
+                                        <div>
+                                          <img
+                                            width="22"
+                                            height="22"
+                                            className="img-fluid"
+                                            src={
+                                              NETWORK_ICON[
+                                                chainId == ChainId.GÖRLI
+                                                  ? ChainId.PUPPYNET719
+                                                  : ChainId.GÖRLI
+                                              ]
+                                            }
+                                            onError={imageOnErrorHandler}
+                                            alt=""
+                                          />
+                                        </div>
+                                      </div>
+                                      <div className="mid-chain">
+                                        <input
+                                          className="w-100"
+                                          type="text"
+                                          // placeholder="Shibarium Mainnet"
+                                          value={
+                                            NETWORK_LABEL[
+                                              chainId == ChainId.GÖRLI
+                                                ? ChainId.PUPPYNET719
+                                                : ChainId.GÖRLI
+                                            ]
+                                          }
+                                          disabled={true}
+                                        />
+                                      </div>
+                                      <div className="rt-chain d-flex align-items-center">
+                                        <span className="fld-head lite-800">
+                                          Balance:
+                                        </span>
+                                        {loader ? (
+                                          <Loader stroke="orange" />
+                                        ) : (
+                                          <span className="fld-txt lite-800 wrap_txt">
+                                            {tokenBalanceL2
+                                              ? tokenBalanceL2
+                                              : "00.00"}{" "}
+                                            {selectedToken?.key ||
+                                              selectedToken?.symbol}
+                                          </span>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="field-grid row">
+                                    <div className="mb-3 col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-lg-0 res-align">
+                                      <div
+                                        className="form-field position-relative fix-coin-field h-100"
+                                        onClick={() => {
+                                          setOpenManageToken(!openManageToken);
+                                          setLoader(true);
+                                          setSelectedToken({});
+                                        }}
+                                      >
+                                        <div className="right-spacing">
+                                          <div>
+                                            <img
+                                              width="24"
+                                              height="24"
+                                              className="img-fluid"
+                                              src={
+                                                selectedToken?.logo ||
+                                                selectedToken?.logoURI
+                                                  ? selectedToken?.logo ||
+                                                    selectedToken?.logoURI
+                                                  : "../../assets/images/shiba-round-icon.png"
+                                              }
+                                              onError={imageOnErrorHandler}
+                                              alt=""
+                                            />
+                                          </div>
+                                        </div>
+                                        <div className="lite-800">
+                                          <span className="lite-800 fw-bold">
+                                            {selectedToken?.parentName ||
+                                            selectedToken?.symbol
+                                              ? selectedToken?.parentName ||
+                                                selectedToken?.symbol
+                                              : "Select Token"}
+                                          </span>
+                                        </div>
+                                        <div className="lft-spc">
+                                          <div className="arow-outer">
+                                            <span className="arrow-down"></span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-lg-6 col-xxl-7 col-sm-12 field-col h-100">
+                                      <div className="form-field position-relative two-fld">
+                                        <div className="mid-chain w-100">
+                                          <input
+                                            className="w-100"
+                                            type="text"
+                                            placeholder="0.00"
+                                            name="withdrawAmount"
+                                            disabled={
+                                              selectedToken?.type == undefined
+                                                ? true
+                                                : false
+                                            }
+                                            value={values.withdrawAmount}
+                                            onChange={handleChange(
+                                              "withdrawAmount"
+                                            )}
+                                          />
+                                        </div>
+                                        <div
+                                          className="rt-chain"
+                                          onClick={(e) =>
+                                            setFieldValue(
+                                              "withdrawAmount",
+                                              tokenBalanceL2
+                                            )
+                                          }
+                                        >
+                                          <span className="orange-txt fw-bold withdrawMax">
+                                            MAX
+                                          </span>
+                                        </div>
+                                      </div>
+                                      {/* {touched.withdrawAmount &&
+                                        errors.withdrawAmount ? (
+                                        <p className="pt-0 pl-2 primary-text">
+                                          {errors.withdrawAmount}
+                                        </p>
+                                      ) : null} */}
+                                      {touched.withdrawAmount &&
+                                      errors.withdrawAmount ? (
+                                        <p className="pt-0 pl-2 primary-text">
+                                          {errors.withdrawAmount}
+                                        </p>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="botom-spcing">
+                                  <div>
+                                    <label className="mb-2 mb-xxl-3 mb-md-2">
+                                      To
+                                    </label>
+                                    <div className="form-field position-relative txt-fix">
+                                      <div className="icon-chain">
+                                        <div>
+                                          {selectedToken?.logo ||
+                                          selectedToken?.logoURI ? (
+                                            <img
+                                              width="22"
+                                              height="22"
+                                              className="img-fluid"
+                                              src={
+                                                selectedToken.logo ||
+                                                selectedToken?.logoURI
+                                              }
+                                              alt=""
+                                              onError={imageOnErrorHandler}
+                                            />
+                                          ) : (
+                                            <img
+                                              className="img-fluid"
+                                              src={
+                                                "../../assets/images/eth.png"
+                                              }
+                                              alt=""
+                                              onError={imageOnErrorHandler}
+                                            />
+                                          )}
+                                        </div>
+                                      </div>
+                                      <div className="mid-chain">
+                                        <input
+                                          className="w-100"
+                                          type="text"
+                                          value={NETWORK_LABEL[chainId]}
+                                          disabled={true}
+                                        />
+                                      </div>
+                                      <div className="rt-chain d-flex align-items-center">
+                                        <span className="fld-head lite-800">
+                                          Balance:
+                                        </span>
+                                        {loader && !selectedToken?.balance ? (
+                                          <Loader stroke="orange" />
+                                        ) : (
+                                          <span className="fld-txt lite-800 wrap_txt">
+                                            {selectedToken?.balance
+                                              ? selectedToken?.balance
+                                              : "00.00"}{" "}
+                                            {selectedToken?.key ||
+                                              selectedToken?.symbol}
+                                          </span>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="wrap-bottom">
+                                <div className="btn-modify">
+                                  <button
+                                    onClick={() => handleSubmit()}
+                                    type="submit"
+                                    className="btn primary-btn w-100"
+                                  >
+                                    Transfer
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      )}
+                    </Formik>
+                  )}
+
+                  {/* Withdraw   tab content section end */}
+                </div>
+              </div>
+              {/* right section start */}
+            </div>
             {/* withdraw main section end */}
           </div>
         </section>

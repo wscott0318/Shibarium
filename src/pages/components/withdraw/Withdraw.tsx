@@ -614,7 +614,7 @@ const WithdrawModal: React.FC<{
                                                     <p className="ps-2">Withdrawal Initialized</p>
                                                 </div>
                                                 <div className="col-5 text-end">
-                                                    <small className="text-lg">~ </small>
+                                                    {/* <small className="text-lg">~ </small> */}
                                                     <NumberFormat
                                                         thousandSeparator
                                                         displayType={"text"}
@@ -655,7 +655,7 @@ const WithdrawModal: React.FC<{
                                                                         value={(allowance * boneUSDValue).toFixed(8)}
                                                                     />
                                                                 </>
-                                                                : <small className="text-sm">Approved</small>}
+                                                                : "Approved"}
                                                         </>
                                                     )}
                                                 </div>
@@ -682,7 +682,7 @@ const WithdrawModal: React.FC<{
                                                         <Loader />
                                                     ) : (
                                                         <>
-                                                            <small className="text-lg">~ </small>
+                                                            {/* <small className="text-lg">~ </small> */}
                                                             <NumberFormat
                                                                 thousandSeparator
                                                                 displayType={"text"}

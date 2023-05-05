@@ -5,6 +5,7 @@ import * as Sentry from "@sentry/nextjs";
 import { CHAINS, URL_ARRAY } from "../config/networks";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { uniqBy } from "lodash";
 export const getAllowanceAmount = async (library, token, account, contract) => {
   if (account) {
     let lib = library;
@@ -126,6 +127,7 @@ export const useStorage = (defaultChain = "") => {
   useEffect(() => {
     if (chain) {
       const coinListRaw = localStorage.getItem("coinList");
+      console.log("coin list " , coinListRaw)
       let parsed;
       try {
         parsed = JSON.parse(coinListRaw);
@@ -136,11 +138,14 @@ export const useStorage = (defaultChain = "") => {
       }
 
       if (!parsed) {
-        setCoinList(URL_ARRAY[chain]);
+        let uniqList = uniqBy(URL_ARRAY[chain],"name")
+        setCoinList(uniqList);
         localStorage.setItem("coinList", JSON.stringify(URL_ARRAY));
       } else {
-        setCoinList(parsed[chain]);
+        let uniqList = uniqBy(parsed[chain],"name")
+        setCoinList(uniqList);
       }
+      
     } else {
       setCoinList([]);
     }
@@ -208,7 +213,7 @@ export const parseError = (err) => {
   let error = `${err}`;
   let splitError = error.split("{");
   splitError.shift();
-  console.log("string error ", splitError);
+  // console.log("string error ", splitError);
   let stringErr = JSON.parse("{" + splitError.join("{"));
   return stringErr.originalError;
 };

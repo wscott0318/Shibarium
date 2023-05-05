@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CommonModal from "../components/CommonModel";
-import { getWalletTokenList} from "../../services/apis/validator/index";
+import { getWalletTokenList } from "../../services/apis/validator/index";
 import { getTokenBalance } from "../../hooks/useTokenBalance";
 import { useActiveWeb3React } from "../../services/web3";
 import { BONE_ID } from "../../config/constant";
@@ -9,23 +9,36 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Sentry from "@sentry/nextjs";
 import Link from "next/link";
-import { getBoneUSDValue, getDefaultChain, useStorage } from "../../web3/commonFunctions";
+import {
+  getBoneUSDValue,
+  getDefaultChain,
+  useStorage,
+} from "../../web3/commonFunctions";
 import TokenList from "./TokenList";
-import {  uniqBy } from "lodash";
+import { uniqBy } from "lodash";
 import { useToken } from "app/hooks/Tokens";
 import { CircularProgress } from "@material-ui/core";
 import { ChainId } from "shibarium-get-chains";
 
-export const Warning = ({ listing, setCoinList, resetLink, sortedLists }: any) => {
+export const Warning = ({
+  listing,
+  setCoinList,
+  resetLink,
+  sortedLists,
+}: any) => {
   const [agree, setAgree] = useState(false);
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "center" }}><img src="../../assets/images/alert.png" alt=""></img></div>
-      <h3 style={{ textAlign: "center", margin: "10px" }}>Import at your own risk</h3>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <img src="../../assets/images/alert.png" alt=""></img>
+      </div>
+      <h3 style={{ textAlign: "center", margin: "10px" }}>
+        Import at your own risk
+      </h3>
       <div style={{ fontSize: "15px", margin: "10px" }}>
-        By adding this token you are implicitly trusting
-        that the data is correct. If you purchase this token, you may not be able to
-        sell it back.
+        By adding this token you are implicitly trusting that the data is
+        correct. If you purchase this token, you may not be able to sell it
+        back.
       </div>
       <div style={{ textAlign: "center" }}>
         <label style={{ margin: "10px 0", textAlign: "center" }}>
@@ -64,8 +77,13 @@ export const Warning = ({ listing, setCoinList, resetLink, sortedLists }: any) =
     </>
   );
 };
-export default function ManageToken({ setLoader,setOpenManageToken, setSelectedToken, defUrl = (id: any) => `https://api.1inch.exchange/v3.0/${id}/tokens`, ...props }: any) {
-
+export default function ManageToken({
+  setLoader,
+  setOpenManageToken,
+  setSelectedToken,
+  defUrl = (id: any) => `https://api.1inch.exchange/v3.0/${id}/tokens`,
+  ...props
+}: any) {
   const { chainId = 1, account, library } = useActiveWeb3React();
   const lib: any = library;
   const web3: any = new Web3(lib?.provider);
@@ -76,24 +94,30 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
   const [confirmImport, setConfirmImport] = useState(true);
   const [agreeImport, setAgreeImport] = useState(false);
   const [dupToken, setDuplicateToken] = useState(false);
-  const [addUrl, setAddUrl] = useState('');
+  const [addUrl, setAddUrl] = useState("");
   const [linkQuery, setLinkQuery] = useState("");
   const [coinList, setCoinList, setChain] = useStorage();
   const [isWrong, setIsWrong] = useState(false); //NOSONAR
   const [defChain, setDefChain] = useState("");
-  const [DEFAULT_LIST, SET_DEFAULT_LIST] = useState({ enabled: true, locked: true, data: 'https://wispy-bird-88a7.uniswap.workers.dev/?url=http://tokens.1inch.eth.link' }) //NOSONAR
-
+  const [DEFAULT_LIST, SET_DEFAULT_LIST] = useState({
+    enabled: true,
+    locked: true,
+    data: "https://wispy-bird-88a7.uniswap.workers.dev/?url=http://tokens.1inch.eth.link",
+  }); //NOSONAR
+  // console.log("final list => ", coinList);
   useEffect(() => {
     getDefaultChain().then((ch) => {
       setDefChain(ch);
     });
   }, []);
   useEffect(() => {
-    getDefaultChain().then(chain => {
-      //@ts-ignore
-      // setAddUrl(`https://${map[chain]}scan.com/address/`);
-      setAddUrl('https://puppyscan.shib.io/address/');
-    }).catch(() => { });
+    getDefaultChain()
+      .then((chain) => {
+        //@ts-ignore
+        // setAddUrl(`https://${map[chain]}scan.com/address/`);
+        setAddUrl("https://puppyscan.shib.io/address/");
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -127,25 +151,29 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
     decimals: "",
     addedByUser: false,
     logo: "",
-    chainId: ""
+    chainId: "",
   });
   const getTokensList = async () => {
     setIsLoading(true);
     try {
       await getWalletTokenList().then((res) => {
-        let list = res.data.message.tokens;
+        let list = [...localTokens, ...res.data.message.tokens];
+        // console.log("token to search =>" , list)
         list.forEach(async (x: any) => {
-            let tokenAddress = chainId === ChainId.GÖRLI ? x?.parentContract : x?.childContract;
-            await getTokenBalance(lib, account, tokenAddress).then((res: any) => {
+          let tokenAddress =
+            chainId === ChainId.GÖRLI ? x?.parentContract : x?.childContract;
+          await getTokenBalance(lib, account, tokenAddress)
+            .then((res: any) => {
               x.balance = res > 0 ? res : "00.00";
-            }).catch((err: any) => {
-              console.log("Error fetching balance => ", err);
             })
+            .catch((err: any) => {
+              console.log("Error fetching balance => ", err);
+            });
         });
-        setTokenModalList([...localTokens, ...list]);
+        setTokenModalList([...list]);
         setTimeout(() => {
           setIsLoading(false);
-        },2000)
+        }, 2000);
       });
     } catch (err: any) {
       setIsLoading(false);
@@ -163,17 +191,14 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
       setmodalKeyword(key);
       if (key.length) {
         let combinedList = [...tokenModalList, ...importedTokens];
-        console.log("combinedList", combinedList);
         let newData = combinedList.filter((item: any) => {
-          let result;
-          console.log("item=-> " , item);
-          if (item.name) {
-            result = item.name.toLowerCase().includes(key.toLowerCase())
-          }
-          else {
-            result = item.parentName.toLowerCase().includes(key.toLowerCase()) || item.key.toLowerCase().includes(key.toLowerCase()) || item.childName.toLowerCase().includes(key.toLowerCase())
-          }
-          return result;
+          let found = false;
+          Object.keys(item).forEach((k: any) => {
+            if (`${item[k]}`.toLowerCase().includes(key.toLowerCase())) {
+              found = true;
+            }
+          });
+          return found;
         });
         setSearchedList(newData);
         setOffset(10);
@@ -185,9 +210,9 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
       Sentry.captureMessage("handleSearchList", err);
     }
   };
-
+  console.log("searched ", searchedList);
   const handleTokenSelect = (token: any) => {
-    setOpenManageToken(false)
+    setOpenManageToken(false);
     setLoader(false);
     setSelectedToken(token);
     setTokenModal(false);
@@ -201,18 +226,18 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
   };
 
   const addTokenHandler = async () => {
-    addNewToken('')
+    addNewToken("");
     setConfirmImport(true);
     setAgreeImport(!agreeImport);
     try {
       let tokenInfo = searchToken?.tokenInfo;
+      console.log("token info => ", tokenInfo);
       let obj: any;
       if (tokenInfo) {
         let logoURI: any;
         if (tokenInfo?.logoURI.startsWith("ipfs://")) {
           logoURI = "https://ipfs.io/ipfs/" + tokenInfo?.logoURI.slice(7);
-        }
-        else {
+        } else {
           logoURI = tokenInfo?.logoURI;
         }
         obj = {
@@ -222,8 +247,9 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
           decimals: tokenInfo?.decimals,
           logo: logoURI,
           chainId: tokenInfo?.chainId,
+          balance: 0,
           addedByUser: true,
-        }
+        };
         setLocalTokens([...localTokens, obj]);
         setTokenModalList([...tokenModalList, obj]);
         toast.success(`${obj.name} successfully added.`, {
@@ -238,8 +264,7 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
           step4: true,
           title: "Manage Token",
         });
-      }
-      else {
+      } else {
         console.log("no record found");
         setTempTokens({});
       }
@@ -247,7 +272,6 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
       Sentry.captureMessage("addTokenHandler", err);
     }
   };
-
 
   useEffect(() => {
     if (!showTokenModal) {
@@ -302,9 +326,15 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
   const getTempTokens = async () => {
     try {
       if (account) {
-        const isalreadypresent = localTokens.find((st: any) => st.parentContract == newToken);
-        const foundInTokenModalList = tokenModalList.find((e: any) => e.parentContract == newToken);
-        const foundInimportedTokens = importedTokens.find((e: any) => e.address == newToken);
+        const isalreadypresent = localTokens.find(
+          (st: any) => st.parentContract == newToken
+        );
+        const foundInTokenModalList = tokenModalList.find(
+          (e: any) => e.parentContract == newToken
+        );
+        const foundInimportedTokens = importedTokens.find(
+          (e: any) => e.address == newToken
+        );
         setTokenState({
           step0: false,
           step1: false,
@@ -313,16 +343,19 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
           step4: false,
           title: "Manage Token",
         });
-        if (!!isalreadypresent || !!foundInTokenModalList || !!foundInimportedTokens) {
+        if (
+          !!isalreadypresent ||
+          !!foundInTokenModalList ||
+          !!foundInimportedTokens
+        ) {
           setDuplicateToken(true);
-        }
-        else {
+        } else {
           const isValidAddress = web3.utils.isAddress(String(newToken));
           if (isValidAddress && newToken) {
             let tokenInfo = searchToken?.tokenInfo;
             if (tokenInfo) {
               let logoURI = tokenInfo?.logoURI;
-              if (tokenInfo.logoURI.startsWith('ipfs://')) {
+              if (tokenInfo.logoURI.startsWith("ipfs://")) {
                 logoURI = "https://ipfs.io/ipfs/" + tokenInfo?.logoURI.slice(7);
               }
               setTempTokens({
@@ -334,12 +367,10 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                 chainId: tokenInfo?.chainId,
                 addedByUser: true,
               });
-            }
-            else {
+            } else {
               setTempTokens({});
             }
-          }
-          else if (!isValidAddress && newToken) {
+          } else if (!isValidAddress && newToken) {
             setIsLoading(false);
             toast.error("Invalid Address", {
               position: toast.POSITION.TOP_RIGHT,
@@ -406,7 +437,7 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
   const onBackClick = () => {
     setTokenModal(true);
     setConfirmImport(true);
-    setAgreeImport(false)
+    setAgreeImport(false);
     setTokenState({
       step0: true,
       step1: false,
@@ -415,7 +446,7 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
       step4: false,
       title: "Select a Token",
     });
-  }
+  };
 
   return (
     <div>
@@ -423,7 +454,11 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
       <CommonModal
         title={"Select token"}
         show={showTokenModal}
-        setshow={() => { setOpenManageToken(false); setTokenModal(false);setLoader(false) }}
+        setshow={() => {
+          setOpenManageToken(false);
+          setTokenModal(false);
+          setLoader(false);
+        }}
         externalCls="tkn-ht"
       >
         {/* Token popups start */}
@@ -441,6 +476,7 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                         placeholder="Search token or token address"
                         onChange={(e) => {
                           handleSearchList(e.target.value);
+                          console.log("searched list ", e.target.value);
                           // getTempTokens()
                         }}
                       />
@@ -481,37 +517,45 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                       </div>
                     </div>
                   </div>
-                  {!isLoading ? (<div className="token-listwrap noScrollbar" id='scrollable-tokenList'>
-                    {defChain &&
-                      <TokenList coinList={coinList}
-                        DEFAULT_ITEM={DEFAULT_LIST}
-                        // shouldReset={firstKey}
-                        searchedList={searchedList}
-                        handleTokenSelect={handleTokenSelect}
-                        setCoinList={setCoinList}
-                        setTokenModalList={setTokenModalList}
-                        showWarning={showWarning}
-                        setShowWarning={setShowWarning}
-                        defaultChain={defChain}
-                        setChain={setChain}
-                        linkQuery={linkQuery}
-                        setLinkQuery={setLinkQuery}
-                        tokenModalList={tokenModalList}
-                        tokenState={tokenState}
-                        offset={offset}
-                      />
-                    }
-                    {!tokenModalList.length && modalKeyword ? (
-                      <p className="py-3 py-md-4 py-lg-5 text-center">
-                        no record found
-                      </p>
-                    ) : null}
-                  </div>)
-                    :
-                    <div className="text-center pt-5">
-                      <CircularProgress size={80} style={{ color: "#f28102" }} />
+                  {!isLoading ? (
+                    <div
+                      className="token-listwrap noScrollbar"
+                      id="scrollable-tokenList"
+                    >
+                      {defChain && (
+                        <TokenList
+                          coinList={coinList}
+                          DEFAULT_ITEM={DEFAULT_LIST}
+                          // shouldReset={firstKey}
+                          searchedList={searchedList}
+                          handleTokenSelect={handleTokenSelect}
+                          setCoinList={setCoinList}
+                          setTokenModalList={setTokenModalList}
+                          showWarning={showWarning}
+                          setShowWarning={setShowWarning}
+                          defaultChain={defChain}
+                          setChain={setChain}
+                          linkQuery={linkQuery}
+                          setLinkQuery={setLinkQuery}
+                          tokenModalList={tokenModalList}
+                          tokenState={tokenState}
+                          offset={offset}
+                        />
+                      )}
+                      {!tokenModalList.length && modalKeyword ? (
+                        <p className="py-3 py-md-4 py-lg-5 text-center">
+                          no record found
+                        </p>
+                      ) : null}
                     </div>
-                  }
+                  ) : (
+                    <div className="text-center pt-5">
+                      <CircularProgress
+                        size={80}
+                        style={{ color: "#f28102" }}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -522,10 +566,7 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
 
           {showTokenModal && tokenState.step1 && (
             <div className="popmodal-body tokn-popup no-ht">
-              <button
-                className="myBackBtnInTM"
-                onClick={onBackClick}
-              >
+              <button className="myBackBtnInTM" onClick={onBackClick}>
                 <img src="../../assets/images/back.png" alt=""></img>
               </button>
               <div className="pop-block">
@@ -535,7 +576,9 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                       <div className="blk-width">
                         <button
                           type="button"
-                          className={`btn w-100 ${tokenState.step1 && "btn-active"}`}
+                          className={`btn w-100 ${
+                            tokenState.step1 && "btn-active"
+                          }`}
                         >
                           Token Lists
                         </button>
@@ -543,7 +586,9 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                       <div className="blk-width">
                         <button
                           type="button"
-                          className={`btn w-100 ${tokenState.step2 && "btn-active"}`}
+                          className={`btn w-100 ${
+                            tokenState.step2 && "btn-active"
+                          }`}
                           onClick={() => {
                             setTokenState({
                               step0: false,
@@ -571,8 +616,7 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                         onChange={(e) => {
                           if (e.target.value) {
                             setLinkQuery(e.target.value);
-                          }
-                          else {
+                          } else {
                             setLinkQuery("");
                           }
                         }}
@@ -592,8 +636,9 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                     <>
                       {isWrong ? <div>Seems like the url is broken</div> : ""}
                     </>
-                    {defChain &&
-                      <TokenList coinList={coinList}
+                    {defChain && (
+                      <TokenList
+                        coinList={coinList}
                         DEFAULT_ITEM={DEFAULT_LIST}
                         // shouldReset={firstKey}
                         searchedList={searchedList}
@@ -609,7 +654,7 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                         tokenModalList={tokenModalList}
                         tokenState={tokenState}
                       />
-                    }
+                    )}
                   </div>
                 </div>
               </div>
@@ -622,10 +667,7 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
 
           {showTokenModal && tokenState.step2 && (
             <div className="popmodal-body tokn-popup no-ht">
-              <button
-                className="myBackBtnInTM"
-                onClick={onBackClick}
-              >
+              <button className="myBackBtnInTM" onClick={onBackClick}>
                 <img src="../../assets/images/back.png" alt=""></img>
               </button>
               <div className="pop-block">
@@ -633,20 +675,20 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                   <div className="sec-search sec-search-secondry">
                     <div
                       className="position-relative search-row"
-                    // onClick={() => {
-                    //   if(newToken !== '')
-                    //   setTokenState({
-                    //     step0: false,
-                    //     step1: false,
-                    //     step2: false,
-                    //     step3: true,
-                    //     step4: false,
-                    //     title: "Manage Token",
-                    //   });
-                    // }}
-                    // onClick={() => {
-                    //   addTokenHandler();
-                    // }}
+                      // onClick={() => {
+                      //   if(newToken !== '')
+                      //   setTokenState({
+                      //     step0: false,
+                      //     step1: false,
+                      //     step2: false,
+                      //     step3: true,
+                      //     step4: false,
+                      //     title: "Manage Token",
+                      //   });
+                      // }}
+                      // onClick={() => {
+                      //   addTokenHandler();
+                      // }}
                     >
                       <input
                         type="text"
@@ -659,8 +701,7 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                           if (e.target.value) {
                             addNewToken(e.target.value);
                             // console.log("if condition")
-                          }
-                          else {
+                          } else {
                             // console.log("else  condition")
                             addNewToken("");
                             setTempTokens({});
@@ -695,10 +736,7 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                             Token stored in your browser
                           </p>
                         </div>
-                        <div
-                          style={{ textAlign: "right" }}
-                          className="btn-sm"
-                        >
+                        <div style={{ textAlign: "right" }} className="btn-sm">
                           {/* className="blk-width btn-sm" */}
                           <button
                             type="button"
@@ -712,7 +750,9 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                       </div>
                       <div className="token-listwrap usr-listht">
                         {dupToken && (
-                          <div className="dupToken" style={{ color: "red" }}>Token already exists.</div>
+                          <div className="dupToken" style={{ color: "red" }}>
+                            Token already exists.
+                          </div>
                         )}
                         {localTokens.map((x: any, index: any) => (
                           <div className="tokn-row" key={x?.parentContract}>
@@ -733,8 +773,16 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                               <div>
                                 <div className="d-flex align-items-end">
                                   <h6 className="fw-bold">
-                                    {x?.parentSymbol || x?.symbol}</h6>
-                                  {x?.addedByUser && <small className='ms-2' style={{ color: "#666" }}>Added By User</small>}
+                                    {x?.parentSymbol || x?.symbol}
+                                  </h6>
+                                  {x?.addedByUser && (
+                                    <small
+                                      className="ms-2"
+                                      style={{ color: "#666" }}
+                                    >
+                                      Added By User
+                                    </small>
+                                  )}
                                 </div>
                                 <p>{x?.parentName || x?.name}</p>
                               </div>
@@ -750,8 +798,16 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                                   />
                                 </span>
                                 <span>
-                                  <Link href={addUrl + (x?.childContract || x?.address || x?.parentContract)} passHref>
-                                    <a target='_blank'>
+                                  <Link
+                                    href={
+                                      addUrl +
+                                      (x?.childContract ||
+                                        x?.address ||
+                                        x?.parentContract)
+                                    }
+                                    passHref
+                                  >
+                                    <a target="_blank">
                                       <img
                                         className="img-fluid"
                                         src="../../../assets/images/up.png"
@@ -785,11 +841,8 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
           {/* search popop starts */}
 
           {showTokenModal && tokenState.step3 && (
-            (<div className="popmodal-body tokn-popup no-ht">
-              <button
-                className="myBackBtnInTM"
-                onClick={onBackClick}
-              >
+            <div className="popmodal-body tokn-popup no-ht">
+              <button className="myBackBtnInTM" onClick={onBackClick}>
                 <img src="../../assets/images/back.png" alt=""></img>
               </button>
               <div className="pop-block">
@@ -859,85 +912,108 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                           </div>
                           <div className="token-listwrap usr-listht">
                             <div className="token-listwrap usr-listh">
-                              {dupToken && <div style={{ color: "red" }}>Token already exists.</div>}
-                              {dupToken === false && (tempTokens && Object.keys(tempTokens).length !== 0 ? (
-                                <div className="tokn-row">
-                                  <div className="cryoto-box">
-                                    <img
-                                      className="img-fluid"
-                                      src={
-                                        tempTokens?.logo
-                                          ? tempTokens?.logo
-                                          : "../../../assets/images/shib-borderd-icon.png"
-                                      }
-                                      width={40}
-                                      alt=""
-                                      onError={imageOnErrorHandler}
-                                    />
-                                  </div>
-                                  <div className="tkn-grid">
-                                    <div>
-                                      <h6 className="fw-bold">
-                                        {tempTokens?.parentSymbol || tempTokens?.symbol ? tempTokens.parentSymbol || tempTokens?.symbol : "Unknown"}
-                                      </h6>
-                                      <p>{tempTokens?.parentSymbol || tempTokens?.name ? tempTokens.parentSymbol || tempTokens?.name : "Unknown"}</p>
+                              {dupToken && (
+                                <div style={{ color: "red" }}>
+                                  Token already exists.
+                                </div>
+                              )}
+                              {dupToken === false &&
+                                (tempTokens &&
+                                Object.keys(tempTokens).length !== 0 ? (
+                                  <div className="tokn-row">
+                                    <div className="cryoto-box">
+                                      <img
+                                        className="img-fluid"
+                                        src={
+                                          tempTokens?.logo
+                                            ? tempTokens?.logo
+                                            : "../../../assets/images/shib-borderd-icon.png"
+                                        }
+                                        width={40}
+                                        alt=""
+                                        onError={imageOnErrorHandler}
+                                      />
                                     </div>
-                                    <div>
-                                      <span
-                                        className="primary-text"
-                                        onClick={() => {
-                                          setConfirmImport(!confirmImport);
-                                        }}
-                                      >
-                                        Import
-                                        {/* <img
+                                    <div className="tkn-grid">
+                                      <div>
+                                        <h6 className="fw-bold">
+                                          {tempTokens?.parentSymbol ||
+                                          tempTokens?.symbol
+                                            ? tempTokens.parentSymbol ||
+                                              tempTokens?.symbol
+                                            : "Unknown"}
+                                        </h6>
+                                        <p>
+                                          {tempTokens?.parentSymbol ||
+                                          tempTokens?.name
+                                            ? tempTokens.parentSymbol ||
+                                              tempTokens?.name
+                                            : "Unknown"}
+                                        </p>
+                                      </div>
+                                      <div>
+                                        <span
+                                          className="primary-text"
+                                          onClick={() => {
+                                            setConfirmImport(!confirmImport);
+                                          }}
+                                        >
+                                          Import
+                                          {/* <img
                                       className="img-fluid"
                                       src="../../../assets/images/up.png"
                                       alt=""
                                     /> */}
-                                      </span>
+                                        </span>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              ) : (
-                                <div>No token found</div>
-                              ))}
+                                ) : (
+                                  <div>No token found</div>
+                                ))}
                             </div>
                           </div>
                         </div>
                       </>
-                    ) :
-                      (
-                        <>
-                          <div style={{ display: "flex", justifyContent: "center" }}><img src="../../assets/images/alert.png" alt=""></img></div>
-                          <h3 style={{ textAlign: "center", margin: "10px" }}>Import at your own risk</h3>
-                          <div style={{ fontSize: "15px", margin: "10px" }}>
-                            By adding this token you are implicitly trusting
-                            that the data is correct. If you purchase this token, you may not be able to
-                            sell it back.
-                          </div>
-                          <div style={{ textAlign: "center" }}>
-                            <label style={{ margin: "10px 0", textAlign: "center" }}>
-                              <input
-                                style={{ marginRight: "5px" }}
-                                type="checkbox"
-                                onChange={() => setAgreeImport(!agreeImport)}
-                              />
-                              I understand
-                            </label>
-                          </div>
-                          <div style={{ textAlign: "center" }}>
-                            <button
-                              className="btn primary-btn"
-                              style={{ width: "200px" }}
-                              disabled={agreeImport === false}
-                              onClick={addTokenHandler}
-                            >
-                              Import
-                            </button>
-                          </div>
-                        </>
-                      )}
+                    ) : (
+                      <>
+                        <div
+                          style={{ display: "flex", justifyContent: "center" }}
+                        >
+                          <img src="../../assets/images/alert.png" alt=""></img>
+                        </div>
+                        <h3 style={{ textAlign: "center", margin: "10px" }}>
+                          Import at your own risk
+                        </h3>
+                        <div style={{ fontSize: "15px", margin: "10px" }}>
+                          By adding this token you are implicitly trusting that
+                          the data is correct. If you purchase this token, you
+                          may not be able to sell it back.
+                        </div>
+                        <div style={{ textAlign: "center" }}>
+                          <label
+                            style={{ margin: "10px 0", textAlign: "center" }}
+                          >
+                            <input
+                              style={{ marginRight: "5px" }}
+                              type="checkbox"
+                              onChange={() => setAgreeImport(!agreeImport)}
+                            />
+                            I understand
+                          </label>
+                        </div>
+                        <div style={{ textAlign: "center" }}>
+                          <button
+                            className="btn primary-btn"
+                            style={{ width: "200px" }}
+                            disabled={agreeImport === false}
+                            onClick={addTokenHandler}
+                          >
+                            Import
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
 
@@ -949,7 +1025,7 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                   </div>
                 </div>
               </div>
-            </div>)
+            </div>
 
             // </div>
           )}
@@ -958,10 +1034,7 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
           {/* new added token with delete action starts */}
           {showTokenModal && tokenState.step4 && (
             <div className="popmodal-body tokn-popup no-ht">
-              <button
-                className="myBackBtnInTM"
-                onClick={onBackClick}
-              >
+              <button className="myBackBtnInTM" onClick={onBackClick}>
                 {/* BO */}
                 <img src="../../assets/images/back.png" alt=""></img>
               </button>
@@ -978,8 +1051,7 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                           setDuplicateToken(false);
                           if (e.target.value) {
                             addNewToken(e.target.value);
-                          }
-                          else {
+                          } else {
                             addNewToken("");
                             setTempTokens({});
                             setTokenState({
@@ -1013,10 +1085,7 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                             Token stored in your browser
                           </p>
                         </div>
-                        <div
-                          style={{ textAlign: "right" }}
-                          className="btn-sm"
-                        >
+                        <div style={{ textAlign: "right" }} className="btn-sm">
                           {/* className="blk-width btn-sm" */}
                           <button
                             type="button"
@@ -1047,7 +1116,9 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                         </div>
                         <div className="tkn-grid">
                           <div>
-                            <h6 className="fw-bold">{x.symbol ? x?.symbol : "Unknown"}</h6>
+                            <h6 className="fw-bold">
+                              {x.symbol ? x?.symbol : "Unknown"}
+                            </h6>
                             <p>{x?.name ? x?.name : "Unknown"}</p>
                           </div>
                           <div>
@@ -1063,7 +1134,7 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
                             </span>
                             <span>
                               <Link href={addUrl + x.parentContract} passHref>
-                                <a target='_blank'>
+                                <a target="_blank">
                                   <img
                                     className="img-fluid"
                                     src="../../../assets/images/up.png"
@@ -1091,6 +1162,6 @@ export default function ManageToken({ setLoader,setOpenManageToken, setSelectedT
         </>
       </CommonModal>
       {/* Token popups end */}
-    </div >
-  )
+    </div>
+  );
 }

@@ -1,15 +1,20 @@
-import { URL_ARRAY } from 'app/config/networks';
-import { Warning } from './ManageToken';
-import { useActiveWeb3React } from 'app/services/web3';
-import { uniqBy } from 'lodash';
-import React, { useEffect, useState } from 'react'
-import { fetchLink, generateSecondary, getDefaultChain } from 'web3/commonFunctions';
-import * as Sentry from '@sentry/nextjs';
-import { Settings } from 'react-feather';
-import { Dropdown } from 'react-bootstrap';
-import useLocalStorageState from 'use-local-storage-state';
+import { URL_ARRAY } from "app/config/networks";
+import { Warning } from "./ManageToken";
+import { useActiveWeb3React } from "app/services/web3";
+import { uniqBy } from "lodash";
+import React, { useEffect, useState } from "react";
+import {
+  fetchLink,
+  generateSecondary,
+  getDefaultChain,
+} from "web3/commonFunctions";
+import * as Sentry from "@sentry/nextjs";
+import { Settings } from "react-feather";
+import { Dropdown } from "react-bootstrap";
+import useLocalStorageState from "use-local-storage-state";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Loader from "app/components/Loader";
+import { getTokenBalance } from "app/hooks/useTokenBalance";
 const TokenList = ({
   coinList = [],
   DEFAULT_ITEM,
@@ -27,34 +32,36 @@ const TokenList = ({
   setTokenModalList,
   tokenState,
   offset,
-  ...props }: any) => {
+  ...props
+}: any) => {
   const [isWrong, setIsWrong] = useState(false);
   const [renderData, setRenderData] = useState<any>();
   const [defaultList, setDefaultList] = useLocalStorageState<any>("tokenList");
   const [newListing, setNewListing] = useState<any>(null);
-  const { chainId = 1 } = useActiveWeb3React();
+  const { chainId = 1, account, library } = useActiveWeb3React();
+  const lib: any = library;
   const [importedCoins, setImportedCoins] = useState<any>([]);
   const [dup, setdup] = useState(false);
   const [defaultfetched, setDefaultfetched] = useState<any>([]);
   const sortedLists = async () => {
     if (linkQuery) {
       await fetch(
-        linkQuery?.includes("http")
-          ? linkQuery
-          : generateSecondary(linkQuery)
-      ).then(async (response) => {
-        const res = await response.json();
-        const obj = {
-          tokens: res?.tokens,
-          name: res?.name,
-          logo: res?.logoURI,
-          data: linkQuery,
-          enabled: false
-        }
-        addToLocalStorage(obj);
-      }).catch((err: any) => { })
+        linkQuery?.includes("http") ? linkQuery : generateSecondary(linkQuery)
+      )
+        .then(async (response) => {
+          const res = await response.json();
+          const obj = {
+            tokens: res?.tokens,
+            name: res?.name,
+            logo: res?.logoURI,
+            data: linkQuery,
+            enabled: false,
+          };
+          addToLocalStorage(obj);
+        })
+        .catch((err: any) => {});
     }
-  }
+  };
   useEffect(() => {
     // console.log("console 1");
     getDefaultTokenList();
@@ -83,12 +90,14 @@ const TokenList = ({
       })
     )
       .then((response) => {
-        let uniqList = uniqBy(response, 'data');
+        let uniqList = uniqBy(response, "data");
         addToLocalStorage(uniqList);
         // console.log('console follow 3')
       })
-      .catch((err) => { console.log("error") });
-  }
+      .catch((err) => {
+        console.log("error");
+      });
+  };
   const addToLocalStorage = (response: any) => {
     let oldList;
     oldList = defaultList;
@@ -98,53 +107,47 @@ const TokenList = ({
       let newTokens: any;
       if (newImportedList.length) {
         newTokens = [...oldList, ...newImportedList];
-      }
-      else {
+      } else {
         newTokens = [...oldList, newImportedList];
       }
-      newTokens = uniqBy(newTokens, "name")
+      newTokens = uniqBy(newTokens, "name");
       // useLocalStorageState('tokenList', { defaultValue: newTokens })
       setRenderData(newTokens);
       setDefaultList([...newTokens]);
-    }
-    else {
+    } else {
       // console.log("console 3 else")
       let newList = [...response];
       setDefaultList(newList);
-      useLocalStorageState('tokenList', { defaultValue: newList }) //NOSONAR
+      useLocalStorageState("tokenList", { defaultValue: newList }); //NOSONAR
     }
     getEnabledTokens();
-  }
+  };
   const getEnabledTokens = () => {
     // console.log("console 4", defaultList)
     if (defaultList?.length > 0) {
       let enabledTokens = defaultList?.filter((e: any) => e?.enabled === true);
       let uniqueTokens: any = [];
       enabledTokens.forEach((e: any) => uniqueTokens.push(...e?.tokens));
-      uniqueTokens = uniqBy(uniqueTokens, 'address');
+      uniqueTokens = uniqBy(uniqueTokens, "address");
       setImportedCoins([...importedCoins, ...uniqueTokens]);
     }
-  }
+  };
 
   useEffect(() => {
     setdup(false);
     if (linkQuery) {
       if (defaultList.filter((e: any) => e.data == linkQuery).length > 0) {
         setdup(true);
-
-      }
-      else {
+      } else {
         setdup(false);
         fetchLink(linkQuery, setNewListing, setIsWrong);
       }
-    }
-    else {
+    } else {
       setNewListing(null);
       setIsWrong(false);
     }
 
-    console.log(isWrong, 'isWrong');
-
+    console.log(isWrong, "isWrong");
   }, [linkQuery]);
 
   const updateList = (data: any) => {
@@ -160,16 +163,27 @@ const TokenList = ({
         // console.log("switch enabled ==> " ,copy[index])
         if (copy[index].enabled) {
           const newaddedTokens = copy[index]?.tokens;
-          const localTokens = JSON.parse(localStorage.getItem("importedByUser") || "[]")
+          const localTokens = JSON.parse(
+            localStorage.getItem("importedByUser") || "[]"
+          );
           let updatedLocalTokens = [...localTokens, ...newaddedTokens];
-          localStorage.setItem("importedByUser", JSON.stringify(uniqBy(updatedLocalTokens, "address")))
+          localStorage.setItem(
+            "importedByUser",
+            JSON.stringify(uniqBy(updatedLocalTokens, "address"))
+          );
           setImportedCoins(newaddedTokens);
-        }
-        else {
+        } else {
           const removeTokens = copy[index]?.tokens;
-          let localTokens = JSON.parse(localStorage.getItem("importedByUser") || "[]")
-          localTokens = localTokens.filter((e: any) => !removeTokens.find((el: any) => el.address == e.address));
-          localStorage.setItem("importedByUser", JSON.stringify(uniqBy(localTokens, "address")));
+          let localTokens = JSON.parse(
+            localStorage.getItem("importedByUser") || "[]"
+          );
+          localTokens = localTokens.filter(
+            (e: any) => !removeTokens.find((el: any) => el.address == e.address)
+          );
+          localStorage.setItem(
+            "importedByUser",
+            JSON.stringify(uniqBy(localTokens, "address"))
+          );
         }
       }
     }, 1);
@@ -180,7 +194,7 @@ const TokenList = ({
       setDefaultList(uniqueList);
       if (renderData?.length > 1) {
         let newUniqueList = [...uniqueList, ...uniqBy(renderData, "name")];
-        setDefaultList(uniqBy(newUniqueList, "name"))
+        setDefaultList(uniqBy(newUniqueList, "name"));
       }
     }
   }, [renderData]);
@@ -192,7 +206,7 @@ const TokenList = ({
       storedTokens[index].enabled = !storedTokens[index].enabled;
       setDefaultList([...defaultList]);
     }
-  }
+  };
 
   const deleteList = (data: any) => {
     try {
@@ -206,29 +220,27 @@ const TokenList = ({
     } catch (err: any) {
       Sentry.captureMessage("deleteList ", err);
     }
-  }
-
+  };
+  console.log("default fetched , ", defaultfetched, tokenModalList);
   const getLogo = (x: any) => {
     let logoURL: string;
     if (x?.logo) {
-      logoURL = x?.logo
-    }
-    else if (x?.logoURI) {
-      if (x?.logoURI.startsWith('ipfs://')) {
+      logoURL = x?.logo;
+    } else if (x?.logoURI) {
+      if (x?.logoURI.startsWith("ipfs://")) {
         logoURL = "https://ipfs.io/ipfs/" + x?.logoURI.slice(7);
-      }
-      else if (x?.logoURI.startsWith('https://tokens.1inch.io')) {
-        logoURL = "https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,fl_sanitize,q_auto/" + x?.logoURI;
-      }
-      else {
+      } else if (x?.logoURI.startsWith("https://tokens.1inch.io")) {
+        logoURL =
+          "https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,fl_sanitize,q_auto/" +
+          x?.logoURI;
+      } else {
         logoURL = x?.logoURI;
       }
-    }
-    else {
+    } else {
       logoURL = "../../assets/images/shib-borderd-icon.png";
     }
     return logoURL;
-  }
+  };
   const imageOnErrorHandler = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
@@ -245,74 +257,109 @@ const TokenList = ({
   const fetchData = () => {
     // console.log("fetch data called")
     if (defaultfetched?.length >= importedCoins?.length) {
-
       return;
     }
     setTimeout(() => {
-      const mergeCoinsList = () => [...defaultfetched, ...importedCoins.slice(defaultfetched.length, defaultfetched.length + 5)];
+      const mergeCoinsList = () => [
+        ...defaultfetched,
+        ...importedCoins.slice(
+          defaultfetched.length,
+          defaultfetched.length + 5
+        ),
+      ];
       setDefaultfetched(mergeCoinsList);
     }, 500);
-  }
-
-  console.log("step 5", tokenModalList)
+  };
+  const getTokenBalanceImportedList = async () => {
+    // console.log("default fetched => ", defaultfetched);
+    defaultfetched.forEach(async (x: any) => {
+      await getTokenBalance(lib, account, x.address)
+        .then((res: any) => {
+          x.balance = res > 0 ? res : "00.00";
+        })
+        .catch((err: any) => {
+          console.log("Error fetching balance => ", err);
+        });
+    });
+  };
+  useEffect(() => {
+    getTokenBalanceImportedList();
+  }, [defaultfetched]);
+  console.log(
+    "token modal lust",
+    tokenModalList.filter((x: any) => x?.name !== null)
+  );
   return (
     <div>
-      {tokenState?.step0 && !searchedList && (tokenModalList
-        ? tokenModalList.map((x: any) => (
-          <div
-            className="tokn-row"
-            key={x?.parentContract}
-            onClick={() => handleTokenSelect(x)}
-          >
-            {/* @ts-ignore */}
-            <div className="cryoto-box">
-              <img
-                className="img-fluid"
-                width={32}
-                src={
-                  x?.logo
-                    ? x.logo
-                    : "../../assets/images/shib-borderd-icon.png"
-                }
-                onError={imageOnErrorHandler}
-                alt=""
-              />
-              {console.log("step 6 ", x)}
-            </div>
-            <div className="tkn-grid">
-              <div>
-                <div className='d-flex align-items-end'>
-                  <h6 className="fw-bold">{x?.parentSymbol || x?.symbol || "Unknown"}</h6>
-                  {x?.addedByUser && <small className='ms-2' style={{ color: "#666" }}>Added By User</small>}
+      {tokenState?.step0 &&
+        !searchedList &&
+        (tokenModalList
+          ? tokenModalList
+              .filter(
+                (x: any) =>
+                  x.key != null || x?.name != null || x?.parentName != null
+              )
+              .map((x: any) => (
+                <div
+                  className="tokn-row"
+                  key={x?.parentContract}
+                  onClick={() => handleTokenSelect(x)}
+                >
+                  {/* @ts-ignore */}
+                  <div className="cryoto-box">
+                    <img
+                      className="img-fluid"
+                      width={32}
+                      src={
+                        x?.logo
+                          ? x.logo
+                          : "../../assets/images/shib-borderd-icon.png"
+                      }
+                      onError={imageOnErrorHandler}
+                      alt=""
+                    />
+                  </div>
+                  <div className="tkn-grid">
+                    <div>
+                      <div className="d-flex align-items-end">
+                        <h6 className="fw-bold">
+                          {x?.parentSymbol || x?.symbol || "Unknown"}
+                        </h6>
+                        {x?.addedByUser && (
+                          <small className="ms-2" style={{ color: "#666" }}>
+                            Added By User
+                          </small>
+                        )}
+                      </div>
+                      <p>{x?.parentName || x?.name || "Unknown"}</p>
+                    </div>
+                    <div>
+                      {x?.balance === 0 ? (
+                        <Loader stroke="orange" />
+                      ) : (
+                        <h6 className="fw-bold">{x?.balance}</h6>
+                      )}
+                    </div>
+                  </div>
                 </div>
-                <p>{x?.parentName || x?.name || "Unknown"}</p>
-              </div>
-              <div>
-                {x?.balance === 0 ? <Loader stroke="orange" /> :
-                  <h6 className="fw-bold">
-                    {x?.balance}
-                  </h6>}
-              </div>
-            </div>
-          </div>
-        ))
-        : null)
-      }
-      {tokenState?.step0 && !searchedList && defaultfetched?.length ?
-        (<InfiniteScroll
+              ))
+          : null)}
+      {tokenState?.step0 && !searchedList && defaultfetched?.length ? (
+        <InfiniteScroll
           dataLength={defaultfetched?.length}
-          next={() => { fetchData() }}
+          next={() => {
+            fetchData();
+          }}
           hasMore={true}
           loader={<small>Loading...</small>}
           endMessage={
-            <p style={{ textAlign: 'center' }}>
+            <p style={{ textAlign: "center" }}>
               <b>Yay! You have seen it all</b>
             </p>
           }
           scrollableTarget="scrollable-tokenList"
           scrollThreshold="245px"
         >
-
           {defaultfetched.map((x: any) => {
             let logoImg = getLogo(x);
             return (
@@ -335,19 +382,21 @@ const TokenList = ({
                     <h6 className="fw-bold">{x?.symbol}</h6>
                     <p>{x?.name}</p>
                   </div>
-                  {/* <div>
-                      <h6 className="fw-bold">
-                        {x?.balance ? x.balance : "00.00"}
-                      </h6>
-                    </div> */}
+                  <div>
+                    {x?.balance === 0 ? (
+                      <Loader stroke="orange" />
+                    ) : (
+                      <h6 className="fw-bold">{x?.balance}</h6>
+                    )}
+                  </div>
                 </div>
-              </div>)
+              </div>
+            );
           })}
-
-        </InfiniteScroll>)
-        : null
-      }
-      {tokenState?.step0 && searchedList?.length != 0 &&
+        </InfiniteScroll>
+      ) : null}
+      {tokenState?.step0 &&
+        searchedList?.length != 0 &&
         searchedList?.map((x: any) => {
           let logoImg = getLogo(x);
           return (
@@ -371,9 +420,9 @@ const TokenList = ({
                   <p>{x?.name || x?.parentName}</p>
                 </div>
               </div>
-            </div>)
-        })
-      }
+            </div>
+          );
+        })}
       {tokenState.step1 &&
         (showWarning ? (
           <Warning
@@ -390,20 +439,25 @@ const TokenList = ({
         ) : (
           <div className="token-listwrap_">
             {dup && <div style={{ color: "red" }}>List already imported.</div>}
-            {newListing ?
-              (<div className="tokn-row">
+            {newListing ? (
+              <div className="tokn-row">
                 <div className="cryoto-box">
-                  <img src={newListing?.data?.logoURI ? newListing?.data?.logoURI : "../../assets/images/eth.png"} width={24} onError={imageOnErrorHandler}
+                  <img
+                    src={
+                      newListing?.data?.logoURI
+                        ? newListing?.data?.logoURI
+                        : "../../assets/images/eth.png"
+                    }
+                    width={24}
+                    onError={imageOnErrorHandler}
                   />
                 </div>
                 <div className="tkn-grid" style={{ paddingLeft: "40px" }}>
                   <div>
-                    <h6 className="fw-bold">
-                      {newListing?.data?.name}
-                    </h6>
+                    <h6 className="fw-bold">{newListing?.data?.name}</h6>
                     <p>{newListing?.data?.tokens?.length || 0} tokens</p>
                   </div>
-                  < div >
+                  <div>
                     <span
                       className="primary-text"
                       onClick={() => {
@@ -415,19 +469,28 @@ const TokenList = ({
                   </div>
                 </div>
               </div>
-              )
-              : ("")
-            }
-            {defaultList && defaultList.length > 0 &&
-              (defaultList.map((item: any, i: any, arr: any) => {
+            ) : (
+              ""
+            )}
+            {defaultList &&
+              defaultList.length > 0 &&
+              defaultList.map((item: any, i: any, arr: any) => {
                 let logo = getLogo(item);
                 return (
-                  <div key={item?.data} className="flex mb-3 justify-content-between">
+                  <div
+                    key={item?.data}
+                    className="flex mb-3 justify-content-between"
+                  >
                     <div className="flex w-50 align-items-center">
-                      <img src={logo} width="35" className='me-2' onError={imageOnErrorHandler} />
+                      <img
+                        src={logo}
+                        width="35"
+                        className="me-2"
+                        onError={imageOnErrorHandler}
+                      />
                       <div>
                         <h5>{item?.name ? item?.name : item?.data}</h5>
-                        <div className='d-flex align-items-center'>
+                        <div className="d-flex align-items-center">
                           <p className="m-0">{item?.tokens?.length} tokens</p>
                           <div className="manageTokenDropdown ms-2">
                             <Dropdown>
@@ -435,22 +498,46 @@ const TokenList = ({
                                 <Settings />
                               </Dropdown.Toggle>
                               <Dropdown.Menu>
-                                <Dropdown.Item onClick={() => window.open(`https://tokenlists.org/token-list?url=${item?.data}`, "_blank")}>View List</Dropdown.Item>
-                                <Dropdown.Item onClick={() => deleteList(item?.data)} target="_blank">Remove List</Dropdown.Item>
+                                <Dropdown.Item
+                                  onClick={() =>
+                                    window.open(
+                                      `https://tokenlists.org/token-list?url=${item?.data}`,
+                                      "_blank"
+                                    )
+                                  }
+                                >
+                                  View List
+                                </Dropdown.Item>
+                                <Dropdown.Item
+                                  onClick={() => deleteList(item?.data)}
+                                  target="_blank"
+                                >
+                                  Remove List
+                                </Dropdown.Item>
                               </Dropdown.Menu>
                             </Dropdown>
                           </div>
                         </div>
                       </div>
-
                     </div>
-                    <div className='d-flex align-items-center switch-wrapper'>
+                    <div className="d-flex align-items-center switch-wrapper">
                       {/* <TrashIcon width={25} height={25} onClick={() => deleteList(item?.data)} style={{ cursor: 'pointer' }} /> */}
                       <label className="switch">
-                        <input className="switch-input" type="checkbox"
-                          checked={arr[arr.findIndex((el: any) => el.data === item.data)].enabled}
-                          onChange={() => updateList(item?.data)} />
-                        <span className="switch-label" data-on="On" data-off="Off"></span>
+                        <input
+                          className="switch-input"
+                          type="checkbox"
+                          checked={
+                            arr[
+                              arr.findIndex((el: any) => el.data === item.data)
+                            ].enabled
+                          }
+                          onChange={() => updateList(item?.data)}
+                        />
+                        <span
+                          className="switch-label"
+                          data-on="On"
+                          data-off="Off"
+                        ></span>
                         <span className="switch-handle"></span>
                       </label>
                       {/* <Switch
@@ -458,15 +545,12 @@ const TokenList = ({
                         onChange={() => updateList(item?.data)} /> */}
                     </div>
                   </div>
-                )
-              })
-              )
-            }
-
+                );
+              })}
           </div>
         ))}
     </div>
   );
 };
 
-export default TokenList
+export default TokenList;
