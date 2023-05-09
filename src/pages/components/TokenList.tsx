@@ -419,6 +419,15 @@ const TokenList = ({
                   <h6 className="fw-bold">{x?.symbol || x?.parentSymbol}</h6>
                   <p>{x?.name || x?.parentName}</p>
                 </div>
+                <div>
+                  {x?.balance === 0 ? (
+                    <Loader stroke="orange" />
+                  ) : (
+                    <h6 className="fw-bold">
+                      {x?.balance ? x?.balance : "00.00"}
+                    </h6>
+                  )}
+                </div>
               </div>
             </div>
           );

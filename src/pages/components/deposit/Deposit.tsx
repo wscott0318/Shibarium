@@ -297,7 +297,7 @@ const Deposit: React.FC<any> = ({
             step4: false,
             title: "Confirm Transfer",
           });
-          // setDepositModal(false);
+          setDepositModal(false);
           setEstGas(0);
           setAllowance(0);
         });
