@@ -19,6 +19,7 @@ import { uniqBy } from "lodash";
 import { useToken } from "app/hooks/Tokens";
 import { CircularProgress } from "@material-ui/core";
 import { ChainId } from "shibarium-get-chains";
+import { confirmAlert } from "react-confirm-alert";
 
 export const Warning = ({
   listing,
@@ -153,6 +154,7 @@ export default function ManageToken({
     logo: "",
     chainId: "",
   });
+  console.log("step ", searchToken, newToken);
   const getTokensList = async () => {
     setIsLoading(true);
     try {
@@ -325,6 +327,7 @@ export default function ManageToken({
   }, [searchToken, newToken]);
   const getTempTokens = async () => {
     try {
+      console.log("step 1");
       if (account) {
         const isalreadypresent = localTokens.find(
           (st: any) => st.parentContract == newToken
@@ -335,6 +338,7 @@ export default function ManageToken({
         const foundInimportedTokens = importedTokens.find(
           (e: any) => e.address == newToken
         );
+        console.log("step 2");
         setTokenState({
           step0: false,
           step1: false,
@@ -350,9 +354,11 @@ export default function ManageToken({
         ) {
           setDuplicateToken(true);
         } else {
+          console.log("step 3");
           const isValidAddress = web3.utils.isAddress(String(newToken));
           if (isValidAddress && newToken) {
             let tokenInfo = searchToken?.tokenInfo;
+            console.log("step 4 ", tokenInfo);
             if (tokenInfo) {
               let logoURI = tokenInfo?.logoURI;
               if (tokenInfo.logoURI.startsWith("ipfs://")) {
@@ -407,17 +413,35 @@ export default function ManageToken({
     }
   };
 
+  // const confirmDeleteToken = (index) => {
+  //   confirmAlert({
+  //     title: "Confirm to submit",
+  //     message: "Are you sure to do this.",
+  //     buttons: [
+  //       {
+  //         label: "Yes",
+  //         onClick: () => spliceCustomToken(index),
+  //       },
+  //       {
+  //         label: "No",
+  //         //onClick: () => alert('Click No')
+  //       },
+  //     ],
+  //   });
+  // };
   const spliceCustomToken = (index: any) => {
     try {
-      let incomingObject = localTokens[index];
-      const filteredModallist = localTokens.filter((ss: any) => {
-        return ss.parentContract !== incomingObject.parentContract;
-      });
-      setLocalTokens(filteredModallist);
-      const filtered2 = tokenModalList.filter((ss: any) => {
-        return ss.parentContract !== incomingObject.parentContract;
-      });
-      setTokenModalList(filtered2);
+      if (window.confirm("Are you sure you want to delete this token?")) {
+        let incomingObject = localTokens[index];
+        const filteredModallist = localTokens.filter((ss: any) => {
+          return ss.parentContract !== incomingObject.parentContract;
+        });
+        setLocalTokens(filteredModallist);
+        const filtered2 = tokenModalList.filter((ss: any) => {
+          return ss.parentContract !== incomingObject.parentContract;
+        });
+        setTokenModalList(filtered2);
+      }
     } catch (err: any) {
       Sentry.captureMessage("spliceCustomToken ", err);
     }
