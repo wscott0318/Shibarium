@@ -100,7 +100,7 @@ export default function Faucet() {
                 })
                 .catch((err: any) => {
                   console.log(JSON.stringify(err.message));
-                  if (err.message === "Request failed with status code 409") {
+                  if (err.message === "Request failed with status code 400") {
                     toast.error("Faucet can be claimed once every 24 hours.", {
                       position: toast.POSITION.TOP_RIGHT,
                       autoClose: 5000,
@@ -121,7 +121,7 @@ export default function Faucet() {
         })
         .catch((err: any) => {
           console.log(JSON.stringify(err.message));
-          if (err.message === "Request failed with status code 409") {
+          if (err.message === "Request failed with status code 400") {
             toast.error("Faucet can be claimed once every 24 hours.", {
               position: toast.POSITION.TOP_RIGHT,
               autoClose: 5000,
