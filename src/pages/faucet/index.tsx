@@ -99,7 +99,6 @@ export default function Faucet() {
                   });
                 })
                 .catch((err: any) => {
-                  // console.log(JSON.stringify(err.message));
                   if (err.message === "Request failed with status code 400") {
                     toast.error("Faucet can be claimed once every 24 hours.", {
                       position: toast.POSITION.TOP_RIGHT,
@@ -112,12 +111,10 @@ export default function Faucet() {
                     });
                   }
                   setSwapModal(false);
-                  // console.log("err =>", err)
                   setClickedCaptcha(false);
                   recaptchaRef.current?.reset();
                 });
             });
-          // console.log("response ", res);
         })
         .catch((err: any) => {
           console.log(JSON.stringify(err.message));
