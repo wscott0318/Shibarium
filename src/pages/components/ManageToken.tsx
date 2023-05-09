@@ -19,7 +19,6 @@ import { uniqBy } from "lodash";
 import { useToken } from "app/hooks/Tokens";
 import { CircularProgress } from "@material-ui/core";
 import { ChainId } from "shibarium-get-chains";
-import { confirmAlert } from "react-confirm-alert";
 
 export const Warning = ({
   listing,
