@@ -164,7 +164,6 @@
     "i": "^0.3.7",
     "next-connect": "^0.13.0",
     "react-bootstrap": "^2.5.0",
-    "react-confirm-alert": "^3.0.6",
     "react-copy-to-clipboard": "^5.1.0",
     "react-google-recaptcha": "^2.1.0",
     "react-infinite-scroll-component": "^6.1.0",
