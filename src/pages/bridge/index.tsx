@@ -71,11 +71,13 @@ export default function Withdraw() {
       .max(tokenBalanceL2, "Insufficient Balance")
       .required("Amount is required."),
   });
+  console.log("tokenBalanceL2", tokenBalanceL2);
   const callDepositModal = (values: any, resetForm: any) => {
     try {
       setDepositTokenInput(values.amount);
       setDepositModal(true);
       resetForm();
+      // setFieldValue("withdrawAmount", "0.00");
     } catch (err: any) {
       Sentry.captureMessage("callDepositModal", err);
     }
@@ -84,7 +86,9 @@ export default function Withdraw() {
     try {
       setWithdrawTokenInput(values.withdrawAmount);
       setShowWithdrawModal(true);
-      resetForm();
+      setTimeout(() => {
+        resetForm();
+      }, 100);
     } catch (err: any) {
       Sentry.captureMessage("callWithdrawModal", err);
     }
@@ -567,6 +571,7 @@ export default function Withdraw() {
                   {/* Withdraw tab content section start */}
                   {!dWState && (
                     <Formik
+                      validationSchema={withdrawValidations}
                       initialValues={{
                         withdrawAmount: "",
                         fromChain:
@@ -575,9 +580,10 @@ export default function Withdraw() {
                             : ChainId.GÖRLI,
                         toChain: chainId,
                       }}
-                      validationSchema={withdrawValidations}
                       onSubmit={(values, { resetForm }) => {
                         callWithdrawModal(values, resetForm);
+                        // resetForm();
+                        // setFieldValue("withdrawAmount", "0.00");
                       }}
                     >
                       {({
