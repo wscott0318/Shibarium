@@ -8,55 +8,53 @@ import QrModal from "pages/components/QrModal";
 import NetworkModel from "../../modals/NetworkModal";
 import { useNetworkModalToggle } from "../../state/application/hooks";
 import AppHeader from "./AppHeader";
-import { useUserType} from "../../state/user/hooks"
+import { useUserType } from "../../state/user/hooks";
 import NetworkButton from "./NetworkButton";
 import { useActiveWeb3React } from "app/services/web3";
 import { getUserType } from "app/services/apis/user/userApi";
 import { getNetworkName } from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 
-
 const InnerHeader = () => {
   const router = useRouter();
   const [userQrCode, setUserQrCode] = useState(false);
 
-  const {account, deactivate } = useWeb3React();
+  const { account, deactivate } = useWeb3React();
   const { chainId } = useActiveWeb3React();
 
   const [userType, setUserType] = useUserType();
 
   const toggleNetworkModal = useNetworkModalToggle();
-  
-  useEffect(() => {
-    if(account) {
-      getUsertypeAPI(account)
-      }
-  }, [account, chainId]);
 
+  useEffect(() => {
+    if (account) {
+      getUsertypeAPI(account);
+    }
+  }, [account, chainId]);
 
   const getUsertypeAPI = (accountAddress) => {
     try {
-      getUserType(accountAddress).then(res => {
-        if (res.data && res.data.data) {
-          let ut = res.data.data.userType;
-          setUserType(ut)
-        }
-      }).catch(e => {
-        setUserType('NA')
-      })
+      getUserType(accountAddress)
+        .then((res) => {
+          if (res.data && res.data.data) {
+            let ut = res.data.data.userType;
+            setUserType(ut);
+          }
+        })
+        .catch((e) => {
+          setUserType("NA");
+        });
     } catch (error) {
       Sentry.captureMessage("getUsertypeAPI ", error);
     }
-  }
+  };
 
   const logoutHandler = () => {
     deactivate();
-     router.push("/");
-  }
+    router.push("/");
+  };
 
   if (!chainId) return null;
-
-
 
   return (
     <>
@@ -97,7 +95,10 @@ const InnerHeader = () => {
                   <Web3Status />
                   <Dropdown className="nav-item d-flex align-items-center cus-dd mob-drop drop-cus">
                     <div className="dot-icon" id="basic-nav-dropdown"></div>
-                    <NavDropdown className="me-3 inner-header-dropwdown" id="account-dropdown">
+                    <NavDropdown
+                      className="me-3 inner-header-dropwdown"
+                      id="account-dropdown"
+                    >
                       <div className="drop-head">
                         <div className="head-brand">
                           <img
@@ -164,7 +165,7 @@ const InnerHeader = () => {
                         </div>
                       </NavDropdown.Item>
                       <NavDropdown.Item
-                        href={`https://etherscan.io/address/${account}`}
+                        href={`https://goerli.etherscan.io/address/${account}`}
                         target="blank"
                       >
                         <div className="custum-row">
@@ -185,7 +186,9 @@ const InnerHeader = () => {
                             <img src="../../assets/images/graph.png" alt="" />
                           </div>
                           <div className="center-txt">
-                            <span className="text-wrap drop_span">View on Shibariumscan</span>
+                            <span className="text-wrap drop_span">
+                              View on Shibariumscan
+                            </span>
                           </div>
                           <div className="rt-image">
                             <img src="../../assets/images/rt-arow.png" alt="" />

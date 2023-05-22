@@ -158,23 +158,12 @@ const Deposit: React.FC<any> = ({
       await web3.eth
         .getTransactionCount(user)
         .then((res: any) => (nonce = +res));
-      console.log("step nonce", nonce);
       let encodedAbi = await instance.methods
         .approve(contract, amountWei)
         .encodeABI();
-      let CurrentgasPrice: any = await currentGasPrice(web3);
-      await web3.eth
-        .sendTransaction({
-          from: account,
-          to: contract,
-          gas: (parseInt(gasFee) + 30000).toString(),
-          gasPrice: CurrentgasPrice,
-          data: encodedAbi,
-          // nonce: nonce + 10,
-        })
-        // await instance.methods
-        //   .approve(contract, amountWei)
-        //   .send({ from: user })
+      await instance.methods
+        .approve(contract, amountWei)
+        .send({ from: user })
         .on("transactionHash", (res: any) => {
           // console.log(res, "hash")
           dispatch(
@@ -218,6 +207,7 @@ const Deposit: React.FC<any> = ({
             step4: false,
             title: "Transfer Overview",
           });
+          console.log("step error ", res);
           setLoader(false);
           if (res.code === 4001) {
             setDepositModal(false);
@@ -236,6 +226,7 @@ const Deposit: React.FC<any> = ({
         title: "Transfer Overview",
       });
       setLoader(false);
+      console.log("step error ", err);
       // setDepositModal(false);
     }
   };
