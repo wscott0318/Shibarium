@@ -144,6 +144,7 @@ const MigratePopup: React.FC<any> = ({
           })
           .on("error", (res: any) => {
             setmigratepop(false);
+            console.log("step 6");
             setProcessing("Migrate");
             setFieldValue("balance", "");
             resetForm();
@@ -492,7 +493,9 @@ const MigratePopup: React.FC<any> = ({
                             migrateStake(values, data, migrateData);
                           }}
                           disabled={
-                            +values.balance < 1 || +values.balance > +balance
+                            isNaN(+values.balance) ||
+                            +values.balance < 1 ||
+                            +values.balance > +balance
                           }
                           className={`w-100`}
                           type="submit"
@@ -500,13 +503,15 @@ const MigratePopup: React.FC<any> = ({
                         >
                           <div
                             className={`btn primary-btn d-flex align-items-center justify-content-center ${
-                              (+values.balance < 1 ||
+                              (isNaN(+values.balance) ||
+                                +values.balance < 1 ||
                                 +values.balance > +balance) &&
                               "disabled"
                             }`}
                           >
                             <button
                               disabled={
+                                isNaN(+values.balance) ||
                                 +values.balance < 1 ||
                                 +values.balance > +balance
                               }

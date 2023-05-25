@@ -533,6 +533,7 @@ export default function ManageToken({
                               title: "Manage Token",
                             });
                             setOffset(10);
+                            setSearchedList(null);
                           }}
                         >
                           Manage Tokens
