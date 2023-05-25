@@ -641,6 +641,7 @@ const WithdrawModal: React.FC<{
                           height="22"
                           src="../../assets/images/shib-logo.png"
                           alt=""
+                          onError={imageOnErrorHandler}
                         />
                         <p className="ps-2">Withdrawal Initialized</p>
                       </div>

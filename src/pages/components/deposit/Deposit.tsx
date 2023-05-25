@@ -955,7 +955,9 @@ const Deposit: React.FC<any> = ({
               </div>
               <div className="pop-bottom text-center h-50">
                 <div className="text-section complete-modal">
-                  <h4 className="pop-hd-sm">Transfer en route</h4>
+                  <h4 className="pop-hd-sm warning-color p-2">
+                    Transfer en route
+                  </h4>
                   <p>
                     Your transfer is underway and will be completed in 22-30
                     minutes. Once completed, your token balance will be
@@ -964,7 +966,7 @@ const Deposit: React.FC<any> = ({
                 </div>
                 <div>
                   <a
-                    className="w-100 warning"
+                    className="w-100 warning-color"
                     onClick={() => window.open(hashLink)}
                   >
                     View on Block Explorer
