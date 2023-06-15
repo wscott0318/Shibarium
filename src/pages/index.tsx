@@ -87,9 +87,9 @@ const BoneStaking = () => {
           console.log("here in else");
           return (
             <div className="btns-sec btn-width">
-              <div className="btns-wrap d-none">
+              <div className="btns-wrap">
                 <button
-                  disabled={+valCount <= +valMaxCount ? false : true}
+                  // disabled={+valCount <= +valMaxCount ? false : true}
                   onClick={() => {
                     router.push("/become-validator");
                   }}
@@ -125,9 +125,9 @@ const BoneStaking = () => {
       } else {
         return (
           <div className="btns-sec btn-width">
-            <div className="btns-wrap d-none">
+            <div className="btns-wrap">
               <button
-                disabled={+valCount <= +valMaxCount ? false : true}
+                // disabled={+valCount <= +valMaxCount ? false : true}
                 onClick={() => {
                   router.push("/become-validator");
                 }}
