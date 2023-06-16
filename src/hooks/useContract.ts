@@ -6,7 +6,9 @@ import {
   MULTICALL2_ADDRESS,
 } from 'shibarium-get-chains'
 import { LIMIT_ORDER_HELPER_ADDRESS, STOP_LIMIT_ORDER_ADDRESS } from '@sushiswap/limit-order-sdk'
-// eslint-disable-next-line
+import TRIDENT from '@sushiswap/trident/exports/all.json'
+
+import ENS_PUBLIC_RESOLVER_ABI from '../constants/abis/ens-public-resolver.json'
 import ENS_ABI from '../constants/abis/ens-registrar.json'
 import { ERC20_BYTES32_ABI } from '../constants/abis/erc20'
 import ERC20_ABI from '../constants/abis/erc20.json'
@@ -66,6 +68,7 @@ export function useENSRegistrarContract(withSignerIfPossible?: boolean): Contrac
   const { chainId } = useActiveWeb3React()
   return useContract(chainId && ENS_REGISTRAR_ADDRESS[chainId], ENS_ABI, withSignerIfPossible)
 }
+
 export function useENSResolverContract(address: string | undefined, withSignerIfPossible?: boolean): Contract | null {
   return useContract(address, ENS_PUBLIC_RESOLVER_ABI, withSignerIfPossible)
 }
