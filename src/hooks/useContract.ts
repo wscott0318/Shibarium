@@ -6,7 +6,6 @@ import {
   MULTICALL2_ADDRESS,
 } from 'shibarium-get-chains'
 import { LIMIT_ORDER_HELPER_ADDRESS, STOP_LIMIT_ORDER_ADDRESS } from '@sushiswap/limit-order-sdk'
-import TRIDENT from '@sushiswap/trident/exports/all.json'
 
 import ENS_PUBLIC_RESOLVER_ABI from '../constants/abis/ens-public-resolver.json'
 import ENS_ABI from '../constants/abis/ens-registrar.json'
@@ -82,7 +81,7 @@ export function useMulticall2Contract() {
   const { chainId } = useActiveWeb3React()
   return useContract(chainId && MULTICALL2_ADDRESS[chainId], MULTICALL2_ABI, false)
 }
-const MULTICALL_NETWORK:any = MULTICALL_NETWORKS;
+const MULTICALL_NETWORK: any = MULTICALL_NETWORKS;
 export function useMulticallContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
   return useContract(chainId && MULTICALL_NETWORK[chainId], MULTICALL_ABI, false)
