@@ -16,7 +16,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Sentry from "@sentry/nextjs";
 import { NETWORK_ICON, NETWORK_LABEL } from "../../config/networks";
-import ManageToken from "../components/ManageToken"
+import ManageToken from "../components/ManageToken";
 import WithdrawModal from "pages/components/withdraw/Withdraw";
 import { L1Block, PUPPYNET517 } from "app/hooks/L1Block";
 import { ERC20_ABI } from "app/constants/abis/erc20";
@@ -30,20 +30,20 @@ export default function Withdraw() {
   const bridgeType: string = localStorage.getItem("bridgeType") || "deposit";
   const [menuState, setMenuState] = useState(false);
   const [selectedToken, setSelectedToken] = useState(
-    JSON.parse(localStorage.getItem("depositToken") || "{}"),
+    JSON.parse(localStorage.getItem("depositToken") || "{}")
   );
   const [showDepositModal, setDepositModal] = useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [depositTokenInput, setDepositTokenInput] = useState("");
   const [withdrawTokenInput, setWithdrawTokenInput] = useState("");
   const [dWState, setDWState] = useState(
-    bridgeType === "deposit" ? true : false,
+    bridgeType === "deposit" ? true : false
   );
   const [loader, setLoader] = useState(false);
   const [tokenBalanceL2, setTokenBalanceL2] = useState(0);
   const [boneUSDValue, setBoneUSDValue] = useState(0);
   const [hashLink, setHashLink] = useState("");
-  const [openManageToken, setOpenManageToken] = useState(false)
+  const [openManageToken, setOpenManageToken] = useState(false);
   const handleMenuState = () => {
     setMenuState(!menuState);
   };
@@ -63,7 +63,7 @@ export default function Withdraw() {
       .required("Amount is required."),
   });
   const withdrawValidations: any = Yup.object({
-    fromChain: Yup.number(),
+    fromChain: Yup.number().required("Required Field"),
     toChain: Yup.number(),
     withdrawAmount: Yup.number()
       .typeError("Only digits are allowed.")
@@ -71,19 +71,24 @@ export default function Withdraw() {
       .max(tokenBalanceL2, "Insufficient Balance")
       .required("Amount is required."),
   });
+  console.log("tokenBalanceL2", tokenBalanceL2);
   const callDepositModal = (values: any, resetForm: any) => {
     try {
       setDepositTokenInput(values.amount);
       setDepositModal(true);
       resetForm();
+      // setFieldValue("withdrawAmount", "0.00");
     } catch (err: any) {
       Sentry.captureMessage("callDepositModal", err);
     }
   };
-  const callWithdrawModal = (values: any) => {
+  const callWithdrawModal = (values: any, resetForm: any) => {
     try {
       setWithdrawTokenInput(values.withdrawAmount);
       setShowWithdrawModal(true);
+      setTimeout(() => {
+        resetForm();
+      }, 100);
     } catch (err: any) {
       Sentry.captureMessage("callWithdrawModal", err);
     }
@@ -101,14 +106,16 @@ export default function Withdraw() {
       let bal: any;
       let contract: any;
       if (chainId === ChainId.GÖRLI) {
-        address = selectedToken?.childContract || selectedToken?.address;
+        address =
+          selectedToken?.childContract ||
+          selectedToken?.address ||
+          selectedToken?.parentContract;
         contract = new web3L2.eth.Contract(ERC20_ABI, address);
-        console.log("get l2 balance  => ", chainId)
-      }
-      else {
+        console.log("get l2 balance  => ", chainId);
+      } else {
         address = selectedToken?.parentContract || selectedToken?.address;
         contract = new web3.eth.Contract(ERC20_ABI, address);
-        console.log("get l1 balance  => ", address, contract)
+        console.log("get l1 balance  => ", address, contract);
       }
       await contract.methods
         .balanceOf(account)
@@ -119,21 +126,21 @@ export default function Withdraw() {
             .call()
             .then((d: number) => {
               bal = +(+res / Math.pow(10, d)).toFixed(tokenDecimal);
-              console.log("l2 balance  => ", bal)
+              console.log("l2 balance  => ", bal);
               setLoader(false);
             });
         });
       setTokenBalanceL2(bal);
     }
-  }
+  };
   const imageOnErrorHandler = (
-    event: React.SyntheticEvent<HTMLImageElement, Event>,
+    event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
     event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
     event.currentTarget.className = "error me-3";
   };
 
-  const handleClickOutside = useCallback(() => setMenuState(false), [])
+  const handleClickOutside = useCallback(() => setMenuState(false), []);
 
   return (
     <>
@@ -146,7 +153,7 @@ export default function Withdraw() {
         ></Sidebar>
         {/* modal code start */}
         {/* Deposit popup start */}
-        {showDepositModal ?
+        {showDepositModal ? (
           <Deposit
             {...{
               depositTokenInput,
@@ -156,10 +163,10 @@ export default function Withdraw() {
               dWState,
               selectedToken,
               hashLink,
-              setHashLink
+              setHashLink,
             }}
-          /> :
-          null}
+          />
+        ) : null}
 
         {/* Deposit popup end */}
 
@@ -232,8 +239,9 @@ export default function Withdraw() {
                     )}
                     {
                       <div
-                        className={`txt-row ${dWState ? "visVisible" : "visInvisible"
-                          }`}
+                        className={`txt-row ${
+                          dWState ? "visVisible" : "visInvisible"
+                        }`}
                       >
                         <div className="row-hd">
                           <span className="icon-image">
@@ -311,7 +319,7 @@ export default function Withdraw() {
                           fromChain: chainId,
                           toChain:
                             chainId == ChainId.GÖRLI
-                              ? ChainId.PUPPYNET517
+                              ? ChainId.PUPPYNET719
                               : ChainId.GÖRLI,
                         }}
                         validationSchema={depositValidations}
@@ -339,26 +347,30 @@ export default function Withdraw() {
                                     <div className="form-field position-relative txt-fix">
                                       <div className="icon-chain">
                                         <div>
-                                          {
-                                            (selectedToken?.logo || selectedToken?.logoURI) ?
-                                              <img
-                                                width="22"
-                                                height="22"
-                                                className="img-fluid"
-                                                src={selectedToken?.logo ? selectedToken?.logo : selectedToken?.logoURI}
-                                                alt=""
-                                                onError={imageOnErrorHandler}
-                                              />
-                                              :
-                                              (
-                                                <img
-                                                  className="img-fluid"
-                                                  src={"../../assets/images/eth.png"}
-                                                  alt=""
-                                                  onError={imageOnErrorHandler}
-                                                />
-                                              )
-                                          }
+                                          {selectedToken?.logo ||
+                                          selectedToken?.logoURI ? (
+                                            <img
+                                              width="22"
+                                              height="22"
+                                              className="img-fluid"
+                                              src={
+                                                selectedToken?.logo
+                                                  ? selectedToken?.logo
+                                                  : selectedToken?.logoURI
+                                              }
+                                              alt=""
+                                              onError={imageOnErrorHandler}
+                                            />
+                                          ) : (
+                                            <img
+                                              className="img-fluid"
+                                              src={
+                                                "../../assets/images/eth.png"
+                                              }
+                                              alt=""
+                                              onError={imageOnErrorHandler}
+                                            />
+                                          )}
                                         </div>
                                       </div>
                                       <div className="mid-chain">
@@ -367,7 +379,7 @@ export default function Withdraw() {
                                           type="text"
                                           value={NETWORK_LABEL[chainId]}
                                           disabled={true}
-                                        // placeholder="Ethereum chain"
+                                          // placeholder="Ethereum chain"
                                         />
                                       </div>
                                       <div className="rt-chain d-flex align-items-center">
@@ -380,7 +392,9 @@ export default function Withdraw() {
                                           <span className="fld-txt lite-800 wrap_txt">
                                             {selectedToken?.balance
                                               ? selectedToken?.balance
-                                              : "00.00"} {selectedToken?.key || selectedToken?.symbol}
+                                              : "00.00"}{" "}
+                                            {selectedToken?.key ||
+                                              selectedToken?.symbol}
                                           </span>
                                         )}
                                       </div>
@@ -391,7 +405,7 @@ export default function Withdraw() {
                                       <div
                                         className="form-field position-relative fix-coin-field"
                                         onClick={() => {
-                                          setOpenManageToken(!openManageToken)
+                                          setOpenManageToken(!openManageToken);
                                           setLoader(true);
                                           setSelectedToken({});
                                         }}
@@ -403,9 +417,9 @@ export default function Withdraw() {
                                               width={24}
                                               src={
                                                 selectedToken?.logo ||
-                                                  selectedToken?.logoURI
+                                                selectedToken?.logoURI
                                                   ? selectedToken.logo ||
-                                                  selectedToken?.logoURI
+                                                    selectedToken?.logoURI
                                                   : "../../assets/images/eth.png"
                                               }
                                               onError={imageOnErrorHandler}
@@ -416,9 +430,9 @@ export default function Withdraw() {
                                         <div className="lite-800">
                                           <span className="lite-800 fw-bold">
                                             {selectedToken?.parentName ||
-                                              selectedToken?.symbol
+                                            selectedToken?.symbol
                                               ? selectedToken?.parentName ||
-                                              selectedToken?.symbol
+                                                selectedToken?.symbol
                                               : "Select Token"}
                                           </span>
                                         </div>
@@ -432,18 +446,24 @@ export default function Withdraw() {
                                     <div className="col-lg-6 col-xxl-7 col-sm-12 field-col">
                                       <div className="form-field position-relative two-fld">
                                         <div
-                                          className={`mid-chain w-100 ${selectedToken?.type == undefined &&
+                                          className={`mid-chain w-100 ${
+                                            selectedToken?.type == undefined &&
                                             "disabled"
-                                            }`}
+                                          }`}
                                         >
                                           <input
-                                            className={`w-100 ${selectedToken?.type ==
-                                              undefined && "disabled"
-                                              }`}
+                                            className={`w-100 ${
+                                              selectedToken?.type ==
+                                                undefined && "disabled"
+                                            }`}
                                             type="text"
                                             placeholder="0.00"
                                             name="amount"
-                                            disabled={selectedToken?.type == undefined ? true : false}
+                                            disabled={
+                                              selectedToken?.type == undefined
+                                                ? true
+                                                : false
+                                            }
                                             value={values.amount}
                                             onChange={handleChange("amount")}
                                           />
@@ -453,7 +473,7 @@ export default function Withdraw() {
                                           onClick={(e) =>
                                             setFieldValue(
                                               "amount",
-                                              selectedToken.balance,
+                                              selectedToken.balance
                                             )
                                           }
                                         >
@@ -484,9 +504,9 @@ export default function Withdraw() {
                                             className="img-fluid"
                                             src={
                                               NETWORK_ICON[
-                                              chainId == ChainId.GÖRLI
-                                                ? ChainId.PUPPYNET517
-                                                : ChainId.GÖRLI
+                                                chainId == ChainId.GÖRLI
+                                                  ? ChainId.PUPPYNET719
+                                                  : ChainId.GÖRLI
                                               ]
                                             }
                                             onError={imageOnErrorHandler}
@@ -502,9 +522,9 @@ export default function Withdraw() {
                                           placeholder="Shibarium chain"
                                           value={
                                             NETWORK_LABEL[
-                                            chainId == ChainId.GÖRLI
-                                              ? ChainId.PUPPYNET517
-                                              : ChainId.GÖRLI
+                                              chainId == ChainId.GÖRLI
+                                                ? ChainId.PUPPYNET719
+                                                : ChainId.GÖRLI
                                             ]
                                           }
                                         />
@@ -517,7 +537,11 @@ export default function Withdraw() {
                                           <Loader stroke="orange" />
                                         ) : (
                                           <span className="fld-txt lite-800 wrap_txt">
-                                            {tokenBalanceL2 ? tokenBalanceL2 : "00.00"} {selectedToken?.key || selectedToken?.symbol}
+                                            {tokenBalanceL2
+                                              ? tokenBalanceL2
+                                              : "00.00"}{" "}
+                                            {selectedToken?.key ||
+                                              selectedToken?.symbol}
                                           </span>
                                         )}
                                       </div>
@@ -547,18 +571,19 @@ export default function Withdraw() {
                   {/* Withdraw tab content section start */}
                   {!dWState && (
                     <Formik
+                      validationSchema={withdrawValidations}
                       initialValues={{
                         withdrawAmount: "",
                         fromChain:
                           chainId == ChainId.GÖRLI
-                            ? ChainId.PUPPYNET517
+                            ? ChainId.PUPPYNET719
                             : ChainId.GÖRLI,
                         toChain: chainId,
                       }}
-                      validationSchema={withdrawValidations}
                       onSubmit={(values, { resetForm }) => {
-                        callWithdrawModal(values);
-                        resetForm();
+                        callWithdrawModal(values, resetForm);
+                        // resetForm();
+                        // setFieldValue("withdrawAmount", "0.00");
                       }}
                     >
                       {({
@@ -588,9 +613,9 @@ export default function Withdraw() {
                                             className="img-fluid"
                                             src={
                                               NETWORK_ICON[
-                                              chainId == ChainId.GÖRLI
-                                                ? ChainId.PUPPYNET517
-                                                : ChainId.GÖRLI
+                                                chainId == ChainId.GÖRLI
+                                                  ? ChainId.PUPPYNET719
+                                                  : ChainId.GÖRLI
                                               ]
                                             }
                                             onError={imageOnErrorHandler}
@@ -605,9 +630,9 @@ export default function Withdraw() {
                                           // placeholder="Shibarium Mainnet"
                                           value={
                                             NETWORK_LABEL[
-                                            chainId == ChainId.GÖRLI
-                                              ? ChainId.PUPPYNET517
-                                              : ChainId.GÖRLI
+                                              chainId == ChainId.GÖRLI
+                                                ? ChainId.PUPPYNET719
+                                                : ChainId.GÖRLI
                                             ]
                                           }
                                           disabled={true}
@@ -621,7 +646,11 @@ export default function Withdraw() {
                                           <Loader stroke="orange" />
                                         ) : (
                                           <span className="fld-txt lite-800 wrap_txt">
-                                            {tokenBalanceL2 ? tokenBalanceL2 : "00.00"} {selectedToken?.key || selectedToken?.symbol}
+                                            {tokenBalanceL2
+                                              ? tokenBalanceL2
+                                              : "00.00"}{" "}
+                                            {selectedToken?.key ||
+                                              selectedToken?.symbol}
                                           </span>
                                         )}
                                       </div>
@@ -632,7 +661,7 @@ export default function Withdraw() {
                                       <div
                                         className="form-field position-relative fix-coin-field h-100"
                                         onClick={() => {
-                                          setOpenManageToken(!openManageToken)
+                                          setOpenManageToken(!openManageToken);
                                           setLoader(true);
                                           setSelectedToken({});
                                         }}
@@ -645,9 +674,9 @@ export default function Withdraw() {
                                               className="img-fluid"
                                               src={
                                                 selectedToken?.logo ||
-                                                  selectedToken?.logoURI
+                                                selectedToken?.logoURI
                                                   ? selectedToken?.logo ||
-                                                  selectedToken?.logoURI
+                                                    selectedToken?.logoURI
                                                   : "../../assets/images/shiba-round-icon.png"
                                               }
                                               onError={imageOnErrorHandler}
@@ -658,9 +687,9 @@ export default function Withdraw() {
                                         <div className="lite-800">
                                           <span className="lite-800 fw-bold">
                                             {selectedToken?.parentName ||
-                                              selectedToken?.symbol
+                                            selectedToken?.symbol
                                               ? selectedToken?.parentName ||
-                                              selectedToken?.symbol
+                                                selectedToken?.symbol
                                               : "Select Token"}
                                           </span>
                                         </div>
@@ -686,21 +715,32 @@ export default function Withdraw() {
                                             }
                                             value={values.withdrawAmount}
                                             onChange={handleChange(
-                                              "withdrawAmount",
+                                              "withdrawAmount"
                                             )}
                                           />
                                         </div>
                                         <div
                                           className="rt-chain"
-                                          onClick={(e) => setFieldValue("withdrawAmount", tokenBalanceL2)}
+                                          onClick={(e) =>
+                                            setFieldValue(
+                                              "withdrawAmount",
+                                              tokenBalanceL2
+                                            )
+                                          }
                                         >
                                           <span className="orange-txt fw-bold withdrawMax">
                                             MAX
                                           </span>
                                         </div>
                                       </div>
-                                      {touched.withdrawAmount &&
+                                      {/* {touched.withdrawAmount &&
                                         errors.withdrawAmount ? (
+                                        <p className="pt-0 pl-2 primary-text">
+                                          {errors.withdrawAmount}
+                                        </p>
+                                      ) : null} */}
+                                      {touched.withdrawAmount &&
+                                      errors.withdrawAmount ? (
                                         <p className="pt-0 pl-2 primary-text">
                                           {errors.withdrawAmount}
                                         </p>
@@ -716,25 +756,29 @@ export default function Withdraw() {
                                     <div className="form-field position-relative txt-fix">
                                       <div className="icon-chain">
                                         <div>
-                                          {
-                                            selectedToken?.logo || selectedToken?.logoURI
-                                              ? (<img
-                                                width="22"
-                                                height="22"
-                                                className="img-fluid"
-                                                src={selectedToken.logo || selectedToken?.logoURI}
-                                                alt=""
-                                                onError={imageOnErrorHandler}
-                                              />) :
-                                              (
-                                                <img
-                                                  className="img-fluid"
-                                                  src={"../../assets/images/eth.png"}
-                                                  alt=""
-                                                  onError={imageOnErrorHandler}
-                                                />
-                                              )
-                                          }
+                                          {selectedToken?.logo ||
+                                          selectedToken?.logoURI ? (
+                                            <img
+                                              width="22"
+                                              height="22"
+                                              className="img-fluid"
+                                              src={
+                                                selectedToken.logo ||
+                                                selectedToken?.logoURI
+                                              }
+                                              alt=""
+                                              onError={imageOnErrorHandler}
+                                            />
+                                          ) : (
+                                            <img
+                                              className="img-fluid"
+                                              src={
+                                                "../../assets/images/eth.png"
+                                              }
+                                              alt=""
+                                              onError={imageOnErrorHandler}
+                                            />
+                                          )}
                                         </div>
                                       </div>
                                       <div className="mid-chain">
@@ -755,7 +799,9 @@ export default function Withdraw() {
                                           <span className="fld-txt lite-800 wrap_txt">
                                             {selectedToken?.balance
                                               ? selectedToken?.balance
-                                              : "00.00"} {selectedToken?.key || selectedToken?.symbol}
+                                              : "00.00"}{" "}
+                                            {selectedToken?.key ||
+                                              selectedToken?.symbol}
                                           </span>
                                         )}
                                       </div>

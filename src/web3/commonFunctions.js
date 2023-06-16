@@ -213,7 +213,6 @@ export const parseError = (err) => {
   let error = `${err}`;
   let splitError = error.split("{");
   splitError.shift();
-  // console.log("string error ", splitError);
   let stringErr = JSON.parse("{" + splitError.join("{"));
   return stringErr.originalError;
 };

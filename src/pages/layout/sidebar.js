@@ -25,7 +25,7 @@ export default function Sidebar({
     {
       name: "Staking",
       route: "/",
-      isSelected: router.asPath == "/transactions" ? true : false,
+      isSelected: router.asPath == "/" ? true : false,
       img: "../../assets/images/sidebar/transaction.png",
     },
     {
@@ -34,18 +34,18 @@ export default function Sidebar({
       isSelected: router.asPath == "/wallet" ? true : false,
       img: "../../assets/images/sidebar/wallet.png",
     },
-    {
-      name: "Bridge",
-      route: "/bridge",
-      isSelected: router.asPath == "/bridge" ? true : false,
-      img: "../../assets/images/sidebar/bridge.png",
-    },
-    {
-      name: "Transactions",
-      route: "/transactions",
-      isSelected: router.asPath == "/transactions" ? true : false,
-      img: "../../assets/images/sidebar/bridge.png",
-    },
+    // {
+    //   name: "Bridge",
+    //   route: "/bridge",
+    //   isSelected: router.asPath == "/bridge" ? true : false,
+    //   img: "../../assets/images/sidebar/bridge.png",
+    // },
+    // {
+    //   name: "Transactions",
+    //   route: "/transactions",
+    //   isSelected: router.asPath == "/transactions" ? true : false,
+    //   img: "../../assets/images/sidebar/bridge.png",
+    // },
     // {
     //   name: "Swap token",
     //   route: "/swap-token",
