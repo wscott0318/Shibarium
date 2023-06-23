@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from "react";
-import { Container, Nav, Navbar, NavDropdown, Dropdown } from 'react-bootstrap';
-import StakingHeader from '../staking-header'
+import { Container, Nav, Navbar, NavDropdown, Dropdown } from "react-bootstrap";
+import StakingHeader from "../staking-header";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useWeb3React } from "@web3-react/core";
@@ -20,7 +20,6 @@ import ChainWarning from "pages/components/ChainWarning";
 import { supportedChains } from "../../web3/commonFunctions";
 import useLocalStorageState from "use-local-storage-state";
 export default function Header() {
-
   const { account, deactivate } = useWeb3React();
   const { chainId = 1 } = useActiveWeb3React();
   const router = useRouter();
@@ -31,7 +30,6 @@ export default function Header() {
   const [valId, setValId] = useValId(); //NOSONAR
   const [showWarning, setShowWarning] = useState(false);
   const [LogOut, setLogOut] = useLocalStorageState("LogOut");
-
 
   useEffect(() => {
     if (account) {
@@ -54,42 +52,47 @@ export default function Header() {
   useEffect(() => {
     if (account) {
       getUsertypeAPI(account)
+        .then((res) => {})
+        .catch((err) => {});
     }
-  }, [account])
+  }, [account]);
 
   //@ts-ignore
   const logoutHandler = () => {
     deactivate();
     clearCacheData();
-    router.push("/");
+    router
+      .push("/")
+      .then((res) => {})
+      .catch((err) => {});
     setLogOut(true);
   };
 
   const getUsertypeAPI = async (accountAddress: any) => {
     try {
-      await getUserType(accountAddress).then(res => {
-        if (res.data && res.data.data) {
+      await getUserType(accountAddress).then((res) => {
+        if (res?.data && res?.data?.data) {
           let ut = res.data.data.userType;
-          let valID = res.data.data.validatorId ? res.data.data.validatorId : "0";
+          let valID = res.data.data.validatorId
+            ? res.data.data.validatorId
+            : "0";
           // console.log(ut)
-          setUserType(ut)
-          setValId(valID)
-
+          setUserType(ut);
+          setValId(valID);
         }
-      })
+      });
     } catch (error: any) {
       // console.log(error)
-      setUserType('NA')
-      setValId("0")
+      setUserType("NA");
+      setValId("0");
 
       Sentry.captureMessage("getUsertypeAPI", error);
     }
-  }
+  };
 
   const toggleNetworkModal = useNetworkModalToggle();
 
-
-  const scroll = false
+  const scroll = false;
 
   // useEffect(() => {
   //   window.addEventListener("scroll", () => {
@@ -105,9 +108,7 @@ export default function Header() {
   //   // ethereum.on('accountsChanged', handleAccountsChanged)
   //   account ? ethereum.on('accountsChanged', handleAccountsChanged) : console.log("account not connected please connect")
 
-
   // }, [active, account])
-
 
   return (
     <>
@@ -126,7 +127,6 @@ export default function Header() {
             : "main-header header-overide"
         }
       >
-        
         <Navbar className="py-0 custom_navbar">
           <Container>
             <Navbar.Brand href="/">
@@ -228,7 +228,11 @@ export default function Header() {
                       <Web3Status />
                       <Dropdown className="nav-item d-flex align-items-center cus-dd mob-drop drop-cus">
                         <div className="dot-icon" id="basic-nav-dropdown"></div>
-                        <NavDropdown title="" className="me-3" id="account-dropdown">
+                        <NavDropdown
+                          title=""
+                          className="me-3"
+                          id="account-dropdown"
+                        >
                           <div className="drop-head">
                             <div className="head-brand">
                               <img
@@ -309,7 +313,9 @@ export default function Header() {
                                 />
                               </div>
                               <div className="center-txt">
-                                <span className="text-wrap">View on Goerli Etherscan</span>
+                                <span className="text-wrap">
+                                  View on Goerli Etherscan
+                                </span>
                               </div>
                               <div className="rt-image">
                                 <img
@@ -319,7 +325,9 @@ export default function Header() {
                               </div>
                             </div>
                           </NavDropdown.Item>
-                          <NavDropdown.Item href={`https://puppyscan.shib.io/address/${account}`}>
+                          <NavDropdown.Item
+                            href={`https://puppyscan.shib.io/address/${account}`}
+                          >
                             <div className="custum-row">
                               <div className="lft-img">
                                 <img
@@ -328,7 +336,9 @@ export default function Header() {
                                 />
                               </div>
                               <div className="center-txt">
-                                <span className="text-wrap drop_span">View on Shibariumscan</span>
+                                <span className="text-wrap drop_span">
+                                  View on Shibariumscan
+                                </span>
                               </div>
                               <div className="rt-image">
                                 <img

@@ -1,36 +1,42 @@
-import Pagination from 'app/components/Pagination';
-import React, { useEffect, useState } from 'react';
-import NumberFormat from 'react-number-format';
-import TimeAgo from 'timeago-react';
+import Pagination from "app/components/Pagination";
+import React, { useEffect, useState } from "react";
+import NumberFormat from "react-number-format";
+import TimeAgo from "timeago-react";
 import * as Sentry from "@sentry/nextjs";
-import DynamicShimmer from 'app/components/Shimmer/DynamicShimmer';
+import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 interface Props {
   allCheckpoints: any[];
   boneUsdValue: number;
   loading: boolean;
 }
-const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue, loading }) => {
+const Checkpoints: React.FC<Props> = ({
+  allCheckpoints,
+  boneUsdValue,
+  loading,
+}) => {
   const pageSize = 20;
   const [checkpoints, setCheckpoints] = useState<any[]>([]);
-  const [pageIndex, setPageIndex] = useState(1)
+  const [pageIndex, setPageIndex] = useState(1);
   useEffect(() => {
     if (allCheckpoints) {
-      setCheckpoints(allCheckpoints.slice(0, pageSize))
+      setCheckpoints(allCheckpoints.slice(0, pageSize));
     }
-  }, [allCheckpoints])
+  }, [allCheckpoints]);
 
   const pageChangeHandler = (index: number) => {
     try {
-      const slicedList = allCheckpoints.slice((index - 1) * pageSize, (index * pageSize))
+      const slicedList = allCheckpoints.slice(
+        (index - 1) * pageSize,
+        index * pageSize
+      );
       slicedList.sort((a, b) => a - b);
-      setCheckpoints(slicedList)
-      setPageIndex(index)
-    }
-    catch (err: any) {
+      setCheckpoints(slicedList);
+      setPageIndex(index);
+    } catch (err: any) {
       Sentry.captureMessage("pageChangeHandler", err);
     }
-  }
-  console.log("checkpoints " , allCheckpoints)
+  };
+  console.log("checkpoints ", allCheckpoints);
   return (
     <>
       <div className="h-auto p-4 mb-4 cus-card mb-lg-5">
@@ -50,9 +56,10 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue, loading })
                 </tr>
               </thead>
               <tbody>
-                {!loading ? (checkpoints?.length > 0 && (
+                {!loading ? (
+                  checkpoints?.length > 0 &&
                   checkpoints.map((checkpoint: any, i: any) => (
-                    <tr key={checkpoint.checkpointNumber+i}>
+                    <tr key={checkpoint.checkpointNumber}>
                       <td>
                         <NumberFormat
                           displayType="text"
@@ -75,7 +82,7 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue, loading })
                       </td>
                     </tr>
                   ))
-                )) : (
+                ) : (
                   <tr>
                     <td colSpan={5}>
                       <DynamicShimmer type={"table"} rows={13} cols={5} />
@@ -83,9 +90,12 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue, loading })
                   </tr>
                 )}
                 {!loading && !checkpoints.length && (
-                  <tr className='no_record_wrapper'>
+                  <tr className="no_record_wrapper">
                     <td colSpan={5} className="no_record text-left">
-                      <img className="d-inline-block mb-3" src="../../assets/images/no-record.png" />
+                      <img
+                        className="d-inline-block mb-3"
+                        src="../../assets/images/no-record.png"
+                      />
                     </td>
                   </tr>
                 )}
@@ -106,6 +116,6 @@ const Checkpoints: React.FC<Props> = ({ allCheckpoints, boneUsdValue, loading })
       </div>
     </>
   );
-}
+};
 
-export default Checkpoints
+export default Checkpoints;

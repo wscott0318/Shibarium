@@ -650,18 +650,20 @@ const ValidatorAccount = ({
             data: encodedAbi,
           })
           .on("transactionHash", (res: any) => {
-            dispatch(
-              addTransaction({
-                hash: res,
-                from: walletAddress,
-                chainId,
-                summary: `${res}`,
-              })
-            );
-            let link = getExplorerLink(chainId, res, "transaction");
-            setWithdrawModal({ value: false, address: "" });
-            setHashLink(link);
-            setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
+            (async () => {
+              dispatch(
+                addTransaction({
+                  hash: res,
+                  from: walletAddress,
+                  chainId,
+                  summary: `${res}`,
+                })
+              );
+              let link = getExplorerLink(chainId, res, "transaction");
+              setWithdrawModal({ value: false, address: "" });
+              setHashLink(link);
+              setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
+            })();
           })
           .on("receipt", (res: any) => {
             dispatch(

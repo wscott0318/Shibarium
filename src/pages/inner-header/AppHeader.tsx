@@ -1,27 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { Dropdown, NavDropdown } from "react-bootstrap";
-import { useActiveWeb3React } from 'app/services/web3';
+import { useActiveWeb3React } from "app/services/web3";
 import { useRouter } from "next/router";
-import Link from 'next/link';
+import Link from "next/link";
 
 const AppHeader = () => {
   const { chainId = 1, account } = useActiveWeb3React();
-  const { asPath } = useRouter()
-  const [title, setTitle] = useState("Staking")
-  const router = useRouter()
+  const { asPath } = useRouter();
+  const [title, setTitle] = useState("Staking");
   const [url, setUrl] = useState("/");
 
   useEffect(() => {
     if (asPath) {
-      if (asPath === '/') {
-        setTitle("Staking")
+      if (asPath === "/") {
+        setTitle("Staking");
         setUrl("/");
-      } else if (asPath === '/faucet') {
-        setTitle("Faucet")
+      } else if (asPath === "/faucet") {
+        setTitle("Faucet");
         setUrl("/faucet");
       }
+      // else if (asPath === "/bridge") {
+      //   setTitle("Bridge");
+      //   setUrl("/bridge");
+      // } else if (asPath === "/transactions") {
+      //   setTitle("Transactions");
+      //   setUrl("/transactions");
+      // }
     }
-  }, [asPath])
+  }, [asPath]);
 
   useEffect(() => {
     let ele = document.getElementById("navDropdown_custom") as any;
@@ -37,7 +43,12 @@ const AppHeader = () => {
           <img src="../../assets/images/menu-icon.png" alt="" />
         </div>
         <Link href={url} passHref>
-          <NavDropdown className="light-text dd-ico" title={title} id="navDropdown_custom" menuRole="menu">
+          <NavDropdown
+            className="light-text dd-ico"
+            title={title}
+            id="navDropdown_custom"
+            menuRole="menu"
+          >
             <Link href="/" passHref>
               <NavDropdown.Item>
                 <h6
@@ -67,11 +78,25 @@ const AppHeader = () => {
                     >
                       Faucet
                     </h6>
-                    <span className="light-text">
-                      Earn Puppy Net Faucets
-                    </span>
+                    <span className="light-text">Earn Puppy Net Faucets</span>
                   </NavDropdown.Item>
                 </Link>
+                {/* <Link href="/bridge" passHref>
+                  <NavDropdown.Item>
+                    <h6
+                      className={
+                        title === "Bridge"
+                          ? "fw-600 light-text left-border primary-text"
+                          : "fw-600 light-text left-border"
+                      }
+                    >
+                      Bridge
+                    </h6>
+                    <span className="light-text">
+                      Deposit and withdraw between networks
+                    </span>
+                  </NavDropdown.Item>
+                </Link> */}
                 {/* <NavDropdown.Item onClick={() => router.push('/bridge', '/bridge', { shallow: true })}>
                 <h6
                   className={
@@ -91,6 +116,6 @@ const AppHeader = () => {
       </Dropdown>
     </div>
   );
-}
+};
 
-export default AppHeader
+export default AppHeader;
