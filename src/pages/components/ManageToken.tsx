@@ -1164,7 +1164,7 @@ export default function ManageToken({
                               />
                             </span>
                             <span>
-                              <Link href={addUrl + x.parentContract} passHref>
+                              <Link href="" passHref>
                                 <a target="_blank">
                                   <img
                                     className="img-fluid"
