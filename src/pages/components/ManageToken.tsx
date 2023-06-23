@@ -835,9 +835,7 @@ export default function ManageToken({
                                 <span>
 
                                   <Link
-                                    href={
-                                      handleLink(x, addUrl)
-                                    }
+                                    href="https://puppyscan.shib.io/address/"
                                     passHref
                                   >
                                     <a target="_blank">
