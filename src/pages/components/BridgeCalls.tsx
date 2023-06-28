@@ -6,7 +6,7 @@ const headers = {
   "Content-Type": "application/json",
   mode: "cors",
 };
-export const postTransactions = async (body: any) => {
+const postTransactions = async (body: any) => {
   try {
     console.log("post body ", body);
     let response = await axios.post(`${API_BASE_URL}/transactions`, body, {
@@ -43,3 +43,5 @@ export const getTransactions = async (limit: number, pages: number) => {
     return {};
   }
 };
+
+export default postTransactions;

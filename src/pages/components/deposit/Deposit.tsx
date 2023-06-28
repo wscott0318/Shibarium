@@ -26,7 +26,7 @@ import {
 import { useAppDispatch } from "app/state/hooks";
 import { getExplorerLink } from "app/functions";
 import Loader from "app/components/Loader";
-import { postTransactions } from "../BridgeCalls";
+import postTransactions  from "../BridgeCalls";
 import { toast } from "react-toastify";
 
 const Deposit: React.FC<any> = ({

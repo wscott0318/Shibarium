@@ -42,7 +42,7 @@ import burn from "../../../exit/burn";
 import ERC20 from "../../../ABI/ERC20Abi.json";
 import POSExitABI from "../../../ABI/POSExitABI.json";
 import ERC20abi from "../../../ABI/ERC20Abi.json";
-import { postTransactions, putTransactions } from "../BridgeCalls";
+import postTransactions, { putTransactions } from "../BridgeCalls";
 import { toast } from "react-toastify";
 
 const WithdrawModal: React.FC<{

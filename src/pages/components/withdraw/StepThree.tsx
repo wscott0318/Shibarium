@@ -30,7 +30,7 @@ import { getClient } from "client/shibarium";
 import { ExitUtil, RootChain } from "@shibarmy/shibariumjs";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { postTransactions, putTransactions } from "../BridgeCalls";
+import { putTransactions } from "../BridgeCalls";
 
 const StepThree: React.FC<any> = ({
   withdrawTokenInput,
