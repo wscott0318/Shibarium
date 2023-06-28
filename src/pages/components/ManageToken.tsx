@@ -117,7 +117,7 @@ export default function ManageToken({
         // setAddUrl(`https://${map[chain]}scan.com/address/`);
         setAddUrl("https://puppyscan.shib.io/address/");
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   useEffect(() => {
@@ -186,6 +186,19 @@ export default function ManageToken({
       getTokensList();
     }
   }, [account]);
+
+
+  const handleLink = (x: any, addUrl: any) => {
+    let url;
+    if (x.childContract) {
+      url = addUrl + x.childContract
+    } else if (x.address) {
+      url = addUrl + x.address
+    } else {
+      url = x.parentContract
+    }
+    return url
+  }
 
   const handleSearchList = (key: any) => {
     try {
@@ -600,9 +613,8 @@ export default function ManageToken({
                       <div className="blk-width">
                         <button
                           type="button"
-                          className={`btn w-100 ${
-                            tokenState.step1 && "btn-active"
-                          }`}
+                          className={`btn w-100 ${tokenState.step1 && "btn-active"
+                            }`}
                         >
                           Token Lists
                         </button>
@@ -610,9 +622,8 @@ export default function ManageToken({
                       <div className="blk-width">
                         <button
                           type="button"
-                          className={`btn w-100 ${
-                            tokenState.step2 && "btn-active"
-                          }`}
+                          className={`btn w-100 ${tokenState.step2 && "btn-active"
+                            }`}
                           onClick={() => {
                             setTokenState({
                               step0: false,
@@ -699,20 +710,20 @@ export default function ManageToken({
                   <div className="sec-search sec-search-secondry">
                     <div
                       className="position-relative search-row"
-                      // onClick={() => {
-                      //   if(newToken !== '')
-                      //   setTokenState({
-                      //     step0: false,
-                      //     step1: false,
-                      //     step2: false,
-                      //     step3: true,
-                      //     step4: false,
-                      //     title: "Manage Token",
-                      //   });
-                      // }}
-                      // onClick={() => {
-                      //   addTokenHandler();
-                      // }}
+                    // onClick={() => {
+                    //   if(newToken !== '')
+                    //   setTokenState({
+                    //     step0: false,
+                    //     step1: false,
+                    //     step2: false,
+                    //     step3: true,
+                    //     step4: false,
+                    //     title: "Manage Token",
+                    //   });
+                    // }}
+                    // onClick={() => {
+                    //   addTokenHandler();
+                    // }}
                     >
                       <input
                         type="text"
@@ -822,13 +833,9 @@ export default function ManageToken({
                                   />
                                 </span>
                                 <span>
+
                                   <Link
-                                    href={
-                                      addUrl +
-                                      (x?.childContract ||
-                                        x?.address ||
-                                        x?.parentContract)
-                                    }
+                                    href="https://puppyscan.shib.io/address/"
                                     passHref
                                   >
                                     <a target="_blank">
@@ -943,7 +950,7 @@ export default function ManageToken({
                               )}
                               {dupToken === false &&
                                 (tempTokens &&
-                                Object.keys(tempTokens).length !== 0 ? (
+                                  Object.keys(tempTokens).length !== 0 ? (
                                   <div className="tokn-row">
                                     <div className="cryoto-box">
                                       <img
@@ -962,16 +969,16 @@ export default function ManageToken({
                                       <div>
                                         <h6 className="fw-bold">
                                           {tempTokens?.parentSymbol ||
-                                          tempTokens?.symbol
+                                            tempTokens?.symbol
                                             ? tempTokens.parentSymbol ||
-                                              tempTokens?.symbol
+                                            tempTokens?.symbol
                                             : "Unknown"}
                                         </h6>
                                         <p>
                                           {tempTokens?.parentSymbol ||
-                                          tempTokens?.name
+                                            tempTokens?.name
                                             ? tempTokens.parentSymbol ||
-                                              tempTokens?.name
+                                            tempTokens?.name
                                             : "Unknown"}
                                         </p>
                                       </div>
@@ -1157,7 +1164,7 @@ export default function ManageToken({
                               />
                             </span>
                             <span>
-                              <Link href={addUrl + x.parentContract} passHref>
+                              <Link href="" passHref>
                                 <a target="_blank">
                                   <img
                                     className="img-fluid"
