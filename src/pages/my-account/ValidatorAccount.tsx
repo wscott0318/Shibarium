@@ -1684,7 +1684,7 @@ const ValidatorAccount = ({
                       </div>
                       {unboundInput > unboundModal.stakeAmount ?
                         (
-                          <p className="warning">Insufficient Amount</p>
+                          <p className="primary-text">Insufficient Amount</p>
                         )
                         : null}
                     </div>

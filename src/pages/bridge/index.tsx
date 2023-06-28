@@ -133,6 +133,7 @@ export default function Withdraw() {
       setTokenBalanceL2(bal);
     }
   };
+  // console.log("selected token ", selectedToken);
   const imageOnErrorHandler = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {

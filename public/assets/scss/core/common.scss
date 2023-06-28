@@ -146,6 +146,19 @@ caption {
   background-color: $white;
   border-radius: 4px;
 }
+span.transactionLoader {
+  background: #f17501;
+  padding: 9px;
+  border-radius: 50px;
+}
+.right_block ul.pagination li {
+  width: 55px;
+  text-align: center;
+}
+.right_block {
+  padding-top: 12px;
+}
+
 /** background color end **/
 
 /** text color start **/
@@ -3153,7 +3166,7 @@ input:-internal-autofill-selected {
         z-index: 1;
       }
     }
-    ~ .tool-desc.tool-desc-grid{
+    ~ .tool-desc.tool-desc-grid {
       top: -100%;
       left: 3%;
       &::before {
@@ -5042,9 +5055,9 @@ p.no_btn {
 .signer_warning {
   color: #fff;
   text-align: center;
-  padding:5px;
-  background: #F06500;
-  @media #{$max-xsm}{
+  padding: 5px;
+  background: #f06500;
+  @media #{$max-xsm} {
     position: fixed;
     top: 17%;
     font-size: 13px;

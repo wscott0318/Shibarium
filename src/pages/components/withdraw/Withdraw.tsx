@@ -42,8 +42,11 @@ import burn from "../../../exit/burn";
 import ERC20 from "../../../ABI/ERC20Abi.json";
 import POSExitABI from "../../../ABI/POSExitABI.json";
 import ERC20abi from "../../../ABI/ERC20Abi.json";
+import { postTransactions, putTransactions } from "../BridgeCalls";
+import { toast } from "react-toastify";
 
 const WithdrawModal: React.FC<{
+  // transaction:object,
   page: string;
   dWState: boolean;
   setWithdrawModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -163,20 +166,6 @@ const WithdrawModal: React.FC<{
           ERC20,
           selectedToken?.parentContract
         );
-        let gasFee = await instance.methods
-          .approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount)
-          .estimateGas({ from: user });
-        let encodedAbi = await instance.methods
-          .approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount)
-          .encodeABI();
-        let CurrentgasPrice: any = await currentGasPrice(web3);
-        // await web3.eth.sendTransaction({
-        //     from: user,
-        //     to: selectedToken?.parentContract,
-        //     gas: (parseInt(gasFee) + 30000).toString(),
-        //     gasPrice: CurrentgasPrice,
-        //     data: encodedAbi
-        // })
         await instance.methods
           .approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount)
           .send({ from: account })
@@ -210,7 +199,6 @@ const WithdrawModal: React.FC<{
               })
             );
             setAllowance(0);
-            // submitWithdraw();
           })
           .on("error", (res: any) => {
             console.log("on error", res);
@@ -229,142 +217,106 @@ const WithdrawModal: React.FC<{
       let user: any = account;
       let amount = web3.utils.toWei(withdrawTokenInput, "ether");
       let abi: any;
+      let sendData;
       if (selectedToken?.parentName === "BONE") {
         // amount =
         abi = MRC20;
+        sendData = { from: user, gas: 100000, value: amount };
       } else {
-        // amount = web3.utils.toWei(withdrawTokenInput, 'ether');
         abi = ChildERC20;
+        sendData = { from: user };
       }
       console.log("amount", amount);
       const instance = new web3.eth.Contract(abi, selectedToken?.childContract);
-      if (selectedToken?.parentName === "BONE") {
-        await instance.methods
-          .withdraw(amount)
-          .send({ from: user, gas: 100000, value: amount })
-          .on("transactionHash", (res: any) => {
-            dispatch(
-              addTransaction({
-                hash: res,
-                from: user,
-                chainId,
-                summary: `${res}`,
-              })
-            );
-            console.log("transaction hash ", res);
-            let link = getExplorerLink(ChainId.PUPPYNET719, res, "transaction");
-            setHashLink(link);
-          })
-          .on("receipt", (res: any) => {
-            dispatch(
-              finalizeTransaction({
-                hash: res.transactionHash,
-                chainId,
-                receipt: {
-                  to: res.to,
-                  from: res.from,
-                  contractAddress: res.contractAddress,
-                  transactionIndex: res.transactionIndex,
-                  blockHash: res.blockHash,
-                  transactionHash: res.transactionHash,
-                  blockNumber: res.blockNumber,
-                  status: 1,
-                },
-              })
-            );
-            setProcessing((processing: any) => [...processing, "Initialized"]);
-            setStep("Checkpoint");
-            setTxState({
-              checkpointSigned: false,
-              challengePeriod: false,
-              processExit: false,
-              amount: withdrawTokenInput,
-              token: selectedToken,
-              txHash: res,
-            });
-          })
-          .on("error", (res: any) => {
-            if (res.code === 4001) {
-              setWithdrawModalOpen(false);
-              setWidModState({
-                step0: true,
-                step1: false,
-                step2: false,
-                step3: false,
-                step4: false,
-                step5: false,
-                step6: false,
-                title: "Initialize Withdraw",
-              });
-              setStep("Initialized");
-              setProcessing([]);
-            }
-            console.log("error ", res);
+      await instance.methods
+        .withdraw(amount)
+        .send(sendData)
+        .on("transactionHash", (res: any) => {
+          dispatch(
+            addTransaction({
+              hash: res,
+              from: user,
+              chainId,
+              summary: `${res}`,
+            })
+          );
+          console.log("transaction hash ", res);
+          let link = getExplorerLink(ChainId.PUPPYNET719, res, "transaction");
+          setHashLink(link);
+        })
+        .on("receipt", async (res: any) => {
+          dispatch(
+            finalizeTransaction({
+              hash: res.transactionHash,
+              chainId,
+              receipt: {
+                to: res.to,
+                from: res.from,
+                contractAddress: res.contractAddress,
+                transactionIndex: res.transactionIndex,
+                blockHash: res.blockHash,
+                transactionHash: res.transactionHash,
+                blockNumber: res.blockNumber,
+                status: 1,
+              },
+            })
+          );
+          setProcessing((processing: any) => [...processing, "Initialized"]);
+          setStep("Checkpoint");
+          setTxState({
+            checkpointSigned: false,
+            challengePeriod: false,
+            processExit: false,
+            amount: withdrawTokenInput,
+            token: selectedToken,
+            txHash: res,
           });
-      } else {
-        await instance.methods
-          .withdraw(amount)
-          .send({ from: user })
-          .on("transactionHash", (res: any) => {
-            dispatch(
-              addTransaction({
-                hash: res,
-                from: user,
-                chainId,
-                summary: `${res}`,
-              })
-            );
-            console.log("transaction hash ", res);
-            let link = getExplorerLink(ChainId.PUPPYNET719, res, "transaction");
-            setHashLink(link);
-          })
-          .on("receipt", (res: any) => {
-            dispatch(
-              finalizeTransaction({
-                hash: res.transactionHash,
-                chainId,
-                receipt: {
-                  to: res.to,
-                  from: res.from,
-                  contractAddress: res.contractAddress,
-                  transactionIndex: res.transactionIndex,
-                  blockHash: res.blockHash,
-                  transactionHash: res.transactionHash,
-                  blockNumber: res.blockNumber,
-                  status: 1,
-                },
-              })
-            );
-            setProcessing((processing: any) => [...processing, "Initialized"]);
-            setStep("Checkpoint");
-            setTxState({
-              checkpointSigned: false,
-              challengePeriod: false,
-              processExit: false,
-              amount: withdrawTokenInput,
-              token: selectedToken,
-              txHash: res,
+          let step =
+            selectedToken.bridgetype == "plasma" ? "2 steps" : "1 step";
+          let body = {
+            transactionType: 2,
+            bridgeType: selectedToken.bridgetype,
+            stepPoint: step,
+            from: res.from,
+            to: res.to,
+            amount: +withdrawTokenInput,
+            usdValue: +withdrawTokenInput * boneUSDValue,
+            txHash: res.transactionHash,
+            status: 0,
+            walletAddress: account,
+            token: selectedToken,
+            checkpointSigned: false,
+            challengePeriod: false,
+            processExit: false,
+            txData: res.events,
+          };
+          let postResp = await postTransactions(body);
+          console.log("post resp", postResp);
+          if (postResp) {
+            toast.success("Withdraw data saved successfully.", {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 5000,
             });
-          })
-          .on("error", (res: any) => {
-            if (res.code === 4001) {
-              setWithdrawModalOpen(false);
-              setWidModState({
-                step0: true,
-                step1: false,
-                step2: false,
-                step3: false,
-                step4: false,
-                step5: false,
-                step6: false,
-                title: "Initialize Withdraw",
-              });
-              setStep("Initialized");
-              setProcessing([]);
-            }
-            console.log("error ", res);
-          });
-      }
+          }
+        })
+        .on("error", (res: any) => {
+          if (res.code === 4001) {
+            setWithdrawModalOpen(false);
+            setWidModState({
+              step0: true,
+              step1: false,
+              step2: false,
+              step3: false,
+              step4: false,
+              step5: false,
+              step6: false,
+              title: "Initialize Withdraw",
+            });
+            setStep("Initialized");
+            setProcessing([]);
+          }
+          console.log("error ", res);
+        });
     } catch (err: any) {
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureMessage("submitWithdraw ", err);
@@ -383,7 +335,6 @@ const WithdrawModal: React.FC<{
       });
       setStep("Initialized");
       setProcessing([]);
-      // console.log("error =>> ", err);
     }
   };
 
@@ -394,13 +345,22 @@ const WithdrawModal: React.FC<{
       setTxState({ ...txState, checkpointSigned: true });
       setCheckpointSigned(true);
       setInclusion(status?.burnExitTxreceipt);
-      // let client = txState?.token?.bridgetype;
-      // const root = new RootChain(client, account as string);
-      // console.log("root" ,root);
-      // const exitUtil = new ExitUtil(client , root);
-      // let res = exitUtil.buildPayloadForExit(txHash , status?.burnExitTxreceipt , false, 0)
-      // console.log("exitUtil" ,exitUtil , res);
-      // let res = exitUtil.buildPayloadForExit(txHash,false,0);
+      let body = {
+        stepPoint: "Step 2",
+        checkpointSigned: true,
+        challengePeriod: false,
+        processExit: false,
+        status: 0,
+        txHash,
+      };
+      let postResp = await putTransactions(body);
+      console.log("post resp", postResp);
+      if (postResp) {
+        toast.success("Withdraw data updated successfully.", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 5000,
+        });
+      }
     }
   };
 
@@ -488,7 +448,7 @@ const WithdrawModal: React.FC<{
       setProcessing(process);
       console.log("processing", process, tempStep);
       if (tempStep == "Checkpoint") {
-        getBurnStatus(txState?.txHash?.transactionHash);
+        getBurnStatus(txState?.txHash);
       } else if (tempStep == "Challenge Period") {
         setProcessing((processing: any) => [...processing, "Challenge Period"]);
         setChallengePeriodCompleted(true);
@@ -496,6 +456,8 @@ const WithdrawModal: React.FC<{
         setCompleted(true);
         setProcessing((processing: any) => [...processing, "Completed"]);
       }
+    } else {
+      setTxState({});
     }
   }, []);
 

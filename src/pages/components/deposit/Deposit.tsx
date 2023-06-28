@@ -26,6 +26,8 @@ import {
 import { useAppDispatch } from "app/state/hooks";
 import { getExplorerLink } from "app/functions";
 import Loader from "app/components/Loader";
+import { postTransactions } from "../BridgeCalls";
+import { toast } from "react-toastify";
 
 const Deposit: React.FC<any> = ({
   depositTokenInput,
@@ -151,16 +153,6 @@ const Deposit: React.FC<any> = ({
         fromExponential(10000 * Math.pow(10, 18))
       );
       let instance = new web3.eth.Contract(ERC20, token);
-      let gasFee = await instance.methods
-        .approve(contract, amountWei)
-        .estimateGas({ from: account });
-      let nonce = 0;
-      await web3.eth
-        .getTransactionCount(user)
-        .then((res: any) => (nonce = +res));
-      let encodedAbi = await instance.methods
-        .approve(contract, amountWei)
-        .encodeABI();
       await instance.methods
         .approve(contract, amountWei)
         .send({ from: user })
@@ -253,7 +245,7 @@ const Deposit: React.FC<any> = ({
           let link = getExplorerLink(chainId, res, "transaction");
           setHashLink(link);
         })
-        .on("receipt", (res: any) => {
+        .on("receipt", async (res: any) => {
           dispatch(
             finalizeTransaction({
               hash: res.transactionHash,
@@ -278,6 +270,32 @@ const Deposit: React.FC<any> = ({
             step4: true,
             title: "Transaction Submitted",
           });
+          console.log("selected token ", selectedToken);
+          let body = {
+            transactionType: 1,
+            bridgeType: selectedToken.bridgetype,
+            stepPoint: "Done",
+            from: res.from,
+            to: res.to,
+            amount: +depositTokenInput,
+            usdValue: +depositTokenInput * boneUSDValue,
+            txHash: res.transactionHash,
+            status: 1,
+            walletAddress: account,
+            token: selectedToken,
+            checkpointSigned: true,
+            challengePeriod: true,
+            processExit: true,
+            txData:res.events
+          };
+          let postResp = await postTransactions(body);
+          console.log("post resp", postResp);
+          if (postResp) {
+            toast.success("Deposit data saved successfully.", {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 5000,
+            });
+          }
         })
         .on("error", (res: any) => {
           setDepModState({

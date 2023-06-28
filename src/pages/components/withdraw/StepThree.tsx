@@ -30,6 +30,7 @@ import { getClient } from "client/shibarium";
 import { ExitUtil, RootChain } from "@shibarmy/shibariumjs";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { postTransactions, putTransactions } from "../BridgeCalls";
 
 const StepThree: React.FC<any> = ({
   withdrawTokenInput,
@@ -56,11 +57,7 @@ const StepThree: React.FC<any> = ({
   const dispatch: any = useAppDispatch();
   useEffect(() => {
     if (txState && page == "tx") {
-      let link = getExplorerLink(
-        chainId,
-        txState?.txHash?.transactionHash,
-        "transaction"
-      );
+      let link = getExplorerLink(chainId, txState?.txHash, "transaction");
       setHashLink(link);
     }
   }, []);
@@ -100,7 +97,7 @@ const StepThree: React.FC<any> = ({
           let link = getExplorerLink(chainId, res, "transaction");
           setHashLink(link);
         })
-        .on("receipt", (res: any) => {
+        .on("receipt", async (res: any) => {
           dispatch(
             finalizeTransaction({
               hash: res.transactionHash,
@@ -117,9 +114,25 @@ const StepThree: React.FC<any> = ({
               },
             })
           );
-          setTxState({ ...txState, processExit: true, finalHash: res });
           setProcessing((processing: any) => [...processing, "Completed"]);
           setCompleted(true);
+          let body = {
+            stepPoint: "0",
+            checkpointSigned: true,
+            challengePeriod: true,
+            processExit: true,
+            status: 1,
+            txHash: txState.txHash,
+          };
+          let postResp = await putTransactions(body);
+          console.log("post resp", postResp);
+          if (postResp) {
+            toast.success("Withdraw data updated successfully.", {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 5000,
+            });
+          }
+          setTxState({ ...txState, processExit: true, finalHash: res });
         })
         .on("error", (res: any) => {
           console.log("processExit ", res);
@@ -137,19 +150,17 @@ const StepThree: React.FC<any> = ({
       if (chainId === ChainId.PUPPYNET719) {
         await switchNetwork();
       }
-      let contract = "0x096C0bdE3b8F1ec9033d531A858569228330881c";
+      let contract = process.env.NEXT_PUBLIC_WITHDRAW_PLASMA_EXIT_CONTRACT;
       let type = selectedToken?.bridgetype || txState?.token?.bridgetype;
       setStep("Challenge Period");
       let user: any = account;
       const client = await getClient(type);
       let erc20Token: any;
       const instance = new web3.eth.Contract(PlasmaExitABI, contract);
-      console.log("step instance ", instance);
-      const data = txState?.txHash?.events?.Withdraw?.signature;
-      console.log("step data ", data);
+      const data = txState?.txData?.Withdraw?.signature;
       if (client) {
         erc20Token = await client.exitUtil.buildPayloadForExit(
-          txState?.txHash?.transactionHash,
+          txState?.txHash,
           data.toLowerCase(),
           false,
           0
@@ -182,7 +193,7 @@ const StepThree: React.FC<any> = ({
             })
           );
         })
-        .on("receipt", (res: any) => {
+        .on("receipt", async (res: any) => {
           dispatch(
             finalizeTransaction({
               hash: res.transactionHash,
@@ -199,19 +210,35 @@ const StepThree: React.FC<any> = ({
               },
             })
           );
+          setChallengePeriodCompleted(true);
+          setProcessing((processing: any) => [
+            ...processing,
+            "Challenge Period",
+          ]);
+          let body = {
+            stepPoint: "1 step",
+            checkpointSigned: true,
+            challengePeriod: true,
+            processExit: false,
+            status: 0,
+            txHash: txState.txHash,
+          };
+          let postResp = await putTransactions(body);
+          console.log("post resp", postResp);
+          if (postResp) {
+            toast.success("Withdraw data updated successfully.", {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 5000,
+            });
+          }
           setTxState({
             ...txState,
             checkpointSigned: true,
             challengePeriod: true,
             withdrawHash: res,
           });
-          setChallengePeriodCompleted(true);
-          setProcessing((processing: any) => [
-            ...processing,
-            "Challenge Period",
-          ]);
         })
-        .on("error", (res: any) => {
+        .on("error", async (res: any) => {
           setStep("Checkpoint");
           if (res.code === 4001) {
             console.log("user denied transaction");
@@ -241,14 +268,14 @@ const StepThree: React.FC<any> = ({
       const type = selectedToken?.bridgetype || txState?.token?.bridgetype;
       const client = await getClient(type);
       console.log("client done", client);
-      let contract = "0xF6bd2D1Ac619E5A5c7214D738A9B4aD6f7b5dF4B";
+      let contract = process.env.NEXT_PUBLIC_WITHDRAW_POS_EXIT_CONTRACT;
       const instance = new web3.eth.Contract(POSExitABI, contract);
       console.log("instance done", instance);
-      const data = txState?.txHash?.events?.Transfer?.signature;
+      const data = txState?.txData?.Transfer?.signature;
       let erc20Token: any;
       if (client) {
         erc20Token = await client.exitUtil.buildPayloadForExit(
-          txState?.txHash?.transactionHash,
+          txState?.txHash,
           data.toLowerCase(),
           false,
           0
@@ -278,7 +305,7 @@ const StepThree: React.FC<any> = ({
             })
           );
         })
-        .on("receipt", (res: any) => {
+        .on("receipt", async (res: any) => {
           dispatch(
             finalizeTransaction({
               hash: res.transactionHash,
@@ -298,6 +325,22 @@ const StepThree: React.FC<any> = ({
           setProcessing((processing: any) => [...processing, "Completed"]);
           setStep("Completed");
           setCompleted(true);
+          let body = {
+            stepPoint: "0",
+            checkpointSigned: true,
+            challengePeriod: true,
+            processExit: true,
+            status: 1,
+            txHash: txState.txHash,
+          };
+          let postResp = await putTransactions(body);
+          console.log("post resp", postResp);
+          if (postResp) {
+            toast.success("Withdraw data updated successfully.", {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 5000,
+            });
+          }
           setTxState({
             ...txState,
             checkpointSigned: true,

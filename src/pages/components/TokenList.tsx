@@ -395,8 +395,7 @@ const TokenList = ({
           })}
         </InfiniteScroll>
       ) : null}
-      {tokenState?.step0 &&
-        searchedList?.length != 0 &&
+      {tokenState?.step0 && searchedList?.length != 0 ? (
         searchedList?.map((x: any) => {
           let logoImg = getLogo(x);
           return (
@@ -431,7 +430,10 @@ const TokenList = ({
               </div>
             </div>
           );
-        })}
+        })
+      ) : (
+        <div>No record found.</div>
+      )}
       {tokenState.step1 &&
         (showWarning ? (
           <Warning

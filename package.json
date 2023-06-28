@@ -169,6 +169,7 @@
     "react-infinite-scroll-component": "^6.1.0",
     "react-loader-spinner": "^5.1.5",
     "react-number-format": "^4.9.3",
+    "react-paginate": "^8.2.0",
     "react-perfect-scrollbar": "^1.5.8",
     "react-qrcode-logo": "^2.8.0",
     "react-router-dom": "^6.3.0",
