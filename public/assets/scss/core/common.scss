@@ -380,8 +380,19 @@ span.transactionLoader {
     transform: translate(-60%);
   }
 }
+.grey-txts {
+  color: $grey-color;
+}
 .grey-txt {
   color: $grey-color;
+  white-space: nowrap;
+  width: 92px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 10px;
+  @media #{$max-md} {
+    width: auto;
+  }
 }
 .drop-head,
 .botom-txt,
@@ -4065,9 +4076,10 @@ section.del-grid-section .txt-emp {
   .fx-txt {
     .grey-txt {
       white-space: nowrap;
-      width: 105px;
+      width: 92px;
       overflow: hidden;
       text-overflow: ellipsis;
+      margin-left: 10px;
       @media #{$max-md} {
         width: auto;
       }

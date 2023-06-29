@@ -758,7 +758,7 @@ const Deposit: React.FC<any> = ({
                   </div>
                   <div>
                     <p className="fw-bold">
-                      <small className="text-lg">~ </small>
+                      {/* <small className="text-lg">~ </small> */}
                       <NumberFormat
                         thousandSeparator
                         displayType={"text"}

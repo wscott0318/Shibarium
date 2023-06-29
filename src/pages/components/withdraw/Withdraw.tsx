@@ -641,7 +641,7 @@ const WithdrawModal: React.FC<{
                           <>
                             {allowance > 0 ? (
                               <>
-                                <small className="text-lg">~ </small>
+                                {/* <small className="text-lg">~ </small> */}
                                 <NumberFormat
                                   thousandSeparator
                                   displayType={"text"}
@@ -855,7 +855,7 @@ const WithdrawModal: React.FC<{
                       </div>
                       <div>
                         <p className="fw-bold">
-                          <small className="text-lg">~ </small>
+                          {/* <small className="text-lg">~ </small> */}
                           <NumberFormat
                             thousandSeparator
                             displayType={"text"}
