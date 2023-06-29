@@ -13,6 +13,7 @@ import * as Sentry from "@sentry/nextjs";
 import { WrappedTokenInfo } from "./wrappedTokenInfo";
 import axios from "axios";
 import AllTokenList from "../../constants/token-lists/all-token-list.json";
+import { uniqBy } from "lodash";
 export type TokenAddressMap = Readonly<{
   [chainId: number]: Readonly<{
     [tokenAddress: string]: { token: WrappedTokenInfo; list: TokenList };
@@ -30,10 +31,10 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
 
   const map = list.tokens.reduce<TokenAddressMap>((tokenMap, tokenInfo) => {
     const token = new WrappedTokenInfo(tokenInfo, list);
-    if (tokenMap[token.chainId]?.[token.address] !== undefined) {
-      console.error(new Error(`Duplicate token! ${token.address}`));
-      return tokenMap;
-    }
+    // if (tokenMap[token.chainId]?.[token.address] !== undefined) {
+    //   console.log("if condition")
+    //   return tokenMap;
+    // }
     return {
       ...tokenMap,
       [token.chainId]: {
@@ -49,6 +50,7 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
   return map;
 }
 
+const FINAL_TOKEN_LIST = listToTokenMap(AllTokenList);
 export const useTokenList = () => {
   const [defaultTokenList, setdefaultTokenList] = useState(
     listToTokenMap(DEFAULT_TOKEN_LIST)
@@ -61,17 +63,13 @@ export const useTokenList = () => {
       tokens = [...tokens, ...list.tokens];
       position++;
     }
-    // const tokenPromises = DEFAULT_ACTIVE_LIST_URLS.map(async (url: string) => {
-    //   let { data: list } = await axios.get(url);
-    //   return list.tokens;
-    // });
-    // const tokens = (await Promise.all(tokenPromises)).reduce(
-    //   (acc, list) => [...acc, ...list],
-    //   []
-    // );
+    let uniqTokens = uniqBy(
+      [...DEFAULT_TOKEN_LIST.tokens, ...tokens],
+      "address"
+    );
     let newList = {
       ...DEFAULT_TOKEN_LIST,
-      tokens: [...DEFAULT_TOKEN_LIST.tokens, ...tokens],
+      tokens: uniqTokens,
     };
     setdefaultTokenList(listToTokenMap(newList));
   };
@@ -174,8 +172,11 @@ export function useInactiveListUrls(): string[] {
 export function useCombinedActiveList(): TokenAddressMap {
   const activeListUrls = useActiveListUrls();
   const activeTokens = useCombinedTokenMapFromUrls(activeListUrls);
-  const tokenList = useTokenList();
-  return useMemo(() => combineMaps(activeTokens, tokenList), [activeTokens]);
+  // const tokenList = useTokenList();
+  return useMemo(
+    () => combineMaps(activeTokens, FINAL_TOKEN_LIST),
+    [activeTokens]
+  );
 }
 
 // list of tokens not supported on interface, used to show warnings and prevent swaps and adds

@@ -117,7 +117,7 @@ export default function ManageToken({
         // setAddUrl(`https://${map[chain]}scan.com/address/`);
         setAddUrl("https://puppyscan.shib.io/address/");
       })
-      .catch(() => { });
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -187,33 +187,35 @@ export default function ManageToken({
     }
   }, [account]);
 
-
   const handleLink = (x: any, addUrl: any) => {
     let url;
     if (x.childContract) {
-      url = addUrl + x.childContract
+      url = addUrl + x.childContract;
     } else if (x.address) {
-      url = addUrl + x.address
+      url = addUrl + x.address;
     } else {
-      url = x.parentContract
+      url = x.parentContract;
     }
-    return url
-  }
+    return url;
+  };
 
   const handleSearchList = (key: any) => {
     try {
       setmodalKeyword(key);
       if (key.length) {
         let combinedList = [...tokenModalList, ...importedTokens];
-        let newData = combinedList.filter((item: any) => {
+        let index: number = 0;
+        let newData = combinedList.filter((item: any, i: number) => {
           let found = false;
           Object.keys(item).forEach((k: any) => {
             if (`${item[k]}`.toLowerCase().includes(key.toLowerCase())) {
               found = true;
+              index = i;
             }
           });
           return found;
         });
+        console.log("found index ", index, combinedList.length);
         setSearchedList(newData);
         setOffset(10);
       } else {
@@ -339,18 +341,23 @@ export default function ManageToken({
   }, [searchToken, newToken]);
   const getTempTokens = async () => {
     try {
-      console.log("step 1");
+      console.log("found index", importedTokens.length, importedTokens[550]);
       if (account) {
+        const foundInimportedTokens = importedTokens.find(
+          (e: any) => e.address.toLowerCase() == newToken.toLowerCase()
+        );
         const isalreadypresent = localTokens.find(
-          (st: any) => st.parentContract == newToken
+          (st: any) => st.parentContract.toLowerCase() == newToken.toLowerCase()
         );
         const foundInTokenModalList = tokenModalList.find(
-          (e: any) => e.parentContract == newToken
+          (e: any) => e.parentContract.toLowerCase() == newToken.toLowerCase()
         );
-        const foundInimportedTokens = importedTokens.find(
-          (e: any) => e.address == newToken
+        console.log(
+          "step 2",
+          !!isalreadypresent,
+          !!foundInTokenModalList,
+          !!foundInimportedTokens
         );
-        console.log("step 2");
         setTokenState({
           step0: false,
           step1: false,
@@ -470,6 +477,7 @@ export default function ManageToken({
     }
   }, []);
 
+  console.log("importedTokens", importedTokens.length);
   const onBackClick = () => {
     setTokenModal(true);
     setConfirmImport(true);
@@ -613,8 +621,9 @@ export default function ManageToken({
                       <div className="blk-width">
                         <button
                           type="button"
-                          className={`btn w-100 ${tokenState.step1 && "btn-active"
-                            }`}
+                          className={`btn w-100 ${
+                            tokenState.step1 && "btn-active"
+                          }`}
                         >
                           Token Lists
                         </button>
@@ -622,8 +631,9 @@ export default function ManageToken({
                       <div className="blk-width">
                         <button
                           type="button"
-                          className={`btn w-100 ${tokenState.step2 && "btn-active"
-                            }`}
+                          className={`btn w-100 ${
+                            tokenState.step2 && "btn-active"
+                          }`}
                           onClick={() => {
                             setTokenState({
                               step0: false,
@@ -710,20 +720,20 @@ export default function ManageToken({
                   <div className="sec-search sec-search-secondry">
                     <div
                       className="position-relative search-row"
-                    // onClick={() => {
-                    //   if(newToken !== '')
-                    //   setTokenState({
-                    //     step0: false,
-                    //     step1: false,
-                    //     step2: false,
-                    //     step3: true,
-                    //     step4: false,
-                    //     title: "Manage Token",
-                    //   });
-                    // }}
-                    // onClick={() => {
-                    //   addTokenHandler();
-                    // }}
+                      // onClick={() => {
+                      //   if(newToken !== '')
+                      //   setTokenState({
+                      //     step0: false,
+                      //     step1: false,
+                      //     step2: false,
+                      //     step3: true,
+                      //     step4: false,
+                      //     title: "Manage Token",
+                      //   });
+                      // }}
+                      // onClick={() => {
+                      //   addTokenHandler();
+                      // }}
                     >
                       <input
                         type="text"
@@ -833,7 +843,6 @@ export default function ManageToken({
                                   />
                                 </span>
                                 <span>
-
                                   <Link
                                     href="https://puppyscan.shib.io/address/"
                                     passHref
@@ -950,7 +959,7 @@ export default function ManageToken({
                               )}
                               {dupToken === false &&
                                 (tempTokens &&
-                                  Object.keys(tempTokens).length !== 0 ? (
+                                Object.keys(tempTokens).length !== 0 ? (
                                   <div className="tokn-row">
                                     <div className="cryoto-box">
                                       <img
@@ -969,16 +978,16 @@ export default function ManageToken({
                                       <div>
                                         <h6 className="fw-bold">
                                           {tempTokens?.parentSymbol ||
-                                            tempTokens?.symbol
+                                          tempTokens?.symbol
                                             ? tempTokens.parentSymbol ||
-                                            tempTokens?.symbol
+                                              tempTokens?.symbol
                                             : "Unknown"}
                                         </h6>
                                         <p>
                                           {tempTokens?.parentSymbol ||
-                                            tempTokens?.name
+                                          tempTokens?.name
                                             ? tempTokens.parentSymbol ||
-                                            tempTokens?.name
+                                              tempTokens?.name
                                             : "Unknown"}
                                         </p>
                                       </div>

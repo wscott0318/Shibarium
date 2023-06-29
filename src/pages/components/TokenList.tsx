@@ -62,6 +62,7 @@ const TokenList = ({
         .catch((err: any) => {});
     }
   };
+  console.log("newListing ", defaultfetched);
   useEffect(() => {
     // console.log("console 1");
     getDefaultTokenList();
