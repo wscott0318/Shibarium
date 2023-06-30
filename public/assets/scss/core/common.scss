@@ -3777,6 +3777,10 @@ section.del-grid-section .txt-emp {
 .wrk-cnt {
   @media #{$max-sm} {
     text-align: justify;
+    padding-top: 25%;
+  }
+  @media #{$max-xsm} {
+    padding-top: 32%;
   }
 }
 

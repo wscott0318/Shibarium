@@ -133,6 +133,7 @@ export default function Withdraw() {
       setTokenBalanceL2(bal);
     }
   };
+  // console.log("selected token ", selectedToken);
   const imageOnErrorHandler = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
@@ -347,7 +348,7 @@ export default function Withdraw() {
                                     <div className="form-field position-relative txt-fix">
                                       <div className="icon-chain">
                                         <div>
-                                          {selectedToken?.logo ||
+                                          {/* {selectedToken?.logo ||
                                           selectedToken?.logoURI ? (
                                             <img
                                               width="22"
@@ -361,16 +362,13 @@ export default function Withdraw() {
                                               alt=""
                                               onError={imageOnErrorHandler}
                                             />
-                                          ) : (
-                                            <img
-                                              className="img-fluid"
-                                              src={
-                                                "../../assets/images/eth.png"
-                                              }
-                                              alt=""
-                                              onError={imageOnErrorHandler}
-                                            />
-                                          )}
+                                          ) : ( */}
+                                          <img
+                                            className="img-fluid"
+                                            src={"../../assets/images/eth.png"}
+                                            alt=""
+                                            onError={imageOnErrorHandler}
+                                          />
                                         </div>
                                       </div>
                                       <div className="mid-chain">
@@ -756,7 +754,7 @@ export default function Withdraw() {
                                     <div className="form-field position-relative txt-fix">
                                       <div className="icon-chain">
                                         <div>
-                                          {selectedToken?.logo ||
+                                          {/* {selectedToken?.logo ||
                                           selectedToken?.logoURI ? (
                                             <img
                                               width="22"
@@ -769,16 +767,14 @@ export default function Withdraw() {
                                               alt=""
                                               onError={imageOnErrorHandler}
                                             />
-                                          ) : (
-                                            <img
-                                              className="img-fluid"
-                                              src={
-                                                "../../assets/images/eth.png"
-                                              }
-                                              alt=""
-                                              onError={imageOnErrorHandler}
-                                            />
-                                          )}
+                                          ) : ( */}
+                                          <img
+                                            className="img-fluid"
+                                            src={"../../assets/images/eth.png"}
+                                            alt=""
+                                            onError={imageOnErrorHandler}
+                                          />
+                                          {/* )} */}
                                         </div>
                                       </div>
                                       <div className="mid-chain">
