@@ -15,6 +15,7 @@ import LoadingSpinner from "pages/components/Loading";
 import Loader from "app/components/Loader";
 import { Check } from "react-feather";
 import ReactPaginate from "react-paginate";
+import { Dropdown } from "react-bootstrap";
 export default function Transaction() {
   const [onlyPending, setOnlyPending] = useState(false);
   const [txState, setTxState] = useLocalStorageState("txState"); //NOSONAR
@@ -24,6 +25,7 @@ export default function Transaction() {
   const [boneUSDValue, setBoneUSDValue] = useState(0); //NOSONAR
   const [contTransaction, setContTransaction] = useState<any>();
   const [loader, setLoader] = useState(true);
+  const [filterKey, setFilterKey] = useState<string>("Show All");
   const [limit, setLimit] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageCount, setPageCount] = useState<number>(1);
@@ -67,19 +69,32 @@ export default function Transaction() {
   const ChangePagination = (e: any) => {
     const selectedPage = e.selected;
     const offset = selectedPage * perPage;
-    // setLimit(limit + 10);
     setLimit(offset);
     setCurrentPage(selectedPage);
   };
-  const incrementPagination = () => {
-    setCurrentPage(currentPage - 1);
-    setLimit(limit + 10);
+
+  const onFilter = (key: number) => {
+    let filtered: any;
+    if (key != 0) {
+      if (onlyPending) {
+        filtered = allTransactions.filter(
+          (item: any) => item.transactionType == key && item.status == 0
+        );
+      } else {
+        filtered = allTransactions.filter(
+          (item: any) => item.transactionType == key
+        );
+      }
+      setTransactions(filtered);
+    } else {
+      if (onlyPending) {
+        filtered = allTransactions.filter((item: any) => item.status == 0);
+        setTransactions(filtered);
+      } else {
+        setTransactions(allTransactions);
+      }
+    }
   };
-  const decrementPagination = () => {
-    // setPages(pages - 1);
-    setLimit(limit - 10);
-  };
-  console.log("page count", pageCount);
   return (
     <>
       <main className="main-content">
@@ -111,36 +126,82 @@ export default function Transaction() {
             <div className="trnsc_outr">
               <h2>Transactions history</h2>
               <div className="trnsc_inr_cont">
-                <div className="trns_top_btns_area row">
-                  <div className="col-md-3 col-sm-4 col-xs-12">
-                    <button
-                      onClick={() => setOnlyPending(false)}
-                      className="w-full"
-                    >
-                      <a
-                        href="#"
-                        className={`${
-                          !onlyPending ? "primary-btn" : "white-btn"
-                        } btn w-100`}
+                <div className="transaction_top_wrapper">
+                  <div className="trns_top_btns_area row">
+                    <div className="col-lg-4 col-md-5 col-sm-6 col-xs-12 ">
+                      <button
+                        onClick={() => {
+                          setOnlyPending(false);
+                          setFilterKey("Show All");
+                        }}
+                        className="w-full"
                       >
-                        All Transactions
-                      </a>
-                    </button>
+                        <a
+                          href="#"
+                          className={`${
+                            !onlyPending ? "primary-btn" : "white-btn"
+                          } btn w-100`}
+                        >
+                          All Transactions
+                        </a>
+                      </button>
+                    </div>
+                    <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12 ">
+                      <button
+                        onClick={() => {
+                          setOnlyPending(true);
+                          setFilterKey("Show All");
+                        }}
+                        className="w-full"
+                      >
+                        <a
+                          href="#"
+                          className={`${
+                            onlyPending ? "primary-btn" : "white-btn"
+                          } btn w-100`}
+                        >
+                          Pending
+                        </a>
+                      </button>
+                    </div>
                   </div>
-                  <div className="col-md-3 col-sm-4 col-xs-12">
-                    <button
-                      onClick={() => setOnlyPending(true)}
-                      className="w-full"
-                    >
-                      <a
-                        href="#"
-                        className={`${
-                          onlyPending ? "primary-btn" : "white-btn"
-                        } btn w-100`}
-                      >
-                        Pending
-                      </a>
-                    </button>
+                  <div className=" drop-sec dropdwn-sec">
+                    <label className="head-xsm fw-600" htmlFor="Auction">
+                      <span className="top-low-spc pe-2 align">Sort by</span>
+                    </label>
+                    <Dropdown className="dark-dd cus-dropdown position-relative d-inline-block">
+                      <i className="arrow-down"></i>
+                      <Dropdown.Toggle id="dropdown-basic">
+                        <span>{filterKey}</span>
+                      </Dropdown.Toggle>
+
+                      <Dropdown.Menu>
+                        <Dropdown.Item
+                          onClick={() => {
+                            setFilterKey("Show All");
+                            onFilter(0);
+                          }}
+                        >
+                          Show All
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          onClick={() => {
+                            setFilterKey("Deposit");
+                            onFilter(1);
+                          }}
+                        >
+                          Deposit
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          onClick={() => {
+                            setFilterKey("Withdraw");
+                            onFilter(2);
+                          }}
+                        >
+                          Withdraw
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
                   </div>
                 </div>
                 {/* all transactions table start */}
@@ -190,8 +251,24 @@ export default function Transaction() {
                                   />
                                 </span>
                                 <div>
-                                  <b>{item.amount} BONE</b>
-                                  <b className="grey_txt">{item.usdValue}$</b>
+                                  <b
+                                    style={{
+                                      textOverflow: "ellipsis",
+                                      overflow: "hidden",
+                                    }}
+                                  >
+                                    {item.amount} BONE
+                                  </b>
+                                  <b
+                                    className="grey_txt"
+                                    style={{
+                                      textOverflow: "ellipsis",
+                                      width: "45%",
+                                      overflow: "hidden",
+                                    }}
+                                  >
+                                    {item.usdValue.toFixed(2)}$
+                                  </b>
                                 </div>
                               </div>
                               <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
@@ -282,7 +359,7 @@ export default function Transaction() {
                           marginPagesDisplayed={2}
                           pageRangeDisplayed={5}
                           onPageChange={(e) => ChangePagination(e)}
-                          containerClassName={"pagination"} 
+                          containerClassName={"pagination"}
                           activeClassName={"active"}
                         />
                         {/* <ul className="pagination">
