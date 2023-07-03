@@ -283,7 +283,7 @@ export default function Transaction() {
                   </div>
                   <div className=" drop-sec dropdwn-sec">
                     <label className="head-xsm fw-600" htmlFor="Auction">
-                      <span className="top-low-spc pe-2 align">Sort by</span>
+                      <span className="top-low-spc pe-2 align">Filter by</span>
                     </label>
                     <Dropdown className="dark-dd cus-dropdown position-relative d-inline-block">
                       <i className="arrow-down"></i>

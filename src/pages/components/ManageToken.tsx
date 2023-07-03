@@ -159,7 +159,6 @@ export default function ManageToken({
     try {
       await getWalletTokenList().then((res) => {
         let list = [...localTokens, ...res.data.message.tokens];
-        // console.log("token to search =>" , list)
         list.forEach(async (x: any) => {
           let tokenAddress =
             chainId === ChainId.GÖRLI ? x?.parentContract : x?.childContract;
