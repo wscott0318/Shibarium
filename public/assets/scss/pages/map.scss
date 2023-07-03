@@ -146,8 +146,13 @@
 
 .mapped-token-wrapper {
     .hero-cont {
-        display: flex;
-        justify-content: space-between;
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        background-color: $primary;
+        padding: 80px 0;
 
         .choose-network-tabs {
             margin-bottom: 30px;
@@ -161,8 +166,8 @@
             .nav {
                 display: flex;
                 flex-direction: row;
-                padding: 2px;
-                background-color: $grey-color;
+                padding: 8px;
+                background-color: $bg-clr;
                 border-radius: 8px;
                 font-size: 14px;
                 font-weight: 400;
@@ -174,10 +179,22 @@
 
                     &.active {
                         color: $white;
-                        background-color: $bg-clr;
+                        background-color: $primary;
                     }
                 }
             }
         }
+    }
+}
+
+.mapped-token-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 30px;
+    border-bottom: 1px solid #596380;
+
+    img {
+        max-width: 200px;
     }
 }

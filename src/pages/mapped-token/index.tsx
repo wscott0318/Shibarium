@@ -5,6 +5,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import ReactPaginate from "react-paginate";
 import { Nav } from "react-bootstrap";
 import { SearchIcon } from "@heroicons/react/outline";
+import Link from "next/link";
 
 
 
@@ -13,12 +14,17 @@ function MappedToken() {
     return (
         <>
             <div className="main-content dark-bg-800 full-vh font-up ffms-inherit">
-                <div className="container">
-                    <div className="bottom-pad top-pad mapped-token-wrapper">
-                        <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+                <div className="mapped-token-header">
+                    <img src="../../../assets/images/Shibarium white@2x.png" alt="" />
+                    <Link href="#">
+                        <a className="btn primary-btn ff-mos">Map New Token</a>
+                    </Link>
+                </div>
 
-
-                            <div className="hero-cont">
+                <div className="bottom-pad mapped-token-wrapper">
+                    <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+                        <div className="hero-cont">
+                            <div className="container">
                                 <div className="section-title">
                                     <h3>Find mapped tokens</h3>
                                     <p>The place to search for and locate all tokens mapped on Polygon.</p>
@@ -35,6 +41,9 @@ function MappedToken() {
                                     </Nav>
                                 </div>
                             </div>
+                        </div>
+
+                        <div className="container mapped-token-tab-content">
                             <Tab.Content>
                                 <Tab.Pane eventKey="first">
                                     <div className="mapped-token-table-wrapper">
@@ -193,12 +202,11 @@ function MappedToken() {
                                     </div>
                                 </Tab.Pane>
                             </Tab.Content>
+                        </div>
 
-                        </Tab.Container>
-
-
-                    </div>
+                    </Tab.Container>
                 </div>
+
             </div>
         </>
     )
