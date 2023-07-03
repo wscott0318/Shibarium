@@ -131,7 +131,10 @@ export default function Withdraw() {
   const imageOnErrorHandler = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
-    event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
+    event.currentTarget.src =
+      chainId == ChainId.GÖRLI
+        ? "../../assets/images/eth.png"
+        : "../../assets/images/shib-borderd-icon.png";
     event.currentTarget.className = "error me-3";
   };
 
@@ -359,7 +362,20 @@ export default function Withdraw() {
                                           ) : ( */}
                                           <img
                                             className="img-fluid"
-                                            src={"../../assets/images/eth.png"}
+                                            width={22}
+                                            height={22}
+                                            src={
+                                              chainId == ChainId.GÖRLI
+                                                ? "../../assets/images/eth.png"
+                                                : "../../assets/images/shib-borderd-icon.png"
+                                            }
+                                            // src={
+                                            //   NETWORK_ICON[
+                                            //     chainId == ChainId.GÖRLI
+                                            //       ? ChainId.PUPPYNET719
+                                            //       : ChainId.GÖRLI
+                                            //   ]
+                                            // }
                                             alt=""
                                             onError={imageOnErrorHandler}
                                           />
@@ -494,12 +510,17 @@ export default function Withdraw() {
                                             width="22"
                                             height="22"
                                             className="img-fluid"
+                                            // src={
+                                            //   NETWORK_ICON[
+                                            //     chainId == ChainId.GÖRLI
+                                            //       ? ChainId.PUPPYNET719
+                                            //       : ChainId.GÖRLI
+                                            //   ]
+                                            // }
                                             src={
-                                              NETWORK_ICON[
-                                                chainId == ChainId.GÖRLI
-                                                  ? ChainId.PUPPYNET719
-                                                  : ChainId.GÖRLI
-                                              ]
+                                              chainId == ChainId.GÖRLI
+                                                ? "../../assets/images/shib-borderd-icon.png"
+                                                : "../../assets/images/eth.png"
                                             }
                                             onError={imageOnErrorHandler}
                                             alt=""
@@ -603,12 +624,17 @@ export default function Withdraw() {
                                             width="22"
                                             height="22"
                                             className="img-fluid"
+                                            // src={
+                                            //   NETWORK_ICON[
+                                            //     chainId == ChainId.GÖRLI
+                                            //       ? ChainId.PUPPYNET719
+                                            //       : ChainId.GÖRLI
+                                            //   ]
+                                            // }
                                             src={
-                                              NETWORK_ICON[
-                                                chainId == ChainId.GÖRLI
-                                                  ? ChainId.PUPPYNET719
-                                                  : ChainId.GÖRLI
-                                              ]
+                                              chainId == ChainId.GÖRLI
+                                                ? "../../assets/images/shib-borderd-icon.png"
+                                                : "../../assets/images/eth.png"
                                             }
                                             onError={imageOnErrorHandler}
                                             alt=""
@@ -764,7 +790,20 @@ export default function Withdraw() {
                                           ) : ( */}
                                           <img
                                             className="img-fluid"
-                                            src={"../../assets/images/eth.png"}
+                                            width="22"
+                                            height="22"
+                                            // src={
+                                            //   NETWORK_ICON[
+                                            //     chainId == ChainId.GÖRLI
+                                            //       ? ChainId.PUPPYNET719
+                                            //       : ChainId.GÖRLI
+                                            //   ]
+                                            // }
+                                            src={
+                                              chainId == ChainId.GÖRLI
+                                                ? "../../assets/images/eth.png"
+                                                : "../../assets/images/shib-borderd-icon.png"
+                                            }
                                             alt=""
                                             onError={imageOnErrorHandler}
                                           />

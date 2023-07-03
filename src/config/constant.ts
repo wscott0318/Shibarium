@@ -5,6 +5,7 @@ export const BONE_ID = "bone-shibaswap";
 
 // export const API_BASE_URL = "https://preprod-api.shib.io/api/v1"; // dev
 export const API_BASE_URL = "http://10.89.4.174:3000/api/v1"; // staging
+// export const API_BASE_URL = "http://localhost:3001/api/v1"; // staging
 
 /**
  * Staking APi BASE URL
