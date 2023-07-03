@@ -1,0 +1,105 @@
+.cus-label {
+    span {
+        position: relative;
+        padding-left: 34px;
+        font-size: 14px;
+    }
+
+    label {
+        cursor: pointer;
+        font-size: 14px;
+
+        >input[type="radio"] {
+            display: none;
+
+            + {
+                * {
+                    &::before {
+                        content: "";
+                        display: inline-block;
+                        vertical-align: bottom;
+                        width: 24px;
+                        height: 24px;
+                        margin-right: 0.3rem;
+                        border-radius: 50%;
+                        border-style: solid;
+                        border-width: 0.1rem;
+                        border-color: $grey-color;
+                        position: absolute;
+                        top: 50%;
+                        left: 0;
+                        transform: translateY(-50%);
+                        background-color: transparent;
+                    }
+
+                    display: inline-block;
+                }
+            }
+
+            &:checked {
+                + {
+                    * {
+                        &::before {
+                            background: radial-gradient($primary 0%, $primary 40%, transparent 50%, transparent);
+                            border-color: $primary;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.rad-4 {
+    border-radius: 4px !important;
+}
+
+.map-card {
+    .card-bg-800 {
+        box-shadow: 0 2px 4px rgba($body-bg, .08);
+    }
+
+    .card-lst {
+        margin-bottom: 30px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .label-horiz {
+        margin-right: 30px;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    .form-control {
+        &.label-control {
+            height: 66px;
+            background: transparent;
+            border-color: $grey-color;
+            color: $grey-color;
+
+            &:hover,
+            &:focus {
+                box-shadow: none;
+            }
+        }
+
+        &.disabled {
+            background-color: $grey-color;
+        }
+
+        &::placeholder {
+            color: $grey-color;
+        }
+    }
+}
+
+.label-row {
+    .col-sp {
+        margin-bottom: 16px;
+    }
+}

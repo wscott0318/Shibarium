@@ -16,6 +16,122 @@ import Loader from "app/components/Loader";
 import { Check } from "react-feather";
 import ReactPaginate from "react-paginate";
 import { Dropdown } from "react-bootstrap";
+
+const MappedTransactions = ({ transactions, ContinueTransaction }: any) => {
+  console.log("transactions in mapped Transactions ", transactions);
+  return transactions?.length > 0 ? (
+    transactions.map((item: any) => (
+      <div key={item?.transactionHash}>
+        <div className="single_trns_row">
+          <div className="row trns_date">
+            <div className="col-12">{item.createdAt.split("T")[0]}</div>
+          </div>
+          <div className="row trns_data">
+            <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+              <span>
+                {item.status == 0 ? (
+                  <span className="transactionLoader">
+                    <Loader size="22px" />
+                  </span>
+                ) : (
+                  <span className="transactionLoader">
+                    <Check />
+                  </span>
+                )}
+              </span>
+              <div>
+                <b>{item?.transactionType == 1 ? "Deposit" : "Withdraw"}</b>
+                <b className="grey_txt">
+                  {item.createdAt.split("T")[1].split(".")[0]}
+                </b>
+              </div>
+            </div>
+            <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+              <span>
+                <img
+                  className="img-fluid me-2"
+                  src="../../assets/images/red-bone.png"
+                  alt="meta-img"
+                />
+              </span>
+              <div>
+                <b
+                  style={{
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                  }}
+                >
+                  {item.amount} BONE
+                </b>
+                <b
+                  className="grey_txt"
+                  style={{
+                    textOverflow: "ellipsis",
+                    width: "45%",
+                    overflow: "hidden",
+                  }}
+                >
+                  {item.usdValue.toFixed(2)}$
+                </b>
+              </div>
+            </div>
+            <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
+              <div>
+                <b>Transaction hash</b>
+                <p className="grey_txt trns_has_add">
+                  <span
+                    style={{
+                      textOverflow: "ellipsis",
+                      width: "45%",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {item.txHash}
+                  </span>
+                  <a
+                    href={getExplorerLink(
+                      ChainId.PUPPYNET719,
+                      item.txHash,
+                      "transaction"
+                    )}
+                    target="_blank"
+                  >
+                    <img
+                      src="../../assets/images/grey-arrow.png"
+                      className="img-fluid"
+                    />
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {item.status == 0 && (
+          <div className="cont_sec">
+            <div className="row">
+              <div className="col-md-6 col-lg-9 col-xs-12">
+                You are {item.stepPoint} away, click continue to complete the
+                transaction
+              </div>
+              <div className="col-md-3 col-lg-3 col-xs-12">
+                <button
+                  onClick={() => {
+                    ContinueTransaction(item);
+                  }}
+                  className="btn primary-btn w-100"
+                >
+                  Continue
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    ))
+  ) : (
+    <div>No transaction history.</div>
+  );
+};
 export default function Transaction() {
   const [onlyPending, setOnlyPending] = useState(false);
   const [txState, setTxState] = useLocalStorageState("txState"); //NOSONAR
@@ -209,123 +325,11 @@ export default function Transaction() {
                   <div className="transactions_list_outr">
                     {loader ? (
                       <LoadingSpinner />
-                    ) : transactions?.length > 0 ? (
-                      transactions.map((item: any) => (
-                        <div key={item?.transactionHash}>
-                          <div className="single_trns_row">
-                            <div className="row trns_date">
-                              <div className="col-12">
-                                {item.createdAt.split("T")[0]}
-                              </div>
-                            </div>
-                            <div className="row trns_data">
-                              <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                                <span>
-                                  {item.status == 0 ? (
-                                    <span className="transactionLoader">
-                                      <Loader size="22px" />
-                                    </span>
-                                  ) : (
-                                    <span className="transactionLoader">
-                                      <Check />
-                                    </span>
-                                  )}
-                                </span>
-                                <div>
-                                  <b>
-                                    {item?.transactionType == 1
-                                      ? "Deposit"
-                                      : "Withdraw"}
-                                  </b>
-                                  <b className="grey_txt">
-                                    {item.createdAt.split("T")[1].split(".")[0]}
-                                  </b>
-                                </div>
-                              </div>
-                              <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                                <span>
-                                  <img
-                                    className="img-fluid me-2"
-                                    src="../../assets/images/red-bone.png"
-                                    alt="meta-img"
-                                  />
-                                </span>
-                                <div>
-                                  <b
-                                    style={{
-                                      textOverflow: "ellipsis",
-                                      overflow: "hidden",
-                                    }}
-                                  >
-                                    {item.amount} BONE
-                                  </b>
-                                  <b
-                                    className="grey_txt"
-                                    style={{
-                                      textOverflow: "ellipsis",
-                                      width: "45%",
-                                      overflow: "hidden",
-                                    }}
-                                  >
-                                    {item.usdValue.toFixed(2)}$
-                                  </b>
-                                </div>
-                              </div>
-                              <div className="col-sm-4 mb-3 mb-sm-0 cmn_data">
-                                <div>
-                                  <b>Transaction hash</b>
-                                  <p className="grey_txt trns_has_add">
-                                    <span
-                                      style={{
-                                        textOverflow: "ellipsis",
-                                        width: "45%",
-                                        overflow: "hidden",
-                                      }}
-                                    >
-                                      {item.txHash}
-                                    </span>
-                                    <a
-                                      href={getExplorerLink(
-                                        ChainId.PUPPYNET719,
-                                        item.txHash,
-                                        "transaction"
-                                      )}
-                                      target="_blank"
-                                    >
-                                      <img
-                                        src="../../assets/images/grey-arrow.png"
-                                        className="img-fluid"
-                                      />
-                                    </a>
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          {item.status == 0 && (
-                            <div className="cont_sec">
-                              <div className="row">
-                                <div className="col-md-6 col-lg-9 col-xs-12">
-                                  You are {item.stepPoint} away, click continue
-                                  to complete the transaction
-                                </div>
-                                <div className="col-md-3 col-lg-3 col-xs-12">
-                                  <button
-                                    onClick={() => {
-                                      ContinueTransaction(item);
-                                    }}
-                                    className="btn primary-btn w-100"
-                                  >
-                                    Continue
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      ))
                     ) : (
-                      <div>No transaction history.</div>
+                      <MappedTransactions
+                        transactions={transactions}
+                        ContinueTransaction={ContinueTransaction}
+                      />
                     )}
                   </div>
                 </div>
