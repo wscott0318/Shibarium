@@ -30,7 +30,7 @@ export const putTransactions = async (body: any) => {
   }
 };
 
-export const getTransactions = async (limit: number, pages: number) => {
+export const getTransactions = async () => {
   try {
     let response = await axios.get(
       `${API_BASE_URL}/transactions/getTransactions`,

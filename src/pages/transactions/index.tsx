@@ -164,7 +164,7 @@ export default function Transaction() {
     setTxState(item);
   };
   useEffect(() => {
-    getTransactions(limit, currentPage).then((res) => {
+    getTransactions().then((res) => {
       console.log("res", res);
       const slice = res.slice(limit, limit + perPage);
       console.log("slice", slice);

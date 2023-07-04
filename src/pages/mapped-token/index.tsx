@@ -1,21 +1,42 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
 import ReactPaginate from "react-paginate";
 import { Nav } from "react-bootstrap";
 import { SearchIcon } from "@heroicons/react/outline";
+import { getWalletTokenList } from "app/services/apis/validator";
+import * as Sentry from "@sentry/nextjs";
+import { getExplorerLink } from "../../functions/explorer";
 
 function MappedToken() {
   const [limit, setLimit] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageCount, setPageCount] = useState<number>(1);
-  const perPage = 5;
+  const perPage = 10;
+  const [tokenCount, setTokenCount] = useState(0);
+  const [tokenList, setTokenList] = useState<any>();
   const ChangePagination = (e: any) => {
     const selectedPage = e.selected;
     const offset = selectedPage * perPage;
     setLimit(offset);
     setCurrentPage(selectedPage);
+  };
+
+  useEffect(() => {
+    try {
+      getWalletTokenList().then((res) => {
+        setTokenCount(res.data.message.tokens.length);
+        const slice = res.data.message.tokens.slice(limit, limit + perPage);
+        setTokenList(slice);
+        console.log(slice);
+        setPageCount(Math.ceil(res.data.message.tokens.length / perPage));
+      });
+    } catch (err: any) {
+      Sentry.captureMessage("getTokensList", err);
+    }
+  }, [limit, currentPage]);
+
+  const getLink = (chainId: number, contract: any) => {
+    return getExplorerLink(chainId, contract, "address");
   };
   return (
     <>
@@ -35,14 +56,10 @@ function MappedToken() {
                   <span className="title">Choose network</span>
                   <Nav>
                     <Nav.Item>
-                      <Nav.Link eventKey="first">
-                        Ethereum - Polygon Mainnet
-                      </Nav.Link>
+                      <Nav.Link eventKey="first">Ethereum - Shibarium</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="second">
-                        Goerli - Mumbai Testnet
-                      </Nav.Link>
+                      <Nav.Link eventKey="second">Goerli - PuppyNet</Nav.Link>
                     </Nav.Item>
                   </Nav>
                 </div>
@@ -90,33 +107,33 @@ function MappedToken() {
                             </tr>
                           </thead>
                           <tbody>
-                            {[...Array(10)].map((item, idx) => {
-                              return (
-                                <tr>
-                                  <td>TEST-UTILITY-TOKEN</td>
+                            {tokenList?.length > 0 ? (
+                              tokenList.map((token: any) => (
+                                <tr key={token.parentContract}>
+                                  <td>{token.key || "-"}</td>
                                   <td>
                                     <a
-                                      href="javascript:;"
+                                      href={getLink(5, token.parentContract)}
                                       className="redirect-link"
+                                      target="_blank"
                                     >
-                                      <span>
-                                        0xcbee2ddec9e2c7edbf459fffedf1a0e3c151b912
-                                      </span>
+                                      <span>{token.parentContract}</span>
                                     </a>
                                   </td>
                                   <td>
                                     <a
-                                      href="javascript:;"
+                                      href={getLink(5, token.childContract)}
                                       className="redirect-link"
+                                      target="_blank"
                                     >
-                                      <span>
-                                        0x734008b560a6c89daf0977a77f7ccd5e8afe990b
-                                      </span>
+                                      <span>{token.childContract}</span>
                                     </a>
                                   </td>
                                 </tr>
-                              );
-                            })}
+                              ))
+                            ) : (
+                              <div>No token found.</div>
+                            )}
                           </tbody>
                         </table>
                       </div>
@@ -124,7 +141,13 @@ function MappedToken() {
                     <div className="cstm_pagination">
                       <div className="pag_con">
                         <div className="left_block">
-                          <p>Showing 1-10 of 2830</p>
+                          <p>
+                            Showing {perPage * (currentPage + 1) - 9}-
+                            {perPage * (currentPage + 1) > tokenCount
+                              ? tokenCount
+                              : perPage * (currentPage + 1)}{" "}
+                            of {tokenCount}
+                          </p>
                         </div>
                         <div className="right_block">
                           <nav aria-label="Page navigation example">
@@ -188,33 +211,33 @@ function MappedToken() {
                             </tr>
                           </thead>
                           <tbody>
-                            {[...Array(5)].map((item, idx) => {
-                              return (
-                                <tr>
-                                  <td>TEST-UTILITY-TOKEN</td>
+                            {tokenList?.length > 0 ? (
+                              tokenList.map((token: any) => (
+                                <tr key={token.parentContract}>
+                                  <td>{token.key || "-"}</td>
                                   <td>
                                     <a
-                                      href="javascript:;"
+                                      href={getLink(5, token.parentContract)}
                                       className="redirect-link"
+                                      target="_blank"
                                     >
-                                      <span>
-                                        0xcbee2ddec9e2c7edbf459fffedf1a0e3c151b912
-                                      </span>
+                                      <span>{token.parentContract}</span>
                                     </a>
                                   </td>
                                   <td>
                                     <a
-                                      href="javascript:;"
+                                      href={getLink(5, token.childContract)}
                                       className="redirect-link"
+                                      target="_blank"
                                     >
-                                      <span>
-                                        0x734008b560a6c89daf0977a77f7ccd5e8afe990b
-                                      </span>
+                                      <span>{token.childContract}</span>
                                     </a>
                                   </td>
                                 </tr>
-                              );
-                            })}
+                              ))
+                            ) : (
+                              <div>No token found.</div>
+                            )}
                           </tbody>
                         </table>
                       </div>
