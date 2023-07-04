@@ -1,9 +1,38 @@
-import React from "react";
-
+import { useWeb3React } from "@web3-react/core";
+import Web3Status from "app/components/Web3Status";
+import { useActiveWeb3React } from "app/services/web3";
+import Link from "next/link";
+import React, { useState } from "react";
+import axios from "axios";
 function Map() {
+  const { account, deactivate } = useWeb3React();
+  const { chainId = 1 } = useActiveWeb3React();
+  const [fetchedToken, setFetchedToken] = useState<any>();
+
+  const fetchTokenData = async (e: any) => {
+    let address = e.target.value;
+    let tokenData = await axios.get(
+      `https://open-api-testnet.polygon.technology/api/v1/fxportal/mapping?rootToken=${address}`
+    );
+    console.log(tokenData, tokenData);
+    if (tokenData) {
+    }
+  };
   return (
     <>
       <div className="main-content dark-bg-800 full-vh font-up ffms-inherit">
+        <div className="mapped-token-header">
+          <img src="../../../assets/images/Shibarium white@2x.png" alt="" />
+          {/* {account ? (
+            <div className="userDetailButton">
+              <Web3Status />
+            </div>
+          ) : ( */}
+          <Link href={account ? "/map" : "/login"}>
+            <a className="btn primary-btn ff-mos">Connect Wallet</a>
+          </Link>
+          {/* )} */}
+        </div>
         <div className="map-card bottom-pad top-pad">
           <div className="container">
             <h3 className="d-flex align-items-end mb-3 mb-md-4">
@@ -85,6 +114,7 @@ function Map() {
                       type="text"
                       className="form-control label-control"
                       placeholder="i.e 0xdd974d5c2e2928dea5f71b9825b8b646686bd200"
+                      onChange={(e) => fetchTokenData(e)}
                     />
                   </div>
                 </div>
@@ -142,10 +172,17 @@ function Map() {
                 </p>
               </div>
               <div className="col-lg-3 text-end">
-                <button type="button" className="btn primary-btn" disabled>
-                  {" "}
-                  Connect Wallet To Map
-                </button>
+                {account ? (
+                  <Link href={"/beginMapping"}>
+                    <a className="btn primary-btn ff-mos">Begin Mapping</a>
+                  </Link>
+                ) : (
+                  <Link href={account ? "/map" : "/login"}>
+                    <a className="btn primary-btn ff-mos">
+                      Connect Wallet To Map
+                    </a>
+                  </Link>
+                )}
               </div>
             </div>
           </div>

@@ -18,7 +18,6 @@ import ReactPaginate from "react-paginate";
 import { Dropdown } from "react-bootstrap";
 
 const MappedTransactions = ({ transactions, ContinueTransaction }: any) => {
-  console.log("transactions in mapped Transactions ", transactions);
   return transactions?.length > 0 ? (
     transactions.map((item: any) => (
       <div key={item?.transactionHash}>
