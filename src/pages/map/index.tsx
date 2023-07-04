@@ -6,7 +6,7 @@ function Map() {
             <div className="main-content dark-bg-800 full-vh font-up ffms-inherit">
                 <div className="map-card bottom-pad top-pad">
                     <div className="container">
-                        <h3 className="d-flex align-items-end mb-3 mb-md-4">
+                        <h3 className="mb-3 mb-md-4">
                             Add details of the token you are mapping
                             <a className="primary-text fs-12 ms-2" href="javascript:void(0)">
                                 Learn more
@@ -32,7 +32,7 @@ function Map() {
                         {/* token details card start */}
                         <div className="cus-card-800 rad-4 card-lst">
                             <h5 className="mb-4">Token Details
-                                <span className="ms-3 lite-color fs-14">Standard tokens are mapped via <a className="fs-14 primary-text" href="javascript:void(0)">fx portal</a>. Like any transaction, this will incur a standard cost or fee.</span>
+                                <span className="ms-lg-3 mt-2 mt-lg-0 lite-color fs-14">Standard tokens are mapped via <a className="fs-14 primary-text" href="javascript:void(0)">fx portal</a>. Like any transaction, this will incur a standard cost or fee.</span>
                             </h5>
                             <div className="col-lg-8">
                                 <div className="label-row row gx-3 gy-3 align-items-center">
