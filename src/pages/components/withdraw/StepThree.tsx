@@ -549,8 +549,8 @@ const StepThree: React.FC<any> = ({
                       src="../../assets/images/waiting-small.png"
                       alt=""
                       className="img-fluid"
-                      height="120"
-                      width="120"
+                      height="100"
+                      width="100"
                     />
                     <h5 className="pt-4 pb-2">Waiting for Checkpoint</h5>
                     <p className="pb-3 ps-2 pe-2">

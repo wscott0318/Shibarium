@@ -280,6 +280,9 @@ const WithdrawModal: React.FC<{
             challengePeriod: false,
             processExit: false,
             txData: res.events,
+            fromChain: chainId,
+            toChain:
+              chainId == ChainId.GÖRLI ? ChainId.PUPPYNET719 : ChainId.GÖRLI,
           };
           let postResp = await postTransactions(body);
           console.log("post resp", postResp);
@@ -572,8 +575,7 @@ const WithdrawModal: React.FC<{
                       <div className="col-7 d-flex align-items-center">
                         <img
                           className="img-fluid"
-                          width="22"
-                          height="22"
+                          width="30"
                           src="../../assets/images/shib-logo.png"
                           alt=""
                           onError={imageOnErrorHandler}
@@ -595,12 +597,11 @@ const WithdrawModal: React.FC<{
                       <div className="col-7 d-flex align-items-center">
                         <img
                           className="img-fluid"
-                          width="22"
-                          height="22"
+                          width="30"
                           src={
                             selectedToken?.logo || selectedToken?.logoURI
                               ? selectedToken?.logo || selectedToken?.logoURI
-                              : "../../assets/images/eth.png"
+                              : "../../assets/images/eth_logo.png"
                           }
                           onError={imageOnErrorHandler}
                           alt=""
@@ -631,16 +632,15 @@ const WithdrawModal: React.FC<{
                     </div>
 
                     {selectedToken?.bridgetype === "plasma" && (
-                      <div className="row pt-2">
+                      <div className="row pt-3">
                         <div className="col-7 d-flex align-items-center">
                           <img
                             className="img-fluid"
-                            width="22"
-                            height="22"
+                            width="30"
                             src={
                               selectedToken?.logo || selectedToken?.logoURI
                                 ? selectedToken?.logo || selectedToken?.logoURI
-                                : "../../assets/images/eth.png"
+                                : "../../assets/images/eth_logo.png"
                             }
                             onError={imageOnErrorHandler}
                             alt=""
@@ -798,12 +798,10 @@ const WithdrawModal: React.FC<{
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
-                            width="22"
-                            height="22"
                             src={
                               selectedToken.logo
                                 ? selectedToken.logo
-                                : "../../assets/images/eth.png"
+                                : "../../assets/images/eth_logo.png"
                             }
                             onError={imageOnErrorHandler}
                             alt=""

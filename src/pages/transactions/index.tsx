@@ -18,6 +18,7 @@ import ReactPaginate from "react-paginate";
 import { Dropdown } from "react-bootstrap";
 
 const MappedTransactions = ({ transactions, ContinueTransaction }: any) => {
+  const { chainId } = useActiveWeb3React();
   return transactions?.length > 0 ? (
     transactions.map((item: any) => (
       <div key={item?.transactionHash}>
@@ -89,7 +90,7 @@ const MappedTransactions = ({ transactions, ContinueTransaction }: any) => {
                   </span>
                   <a
                     href={getExplorerLink(
-                      ChainId.PUPPYNET719,
+                      item?.fromChain || chainId,
                       item.txHash,
                       "transaction"
                     )}
@@ -145,6 +146,7 @@ export default function Transaction() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageCount, setPageCount] = useState<number>(1);
   const perPage = 5;
+  const [tokenCount, setTokenCount] = useState(0);
   const handleMenuState = () => {
     setMenuState(!menuState);
   };
@@ -165,6 +167,7 @@ export default function Transaction() {
   useEffect(() => {
     getTransactions(account).then((res) => {
       console.log("res", res);
+      setTokenCount(res.length);
       const slice = res?.slice(limit, limit + perPage);
       console.log("slice", slice);
       setTransactions(slice);
@@ -332,24 +335,16 @@ export default function Transaction() {
                     )}
                   </div>
                 </div>
-                {/* all transactions table ends */}
-
-                {/* pending transactions table start */}
-                {/* <div className="transactions_list_outr">
-                                  
-                            </div> */}
-                {/* pending transactions table ends */}
-
                 <div className="cstm_pagination">
                   <div className="pag_con">
                     <div className="left_block">
-                      {/* <span>
-                        <img
-                          src="../../assets/images/download-icon.png"
-                          className="img-fluid"
-                        />
-                      </span> */}
-                      {/* <b>Download CSV</b> */}
+                      <p>
+                        Showing {perPage * (currentPage + 1) - 4}-
+                        {perPage * (currentPage + 1) > tokenCount
+                          ? tokenCount
+                          : perPage * (currentPage + 1)}{" "}
+                        of {tokenCount}
+                      </p>
                     </div>
                     <div className="right_block">
                       <nav aria-label="Page navigation example">
@@ -363,40 +358,8 @@ export default function Transaction() {
                           pageRangeDisplayed={5}
                           onPageChange={(e) => ChangePagination(e)}
                           containerClassName={"pagination"}
-                          activeClassName={"active"}
+                          activeClassName={"active primary-text"}
                         />
-                        {/* <ul className="pagination">
-                          <li className="page-item">
-                            <a
-                              className={`${
-                                currentPage == 1 && "disabled"
-                              } page-link`}
-                              onClick={decrementPagination}
-                            >
-                              Previous
-                            </a>
-                          </li>
-                          {[...Array(pageCount)].map((page, i) => (
-                            <li className="page-item" key={i + 1}>
-                              <a
-                                className="page-link"
-                                onClick={() => ChangePagination(i + 1)}
-                              >
-                                {i + 1}
-                              </a>
-                            </li>
-                          ))}
-                          <li className="page-item">
-                            <a
-                              className={`${
-                                currentPage == pageCount && "disabled"
-                              } page-link`}
-                              onClick={incrementPagination}
-                            >
-                              Next
-                            </a>
-                          </li>
-                        </ul> */}
                       </nav>
                     </div>
                   </div>

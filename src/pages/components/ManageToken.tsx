@@ -19,6 +19,7 @@ import { uniqBy } from "lodash";
 import { useToken } from "app/hooks/Tokens";
 import { CircularProgress } from "@material-ui/core";
 import { ChainId } from "shibarium-get-chains";
+import { getExplorerLink } from "app/functions";
 
 export const Warning = ({
   listing,
@@ -843,7 +844,11 @@ export default function ManageToken({
                                 </span>
                                 <span>
                                   <Link
-                                    href="https://puppyscan.shib.io/address/"
+                                    href={getExplorerLink(
+                                      x?.chainId || chainId,
+                                      x?.parentContract || x?.address,
+                                      "address"
+                                    )}
                                     passHref
                                   >
                                     <a target="_blank">

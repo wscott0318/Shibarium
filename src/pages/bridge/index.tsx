@@ -133,7 +133,7 @@ export default function Withdraw() {
   ) => {
     event.currentTarget.src =
       chainId == ChainId.GÖRLI
-        ? "../../assets/images/eth.png"
+        ? "../../assets/images/eth_logo.png"
         : "../../assets/images/shib-borderd-icon.png";
     event.currentTarget.className = "error me-3";
   };
@@ -344,7 +344,7 @@ export default function Withdraw() {
                                     </label>
                                     <div className="form-field position-relative txt-fix">
                                       <div className="icon-chain">
-                                        <div>
+                                        <div className="network_Icon_Wrapper">
                                           {/* {selectedToken?.logo ||
                                           selectedToken?.logoURI ? (
                                             <img
@@ -361,12 +361,10 @@ export default function Withdraw() {
                                             />
                                           ) : ( */}
                                           <img
-                                            className="img-fluid"
-                                            width={22}
-                                            height={22}
+                                            className="img-fluid w-100"
                                             src={
                                               chainId == ChainId.GÖRLI
-                                                ? "../../assets/images/eth.png"
+                                                ? "../../assets/images/eth_logo.png"
                                                 : "../../assets/images/shib-borderd-icon.png"
                                             }
                                             // src={
@@ -428,7 +426,7 @@ export default function Withdraw() {
                                                 selectedToken?.logoURI
                                                   ? selectedToken.logo ||
                                                     selectedToken?.logoURI
-                                                  : "../../assets/images/eth.png"
+                                                  : "../../assets/images/eth_logo.png"
                                               }
                                               onError={imageOnErrorHandler}
                                               alt=""
@@ -505,11 +503,9 @@ export default function Withdraw() {
                                     </label>
                                     <div className="form-field position-relative txt-fix">
                                       <div className="icon-chain">
-                                        <div>
+                                        <div className="network_Icon_Wrapper">
                                           <img
-                                            width="22"
-                                            height="22"
-                                            className="img-fluid"
+                                            className="img-fluid w-100"
                                             // src={
                                             //   NETWORK_ICON[
                                             //     chainId == ChainId.GÖRLI
@@ -520,7 +516,7 @@ export default function Withdraw() {
                                             src={
                                               chainId == ChainId.GÖRLI
                                                 ? "../../assets/images/shib-borderd-icon.png"
-                                                : "../../assets/images/eth.png"
+                                                : "../../assets/images/eth_logo.png"
                                             }
                                             onError={imageOnErrorHandler}
                                             alt=""
@@ -619,11 +615,9 @@ export default function Withdraw() {
                                     </label>
                                     <div className="form-field position-relative txt-fix">
                                       <div className="icon-chain">
-                                        <div>
+                                        <div className="network_Icon_Wrapper">
                                           <img
-                                            width="22"
-                                            height="22"
-                                            className="img-fluid"
+                                            className="img-fluid w-100"
                                             // src={
                                             //   NETWORK_ICON[
                                             //     chainId == ChainId.GÖRLI
@@ -634,7 +628,7 @@ export default function Withdraw() {
                                             src={
                                               chainId == ChainId.GÖRLI
                                                 ? "../../assets/images/shib-borderd-icon.png"
-                                                : "../../assets/images/eth.png"
+                                                : "../../assets/images/eth_logo.png"
                                             }
                                             onError={imageOnErrorHandler}
                                             alt=""
@@ -773,7 +767,7 @@ export default function Withdraw() {
                                     </label>
                                     <div className="form-field position-relative txt-fix">
                                       <div className="icon-chain">
-                                        <div>
+                                        <div className="network_Icon_Wrapper">
                                           {/* {selectedToken?.logo ||
                                           selectedToken?.logoURI ? (
                                             <img
@@ -789,9 +783,7 @@ export default function Withdraw() {
                                             />
                                           ) : ( */}
                                           <img
-                                            className="img-fluid"
-                                            width="22"
-                                            height="22"
+                                            className="img-fluid w-100"
                                             // src={
                                             //   NETWORK_ICON[
                                             //     chainId == ChainId.GÖRLI
@@ -801,7 +793,7 @@ export default function Withdraw() {
                                             // }
                                             src={
                                               chainId == ChainId.GÖRLI
-                                                ? "../../assets/images/eth.png"
+                                                ? "../../assets/images/eth_logo.png"
                                                 : "../../assets/images/shib-borderd-icon.png"
                                             }
                                             alt=""
