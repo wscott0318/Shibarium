@@ -30,10 +30,10 @@ export const putTransactions = async (body: any) => {
   }
 };
 
-export const getTransactions = async () => {
+export const getTransactions = async (account: any) => {
   try {
     let response = await axios.get(
-      `${API_BASE_URL}/transactions/getTransactions`,
+      `${API_BASE_URL}/transactions/getTransactions?walletAddress=${account}`,
       {
         headers: headers,
       }

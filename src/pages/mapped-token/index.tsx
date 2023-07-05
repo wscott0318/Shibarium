@@ -51,7 +51,7 @@ function MappedToken() {
         <div className="bottom-pad mapped-token-wrapper">
           <Tab.Container id="left-tabs-example" defaultActiveKey="first">
             <div className="hero-cont">
-              <div className="container">
+              <div className="container container-header">
                 <div className="section-title">
                   <h3>Find mapped tokens</h3>
                   <p>

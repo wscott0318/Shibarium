@@ -14,7 +14,8 @@ export const getAllowanceAmount = async (library, token, account, contract) => {
     let allowance = await instance.methods
       .allowance(account, contract)
       .call({ from: account });
-    return parseInt(allowance) / 10 ** 18;
+    let decimal = await instance.methods.decimals().call();
+    return parseInt(allowance) / 10 ** decimal;
   }
 };
 
@@ -127,7 +128,7 @@ export const useStorage = (defaultChain = "") => {
   useEffect(() => {
     if (chain) {
       const coinListRaw = localStorage.getItem("coinList");
-      console.log("coin list " , coinListRaw)
+      console.log("coin list ", coinListRaw);
       let parsed;
       try {
         parsed = JSON.parse(coinListRaw);
@@ -138,14 +139,13 @@ export const useStorage = (defaultChain = "") => {
       }
 
       if (!parsed) {
-        let uniqList = uniqBy(URL_ARRAY[chain],"name")
+        let uniqList = uniqBy(URL_ARRAY[chain], "name");
         setCoinList(uniqList);
         localStorage.setItem("coinList", JSON.stringify(URL_ARRAY));
       } else {
-        let uniqList = uniqBy(parsed[chain],"name")
+        let uniqList = uniqBy(parsed[chain], "name");
         setCoinList(uniqList);
       }
-      
     } else {
       setCoinList([]);
     }
@@ -238,7 +238,7 @@ export const getBoneUSDValue = async () => {
     )
     .then((res) => {
       usd = res.data["bone-shibaswap"].usd;
-      console.log("usd => " , usd)
+      console.log("usd => ", usd);
     })
     .catch((err) => {
       usd = 0;

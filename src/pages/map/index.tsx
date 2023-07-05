@@ -28,14 +28,14 @@ function Map() {
               <Web3Status />
             </div>
           ) : ( */}
-          <Link href={account ? "/map" : "/login"}>
+          {/* <Link href={account ? "/map" : "/login"}>
             <a className="btn primary-btn ff-mos">Connect Wallet</a>
-          </Link>
+          </Link> */}
           {/* )} */}
         </div>
         <div className="map-card bottom-pad top-pad">
           <div className="container">
-            <h3 className="d-flex align-items-end mb-3 mb-md-4">
+            <h3 className="mb-3 mb-md-4">
               Add details of the token you are mapping
               <a className="primary-text fs-12 ms-2" href="javascript:void(0)">
                 Learn more
@@ -67,7 +67,7 @@ function Map() {
             <div className="cus-card-800 rad-4 card-lst">
               <h5 className="mb-4">
                 Token Details
-                <span className="ms-3 lite-color fs-14">
+                <span className="ms-lg-3 mt-2 mt-lg-0 lite-color fs-14">
                   Standard tokens are mapped via{" "}
                   <a className="fs-14 primary-text" href="javascript:void(0)">
                     fx portal
@@ -160,8 +160,8 @@ function Map() {
               </div>
             </div>
             {/* token details card end */}
-            <div className="row">
-              <div className="col-lg-9">
+            <div className="row map_bottom">
+              <div className="col-lg-9 col-md-9">
                 <p className="mb-0 fs-14">
                   We encourage all innovation so you can use the resources on
                   our <a href="javascript:void(0)" className="primary-text"></a>{" "}
@@ -171,18 +171,18 @@ function Map() {
                   process for remapped tokens.
                 </p>
               </div>
-              <div className="col-lg-3 text-end">
-                {account ? (
+              <div className="col-lg-3 col-md-3">
+                {/* {account ? (
                   <Link href={"/beginMapping"}>
                     <a className="btn primary-btn ff-mos">Begin Mapping</a>
                   </Link>
-                ) : (
-                  <Link href={account ? "/map" : "/login"}>
-                    <a className="btn primary-btn ff-mos">
-                      Connect Wallet To Map
-                    </a>
-                  </Link>
-                )}
+                ) : ( */}
+                <Link href={"/login"}>
+                  <a className="btn primary-btn ff-mos">
+                    Connect Wallet To Map
+                  </a>
+                </Link>
+                {/* )} */}
               </div>
             </div>
           </div>

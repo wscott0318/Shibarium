@@ -5,10 +5,8 @@ import NumberFormat from "react-number-format";
 import { ChainId } from "shibarium-get-chains";
 import {
   currentGasPrice,
-  getAllowanceAmount,
   tokenDecimal,
   USER_REJECTED_TX,
-  web3Decimals,
 } from "web3/commonFunctions";
 import { dynamicChaining } from "web3/DynamicChaining";
 import CommonModal from "../CommonModel";
@@ -23,7 +21,6 @@ import { ArrowCircleLeftIcon } from "@heroicons/react/outline";
 import { Check, X } from "react-feather";
 import Loader from "app/components/Loader";
 import { L1Block, PUPPYNET517 } from "app/hooks/L1Block";
-import { burnStatus } from "../../../exit/burn";
 import useLocalStorageState from "use-local-storage-state";
 import StepThree from "./StepThree";
 import { SUPPORTED_NETWORKS } from "app/modals/NetworkModal";
@@ -34,15 +31,9 @@ import {
   finalizeTransaction,
 } from "app/state/transactions/actions";
 import { getExplorerLink } from "app/functions";
-import { ExitUtil, POSClient } from "@shibarmy/shibariumjs";
-import { RootChain } from "@shibarmy/shibariumjs";
-import { getClient } from "client/shibarium";
-import { PlasmaClient } from "@shibarmy/shibariumjs-plasma";
-import burn from "../../../exit/burn";
 import ERC20 from "../../../ABI/ERC20Abi.json";
-import POSExitABI from "../../../ABI/POSExitABI.json";
 import ERC20abi from "../../../ABI/ERC20Abi.json";
-import postTransactions, { putTransactions } from "../BridgeCalls";
+import postTransactions from "../BridgeCalls";
 import { toast } from "react-toastify";
 
 const WithdrawModal: React.FC<{
@@ -339,28 +330,10 @@ const WithdrawModal: React.FC<{
   };
 
   const getBurnStatus = async (txHash: any) => {
-    let status = await burnStatus(txState?.token?.bridgetype, txHash);
-    if (status?.inclusion) {
+    if (txState?.checkpointSigned) {
       setProcessing((processing: any) => [...processing, "Checkpoint"]);
       setTxState({ ...txState, checkpointSigned: true });
       setCheckpointSigned(true);
-      setInclusion(status?.burnExitTxreceipt);
-      let body = {
-        stepPoint: "Step 2",
-        checkpointSigned: true,
-        challengePeriod: false,
-        processExit: false,
-        status: 0,
-        txHash,
-      };
-      let postResp = await putTransactions(body);
-      console.log("post resp", postResp);
-      if (postResp) {
-        toast.success("Withdraw data updated successfully.", {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 5000,
-        });
-      }
     }
   };
 

@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import { unbondsHistory } from "../../services/apis/delegator";
-import { useActiveWeb3React } from '../../services/web3'
-import { getExplorerLink } from 'app/functions'
+import { useActiveWeb3React } from "../../services/web3";
+import { getExplorerLink } from "app/functions";
 import stakeManagerProxyABI from "../../ABI/StakeManagerProxy.json";
 import ValidatorShareABI from "../../ABI/ValidatorShareABI.json";
 import Header from "pages/layout/header";
@@ -12,9 +12,18 @@ import DynamicShimmer from "app/components/Shimmer/DynamicShimmer";
 import CommonModal from "../components/CommonModel";
 import { useUserType } from "../../state/user/hooks";
 import { useRouter } from "next/router";
-import { addTransaction, finalizeTransaction } from 'app/state/transactions/actions';
-import { useAppDispatch } from "../../state/hooks"
-import { currentGasPrice, getUserTimeZone, tokenDecimal, USER_REJECTED_TX, web3Decimals } from "web3/commonFunctions";
+import {
+  addTransaction,
+  finalizeTransaction,
+} from "app/state/transactions/actions";
+import { useAppDispatch } from "../../state/hooks";
+import {
+  currentGasPrice,
+  getUserTimeZone,
+  tokenDecimal,
+  USER_REJECTED_TX,
+  web3Decimals,
+} from "web3/commonFunctions";
 import * as Sentry from "@sentry/nextjs";
 import { dynamicChaining } from "web3/DynamicChaining";
 import { CircularProgress } from "@material-ui/core";
@@ -22,63 +31,70 @@ const initialModalState = {
   show: false,
   onHash: false,
   onReceipt: false,
-  title: ""
-}
+  title: "",
+};
 export default function Unbond() {
-
   const [list, setList] = useState([]);
   const [listLoader, setListLoader] = useState(true);
   const { account, chainId = 1, library } = useActiveWeb3React();
   const [slicedList, setSlicedList] = useState([]);
-  const [transactionLink, setTransactionLink] = useState('')
+  const [transactionLink, setTransactionLink] = useState("");
   const dispatch = useAppDispatch();
   const [transactionState, setTransactionState] = useState(initialModalState);
   const pageSize = 10;
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const lib: any = library
-  const web3: any = new Web3(lib?.provider)
+  const lib: any = library;
+  const web3: any = new Web3(lib?.provider);
+  console.log("library ", web3, lib);
   const [userType, setUserType] = useUserType(); //NOSONAR
   const [loader, setLoader] = useState(false);
   const [disabledClaim, setDisabledClaim] = useState<any>([]);
   const getValidatorContractAddress = async (validatorID: any) => {
     try {
       if (account) {
-        const instance = new web3.eth.Contract(stakeManagerProxyABI, dynamicChaining[chainId].STAKE_MANAGER_PROXY);
-        const ID = await instance.methods.getValidatorContract(validatorID).call({ from: account });
-        return ID
+        const instance = new web3.eth.Contract(
+          stakeManagerProxyABI,
+          dynamicChaining[chainId].STAKE_MANAGER_PROXY
+        );
+        const ID = await instance.methods
+          .getValidatorContract(validatorID)
+          .call({ from: account });
+        return ID;
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       Sentry.captureException("getValidatorContractAddress ", err);
     }
-  }
+  };
   console.log("disabledClaim", disabledClaim);
   const [claimNowModals, setClamNowModals] = useState<any>({
     data: {},
     confirm: false,
     progress: false,
     completed: false,
-  })
+  });
 
   const getUnboundHistory = async (account: any) => {
     try {
-      await unbondsHistory(account).then(res => {
+      await unbondsHistory(account).then((res) => {
         if (res.status == 200) {
-          const decOrder = res.data.data.result.sort((a: any, b: any) => Date.parse(b.unbondStartedTimeStampFormatted) - Date.parse(a.unbondStartedTimeStampFormatted));
+          const decOrder = res.data.data.result.sort(
+            (a: any, b: any) =>
+              Date.parse(b.unbondStartedTimeStampFormatted) -
+              Date.parse(a.unbondStartedTimeStampFormatted)
+          );
           console.log("decorder => ", decOrder);
-          setList(decOrder)
+          setList(decOrder);
           updateListFunc();
-          setListLoader(false)
+          setListLoader(false);
         }
-      })
-    }
-    catch (err: any) {
+      });
+    } catch (err: any) {
       Sentry.captureException("getUnboundHistory ", err);
     }
-  }
+  };
 
   const updateListFunc = () => {
-    console.log("check state")
+    console.log("check state");
     if (list.length) {
       const newList = list.slice(0, pageSize);
       setSlicedList(newList);
@@ -86,10 +102,10 @@ export default function Unbond() {
     } else if (list.length === 0) {
       setSlicedList([]);
     }
-  }
+  };
 
   useEffect(() => {
-    updateListFunc()
+    updateListFunc();
   }, [list]);
 
   // useEffect(()=>{
@@ -98,34 +114,49 @@ export default function Unbond() {
 
   // console.log(claimNowModals)
   const unboundClaimAPI = async () => {
-    setLoader(true)
+    setLoader(true);
 
     try {
-      setTransactionState({ show: true, onHash: false, onReceipt: false, title: "Pending" });
+      setTransactionState({
+        show: true,
+        onHash: false,
+        onReceipt: false,
+        title: "Pending",
+      });
       setTransactionLink("");
       let data = {
         delegatorAddress: account,
         validatorId: claimNowModals?.data?.validatorId,
-        unbondNonce: claimNowModals?.data?.nonce
-      }
-      let validatorContract = await getValidatorContractAddress((parseInt(data.validatorId)))
+        unbondNonce: claimNowModals?.data?.nonce,
+      };
+      let validatorContract = await getValidatorContractAddress(
+        parseInt(data.validatorId)
+      );
       // console.log(data, validatorContract)
       if (account) {
-        let walletAddress = account
-        let instance = new web3.eth.Contract(ValidatorShareABI, validatorContract);
-        let gasFee = await instance.methods.unstakeClaimTokens_new(data.unbondNonce).estimateGas({ from: walletAddress })
-        let encodedAbi = await instance.methods.unstakeClaimTokens_new(data.unbondNonce).encodeABI()
-        let CurrentgasPrice: any = await currentGasPrice(web3)
+        let walletAddress = account;
+        let instance = new web3.eth.Contract(
+          ValidatorShareABI,
+          validatorContract
+        );
+        let gasFee = await instance.methods
+          .unstakeClaimTokens_new(data.unbondNonce)
+          .estimateGas({ from: walletAddress });
+        let encodedAbi = await instance.methods
+          .unstakeClaimTokens_new(data.unbondNonce)
+          .encodeABI();
+        let CurrentgasPrice: any = await currentGasPrice(web3);
         // console.log((parseInt(gasFee) + 30000) * CurrentgasPrice, " valiuee ==> ")
-        await web3.eth.sendTransaction({
-          from: walletAddress,
-          to: validatorContract,
-          gas: (parseInt(gasFee) + 30000).toString(),
-          gasPrice: CurrentgasPrice,
-          // value : web3.utils.toHex(combinedFees),
-          data: encodedAbi
-        })
-          .on('transactionHash', (res: any) => {
+        await web3.eth
+          .sendTransaction({
+            from: walletAddress,
+            to: validatorContract,
+            gas: (parseInt(gasFee) + 30000).toString(),
+            gasPrice: CurrentgasPrice,
+            // value : web3.utils.toHex(combinedFees),
+            data: encodedAbi,
+          })
+          .on("transactionHash", (res: any) => {
             // console.log(res, "hash")
             dispatch(
               addTransaction({
@@ -134,14 +165,28 @@ export default function Unbond() {
                 chainId,
                 summary: `${res}`,
               })
-            )
-            const link = getExplorerLink(chainId, res.transactionHash, 'transaction')
-            setTransactionLink(link)
+            );
+            const link = getExplorerLink(
+              chainId,
+              res.transactionHash,
+              "transaction"
+            );
+            setTransactionLink(link);
             // console.log(link)
-            setClamNowModals((pre: any) => ({ ...pre, progress: true, confirm: true }))
-            setTransactionState({ show: true, onHash: true, onReceipt: false, title: "Submitted" });
+            setClamNowModals((pre: any) => ({
+              ...pre,
+              progress: true,
+              confirm: true,
+            }));
+            setTransactionState({
+              show: true,
+              onHash: true,
+              onReceipt: false,
+              title: "Submitted",
+            });
             setDisabledClaim([...disabledClaim, claimNowModals.data]);
-          }).on('receipt', (res: any) => {
+          })
+          .on("receipt", (res: any) => {
             // console.log(res, "receipt")
             dispatch(
               finalizeTransaction({
@@ -155,61 +200,62 @@ export default function Unbond() {
                   blockHash: res.blockHash,
                   transactionHash: res.transactionHash,
                   blockNumber: res.blockNumber,
-                  status: 1
-                }
+                  status: 1,
+                },
               })
-            )
+            );
             setTimeout(async () => {
               await getUnboundHistory(account);
             }, 3000);
-            setTransactionState({ show: true, onHash: true, onReceipt: true, title: "Completed" });
-            setLoader(false)
+            setTransactionState({
+              show: true,
+              onHash: true,
+              onReceipt: true,
+              title: "Completed",
+            });
+            setLoader(false);
             setClamNowModals({
               data: {},
               confirm: false,
               progress: false,
-              completed: false
-            })
+              completed: false,
+            });
             setTransactionState(initialModalState);
-          }).on('error', (res: any) => {
-            setTransactionState(initialModalState);
-            setClamNowModals({
-              data: {},
-              confirm: false,
-              progress: false,
-              completed: false
-            })
-            setLoader(false)
           })
+          .on("error", (res: any) => {
+            setTransactionState(initialModalState);
+            setClamNowModals({
+              data: {},
+              confirm: false,
+              progress: false,
+              completed: false,
+            });
+            setLoader(false);
+          });
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureException("unboundClaimAPI ", err);
       }
       setTransactionState(initialModalState);
     }
     // console.log(validatorContract)
-  }
+  };
   const pageChangeHandler = (index: number) => {
     const slicedList = list.slice((index - 1) * pageSize, index * pageSize);
     setSlicedList(slicedList);
     setCurrentPage(index);
   };
 
-
-
   const router = useRouter();
 
   useEffect(() => {
     if (account) {
-      getUnboundHistory(account)
+      getUnboundHistory(account);
     } else {
       router.back();
     }
   }, [userType, account]);
-
-
 
   const countDecimals = function (value: any) {
     if (Math.floor(value) === value) return 0;
@@ -219,33 +265,27 @@ export default function Unbond() {
     try {
       if (countDecimals(num) > 3) {
         return (Math.round(num * 100) / 100).toFixed(tokenDecimal);
+      } else {
+        return num;
       }
-      else {
-        return num
-      }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       Sentry.captureException("fixedDecimals ", err);
     }
   };
 
   useEffect(() => {
     if (userType != "Delegator") {
-      router.push('/')
+      router.push("/");
     }
-  }, [userType])
+  }, [userType]);
 
   const reloadOnHash = () => {
     if (transactionState.onHash) {
       // window.location.reload()
-      getUnboundHistory(account)
-      router.push(
-        `/unbond-history`,
-        `/unbond-history`,
-        { shallow: true }
-      )
+      getUnboundHistory(account);
+      router.push(`/unbond-history`, `/unbond-history`, { shallow: true });
     }
-  }
+  };
 
   return (
     <>
@@ -272,7 +312,7 @@ export default function Unbond() {
                 </div>
                 <div className="step-title">Approved</div>
               </li>
-              <li className={`step ${(transactionState.onHash) && "active"}`}>
+              <li className={`step ${transactionState.onHash && "active"}`}>
                 <div className="step-ico">
                   <img
                     className="img-fluid"
@@ -282,7 +322,7 @@ export default function Unbond() {
                 </div>
                 <div className="step-title">Submitted</div>
               </li>
-              <li className={`step ${(transactionState.onReceipt) && "active"}`}>
+              <li className={`step ${transactionState.onReceipt && "active"}`}>
                 <div className="step-ico">
                   <img
                     className="img-fluid"
@@ -293,83 +333,102 @@ export default function Unbond() {
                 <div className="step-title">Completed</div>
               </li>
             </ul>
-            {
-              transactionState.show && transactionState.title == "Pending" && (
-                <div className="del-tab-content" style={{ height: "80%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                  <div className="pb-3 pb-sm-4">
-                    <h5 className="mb-3 text-center">
-                      Your unbounding period is complete. you can claim your stake
-                      now.
-                    </h5>
-                    <p className="lite-text text-center lite-color fw-600">
-                      Your stake will be transferred to
-                      <span className="d-block txt-wrp">{account}</span>
-                    </p>
-                  </div>
-                  <div className="dark-bg-800 p-2 p-sm-3 text-center">
-                    <p className="lite-color fw-600">Stake to claim</p>
-                    <h3>{claimNowModals?.data?.amount ? parseInt(claimNowModals?.data?.amount) / 10 ** web3Decimals + " BONE " : null} </h3>
-                    {/* <p className="lite-color fw-600">$8.17</p> */}
-                  </div>
-                  {/* <div className="arrow-block mt-2 mt-sm-3">
+            {transactionState.show && transactionState.title == "Pending" && (
+              <div
+                className="del-tab-content"
+                style={{
+                  height: "80%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div className="pb-3 pb-sm-4">
+                  <h5 className="mb-3 text-center">
+                    Your unbounding period is complete. you can claim your stake
+                    now.
+                  </h5>
+                  <p className="lite-text text-center lite-color fw-600">
+                    Your stake will be transferred to
+                    <span className="d-block txt-wrp">{account}</span>
+                  </p>
+                </div>
+                <div className="dark-bg-800 p-2 p-sm-3 text-center">
+                  <p className="lite-color fw-600">Stake to claim</p>
+                  <h3>
+                    {claimNowModals?.data?.amount
+                      ? parseInt(claimNowModals?.data?.amount) /
+                          10 ** web3Decimals +
+                        " BONE "
+                      : null}{" "}
+                  </h3>
+                  {/* <p className="lite-color fw-600">$8.17</p> */}
+                </div>
+                {/* <div className="arrow-block mt-2 mt-sm-3">
                   <p>$3.359 Gas Fee</p>
                   <div className="arrow-float">
                       <img className="img-fluid" src="../../assets/images/rt-arow.png" alt="arrow" width={8} />
                   </div>
               </div> */}
-                  <div className="button-wrap mt-3">
-                    <button
-                      type="button"
-                      disabled={loader}
-                      className="btn primary-btn w-100"
-                      onClick={() => { unboundClaimAPI(); }}
-                    >
-                      Confirm
-                    </button>
-                  </div>
-                </div>
-              )
-            }
-            {transactionState.onHash && transactionState.title == "Submitted" && (
-              <div className="step_content fl-box">
-                <div className="ax-top">
-                  <div className="image_area row">
-                    <div className="col-12 text-center watch-img-sec">
-                      <CircularProgress color="inherit" size={120} style={{ color: "#f06500" }} />
-                    </div>
-                  </div>
-                  <div className="mid_text row">
-                    <div className="col-12 text-center">
-                      <h4 className="ff-mos">Transaction Processing</h4>
-                    </div>
-                    <div className="col-12 text-center">
-                      <p className="ff-mos">
-                        BONE transactions can take longer time to complete
-                        based upon network congestion. Please wait or increase
-                        the gas price of the transaction.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="ax-bottom">
-                  <div className="pop_btns_area row form-control mt-3">
-                    <div className="col-12">
-                      <button
-                        className={`btn primary-btn d-flex align-items-center justify-content-center w-100`}
-                        // target="_blank"
-                        disabled={transactionLink == "" ? false : true}
-                        onClick={() => window.open(transactionLink)}
-                      // href={hashLink}
-                      >
-                        <span>View on Block Explorer</span>
-                      </button>
-                    </div>
-                  </div>
+                <div className="button-wrap mt-3">
+                  <button
+                    type="button"
+                    disabled={loader}
+                    className="btn primary-btn w-100"
+                    onClick={() => {
+                      unboundClaimAPI();
+                    }}
+                  >
+                    Confirm
+                  </button>
                 </div>
               </div>
             )}
-            {
-              transactionState.onReceipt && transactionState.title == "Completed" && (
+            {transactionState.onHash &&
+              transactionState.title == "Submitted" && (
+                <div className="step_content fl-box">
+                  <div className="ax-top">
+                    <div className="image_area row">
+                      <div className="col-12 text-center watch-img-sec">
+                        <CircularProgress
+                          color="inherit"
+                          size={120}
+                          style={{ color: "#f06500" }}
+                        />
+                      </div>
+                    </div>
+                    <div className="mid_text row">
+                      <div className="col-12 text-center">
+                        <h4 className="ff-mos">Transaction Processing</h4>
+                      </div>
+                      <div className="col-12 text-center">
+                        <p className="ff-mos">
+                          BONE transactions can take longer time to complete
+                          based upon network congestion. Please wait or increase
+                          the gas price of the transaction.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="ax-bottom">
+                    <div className="pop_btns_area row form-control mt-3">
+                      <div className="col-12">
+                        <button
+                          className={`btn primary-btn d-flex align-items-center justify-content-center w-100`}
+                          // target="_blank"
+                          disabled={transactionLink == "" ? false : true}
+                          onClick={() => window.open(transactionLink)}
+                          // href={hashLink}
+                        >
+                          <span>View on Block Explorer</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            {transactionState.onReceipt &&
+              transactionState.title == "Completed" && (
                 <div className="step_content fl-box">
                   <div className="ax-top">
                     <div className="image_area row">
@@ -409,8 +468,7 @@ export default function Unbond() {
                     </div>
                   </div>
                 </div>
-              )
-            }
+              )}
           </div>
         </div>
       </CommonModal>
@@ -433,129 +491,156 @@ export default function Unbond() {
                       <th>Validator Name</th>
                       <th>Amount</th>
                       <th>Status</th>
-                      <th className="text-center time-th"><span className="fix-ele">Timestamp</span></th>
+                      <th className="text-center time-th">
+                        <span className="fix-ele">Timestamp</span>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {slicedList.length ? (
-                      slicedList.map((value: any) => (
-                        <tr key={value.unbondStartedTxHash}>
-                          <td>
-                            <div className="d-flex align-items-center">
-                              <div className="coin-img me-2">
-                                <img
-                                  className="img-fluid"
-                                  src="../../assets/images/bear.png"
-                                  alt="coin"
-                                  width={50}
-                                  height={50}
-                                />
-                              </div>
-                              <div>
-                                <span className="tb-data ">
-                                  {value.validatorName}
-                                </span>
-                              </div>
-                            </div>
-                          </td>
-                          <td>
-                            <span className="tb-data align">
-                              {fixedDecimals(parseInt(value.amount) / 10 ** 18)} Bone
-                            </span>
-                            {/* <p className="mb-0 fs-12 mute-text">$8.2</p> */}
-                          </td>
-                          <td>
-                            {value.completed && (
-                              <>
-                                <div className="align-items-center claim_btn_wrapper">
-                                  <span className="tb-data align up-text">
-                                    Success
-                                  </span>
-                                  <button className="mb-0 fs-12 mt-1 hd-sel disabled block">
-                                    Claimed
-                                  </button>
-                                  <div className="tool-desc">You have already claimed this reward.</div>
+                    {slicedList.length
+                      ? slicedList.map((value: any) => (
+                          <tr key={value.unbondStartedTxHash}>
+                            <td>
+                              <div className="d-flex align-items-center">
+                                <div className="coin-img me-2">
+                                  <img
+                                    className="img-fluid"
+                                    src="../../assets/images/bear.png"
+                                    alt="coin"
+                                    width={50}
+                                    height={50}
+                                  />
                                 </div>
-                              </>
-                            )}
-                            {!value.completed && value.remainingEpoch > 0 && (
-                              <>
-                                <div className="claim_btn_wrapper">
-                                  <span className="d-block align up-text mb-1">
-                                    Wait for <b>{value.remainingEpoch}</b>{" "}
-                                    checkpoints
+                                <div>
+                                  <span className="tb-data ">
+                                    {value.validatorName}
                                   </span>
-                                  <button
-                                    className="primary-badge px-2 hd-sel disabled block"
-                                    type="button"
-                                    disabled={true}
-                                    onClick={() => {
-                                      setClamNowModals({
-                                        data: value,
-                                        confirm: true,
-                                        progress: false,
-                                        completed: false,
-                                      });
-                                    }
-                                    }
-                                  //  className="mb-0 fs-12 "
-                                  >
-                                    Claim Now
-                                  </button>
-                                  <div className="tool-desc">This reward cannot be claimed at the moment.</div>
                                 </div>
-                              </>
-                            )}
-                            {!value.completed && value.remainingEpoch <= 0 && (
-                              <>
-                                <div className="claim_btn_wrapper">
-                                  <span className="d-block align up-text mb-1">
-                                    Unbound period completed
-                                  </span>
-                                  <button
-                                    className={`primary-badge px-2 hd-sel block ${!!disabledClaim.find((key: any) => key.id == value.id) && "disabled"}`}
-                                    type="button"
-                                    disabled={!!disabledClaim.find((key: any) => key.id == value.id)}
-                                    onClick={() => {
-                                      {
+                              </div>
+                            </td>
+                            <td>
+                              <span className="tb-data align">
+                                {fixedDecimals(
+                                  parseInt(value.amount) / 10 ** 18
+                                )}{" "}
+                                Bone
+                              </span>
+                              {/* <p className="mb-0 fs-12 mute-text">$8.2</p> */}
+                            </td>
+                            <td>
+                              {value.completed && (
+                                <>
+                                  <div className="align-items-center claim_btn_wrapper">
+                                    <span className="tb-data align up-text">
+                                      Success
+                                    </span>
+                                    <button className="mb-0 fs-12 mt-1 hd-sel disabled block">
+                                      Claimed
+                                    </button>
+                                    <div className="tool-desc">
+                                      You have already claimed this reward.
+                                    </div>
+                                  </div>
+                                </>
+                              )}
+                              {!value.completed && value.remainingEpoch > 0 && (
+                                <>
+                                  <div className="claim_btn_wrapper">
+                                    <span className="d-block align up-text mb-1">
+                                      Wait for <b>{value.remainingEpoch}</b>{" "}
+                                      checkpoints
+                                    </span>
+                                    <button
+                                      className="primary-badge px-2 hd-sel disabled block"
+                                      type="button"
+                                      disabled={true}
+                                      onClick={() => {
                                         setClamNowModals({
                                           data: value,
                                           confirm: true,
                                           progress: false,
                                           completed: false,
                                         });
-                                        setTransactionState({
-                                          show: true,
-                                          onHash: false,
-                                          onReceipt: false,
-                                          title: "Pending"
-                                        })
-                                      }
-                                    }}
-                                  //  className="mb-0 fs-12 "
-                                  >
-                                    Claim Now
-                                  </button>
-                                  <div className="tool-desc">Click here to claim your reward.</div>
-                                </div>
-                              </>
-                            )}
-
-                          </td>
-                          <td className="text-start">
-                            <span className="tb-data align">
-                              {getUserTimeZone(value.unbondStartedTimeStampFormatted)}
-                            </span>
-                          </td>
-                        </tr>
-                      ))
-                    ) : !list.length && !slicedList.length && listLoader && (
-                      <tr>
-                        <td colSpan={4}>
-                          <DynamicShimmer type={"table"} rows={13} cols={4} />
-                        </td>
-                      </tr>
-                    )}
+                                      }}
+                                      //  className="mb-0 fs-12 "
+                                    >
+                                      Claim Now
+                                    </button>
+                                    <div className="tool-desc">
+                                      This reward cannot be claimed at the
+                                      moment.
+                                    </div>
+                                  </div>
+                                </>
+                              )}
+                              {!value.completed &&
+                                value.remainingEpoch <= 0 && (
+                                  <>
+                                    <div className="claim_btn_wrapper">
+                                      <span className="d-block align up-text mb-1">
+                                        Unbound period completed
+                                      </span>
+                                      <button
+                                        className={`primary-badge px-2 hd-sel block ${
+                                          !!disabledClaim.find(
+                                            (key: any) => key.id == value.id
+                                          ) && "disabled"
+                                        }`}
+                                        type="button"
+                                        disabled={
+                                          !!disabledClaim.find(
+                                            (key: any) => key.id == value.id
+                                          )
+                                        }
+                                        onClick={() => {
+                                          {
+                                            setClamNowModals({
+                                              data: value,
+                                              confirm: true,
+                                              progress: false,
+                                              completed: false,
+                                            });
+                                            setTransactionState({
+                                              show: true,
+                                              onHash: false,
+                                              onReceipt: false,
+                                              title: "Pending",
+                                            });
+                                          }
+                                        }}
+                                        //  className="mb-0 fs-12 "
+                                      >
+                                        Claim Now
+                                      </button>
+                                      <div className="tool-desc">
+                                        Click here to claim your reward.
+                                      </div>
+                                    </div>
+                                  </>
+                                )}
+                            </td>
+                            <td className="text-start">
+                              <span className="tb-data align">
+                                {getUserTimeZone(
+                                  value.unbondStartedTimeStampFormatted
+                                )}
+                              </span>
+                            </td>
+                          </tr>
+                        ))
+                      : !list.length &&
+                        !slicedList.length &&
+                        listLoader && (
+                          <tr>
+                            <td colSpan={4}>
+                              <DynamicShimmer
+                                type={"table"}
+                                rows={13}
+                                cols={4}
+                              />
+                            </td>
+                          </tr>
+                        )}
                   </tbody>
                 </table>
               </div>

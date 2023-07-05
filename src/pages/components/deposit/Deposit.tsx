@@ -26,8 +26,9 @@ import {
 import { useAppDispatch } from "app/state/hooks";
 import { getExplorerLink } from "app/functions";
 import Loader from "app/components/Loader";
-import postTransactions  from "../BridgeCalls";
+import postTransactions from "../BridgeCalls";
 import { toast } from "react-toastify";
+import { ERC20_ABI } from "app/constants/abis/erc20";
 
 const Deposit: React.FC<any> = ({
   depositTokenInput,
@@ -61,9 +62,16 @@ const Deposit: React.FC<any> = ({
     setAmountApproval(false);
     setEstGas(0);
     let user: any = account;
+    let contract = ChainId.GÖRLI
+      ? selectedToken.parentContract
+      : selectedToken.childContract;
+    let instance = new web3.eth.Contract(ERC20_ABI, contract);
+    let decimal = await instance.methods.decimals().call();
+    console.log("decimal ", decimal);
     const amountWei = web3.utils.toBN(
-      fromExponential(+depositTokenInput * Math.pow(10, 18))
+      fromExponential(+depositTokenInput * Math.pow(10, decimal))
     );
+    console.log("amount wei ", amountWei);
     let currentprice: any = await currentGasPrice(web3);
     let checkAllowance =
       (await getAllowanceAmount(
@@ -74,20 +82,32 @@ const Deposit: React.FC<any> = ({
       )) || 0;
     console.log("allowance  ", checkAllowance);
     let allowanceGas: any = 0;
-    console.log(" step 1");
+    console.log(" step 1", checkAllowance);
     if (+checkAllowance < +depositTokenInput) {
       console.log("amount is greater than allowance step 2");
-      allowanceGas = await getFeeForApproval(currentprice, amountWei, user);
+      allowanceGas = await getFeeForApproval(
+        currentprice,
+        amountWei,
+        user,
+        decimal
+      );
     } else {
       setAllowance(0);
-      await getFeeForDeposit(allowanceGas, currentprice, user, amountWei);
+      await getFeeForDeposit(
+        allowanceGas,
+        currentprice,
+        user,
+        amountWei,
+        decimal
+      );
     }
   };
 
   const getFeeForApproval = async (
     currentprice: any,
     amountWei: any,
-    user: any
+    user: any,
+    decimal: any
   ) => {
     try {
       let allowGas: any = 0;
@@ -99,8 +119,8 @@ const Deposit: React.FC<any> = ({
         .approve(dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY, amountWei)
         .estimateGas({ from: user })
         .then((gas: any) => {
-          setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
-          allowGas = +(+gas * +currentprice) / Math.pow(10, 18);
+          setAllowance(+(+gas * +currentprice) / Math.pow(10, decimal));
+          allowGas = +(+gas * +currentprice) / Math.pow(10, decimal);
         })
         .catch((err: any) => {
           setEstGas(0);
@@ -117,9 +137,11 @@ const Deposit: React.FC<any> = ({
     allowanceGas: any,
     currentprice: any,
     user: any,
-    amountWei: any
+    amountWei: any,
+    decimal: any
   ) => {
     try {
+      setError("");
       let instance = new web3.eth.Contract(
         depositManagerABI,
         dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
@@ -127,9 +149,11 @@ const Deposit: React.FC<any> = ({
       let gasFee = await instance.methods
         .depositERC20ForUser(selectedToken?.parentContract, user, amountWei)
         .estimateGas({ from: user });
+      console.log("gas for deposit ", gasFee);
       if (+allowanceGas > 0)
-        gasFee = (+gasFee * +currentprice) / Math.pow(10, 18) + +allowanceGas;
-      else gasFee = (+gasFee * +currentprice) / Math.pow(10, 18);
+        gasFee =
+          (+gasFee * +currentprice) / Math.pow(10, decimal) + +allowanceGas;
+      else gasFee = (+gasFee * +currentprice) / Math.pow(10, decimal);
       setEstGas(+gasFee);
     } catch (error: any) {
       setEstGas(0);
@@ -149,10 +173,11 @@ const Deposit: React.FC<any> = ({
     try {
       setLoader(true);
       let user: any = account;
-      const amountWei = web3.utils.toBN(
-        fromExponential(10000 * Math.pow(10, 18))
-      );
       let instance = new web3.eth.Contract(ERC20, token);
+      let decimal = await instance.methods.decimals().call();
+      const amountWei = web3.utils.toBN(
+        fromExponential(10000 * Math.pow(10, decimal))
+      );
       await instance.methods
         .approve(contract, amountWei)
         .send({ from: user })
@@ -286,7 +311,7 @@ const Deposit: React.FC<any> = ({
             checkpointSigned: true,
             challengePeriod: true,
             processExit: true,
-            txData:res.events
+            txData: res.events,
           };
           let postResp = await postTransactions(body);
           console.log("post resp", postResp);
@@ -605,7 +630,9 @@ const Deposit: React.FC<any> = ({
                 <div>
                   <a
                     className={`btn primary-btn w-100 relative ${
-                      (loader || (allowance == -1 && estGas <= 0)) &&
+                      (loader ||
+                        (allowance == -1 && estGas <= 0) ||
+                        error != "") &&
                       "disabled btn-disabled"
                     }`}
                     onClick={() => handleStepOne()}

@@ -163,19 +163,19 @@ export default function Transaction() {
     setTxState(item);
   };
   useEffect(() => {
-    getTransactions().then((res) => {
+    getTransactions(account).then((res) => {
       console.log("res", res);
-      const slice = res.slice(limit, limit + perPage);
+      const slice = res?.slice(limit, limit + perPage);
       console.log("slice", slice);
       setTransactions(slice);
       setAllTransactions(res);
       setLoader(false);
-      setPageCount(Math.ceil(res.length / perPage));
+      setPageCount(Math.ceil(res?.length / perPage));
     });
-  }, [txState, limit, currentPage]);
+  }, [txState, limit, currentPage, account]);
   useEffect(() => {
     if (onlyPending) {
-      setTransactions(allTransactions.filter((e: any) => e.status == 0));
+      setTransactions(allTransactions?.filter((e: any) => e.status == 0));
     } else {
       setTransactions(allTransactions);
     }
@@ -192,18 +192,18 @@ export default function Transaction() {
     let filtered: any;
     if (key != 0) {
       if (onlyPending) {
-        filtered = allTransactions.filter(
+        filtered = allTransactions?.filter(
           (item: any) => item.transactionType == key && item.status == 0
         );
       } else {
-        filtered = allTransactions.filter(
+        filtered = allTransactions?.filter(
           (item: any) => item.transactionType == key
         );
       }
       setTransactions(filtered);
     } else {
       if (onlyPending) {
-        filtered = allTransactions.filter((item: any) => item.status == 0);
+        filtered = allTransactions?.filter((item: any) => item.status == 0);
         setTransactions(filtered);
       } else {
         setTransactions(allTransactions);
