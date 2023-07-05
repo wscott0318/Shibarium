@@ -141,7 +141,10 @@ export default function Transaction() {
   const [boneUSDValue, setBoneUSDValue] = useState(0); //NOSONAR
   const [contTransaction, setContTransaction] = useState<any>();
   const [loader, setLoader] = useState(true);
-  const [filterKey, setFilterKey] = useState<string>("Show All");
+  const [filterKey, setFilterKey] = useState<any>({
+    key: 0,
+    value: "Show All",
+  });
   const [limit, setLimit] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageCount, setPageCount] = useState<number>(1);
@@ -174,8 +177,9 @@ export default function Transaction() {
       setAllTransactions(res);
       setLoader(false);
       setPageCount(Math.ceil(res?.length / perPage));
+      if (filterKey.key != 0) onFilter();
     });
-  }, [txState, limit, currentPage, account]);
+  }, [txState, limit, currentPage, account, onlyPending]);
   useEffect(() => {
     if (onlyPending) {
       setTransactions(allTransactions?.filter((e: any) => e.status == 0));
@@ -190,28 +194,34 @@ export default function Transaction() {
     setLimit(offset);
     setCurrentPage(selectedPage);
   };
-
-  const onFilter = (key: number) => {
+  useEffect(() => {
+    onFilter();
+  }, [filterKey, limit, currentPage]);
+  const onFilter = () => {
     let filtered: any;
-    if (key != 0) {
+    let slice: any;
+    if (filterKey.key != 0) {
       if (onlyPending) {
         filtered = allTransactions?.filter(
-          (item: any) => item.transactionType == key && item.status == 0
+          (item: any) =>
+            item.transactionType == filterKey.key && item.status == 0
         );
       } else {
         filtered = allTransactions?.filter(
-          (item: any) => item.transactionType == key
+          (item: any) => item.transactionType == filterKey.key
         );
       }
-      setTransactions(filtered);
+      slice = filtered?.slice(limit, limit + perPage);
     } else {
       if (onlyPending) {
         filtered = allTransactions?.filter((item: any) => item.status == 0);
-        setTransactions(filtered);
+        slice = filtered?.slice(limit, limit + perPage);
       } else {
-        setTransactions(allTransactions);
+        slice = allTransactions?.slice(limit, limit + perPage);
       }
     }
+    setPageCount(Math.ceil(filtered?.length / perPage));
+    setTransactions(slice);
   };
   return (
     <>
@@ -250,7 +260,7 @@ export default function Transaction() {
                       <button
                         onClick={() => {
                           setOnlyPending(false);
-                          setFilterKey("Show All");
+                          setFilterKey({ key: 0, value: "Show All" });
                         }}
                         className="w-full"
                       >
@@ -268,7 +278,7 @@ export default function Transaction() {
                       <button
                         onClick={() => {
                           setOnlyPending(true);
-                          setFilterKey("Show All");
+                          setFilterKey({ key: 0, value: "Show All" });
                         }}
                         className="w-full"
                       >
@@ -290,30 +300,27 @@ export default function Transaction() {
                     <Dropdown className="dark-dd cus-dropdown position-relative d-inline-block">
                       <i className="arrow-down"></i>
                       <Dropdown.Toggle id="dropdown-basic">
-                        <span>{filterKey}</span>
+                        <span>{filterKey.value}</span>
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu>
                         <Dropdown.Item
                           onClick={() => {
-                            setFilterKey("Show All");
-                            onFilter(0);
+                            setFilterKey({ key: 0, value: "Show All" });
                           }}
                         >
                           Show All
                         </Dropdown.Item>
                         <Dropdown.Item
                           onClick={() => {
-                            setFilterKey("Deposit");
-                            onFilter(1);
+                            setFilterKey({ key: 1, value: "Deposit" });
                           }}
                         >
                           Deposit
                         </Dropdown.Item>
                         <Dropdown.Item
                           onClick={() => {
-                            setFilterKey("Withdraw");
-                            onFilter(2);
+                            setFilterKey({ key: 2, value: "Withdraw" });
                           }}
                         >
                           Withdraw
@@ -338,13 +345,13 @@ export default function Transaction() {
                 <div className="cstm_pagination">
                   <div className="pag_con">
                     <div className="left_block">
-                      <p>
+                      {/* <p>
                         Showing {perPage * (currentPage + 1) - 4}-
                         {perPage * (currentPage + 1) > tokenCount
                           ? tokenCount
                           : perPage * (currentPage + 1)}{" "}
                         of {tokenCount}
-                      </p>
+                      </p> */}
                     </div>
                     <div className="right_block">
                       <nav aria-label="Page navigation example">

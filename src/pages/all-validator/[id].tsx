@@ -42,7 +42,6 @@ export default function ValidatorDetails() {
             setValidatorInfo(res?.data?.data?.validatorSet.validatorInfo);
             setAllDelegators(res?.data?.data?.validatorSet?.delegators || []);
             setAllCheckpoints(res?.data?.data?.validatorSet?.checkpoints || []);
-
             // console.log(res?.data?.data?.validatorSet)
             setLoading(false);
           })
