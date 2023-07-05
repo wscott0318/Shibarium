@@ -702,6 +702,7 @@ const Deposit: React.FC<any> = ({
                         }
                         onError={imageOnErrorHandler}
                         alt=""
+                        width="50"
                       />
                     </div>
                     <p>{NETWORK_LABEL[chainId]} Network</p>
@@ -843,6 +844,7 @@ const Deposit: React.FC<any> = ({
                     <div className="d-inline-block img-flexible">
                       <img
                         className="img-fluid"
+                        width="50"
                         src={
                           selectedToken.logo
                             ? selectedToken.logo

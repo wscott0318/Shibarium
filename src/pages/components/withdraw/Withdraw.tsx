@@ -441,8 +441,9 @@ const WithdrawModal: React.FC<{
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
     event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
-    event.currentTarget.className = "error me-3";
+    event.currentTarget.className = "error";
   };
+  console.log("selected token ", selectedToken);
   return (
     <CommonModal
       title={withModalState.title}
@@ -798,6 +799,7 @@ const WithdrawModal: React.FC<{
                         <div className="d-inline-block img-flexible">
                           <img
                             className="img-fluid"
+                            width="50"
                             src={
                               selectedToken.logo
                                 ? selectedToken.logo

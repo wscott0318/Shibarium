@@ -31,7 +31,7 @@
     justify-content: space-between;
   }
 }
-@media (max-width:1300px){
+@media (max-width: 1300px) {
   .wrap_txt {
     max-width: 110px;
     overflow: hidden;
@@ -221,7 +221,8 @@
     color: $black-800;
   }
 }
-.fld-txt {
+.fld-txt,
+.fld-head {
   color: $body-bg;
   font-weight: 700;
   @media #{$max-xsmm} {
@@ -236,6 +237,7 @@
     width: 35px;
   }
 }
+
 .txt-fix {
   .rt-chain {
     @media #{$max-xxsm} {
@@ -732,7 +734,7 @@
   left: 47%;
   top: 11%;
   @media #{$max-sm} {
-    top:25%;
+    top: 25%;
   }
 }
 
