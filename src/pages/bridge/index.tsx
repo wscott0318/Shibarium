@@ -433,8 +433,8 @@ export default function Withdraw() {
                                             />
                                           </div>
                                         </div>
-                                        <div className="lite-800">
-                                          <span className="lite-800 fw-bold">
+                                        <div className="lite-800 w-100">
+                                          <span className="lite-800 fw-bold wrap_selected_token">
                                             {selectedToken?.parentName ||
                                             selectedToken?.symbol
                                               ? selectedToken?.parentName ||
@@ -697,8 +697,8 @@ export default function Withdraw() {
                                             />
                                           </div>
                                         </div>
-                                        <div className="lite-800">
-                                          <span className="lite-800 fw-bold">
+                                        <div className="lite-800 w-100">
+                                          <span className="lite-800 fw-bold  wrap_selected_token">
                                             {selectedToken?.parentName ||
                                             selectedToken?.symbol
                                               ? selectedToken?.parentName ||

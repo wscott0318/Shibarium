@@ -1582,19 +1582,27 @@ input:checked + .slider:before {
   }
 }
 
+.wrap_selected_token {
+  width: 100%;
+  max-width: 60%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  height: 18px;
+  @media #{$max-lg} {
+    max-width: 100%;
+  }
+}
 .tkn-ht {
   .modal-content {
     height: 680px;
 
     @media #{$max-xxl} {
       height: 600px;
-      // height: 585px;
     }
 
     @media #{$max-xl} {
       height: 580px;
-      // height:auto;
-      // height: 544px;
     }
   }
 
