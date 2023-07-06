@@ -85,7 +85,7 @@ const StepThree: React.FC<any> = ({
       await instance.methods
         .processExits(token)
         .send({ from: account })
-        .on("transactionHash", (res: any) => {
+        .on("transactionHash", async (res: any) => {
           dispatch(
             addTransaction({
               hash: res,
@@ -96,6 +96,11 @@ const StepThree: React.FC<any> = ({
           );
           let link = getExplorerLink(chainId, res, "transaction");
           setHashLink(link);
+          let body = {
+            txHash: txState.txHash,
+            finalhash: res,
+          };
+          await putTransactions(body);
         })
         .on("receipt", async (res: any) => {
           dispatch(
@@ -118,8 +123,6 @@ const StepThree: React.FC<any> = ({
           setCompleted(true);
           let body = {
             stepPoint: "0",
-            checkpointSigned: true,
-            challengePeriod: true,
             processExit: true,
             status: 1,
             txHash: txState.txHash,
@@ -179,11 +182,11 @@ const StepThree: React.FC<any> = ({
         .sendTransaction({
           from: account,
           to: contract,
-          // gas: (parseInt(gasFee) + 30000).toString(),
+          gas: parseInt(gasFee).toString(),
           gasPrice: CurrentgasPrice,
           data: encodedAbi,
         })
-        .on("transactionHash", (res: any) => {
+        .on("transactionHash", async (res: any) => {
           dispatch(
             addTransaction({
               hash: res,
@@ -192,6 +195,11 @@ const StepThree: React.FC<any> = ({
               summary: `${res}`,
             })
           );
+          let body = {
+            txHash: txState.txHash,
+            withdrawHash: res,
+          };
+          await putTransactions(body);
         })
         .on("receipt", async (res: any) => {
           dispatch(
@@ -217,10 +225,7 @@ const StepThree: React.FC<any> = ({
           ]);
           let body = {
             stepPoint: "1 step",
-            checkpointSigned: true,
             challengePeriod: true,
-            processExit: false,
-            status: 0,
             txHash: txState.txHash,
           };
           let postResp = await putTransactions(body);
@@ -295,7 +300,7 @@ const StepThree: React.FC<any> = ({
           gasPrice: CurrentgasPrice,
           data: encodedAbi,
         })
-        .on("transactionHash", (res: any) => {
+        .on("transactionHash", async (res: any) => {
           dispatch(
             addTransaction({
               hash: res,
@@ -304,6 +309,12 @@ const StepThree: React.FC<any> = ({
               summary: `${res}`,
             })
           );
+          let body = {
+            txHash: txState.txHash,
+            withdrawHash: res,
+            finalHash: res,
+          };
+          await putTransactions(body);
         })
         .on("receipt", async (res: any) => {
           dispatch(
@@ -327,8 +338,6 @@ const StepThree: React.FC<any> = ({
           setCompleted(true);
           let body = {
             stepPoint: "0",
-            checkpointSigned: true,
-            challengePeriod: true,
             processExit: true,
             status: 1,
             txHash: txState.txHash,

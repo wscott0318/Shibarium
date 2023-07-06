@@ -541,7 +541,7 @@ export default function ManageToken({
                         <p>Token List</p>
                       </div>
                       <div className="token-btn-sec">
-                        <button
+                        {/* <button
                           type="button"
                           className="btn primary-btn w-100"
                           onClick={() => {
@@ -558,7 +558,7 @@ export default function ManageToken({
                           }}
                         >
                           Manage Tokens
-                        </button>
+                        </button> */}
                       </div>
                     </div>
                   </div>

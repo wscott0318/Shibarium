@@ -4,7 +4,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { Navbar } from "react-bootstrap";
 import { useRouter } from "next/router";
 
-
 export default function Sidebar({
   menuState,
   handleMenuState,
@@ -13,7 +12,6 @@ export default function Sidebar({
   const wrapperRef = useRef(null);
   const router = useRouter();
   const [width, setWidth] = useState();
-
 
   const handleClickOutside = (event) => {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
@@ -34,18 +32,18 @@ export default function Sidebar({
       isSelected: router.asPath == "/wallet" ? true : false,
       img: "../../assets/images/sidebar/wallet.png",
     },
-    // {
-    //   name: "Bridge",
-    //   route: "/bridge",
-    //   isSelected: router.asPath == "/bridge" ? true : false,
-    //   img: "../../assets/images/sidebar/bridge.png",
-    // },
-    // {
-    //   name: "Transactions",
-    //   route: "/transactions",
-    //   isSelected: router.asPath == "/transactions" ? true : false,
-    //   img: "../../assets/images/sidebar/bridge.png",
-    // },
+    {
+      name: "Bridge",
+      route: "/bridge",
+      isSelected: router.asPath == "/bridge" ? true : false,
+      img: "../../assets/images/sidebar/bridge.png",
+    },
+    {
+      name: "Transactions",
+      route: "/transactions",
+      isSelected: router.asPath == "/transactions" ? true : false,
+      img: "../../assets/images/sidebar/bridge.png",
+    },
     // {
     //   name: "Swap token",
     //   route: "/swap-token",
@@ -95,8 +93,8 @@ export default function Sidebar({
     },
   ];
 
-  const renderTopList= topList
-  const renderBottomList  = bottomList
+  const renderTopList = topList;
+  const renderBottomList = bottomList;
 
   const handelClick = (index, type) => {
     router.push(index.route);
