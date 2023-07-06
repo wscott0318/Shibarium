@@ -412,7 +412,7 @@ export default function Withdraw() {
                                         className="form-field position-relative fix-coin-field"
                                         onClick={() => {
                                           setOpenManageToken(!openManageToken);
-                                          // setLoader(true);
+                                          setTokenBalanceL2(0);
                                           setSelectedToken({});
                                         }}
                                       >
@@ -674,7 +674,8 @@ export default function Withdraw() {
                                         className="form-field position-relative fix-coin-field h-100"
                                         onClick={() => {
                                           setOpenManageToken(!openManageToken);
-                                          setLoader(true);
+                                          // setLoader(true);
+                                          setTokenBalanceL2(0);
                                           setSelectedToken({});
                                         }}
                                       >
