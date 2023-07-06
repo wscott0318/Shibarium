@@ -338,6 +338,7 @@ const StepThree: React.FC<any> = ({
           setCompleted(true);
           let body = {
             stepPoint: "0",
+            challengePeriod: true,
             processExit: true,
             status: 1,
             txHash: txState.txHash,

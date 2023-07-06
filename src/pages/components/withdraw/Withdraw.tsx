@@ -425,6 +425,9 @@ const WithdrawModal: React.FC<{
       console.log("processing", process, tempStep);
       if (tempStep == "Checkpoint") {
         getBurnStatus(txState?.txHash);
+        if (txState.withdrawHash != null) {
+          setStep("Challenge Period");
+        }
       } else if (tempStep == "Challenge Period") {
         setProcessing((processing: any) => [...processing, "Challenge Period"]);
         setChallengePeriodCompleted(true);
