@@ -146,7 +146,7 @@ export default function Transaction() {
     value: "Show All",
   });
   const [limit, setLimit] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState<number>(1);
   const perPage = 5;
   const [tokenCount, setTokenCount] = useState(0);
@@ -160,7 +160,7 @@ export default function Transaction() {
       setBoneUSDValue(res);
     });
   }, [account]);
-  console.log("transactions", transactions);
+  console.log("current page", currentPage);
 
   const ContinueTransaction = (item: object) => {
     setShowWithdrawModal(true);
@@ -168,19 +168,24 @@ export default function Transaction() {
     setTxState(item);
   };
   useEffect(() => {
-    getTransactions(account).then((res) => {
-      console.log("res", res);
-      setTokenCount(res.length);
-      const slice = res?.slice(limit, limit + perPage);
-      console.log("slice", slice);
-      setTransactions(slice);
-      setAllTransactions(res);
+    if (account) {
+      getTransactions(account).then((res) => {
+        setTokenCount(res.length);
+        const slice = res?.slice(limit, limit + perPage);
+        setTransactions(slice);
+        setAllTransactions(res);
+        setLoader(false);
+        setPageCount(Math.ceil(res?.length / perPage));
+        if (filterKey.key != 0) onFilter();
+      });
+    } else {
       setLoader(false);
-      setPageCount(Math.ceil(res?.length / perPage));
-      if (filterKey.key != 0) onFilter();
-    });
-  }, [txState, limit, currentPage, account, onlyPending]);
+    }
+  }, [txState, account]);
+
   useEffect(() => {
+    setCurrentPage(0);
+    setLimit(0);
     if (onlyPending) {
       setTransactions(allTransactions?.filter((e: any) => e.status == 0));
     } else {
@@ -194,14 +199,18 @@ export default function Transaction() {
     setLimit(offset);
     setCurrentPage(selectedPage);
   };
+
   useEffect(() => {
     onFilter();
   }, [filterKey, limit, currentPage]);
+
   const onFilter = () => {
+    setLoader(true);
     let filtered: any;
     let slice: any;
     if (filterKey.key != 0) {
       if (onlyPending) {
+        setCurrentPage(0);
         filtered = allTransactions?.filter(
           (item: any) =>
             item.transactionType == filterKey.key && item.status == 0
@@ -211,17 +220,23 @@ export default function Transaction() {
           (item: any) => item.transactionType == filterKey.key
         );
       }
+      setPageCount(Math.ceil(filtered?.length / perPage));
       slice = filtered?.slice(limit, limit + perPage);
+      setTransactions(slice);
     } else {
       if (onlyPending) {
         filtered = allTransactions?.filter((item: any) => item.status == 0);
         slice = filtered?.slice(limit, limit + perPage);
+        setPageCount(Math.ceil(filtered?.length / perPage));
+        setTransactions(slice);
+        setCurrentPage(0);
       } else {
         slice = allTransactions?.slice(limit, limit + perPage);
+        setPageCount(Math.ceil(allTransactions?.length / perPage));
+        setTransactions(slice);
       }
     }
-    setPageCount(Math.ceil(filtered?.length / perPage));
-    setTransactions(slice);
+    setLoader(false);
   };
   return (
     <>
@@ -361,6 +376,8 @@ export default function Transaction() {
                           breakLabel={"..."}
                           breakClassName={"break-me"}
                           pageCount={pageCount}
+                          forcePage={currentPage}
+                          // onClick={(e) => ChangePagination(e)}
                           marginPagesDisplayed={2}
                           pageRangeDisplayed={5}
                           onPageChange={(e) => ChangePagination(e)}
