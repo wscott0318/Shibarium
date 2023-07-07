@@ -31,6 +31,7 @@ import { ExitUtil, RootChain } from "@shibarmy/shibariumjs";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { putTransactions } from "../BridgeCalls";
+import { PUPPYNET_CHAIN_ID } from "app/config/constant";
 
 const StepThree: React.FC<any> = ({
   withdrawTokenInput,
@@ -150,7 +151,7 @@ const StepThree: React.FC<any> = ({
 
   const startExitWithBurntTokens = async () => {
     try {
-      if (chainId === ChainId.PUPPYNET719) {
+      if (chainId === PUPPYNET_CHAIN_ID) {
         await switchNetwork();
       }
       let contract = process.env.NEXT_PUBLIC_WITHDRAW_PLASMA_EXIT_CONTRACT;

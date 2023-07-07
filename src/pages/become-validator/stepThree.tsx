@@ -32,7 +32,7 @@ import * as Sentry from "@sentry/nextjs";
 import CommonModal from "pages/components/CommonModel";
 import { getExplorerLink } from "app/functions/explorer";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
+import { SHIBARIUM_CHAIN_ID } from "../../config/constant";
 function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const { account, chainId = 1, library } = useActiveWeb3React();
   const lib: any = library;
@@ -49,7 +49,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
   const ethBalance = useEthBalance();
   const tokenBalance = useTokenBalance(dynamicChaining[chainId].BONE);
   const availBalance =
-    chainId === ChainId.SHIBARIUM ? ethBalance : tokenBalance;
+    chainId === SHIBARIUM_CHAIN_ID ? ethBalance : tokenBalance;
   const isLoading = availBalance == -1;
   let schema = yup.object().shape({
     amount: yup

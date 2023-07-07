@@ -19,6 +19,7 @@ import { ChainId } from "shibarium-get-chains";
 import * as Sentry from "@sentry/nextjs";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
 export default function Faucet() {
   const [showSwapModal, setSwapModal] = useState(false);
   const [menuState, setMenuState] = useState(false);
@@ -156,10 +157,10 @@ export default function Faucet() {
   const handleExplorer = () => {
     let link: any;
     if (selectedChain == 1) {
-      link = getExplorerLink(ChainId.GÖRLI, modalState?.hash, "transaction");
+      link = getExplorerLink(GOERLI_CHAIN_ID, modalState?.hash, "transaction");
     } else {
       link = getExplorerLink(
-        ChainId.PUPPYNET719,
+        PUPPYNET_CHAIN_ID,
         modalState?.hash,
         "transaction"
       );

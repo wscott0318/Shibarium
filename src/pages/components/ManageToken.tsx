@@ -3,7 +3,7 @@ import CommonModal from "../components/CommonModel";
 import { getWalletTokenList } from "../../services/apis/validator/index";
 import { getTokenBalance } from "../../hooks/useTokenBalance";
 import { useActiveWeb3React } from "../../services/web3";
-import { BONE_ID } from "../../config/constant";
+import { BONE_ID, GOERLI_CHAIN_ID } from "../../config/constant";
 import Web3 from "web3";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -162,7 +162,7 @@ export default function ManageToken({
         let list = [...localTokens, ...res.data.message.tokens];
         list.forEach(async (x: any) => {
           let tokenAddress =
-            chainId === ChainId.GÖRLI ? x?.parentContract : x?.childContract;
+            chainId === GOERLI_CHAIN_ID ? x?.parentContract : x?.childContract;
           await getTokenBalance(lib, account, tokenAddress)
             .then((res: any) => {
               x.balance = res > 0 ? res : "00.00";

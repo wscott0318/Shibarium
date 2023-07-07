@@ -6,6 +6,7 @@ import { CHAINS, URL_ARRAY } from "../config/networks";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { uniqBy } from "lodash";
+import { ETHEREUM_CHAIN_ID, GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
 export const getAllowanceAmount = async (library, token, account, contract) => {
   if (account) {
     let lib = library;
@@ -33,11 +34,11 @@ export const currentGasPrice = async (web3) => {
 };
 
 export const getNetworkName = (ID) => {
-  if (ID == ChainId.ETHEREUM) {
+  if (ID == ETHEREUM_CHAIN_ID) {
     return "Ethereum Mainnet";
-  } else if (ID == ChainId.GÖRLI) {
+  } else if (ID == GOERLI_CHAIN_ID) {
     return "Goerli Testnet";
-  } else if (ID == ChainId.PUPPYNET719) {
+  } else if (ID == PUPPYNET_CHAIN_ID) {
     return "Puppy Net";
   } else {
     return "Shibarium Mainnet";

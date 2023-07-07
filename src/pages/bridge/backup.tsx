@@ -8,7 +8,7 @@ import InnerHeader from "../inner-header";
 import Link from "next/link";
 import Sidebar from "../layout/sidebar";
 import { useActiveWeb3React } from "../../services/web3";
-import { BONE_ID } from "../../config/constant";
+import { BONE_ID, GOERLI_CHAIN_ID } from "../../config/constant";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { getBoneUSDValue, tokenDecimal } from "web3/commonFunctions";
@@ -105,7 +105,7 @@ export default function Withdraw() {
       let address: any;
       let bal: any;
       let contract: any;
-      if (chainId === ChainId.GÖRLI) {
+      if (chainId === GOERLI_CHAIN_ID) {
         address =
           selectedToken?.childContract ||
           selectedToken?.address ||

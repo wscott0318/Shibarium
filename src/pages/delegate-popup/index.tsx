@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useEthBalance } from "../../hooks/useEthBalance";
-import { BONE_ID } from 'app/config/constant';
+import { BONE_ID, SHIBARIUM_CHAIN_ID } from 'app/config/constant';
 import { useActiveWeb3React, useLocalWeb3 } from 'app/services/web3';
 import { getExplorerLink } from 'app/functions/explorer';
 import { ChainId } from 'shibarium-get-chains';
@@ -55,10 +55,9 @@ const DelegatePopup: React.FC<any> = ({
   const [isMax, setIsMax] = useState(false);
 
   useEffect(() => {
-    if (chainId === ChainId.SHIBARIUM) {
+    if (chainId === SHIBARIUM_CHAIN_ID) {
       setWalletBalance(ethBalance);
-    }
-    else {
+    } else {
       setWalletBalance(newBalance);
     }
   }, [walletBalance, ethBalance, newBalance]);

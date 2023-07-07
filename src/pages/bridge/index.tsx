@@ -8,7 +8,7 @@ import InnerHeader from "../inner-header";
 import Link from "next/link";
 import Sidebar from "../layout/sidebar";
 import { useActiveWeb3React } from "../../services/web3";
-import { BONE_ID } from "../../config/constant";
+import { BONE_ID, GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "../../config/constant";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { getBoneUSDValue, tokenDecimal } from "web3/commonFunctions";
@@ -99,7 +99,7 @@ export default function Withdraw() {
       let address: any;
       let bal: any;
       let contract: any;
-      if (chainId === ChainId.GÖRLI) {
+      if (chainId === GOERLI_CHAIN_ID) {
         address =
           selectedToken?.childContract ||
           selectedToken?.address ||
@@ -132,7 +132,7 @@ export default function Withdraw() {
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
     event.currentTarget.src =
-      chainId == ChainId.GÖRLI
+      chainId == GOERLI_CHAIN_ID
         ? "../../assets/images/eth_logo.png"
         : "../../assets/images/shib-borderd-icon.png";
     event.currentTarget.className = "error me-3";
@@ -316,9 +316,9 @@ export default function Withdraw() {
                           amount: "",
                           fromChain: chainId,
                           toChain:
-                            chainId == ChainId.GÖRLI
-                              ? ChainId.PUPPYNET719
-                              : ChainId.GÖRLI,
+                            chainId == GOERLI_CHAIN_ID
+                              ? PUPPYNET_CHAIN_ID
+                              : GOERLI_CHAIN_ID,
                         }}
                         validationSchema={depositValidations}
                         onSubmit={(values, { resetForm }) => {
@@ -363,15 +363,15 @@ export default function Withdraw() {
                                           <img
                                             className="img-fluid w-100"
                                             src={
-                                              chainId == ChainId.GÖRLI
+                                              chainId == GOERLI_CHAIN_ID
                                                 ? "../../assets/images/eth_logo.png"
                                                 : "../../assets/images/shib-borderd-icon.png"
                                             }
                                             // src={
                                             //   NETWORK_ICON[
-                                            //     chainId == ChainId.GÖRLI
-                                            //       ? ChainId.PUPPYNET719
-                                            //       : ChainId.GÖRLI
+                                            //     chainId == GOERLI_CHAIN_ID
+                                            //       ? PUPPYNET_CHAIN_ID
+                                            //       : GOERLI_CHAIN_ID
                                             //   ]
                                             // }
                                             alt=""
@@ -508,13 +508,13 @@ export default function Withdraw() {
                                             className="img-fluid w-100"
                                             // src={
                                             //   NETWORK_ICON[
-                                            //     chainId == ChainId.GÖRLI
-                                            //       ? ChainId.PUPPYNET719
-                                            //       : ChainId.GÖRLI
+                                            //     chainId == GOERLI_CHAIN_ID
+                                            //       ? PUPPYNET_CHAIN_ID
+                                            //       : GOERLI_CHAIN_ID
                                             //   ]
                                             // }
                                             src={
-                                              chainId == ChainId.GÖRLI
+                                              chainId == GOERLI_CHAIN_ID
                                                 ? "../../assets/images/shib-borderd-icon.png"
                                                 : "../../assets/images/eth_logo.png"
                                             }
@@ -531,9 +531,9 @@ export default function Withdraw() {
                                           placeholder="Shibarium chain"
                                           value={
                                             NETWORK_LABEL[
-                                              chainId == ChainId.GÖRLI
-                                                ? ChainId.PUPPYNET719
-                                                : ChainId.GÖRLI
+                                              chainId == GOERLI_CHAIN_ID
+                                                ? PUPPYNET_CHAIN_ID
+                                                : GOERLI_CHAIN_ID
                                             ]
                                           }
                                         />
@@ -584,9 +584,9 @@ export default function Withdraw() {
                       initialValues={{
                         withdrawAmount: "",
                         fromChain:
-                          chainId == ChainId.GÖRLI
-                            ? ChainId.PUPPYNET719
-                            : ChainId.GÖRLI,
+                          chainId == GOERLI_CHAIN_ID
+                            ? PUPPYNET_CHAIN_ID
+                            : GOERLI_CHAIN_ID,
                         toChain: chainId,
                       }}
                       onSubmit={(values, { resetForm }) => {
@@ -620,13 +620,13 @@ export default function Withdraw() {
                                             className="img-fluid w-100"
                                             // src={
                                             //   NETWORK_ICON[
-                                            //     chainId == ChainId.GÖRLI
-                                            //       ? ChainId.PUPPYNET719
-                                            //       : ChainId.GÖRLI
+                                            //     chainId == GOERLI_CHAIN_ID
+                                            //       ? PUPPYNET_CHAIN_ID
+                                            //       : GOERLI_CHAIN_ID
                                             //   ]
                                             // }
                                             src={
-                                              chainId == ChainId.GÖRLI
+                                              chainId == GOERLI_CHAIN_ID
                                                 ? "../../assets/images/shib-borderd-icon.png"
                                                 : "../../assets/images/eth_logo.png"
                                             }
@@ -642,9 +642,9 @@ export default function Withdraw() {
                                           // placeholder="Shibarium Mainnet"
                                           value={
                                             NETWORK_LABEL[
-                                              chainId == ChainId.GÖRLI
-                                                ? ChainId.PUPPYNET719
-                                                : ChainId.GÖRLI
+                                              chainId == GOERLI_CHAIN_ID
+                                                ? PUPPYNET_CHAIN_ID
+                                                : GOERLI_CHAIN_ID
                                             ]
                                           }
                                           disabled={true}
@@ -787,13 +787,13 @@ export default function Withdraw() {
                                             className="img-fluid w-100"
                                             // src={
                                             //   NETWORK_ICON[
-                                            //     chainId == ChainId.GÖRLI
-                                            //       ? ChainId.PUPPYNET719
-                                            //       : ChainId.GÖRLI
+                                            //     chainId == GOERLI_CHAIN_ID
+                                            //       ? PUPPYNET_CHAIN_ID
+                                            //       : GOERLI_CHAIN_ID
                                             //   ]
                                             // }
                                             src={
-                                              chainId == ChainId.GÖRLI
+                                              chainId == GOERLI_CHAIN_ID
                                                 ? "../../assets/images/eth_logo.png"
                                                 : "../../assets/images/shib-borderd-icon.png"
                                             }

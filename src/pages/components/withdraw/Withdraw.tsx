@@ -35,6 +35,7 @@ import ERC20 from "../../../ABI/ERC20Abi.json";
 import ERC20abi from "../../../ABI/ERC20Abi.json";
 import postTransactions from "../BridgeCalls";
 import { toast } from "react-toastify";
+import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
 
 const WithdrawModal: React.FC<{
   // transaction:object,
@@ -86,7 +87,7 @@ const WithdrawModal: React.FC<{
     title: "Please Note",
   });
   const switchNetwork = async () => {
-    let key = chainId == ChainId.GÖRLI ? ChainId.PUPPYNET719 : ChainId.GÖRLI;
+    let key = chainId == GOERLI_CHAIN_ID ? PUPPYNET_CHAIN_ID : GOERLI_CHAIN_ID;
     console.debug(`Switching to chain ${key}`, SUPPORTED_NETWORKS[key]);
     const params = SUPPORTED_NETWORKS[key];
     cookie.set("chainId", key, params);
@@ -116,14 +117,14 @@ const WithdrawModal: React.FC<{
     try {
       if (account) {
         setButtonLoader(true);
-        if (chainId === ChainId.GÖRLI) {
+        if (chainId === GOERLI_CHAIN_ID) {
           if (+allowance > 0) {
             await approveWithdraw();
           }
           await switchNetwork();
           setButtonLoader(false);
         }
-        if (chainId === ChainId.PUPPYNET719) {
+        if (chainId === PUPPYNET_CHAIN_ID) {
           if (+allowance > 0) {
             await approveWithdraw();
           }
@@ -232,7 +233,7 @@ const WithdrawModal: React.FC<{
             })
           );
           console.log("transaction hash ", res);
-          let link = getExplorerLink(ChainId.PUPPYNET719, res, "transaction");
+          let link = getExplorerLink(PUPPYNET_CHAIN_ID, res, "transaction");
           setHashLink(link);
         })
         .on("receipt", async (res: any) => {
@@ -282,7 +283,7 @@ const WithdrawModal: React.FC<{
             txData: res.events,
             fromChain: chainId,
             toChain:
-              chainId == ChainId.GÖRLI ? ChainId.PUPPYNET719 : ChainId.GÖRLI,
+              chainId == GOERLI_CHAIN_ID ? PUPPYNET_CHAIN_ID : GOERLI_CHAIN_ID,
           };
           let postResp = await postTransactions(body);
           console.log("post resp", postResp);
@@ -353,7 +354,7 @@ const WithdrawModal: React.FC<{
       selectedToken?.parentContract
     );
     let allowance = await instance.methods
-      .allowance(account, dynamicChaining[ChainId.GÖRLI].WITHDRAW_MANAGER_PROXY)
+      .allowance(account, dynamicChaining[GOERLI_CHAIN_ID].WITHDRAW_MANAGER_PROXY)
       .call({ from: account });
     let allowanceForExit = parseInt(allowance) / 10 ** 18;
     let approvalInstance = new webL1.eth.Contract(
@@ -365,7 +366,7 @@ const WithdrawModal: React.FC<{
     if (+allowanceForExit < +withdrawTokenInput) {
       await approvalInstance.methods
         .approve(
-          dynamicChaining[ChainId.GÖRLI].WITHDRAW_MANAGER_PROXY,
+          dynamicChaining[GOERLI_CHAIN_ID].WITHDRAW_MANAGER_PROXY,
           amountWei
         )
         .estimateGas({ from: user })
@@ -379,7 +380,7 @@ const WithdrawModal: React.FC<{
     if (selectedToken?.bridgetype === "plasma") {
       let instance = new webL1.eth.Contract(
         withdrawManagerABI,
-        dynamicChaining[ChainId.GÖRLI].WITHDRAW_MANAGER_PROXY
+        dynamicChaining[GOERLI_CHAIN_ID].WITHDRAW_MANAGER_PROXY
       );
       await instance.methods
         .processExits(selectedToken?.parentContract)
@@ -747,9 +748,9 @@ const WithdrawModal: React.FC<{
                             className="img-fluid"
                             src={
                               NETWORK_ICON[
-                                chainId == ChainId.GÖRLI
-                                  ? ChainId.PUPPYNET719
-                                  : ChainId.GÖRLI
+                                chainId == GOERLI_CHAIN_ID
+                                  ? PUPPYNET_CHAIN_ID
+                                  : GOERLI_CHAIN_ID
                               ]
                             }
                             onError={imageOnErrorHandler}
@@ -759,9 +760,9 @@ const WithdrawModal: React.FC<{
                         <p>
                           {
                             NETWORK_LABEL[
-                              chainId == ChainId.GÖRLI
-                                ? ChainId.PUPPYNET719
-                                : ChainId.GÖRLI
+                              chainId == GOERLI_CHAIN_ID
+                                ? PUPPYNET_CHAIN_ID
+                                : GOERLI_CHAIN_ID
                             ]
                           }
                         </p>

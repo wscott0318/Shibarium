@@ -45,13 +45,8 @@ const Telos =
   "https://raw.githubusercontent.com/sushiswap/icons/master/network/telos.jpg";
 const Shibarium =
   "https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,c_limit,w_48,q_auto/https://www.shibatoken.com/images/shib-logo.svg";
-const PUPPYNET517 =
+const PUPPYNET =
   "https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,c_limit,w_48,q_auto/https://www.shibatoken.com/images/shib-logo.svg";
-const PUPPYNET917 =
-  "https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,c_limit,w_48,q_auto/https://www.shibatoken.com/images/shib-logo.svg";
-const PUPPYNET719 =
-  "https://res.cloudinary.com/sushi-cdn/image/fetch/f_auto,c_limit,w_48,q_auto/https://www.shibatoken.com/images/shib-logo.svg";
-
 export const NETWORK_ICON = {
   [ChainId.ETHEREUM]: Mainnet,
   [ChainId.ROPSTEN]: Ropsten,
@@ -82,9 +77,9 @@ export const NETWORK_ICON = {
   [ChainId.FUSE]: Fuse,
   [ChainId.TELOS]: Telos,
   [ChainId.SHIBARIUM]: Shibarium,
-  [ChainId.PUPPYNET517]: PUPPYNET517,
-  [ChainId.PUPPYNET917]: PUPPYNET917,
-  [ChainId.PUPPYNET719]: PUPPYNET719,
+  [ChainId.PUPPYNET517]: PUPPYNET,
+  [ChainId.PUPPYNET917]: PUPPYNET,
+  [ChainId.PUPPYNET719]: PUPPYNET,
 };
 // enum SHIBARIUM{
 //   SHIBARIUM = SHIBARIUM_CHAINID

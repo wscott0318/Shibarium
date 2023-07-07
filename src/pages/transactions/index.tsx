@@ -174,9 +174,11 @@ export default function Transaction() {
         const slice = res?.slice(limit, limit + perPage);
         setTransactions(slice);
         setAllTransactions(res);
-        setLoader(false);
         setPageCount(Math.ceil(res?.length / perPage));
         if (filterKey.key != 0) onFilter();
+        setTimeout(() => {
+          setLoader(false);
+        }, 200);
       });
     } else {
       setLoader(false);
@@ -205,7 +207,7 @@ export default function Transaction() {
   }, [filterKey, limit, currentPage]);
 
   const onFilter = () => {
-    setLoader(true);
+    // setLoader(true);
     let filtered: any;
     let slice: any;
     if (filterKey.key != 0) {
@@ -236,7 +238,6 @@ export default function Transaction() {
         setTransactions(slice);
       }
     }
-    setLoader(false);
   };
   return (
     <>

@@ -8,6 +8,7 @@ import { useActiveWeb3React } from '../services/web3'
 import { useAppDispatch } from '../state/hooks'
 import { fetchTokenList } from '../state/lists/actions'
 import { useCallback } from 'react'
+import { ETHEREUM_CHAIN_ID } from 'app/config/constant'
 
 export function useFetchListCallback(): (listUrl: string, sendDispatch?: boolean) => Promise<TokenList> {
   const { chainId, library } = useActiveWeb3React()
@@ -15,14 +16,14 @@ export function useFetchListCallback(): (listUrl: string, sendDispatch?: boolean
 
   const ensResolver = useCallback(
     (ensName: string) => {
-      if (!library || chainId !== ChainId.ETHEREUM) {
-        if (chainId === ChainId.ETHEREUM) {
-          const networkLibrary = getNetworkLibrary()
+      if (!library || chainId !== ETHEREUM_CHAIN_ID) {
+        if (chainId === ETHEREUM_CHAIN_ID) {
+          const networkLibrary = getNetworkLibrary();
           if (networkLibrary) {
-            return resolveENSContentHash(ensName, networkLibrary)
+            return resolveENSContentHash(ensName, networkLibrary);
           }
         }
-        throw new Error('Could not construct mainnet ENS resolver')
+        throw new Error("Could not construct mainnet ENS resolver");
       }
       return resolveENSContentHash(ensName, library)
     },

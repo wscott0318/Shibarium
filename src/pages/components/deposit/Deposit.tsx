@@ -29,6 +29,7 @@ import Loader from "app/components/Loader";
 import postTransactions from "../BridgeCalls";
 import { toast } from "react-toastify";
 import { ERC20_ABI } from "app/constants/abis/erc20";
+import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
 
 const Deposit: React.FC<any> = ({
   depositTokenInput,
@@ -62,7 +63,7 @@ const Deposit: React.FC<any> = ({
     setAmountApproval(false);
     setEstGas(0);
     let user: any = account;
-    let contract = ChainId.GÖRLI
+    let contract = GOERLI_CHAIN_ID
       ? selectedToken.parentContract
       : selectedToken.childContract;
     let instance = new web3.eth.Contract(ERC20_ABI, contract);
@@ -507,9 +508,9 @@ const Deposit: React.FC<any> = ({
                         {NETWORK_LABEL[chainId]} network to{" "}
                         {
                           NETWORK_LABEL[
-                            chainId == ChainId.GÖRLI
-                              ? ChainId.PUPPYNET719
-                              : ChainId.GÖRLI
+                            chainId == GOERLI_CHAIN_ID
+                              ? PUPPYNET_CHAIN_ID
+                              : GOERLI_CHAIN_ID
                           ]
                         }{" "}
                         network on the Puppy Net Chain. This will take 20-30
@@ -745,9 +746,9 @@ const Deposit: React.FC<any> = ({
                         className="img-fluid"
                         src={
                           NETWORK_ICON[
-                            chainId == ChainId.GÖRLI
-                              ? ChainId.PUPPYNET719
-                              : ChainId.GÖRLI
+                            chainId == GOERLI_CHAIN_ID
+                              ? PUPPYNET_CHAIN_ID
+                              : GOERLI_CHAIN_ID
                           ]
                         }
                         onError={imageOnErrorHandler}
@@ -757,9 +758,9 @@ const Deposit: React.FC<any> = ({
                     <p>
                       {
                         NETWORK_LABEL[
-                          chainId == ChainId.GÖRLI
-                            ? ChainId.PUPPYNET719
-                            : ChainId.GÖRLI
+                          chainId == GOERLI_CHAIN_ID
+                            ? PUPPYNET_CHAIN_ID
+                            : GOERLI_CHAIN_ID
                         ]
                       }{" "}
                       Network
@@ -893,9 +894,9 @@ const Deposit: React.FC<any> = ({
                         className="img-fluid"
                         src={
                           NETWORK_ICON[
-                            chainId == ChainId.GÖRLI
-                              ? ChainId.PUPPYNET719
-                              : ChainId.GÖRLI
+                            chainId == GOERLI_CHAIN_ID
+                              ? PUPPYNET_CHAIN_ID
+                              : GOERLI_CHAIN_ID
                           ]
                         }
                         alt=""
@@ -904,9 +905,9 @@ const Deposit: React.FC<any> = ({
                     <p>
                       {
                         NETWORK_LABEL[
-                          chainId == ChainId.GÖRLI
-                            ? ChainId.PUPPYNET719
-                            : ChainId.GÖRLI
+                          chainId == GOERLI_CHAIN_ID
+                            ? PUPPYNET_CHAIN_ID
+                            : GOERLI_CHAIN_ID
                         ]
                       }
                     </p>
@@ -925,9 +926,9 @@ const Deposit: React.FC<any> = ({
                     It will take up to 20 - 30 minutes to move the funds on{" "}
                     {
                       NETWORK_LABEL[
-                        chainId == ChainId.GÖRLI
-                          ? ChainId.PUPPYNET719
-                          : ChainId.GÖRLI
+                        chainId == GOERLI_CHAIN_ID
+                          ? PUPPYNET_CHAIN_ID
+                          : GOERLI_CHAIN_ID
                       ]
                     }{" "}
                     Mainnet.
