@@ -177,7 +177,6 @@ const ValidatorAccount = ({
       getDelegatorData(accountAddress.toLowerCase())
         .then((res: any) => {
           if (res.data) {
-            let newArray: any = [];
             let sortedData = res.data.data.validators
               .filter((x: any) => +(x.stake) > 0)
               .sort((a: any, b: any) => parseInt(b.stake) - parseInt(a.stake));

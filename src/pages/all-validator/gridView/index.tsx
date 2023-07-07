@@ -74,6 +74,9 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
       }
     }
   }
+    const getDelegatorCardData = (account: any) => {
+      return true;
+    };
   
   return (
     <>
@@ -81,6 +84,7 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
         showdelegatepop={showdelegatepop}
         setdelegatepop={setdelegatepop}
         data={selectedRow}
+        getDelegatorCardData={getDelegatorCardData}
       />
       <MigratePopup
         showmigratepop={showmigratepop}
@@ -93,7 +97,10 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
           {validatorsList.length ? (
             <div className="row side-cover">
               {validatorsList.map((validator: any) => (
-                <div key={validator?.signer} className="mb-4 col-xl-3 col-sm-6 col-12 side-space mb-sm-4">
+                <div
+                  key={validator?.signer}
+                  className="mb-4 col-xl-3 col-sm-6 col-12 side-space mb-sm-4"
+                >
                   <div className="box">
                     <div className="box-head">
                       <div className="d-flex align-items-center justify-content-start">
@@ -119,7 +126,9 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
                               href={`/all-validator/${validator.signer}`}
                               passHref
                             >
-                              <p className="tb-value">{validator?.name ? validator?.name : "-"}</p>
+                              <p className="tb-value">
+                                {validator?.name ? validator?.name : "-"}
+                              </p>
                             </Link>
                           </span>
                           <p>
@@ -127,9 +136,7 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
                               <NumberFormat
                                 displayType="text"
                                 thousandSeparator
-                                value={addDecimalValue(
-                                  +validator.totalstaked
-                                )}
+                                value={addDecimalValue(+validator.totalstaked)}
                               />{" "}
                               BONE
                             </span>
@@ -142,9 +149,7 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
                         <div className="fw-600 ft-14">Uptime</div>
                         <div>
                           <span className="warning-color fw-600 ft-14">
-                            {(+validator.uptimePercent).toFixed(
-                              toFixedPrecent
-                            )}
+                            {(+validator.uptimePercent).toFixed(toFixedPrecent)}
                             %
                           </span>
                         </div>
@@ -158,7 +163,7 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
                         </div>
                       </div>
                       <div className="mt-3 text-center">
-                        {userType === "Validator" && nodeSetup === 1? (
+                        {userType === "Validator" && nodeSetup === 1 ? (
                           <Link
                             href={`/all-validator/${validator.signer}`}
                             passHref
@@ -167,13 +172,25 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
                               <p className="btn primary-btn light-text w-100">
                                 View
                               </p>
-                              <div className="tool-desc tool-desc-grid">View Validator Info.</div>
+                              <div className="tool-desc tool-desc-grid">
+                                View Validator Info.
+                              </div>
                             </div>
                           </Link>
                         ) : (
                           <div className="delegate_btn">
                             <button
-                              disabled={!account || validator.fundamental === 1 || validator.uptimePercent <= inActiveCount || validator.contractAddress == migrateData.contractAddress || validator.lastcheckpointsigned === 0 && validator.fundamental === 2 ? true : false}
+                              disabled={
+                                !account ||
+                                validator.fundamental === 1 ||
+                                validator.uptimePercent <= inActiveCount ||
+                                validator.contractAddress ==
+                                  migrateData.contractAddress ||
+                                (validator.lastcheckpointsigned === 0 &&
+                                  validator.fundamental === 2)
+                                  ? true
+                                  : false
+                              }
                               type="button"
                               onClick={() => {
                                 setSelectedRow(validator);
@@ -188,38 +205,37 @@ export default function ValidatorGrid({ validatorsList, loading, searchKey, migr
                               }}
                               className="btn primary-btn light-text w-100"
                             >
-                              
-                                {buttonText(validator)}
-                              
+                              {buttonText(validator)}
                             </button>
                             {tootlTipDesc(validator)}
-                          
                           </div>
                         )}
                       </div>
                     </div>
                   </div>
-                </div>)
-              )}
+                </div>
+              ))}
             </div>
-          ) : loading && (
-            //   : <div className='no-record' style={{ display: 'flex', justifyContent: 'center', padding: '3rem' }}>No Record Found.</div>
-              <div className='grid-view-shimmer'>
+          ) : (
+            loading && (
+              //   : <div className='no-record' style={{ display: 'flex', justifyContent: 'center', padding: '3rem' }}>No Record Found.</div>
+              <div className="grid-view-shimmer">
                 {/* <DynamicShimmer type={"table"} rows={2} cols={2} /> */}
-                <CircularProgress style={{color:" #F28B03"}} size={100} />
+                <CircularProgress style={{ color: " #F28B03" }} size={100} />
               </div>
+            )
           )}
-          {!loading && !validatorsList?.length &&
-            (<div className="no-found no-records-wrapper">
+          {!loading && !validatorsList?.length && (
+            <div className="no-found no-records-wrapper">
               <div>
                 <div>
                   <img src="../../assets/images/no-record.png" />
                 </div>
               </div>
-            </div>)
-          }
+            </div>
+          )}
         </div>
       </div>
     </>
-  )
+  );
 }

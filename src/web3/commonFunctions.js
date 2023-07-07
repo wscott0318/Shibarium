@@ -6,7 +6,13 @@ import { CHAINS, URL_ARRAY } from "../config/networks";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { uniqBy } from "lodash";
-import { ETHEREUM_CHAIN_ID, GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
+import {
+  ETHEREUM_CHAIN_ID,
+  GOERLI_CHAIN_ID,
+  PUPPYNET_CHAIN_ID,
+} from "app/config/constant";
+import { getDelegatorData } from "app/services/apis/user/userApi";
+import { queryProvider } from "Apollo/client";
 export const getAllowanceAmount = async (library, token, account, contract) => {
   if (account) {
     let lib = library;
