@@ -127,6 +127,7 @@ const StepThree: React.FC<any> = ({
             processExit: true,
             status: 1,
             txHash: txState.txHash,
+            checkProcessExitStatus: true,
           };
           let postResp = await putTransactions(body);
           console.log("post resp", postResp);
@@ -228,6 +229,7 @@ const StepThree: React.FC<any> = ({
             stepPoint: "1 step",
             challengePeriod: true,
             txHash: txState.txHash,
+            checkChallengePeriodStatus: true,
           };
           let postResp = await putTransactions(body);
           console.log("post resp", postResp);
@@ -343,6 +345,8 @@ const StepThree: React.FC<any> = ({
             processExit: true,
             status: 1,
             txHash: txState.txHash,
+            checkProcessExitStatus: true,
+            checkChallengePeriodStatus: true,
           };
           let postResp = await putTransactions(body);
           console.log("post resp", postResp);

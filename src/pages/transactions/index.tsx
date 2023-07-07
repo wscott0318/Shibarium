@@ -13,7 +13,7 @@ import { ChainId } from "shibarium-get-chains";
 import { getExplorerLink } from "app/functions";
 import LoadingSpinner from "pages/components/Loading";
 import Loader from "app/components/Loader";
-import { Check } from "react-feather";
+import { Check, XCircle } from "react-feather";
 import ReactPaginate from "react-paginate";
 import { Dropdown } from "react-bootstrap";
 
@@ -32,6 +32,10 @@ const MappedTransactions = ({ transactions, ContinueTransaction }: any) => {
                 {item.status == 0 ? (
                   <span className="transactionLoader">
                     <Loader size="22px" />
+                  </span>
+                ) : item.status == -1 ? (
+                  <span className="transactionLoader failed">
+                    <XCircle size="22px" />
                   </span>
                 ) : (
                   <span className="transactionLoader">
@@ -106,7 +110,7 @@ const MappedTransactions = ({ transactions, ContinueTransaction }: any) => {
             </div>
           </div>
         </div>
-        {item.status == 0 && (
+        {item.status == 0 && item.transactionType == 2 && (
           <div className="cont_sec">
             <div className="row">
               <div className="col-md-6 col-lg-9 col-xs-12">
@@ -207,7 +211,6 @@ export default function Transaction() {
   }, [filterKey, limit, currentPage]);
 
   const onFilter = () => {
-    // setLoader(true);
     let filtered: any;
     let slice: any;
     if (filterKey.key != 0) {
@@ -216,6 +219,10 @@ export default function Transaction() {
         filtered = allTransactions?.filter(
           (item: any) =>
             item.transactionType == filterKey.key && item.status == 0
+        );
+      } else if (filterKey.key == -1) {
+        filtered = allTransactions?.filter(
+          (item: any) => item.status == filterKey.key
         );
       } else {
         filtered = allTransactions?.filter(
@@ -340,6 +347,13 @@ export default function Transaction() {
                           }}
                         >
                           Withdraw
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          onClick={() => {
+                            setFilterKey({ key: -1, value: "Failed" });
+                          }}
+                        >
+                          Failed
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>

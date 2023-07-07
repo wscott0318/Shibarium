@@ -26,7 +26,7 @@ import {
 import { useAppDispatch } from "app/state/hooks";
 import { getExplorerLink } from "app/functions";
 import Loader from "app/components/Loader";
-import postTransactions from "../BridgeCalls";
+import postTransactions, { putTransactions } from "../BridgeCalls";
 import { toast } from "react-toastify";
 import { ERC20_ABI } from "app/constants/abis/erc20";
 import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
@@ -256,10 +256,11 @@ const Deposit: React.FC<any> = ({
         depositManagerABI,
         dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
       );
+      let hash:any;
       instance.methods
         .depositERC20ForUser(selectedToken?.parentContract, user, amount)
         .send({ from: account })
-        .on("transactionHash", (res: any) => {
+        .on("transactionHash", async (res: any) => {
           dispatch(
             addTransaction({
               hash: res,
@@ -270,6 +271,30 @@ const Deposit: React.FC<any> = ({
           );
           let link = getExplorerLink(chainId, res, "transaction");
           setHashLink(link);
+          hash = res;
+          let body = {
+            transactionType: 1,
+            bridgeType: selectedToken.bridgetype,
+            stepPoint: "",
+            from: user,
+            to: "",
+            amount: +depositTokenInput,
+            usdValue: +depositTokenInput * boneUSDValue,
+            txHash: res,
+            status: 0,
+            walletAddress: account,
+            token: selectedToken,
+            checkpointSigned: false,
+            challengePeriod: false,
+            processExit: false,
+            txData: "",
+            fromChain: chainId,
+            toChain:
+              chainId == GOERLI_CHAIN_ID ? PUPPYNET_CHAIN_ID : GOERLI_CHAIN_ID,
+            checkChallengePeriodStatus: false,
+            checkProcessExitStatus: false,
+          };
+          await postTransactions(body);
         })
         .on("receipt", async (res: any) => {
           dispatch(
@@ -296,34 +321,21 @@ const Deposit: React.FC<any> = ({
             step4: true,
             title: "Transaction Submitted",
           });
-          console.log("selected token ", selectedToken);
           let body = {
-            transactionType: 1,
-            bridgeType: selectedToken.bridgetype,
             stepPoint: "Done",
-            from: res.from,
             to: res.to,
-            amount: +depositTokenInput,
-            usdValue: +depositTokenInput * boneUSDValue,
+            txData: res.events,
             txHash: res.transactionHash,
             status: 1,
-            walletAddress: account,
-            token: selectedToken,
             checkpointSigned: true,
             challengePeriod: true,
             processExit: true,
-            txData: res.events,
+            checkChallengePeriodStatus: true,
+            checkProcessExitStatus: true,
           };
-          let postResp = await postTransactions(body);
-          console.log("post resp", postResp);
-          if (postResp) {
-            toast.success("Deposit data saved successfully.", {
-              position: toast.POSITION.TOP_RIGHT,
-              autoClose: 5000,
-            });
-          }
+          await putTransactions(body);
         })
-        .on("error", (res: any) => {
+        .on("error", async (res: any) => {
           setDepModState({
             step0: false,
             step1: false,
@@ -335,6 +347,14 @@ const Deposit: React.FC<any> = ({
           setDepositModal(false);
           setEstGas(0);
           setAllowance(0);
+          if (res.code != 4001) {
+            let body = {
+              stepPoint: "Failed",
+              status: -1,
+              txHash:hash
+            };
+            await putTransactions(body);
+          }
         });
     } catch (err: any) {
       if (err.code !== USER_REJECTED_TX) {

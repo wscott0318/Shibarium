@@ -33,7 +33,7 @@ import {
 import { getExplorerLink } from "app/functions";
 import ERC20 from "../../../ABI/ERC20Abi.json";
 import ERC20abi from "../../../ABI/ERC20Abi.json";
-import postTransactions from "../BridgeCalls";
+import postTransactions, { putTransactions } from "../BridgeCalls";
 import { toast } from "react-toastify";
 import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
 
@@ -219,11 +219,12 @@ const WithdrawModal: React.FC<{
         sendData = { from: user };
       }
       console.log("amount", amount);
+      let hash:any;
       const instance = new web3.eth.Contract(abi, selectedToken?.childContract);
       await instance.methods
         .withdraw(amount)
         .send(sendData)
-        .on("transactionHash", (res: any) => {
+        .on("transactionHash", async (res: any) => {
           dispatch(
             addTransaction({
               hash: res,
@@ -235,6 +236,30 @@ const WithdrawModal: React.FC<{
           console.log("transaction hash ", res);
           let link = getExplorerLink(PUPPYNET_CHAIN_ID, res, "transaction");
           setHashLink(link);
+          hash = res;
+          let body = {
+            transactionType: 2,
+            bridgeType: selectedToken.bridgetype,
+            stepPoint: "",
+            from: user,
+            to: "",
+            amount: +withdrawTokenInput,
+            usdValue: +withdrawTokenInput * boneUSDValue,
+            txHash: res,
+            status: 0,
+            walletAddress: account,
+            token: selectedToken,
+            checkpointSigned: false,
+            challengePeriod: false,
+            processExit: false,
+            txData: "",
+            fromChain: chainId,
+            toChain:
+              chainId == GOERLI_CHAIN_ID ? PUPPYNET_CHAIN_ID : GOERLI_CHAIN_ID,
+            checkChallengePeriodStatus: false,
+            checkProcessExitStatus: false,
+          };
+          await postTransactions(body);
         })
         .on("receipt", async (res: any) => {
           dispatch(
@@ -266,35 +291,14 @@ const WithdrawModal: React.FC<{
           let step =
             selectedToken.bridgetype == "plasma" ? "2 steps" : "1 step";
           let body = {
-            transactionType: 2,
-            bridgeType: selectedToken.bridgetype,
             stepPoint: step,
-            from: res.from,
             to: res.to,
-            amount: +withdrawTokenInput,
-            usdValue: +withdrawTokenInput * boneUSDValue,
             txHash: res.transactionHash,
-            status: 0,
-            walletAddress: account,
-            token: selectedToken,
-            checkpointSigned: false,
-            challengePeriod: false,
-            processExit: false,
             txData: res.events,
-            fromChain: chainId,
-            toChain:
-              chainId == GOERLI_CHAIN_ID ? PUPPYNET_CHAIN_ID : GOERLI_CHAIN_ID,
           };
-          let postResp = await postTransactions(body);
-          console.log("post resp", postResp);
-          if (postResp) {
-            toast.success("Withdraw data saved successfully.", {
-              position: toast.POSITION.TOP_RIGHT,
-              autoClose: 5000,
-            });
-          }
+          await putTransactions(body);
         })
-        .on("error", (res: any) => {
+        .on("error", async (res: any) => {
           if (res.code === 4001) {
             setWithdrawModalOpen(false);
             setWidModState({
@@ -309,6 +313,14 @@ const WithdrawModal: React.FC<{
             });
             setStep("Initialized");
             setProcessing([]);
+          }
+          if (res.code != 4001) {
+            let body = {
+              stepPoint: "Failed",
+              status: -1,
+              txHash: hash,
+            };
+            await putTransactions(body);
           }
           console.log("error ", res);
         });
@@ -354,7 +366,10 @@ const WithdrawModal: React.FC<{
       selectedToken?.parentContract
     );
     let allowance = await instance.methods
-      .allowance(account, dynamicChaining[GOERLI_CHAIN_ID].WITHDRAW_MANAGER_PROXY)
+      .allowance(
+        account,
+        dynamicChaining[GOERLI_CHAIN_ID].WITHDRAW_MANAGER_PROXY
+      )
       .call({ from: account });
     let allowanceForExit = parseInt(allowance) / 10 ** 18;
     let approvalInstance = new webL1.eth.Contract(

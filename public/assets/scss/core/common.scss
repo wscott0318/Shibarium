@@ -171,6 +171,9 @@ span.transactionLoader {
   padding: 9px;
   border-radius: 50px;
 }
+span.transactionLoader.failed {
+  background-color: red;
+}
 
 .right_block ul.pagination li {
   width: 55px;
