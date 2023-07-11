@@ -125,7 +125,7 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
         acceptDelegation,
         becomeValidateData.publickey
       );
-      await instance.methods
+      instance.methods
         .stakeFor(
           user,
           amount,
@@ -146,9 +146,19 @@ function StepThree({ becomeValidateData, stepState, stepHandler }: any) {
               autoClose: 5000,
             });
           }
+        })
+        .catch((err: any) => {
+          let message = stakeForErrMsg(err.toString().split("{")[0]);
+          console.log("message ==> ", message);
+          setTransactionState({ state: false, title: "" });
+          toast.error(message, {
+            position: toast.POSITION.BOTTOM_CENTER,
+            autoClose: 5000,
+          });
         });
     } catch (err: any) {
       sentryErrors("checkPubKey", err);
+      console.log("wrong pub key msg ,", err);
       let message = stakeForErrMsg(err.toString().split("{")[0]);
       console.log("message ==> ", message);
       setTransactionState({ state: false, title: "" });

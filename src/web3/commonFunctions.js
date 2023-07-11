@@ -105,6 +105,11 @@ export const stakeForErrMsg = (msg) => {
     return "Public key is invalid! ";
   } else if (msg === "Error: execution reverted: Invalid signer\n") {
     return "Signer Address is invalid!";
+  } else if (
+    msg ===
+    "Error: execution reverted: Validators MUST NOT own multiple stake position\n"
+  ) {
+    return "Validators MUST NOT own multiple stake position";
   } else {
     return "Something went wrong. Please try again later! ";
   }
