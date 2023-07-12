@@ -106,7 +106,7 @@ export default function ValidatorDetails() {
     <>
       <Header />
       {loading && <LoadingSpinner />}
-      <main className="main-content dark-bg-800 full-vh  cmn-input-bg font-up ffms-inherit staking-main">
+      <main className="main-content dark-bg-800 full-vh  cmn-input-bg font-up ffms-inherit staking-main valInfoPage">
         {/* <StakingHeader /> */}
         <section className="py-4 top_bnr_area dark-bg py-lg-5">
           <div className="container">
@@ -115,7 +115,7 @@ export default function ValidatorDetails() {
                 <div className="text-center shib-card card h-100 p-3">
                   <div className="image-wrap">
                     <img
-                      className="img-fluid"
+                      className="img-fluid w-100"
                       onError={imageOnErrorHandler}
                       src={
                         validatorInfo?.logoUrl
@@ -123,7 +123,6 @@ export default function ValidatorDetails() {
                           : "../../assets/images/shib-borderd-icon.png"
                       }
                       alt="fundborn-img"
-                      width={50}
                     />
                   </div>
                   <h4 className="py-2 mt-2">

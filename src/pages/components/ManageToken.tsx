@@ -204,18 +204,15 @@ export default function ManageToken({
       setmodalKeyword(key);
       if (key.length) {
         let combinedList = [...tokenModalList, ...importedTokens];
-        let index: number = 0;
         let newData = combinedList.filter((item: any, i: number) => {
           let found = false;
           Object.keys(item).forEach((k: any) => {
             if (`${item[k]}`.toLowerCase().includes(key.toLowerCase())) {
               found = true;
-              index = i;
             }
           });
           return found;
         });
-        console.log("found index ", index, combinedList.length);
         setSearchedList(newData);
         setOffset(10);
       } else {

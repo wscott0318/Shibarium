@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Tab from "react-bootstrap/Tab";
 import ReactPaginate from "react-paginate";
-import { Nav } from "react-bootstrap";
+import { Dropdown, Nav } from "react-bootstrap";
 import { SearchIcon } from "@heroicons/react/outline";
 import { getWalletTokenList } from "app/services/apis/validator";
 import * as Sentry from "@sentry/nextjs";
@@ -10,11 +10,17 @@ import Link from "next/link";
 
 function MappedToken() {
   const [limit, setLimit] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState<number>(1);
   const perPage = 10;
   const [tokenCount, setTokenCount] = useState(0);
   const [tokenList, setTokenList] = useState<any>();
+  const [allTokens, setAllTokens] = useState<any>();
+  const [fixedTokens, setFixedTokens] = useState<any>();
+  const [filterKey, setFilterKey] = useState<any>({
+    key: 0,
+    value: "Show All",
+  });
   const ChangePagination = (e: any) => {
     const selectedPage = e.selected;
     const offset = selectedPage * perPage;
@@ -26,18 +32,73 @@ function MappedToken() {
     try {
       getWalletTokenList().then((res) => {
         setTokenCount(res.data.message.tokens.length);
+        setAllTokens(res.data.message.tokens);
+        setFixedTokens(res.data.message.tokens);
         const slice = res.data.message.tokens.slice(limit, limit + perPage);
         setTokenList(slice);
         console.log(slice);
         setPageCount(Math.ceil(res.data.message.tokens.length / perPage));
+        if (filterKey.key != 0) onFilter();
       });
     } catch (err: any) {
       Sentry.captureMessage("getTokensList", err);
     }
-  }, [limit, currentPage]);
+  }, [currentPage]);
 
   const getLink = (chainId: number, contract: any) => {
     return getExplorerLink(chainId, contract, "address");
+  };
+
+  const handleSearchToken = (key: any) => {
+    try {
+      if (key.length) {
+        let newData = allTokens.filter(
+          (item: any) =>
+            `${item.parentName}`.toLowerCase().includes(key.toLowerCase()) ||
+            `${item.key}`.toLowerCase().includes(key.toLowerCase()) ||
+            `${item.parentContract}`
+              .toLowerCase()
+              .includes(key.toLowerCase()) ||
+            `${item.childContract}`.toLowerCase().includes(key.toLowerCase())
+        );
+        setTokenList(newData);
+        setPageCount(Math.ceil(newData.length / perPage));
+        setTokenCount(newData.length);
+      } else {
+        const slice = allTokens.slice(limit, limit + perPage);
+        setTokenList(slice);
+        setPageCount(Math.ceil(allTokens.length / perPage));
+        setTokenCount(allTokens.length);
+      }
+    } catch (err: any) {
+      Sentry.captureMessage("handleSearchToken", err);
+    }
+  };
+
+  useEffect(() => {
+    onFilter();
+  }, [filterKey, currentPage, limit]);
+
+  const onFilter = () => {
+    let filtered: any;
+    let slice: any;
+    if (filterKey.key != 0) {
+      filtered = fixedTokens?.filter(
+        (item: any) =>
+          item.bridgetype.toLowerCase() == filterKey.value.toLowerCase()
+      );
+    } else {
+      filtered = fixedTokens;
+    }
+    setTokenCount(filtered?.length);
+    setPageCount(Math.ceil(filtered?.length / perPage));
+    slice = filtered?.slice(limit, limit + perPage);
+    setTokenList(slice);
+    setAllTokens(filtered);
+    if (filtered?.length < perPage * currentPage) {
+      setCurrentPage(0);
+      setLimit(0);
+    }
   };
   return (
     <>
@@ -78,14 +139,49 @@ function MappedToken() {
                   <div className="mapped-token-table-wrapper">
                     <div className="filter-row ff-mos">
                       <h4>Mapped tokens</h4>
-                      <div className="left-section icn-wrap d-flex justify-content-between">
+                      <div className="left-section icn-wrap d-flex justify-content-between align-items-end">
                         <input
                           className="custum-search w-100 me-2 "
                           type="search"
                           placeholder="Search Here"
+                          onChange={(e) => handleSearchToken(e.target.value)}
                         />
-                        <div className="search-icon-block btn btn-active black-btn ff-mos">
-                          <SearchIcon width={20} />
+                        <div className=" drop-sec dropdwn-sec">
+                          <label className="head-xsm fw-600" htmlFor="Auction">
+                            <span className="top-low-spc pe-2 align">
+                              Filter by
+                            </span>
+                          </label>
+                          <Dropdown className="dark-dd cus-dropdown position-relative d-inline-block">
+                            <i className="arrow-down"></i>
+                            <Dropdown.Toggle id="dropdown-basic">
+                              <span>{filterKey.value}</span>
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                              <Dropdown.Item
+                                onClick={() => {
+                                  setFilterKey({ key: 0, value: "Show All" });
+                                }}
+                              >
+                                Show All
+                              </Dropdown.Item>
+                              <Dropdown.Item
+                                onClick={() => {
+                                  setFilterKey({ key: 1, value: "Plasma" });
+                                }}
+                              >
+                                Plasma
+                              </Dropdown.Item>
+                              <Dropdown.Item
+                                onClick={() => {
+                                  setFilterKey({ key: 2, value: "POS" });
+                                }}
+                              >
+                                POS
+                              </Dropdown.Item>
+                            </Dropdown.Menu>
+                          </Dropdown>
                         </div>
                       </div>
                     </div>
@@ -156,14 +252,49 @@ function MappedToken() {
                   <div className="mapped-token-table-wrapper">
                     <div className="filter-row ff-mos">
                       <h4>Mapped tokens</h4>
-                      <div className="left-section icn-wrap d-flex justify-content-between">
+                      <div className="left-section icn-wrap d-flex justify-content-between align-items-end">
                         <input
                           className="custum-search w-100 me-2 "
                           type="search"
                           placeholder="Search Here"
+                          onChange={(e) => handleSearchToken(e.target.value)}
                         />
-                        <div className="search-icon-block btn btn-active black-btn ff-mos">
-                          <SearchIcon width={20} />
+                        <div className=" drop-sec dropdwn-sec">
+                          <label className="head-xsm fw-600" htmlFor="Auction">
+                            <span className="top-low-spc pe-2 align">
+                              Filter by
+                            </span>
+                          </label>
+                          <Dropdown className="dark-dd cus-dropdown position-relative d-inline-block">
+                            <i className="arrow-down"></i>
+                            <Dropdown.Toggle id="dropdown-basic">
+                              <span>{filterKey.value}</span>
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                              <Dropdown.Item
+                                onClick={() => {
+                                  setFilterKey({ key: 0, value: "Show All" });
+                                }}
+                              >
+                                Show All
+                              </Dropdown.Item>
+                              <Dropdown.Item
+                                onClick={() => {
+                                  setFilterKey({ key: 1, value: "Plasma" });
+                                }}
+                              >
+                                Plasma
+                              </Dropdown.Item>
+                              <Dropdown.Item
+                                onClick={() => {
+                                  setFilterKey({ key: 2, value: "POS" });
+                                }}
+                              >
+                                POS
+                              </Dropdown.Item>
+                            </Dropdown.Menu>
+                          </Dropdown>
                         </div>
                       </div>
                     </div>
@@ -219,7 +350,13 @@ function MappedToken() {
                                 </tr>
                               ))
                             ) : (
-                              <div>No token found.</div>
+                              <tr>
+                                <td colSpan={3}>
+                                  <div className="no-found">
+                                    <img src="../../assets/images/no-record.png" />
+                                  </div>
+                                </td>
+                              </tr>
                             )}
                           </tbody>
                         </table>
@@ -244,11 +381,12 @@ function MappedToken() {
                               breakLabel={"..."}
                               breakClassName={"break-me"}
                               pageCount={pageCount}
+                              forcePage={currentPage}
                               marginPagesDisplayed={2}
                               pageRangeDisplayed={5}
                               onPageChange={(e) => ChangePagination(e)}
                               containerClassName={"pagination"}
-                              activeClassName={"active"}
+                              activeClassName={"active primary-text"}
                             />
                           </nav>
                         </div>

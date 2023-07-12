@@ -175,9 +175,31 @@ span.transactionLoader.failed {
   background-color: red;
 }
 
+.valInfoPage.staking-main {
+  padding-top: 130px;
+  @media #{$max-sm} {
+    padding-top: 124px !important;
+  }
+  @media #{$max-xsm} {
+    padding-top: 113px !important;
+  }
+}
 .right_block ul.pagination li {
   width: 55px;
   text-align: center;
+}
+.flex-img-box {
+  width: 100%;
+  text-align: center;
+  min-height: 75px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  img {
+    @media #{$max-lg} {
+      max-width: 100% !important;
+    }
+  }
 }
 
 .right_block {
@@ -5950,7 +5972,7 @@ p.no_btn {
     font-size: 13px;
     width: 100%;
     z-index: -1;
-    min-height: 50px;
+    min-height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;

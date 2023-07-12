@@ -232,6 +232,10 @@ export default function Transaction() {
       setPageCount(Math.ceil(filtered?.length / perPage));
       slice = filtered?.slice(limit, limit + perPage);
       setTransactions(slice);
+      if (filtered?.length < perPage * currentPage) {
+        setCurrentPage(0);
+        setLimit(0);
+      }
     } else {
       if (onlyPending) {
         filtered = allTransactions?.filter((item: any) => item.status == 0);

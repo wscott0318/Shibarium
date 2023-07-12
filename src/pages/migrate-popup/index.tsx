@@ -56,7 +56,7 @@ const MigratePopup: React.FC<any> = ({
       setBoneUSDValue(res);
     });
   }, [account]);
-
+  console.log("data ", data, migrateDataRow);
   const useMax = (e: any) => {
     e.preventDefault();
     setFieldValue("balance", balance);
@@ -194,6 +194,13 @@ const MigratePopup: React.FC<any> = ({
     setProcessing("Migrate");
     setFieldValue("balance", "");
     resetForm();
+  };
+
+  const imageOnErrorHandler = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    event.currentTarget.src = "../../assets/images/shib-borderd-icon.png";
+    event.currentTarget.className = "error me-3";
   };
 
   return (
@@ -348,11 +355,15 @@ const MigratePopup: React.FC<any> = ({
                   <div className="ax-top">
                     <div className="pop-grid flex-grid">
                       <div className="text-center box-block">
-                        <div className="d-inline-block img-flexible">
+                        <div className="d-inline-block img-flexible flex-img-box">
                           <img
                             className="img-fluid"
-                            src="../../assets/images/etharium.png"
-                            alt=""
+                            src={migrateDataRow.image}
+                            alt="logo"
+                            onError={imageOnErrorHandler}
+                            width={70}
+                            height={70}
+                            style={{ borderRadius: "50px" }}
                           />
                         </div>
                         <p>{migrateDataRow?.name}</p>
@@ -391,11 +402,15 @@ const MigratePopup: React.FC<any> = ({
                         </div>
                       </div>
                       <div className="text-center box-block">
-                        <div className="d-inline-block img-flexible">
+                        <div className="d-inline-block img-flexible flex-img-box">
                           <img
                             className="img-fluid"
-                            src="../../assets/images/shib-borderd-icon.png"
-                            alt=""
+                            src={data?.logoUrl}
+                            alt="logo"
+                            width={70}
+                            height={70}
+                            onError={imageOnErrorHandler}
+                            style={{ borderRadius: "50px" }}
                           />
                         </div>
                         <p>{data?.name}</p>
@@ -404,21 +419,13 @@ const MigratePopup: React.FC<any> = ({
                     <div className="info-box my-3">
                       <div className="d-flex align-items-center justify-content-start">
                         <div className="migimg mr-4">
-                          {data.logoUrl ? (
-                            <img
-                              src={data.logoUrl}
-                              width="20"
-                              height="20"
-                              className="img-fluid"
-                            />
-                          ) : (
-                            <img
-                              src="../../assets/images/shiba-round-icon.png"
-                              width="20"
-                              height="20"
-                              className="img-fluid"
-                            />
-                          )}
+                          <img
+                            src={data?.logoUrl}
+                            width={70}
+                            height={70}
+                            className="img-fluid"
+                            onError={imageOnErrorHandler}
+                          />
                         </div>
                         {/* <div>
                         <div>
