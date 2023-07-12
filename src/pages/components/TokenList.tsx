@@ -15,6 +15,7 @@ import useLocalStorageState from "use-local-storage-state";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Loader from "app/components/Loader";
 import { getTokenBalance } from "app/hooks/useTokenBalance";
+import { GOERLI_CHAIN_ID } from "app/config/constant";
 const TokenList = ({
   coinList = [],
   DEFAULT_ITEM,
@@ -324,7 +325,11 @@ const TokenList = ({
                     <div>
                       <div className="d-flex align-items-end">
                         <h6 className="fw-bold">
-                          {x?.parentSymbol || x?.symbol || "Unknown"}
+                          {(chainId == GOERLI_CHAIN_ID
+                            ? x?.parentSymbol
+                            : x?.childSymbol) ||
+                            x?.symbol ||
+                            "Unknown"}
                         </h6>
                         {x?.addedByUser && (
                           <small className="ms-2" style={{ color: "#666" }}>
@@ -332,7 +337,13 @@ const TokenList = ({
                           </small>
                         )}
                       </div>
-                      <p>{x?.parentName || x?.name || "Unknown"}</p>
+                      <p>
+                        {(chainId == GOERLI_CHAIN_ID
+                          ? x?.parentName
+                          : x?.childName) ||
+                          x?.name ||
+                          "Unknown"}
+                      </p>
                     </div>
                     <div>
                       {x?.balance === 0 ? (

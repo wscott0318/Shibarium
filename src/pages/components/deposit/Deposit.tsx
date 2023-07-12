@@ -120,8 +120,9 @@ const Deposit: React.FC<any> = ({
         .approve(dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY, amountWei)
         .estimateGas({ from: user })
         .then((gas: any) => {
-          setAllowance(+(+gas * +currentprice) / Math.pow(10, decimal));
-          allowGas = +(+gas * +currentprice) / Math.pow(10, decimal);
+          console.log("gas ", gas, decimal);
+          setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
+          allowGas = +(+gas * +currentprice) / Math.pow(10, 18);
         })
         .catch((err: any) => {
           setEstGas(0);
@@ -256,7 +257,7 @@ const Deposit: React.FC<any> = ({
         depositManagerABI,
         dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
       );
-      let hash:any;
+      let hash: any;
       instance.methods
         .depositERC20ForUser(selectedToken?.parentContract, user, amount)
         .send({ from: account })
@@ -351,7 +352,7 @@ const Deposit: React.FC<any> = ({
             let body = {
               stepPoint: "Failed",
               status: -1,
-              txHash:hash
+              txHash: hash,
             };
             await putTransactions(body);
           }

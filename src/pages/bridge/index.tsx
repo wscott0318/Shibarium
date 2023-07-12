@@ -8,7 +8,11 @@ import InnerHeader from "../inner-header";
 import Link from "next/link";
 import Sidebar from "../layout/sidebar";
 import { useActiveWeb3React } from "../../services/web3";
-import { BONE_ID, GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "../../config/constant";
+import {
+  BONE_ID,
+  GOERLI_CHAIN_ID,
+  PUPPYNET_CHAIN_ID,
+} from "../../config/constant";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { getBoneUSDValue, tokenDecimal } from "web3/commonFunctions";
@@ -364,8 +368,12 @@ export default function Withdraw() {
                                             className="img-fluid w-100"
                                             src={
                                               chainId == GOERLI_CHAIN_ID
-                                                ? "../../assets/images/eth_logo.png"
-                                                : "../../assets/images/shib-borderd-icon.png"
+                                                ? NETWORK_ICON[GOERLI_CHAIN_ID]
+                                                : NETWORK_ICON[
+                                                    PUPPYNET_CHAIN_ID
+                                                  ]
+                                              // ? "../../assets/images/eth_logo.png"
+                                              // : "../../assets/images/shib-borderd-icon.png"
                                             }
                                             // src={
                                             //   NETWORK_ICON[
@@ -437,8 +445,11 @@ export default function Withdraw() {
                                           <span className="lite-800 fw-bold wrap_selected_token">
                                             {selectedToken?.parentName ||
                                             selectedToken?.symbol
-                                              ? selectedToken?.parentName ||
-                                                selectedToken?.symbol
+                                              ? chainId == GOERLI_CHAIN_ID
+                                                ? selectedToken?.parentName ||
+                                                  selectedToken?.symbol
+                                                : selectedToken?.childName ||
+                                                  selectedToken?.childSymbol
                                               : "Select Token"}
                                           </span>
                                         </div>
@@ -701,8 +712,11 @@ export default function Withdraw() {
                                           <span className="lite-800 fw-bold  wrap_selected_token">
                                             {selectedToken?.parentName ||
                                             selectedToken?.symbol
-                                              ? selectedToken?.parentName ||
-                                                selectedToken?.symbol
+                                              ? chainId == GOERLI_CHAIN_ID
+                                                ? selectedToken?.parentName ||
+                                                  selectedToken?.symbol
+                                                : selectedToken?.childName ||
+                                                  selectedToken?.childSymbol
                                               : "Select Token"}
                                           </span>
                                         </div>

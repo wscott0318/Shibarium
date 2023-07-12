@@ -7,6 +7,7 @@ import { getWalletTokenList } from "app/services/apis/validator";
 import * as Sentry from "@sentry/nextjs";
 import { getExplorerLink } from "../../functions/explorer";
 import Link from "next/link";
+import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
 
 function MappedToken() {
   const [limit, setLimit] = useState(0);
@@ -331,7 +332,10 @@ function MappedToken() {
                                   <td>{token.key || "-"}</td>
                                   <td>
                                     <a
-                                      href={getLink(5, token.parentContract)}
+                                      href={getLink(
+                                        GOERLI_CHAIN_ID,
+                                        token.parentContract
+                                      )}
                                       className="redirect-link"
                                       target="_blank"
                                     >
@@ -340,7 +344,10 @@ function MappedToken() {
                                   </td>
                                   <td>
                                     <a
-                                      href={getLink(5, token.childContract)}
+                                      href={getLink(
+                                        PUPPYNET_CHAIN_ID,
+                                        token.childContract
+                                      )}
                                       className="redirect-link"
                                       target="_blank"
                                     >
