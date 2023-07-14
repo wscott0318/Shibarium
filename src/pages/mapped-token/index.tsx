@@ -118,7 +118,7 @@ function MappedToken() {
                   <h3>Find mapped tokens</h3>
                   <p>
                     The place to search for and locate all tokens mapped on
-                    Polygon.
+                    Shibarium.
                   </p>
                 </div>
                 <div className="choose-network-tabs">

@@ -22,6 +22,7 @@ export const getAllowanceAmount = async (library, token, account, contract) => {
       .allowance(account, contract)
       .call({ from: account });
     let decimal = await instance.methods.decimals().call();
+    console.log("allowance ==> ", allowance);
     return parseInt(allowance) / 10 ** decimal;
   }
 };

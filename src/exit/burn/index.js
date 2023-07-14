@@ -26,8 +26,7 @@ export const startBurn = async (clientType, token, from, amount) => {
     const format = getToWeiUnitFromDecimal(tokenData?.childDecimals);
     const { tokenType } = tokenData;
     const amountWei = utils.toWei(String(amount), format);
-   
-    
+
     if (tokenType !== "ERC20") {
       console.log(`${tokenType} not implemented yet`);
       process.exit(1);
@@ -37,7 +36,7 @@ export const startBurn = async (clientType, token, from, amount) => {
 
     const erc20Token = client.erc20(childAddr, false);
     console.log("sending burn/burn tx on Child Contract, L2:");
-    console.log("erc20 token => " , erc20Token , client)
+    console.log("erc20 token => ", erc20Token, client);
     const result = await erc20Token.withdrawStart(amountWei, { from });
 
     const txHash = await result.getTransactionHash();
@@ -59,15 +58,14 @@ export const startBurn = async (clientType, token, from, amount) => {
 
 export const burnStatus = async (clientType, txHash) => {
   try {
-    console.log("");
     const client = await getClient(clientType);
+    console.log("client type ", clientType, "txhash ", txHash, client);
     const burnExitTx = await client.client.child.web3_.eth.getTransaction(
       txHash
     );
-    const burnExitTxreceipt = await client.client.child.web3_.eth.getTransactionReceipt(
-      txHash
-    );
-      console.log("burn exit tx " , burnExitTx , burnExitTxreceipt)
+    const burnExitTxreceipt =
+      await client.client.child.web3_.eth.getTransactionReceipt(txHash);
+    console.log("burn exit tx ", burnExitTx, burnExitTxreceipt);
     const from = String(burnExitTx.from);
 
     console.log(`Exit type            : ${clientType}`);
@@ -88,14 +86,10 @@ export const burnStatus = async (clientType, txHash) => {
     console.log("withdraw process can be executed with:");
     console.log(`  sandbox-wallet exit withdraw ${clientType} ${txHash}`);
     console.log("");
-    return {inclusion,burnExitTxreceipt};
+    return { inclusion, burnExitTxreceipt };
     // process.exit(0)
   } catch (e) {
     console.log(e);
     // process.exit(1);
   }
-};
-
-export default {
-  burnStatus,
 };

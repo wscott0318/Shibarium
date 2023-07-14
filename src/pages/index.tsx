@@ -80,7 +80,7 @@ const BoneStaking = () => {
   const renderButtons = () => {
     if (account && !valInfoLoader) {
       if (userType === "Validator") {
-        if (nodeSetup || nodeSetup == "3" || nodeSetup == "2") {
+        if (nodeSetup == "1" || nodeSetup == "3" || nodeSetup == "2") {
           console.log("here in if", nodeSetup);
           return null;
         } else {
@@ -89,11 +89,13 @@ const BoneStaking = () => {
             <div className="btns-sec btn-width">
               <div className="btns-wrap">
                 <button
-                  // disabled={+valCount <= +valMaxCount ? false : true}
+                  disabled={+valCount <= +valMaxCount ? false : true}
                   onClick={() => {
                     router.push("/become-validator");
                   }}
-                  className="btn primary-btn"
+                  className={`${
+                    +valCount >= +valMaxCount ? "d-none" : ""
+                  } btn primary-btn`}
                 >
                   Become a Validator
                 </button>
@@ -127,11 +129,13 @@ const BoneStaking = () => {
           <div className="btns-sec btn-width">
             <div className="btns-wrap">
               <button
-                // disabled={+valCount <= +valMaxCount ? false : true}
+                disabled={+valCount <= +valMaxCount ? false : true}
                 onClick={() => {
                   router.push("/become-validator");
                 }}
-                className="btn primary-btn"
+                className={`${
+                  +valCount >= +valMaxCount ? "d-none" : ""
+                } btn primary-btn`}
               >
                 Become a Validator
               </button>

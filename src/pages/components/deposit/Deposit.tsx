@@ -13,6 +13,7 @@ import { dynamicChaining } from "web3/DynamicChaining";
 import CommonModal from "../CommonModel";
 import ERC20 from "../../../ABI/ERC20Abi.json";
 import depositManagerABI from "../../../ABI/depositManagerABI.json";
+import RootChainManagerABI from "../../../ABI/RootChainManagerABI.json";
 import { X, Check } from "react-feather";
 import { ArrowCircleLeftIcon } from "@heroicons/react/outline";
 import { NETWORK_ICON, NETWORK_LABEL } from "app/config/networks";
@@ -66,27 +67,30 @@ const Deposit: React.FC<any> = ({
     let contract = GOERLI_CHAIN_ID
       ? selectedToken.parentContract
       : selectedToken.childContract;
+    let instanceContract =
+      selectedToken?.bridgetype == "plasma"
+        ? dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+        : dynamicChaining[chainId].ROOTCHAIN_MANAGER_PROXY;
     let instance = new web3.eth.Contract(ERC20_ABI, contract);
     let decimal = await instance.methods.decimals().call();
-    console.log("decimal ", decimal);
     const amountWei = web3.utils.toBN(
       fromExponential(+depositTokenInput * Math.pow(10, decimal))
     );
-    console.log("amount wei ", amountWei);
     let currentprice: any = await currentGasPrice(web3);
     let checkAllowance =
       (await getAllowanceAmount(
         library,
-        selectedToken?.parentContract,
+        contract,
         account,
-        dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+        instanceContract
       )) || 0;
-    console.log("allowance  ", checkAllowance);
+
     let allowanceGas: any = 0;
-    console.log(" step 1", checkAllowance);
+
     if (+checkAllowance < +depositTokenInput) {
       console.log("amount is greater than allowance step 2");
       allowanceGas = await getFeeForApproval(
+        instanceContract,
         currentprice,
         amountWei,
         user,
@@ -105,6 +109,7 @@ const Deposit: React.FC<any> = ({
   };
 
   const getFeeForApproval = async (
+    instanceContract: any,
     currentprice: any,
     amountWei: any,
     user: any,
@@ -117,12 +122,12 @@ const Deposit: React.FC<any> = ({
         selectedToken?.parentContract
       );
       await approvalInstance.methods
-        .approve(dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY, amountWei)
+        .approve(instanceContract, amountWei)
         .estimateGas({ from: user })
         .then((gas: any) => {
           console.log("gas ", gas, decimal);
-          setAllowance(+(+gas * +currentprice) / Math.pow(10, 18));
-          allowGas = +(+gas * +currentprice) / Math.pow(10, 18);
+          setAllowance(+(+gas * +currentprice) / Math.pow(10, decimal));
+          allowGas = +(+gas * +currentprice) / Math.pow(10, decimal);
         })
         .catch((err: any) => {
           setEstGas(0);
@@ -144,13 +149,40 @@ const Deposit: React.FC<any> = ({
   ) => {
     try {
       setError("");
-      let instance = new web3.eth.Contract(
-        depositManagerABI,
-        dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-      );
-      let gasFee = await instance.methods
-        .depositERC20ForUser(selectedToken?.parentContract, user, amountWei)
-        .estimateGas({ from: user });
+      let contract =
+        selectedToken?.bridgetype == "plasma"
+          ? dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+          : dynamicChaining[chainId].ROOTCHAIN_MANAGER_PROXY;
+      let abi =
+        selectedToken?.bridgetype == "plasma"
+          ? depositManagerABI
+          : RootChainManagerABI;
+      console.log("ABI ", abi, " contract ", contract);
+      let instance = new web3.eth.Contract(abi, contract);
+
+      let gasFee: any;
+      if (selectedToken.bridgetype == "plasma") {
+        gasFee = await instance.methods
+          .depositERC20ForUser(selectedToken?.parentContract, user, amountWei)
+          .estimateGas({ from: user });
+      } else {
+        const amm = web3.utils.toWei(depositTokenInput, "ether");
+        const paddedAmountWei = web3.utils.toHex(amm);
+        let data = web3.utils.padLeft(paddedAmountWei.split("0x")[1], 32);
+        data = `0x${data}`;
+        data = web3.utils.toHex(data);
+        console.log(
+          "data ",
+          user,
+          selectedToken?.parentContract,
+          data,
+          typeof data
+        );
+        gasFee = await instance.methods
+          .depositFor(user, selectedToken?.parentContract, data)
+          .estimateGas({ from: user });
+      }
+
       console.log("gas for deposit ", gasFee);
       if (+allowanceGas > 0)
         gasFee =
@@ -160,6 +192,7 @@ const Deposit: React.FC<any> = ({
     } catch (error: any) {
       setEstGas(0);
       let err: any;
+      console.log("error => ", error);
       if (typeof error === "object") err = error;
       else err = parseError(error);
       if (err.message == "execution reverted: exceed maximum deposit amount") {
@@ -246,21 +279,58 @@ const Deposit: React.FC<any> = ({
       });
       setLoader(false);
       console.log("step error ", err);
-      // setDepositModal(false);
+      setDepositModal(false);
     }
   };
 
   const depositContract = async (user: any, amount: any) => {
     // call deposit contract
     try {
-      let instance = new web3.eth.Contract(
-        depositManagerABI,
-        dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-      );
+      let contract =
+        selectedToken?.bridgetype == "plasma"
+          ? dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+          : dynamicChaining[chainId].ROOTCHAIN_MANAGER_PROXY;
+      let abi =
+        selectedToken?.bridgetype == "plasma"
+          ? depositManagerABI
+          : RootChainManagerABI;
+      let instance = new web3.eth.Contract(abi, contract);
       let hash: any;
-      instance.methods
-        .depositERC20ForUser(selectedToken?.parentContract, user, amount)
-        .send({ from: account })
+      let gasFee: any;
+      let encodeABI: any;
+      if (selectedToken.bridgetype == "plasma") {
+        gasFee = await instance.methods
+          .depositERC20ForUser(selectedToken?.parentContract, user, amount)
+          .estimateGas({ from: account });
+        encodeABI = await instance.methods
+          .depositERC20ForUser(selectedToken?.parentContract, user, amount)
+          .encodeABI();
+      } else {
+        gasFee = await instance.methods
+          .depositEtherFor(
+            user,
+            selectedToken?.parentContract,
+            +depositTokenInput
+          )
+          .estimateGas({ from: account });
+        encodeABI = await instance.methods
+          .depositEtherFor(
+            user,
+            selectedToken?.parentContract,
+            +depositTokenInput
+          )
+          .encodeABI();
+      }
+      let CurrentgasPrice: any = await currentGasPrice(web3);
+      await web3.eth
+        .sendTransaction({
+          from: account,
+          to: contract,
+          gas: (parseInt(gasFee) + 30000).toString(),
+          gasPrice: CurrentgasPrice,
+          // value: amount,
+          data: encodeABI,
+        })
         .on("transactionHash", async (res: any) => {
           dispatch(
             addTransaction({
@@ -337,6 +407,7 @@ const Deposit: React.FC<any> = ({
           await putTransactions(body);
         })
         .on("error", async (res: any) => {
+          console.log("error ", res);
           setDepModState({
             step0: false,
             step1: false,
@@ -361,6 +432,7 @@ const Deposit: React.FC<any> = ({
       if (err.code !== USER_REJECTED_TX) {
         Sentry.captureMessage("depositContract", err);
       }
+      console.log("error ", err);
       setDepModState({
         step0: false,
         step1: false,
@@ -392,24 +464,7 @@ const Deposit: React.FC<any> = ({
         const amountWei = web3.utils.toBN(
           fromExponential(+depositTokenInput * Math.pow(10, 18))
         );
-        // let allowance =
-        //     (await getAllowanceAmount(
-        //         library,
-        //         selectedToken?.parentContract,
-        //         account,
-        //         dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-        //     )) || 0;
-
-        // if (+depositTokenInput > +allowance) {
-        //     approvalForDeposit(
-        //         amountWei,
-        //         selectedToken?.parentContract,
-        //         dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-        //     );
-        // }
-        // else {
         depositContract(user, amountWei);
-        // }
       }
     } catch (err: any) {
       if (err.code !== USER_REJECTED_TX) {
@@ -423,6 +478,7 @@ const Deposit: React.FC<any> = ({
         step4: false,
         title: "Please Note",
       });
+      console.log("error ", err);
       setDepositModal(false);
     }
   };
@@ -436,10 +492,11 @@ const Deposit: React.FC<any> = ({
         title: "Confirm Transfer",
       });
     else {
-      await approvalForDeposit(
-        selectedToken?.parentContract,
-        dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
-      );
+      let contract =
+        selectedToken?.bridgetype == "plasma"
+          ? dynamicChaining[chainId].DEPOSIT_MANAGER_PROXY
+          : dynamicChaining[chainId].ROOTCHAIN_MANAGER_PROXY;
+      await approvalForDeposit(selectedToken?.parentContract, contract);
     }
   };
 
@@ -469,7 +526,7 @@ const Deposit: React.FC<any> = ({
       return "Approved";
     }
   };
-  console.log("allowance ", allowance);
+  // console.log("allowance ", allowance);
   return (
     <CommonModal
       title={depModalState.title}

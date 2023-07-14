@@ -48,14 +48,14 @@ export const useTokenBalance = (address: string) => {
               });
           })
           .catch((err: any) => {
-            console.log(err);
+            // console.log(err);
           });
       } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         Sentry.captureException("getTokenBalance ", error);
       }
     } else {
-      console.log({ library, account, address });
+      // console.log({ library, account, address });
     }
   }, [library, account, address]);
   return balance;
@@ -103,18 +103,19 @@ export const getTokenBalance = async (
       const web3: any = new Web3(library?.provider); //
       const contract = new web3.eth.Contract(ERC20_ABI, address);
       await contract.methods
-      .balanceOf(account)
-      .call()
-      .then(async (res: any) => {
-        await contract.methods
-        .decimals()
+        .balanceOf(account)
         .call()
-        .then((d: number) => {
+        .then(async (res: any) => {
+          await contract.methods
+            .decimals()
+            .call()
+            .then((d: number) => {
               balance = +(+res / Math.pow(10, d)).toFixed(tokenDecimal);
               // balance = web3.utils.fromWei(res, 'ether')
             });
-        }).catch((err:any)=>{
-          console.log("balance error " , err)
+        })
+        .catch((err: any) => {
+          // console.log("balance error " , err)
         });
     } catch (error: any) {
       Sentry.captureException("getTokenBalance ", error);

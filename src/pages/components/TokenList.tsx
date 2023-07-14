@@ -63,7 +63,7 @@ const TokenList = ({
         .catch((err: any) => {});
     }
   };
-  console.log("newListing ", defaultfetched);
+  // console.log("newListing ", defaultfetched);
   useEffect(() => {
     // console.log("console 1");
     getDefaultTokenList();
@@ -97,7 +97,7 @@ const TokenList = ({
         // console.log('console follow 3')
       })
       .catch((err) => {
-        console.log("error");
+        // console.log("error");
       });
   };
   const addToLocalStorage = (response: any) => {
@@ -149,7 +149,7 @@ const TokenList = ({
       setIsWrong(false);
     }
 
-    console.log(isWrong, "isWrong");
+    // console.log(isWrong, "isWrong");
   }, [linkQuery]);
 
   const updateList = (data: any) => {
@@ -223,7 +223,7 @@ const TokenList = ({
       Sentry.captureMessage("deleteList ", err);
     }
   };
-  console.log("default fetched , ", defaultfetched, tokenModalList);
+  // console.log("default fetched , ", defaultfetched, tokenModalList);
   const getLogo = (x: any) => {
     let logoURL: string;
     if (x?.logo) {
@@ -287,10 +287,10 @@ const TokenList = ({
   useEffect(() => {
     getTokenBalanceImportedList();
   }, [defaultfetched]);
-  console.log(
-    "token modal lust",
-    tokenModalList.filter((x: any) => x?.name !== null)
-  );
+  // console.log(
+  //   "token modal lust",
+  //   tokenModalList.filter((x: any) => x?.name !== null)
+  // );
   return (
     <div>
       {tokenState?.step0 &&

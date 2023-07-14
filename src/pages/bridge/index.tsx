@@ -26,6 +26,8 @@ import { L1Block, PUPPYNET517 } from "app/hooks/L1Block";
 import { ERC20_ABI } from "app/constants/abis/erc20";
 import Deposit from "pages/components/deposit/Deposit";
 import Loader from "app/components/Loader";
+import { burnStatus } from "../../exit/burn";
+import { getClient } from "client/shibarium";
 
 export default function Withdraw() {
   const { chainId = 1, account } = useActiveWeb3React();
@@ -131,7 +133,7 @@ export default function Withdraw() {
       setTokenBalanceL2(bal);
     }
   };
-  // console.log("selected token ", selectedToken);
+
   const imageOnErrorHandler = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
@@ -572,7 +574,9 @@ export default function Withdraw() {
                               <div className="wrap-bottom">
                                 <div className="btn-modify">
                                   <button
-                                    onClick={() => handleSubmit()}
+                                    onClick={() => {
+                                      handleSubmit();
+                                    }}
                                     type="button"
                                     className="btn primary-btn w-100"
                                   >

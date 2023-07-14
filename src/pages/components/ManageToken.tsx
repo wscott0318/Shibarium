@@ -154,7 +154,7 @@ export default function ManageToken({
     logo: "",
     chainId: "",
   });
-  console.log("step ", searchToken, newToken);
+  // console.log("step ", searchToken, newToken);
   const getTokensList = async () => {
     setIsLoading(true);
     try {
@@ -168,7 +168,7 @@ export default function ManageToken({
               x.balance = res > 0 ? res : "00.00";
             })
             .catch((err: any) => {
-              console.log("Error fetching balance => ", err);
+              // console.log("Error fetching balance => ", err);
             });
         });
         setTokenModalList([...list]);
@@ -223,7 +223,7 @@ export default function ManageToken({
       Sentry.captureMessage("handleSearchList", err);
     }
   };
-  console.log("searched ", searchedList);
+  // console.log("searched ", searchedList);
   const handleTokenSelect = (token: any) => {
     setOpenManageToken(false);
     setLoader(false);
@@ -244,7 +244,7 @@ export default function ManageToken({
     setAgreeImport(!agreeImport);
     try {
       let tokenInfo = searchToken?.tokenInfo;
-      console.log("token info => ", tokenInfo);
+      // console.log("token info => ", tokenInfo);
       let obj: any;
       if (tokenInfo) {
         let logoURI: any;
@@ -278,7 +278,7 @@ export default function ManageToken({
           title: "Manage Token",
         });
       } else {
-        console.log("no record found");
+        // console.log("no record found");
         setTempTokens({});
       }
     } catch (err: any) {
@@ -338,7 +338,7 @@ export default function ManageToken({
   }, [searchToken, newToken]);
   const getTempTokens = async () => {
     try {
-      console.log("found index", importedTokens.length, importedTokens[550]);
+      // console.log("found index", importedTokens.length, importedTokens[550]);
       if (account) {
         const foundInimportedTokens = importedTokens.find(
           (e: any) => e.address.toLowerCase() == newToken.toLowerCase()
@@ -349,12 +349,12 @@ export default function ManageToken({
         const foundInTokenModalList = tokenModalList.find(
           (e: any) => e.parentContract.toLowerCase() == newToken.toLowerCase()
         );
-        console.log(
-          "step 2",
-          !!isalreadypresent,
-          !!foundInTokenModalList,
-          !!foundInimportedTokens
-        );
+        // console.log(
+        //   "step 2",
+        //   !!isalreadypresent,
+        //   !!foundInTokenModalList,
+        //   !!foundInimportedTokens
+        // );
         setTokenState({
           step0: false,
           step1: false,
@@ -370,11 +370,11 @@ export default function ManageToken({
         ) {
           setDuplicateToken(true);
         } else {
-          console.log("step 3");
+          // console.log("step 3");
           const isValidAddress = web3.utils.isAddress(String(newToken));
           if (isValidAddress && newToken) {
             let tokenInfo = searchToken?.tokenInfo;
-            console.log("step 4 ", tokenInfo);
+            // console.log("step 4 ", tokenInfo);
             if (tokenInfo) {
               let logoURI = tokenInfo?.logoURI;
               if (tokenInfo.logoURI.startsWith("ipfs://")) {
@@ -474,7 +474,7 @@ export default function ManageToken({
     }
   }, []);
 
-  console.log("importedTokens", importedTokens.length);
+  // console.log("importedTokens", importedTokens.length);
   const onBackClick = () => {
     setTokenModal(true);
     setConfirmImport(true);
@@ -517,7 +517,7 @@ export default function ManageToken({
                         placeholder="Search token or token address"
                         onChange={(e) => {
                           handleSearchList(e.target.value);
-                          console.log("searched list ", e.target.value);
+                          // console.log("searched list ", e.target.value);
                           // getTempTokens()
                         }}
                       />

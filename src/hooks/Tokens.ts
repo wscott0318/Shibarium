@@ -165,14 +165,14 @@ export function useToken(
   const { chainId } = useActiveWeb3React();
   const tokens = useAllTokens();
   const address = isAddress(tokenAddress);
-  console.log("tokens", tokens);
+  // console.log("tokens", tokens);
   const tokenContract = useTokenContract(address ? address : undefined, false);
   const tokenContractBytes32 = useBytes32TokenContract(
     address ? address : undefined,
     false
   );
   const token: Token | undefined = address ? tokens[address] : undefined;
-  console.log("tokens ", token, address);
+  // console.log("tokens ", token, address);
   const tokenName = useSingleCallResult(
     token ? undefined : tokenContract,
     "name",

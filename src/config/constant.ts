@@ -7,6 +7,7 @@ export const API_BASE_URL = `${process.env.NEXT_PUBLIC_STAKING_API_URL}/api/v1`;
 // export const API_BASE_URL = "http://10.89.4.174:3000/api/v1"; // staging
 // export const API_BASE_URL = "http://localhost:3001/api/v1"; // staging
 
+export const S3PATH = `${process.env.NEXT_PUBLIC_ABI_API_URL}/beta/v2/`;
 /**
  * Staking APi BASE URL
  */
