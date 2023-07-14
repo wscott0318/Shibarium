@@ -36,6 +36,7 @@ import ERC20abi from "../../../ABI/ERC20Abi.json";
 import postTransactions, { putTransactions } from "../BridgeCalls";
 import { toast } from "react-toastify";
 import { GOERLI_CHAIN_ID, PUPPYNET_CHAIN_ID } from "app/config/constant";
+import { getToWeiUnitFromDecimal } from "utils/weiDecimal";
 
 const WithdrawModal: React.FC<{
   // transaction:object,
@@ -153,13 +154,16 @@ const WithdrawModal: React.FC<{
       console.log("step 5");
       if (account) {
         let user = account;
-        let amount = web3.utils.toBN(fromExponential(10000 * Math.pow(10, 18)));
         let instance = new web3.eth.Contract(
           ERC20,
           selectedToken?.parentContract
         );
+        let decimal = await instance.methods.decimals().call();
+        const format = getToWeiUnitFromDecimal(decimal);
+        let amount = web3.utils.toWei(withdrawTokenInput, format);
+        let amountwei = web3.utils.toBN(amount);
         await instance.methods
-          .approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amount)
+          .approve(dynamicChaining[chainId].WITHDRAW_MANAGER_PROXY, amountwei)
           .send({ from: account })
           .on("transactionHash", (res: any) => {
             dispatch(
@@ -219,7 +223,7 @@ const WithdrawModal: React.FC<{
         sendData = { from: user };
       }
       console.log("amount", amount);
-      let hash:any;
+      let hash: any;
       const instance = new web3.eth.Contract(abi, selectedToken?.childContract);
       await instance.methods
         .withdraw(amount)

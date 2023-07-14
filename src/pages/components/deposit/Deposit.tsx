@@ -89,10 +89,9 @@ const Deposit: React.FC<any> = ({
         contract,
         account,
         instanceContract
-      )) || 0;
+      )) ?? 0;
 
     let allowanceGas: any = 0;
-    console.log("allowance -> ", checkAllowance);
     if (+checkAllowance < +depositTokenInput) {
       console.log("amount is greater than allowance step 2");
       allowanceGas = await getFeeForApproval(
@@ -154,7 +153,6 @@ const Deposit: React.FC<any> = ({
         selectedToken?.bridgetype == "plasma"
           ? depositManagerABI
           : RootChainManagerABI;
-      console.log("token address -> ", selectedToken.parentContract);
       let instance = new web3.eth.Contract(abi, contract);
 
       let gasFee: any = 1;
@@ -175,8 +173,6 @@ const Deposit: React.FC<any> = ({
           .depositFor(user, selectedToken?.parentContract, data)
           .estimateGas({ from: user });
       }
-
-      console.log("gas for deposit ", gasFee);
       if (+allowanceGas > 0)
         gasFee = (+gasFee * +currentprice) / Math.pow(10, 18) + +allowanceGas;
       else gasFee = (+gasFee * +currentprice) / Math.pow(10, 18);
@@ -196,6 +192,7 @@ const Deposit: React.FC<any> = ({
       }
     }
   };
+  
   const approvalForDeposit = async (token: any, contract: any) => {
     try {
       setLoader(true);
@@ -522,7 +519,7 @@ const Deposit: React.FC<any> = ({
       return "Approved";
     }
   };
-  // console.log("allowance ", allowance);
+
   return (
     <CommonModal
       title={depModalState.title}

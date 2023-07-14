@@ -541,7 +541,15 @@ const StepThree: React.FC<any> = ({
                         Your transaction has been checkpointed on the Goerli
                         network. Please proceed to the next transaction.
                       </p>
-                      <a href={hashLink} className="primary-text">
+                      <a
+                        href={getExplorerLink(
+                          txState?.fromChain || chainId,
+                          txState.txHash,
+                          "transaction"
+                        )}
+                        target="_blank"
+                        className="primary-text"
+                      >
                         View on Block Explorer
                       </a>
                     </div>
@@ -573,9 +581,12 @@ const StepThree: React.FC<any> = ({
                       Checkpointing will take from 45 minutes to 3 hours.{" "}
                     </p>
                     <a
-                      href={
-                        hashLink ? hashLink : txState?.txHash?.transactionHash
-                      }
+                      href={getExplorerLink(
+                        txState?.fromChain || chainId,
+                        txState.txHash,
+                        "transaction"
+                      )}
+                      target="_blank"
                       className="primary-text"
                     >
                       View on Block Explorer

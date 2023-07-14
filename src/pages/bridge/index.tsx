@@ -106,12 +106,9 @@ export default function Withdraw() {
       let bal: any;
       let contract: any;
       if (chainId === GOERLI_CHAIN_ID) {
-        address =
-          selectedToken?.childContract ||
-          selectedToken?.address ||
-          selectedToken?.parentContract;
+        address = selectedToken?.childContract || selectedToken?.address;
         contract = new web3L2.eth.Contract(ERC20_ABI, address);
-        console.log("get l2 balance  => ", chainId);
+        console.log("get l2 balance  => ", address);
       } else {
         address = selectedToken?.parentContract || selectedToken?.address;
         contract = new web3.eth.Contract(ERC20_ABI, address);
@@ -125,8 +122,8 @@ export default function Withdraw() {
             .decimals()
             .call()
             .then((d: number) => {
+              console.log("l2 balance  => ", res, d);
               bal = +(+res / Math.pow(10, d)).toFixed(tokenDecimal);
-              console.log("l2 balance  => ", bal);
               setLoader(false);
             });
         });
@@ -419,11 +416,15 @@ export default function Withdraw() {
                                   <div className="field-grid row">
                                     <div className="mb-3 col-lg-6 col-xxl-5 col-sm-12 mb-sm-3 mb-lg-0 res-align">
                                       <div
-                                        className="form-field position-relative fix-coin-field"
+                                        className={`form-field position-relative fix-coin-field 
+                                       
+                                            `}
                                         onClick={() => {
+                                          // if (chainId !== PUPPYNET_CHAIN_ID) {
                                           setOpenManageToken(!openManageToken);
                                           setTokenBalanceL2(0);
                                           setSelectedToken({});
+                                          // }
                                         }}
                                       >
                                         <div className="right-spacing">
@@ -577,6 +578,7 @@ export default function Withdraw() {
                                     onClick={() => {
                                       handleSubmit();
                                     }}
+                                    disabled={chainId == PUPPYNET_CHAIN_ID}
                                     type="button"
                                     className="btn primary-btn w-100"
                                   >

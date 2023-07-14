@@ -65,7 +65,7 @@ const MappedTransactions = ({ transactions, ContinueTransaction }: any) => {
                     overflow: "hidden",
                   }}
                 >
-                  {item.amount} BONE
+                  {item.amount} {item.token.key}
                 </b>
                 <b
                   className="grey_txt"
