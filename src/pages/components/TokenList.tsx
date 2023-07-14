@@ -122,7 +122,7 @@ const TokenList = ({
       setDefaultList(newList);
       useLocalStorageState("tokenList", { defaultValue: newList }); //NOSONAR
     }
-    getEnabledTokens();
+    // getEnabledTokens();
   };
   const getEnabledTokens = () => {
     // console.log("console 4", defaultList)
@@ -356,7 +356,7 @@ const TokenList = ({
                 </div>
               ))
           : null)}
-      {tokenState?.step0 && !searchedList && defaultfetched?.length ? (
+      {/* {tokenState?.step0 && !searchedList && defaultfetched?.length ? (
         <InfiniteScroll
           dataLength={defaultfetched?.length}
           next={() => {
@@ -406,7 +406,7 @@ const TokenList = ({
             );
           })}
         </InfiniteScroll>
-      ) : null}
+      ) : null} */}
       {tokenState?.step0 && searchedList?.length != 0 ? (
         searchedList?.map((x: any) => {
           let logoImg = getLogo(x);

@@ -16,6 +16,7 @@ export const dynamicChaining: any = {
     DEPOSIT_MANAGER_PROXY: process.env.DEPOSIT_MANAGER_PROXY,
     WITHDRAW_MANAGER_PROXY: process.env.WITHDRAW_MANAGER_PROXY,
     ROOTCHAIN_MANAGER_PROXY: process.env.NEXT_PUBLIC_ROOTCHAIN_MANAGER_PROXY,
+    ERC20_PREDICATE: process.env.NEXT_PUBLIC_ERC20_PREDICATE,
   },
   917: {
     // puppy test net 917
@@ -26,6 +27,7 @@ export const dynamicChaining: any = {
     DEPOSIT_MANAGER_PROXY: process.env.DEPOSIT_MANAGER_PROXY,
     WITHDRAW_MANAGER_PROXY: process.env.WITHDRAW_MANAGER_PROXY,
     ROOTCHAIN_MANAGER_PROXY: process.env.NEXT_PUBLIC_ROOTCHAIN_MANAGER_PROXY,
+    ERC20_PREDICATE: process.env.NEXT_PUBLIC_ERC20_PREDICATE,
   },
   719: {
     // puppy test net 917
@@ -36,5 +38,6 @@ export const dynamicChaining: any = {
     DEPOSIT_MANAGER_PROXY: process.env.DEPOSIT_MANAGER_PROXY,
     WITHDRAW_MANAGER_PROXY: process.env.WITHDRAW_MANAGER_PROXY,
     ROOTCHAIN_MANAGER_PROXY: process.env.NEXT_PUBLIC_ROOTCHAIN_MANAGER_PROXY,
+    ERC20_PREDICATE: process.env.NEXT_PUBLIC_ERC20_PREDICATE,
   },
 };
